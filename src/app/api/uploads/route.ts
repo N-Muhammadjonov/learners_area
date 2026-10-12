@@ -1,3 +1,4 @@
+import { withUploadErrorBoundary } from "@/lib/uploads/server-errors";
 import { NextRequest, NextResponse } from "next/server";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { db } from "@/db/client";
@@ -23,6 +24,10 @@ import { validateUploadFile, type UploadCategory } from "@/lib/validation/upload
  * Body (multipart): uploadId, file
  */
 export async function POST(req: NextRequest) {
+  return withUploadErrorBoundary("proxy", () => upload(req));
+}
+
+async function upload(req: NextRequest) {
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
@@ -78,12 +83,8 @@ export async function POST(req: NextRequest) {
   const body = Buffer.from(await file.arrayBuffer());
   const storage = getStorageService();
 
-  try {
+  return withUploadErrorBoundary("proxy_storage", async () => {
     await storage.put({ key: intent.objectKey, body, contentType: intent.mimeType });
-  } catch (err) {
-    console.error("Proxy upload failed:", err);
-    return NextResponse.json({ error: "upload_failed" }, { status: 500 });
-  }
-
-  return NextResponse.json({ ok: true, uploadId: intent.id, objectKey: intent.objectKey });
+    return NextResponse.json({ ok: true, uploadId: intent.id, objectKey: intent.objectKey });
+  }, "storage");
 }

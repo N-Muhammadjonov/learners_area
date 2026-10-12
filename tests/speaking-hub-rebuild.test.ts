@@ -13,8 +13,8 @@ const read = (p: string) => readFileSync(p, "utf8");
 const page = (r: string) => read(`src/app/app/(shell)/${r}/page.tsx`);
 
 test("S1 Speaking hub has exactly four entries in owner order", () => {
-  assert.deepEqual(SPEAKING_HUB_CARDS.map((c) => c.key), ["partner", "practice", "ai", "lessons"]);
-  assert.deepEqual(SPEAKING_HUB_CARDS.map((c) => c.href), ["/app/speaking/live-partner", "/app/speaking/practice", "/app/speaking/ai", "/app/speaking/lessons"]);
+  assert.deepEqual(SPEAKING_HUB_CARDS.map((c) => c.key), ["lessons", "partner", "practice", "ai"]);
+  assert.deepEqual(SPEAKING_HUB_CARDS.map((c) => c.href), ["/app/speaking/lessons", "/app/speaking/live-partner", "/app/speaking/practice", "/app/speaking/ai"]);
   for (const d of [en, uz]) for (const c of SPEAKING_HUB_CARDS) {
     const card = d.speakingHub.cards[c.key];
     for (const v of Object.values(card)) assert.ok(v.trim().length > 0);

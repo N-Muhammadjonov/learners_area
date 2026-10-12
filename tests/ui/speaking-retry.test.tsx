@@ -27,7 +27,7 @@ import en from "../../src/lib/i18n/en";
  */
 
 const dom = new JSDOM('<html><body><div id="root"></div></body></html>', { url: "http://localhost/app/speaking/practice" });
-for (const k of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent"] as const) {
+for (const k of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "HTMLAnchorElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent"] as const) {
   Object.defineProperty(globalThis, k, { value: dom.window[k], configurable: true });
 }
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, self: globalThis });

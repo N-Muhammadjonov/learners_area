@@ -6,7 +6,7 @@ import { getDictionary, getLocale } from "@/lib/i18n";
 import type { Dictionary } from "@/lib/i18n/en";
 import { buildAttemptPayload } from "@/lib/retention/payload";
 import { findAnyLiveAttempt, getRetentionSummary, listRetentionHistory } from "@/lib/data/retention-attempts";
-import { RetentionSession } from "@/components/reading/RetentionSession";
+import { RetentionWorkspace } from "@/components/reading/RetentionWorkspace";
 import { RetentionHistory } from "@/components/reading/RetentionHistory";
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 import { timed } from "@/lib/observability/timing";
@@ -21,14 +21,38 @@ function Loading({ region, label }: { region: string; label: string }) {
 }
 
 async function SessionRegion({ userId, dict }: { userId: string; dict: Dictionary }) {
+  const t = dict.retentionMemory;
+  const overview = <aside className="flex flex-col gap-4">
+    <Suspense fallback={<Loading region="retention-summary" label={dict.common.loading} />}>
+      <SummaryRegion userId={userId} dict={dict} />
+    </Suspense>
+    <section className="panel flex flex-col gap-3" data-retention-instructions>
+      <h2 className="section-title">{t.howTitle}</h2>
+      <ol className="list-decimal space-y-3 pl-5 body-text">
+        <li>{t.readingHint}</li><li>{t.recallHint}</li><li>{t.resultHint}</li>
+      </ol>
+    </section>
+  </aside>;
+  const history = <section className="flex flex-col gap-3" data-retention-history-section>
+    <h2 className="section-title">{t.historyTitle}</h2>
+    <Suspense fallback={<Loading region="retention-history" label={dict.common.loading} />}>
+      <HistoryRegion userId={userId} dict={dict} />
+    </Suspense>
+  </section>;
   try {
     const live = await timed("retention.live", () => findAnyLiveAttempt({ userId }));
     const initial = live ? await timed("retention.payload", () => buildAttemptPayload(live, new Date(), db)) : null;
-    return <RetentionSession dict={dict} initial={initial} />;
+    return <RetentionWorkspace dict={dict} initial={initial} overview={overview} history={history} />;
   } catch {
     // A failed active-attempt query is not evidence that no live attempt exists.
     // Do not offer Start until the fresh authenticated read succeeds.
-    return <Failure dict={dict} region="retention-session" />;
+    return <div className="flex flex-col gap-6">
+      <div className="retention-hub-grid">
+        <Failure dict={dict} region="retention-session" />
+        {overview}
+      </div>
+      {history}
+    </div>;
   }
 }
 
@@ -77,30 +101,9 @@ export default async function ReadingRetentionPage() {
         <p className="page-subtitle">{t.subtitle}</p>
         <p className="body-text">{t.intro}</p>
       </header>
-      <div className="retention-hub-grid">
-        <section className="panel" data-retention-session-region>
-          <Suspense fallback={<Loading region="retention-session" label={dict.common.loading} />}>
-            <SessionRegion userId={user.id} dict={dict} />
-          </Suspense>
-        </section>
-        <aside className="flex flex-col gap-4">
-          <Suspense fallback={<Loading region="retention-summary" label={dict.common.loading} />}>
-            <SummaryRegion userId={user.id} dict={dict} />
-          </Suspense>
-          <section className="panel flex flex-col gap-3" data-retention-instructions>
-            <h2 className="section-title">{t.howTitle}</h2>
-            <ol className="list-decimal space-y-3 pl-5 body-text">
-              <li>{t.readingHint}</li><li>{t.recallHint}</li><li>{t.resultHint}</li>
-            </ol>
-          </section>
-        </aside>
-      </div>
-      <section className="flex flex-col gap-3" data-retention-history-section>
-        <h2 className="section-title">{t.historyTitle}</h2>
-        <Suspense fallback={<Loading region="retention-history" label={dict.common.loading} />}>
-          <HistoryRegion userId={user.id} dict={dict} />
-        </Suspense>
-      </section>
+      <Suspense fallback={<Loading region="retention-session" label={dict.common.loading} />}>
+        <SessionRegion userId={user.id} dict={dict} />
+      </Suspense>
     </div>
   );
 }

@@ -181,7 +181,7 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
         {query && <button type="button" aria-label={dict.shell.clear} onClick={() => { setQuery(""); setHits([]); setState("idle"); inputRef.current?.focus(); }}><IconClose className="text-[14px]" /></button>}
         {open ? <button type="button" onClick={close} aria-label={dict.shell.closeSearch}>
           <IconClose className="text-[18px]" />
-        </button> : <kbd className="shrink-0 rounded border border-ink-100 px-1.5 py-0.5 text-[0.6875rem] text-ink-300">Ctrl K</kbd>}
+        </button> : <kbd className="shrink-0 rounded border border-ink-100 px-1.5 py-0.5 text-[0.6875rem] text-ink-300">{dict.shell.searchShortcut}</kbd>}
         </span>
       </div>
       {open && <div data-global-search-dialog data-search-state={state}

@@ -42,14 +42,15 @@ const HUB = "src/app/app/(shell)/listening/page.tsx";
 
 test("F1 the hub opens the owner's four destinations — and lists no content of its own", () => {
   const hub = code(HUB);
-  // Exactly four destinations, each at its own product address, in the owner's order.
-  const routes = [...hub.matchAll(/href: "(\/app\/listening\/[a-z]+)"/g)].map((match) => match[1]);
+  const navigation = code("src/components/navigation/ModuleNavigation.tsx");
+  const routes = [...navigation.matchAll(/href: "(\/app\/listening\/[a-z]+)"/g)].map(match => match[1]);
   assert.deepEqual(routes, ["/app/listening/lessons", "/app/listening/academic", "/app/listening/general", "/app/listening/mcq"]);
-  // Each card is described by that product's own title and subtitle, so the hub cannot describe a
-  // destination differently from the page it opens.
-  assert.match(hub, /dict\.listening\[destination\.key === "mcq" \? "mcqProgram" : destination\.key\]/);
-  assert.match(hub, /data-listening-destination=\{destination\.key\}/);
-  assert.match(hub, /data-listening-destination-open=\{destination\.key\}/, "each destination has ONE action");
+  assert.match(code("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation module="listening"/);
+  for (const product of ["lessons", "academic", "general", "mcqProgram"])
+    assert.ok(navigation.includes(`dict.listening.${product}.title`));
+  const links = code("src/components/navigation/ModuleSectionNav.tsx");
+  assert.match(links, /<Link key=\{link.key\} href=\{href\}/);
+  assert.doesNotMatch(hub, /data-listening-destination|className="card/);
 
   // No catalogue, no library component, no data read: a hub that lists content is where the wrong
   // placement happened (a Test's MCQ card beside Academic tests, a day under Academic).

@@ -82,13 +82,15 @@ function errorText(dict: Dictionary, code: string | undefined): string {
   return (code && table[code]) || dict.retentionMemory.errors.retention_unavailable;
 }
 
-export function RetentionSession({ dict, initial }: { dict: Dictionary; initial: RetentionAttemptPayload | null }) {
+export function RetentionSession({ dict, initial, onActivityChange }: { dict: Dictionary; initial: RetentionAttemptPayload | null; onActivityChange?: (active: boolean) => void }) {
   const router = useRouter();
   const [payload, setPayload] = useState<SessionState | null>(initial);
   const [refreshFailed, setRefreshFailed] = useState(false);
   const [busy, setBusy] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState<RetentionLevel>("A2");
   const [error, setError] = useState<string | null>(null);
+  const active = !!payload && payload.phase !== "completed" && payload.phase !== "timed_out";
+  useEffect(() => { onActivityChange?.(active); }, [active, onActivityChange]);
 
   const sessionMounted = useRef(false);
   const startController = useRef<AbortController | null>(null);

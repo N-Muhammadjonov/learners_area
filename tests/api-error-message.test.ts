@@ -40,3 +40,13 @@ test("AE4 the four affected forms route errors through the mapper (no data.error
     assert.doesNotMatch(src, /setError\([^)]*(data|result)\.error \?\?/, f);
   }
 });
+
+
+test("AE5 infrastructure failures distinguish database and storage in both locales", () => {
+  for (const dict of [en, uz]) {
+    for (const code of ["database_unavailable", "storage_not_configured", "storage_unavailable"] as const) {
+      assert.equal(apiErrorMessage({ error: code, stage: "speaking_attempt_start" }, 503, dict), dict.uploadErrors[code]);
+      assert.notEqual(apiErrorMessage(code, 503, dict), dict.apiErrors.generic);
+    }
+  }
+});

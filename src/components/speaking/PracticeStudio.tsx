@@ -519,8 +519,8 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
       )}
 
       {step === "questions" && selected && (
-        <div className="grid items-start gap-5 xl:grid-cols-2" data-practice-questions={topicKey ?? ""}>
-          <section className="card space-y-4 p-5">
+        <div className="grid min-w-0 items-start gap-5 lg:grid-cols-2" data-practice-questions={topicKey ?? ""}>
+          <section className="card min-w-0 space-y-4 p-5 lg:max-h-[calc(100dvh-14rem)] lg:overflow-y-auto" data-practice-question-column>
             <h2 className="font-display text-xl">{part === "part2" ? study.yourCue : study.questions}</h2>
             {prompts === null ? (
               <p className="text-sm text-ink-500" data-practice-loading="questions">{loadingLabel}</p>
@@ -532,7 +532,7 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
                     <div hidden={selected.id !== p.id}>
                       {p.cueCard && <p className="mt-3 whitespace-pre-wrap text-ink-500">{p.cueCard}</p>}
                       {part === "part2" && <p className="mt-3 text-sm">{study.prepare} 1:00 · {study.talk} 2:00</p>}
-                      <LocalAnswerRecorder dict={dict} id={p.id} part={p.part} lockedBy={busyId} onBusyChange={onBusyChange} />
+                      <LocalAnswerRecorder dict={dict} id={p.id} part={p.part} active={selected.id === p.id} lockedBy={busyId} onBusyChange={onBusyChange} />
                     </div>
                   </li>)}
                 </ol>
@@ -552,7 +552,7 @@ export function PracticeStudio({ dict }: { dict: Dictionary }) {
               </>
             )}
           </section>
-          <div className="space-y-3">
+          <div className="min-w-0 space-y-3 lg:max-h-[calc(100dvh-14rem)] lg:overflow-y-auto" data-practice-support-column>
             <h2 className="text-lg font-semibold" data-practice-selected>{selected.promptText}</h2>
             {/*
              * §4.3 — loading and failure are visually and programmatically distinct, and neither can be

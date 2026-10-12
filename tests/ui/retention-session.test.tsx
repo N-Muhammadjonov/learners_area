@@ -15,6 +15,7 @@ const { act } = React;
 const { createRoot } = await import("react-dom/client");
 const { AppRouterContext } = await import("next/dist/shared/lib/app-router-context.shared-runtime");
 const { RetentionSession, ResultView, toSourceFree } = await import("../../src/components/reading/RetentionSession");
+const { RetentionWorkspace } = await import("../../src/components/reading/RetentionWorkspace");
 
 const query = <T extends Element>(selector: string): T => {
   const found = document.querySelector<T>(selector);
@@ -61,6 +62,53 @@ test("toSourceFree keeps attempt id and persisted deadlines but never the source
   assert.equal(free.writeEndsAt, reading.writeEndsAt);
   assert.ok(!("bodyText" in free));
   assert.ok(!JSON.stringify(free).includes("SECRET-SOURCE"));
+});
+
+test("Retention entry shows history and overview; a server-confirmed start removes both from the timed workspace", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = (async () => json({ ...meta(60_000), phase: "reading", wordCount: 9, bodyText: SOURCE })) as typeof fetch;
+  try {
+    await render(React.createElement(RetentionWorkspace, {
+      dict: en, initial: null,
+      overview: React.createElement("aside", { "data-test-overview": "" }, "Overview"),
+      history: React.createElement("section", { "data-test-history": "" }, "Past results"),
+    }), async () => {
+      assert.ok(query("[data-test-history]"));
+      assert.ok(query("[data-test-overview]"));
+      await act(async () => query<HTMLButtonElement>("[data-retention-start]").click());
+      assert.ok(query("[data-retention-source]"));
+      assert.equal(document.querySelector("[data-test-history]"), null);
+      assert.equal(document.querySelector("[data-test-overview]"), null);
+      assert.equal(query("[data-retention-workspace]").getAttribute("data-retention-workspace"), "active");
+    });
+  } finally { globalThis.fetch = originalFetch; }
+});
+
+test("resumed recall hides history immediately; submitting restores the entry results and refreshes server data", async () => {
+  const originalFetch = globalThis.fetch;
+  const base = meta(-20_000);
+  const result = {
+    ...base, phase: "completed", score: 60, evaluatorVersion: "retention-deterministic-v3", recallWordCount: 3,
+    submittedAt: new Date().toISOString(), completedAt: new Date().toISOString(),
+    breakdown: { schemaVersion: 1, evaluatorVersion: "v3", maxScore: 100, score: 60, totals: { captured: 1, partial: 0, missed: 1, contradicted: 0, matchedGroups: 2, totalGroups: 3, mainIdeasRemembered: 1, mainIdeasPossible: 2 }, claims: [] },
+  };
+  globalThis.fetch = (async () => json(result)) as typeof fetch;
+  try {
+    await render(React.createElement(RetentionWorkspace, {
+      dict: en, initial: { ...base, phase: "recall", recallDraft: "A retained idea" },
+      overview: React.createElement("aside", { "data-test-overview": "" }, "Overview"),
+      history: React.createElement("section", { "data-test-history": "" }, "Past results"),
+    }), async (refreshes) => {
+      assert.equal(document.querySelector("[data-test-history]"), null);
+      assert.equal(document.querySelector("[data-test-overview]"), null);
+      assert.equal(document.querySelector("[data-retention-source]"), null);
+      await act(async () => query<HTMLButtonElement>("[data-retention-submit]").click());
+      assert.ok(query("[data-retention-result]"));
+      assert.ok(query("[data-test-history]"));
+      assert.ok(query("[data-test-overview]"));
+      assert.equal(refreshes.count, 1);
+    });
+  } finally { globalThis.fetch = originalFetch; }
 });
 
 test("reading deadline with a failed phase refresh: source gone, honest retry, recall arrives on retry", async () => {

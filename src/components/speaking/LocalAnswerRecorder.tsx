@@ -1,10 +1,10 @@
 "use client";
 import type { Dictionary } from "@/lib/i18n/en";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createRecorder, formatDuration, type Recorder } from "@/lib/audio/recorder";
+import { createRecorder, formatDuration, RecorderError, type Recorder } from "@/lib/audio/recorder";
 
 /** A practice recording is a session Blob, never a server attempt or upload. */
-export function LocalAnswerRecorder({ dict, id, part, lockedBy, onBusyChange }: { dict: Dictionary; id: string; part: string; lockedBy: string | null; onBusyChange: (id: string, busy: boolean) => void }) {
+export function LocalAnswerRecorder({ dict, id, part, active = true, lockedBy, onBusyChange }: { dict: Dictionary; id: string; part: string; active?: boolean; lockedBy: string | null; onBusyChange: (id: string, busy: boolean) => void }) {
   const t = dict.speakingStudy;
   const [phase, setPhase] = useState<"idle" | "preparing" | "starting" | "recording" | "stopping">("idle");
   const [elapsed, setElapsed] = useState(0);
@@ -18,8 +18,33 @@ export function LocalAnswerRecorder({ dict, id, part, lockedBy, onBusyChange }: 
   const url = useRef<string | null>(null);
   const limit = part === "part2" ? 120 : part === "part3" ? 45 : 30;
   const busy = phase !== "idle";
+  const releaseAudio = useCallback((element: HTMLAudioElement | null) => {
+    if (!element) return;
+    element.pause();
+    element.removeAttribute("src");
+    element.load();
+  }, []);
+  const setAudio = useCallback((element: HTMLAudioElement | null) => {
+    if (!element) releaseAudio(audio.current);
+    audio.current = element;
+  }, [releaseAudio]);
+  const clearPlayback = useCallback(() => {
+    releaseAudio(audio.current);
+    if (url.current) URL.revokeObjectURL(url.current);
+    url.current = null;
+  }, [releaseAudio]);
   useEffect(() => { onBusyChange(id, busy); }, [id, busy, onBusyChange]);
-  useEffect(() => { mounted.current = true; return () => { mounted.current = false; request.current?.abort(); recorder.current?.cancel(); if (url.current) URL.revokeObjectURL(url.current); }; }, []);
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; request.current?.abort(); recorder.current?.cancel(); recorder.current = null; clearPlayback(); };
+  }, [clearPlayback]);
+  useEffect(() => { if (!active) audio.current?.pause(); }, [active]);
+  const deleteRecording = useCallback(() => {
+    request.current?.abort(); request.current = null;
+    recorder.current?.cancel(); recorder.current = null;
+    clearPlayback();
+    setPlayback(null); setElapsed(0); setError(""); setPhase("idle");
+  }, [clearPlayback]);
   const stop = useCallback(async () => {
     const current = recorder.current;
     if (!current) return;
@@ -27,11 +52,11 @@ export function LocalAnswerRecorder({ dict, id, part, lockedBy, onBusyChange }: 
     setPhase("stopping");
     const result = await current.stop();
     if (!mounted.current) return;
-    if (url.current) URL.revokeObjectURL(url.current);
+    clearPlayback();
     if (result?.size) { url.current = URL.createObjectURL(result.blob); setPlayback(url.current); }
     else { url.current = null; setPlayback(null); setError(t.noAudio); }
     setPhase("idle");
-  }, [t.noAudio]);
+  }, [t.noAudio, clearPlayback]);
   const record = useCallback(async () => {
     if (acquiring.current || recorder.current || !mounted.current) return;
     acquiring.current = true;
@@ -50,9 +75,9 @@ export function LocalAnswerRecorder({ dict, id, part, lockedBy, onBusyChange }: 
       await next.start();
       if (!mounted.current || controller.signal.aborted) { next.cancel(); recorder.current = null; return; }
       setElapsed(0); setPhase("recording");
-    } catch { recorder.current?.cancel(); recorder.current = null; if (mounted.current) { setError(t.micError); setPhase("idle"); } }
+    } catch (cause) { recorder.current?.cancel(); recorder.current = null; if (mounted.current) { setError(cause instanceof RecorderError ? dict.speakingPractice.errors[cause.code] : t.micError); setPhase("idle"); } }
     finally { acquiring.current = false; }
-  }, [t.micError, dict.speakingPractice.errors.liveCallActive]);
+  }, [t.micError, dict.speakingPractice.errors]);
   useEffect(() => {
     if (phase !== "recording" && phase !== "preparing") return;
     const start = Date.now();
@@ -71,7 +96,10 @@ export function LocalAnswerRecorder({ dict, id, part, lockedBy, onBusyChange }: 
       {phase === "recording" && <><span role="status">{formatDuration(elapsed * 1000)} / {formatDuration(limit * 1000)}</span><button type="button" className="btn-primary" onClick={() => void stop()}>■ {t.stop}</button></>}
       {(phase === "starting" || phase === "stopping") && <span role="status">{phase === "starting" ? t.openingMic : t.preparingRecording}</span>}
     </div>
-    {playback && phase === "idle" && <audio ref={audio} controls preload="metadata" src={playback} className="max-w-full" aria-label={t.playback} />}
+    {playback && phase === "idle" && <div className="flex flex-wrap items-center gap-2">
+      <audio ref={setAudio} controls preload="metadata" src={playback} className="max-w-full" aria-label={t.playback} />
+      <button type="button" className="btn-secondary min-h-11" onClick={deleteRecording} data-delete-recording={id}>{t.deleteRecording}</button>
+    </div>}
     {error && <p role="alert" className="text-band-bad">{error}</p>}
   </div>;
 }

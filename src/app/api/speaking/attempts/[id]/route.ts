@@ -1,3 +1,4 @@
+import { withUploadErrorBoundary } from "@/lib/uploads/server-errors";
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
@@ -68,6 +69,10 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
 /** PATCH attaches a finalized recording upload to this attempt. */
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  return withUploadErrorBoundary("speaking_recording_attach", () => attach(req, params), "database");
+}
+
+async function attach(req: NextRequest, params: Promise<{ id: string }>) {
   const { id } = await params;
   if (!isUuid(id)) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const user = await requireActiveUser();

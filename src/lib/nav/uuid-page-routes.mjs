@@ -62,6 +62,8 @@ export const STATIC_PAGE_ROUTES_OVERRIDING_DYNAMIC = [
   "/app/admin/listening/import",
   "/app/admin/reading/import",
   "/app/admin/reading/retention",
+  "/app/grammar/lessons",
+  "/app/grammar/lessons/author",
   "/app/listening/lessons/author",
   "/app/reading/lessons/author",
 ];
@@ -83,6 +85,7 @@ export const DYNAMIC_PAGE_ROUTES = [
   "/app/admin/writing/[kind]/new",
   "/app/courses/ielts/lessons/[lessonId]",
   "/app/grammar/[topicId]",
+  "/app/grammar/lessons/[lessonId]",
   "/app/listening/academic/[testId]",
   "/app/listening/attempts/[id]",
   "/app/listening/attempts/[id]/revision",

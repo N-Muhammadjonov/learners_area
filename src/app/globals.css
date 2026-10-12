@@ -1394,13 +1394,13 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .typing-row-out,
 .typing-row-dim,
 .typing-row-buffer {
-  opacity: .5;
+  opacity: .72;
 }
 .typing-char-future {
-  color: rgb(var(--ink-300));
+  color: #fff;
 }
 .typing-char-correct {
-  color: rgb(var(--ink-900));
+  color: #77e5ae;
 }
 .typing-char-wrong,
 .typing-char-extra {
@@ -2038,14 +2038,14 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   --accent-soft: 20 47 77;
 }
 [data-theme]:not([data-focus="on"]) {
-  --la-surface-glass: rgba(8, 32, 68, .62);
+  --la-surface-glass: rgba(8, 32, 68, .74);
   --la-surface-border: rgba(58, 172, 232, .40);
 }
 [data-theme="night"]:not([data-focus="on"]) {
   --la-surface-glass: rgba(8, 32, 68, .40);
   --la-surface-border: rgba(58, 172, 232, .24);
 }
-[data-theme]:not([data-focus="on"]) :is(.card, .panel, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], .input, [role="dialog"]):not([data-shell]):not([data-shell-sidebar]):not([data-shell-main]):not([data-mobile-nav-overlay]):not(#mobile-nav-drawer) {
+[data-theme]:not([data-focus="on"]) :is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], .input, [role="dialog"]):not([data-shell]):not([data-shell-sidebar]):not([data-shell-main]):not([data-mobile-nav-overlay]):not(#mobile-nav-drawer) {
   background-color: var(--la-surface-glass);
   border-color: var(--la-surface-border);
   backdrop-filter: blur(8px);
@@ -2084,7 +2084,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 
 /* Dark text on the bright Day wallpaper; light text inside blue glass.
    Local text tokens follow each surface, including nested metadata and forms. */
-[data-theme]:not([data-focus="on"]) :is(.card, .panel, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], .input, [role="dialog"], [data-shell-topbar]):not([data-shell]):not([data-shell-sidebar]):not([data-shell-main]):not([data-mobile-nav-overlay]):not(#mobile-nav-drawer) {
+[data-theme]:not([data-focus="on"]) :is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], .input, [role="dialog"], [data-shell-topbar]):not([data-shell]):not([data-shell-sidebar]):not([data-shell-main]):not([data-mobile-nav-overlay]):not(#mobile-nav-drawer) {
   --ink-900: 243 238 229;
   --ink-700: 234 239 247;
   --ink-500: 225 233 243;
@@ -2144,7 +2144,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 
 /* Keep the existing dark Day lettering without a contour or glow.
    Keep glass contents and focus mode in their existing typography palettes. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] [data-shell-main] :is(h1, h2, h3, h4, h5, h6, p, span, div, label, li, dt, dd, a, small, strong, em):not(:is(.card, .panel, .input, .btn, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], [role="dialog"], button, table, pre, code)):not(:is(.card, .panel, .input, .btn, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-signal-50"], [role="dialog"], button, table, pre, code) *),
+[data-theme="day"]:not([data-focus="on"]) [data-shell] [data-shell-main] :is(h1, h2, h3, h4, h5, h6, p, span, div, label, li, dt, dd, a, small, strong, em):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], [role="dialog"], button, table, pre, code)):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], [role="dialog"], button, table, pre, code) *),
 [data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.sidebar-group, .brand-name, .brand-tagline),
 [data-theme="day"]:not([data-focus="on"]) [data-auth-shell] > div > div:last-child {
   color: #102740;
@@ -2159,13 +2159,13 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 }
 
 /* Never inherit an outline into rectangular controls. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell-main] :is(.card, .panel, .input, .btn, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-signal-50"], [role="dialog"], button, table, pre, code) {
+[data-theme="day"]:not([data-focus="on"]) [data-shell-main] :is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-signal-50"], [role="dialog"], button, table, pre, code) {
   -webkit-text-stroke: 0;
 }
 
 /* Only muted text outside cards and controls follows the Night heading color.
    Preserve every card/control palette, Day styling and focus mode. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is(.page-subtitle, .body-text, .text-ink-700, .text-ink-500, .text-ink-300, .brand-tagline):not(:is(.card, .panel, .input, .btn, .tab, .chip, .badge, .link-inline, button, [role="dialog"], [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-white"], [class~="bg-amber-50"], [class~="bg-yellow-50"])):not(:is(.card, .panel, .input, .btn, .tab, .chip, .badge, .link-inline, button, [role="dialog"], [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-white"], [class~="bg-amber-50"], [class~="bg-yellow-50"]) *) {
+[data-theme="night"]:not([data-focus="on"]) [data-shell] :is(.page-subtitle, .body-text, .text-ink-700, .text-ink-500, .text-ink-300, .brand-tagline):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .tab, .chip, .badge, .link-inline, button, [role="dialog"], [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-white"], [class~="bg-amber-50"], [class~="bg-yellow-50"])):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .tab, .chip, .badge, .link-inline, button, [role="dialog"], [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-white"], [class~="bg-amber-50"], [class~="bg-yellow-50"]) *) {
   color: #F3EEE5;
 }
 
@@ -2180,3 +2180,24 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .typing-chart-legend { display: flex; justify-content: flex-end; gap: 1rem; font-size: .75rem; }
 .typing-chart-legend span:first-child { color: rgb(var(--accent)); }
 .typing-chart-legend span:last-child { color: rgb(var(--ink-500)); }
+
+/* The typing surface is dark in both modes. Keep its foreground local so
+   Day wallpaper rules cannot recolor target text, results or graph labels. */
+.typing-stage-wrap, .typing-result, .typing-error-panel {
+  --ink-900: 255 255 255;
+  --ink-700: 234 239 247;
+  --ink-500: 225 233 243;
+  --ink-300: 205 223 237;
+  --band-bad: 255 153 153;
+  --accent: 230 185 79;
+  color: rgb(var(--ink-900));
+}
+.typing-stage-wrap { background-color: rgb(8 32 68); }
+.typing-char-missed { color: #fff; }
+.typing-graph text { opacity: 1; }
+.typing-graph line { opacity: .35; }
+.typing-graph .typing-raw-line { stroke: rgb(var(--ink-300)); }
+
+[data-theme]:not([data-focus="on"]) .typing-stage-wrap {
+  background-color: rgb(8 32 68);
+}

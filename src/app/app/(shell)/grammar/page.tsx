@@ -10,26 +10,28 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { MASTERY_SESSIONS } from "@/lib/services/grammar/mastery";
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 
-async function GrammarTopics({ userId, isAdmin, dict }: {
+async function GrammarTopics({ userId, isAdmin, dict, area }: {
+  area: "writing" | "speaking";
   userId: string;
   isAdmin: boolean;
   dict: ReturnType<typeof getDictionary>;
 }) {
   const rows = await getTopicMastery(userId);
-  const masteryUnavailable = rows.some((row) => row.masteryUnavailable);
+  const selectedRows = rows.filter(row => row.topic.skillArea === area);
+  const masteryUnavailable = selectedRows.some((row) => row.masteryUnavailable);
   return (
     <>
       {masteryUnavailable && (
         <RegionFailureNotice region="grammar-mastery" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />
       )}
-      {rows.length === 0 && <EmptyState title={dict.grammar.emptyTitle} body={dict.grammar.emptyHint}
+      {selectedRows.length === 0 && <EmptyState title={dict.grammar.emptyTitle} body={dict.grammar.emptyHint}
         action={<Link className="text-sm text-signal-600 underline" href={isAdmin ? "/app/admin/grammar" : "/app"}>
           {isAdmin ? dict.grammar.manageContent : dict.nav.dashboard}
         </Link>} />}
       <div className="flex flex-col gap-3" data-grammar-topics data-async-content="grammar-topics">
-        {(["writing", "speaking"] as const).map(area => <section key={area} className="space-y-3" data-grammar-skill={area}>
+        <section key={area} className="space-y-3" data-grammar-skill={area}>
         <h2 className="font-display text-xl">{area === "writing" ? dict.grammar.forWriting : dict.grammar.forSpeaking}</h2>
-        {rows.filter(row => row.topic.skillArea === area).map(({ topic, totalExercises, mastery }) => (
+        {selectedRows.map(({ topic, totalExercises, mastery }) => (
           <Link key={topic.id} href={`/app/grammar/${topic.id}`}>
             <Card className="hover:border-signal-400" data-topic-row={topic.id}>
               <div className="mb-2 flex items-center justify-between">
@@ -55,7 +57,7 @@ async function GrammarTopics({ userId, isAdmin, dict }: {
             </Card>
           </Link>
         ))}
-        </section>)}
+        </section>
       </div>
     </>
   );
@@ -69,8 +71,9 @@ function GrammarTopicsSkeleton() {
   );
 }
 
-export default async function GrammarPage() {
-  const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
+export default async function GrammarPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
+  const [user, locale, query] = await Promise.all([requireActiveUser(), getLocale(), searchParams]);
+  const area = query.tab === "speaking" ? "speaking" : "writing";
   if (!user) return null;
   const dict = getDictionary(locale);
 
@@ -81,7 +84,7 @@ export default async function GrammarPage() {
         <p className="text-sm text-ink-500">{dict.grammar.subtitle}</p>
       </div>
       <Suspense fallback={<GrammarTopicsSkeleton />}>
-        <GrammarTopics userId={user.id} isAdmin={isAdministrator(user.role)} dict={dict} />
+        <GrammarTopics userId={user.id} area={area} isAdmin={isAdministrator(user.role)} dict={dict} />
       </Suspense>
     </div>
   );

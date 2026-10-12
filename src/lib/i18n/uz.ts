@@ -71,6 +71,7 @@ const uz: Dictionary = {
     "defaultFolder": "Mening so'zlarim"
 },
   speakingStudy: {
+    deleteRecording: "Yozuvni o'chirish",
     "topicUploadHelp": "Barcha savollar va materiallari bitta topic sifatida birga saqlanadi.",
     "archived": "Arxivlangan",
     "confirmArchive": "Nashrdan olib tashlash",
@@ -168,6 +169,7 @@ const uz: Dictionary = {
   },
 
   shell: {
+    searchShortcut: "Ctrl K",
     learningNav: "O'qish bo'limlari",
     managementNav: "Boshqaruv bo'limlari",
     utilities: "O'quv vositalari",
@@ -1848,6 +1850,9 @@ const uz: Dictionary = {
     noAttendees: "Bu darsga hech kim qo'shilmagan.",
   },
   grammar: {
+    lessonsTitle: "Darslar",
+    lessonsEmpty: "Hozircha Grammar darslari nashr qilinmagan.",
+    lessonBack: "Grammar darslariga qaytish",
     importTitle: "Muallifning Grammar mavzularini import qilish",
     importHelp: "Tekshirilgan mavzular to'plamini joylang. Saqlashdan avval tekshiring. Namuna — egasi ko'rib chiqishi uchun tayyorlangan original AI qoralama; mavjud kontent almashtirilmaydi.",
     importExample: "Namunani yuklash", importSource: "Mavzular to'plami", importValidate: "Tekshirish va ko'rish", importApply: "Bu mavzularni saqlash",

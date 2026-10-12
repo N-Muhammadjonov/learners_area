@@ -100,17 +100,18 @@ test("Progress streams the module destination before learner-owned summary queri
   assert.match(page, /<ProgressContent userId=\{user\.id\}/);
 });
 
-test("Reading streams counts, facets, and the selected library through independent loading regions", () => {
-  const page = read("src/app/(app)/reading/page.tsx");
-  assert.match(page, /data-route-usable="reading"/);
-  assert.match(page, /<ReadingWorkspace userId=\{user\.id\}/);
-  assert.match(page, /const countsPromise = captureRegion\(readingHubCounts\(userId\)\)/);
-  assert.match(page, /captureRegion\(listLibraryFacets\(true\)\)/);
-  assert.match(page, /captureRegion\(listLearningLibrary\(userId, filter\)\)/);
-  assert.match(page, /data-async-loading="reading-hub-counts"/);
-  assert.match(page, /data-async-loading="reading-library-facets"/);
-  assert.match(page, /data-async-loading="reading-library"/);
-  assert.doesNotMatch(page, /Promise\.allSettled/);
+test("Reading doorway does not await catalogues; General Reading streams facets and library independently", () => {
+  const hub = read("src/app/app/(shell)/reading/page.tsx");
+  assert.match(hub, /data-route-usable="reading"/);
+  assert.doesNotMatch(hub, /listLearningLibrary|listLibraryFacets|readingHubCounts/);
+  const page = read("src/app/app/(shell)/reading/general/page.tsx");
+  assert.match(page, /<ReadingLearningLibrary userId=\{user.id\}/);
+  const library = read("src/components/reading/ReadingLearningLibrary.tsx");
+  assert.match(library, /captureRegion\(listLibraryFacets\(true\)\)/);
+  assert.match(library, /captureRegion\(listLearningLibrary\(userId,\s*filter\)\)/);
+  assert.match(library, /data-async-loading="reading-library-facets"/);
+  assert.match(library, /data-async-loading="reading-library"/);
+  assert.doesNotMatch(library, /Promise\.allSettled/);
 });
 
 test("Vocabulary streams its destination frame before authenticated, selected-view panel data resolves", () => {
@@ -139,7 +140,7 @@ test("Listening doorway has no catalogue read; Speaking streams its material cat
   const listening = read("src/app/app/(shell)/listening/page.tsx");
   assert.match(listening, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\), searchParams\]\)/);
   assert.match(listening, /data-route-usable="listening"/);
-  assert.match(listening, /data-listening-destinations/);
+  assert.match(read("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation module="listening"/);
   assert.doesNotMatch(listening, /from ["']@\/lib\/data\//, "doorway must not wait on a content catalogue");
   const speaking = read("src/app/app/(shell)/speaking/lessons/page.tsx");
   assert.match(speaking, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);

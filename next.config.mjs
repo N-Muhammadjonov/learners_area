@@ -51,6 +51,9 @@ const nextConfig = {
       headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
     }];
   },
+  async redirects() {
+    return [...canonicalHomeRedirects(), ...appLegacyAliasRedirects(), ...legacyModuleRedirects()];
+  },
   async rewrites() {
     const rewrites = [{ source: "/favicon.ico", destination: "/brand/derived/favicon.ico" }];
     const storageEndpoint = (process.env.R2_ENDPOINT || process.env.S3_ENDPOINT || "").replace(/\/+$/, "");

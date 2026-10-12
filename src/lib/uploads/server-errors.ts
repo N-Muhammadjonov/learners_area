@@ -1,3 +1,4 @@
+import { safeDatabaseDiagnostic, safeErrorLabel } from "@/lib/observability/errors";
 import { NextResponse } from "next/server";
 import { isRetryable, normalizeUploadCode, type UploadErrorCodeAll } from "@/lib/uploads/errors";
 
@@ -29,32 +30,43 @@ export function uploadError(code: string, status: number, extra: { field?: strin
   return NextResponse.json(uploadErrorBody(code, extra), { status });
 }
 
-export function classifyThrown(err: unknown): { code: UploadErrorCodeAll; status: number } {
-  const message = err instanceof Error ? `${err.name} ${err.message}` : String(err);
-  if (/STORAGE_PROVIDER|Missing required env var|S3StorageProvider|credential/i.test(message)) {
-    return { code: "storage_not_configured", status: 503 };
+type Dependency = "database" | "storage";
+
+/** Causes carry the pg/socket error hidden by Drizzle's outer Failed-query error. */
+export function classifyThrown(err: unknown, dependency?: Dependency): { code: UploadErrorCodeAll; status: number } {
+  const pending: unknown[] = [err];
+  const seen = new Set<unknown>();
+  const records: { name: string; message: string; code: string }[] = [];
+  while (pending.length && seen.size < 32) {
+    const value = pending.shift();
+    if (!value || typeof value !== "object" || seen.has(value)) continue;
+    seen.add(value);
+    const item = value as { name?: unknown; message?: unknown; code?: unknown; cause?: unknown; errors?: unknown };
+    records.push({ name: typeof item.name === "string" ? item.name : "", message: typeof item.message === "string" ? item.message : "", code: typeof item.code === "string" ? item.code : "" });
+    if (item.cause) pending.push(item.cause);
+    if (Array.isArray(item.errors)) pending.push(...item.errors);
   }
-  if (/ECONNREFUSED|ETIMEDOUT|ENOTFOUND|connect|timeout|terminat|Connection/i.test(message) && /postgres|database|pg|neon|sql/i.test(message)) {
-    return { code: "database_unavailable", status: 503 };
-  }
-  if (/relation .* does not exist|column .* does not exist|invalid input value for enum|violates/i.test(message)) {
-    // Schema drift (a migration not applied on this database) — not retryable by the user.
-    return { code: "server_error", status: 500 };
-  }
-  if (/S3|R2|presign|bucket|endpoint|ENOTFOUND|EAI_AGAIN|fetch failed/i.test(message)) {
-    return { code: "storage_unavailable", status: 503 };
-  }
+  const message = records.map((item) => `${item.name} ${item.message}`).join(" ");
+  const { sqlState } = safeDatabaseDiagnostic(err);
+  if (sqlState && /^(08|28|53)|^57P0[123]$/.test(sqlState)) return { code: "database_unavailable", status: 503 };
+  if (sqlState || records.some((item) => item.code === "SCHEMA_NOT_READY")) return { code: "server_error", status: 500 };
+  const databaseError = dependency === "database" || /Failed query:|postgres|database|\bpg\b|neon|DrizzleQueryError/i.test(message);
+  const network = records.some((item) => /^(ECONNREFUSED|ECONNRESET|ETIMEDOUT|ENOTFOUND|EAI_AGAIN)$/.test(item.code)) || /connect|timeout|terminat|Connection/i.test(message);
+  if (databaseError && network) return { code: "database_unavailable", status: 503 };
+  if (/STORAGE_PROVIDER|Missing required env var|S3StorageProvider|credential/i.test(message)) return { code: "storage_not_configured", status: 503 };
+  if (/relation .* does not exist|column .* does not exist|invalid input value for enum|violates/i.test(message)) return { code: "server_error", status: 500 };
+  if (dependency === "storage" || /S3|R2|presign|bucket|endpoint|ENOTFOUND|EAI_AGAIN|fetch failed/i.test(message)) return { code: "storage_unavailable", status: 503 };
   return { code: "server_error", status: 500 };
 }
 
-export async function withUploadErrorBoundary(route: string, run: () => Promise<Response>): Promise<Response> {
+export async function withUploadErrorBoundary(route: string, run: () => Promise<Response>, dependency?: Dependency): Promise<Response> {
   try {
     return await run();
   } catch (err) {
     const correlationId = crypto.randomUUID().slice(0, 8);
-    const { code, status } = classifyThrown(err);
-    // Technical detail stays in the log (no secrets are part of these messages).
-    console.error(`[uploads] ${route} failed`, { correlationId, code, error: err instanceof Error ? err.message : String(err) });
-    return uploadError(code, status, { correlationId });
+    const { code, status } = classifyThrown(err, dependency);
+    // Drizzle's message can contain SQL and bound values. Log only safe classes/codes.
+    console.error(`[uploads] ${route} failed`, { correlationId, code, error: safeErrorLabel(err), ...safeDatabaseDiagnostic(err) });
+    return NextResponse.json({ ...uploadErrorBody(code, { correlationId }), stage: route }, { status });
   }
 }

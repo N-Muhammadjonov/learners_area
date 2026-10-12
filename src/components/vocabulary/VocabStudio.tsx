@@ -1,8 +1,8 @@
 "use client";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import type { Dictionary } from "@/lib/i18n/en";
 import { DictionaryPanel } from "./DictionaryPanel";
@@ -12,10 +12,8 @@ import { VocabUsePanel } from "./VocabUsePanel";
 import { VocabBoardPanel } from "./VocabBoardPanel";
 import type { TabKey, VocabFolder, VocabPack, VocabWord } from "./types";
 import { fetchPrivateJson, privateResources } from "@/lib/client/private-resource";
-import { nextTabIndex } from "@/lib/a11y/tablist";
 
-const TABS: TabKey[] = ["words", "revision", "games", "use", "board", "dictionary"];
-/** The single panel every Vocabulary tab points at; `aria-labelledby` follows the selected tab. */
+/** The active workspace section is derived from the real URL. */
 const VOCAB_PANEL_ID = "vocabulary-panel";
 const LIBRARY_PAGE_SIZE = 50;
 type LoadStatus = "idle" | "loading" | "ready" | "error";
@@ -83,7 +81,10 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
   const t = dict.vocabulary;
   const router = useRouter();
   const { navigate } = useInstantInteraction();
-  const [tab, setTab] = useState<TabKey>(initialTab);
+  const query = useSearchParams();
+  const requestedTab = query.get("tab");
+  const tab: TabKey = requestedTab === "use" || requestedTab === "board" || requestedTab === "revision" || requestedTab === "dictionary"
+    ? requestedTab : requestedTab === null ? "words" : initialTab;
   const [seed] = useState(() => ({
     library: privateResources.peek<LibraryPage>(LIBRARY_KEY)?.data ?? null,
     summary: privateResources.peek<LibrarySummary>(SUMMARY_KEY)?.data ?? null,
@@ -100,7 +101,6 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
   const [foldersStatus, setFoldersStatus] = useState<LoadStatus>(seed.folders ? "ready" : "idle");
   const [due, setDue] = useState<VocabWord[]>([]);
   const [dueStatus, setDueStatus] = useState<LoadStatus>("idle");
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const inFlight = useRef(new Set<string>());
   const loaded = useRef(new Set<string>());
 
@@ -229,20 +229,16 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
     }
   }, [library, libraryMoreBusy, router]);
 
-  const tabLabel: Record<TabKey, string> = useMemo(
-    () => ({ words: t.tab.words, revision: t.tab.revision, games: t.tab.games, use: t.tab.use, board: t.tab.board, dictionary: t.tab.dictionary }),
-    [t],
-  );
-
   const openTab = useCallback((next: TabKey) => {
     if (next === "games") {
       navigate("/app/vocabulary/games");
       return;
     }
-    setTab(next);
-    const url = next === "words" ? "/app/vocabulary" : `/app/vocabulary?tab=${next}`;
-    window.history.replaceState(null, "", url);
-  }, [navigate]);
+    const params = new URLSearchParams(query.toString());
+    if (next === "words") params.delete("tab");
+    else params.set("tab", next);
+    router.push(`/app/vocabulary${params.size ? `?${params}` : ""}`, { scroll: false });
+  }, [navigate, query, router]);
 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-4" data-vocabulary-workspace>
@@ -254,81 +250,10 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
         {tab !== "dictionary" && <VocabSearch dict={dict} onOpenWord={() => openTab("words")} />}
       </div>
 
-      <div role="tablist" aria-label={t.title} className="flex gap-1 overflow-x-auto rounded-md border border-ink-100 bg-paper-raised p-1" data-vocabulary-tabs>
-        {TABS.map((key, index) => {
-          const active = tab === key;
-          return (
-            <button
-              key={key}
-              ref={(el) => { tabRefs.current[index] = el; }}
-              role="tab"
-              type="button"
-              id={`vocabulary-tab-${key}`}
-              aria-selected={active}
-              /*
-               * The other half of the ARIA tabs pattern, which this tablist was missing. `aria-selected`
-               * alone told a screen reader which tab was current but gave it no relationship to the
-               * content that tab reveals: there was no `aria-controls`, no `id` to point a panel at, and
-               * no `role="tabpanel"` anywhere on the page. A blind learner could select "Revision" and
-               * have no programmatic way to find what changed. Writing's tablist already did this
-               * correctly (WritingNav + `role="tabpanel" id="writing-panel"`), so this mirrors it rather
-               * than inventing a second convention.
-               *
-               * Roving tabindex is part of the same pattern: the widget is ONE tab stop, and arrows move
-               * within it, so Tab from the tablist reaches the panel content instead of cycling six
-               * times through tabs.
-               */
-              aria-controls={VOCAB_PANEL_ID}
-              tabIndex={active ? 0 : -1}
-              data-tab={key}
-              onClick={() => openTab(key)}
-              onKeyDown={(event) => {
-                const next = nextTabIndex(index, event.key, TABS.length);
-                if (next === null) return;
-                event.preventDefault();
-                /*
-                 * Arrows move FOCUS ONLY; Enter and Space activate (these are native buttons, so that
-                 * already works). This is the ARIA manual-activation variant, and Vocabulary needs it
-                 * where Writing does not.
-                 *
-                 * `openTab` is not uniform: five tabs set in-page state and rewrite the query string,
-                 * but "games" calls navigate("/app/vocabulary/games") — a different route. Activating on
-                 * every arrow press therefore walked a keyboard learner straight off the page in the
-                 * middle of traversing the tablist: measured behaviour was ArrowRight → Revision (panel
-                 * relabelled correctly), ArrowRight again → URL /app/vocabulary/games, VocabStudio
-                 * unmounted, no tabpanel left, focus reset to main#main-content by the shell's
-                 * route-change focus restoration. Nothing was broken in that chain — it is the right
-                 * response to a real navigation — but arrowing past a tab should not navigate anywhere.
-                 *
-                 * Writing's tablist keeps automatic activation because all eight of its tabs are the
-                 * same page under ?tab=…, so activation cannot unmount the widget.
-                 */
-                tabRefs.current[next]?.focus();
-              }}
-              className={`whitespace-nowrap rounded-sm px-3 py-2 text-sm font-medium transition-colors ${active ? "bg-signal-600 text-signal-contrast" : "text-ink-500 hover:bg-paper-sunken hover:text-ink-900"}`}
-            >
-              {tabLabel[key]}
-              {key === "revision" && dueCount !== null && dueCount > 0 && (
-                <span className="ml-2 rounded-full bg-band-warn/20 px-2 py-0.5 text-xs text-band-warn">{dueCount}</span>
-              )}
-            </button>
-          );
-        })}
-      </div>
-
-      {/*
-        The panel every tab's `aria-controls` points at. Its `aria-labelledby` follows the selected
-        tab, so the relationship runs in both directions: the tab names the panel and the panel names
-        the tab that opened it. Before this, neither existed and the page had no `role="tabpanel"` at
-        all — `aria-selected` announced a choice whose consequence a screen reader could not reach.
-
-        `gap-4` matches the workspace's own flex gap, so wrapping the content in a panel moves nothing
-        visually; the approved layout is unchanged.
-      */}
       <div
-        role="tabpanel"
+        role="region"
         id={VOCAB_PANEL_ID}
-        aria-labelledby={`vocabulary-tab-${tab}`}
+        aria-label={t.tab[tab]}
         className="flex flex-col gap-4"
         data-vocabulary-panel={tab}
       >

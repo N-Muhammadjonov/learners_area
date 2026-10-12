@@ -1,4 +1,5 @@
 import "server-only";
+import { safeErrorLabel } from "@/lib/observability/errors";
 import { replayTypingAccuracy } from "@/lib/services/writing/typing-keystrokes";
 import { randomUUID } from "node:crypto";
 import { SignJWT, jwtVerify } from "jose";
@@ -174,7 +175,7 @@ async function hasRunTokenColumn(database: Database): Promise<boolean> {
   const { rows } = await database.execute<{ n: number }>(sql`
     select count(*)::int as n
     from information_schema.columns
-    where table_name = 'typing_runs' and column_name = 'run_token_id'
+    where table_schema = 'public' and table_name = 'typing_runs' and column_name = 'run_token_id'
   `);
   return Number(rows[0]?.n ?? 0) > 0;
 }
@@ -209,7 +210,7 @@ async function hasRunTokenColumn(database: Database): Promise<boolean> {
  * one: it is the difference between "I could not find it" and "it is not there".
  */
 async function loadCanonicalRunResult(
-  database: Database,
+  database: Pick<Database, "select">,
   userId: string,
   runId: string,
 ): Promise<VerifiedTypingResult | null> {
@@ -283,7 +284,7 @@ async function loadCanonicalRunResult(
  * Scoped to the owning user so one learner's token can never resolve to another's run.
  * Returns null on a pre-0048 database, where the column does not exist.
  */
-async function findRunByToken(database: Database, userId: string, jti: string): Promise<string | null> {
+async function findRunByToken(database: Pick<Database, "execute">, userId: string, jti: string): Promise<string | null> {
   try {
     const { rows } = await database.execute<{ id: string }>(sql`
       select "id" from "typing_runs"
@@ -652,14 +653,11 @@ export async function finishPreparedTypingRun(
     metrics.mistakes = historical.mistakes;
   }
 
-  // Persist every new trainer run through the original typing_runs +
-  // activity_events contract. Those columns exist both before and after
-  // migration 0048, so a Preview database one migration behind cannot reject
-  // an otherwise valid result. Extra trainer metrics live in the event payload
-  // and remain server-derived from the signed canonical text.
-  // The completion event keeps carrying the full trainer payload (including the JTI, so
-  // existing history readers are unaffected); the run row now carries the identity that
-  // the uniqueness guarantee is actually built on.
+  // Persist the signed JTI on migrated run rows so the database unique index
+  // actually protects replay identity. A successfully verified pre-0048 schema
+  // keeps the explicit legacy columns; a failed probe never selects that path.
+  // Full trainer metrics, including keystroke-derived accuracy, remain in the
+  // completion event shared by current and legacy history readers.
   const writeCompletionEvent = async (tx: Tx, runId: string) => {
     await tx.insert(activityEvents).values({
       userId,
@@ -691,10 +689,22 @@ export async function finishPreparedTypingRun(
   };
 
   try {
+    // Probe before beginning the transaction: a failed SQL statement would
+    // abort PostgreSQL's transaction and cannot safely select legacy inserts.
+    const tokenColumnPresent = await hasRunTokenColumn(database);
     const result = await database.transaction(async (tx) => {
-      // Serialize finishes per learner on an existing row, including databases
-      // before 0040. The event check and both writes share this transaction.
+      // Preserve the owner's per-learner serialization on the existing row.
       await tx.select({ id: users.id }).from(users).where(eq(users.id, userId)).for("update");
+      if (tokenColumnPresent) {
+        const existingRun = await findRunByToken(tx, userId, jti);
+        if (existingRun) {
+          const saved = await loadCanonicalRunResult(tx, userId, existingRun);
+          if (!saved) throw new Error("typing_saved_result_invalid");
+          return saved;
+        }
+      }
+      // Legacy schemas and historical rows written before JTI persistence still
+      // resolve their exact event identity without a bounded history scan.
       const [existingEvent] = await tx.select({ payload: activityEvents.payload })
         .from(activityEvents).where(and(
           eq(activityEvents.userId, userId),
@@ -702,62 +712,31 @@ export async function finishPreparedTypingRun(
           sql`${activityEvents.payload}->>'runTokenId' = ${jti}`,
         )).limit(1);
       if (existingEvent) {
-        // Return the original server-derived result, never rescored replay input.
-        const saved = existingEvent.payload as Record<string, unknown>;
-        const fields = ["wpm", "rawWpm", "accuracy", "correct", "incorrect", "extra", "missed", "mistakes", "completion", "targetChars", "typedChars", "durationMs"] as const;
-        if (typeof saved.runId !== "string" || typeof saved.title !== "string" || fields.some((field) => typeof saved[field] !== "number")) {
-          throw new Error("typing_saved_result_invalid");
-        }
-        return Object.fromEntries([
-          ...fields.map((field) => [field, saved[field]]),
-          ["runId", saved.runId], ["title", saved.title],
-          ["consistency", saved.consistency ?? null], ["presetSeconds", saved.presetSeconds ?? null],
-        ]) as TypingMetrics & { runId: string; title: string; presetSeconds: TypingPreset | null };
+        const runId = (existingEvent.payload as Record<string, unknown> | null)?.runId;
+        const saved = typeof runId === "string" ? await loadCanonicalRunResult(tx, userId, runId) : null;
+        if (!saved) throw new Error("typing_saved_result_invalid");
+        return saved;
       }
-      // Drizzle insert(table) emits DEFAULT for every mapped column, even when
-      // omitted in values. Explicit legacy columns keep pre-0040 Preview valid.
-      const inserted = await tx.execute(sql`
-        insert into typing_runs (user_id, target_chars, typed_chars, duration_ms, wpm, accuracy)
-        values (${userId}, ${metrics.targetChars}, ${metrics.typedChars}, ${metrics.durationMs}, ${metrics.wpm.toFixed(1)}, ${metrics.accuracy.toFixed(1)})
-        returning id
-      `);
-      const run = inserted.rows[0] as { id: string } | undefined;
-      if (!run) throw new Error("typing_run_insert_failed");
-
-      await tx.insert(activityEvents).values({
+      const values = {
         userId,
-        type: "TYPING_RUN_COMPLETED",
-        payload: {
-          runId: run.id,
-          runTokenId: jti,
-          title: text.title,
-          wpm: metrics.wpm,
-          rawWpm: metrics.rawWpm,
-          accuracy: metrics.accuracy,
-          consistency: metrics.consistency,
-          correct: metrics.correct,
-          incorrect: metrics.incorrect,
-          extra: metrics.extra,
-          missed: metrics.missed,
-          mistakes: metrics.mistakes,
-          completion: metrics.completion,
-          targetChars: metrics.targetChars,
-          typedChars: metrics.typedChars,
-          durationMs: metrics.durationMs,
-          presetSeconds: preset === 0 ? null : preset,
-          typingTextId: text.id,
-          startedAt,
-          pausedMs,
-          finishedAt: now(),
-        },
-      });
-
-      return { ...metrics, runId: run.id, presetSeconds: preset === 0 ? null : preset, title: text.title };
+        targetChars: metrics.targetChars,
+        typedChars: metrics.typedChars,
+        durationMs: metrics.durationMs,
+        wpm: metrics.wpm.toFixed(1),
+        accuracy: metrics.accuracy.toFixed(1),
+      };
+      const runId = tokenColumnPresent
+        ? await insertTypingRunWithToken(tx, { ...values, runTokenId: jti })
+        : await insertTypingRunLegacy(tx, values);
+      // A schema change after a successful probe is not permission to downgrade.
+      if (!runId) throw new Error("typing_run_token_schema_changed");
+      await writeCompletionEvent(tx, runId);
+      return { ...metrics, runId, presetSeconds: preset === 0 ? null : preset, title: text.title };
     });
     return { ok: true, result };
 
   } catch (error) {
-    console.error("[writing-typing] failed to persist verified run", error);
+    console.error("[writing-typing] failed to persist verified run", safeErrorLabel(error));
     return { ok: false, code: "conflict" };
   }
 }

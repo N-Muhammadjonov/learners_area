@@ -69,6 +69,7 @@ const en = {
     "defaultFolder": "My words"
 },
   speakingStudy: {
+    deleteRecording: "Delete recording",
     "topicUploadHelp": "All questions and their materials are saved together as one topic.",
     "archived": "Archived",
     "confirmArchive": "Remove from publication",
@@ -166,6 +167,7 @@ const en = {
   },
 
   shell: {
+    searchShortcut: "Ctrl K",
     learningNav: "Learning sections",
     managementNav: "Management sections",
     utilities: "Study tools",
@@ -1859,6 +1861,9 @@ const en = {
     noAttendees: "Nobody joined this class.",
   },
   grammar: {
+    lessonsTitle: "Lessons",
+    lessonsEmpty: "No Grammar lessons are published yet.",
+    lessonBack: "Back to Grammar lessons",
     importTitle: "Import authored Grammar topics",
     importHelp: "Paste a reviewed topic bundle. Validate it before saving. The sample is an original AI draft for owner review; it does not replace existing content.",
     importExample: "Download sample", importSource: "Topic bundle", importValidate: "Validate and preview", importApply: "Save these topics",

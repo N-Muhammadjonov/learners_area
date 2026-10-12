@@ -86,15 +86,12 @@ test("Live Classes exposes core classes while optional teacher and resource quer
   assert.doesNotMatch(page, /select\(\{ liveClass: liveClasses \}/);
 });
 
-test("Reading streams counts, facets, and selected library independently with local failure notices", () => {
-  const page = read("src/app/(app)/reading/page.tsx");
-  assert.match(page, /const countsPromise = captureRegion\(readingHubCounts\(userId\)\)/);
-  assert.match(page, /tab === "general-reading" \|\| tab === "types"[\s\S]*captureRegion\(listLibraryFacets\(true\)\)/);
-  assert.match(page, /tab === "general-reading"[\s\S]*captureRegion\(listLearningLibrary\(userId, filter\)\)/);
-  assert.match(page, /<Suspense fallback=\{<ReadingCountsSkeleton dict=\{dict\} \/>\}>[\s\S]*ReadingCountsRegion countsPromise=\{countsPromise\}/);
+test("Reading General facets and library stream independently with local failure notices", () => {
+  const page = read("src/components/reading/ReadingLearningLibrary.tsx");
+  assert.match(page, /captureRegion\(listLibraryFacets\(true\)\)/);
+  assert.match(page, /captureRegion\(listLearningLibrary\(userId,\s*filter\)\)/);
   assert.match(page, /<Suspense fallback=\{<ReadingFiltersSkeleton dict=\{dict\} \/>\}>[\s\S]*ReadingFiltersRegion[\s\S]*facetsPromise=\{facetsPromise\}/);
   assert.match(page, /<Suspense fallback=\{<ReadingLibrarySkeleton \/>\}>[\s\S]*ReadingLibraryRegion[\s\S]*libraryPromise=\{libraryPromise\}/);
-  assert.match(page, /RegionFailureNotice[\s\S]*reading-hub-counts/);
   assert.match(page, /RegionFailureNotice[\s\S]*reading-library-facets/);
   assert.match(page, /RegionFailureNotice[\s\S]*reading-library/);
   assert.doesNotMatch(page, /Promise\.allSettled/);
@@ -183,7 +180,7 @@ test("Listening and Video entry reads are server-authorized, published, and limi
   const videoData = read("src/lib/data/video-lessons.ts");
   assert.match(listeningPage, /requireActiveUser\(\)/);
   assert.match(listeningPage, /data-route-usable="listening"/);
-  assert.match(listeningPage, /data-listening-destinations/);
+  assert.match(read("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation module="listening"/);
   assert.doesNotMatch(listeningPage, /from ["']@\/lib\/data\//, "a doorway has no catalogue request to fail");
   for (const [route, reader] of [["academic", "academicListeningCards"], ["general", "generalListeningCards"]]) {
     const page = read(`src/app/app/(shell)/listening/${route}/page.tsx`);

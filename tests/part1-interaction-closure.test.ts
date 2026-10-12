@@ -89,7 +89,8 @@ test("the Reading hub keeps Reading concepts only", () => {
   const page = read("src/app/app/(shell)/reading/page.tsx");
   const destinations=read("src/lib/reading/destinations.ts");
   assert.match(destinations,/READING_DESTINATIONS = \["lessons", "academic", "general", "question-types", "retention"\]/);
-  assert.match(page,/READING_DESTINATIONS.map/);
+  assert.match(read("src/components/navigation/ModuleNavigation.tsx"), /READING_DESTINATIONS.map/);
+  assert.match(read("src/app/app/(shell)/reading/layout.tsx"), /<ModuleNavigation module="reading"/);
   // A comment records why the tab left; no code may reintroduce it.
   assert.doesNotMatch(code(page), /video/i);
   assert.doesNotMatch(code(page), /data-reading-videos/);

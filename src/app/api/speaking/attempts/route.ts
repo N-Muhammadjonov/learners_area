@@ -1,3 +1,4 @@
+import { withUploadErrorBoundary } from "@/lib/uploads/server-errors";
 import { NextRequest, NextResponse } from "next/server";
 import { isStaff, requireActiveUser } from "@/lib/auth/current-user";
 import { ATTEMPT_HISTORY_LIMIT, listAttempts } from "@/lib/data/speaking-practice";
@@ -19,6 +20,10 @@ import { createAttemptSchema } from "@/lib/validation/speaking-practice";
  * complete history from the first page of a longer one.
  */
 export async function POST(req: NextRequest) {
+  return withUploadErrorBoundary("speaking_attempt_start", () => start(req), "database");
+}
+
+async function start(req: NextRequest) {
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 

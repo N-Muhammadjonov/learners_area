@@ -17,6 +17,10 @@ export function apiErrorMessage(
   const specific = code ? overrides?.[code] : undefined;
   if (specific) return specific;
   switch (code) {
+    case "database_unavailable":
+    case "storage_not_configured":
+    case "storage_unavailable":
+      return dict.uploadErrors[code];
     case "unauthenticated":
       return t.unauthenticated;
     case "forbidden":

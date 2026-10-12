@@ -6,7 +6,8 @@ const read = (path: string) => readFileSync(path, "utf8");
 test("READ-HUB five canonical products, History secondary, no mixed catalogue", () => {
   assert.deepEqual(READING_DESTINATIONS, ["lessons", "academic", "general", "question-types", "retention"]);
   const page = read("src/app/app/(shell)/reading/page.tsx");
-  assert.match(page, /data-reading-destination=/);
+  assert.match(read("src/app/app/(shell)/reading/layout.tsx"), /<ModuleNavigation module="reading"/);
+  assert.match(read("src/components/navigation/ModuleNavigation.tsx"), /READING_DESTINATIONS.map/);
   assert.match(page, /data-reading-history-entry/);
   assert.doesNotMatch(page, /listLibrary|listGeneralSets|General Training|readingHubCounts/);
 });

@@ -272,14 +272,14 @@ test("a core Vocabulary library failure preserves the workspace and retries only
     await withRoot(withInteractionRuntime(React.createElement(VocabStudio, { dict: en, initialTab: "words", packs: [] })), async () => {
       await act(async () => new Promise((resolve) => setTimeout(resolve, 0)));
       assert.ok(query("[data-vocabulary-workspace]"));
-      assert.ok(query("[data-vocabulary-tabs]"));
+      assert.ok(query("[data-vocabulary-panel]"));
       assert.ok(query('[data-vocabulary-region-error="library"]'));
       assert.deepEqual(calls, { library: 1, summary: 1, folders: 1, board: 1 });
       await act(async () => query<HTMLButtonElement>('[data-region-retry="library"]').click());
       await act(async () => new Promise((resolve) => setTimeout(resolve, 0)));
       assert.deepEqual(calls, { library: 2, summary: 1, folders: 1, board: 1 });
       assert.ok(query('[data-vocabulary-region-error="library"]'));
-      assert.ok(query("[data-vocabulary-tabs]"));
+      assert.ok(query("[data-vocabulary-panel]"));
     });
   } finally {
     globalThis.fetch = originalFetch;

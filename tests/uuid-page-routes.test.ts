@@ -149,3 +149,15 @@ test("a malformed id is detected, and a well-formed one is left alone", async ()
   assert.equal(isMalformedIdPath("/app/speaking/lessons"), false);
   assert.equal(isMalformedIdPath("/api/reading/attempts/zzz"), false, "APIs answer for themselves");
 });
+
+
+test("Grammar Lessons literal destinations stay reachable while malformed lesson ids are rejected before streaming", async () => {
+  const { isMalformedIdPath } = await mod();
+  const uuid = "123e4567-e89b-12d3-a456-426614174000";
+  assert.equal(isMalformedIdPath("/app/grammar/lessons"), false);
+  assert.equal(isMalformedIdPath("/app/grammar/lessons/author"), false);
+  assert.equal(isMalformedIdPath(`/app/grammar/lessons/${uuid}`), false);
+  assert.equal(isMalformedIdPath("/app/grammar/lessons/not-a-uuid"), true);
+  assert.equal(isMalformedIdPath("/app/grammar/lessons/%ZZ"), true);
+  assert.equal(isMalformedIdPath("/app/grammar/not-a-uuid"), true, "the existing topic guard remains enforced");
+});

@@ -17,7 +17,8 @@ import type { ImportTransaction } from "@/lib/import/core/dry-run";
  * membership list (which senses, in which order).
  *
  * The built-in TypeScript packs remain as a COMPATIBILITY fallback: while the
- * table is empty (or unreadable), the learner sees exactly what they saw before.
+ * table has no live packs, the learner sees exactly what they saw before.
+ * Missing schema and database outages remain explicit failures, not fallback content.
  * Once the backfill has run, the database is the source of truth and adding a pack
  * needs no deployment.
  */
