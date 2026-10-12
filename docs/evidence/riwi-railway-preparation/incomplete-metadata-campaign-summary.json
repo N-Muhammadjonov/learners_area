@@ -1,0 +1,8 @@
+{
+  "status": "FAILED_OR_INCOMPLETE_NOT_ACCEPTANCE",
+  "source_sha256": "ea4d1aee74e7d44c5299a83a142712a12ada8a42b9e6fde2d61794e933e4f378",
+  "reason": "QA copy lacked Git metadata; source privacy checks99/100 could not execute. Tests were stopped and the private cluster shut down. A new full campaign uses a verified separate clone.",
+  "original_receipt": "/tmp/riwi-railway-native-qivwp90x/receipt.json",
+  "cluster_stopped": true,
+  "counts_credit": 0
+}

@@ -1,0 +1,16 @@
+{
+  "status": "INDEPENDENT_BUILD_AND_BUILT_HTTP_VERIFICATION_PASSED",
+  "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+  "commit": "df0c2d17187ee7c341e3eaa88521fd9c57c90147",
+  "tree": "0df555879d9636007cffff37d04a5aceef2e987e",
+  "raw_gates_verified": 8,
+  "built_http_requests": 53,
+  "four_roles_http": true,
+  "cluster_stopped": true,
+  "password_file_removed": true,
+  "runtime_environment": "isolated local APP_ENV=development with NODE_ENV=production; real next start compiled artifact",
+  "provider_or_hosted_acceptance": false,
+  "new_closed_groups": 0,
+  "published_evidence_snapshot": false,
+  "harness_sha256": "113d51d9b592d1a1607c34db9991a359c7e9f1ef89b7cf28f08fd7e6f5b74651"
+}

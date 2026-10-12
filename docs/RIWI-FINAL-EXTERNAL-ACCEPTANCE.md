@@ -1,3 +1,5 @@
+> Post-push update: `df0c2d1` is published. Exact1258-source local production compilation and compiled53HTTP/all4rolebasicChrome journeys pass in `docs/evidence/riwi-post-push-build/`. Full external operational acceptance remains incomplete. No rebuild-from-scratch rule prohibits local compilation.
+
 # RIWI final external acceptance
 
 Status: **NO-GO — external evidence incomplete**.

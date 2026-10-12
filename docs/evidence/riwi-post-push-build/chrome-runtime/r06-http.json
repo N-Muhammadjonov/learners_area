@@ -1,0 +1,240 @@
+{
+  "scope": "R06_PRIVATE_NATIVE_HTTP",
+  "syntheticDisposableData": true,
+  "realProviderVerified": false,
+  "deployedTargetVerified": false,
+  "realBrowserVerified": false,
+  "signedPrivateUrlExpiryVerified": false,
+  "productionTouched": false,
+  "sharedDatabaseTouched": false,
+  "buildRun": true,
+  "serverCommand": "next start",
+  "http": [
+    {
+      "action": "anonymous transcript",
+      "status": 401
+    },
+    {
+      "action": "anonymous private recording",
+      "status": 401
+    },
+    {
+      "action": "student own transcript",
+      "status": 200
+    },
+    {
+      "action": "student foreign transcript",
+      "status": 404
+    },
+    {
+      "action": "student foreign-origin chat",
+      "status": 403
+    },
+    {
+      "action": "student null-origin chat",
+      "status": 403
+    },
+    {
+      "action": "student forged provider/role",
+      "status": 400
+    },
+    {
+      "action": "student RIWI page",
+      "status": 200
+    },
+    {
+      "action": "student owner provider panel",
+      "status": 401
+    },
+    {
+      "action": "student foreign-origin delete",
+      "status": 403
+    },
+    {
+      "action": "student expired-cookie replay",
+      "status": 401
+    },
+    {
+      "action": "student suspended-cookie replay",
+      "status": 401
+    },
+    {
+      "action": "student logout",
+      "status": 200
+    },
+    {
+      "action": "student private recording authorized",
+      "status": 200
+    },
+    {
+      "action": "teacher own transcript",
+      "status": 200
+    },
+    {
+      "action": "teacher foreign transcript",
+      "status": 404
+    },
+    {
+      "action": "teacher foreign-origin chat",
+      "status": 403
+    },
+    {
+      "action": "teacher null-origin chat",
+      "status": 403
+    },
+    {
+      "action": "teacher forged provider/role",
+      "status": 400
+    },
+    {
+      "action": "teacher RIWI page",
+      "status": 200
+    },
+    {
+      "action": "teacher owner provider panel",
+      "status": 401
+    },
+    {
+      "action": "teacher foreign-origin delete",
+      "status": 403
+    },
+    {
+      "action": "teacher expired-cookie replay",
+      "status": 401
+    },
+    {
+      "action": "teacher suspended-cookie replay",
+      "status": 401
+    },
+    {
+      "action": "teacher logout",
+      "status": 200
+    },
+    {
+      "action": "teacher private recording authorized",
+      "status": 200
+    },
+    {
+      "action": "admin own transcript",
+      "status": 200
+    },
+    {
+      "action": "admin foreign transcript",
+      "status": 404
+    },
+    {
+      "action": "admin foreign-origin chat",
+      "status": 403
+    },
+    {
+      "action": "admin null-origin chat",
+      "status": 403
+    },
+    {
+      "action": "admin forged provider/role",
+      "status": 400
+    },
+    {
+      "action": "admin RIWI page",
+      "status": 200
+    },
+    {
+      "action": "admin owner provider panel",
+      "status": 401
+    },
+    {
+      "action": "admin foreign-origin delete",
+      "status": 403
+    },
+    {
+      "action": "admin expired-cookie replay",
+      "status": 401
+    },
+    {
+      "action": "admin suspended-cookie replay",
+      "status": 401
+    },
+    {
+      "action": "admin logout",
+      "status": 200
+    },
+    {
+      "action": "admin private recording authorized",
+      "status": 200
+    },
+    {
+      "action": "owner own transcript",
+      "status": 200
+    },
+    {
+      "action": "owner foreign transcript",
+      "status": 404
+    },
+    {
+      "action": "owner foreign-origin chat",
+      "status": 403
+    },
+    {
+      "action": "owner null-origin chat",
+      "status": 403
+    },
+    {
+      "action": "owner forged provider/role",
+      "status": 400
+    },
+    {
+      "action": "owner RIWI page",
+      "status": 200
+    },
+    {
+      "action": "owner owner provider panel",
+      "status": 200
+    },
+    {
+      "action": "owner foreign-origin delete",
+      "status": 403
+    },
+    {
+      "action": "owner expired-cookie replay",
+      "status": 401
+    },
+    {
+      "action": "owner suspended-cookie replay",
+      "status": 401
+    },
+    {
+      "action": "owner logout",
+      "status": 200
+    },
+    {
+      "action": "owner private recording authorized",
+      "status": 200
+    },
+    {
+      "action": "demoted owner old-cookie replay",
+      "status": 401
+    },
+    {
+      "action": "foreign student recording IDOR",
+      "status": 403
+    },
+    {
+      "action": "tampered-cookie transcript",
+      "status": 401
+    }
+  ],
+  "nativeVersion": "16.14",
+  "passed": true,
+  "authenticatedRoles": [
+    "student",
+    "teacher",
+    "admin",
+    "owner"
+  ],
+  "staleRoleRevocationVerified": true,
+  "expiredSessionReplayDenied": true,
+  "csrfDeniedWithoutDeletion": true,
+  "localPrivateRecordingAuthorizationVerified": true,
+  "appProcessGroupStopped": true,
+  "privateDatabaseRemoved": true
+}

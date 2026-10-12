@@ -1,0 +1,12 @@
+{
+  "status": "COMPILED_BROWSER_RUNTIME_AND_CLEANUP_VERIFIED",
+  "raw_gates_verified": 5,
+  "http_requests": 53,
+  "all_four_roles_manually_verified": true,
+  "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+  "cluster_stopped": true,
+  "private_app_stopped": true,
+  "password_file_removed": true,
+  "full_operational_browser_matrix_passed": false,
+  "manual_observations": "../chrome-observations.json"
+}

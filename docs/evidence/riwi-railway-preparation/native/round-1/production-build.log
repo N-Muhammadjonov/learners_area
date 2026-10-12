@@ -1,0 +1,283 @@
+
+> learners-area@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.26
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 21.6s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/101) ...
+   Generating static pages (25/101) 
+   Generating static pages (50/101) 
+   Generating static pages (75/101) 
+ ✓ Generating static pages (101/101)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                         Size  First Load JS
+┌ ƒ /                                                            1.39 kB         108 kB
+├ ƒ /_not-found                                                    511 B         104 kB
+├ ƒ /admin/admissions                                             1.6 kB         110 kB
+├ ƒ /admin/content                                                 194 B         107 kB
+├ ƒ /admin/grammar                                               6.37 kB         127 kB
+├ ƒ /admin/grammar/[id]                                          3.41 kB         110 kB
+├ ƒ /admin/listening                                              8.9 kB         120 kB
+├ ƒ /admin/listening/[id]                                        3.79 kB         110 kB
+├ ƒ /admin/listening/import                                      7.16 kB         122 kB
+├ ƒ /admin/materials                                               194 B         107 kB
+├ ƒ /admin/materials/[type]                                        703 B         107 kB
+├ ƒ /admin/materials/[type]/[id]                                   182 B         121 kB
+├ ƒ /admin/people                                                3.65 kB         116 kB
+├ ƒ /admin/reading                                               6.41 kB         113 kB
+├ ƒ /admin/reading/[id]                                          1.84 kB         122 kB
+├ ƒ /admin/reading/import                                        4.55 kB         120 kB
+├ ƒ /admin/reading/retention                                     7.43 kB         128 kB
+├ ƒ /admin/roster                                                  672 B         107 kB
+├ ƒ /admin/users                                                   511 B         104 kB
+├ ƒ /admin/video-lessons                                         5.44 kB         109 kB
+├ ƒ /admin/writing                                                3.3 kB         110 kB
+├ ƒ /admin/writing-prompts                                         511 B         104 kB
+├ ƒ /admin/writing/[kind]/[id]                                   1.46 kB         139 kB
+├ ƒ /admin/writing/[kind]/new                                    2.28 kB         126 kB
+├ ƒ /api/admin/admission/[id]/decide                               511 B         104 kB
+├ ƒ /api/admin/content/[type]/[id]/publication                     511 B         104 kB
+├ ƒ /api/admin/grammar/import                                      511 B         104 kB
+├ ƒ /api/admin/grammar/topics                                      511 B         104 kB
+├ ƒ /api/admin/grammar/topics/[id]/exercises                       511 B         104 kB
+├ ƒ /api/admin/listening/import                                    511 B         104 kB
+├ ƒ /api/admin/listening/tests                                     511 B         104 kB
+├ ƒ /api/admin/listening/tests/[id]/questions                      511 B         104 kB
+├ ƒ /api/admin/reading/import                                      511 B         104 kB
+├ ƒ /api/admin/reading/passages                                    511 B         104 kB
+├ ƒ /api/admin/reading/passages/[id]/questions                     511 B         104 kB
+├ ƒ /api/admin/retention/texts                                     511 B         104 kB
+├ ƒ /api/admin/retention/texts/[id]                                511 B         104 kB
+├ ƒ /api/admin/retention/texts/[id]/versions                       511 B         104 kB
+├ ƒ /api/admin/retention/validate                                  511 B         104 kB
+├ ƒ /api/admin/roster                                              511 B         104 kB
+├ ƒ /api/admin/uploads/cleanup                                     511 B         104 kB
+├ ƒ /api/admin/users/[id]/role                                     511 B         104 kB
+├ ƒ /api/admin/users/[id]/status                                   511 B         104 kB
+├ ƒ /api/admin/video-lessons                                       511 B         104 kB
+├ ƒ /api/admin/writing-prompts                                     511 B         104 kB
+├ ƒ /api/admin/writing/[kind]                                      511 B         104 kB
+├ ƒ /api/admin/writing/[kind]/[id]                                 511 B         104 kB
+├ ƒ /api/admission/request                                         511 B         104 kB
+├ ƒ /api/assignments                                               511 B         104 kB
+├ ƒ /api/assignments/[id]/evaluate                                 511 B         104 kB
+├ ƒ /api/auth/google/callback                                      511 B         104 kB
+├ ƒ /api/auth/google/start                                         511 B         104 kB
+├ ƒ /api/auth/login                                                511 B         104 kB
+├ ƒ /api/auth/logout                                               511 B         104 kB
+├ ƒ /api/auth/register                                             511 B         104 kB
+├ ƒ /api/auth/reset/confirm                                        511 B         104 kB
+├ ƒ /api/auth/reset/request                                        511 B         104 kB
+├ ƒ /api/auth/telegram/callback                                    511 B         104 kB
+├ ƒ /api/cron/riwi-chat-retention                                  511 B         104 kB
+├ ƒ /api/grammar/exercises/[id]/practice                           511 B         104 kB
+├ ƒ /api/grammar/exercises/[id]/produce                            511 B         104 kB
+├ ƒ /api/grammar/topics/[id]/submit                                511 B         104 kB
+├ ƒ /api/lessons/[id]/notes                                        511 B         104 kB
+├ ƒ /api/lessons/[id]/state                                        511 B         104 kB
+├ ƒ /api/listening/attempts                                        511 B         104 kB
+├ ƒ /api/listening/attempts/[id]/draft                             511 B         104 kB
+├ ƒ /api/listening/attempts/[id]/submit                            511 B         104 kB
+├ ƒ /api/listening/full/[id]/activity                              511 B         104 kB
+├ ƒ /api/listening/full/[id]/start                                 511 B         104 kB
+├ ƒ /api/listening/full/[id]/study                                 511 B         104 kB
+├ ƒ /api/listening/mcq                                             511 B         104 kB
+├ ƒ /api/listening/mcq/[id]                                        511 B         104 kB
+├ ƒ /api/live-classes/[id]/join                                    511 B         104 kB
+├ ƒ /api/live-partner                                              511 B         104 kB
+├ ƒ /api/locale                                                    511 B         104 kB
+├ ƒ /api/materials/[type]/[id]                                     511 B         104 kB
+├ ƒ /api/notifications                                             511 B         104 kB
+├ ƒ /api/onboarding                                                511 B         104 kB
+├ ƒ /api/owner/ai-control                                          511 B         104 kB
+├ ƒ /api/owner/retention                                           511 B         104 kB
+├ ƒ /api/owner/transfer                                            511 B         104 kB
+├ ƒ /api/profile                                                   511 B         104 kB
+├ ƒ /api/reading/attempts                                          511 B         104 kB
+├ ƒ /api/reading/attempts/[id]                                     511 B         104 kB
+├ ƒ /api/reading/attempts/[id]/submit                              511 B         104 kB
+├ ƒ /api/reading/general/progress                                  511 B         104 kB
+├ ƒ /api/reports                                                   511 B         104 kB
+├ ƒ /api/resources/[...key]                                        511 B         104 kB
+├ ƒ /api/retention/attempts                                        511 B         104 kB
+├ ƒ /api/retention/attempts/[id]                                   511 B         104 kB
+├ ƒ /api/retention/attempts/[id]/draft                             511 B         104 kB
+├ ƒ /api/retention/attempts/[id]/finish-reading                    511 B         104 kB
+├ ƒ /api/retention/attempts/[id]/submit                            511 B         104 kB
+├ ƒ /api/retention/history                                         511 B         104 kB
+├ ƒ /api/retention/summary                                         511 B         104 kB
+├ ƒ /api/riwi/chat                                                 511 B         104 kB
+├ ƒ /api/riwi/conversations/[id]                                   511 B         104 kB
+├ ƒ /api/riwi/feedback                                             511 B         104 kB
+├ ƒ /api/riwi/learning-signals                                     511 B         104 kB
+├ ƒ /api/riwi/learning-signals/[id]                                511 B         104 kB
+├ ƒ /api/riwi/learning-signals/[id]/knowledge                      511 B         104 kB
+├ ƒ /api/riwi/learning-signals/[id]/review                         511 B         104 kB
+├ ƒ /api/riwi/objective-explanation                                511 B         104 kB
+├ ƒ /api/riwi/owner/assessment-policies                            511 B         104 kB
+├ ƒ /api/riwi/owner/assessment-policies/[id]/approve               511 B         104 kB
+├ ƒ /api/riwi/owner/assessment-policies/[id]/preview               511 B         104 kB
+├ ƒ /api/riwi/owner/assessment-policies/[id]/reject                511 B         104 kB
+├ ƒ /api/riwi/owner/assessment-policies/[id]/rollback              511 B         104 kB
+├ ƒ /api/riwi/owner/audit                                          511 B         104 kB
+├ ƒ /api/riwi/owner/diagnostics                                    511 B         104 kB
+├ ƒ /api/riwi/owner/knowledge                                      511 B         104 kB
+├ ƒ /api/riwi/owner/knowledge/[sourceId]                           511 B         104 kB
+├ ƒ /api/riwi/owner/knowledge/[sourceId]/approve                   511 B         104 kB
+├ ƒ /api/riwi/owner/knowledge/[sourceId]/conflicts/[conflictId]    511 B         104 kB
+├ ƒ /api/riwi/owner/knowledge/[sourceId]/promote                   511 B         104 kB
+├ ƒ /api/riwi/owner/knowledge/[sourceId]/reject                    511 B         104 kB
+├ ƒ /api/riwi/owner/provider-lab                                   511 B         104 kB
+├ ƒ /api/riwi/owner/security-signals                               511 B         104 kB
+├ ƒ /api/riwi/presence                                             511 B         104 kB
+├ ƒ /api/riwi/targets                                              511 B         104 kB
+├ ƒ /api/search                                                    511 B         104 kB
+├ ƒ /api/speaking/ai/sessions                                      511 B         104 kB
+├ ƒ /api/speaking/ai/sessions/[id]                                 511 B         104 kB
+├ ƒ /api/speaking/ai/sessions/[id]/complete                        511 B         104 kB
+├ ƒ /api/speaking/ai/sessions/[id]/items/[itemId]/complete         511 B         104 kB
+├ ƒ /api/speaking/attempts                                         511 B         104 kB
+├ ƒ /api/speaking/attempts/[id]                                    511 B         104 kB
+├ ƒ /api/speaking/attempts/[id]/submit                             511 B         104 kB
+├ ƒ /api/speaking/attempts/[id]/transcript                         511 B         104 kB
+├ ƒ /api/speaking/materials                                        511 B         104 kB
+├ ƒ /api/speaking/materials/[id]                                   511 B         104 kB
+├ ƒ /api/speaking/prompts                                          511 B         104 kB
+├ ƒ /api/support/reports                                           511 B         104 kB
+├ ƒ /api/support/reports/[id]                                      511 B         104 kB
+├ ƒ /api/teacher/feedback                                          511 B         104 kB
+├ ƒ /api/teacher/live-classes                                      511 B         104 kB
+├ ƒ /api/teacher/live-classes/[id]                                 511 B         104 kB
+├ ƒ /api/theme                                                     511 B         104 kB
+├ ƒ /api/uploads                                                   511 B         104 kB
+├ ƒ /api/uploads/[id]                                              511 B         104 kB
+├ ƒ /api/uploads/finalize                                          511 B         104 kB
+├ ƒ /api/uploads/intent                                            511 B         104 kB
+├ ƒ /api/version                                                   511 B         104 kB
+├ ƒ /api/video-lessons/[id]/answers                                511 B         104 kB
+├ ƒ /api/video-lessons/[id]/progress                               511 B         104 kB
+├ ƒ /api/video-lessons/[id]/response                               511 B         104 kB
+├ ƒ /api/video-lessons/[id]/vocabulary                             511 B         104 kB
+├ ƒ /api/vocabulary                                                511 B         104 kB
+├ ƒ /api/vocabulary/[id]/contexts                                  511 B         104 kB
+├ ƒ /api/vocabulary/[id]/review                                    511 B         104 kB
+├ ƒ /api/vocabulary/[id]/use                                       511 B         104 kB
+├ ƒ /api/vocabulary/due                                            511 B         104 kB
+├ ƒ /api/vocabulary/folders                                        511 B         104 kB
+├ ƒ /api/vocabulary/games                                          511 B         104 kB
+├ ƒ /api/vocabulary/leaderboard                                    511 B         104 kB
+├ ƒ /api/vocabulary/lookup                                         511 B         104 kB
+├ ƒ /api/vocabulary/meaning                                        511 B         104 kB
+├ ƒ /api/vocabulary/packs                                          511 B         104 kB
+├ ƒ /api/vocabulary/search                                         511 B         104 kB
+├ ƒ /api/vocabulary/sentences                                      511 B         104 kB
+├ ƒ /api/vocabulary/summary                                        511 B         104 kB
+├ ƒ /api/writing/activation/check                                  511 B         104 kB
+├ ƒ /api/writing/activation/items                                  511 B         104 kB
+├ ƒ /api/writing/exam                                              511 B         104 kB
+├ ƒ /api/writing/exam/[id]                                         511 B         104 kB
+├ ƒ /api/writing/exam/[id]/draft                                   511 B         104 kB
+├ ƒ /api/writing/exam/[id]/finalize                                511 B         104 kB
+├ ƒ /api/writing/grade                                             511 B         104 kB
+├ ƒ /api/writing/grade/[id]                                        511 B         104 kB
+├ ƒ /api/writing/lessons/[id]                                      511 B         104 kB
+├ ƒ /api/writing/patterns/[id]                                     511 B         104 kB
+├ ƒ /api/writing/stealing/practice                                 511 B         104 kB
+├ ƒ /api/writing/stealing/sessions                                 511 B         104 kB
+├ ƒ /api/writing/stealing/sessions/[id]                            511 B         104 kB
+├ ƒ /api/writing/submissions                                       511 B         104 kB
+├ ƒ /api/writing/submissions/[id]                                  511 B         104 kB
+├ ƒ /api/writing/submissions/[id]/submit                           511 B         104 kB
+├ ƒ /api/writing/translation                                       511 B         104 kB
+├ ƒ /api/writing/translation/[id]                                  511 B         104 kB
+├ ƒ /api/writing/translation/[id]/answer                           511 B         104 kB
+├ ƒ /api/writing/typing                                            511 B         104 kB
+├ ƒ /api/writing/typing/start                                      511 B         104 kB
+├ ƒ /assignments                                                 1.94 kB         114 kB
+├ ƒ /coach                                                         194 B         107 kB
+├ ƒ /courses/ielts                                                 194 B         107 kB
+├ ƒ /courses/ielts/lessons/[lessonId]                            1.78 kB         122 kB
+├ ƒ /dashboard                                                     501 B         107 kB
+├ ƒ /grammar                                                       497 B         107 kB
+├ ƒ /grammar/[topicId]                                           3.98 kB         117 kB
+├ ƒ /listening                                                    5.6 kB         112 kB
+├ ƒ /listening/attempts/[id]                                     5.76 kB         137 kB
+├ ƒ /listening/attempts/[id]/revision                            3.09 kB         116 kB
+├ ƒ /listening/history                                             703 B         107 kB
+├ ƒ /listening/import                                              511 B         104 kB
+├ ƒ /listening/tests/[id]                                          703 B         107 kB
+├ ƒ /listening/tests/[id]/[activity]                             6.62 kB         119 kB
+├ ƒ /listening/tests/[id]/study                                  2.37 kB         120 kB
+├ ƒ /live-classes                                                2.03 kB         111 kB
+├ ƒ /login                                                        3.1 kB         110 kB
+├ ƒ /management                                                    194 B         107 kB
+├ ƒ /mocks                                                         479 B         104 kB
+├ ƒ /notifications                                               4.33 kB         111 kB
+├ ƒ /onboarding                                                  2.65 kB         106 kB
+├ ƒ /owner                                                         194 B         107 kB
+├ ƒ /owner/audit                                                   511 B         104 kB
+├ ƒ /owner/integrations                                            163 B         107 kB
+├ ƒ /owner/retention                                             2.45 kB         106 kB
+├ ƒ /owner/riwi                                                  22.6 kB         147 kB
+├ ƒ /owner/transfer                                              3.19 kB         106 kB
+├ ƒ /pending                                                     2.42 kB         115 kB
+├ ƒ /profile                                                     4.15 kB         107 kB
+├ ƒ /progress                                                      501 B         107 kB
+├ ƒ /reading                                                     6.15 kB         194 kB
+├ ƒ /reading/attempts/[id]                                       9.78 kB         139 kB
+├ ƒ /reading/general                                               703 B         107 kB
+├ ƒ /reading/general/[setId]                                     3.45 kB         116 kB
+├ ƒ /reading/history                                               703 B         107 kB
+├ ƒ /reading/retention                                           1.73 kB         113 kB
+├ ƒ /reading/retention/results/[attemptId]                         701 B         112 kB
+├ ƒ /register                                                    2.97 kB         110 kB
+├ ƒ /reports                                                       511 B         104 kB
+├ ƒ /reset-password                                              2.28 kB         109 kB
+├ ƒ /reset-password/confirm                                       2.3 kB         109 kB
+├ ƒ /riwi                                                        16.1 kB         136 kB
+├ ƒ /robots.txt                                                    511 B         104 kB
+├ ƒ /sitemap.xml                                                   511 B         104 kB
+├ ƒ /speaking                                                      194 B         107 kB
+├ ƒ /speaking/ai                                                 12.2 kB         123 kB
+├ ƒ /speaking/history                                            3.24 kB         110 kB
+├ ƒ /speaking/lessons                                              820 B         107 kB
+├ ƒ /speaking/live-partner                                       6.88 kB         113 kB
+├ ƒ /speaking/practice                                           8.91 kB         124 kB
+├ ƒ /speaking/shadowing                                            511 B         104 kB
+├ ƒ /support                                                     4.37 kB         111 kB
+├ ƒ /teacher/live-classes                                        3.68 kB         110 kB
+├ ƒ /teacher/live-classes/[id]                                     672 B         107 kB
+├ ƒ /teacher/speaking                                             9.1 kB         121 kB
+├ ƒ /teacher/students                                              194 B         107 kB
+├ ƒ /teacher/students/[id]                                       4.05 kB         111 kB
+├ ƒ /teacher/support                                             2.35 kB         105 kB
+├ ƒ /video-lessons                                                 651 B         107 kB
+├ ƒ /video-lessons/[id]                                          1.33 kB         115 kB
+├ ƒ /vocabulary                                                    16 kB         119 kB
+├ ƒ /vocabulary/games                                              168 B         118 kB
+├ ƒ /vocabulary/games/[gameId]                                     167 B         118 kB
+├ ƒ /vocabulary/review                                             511 B         104 kB
+├ ƒ /writing                                                       12 kB         125 kB
+├ ƒ /writing/exam/[id]                                           3.96 kB         117 kB
+├ ƒ /writing/grade/[id]                                          1.44 kB         114 kB
+├ ƒ /writing/history                                               703 B         107 kB
+├ ƒ /writing/language-stealing/[id]                              4.36 kB         111 kB
+├ ƒ /writing/lessons/[id]                                        2.38 kB         109 kB
+├ ƒ /writing/submissions/[id]                                    4.72 kB         111 kB
+└ ƒ /writing/translation/[id]                                    3.86 kB         110 kB
++ First Load JS shared by all                                     103 kB
+  ├ chunks/996-2d68a40da50a2dbc.js                               46.7 kB
+  ├ chunks/d2208f96-9c25ca61ebc40432.js                          54.2 kB
+  └ other shared chunks (total)                                  2.16 kB
+
+
+ƒ Middleware                                                     42.6 kB
+
+ƒ  (Dynamic)  server-rendered on demand
+

@@ -1,0 +1,62 @@
+{
+  "status": "LOCAL_PRODUCTION_BUILD_AND_53_BUILT_HTTP_PASSED",
+  "commit": "df0c2d17187ee7c341e3eaa88521fd9c57c90147",
+  "tree": "0df555879d9636007cffff37d04a5aceef2e987e",
+  "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+  "source_files": 1258,
+  "private_root": "/private/tmp/riwi-post-push-build-8y3ygayr",
+  "checks": {
+    "initdb": {
+      "exit_code": 0,
+      "log": "/private/tmp/riwi-post-push-build-8y3ygayr/initdb.log",
+      "sha256": "f7aa51e08f957b40857427f0542daa97cd67ccbb42105e604b839c5004b833ca"
+    },
+    "start": {
+      "exit_code": 0,
+      "log": "/private/tmp/riwi-post-push-build-8y3ygayr/start.log",
+      "sha256": "66afd0411ccc09366e99fdd99b85f21899c8d2d064f5835126859618802153ad"
+    },
+    "createdb": {
+      "exit_code": 0,
+      "log": "/private/tmp/riwi-post-push-build-8y3ygayr/createdb.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+    },
+    "migrations": {
+      "exit_code": 0,
+      "log": "/private/tmp/riwi-post-push-build-8y3ygayr/migrations.log",
+      "sha256": "1d1294aa78848717cc5a1e630ddb980b0fbd8ed8e0fbb1e10bb7d87f1c5c5d97"
+    },
+    "production-build": {
+      "exit_code": 0,
+      "log": "/private/tmp/riwi-post-push-build-8y3ygayr/production-build.log",
+      "sha256": "e347df1c22dd902794decfea209367bf61b0668455948b6af7283c1c7596cc2f"
+    },
+    "built-r06-http": {
+      "exit_code": 0,
+      "log": "/private/tmp/riwi-post-push-build-8y3ygayr/built-r06-http.log",
+      "sha256": "8a2a93561976c5a6e63fea66d18c4fcf57e4aa9cb67c41426f25b3fe2b222ffd"
+    },
+    "identity-after": {
+      "exit_code": 0,
+      "log": "/private/tmp/riwi-post-push-build-8y3ygayr/identity-after.log",
+      "sha256": "5befc50650bb0effd8ff0f4063c1476e3c76183494d89c8983bd5f738c1c4893"
+    },
+    "stop": {
+      "exit_code": 0,
+      "log": "/private/tmp/riwi-post-push-build-8y3ygayr/stop.log",
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+    }
+  },
+  "isolated_copy": true,
+  "existing_database_touched": false,
+  "production_deployment": false,
+  "external_provider_verified": false,
+  "real_r2_verified": false,
+  "build_is_local_compilation_not_site_redesign": true,
+  "full_group_closed": false,
+  "build_id_sha256": "340302c27d1c75c3c050039e9a4685a59532a9b5b75a7f0561313fc6cfc508ef",
+  "built_http_harness_sha256": "785870a364fe73da9ef6aae15b6828a25c33ac4593b03b8a423272305a76c500",
+  "built_http_requests": 53,
+  "cluster_stopped": true,
+  "password_file_removed": true
+}

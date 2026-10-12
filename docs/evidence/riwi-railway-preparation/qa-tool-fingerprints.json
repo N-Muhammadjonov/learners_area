@@ -1,0 +1,10 @@
+{
+  "captured_at": "2026-10-12T02:57:29.230045+00:00",
+  "files": {
+    "RIWI_RAILWAY_PREPARATION_NATIVE_QA.py": "b377a336eacd4e42fbdacc12a5af162fd32b5869e6bf1c76a570b98efd3ac65d",
+    "RIWI_RAILWAY_PREPARATION_SOURCE_STATE.json": "b427f1407eee6e42bb60eec0216e2b4ada36d15df5a12c570eaccaf5f080e3d8",
+    "RIWI_RAILWAY_BUILT_R04_HTTP.ts": "b6a97cd6be595a51d1856fc24c0f146b26e80181419cd28d5ae03c5a09d87bb3",
+    "RIWI_RAILWAY_BUILT_R06_HTTP.ts": "e2e5a55dbf446ae76fdf14e10968cf6915cb2a295574fd73ec7f3827c35d1369"
+  },
+  "no_tool_edits_after_capture": true
+}

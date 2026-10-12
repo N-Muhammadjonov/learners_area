@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
-  "source_files": 1258,
-  "published_commit": "c538704f92937d142feb056d22542d9a905f0852",
-  "published_source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+  "source_sha256": "ea4d1aee74e7d44c5299a83a142712a12ada8a42b9e6fde2d61794e933e4f378",
+  "source_files": 1265,
+  "published_commit": "df0c2d17187ee7c341e3eaa88521fd9c57c90147",
+  "published_source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
   "current_changes_published": false,
-  "status": "CURRENT_CODE_AND_EVIDENCE_PUSH_ELIGIBLE_OPERATIONAL_ACCEPTANCE_PENDING",
+  "status": "RAILWAY_CODE_PREPARATION_TWO_LOCAL_COMPILED_NATIVE_ROUNDS_VERIFIED_OPERATIONAL_ACCEPTANCE_PENDING",
   "all_groups_closed": false,
   "operational_acceptance": false,
   "closed": 20,
@@ -15,103 +15,39 @@
   "site_overall_percent": null,
   "code_changes": [
     {
-      "path": "scripts/riwi-speaking-retention-dry-run.ts",
-      "sha256": "58a42b5919e8359d600a674c464c8c0dbba0537b166be40d9298286114d380f3"
+      "path": ".env.example",
+      "sha256": "6a88bfbe6be0913df2435cd3948e292c5afe642ed08eb2382b34cc6328cecdf1"
     },
     {
-      "path": "scripts/riwi-speaking-retention-snapshot.ts",
-      "sha256": "bf9c37b91093053c82612b205b224aaa6e0a6daf43051b9a6d082990d088108a"
+      "path": ".gitignore",
+      "sha256": "10861a51f15c28bbcb2f27b13835968f58ab17ad62147d072bb1a09511ecedff"
     },
     {
-      "path": "src/app/(app)/riwi/page.tsx",
-      "sha256": "ef820be73919b47c875784845ee19b9b440ad1f5ea4011d077ab70eb123d8a16"
+      "path": "railway.riwi-retention.json",
+      "sha256": "e7b5d52818dfbaedb6c7338d911503a2010562d7da0f2d18ee6445017b3cf40e"
     },
     {
-      "path": "src/components/riwi/RiwiChat.tsx",
-      "sha256": "d8b0704a3a978c7a92e4186e146121d56bf06299ea99e6edc1d13d2e4c018250"
+      "path": "railway.riwi-web.json",
+      "sha256": "a24f447cc1138da85eedb7c0dae2d542a040449a55c0e4d920d63fa912fee7e8"
     },
     {
-      "path": "src/components/speaking/AiQuestionRecorder.tsx",
-      "sha256": "5b79b5ea6cdf2d1e3a3b1d0f50d21bf2aee7c543da96f77a3ab684d7d9176a4a"
+      "path": "scripts/build-riwi-retention-job.mjs",
+      "sha256": "5524fcd01482a3d7ae96c91599dde9addd8dabfe90fbf2c54f9e33e2464c10aa"
     },
     {
-      "path": "src/lib/data/grammar-production-write.ts",
-      "sha256": "949ad6c4d30baf4c4e36df6f451d10ae62987db8cff90f141a8def7d4fd2b413"
+      "path": "scripts/riwi-chat-retention-job.ts",
+      "sha256": "15470a805d3b5267cc909c7bf390425b61c3551baa9df82b8228215dc65f2cdb"
     },
     {
-      "path": "src/lib/data/speaking-retention-snapshot.ts",
-      "sha256": "1515abc2ad1e04e35982b6deb4b104f98dd515bf3e281cb250947cd64ab90330"
-    },
-    {
-      "path": "src/lib/data/speaking-submission.ts",
-      "sha256": "13cfcb0c55e49a98d59714a5be33a3931ee0629f7603350767d49d5fa80317b0"
-    },
-    {
-      "path": "src/lib/services/coach/providers/riwi/speaking.ts",
-      "sha256": "2cdffdf34574b32517862cab110b05f140fb976c4ef5520ae91ce5a0316a3339"
-    },
-    {
-      "path": "src/lib/services/coach/speaking.ts",
-      "sha256": "0dfaab0b75e10814b3701c50f287844d829ea44996851f5a846feccf7203d5e2"
-    },
-    {
-      "path": "src/lib/services/riwi/evaluation-tools.ts",
-      "sha256": "6c335c00a42867070ad106148414cead193843afab658a7f79c0460a9079bdff"
-    },
-    {
-      "path": "src/lib/services/riwi/gateway.ts",
-      "sha256": "b7b9925e4b7a074287ea043c7bbcc67a3da87038723f182dda7ba20f1d2736ed"
-    },
-    {
-      "path": "src/lib/services/riwi/locale.ts",
-      "sha256": "183c20bbfa2eaf3810764677b8e2fd177223789e3eb8f3087733691dbf95f0f1"
-    },
-    {
-      "path": "src/lib/speaking/retention-plan.ts",
-      "sha256": "0196265f2375b5d0dbd2c8c006282b45ec13def0ed6e5d9d2a8d0388da0cac5e"
-    },
-    {
-      "path": "tests/riwi-evaluation-tools.test.ts",
-      "sha256": "ba450eeaaa21515b3d28e7681825882d6d3457b013d1f27beb9b78467648f6d3"
-    },
-    {
-      "path": "tests/riwi-presentation-locale.test.ts",
-      "sha256": "c484a4f143fa57ca5902aeb5da0a26054b7e8a7b95d04927712631b34515c0b8"
-    },
-    {
-      "path": "tests/riwi-request-gateway.test.ts",
-      "sha256": "1bbbd10403531c2e86ee2b08006ecf192ad7ba47c27a33aafc5e6529d284816d"
-    },
-    {
-      "path": "tests/riwi-speaking-typed-rate.test.ts",
-      "sha256": "d08150b4e511f58150fd8cd57cbb7b2d9b6e868c8681098dd9ca13b2ac919e0b"
-    },
-    {
-      "path": "tests/speaking-retention-plan.test.ts",
-      "sha256": "0832e49426097da62482145d436cec276fd7a6a925c65cc2aef65869692f76c7"
-    },
-    {
-      "path": "tests/speaking-retention-snapshot-db.test.ts",
-      "sha256": "d6c75eba076cfbf0d913da98ac511c9304016ed2c7301e4c3ea27269c40f934b"
-    },
-    {
-      "path": "tests/speaking-submission-retry.test.ts",
-      "sha256": "74ecf5ab8b404ed9c3372bd2762bf5f533c5ad883bc1879b12ce1c64a7c4cde2"
-    },
-    {
-      "path": "tests/ui/riwi-chat-feedback.test.tsx",
-      "sha256": "92e8c59b81f44cc89c2aac3896e2ea3431a73dfa6c4b34ecb9f21bc9aa321719"
-    },
-    {
-      "path": "tests/ui/speaking-ai-feedback-flow.test.tsx",
-      "sha256": "3a387621e81e32ccf44d87b0448722e29d52de3eb9c842ec94253e192c6a1a07"
+      "path": "tests/riwi-retention-job.test.ts",
+      "sha256": "0e0159e3f14f10b283009811c88d849880cfa9f4b1e5ab13e0de5ae6d31aa4a7"
     }
   ],
   "groups": [
     {
       "id": "R04",
       "original_group": 4,
-      "reviewed_implementation": "30-day/all-message retention, strict seven-day inactivity and lock completion repair",
+      "reviewed_implementation": "30-day/all-message retention, strict seven-day inactivity and lock completion repair; bundled one-shot Railway worker now verifies database identity and apply opt-in, handles advisory/SKIP LOCKED deferral and closes its pool; all four native cases pass in both rounds.",
       "acceptance_remaining": "Deployed scheduler executions and physical deletion receipts",
       "full_group_closed": false
     },
@@ -119,13 +55,13 @@
       "id": "R06",
       "original_group": 6,
       "reviewed_implementation": "Three chat regressions repaired: denied localStorage read/write and late response after unmount; pending chat aborted and obsolete answer rejected; explicit EN/UZ language preference now applies consistently to RIWI page and gateway without changing authenticated authority. Actual Chrome student UZ/EN answers, history, refresh and logout verified.",
-      "acceptance_remaining": "Exact deployed target and full history/revocation/security/timeout matrix, live provider and real signed-object URL expiry. Current local Chrome basic login/render for all 4 roles passed; not full deployed acceptance.",
+      "acceptance_remaining": "Exact hosted target, live provider, real signed-object URL expiry and full browser revocation/security/timeout matrix. Current compiled local HTTP role tests passed twice; published bbd browser proof remains separately scoped.",
       "full_group_closed": false
     },
     {
       "id": "R07",
       "original_group": 7,
-      "reviewed_implementation": "Native PostgreSQL16.14 low-level physical backup plus archived-WAL PITR passed on exactbbd0186c/1258-source.115table fingerprints+181FKs match;5pre-target canaries restored and3post-target absent; actual restored app ownerlogin/knowledge200,anonymous401. Both clusters/app stopped; raw logs and physical backup/WAL hashes independently verified.",
+      "reviewed_implementation": "Native PostgreSQL16.14 low-level physical backup plus archived-WAL PITR passed on exactbbd0186c/1258-source.115table fingerprints+181FKs match;5pre-target canaries restored and3post-target absent; actual restored app ownerlogin/knowledge200,anonymous401. Both clusters/app stopped; raw logs and physical backup/WAL hashes independently verified. This is prior published-source evidence; the application and schema are byte-identical in the new candidate.",
       "acceptance_remaining": "Actual authorized hosting-provider restore/backup policy and owner-selected contractual RPO/RTO. Local physical PITR rehearsal is complete, not provider acceptance.",
       "full_group_closed": false
     },
@@ -189,7 +125,7 @@
       "id": "C09",
       "original_group": 24,
       "reviewed_implementation": "Associated review label and keyboard focus retained; external gate screenshots show loading shell only and receive no completed-layout credit; actual Chrome explicit EN/UZ/EN page and answer language passed on current source. Profile fallback when no valid preference remains unchanged.",
-      "acceptance_remaining": "Full loaded UI device/language/theme and failure matrix plus physical sensor flows. Current Chrome UZ microphone gate visibly loaded; incoming blank-shell images are not full matrix proof.",
+      "acceptance_remaining": "Complete mobile/tablet/desktop language/theme/keyboard/failure/sensor journeys. Loaded local compiled desktop EN/UZ/day/night is verified; real microphone and remaining matrices are open.",
       "full_group_closed": false
     },
     {
@@ -203,30 +139,21 @@
       "id": "D09",
       "original_group": 33,
       "reviewed_implementation": "Final bbd0186c/1258 source: one campaign with two independently verified native QA rounds, each1495backend/265UI/0fail/skip/cancel/todo, typecheck/lint0, fresh51migrations and66HTTP; 30raw gate hashes verified. Canonical full operational gate/build/live environment acceptance is separate and not claimed.",
-      "acceptance_remaining": "Required complete operational/full-gate scope: build remains unrun under existing owner constraint, actual provider/R2/browser and required target acceptance remain; current two native non-build rounds have passed.",
+      "acceptance_remaining": "Two fresh local rounds including production build, compiled HTTP and bundled worker have passed. Remaining full operational scope includes configured live provider/R2, exact-target browser/full-device and all-task semantic acceptance and actual provider recovery.",
       "full_group_closed": false
     }
   ],
   "final_qa": {
-    "status": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+    "verified": true,
+    "source_sha256": "ea4d1aee74e7d44c5299a83a142712a12ada8a42b9e6fde2d61794e933e4f378",
+    "source_files": 1265,
     "campaigns": 1,
-    "required_independent_rounds": 2,
-    "runner": "docs/qa/RIWI_FINAL_PUBLICATION_NATIVE_QA.py",
-    "source_manifest": "docs/qa/RIWI_FINAL_PUBLICATION_SOURCE_STATE.json",
-    "build_rerun": false,
-    "live_provider_verified": false,
-    "actual_browser_verified": false,
-    "provider_pitr_verified": false,
-    "real_private_object_store_verified": false,
-    "current_explicit_language_browser_verified": true,
-    "browser_observations": "docs/evidence/riwi-final-publication/chrome-language-observations.json",
-    "browser_runtime": "docs/evidence/riwi-final-publication/chrome-runtime/verification.json",
     "rounds": 2,
     "counts": [
       {
         "backend": {
-          "tests": 1495,
-          "pass": 1495,
+          "tests": 1499,
+          "pass": 1499,
           "fail": 0,
           "cancelled": 0,
           "skipped": 0,
@@ -243,8 +170,8 @@
       },
       {
         "backend": {
-          "tests": 1495,
-          "pass": 1495,
+          "tests": 1499,
+          "pass": 1499,
           "fail": 0,
           "cancelled": 0,
           "skipped": 0,
@@ -260,13 +187,26 @@
         }
       }
     ],
-    "raw_logs_verified": 30,
+    "raw_logs_verified": 34,
     "r06_http_each_round": 53,
     "r04_http_each_round": 13,
+    "production_build_each_round": true,
+    "bundled_retention_worker": true,
+    "compiled_http_each_round": true,
+    "operational_acceptance": false,
+    "status": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+    "runner": "docs/qa/RIWI_RAILWAY_PREPARATION_NATIVE_QA.py",
+    "source_manifest": "docs/qa/RIWI_RAILWAY_PREPARATION_SOURCE_STATE.json",
+    "build_rerun": true,
+    "required_independent_rounds": 2,
     "typecheck_exit_code": 0,
     "lint_exit_code": 0,
-    "receipt": "docs/evidence/riwi-final-publication/native/receipt.json",
-    "verification": "docs/evidence/riwi-final-publication/native/verification.json",
+    "receipt": "docs/evidence/riwi-railway-preparation/native/receipt.json",
+    "verification": "docs/evidence/riwi-railway-preparation/native/verification.json",
+    "live_provider_verified": false,
+    "actual_browser_verified": false,
+    "real_private_object_store_verified": false,
+    "provider_pitr_verified": false,
     "full_required_operational_gate": false
   },
   "policy": {
@@ -355,7 +295,8 @@
     "app_verified": true,
     "provider_verified": false,
     "contractual_RPO_RTO_selected": false,
-    "closed_group_credit": 0
+    "closed_group_credit": 0,
+    "scope_note": "Previous published source; application/schema/config/package bytes remain unchanged. New cron worker and actual hosting-provider restore are not covered by that rehearsal."
   },
   "previous_current_source_readiness_before_final_publication": {
     "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
@@ -460,5 +401,200 @@
     }
   },
   "publication_requested": true,
-  "publication_scope": "REVIEWED_CURRENT_CODE_AND_EVIDENCE"
+  "publication_scope": "REVIEWED_CURRENT_CODE_AND_EVIDENCE",
+  "previous_publication_before_post_push_reconciliation": {
+    "published_commit": "c538704f92937d142feb056d22542d9a905f0852",
+    "published_source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+    "current_changes_published": false,
+    "status": "CURRENT_CODE_AND_EVIDENCE_PUSH_ELIGIBLE_OPERATIONAL_ACCEPTANCE_PENDING"
+  },
+  "post_push_verification": {
+    "observed_at": "2026-10-11T19:21:48.758749+00:00",
+    "code_source_unchanged": true,
+    "local_production_build": "PASSED",
+    "compiled_server_command": "next start",
+    "compiled_http_requests": 53,
+    "compiled_four_role_normal_browser_login_logout": "PASSED",
+    "student_explicit_EN_UZ_day_night_refresh_back_forward": "PASSED_LOCAL_DESKTOP_SCOPE",
+    "teacher_admin_report_flows": "PASSED_EMPTY_SYNTHETIC_SCOPE",
+    "owner_audit_paging": "PASSED_25_TO_28",
+    "build_verification": "docs/evidence/riwi-post-push-build/verification.json",
+    "chrome_verification": "docs/evidence/riwi-post-push-build/chrome-runtime/verification.json",
+    "hosting_observation": "docs/evidence/riwi-post-push-build/hosting-observation.json",
+    "full_operational_gate": false,
+    "new_group_closures": 0,
+    "post_push_evidence_published": false,
+    "correction": "No rebuild from scratch did not prohibit local npm run build. Previous omitted build was agent interpretation, not an explicit owner ban.",
+    "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+    "scope_note": "Previous published application only. No exact new-candidate browser acceptance is inferred."
+  },
+  "prepared_at_utc": "2026-10-12T03:25:48.912328+00:00",
+  "previous_published_evidence_snapshot": "docs/evidence/riwi-railway-preparation/pre-railway-RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+  "previous_published_final_qa": {
+    "status": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+    "campaigns": 1,
+    "required_independent_rounds": 2,
+    "runner": "docs/qa/RIWI_FINAL_PUBLICATION_NATIVE_QA.py",
+    "source_manifest": "docs/qa/RIWI_FINAL_PUBLICATION_SOURCE_STATE.json",
+    "build_rerun": false,
+    "live_provider_verified": false,
+    "actual_browser_verified": false,
+    "provider_pitr_verified": false,
+    "real_private_object_store_verified": false,
+    "current_explicit_language_browser_verified": true,
+    "browser_observations": "docs/evidence/riwi-final-publication/chrome-language-observations.json",
+    "browser_runtime": "docs/evidence/riwi-final-publication/chrome-runtime/verification.json",
+    "rounds": 2,
+    "counts": [
+      {
+        "backend": {
+          "tests": 1495,
+          "pass": 1495,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "ui": {
+          "tests": 265,
+          "pass": 265,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      {
+        "backend": {
+          "tests": 1495,
+          "pass": 1495,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "ui": {
+          "tests": 265,
+          "pass": 265,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      }
+    ],
+    "raw_logs_verified": 30,
+    "r06_http_each_round": 53,
+    "r04_http_each_round": 13,
+    "typecheck_exit_code": 0,
+    "lint_exit_code": 0,
+    "receipt": "docs/evidence/riwi-final-publication/native/receipt.json",
+    "verification": "docs/evidence/riwi-final-publication/native/verification.json",
+    "full_required_operational_gate": false
+  },
+  "previous_published_code_changes": [
+    {
+      "path": "scripts/riwi-speaking-retention-dry-run.ts",
+      "sha256": "58a42b5919e8359d600a674c464c8c0dbba0537b166be40d9298286114d380f3"
+    },
+    {
+      "path": "scripts/riwi-speaking-retention-snapshot.ts",
+      "sha256": "bf9c37b91093053c82612b205b224aaa6e0a6daf43051b9a6d082990d088108a"
+    },
+    {
+      "path": "src/app/(app)/riwi/page.tsx",
+      "sha256": "ef820be73919b47c875784845ee19b9b440ad1f5ea4011d077ab70eb123d8a16"
+    },
+    {
+      "path": "src/components/riwi/RiwiChat.tsx",
+      "sha256": "d8b0704a3a978c7a92e4186e146121d56bf06299ea99e6edc1d13d2e4c018250"
+    },
+    {
+      "path": "src/components/speaking/AiQuestionRecorder.tsx",
+      "sha256": "5b79b5ea6cdf2d1e3a3b1d0f50d21bf2aee7c543da96f77a3ab684d7d9176a4a"
+    },
+    {
+      "path": "src/lib/data/grammar-production-write.ts",
+      "sha256": "949ad6c4d30baf4c4e36df6f451d10ae62987db8cff90f141a8def7d4fd2b413"
+    },
+    {
+      "path": "src/lib/data/speaking-retention-snapshot.ts",
+      "sha256": "1515abc2ad1e04e35982b6deb4b104f98dd515bf3e281cb250947cd64ab90330"
+    },
+    {
+      "path": "src/lib/data/speaking-submission.ts",
+      "sha256": "13cfcb0c55e49a98d59714a5be33a3931ee0629f7603350767d49d5fa80317b0"
+    },
+    {
+      "path": "src/lib/services/coach/providers/riwi/speaking.ts",
+      "sha256": "2cdffdf34574b32517862cab110b05f140fb976c4ef5520ae91ce5a0316a3339"
+    },
+    {
+      "path": "src/lib/services/coach/speaking.ts",
+      "sha256": "0dfaab0b75e10814b3701c50f287844d829ea44996851f5a846feccf7203d5e2"
+    },
+    {
+      "path": "src/lib/services/riwi/evaluation-tools.ts",
+      "sha256": "6c335c00a42867070ad106148414cead193843afab658a7f79c0460a9079bdff"
+    },
+    {
+      "path": "src/lib/services/riwi/gateway.ts",
+      "sha256": "b7b9925e4b7a074287ea043c7bbcc67a3da87038723f182dda7ba20f1d2736ed"
+    },
+    {
+      "path": "src/lib/services/riwi/locale.ts",
+      "sha256": "183c20bbfa2eaf3810764677b8e2fd177223789e3eb8f3087733691dbf95f0f1"
+    },
+    {
+      "path": "src/lib/speaking/retention-plan.ts",
+      "sha256": "0196265f2375b5d0dbd2c8c006282b45ec13def0ed6e5d9d2a8d0388da0cac5e"
+    },
+    {
+      "path": "tests/riwi-evaluation-tools.test.ts",
+      "sha256": "ba450eeaaa21515b3d28e7681825882d6d3457b013d1f27beb9b78467648f6d3"
+    },
+    {
+      "path": "tests/riwi-presentation-locale.test.ts",
+      "sha256": "c484a4f143fa57ca5902aeb5da0a26054b7e8a7b95d04927712631b34515c0b8"
+    },
+    {
+      "path": "tests/riwi-request-gateway.test.ts",
+      "sha256": "1bbbd10403531c2e86ee2b08006ecf192ad7ba47c27a33aafc5e6529d284816d"
+    },
+    {
+      "path": "tests/riwi-speaking-typed-rate.test.ts",
+      "sha256": "d08150b4e511f58150fd8cd57cbb7b2d9b6e868c8681098dd9ca13b2ac919e0b"
+    },
+    {
+      "path": "tests/speaking-retention-plan.test.ts",
+      "sha256": "0832e49426097da62482145d436cec276fd7a6a925c65cc2aef65869692f76c7"
+    },
+    {
+      "path": "tests/speaking-retention-snapshot-db.test.ts",
+      "sha256": "d6c75eba076cfbf0d913da98ac511c9304016ed2c7301e4c3ea27269c40f934b"
+    },
+    {
+      "path": "tests/speaking-submission-retry.test.ts",
+      "sha256": "74ecf5ab8b404ed9c3372bd2762bf5f533c5ad883bc1879b12ce1c64a7c4cde2"
+    },
+    {
+      "path": "tests/ui/riwi-chat-feedback.test.tsx",
+      "sha256": "92e8c59b81f44cc89c2aac3896e2ea3431a73dfa6c4b34ecb9f21bc9aa321719"
+    },
+    {
+      "path": "tests/ui/speaking-ai-feedback-flow.test.tsx",
+      "sha256": "3a387621e81e32ccf44d87b0448722e29d52de3eb9c842ec94253e192c6a1a07"
+    }
+  ],
+  "railway_preparation": {
+    "deployment_performed": false,
+    "web_config": "railway.riwi-web.json",
+    "hourly_job_config": "railway.riwi-retention.json",
+    "setup": "docs/RIWI-RAILWAY-QA-SETUP-UZ.md",
+    "bundled_worker_native_cases_each_round": 4,
+    "app_schema_and_package_unchanged": true,
+    "hosting_failure_evidence": "docs/evidence/riwi-railway-preparation/hosting-root-cause.json",
+    "hosting_cause_is_inference": true,
+    "new_group_closures": 0
+  }
 }

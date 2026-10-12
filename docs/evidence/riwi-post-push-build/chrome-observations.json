@@ -1,0 +1,83 @@
+{
+  "observed_at": "2026-10-11T19:20:09.733942+00:00",
+  "method": "MANUAL_GOOGLE_CHROME_NATIVE_UI",
+  "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+  "commit": "df0c2d17187ee7c341e3eaa88521fd9c57c90147",
+  "server_command": "next start",
+  "loopback_only": true,
+  "disposable_fixture_accounts": true,
+  "credentials_saved_by_agent": false,
+  "microphone_permission_requested": false,
+  "full_operational_browser_matrix_passed": false,
+  "roles": {
+    "student": {
+      "normal_login": true,
+      "riwi_page_loaded": true,
+      "correct_role_heading": true,
+      "normal_logout": true
+    },
+    "teacher": {
+      "normal_login": true,
+      "riwi_page_loaded": true,
+      "correct_role_heading": true,
+      "normal_logout": true
+    },
+    "admin": {
+      "normal_login": true,
+      "riwi_page_loaded": true,
+      "correct_role_heading": true,
+      "normal_logout": true
+    },
+    "owner": {
+      "normal_login": true,
+      "riwi_page_loaded": true,
+      "correct_role_heading": true,
+      "normal_logout": true
+    }
+  },
+  "student_journeys": [
+    "normal password login",
+    "RIWI STUDENT heading and self-only scope",
+    "EN unknown-term refusal with RIWI attribution",
+    "explicit EN to UZ; UZ heading/privacy/scope text",
+    "UZ unknown-term refusal with RIWI attribution",
+    "night mode visibly rendered; screenshot inspected, not exported",
+    "EN and day mode restored",
+    "refresh retained both language replies and displayed Previous conversation restored",
+    "existing Grammar workspace link rendered its honest empty-data state",
+    "Back restored RIWI replies; Forward restored Grammar",
+    "normal menu logout, confirmation, empty login page"
+  ],
+  "account_switch_boundary": "teacher/admin/owner each received That conversation is unavailable or expired; previous role chat text absent",
+  "teacher_journey": [
+    "normal password login",
+    "TEACHER heading",
+    "assigned-roster scope with no assigned learners",
+    "roster report returned deterministic zero-row summary and teacher assigned scope",
+    "normal logout to empty login page"
+  ],
+  "admin_journey": [
+    "normal password login",
+    "ADMIN heading and operational cohort scope",
+    "Owner-only controls excluded in visible RIWI page",
+    "cohort report returned deterministic summary with all-students cohort scope",
+    "normal logout to empty login page"
+  ],
+  "owner_journey": [
+    "normal password login",
+    "OWNER heading and centre scope",
+    "control room loaded",
+    "external provider state visibly off; only environment-variable names shown; no secret values",
+    "audit Load more changed 25/28 to 28/28; no next-page button remained",
+    "normal logout to empty login page"
+  ],
+  "limits": [
+    "synthetic empty roster/cohort is not a full-data semantic acceptance fixture",
+    "no microphone/STT journey",
+    "no signed external object-store expiry",
+    "no mobile/tablet/full keyboard/failure matrix",
+    "no configured external AI call",
+    "no provider backup/restore",
+    "no hosted exact-SHA acceptance"
+  ]
+}

@@ -1,38 +1,35 @@
-# RIWI joriy publication holati
+# RIWI joriy holati — Railway tayyorgarligi
 
-Joriy manba: `bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf` —1258 kanonik fayl.
-Bazaviy oxirgi tasdiqlangan GitHub commit: `c538704f92937d142feb056d22542d9a905f0852`.
-Branch: `arena/01a10bac-learners-area`. Joriy kod farqi:23fayl. Push hali bajarilmagan.
+Oxirgi tasdiqlangan publication `df0c2d17187ee7c341e3eaa88521fd9c57c90147`; branch `arena/01a10bac-learners-area`.
+Yangi source `ea4d1aee74e7d44c5299a83a142712a12ada8a42b9e6fde2d61794e933e4f378` —1265kanonik fayl.7ta kod/config yo‘li o‘zgardi. Bu yangi paket hali push yoki Railway deploy qilinmagan.
 
-7/8/9/12/13 kiruvchi ZIPda runtime patch bo‘lmagan; uning manbasi va foydali dalillari tekshirilgan, noto‘g‘ri completion da’volari qabul qilinmagan.20–25 kiruvchi ZIPdagi foydali speaking-rate tuzatishlari joriy qat’iy implementation bilan birlashtirilgan; zaif parallel retention-planner o‘rniga bitta read-only/repeatable-read canonical snapshot saqlangan.6-guruh chat abort/localStorage/eskirgan javob tuzatishlari,28-guruh object copy/uncertain-commit himoyalari va33-guruh mahalliy regression dalillari shu publication tarkibida.
+Railway uchun web config va har soat bir marta tugab chiqadigan chat retention worker tayyor. Worker oldingi canonical D-01 service’dan foydalanadi; default dry-run, apply alohida opt-in va database identity talab qiladi. Speaking deletion/lifecycle yoqilmagan. Learners Area qayta loyihalanmagan.
 
-Yangi tuzatish: explicit EN/UZ language preference RIWI sahifasi va gateway javobiga qo‘llanadi; cookie foydalanuvchi identity/role/scope ni o‘zgartirmaydi. Valid cookie yo‘q bo‘lsa profile fallback avvalgidek qolgan; umumiy shell default tilini almashtirish yoki to‘liq default/theme/device matrix PASS deb yozilmadi.
+Ikki yangi native PostgreSQL16.14 bosqichning HAR BIRIDA1499backend+265UI test o‘tdi;0fail/skip/cancel/todo. Har ikki bosqich production build, typecheck/lint, compiled `next start` orqali13R04+53R06HTTP va real bazadagi4bundled-worker holatini qamrab oldi.34rawgate log SHA va manba1265fayl mustaqil tekshirildi; asl Listening/Speaking inputlar o‘zgarmadi. Har ikki cluster to‘xtatildi, vaqtinchalik password olib tashlandi.
 
-QA:ikki yangi native PostgreSQL16.14 bosqichning har birida1495/1495backend+265/265UI,0fail/skip/cancel/todo,typecheck/lint0,53R06+13R04HTTP.30rawgateSHA mustaqil tekshirildi. Asl Listening ZIP va Speaking bank o‘zgarmadi. Har ikkala cluster yopilgan, vaqtinchalik password olib tashlangan.
+Oldingi bbd source’ning115jadval/181FK physical PITR va4rol Chrome dalili tarixiy scope’da saqlanadi. Application/schema/package o‘zgarmagan, ammo yangi worker yoki hosting-provider restore/browser qabulini ular avtomatik tasdiqlamaydi. Real AI/STT, private R2 read-back/expiry, physical microphone va full device matrix bajarildi deb yozilmagan.
 
-Ayni joriy source fizik backup/WAL PITR sinovi:115jadval/181FK,5oldingi canary tiklangan,3keyingi canary yo‘q, restored ownerlogin200/knowledge200/anonymous401. Backup/WAL baytlari hash bilan mustaqil qayta tekshirildi; app va ikkala cluster yopildi. Bu real mahalliy fizik restore; actual hosting-provider restore yoki contractualRPO/RTO tasdig‘i emas.
+GitHub Vercel statusi failure; link cron pricing hujjatiga olib boradi. Hourly `vercel.json` Vercel Hobby daily limitiga mos kelmasligi ehtimoliy blocker; actual deployment log olinmagani uchun exact sabab tasdiqlangan deb yozilmagan. Railway config hourly schedule’ni saqlaydi. Setup: `RIWI-RAILWAY-QA-SETUP-UZ.md`.
 
-Chrome:student explicit EN→UZ→EN, har ikkala tildagi RIWI javobi, refresh/history va logout tekshirildi. Mikrofon ruxsati so‘ralmagan, haqiqiy STT yoki tashqi AI/R2 tekshiruvlari bajarilgan deb ko‘rsatilmagan. To‘rtta rolning current-source HTTP sinovlari o‘tgan; oldingi1a6f751f browser4-role basic dalili tarixiy scope’da saqlangan.
+Yakunlangan original guruhlar20/34=58.82%. Yangi full-group closure0; qolgan14guruhning konkret talablari:
 
-Push scope:REVIEWED_CURRENT_CODE_AND_EVIDENCE. Production deployment, traffic cutover, shared DB migration va irreversible Speaking deletion bu buyruqqa kirmaydi. Tekshirilgan code publication qolgan acceptance talablarini CLOSED qilib ko‘rsatmaydi.
+| Guruh | ID | Yakuniy qabul uchun qolgan talab |
+| --- | --- | --- |
+| 4 | R04 | Deployed scheduler executions and physical deletion receipts |
+| 6 | R06 | Exact hosted target, live provider, real signed-object URL expiry and full browser revocation/security/timeout matrix. Current compiled local HTTP role tests passed twice; published bbd browser proof remains separately scoped. |
+| 7 | R07 | Actual authorized hosting-provider restore/backup policy and owner-selected contractual RPO/RTO. Local physical PITR rehearsal is complete, not provider acceptance. |
+| 8 | R08 | Mandatory operational evidence and final GO/NO-GO |
+| 9 | B01 | Positive/negative/edge/injection semantic acceptance for every original task |
+| 12 | B04 | Task-specific semantic/live-provider acceptance; unavailable capabilities earn no completion credit |
+| 13 | B05 | Actual configured provider/fallback fixtures on current target |
+| 20 | C05 | Real microphone/STT, timeout/retry and cleanup browser journeys |
+| 21 | C06 | Actual R2 signed URL expiry and private bytes read-back |
+| 22 | C07 | Actual browser and consent/privacy acceptance |
+| 23 | C08 | Specific owner policy remains unapproved; no deletion executor or R2 lifecycle enabled; real environment/browser evidence pending |
+| 24 | C09 | Complete mobile/tablet/desktop language/theme/keyboard/failure/sensor journeys. Loaded local compiled desktop EN/UZ/day/night is verified; real microphone and remaining matrices are open. |
+| 28 | D04 | Real private R2/S3 object-scope/owner/access/copy/rollback receipts |
+| 33 | D09 | Two fresh local rounds including production build, compiled HTTP and bundled worker have passed. Remaining full operational scope includes configured live provider/R2, exact-target browser/full-device and all-task semantic acceptance and actual provider recovery. |
 
-| Guruh | ID | Push paketidagi holat | Yakuniy qabul uchun qolgan talab |
-| --- | --- | --- | --- |
-| 4 | R04 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Deployed scheduler executions and physical deletion receipts |
-| 6 | R06 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Exact deployed target and full history/revocation/security/timeout matrix, live provider and real signed-object URL expiry. Current local Chrome basic login/render for all 4 roles passed; not full deployed acceptance. |
-| 7 | R07 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Actual authorized hosting-provider restore/backup policy and owner-selected contractual RPO/RTO. Local physical PITR rehearsal is complete, not provider acceptance. |
-| 8 | R08 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Mandatory operational evidence and final GO/NO-GO |
-| 9 | B01 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Positive/negative/edge/injection semantic acceptance for every original task |
-| 12 | B04 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Task-specific semantic/live-provider acceptance; unavailable capabilities earn no completion credit |
-| 13 | B05 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Actual configured provider/fallback fixtures on current target |
-| 20 | C05 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Real microphone/STT, timeout/retry and cleanup browser journeys |
-| 21 | C06 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Actual R2 signed URL expiry and private bytes read-back |
-| 22 | C07 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Actual browser and consent/privacy acceptance |
-| 23 | C08 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Specific owner policy remains unapproved; no deletion executor or R2 lifecycle enabled; real environment/browser evidence pending |
-| 24 | C09 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Full loaded UI device/language/theme and failure matrix plus physical sensor flows. Current Chrome UZ microphone gate visibly loaded; incoming blank-shell images are not full matrix proof. |
-| 28 | D04 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Real private R2/S3 object-scope/owner/access/copy/rollback receipts |
-| 33 | D09 | Joriy kod va mavjud dalillar kiritilgan; to‘liq CLOSED emas | Required complete operational/full-gate scope: build remains unrun under existing owner constraint, actual provider/R2/browser and required target acceptance remain; current two native non-build rounds have passed. |
+Umumiy RIWI va butun sayt foizi uchun to‘liq tasdiqlangan denominator yo‘q; bu foizlar noma’lum. Push scope faqat reviewed code/evidence; to‘liq operational GO/NO-GO hali ochiq.
 
-Yopilgan20/34=58.823529%. Joriy prompt closure58.82%; umumiyRIWI/umumiyloyiha denominatorlari to‘liq tasdiqlanmagan, foizlari noma’lum.
-
-Dalillar: `docs/evidence/riwi-final-publication/`. Oldingi source/native/PITR/browser dalillari tarixiy holicha saqlangan. Shu source o‘zgarsa joriy QA dalili yangi kodga avtomatik o‘tmaydi.
+Joriy dalillar: `docs/evidence/riwi-railway-preparation/native/`. Oldingi snapshotlar shu papkaning yuqori darajasida saqlangan.

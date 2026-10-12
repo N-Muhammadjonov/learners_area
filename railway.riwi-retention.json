@@ -1,0 +1,12 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "builder": "RAILPACK",
+    "buildCommand": "node scripts/build-riwi-retention-job.mjs"
+  },
+  "deploy": {
+    "startCommand": "node .riwi-jobs/chat-retention.cjs --apply",
+    "cronSchedule": "0 * * * *",
+    "restartPolicyType": "NEVER"
+  }
+}

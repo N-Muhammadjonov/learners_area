@@ -1,0 +1,20 @@
+{
+  "observed_at": "2026-10-12T03:10:34.001278+00:00",
+  "repo": "N-Muhammadjonov/learners_area",
+  "branch": "arena/01a10bac-learners-area",
+  "published_commit": "df0c2d17187ee7c341e3eaa88521fd9c57c90147",
+  "github_status_context": "Vercel",
+  "github_status_state": "failure",
+  "github_status_description": "Deployment failed.",
+  "status_created_at": "2026-10-11T16:29:42Z",
+  "status_target_url": "https://vercel.link/3Fpeeb1",
+  "observed_redirect": "https://vercel.com/docs/cron-jobs/usage-and-pricing",
+  "current_vercel_cron_schedule": "0 * * * *",
+  "official_hobby_minimum_interval": "once per day",
+  "inference": "The hourly Vercel configuration and failure link identify the cron-plan mismatch as the likely pre-build deployment blocker. No actual Vercel build log or exact emitted error text was available.",
+  "railway_hourly_schedule_supported": true,
+  "railway_deployment_performed": false,
+  "source_patch_app_src_changed": false,
+  "speaking_retention_policy_approved": false,
+  "original_group_closures_added": 0
+}

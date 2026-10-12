@@ -1,0 +1,52 @@
+{
+  "verified": true,
+  "source_sha256": "ea4d1aee74e7d44c5299a83a142712a12ada8a42b9e6fde2d61794e933e4f378",
+  "source_files": 1265,
+  "campaigns": 1,
+  "rounds": 2,
+  "counts": [
+    {
+      "backend": {
+        "tests": 1499,
+        "pass": 1499,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "ui": {
+        "tests": 265,
+        "pass": 265,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "backend": {
+        "tests": 1499,
+        "pass": 1499,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "ui": {
+        "tests": 265,
+        "pass": 265,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  ],
+  "raw_logs_verified": 34,
+  "r06_http_each_round": 53,
+  "r04_http_each_round": 13,
+  "production_build_each_round": true,
+  "bundled_retention_worker": true,
+  "compiled_http_each_round": true,
+  "operational_acceptance": false
+}

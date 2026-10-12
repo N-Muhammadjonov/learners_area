@@ -1,0 +1,1285 @@
+{
+  "source": "RIWI_REMAINING_WORK_EXECUTION_PROMPT.txt",
+  "source_sha256": "daf36b256a990b7fa5379fd121810991bad552f638c776e8d9b55dcb22847979",
+  "verified_remote_base": "c538704f92937d142feb056d22542d9a905f0852",
+  "method": "Equal-weight full-group acceptance remains 20/34. Reviewed groups 20–25 packet integrated into current source; D01 was already closed and gains no second credit. Current native QA is running; applicable live microphone/provider/R2/policy and all-task semantic acceptance remain separate.",
+  "closed": 20,
+  "total": 34,
+  "verified_closure_percent": 58.82352941176471,
+  "riwi_overall_percent": null,
+  "project_overall_percent": null,
+  "overall_unknown_reason": "No fully reconciled requirement denominator with current evidence for the entire RIWI or website project.",
+  "additional_feature": {
+    "id": "warm-conversation",
+    "commit": "ce282f09ebc50071b18c9b54933e532d11feb2d5",
+    "status": "CODE_QA_REMOTE_VERIFIED",
+    "outside_original_34_groups": true,
+    "live_provider_acceptance": "UNVERIFIED"
+  },
+  "groups": [
+    {
+      "id": "R01",
+      "requirement": "Recover and publish the preserved candidate correctly. GitHub still has fd0dc498 while the local candidate contains five additional logical commits plus working-tree changes. Verify every changed blob against the remote base and each local diff. The historical 11,263,730-byte requirement-ledger blob is missing locally. Preserve its remote SHA reference, do not fabricate it or overwrite it merely to make Git work. Publish reviewed changes through a base-tree patch if ordinary Git cannot transfer the complete history. Use a non-force compare-and-swap ref update.",
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "All 1482 prior published blobs and 38 original annex paths reconciled; archival ledger byte-identical and preserved. Batch15 reviewed package passed two native non-build QA rounds; exact GitHub parent/tree and all 43 expected blobs independently verified."
+    },
+    {
+      "id": "R02",
+      "requirement": "Reconcile current RIWI/website divergence and migrations. Compare exact current SHAs, journal entries, SQL/snapshots and schema. Prepare a conflict-specific integration patch/runbook without merging or renumbering migrations blindly. Current website state is newer than the historical chat checkpoint.",
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "Current RIWI and website trees, all 15 SQL/journal prefix collisions, canonical catalogs and schema/snapshot differences reconciled with a conflict-specific integration runbook. Package QA and remote durability verified at 1473056. No merge or shared migration applied; future integration and deployed acceptance remain separate."
+    },
+    {
+      "id": "R03",
+      "requirement": "Rebuild evidence-based requirement status. The remote generator maps broad source keywords to PASS without executing the alleged evidence. The local fix removes this automatic acceptance. Test with representative real requirements and maintain source file, source line, exact requirement, implementation, command, observed result, state SHA and applicable external evidence. Counts of text lines are not completion percentages.",
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "Exact four original prompt sources recovered; content-state evidence retains source lines and only five scoped requirements earn fresh executed local receipts. Legacy ledger protected, all other lines remain REVIEW_REQUIRED. Evidence generator regressions passed; exact package source-state and remote blobs verified. Source line counts do not earn percentage credit."
+    },
+    {
+      "id": "R04",
+      "requirement": "Finish deployed chat retention acceptance after reviewing the preserved local implementation. Test exact 30-day and seven-day boundaries, >60 eligible messages, late returning users, all four roles, inactive/closed tabs, concurrent heartbeat/sweep, missed cron run, cascade deletion, dry-run and secret denial. Apply migrations only to an identified authorized environment. Verify scheduler support and actual successful cron executions. Do not equate code presence with physical deletion in deployment.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "30-day/all-message and strict seven-day inactivity code tested and published; deployed scheduler/deletion proof remains open.",
+      "current_external_observation": "2026-10-11 read-only authenticated Vercel dashboard: Learners_Area Hobby badge directly observed; only learners-area project visible in current team, default Production/Preview/Development environments, zero custom environments shown. Existing RIWI Preview is Ready at older e50a2a9, not remote 2f88080 or local c4ef35e5. Cron feature is Enabled but shows onboarding rather than configured job rows. Exact isolated target, database isolation, pinned-candidate deployment and successful scheduler executions remain unverified. No external writes performed.",
+      "current_candidate": {
+        "status": "LOCAL_REPAIR_VERIFIED_OPERATIONAL_ACCEPTANCE_PENDING",
+        "source_sha256": "c4ef35e59b9b41116fc2d0780edc8eaed7e18d98353cc247d1f2fdc6b905120b",
+        "native_reproduced_defect": "SKIP LOCKED incorrectly reported complete with eligible rows still pending",
+        "repair": "Read-only eligibility check before declaring sweep complete; existing retention rules and locks preserved",
+        "operational_packet": "docs/RIWI-R04-OPERATIONAL-ACCEPTANCE.md",
+        "deployed_scheduler_verified": false,
+        "actual_browser_verified": false,
+        "hosting_target_identified": false,
+        "full_group_closed": false,
+        "group_credit": 0,
+        "http_preflight": "13 actual local HTTP requests passed; four-role late-return/cascade, secret/origin denial, retry, academic preservation; deployed scheduler and actual browser unverified",
+        "verification_record": "docs/RIWI-R04-LOCAL-VERIFICATION.json",
+        "full_native_rounds": 2,
+        "backend_each_round": 1476,
+        "ui_each_round": 261,
+        "failures": 0,
+        "skips": 0,
+        "http_requests_each_round": 13,
+        "private_clusters_stopped": true,
+        "target_preflight": "docs/RIWI-R04-TARGET-PREFLIGHT.json"
+      },
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Deployed scheduler executions and physical deletion receipts",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "R05",
+      "requirement": "Close current-source test skips honestly: native PostgreSQL fresh/upgrade/concurrency, canonical Listening and Speaking bank sources, and portability destination checks. Confirm source identity/content rather than substituting a similarly named ZIP. Historical booster.zip was non-equivalent.",
+      "status": "CLOSED",
+      "evidence_and_remaining": "Batch22 current1217-file sourcefb827f12 independently verified in two full non-build rounds, each1362backend pass and260UI pass with0fail/skip, typecheck/lint0. All29 ZIP members match owner files,26gate hashes and1217source hashes match, exact originals match, both privatePG16.14clusters stop cleanly. Publication and independent remote tree/blob acceptance remain pending. No group percentage credit yet.",
+      "current_scoped_native_evidence": "Batch22 current1217-file sourcefb827f12 independently verified in two full non-build rounds, each1362backend pass and260UI pass with0fail/skip, typecheck/lint0. All29 ZIP members match owner files,26gate hashes and1217source hashes match, exact originals match, both privatePG16.14clusters stop cleanly. Publication and independent remote tree/blob acceptance remain pending. No group percentage credit yet.",
+      "current_original_source_evidence": "Batch22 full backend supplies the exact original Listening ZIP and880-row Speaking JSONL. All formerly skipped source/native cases pass in each full round. Applicable cases use native PostgreSQL or PGlite as declared.",
+      "predecessor_native_evidence": "Batch20 exact-source full native backend and UI gates passed twice, independently verified against all29 archive files and26 log hashes. Each backend1354pass/4original-source skips/0fail, UI260pass, typecheck/lint0. Two fresh PostgreSQL16.14 clusters, both51-migration chains, populated0019→0020 upgrade, native concurrency and fresh portability dry-run/apply/rollback tests verified. All88 formerly skipped source-independent cases pass in each round. Four original Listening/Speaking source cases remain unverified. Mock/PGlite and fixture portability are not live provider, real R2 movement or full operational restore proof. No full-group credit. Successor Batch21 exact original-source receipts were independently verified in docs/RIWI-BATCH-21-NATIVE-VERIFICATION.json. Historical four-skip Batch20 records are unchanged.",
+      "predecessor_original_source_evidence": "Both Batch21 focused rounds pass all13 cases without skips/failures. All21 uploaded ZIP members match owner-local files, all18 gate log hashes match, two fresh PostgreSQL16.14 clusters each apply51 migrations and stop cleanly. All1215 source hashes and both original input hashes match. Speaking880-row re-import/draft visibility cases run on native PostgreSQL; Listening write uses PGlite. This is supplemental proof, not a full1358-case zero-skip rerun. Current candidate publication remains pending.",
+      "commit": "da164c24390e475dc380fde013ef6d2574aed9cc",
+      "evidence": "Batch22 exact1217-file source, two full native-enabled non-build suites each1362backend and260UI pass/0skip/0fail, typecheck/lint0. All29 evidence members and26gate hashes independently reconciled. Exact originals and private cluster shutdown verified. GitHub ref,parent,tree,all140publication blobs and1217source blobs independently match atda164c2. Applicable live/provider/R2/PITR/browser/all-task operational groups remain separately open."
+    },
+    {
+      "id": "R06",
+      "requirement": "Complete live AI provider fixtures and four-role authenticated browser QA on the exact target deployment. Test timeout, malformed output, fallback, revocation, CSRF, IDOR, replay, owner-only panels, back/forward/refresh and private URL expiry. Mock transport is not live-provider proof.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Current 1a6f751f/1256-file source passes 2 independent native rounds: each1491backend/265UI/0fail/skip/cancel/todo,typecheck/lint0,53R06HTTP+13R04HTTP. Chrome basic4role normal password login/render and ownerBack/Forward passed locally; exact deployed target, full browser failure/revocation/history matrix, live provider and signed private R2 URL expiry remain open. No new group closure.",
+      "current_candidate": {
+        "observed_at": "2026-10-11T07:08:13.581480+00:00",
+        "status": "LOCAL_ONE_FULL_NATIVE_ROUND_PASSED_SECOND_INTERRUPTED",
+        "source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+        "source_files": 1249,
+        "published_base": "5203241429908f66913529ec96b0214bd814da35",
+        "full_native_rounds_passed": 1,
+        "backend_pass": 1478,
+        "ui_pass": 261,
+        "failures": 0,
+        "skips": 0,
+        "typecheck_exit": 0,
+        "lint_exit": 0,
+        "r06_http_requests_passed": 53,
+        "r04_http_requests_passed": 13,
+        "first_cluster_stopped": true,
+        "first_app_stopped": true,
+        "first_private_app_database_removed": true,
+        "second_round_status": "INTERRUPTED_EXECUTOR_CONNECTION",
+        "second_backend_last_top_level_test": [
+          "724",
+          "teacher roster reports retain only a safe placeholder, never the old aggregate"
+        ],
+        "second_round_counts_as_pass": false,
+        "second_cluster_stopped": true,
+        "second_cluster_stop_status": "CONFIRMED_EXACT_PRIVATE_IDENTITY_PG_CTL_EXIT_0_PID_FILE_REMOVED",
+        "second_private_data_directory": "/tmp/riwi-r06-native-full-z7w8wme7/round-2-2c54f8mo/data",
+        "browser_status": "PARTIAL_LOCAL_STUDENT_PASSWORD_LOGIN_AND_RIWI_RENDER_OBSERVED; OTHER_ROLES_AND_HISTORY_FLOW_INTERRUPTED",
+        "live_provider_verified": false,
+        "deployed_target_verified": false,
+        "signed_private_url_expiry_verified": false,
+        "source_inventory_independently_reconciled": true,
+        "original_inputs_independently_reconciled": true,
+        "raw_gate_logs_independently_reconciled": 15,
+        "first_round_evidence": "docs/evidence/riwi-r06-native-round1/",
+        "target_preflight": "docs/RIWI-R06-TARGET-PREFLIGHT.json",
+        "acceptance_packet": "docs/RIWI-R06-ACCEPTANCE.md",
+        "group_status": "PARTIAL",
+        "closed_groups": 20,
+        "total_groups": 34,
+        "group_percent": 58.82352941176471,
+        "riwi_overall_percent": null,
+        "project_overall_percent": null,
+        "commit_performed": false,
+        "push_performed": false,
+        "deployment_performed": false,
+        "production_build_run": false,
+        "second_interruption_evidence": "docs/evidence/riwi-r06-interrupted-round2/",
+        "cleanup_helper": "docs/qa/RIWI_R06_STOP_PRIVATE_QA.py",
+        "independent_verification": {
+          "performed_at": "2026-10-11T07:10:03.767191+00:00",
+          "canonical_files_rehashed": 1249,
+          "raw_first_round_log_hashes_reconciled": 15,
+          "first_backend_final_tap": {
+            "tests": 1478,
+            "pass": 1478,
+            "fail": 0,
+            "skipped": 0,
+            "cancelled": 0,
+            "todo": 0
+          },
+          "first_ui_final_tap": {
+            "tests": 261,
+            "pass": 261,
+            "fail": 0,
+            "skipped": 0,
+            "cancelled": 0,
+            "todo": 0
+          },
+          "exact_original_input_hashes_reconciled": 2,
+          "first_r06_http_checks": 53,
+          "first_cluster_postmaster_pid_file_absent": true,
+          "second_round_counts_as_pass": false,
+          "browser_counts_as_pass": false
+        },
+        "last_observed_at": "2026-10-11T09:38:12.050340+00:00",
+        "cleanup_evidence": "docs/evidence/riwi-r06-browser-interruption/",
+        "actual_four_role_browser_verified": false,
+        "subsequent_browser_run": {
+          "status": "INTERRUPTED_NO_COMPLETED_RUNTIME_RECEIPT",
+          "counts_as_pass": false,
+          "disposable_cluster_stopped": true,
+          "private_app_launcher_verified_and_stopped": true,
+          "private_app_listener_removed": true,
+          "private_database_removed": false,
+          "disposable_data_preserved": true
+        },
+        "combined_push_rule": "AFTER_R06_COMPLETION_ONE_PUSH_WITH_REVIEWED_7_8_9_12_13_WORK"
+      },
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Exact deployed target and full history/revocation/security/timeout matrix, live provider and real signed-object URL expiry. Current local Chrome basic login/render for all 4 roles passed; not full deployed acceptance.",
+        "explicit_language_browser": "docs/evidence/riwi-final-publication/chrome-language-observations.json",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_evidence_and_remaining_before_20_25_review": "Two provider-router defects repaired; current1249-file source has one full native1478backend/261UI/0fail/0skip,typecheck/lint0,53R06HTTP and13R04HTTP checks. Interrupted second round is not a pass; its cluster subsequently stopped. Local Safari student password login/RIWI render observed; later interrupted browser app and cluster stopped. Remaining four-role history flow, exact-target live provider and real signed URL expiry are open. No group credit.",
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "reviewed_implementation": "Three chat regressions repaired: denied localStorage read/write and late response after unmount; pending chat aborted and obsolete answer rejected",
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "R07",
+      "requirement": "Prove real backup/PITR and restore. Record secret-free environment fingerprint, safety point, retention, actual isolated restore, row/FK/hash checks, app boot, measured RTO and observed RPO. Select contractual objectives only when the owner has chosen them. Do not restore over Production.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Current native physical backup/WAL PITR passed;115tables/181FKs,5pre/3post boundary,restoredapp200/200/401,clean shutdown. Provider/RPO/RTO pending.",
+      "latest_interim_review": {
+        "report": "docs/RIWI-INTERIM-7-8-9-12-13-REVIEW.json",
+        "source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+        "focused_tests": 94,
+        "failures": 0,
+        "skips": 0,
+        "new_group_credit": 0,
+        "external_acceptance_complete": false
+      },
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Actual authorized hosting-provider restore/backup policy and owner-selected contractual RPO/RTO. Local physical PITR rehearsal is complete, not provider acceptance.",
+        "local_physical_pitr": "docs/evidence/riwi-final-publication/pitr/verification.json",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_evidence_and_remaining_before_native_low_level_pitr": "External synthetic PITR receipt independently inspected but restore itself unverified. Unsafe submitted harness replaced by reviewed new-private-cluster script. Syntax/preflight checked; local execution refused missing psql/pg_basebackup before creating any cluster. Provider PITR/isolated restore, object read-back, real RPO/RTO and applicable restored-app acceptance remain open.",
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false,
+        "local_native_pitr": "LOCAL_REHEARSAL_PASSED_NOT_PROVIDER_ACCEPTANCE",
+        "local_pitr_evidence": "docs/evidence/riwi-groups-20-25-review/r07-native-physical-pitr/verification.json",
+        "reviewed_implementation": "Current native physical backup/WAL PITR passed;115tables/181FKs,5pre/3post boundary,restoredapp200/200/401,clean shutdown. Provider/RPO/RTO pending."
+      }
+    },
+    {
+      "id": "R08",
+      "requirement": "Produce final evidence and GO/NO-GO only after exact-source gates and operational checks. Prepare reviewable integration/cutover/rollback packets before requesting any still-required consequential owner decision. No missing mandatory evidence can become 100%.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Current source dossier, migration-conflict references, deferred combined publication, cutover and rollback packet prepared in RIWI-R08-CURRENT-ACCEPTANCE-PACKET.md. Verdict NO-GO; current-source local evidence does not satisfy missing operational/provider/browser/all-task acceptance. No deploy/build/push performed.",
+      "latest_interim_review": {
+        "report": "docs/RIWI-INTERIM-7-8-9-12-13-REVIEW.json",
+        "source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+        "focused_tests": 94,
+        "failures": 0,
+        "skips": 0,
+        "new_group_credit": 0,
+        "external_acceptance_complete": false
+      },
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Mandatory operational evidence and final GO/NO-GO",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "B01",
+      "requirement": "Publish and verify 68-source-task coverage. Remote registry has 68 historical entries, but that count is not parity with the 68 source tasks. Preserved local code adds 37 missing contracts and maps all 68 original task keys to 105 runtime entries, while preserving historical entries and versions. Rerun coverage, duplicate-key, unknown-task, deterministic composition and legacy snapshot regressions. Verify every source task's actual semantics, not only key existence.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "All 68 source task keys covered by 105 compatible runtime registry entries; all-task behavioral acceptance remains open.",
+      "current_candidate": "All original 68 legacy definitions match the frozen fixture by exact JSON bytes and SHA256. The original 68 source tasks and 37 additions remain intact; the separate assessed translation runtime makes 106 registry entries. Shared Grammar/RIWI handoff and legacy regressions passed at the current source state; all-task semantic acceptance remains open.",
+      "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+      "latest_interim_review": {
+        "report": "docs/RIWI-INTERIM-7-8-9-12-13-REVIEW.json",
+        "source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+        "focused_tests": 94,
+        "failures": 0,
+        "skips": 0,
+        "new_group_credit": 0,
+        "external_acceptance_complete": false
+      },
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Positive/negative/edge/injection semantic acceptance for every original task",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "B02",
+      "requirement": "Wire task-specific contracts from server-loaded canonical metadata. Review the inherited objective-runtime candidate in Reading submit and Listening attempt write. Ensure every authored subtype/MCQ selection count has correct canonical mapping and official grading remains unchanged. Unknown or unsupported metadata must fail safely without corrupting a submission.",
+      "status": "CLOSED",
+      "commit": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
+      "evidence": "Step 09 code-level group acceptance: QA report and lifecycle/canonical runtime evidence; user reported successful completion of mandatory native publication script. Independently checked GitHub ref and all 27 changed Git blobs. External original-source/live-browser/deployment acceptance remains separately open in R05/R06/C08/C09."
+    },
+    {
+      "id": "B03",
+      "requirement": "Implement/verify the book's post-submission Reading/Listening explanation flow. Current Reading contract says explanations may be routed 'if ever'; registration and grade provenance alone do not implement an explanation endpoint. Load an authorized submitted attempt, canonical question/official result and bounded relevant passage/transcript evidence. Active exams deny hidden answer/transcript access. Return strict explanation DTO with contract/prompt/rubric/provider provenance. Never mutate isCorrect, correctAnswer or scores. Test foreign/stale/deleted IDs and injection.",
+      "status": "CLOSED",
+      "commit": "e11872b24932908f936d9849565e405df0580cfa",
+      "evidence": "Step 11: two native non-build rounds each 1197 backend passes, zero failures, 91 skips; 252 UI passes, typecheck/lint passed. Exact commit/tree and all 63 changed blobs independently verified against GitHub. Group-specific local tests and detailed limits are in the Step 11 QA report. Applicable original-source/provider/browser/deployed acceptance remains separately open in R05/R06 and D03-D05."
+    },
+    {
+      "id": "B04",
+      "requirement": "Verify executable Grammar/Vocabulary/retention/tutoring/reporting task routes for all listed tasks. Catalog entries are not implemented runtime behavior. Reuse existing tools/services. Distinguish unavailable capability from supported deterministic behavior. Vocabulary meaning/sense comes from canonical authority. Reporter numbers remain deterministic.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group.",
+      "current_candidate": "Existing Grammar objective submission, production practice and RIWI Grammar handoff now use canonical activity prompts, strict assessment coverage and diagnostic-only phrase matching. Duplicate/foreign/forged objective batches fail before writes; attempt/event failure rolls back. Grammar translation requires the shared configured semantic evaluator with fallback none. Remaining Grammar/Vocabulary/retention/tutoring/reporting tasks still require individual runtime acceptance.",
+      "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+      "current_batch17_candidate": "Unpublished Vocabulary input/source/transaction repair and source-bound Writing Activation evaluation persistence. Exact-source local non-build QA verified in docs/RIWI-BATCH-17-PUSH-HANDOFF.json. Mandatory external/native acceptance and all-task semantics remain open; no full-group credit.",
+      "batch24_candidate": {
+        "source_tasks": [
+          "tutoring.simple_explanation",
+          "tutoring.compare_concepts",
+          "reporting.progress_explanation"
+        ],
+        "status": "IMPLEMENTED_TWO_ASSISTANT_AFFECTED_ROUNDS_PASSED_LOCAL_CHECKPOINT",
+        "evidence": "docs/RIWI-BATCH-24-TUTORING-REPORTING.md",
+        "full_group_closed": false
+      },
+      "batch25_candidate": {
+        "source_tasks": [
+          "retention.reading_recall",
+          "retention.vocabulary_recall",
+          "retention.error_pattern",
+          "grammar.retention",
+          "grammar.explanation"
+        ],
+        "status": "IMPLEMENTED_TWO_ASSISTANT_AFFECTED_ROUNDS_PASSED_LOCAL_CHECKPOINT",
+        "source_sha256": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+        "evidence": "docs/RIWI-BATCH-25-QA-RESULTS.json",
+        "explanation": "docs/RIWI-BATCH-25-LEARNING-ROUTES.md",
+        "full_group_closed": false,
+        "native_current_source_verified": false,
+        "published": false
+      },
+      "batch26_candidate": {
+        "status": "IMPLEMENTED_TWO_ASSISTANT_AFFECTED_ROUNDS_PASSED_LOCAL_CHECKPOINT",
+        "operations": [
+          "Canonical written Grammar correction",
+          "Assessed Grammar translation",
+          "Grammar activation",
+          "RIWI owned saved activation resumption",
+          "Assessed-only Grammar mastery and review projection"
+        ],
+        "source_sha256": "8039340dad0055e14ec49f0c111ba8ca139977d78f58ab01dc43cea945472399",
+        "evidence": "docs/RIWI-BATCH-26-QA-RESULTS.json",
+        "explanation": "docs/RIWI-BATCH-26-GRAMMAR-PRODUCTION.md",
+        "full_group_closed": false,
+        "native_current_source_verified": false,
+        "published": false
+      },
+      "latest_interim_review": {
+        "report": "docs/RIWI-INTERIM-7-8-9-12-13-REVIEW.json",
+        "source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+        "focused_tests": 94,
+        "failures": 0,
+        "skips": 0,
+        "new_group_credit": 0,
+        "external_acceptance_complete": false
+      },
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Task-specific semantic/live-provider acceptance; unavailable capabilities earn no completion credit",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "B05",
+      "requirement": "Validate all provider/local paths against the same contracts. Writing uses exactly four unique criteria, supported half-bands and server overall; evidence quotes must occur in source text. Speaking quotes must occur in reviewed transcript and pronunciation is Not assessed without real acoustic evidence. Grammar has no IELTS essay band. Test correct answers, acceptable alternatives, empty and malformed inputs, injections, provider schema drift, model fallback and persisted provenance.",
+      "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING",
+      "evidence_and_remaining": "Speaking parts use shared canonical reviewed-text contracts, supported unique half-bands, grounded quotes and server overall; transcript-only requests refuse pronunciation bands. Existing provider/local/Writing/Grammar contract regressions included in full backend gate. Native gate and applicable live-provider evidence still pending. Step 10 native gates and all 32 changed remote blobs were independently verified. Applicable live provider/browser/private URL evidence still remains; no full group credit.",
+      "commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
+      "current_local_candidate": "Batch16 and continuation enforce nonempty inputs and same-source Writing checks; direct adapters now validate shared task domains/output/evidence without erasing unsupported claims. Local QA is recorded per current source in docs/RIWI-BATCH-16-CONTINUATION-QA-RESULTS.json. Applicable live provider acceptance remains open; no full-group credit.",
+      "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+      "current_batch17_candidate": "Unpublished Vocabulary input/source/transaction repair and source-bound Writing Activation evaluation persistence. Exact-source local non-build QA verified in docs/RIWI-BATCH-17-PUSH-HANDOFF.json. Mandatory external/native acceptance and all-task semantics remain open; no full-group credit.",
+      "latest_interim_review": {
+        "report": "docs/RIWI-INTERIM-7-8-9-12-13-REVIEW.json",
+        "source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+        "focused_tests": 94,
+        "failures": 0,
+        "skips": 0,
+        "new_group_credit": 0,
+        "external_acceptance_complete": false
+      },
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Actual configured provider/fallback fixtures on current target",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "B06",
+      "requirement": "Verify owner overlay lifecycle in real runtime: persisted owner authority; candidate -> exact preview/regression hash -> approval -> version activation -> rollback; changed/stale/replayed preview denial; immutable hard-core rejection; no learner/upload/provider text as policy. Preserve historical evaluations. Verify all UZ/EN states.",
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "Persisted-owner lifecycle, inert rollback candidates, exact preview hash approval, stale/replayed/tampered policy denial, runtime validator fixtures, v2 compatibility and UZ/EN service/UI flows verified. Historical evaluations preserved. Two native QA rounds and exact remote blobs verified. Live provider/deployed authenticated browser and independent native concurrency acceptance remain R05/R06."
+    },
+    {
+      "id": "B07",
+      "requirement": "Validate archive contract compatibility: Mode A/B manifest includes exact portable contract/version/hash requirements; Mode C excludes RIWI intelligence. Old archives without the required manifest fail explicitly or pass only a reviewed explicit migration path. Never silently regrade old attempts.",
+      "status": "CLOSED",
+      "commit": "e50a2a944f092c695711792b63dbfcf154739c65",
+      "evidence": "Exact contract/version/hash export manifests and absent/incompatible/duplicate/incomplete import rejection; step-03 QA and changed blobs verified."
+    },
+    {
+      "id": "C01",
+      "requirement": "Review and finish inherited microphone/STT lifecycle changes. Current stop() detaches recognition handlers immediately and reads only finalRef; final results delivered asynchronously after SpeechRecognition.stop() can be discarded. Reproduce late-final events, no-speech end, interim/final replacement, duplicate events, denied permission, start failure, natural end, unmount and rapid retry. Keep review editable and no automatic server submission. Stop/reset/unmount must release listeners, recorder tracks, meters, timers and Blob URLs; discard stale callbacks without discarding a valid final result from the stopped recording.",
+      "status": "CLOSED",
+      "commit": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
+      "evidence": "Step 09 code-level group acceptance: QA report and lifecycle/canonical runtime evidence; user reported successful completion of mandatory native publication script. Independently checked GitHub ref and all 27 changed Git blobs. External original-source/live-browser/deployment acceptance remains separately open in R05/R06/C08/C09."
+    },
+    {
+      "id": "C02",
+      "requirement": "Recorder lifecycle: cancellation while permission is pending, late getUserMedia resolution, aborted signal before/after allocation, constructor/start/stop errors, no stop event, repeated stop, zero bytes, real MIME and accurate elapsed recording time. Check every consuming component passes cancellation and releases pending requests, rather than testing the utility alone.",
+      "status": "CLOSED",
+      "commit": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
+      "evidence": "Step 09 code-level group acceptance: QA report and lifecycle/canonical runtime evidence; user reported successful completion of mandatory native publication script. Independently checked GitHub ref and all 27 changed Git blobs. External original-source/live-browser/deployment acceptance remains separately open in R05/R06/C08/C09."
+    },
+    {
+      "id": "C03",
+      "requirement": "Verify microphone check uses non-zero audio energy and releases tracks; browser recording continues when STT is unsupported. Supported browser STT is an explicit capability, not guaranteed free universal transcription. Browser/vendor recognition does not prove acoustic pronunciation assessment.",
+      "status": "CLOSED",
+      "commit": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
+      "evidence": "Step 09 code-level group acceptance: QA report and lifecycle/canonical runtime evidence; user reported successful completion of mandatory native publication script. Independently checked GitHub ref and all 27 changed Git blobs. External original-source/live-browser/deployment acceptance remains separately open in R05/R06/C08/C09."
+    },
+    {
+      "id": "C04",
+      "requirement": "Verify canonical stable randomized examiner plan: part selection, same-topic clusters, stable refresh/resume, no duplicates where enough bank entries exist, related Part 2/3, no client question substitution, insufficient-bank handling. Preserve Practice on Your Own.",
+      "status": "CLOSED",
+      "commit": "985ade6983e7efbdb900f852ab9216996bcd0d2f",
+      "evidence": "Step 09 code-level group acceptance: QA report and lifecycle/canonical runtime evidence; user reported successful completion of mandatory native publication script. Independently checked GitHub ref and all 27 changed Git blobs. External original-source/live-browser/deployment acceptance remains separately open in R05/R06/C08/C09."
+    },
+    {
+      "id": "C05",
+      "requirement": "Verify Stop -> transcript review/edit/playback/re-record -> explicit Send to RIWI -> pending -> evidence-based feedback -> Try again/Next. Test no send on Stop/timer, no partial transcript upload, duplicate send idempotency, provider timeout/retry and route/unmount cleanup. Bind attempt to persisted session item/question and latest valid answer generation.",
+      "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING",
+      "evidence_and_remaining": "Explicit Send remains required; unmount invalidates callbacks, delayed discard cannot erase a new attempt. Committed evaluation leases fence stale workers; retries preserve reviewed text and reuse one result. Native gate and remote blob verification pending; actual browser/provider journeys remain unverified. Step 10 native gates and all 32 changed remote blobs were independently verified. Applicable live provider/browser/private URL evidence still remains; no full group credit.",
+      "commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Real microphone/STT, timeout/retry and cleanup browser journeys",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "C06",
+      "requirement": "Verify audio/raw/reviewed transcript provenance, original-vs-edited distinction, transcriptChanged, provider/model/fallback truth, recording duration/MIME/size/hash and history linkage. Do not overwrite the raw source when the user edits. Keep audio private and test foreign attempt/object IDs and expired signed URLs.",
+      "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING",
+      "evidence_and_remaining": "Owned private bytes establish SHA256; raw/reviewed transcript and edited state remain distinct and immutable on evaluation retry. Internal worker/STT provenance excluded from learner projection. SDK signed GET key/300-second TTL and owned/foreign object authorization tested. Real expired R2 HTTP denial is still UNVERIFIED, so full-group closure is conditional on that evidence. Step 10 native gates and all 32 changed remote blobs were independently verified. Applicable live provider/browser/private URL evidence still remains; no full group credit.",
+      "commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Actual R2 signed URL expiry and private bytes read-back",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "reviewed_implementation": "Typed/unknown transcript cannot fabricate a rate or timing confidence; reviewed STT timing withheld based on server-derived edited flag; retry/raw/hash preserved",
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "C07",
+      "requirement": "Verify Part 2 preparation keeps mic off, early-start behavior, recording limit and manual review. Session summary only aggregates supported evidence; transcript-only pronunciation remains Not assessed and incomplete coverage cannot produce a fabricated official score. Verify recurring-weakness/learning signals with consent and privacy rules.",
+      "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING",
+      "evidence_and_remaining": "Part 2 preparation has no microphone; early start and recording-limit review tested in React. Summary aggregates owned grounded evaluations, counts recurrence across distinct answers, and withholds overall for incomplete evidence. Pronunciation remains unassessed. Real browser and learning-signal consent/privacy acceptance remain separate mandatory checks. Step 10 native gates and all 32 changed remote blobs were independently verified. Applicable live provider/browser/private URL evidence still remains; no full group credit.",
+      "commit": "c133f97cabc086fdd14b9acb7f60c46a1cc92419",
+      "current_local_candidate": "Speaking summary now validates saved part/contract, valid attempt state, grounded teaching/issue quotations and unsupported pronunciation. Active/incomplete coverage cannot create an overall. Legacy null-contract rows require valid grounded evidence. Actual browser and learning-signal consent/privacy acceptance remain open.",
+      "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Actual browser and consent/privacy acceptance",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "C08",
+      "requirement": "Separate Speaking audio/transcript retention from D-01. Prepare the exact proposed lifecycle and dry-run outcomes; do not enable irreversible deletion before a specific recorded owner policy exists. Real R2 storage/lifecycle and browser mic/STT behavior still require actual environment/browser receipts.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Separate proposed lifecycle, complete read-only snapshot exporter and pure dry-run CLI implemented; boundary/hold/scope and read-only DB regressions pass. Synthetic CLI confirms mode0600 and overwrite refusal. No deletion policy approved or executor enabled. Actual R2/lifecycle/browser evidence remains open.",
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Specific owner policy remains unapproved; no deletion executor or R2 lifecycle enabled; real environment/browser evidence pending",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "reviewed_implementation": "Canonical repeatable-read/read-only snapshot and strict planner retained; active recording and indirect active-session guards plus owner mismatch rejection added. Weaker parallel incoming planner superseded",
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "C09",
+      "requirement": "Complete desktop/tablet/mobile, UZ/EN, day/night, keyboard/focus and active-session failure journeys. JSDOM lifecycle tests are useful but not microphone/SpeechRecognition/browser acceptance.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Review/feedback keyboard focus, label association and immutable retry UI repaired; three UI regressions pass in both full current-source gates. Real microphone/STT and full device/locale/theme/failure matrix remain open.",
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Full loaded UI device/language/theme and failure matrix plus physical sensor flows. Current Chrome UZ microphone gate visibly loaded; incoming blank-shell images are not full matrix proof.",
+        "explicit_language_browser": "docs/evidence/riwi-final-publication/chrome-language-observations.json",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "reviewed_implementation": "Associated review label and keyboard focus retained; external gate screenshots show loading shell only and receive no completed-layout credit",
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "D01",
+      "requirement": "Publish the privacy fixes first. Remote Mode C includes RIWI conversations/messages and the remote exporter lacks the newer parent-retention evidence gate. Preserved local fixes classify chat as full-system only and exclude expired/offline parents and stale messages. Test all three scope manifests with canaries before publishing.",
+      "status": "CLOSED",
+      "commit": "9d2acf3c60f65e88d556779979490d4a467d160e",
+      "evidence": "Mode C excludes RIWI chat intelligence and private-message export requires parent-retention proof; steps 01/02 QA and remote verification."
+    },
+    {
+      "id": "D02",
+      "requirement": "Finish operational export/import tooling. Low-level bundle/object-copy files and tests exist only as uncommitted candidates; no administrative command/route currently calls exportEncryptedPostgresBundle. Expose an explicit scope-required, authenticated owner-safe command/workflow with dry-run, private encrypted artifact, safe key handling, deterministic manifest/hashes and documented recovery. Reject default/full scope, invalid identity mapping and destination scope mismatch.",
+      "status": "CLOSED",
+      "commit": "7b27a653e0c2dadebb09e2abef96c9f587e37d08",
+      "evidence": "Step 12: explicit signed owner tri-mode commands, private identity mapping, source-bound B object references and staged approvals; local synthetic A/B/C command rehearsals and two native rounds each 1202 backend passes, 91 skips, zero failures, 252 UI passes plus typecheck/lint. All 16 changed remote blobs and exact QA tree independently verified. D03-D05 retain broader identity/native restore/object lifecycle acceptance."
+    },
+    {
+      "id": "D03",
+      "requirement": "Review tri-mode PostgreSQL source/destination projection and identity reconciliation. Mode B strips site/private data and maps governance identities explicitly to authorized target actors; Mode C excludes all RIWI intelligence/conversations; Mode A preserves allowed full data. Validate foreign keys, composite keys, nullable self references, cycles, duplicate/conflicting rows, rollback, serialized mutations and uncertain COMMIT outcomes. Do not disable constraints to pass imports.",
+      "status": "CLOSED",
+      "evidence_and_remaining": "Seven D03 requirement blocks independently reviewed against 36 exact passing TAP assertions across both Batch23 full native-enabled rounds and all 43 remotely published blobs. Native scope/identity/concurrency/uniqueness cases and canonical SQL cycle/uncertain-commit fault-injection tests are explicitly distinguished. D04 object-store proof and D05 application boot remain separately open.",
+      "current_candidate": "Batch22 reproduces and fixes the A/C single-bootstrap-owner restriction. Two explicit active target owners preserve destination credentials and distinct dependent references. Denial/dry-run/rollback regressions pass locally. Native variants are prepared, not executed. Broader concurrency/uncertain COMMIT acceptance remains open. Successor Batch22 native A/C variants now pass in both full rounds atfb827f12. Broader serialization/uncertain COMMIT and operational restore acceptance remains open.",
+      "qa_report": "docs/RIWI-BATCH-22-QA-RESULTS.json",
+      "commit": "b9007d68c82b27d02d615ae7c1d0f1546aa83393",
+      "evidence": "docs/RIWI-D03-ACCEPTANCE-b9007d6.json"
+    },
+    {
+      "id": "D04",
+      "requirement": "Review object inventory and copy lifecycle. Prove source scope/owner/retention against DB, stable keys, MIME/size/SHA, O1 no-copy access and O2 immutable destination read-back. Roll back newly staged objects on pre-commit failure; preserve objects on uncertain DB commit for reconciliation. Handle duplicate hashes, partial copy, corrupt bytes, missing objects and cleanup failure. Real R2/S3 proof is still required.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Current O2 lifecycle and encrypted archive fixes independently tested; confirmed creations cleaned before COMMIT, unknown write ownership and uncertain COMMIT preserved for reconciliation, dry-run truthfully labelled. Real private R2/S3 scope/owner/retention, O1/O2 access/read-back/failure/cleanup acceptance is still missing. Mocked storage does not close D04.",
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Real private R2/S3 object-scope/owner/access/copy/rollback receipts",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      }
+    },
+    {
+      "id": "D05",
+      "requirement": "Run independent A/B/C clean-destination rehearsals using canonical migrations; include >1,000 permitted rows, checksums, counts, constraints, identities, relationships, timestamps, retention/exclusion canaries, zero-write dry-run, rollback and representative app boot. PGlite relational tests do not prove full native PostgreSQL or production-data migration acceptance.",
+      "status": "CLOSED",
+      "historical_baseline_evidence_and_remaining": "No full closure acceptance established in this repair run; existing implementation must still be verified against this group.",
+      "evidence": "Independent exact-source review: two fresh native PostgreSQL16.14 full non-build rounds, zero failures/skips; native >1000-row A/B/C encrypted dry-run/apply/rollback, identity/FK/timestamp/retention/checksum fixtures; three restored Next development boots each round, original Speaking880 and Listening40 HTTP score/repeat proof. Production build, production-data restore and real R2/S3 remain separately unverified.",
+      "evidence_report": "docs/RIWI-GROUPS-25-30-INDEPENDENT-REVIEW.json",
+      "accepted_source_sha256": "5492dfd842b323cd124e4c3402e8aa5d76ea6ca276bfabdd73d8844078a7b6cf",
+      "publication_status": "LOCAL_ACCEPTED_NOT_PUBLISHED"
+    },
+    {
+      "id": "D06",
+      "requirement": "Verify portable RIWI core/site adapter boundary with a fake site adapter and actual capability denial; inspect imports for direct feature-table coupling. Verify version compatibility and post-import regression before activation.",
+      "status": "CLOSED",
+      "commit": "e11872b24932908f936d9849565e405df0580cfa",
+      "evidence": "Step 11: two native non-build rounds each 1197 backend passes, zero failures, 91 skips; 252 UI passes, typecheck/lint passed. Exact commit/tree and all 63 changed blobs independently verified against GitHub. Group-specific local tests and detailed limits are in the Step 11 QA report. Applicable original-source/provider/browser/deployed acceptance remains separately open in R05/R06 and D03-D05."
+    },
+    {
+      "id": "D07",
+      "requirement": "Verify security-learning pipeline and hard boundaries: sanitized/deduplicated attempted attacks -> trusted review -> regression -> approved rule, never automatic executable policy. Recheck injection, role escalation, tool/schema injection, SSRF/pinning, secrets, knowledge poisoning, active-exam bypass, replay, TOCTOU, policy downgrade, Speaking IDOR and raw/provider content policy injection. Validate DB constraints and transaction-bound audit; never store private source text in signals.",
+      "status": "CLOSED",
+      "commit": "e11872b24932908f936d9849565e405df0580cfa",
+      "evidence": "Step 11: two native non-build rounds each 1197 backend passes, zero failures, 91 skips; 252 UI passes, typecheck/lint passed. Exact commit/tree and all 63 changed blobs independently verified against GitHub. Group-specific local tests and detailed limits are in the Step 11 QA report. Applicable original-source/provider/browser/deployed acceptance remains separately open in R05/R06 and D03-D05."
+    },
+    {
+      "id": "D08",
+      "requirement": "Reconcile provider-dependent DB/services, canonical migrations, private object data, allowlist classification, backup and rollback. Record all required schema object classes or prove N/A. Do not infer PostgreSQL portability from row-only fixtures.",
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "Canonical schema object classes inventoried in isolated PostgreSQL engine; 113/113 schema/classification parity and independent website catalog comparison verified. Private object/service/provider/backup/rollback dependencies and remaining boundaries recorded. Package QA and remote durability verified. Real native destination, PITR and R2 proofs remain R05/R07/D03-D05."
+    },
+    {
+      "id": "D09",
+      "requirement": "Rerun required two final gates after last source change and record their state identity, exact results/skips, commands and artifacts. The remote ledger's 16,978 PASS labels are classification output, not 16,978 independently passing tests.",
+      "status": "PARTIAL",
+      "evidence_and_remaining": "Exact final bbd0186c/1258 source passed two native non-build rounds:1495backend/265UI each,0fail/skip/cancel/todo,typecheck/lint0,66HTTP. Evidence:docs/evidence/riwi-final-publication/native/verification.json. Complete source-required operational/build/live environment gate is not represented as passed.",
+      "current_candidate": "Two owner-terminal non-build backend/UI/typecheck/lint gates independently verified against source-state 9c356c51 and published tree af2c6a4f. Each backend retains 91 declared skips. Applicable mandatory native PostgreSQL/source/live/operational acceptance remains open; no full-group credit.",
+      "latest_code_publication": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+      "current_batch17_candidate": "Published 0524512. Exact tree, 20 packet blobs and all 1211 source blobs independently verified. Two owner-terminal non-build rounds each 1250 backend pass/92 skip/0 fail, UI260 pass. External/native and last-source build acceptance remain open.",
+      "previous_source_gates_before_batch25": "Two full current-source non-build rounds independently verified atfb827f12. Each1362backend and260UI pass withzero skips/failures, typecheck/lint0. Last-source build remains unclaimed under owner no-rebuild instruction. Publication/operational acceptance still pending.",
+      "current_20261011_candidate": {
+        "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+        "source_files": 1258,
+        "code_publication_requested": true,
+        "full_group_closed": false,
+        "final_native_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "specific_remaining": "Required complete operational/full-gate scope: build remains unrun under existing owner constraint, actual provider/R2/browser and required target acceptance remain; current two native non-build rounds have passed.",
+        "native_verification": "docs/evidence/riwi-final-publication/native/verification.json"
+      },
+      "previous_candidate_evidence": [
+        {
+          "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+          "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+          "final_qa": "TWO_FULL_NATIVE_ROUNDS_VERIFIED_BROWSER_PHASE_RUNNING",
+          "full_group_closed": false
+        }
+      ],
+      "previous_source_gates": {
+        "source_sha256": "065159408345cd274734a3b878cdb1bde4602164e9ec3eea871b9a0347ad504c",
+        "rounds": 2,
+        "backend_each": 1484,
+        "ui_each": 262,
+        "fail": 0,
+        "skip": 0,
+        "raw_logs_independently_verified": 30,
+        "typecheck_exit": 0,
+        "lint_exit": 0,
+        "evidence": "docs/evidence/riwi-final-06515940/verification.json",
+        "build_rerun": false,
+        "current_changes_published": false
+      },
+      "previous_1a6f751f_candidate": {
+        "source_sha256": "1a6f751f17f59caf54074c7ba9932b7e1a2893157ec3b4170a495626d2dc01ac",
+        "readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+        "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+        "full_group_closed": false,
+        "native_rounds": 2,
+        "native_evidence": "docs/evidence/riwi-groups-20-25-review/final-native/verification.json",
+        "browser_phase": "LOCAL_CHROME_FOUR_ROLE_BASIC_UI_PASSED_FULL_OPERATIONAL_ACCEPTANCE_INCOMPLETE",
+        "four_roles_basic_local_browser_verified": true,
+        "actual_full_browser_acceptance": false
+      },
+      "previous_evidence_and_remaining_before_final_publication": "Two final exact-source native non-build gates independently verified at 06515940; each1484backend/262UI with0fail/skip, typecheck/lint0. Build not rerun under owner instruction. Current code publication and applicable operational acceptance remain pending."
+    },
+    {
+      "id": "D10",
+      "requirement": "Provide the final simple owner handoff, full manual/runtime matrix and actionable remaining boundaries. Identify which tasks are code complete, locally verified, remotely published, deployed, operationally accepted or owner/external blocked.",
+      "status": "CLOSED",
+      "commit": "147305642fc60470fd7097ec68349e66527b6ae4",
+      "evidence": "Simple owner handoff, full 576-case role/viewport/locale/theme/journey matrix, named 91 inherited skips and actionable remaining boundaries delivered and remotely verified. Missing deployed receipts explicitly unverified; no final GO or full product acceptance claimed."
+    }
+  ],
+  "publication_policy": {
+    "requested_at": "2026-10-11T10:29:23+05:00",
+    "execution_order": [
+      "ONE_COMBINED_OWNER_TERMINAL_PUSH_CURRENT_VERIFIED_WORK",
+      "VERIFY_REMOTE_HEAD_AND_BLOBS",
+      "PREPARE_ORIGINAL_GROUPS_20_25_EXTERNAL_AI_ZIP"
+    ],
+    "supersedes_R04_full_acceptance_push_gate": true,
+    "owner_terminal_push": true,
+    "R04_remains_PARTIAL": true,
+    "partial_groups_earn_credit": false,
+    "no_reset_or_rebuild": true,
+    "no_force_push": true,
+    "pending_partial_work_must_be_preserved": true,
+    "hosting_or_production_authorization_not_inferred": true,
+    "group6_started": true
+  },
+  "pending_batch15": {
+    "target_groups": [
+      "R01",
+      "R02",
+      "R03",
+      "B06",
+      "D08",
+      "D10"
+    ],
+    "baseline_closed": 11,
+    "candidate_additional_groups": 6,
+    "candidate_delta_percentage_points": 17.65,
+    "candidate_total_if_fully_accepted": 17,
+    "candidate_percent_if_fully_accepted": 50,
+    "status": "NATIVE_QA_AND_REMOTE_BLOBS_VERIFIED",
+    "accepted_delta": 6,
+    "no_credit_from_document_line_counts": true,
+    "full_product_operational_acceptance": false,
+    "verification_record": "docs/RIWI-BATCH-15-REMOTE-VERIFICATION.json",
+    "commit": "147305642fc60470fd7097ec68349e66527b6ae4"
+  },
+  "next_batch_baseline_closed": 19,
+  "progress_record_publication": "Batch24: independently accepted D03 at b9007d6 yields 19/34. Additional tutoring/report explanation code receives no full-group credit.",
+  "pending_batch16": {
+    "status": "REMOTE_PUBLISHED_NATIVE_NON_BUILD_QA_VERIFIED_OPERATIONAL_ACCEPTANCE_PENDING",
+    "baseline_closed": 17,
+    "minimum_additional_full_groups": 6,
+    "accepted_delta": 0,
+    "source_state_sha256": "9c356c510d274970c07fc792b768e383601c9d30a728f513884552ae6c488a60",
+    "qa_report": "docs/RIWI-BATCH-16-GRAMMAR-QA-RESULTS.json",
+    "deployment_report": "docs/RIWI-BATCH-16-DEPLOYMENT-BLOCKER.json",
+    "publication_ready": false,
+    "no_partial_group_credit": true,
+    "previous_source_state_sha256": "558ffebe124f68a1ad941ab23a67a9ef56f771d81db0b76aae8ba9795d2c96a4",
+    "original_checkpoint_preserved": true,
+    "original_uploaded_patch_verified": true,
+    "original_source_state_sha256": "c6faf3529485aefe80b9069102278a29de9a8b56d648cc991c10516c1e15ffd9",
+    "source_state_manifest": "docs/RIWI-BATCH-16-GRAMMAR-SOURCE-STATE.json",
+    "previous_evidence_manifest": "docs/RIWI-BATCH-17-EVIDENCE-MANIFEST.json",
+    "terminal_handoff_report": "docs/RIWI-BATCH-16-PUSH-HANDOFF.json",
+    "local_code_package_ready": true,
+    "published_commit": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+    "remote_verification_report": "docs/RIWI-BATCH-16-REMOTE-VERIFICATION.json",
+    "native_terminal_qa_rounds_verified": 2,
+    "published": true,
+    "full_batch_size_acceptance_met": false,
+    "publication_note": "Owner published the current code-fix packet. Exact parent/tree, 81 reviewed paths and 1208 source files independently verified. Publication does not earn six-new-group acceptance or close operational requirements."
+  },
+  "pending_batch17": {
+    "status": "REMOTE_TREE_BLOBS_AND_OWNER_NON_BUILD_QA_VERIFIED",
+    "base_commit": "6f125f7dd21fafcce4f7ab089b0e26569600b3b5",
+    "source_state_sha256": "c629ad51e49f41df314e7673fc283b7e87dc991c2d60f6fc0fa43e29160a0fee",
+    "qa_report": "docs/RIWI-BATCH-17-PUSH-HANDOFF.json",
+    "audit": "docs/RIWI-BATCH-17-VOCABULARY-EVIDENCE.md",
+    "accepted_delta": 0,
+    "minimum_additional_full_groups": 6,
+    "publication_ready": false,
+    "published": true,
+    "full_batch_size_acceptance_met": false,
+    "code_package_ready": true,
+    "owner_requested_current_packet_publication": true,
+    "owner_handoff_report": "docs/RIWI-BATCH-17-PUSH-HANDOFF.json",
+    "local_non_build_qa_rounds": 2,
+    "previous_checkpoint_source_state_sha256": "ffe10915281f07847035619143f2fae29f2449f775720c7163869a347f8be9cb",
+    "previous_checkpoint_qa_report": "docs/RIWI-BATCH-17-VOCABULARY-QA-RESULTS.json",
+    "published_commit": "0524512a40f24a1d38e26f1728e247248916107b",
+    "remote_verification_report": "docs/RIWI-BATCH-17-REMOTE-VERIFICATION.json",
+    "native_terminal_qa_rounds_verified": 2
+  },
+  "pending_batch18": {
+    "status": "TWO_LOCAL_NON_BUILD_GATES_PASSED_FULL_GROUP_ACCEPTANCE_OPEN",
+    "base_commit": "0524512a40f24a1d38e26f1728e247248916107b",
+    "source_state_sha256": "906a14389b04e0569119de3d35f7d0d0f3aced6c0772b28f719a7c1c3e83afe9",
+    "accepted_delta": 0,
+    "publication_ready": false,
+    "published": false,
+    "minimum_additional_full_groups": 6,
+    "hosting_work_deferred_by_owner": true,
+    "build_rerun": false,
+    "native_postgresql_acceptance": "UNVERIFIED",
+    "qa_report": "docs/RIWI-BATCH-18-QA-RESULTS.json",
+    "local_non_build_qa_rounds": 2,
+    "code_repair_qa_complete": true,
+    "full_batch_size_acceptance_met": false,
+    "scheduled_review_native_evidence_at_successor_source": "docs/RIWI-BATCH-19-NATIVE-VERIFICATION.json (9ab8ab6f successor source, not a rerun of historical 906a1438 source)"
+  },
+  "pending_batch19": {
+    "status": "TWO_NON_BUILD_AND_TWO_SCOPED_NATIVE_GATES_PASSED_FULL_GROUP_ACCEPTANCE_OPEN",
+    "base_commit": "0524512a40f24a1d38e26f1728e247248916107b",
+    "parent_candidate_source_sha256": "906a14389b04e0569119de3d35f7d0d0f3aced6c0772b28f719a7c1c3e83afe9",
+    "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "source_files": 1215,
+    "accepted_delta": 0,
+    "minimum_additional_full_groups": 6,
+    "publication_ready": false,
+    "published": false,
+    "hosting_work_deferred_by_owner": true,
+    "build_rerun": false,
+    "native_postgresql_acceptance": "VERIFIED_VOCABULARY_GAME_POINT_REVIEW_SCOPE_ONLY",
+    "preserved_checkpoint": "RIWI_BATCH_18_CONTINUATION_906a1438.zip",
+    "superseded_source_sha256": "19a2be3c84776b83f81788f99ccccdd97386fe0243c0b499c0a552bea4c139a7",
+    "native_readiness_report": "docs/RIWI-BATCH-19-NATIVE-READINESS.json",
+    "qa_report": "docs/RIWI-BATCH-19-QA-RESULTS.json",
+    "local_non_build_qa_rounds": 2,
+    "code_repair_qa_complete": true,
+    "full_batch_size_acceptance_met": false,
+    "native_verification_report": "docs/RIWI-BATCH-19-NATIVE-VERIFICATION.json",
+    "native_rounds_passed": 2
+  },
+  "pending_batch20": {
+    "status": "VERIFIED_TWO_FULL_NATIVE_ROUNDS_FOUR_ORIGINAL_SOURCE_CASES_PENDING",
+    "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "source_files": 1215,
+    "accepted_delta": 0,
+    "publication_ready": false,
+    "published": false,
+    "minimum_additional_full_groups": 6,
+    "native_full_execution": "VERIFIED_TWO_ROUNDS_FOUR_ORIGINAL_SOURCE_CASES_PENDING",
+    "code_source_changed": false,
+    "readiness_report": "docs/RIWI-BATCH-20-NATIVE-FULL-READINESS.json",
+    "native_batch19_evidence_preserved": true,
+    "source_dependent_skips": 4,
+    "source_independent_skips_pending": 0,
+    "hosting_work_deferred_by_owner": true,
+    "build_rerun": false,
+    "verification_report": "docs/RIWI-BATCH-20-NATIVE-VERIFICATION.json",
+    "native_rounds_verified": 2,
+    "backend_pass_per_round": 1354,
+    "ui_pass_per_round": 260,
+    "both_cluster_stops_verified": true
+  },
+  "pending_batch21": {
+    "status": "TWO_ORIGINAL_SOURCE_NATIVE_ROUNDS_INDEPENDENTLY_VERIFIED_PUBLICATION_PENDING",
+    "source_state_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "source_files": 1215,
+    "code_source_changed": false,
+    "source_recovery_report": "docs/RIWI-BATCH-21-SOURCE-RECOVERY.json",
+    "previously_skipped_listening_source_cases_now_pass": 2,
+    "speaking_native_source_cases_pending": 0,
+    "native_source_rounds_verified": 2,
+    "accepted_delta": 0,
+    "minimum_additional_full_groups": 6,
+    "publication_ready": false,
+    "published": false,
+    "build_rerun": false,
+    "hosting_work_deferred_by_owner": true,
+    "native_verification_report": "docs/RIWI-BATCH-21-NATIVE-VERIFICATION.json",
+    "original_source_cases_pending": 0,
+    "qa_ready_group": "R05",
+    "qa_ready_additional_groups": 1,
+    "progress_if_published_and_accepted": 52.94117647058823,
+    "remote_base_rechecked": "0524512a40f24a1d38e26f1728e247248916107b"
+  },
+  "pending_batch22": {
+    "status": "REMOTE_COMMIT_TREE_ALL_PUBLICATION_AND_SOURCE_BLOBS_VERIFIED",
+    "source_state_sha256": "fb827f12a6fee4a3eddf397e20df384957f3a95adea61e6b593cf26fd5c582c6",
+    "parent_source_sha256": "9ab8ab6fb9a8a396f6a3445bb6feb44e0ebdf32cc0bcd445a155eefaf42ca905",
+    "source_files": 1217,
+    "qa_report": "docs/RIWI-BATCH-22-QA-RESULTS.json",
+    "accepted_delta": 1,
+    "minimum_additional_full_groups": 6,
+    "publication_ready": false,
+    "published": true,
+    "native_full_rounds_executed": 2,
+    "build_rerun": false,
+    "reset_performed": false,
+    "hosting_work_deferred_by_owner": true,
+    "native_full_rounds_verified": 2,
+    "native_verification_report": "docs/RIWI-BATCH-22-NATIVE-VERIFICATION.json",
+    "code_snapshot_ready_for_publication": false,
+    "full_six_group_batch_acceptance": false,
+    "qa_ready_group": "R05",
+    "qa_ready_additional_groups": 0,
+    "progress_if_published_and_accepted": 52.94117647058824,
+    "published_commit": "da164c24390e475dc380fde013ef6d2574aed9cc",
+    "remote_verification_report": "docs/RIWI-BATCH-22-REMOTE-VERIFICATION.json",
+    "full_four_group_batch_acceptance": false
+  },
+  "pending_batch23": {
+    "status": "TWO_FULL_NATIVE_ROUNDS_INDEPENDENTLY_VERIFIED_CODE_CHECKPOINT",
+    "baseline_commit": "da164c24390e475dc380fde013ef6d2574aed9cc",
+    "source_sha256": "62cba147591859e0ace157e4ab799fa120d1b184bcb72361f8efa9f7ddaecd48",
+    "batch_target_groups": [
+      "B01",
+      "B04",
+      "D03",
+      "D05"
+    ],
+    "required_complete_groups_before_push": 4,
+    "accepted_group_delta": 0,
+    "ready_for_push": true,
+    "qualifying_four_group_batch": false,
+    "publication_scope": "Owner-requested code checkpoint. No new original group is counted as accepted.",
+    "remaining": {
+      "B01": "68-task mapping exists; complete source-task execution and semantic acceptance remain open. See the individual task audit.",
+      "B04": "Dedicated additional Grammar/Vocabulary/retention/tutoring/reporting handoffs and task-specific evidence still require completion; unavailable semantics receive no credit.",
+      "D03": "Native lock, overlap, uniqueness and tri-mode cases pass in both rounds. Independent original-group acceptance remains separate from publishing this checkpoint.",
+      "D05": "Native A/B/C encrypted command rehearsals pass with >1000 rows in both rounds. Representative current-source application boot and operational acceptance remain open."
+    }
+  },
+  "pending_batch24": {
+    "status": "REMOTE_REF_TREE_AND28_BLOBS_VERIFIED",
+    "baseline_commit": "b9007d68c82b27d02d615ae7c1d0f1546aa83393",
+    "source_sha256": "aa73ffbf7b8d698322e3961ea13298446f99a794a1f82d3929296452a58c7407",
+    "accepted_closed": 19,
+    "total": 34,
+    "new_implementation_full_groups_accepted": 0,
+    "full_four_group_batch_acceptance": false,
+    "native_current_source_acceptance": false,
+    "build_rerun": false,
+    "push_performed": false,
+    "qa_receipt": "docs/evidence/riwi-batch24-assistant/receipt.json",
+    "commit": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+    "remote_verification": "docs/RIWI-BATCH-24-REMOTE-VERIFICATION.json"
+  },
+  "pending_batch25": {
+    "baseline_commit": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+    "target_groups": [
+      "B01",
+      "B04",
+      "B05",
+      "D05",
+      "D09"
+    ],
+    "minimum_complete_groups": 5,
+    "baseline_closed": 19,
+    "expected_closed_after_complete_batch": 24,
+    "expected_percent_after_acceptance": 70.58823529411765,
+    "status": "LOCAL_QA_CHECKPOINT_FIVE_SOURCE_TASKS_ORIGINAL_GROUPS_STILL_OPEN",
+    "push_allowed": false,
+    "native_shared_memory_blocker_observed": true,
+    "build_rerun_allowed": false,
+    "source_sha256": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+    "qa_evidence": "docs/RIWI-BATCH-25-QA-RESULTS.json",
+    "source_task_count": 5,
+    "new_accepted_original_groups": [],
+    "native_execution_this_checkpoint": false,
+    "updated_at_utc": "2026-10-10T19:45:16.209094+00:00"
+  },
+  "pending_batch26": {
+    "published_base_commit": "2f880809bf57ad3d37c373dc944b28037f20d0a0",
+    "continued_from_source_sha256": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+    "current_source_sha256": "8039340dad0055e14ec49f0c111ba8ca139977d78f58ab01dc43cea945472399",
+    "source_file_count": 1238,
+    "affected_rounds_verified": 2,
+    "new_closed_original_groups": [],
+    "push_allowed": false,
+    "publication_requirement": "Five NEW fully accepted original groups per push; this B04 code checkpoint does not meet that requirement.",
+    "preserved_external_handoff_source": "02504ba89fb05d1c8c78c3060112b6f957d9824ba8bfaf2eb30e22f314ce9820",
+    "external_handoff_policy": "Review returned 25-30 changes against their frozen packet base, then reconcile with this newer local source; never overwrite the current tree wholesale."
+  },
+  "last_verified_published_closed": 20,
+  "review_25_30": {
+    "final_source_sha256": "5492dfd842b323cd124e4c3402e8aa5d76ea6ca276bfabdd73d8844078a7b6cf",
+    "new_closed_groups": [
+      29
+    ],
+    "new_closed_group_ids": [
+      "D05"
+    ],
+    "last_verified_published_closed": 19,
+    "publication": {
+      "performed": false,
+      "new_accepted_in_pending_batch": 1,
+      "required_new_groups": 5,
+      "push_allowed": false
+    }
+  },
+  "publication_policy_history": [
+    {
+      "requested_at": "2026-10-09T21:23:36+05:00",
+      "minimum_new_percentage_points": 14.705882352941176,
+      "minimum_additional_full_groups": 5,
+      "expected_minimum_delta_percentage_points": 14.705882352941176,
+      "baseline_closed": 19,
+      "denominator": 34,
+      "priority_order": [
+        "safety",
+        "quality",
+        "speed"
+      ],
+      "partial_groups_earn_credit": false,
+      "publish_only_after_independent_task_checks_and_package_QA": true,
+      "no_reset_or_rebuild": true,
+      "no_force_push": true,
+      "pending_partial_work_must_be_preserved": true,
+      "previous_minimum_new_percentage_points": 15,
+      "previous_minimum_additional_full_groups": 6,
+      "updated_at_utc": "2026-10-10T16:46:04Z",
+      "update_source": "Owner2026-10-10:remaining15groupsin3batcheseach5completegroups;assistantQA;ownerterminalpush"
+    },
+    {
+      "policy": {
+        "requested_at": "2026-10-11T09:06:58+05:00",
+        "execution_order": [
+          "R04_ONLY",
+          "ONE_COMBINED_OWNER_TERMINAL_PUSH_AFTER_R04_FULL_ACCEPTANCE",
+          "R06_AFTER_PUSH_VERIFIED"
+        ],
+        "supersedes_five_new_groups_threshold": true,
+        "publish_only_after_R04_full_acceptance_and_package_QA": true,
+        "owner_terminal_push": true,
+        "partial_groups_earn_credit": false,
+        "no_reset_or_rebuild": true,
+        "no_force_push": true,
+        "pending_partial_work_must_be_preserved": true,
+        "hosting_or_production_authorization_not_inferred": true
+      },
+      "superseded_by": "2026-10-11T10:29:23+05:00 owner requested current-state push before 20–25 handoff"
+    }
+  ],
+  "combined_publication": {
+    "requested_at": "2026-10-11T09:47:44.392Z",
+    "required_groups": [
+      "R06",
+      "R07",
+      "R08",
+      "B01",
+      "B04",
+      "B05"
+    ],
+    "pending": [
+      {
+        "id": "R06",
+        "status": "PARTIAL"
+      },
+      {
+        "id": "R07",
+        "status": "PARTIAL"
+      },
+      {
+        "id": "R08",
+        "status": "PARTIAL"
+      },
+      {
+        "id": "B01",
+        "status": "PARTIAL"
+      },
+      {
+        "id": "B04",
+        "status": "PARTIAL"
+      },
+      {
+        "id": "B05",
+        "status": "REMOTE_PUBLISHED_APPLICABLE_EXTERNAL_ACCEPTANCE_PENDING"
+      }
+    ],
+    "eligible": true,
+    "source_sha256": "fdc822b9e14e1acfbbafcb8bff799c54d2ede71b248b8ae4eb559bc1a63e2a7d",
+    "live_target_preflight": "docs/RIWI-COMBINED-LIVE-TARGET-PREFLIGHT.json",
+    "terminal_script": "outputs/RIWI_COMBINED_PUBLISH_TERMINAL.py",
+    "push_performed": true,
+    "publication_scope": "REVIEWED_CURRENT_CODE_AND_EVIDENCE",
+    "operational_acceptance": false,
+    "full_group_closure_required_for_code_publication": false,
+    "updated_at": "2026-10-11T09:58:06.419504+00:00",
+    "status": "PUSH_VERIFIED",
+    "commit": "c538704f92937d142feb056d22542d9a905f0852"
+  },
+  "current_all_groups_readiness": "docs/RIWI-ALL-GROUPS-CURRENT-READINESS.json",
+  "current_source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+  "incoming_groups20_25_review": "docs/evidence/riwi-groups-20-25-review/incoming-verification.json",
+  "current_publication": {
+    "source_sha256": "bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf",
+    "source_files": 1258,
+    "base_commit": "c538704f92937d142feb056d22542d9a905f0852",
+    "requested": true,
+    "scope": "REVIEWED_CURRENT_CODE_AND_EVIDENCE",
+    "push_performed": false,
+    "deployment_performed": false,
+    "operational_acceptance": false,
+    "all_groups_closed": false,
+    "final_qa": "PASSED_TWO_FULL_NATIVE_ROUNDS_NO_SKIPS",
+    "local_physical_pitr": "PASSED_NOT_PROVIDER_ACCEPTANCE",
+    "local_chrome_explicit_language_and_history": "PASSED"
+  }
+}

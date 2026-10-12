@@ -1,0 +1,14 @@
+{
+  "observed_at": "2026-10-11T19:14:46.225975+00:00",
+  "method": "READ_ONLY_AUTHENTICATED_GOOGLE_CHROME_VERCEL_UI",
+  "project": "learners-area",
+  "branch": "arena/01a10bac-learners-area",
+  "published_commit": "df0c2d17187ee7c341e3eaa88521fd9c57c90147",
+  "dashboard": "https://vercel.com/learners-area/learners-area/deployments?sha=df0c2d17187ee7c341e3eaa88521fd9c57c90147",
+  "visible_result": "No Results / No deployments match the current filters.",
+  "active_branch_search_result": "No Active Branches",
+  "branch_filter_search_result": "No matches found.",
+  "exact_commit_deployment_verified": false,
+  "external_mutation": false,
+  "limitation": "Dashboard query is not proof that no deployment exists anywhere else; no Railway project was observed."
+}

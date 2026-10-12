@@ -1,3 +1,5 @@
+> Current update: published `df0c2d1`, local production build and compiled Chrome QA now passed. See `RIWI-POST-PUSH-STATUS-UZ.md` and post-push evidence. The following prepared-before-push snapshot is historical; its “push not yet done” and “build owner ban” claims no longer describe the current state.
+
 # RIWI joriy publication holati
 
 Joriy manba: `bbd0186cbd749a0cbf23969ea84b102e874b110aafa01453826a3998a71255bf` —1258 kanonik fayl.

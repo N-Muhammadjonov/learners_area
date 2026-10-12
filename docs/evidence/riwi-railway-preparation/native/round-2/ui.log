@@ -1,0 +1,1605 @@
+TAP version 13
+# Not implemented: navigation to another Document
+# Subtest: cold deep link: no history entry from this site → BackLink leaves the click to the fallback link
+ok 1 - cold deep link: no history entry from this site → BackLink leaves the click to the fallback link
+  ---
+  duration_ms: 34.433542
+  type: 'test'
+  ...
+# Subtest: internal arrival: history back is used
+ok 2 - internal arrival: history back is used
+  ---
+  duration_ms: 4.009334
+  type: 'test'
+  ...
+# Not implemented: navigation to another Document
+# Subtest: external referrer is never trusted for history back
+ok 3 - external referrer is never trusted for history back
+  ---
+  duration_ms: 2.347375
+  type: 'test'
+  ...
+# Not implemented: navigation to another Document
+# Not implemented: navigation to another Document
+# Not implemented: navigation to another Document
+# Subtest: modified click (new tab) keeps normal link behaviour
+ok 4 - modified click (new tab) keeps normal link behaviour
+  ---
+  duration_ms: 5.086541
+  type: 'test'
+  ...
+# Subtest: CR1 learner render: only 'Checked by RIWI'; no provider id, vendor, model, version or fallback source in the HTML
+ok 5 - CR1 learner render: only 'Checked by RIWI'; no provider id, vendor, model, version or fallback source in the HTML
+  ---
+  duration_ms: 4.804125
+  type: 'test'
+  ...
+# Subtest: CR2 even a legacy row whose stored label is a vendor name renders RIWI to learners
+ok 6 - CR2 even a legacy row whose stored label is a vendor name renders RIWI to learners
+  ---
+  duration_ms: 0.530583
+  type: 'test'
+  ...
+# Subtest: CR3 evidence-first teaching feedback is rendered as text with source excerpts and bounded examples
+ok 7 - CR3 evidence-first teaching feedback is rendered as text with source excerpts and bounded examples
+  ---
+  duration_ms: 0.961458
+  type: 'test'
+  ...
+# Subtest: CR4 staff render keeps truthful provider, contract, owner-policy, version and fallback provenance
+ok 8 - CR4 staff render keeps truthful provider, contract, owner-policy, version and fallback provenance
+  ---
+  duration_ms: 0.590042
+  type: 'test'
+  ...
+# Subtest: desktop ended redirects once to authorized /login
+ok 9 - desktop ended redirects once to authorized /login
+  ---
+  duration_ms: 22.829208
+  type: 'test'
+  ...
+# Subtest: desktop ended redirects once to authorized /dashboard
+ok 10 - desktop ended redirects once to authorized /dashboard
+  ---
+  duration_ms: 6.460917
+  type: 'test'
+  ...
+# Subtest: desktop ended redirects once to authorized /pending
+ok 11 - desktop ended redirects once to authorized /pending
+  ---
+  duration_ms: 2.7925
+  type: 'test'
+  ...
+# Subtest: touch/mobile media state retains welcome without video or redirect
+ok 12 - touch/mobile media state retains welcome without video or redirect
+  ---
+  duration_ms: 2.684625
+  type: 'test'
+  ...
+# Subtest: autoplay rejection releases the visitor; cleanup pauses media
+ok 13 - autoplay rejection releases the visitor; cleanup pauses media
+  ---
+  duration_ms: 1.812667
+  type: 'test'
+  ...
+# Subtest: server destination preserves active and restricted admission decision
+ok 14 - server destination preserves active and restricted admission decision
+  ---
+  duration_ms: 0.324125
+  type: 'test'
+  ...
+# Subtest: superseded and unmounted scoped requests cannot update current UI
+ok 15 - superseded and unmounted scoped requests cannot update current UI
+  ---
+  duration_ms: 8.668417
+  type: 'test'
+  ...
+# Subtest: Writing exam start recovers from rejected API and aborts on exit
+ok 16 - Writing exam start recovers from rejected API and aborts on exit
+  ---
+  duration_ms: 7.652625
+  type: 'test'
+  ...
+# Subtest: legacy response controls share body deadline and preserve validation details
+ok 17 - legacy response controls share body deadline and preserve validation details
+  ---
+  duration_ms: 14.415917
+  type: 'test'
+  ...
+# Subtest: a real attempt enters Focus once, a manual exit survives a remount, a new attempt focuses again, browsing never does
+ok 18 - a real attempt enters Focus once, a manual exit survives a remount, a new attempt focuses again, browsing never does
+  ---
+  duration_ms: 41.990708
+  type: 'test'
+  ...
+# Subtest: only the two exam screens can auto-enter Focus
+ok 19 - only the two exam screens can auto-enter Focus
+  ---
+  duration_ms: 47.970834
+  type: 'test'
+  ...
+# Subtest: Full Exam has no seeking controls, transcript, lexical popups or answer key; submit failure retains the answer
+ok 20 - Full Exam has no seeking controls, transcript, lexical popups or answer key; submit failure retains the answer
+  ---
+  duration_ms: 43.0355
+  type: 'test'
+  ...
+# Subtest: Vocabulary mounts without an audio element and makes zero media or API requests
+ok 21 - Vocabulary mounts without an audio element and makes zero media or API requests
+  ---
+  duration_ms: 5.247
+  type: 'test'
+  ...
+# Subtest: Library search and category filters operate locally without reloading or fetching audio
+ok 22 - Library search and category filters operate locally without reloading or fetching audio
+  ---
+  duration_ms: 5.0935
+  type: 'test'
+  ...
+# Subtest: Activity draft resumes only for its owner and canonical source
+ok 23 - Activity draft resumes only for its owner and canonical source
+  ---
+  duration_ms: 5.272792
+  type: 'test'
+  ...
+# Subtest: Controlled study offers audio controls and lexical text without enabling an empty check
+ok 24 - Controlled study offers audio controls and lexical text without enabling an empty check
+  ---
+  duration_ms: 6.741959
+  type: 'test'
+  ...
+# Subtest: Controlled study restores only this owner/source draft and retains it when check fails
+ok 25 - Controlled study restores only this owner/source draft and retains it when check fails
+  ---
+  duration_ms: 7.046917
+  type: 'test'
+  ...
+# Subtest: Same study content before exam submission: plain text, no word targets, no popup, no lookup request
+ok 26 - Same study content before exam submission: plain text, no word targets, no popup, no lookup request
+  ---
+  duration_ms: 3.586167
+  type: 'test'
+  ...
+# Subtest: Vocabulary Session shows the CANONICAL sense, not a conflicting package definition, and saves by sense id
+ok 27 - Vocabulary Session shows the CANONICAL sense, not a conflicting package definition, and saves by sense id
+  ---
+  duration_ms: 3.2835
+  type: 'test'
+  ...
+# Subtest: General single passage: vocabulary is ON immediately — click resolves by occurrence id with the passage id, Add to Vocabulary shown, no timer
+ok 28 - General single passage: vocabulary is ON immediately — click resolves by occurrence id with the passage id, Add to Vocabulary shown, no timer
+  ---
+  duration_ms: 61.850667
+  type: 'test'
+  ...
+# Subtest: Full Reading: all three passages reachable by tabs and vocabulary stays ON in each (P3 resolves with P3's passage id)
+ok 29 - Full Reading: all three passages reachable by tabs and vocabulary stays ON in each (P3 resolves with P3's passage id)
+  ---
+  duration_ms: 24.38525
+  type: 'test'
+  ...
+# Subtest: answers autosave per passage, Check shows learning results with evidence; Full mode keeps each passage's answers
+ok 30 - answers autosave per passage, Check shows learning results with evidence; Full mode keeps each passage's answers
+  ---
+  duration_ms: 845.879709
+  type: 'test'
+  ...
+# Subtest: learner-facing text shows no internal ids or enum names (en + uz Latin)
+ok 31 - learner-facing text shows no internal ids or enum names (en + uz Latin)
+  ---
+  duration_ms: 14.890291
+  type: 'test'
+  ...
+# Subtest: VD-003 XSS: HTML-like source, question and popup strings render as literal text, never as elements
+ok 32 - VD-003 XSS: HTML-like source, question and popup strings render as literal text, never as elements
+  ---
+  duration_ms: 18.470875
+  type: 'test'
+  ...
+# Subtest: Grammar translation en: displays the RIWI verdict and semantic feedback, with no unrelated correction sample
+ok 33 - Grammar translation en: displays the RIWI verdict and semantic feedback, with no unrelated correction sample
+  ---
+  duration_ms: 39.409666
+  type: 'test'
+  ...
+# Subtest: Grammar translation uz: displays the RIWI verdict and semantic feedback, with no unrelated correction sample
+ok 34 - Grammar translation uz: displays the RIWI verdict and semantic feedback, with no unrelated correction sample
+  ---
+  duration_ms: 4.542042
+  type: 'test'
+  ...
+# Subtest: Grammar translation unavailable: retains the answer without an invented verdict or automatic retry
+ok 35 - Grammar translation unavailable: retains the answer without an invented verdict or automatic retry
+  ---
+  duration_ms: 5.43975
+  type: 'test'
+  ...
+# Subtest: leaving an import during metadata probing releases the audio and object URL immediately
+ok 36 - leaving an import during metadata probing releases the audio and object URL immediately
+  ---
+  duration_ms: 1.01775
+  type: 'test'
+  ...
+# Subtest: LB1 blocked Listening publish lists each blocker in English, not log text
+ok 37 - LB1 blocked Listening publish lists each blocker in English, not log text
+  ---
+  duration_ms: 49.961792
+  type: 'test'
+  ...
+# Subtest: LB2 same blockers in Uzbek (Latin only)
+ok 38 - LB2 same blockers in Uzbek (Latin only)
+  ---
+  duration_ms: 15.769209
+  type: 'test'
+  ...
+# Subtest: LB3 structured blockers and log issues come from one gate
+ok 39 - LB3 structured blockers and log issues come from one gate
+  ---
+  duration_ms: 0.295375
+  type: 'test'
+  ...
+# Subtest: LB4 Full Listening hub copy exists in both dictionaries with five activities
+ok 40 - LB4 Full Listening hub copy exists in both dictionaries with five activities
+  ---
+  duration_ms: 0.205041
+  type: 'test'
+  ...
+# Subtest: Listening start survives offline and HTML 503 responses, re-enables button and shows a real failure
+ok 41 - Listening start survives offline and HTML 503 responses, re-enables button and shows a real failure
+  ---
+  duration_ms: 40.310042
+  type: 'test'
+  ...
+# Subtest: Listening start sends one write and aborts it when the screen leaves
+ok 42 - Listening start sends one write and aborts it when the screen leaves
+  ---
+  duration_ms: 2.827125
+  type: 'test'
+  ...
+# Subtest: LU1 Listening library renders Uzbek, no English UI copy
+ok 43 - LU1 Listening library renders Uzbek, no English UI copy
+  ---
+  duration_ms: 26.884916
+  type: 'test'
+  ...
+# Subtest: LU2 Listening exam renders Uzbek controls; map alt is not test-specific
+ok 44 - LU2 Listening exam renders Uzbek controls; map alt is not test-specific
+  ---
+  duration_ms: 9.191625
+  type: 'test'
+  ...
+# Subtest: transport not ready: notice shown, Go Online disabled, nobody can enter a call; S — shown
+ok 45 - transport not ready: notice shown, Go Online disabled, nobody can enter a call; S — shown
+  ---
+  duration_ms: 36.848958
+  type: 'test'
+  ...
+# Subtest: polls never stack: while a GET hangs, the 4 s interval sends no new GET; unmount aborts it
+ok 46 - polls never stack: while a GET hangs, the 4 s interval sends no new GET; unmount aborts it
+  ---
+  duration_ms: 4310.683791
+  type: 'test'
+  ...
+# Subtest: rules dialog: focus moves in, Escape closes and restores focus; double click sends one POST
+ok 47 - rules dialog: focus moves in, Escape closes and restores focus; double click sends one POST
+  ---
+  duration_ms: 53.871042
+  type: 'test'
+  ...
+# Subtest: Empty band panel keeps scale and honest empty state without fictional points
+ok 48 - Empty band panel keeps scale and honest empty state without fictional points
+  ---
+  duration_ms: 5.21225
+  type: 'test'
+  ...
+# Subtest: Actual completed mocks produce a line, accessible table and improvement stats
+ok 49 - Actual completed mocks produce a line, accessible table and improvement stats
+  ---
+  duration_ms: 14.281625
+  type: 'test'
+  ...
+# Subtest: N07 matrix: the only write is exactly one start POST to /api/retention/attempts with the chosen level
+ok 50 - N07 matrix: the only write is exactly one start POST to /api/retention/attempts with the chosen level
+  ---
+  duration_ms: 93.839875
+  type: 'test'
+  ...
+# Subtest: N07 matrix: recheck GET times out -> no write, start stays locked, recover button issues GET only
+ok 51 - N07 matrix: recheck GET times out -> no write, start stays locked, recover button issues GET only
+  ---
+  duration_ms: 200.447042
+  type: 'test'
+  ...
+# Subtest: N07 matrix: recheck GET fails (500) -> no write, start locked, error stays visible
+ok 52 - N07 matrix: recheck GET fails (500) -> no write, start locked, error stays visible
+  ---
+  duration_ms: 120.979833
+  type: 'test'
+  ...
+# Subtest: N07 matrix: GET returns the server's attempt -> it is resumed and nothing is written; bfcache restore re-reads it by id (GET)
+ok 53 - N07 matrix: GET returns the server's attempt -> it is resumed and nothing is written; bfcache restore re-reads it by id (GET)
+  ---
+  duration_ms: 171.046458
+  type: 'test'
+  ...
+# Subtest: N07 matrix: GET returns no attempt -> start is re-enabled but NOT re-sent automatically
+ok 54 - N07 matrix: GET returns no attempt -> start is re-enabled but NOT re-sent automatically
+  ---
+  duration_ms: 273.103333
+  type: 'test'
+  ...
+# Subtest: N07 matrix: reload (fresh mount) with or without a server attempt performs no write
+ok 55 - N07 matrix: reload (fresh mount) with or without a server attempt performs no write
+  ---
+  duration_ms: 96.585125
+  type: 'test'
+  ...
+# Subtest: N07 matrix: leaving during the recheck aborts it and nothing is written afterwards
+ok 56 - N07 matrix: leaving during the recheck aborts it and nothing is written afterwards
+  ---
+  duration_ms: 90.124584
+  type: 'test'
+  ...
+# Subtest: N07 matrix privacy: a recall-phase attempt from the recheck renders no source text
+ok 57 - N07 matrix privacy: a recall-phase attempt from the recheck renders no source text
+  ---
+  duration_ms: 124.081417
+  type: 'test'
+  ...
+# Subtest: workspace outlet keeps current children mounted with no pending notice at rest
+ok 58 - workspace outlet keeps current children mounted with no pending notice at rest
+  ---
+  duration_ms: 20.244917
+  type: 'test'
+  ...
+# Subtest: outlet source never swaps children for a frame branch
+ok 59 - outlet source never swaps children for a frame branch
+  ---
+  duration_ms: 0.359375
+  type: 'test'
+  ...
+# Subtest: game load failure is terminal with a retry that refetches
+ok 60 - game load failure is terminal with a retry that refetches
+  ---
+  duration_ms: 31.777917
+  type: 'test'
+  ...
+# Subtest: game set request is aborted on unmount
+ok 61 - game set request is aborted on unmount
+  ---
+  duration_ms: 2.949833
+  type: 'test'
+  ...
+# Subtest: empty set renders an intentional empty state
+ok 62 - empty set renders an intentional empty state
+  ---
+  duration_ms: 4.854584
+  type: 'test'
+  ...
+# Subtest: fill-the-gap cannot be checked with an empty answer
+ok 63 - fill-the-gap cannot be checked with an empty answer
+  ---
+  duration_ms: 6.122625
+  type: 'test'
+  ...
+# Subtest: fill-the-gap auto-advances after feedback
+ok 64 - fill-the-gap auto-advances after feedback
+  ---
+  duration_ms: 1813.3815
+  type: 'test'
+  ...
+# Subtest: translation next button advances once
+ok 65 - translation next button advances once
+  ---
+  duration_ms: 21.221125
+  type: 'test'
+  ...
+# Subtest: flashcards flip in full 3D without a motion toggle
+ok 66 - flashcards flip in full 3D without a motion toggle
+  ---
+  duration_ms: 17.8475
+  type: 'test'
+  ...
+# Subtest: sentence builder check stays disabled until all tiles are placed
+ok 67 - sentence builder check stays disabled until all tiles are placed
+  ---
+  duration_ms: 11.610333
+  type: 'test'
+  ...
+# Subtest: pending link and history transitions keep current client state mounted
+ok 68 - pending link and history transitions keep current client state mounted
+  ---
+  duration_ms: 40.021625
+  type: 'test'
+  ...
+# Subtest: gap: empty Enter never reveals or submits; checked answer advances once
+ok 69 - gap: empty Enter never reveals or submits; checked answer advances once
+  ---
+  duration_ms: 21.380375
+  type: 'test'
+  ...
+# Subtest: translation: empty Enter never reveals or submits; checked answer advances once
+ok 70 - translation: empty Enter never reveals or submits; checked answer advances once
+  ---
+  duration_ms: 8.373792
+  type: 'test'
+  ...
+# Subtest: builder advances after checking and final score counts only correct items
+ok 71 - builder advances after checking and final score counts only correct items
+  ---
+  duration_ms: 21.602834
+  type: 'test'
+  ...
+# Subtest: race lights boxes in order, then advances (reduced motion: false)
+ok 72 - race lights boxes in order, then advances (reduced motion: false)
+  ---
+  duration_ms: 18.009667
+  type: 'test'
+  ...
+# Subtest: race lights boxes in order, then advances (reduced motion: true)
+ok 73 - race lights boxes in order, then advances (reduced motion: true)
+  ---
+  duration_ms: 15.783583
+  type: 'test'
+  ...
+# Subtest: race write deadline becomes unverified with no automatic POST retry
+ok 74 - race write deadline becomes unverified with no automatic POST retry
+  ---
+  duration_ms: 9.647583
+  type: 'test'
+  ...
+# Subtest: history errors retain existing rows and offer retry
+ok 75 - history errors retain existing rows and offer retry
+  ---
+  duration_ms: 8.939791
+  type: 'test'
+  ...
+# Subtest: expired reading hides source even when the phase endpoint fails
+ok 76 - expired reading hides source even when the phase endpoint fails
+  ---
+  duration_ms: 3.034333
+  type: 'test'
+  ...
+# Subtest: database labels include nested SQLSTATE and exclude query content
+ok 77 - database labels include nested SQLSTATE and exclude query content
+  ---
+  duration_ms: 0.229791
+  type: 'test'
+  ...
+# Subtest: Retention autosaves the current draft and displays the server result directly
+ok 78 - Retention autosaves the current draft and displays the server result directly
+  ---
+  duration_ms: 7.623125
+  type: 'test'
+  ...
+# Subtest: explanation requires explicit click, sends IDs only, blocks duplicate dispatch and renders source as text
+ok 79 - explanation requires explicit click, sends IDs only, blocks duplicate dispatch and renders source as text
+  ---
+  duration_ms: 34.119583
+  type: 'test'
+  ...
+# Subtest: late response after unmount is aborted and a server exam denial shows no answer
+ok 80 - late response after unmount is aborted and a server exam denial shows no answer
+  ---
+  duration_ms: 4.304375
+  type: 'test'
+  ...
+# Subtest: online heartbeat releases pending requests, intervals and listeners across repeated mounts
+ok 81 - online heartbeat releases pending requests, intervals and listeners across repeated mounts
+  ---
+  duration_ms: 107.363167
+  type: 'test'
+  ...
+# Subtest: a hung heartbeat expires and permits a later online update without leaking timers
+ok 82 - a hung heartbeat expires and permits a later online update without leaking timers
+  ---
+  duration_ms: 0.822166
+  type: 'test'
+  ...
+# Subtest: hidden and offline tabs send no heartbeat; visibility and connectivity resume it; closed tabs stay silent
+ok 83 - hidden and offline tabs send no heartbeat; visibility and connectivity resume it; closed tabs stay silent
+  ---
+  duration_ms: 14.855833
+  type: 'test'
+  ...
+# Subtest: APUI1 owner policy panel presents the two-step approval boundary without exposing a free-form executable policy
+ok 84 - APUI1 owner policy panel presents the two-step approval boundary without exposing a free-form executable policy
+  ---
+  duration_ms: 5.474291
+  type: 'test'
+  ...
+# Subtest: APUI2 Uzbek policy panel also explains that candidates need preview and separate approval
+ok 85 - APUI2 Uzbek policy panel also explains that candidates need preview and separate approval
+  ---
+  duration_ms: 0.553625
+  type: 'test'
+  ...
+# Subtest: en: rollback needs fresh preview, binds the exact hash, denies duplicate dispatch and keeps history intact
+ok 86 - en: rollback needs fresh preview, binds the exact hash, denies duplicate dispatch and keeps history intact
+  ---
+  duration_ms: 52.406208
+  type: 'test'
+  ...
+# Subtest: uz: rollback needs fresh preview, binds the exact hash, denies duplicate dispatch and keeps history intact
+ok 87 - uz: rollback needs fresh preview, binds the exact hash, denies duplicate dispatch and keeps history intact
+  ---
+  duration_ms: 15.543375
+  type: 'test'
+  ...
+# Subtest: mismatched regression hash cannot enable approval; failed rollback preserves history for an explicit retry
+ok 88 - mismatched regression hash cannot enable approval; failed rollback preserves history for an explicit retry
+  ---
+  duration_ms: 14.183667
+  type: 'test'
+  ...
+# Subtest: en: authority revoked during rollback discards cached owner history and never activates a policy
+ok 89 - en: authority revoked during rollback discards cached owner history and never activates a policy
+  ---
+  duration_ms: 8.440917
+  type: 'test'
+  ...
+# Subtest: uz: authority revoked during rollback discards cached owner history and never activates a policy
+ok 90 - uz: authority revoked during rollback discards cached owner history and never activates a policy
+  ---
+  duration_ms: 6.366625
+  type: 'test'
+  ...
+# Subtest: Choose gender: empty, exclusive selection, client error and submitted value
+ok 91 - Choose gender: empty, exclusive selection, client error and submitted value
+  ---
+  duration_ms: 57.72375
+  type: 'test'
+  ...
+# Subtest: Jins tanlang: empty, exclusive selection, client error and submitted value
+ok 92 - Jins tanlang: empty, exclusive selection, client error and submitted value
+  ---
+  duration_ms: 15.876625
+  type: 'test'
+  ...
+# Subtest: native required validation exposes a local gender error without a network request
+ok 93 - native required validation exposes a local gender error without a network request
+  ---
+  duration_ms: 3.526834
+  type: 'test'
+  ...
+# Subtest: flashcard retains both physical faces across body/button/keyboard flips; audio only speaks
+ok 94 - flashcard retains both physical faces across body/button/keyboard flips; audio only speaks
+  ---
+  duration_ms: 25.852292
+  type: 'test'
+  ...
+# Subtest: ACADEMIC_EXAM (active test): the passage reveals nothing — no word target, popup, Add to Vocabulary, hint text or lookup request
+ok 95 - ACADEMIC_EXAM (active test): the passage reveals nothing — no word target, popup, Add to Vocabulary, hint text or lookup request
+  ---
+  duration_ms: 40.625209
+  type: 'test'
+  ...
+# Subtest: ACADEMIC_EXAM: exam component cannot receive lexical data (no occurrences prop, no ClickableText import)
+ok 96 - ACADEMIC_EXAM: exam component cannot receive lexical data (no occurrences prop, no ClickableText import)
+  ---
+  duration_ms: 0.394459
+  type: 'test'
+  ...
+# Subtest: Same content, ACADEMIC_REVIEW (submitted): the same occurrence is interactive and resolves BY OCCURRENCE ID; keyboard open/close/focus return
+ok 97 - Same content, ACADEMIC_REVIEW (submitted): the same occurrence is interactive and resolves BY OCCURRENCE ID; keyboard open/close/focus return
+  ---
+  duration_ms: 33.54925
+  type: 'test'
+  ...
+# Subtest: Reading policy table: exam never, review only after submission and not while an attempt is open, general always
+ok 98 - Reading policy table: exam never, review only after submission and not while an attempt is open, general always
+  ---
+  duration_ms: 0.237541
+  type: 'test'
+  ...
+# Subtest: Review MWE: clicking 'account' (or 'took') opens the WHOLE expression by its occurrence, never 'account' alone
+ok 99 - Review MWE: clicking 'account' (or 'took') opens the WHOLE expression by its occurrence, never 'account' alone
+  ---
+  duration_ms: 17.218292
+  type: 'test'
+  ...
+# Subtest: intent prefetch: opted-in landing after 90ms hover, cancelled on early leave, never for private/explicitly disabled links
+ok 100 - intent prefetch: opted-in landing after 90ms hover, cancelled on early leave, never for private/explicitly disabled links
+  ---
+  duration_ms: 1469.123541
+  type: 'test'
+  ...
+# Subtest: measurement builder: edits structure via form, raw-mode keeps invalid JSON untouched
+ok 101 - measurement builder: edits structure via form, raw-mode keeps invalid JSON untouched
+  ---
+  duration_ms: 39.760333
+  type: 'test'
+  ...
+# Subtest: fonts and welcome: owner font roles, no VocaType assets, single authoritative CTA without prefetch
+ok 102 - fonts and welcome: owner font roles, no VocaType assets, single authoritative CTA without prefetch
+  ---
+  duration_ms: 2.140459
+  type: 'test'
+  ...
+# Subtest: academic-text applied to Reading, Listening, Writing and Grammar reading surfaces
+ok 103 - academic-text applied to Reading, Listening, Writing and Grammar reading surfaces
+  ---
+  duration_ms: 0.495583
+  type: 'test'
+  ...
+# Subtest: progress trends render real values with accessible tables and honest empty/unavailable states
+ok 104 - progress trends render real values with accessible tables and honest empty/unavailable states
+  ---
+  duration_ms: 10.407667
+  type: 'test'
+  ...
+# Subtest: start is one synchronous flight and is cancelled on leave
+ok 105 - start is one synchronous flight and is cancelled on leave
+  ---
+  duration_ms: 26.133417
+  type: 'test'
+  ...
+# Subtest: start deadline stops the spinner and requires an authoritative read before another write
+ok 106 - start deadline stops the spinner and requires an authoritative read before another write
+  ---
+  duration_ms: 9.883167
+  type: 'test'
+  ...
+# Subtest: rows show preview and visible Active/Archived status; pagination is real links
+ok 107 - rows show preview and visible Active/Archived status; pagination is real links
+  ---
+  duration_ms: 29.263833
+  type: 'test'
+  ...
+# Subtest: three-dot menu: labelled, keyboard navigable, Escape/outside close, focus returns
+ok 108 - three-dot menu: labelled, keyboard navigable, Escape/outside close, focus returns
+  ---
+  duration_ms: 15.219125
+  type: 'test'
+  ...
+# Subtest: archive failure is honest and a double click sends one PATCH
+ok 109 - archive failure is honest and a double click sends one PATCH
+  ---
+  duration_ms: 17.723167
+  type: 'test'
+  ...
+# Subtest: Change load failure (non-OK or offline) shows a Retry, never an empty editable form
+ok 110 - Change load failure (non-OK or offline) shows a Retry, never an empty editable form
+  ---
+  duration_ms: 18.970375
+  type: 'test'
+  ...
+# Subtest: live word count uses the shared counter even with an empty structure; stale validation is ignored; issues are shown
+ok 111 - live word count uses the shared counter even with an empty structure; stale validation is ignored; issues are shown
+  ---
+  duration_ms: 1385.807417
+  type: 'test'
+  ...
+# Subtest: save network failure keeps the text, locks against double click and never auto-retries
+ok 112 - save network failure keeps the text, locks against double click and never auto-retries
+  ---
+  duration_ms: 518.417083
+  type: 'test'
+  ...
+# Subtest: validator issue details in the real { issues } shape are formatted
+ok 113 - validator issue details in the real { issues } shape are formatted
+  ---
+  duration_ms: 0.284917
+  type: 'test'
+  ...
+# Subtest: toSourceFree keeps attempt id and persisted deadlines but never the source
+ok 114 - toSourceFree keeps attempt id and persisted deadlines but never the source
+  ---
+  duration_ms: 0.650709
+  type: 'test'
+  ...
+# Subtest: reading deadline with a failed phase refresh: source gone, honest retry, recall arrives on retry
+ok 115 - reading deadline with a failed phase refresh: source gone, honest retry, recall arrives on retry
+  ---
+  duration_ms: 3370.350208
+  type: 'test'
+  ...
+# Subtest: terminal result shows level, label, finish time, allocated/used time, recall words and navigation
+ok 116 - terminal result shows level, label, finish time, allocated/used time, recall words and navigation
+  ---
+  duration_ms: 45.11725
+  type: 'test'
+  ...
+# Subtest: I've finished: confirm, source leaves the DOM at once, one POST, server recall replaces the gate
+ok 117 - I've finished: confirm, source leaves the DOM at once, one POST, server recall replaces the gate
+  ---
+  duration_ms: 9.2685
+  type: 'test'
+  ...
+# Subtest: I've finished with a failed POST: no auto retry, source stays hidden, honest refresh state
+ok 118 - I've finished with a failed POST: no auto retry, source stays hidden, honest refresh state
+  ---
+  duration_ms: 56.608417
+  type: 'test'
+  ...
+# Subtest: N07 start with unknown outcome: no POST retry; one authoritative GET resumes the server's attempt
+ok 119 - N07 start with unknown outcome: no POST retry; one authoritative GET resumes the server's attempt
+  ---
+  duration_ms: 59.471959
+  type: 'test'
+  ...
+# Subtest: N07 start unknown and the server has no attempt: start becomes available again; back/forward restore rechecks
+ok 120 - N07 start unknown and the server has no attempt: start becomes available again; back/forward restore rechecks
+  ---
+  duration_ms: 87.823666
+  type: 'test'
+  ...
+# Subtest: a refused conversation write cannot hide an accepted server answer
+ok 121 - a refused conversation write cannot hide an accepted server answer
+  ---
+  duration_ms: 50.28475
+  type: 'test'
+  ...
+# Subtest: a refused conversation read leaves RIWI usable
+ok 122 - a refused conversation read leaves RIWI usable
+  ---
+  duration_ms: 11.597
+  type: 'test'
+  ...
+# Subtest: leaving RIWI aborts an in-flight send and rejects its late accepted response
+ok 123 - leaving RIWI aborts an in-flight send and rejects its late accepted response
+  ---
+  duration_ms: 9.645208
+  type: 'test'
+  ...
+# Subtest: student feedback sends only the correlated categorical rating for a successful answer
+ok 124 - student feedback sends only the correlated categorical rating for a successful answer
+  ---
+  duration_ms: 12.076083
+  type: 'test'
+  ...
+# Subtest: policy refusals and unavailable answers expose no student feedback controls
+ok 125 - policy refusals and unavailable answers expose no student feedback controls
+  ---
+  duration_ms: 9.246542
+  type: 'test'
+  ...
+# Subtest: student RIWI surface declares self-only scope and renders no learner selector
+ok 126 - student RIWI surface declares self-only scope and renders no learner selector
+  ---
+  duration_ms: 10.161791
+  type: 'test'
+  ...
+# Subtest: Uzbek RIWI copy discloses rolling retention and offline deletion
+ok 127 - Uzbek RIWI copy discloses rolling retention and offline deletion
+  ---
+  duration_ms: 6.018
+  type: 'test'
+  ...
+# Subtest: teacher can target only the server-provided assigned learner and only for report/progress
+ok 128 - teacher can target only the server-provided assigned learner and only for report/progress
+  ---
+  duration_ms: 18.941084
+  type: 'test'
+  ...
+# Subtest: target continuation is user-driven, deduplicated, and preserves a selected learner
+ok 129 - target continuation is user-driven, deduplicated, and preserves a selected learner
+  ---
+  duration_ms: 13.706791
+  type: 'test'
+  ...
+# Subtest: failed target continuation preserves page and selection and exposes a working retry
+ok 130 - failed target continuation preserves page and selection and exposes a working retry
+  ---
+  duration_ms: 15.464875
+  type: 'test'
+  ...
+# Subtest: duplicate target-page clicks issue one request and a stale-context response is discarded
+ok 131 - duplicate target-page clicks issue one request and a stale-context response is discarded
+  ---
+  duration_ms: 12.139834
+  type: 'test'
+  ...
+# Subtest: admin surface is cohort-only without owner controls and a selected report target is explicit
+ok 132 - admin surface is cohort-only without owner controls and a selected report target is explicit
+  ---
+  duration_ms: 11.218
+  type: 'test'
+  ...
+# Subtest: owner scope distinguishes centre-wide reports from an explicitly selected student
+ok 133 - owner scope distinguishes centre-wide reports from an explicitly selected student
+  ---
+  duration_ms: 11.9305
+  type: 'test'
+  ...
+# Subtest: Reporter response exposes the exact canonical snapshot and SQL provenance in the chat UI
+ok 134 - Reporter response exposes the exact canonical snapshot and SQL provenance in the chat UI
+  ---
+  duration_ms: 17.814292
+  type: 'test'
+  ...
+# Subtest: owner provider UI offers only built-in fixtures and exposes readiness without secret values
+ok 135 - owner provider UI offers only built-in fixtures and exposes readiness without secret values
+  ---
+  duration_ms: 5.535833
+  type: 'test'
+  ...
+# Subtest: owner provider UI labels literal answer comparisons without implying semantic quality
+ok 136 - owner provider UI labels literal answer comparisons without implying semantic quality
+  ---
+  duration_ms: 12.183875
+  type: 'test'
+  ...
+# Subtest: owner provider history clears cached experiments after role authorization is revoked
+ok 137 - owner provider history clears cached experiments after role authorization is revoked
+  ---
+  duration_ms: 41.950667
+  type: 'test'
+  ...
+# Subtest: owner provider history count and load-more label are localized in Uzbek
+ok 138 - owner provider history count and load-more label are localized in Uzbek
+  ---
+  duration_ms: 1.046834
+  type: 'test'
+  ...
+# Subtest: owner provider history load-more preserves the page on failure, deduplicates retry results, and rejects reentry
+ok 139 - owner provider history load-more preserves the page on failure, deduplicates retry results, and rejects reentry
+  ---
+  duration_ms: 13.732542
+  type: 'test'
+  ...
+# Subtest: owner governance UI exposes bounded file ingestion and the candidate-only knowledge lifecycle
+ok 140 - owner governance UI exposes bounded file ingestion and the candidate-only knowledge lifecycle
+  ---
+  duration_ms: 7.65275
+  type: 'test'
+  ...
+# Subtest: owner governance localization is structurally complete in Uzbek and uses the ASCII tutuq apostrophe
+ok 141 - owner governance localization is structurally complete in Uzbek and uses the ASCII tutuq apostrophe
+  ---
+  duration_ms: 2.532916
+  type: 'test'
+  ...
+# Subtest: owner governance clears cached histories when page authorization is revoked
+ok 142 - owner governance clears cached histories when page authorization is revoked
+  ---
+  duration_ms: 81.167792
+  type: 'test'
+  ...
+# Subtest: owner governance history load/retry actions are localized in Uzbek
+ok 143 - owner governance history load/retry actions are localized in Uzbek
+  ---
+  duration_ms: 32.108625
+  type: 'test'
+  ...
+# Subtest: failed owner correction request releases busy state and retries with the same idempotency key
+ok 144 - failed owner correction request releases busy state and retries with the same idempotency key
+  ---
+  duration_ms: 58.761167
+  type: 'test'
+  ...
+# Subtest: owner governance paginates sources, learning signals, and audit with failure-safe retry and preserved selection
+ok 145 - owner governance paginates sources, learning signals, and audit with failure-safe retry and preserved selection
+  ---
+  duration_ms: 110.174334
+  type: 'test'
+  ...
+# Subtest: learning review history retries without losing the loaded page, prevents concurrent requests, and appends unique reviews
+ok 146 - learning review history retries without losing the loaded page, prevents concurrent requests, and appends unique reviews
+  ---
+  duration_ms: 58.942042
+  type: 'test'
+  ...
+# Subtest: changing history state filters replaces loaded pages and requests a fresh filter-bound cursor
+ok 147 - changing history state filters replaces loaded pages and requests a fresh filter-bound cursor
+  ---
+  duration_ms: 62.283625
+  type: 'test'
+  ...
+# Subtest: utilities stack: inside presses keep it open, an outside press closes it, Escape closes it
+ok 148 - utilities stack: inside presses keep it open, an outside press closes it, Escape closes it
+  ---
+  duration_ms: 40.921
+  type: 'test'
+  ...
+# Subtest: explicit Send preserves feedback in the session, deduplicates clicks, and Next completes the same item
+ok 149 - explicit Send preserves feedback in the session, deduplicates clicks, and Next completes the same item
+  ---
+  duration_ms: 200.819041
+  type: 'test'
+  ...
+# Subtest: unmount during explicit Send ignores a late evaluation and never advances the detached session
+ok 150 - unmount during explicit Send ignores a late evaluation and never advances the detached session
+  ---
+  duration_ms: 7.638167
+  type: 'test'
+  ...
+# Subtest: failed Send keeps the same reviewed source locked and moves keyboard focus to review and feedback
+ok 151 - failed Send keeps the same reviewed source locked and moves keyboard focus to review and feedback
+  ---
+  duration_ms: 9.185542
+  type: 'test'
+  ...
+# Subtest: microphone check releases a permission grant arriving after unmount
+ok 152 - microphone check releases a permission grant arriving after unmount
+  ---
+  duration_ms: 27.687833
+  type: 'test'
+  ...
+# Subtest: microphone Continue requires measured nonzero energy and releases analyser resources
+ok 153 - microphone Continue requires measured nonzero energy and releases analyser resources
+  ---
+  duration_ms: 10.2505
+  type: 'test'
+  ...
+# Subtest: AI and Shadowing consumers abort pending microphone acquisition on unmount
+ok 154 - AI and Shadowing consumers abort pending microphone acquisition on unmount
+  ---
+  duration_ms: 14.309166
+  type: 'test'
+  ...
+# Subtest: audio recording and editable manual review remain available without browser STT
+ok 155 - audio recording and editable manual review remain available without browser STT
+  ---
+  duration_ms: 6.227917
+  type: 'test'
+  ...
+# Subtest: permission denial and timeout release deadlines and keep Continue unavailable
+ok 156 - permission denial and timeout release deadlines and keep Continue unavailable
+  ---
+  duration_ms: 4.541042
+  type: 'test'
+  ...
+# Subtest: unmount during asynchronous recorder Stop releases tracks and the pending stop deadline
+ok 157 - unmount during asynchronous recorder Stop releases tracks and the pending stop deadline
+  ---
+  duration_ms: 3.7065
+  type: 'test'
+  ...
+# Subtest: Part 2 preparation keeps the microphone off; early Start and timer limit only enter review
+ok 158 - Part 2 preparation keeps the microphone off; early Start and timer limit only enter review
+  ---
+  duration_ms: 4.500417
+  type: 'test'
+  ...
+# Subtest: Stop preserves a late final result and waits for recognition end before transcript review
+ok 159 - Stop preserves a late final result and waits for recognition end before transcript review
+  ---
+  duration_ms: 14.442
+  type: 'test'
+  ...
+# Subtest: result snapshots replace interim text and do not duplicate final results on repeated events
+ok 160 - result snapshots replace interim text and do not duplicate final results on repeated events
+  ---
+  duration_ms: 3.104292
+  type: 'test'
+  ...
+# Subtest: reset settles a pending stop and stale callbacks cannot change a new recording
+ok 161 - reset settles a pending stop and stale callbacks cannot change a new recording
+  ---
+  duration_ms: 4.61475
+  type: 'test'
+  ...
+# Subtest: permission/start failures release handlers and allow retry; no-speech end remains editable
+ok 162 - permission/start failures release handlers and allow retry; no-speech end remains editable
+  ---
+  duration_ms: 1.615292
+  type: 'test'
+  ...
+# Subtest: bounded stop timeout and stop exceptions preserve finals and release handlers
+ok 163 - bounded stop timeout and stop exceptions preserve finals and release handlers
+  ---
+  duration_ms: 1.431125
+  type: 'test'
+  ...
+# Subtest: unmount settles finalization and detaches handlers; unsupported recognition is optional
+ok 164 - unmount settles finalization and detaches handlers; unsupported recognition is optional
+  ---
+  duration_ms: 1.16525
+  type: 'test'
+  ...
+# Subtest: AI recorder waits for the late final before editable review and never uploads on Stop
+ok 165 - AI recorder waits for the late final before editable review and never uploads on Stop
+  ---
+  duration_ms: 37.039791
+  type: 'test'
+  ...
+# Subtest: S1 standalone exposes real authored Comprehension
+ok 166 - S1 standalone exposes real authored Comprehension
+  ---
+  duration_ms: 29.027
+  type: 'test'
+  ...
+# Subtest: S2 standalone exposes real authored gap-fill
+ok 167 - S2 standalone exposes real authored gap-fill
+  ---
+  duration_ms: 13.435208
+  type: 'test'
+  ...
+# Subtest: S3 standalone authored stages retain their ordered learning flow
+ok 168 - S3 standalone authored stages retain their ordered learning flow
+  ---
+  duration_ms: 7.186917
+  type: 'test'
+  ...
+# Subtest: R4 course mode still renders authored Comprehension and gap-fill
+ok 169 - R4 course mode still renders authored Comprehension and gap-fill
+  ---
+  duration_ms: 6.414417
+  type: 'test'
+  ...
+# Subtest: mode is explicit at both call sites and authored data determines question tabs
+ok 170 - mode is explicit at both call sites and authored data determines question tabs
+  ---
+  duration_ms: 0.514833
+  type: 'test'
+  ...
+# Subtest: S4 standalone Management supports authored exercises
+ok 171 - S4 standalone Management supports authored exercises
+  ---
+  duration_ms: 7.056916
+  type: 'test'
+  ...
+# Subtest: S5 selecting a course lesson makes the question editor available
+ok 172 - S5 selecting a course lesson makes the question editor available
+  ---
+  duration_ms: 6.670667
+  type: 'test'
+  ...
+# Subtest: S6 changing the course link preserves the authored draft and submits it in standalone mode
+ok 173 - S6 changing the course link preserves the authored draft and submits it in standalone mode
+  ---
+  duration_ms: 23.936125
+  type: 'test'
+  ...
+# Subtest: S7 the admin API validates optional authored exercises for both modes
+ok 174 - S7 the admin API validates optional authored exercises for both modes
+  ---
+  duration_ms: 0.357708
+  type: 'test'
+  ...
+# Subtest: F1 END -> one final write with the end report
+ok 175 - F1 END -> one final write with the end report
+  ---
+  duration_ms: 9.421167
+  type: 'test'
+  ...
+# Subtest: F2 END -> immediate Replay does not cancel the final write; replay starts at 0 and stays completed
+ok 176 - F2 END -> immediate Replay does not cancel the final write; replay starts at 0 and stays completed
+  ---
+  duration_ms: 14.884292
+  type: 'test'
+  ...
+# Subtest: F3 END -> immediate unmount does not cancel the final write
+ok 177 - F3 END -> immediate unmount does not cancel the final write
+  ---
+  duration_ms: 7.7135
+  type: 'test'
+  ...
+# Subtest: F4 duplicated END (onStateChange + infoDelivery) -> one logical final write
+ok 178 - F4 duplicated END (onStateChange + infoDelivery) -> one logical final write
+  ---
+  duration_ms: 9.199583
+  type: 'test'
+  ...
+# Subtest: F5 END while a periodic write is in flight -> final write still sent
+ok 179 - F5 END while a periodic write is in flight -> final write still sent
+  ---
+  duration_ms: 10.241166
+  type: 'test'
+  ...
+# Subtest: F8 unknown-duration END without a fresh currentTime uses the last acknowledged position
+ok 180 - F8 unknown-duration END without a fresh currentTime uses the last acknowledged position
+  ---
+  duration_ms: 7.367584
+  type: 'test'
+  ...
+# Subtest: F6/F7 forged END from a wrong origin or another window -> no final write, no end screen
+ok 181 - F6/F7 forged END from a wrong origin or another window -> no final write, no end screen
+  ---
+  duration_ms: 7.098083
+  type: 'test'
+  ...
+# Subtest: resume contract: >=5 unfinished resumes, completed/<5 start at 0; never NaN/negative
+ok 182 - resume contract: >=5 unfinished resumes, completed/<5 start at 0; never NaN/negative
+  ---
+  duration_ms: 26.584167
+  type: 'test'
+  ...
+# Subtest: O1-O6 origin resolution is exact, safe and never *
+ok 183 - O1-O6 origin resolution is exact, safe and never *
+  ---
+  duration_ms: 0.510958
+  type: 'test'
+  ...
+# Subtest: O7/O8 both player routes pass the resolved origin; the player emits it and never *
+ok 184 - O7/O8 both player routes pass the resolved origin; the player emits it and never *
+  ---
+  duration_ms: 10.263042
+  type: 'test'
+  ...
+# Subtest: A1-A7 activity selector is a tablist with linked tabs/panel and arrow/Home/End keys
+ok 185 - A1-A7 activity selector is a tablist with linked tabs/panel and arrow/Home/End keys
+  ---
+  duration_ms: 14.484875
+  type: 'test'
+  ...
+# Subtest: A8 the player stays a native, titled iframe with nothing layered over it
+ok 186 - A8 the player stays a native, titled iframe with nothing layered over it
+  ---
+  duration_ms: 4.714084
+  type: 'test'
+  ...
+# Subtest: P1-P3 position ticks do not re-render per timestamp; progress posts per >=5 s, one at a time
+ok 187 - P1-P3 position ticks do not re-render per timestamp; progress posts per >=5 s, one at a time
+  ---
+  duration_ms: 17.103667
+  type: 'test'
+  ...
+# Subtest: P4/P5 opinion and summary keep focus, cursor and draft while the player reports progress
+ok 188 - P4/P5 opinion and summary keep focus, cursor and draft while the player reports progress
+  ---
+  duration_ms: 15.07025
+  type: 'test'
+  ...
+# Subtest: standalone Vocabulary renders the authored sense and saves its occurrence through the real API contract
+ok 189 - standalone Vocabulary renders the authored sense and saves its occurrence through the real API contract
+  ---
+  duration_ms: 10.046459
+  type: 'test'
+  ...
+# Subtest: 01 the whole card is one internal link to the native lesson URL
+ok 190 - 01 the whole card is one internal link to the native lesson URL
+  ---
+  duration_ms: 23.1675
+  type: 'test'
+  ...
+# Subtest: 02 a valid YouTube id gets the static YouTube still as a 16:9 thumbnail
+ok 191 - 02 a valid YouTube id gets the static YouTube still as a 16:9 thumbnail
+  ---
+  duration_ms: 8.874333
+  type: 'test'
+  ...
+# Subtest: 03 an invalid id shows the in-app fallback, never a broken image
+ok 192 - 03 an invalid id shows the in-app fallback, never a broken image
+  ---
+  duration_ms: 4.469125
+  type: 'test'
+  ...
+# Subtest: 04 a direct-media item uses the fallback, not a YouTube image
+ok 193 - 04 a direct-media item uses the fallback, not a YouTube image
+  ---
+  duration_ms: 2.621708
+  type: 'test'
+  ...
+# Subtest: 05 an image that fails to load falls back
+ok 194 - 05 an image that fails to load falls back
+  ---
+  duration_ms: 3.423833
+  type: 'test'
+  ...
+# Subtest: 06 the title is clamped to 2-3 lines and the thumbnail is decorative
+ok 195 - 06 the title is clamped to 2-3 lines and the thumbnail is decorative
+  ---
+  duration_ms: 1.875458
+  type: 'test'
+  ...
+# Subtest: 07 duration appears only when stored
+ok 196 - 07 duration appears only when stored
+  ---
+  duration_ms: 1.946041
+  type: 'test'
+  ...
+# Subtest: 08 no stored metadata means no invented metadata line
+ok 197 - 08 no stored metadata means no invented metadata line
+  ---
+  duration_ms: 1.509208
+  type: 'test'
+  ...
+# Subtest: 09 a library card never contains an iframe
+ok 198 - 09 a library card never contains an iframe
+  ---
+  duration_ms: 2.711125
+  type: 'test'
+  ...
+# Subtest: 10 a library card has no external link and no big 'Open the lesson' button
+ok 199 - 10 a library card has no external link and no big 'Open the lesson' button
+  ---
+  duration_ms: 2.205375
+  type: 'test'
+  ...
+# Subtest: 11 the progress status is shown on the card
+ok 200 - 11 the progress status is shown on the card
+  ---
+  duration_ms: 1.59625
+  type: 'test'
+  ...
+# Subtest: 12 the library is a responsive 1/2/3/4-column grid
+ok 201 - 12 the library is a responsive 1/2/3/4-column grid
+  ---
+  duration_ms: 0.078625
+  type: 'test'
+  ...
+# Subtest: 13 the library page renders no iframe and navigates with Next Link only
+ok 202 - 13 the library page renders no iframe and navigates with Next Link only
+  ---
+  duration_ms: 0.100708
+  type: 'test'
+  ...
+# Subtest: 14 the heading stays TED / PODCAST in both locales
+ok 203 - 14 the heading stays TED / PODCAST in both locales
+  ---
+  duration_ms: 0.042666
+  type: 'test'
+  ...
+# Subtest: 15 new UI strings exist in UZ and EN
+ok 204 - 15 new UI strings exist in UZ and EN
+  ---
+  duration_ms: 0.026166
+  type: 'test'
+  ...
+# Subtest: 16 existing routes are kept: standalone and roadmap-linked hrefs
+ok 205 - 16 existing routes are kept: standalone and roadmap-linked hrefs
+  ---
+  duration_ms: 0.031542
+  type: 'test'
+  ...
+# Subtest: 17 detail order is title/metadata, then the player, with a Link back
+ok 206 - 17 detail order is title/metadata, then the player, with a Link back
+  ---
+  duration_ms: 0.077875
+  type: 'test'
+  ...
+# Subtest: 18 the player is YouTube's native /embed/ player with native controls
+ok 207 - 18 the player is YouTube's native /embed/ player with native controls
+  ---
+  duration_ms: 10.174958
+  type: 'test'
+  ...
+# Subtest: 19 the JS API origin is the configured site origin, absent otherwise, never *
+ok 208 - 19 the JS API origin is the configured site origin, absent otherwise, never *
+  ---
+  duration_ms: 12.324
+  type: 'test'
+  ...
+# Subtest: 20 iframe has a title, lazy loading, fullscreen and a minimal allow list
+ok 209 - 20 iframe has a title, lazy loading, fullscreen and a minimal allow list
+  ---
+  duration_ms: 6.44225
+  type: 'test'
+  ...
+# Subtest: 21 the non-escape sandbox is preserved (no popups, no top navigation)
+ok 210 - 21 the non-escape sandbox is preserved (no popups, no top navigation)
+  ---
+  duration_ms: 5.866125
+  type: 'test'
+  ...
+# Subtest: 22 activities sit below the player, with no sidebar
+ok 211 - 22 activities sit below the player, with no sidebar
+  ---
+  duration_ms: 5.639666
+  type: 'test'
+  ...
+# Subtest: 23 Your opinion and Summary are kept; no Comprehension or gap-fill placeholders
+ok 212 - 23 Your opinion and Summary are kept; no Comprehension or gap-fill placeholders
+  ---
+  duration_ms: 6.598084
+  type: 'test'
+  ...
+# Subtest: 24 Notes appear only when notes exist
+ok 213 - 24 Notes appear only when notes exist
+  ---
+  duration_ms: 11.978209
+  type: 'test'
+  ...
+# Subtest: 25 no app-owned More videos / Copy link / Watch on YouTube; Transcript only when authored content exists
+ok 214 - 25 no app-owned More videos / Copy link / Watch on YouTube; Transcript only when authored content exists
+  ---
+  duration_ms: 27.661875
+  type: 'test'
+  ...
+# Subtest: 26 the player fills the width at 16:9 with nothing layered over it while playing
+ok 215 - 26 the player fills the width at 16:9 with nothing layered over it while playing
+  ---
+  duration_ms: 5.419209
+  type: 'test'
+  ...
+# Subtest: A1 resume: an unfinished lesson reopens at the saved position; a completed one starts at 0
+ok 216 - A1 resume: an unfinished lesson reopens at the saved position; a completed one starts at 0
+  ---
+  duration_ms: 21.602375
+  type: 'test'
+  ...
+# Subtest: A2 the verified end event sends the final position once and shows a localized replay
+ok 217 - A2 the verified end event sends the final position once and shows a localized replay
+  ---
+  duration_ms: 16.031
+  type: 'test'
+  ...
+# Subtest: outbound-navigation regression: no external link, new tab, or scripted navigation anywhere in the module
+ok 218 - outbound-navigation regression: no external link, new tab, or scripted navigation anywhere in the module
+  ---
+  duration_ms: 6.493917
+  type: 'test'
+  ...
+# Subtest: empty optional content hides its tabs while an authored exercise remains available
+ok 219 - empty optional content hides its tabs while an authored exercise remains available
+  ---
+  duration_ms: 12.878709
+  type: 'test'
+  ...
+# Subtest: no app-owned More videos / Copy link / Watch on YouTube surface
+ok 220 - no app-owned More videos / Copy link / Watch on YouTube surface
+  ---
+  duration_ms: 0.272584
+  type: 'test'
+  ...
+# Subtest: Use folder-only check advances within its file (accepted: true)
+ok 221 - Use folder-only check advances within its file (accepted: true)
+  ---
+  duration_ms: 1507.608333
+  type: 'test'
+  ...
+# Subtest: Use folder-only check advances within its file (accepted: false)
+ok 222 - Use folder-only check advances within its file (accepted: false)
+  ---
+  duration_ms: 1483.226792
+  type: 'test'
+  ...
+# Subtest: Use an explicit word remains selected after checking; evaluator failure keeps draft
+ok 223 - Use an explicit word remains selected after checking; evaluator failure keeps draft
+  ---
+  duration_ms: 1482.447958
+  type: 'test'
+  ...
+# Subtest: Use changing the file clears an old draft and cannot carry words into another file
+ok 224 - Use changing the file clears an old draft and cannot carry words into another file
+  ---
+  duration_ms: 28.718792
+  type: 'test'
+  ...
+# Subtest: Use word pages are concatenated before shuffling, including the 101st entry
+ok 225 - Use word pages are concatenated before shuffling, including the 101st entry
+  ---
+  duration_ms: 17.791584
+  type: 'test'
+  ...
+# Subtest: Video authoring keeps URL, title and notes first and supports a legitimate optional transcript
+ok 226 - Video authoring keeps URL, title and notes first and supports a legitimate optional transcript
+  ---
+  duration_ms: 10.979833
+  type: 'test'
+  ...
+# Subtest: Player keeps native controls and CC, forbids popups/top navigation and has no below-player transcript control
+ok 227 - Player keeps native controls and CC, forbids popups/top navigation and has no below-player transcript control
+  ---
+  duration_ms: 15.481917
+  type: 'test'
+  ...
+# Subtest: Video network failure releases save and keeps the learner draft for a manual retry
+ok 228 - Video network failure releases save and keeps the learner draft for a manual retry
+  ---
+  duration_ms: 14.148041
+  type: 'test'
+  ...
+# Subtest: Slow video progress survives subsequent player ticks and aborts only when leaving
+ok 229 - Slow video progress survives subsequent player ticks and aborts only when leaving
+  ---
+  duration_ms: 7.637208
+  type: 'test'
+  ...
+# Subtest: TED end screen rejects forged messages and replaces the genuine completed frame with Replay
+ok 230 - TED end screen rejects forged messages and replaces the genuine completed frame with Replay
+  ---
+  duration_ms: 13.061791
+  type: 'test'
+  ...
+# Subtest: Vocabulary My Words renders the empty library and zero-folder state without treating it as an error
+ok 231 - Vocabulary My Words renders the empty library and zero-folder state without treating it as an error
+  ---
+  duration_ms: 35.815541
+  type: 'test'
+  ...
+# Subtest: normal words, nullable lexical fields, and present folders render together
+ok 232 - normal words, nullable lexical fields, and present folders render together
+  ---
+  duration_ms: 8.567333
+  type: 'test'
+  ...
+# Subtest: many words stay page-bounded while the complete aggregate remains accurate and load-more is available
+ok 233 - many words stay page-bounded while the complete aggregate remains accurate and load-more is available
+  ---
+  duration_ms: 21.214583
+  type: 'test'
+  ...
+# Subtest: summary and folder failures leave the core library usable and each retry targets its own region
+ok 234 - summary and folder failures leave the core library usable and each retry targets its own region
+  ---
+  duration_ms: 4.255
+  type: 'test'
+  ...
+# Subtest: successful empty word-picker and sentence-history responses have intentional empty states
+ok 235 - successful empty word-picker and sentence-history responses have intentional empty states
+  ---
+  duration_ms: 12.893417
+  type: 'test'
+  ...
+# Subtest: Use It supports empty words/history, nullable historical evaluation ids, and isolated history retry
+ok 236 - Use It supports empty words/history, nullable historical evaluation ids, and isolated history retry
+  ---
+  duration_ms: 5.2265
+  type: 'test'
+  ...
+# Subtest: a core Vocabulary library failure preserves the workspace and retries only the library request
+ok 237 - a core Vocabulary library failure preserves the workspace and retries only the library request
+  ---
+  duration_ms: 14.193833
+  type: 'test'
+  ...
+# Subtest: Vocabulary API auth failures refresh the server gate instead of exposing private data
+ok 238 - Vocabulary API auth failures refresh the server gate instead of exposing private data
+  ---
+  duration_ms: 3.835833
+  type: 'test'
+  ...
+# Subtest: an empty standing is healthy; a failed standing retries without repeating optional award history
+ok 239 - an empty standing is healthy; a failed standing retries without repeating optional award history
+  ---
+  duration_ms: 9.240792
+  type: 'test'
+  ...
+# Subtest: recent point history failure leaves the standing panel usable and retries only its API scope
+ok 240 - recent point history failure leaves the standing panel usable and retries only its API scope
+  ---
+  duration_ms: 18.63875
+  type: 'test'
+  ...
+# Subtest: Vocabulary route has no pre-frame DB data fanout; core library failures are local, authenticated, and paginated
+ok 241 - Vocabulary route has no pre-frame DB data fanout; core library failures are local, authenticated, and paginated
+  ---
+  duration_ms: 0.551833
+  type: 'test'
+  ...
+# Subtest: Vocabulary APIs re-authorize, no-store, and isolate secondary query failures; legacy points remain contract-derived
+ok 242 - Vocabulary APIs re-authorize, no-store, and isolate secondary query failures; legacy points remain contract-derived
+  ---
+  duration_ms: 0.410458
+  type: 'test'
+  ...
+# Subtest: changing words resets text, translation, folder and validation state
+ok 243 - changing words resets text, translation, folder and validation state
+  ---
+  duration_ms: 62.741
+  type: 'test'
+  ...
+# Subtest: late old lookup cannot populate the new word, even when transport ignores abort
+ok 244 - late old lookup cannot populate the new word, even when transport ignores abort
+  ---
+  duration_ms: 6.5395
+  type: 'test'
+  ...
+# Subtest: network failure ends loading and a retry recovers without writing anything
+ok 245 - network failure ends loading and a retry recovers without writing anything
+  ---
+  duration_ms: 7.605417
+  type: 'test'
+  ...
+# Subtest: invalid JSON leaves popup recoverable and cannot spill errors into another word
+ok 246 - invalid JSON leaves popup recoverable and cannot spill errors into another word
+  ---
+  duration_ms: 6.243
+  type: 'test'
+  ...
+# Subtest: wrong JSON shape leaves popup recoverable and cannot spill errors into another word
+ok 247 - wrong JSON shape leaves popup recoverable and cannot spill errors into another word
+  ---
+  duration_ms: 7.47325
+  type: 'test'
+  ...
+# Subtest: server failure leaves popup recoverable and cannot spill errors into another word
+ok 248 - server failure leaves popup recoverable and cannot spill errors into another word
+  ---
+  duration_ms: 5.437
+  type: 'test'
+  ...
+# Subtest: interrupted body leaves popup recoverable and cannot spill errors into another word
+ok 249 - interrupted body leaves popup recoverable and cannot spill errors into another word
+  ---
+  duration_ms: 5.107291
+  type: 'test'
+  ...
+# Subtest: lookup deadline ends loading with feedback
+ok 250 - lookup deadline ends loading with feedback
+  ---
+  duration_ms: 4.787916
+  type: 'test'
+  ...
+# Subtest: failed save retains input, retry sends selected folder, success never carries to another word
+ok 251 - failed save retains input, retry sends selected folder, success never carries to another word
+  ---
+  duration_ms: 9.311792
+  type: 'test'
+  ...
+# Subtest: Escape closes and restores the text region focus; outside click closes
+ok 252 - Escape closes and restores the text region focus; outside click closes
+  ---
+  duration_ms: 7.626041
+  type: 'test'
+  ...
+# Subtest: plain text is preserved and native selection never opens lookup
+ok 253 - plain text is preserved and native selection never opens lookup
+  ---
+  duration_ms: 3.82825
+  type: 'test'
+  ...
+# Subtest: drag, long press and cancelled touch do not open a lookup
+ok 254 - drag, long press and cancelled touch do not open a lookup
+  ---
+  duration_ms: 2.03975
+  type: 'test'
+  ...
+# Subtest: one keyboard stop navigates words and opens the selected word with Enter
+ok 255 - one keyboard stop navigates words and opens the selected word with Enter
+  ---
+  duration_ms: 4.182875
+  type: 'test'
+  ...
+# Subtest: contextual same-spelling words fetch and save their own occurrence identity
+ok 256 - contextual same-spelling words fetch and save their own occurrence identity
+  ---
+  duration_ms: 7.459333
+  type: 'test'
+  ...
+# Subtest: double-click does not focus a popup before native word selection
+ok 257 - double-click does not focus a popup before native word selection
+  ---
+  duration_ms: 3.744334
+  type: 'test'
+  ...
+# Subtest: Listening spelling-only lookup shows "Meaning not checked yet" and saves only the learner's own meaning
+ok 258 - Listening spelling-only lookup shows "Meaning not checked yet" and saves only the learner's own meaning
+  ---
+  duration_ms: 4.769166
+  type: 'test'
+  ...
+# Subtest: Listening unknown meaning remains editable rather than inventing a translation
+ok 259 - Listening unknown meaning remains editable rather than inventing a translation
+  ---
+  duration_ms: 2.740792
+  type: 'test'
+  ...
+# Subtest: Listening click resolves by occurrence, shows only the linked sense with POS/type, and saves the occurrence
+ok 260 - Listening click resolves by occurrence, shows only the linked sense with POS/type, and saves the occurrence
+  ---
+  duration_ms: 5.573917
+  type: 'test'
+  ...
+# Subtest: An occurrence the server marks unresolved shows the unchecked state, no meaning, and never posts its occurrence
+ok 261 - An occurrence the server marks unresolved shows the unchecked state, no meaning, and never posts its occurrence
+  ---
+  duration_ms: 4.714208
+  type: 'test'
+  ...
+# Subtest: A stored pronunciation is shown; an already-saved sense shows its mastery instead of the save form
+ok 262 - A stored pronunciation is shown; an already-saved sense shows its mastery instead of the save form
+  ---
+  duration_ms: 4.826375
+  type: 'test'
+  ...
+# Subtest: Rapid clicks between two occurrences: the late first answer never fills the second popup
+ok 263 - Rapid clicks between two occurrences: the late first answer never fills the second popup
+  ---
+  duration_ms: 6.662125
+  type: 'test'
+  ...
+# Subtest: Listening popup is a labelled dialog that takes focus, closes on Escape and returns focus; buttons are labelled
+ok 264 - Listening popup is a labelled dialog that takes focus, closes on Escape and returns focus; buttons are labelled
+  ---
+  duration_ms: 4.630334
+  type: 'test'
+  ...
+# Subtest: Reading word without an occurrence: no spelling search, "Meaning not checked yet", own meaning only
+ok 265 - Reading word without an occurrence: no spelling search, "Meaning not checked yet", own meaning only
+  ---
+  duration_ms: 4.672667
+  type: 'test'
+  ...
+1..265
+# tests 265
+# suites 0
+# pass 265
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 62422.495792
