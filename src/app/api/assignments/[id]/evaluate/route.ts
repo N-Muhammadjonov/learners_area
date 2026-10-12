@@ -4,7 +4,7 @@ import { PUBLIC_CHECKED_BY } from "@/lib/services/coach/attribution";
 import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db/client";
-import { assignments, writingPrompts, writingSubmissions } from "@/db/schema";
+import { assignmentTargets, assignments, writingPrompts, writingSubmissions } from "@/db/schema";
 import { isAdministrator, requireActiveUser } from "@/lib/auth/current-user";
 import { canManageContent } from "@/lib/auth/ownership";
 import { getLocale } from "@/lib/i18n";
@@ -66,9 +66,36 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   });
   if (!assignment) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
-  const isTargetStudent = assignment.targetUserId === user.id;
+  /*
+   * §11 — AUTHORIZE AND ATTRIBUTE AGAINST THE CALLER, NOT AGAINST "THE FIRST TARGET".
+   *
+   * `createAssignment` writes an `assignment_targets` row for EVERY student it is given, but
+   * `assignments.targetUserId` is a single column that only ever holds `studentIds[0]`. The read path
+   * already knows this — `mayReadAssignment` accepts any id present in the target rows — while this route
+   * accepted only `targetUserId`. So a second target could open work that was set for them and then be
+   * refused when submitting it: the read and write paths disagreed about who the assignment belongs to.
+   *
+   * Taking the union cannot remove anyone's access (`targetUserId` is still accepted), so it is strictly
+   * safe. Under the single-target contract every shipped caller uses, the two sets are identical and
+   * behaviour is unchanged — this is not multi-target support being invented, it is the two authorization
+   * paths being made to agree.
+   */
+  const targetRows = await db
+    .select({ studentUserId: assignmentTargets.studentUserId })
+    .from(assignmentTargets)
+    .where(eq(assignmentTargets.assignmentId, assignment.id));
+  const isTargetStudent = assignment.targetUserId === user.id || targetRows.some((row) => row.studentUserId === user.id);
   const isManager =
     isAdministrator(user.role) || canManageContent(user, assignment.createdByUserId);
+  /*
+   * The learner whose work is actually being evaluated. A student caller evaluates THEIR OWN work; a
+   * manager (teacher/admin) evaluates on behalf of the assignment's target, which is the existing
+   * behaviour and is preserved. Resolving the subject from the caller is what stops a second target's
+   * submission from being looked up, evaluated, marked complete and reported as the first target's —
+   * cross-learner attribution, and the reason `assignment.targetUserId` is no longer read directly below.
+   */
+  const subjectUserId = isTargetStudent ? user.id : assignment.targetUserId;
+
   if (!isTargetStudent && !isManager) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
@@ -93,7 +120,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (dispatch.kind === "writing_task") {
     const submission = await db.query.writingSubmissions.findFirst({
       where: and(
-        eq(writingSubmissions.userId, assignment.targetUserId),
+        eq(writingSubmissions.userId, subjectUserId),
         eq(writingSubmissions.promptId, dispatch.writingPromptId)
       ),
       orderBy: desc(writingSubmissions.updatedAt),
@@ -112,7 +139,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
     // Delegate — do not re-implement writing evaluation here.
     const outcome = await evaluateWritingSubmission({
-      userId: assignment.targetUserId,
+      userId: subjectUserId,
       submissionId: submission.id,
       taskType: prompt.taskType,
       prompt: prompt.prompt,
@@ -122,7 +149,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     });
     if (!outcome.ok) return NextResponse.json({ error: outcome.error }, { status: 502 });
 
-    await markCompleted(assignment.id, assignment.targetUserId);
+    await markCompleted(assignment.id, subjectUserId);
 
     return NextResponse.json({
       ok: true,
@@ -152,7 +179,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   });
   if (!outcome.ok) return NextResponse.json({ error: outcome.error }, { status: 502 });
 
-  await markCompleted(assignment.id, assignment.targetUserId);
+  await markCompleted(assignment.id, subjectUserId);
 
   return NextResponse.json({
     ok: true,
