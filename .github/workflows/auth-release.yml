@@ -3,6 +3,9 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+concurrency:
+  group: auth-release-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -18,8 +21,8 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint
-      - name: Authentication and security regression
-        run: node --no-wasm-tier-up --conditions=react-server --import tsx --test --test-concurrency=1 tests/public-auth-policy.test.ts tests/login-enumeration-timing.test.ts tests/password-login-projection.test.ts tests/google-auth.test.ts tests/security-http.test.ts tests/cookie-policy.test.ts tests/rate-limit-trust-boundary.test.ts tests/owner-invariant.test.ts tests/app-namespace.test.ts tests/brand-assets.test.ts
+      - name: Full unit, authentication and security regression
+        run: node --no-wasm-tier-up --conditions=react-server --import tsx --test --test-concurrency=2 tests/*.test.ts
       - name: Authentication UI regression
         run: TSX_TSCONFIG_PATH=tests/ui/tsconfig.json node --import tsx --test tests/ui/auth-release.test.tsx tests/ui/part1-hotfix.test.tsx
       - run: npm run build
