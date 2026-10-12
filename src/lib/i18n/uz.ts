@@ -477,6 +477,7 @@ const uz: Dictionary = {
     trialNote: "Demo kurs kontenti — to'liq katalog bosqichma-bosqich ochiladi.",
   },
   auth: {
+    or: "yoki",
     loginTitle: "Xush kelibsiz",
     loginSubtitle: "O'quv rejangizni davom ettirish uchun tizimga kiring.",
     registerTitle: "Hisob yarating",

@@ -115,7 +115,7 @@ export function RegisterForm({
         {pending ? dict.common.loading : dict.auth.registerCta}
       </Button>
       <div className="relative py-1 text-center text-xs text-ink-300">
-        <span className="relative bg-paper-raised px-2">or</span>
+        <span className="relative bg-paper-raised px-2">{dict.auth.or}</span>
         <div className="absolute inset-x-0 top-1/2 -z-10 h-px bg-ink-100" />
       </div>
       <TelegramButton

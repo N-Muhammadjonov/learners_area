@@ -99,7 +99,7 @@ export function LoginForm({
         </Link>
       </div>
       <div className="relative py-1 text-center text-xs text-ink-300">
-        <span className="relative bg-paper-raised px-2">or</span>
+        <span className="relative bg-paper-raised px-2">{dict.auth.or}</span>
         <div className="absolute inset-x-0 top-1/2 -z-10 h-px bg-ink-100" />
       </div>
       {googleConfigured && (

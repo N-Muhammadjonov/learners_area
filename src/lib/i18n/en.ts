@@ -475,6 +475,7 @@ const en = {
     trialNote: "Demo course content — full catalogue opens as it's published.",
   },
   auth: {
+    or: "or",
     loginTitle: "Welcome back",
     loginSubtitle: "Log in to continue your study plan.",
     registerTitle: "Create your account",
