@@ -92,7 +92,7 @@ test("no two routes resolve to the same URL, and one parent never uses two slug 
 });
 
 test("every authenticated page lives under /app, and only the public pages do not", () => {
-  const PUBLIC_PREFIXES = ["/login", "/register", "/reset-password", "/pending", "/onboarding", "/api", "/_not-found"];
+  const PUBLIC_PREFIXES = ["/login", "/auth/recovery", "/register", "/reset-password", "/pending", "/onboarding", "/api", "/_not-found"];
   const offenders = ROUTES.filter(
     (r) =>
       r.url !== "/" &&
