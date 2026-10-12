@@ -49,46 +49,10 @@ test("R6 filters/pagination/reset stay on General without a redundant tab round 
  assert.doesNotMatch(library,/tab="general-reading"/);
 });
 
-test("R2 the passage library (search, filters, pages) is rendered and queried under General Reading", () => {
-  const general = panel("general-reading");
-  assert.match(general, /data-reading-library/);
-  assert.match(general, /ReadingFiltersRegion/);
-  assert.match(page, /tab === "general-reading"\s*\?\s*captureRegion\(listLearningLibrary\(userId, filter\)\)/);
-  assert.doesNotMatch(panel("academic"), /ReadingFiltersRegion|listLibrary/);
-});
-
-test("R3 the guided reading sets moved under Academic; General Training, Types and Retention are kept", () => {
-  assert.match(panel("academic"), /GeneralSetsRegion/);
-  assert.match(panel("general"), /data-reading-general/);
-  assert.match(page, /tab === "types"/);
-  assert.match(panel("retention"), /\/reading\/retention/);
-});
-
-test("R4 the subtitle follows the selected tab in both languages", () => {
-  assert.match(page, /data-reading-subtitle=\{tab\}>\{READING_SUBTITLE\[tab\]\(dict\)\}/);
-  assert.doesNotMatch(page, /subtitleWithCount/);
-  for (const d of [en, uz]) {
-    assert.match(d.readingHub.subtitleAcademic, /^Academic Reading/);
-    assert.match(d.readingHub.subtitleGeneralReading, /^General Reading/);
-    assert.notEqual(d.readingHub.subtitleAcademic, d.readingHub.subtitleGeneralReading);
-  }
-});
-
-test("R5 URL resolution: default Academic, legacy ?tab=practice → Academic, filters → General Reading", () => {
-  assert.equal(resolveReadingTab({}), "academic");
-  assert.equal(resolveReadingTab({ tab: "practice" }), "academic");
-  assert.equal(resolveReadingTab({ tab: "general-reading" }), "general-reading");
-  assert.equal(resolveReadingTab({ type: "matching" }), "general-reading");
-  assert.equal(resolveReadingTab({ q: "climate" }), "general-reading");
-  assert.equal(resolveReadingTab({ tab: "general" }), "general");
-  assert.equal(resolveReadingTab({ tab: "nonsense" }), "academic");
-});
-
-test("R6 every library link keeps the General Reading tab (filters, pages, type cards, reset)", () => {
-  const filters = readFileSync("src/components/reading/ReadingFilters.tsx", "utf8");
-  assert.match(filters, /new URLSearchParams\(tab \? \{ tab \} : \{\}\)/);
-  assert.match(page, /tab="general-reading"/);
-  assert.match(page, /new URLSearchParams\(\{ tab: "general-reading" \}\)/);
-  assert.match(page, /\/reading\?tab=general-reading&type=/);
-  assert.match(page, /href="\/reading\?tab=general-reading" className="btn-secondary" data-reading-empty-reset/);
+test("R-V4-13 the withdrawn General Training product leaves no learner-facing copy, while historical IELTS meaning is preserved", () => {
+  for (const file of ["src/lib/i18n/en.ts", "src/lib/i18n/uz.ts"])
+    assert.doesNotMatch(readFileSync(file, "utf8"), /General Training/,
+      `${file} still ships withdrawn learner copy into the client dictionary`);
+  // Provenance is NOT renamed: the scoring policy still names the real IELTS paper.
+  assert.match(readFileSync("src/lib/content/score-policy.ts", "utf8"), /General Training Reading \(40 questions\)/);
 });

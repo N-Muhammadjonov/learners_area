@@ -2,7 +2,7 @@ import "server-only";
 import { replayTypingAccuracy } from "@/lib/services/writing/typing-keystrokes";
 import { randomUUID } from "node:crypto";
 import { SignJWT, jwtVerify } from "jose";
-import { and, asc, count, desc, eq, isNull, lte, max, or, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray, isNull, lte, max, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   activityEvents,
