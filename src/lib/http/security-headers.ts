@@ -56,7 +56,7 @@ export function buildCsp({ nonce, secure, dev, host = null }: CspOptions): strin
     `media-src 'self' blob: data: ${mediaSrcOrigins.join(" ")}`.trim(),
     `font-src 'self' data:`,
     `connect-src ${connectSrc.join(" ")}`,
-    `frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com`,
+    `frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://oauth.telegram.org`,
     `worker-src 'self' blob:`,
     `manifest-src 'self'`,
   ];
