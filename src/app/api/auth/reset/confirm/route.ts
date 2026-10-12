@@ -1,3 +1,4 @@
+import { publicAuthPolicy, publicAuthDisabledResponse } from "@/lib/auth/public-auth-policy";
 import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "node:crypto";
 import { and, eq, gt, isNull } from "drizzle-orm";
@@ -7,6 +8,7 @@ import { confirmResetSchema } from "@/lib/validation/auth";
 import { hashPassword } from "@/lib/auth/password";
 
 export async function POST(req: NextRequest) {
+  if (!publicAuthPolicy().passwordEnabled) return publicAuthDisabledResponse();
   const body = await req.json().catch(() => null);
   const parsed = confirmResetSchema.safeParse(body);
   if (!parsed.success) {
