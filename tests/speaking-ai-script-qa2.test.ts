@@ -233,7 +233,32 @@ test("the server examiner draw is unbiased, faithful and eligibility-correct", {
         assert.equal(part1.length, 1, "a fixture Part 1 topic holds one question, so the script must contain one");
       }
       assert.equal(full.filter((p) => p.part === "part2").length, 1, "Part 2 is exactly one cue card");
-      assert.equal(full.filter((p) => p.part === "part3").length, Math.min(PART3_QUESTIONS, P3_PER_TOPIC), "Part 3 takes up to PART3_QUESTIONS");
+      /*
+       * Part 3 yields exactly min(PART3_QUESTIONS, P3_PER_TOPIC) ONLY when the discussion questions come
+       * from a fixture topic, each of which holds P3_PER_TOPIC questions. When the drawn cue card is a
+       * SEEDED topic, no fixture Part 3 topic matches it and the documented fallback picks a random
+       * Part 3 topic from the whole corpus — the seeded bank holds exactly ONE Part 3 prompt, so one
+       * question is then the CORRECT answer, not a defect.
+       *
+       * A single unconditional trial asserted the fixture-only expectation against a corpus-wide draw and
+       * failed roughly one full-suite run in ten (QA2 run 1 green, run 2 red on this line). This is the
+       * third assertion in this file to make that same mistake, so the conditional form — assert exactly
+       * when the draw is fixture-only, assert the documented range otherwise, and require that the exact
+       * branch actually ran — is now the pattern throughout.
+       */
+      let exactPart3 = 0;
+      for (let trial = 0; trial < 20; trial += 1) {
+        const script = await selectExaminerScript({ mode: "full", channel: "ai" });
+        const discussion = script.filter((p) => p.part === "part3");
+        assert.ok(discussion.length >= 1 && discussion.length <= PART3_QUESTIONS,
+          `Part 3 must yield 1..${PART3_QUESTIONS} questions, got ${discussion.length}`);
+        if (discussion.every((p) => fixtureIds.has(p.id))) {
+          assert.equal(discussion.length, Math.min(PART3_QUESTIONS, P3_PER_TOPIC),
+            "a fixture Part 3 topic holds P3_PER_TOPIC questions, so the script must take up to PART3_QUESTIONS of them");
+          exactPart3 += 1;
+        }
+      }
+      assert.ok(exactPart3 > 0, "no trial drew fixture Part 3 questions, so the exact count was never actually asserted");
       assert.ok(PART1_QUESTIONS >= 1, "sanity: the Part 1 constant is used by both implementations");
       // Order mirrors the interview: Part 1, then the cue card, then discussion.
       const parts = full.map((p) => p.part);

@@ -48,6 +48,7 @@ const { assertMutableDatabase, createRowSweeper, createRowBorrower, installSweep
   await import("./lib/fixture-safety.mjs");
 assertMutableDatabase(DATABASE_URL, { probe: "verify-assignment-b3" });
 const { loginActor, createActor } = await import("./lib/security-matrix.mjs");
+const { resolveVerdict, reportVerdict } = await import("./lib/cleanup-verdict.mjs");
 const pg = (await import("pg")).default;
 
 const SWEEP_TABLES = ["assignment_targets", "assignments", "activity_events", "content_versions", "writing_prompts"];
@@ -87,6 +88,11 @@ const written = async (title) => one(
           (select count(*)::int from activity_events e join assignments a on a.id::text = (e.payload->>'assignmentId') where a.title = $1) as events`,
   [title],
 );
+
+/* Declared OUTSIDE the try: `let` is block-scoped, so a declaration inside try would be invisible
+ * to the finally block and to the exit call below it. Defaults to 1 so an abort before the finally
+ * still fails rather than exiting 0. */
+let exitCode = 1;
 
 try {
   /* ---------------------------------------------------------- 0. real fixtures, discovered */
@@ -385,13 +391,17 @@ try {
     console.log(`\n  borrowed prompt restored: ${JSON.stringify(restored)}`);
     if (restored?.error) failures.push(`borrowed row not restored: ${restored.error}`);
   }
-  const result = await sweeper.sweep().catch((e) => ({ error: e.message }));
+  /*
+   * §06 — a THROWN sweep used to be converted to `{error}`, printed, and then ignored: `result.residue`
+   * was undefined so nothing reached `failures` and the probe exited 0 without having cleaned up. The
+   * verdict is now computed by a shared helper that treats a thrown sweep, a missing result and leftover
+   * residue all as cleanup FAILURE, and preserves body failures alongside it.
+   */
+  const result = await sweeper.sweep().catch((e) => ({ error: e?.message ?? String(e) }));
   console.log(`  cleanup: removed ${JSON.stringify(result?.removed ?? result?.error)}`);
-  if (result?.residue?.length) { failures.push(`residue: ${JSON.stringify(result.residue)}`); console.log(`  RESIDUE ${JSON.stringify(result.residue)}`); }
   const state = await one("select (select count(*)::int from writing_prompts where publication_state='published') pub, (select count(*)::int from assignments) a").catch(() => null);
   console.log(`  final state: published writing_prompts=${state?.pub} assignments=${state?.a}`);
   await admin.end().catch(() => {});
-  console.log(`\n${pass} passed, ${failures.length} failed`);
-  for (const f of failures) console.log(`  - ${f}`);
+  exitCode = reportVerdict(resolveVerdict({ bodyFailures: failures, sweep: result }), { pass });
 }
-process.exit(failures.length ? 1 : 0);
+process.exit(exitCode);

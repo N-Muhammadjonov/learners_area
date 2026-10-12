@@ -30,6 +30,7 @@ if (!DATABASE_URL) {
 const { assertMutableDatabase, createRowSweeper, installSweepHandlers } = await import("./lib/fixture-safety.mjs");
 assertMutableDatabase(DATABASE_URL, { probe: "verify-assignment-journey" });
 const { launchBrowser, createSession } = await import("./lib/browser-qa.mjs");
+const { resolveVerdict, reportVerdict } = await import("./lib/cleanup-verdict.mjs");
 const pg = (await import("pg")).default;
 
 const OWNER = ["owner@learnersarea.uz", "Owner12345!"];
@@ -68,6 +69,10 @@ const browser = await launchBrowser();
 let ownerSession = null;
 let teacherSession = null;
 let learnerSession = null;
+
+/* Outside the try on purpose: `let` is block-scoped, so a declaration inside try would be invisible
+ * to the finally block and to the exit below. Defaults to 1 so an early abort still fails. */
+let exitCode = 1;
 
 try {
   /* ---------------------------------------------------------- 0. the roster is real */
@@ -553,11 +558,16 @@ try {
 } finally {
   for (const session of [ownerSession, teacherSession, learnerSession]) await session?.close?.().catch?.(() => {});
   await browser.close().catch(() => {});
-  const result = await sweeper.sweep().catch((e) => ({ error: e.message }));
+  /*
+   * §06 — a THROWN sweep used to become `{error}`, get printed, and then be ignored: `result.residue`
+   * was undefined, nothing reached `failures`, and the probe exited 0 without having cleaned up. Both
+   * assignment probes shared that shape. The shared verdict helper now treats a thrown sweep, a missing
+   * result and leftover residue as cleanup FAILURE, and keeps body failures alongside cleanup failures
+   * so that when both happen the report shows both.
+   */
+  const result = await sweeper.sweep().catch((e) => ({ error: e?.message ?? String(e) }));
   console.log(`\n  cleanup: removed ${JSON.stringify(result?.removed ?? result?.error)}`);
-  if (result?.residue?.length) { failures.push(`residue: ${JSON.stringify(result.residue)}`); console.log(`  RESIDUE ${JSON.stringify(result.residue)}`); }
   await admin.end().catch(() => {});
-  console.log(`\n${pass} passed, ${failures.length} failed`);
-  for (const f of failures) console.log(`  - ${f}`);
+  exitCode = reportVerdict(resolveVerdict({ bodyFailures: failures, sweep: result }), { pass });
 }
-process.exit(failures.length ? 1 : 0);
+process.exit(exitCode);
