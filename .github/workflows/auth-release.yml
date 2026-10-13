@@ -35,8 +35,10 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
+      # Node 24.21.0 V8/WebAssembly code-GC crashes under PGlite test churn.
+      # Remove this workaround after nodejs/node#66366 is fixed in Node 24.x.
       - name: Full unit, authentication and security regression (shard ${{ matrix.shard }}/6)
-        run: node --no-wasm-tier-up --conditions=react-server --import tsx --test --test-concurrency=2 --test-shard=${{ matrix.shard }}/6 --test-timeout=300000 tests/*.test.ts
+        run: node --no-wasm-code-gc --no-wasm-tier-up --conditions=react-server --import tsx --test --test-concurrency=2 --test-shard=${{ matrix.shard }}/6 --test-timeout=300000 tests/*.test.ts
   auth-release:
     needs: unit-regression
     runs-on: ubuntu-latest
