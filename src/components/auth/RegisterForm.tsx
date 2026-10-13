@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Input";
+import { TelegramIntentLogin } from "./TelegramIntentLogin";
 import { TelegramButton } from "./TelegramButton";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -13,12 +14,14 @@ export function RegisterForm({
   telegramConfigured,
   telegramBotUsername,
   passwordEnabled = true,
+  telegramIntentEnabled = false,
   nonce,
 }: {
   dict: Dictionary;
   telegramConfigured: boolean;
   telegramBotUsername?: string;
   passwordEnabled?: boolean;
+  telegramIntentEnabled?: boolean;
   nonce?: string;
 }) {
   const router = useRouter();
@@ -66,9 +69,15 @@ export function RegisterForm({
     }
   }
 
-  if (!passwordEnabled) return (
+  const telegram = telegramIntentEnabled ? (
+    <TelegramIntentLogin dict={dict} configured={telegramConfigured} botUsername={telegramBotUsername} purpose="register" />
+  ) : (
     <TelegramButton label={dict.auth.continueWithTelegram} unavailableLabel={dict.auth.telegramUnavailable}
       configured={telegramConfigured} botUsername={telegramBotUsername} nonce={nonce} />
+  );
+
+  if (!passwordEnabled) return (
+    telegram
   );
 
   return (
@@ -127,13 +136,7 @@ export function RegisterForm({
         <span className="relative bg-paper-raised px-2">{dict.auth.or}</span>
         <div className="absolute inset-x-0 top-1/2 -z-10 h-px bg-ink-100" />
       </div>
-      <TelegramButton
-        label={dict.auth.continueWithTelegram}
-        unavailableLabel={dict.auth.telegramUnavailable}
-        configured={telegramConfigured}
-        botUsername={telegramBotUsername}
-        nonce={nonce}
-      />
+      {telegram}
     </form>
   );
 }

@@ -239,13 +239,13 @@ test("real journal: the frozen Preview state (through 0039) leaves exactly 0040-
   assert.deepEqual(tags, [...tags].sort(), "journal tags must be ordered");
 
   const frozenPreview = plan(realJournal, through0039, readSql);
-  assert.deepEqual(frozenPreview.problems, []);
+  assert.deepEqual(frozenPreview.problems, realJournal.entries.slice(53).map(e => `pending ${e.tag} is not approved`));
   assert.deepEqual(
     frozenPreview.pending,
     ["0040_content_imports", "0041_content_versions", "0042_mock_composition", "0043_authoring_identity",
       "0044_lesson_blocks", "0045_media_lessons", "0046_vocabulary_topic_packs", "0047_assignments_canonical",
       "0048_typing_trainer", "0049_lesson_notes", "0050_lesson_learning_area", "0051_listening_question_revision",
-      "0052_listening_mcq_program_days"],
+      "0052_listening_mcq_program_days", ...realJournal.entries.slice(53).map(e => e.tag)],
   );
 
   // Fully applied: pending nothing, problems none — the planner is a no-op on a current DB.

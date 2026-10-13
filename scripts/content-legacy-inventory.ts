@@ -181,6 +181,11 @@ const ITEMS = [
  */
 export const TABLE_GROUPS: { group: string; reason: string; tables: readonly string[] }[] = [
   {
+    group: "Telegram authentication and bot operations",
+    reason: "private identity, one-time proofs, permissions and delivery state; never authored learning content",
+    tables: ["telegram_bot_admins", "telegram_broadcast_deliveries", "telegram_broadcasts", "telegram_contacts", "telegram_login_intents", "telegram_support_messages", "telegram_support_threads", "telegram_bot_settings", "telegram_deletion_intents", "telegram_direct_messages", "telegram_notifications", "telegram_processed_updates", "telegram_flow_drafts", "ownership_transfer_challenges", "telegram_owner_handovers"],
+  },
+  {
     group: "canonical content (authored or imported, versioned in content_versions)",
     reason:
       "the tables an author or an importer writes; identity, revisions and publication live here. " +

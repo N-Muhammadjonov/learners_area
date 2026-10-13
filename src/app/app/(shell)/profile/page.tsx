@@ -1,4 +1,7 @@
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import { telegramIntentAuthEnabled } from "@/lib/auth/telegram-intent-config";
+import { TelegramIntentLogin } from "@/components/auth/TelegramIntentLogin";
 import { hasProfilePhoto } from "@/lib/profile/photo";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -23,6 +26,11 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
       </header>
       <ProfilePhoto userId={user.id} dict={dict} initialPresent={photoPresent} />
       <ProfileNameEditor dict={dict} initialName={user.name} initiallyEditing={editName} />
+      {telegramIntentAuthEnabled() && (
+        <section className="rounded-xl border border-ink-100 bg-paper-raised p-4">
+          <Suspense><TelegramIntentLogin dict={dict} configured botUsername={process.env.TELEGRAM_BOT_USERNAME} purpose="link" /></Suspense>
+        </section>
+      )}
     </div>
   );
 }
