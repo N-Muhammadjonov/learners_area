@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { JSDOM } from "jsdom";
-import { convertLegacyPackage, structuredQuestionType } from "../src/lib/listening/source-parser";
+import { convertLegacyPackage, jsonLiteral, structuredQuestionType } from "../src/lib/listening/source-parser";
+import { gradePackage } from "../src/lib/listening/package";
 import { listeningQuestionIdentity } from "../src/lib/listening/question-identity";
 import { activityFacts, mapDiagramSections, testActivities } from "../src/lib/listening/activities";
 import { ListeningImportProblem } from "../src/lib/listening/discover";
@@ -50,4 +51,72 @@ test("SP-MAP-14 incompatible maps refused; repeated identical drawing accepted",
 });
 test("SP-MAP-15 authored map/plan spelling variants preserve family", () => {
   for (const label of ["map","plan","map labeling","map_labelling","plan labelling","plan_labeling","Map / Plan"]) assert.equal(structuredQuestionType(label)?.kind,"map");
+});
+
+test("SP-MAP-16 source-declared Choose TWO is multi-answer, not an inferred single MCQ", () => {
+  for (const label of ["Choose TWO / Multiple Answer", "choose two", "choose_two", "Choose TWO / Multiple Answers"])
+    assert.deepEqual(structuredQuestionType(label), { kind: "mcq", typeCode: "mcq_multi" });
+  assert.deepEqual(structuredQuestionType("MCQ"), { kind: "mcq", typeCode: "mcq_single" });
+  assert.equal(structuredQuestionType("Choose FIVE / Multiple Answer"), null, "unsupported source types still stop for review");
+});
+
+test("SP-MAP-17 authored Listening Test 1 style HTML retains A-E and all three Choose TWO pairs", () => {
+  const original = structuredSource("Map Labelling");
+  const source = jsonLiteral(original, "const DATA =") as {
+    question_types: Record<string, string>;
+    questions: Record<string, {
+      pair?: number;
+      answer: string;
+      options?: { code: string; text: string }[];
+    }>;
+  };
+  const parts = jsonLiteral(original, "const PARTS =");
+  source.question_types = {
+    "1-10": "Note Completion",
+    "11-14": "Map Labelling",
+    "15-24": "MCQ",
+    "25-30": "Choose TWO / Multiple Answer",
+    "31-40": "Sentence Completion",
+  };
+  for (const [left, right, leftAnswer, rightAnswer] of [
+    [25, 26, "B", "E"], [27, 28, "A", "D"], [29, 30, "C", "E"],
+  ] as const) {
+    const options = ["A", "B", "C", "D", "E"].map(code => ({ code, text: `Option ${code}` }));
+    source.questions[String(left)]!.pair = right;
+    source.questions[String(right)]!.pair = left;
+    source.questions[String(left)]!.answer = leftAnswer;
+    source.questions[String(right)]!.answer = rightAnswer;
+    source.questions[String(left)]!.options = options;
+    source.questions[String(right)]!.options = options;
+  }
+  const html = `<html><script>const DATA = ${JSON.stringify(source)}; const PARTS = ${JSON.stringify(parts)};</script></html>`;
+  const payload = convertLegacyPackage(
+    { "Listening Test 1.html": html },
+    500,
+    text => new JSDOM(text).window.document,
+    { audioPath: "embedded-listening-audio.mp3" },
+  );
+  assert.equal(payload.questions.length, 40);
+  assert.equal(payload.questions[17]!.typeCode, "map_labeling");
+  for (const q of payload.questions.slice(20, 24))
+    assert.equal(q.typeCode, "mcq_single", `Q${q.number} remains single-answer`);
+  for (const q of payload.questions.slice(24, 30)) {
+    assert.equal(q.typeCode, "mcq_multi", `Q${q.number} is multi-answer`);
+    assert.equal(q.options.length, 5, `Q${q.number} retains A–E`);
+    assert.equal(q.pair.length, 1, `Q${q.number} retains its pair`);
+    const counterpart = payload.questions[q.pair[0]! - 1]!;
+    assert.deepEqual(counterpart.pair, [q.number], `Q${q.number} pairing is reciprocal`);
+  }
+  assert.equal(gradePackage(payload, { 25: "E", 26: "B" }).filter(x => x.correct).length, 2);
+  assert.equal(gradePackage(payload, { 25: "B", 26: "B" }).filter(x => x.correct).length, 1);
+  assert.equal(payload.audio.path, "embedded-listening-audio.mp3");
+
+  // A fake one-way pair is rejected, not silently dropped.
+  source.questions["26"]!.pair = undefined;
+  const broken = `<script>const DATA = ${JSON.stringify(source)}; const PARTS = ${JSON.stringify(parts)};</script>`;
+  assert.throws(
+    () => convertLegacyPackage({ "Listening Test 1.html": broken }, 500,
+      text => new JSDOM(text).window.document, { audioPath: "embedded-listening-audio.mp3" }),
+    /Invalid answer pair/,
+  );
 });
