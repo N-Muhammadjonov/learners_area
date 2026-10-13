@@ -3,6 +3,10 @@ import assert from "node:assert/strict";
 import { JSDOM } from "jsdom";
 import { convertLegacyPackage, jsonLiteral, structuredQuestionType } from "../src/lib/listening/source-parser";
 import { gradePackage } from "../src/lib/listening/package";
+import { inspectListeningPackage } from "../src/lib/listening/inspect";
+import { extractEmbeddedListeningMedia } from "../src/lib/listening/embedded-media";
+import { readListeningZip } from "../src/lib/listening/zip";
+import { zipSync, strToU8 } from "fflate";
 import { listeningQuestionIdentity } from "../src/lib/listening/question-identity";
 import { activityFacts, mapDiagramSections, testActivities } from "../src/lib/listening/activities";
 import { ListeningImportProblem } from "../src/lib/listening/discover";
@@ -119,4 +123,100 @@ test("SP-MAP-17 authored Listening Test 1 style HTML retains A-E and all three C
       text => new JSDOM(text).window.document, { audioPath: "embedded-listening-audio.mp3" }),
     /Invalid answer pair/,
   );
+});
+
+test("SP-MAP-18 Listening Test 1 question families survive both standalone HTML and ZIP upload with embedded audio", async () => {
+  const sourceHtml = structuredSource("Map Labelling");
+  const source = jsonLiteral(sourceHtml, "const DATA =") as {
+    question_types: Record<string, string>;
+    questions: Record<string, { q: number; part: number; answer: string; pair?: number; options?: { code: string; text: string }[] }>;
+    script_completion: { q: number; part: number; match: string; answer: string; start: number; end: number }[];
+  };
+  const parts = jsonLiteral(sourceHtml, "const PARTS =") as Record<string, string>;
+  source.question_types = {
+    "1-17": "Sentence Completion",
+    "18-20": "Map Labelling",
+    "21-24": "MCQ",
+    "25-30": "Choose TWO / Multiple Answer",
+    "31-40": "Note Completion",
+  };
+  // The actual owner file places its 3 seven-option map questions in Part 2;
+  // MCQs and Choose TWO share Part 3. Do not mistake label pools for MCQs.
+  parts["2"] = mapSvg;
+  parts["3"] = "";
+  const options = (count: number) => "ABCDEFG".slice(0, count).split("").map(code => ({ code, text: `Option ${code}` }));
+  for (let n = 1; n <= 40; n++) {
+    const row = source.questions[String(n)]!;
+    row.part = Math.ceil(n / 10);
+    row.options = n >= 18 && n <= 20 ? options(7)
+      : n >= 21 && n <= 24 ? options(3)
+      : n >= 25 && n <= 30 ? options(5) : [];
+  }
+  for (const [left, right, first, second] of [
+    [25, 26, "B", "E"], [27, 28, "A", "D"], [29, 30, "C", "E"],
+  ] as const) {
+    source.questions[String(left)]!.pair = right;
+    source.questions[String(right)]!.pair = left;
+    source.questions[String(left)]!.answer = first;
+    source.questions[String(right)]!.answer = second;
+  }
+  source.script_completion = [1, 2, 3, 4].map(part => ({
+    q: part,
+    part,
+    match: "Authored",
+    answer: "Authored",
+    start: (part - 1) * 100 + 5,
+    end: (part - 1) * 100 + 9,
+  }));
+  const mp3 = new Uint8Array([0x49, 0x44, 0x33, 4, 0, 0, 0, 0, 0, 0, 0xff, 0xfb, 0x90, 0x64]);
+  const encoded = Buffer.from(mp3).toString("base64");
+  const filename = "Listening Test 1.html";
+  const html = `<!doctype html><html><head><title>Listening Test 1</title></head>
+    <body><audio src="data:audio/mpeg;base64,${encoded}"></audio><script>
+    const DATA=${JSON.stringify(source)}; const PARTS=${JSON.stringify(parts)};
+    </script></body></html>`;
+  const extracted = extractEmbeddedListeningMedia(html);
+  const standalone = {
+    entries: { [filename]: strToU8(extracted.html), ...extracted.entries },
+    textFiles: { [filename]: extracted.html },
+  };
+  const zipped = readListeningZip(zipSync({ [filename]: strToU8(html) }));
+  const inspect = (data: typeof standalone) => inspectListeningPackage({
+    ...data,
+    zipName: filename,
+    probeDuration: async () => 500,
+    read: markup => new JSDOM(markup).window.document,
+  });
+  const viaHtml = await inspect(standalone);
+  const viaZip = await inspect(zipped);
+  assert.equal(viaHtml.family, "legacy");
+  assert.equal(viaZip.family, "legacy");
+  assert.deepEqual(viaHtml.payload.questions, viaZip.payload.questions);
+  assert.equal(viaHtml.audio.path, "embedded-listening-audio.mp3");
+  assert.equal(viaZip.audio.path, "embedded-listening-audio.mp3");
+  assert.deepEqual(viaHtml.payload.sections.map(row => Boolean(row.transcript)), [true, true, true, true]);
+  assert.equal(viaHtml.payload.keyword1.length, 4);
+  assert.equal(viaZip.payload.studyPack?.scriptParts?.length, 4);
+  const family = (start: number, end: number, typeCode: string, kind: string, choiceCount: number) => {
+    for (let n = start; n <= end; n++) {
+      const q = viaHtml.payload.questions[n - 1]!;
+      assert.equal(q.number, n);
+      assert.equal(q.typeCode, typeCode, `Q${n} type`);
+      assert.equal(q.kind, kind, `Q${n} family`);
+      assert.equal(q.options.length, choiceCount, `Q${n} choices`);
+    }
+  };
+  family(1, 17, "sentence_completion", "completion", 0);
+  family(18, 20, "map_labeling", "map", 7);
+  family(21, 24, "mcq_single", "mcq", 3);
+  family(25, 30, "mcq_multi", "mcq", 5);
+  family(31, 40, "note_completion", "completion", 0);
+  for (let n = 25; n <= 30; n++) {
+    const q = viaHtml.payload.questions[n - 1]!;
+    assert.equal(q.pair.length, 1);
+    assert.deepEqual(viaHtml.payload.questions[q.pair[0]! - 1]!.pair, [n]);
+  }
+  assert.ok(viaHtml.payload.mapDiagram?.shapes.length);
+  assert.equal(gradePackage(viaHtml.payload, { 25: "E", 26: "B" }).filter(x => x.correct).length, 2);
+  assert.equal(gradePackage(viaHtml.payload, { 25: "B", 26: "B" }).filter(x => x.correct).length, 1);
 });
