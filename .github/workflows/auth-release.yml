@@ -9,7 +9,36 @@ concurrency:
 permissions:
   contents: read
 jobs:
+  unit-regression:
+    name: unit-regression (${{ matrix.shard }}/6)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6]
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: fixture-only
+          POSTGRES_DB: learners_telegram_ci
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Full unit, authentication and security regression (shard ${{ matrix.shard }}/6)
+        run: node --no-wasm-tier-up --conditions=react-server --import tsx --test --test-concurrency=2 --test-shard=${{ matrix.shard }}/6 --test-timeout=300000 tests/*.test.ts
   auth-release:
+    needs: unit-regression
     runs-on: ubuntu-latest
     timeout-minutes: 20
     services:
@@ -32,8 +61,6 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint
-      - name: Full unit, authentication and security regression
-        run: node --no-wasm-tier-up --conditions=react-server --import tsx --test --test-concurrency=2 tests/*.test.ts
       - name: Authentication UI regression
         run: TSX_TSCONFIG_PATH=tests/ui/tsconfig.json node --import tsx --test tests/ui/auth-release.test.tsx tests/ui/part1-hotfix.test.tsx
       - run: npm run build
