@@ -236,6 +236,10 @@ export function structuredQuestionType(label: string) {
   // These prove the family, but NOT which canonical map/plan subtype the owner meant.
   if (/^(?:map|plan|map\s*\/\s*plan)$/.test(normalized)) return { kind: "map" as const };
   if (normalized === "completion") return { kind: "completion" as const };
+  // A source declaring Choose TWO explicitly is MCQ-multi, not single-answer MCQ.
+  // Keep this narrow: unknown question types still stop for staff review.
+  if (/^choose two(?:\s*\/\s*multiple answers?)?$/.test(normalized))
+    return { kind: "mcq" as const, typeCode: "mcq_multi" };
   if (normalized === "single answer mcq") return { kind: "mcq" as const, typeCode: "mcq_single" };
   const stated = normalized.replace(/labelling/g, "labeling").replace(/ /g, "_");
   const typeCode = canonicalListeningTypeId(stated) ?? canonicalListeningTypeId(normalized);
@@ -248,7 +252,7 @@ export function structuredQuestionType(label: string) {
 function convertStructuredPractice(html: string, durationSec: number, options: LegacyOptions, read: HtmlDocumentReader): ListeningPackage {
   const source = jsonLiteral(html, "const DATA =") as {
     test_id: string; title: string; sections: string[]; transcript: Record<string, string>;
-    questions: Record<string, { q: number; part: number; prompt: string; answer: string; timeStart: number; timeEnd: number; why: string; trap?: string; options?: { code: string; text: string }[] }>;
+    questions: Record<string, { q: number; part: number; prompt: string; answer: string; timeStart: number; timeEnd: number; why: string; trap?: string; pair?: number; options?: { code: string; text: string }[] }>;
     alternatives: Record<string, string[]>; question_types: Record<string, string>;
     part_audio_boundaries: Record<string, { start: number; end: number }>;
     script_completion: { q: number; part: number; n?:number; match?:string; prompt?: string; answer: string; start?: number; end?: number }[];
@@ -269,7 +273,7 @@ function convertStructuredPractice(html: string, durationSec: number, options: L
     const document = documents[String(row.part)] ?? read("");
     const control = document.getElementById(`q${row.q}`);
     const instruction = control?.closest(".task-card")?.querySelector(".instructions-block")?.textContent?.replace(/\s+/g," ").trim() ?? "";
-    return { number: row.q, section: row.part, text: row.prompt, instruction, ...typeOf(row.q), options: row.options?.map(o => o.text.match(new RegExp(`^${o.code}[).\\s]`)) ? o.text : `${o.code}) ${o.text}`) ?? [], key: row.answer, alternatives: source.alternatives[String(row.q)] ?? [], pair: [], evidence: { at: row.timeStart, end: row.timeEnd, why: [row.why, row.trap].filter(Boolean).join("\n") } };
+    return { number: row.q, section: row.part, text: row.prompt, instruction, ...typeOf(row.q), options: row.options?.map(o => o.text.match(new RegExp(`^${o.code}[).\\s]`)) ? o.text : `${o.code}) ${o.text}`) ?? [], key: row.answer, alternatives: source.alternatives[String(row.q)] ?? [], pair: row.pair === undefined ? [] : [row.pair], evidence: { at: row.timeStart, end: row.timeEnd, why: [row.why, row.trap].filter(Boolean).join("\n") } };
   });
   // Only source SVGs in map-question parts or explicitly marked map/plan SVGs are stimuli.
   // The inert reader and extractor retain coordinates/text, never scripts or event handlers.
