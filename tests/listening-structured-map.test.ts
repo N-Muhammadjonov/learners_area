@@ -176,7 +176,7 @@ test("SP-MAP-18 Listening Test 1 question families survive both standalone HTML 
     const DATA=${JSON.stringify(source)}; const PARTS=${JSON.stringify(parts)};
     </script></body></html>`;
   const extracted = extractEmbeddedListeningMedia(html);
-  const standalone = {
+  const standalone: { entries: Record<string, Uint8Array>; textFiles: Record<string, string> } = {
     entries: { [filename]: strToU8(extracted.html), ...extracted.entries },
     textFiles: { [filename]: extracted.html },
   };
