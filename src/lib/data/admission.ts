@@ -133,6 +133,11 @@ export async function listRecentDecisions(limit = 20): Promise<AccessRequestRow[
 }
 
 /** One request row by its own id — used when an administrator decides. */
+export async function resolveRequestIdForDecision(id: string): Promise<string | null> {
+  if (await findAccessRequestById(id)) return id;
+  return ensurePendingRequestForAccount(id);
+}
+
 export async function findAccessRequestById(id: string) {
   return db.query.accessRequests.findFirst({ where: eq(accessRequests.id, id) });
 }
@@ -144,7 +149,7 @@ export async function findOpenRequestForUser(userId: string) {
   });
 }
 
-export async function createAccessRequest(input: { userId: string; message?: string | null }) {
+export async function createAccessRequest(input: { userId: string; message?: string | null; metadata?: Record<string, unknown> }) {
   const [row] = await db
     .insert(accessRequests)
     .values({ userId: input.userId, message: input.message ?? null, status: "pending" })
@@ -160,6 +165,7 @@ export async function createAccessRequest(input: { userId: string; message?: str
     action: "access.requested",
     targetType: "access_request",
     targetId: row?.id,
+    metadata: input.metadata,
   });
 
   // Owner and admins hear about it in-app immediately. A future Telegram
@@ -178,6 +184,7 @@ export async function createAccessRequest(input: { userId: string; message?: str
 }
 
 export type DecisionInput = {
+  metadata?: Record<string, unknown>;
   requestId: string;
   /** The deciding administrator (authoritative role already verified). */
   actorUserId: string;
@@ -225,7 +232,7 @@ export async function decideAccessRequest(input: DecisionInput) {
     action: approved ? "access.approved" : "access.rejected",
     targetType: "user",
     targetId: request.userId,
-    metadata: { requestId: request.id },
+    metadata: { ...(input.metadata ?? {}), requestId: request.id },
   });
 
   await notifyUsers([request.userId], {

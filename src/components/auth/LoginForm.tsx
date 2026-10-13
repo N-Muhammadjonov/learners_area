@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Input";
+import { TelegramIntentLogin } from "./TelegramIntentLogin";
 import { TelegramButton } from "./TelegramButton";
 import { safeNextPath } from "@/lib/auth/safe-redirect";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
@@ -17,6 +18,7 @@ export function LoginForm({
   googleConfigured = false,
   diagnostics = false,
   passwordEnabled = true,
+  telegramIntentEnabled = false,
   recovery = false,
   nonce,
 }: {
@@ -26,6 +28,7 @@ export function LoginForm({
   googleConfigured?: boolean;
   diagnostics?: boolean;
   passwordEnabled?: boolean;
+  telegramIntentEnabled?: boolean;
   recovery?: boolean;
   nonce?: string;
 }) {
@@ -85,9 +88,15 @@ export function LoginForm({
     }
   }
 
-  if (!passwordEnabled) return (
+  const telegram = telegramIntentEnabled ? (
+    <TelegramIntentLogin dict={dict} configured={telegramConfigured} botUsername={telegramBotUsername} purpose="login" />
+  ) : (
     <TelegramButton label={dict.auth.continueWithTelegram} unavailableLabel={dict.auth.telegramUnavailable}
       configured={telegramConfigured} botUsername={telegramBotUsername} nonce={nonce} />
+  );
+
+  if (!passwordEnabled) return (
+    telegram
   );
 
   return (
@@ -120,13 +129,7 @@ export function LoginForm({
           {dict.auth.continueWithGoogle}
         </a>
       )}
-      <TelegramButton
-        label={dict.auth.continueWithTelegram}
-        unavailableLabel={dict.auth.telegramUnavailable}
-        configured={telegramConfigured}
-        botUsername={telegramBotUsername}
-        nonce={nonce}
-      />
+      {telegram}
       </>}
     </form>
   );

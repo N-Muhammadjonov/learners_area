@@ -193,6 +193,10 @@ test("every private API route rejects anonymous callers with 401", () => {
   for (const route of API_ROUTES) {
     if (exceptions.some((prefix) => route.startsWith(prefix))) continue;
     const source = stripComments(read(route));
+    if (route.startsWith("src/app/api/internal/telegram/")) {
+      assert.match(source, /verifyInternalBotRequest\(/, `${route} must authenticate the service`);
+      continue;
+    }
     assert.match(source, guard, `${route} must gate on a database-backed guard`);
     // Retention routes use the shared refusal helpers asserted above, so there is
     // no inline status to match here; every other route carries its own.

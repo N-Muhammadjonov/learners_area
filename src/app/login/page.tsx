@@ -1,3 +1,4 @@
+import { telegramIntentAuthEnabled } from "@/lib/auth/telegram-intent-config";
 import { headers } from "next/headers";
 import { publicAuthPolicy } from "@/lib/auth/public-auth-policy";
 import Link from "next/link";
@@ -29,6 +30,7 @@ export default async function LoginPage() {
       <Suspense>
         <LoginForm
           passwordEnabled={policy.passwordEnabled}
+          telegramIntentEnabled={telegramIntentAuthEnabled()}
           nonce={nonce}
           dict={dict}
           diagnostics={performanceDiagnosticsEnabled()}
