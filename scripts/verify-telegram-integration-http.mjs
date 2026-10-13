@@ -93,6 +93,26 @@ try {
   const cookie = signedIn.response.headers.get('set-cookie').split(';')[0];
   assert.equal((await request('/api/auth/telegram/intent', { purpose:'register' }, {cookie})).status, 409);
 
+  // Production regression: link an unlinked existing OWNER without a second
+  // connection blocking on the uncommitted users/contact FK row locks.
+  const ownerId = (await pool.query("select id from users where email='owner@fixture.invalid'")).rows[0].id;
+  await pool.query("update users set telegram_id=null where id=$1", [ownerId]);
+  await pool.query("insert into telegram_contacts (telegram_user_id,chat_id) values ('9001','9001')");
+  const ownerPassword = await json('/api/auth/login', {
+    email: 'owner@fixture.invalid', password: 'fixture-password-only'
+  });
+  assert.equal(ownerPassword.response.status, 200);
+  const ownerCookie = ownerPassword.response.headers.get('set-cookie').split(';')[0];
+  const ownerLink = await intent('link', ownerCookie);
+  await confirm(ownerLink, '9001');
+  const linkedOwner = await exchange(ownerLink);
+  assert.equal(linkedOwner.response.status, 200);
+  assert.equal(linkedOwner.data.outcome, 'session');
+  assert.equal((await pool.query("select telegram_id from users where id=$1", [ownerId])).rows[0].telegram_id, '9001');
+  assert.equal((await pool.query("select linked_user_id from telegram_contacts where telegram_user_id='9001'")).rows[0].linked_user_id, ownerId);
+  assert.equal(Number((await pool.query("select count(*) from audit_log where actor_user_id=$1 and action='telegram.linked'", [ownerId])).rows[0].count), 1);
+  assert.equal((await exchange(ownerLink)).response.status, 409);
+
   const cancelled = await intent(); await confirm(cancelled, '9003');
   assert.equal((await request('/api/auth/telegram/intent/cancel', {intentId:cancelled.intentId,browserNonce:cancelled.browserNonce})).status, 200);
   assert.equal((await exchange(cancelled)).response.status, 400);
