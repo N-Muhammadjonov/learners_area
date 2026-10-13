@@ -44,6 +44,7 @@ export function MobileNav({ dict, role, email }: { dict: Dictionary; role: Role;
     };
     document.addEventListener("keydown", onKey);
     const previous = document.body.style.overflow;
+    const opener = openerRef.current;
     const main = document.getElementById("main-content");
     const previousMainOverflowY = main?.style.overflowY;
     document.body.style.overflow = "hidden";
@@ -54,7 +55,7 @@ export function MobileNav({ dict, role, email }: { dict: Dictionary; role: Role;
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = previous;
       if (main && previousMainOverflowY !== undefined) main.style.overflowY = previousMainOverflowY;
-      openerRef.current?.focus();
+      opener?.focus();
     };
   }, [open]);
 
