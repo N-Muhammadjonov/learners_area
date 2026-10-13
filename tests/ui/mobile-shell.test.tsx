@@ -16,6 +16,7 @@ const { AppRouterContext } = await import("next/dist/shared/lib/app-router-conte
 const { PathnameContext, SearchParamsContext } = await import("next/dist/shared/lib/hooks-client-context.shared-runtime.js");
 const { InstantInteractionProvider } = await import("../../src/components/interaction/InstantInteractionProvider");
 const { MobileNav } = await import("../../src/components/shell/MobileNav");
+const { ShellUtilities } = await import("../../src/components/shell/ShellUtilities");
 const router = { push() {}, replace() {}, refresh() {}, back() {}, forward() {}, prefetch: async () => {} };
 
 function required<T extends Element = HTMLElement>(selector: string): T {
@@ -37,6 +38,7 @@ test("Safari mobile drawer escapes the blurred topbar, traps scrolling and resto
                   <MobileNav dict={en} role="owner" />
                 </header>
                 <main id="main-content" style={{ overflowY: "auto" }}>Dashboard</main>
+                <ShellUtilities dict={en} />
               </div>
             </InstantInteractionProvider>
           </SearchParamsContext.Provider>
@@ -56,6 +58,7 @@ test("Safari mobile drawer escapes the blurred topbar, traps scrolling and resto
     assert.equal(overlay.style.zIndex, "var(--z-modal)");
     assert.equal(overlay.getAttribute("aria-modal"), "true");
     assert.ok(required("#mobile-nav-drawer"));
+    assert.equal(overlay.querySelector("[data-report-toggle]"), null, "mobile menu must not duplicate the floating report action");
     assert.equal(main.style.overflowY, "hidden", "the scrollable main is locked, not only the body");
     assert.equal(document.body.style.overflow, "hidden");
     assert.equal(document.activeElement?.getAttribute("aria-label"), en.common.cancel);
@@ -69,6 +72,11 @@ test("Safari mobile drawer escapes the blurred topbar, traps scrolling and resto
     await act(async () => required<HTMLButtonElement>("[data-mobile-nav-overlay] > button").click());
     assert.equal(document.querySelector("[data-mobile-nav-overlay]"), null, "backdrop closes the menu");
     assert.equal(main.style.overflowY, "auto");
+
+    // The report action remains reachable from its intended floating utility stack.
+    await act(async () => required<HTMLButtonElement>("[data-utilities-launcher]").click());
+    assert.ok(required("[data-shell-utilities-panel] [data-report-toggle]"));
+    assert.equal(document.querySelectorAll("[data-report-toggle]").length, 1, "only one report trigger when utilities are open");
   } finally {
     await act(async () => root.unmount());
   }

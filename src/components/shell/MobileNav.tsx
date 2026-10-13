@@ -5,7 +5,6 @@ import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import { BrandBlock } from "./BrandBlock";
 import { SidebarNav } from "./SidebarNav";
-import { ReportProblem } from "@/components/support/ReportProblem";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Role } from "@/lib/auth/roles";
 
@@ -105,10 +104,6 @@ export function MobileNav({ dict, role, email }: { dict: Dictionary; role: Role;
               </button>
             </div>
             <SidebarNav dict={dict} role={role} email={email} />
-            {/* The same contextual report form, reachable on a phone too. */}
-            <div className="mt-6">
-              <ReportProblem dict={dict} />
-            </div>
           </div>
         </div>,
         portalHost
