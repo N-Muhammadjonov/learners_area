@@ -97,7 +97,7 @@ test("SP-MAP-17 authored Listening Test 1 style HTML retains A-E and all three C
     { audioPath: "embedded-listening-audio.mp3" },
   );
   assert.equal(payload.questions.length, 40);
-  assert.equal(payload.questions[17]!.typeCode, "map_labeling");
+  assert.equal(payload.questions[10]!.typeCode, "map_labeling", "the synthetic fixture labels Q11–14 as Map Labelling");
   for (const q of payload.questions.slice(20, 24))
     assert.equal(q.typeCode, "mcq_single", `Q${q.number} remains single-answer`);
   for (const q of payload.questions.slice(24, 30)) {
