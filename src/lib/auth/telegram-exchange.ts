@@ -120,13 +120,15 @@ async function linkForIntent(
     .update(telegramContacts)
     .set({ linkedUserId: userId, updatedAt: new Date() })
     .where(eq(telegramContacts.telegramUserId, telegramUserId));
+  // Keep the audit insert on the same connection as the user/contact updates.
+  // A separate pool connection can wait on the uncommitted users row lock.
   await recordAudit({
     actorUserId: userId,
     action: "telegram.linked",
     targetType: "user",
     targetId: userId,
     metadata: { source: "telegram_intent_link", telegramUserId },
-  });
+  }, tx);
   return { ok: true as const };
 }
 
