@@ -12,7 +12,7 @@ test("section navigation uses bounded hover/focus intent prefetch, never direct 
   const nav = read("src/components/navigation/ModuleSectionNav.tsx");
   const link = read("src/components/interaction/InstantLink.tsx");
   assert.match(nav, /<InstantLink/);
-  assert.match(nav, /intentPrefetch/);
+  assert.match(nav, /intentPrefetch=\{link\.key !== "retention"\}/);
   assert.doesNotMatch(nav, /prefetch=\{false\}/);
   assert.match(link, /IntentPrefetchBudget/);
   assert.match(link, /saveData/);
