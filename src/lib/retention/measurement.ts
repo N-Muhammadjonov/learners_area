@@ -29,8 +29,12 @@ export const MEASUREMENT_LIMITS = {
   maxAnyOfPerGroup: 30,
   maxAcceptedPhrases: 20,
   maxRejectPhrases: 20,
-  maxAlternativeChars: 80,
-  maxPhraseChars: 200,
+  // FINAL V2 C2 sentence-scoped semantic alternatives can be up to 171 chars.
+  // Keep an explicit bounded plain-text cap; do not permit regex or code.
+  maxAlternativeChars: 180,
+  // One authored C2-009 contradiction sentence is 203 characters.
+  // Still strict literal text with a bounded length (no patterns or code).
+  maxPhraseChars: 220,
   maxLabelChars: 300,
   maxIdChars: 60,
 } as const;
