@@ -4,11 +4,13 @@ import { appLegacyAliasRedirects, canonicalHomeRedirects, legacyModuleRedirects 
 const nextConfig = {
   reactStrictMode: true,
   outputFileTracingIncludes: { "/api/owner/student-export": ["./src/assets/fonts/DejaVuSans.ttf"] },
-  // The disposable local development server proxies file bytes to disk. Next
-  // 15's 10 MB middleware clone otherwise truncates a valid 16 MB audio file.
-  // Hosted Preview/Production retain the framework limit and direct S3/R2 PUTs.
-  ...(process.env.APP_ENV === "development" && process.env.STORAGE_PROVIDER === "local"
-    ? { experimental: { middlewareClientMaxBodySize: "64mb" } }
+  // Next 15 normally buffers only 10 MB of an incoming request. When local
+  // storage is selected, /api/uploads must proxy files of up to 60 MiB on both
+  // production and development. Reserve 1 MiB for multipart form boundaries and
+  // headers; the authoritative 60 MiB file limit is checked in upload intents
+  // and again in /api/uploads. R2/S3 continue to use direct browser PUTs.
+  ...(process.env.STORAGE_PROVIDER === "local"
+    ? { experimental: { middlewareClientMaxBodySize: "61mb" } }
     : {}),
   eslint: { ignoreDuringBuilds: false },
   /**
