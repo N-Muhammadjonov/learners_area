@@ -10,7 +10,7 @@ export default async function GrammarLessonsPage({ searchParams }: { searchParam
   const page = Math.max(1, Math.min(10000, Number.parseInt(query.page ?? "1", 10) || 1));
   const library = await listLessonLibrary({ area: "grammar", limit: 24, offset: (page - 1) * 24 });
   return <div className="mx-auto flex max-w-5xl flex-col gap-5" data-route-usable="grammar-lessons">
-    <Link className="link-inline" href="/app/grammar">{dict.common.back}</Link>
+    <Link className="link-inline" href="/app">{dict.common.back}</Link>
     <h1 className="page-title">{dict.grammar.lessonsTitle}</h1>
     {!library.rows.length && <p className="body-text" data-grammar-lessons-empty>{dict.grammar.lessonsEmpty}</p>}
     {isStaff(user.role) && <Link className="btn-secondary self-start" href="/app/grammar/lessons/author">{dict.listening.lessons.authoringPath}</Link>}
