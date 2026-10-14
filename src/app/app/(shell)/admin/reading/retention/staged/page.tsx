@@ -10,7 +10,7 @@ export const metadata = { title: "Retention V2 · Owner QA" };
 /**
  * Owner/Admin-only staging preview, deliberately independent of the production
  * retention_texts bank. No learner routes, mutations, grading/attempt creation,
- * scoringStructure serialization, or publish action.
+ * rubric serialization, or publish action.
  */
 export default async function RetentionStagedReviewPage({ searchParams }: {
   searchParams: Promise<{ level?: string | string[] }>;
