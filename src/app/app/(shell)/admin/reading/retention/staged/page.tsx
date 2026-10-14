@@ -34,13 +34,13 @@ export default async function RetentionStagedReviewPage({ searchParams }: {
         <h1 className="page-title">{uz ? "Retention FINAL V2 — Owner tekshiruvi" : "Retention FINAL V2 — Owner review"}</h1>
         <p className="body-text">
           {uz
-            ? "Manbadan o‘qilgan 75 ta matnning faqat ko‘rish sahifasi. Bu materiallar hali talabalarga ochilmagan."
+            ? "Manbadan o'qilgan 75 ta matnning faqat ko'rish sahifasi. Bu materiallar hali talabalarga ochilmagan."
             : "Read-only preview of the 75 authored texts. This content is not available to learners yet."}
         </p>
       </header>
 
       <section className="panel flex flex-col gap-2 border-warning-300" role="status" data-retention-staged-warning>
-        <h2 className="card-title">{uz ? "NASHR TO‘XTATILGAN — QA HOLD" : "PUBLICATION BLOCKED — QA HOLD"}</h2>
+        <h2 className="card-title">{uz ? "NASHR TO'XTATILGAN — QA HOLD" : "PUBLICATION BLOCKED — QA HOLD"}</h2>
         <p className="body-text">
           {uz
             ? "Baholash qoidalaridagi nomuvofiqliklar tekshirilmaguncha ushbu matnlarni nashr qilmang. Bu sahifa hech narsani database'ga yozmaydi."
@@ -68,9 +68,9 @@ export default async function RetentionStagedReviewPage({ searchParams }: {
         {report.items.map(item => (
           <details key={item.sourceId} className="panel" data-retention-staged-item={item.sourceId}>
             <summary className="cursor-pointer text-base font-semibold">
-              {item.sourceId} · {item.wordCount} {uz ? "so‘z" : "words"}
+              {item.sourceId} · {item.wordCount} {uz ? "so'z" : "words"}
               {" · "}
-              {item.held ? (uz ? "Baholash tekshiruvi kerak" : "Scoring needs review") : (uz ? "Hozirgi testda nomuvofiqlik yo‘q" : "No current scoring discrepancy")}
+              {item.held ? (uz ? "Baholash tekshiruvi kerak" : "Scoring needs review") : (uz ? "Hozirgi testda nomuvofiqlik yo'q" : "No current scoring discrepancy")}
             </summary>
             <div className="mt-4 flex flex-col gap-4">
               <p className="body-text whitespace-pre-wrap" data-retention-staged-body>{item.bodyText}</p>
