@@ -5,7 +5,7 @@ import { db } from "@/db/client";
 import { uploadIntents } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { getStorageService } from "@/lib/services/storage";
-import { validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
+import { PROXY_UPLOAD_MAX_BYTES, validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
 
 /**
  * POST /api/uploads — the proxy upload path.
@@ -54,6 +54,10 @@ async function upload(req: NextRequest) {
     // The provider supports presigned PUTs — refuse to proxy bytes for an
     // intent that was issued a direct URL. Keeps the two paths from blurring.
     return NextResponse.json({ error: "use_direct_upload" }, { status: 409 });
+  }
+  // Defense in depth for old/replayed intents and forged multipart bodies.
+  if (file.size > PROXY_UPLOAD_MAX_BYTES) {
+    return NextResponse.json({ error: "file_too_large" }, { status: 413 });
   }
 
   const category: UploadCategory =
