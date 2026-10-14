@@ -98,7 +98,10 @@ test("Retention FINAL V2: original owner corpus stays byte-for-byte immutable an
   for (let i = 0; i < fixed.length; i++) {
     assert.equal(fixed[i]!.bodyText, original[i]!.bodyText);
     assert.equal(fixed[i]!.sourceId, original[i]!.sourceId);
-    const before = original[i]!.scoringStructure as ReturnType<typeof validateMeasurementStructure>;
+    // Compare canonical validated structures on both sides. The production
+    // validator materialises absent optional "critical" as false; comparing
+    // raw author JSON with that normalised shape is a false mutation alarm.
+    const before = validateMeasurementStructure(original[i]!.scoringStructure);
     const after = fixed[i]!.scoringStructure as ReturnType<typeof validateMeasurementStructure>;
     assert.equal(before.claims.length, after.claims.length);
     for (let j = 0; j < before.claims.length; j++) {
