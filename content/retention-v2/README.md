@@ -10,7 +10,11 @@ This content bank comes from the owner's file `Learners_Area_Retention_75_Texts_
 
 Each JSONL row has `sourceId` (such as `A2-001`), `level`, `bodyText`, and the **original authored** `scoringStructure`. All 75 original JSON structures and retention texts are preserved. Every rubric is private server-side data; it must **never** be placed into Retention learner API payloads or client bundles.
 
-Every authored scoring structure uses schemaVersion 1, maxScore 100, exactly five 20-point sentence-scoped claims, groups summing to each claim's points, accepted paraphrases, contradiction reject phrases, and strict date/number anchors. The longest actual `anyOf` phrase is 171 characters; the shared validator now accepts a still-bounded 180-character alternative instead of silently truncating C1/C2 author content. The strict schema still rejects executable shapes, regex, callbacks, oversized arrays and unknown keys.
+## Production evaluator discrepancy — BLOCKS PUBLICATION
+
+The source file's own QA says exact and paraphrased recall score 100 on all 75. On the **current website evaluator**, the real CI proved otherwise: **47 failed score checks across 28 item IDs** (22 canonical-label checks, 25 source-text checks); some C2 material scores as low as 46. See `calibration-gaps.json` for the exact ID/check/observed score. **Those claims are not falsely certified**. The test pins the actual known results and fails if they drift without a reviewed update; the source stays in `QA_HOLD_DO_NOT_PUBLISH` state and must not be seeded/published until each discrepancy is resolved and all 75 show the expected behavior. Do not round these scores to 100 or change the original author content silently.
+
+Every authored scoring structure uses schemaVersion 1, maxScore 100, exactly five 20-point sentence-scoped claims, groups summing to each claim's points, accepted paraphrases, contradiction reject phrases, and strict date/number anchors. The longest actual `anyOf` phrase is 171 characters and one C2-009 contradiction is 203 characters. The shared strict validator now accepts bounded 180-character alternatives and 220-character accepted/rejected phrases, rather than truncating authored content. The strict schema still rejects executable shapes, regex, callbacks, oversized arrays and unknown keys.
 
 ## Quality gate
 
@@ -18,7 +22,7 @@ Every authored scoring structure uses schemaVersion 1, maxScore 100, exactly fiv
 node --import tsx --test tests/retention-v2-content.test.ts
 ```
 
-The regression validates all 75 exact level and source IDs, no duplicate body, every canonical word range, real production scoring-schema validation, all 375 claim totals, deterministic recall, and empty/unrelated answer refusal. Author-declared CEFR levels have not been certified by an external examiner.
+The regression validates all 75 exact level and source IDs, no duplicate body, every canonical word range, real production scoring-schema validation, all 375 claim totals and deterministic recall. The 47 known score mismatches are *pinned as release blockers*, not waived or reported as PASS. Author-declared CEFR levels have not been certified by an external examiner.
 
 ## Availability / production import
 
