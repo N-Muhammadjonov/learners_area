@@ -66,6 +66,9 @@ async function RetentionBankContent({ dict, params }: {
       <header className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <BackLink fallbackHref="/app/admin/reading" label={dict.retentionMemory.admin.backToReading} data-retention-back />
+          <Link href="/app/admin/reading/retention/staged" className="link-inline" data-retention-staged-review-link>
+            Retention FINAL V2 · QA Review
+          </Link>
         </div>
         <p className="page-subtitle">{dict.retentionMemory.admin.subtitle}</p>
       </header>
