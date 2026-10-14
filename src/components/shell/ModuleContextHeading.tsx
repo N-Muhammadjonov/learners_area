@@ -20,15 +20,15 @@ export function ModuleContextHeading({ dict }: { dict: Dictionary }) {
     { key: "grammar", path: "/app/grammar", label: dict.nav.grammar },
     { key: "vocabulary", path: "/app/vocabulary", label: dict.nav.vocabulary },
   ] as const;
-  const module = modules.find(item => pathname === item.path || pathname.startsWith(item.path + "/"));
-  if (!module) return null;
+  const activeModule = modules.find(item => pathname === item.path || pathname.startsWith(item.path + "/"));
+  if (!activeModule) return null;
   return (
     <p
       aria-hidden="true"
-      data-module-context-heading={module.key}
+      data-module-context-heading={activeModule.key}
       className="mb-4 pl-3 text-xl font-semibold leading-7 text-ink-900"
     >
-      {module.label}
+      {activeModule.label}
     </p>
   );
 }
