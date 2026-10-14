@@ -78,8 +78,8 @@ const FUNCTION_WORDS = new Set([
   "while",
   "also",
   "very",
-  "more",
-  "most",
+  // Comparatives are semantic facts: more, most and than must NOT be dropped.
+  // 'fewer projects' must not accidentally match a reject phrase 'more projects'.
   "such",
 ]);
 
@@ -221,7 +221,10 @@ function applyNumberWords(input: string[]): string[] {
  * on raw text first, then each piece is tokenised.
  */
 export function splitEvidenceUnits(raw: string): string[] {
-  const text = (raw ?? "").normalize("NFKC");
+  // Honorifics before proper names do not end sentences. In particular
+  // 'Dr. Pavel Orlov' must remain in the SAME evidence unit as its date.
+  const text = (raw ?? "").normalize("NFKC")
+    .replace(/\b(Dr|Mr|Mrs|Ms|Prof|St)\.(?=\s+\p{Lu})/gu, "$1");
   const units = text
     // v4: a decimal point ("1.27 million") is not a sentence end.
     .split(/(?:(?<!\d)\.|\.(?!\d)|[!?\n\r])+|;/u)
@@ -320,17 +323,20 @@ function fuzzyAt(haystack: string[], needle: string[], start: number): boolean {
  * a full semantic match.
  */
 export function findPhrase(haystack: string[], needle: string[], fuzzy = false): number {
-  if (needle.length === 0 || haystack.length === 0) return -1;
+  // Commas/semicolons are separators in both source and authored alternatives.
+  // Matching a literal comma as a fact fails for 'tubes, lights, and tools'.
+  const meaningfulNeedle = needle.filter(token => !BOUNDARY_TOKENS.has(token));
+  if (meaningfulNeedle.length === 0 || haystack.length === 0) return -1;
 
   for (let start = 0; start < haystack.length; start += 1) {
     if (BOUNDARY_TOKENS.has(haystack[start]!)) continue;
-    if (exactAt(haystack, needle, start)) return start;
+    if (exactAt(haystack, meaningfulNeedle, start)) return start;
   }
   if (!fuzzy) return -1;
 
   for (let start = 0; start < haystack.length; start += 1) {
     if (BOUNDARY_TOKENS.has(haystack[start]!)) continue;
-    if (fuzzyAt(haystack, needle, start)) return start;
+    if (fuzzyAt(haystack, meaningfulNeedle, start)) return start;
   }
   return -1;
 }
@@ -343,15 +349,16 @@ export function findPhrase(haystack: string[], needle: string[], fuzzy = false):
  */
 export function findPhraseAll(haystack: string[], needle: string[], fuzzy = false): number[] {
   const out: number[] = [];
-  if (needle.length === 0 || haystack.length === 0) return out;
+  const meaningfulNeedle = needle.filter(token => !BOUNDARY_TOKENS.has(token));
+  if (meaningfulNeedle.length === 0 || haystack.length === 0) return out;
   for (let start = 0; start < haystack.length; start += 1) {
     if (BOUNDARY_TOKENS.has(haystack[start]!)) continue;
-    if (exactAt(haystack, needle, start)) out.push(start);
+    if (exactAt(haystack, meaningfulNeedle, start)) out.push(start);
   }
   if (!fuzzy) return out;
   for (let start = 0; start < haystack.length; start += 1) {
     if (BOUNDARY_TOKENS.has(haystack[start]!)) continue;
-    if (!out.includes(start) && fuzzyAt(haystack, needle, start)) out.push(start);
+    if (!out.includes(start) && fuzzyAt(haystack, meaningfulNeedle, start)) out.push(start);
   }
   return out;
 }
