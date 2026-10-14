@@ -17,7 +17,7 @@ export default async function AcademicReadingPage({ searchParams }: { searchPara
     <p className="body-text">{dict.readingHub.academicExamHint}</p>
     <Suspense fallback={null}><AcademicSetsRegion userId={user.id} dict={dict} page={page} /></Suspense>
     <ReadingLearningLibrary userId={user.id} lang={locale} dict={dict} filter={filter} baseHref="/app/reading/academic" />
-  </section>;
+  </div>;
 }
 
 async function AcademicSetsRegion({ userId, dict, page }: {
@@ -35,8 +35,8 @@ async function AcademicSetsRegion({ userId, dict, page }: {
       <Link className="btn-primary self-start" href={set.attemptId ? `/app/reading/attempts/${set.attemptId}` : `/app/reading/academic/${set.id}`}>{set.assessmentStatus === "completed" ? dict.readingV4.review : set.attemptId ? dict.readingHub.actionResume : dict.readingV4.open}</Link>
     </article>)}</div>
     <nav className="flex gap-3" aria-label={dict.readingHub.page}>
-      {page > 1 && <Link href={`?page=${page-1}`}>{dict.readingHub.prevPage}</Link>}
-      {sets.length > 24 && <Link href={`?page=${page+1}`}>{dict.readingHub.nextPage}</Link>}
+      {page > 1 && <Link href={`?setsPage=${page-1}`}>{dict.readingHub.prevPage}</Link>}
+      {sets.length > 24 && <Link href={`?setsPage=${page+1}`}>{dict.readingHub.nextPage}</Link>}
     </nav>
-  </div>;
+  </section>;
 }
