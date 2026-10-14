@@ -132,9 +132,9 @@ test("Learner menu lands on Lessons for Reading/Listening/Grammar and keeps othe
         </PathnameContext.Provider>
       </AppRouterContext.Provider>
     ));
-    for (const module of ["reading", "listening", "grammar"]) {
-      const link = required<HTMLAnchorElement>(`[data-sidebar-link="/app/${module}/lessons"]`);
-      assert.equal(new URL(link.href).pathname, `/app/${module}/lessons`);
+    for (const moduleKey of ["reading", "listening", "grammar"]) {
+      const link = required<HTMLAnchorElement>(`[data-sidebar-link="/app/${moduleKey}/lessons"]`);
+      assert.equal(new URL(link.href).pathname, `/app/${moduleKey}/lessons`);
     }
     const active = required<HTMLAnchorElement>('[data-sidebar-link="/app/reading/lessons"]');
     assert.equal(active.getAttribute("aria-current"), "page", "lesson route highlights its parent module");
