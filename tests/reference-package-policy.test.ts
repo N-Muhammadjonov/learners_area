@@ -5,7 +5,8 @@ import { decodeMeasurementDraft } from "../src/lib/retention/measurement-draft";
 import { measurementStructureSchema } from "../src/lib/retention/measurement";
 test("intent policy rejects external, attempts, admin, answers and query strings", () => {
  for (const raw of ["https://evil.test/dashboard", "/app/admin/reading/retention", "/app/reading/retention/results/a", "/app/reading?attempt=a", "/reading#answers", "/app"]) assert.equal(eligibleIntentTarget(raw,"https://learn.test","/app"), null);
- assert.equal(eligibleIntentTarget("/app/reading","https://learn.test","/app"), "/app/reading");
+ assert.equal(eligibleIntentTarget("/app/reading","https://learn.test","/app"), null, "redirect-only doorway must not be prefetched");
+ assert.equal(eligibleIntentTarget("/app/reading/lessons","https://learn.test","/app"), "/app/reading/lessons");
 });
 test("budget deduplicates, spaces dispatches and resets only after its window", () => {
  const b=new IntentPrefetchBudget(); assert.equal(b.take("/app/reading",1000),true); assert.equal(b.take("/app/reading",2000),false); assert.equal(b.take("/app/writing",1100),false);
