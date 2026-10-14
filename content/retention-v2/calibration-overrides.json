@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "status": "REQUIRES_FULL_CI_AND_QA",
+  "provenance": "Exact author claim labels and verbatim source clauses; immutable original author files remain unchanged",
+  "patches": [
+    {
+      "sourceId": "A2-008",
+      "claimId": "a2_008_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the after-school art table at Oak Lane Center was to let children paint without paying for materials."
+      ]
+    },
+    {
+      "sourceId": "B1-007",
+      "claimId": "b1_007_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the remote-work trial at Northline Design Studio was to reduce commuting time without lowering team coordination."
+      ]
+    },
+    {
+      "sourceId": "B2-002",
+      "claimId": "b2_002_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2019 launch of the museum digitization program at Marston City Museum was led by Luis Moreno"
+      ]
+    },
+    {
+      "sourceId": "B2-002",
+      "claimId": "b2_002_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the museum digitization program at Marston City Museum was to make fragile local photographs accessible without repeated physical handling.",
+        "The project was designed to make fragile local photographs accessible without repeated physical handling"
+      ]
+    },
+    {
+      "sourceId": "B2-006",
+      "claimId": "b2_006_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2022 launch of the late-library-hours pilot at Meridian Public Library was led by Samuel Reed"
+      ]
+    },
+    {
+      "sourceId": "B2-010",
+      "claimId": "b2_010_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2020 launch of the peer-mentoring network at Central Technical College was led by Idris Cole"
+      ]
+    },
+    {
+      "sourceId": "B2-014",
+      "claimId": "b2_014_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2020 launch of the bakery pre-order system at Maple Row Bakery was led by Thomas Green"
+      ]
+    },
+    {
+      "sourceId": "B2-014",
+      "claimId": "b2_014_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the bakery pre-order system at Maple Row Bakery was to reduce unsold bread without disappointing regular customers.",
+        "The project was designed to reduce unsold bread without disappointing regular customers"
+      ]
+    },
+    {
+      "sourceId": "B2-015",
+      "claimId": "b2_015_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the neighborhood archive project at Eastgate Cultural Center was to preserve residents' photographs and recorded memories in a searchable collection.",
+        "The project was designed to preserve residents' photographs and recorded memories in a searchable collection"
+      ]
+    },
+    {
+      "sourceId": "C1-002",
+      "claimId": "c1_002_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2020 introduction of the municipal tree-canopy audit in Ashford City was led by Marcus Lee"
+      ]
+    },
+    {
+      "sourceId": "C1-003",
+      "claimId": "c1_003_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the university open-textbook initiative at Bellmere University was to lower course-material costs without reducing academic coverage.",
+        "Its stated objective was to lower course-material costs without reducing academic coverage"
+      ]
+    },
+    {
+      "sourceId": "C1-006",
+      "claimId": "c1_006_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2020 introduction of the apprenticeship matching platform at Greybridge Skills Agency was led by Yasir Malik"
+      ]
+    },
+    {
+      "sourceId": "C1-008",
+      "claimId": "c1_008_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the neighborhood energy retrofit fund at Eastborough was to help older apartment blocks reduce heat loss without raising rents abruptly.",
+        "Its stated objective was to help older apartment blocks reduce heat loss without raising rents abruptly"
+      ]
+    },
+    {
+      "sourceId": "C1-010",
+      "claimId": "c1_010_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2020 introduction of the school-meal procurement review along Riverton Education Board was led by Joel Nwosu"
+      ]
+    },
+    {
+      "sourceId": "C1-014",
+      "claimId": "c1_014_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2021 introduction of the regional water-demand forecast at Dryland Utilities Board was led by Karim Haddad"
+      ]
+    },
+    {
+      "sourceId": "C2-002",
+      "claimId": "c2_002_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2019 creation of the replication support program at Westmere Research Council, led by Professor Adrian Cole, reflected a concern that the existing approach was obscuring rather than resolving the underlying trade-off"
+      ]
+    },
+    {
+      "sourceId": "C2-002",
+      "claimId": "c2_002_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the replication support program at Westmere Research Council was to make confirmatory studies easier to fund without turning replication into a mechanical test of prestige."
+      ]
+    },
+    {
+      "sourceId": "C2-005",
+      "claimId": "c2_005_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the algorithmic scheduling review at Metropolitan Care Network was to reduce staff overtime without letting optimization targets override continuity of care."
+      ]
+    },
+    {
+      "sourceId": "C2-006",
+      "claimId": "c2_006_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2019 creation of the urban mobility pricing trial in Port Meridian, led by Professor Kenji Watanabe, reflected a concern that the existing approach was obscuring rather than resolving the underlying trade-off"
+      ]
+    },
+    {
+      "sourceId": "C2-010",
+      "claimId": "c2_010_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2019 creation of the groundwater allocation model at Central Basin Authority, led by Dr Omar Qureshi, reflected a concern that the existing approach was obscuring rather than resolving the underlying trade-off"
+      ]
+    },
+    {
+      "sourceId": "C2-011",
+      "claimId": "c2_011_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the scholarly recommendation redesign at OpenScholar Library was to help researchers discover relevant work without reinforcing citation popularity as a proxy for quality."
+      ]
+    },
+    {
+      "sourceId": "C2-012",
+      "claimId": "c2_012_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the disaster-relief procurement reform at Regional Response Agency was to speed emergency purchasing without removing the safeguards that prevent favoritism and inflated pricing."
+      ]
+    },
+    {
+      "sourceId": "C2-013",
+      "claimId": "c2_013_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the multilingual court-information project at Civic Justice Office was to make procedural guidance understandable across languages without changing the legal meaning of deadlines and obligations."
+      ]
+    },
+    {
+      "sourceId": "C2-014",
+      "claimId": "c2_014_claim_1_launch",
+      "addAcceptedPhrases": [
+        "The 2020 creation of the biodiversity offset review at Northern Infrastructure Commission, led by Dr Pavel Orlov"
+      ]
+    },
+    {
+      "sourceId": "C2-015",
+      "claimId": "c2_015_claim_2_purpose",
+      "addAcceptedPhrases": [
+        "The purpose of the public-interest AI procurement standard at Crescent State Digital Office was to prevent public agencies from buying automated decision systems whose performance could not be independently examined."
+      ]
+    },
+    {
+      "sourceId": "C2-015",
+      "claimId": "c2_015_claim_3_challenge",
+      "addAcceptedPhrases": [
+        "Its central weakness became apparent when vendors often supplied impressive accuracy figures without revealing the test population, error distribution, or conditions under which performance degraded"
+      ]
+    }
+  ]
+}
