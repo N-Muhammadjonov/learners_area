@@ -20,6 +20,7 @@ import {
 } from "../src/lib/data/retention-attempts";
 import { RetentionError } from "../src/lib/retention/errors";
 import { RETENTION_LEVEL_CONFIG } from "../src/lib/retention/levels";
+import { RETENTION_EVALUATOR_VERSION } from "../src/lib/retention/types";
 import { bodyOfWords, createTestDatabase, simpleStructure, type TestDatabase } from "./support/pglite";
 
 /**
@@ -276,7 +277,7 @@ test("submit scores against the ASSIGNED version even after the owner publishes 
   assert.equal(submitted.attempt.retentionTextVersionId, assigned, "the attempt still points at the version it was given");
   assert.equal(submitted.attempt.status, "completed");
   assert.equal(submitted.attempt.score, 100);
-  assert.equal(submitted.attempt.evaluatorVersion, "retention-deterministic-v5");
+  assert.equal(submitted.attempt.evaluatorVersion, RETENTION_EVALUATOR_VERSION, "the new score pins the current evaluator version; existing completed results are never regraded");
   assert.ok(submitted.attempt.scoreBreakdown?.claims.length);
 
   // Submitting twice returns the stored result and never re-scores.
