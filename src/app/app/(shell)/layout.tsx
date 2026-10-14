@@ -9,6 +9,7 @@ import { hasProfilePhoto } from "@/lib/profile/photo";
 import { ShellUtilities } from "@/components/shell/ShellUtilities";
 import { InstantInteractionProvider } from "@/components/interaction/InstantInteractionProvider";
 import { InstantWorkspaceOutlet } from "@/components/interaction/InstantWorkspaceOutlet";
+import { IdleShellPrefetch } from "@/components/interaction/IdleShellPrefetch";
 import { sectionEntryFrames } from "@/lib/interaction/section-entry";
 
 /**
@@ -61,6 +62,7 @@ export default async function ShellLayout({ children }: { children: React.ReactN
       retryLabel={dict.errorPage.retry}
     >
       <div className="flex h-dvh overflow-hidden bg-paper" data-shell>
+        <IdleShellPrefetch />
         {diagnostics && <PerformanceDiagnostics />}
         {/*
           The rail is visible from 768px up and replaced by the drawer below that

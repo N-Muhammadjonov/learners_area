@@ -1,6 +1,22 @@
-// Only module landing routes. Never prefetch attempts, answers, admin records,
-// evaluations or arbitrary private identifiers through this policy.
-const LANDINGS = new Set(["/app", "/app/reading", "/app/listening", "/app/writing", "/app/speaking", "/app/grammar", "/app/vocabulary", "/app/video-lessons", "/app/progress"]);
+// Only canonical module landing routes. Never prefetch attempts, answers, admin
+// records, evaluations or arbitrary private identifiers through this policy.
+// Keep this aligned with SidebarNav hrefs: /app/reading and /app/listening are
+// redirect-only doorways, so prefetching them wastes a network round trip.
+const LANDINGS = new Set([
+  "/app",
+  "/app/reading/lessons",
+  "/app/listening/lessons",
+  "/app/writing",
+  "/app/speaking",
+  "/app/grammar/lessons",
+  "/app/vocabulary",
+  "/app/video-lessons",
+  "/app/progress",
+]);
+// Warm only the two most-used learning entry routes while the browser is idle.
+// Routes remain guarded by middleware, the authoritative DB-backed /app layout
+// and the individual API authorizers. No attempts or authored answers are warmed.
+export const IDLE_SHELL_PREFETCH_ROUTES = ["/app/reading/lessons", "/app/listening/lessons"] as const;
 export function eligibleIntentTarget(raw: string, origin: string, current: string): string | null {
   try {
     const destination = new URL(raw, origin);
@@ -24,3 +40,6 @@ export class IntentPrefetchBudget {
     this.targets.add(target); this.last = now; return true;
   }
 }
+
+/** One bounded client budget shared by intent links and the idle shell warmer. */
+export const sharedIntentPrefetchBudget = new IntentPrefetchBudget();
