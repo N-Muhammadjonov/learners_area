@@ -3,7 +3,12 @@ import { appLegacyAliasRedirects, canonicalHomeRedirects, legacyModuleRedirects 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  outputFileTracingIncludes: { "/api/owner/student-export": ["./src/assets/fonts/DejaVuSans.ttf"] },
+  outputFileTracingIncludes: {
+    "/api/owner/student-export": ["./src/assets/fonts/DejaVuSans.ttf"],
+    // The guarded Owner QA page reads staged JSONL from disk at runtime.
+    // The learner bundle and public routes never receive these rubric files.
+    "/app/admin/reading/retention/staged": ["./content/retention-v2/*.jsonl", "./content/retention-v2/calibration-gaps.json"],
+  },
   // Next 15 normally buffers only 10 MB of an incoming request. When local
   // storage is selected, /api/uploads must proxy files of up to 60 MiB on both
   // production and development. Reserve 1 MiB for multipart form boundaries and
