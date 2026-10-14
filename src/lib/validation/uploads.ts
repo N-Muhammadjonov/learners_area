@@ -143,6 +143,9 @@ function mb(value: number): number {
   return Math.round(value * 1024 * 1024);
 }
 
+/** The browser-to-server fallback accepts at most 60 MiB per uploaded file. */
+export const PROXY_UPLOAD_MAX_BYTES = mb(60);
+
 /**
  * Ceilings. Env overrides exist so ops can tighten them per deployment without
  * touching code; the defaults are the product's actual policy. Note this module
@@ -170,7 +173,7 @@ export const UPLOAD_RULES: Record<UploadCategory, UploadRules> = {
     extensions: [".png", ".jpg", ".jpeg", ".webp", ".gif"],
   },
   audio: {
-    maxBytes: envMb("MAX_AUDIO_UPLOAD_MB", 50),
+    maxBytes: envMb("MAX_AUDIO_UPLOAD_MB", 60),
     mimePrefixes: ["audio/"],
     mimeTypes: [],
     extensions: [".mp3", ".wav", ".m4a", ".aac", ".ogg", ".oga", ".opus", ".webm", ".flac", ".mp4"],
@@ -187,7 +190,7 @@ export const UPLOAD_RULES: Record<UploadCategory, UploadRules> = {
     extensions: [".mp4", ".webm", ".mov", ".m4v"],
   },
   file: {
-    maxBytes: envMb("MAX_FILE_UPLOAD_MB", 50),
+    maxBytes: envMb("MAX_FILE_UPLOAD_MB", 60),
     mimePrefixes: [],
     mimeTypes: DOC_MIME_TYPES,
     extensions: DOC_EXTENSIONS,
