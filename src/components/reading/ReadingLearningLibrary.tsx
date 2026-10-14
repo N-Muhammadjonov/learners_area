@@ -17,15 +17,15 @@ function captureRegion<T>(promise: Promise<T>): Promise<ReadingRegionResult<T>> 
   return promise.then(value => ({ value, unavailable: false }), () => ({ value: null, unavailable: true }));
 }
 /** The existing bounded, URL-backed learning library, relocated rather than replaced. */
-export function ReadingLearningLibrary({userId,lang,dict,filter}: {
-  userId:string; lang:"en"|"uz"; dict:ReturnType<typeof getDictionary>; filter:ReadingFilter;
+export function ReadingLearningLibrary({userId,lang,dict,filter,baseHref = "/app/reading/general"}: {
+  userId:string; lang:"en"|"uz"; dict:ReturnType<typeof getDictionary>; filter:ReadingFilter; baseHref?: "/app/reading/academic" | "/app/reading/general";
 }) {
   const facetsPromise = captureRegion(listLibraryFacets(true));
   const libraryPromise = captureRegion(listLearningLibrary(userId,filter));
   return <section className="flex flex-col gap-5" data-reading-library>
     <h2 className="section-title">{dict.readingHub.library}</h2>
     <Suspense fallback={<ReadingFiltersSkeleton dict={dict} />}><ReadingFiltersRegion dict={dict} lang={lang} filter={filter} facetsPromise={facetsPromise} /></Suspense>
-    <Suspense fallback={<ReadingLibrarySkeleton />}><ReadingLibraryRegion dict={dict} lang={lang} filter={filter} libraryPromise={libraryPromise} /></Suspense>
+    <Suspense fallback={<ReadingLibrarySkeleton />}><ReadingLibraryRegion dict={dict} lang={lang} filter={filter} libraryPromise={libraryPromise} baseHref={baseHref} /></Suspense>
   </section>;
 }
 function ReadingFiltersSkeleton({ dict }: { dict: ReturnType<typeof getDictionary> }) {
@@ -70,17 +70,17 @@ async function ReadingFiltersRegion({ dict, lang, filter, facetsPromise }: {
   );
 }
 
-async function ReadingLibraryRegion({ dict, lang, filter, libraryPromise }: {
+async function ReadingLibraryRegion({ dict, lang, filter, libraryPromise, baseHref }: {
   dict: ReturnType<typeof getDictionary>;
   lang: "uz" | "en";
   filter: ReadingFilter;
-  libraryPromise: Promise<ReadingRegionResult<ReadingLibrary>>;
+  libraryPromise: Promise<ReadingRegionResult<ReadingLibrary>>; baseHref: "/app/reading/academic" | "/app/reading/general";
 }) {
   const result = await libraryPromise;
   if (result.unavailable) {
     return <RegionFailureNotice region="reading-library" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />;
   }
-  return <LearningLibraryCards library={result.value} filter={filter} dict={dict} lang={lang} />;
+  return <LearningLibraryCards library={result.value} filter={filter} dict={dict} lang={lang} baseHref={baseHref} />;
 }
 
 function LearningLibraryCards({
@@ -88,11 +88,13 @@ function LearningLibraryCards({
   filter,
   dict,
   lang,
+  baseHref,
 }: {
   library: ReadingLibrary;
   filter: ReadingFilter;
   dict: ReturnType<typeof getDictionary>;
   lang: "uz" | "en";
+  baseHref: "/app/reading/academic" | "/app/reading/general";
 }) {
   /* The total arrives with the page rows (`count(*) over ()`), avoiding extra count reads. */
   const buildPageHref = (page: number) => {
@@ -101,7 +103,7 @@ function LearningLibraryCards({
       if (value && key !== "page") search.set(key === "query" ? "q" : key, String(value));
     }
     if (page > 1) search.set("page", String(page));
-    return search.toString() ? `/app/reading/general?${search.toString()}` : "/app/reading/general";
+    return search.toString() ? `${baseHref}?${search.toString()}` : baseHref;
   };
 
   return (
@@ -116,7 +118,7 @@ function LearningLibraryCards({
           title={dict.readingHub.noResults}
           body={dict.readingHub.noResultsHint}
           action={
-            <Link href="/app/reading/general" className="btn-secondary" data-reading-empty-reset>
+            <Link href={baseHref} className="btn-secondary" data-reading-empty-reset>
               {dict.readingHub.filterReset}
             </Link>
           }

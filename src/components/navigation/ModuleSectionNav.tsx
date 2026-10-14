@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { InstantLink } from "@/components/interaction/InstantLink";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRef } from "react";
 import { nextTabIndex } from "@/lib/a11y/tablist";
@@ -45,7 +45,7 @@ export function ModuleSectionNav({ module, label, links }: {
             })()
           : link.href;
         return (
-          <Link key={link.key} href={href} scroll={false} prefetch={false}
+          <InstantLink key={link.key} href={href} scroll={false} intentPrefetch={link.key !== "retention"}
             ref={element => { refs.current[index] = element; }}
             aria-current={selected ? "page" : undefined}
             id={`${module}-section-${link.key}`}
@@ -59,7 +59,7 @@ export function ModuleSectionNav({ module, label, links }: {
             }}
             className={`min-h-11 shrink-0 whitespace-nowrap border-b-2 px-3 py-3 text-sm font-medium transition-colors ${selected ? "border-signal-600 text-ink-900 dark:border-signal-400" : "border-transparent text-ink-500 hover:text-ink-900"}`}>
             {link.label}
-          </Link>
+          </InstantLink>
         );
       })}
     </nav>

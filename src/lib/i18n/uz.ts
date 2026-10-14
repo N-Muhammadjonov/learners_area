@@ -2413,7 +2413,7 @@ const uz: Dictionary = {
     dateLocale: "uz",
     title: "Xotira mashqi",
     subtitle: "Qisqa matnni bir marta o'qib, eslab qolganingizni yozing.",
-    intro: "Beshta daraja. Muallif tuzgan o'lchov tuzilmasi eslab qolganingizni baholaydi — 100 ball, serverda tekshiriladi, AI taxminisiz.",
+    intro: "Beshta daraja. Eslab qolganingiz 100 ballik tizimda baholanadi.",
     levelsTitle: "Darajani tanlang",
     levelHint: "O'qish 2 daqiqa, yozish 3 daqiqa.",
     words: "~{n} so'z",

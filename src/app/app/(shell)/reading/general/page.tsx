@@ -24,16 +24,19 @@ export default async function GeneralReadingPage({ searchParams }: { searchParam
         <h1 className="section-title">{dict.generalReading.title}</h1>
         <p className="body-text">{dict.generalReading.subtitle}</p>
       </header>
-      <Suspense fallback={<p aria-busy="true">{dict.common.loading}</p>}>
+      {/* Surface the existing published 105-source passage library first: formal
+          three-passage sets are a separate optional product, not the library. */}
+      <ReadingLearningLibrary userId={user.id} dict={dict} lang={locale} filter={filter} />
+      <Suspense fallback={null}>
         <SetsRegion setsPromise={setsPromise} dict={dict} page={page} query={query} />
       </Suspense>
-      <ReadingLearningLibrary userId={user.id} dict={dict} lang={locale} filter={filter} />
     </div>
   );
 }
 
 async function SetsRegion({setsPromise,dict,page,query}:{setsPromise:ReturnType<typeof listGeneralSets>;dict:ReturnType<typeof getDictionary>;page:number;query:Record<string,string|undefined>}) {
   const sets=await setsPromise;
+  if (sets.length === 0) return null;
   const href=(next:number)=>{const params=new URLSearchParams();for(const [key,value] of Object.entries(query))if(value)params.set(key,value);params.set("setsPage",String(next));return `?${params}`;};
   return <section className="flex flex-col gap-3"><GeneralReadingSets dict={dict} sets={sets.slice(0,24)} />
     <nav className="flex gap-3" aria-label={dict.readingHub.page}>

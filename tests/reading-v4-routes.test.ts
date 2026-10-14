@@ -10,7 +10,7 @@ test("READ-HUB five canonical products, History secondary, no mixed catalogue", 
   assert.match(read("src/components/navigation/ModuleNavigation.tsx"), /READING_DESTINATIONS.map/);
   assert.match(page, /redirect\(target \?\? "\/app\/reading\/lessons"\)/, "module root opens Lessons");
   const lessons = read("src/app/app/(shell)/reading/lessons/page.tsx");
-  assert.match(lessons, /data-reading-history-entry/, "History remains a secondary link on the first section");
+  assert.doesNotMatch(lessons, /data-reading-history-entry|lessons\/author/, "Owner-requested cleanup removes redundant bottom actions from Lessons");
   assert.doesNotMatch(page, /listLibrary|listGeneralSets|General Training|readingHubCounts/);
 });
 test("READ-HUB old tabs canonicalize without interpreting the obsolete General Training tab as practice", () => {

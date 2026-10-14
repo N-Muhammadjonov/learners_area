@@ -21,7 +21,8 @@ export function ModuleContextHeading({ dict }: { dict: Dictionary }) {
     { key: "vocabulary", path: "/app/vocabulary", label: dict.nav.vocabulary },
   ] as const;
   const activeModule = modules.find(item => pathname === item.path || pathname.startsWith(item.path + "/"));
-  if (!activeModule) return null;
+  // Writing already has the page title; avoid duplicating it above the workspace.
+  if (!activeModule || activeModule.key === "writing") return null;
   return (
     <p
       aria-hidden="true"
