@@ -29,8 +29,7 @@ test("Reading import stays Management-only; lesson authoring is independently st
   for (const f of files) {
     const src = readFileSync(f, "utf8");
     assert.doesNotMatch(src, /\/admin\/reading|reading\/import|startUpload\(|NewPassageForm|isAdministrator\(/, f);
-    if(f.endsWith("reading/lessons/page.tsx")) assert.match(src,/isStaff\(user.role\) && <Link[^>]*href="\/app\/reading\/lessons\/author"/);
-    else assert.doesNotMatch(src,/isStaff\(/,f);
+    assert.doesNotMatch(src,/isStaff\(/,f);
     if(f.endsWith("reading/lessons/author/page.tsx")) {
       assert.match(src,/requireStaff\(\)/);assert.match(src,/if \(!user\) redirect/);
       assert.match(src,/if \(!mayAuthorContent\(user.role, "lesson", "lesson"\)\) redirect/);
