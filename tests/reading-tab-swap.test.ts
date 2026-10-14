@@ -15,7 +15,7 @@ test("R1 V4 replaces mixed tabs with exactly five products; History is secondary
  assert.match(read("src/components/navigation/ModuleNavigation.tsx"),/READING_DESTINATIONS.map/);
  assert.match(read("src/app/app/(shell)/reading/layout.tsx"),/<ModuleNavigation module="reading"/);
  assert.match(root,/redirect\(target \?\? "\/app\/reading\/lessons"\)/);
- assert.match(read("src/app/app/(shell)/reading/lessons/page.tsx"),/data-reading-history-entry/);
+ assert.doesNotMatch(read("src/app/app/(shell)/reading/lessons/page.tsx"),/data-reading-history-entry/);
  assert.doesNotMatch(root,/tabGeneral|General Training|listLibrary|listGeneralSets/);
 });
 test("R2 General retains URL-backed, independently streamed bounded learning library",()=>{
@@ -47,8 +47,8 @@ test("R5 actual old semantics remain compatible, including raw-type filter bookm
 test("R6 filters/pagination/reset stay on General without a redundant tab round trip",()=>{
  const filters=read("src/components/reading/ReadingFilters.tsx");
  assert.match(filters,/usePathname\(\)/);assert.match(filters,/\$\{pathname\}\?\$\{queryString\}/);
- assert.match(library,/href="\/app\/reading\/general" className="btn-secondary" data-reading-empty-reset/);
- assert.match(library,/`\/app\/reading\/general\?\$\{search.toString\(\)\}`/);
+ assert.match(library,/href=\{baseHref\} className="btn-secondary" data-reading-empty-reset/);
+ assert.match(library, /`\$\{baseHref\}\?\$\{search.toString\(\)\}`/);
  assert.doesNotMatch(library,/tab="general-reading"/);
 });
 
