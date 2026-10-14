@@ -49,7 +49,7 @@ test("F1 the hub opens the owner's four destinations — and lists no content of
   for (const product of ["lessons", "academic", "general", "mcqProgram"])
     assert.ok(navigation.includes(`dict.listening.${product}.title`));
   const links = code("src/components/navigation/ModuleSectionNav.tsx");
-  assert.match(links, /<Link key=\{link.key\} href=\{href\}/);
+  assert.match(links, /<InstantLink key=\{link.key\} href=\{href\}/);
   assert.doesNotMatch(hub, /data-listening-destination|className="card/);
 
   // No catalogue, no library component, no data read: a hub that lists content is where the wrong
