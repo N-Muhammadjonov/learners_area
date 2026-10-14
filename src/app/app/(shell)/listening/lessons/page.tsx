@@ -33,7 +33,7 @@ export default async function ListeningLessonsPage() {
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-lessons">
       <div>
-        <BackLink fallbackHref="/app/listening" label={dict.listening.practiceTitle} data-listening-lessons-back />
+        <BackLink fallbackHref="/app" label={dict.listening.practiceTitle} data-listening-lessons-back />
         <h1 className="mt-2 font-display text-2xl text-ink-900">🎧 {t.title}</h1>
         <p className="mt-1 text-sm text-ink-500">{t.subtitle}</p>
       </div>

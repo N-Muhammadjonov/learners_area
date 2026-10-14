@@ -10,8 +10,9 @@ export default async function ReadingLessonsPage({ searchParams }: { searchParam
   const page = Math.max(1, Math.min(10000, Number.parseInt(query.page ?? "1", 10) || 1));
   const library = await listLessonLibrary({ area: "reading", limit: 24, offset: (page - 1) * 24 });
   return <div className="mx-auto flex max-w-5xl flex-col gap-5" data-route-usable="reading-lessons">
-    <Link className="link-inline" href="/app/reading">{dict.common.back}</Link>
+    <Link className="link-inline" href="/app">{dict.common.back}</Link>
     <h1 className="page-title">{dict.readingV4.products.lessons.title}</h1>
+    <Link className="link-inline w-fit" href="/app/reading/history" data-reading-history-entry>{dict.reading.historyTitle}</Link>
     {!library.rows.length && <p className="body-text" data-reading-lessons-empty>{dict.readingV4.lessonsEmpty}</p>}
     {isStaff(user.role) && <Link className="btn-secondary self-start" href="/app/reading/lessons/author">{dict.listening.lessons.authoringPath}</Link>}
     <div className="grid gap-4 sm:grid-cols-2">{library.rows.map(lesson => <article className="card p-5" key={lesson.id} data-reading-lesson={lesson.id}>

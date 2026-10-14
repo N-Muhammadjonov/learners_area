@@ -20,7 +20,7 @@ export async function ModuleNavigation({ module }: { module: Module }) {
   } else if (module === "grammar") {
     links = [
       { key: "lessons", href: "/app/grammar/lessons", label: dict.grammar.lessonsTitle },
-      { key: "writing", href: "/app/grammar?tab=writing", queryValue: "writing", defaultQuery: true, label: dict.grammar.forWriting },
+      { key: "writing", href: "/app/grammar?tab=writing", queryValue: "writing", label: dict.grammar.forWriting },
       { key: "speaking", href: "/app/grammar?tab=speaking", queryValue: "speaking", label: dict.grammar.forSpeaking },
     ];
   } else {

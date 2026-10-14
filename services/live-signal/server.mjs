@@ -72,14 +72,28 @@ class Conn {
     if (this.closed) return;
     const r = Buffer.from(reason.slice(0, 100));
     const p = Buffer.alloc(2 + r.length); p.writeUInt16BE(code, 0); r.copy(p, 2);
-    try { this.socket.write(encodeFrame(8, p)); } catch {}
-    this.socket.end(); this.#finish();
+    // Remove the connection from rooms immediately, but allow the queued error
+    // and close frames to flush to the peer. Destroying the socket straight
+    // after write() loses close codes under load and hangs browser reconnects.
+    this.closed = true;
+    this.onClose(this);
+    try {
+      this.socket.end(encodeFrame(8, p));
+      // An unresponsive peer must not hold a server socket indefinitely.
+      const deadline = setTimeout(() => this.socket.destroy(), 1500);
+      deadline.unref();
+      this.socket.once("close", () => clearTimeout(deadline));
+    } catch {
+      this.socket.destroy();
+    }
   }
   #finish() { if (this.closed) return; this.closed = true; this.socket.destroy(); this.onClose(this); }
   #read(chunk) {
+    if (this.closed) return;
     this.buf = Buffer.concat([this.buf, chunk]);
     if (this.buf.length > MAX_MESSAGE * 2) return this.close(1009, "too big");
     for (;;) {
+      if (this.closed) return;
       if (this.buf.length < 2) return;
       const b0 = this.buf[0], b1 = this.buf[1];
       const fin = (b0 & 0x80) !== 0, opcode = b0 & 0x0f, masked = (b1 & 0x80) !== 0;

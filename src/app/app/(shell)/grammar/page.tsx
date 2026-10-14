@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { isAdministrator } from "@/lib/auth/roles";
 import Link from "next/link";
@@ -73,8 +74,10 @@ function GrammarTopicsSkeleton() {
 
 export default async function GrammarPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   const [user, locale, query] = await Promise.all([requireActiveUser(), getLocale(), searchParams]);
-  const area = query.tab === "speaking" ? "speaking" : "writing";
   if (!user) return null;
+  // The first Grammar module section is Lessons; explicit Writing/Speaking tabs remain real URLs.
+  if (!query.tab) redirect("/app/grammar/lessons");
+  const area = query.tab === "speaking" ? "speaking" : "writing";
   const dict = getDictionary(locale);
 
   return (

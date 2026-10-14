@@ -59,7 +59,9 @@ test("F1 the hub opens the owner's four destinations — and lists no content of
   assert.doesNotMatch(hub, /<\s*audio|autoPlay/, "and it starts nothing by itself");
 
   // Old bookmarks and old paging links still land here, and every destination exists as a route.
-  assert.match(hub, /searchParams: Promise<\{ page\?: string \}>/, "an older ?page= link is still accepted");
+  assert.match(hub, /requireActiveUser\(\)/, "the module door is still server-gated");
+  assert.match(hub, /redirect\("\/app\/listening\/lessons"\)/, "old bookmarks and paging URLs lead to the real Lessons section");
+  assert.match(code("src/app/app/(shell)/listening/lessons/page.tsx"), /data-route-usable="listening-lessons"/);
   assert.doesNotMatch(hub, /searchParams.*parseInt\(query\.page/s, "…and is simply unused: the hub has no pages");
   for (const route of ["lessons", "academic", "general", "mcq", "history"])
     assert.ok(existsSync(new URL(`../src/app/app/(shell)/listening/${route}/page.tsx`, import.meta.url)), `/app/listening/${route} exists`);
