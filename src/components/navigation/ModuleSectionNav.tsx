@@ -45,7 +45,7 @@ export function ModuleSectionNav({ module, label, links }: {
             })()
           : link.href;
         return (
-          <InstantLink key={link.key} href={href} scroll={false} intentPrefetch
+          <InstantLink key={link.key} href={href} scroll={false} intentPrefetch={link.key !== "retention"}
             ref={element => { refs.current[index] = element; }}
             aria-current={selected ? "page" : undefined}
             id={`${module}-section-${link.key}`}
