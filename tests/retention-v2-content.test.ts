@@ -43,8 +43,15 @@ test("Retention FINAL V2: precisely 75 authored texts, 15 for each CEFR level, n
 });
 
 test("Retention FINAL V2: every score structure satisfies strict production contract and 5x20 point conservation", () => {
+  const invalid: Array<{ sourceId: string; issues: unknown }> = [];
   for (const item of allItems()) {
-    const structure = validateMeasurementStructure(item.scoringStructure);
+    let structure;
+    try {
+      structure = validateMeasurementStructure(item.scoringStructure);
+    } catch (error) {
+      invalid.push({ sourceId: item.sourceId, issues: (error as { details?: unknown }).details ?? String(error) });
+      continue;
+    }
     assert.equal(JSON.stringify(item.scoringStructure).length <= MEASUREMENT_LIMITS.maxJsonChars, true, item.sourceId);
     assert.equal(structure.schemaVersion, 1, item.sourceId);
     assert.equal(structure.maxScore, 100, item.sourceId);
@@ -60,15 +67,27 @@ test("Retention FINAL V2: every score structure satisfies strict production cont
       assert.ok(claim.rejectPhrases.length >= 1, item.sourceId + "/" + claim.id + ": missing contradiction guard");
     }
   }
+  if (invalid.length) console.error("RETENTION_V2_SCHEMA_ISSUES", JSON.stringify(invalid));
+  assert.deepEqual(invalid, [], "author-provided structures must pass the production validator");
 });
 
 test("Retention FINAL V2: every source and canonical five-claim recall scores 100, empty and unrelated score zero", () => {
+  const anomalies: Array<{ sourceId: string; test: string; got: number }> = [];
   for (const item of allItems()) {
-    const structure = validateMeasurementStructure(item.scoringStructure);
+    let structure;
+    try { structure = validateMeasurementStructure(item.scoringStructure); }
+    catch { continue; } // Invalid structures are reported in the previous test.
     const canonical = structure.claims.map(c => c.label).join("\n");
-    assert.equal(evaluateRecall(canonical, structure).score, 100, item.sourceId + " canonical");
-    assert.equal(evaluateRecall(item.bodyText, structure).score, 100, item.sourceId + " source");
-    assert.equal(evaluateRecall("", structure).score, 0, item.sourceId + " empty");
-    assert.equal(evaluateRecall("The sun is shining on an unrelated mountain.", structure).score, 0, item.sourceId + " unrelated");
+    for (const [name, answer, target] of [
+      ["canonical", canonical, 100],
+      ["source", item.bodyText, 100],
+      ["empty", "", 0],
+      ["unrelated", "The sun is shining on an unrelated mountain.", 0],
+    ] as const) {
+      const got = evaluateRecall(answer, structure).score;
+      if (got !== target) anomalies.push({ sourceId: item.sourceId, test: name, got });
+    }
   }
+  if (anomalies.length) console.error("RETENTION_V2_SCORING_ISSUES", JSON.stringify(anomalies));
+  assert.deepEqual(anomalies, [], "source rubric and scoring engine must agree");
 });
