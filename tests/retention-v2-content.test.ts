@@ -89,7 +89,7 @@ test("Retention FINAL V2: every source and canonical five-claim recall scores 10
     }
   }
   // Authoring FINAL V2 claimed 75/75 exact recall PASS, but the actual
-  // production evaluator returned these 47 mismatches in 28 items. Preserve
+  // production evaluator returned these 49 mismatches in 29 items. Preserve
   // the original source; pin each discrepancy so the bank stays QA-HOLD and
   // a future calibration cannot silently change scoring in either direction.
   // Never activate this source bank until the fixture is empty after review.
@@ -99,5 +99,5 @@ test("Retention FINAL V2: every source and canonical five-claim recall scores 10
   };
   assert.equal(evidence.status, "QA_HOLD_DO_NOT_PUBLISH");
   assert.deepEqual(anomalies, evidence.anomalies, "any scoring improvement or regression must be audited and recorded");
-  assert.equal(new Set(anomalies.map(x => x.sourceId)).size, 28, "expected 28 source items held for rubric review");
+  assert.equal(new Set(anomalies.map(x => x.sourceId)).size, 29, "expected 29 source items held for rubric review");
 });
