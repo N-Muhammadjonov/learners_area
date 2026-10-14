@@ -71,7 +71,7 @@ test("Retention FINAL V2: every score structure satisfies strict production cont
   assert.deepEqual(invalid, [], "author-provided structures must pass the production validator");
 });
 
-test("Retention FINAL V2: every source and canonical five-claim recall scores 100, empty and unrelated score zero", () => {
+test("Retention FINAL V2: production evaluator discrepancies are explicitly pinned as publication blockers", () => {
   const anomalies: Array<{ sourceId: string; test: string; got: number }> = [];
   for (const item of allItems()) {
     let structure;
