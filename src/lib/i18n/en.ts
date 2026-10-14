@@ -2433,7 +2433,7 @@ const en = {
     dateLocale: "en",
     title: "Retention memory",
     subtitle: "Read a short text once, then write down what you actually kept.",
-    intro: "Five levels. An author-written measurement structure scores what you remember — 100 points, checked on the server, no AI guesswork.",
+    intro: "Five levels. Your recall is scored out of 100 points.",
     levelsTitle: "Choose a level",
     levelHint: "Reading takes 2 minutes; writing takes 3.",
     words: "~{n} words",
