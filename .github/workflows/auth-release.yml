@@ -61,6 +61,8 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
+      - name: Retention FINAL V2 calibrated 75-text dry-run (no database)
+        run: env -u DATABASE_URL node --import tsx scripts/import-retention-v2.ts
       - name: Reading 105 source dry-run (no database)
         run: env -u DATABASE_URL node --import tsx scripts/import-reading-105.mjs --source data/import-sources/learnersarea_reading_105.zip --report /tmp/reading-105-import-ci.md
       - run: npm run typecheck
