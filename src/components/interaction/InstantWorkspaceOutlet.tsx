@@ -20,15 +20,17 @@ export function InstantWorkspaceOutlet({ children }: { children: ReactNode }) {
   const frame = navigation ? entryFrames[navigation.routeKey] ?? entryFrames.other : undefined;
   return (
     <div className="workspace-transition" aria-busy={pending} data-workspace-transition>
-      {/* Fixed position in the React tree: no pending ? frame : children branch. */}
-      <div data-workspace-content inert={pending || undefined}>{children}</div>
+      {/* Keep pending feedback in the content flow rather than a fixed bottom-right
+          bubble covering practice buttons. It must never trigger extra requests. */}
       {show && (
-        <div className="workspace-transition__notice" role="status" aria-live="polite" data-workspace-loading data-navigation-pending>
+        <div className="mb-3 flex items-center gap-2 rounded-md border border-ink-100 bg-paper-raised px-3 py-2 text-xs text-ink-500" role="status" aria-live="polite" data-workspace-loading data-navigation-pending>
           <span className="workspace-transition__pulse" aria-hidden="true" />
           <span>{stalled ? slowMessage : frame?.title}</span>
           {stalled && <button type="button" className="btn-secondary" onClick={retryNavigation}>{retryLabel}</button>}
         </div>
       )}
+      {/* Preserve the outgoing route until the real authorized destination commits. */}
+      <div data-workspace-content inert={pending || undefined}>{children}</div>
     </div>
   );
 }
