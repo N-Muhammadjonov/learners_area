@@ -1713,7 +1713,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 }
 
 /* COMMON rectangle style: each link has its OWN translucent rectangle. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link {
+[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link {
   display: flex;
   width: 100%;
   box-sizing: border-box;
@@ -1730,17 +1730,17 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   backdrop-filter: blur(var(--la-night-blur));
   -webkit-backdrop-filter: blur(var(--la-night-blur));
 }
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link:hover {
+[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link:hover {
   background-color: var(--la-night-nav-hover-bg);
 }
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-active {
+[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-active {
   background-color: var(--la-night-nav-active-bg);
   border-color: var(--la-night-nav-active-border);
   color: var(--la-night-label);
 }
 
 /* Gold icon stays fully opaque in its OWN little framed square. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-icon {
+[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-icon {
   display: inline-flex;
   flex: 0 0 36px;
   height: 36px;
@@ -1753,7 +1753,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   color: var(--la-night-gold);
   opacity: 1;
 }
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-label {
+[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-label {
   flex: 1 1 auto;
   overflow: hidden;
   white-space: nowrap;
@@ -1764,7 +1764,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 
 /* The category has no common rectangle behind all links.
    Set separate rectangular gaps, not contiguous borders. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-group + ul {
+[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-group + ul {
   display: flex;
   flex-direction: column;
   gap: var(--la-night-nav-row-gap);
@@ -1795,7 +1795,8 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   }
   /* Mobile drawer is an overlay, not a permanently exposed desktop sidebar. */
   [data-theme="night"]:not([data-focus="on"]) #mobile-nav-drawer {
-    background: transparent;
+    /* Opaque drawer: passage/management text must not bleed through the menu. */
+    background: var(--la-night-wave-paper);
     border-color: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -1805,7 +1806,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 /* No overrides of [data-theme="day"] or global `.sidebar-link` outside Night scope. */
 
 /* The existing module symbol already has a frame; retain only the outer frame. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-icon .module-emoji {
+[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-icon .module-emoji {
   width: 32px;
   height: 32px;
   border: 0;
@@ -1878,7 +1879,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 }
 
 /* COMMON rectangle style: each link has its OWN translucent rectangle. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link {
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link {
   display: flex;
   width: 100%;
   box-sizing: border-box;
@@ -1895,17 +1896,17 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   backdrop-filter: blur(var(--la-day-blur));
   -webkit-backdrop-filter: blur(var(--la-day-blur));
 }
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link:hover {
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link:hover {
   background-color: var(--la-day-nav-hover-bg);
 }
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-active {
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-active {
   background-color: var(--la-day-nav-active-bg);
   border-color: var(--la-day-nav-active-border);
   color: #F3EEE5;
 }
 
 /* Gold icon stays fully opaque in its OWN little framed square. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-icon {
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-icon {
   display: inline-flex;
   flex: 0 0 36px;
   height: 36px;
@@ -1918,7 +1919,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   color: var(--la-day-gold);
   opacity: 1;
 }
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-label {
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-label {
   flex: 1 1 auto;
   overflow: hidden;
   white-space: nowrap;
@@ -1929,7 +1930,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 
 /* The category has no common rectangle behind all links.
    Set separate rectangular gaps, not contiguous borders. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-group + ul {
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-group + ul {
   display: flex;
   flex-direction: column;
   gap: var(--la-day-nav-row-gap);
@@ -1960,7 +1961,8 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   }
   /* Mobile drawer is an overlay, not a permanently exposed desktop sidebar. */
   [data-theme="day"]:not([data-focus="on"]) #mobile-nav-drawer {
-    background: transparent;
+    /* Preserve the approved light wallpaper palette with an opaque layer. */
+    background: var(--la-day-wave-paper);
     border-color: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -1970,7 +1972,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 /* All rules above are restricted to Day outside focus mode. */
 
 /* The existing module symbol already has a frame; retain only the outer frame. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"]) .sidebar-link-icon .module-emoji {
+[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-icon .module-emoji {
   width: 32px;
   height: 32px;
   border: 0;
