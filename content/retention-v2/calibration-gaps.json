@@ -184,6 +184,16 @@
       "got": 87
     },
     {
+      "sourceId": "C2-009",
+      "test": "canonical",
+      "got": 88
+    },
+    {
+      "sourceId": "C2-009",
+      "test": "source",
+      "got": 88
+    },
+    {
       "sourceId": "C2-010",
       "test": "canonical",
       "got": 96
