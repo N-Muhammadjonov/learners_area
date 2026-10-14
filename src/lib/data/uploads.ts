@@ -18,7 +18,7 @@ import {
   loadResourceOwner,
   mayReadResources,
 } from "@/lib/services/resources/owners";
-import { canonicalMimeFor, validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
+import { PROXY_UPLOAD_MAX_BYTES, canonicalMimeFor, validateUploadFile, type UploadCategory } from "@/lib/validation/uploads";
 import { buildObjectKey } from "@/lib/uploads/keys";
 import { verifySignature } from "@/lib/uploads/signature";
 import type { StorageService } from "@/lib/services/storage/types";
@@ -151,6 +151,12 @@ export async function createUploadIntent(input: CreateIntentInput): Promise<Crea
 
   const storage = getStorageService();
   const direct = storage.supportsDirectUpload;
+  // Fail before creating any intent for a local proxy upload that could exceed
+  // the Next.js 61 MiB multipart request buffer. Direct R2/S3 uploads retain
+  // the existing category-specific ceilings without using this server buffer.
+  if (!direct && input.size > PROXY_UPLOAD_MAX_BYTES) {
+    return { ok: false, status: 413, error: "file_too_large" };
+  }
 
   // The stored label comes from the extension, not the browser claim: Safari
   // sends "" / octet-stream for ordinary files, and markup must stay inert.
