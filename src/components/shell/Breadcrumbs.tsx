@@ -21,7 +21,8 @@ export function Breadcrumbs({ dict }: { dict: Dictionary }) {
   const crumbs = breadcrumbsFor(pathname, dict);
   const parent = parentFor(pathname, dict);
 
-  if (crumbs.length === 0) return null;
+  // At the Writing root the local page owns the only visible heading.
+  if (crumbs.length === 0 || pathname === "/app/writing") return null;
 
   return (
     <div className="flex min-w-0 items-center gap-2" data-breadcrumbs>
