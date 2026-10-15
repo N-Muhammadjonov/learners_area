@@ -32,6 +32,8 @@ test("the client listens for access changes without interval polling or trusting
   assert.match(client, /addEventListener\("access-changed", update\)/);
   assert.match(client, /fetch\("\/api\/auth\/state", \{ cache: "no-store"/);
   assert.match(client, /router\.refresh\(\)/);
+  assert.match(client, /let checkedThisDisconnect = false/);
+  assert.match(client, /addEventListener\("error", failed\)/);
   assert.match(client, /privateResources\.setScope\(null\)/);
   assert.doesNotMatch(client, /setInterval|setTimeout|localStorage|sessionStorage/);
 });
