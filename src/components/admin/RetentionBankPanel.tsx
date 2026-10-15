@@ -98,6 +98,7 @@ export function RetentionBankPanel({
   dict,
   level,
   rows,
+  isOwner = false,
   filter,
   sort,
   page = 1,
@@ -107,6 +108,7 @@ export function RetentionBankPanel({
   dict: Dictionary;
   level: RetentionLevel;
   rows: RetentionBankRow[];
+  isOwner?: boolean;
   filter: string;
   sort: string;
   page?: number;
@@ -300,18 +302,25 @@ export function RetentionBankPanel({
                           marker: { "data-retention-change": row.textId },
                           onSelect: () => setEditor({ mode: "change", textId: row.textId, label: row.internalLabel }),
                         },
-                        ...(!row.active ? [{
-                          key: "restore",
-                          label: t.restore,
-                          marker: { "data-retention-restore": row.textId },
-                          onSelect: () => void setActive(row, true),
-                        }] : []),
-                        {
+                        row.active
+                          ? {
+                              key: "archive",
+                              label: t.archiveAction,
+                              marker: { "data-retention-archive": row.textId },
+                              onSelect: () => void setActive(row, false),
+                            }
+                          : {
+                              key: "restore",
+                              label: t.restore,
+                              marker: { "data-retention-restore": row.textId },
+                              onSelect: () => void setActive(row, true),
+                            },
+                        ...(isOwner ? [{
                           key: "delete",
                           label: t.archive,
                           marker: { "data-retention-delete": row.textId },
                           onSelect: () => void deleteText(row),
-                        },
+                        }] : []),
                       ]}
                     />
                   </td>
