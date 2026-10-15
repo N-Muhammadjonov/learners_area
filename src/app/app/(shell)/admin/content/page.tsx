@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { count } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -32,7 +33,15 @@ export default async function AdminContentPage() {
   const administrator = await requireAdministrator();
   if (!administrator) redirect("/app");
   const dict = getDictionary(await getLocale());
+  return <Suspense fallback={<div role="status" aria-busy="true" aria-label={dict.common.loading} data-async-loading="management-content-library" className="h-40 animate-pulse rounded-xl bg-ink-50" />}>
+    <ContentLibraryResults dict={dict} />
+  </Suspense>;
+}
 
+async function ContentLibraryResults({ dict }: { dict: ReturnType<typeof getDictionary> }) {
+  // Inventory and auxiliary writing counts are independent reads. Start all of
+  // them before awaiting the first result, but only after Owner/Admin DB gate.
+  const writingOtherPromise = writingContentTotals().catch(() => ({ total: 0, live: 0 }));
   const [readingRows, listeningRows, writingRows, grammarRows, videoRows] = await Promise.all([
     db
       .select({ state: readingPassages.publicationState, publishAt: readingPassages.publishAt })
@@ -49,7 +58,7 @@ export default async function AdminContentPage() {
       .from(videoLessons),
   ]);
 
-  const writingOther = await writingContentTotals().catch(() => ({ total: 0, live: 0 }));
+  const writingOther = await writingOtherPromise;
   const published = (rows: { state: typeof readingRows[number]["state"]; publishAt: Date | null }[]) =>
     rows.filter((row) => isLive({ publicationState: row.state, publishAt: row.publishAt })).length;
 
