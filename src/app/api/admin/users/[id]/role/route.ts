@@ -8,6 +8,7 @@ import { requireAdministrator } from "@/lib/auth/current-user";
 import { canGrantRole, isRole, outranks, ROLES } from "@/lib/auth/roles";
 import { recordAudit } from "@/lib/data/audit";
 import { notifyUsers } from "@/lib/data/notifications";
+import { publishAccessChange } from "@/lib/auth/publish-access-change";
 
 /**
  * PATCH /api/admin/users/:id/role — change a person's role.
@@ -58,6 +59,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     .update(users)
     .set({ role: nextRole })
     .where(and(eq(users.id, id)));
+  if (target.role !== nextRole) await publishAccessChange(id);
 
   await recordAudit({
     actorUserId: actor.id,

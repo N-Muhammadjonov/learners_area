@@ -4,6 +4,7 @@ import { db } from "@/db/client";
 import { accessRequests, users } from "@/db/schema";
 import { recordAudit } from "./audit";
 import { notifyUsers, staffAdminUserIds } from "./notifications";
+import { publishAccessChange } from "@/lib/auth/publish-access-change";
 import { isAccountStatus, type AccountStatus } from "@/lib/auth/account-status";
 import type { Role } from "@/lib/auth/roles";
 
@@ -159,6 +160,7 @@ export async function createAccessRequest(input: { userId: string; message?: str
     .update(users)
     .set({ accountStatus: "pending", statusUpdatedAt: new Date(), statusReason: null })
     .where(eq(users.id, input.userId));
+  await publishAccessChange(input.userId);
 
   await recordAudit({
     actorUserId: input.userId,
@@ -226,6 +228,7 @@ export async function decideAccessRequest(input: DecisionInput) {
       statusReason: approved ? null : (input.note ?? null),
     })
     .where(eq(users.id, request.userId));
+  await publishAccessChange(request.userId);
 
   await recordAudit({
     actorUserId: input.actorUserId,
@@ -259,6 +262,7 @@ export async function setAccountStatus(input: {
     .update(users)
     .set({ accountStatus: input.status, statusUpdatedAt: now, statusReason: input.reason ?? null })
     .where(eq(users.id, input.userId));
+  await publishAccessChange(input.userId);
 
   await recordAudit({
     actorUserId: input.actorUserId,

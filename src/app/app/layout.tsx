@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { hasPrivateAccess } from "@/lib/auth/account-status";
 import { PrivateResourceScope } from "@/components/interaction/PrivateResourceScope";
+import { AccessChangeListener } from "@/components/interaction/AccessChangeListener";
 import { getLocale } from "@/lib/i18n";
 
 /**
@@ -46,6 +47,8 @@ export default async function AppNamespaceLayout({ children }: { children: React
     <>
       {/* Private client read cache is bound to the DB-verified user id only. */}
       <PrivateResourceScope scope={user.id} />
+      {/* A single owner-triggered event stream when direct PostgreSQL LISTEN is configured. */}
+      <AccessChangeListener enabled={Boolean(process.env.AUTH_EVENTS_DATABASE_URL)} />
       {children}
     </>
   );
