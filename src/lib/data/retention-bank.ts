@@ -555,7 +555,7 @@ export async function setRetentionTextActive(
  * learner has a live attempt, its source cannot be removed before scoring.
  */
 export async function permanentlyDeleteRetentionText(
-  input: { textId: string; actorUserId: string | null },
+  input: { textId: string; expectedLabel: string; actorUserId: string | null },
   connection: RetentionBankDatabase = db
 ): Promise<{ textId: string; deleted: true; preservedAttempts: number }> {
   return connection.transaction(async (tx) => {
@@ -566,6 +566,10 @@ export async function permanentlyDeleteRetentionText(
       .for("update")
       .limit(1);
     if (!text) throw new RetentionError("retention_attempt_not_found", "retention text not found");
+    // The owner must confirm the exact immutable display label server-side.
+    if (text.internalLabel !== input.expectedLabel) {
+      throw new RetentionError("retention_conflict", "confirmation does not match the selected text");
+    }
 
     const [live] = await tx
       .select({ id: retentionAttempts.id })
