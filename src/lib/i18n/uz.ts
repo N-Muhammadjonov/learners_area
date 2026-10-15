@@ -169,6 +169,7 @@ const uz: Dictionary = {
   },
 
   shell: {
+    telegramBrand: "Learners Area Telegram kanalini ochish",
     searchShortcut: "Ctrl K",
     learningNav: "O'qish bo'limlari",
     managementNav: "Boshqaruv bo'limlari",
