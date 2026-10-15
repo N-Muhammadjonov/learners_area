@@ -1,7 +1,5 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { isAdministrator } from "@/lib/auth/roles";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -11,10 +9,9 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { MASTERY_SESSIONS } from "@/lib/services/grammar/mastery";
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 
-async function GrammarTopics({ userId, isAdmin, dict, area }: {
+async function GrammarTopics({ userId, dict, area }: {
   area: "writing" | "speaking";
   userId: string;
-  isAdmin: boolean;
   dict: ReturnType<typeof getDictionary>;
 }) {
   const rows = await getTopicMastery(userId);
@@ -25,10 +22,6 @@ async function GrammarTopics({ userId, isAdmin, dict, area }: {
       {masteryUnavailable && (
         <RegionFailureNotice region="grammar-mastery" message={dict.errors.unknown} retryLabel={dict.errorPage.retry} />
       )}
-      {selectedRows.length === 0 && <EmptyState title={dict.grammar.emptyTitle} body={dict.grammar.emptyHint}
-        action={<Link className="text-sm text-signal-600 underline" href={isAdmin ? "/app/admin/grammar" : "/app"}>
-          {isAdmin ? dict.grammar.manageContent : dict.nav.dashboard}
-        </Link>} />}
       <div className="flex flex-col gap-3" data-grammar-topics data-async-content="grammar-topics">
         <section key={area} className="space-y-3" data-grammar-skill={area}>
         <h2 className="font-display text-xl">{area === "writing" ? dict.grammar.forWriting : dict.grammar.forSpeaking}</h2>
@@ -82,12 +75,8 @@ export default async function GrammarPage({ searchParams }: { searchParams: Prom
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4" data-route-usable="grammar">
-      <div>
-        <h1 className="font-display text-2xl text-ink-900">{dict.grammar.title}</h1>
-        <p className="text-sm text-ink-500">{dict.grammar.subtitle}</p>
-      </div>
       <Suspense fallback={<GrammarTopicsSkeleton />}>
-        <GrammarTopics userId={user.id} area={area} isAdmin={isAdministrator(user.role)} dict={dict} />
+        <GrammarTopics userId={user.id} area={area} dict={dict} />
       </Suspense>
     </div>
   );
