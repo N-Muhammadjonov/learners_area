@@ -38,7 +38,7 @@ export default async function ListeningMcqPage({
   // A hostile or mistyped ?page= is normalised, never trusted: a non-number is page 1.
   const rawPage = Array.isArray(params.page) ? params.page[0] : params.page;
   const requestedPage = Number.parseInt(String(rawPage ?? "1"), 10);
-  const { days, progress, page, hasNextPage, visibleDays, pageSize } = await mcqProgramDays(user, {
+  const { days, page, hasNextPage, visibleDays, pageSize } = await mcqProgramDays(user, {
     includeDrafts: staff,
     page: Number.isFinite(requestedPage) ? requestedPage : 1,
   });
