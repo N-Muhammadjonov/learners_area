@@ -104,7 +104,7 @@ export function FullListeningLibrary({ cards, dict, management = false }: { card
             key={card.id}
             className="listening-library-card card p-5 flex flex-col gap-3"
           >
-            {management && card.publicationState === "archived" && <p data-archived-listening-test className="text-sm text-ink-500">Archived. Use Delete to permanently remove this unused test.</p>}
+            {management && card.publicationState === "archived" && <p data-archived-listening-test className="text-sm text-ink-500">{t.archivedTestHint}</p>}
             {management && <ListeningTestActions id={card.id} title={card.title} dict={dict} />}
             <span className="listening-library-badge badge">
               {card.legacy
