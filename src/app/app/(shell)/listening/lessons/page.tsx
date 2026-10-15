@@ -31,8 +31,6 @@ export default async function ListeningLessonsPage() {
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-lessons">
-      <h1 className="font-display text-2xl text-ink-900">{t.title}</h1>
-
       {library.rows.length === 0 ? (
         <Card data-listening-lessons-empty>
           <h2 className="font-display text-lg text-ink-900">{t.emptyTitle}</h2>
