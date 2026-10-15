@@ -1,8 +1,8 @@
 import "server-only";
 import { cache } from "react";
-import { and, eq, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { users, userProfilePhotos } from "@/db/schema";
+import { userProfilePhotos } from "@/db/schema";
 
 /**
  * Whether this learner actually has a stored profile photo.
@@ -18,13 +18,14 @@ import { users, userProfilePhotos } from "@/db/schema";
  */
 export const hasProfilePhoto = cache(async (userId: string): Promise<boolean> => {
   try {
-    const ready = await db.execute(sql`select to_regclass('public.user_profile_photos') as ready`);
-    if (!ready.rows[0]?.ready) return false;
+    // The enclosing /app layout has already checked accountStatus against the
+    // authoritative users row. Avoid TWO more sequential PG round trips for
+    // a purely decorative avatar; a missing/unavailable table uses the client
+    // fallback exactly as before. Never use this flag to authorize anything.
     const [row] = await db
       .select({ found: sql<number>`1` })
       .from(userProfilePhotos)
-      .innerJoin(users, eq(users.id, userProfilePhotos.userId))
-      .where(and(eq(users.id, userId), eq(users.accountStatus, "active")))
+      .where(eq(userProfilePhotos.userId, userId))
       .limit(1);
     return Boolean(row?.found);
   } catch {
