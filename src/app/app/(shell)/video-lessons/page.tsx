@@ -94,14 +94,10 @@ export default async function VideoLessonsPage() {
   const [user, locale] = await Promise.all([requireActiveUser(), getLocale()]);
   if (!user) return null;
   const dict = getDictionary(locale);
-  const t = dict.videoLessons;
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-4" data-route-usable="video-lessons">
-      <div>
-        <h1 className="font-display text-2xl text-ink-900">{t.title}</h1>
-        <p className="mt-1 text-sm text-ink-500">{t.intro}</p>
-      </div>
+
       <Suspense fallback={<VideoLessonsSkeleton />}>
         <VideoLessonsContent user={user} dict={dict} />
       </Suspense>
