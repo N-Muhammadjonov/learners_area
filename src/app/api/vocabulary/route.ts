@@ -126,6 +126,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(result, { status: result.ok ? 200 : 404 });
   }
 
+  // Listening's own authored meanings may be saved only from an accessible
+  // study source, never from a guessed or archived test id. The exam gate also
+  // applies to user-provided definitions (not just canonical sense saves).
+  if (parsed.data.sourceType === "listening") {
+    if (!parsed.data.sourceId || !isUuid(parsed.data.sourceId))
+      return NextResponse.json({ error: "invalid_input" }, { status: 400, headers: PRIVATE_NO_STORE });
+    const test = await fullListeningDetail(parsed.data.sourceId, user.role);
+    if (!test) return NextResponse.json({ error: "source_not_found" }, { status: 404, headers: PRIVATE_NO_STORE });
+    if (!lexicalAssistanceAllowed("VOCABULARY_STUDY", await listeningExamState(user, parsed.data.sourceId)))
+      return NextResponse.json({ error: "lexical_assistance_locked" }, { status: 403, headers: PRIVATE_NO_STORE });
+  }
+
   // VD-001: a Reading save without an occurrence (the learner's own meaning for an
   // unresolved word) still needs a real source and obeys the Reading mode policy —
   // an active Academic attempt stays closed, a forged source id is unknown.
