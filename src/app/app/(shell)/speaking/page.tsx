@@ -18,7 +18,7 @@ export default async function SpeakingPage() {
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="speaking">
       <div>
-        <h1 className="font-display text-2xl text-ink-900">{dict.speaking.title}</h1>
+        <h1 className="font-display text-2xl text-ink-900">{dict.speakingPractice.title}</h1>
         <p className="mt-1 text-base text-ink-500">{t.intro}</p>
       </div>
       <ul className="motion-enter-stagger grid grid-cols-1 gap-4 md:grid-cols-2" data-speaking-hub-cards>
