@@ -33,6 +33,7 @@ test("only canonical learning section INDEX routes can warm on hover, focus or t
     "/app/reading/question-types", "/app/reading/retention",
     "/app/vocabulary", "/app/vocabulary/games",
     "/app/grammar/lessons", "/app/writing", "/app/speaking",
+    "/app/speaking/lessons", "/app/speaking/practice",
   ]) {
     assert.equal(eligibleIntentTarget(path, origin, origin + "/app/listening/lessons"), path === "/app/listening/lessons" ? null : path, path);
   }
@@ -51,6 +52,7 @@ test("only canonical learning section INDEX routes can warm on hover, focus or t
     "/app/grammar?tab=writing",
     "/app/vocabulary?tab=dictionary",
     "/app/reading/general?status=completed",
+    "/app/speaking/ai", "/app/speaking/live-partner",
     "/app/owner", "/app/admin/reading/retention",
     "/api/reading/attempts/123",
   ]) assert.equal(eligibleIntentTarget(path, origin, current), null, path);
@@ -62,6 +64,8 @@ test("section tabs use the same bounded native-link intent prefetch as the sideb
   assert.match(nav, /aria-current=\{selected \? "page"/);
   assert.match(nav, /nextTabIndex\(index, event\.key, links\.length\)/);
   assert.doesNotMatch(nav, /prefetch=\{true\}/, "no eager prefetch of every visible tab");
+  const speaking = read("src/app/app/(shell)/speaking/page.tsx");
+  assert.match(speaking, /<InstantLink href=\{href\} intentPrefetch/, "Speaking hub also shares fast navigation links");
   const writing = read("src/components/writing/workspace/WritingNav.tsx");
   assert.match(writing, /useOptionalInstantInteraction/);
   assert.match(writing, /interaction\?\.beginNavigation\(href\)/);
