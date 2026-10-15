@@ -4,7 +4,7 @@ import type { Locale } from "@/lib/i18n";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileNav } from "./MobileNav";
 import { ThemeToggle } from "./ThemeToggle";
-import { Breadcrumbs } from "./Breadcrumbs";
+import { ModuleContextHeading } from "./ModuleContextHeading";
 import { GlobalSearch } from "./GlobalSearch";
 import { ProfileMenu } from "./ProfileMenu";
 import type { Role } from "@/lib/auth/roles";
@@ -58,7 +58,7 @@ export function Topbar({
         {/* The only way into the drawer on a phone; the brand artwork itself
             lives inside it. See MobileNav. */}
         <MobileNav dict={dict} role={role} />
-        <Breadcrumbs dict={dict} />
+        <ModuleContextHeading dict={dict} />
       </div>
 
       <div className="flex min-w-0 shrink-0 justify-center lg:flex-[0_1_420px]">
