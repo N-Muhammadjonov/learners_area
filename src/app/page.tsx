@@ -56,7 +56,7 @@ export default async function Home() {
         <span className="la-welcome-ring la-welcome-ring-two" />
         <span className="la-welcome-aurora" />
       </div>
-      <div className="px-6 pt-6"><a href="https://t.me/learners_area" target="_blank" rel="noopener noreferrer" aria-label="Learners Area Telegram channel" data-landing-brand-link className="inline-flex rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"><BrandBlock size={44} /></a></div>
+      <div className="px-6 pt-6"><a href="https://t.me/learners_area" target="_blank" rel="noopener noreferrer" aria-label={dict.shell.telegramBrand} data-landing-brand-link className="inline-flex rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"><BrandBlock size={44} /></a></div>
       <main className="la-welcome-main flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
         <div className="la-welcome-orbit" aria-hidden="true">
           {ornaments.map((kind, index) => (
