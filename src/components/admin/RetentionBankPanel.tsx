@@ -162,7 +162,7 @@ export function RetentionBankPanel({
     try {
       const response = await fetchWithDeadline(
         `/api/admin/retention/texts/${row.textId}`,
-        { method: "DELETE" },
+        { method: "DELETE", headers: { "content-type": "application/json" }, body: JSON.stringify({ expectedLabel: row.internalLabel }) },
         WRITE_TIMEOUT_MS
       );
       if (response.status === 409) {
