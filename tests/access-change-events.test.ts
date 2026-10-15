@@ -14,14 +14,18 @@ test("owner-triggered access event contains only a validated target user UUID", 
   }
 });
 
-test("database emits access event only on actual role or status changes", () => {
-  const migration = read("drizzle/0059_access_change_events.sql");
-  assert.match(migration, /AFTER UPDATE OF role, account_status ON public\.users/);
-  assert.match(migration, /OLD\.role IS DISTINCT FROM NEW\.role/);
-  assert.match(migration, /OLD\.account_status IS DISTINCT FROM NEW\.account_status/);
-  assert.match(migration, /pg_notify\('la_access_changed'/);
-  assert.match(migration, /json_build_object\('userId', NEW\.id\)/);
-  assert.doesNotMatch(migration, /password_hash|telegram_id|email|OLD\.name/);
+test("actual owner/admin actions publish one event AFTER committed role or admission change", () => {
+  const publisher = read("src/lib/auth/publish-access-change.ts");
+  const role = read("src/app/api/admin/users/[id]/role/route.ts");
+  const admission = read("src/lib/data/admission.ts");
+  const transfer = read("src/lib/auth/owner-transfer.ts");
+  assert.match(publisher, /if \(!process\.env\.AUTH_EVENTS_DATABASE_URL\) return/);
+  assert.match(publisher, /pg_notify\('la_access_changed'/);
+  assert.match(role, /if \(target\.role !== nextRole\) await publishAccessChange\(id\)/);
+  assert.match(admission, /await publishAccessChange\(input\.userId\)/);
+  assert.match(admission, /await publishAccessChange\(request\.userId\)/);
+  assert.match(transfer, /await publishAccessChanges\(\[result\.fromUserId, result\.toUserId\]\)/);
+  assert.doesNotMatch(publisher, /setInterval|setTimeout|listen|subscription/i);
 });
 
 test("the client listens for access changes without interval polling or trusting pushed roles", () => {
