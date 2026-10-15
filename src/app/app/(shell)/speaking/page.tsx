@@ -1,5 +1,5 @@
 import { MicrophoneTest } from "@/components/speaking/MicrophoneTest";
-import Link from "next/link";
+import { InstantLink } from "@/components/interaction/InstantLink";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { SPEAKING_HUB_CARDS } from "@/lib/speaking/hub";
@@ -30,7 +30,7 @@ export default async function SpeakingPage() {
               <p className="text-base text-ink-500">{t.cards[key].body}</p>
               <div className="mt-auto flex flex-wrap items-start gap-3">
                 {key === "partner" && <MicrophoneTest dict={dict} />}
-                <Link href={href} data-speaking-card={key} className="btn-primary self-start">{t.cards[key].cta} <span aria-hidden>→</span></Link>
+                <InstantLink href={href} intentPrefetch data-speaking-card={key} className="btn-primary self-start">{t.cards[key].cta} <span aria-hidden>→</span></InstantLink>
               </div>
             </article>
           </li>

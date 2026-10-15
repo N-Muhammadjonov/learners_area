@@ -199,10 +199,12 @@ export async function academicListeningCards(
   // bound — never a post-filter on an unrelated cap, which is how a legitimate test disappears
   // behind newer content on a later page.
   const membership = and(liveWhere(listeningTests), academicMembership);
-  const [counted] = await exec.select({ total: sql<number>`count(*)::integer` }).from(listeningPackages).innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId)).where(membership);
-  const total = Number(counted?.total ?? 0);
+  // Two read-only, independently bounded queries. Avoid serial network
+  // round trips on the Academic tab while preserving the exact membership,
+  // ordering, pagination and learner-specific progress conditions.
+  const countQuery = exec.select({ total: sql<number>`count(*)::integer` }).from(listeningPackages).innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId)).where(membership);
 
-  const rows = await exec
+  const rowsQuery = exec
     .select({
       testId: listeningTests.id,
       title: listeningTests.title,
@@ -231,6 +233,9 @@ export async function academicListeningCards(
     .orderBy(asc(listeningTests.createdAt), asc(listeningTests.sourceRef), asc(listeningTests.id))
     .limit(ACADEMIC_LISTENING_PAGE_SIZE)
     .offset((safePage - 1) * ACADEMIC_LISTENING_PAGE_SIZE);
+
+  const [[counted], rows] = await Promise.all([countQuery, rowsQuery]);
+  const total = Number(counted?.total ?? 0);
 
   const cards = rows.map((row) => {
     const payload = row.payload as ListeningPackage;

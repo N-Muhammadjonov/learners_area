@@ -25,6 +25,53 @@ test("canonical sidebar module landing routes prefetch without an extra redirect
   assert.equal(eligibleIntentTarget("/app", origin, current), null, "never prefetch current route");
 });
 
+test("only canonical learning section INDEX routes can warm on hover, focus or touch", () => {
+  for (const path of [
+    "/app/listening/lessons", "/app/listening/academic", "/app/listening/general",
+    "/app/listening/mcq",
+    "/app/reading/lessons", "/app/reading/academic", "/app/reading/general",
+    "/app/reading/question-types",
+    "/app/vocabulary", "/app/vocabulary/games",
+    "/app/grammar/lessons", "/app/writing", "/app/speaking",
+    "/app/speaking/lessons", "/app/speaking/practice",
+  ]) {
+    assert.equal(eligibleIntentTarget(path, origin, origin + "/app/listening/lessons"), path === "/app/listening/lessons" ? null : path, path);
+  }
+  // No automatic fetches for dynamic question banks, private answers or
+  // query-driven learner state (including controlled Writing/Grammar tabs).
+  for (const path of [
+    "/app/listening/academic/123",
+    "/app/listening/mcq/day/8",
+    "/app/listening/general/123",
+    "/app/reading/academic/123",
+    "/app/reading/question-types/123",
+    "/app/reading/retention", "/app/reading/retention/start",
+    "/app/grammar/lessons/123",
+    "/app/vocabulary/games/123",
+    "/app/writing?tab=grade",
+    "/app/grammar?tab=writing",
+    "/app/vocabulary?tab=dictionary",
+    "/app/reading/general?status=completed",
+    "/app/speaking/ai", "/app/speaking/live-partner",
+    "/app/owner", "/app/admin/reading/retention",
+    "/api/reading/attempts/123",
+  ]) assert.equal(eligibleIntentTarget(path, origin, current), null, path);
+});
+
+test("section tabs use the same bounded native-link intent prefetch as the sidebar", () => {
+  const nav = read("src/components/navigation/ModuleSectionNav.tsx");
+  assert.match(nav, /<InstantLink key=\{link\.key\} href=\{href\} scroll=\{false\} intentPrefetch/);
+  assert.match(nav, /aria-current=\{selected \? "page"/);
+  assert.match(nav, /nextTabIndex\(index, event\.key, links\.length\)/);
+  assert.doesNotMatch(nav, /prefetch=\{true\}/, "no eager prefetch of every visible tab");
+  const speaking = read("src/app/app/(shell)/speaking/page.tsx");
+  assert.match(speaking, /<InstantLink href=\{href\} intentPrefetch/, "Speaking hub also shares fast navigation links");
+  const writing = read("src/components/writing/workspace/WritingNav.tsx");
+  assert.match(writing, /useOptionalInstantInteraction/);
+  assert.match(writing, /interaction\?\.beginNavigation\(href\)/);
+  assert.match(writing, /router\.push\(href, \{ scroll: false \}\)/, "preserve Writing tab scroll semantics");
+});
+
 test("prefetch never warms private attempts, answers, admin, external or parameterized routes", () => {
   for (const url of [
     "/app/reading/attempts/00000000-0000-0000-0000-000000000001",
