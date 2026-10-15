@@ -19,7 +19,7 @@ test("actual owner/admin actions publish one event AFTER committed role or admis
   const role = read("src/app/api/admin/users/[id]/role/route.ts");
   const admission = read("src/lib/data/admission.ts");
   const transfer = read("src/lib/auth/owner-transfer.ts");
-  assert.match(publisher, /if \(!process\.env\.AUTH_EVENTS_DATABASE_URL\) return/);
+  assert.match(publisher, /if \(!accessEventsConnectionString\(\)\) return/);
   assert.match(publisher, /pg_notify\('la_access_changed'/);
   assert.match(role, /if \(target\.role !== nextRole\) await publishAccessChange\(id\)/);
   assert.match(admission, /await publishAccessChange\(input\.userId\)/);
@@ -31,7 +31,7 @@ test("actual owner/admin actions publish one event AFTER committed role or admis
 test("the client listens for access changes without interval polling or trusting pushed roles", () => {
   const client = read("src/components/interaction/AccessChangeListener.tsx");
   const layout = read("src/app/app/layout.tsx");
-  assert.match(layout, /<AccessChangeListener enabled=\{Boolean\(process\.env\.AUTH_EVENTS_DATABASE_URL\)\} \/>/);
+  assert.match(layout, /<AccessChangeListener enabled=\{Boolean\(accessEventsConnectionString\(\)\)\} \/>/);
   assert.match(client, /new EventSource\("\/api\/auth\/changes"/);
   assert.match(client, /addEventListener\("access-changed", update\)/);
   assert.match(client, /fetch\("\/api\/auth\/state", \{ cache: "no-store"/);
@@ -65,4 +65,14 @@ test("privileged mutations still authorize against current database role", () =>
   assert.match(role, /await requireAdministrator\(\)/);
   assert.match(status, /await requireAdministrator\(\)/);
   assert.match(read("src/app/app/layout.tsx"), /hasPrivateAccess\(user\.accountStatus\)/);
+});
+
+test("Railway reuses its existing session pooler credentials without a second secret", () => {
+  const cfg = read("src/lib/auth/access-event-config.ts");
+  assert.match(cfg, /process\.env\.AUTH_EVENTS_DATABASE_URL\?\.trim\(\)/);
+  assert.match(cfg, /process\.env\.DATABASE_URL\?\.trim\(\)/);
+  for (const path of ["src/app/app/layout.tsx", "src/app/api/auth/changes/route.ts",
+    "src/lib/auth/access-change-bus.ts", "src/lib/auth/publish-access-change.ts"]) {
+    assert.match(read(path), /accessEventsConnectionString\(\)/, path);
+  }
 });
