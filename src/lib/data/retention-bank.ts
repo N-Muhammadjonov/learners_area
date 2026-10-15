@@ -1,7 +1,7 @@
 import "server-only";
 import { and, asc, count, desc, eq, inArray, isNotNull, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { retentionAttempts, retentionTexts, retentionTextVersions } from "@/db/schema";
+import { retentionAttempts, retentionSequenceCounters, retentionTexts, retentionTextVersions } from "@/db/schema";
 import {
   RETENTION_LEVELS,
   RETENTION_TARGET_PER_LEVEL,
@@ -345,10 +345,15 @@ export async function getRetentionTextDetail(
 async function nextSequence(tx: RetentionBankDatabase, level: RetentionLevel): Promise<number> {
   await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${`retention.label:${level}`}))`);
   const [row] = await tx
-    .select({ max: sql<number>`coalesce(max(${retentionTexts.sequence}), 0)::int` })
-    .from(retentionTexts)
-    .where(eq(retentionTexts.level, level));
-  return (row?.max ?? 0) + 1;
+    .insert(retentionSequenceCounters)
+    .values({ level, lastSequence: 1 })
+    .onConflictDoUpdate({
+      target: retentionSequenceCounters.level,
+      set: { lastSequence: sql`${retentionSequenceCounters.lastSequence} + 1` },
+    })
+    .returning({ sequence: retentionSequenceCounters.lastSequence });
+  if (!row) throw new RetentionError("retention_conflict", "could not allocate retention label");
+  return row.sequence;
 }
 
 export function labelFor(level: RetentionLevel, sequence: number): string {
