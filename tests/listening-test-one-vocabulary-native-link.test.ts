@@ -63,6 +63,16 @@ test("Test 1 uses the ONE vocabulary architecture rather than a separate per-tes
   assert.match(engine, /sourceSnapshot: item\.sourceSnapshot/);
 });
 
+test("versioned Listening reimport preserves old recordings and authorizes the new private R2 key", () => {
+  const importer = read("src/lib/import/listening/importer.ts");
+  assert.match(importer, /const knownKeys = new Set\(blocks\.map\(block => block\.objectKey\)/);
+  assert.match(importer, /const missingAssets = options\.assets\.filter\(asset => !knownKeys\.has\(asset\.objectKey\)\)/);
+  assert.match(importer, /await tx\.insert\(resourceBlocks\)\.values\(missingAssets\.map/);
+  assert.match(importer, /position: nextPosition\+\+/);
+  assert.doesNotMatch(importer, /delete\(resourceBlocks\)/,
+    "historical Listening versions must keep their former private audio access");
+});
+
 test("Manual Listening vocabulary cannot bypass active exam or forge a source ID", () => {
   const save = read("src/app/api/vocabulary/route.ts");
   const marker = save.indexOf("if (parsed.data.sourceType === \"listening\")", save.indexOf("if (parsed.data.occurrenceId)"));
