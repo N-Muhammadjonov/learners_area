@@ -2579,6 +2579,7 @@ const uz: Dictionary = {
       cancel: "Bekor qilish",
       change: "O'zgartirish",
       archive: "O'chirish",
+      archiveAction: "Arxivlash",
       restore: "Tiklash",
       archivedBadge: "Arxivlangan",
       versionBadge: "v{n}",
