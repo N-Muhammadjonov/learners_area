@@ -2203,3 +2203,10 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 [data-theme]:not([data-focus="on"]) .typing-stage-wrap {
   background-color: rgb(8 32 68);
 }
+
+/* Writing: Night-mode tabs and the typing instruction stay readable against
+   the dark wallpaper. Day-mode colors and typing accuracy logic are untouched. */
+[data-theme="night"] [data-shell] [data-writing-tablist] [role="tab"],
+[data-theme="night"] [data-shell] .typing-footer {
+  color: #ffffff;
+}
