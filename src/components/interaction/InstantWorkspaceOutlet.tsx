@@ -20,7 +20,9 @@ export function InstantWorkspaceOutlet({ children }: { children: ReactNode }) {
   return (
     <div className="workspace-transition" aria-busy={pending} data-workspace-transition>
       {/* Fixed position in the React tree: no pending ? frame : children branch. */}
-      <div data-workspace-content inert={pending || undefined} hidden={pending || undefined}>{children}</div>
+      <div hidden={pending || undefined} data-outgoing-workspace>
+        <div data-workspace-content inert={pending || undefined}>{children}</div>
+      </div>
       {show && navigation && frame && (
         <SectionEntryFrame routeKey={navigation.routeKey} frame={frame} privateBoundary />
       )}
