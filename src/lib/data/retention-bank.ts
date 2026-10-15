@@ -24,8 +24,8 @@ import { recordAudit } from "@/lib/data/audit";
  *
  *   * Change always writes a NEW version. Nothing that a learner's result points
  *     at is ever rewritten.
- *   * Delete is ARCHIVE. It removes the text from future rotation and keeps every
- *     attempt, score and version exactly where they are.
+ *   * Archive remains reversible. Permanent deletion removes original content
+ *     and all versions, retaining the learner results and stable title snapshots.
  *   * A save either succeeds completely (version + current pointer) or changes
  *     nothing at all — both live in one transaction.
  *   * Usage counts come from aggregated queries, never from one query per row,
@@ -539,6 +539,66 @@ export async function setRetentionTextActive(
     );
 
     return { textId: text.id, active: input.active };
+  });
+}
+
+
+/**
+ * Owner-authorized irreversible removal of authored content, not student results.
+ *
+ * The row lock serializes with new allocations that take FOR SHARE. While a
+ * learner has a live attempt, its source cannot be removed before scoring.
+ */
+export async function permanentlyDeleteRetentionText(
+  input: { textId: string; actorUserId: string | null },
+  connection: RetentionBankDatabase = db
+): Promise<{ textId: string; deleted: true; preservedAttempts: number }> {
+  return connection.transaction(async (tx) => {
+    const [text] = await tx
+      .select({ id: retentionTexts.id, level: retentionTexts.level, internalLabel: retentionTexts.internalLabel })
+      .from(retentionTexts)
+      .where(eq(retentionTexts.id, input.textId))
+      .for("update")
+      .limit(1);
+    if (!text) throw new RetentionError("retention_attempt_not_found", "retention text not found");
+
+    const [live] = await tx
+      .select({ id: retentionAttempts.id })
+      .from(retentionAttempts)
+      .where(and(
+        eq(retentionAttempts.retentionTextId, text.id),
+        inArray(retentionAttempts.status, ["reading", "recall"])
+      ))
+      .limit(1);
+    if (live) throw new RetentionError("retention_conflict", "learner is using this text");
+
+    const [counted] = await tx
+      .select({ total: sql<number>`count(*)::int` })
+      .from(retentionAttempts)
+      .where(eq(retentionAttempts.retentionTextId, text.id));
+    const preservedAttempts = Number(counted?.total ?? 0);
+
+    await tx.update(retentionAttempts)
+      .set({ retentionLabelSnapshot: text.internalLabel })
+      .where(eq(retentionAttempts.retentionTextId, text.id));
+
+    // Composite current-version FK is RESTRICT. Release the pointer before
+    // deleting the parent. Deleting the parent cascades authored versions;
+    // attempt FK SET NULL retains completed results.
+    await tx.update(retentionTexts)
+      .set({ currentVersionId: null })
+      .where(eq(retentionTexts.id, text.id));
+    await tx.delete(retentionTexts).where(eq(retentionTexts.id, text.id));
+
+    await recordAudit({
+      actorUserId: input.actorUserId,
+      action: "retention_text.permanently_deleted",
+      targetType: "retention_text",
+      targetId: text.id,
+      metadata: { level: text.level, label: text.internalLabel, preservedAttempts },
+    }, tx as unknown as typeof db);
+
+    return { textId: text.id, deleted: true as const, preservedAttempts };
   });
 }
 
