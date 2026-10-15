@@ -78,6 +78,8 @@ test("three-dot menu: labelled, keyboard navigable, Escape/outside close, focus 
     await key(items[0]!, "ArrowDown");
     assert.equal(document.activeElement, items[1]);
     await key(items[1]!, "ArrowDown");
+    assert.equal(document.activeElement, items[2]);
+    await key(items[2]!, "ArrowDown");
     assert.equal(document.activeElement, items[0]);
     await key(items[0]!, "Escape");
     assert.equal(document.querySelector('[role="menu"]'), null);
