@@ -34,7 +34,13 @@ test("Listening section headings remain but duplicate back banner, subtitle and 
     ["mcq", "days.length"],
   ] as const) {
     const src = read(`src/app/app/(shell)/listening/${suffix}/page.tsx`);
-    assert.match(src, /<h1 className="font-display text-2xl text-ink-900">\{t.title\}<\/h1>/, suffix);
+    // Owner's final Listening decision: each heading is ABOVE the module tabs,
+    // not after the tab strip within the body of an individual section page.
+    const moduleLayout = read("src/app/app/(shell)/listening/layout.tsx");
+    const sectionHeading = read("src/components/listening/ListeningSectionHeading.tsx");
+    assert.ok(moduleLayout.indexOf("<ListeningSectionHeading") < moduleLayout.indexOf("<ModuleNavigation"));
+    assert.ok(sectionHeading.includes(`"/app/listening/${suffix}"`), suffix);
+    assert.doesNotMatch(src, /<h1 className="font-display text-2xl text-ink-900">\{t.title\}<\/h1>/, suffix);
     assert.doesNotMatch(src, /<BackLink|t\.subtitle|data-listening-academic-count|data-listening-general-count|data-listening-mcq-days-published|t\.targetNote/, suffix);
     assert.ok(src.includes(key), `${suffix} still shows the actual published content`);
   }
