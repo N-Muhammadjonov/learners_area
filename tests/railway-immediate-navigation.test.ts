@@ -30,3 +30,28 @@ test("the production session and privileged access gates are not relaxed for spe
   assert.match(auth, /requireOwner/);
   assert.match(middleware, /jwtVerify\(/);
 });
+
+test("reading, listening, grammar and vocabulary defer catalogue DB reads behind scoped streaming regions", () => {
+  for (const [path, method, boundary] of [
+    ["src/app/app/(shell)/listening/academic/page.tsx", "academicListeningCards", "listening-academic-catalogue"],
+    ["src/app/app/(shell)/listening/general/page.tsx", "generalListeningCards", "listening-general-catalogue"],
+    ["src/app/app/(shell)/reading/academic/page.tsx", "listGeneralSets", "reading-academic-sets"],
+    ["src/app/app/(shell)/grammar/lessons/page.tsx", "listLessonLibrary", "grammar-lessons-library"],
+    ["src/app/app/(shell)/vocabulary/page.tsx", "listTopicPacksForLearner", "vocabulary-topic-packs"],
+  ] as const) {
+    const source = read(path);
+    assert.match(source, /<Suspense fallback=/, path);
+    assert.match(source, new RegExp(`data-async-loading="${boundary}"`), path);
+    assert.match(source, new RegExp(`const [a-zA-Z]+Promise = ${method}\\(`), path);
+    assert.match(source, /const \[user, locale, (?:query|params)\] = await Promise\.all\(\[requireActiveUser\(\), getLocale\(\), searchParams\]\)/,
+      `${path} must still authenticate against the database before streaming private data`);
+  }
+});
+
+test("the global shell does not query the avatar schema and users table before the picture flag", () => {
+  const source = read("src/lib/profile/photo.ts");
+  assert.match(source, /\.from\(userProfilePhotos\)/);
+  assert.match(source, /\.where\(eq\(userProfilePhotos\.userId, userId\)\)/);
+  assert.doesNotMatch(source, /to_regclass|innerJoin\(users/);
+  assert.match(read("src/app/app/(shell)/layout.tsx"), /await hasProfilePhoto\(user\.id\)/);
+});
