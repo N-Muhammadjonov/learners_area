@@ -96,7 +96,7 @@ test("permanent Retention deletion is owner-only and demands the selected label"
   assert.match(data, /text\.internalLabel !== input\.expectedLabel/);
   assert.match(data, /inArray\(retentionAttempts\.status, \["reading", "recall"\]\)/);
   const panel = read("src/components/admin/RetentionBankPanel.tsx");
-  assert.match(panel, /isOwner \? \[/);
+  assert.match(panel, /canPermanentlyDelete \? \[/);
   assert.match(panel, /data-retention-delete/);
   assert.match(panel, /method: "DELETE"/);
   assert.match(panel, /expectedLabel: row\.internalLabel/);
