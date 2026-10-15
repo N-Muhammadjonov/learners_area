@@ -18,7 +18,7 @@ export const metadata = { title: "Retention" };
  *
  * The level grid answers "how full is the bank?" (X / 15, with the honest 15 as a
  * target rather than a cap), and the panel below it is the whole authoring
- * workflow: Add, Change (new version), Delete (archive), Restore, and both usage
+ * workflow: Add, Change (new version), Archive, Restore, owner-only Delete, and usage
  * counts. Back-navigation goes to Reading, one step up, through the same crumb
  * table the topbar uses.
  */
