@@ -51,7 +51,7 @@ export function listeningTestOnePackage() {
     schemaVersion: 2, module: "listening", contentType: "full_test",
     sourceRef: payload.testId, title: payload.title, language: "en",
     provenance: {
-      source: "owner_github_versioned_source",
+      source: "owner_authored",
       note: "Source-controlled original Test 1; vocabulary uses canonical lexical integration",
     },
     publication: { state: "draft" },
