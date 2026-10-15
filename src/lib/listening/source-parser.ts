@@ -273,7 +273,7 @@ function convertStructuredPractice(html: string, durationSec: number, options: L
     const document = documents[String(row.part)] ?? read("");
     const control = document.getElementById(`q${row.q}`);
     const instruction = control?.closest(".task-card")?.querySelector(".instructions-block")?.textContent?.replace(/\s+/g," ").trim() ?? "";
-    return { number: row.q, section: row.part, text: row.prompt, instruction, ...typeOf(row.q), options: row.options?.map(o => o.text.match(new RegExp(`^${o.code}[).\\s]`)) ? o.text : `${o.code}) ${o.text}`) ?? [], key: row.answer, alternatives: source.alternatives[String(row.q)] ?? [], pair: row.pair === undefined ? [] : [row.pair], evidence: { at: row.timeStart, end: row.timeEnd, why: [row.why, row.trap].filter(Boolean).join("\n") } };
+    return { number: row.q, section: row.part, text: row.prompt, instruction, ...typeOf(row.q), options: row.options?.map(o => o.text.match(new RegExp(`^${o.code}[).\\s]`)) ? o.text : `${o.code}) ${o.text}`) ?? [], key: row.answer, alternatives: source.alternatives[String(row.q)] ?? [], pair: row.pair == null ? [] : [row.pair], evidence: { at: row.timeStart, end: row.timeEnd, why: [row.why, row.trap].filter(Boolean).join("\n") } };
   });
   // Only source SVGs in map-question parts or explicitly marked map/plan SVGs are stimuli.
   // The inert reader and extractor retain coordinates/text, never scripts or event handlers.
@@ -299,16 +299,24 @@ function convertStructuredPractice(html: string, durationSec: number, options: L
   if (source.vocabulary?.length) activities.push("vocab");
   if (source.activities?.some(name => /retry/i.test(name))) activities.push("retry");
   const cursors:Record<number,number>={};
-  const gaps = source.script_completion.map(row=>{
+  // The owner's source numbers transcript gaps by part (101-108, 201-207,
+  // 301-308, 401-408). Canonical study gaps accept IDs <= 200. Remap ONLY
+  // sources with out-of-range gap IDs to a stable internal 101+ordinal range,
+  // preserving the original source unchanged in GitHub for traceability.
+  const mustRemapGapIds = source.script_completion.some(row => row.q > 200);
+  if (mustRemapGapIds && source.script_completion.length > 100)
+    throw new ListeningImportProblem("package_invalid", { info: "Too many script gaps for canonical IDs; review the source." });
+  const gapId = (row: { q: number }, index: number) => mustRemapGapIds ? 101 + index : row.q;
+  const gaps = source.script_completion.map((row,index)=>{
     const transcript=source.transcript[String(row.part)] ?? "";
     const boundary=source.part_audio_boundaries[String(row.part)];
     if(!boundary)throw new Error("Script part missing");
     let snippet=row.prompt;
     if(row.match){const at=transcript.indexOf(row.match,cursors[row.part]??0);if(at<0)throw new Error(`Script gap ${row.q} absent from transcript`);cursors[row.part]=at+row.match.length;snippet=transcript.slice(Math.max(0,at-90),at)+"_____"+transcript.slice(at+row.match.length,at+row.match.length+90);}
     if(!snippet)throw new Error("Script gap has no source text");
-    return {q:row.q,part:row.part,at:row.start ?? boundary.start,end:row.end ?? boundary.end,text:snippet,heard:snippet.replace(/_{2,}/,row.answer),link:row.answer};
+    return {q:gapId(row,index),part:row.part,at:row.start ?? boundary.start,end:row.end ?? boundary.end,text:snippet,heard:snippet.replace(/_{2,}/,row.answer),link:row.answer};
   });
-  const scriptParts = source.script_completion.every(row=>row.match) ? source.sections.map((_,index)=>({part:index+1,transcript:source.transcript[String(index+1)],gaps:source.script_completion.filter(row=>row.part===index+1).map(row=>({q:row.q,match:row.match!,answer:row.answer}))})) : undefined;
+  const scriptParts = source.script_completion.every(row=>row.match) ? source.sections.map((_,index)=>({part:index+1,transcript:source.transcript[String(index+1)],gaps:source.script_completion.map((row, ordinal) => ({ ...row, canonicalQ: gapId(row, ordinal) })).filter(row=>row.part===index+1).map(row=>({q:row.canonicalQ,match:row.match!,answer:row.answer}))})) : undefined;
   return listeningPackageSchema.parse({
     schemaVersion: 1, testId: slugTestId(source.test_id || options.fallbackTestId || source.title), title: source.title,
     category: "full", collection: "academic", provenance: "Owner-provided structured practice HTML; authored transcript, question types, evidence and activities; no scripts executed",
