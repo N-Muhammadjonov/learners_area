@@ -48,12 +48,26 @@ export function AccessChangeListener({ enabled }: { enabled: boolean }) {
         pending = false;
       }
     };
+    // A sleeping laptop can miss a role downgrade. If the connection drops,
+    // check ONCE, then wait for the next successful connection instead of
+    // hammering PostgreSQL on the browser's automatic SSE retry timer.
+    let checkedThisDisconnect = false;
+    const opened = () => { checkedThisDisconnect = false; };
+    const failed = () => {
+      if (checkedThisDisconnect) return;
+      checkedThisDisconnect = true;
+      void update();
+    };
     const unavailable = () => stream.close();
     stream.addEventListener("access-changed", update);
+    stream.addEventListener("open", opened);
+    stream.addEventListener("error", failed);
     stream.addEventListener("unavailable", unavailable);
     return () => {
       closed = true;
       stream.removeEventListener("access-changed", update);
+      stream.removeEventListener("open", opened);
+      stream.removeEventListener("error", failed);
       stream.removeEventListener("unavailable", unavailable);
       stream.close();
     };
