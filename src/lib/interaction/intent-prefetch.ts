@@ -16,6 +16,8 @@ const SAFE_INDEX_ROUTES = new Set([
   "/app/reading/retention",
   "/app/writing",
   "/app/speaking",
+  "/app/speaking/lessons",
+  "/app/speaking/practice",
   "/app/grammar/lessons",
   "/app/vocabulary",
   "/app/vocabulary/games",
