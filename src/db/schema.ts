@@ -2206,7 +2206,7 @@ export const retentionTexts = pgTable(
     internalLabel: varchar("internal_label", { length: 20 }).notNull(),
     /** Monotonic per level; the label's numeric half, allocated under a lock. */
     sequence: integer("sequence").notNull(),
-    /** FALSE = archived: out of future rotation, history untouched. */
+    /** FALSE = archived/restorable; permanent deletion removes the authored row and versions. */
     active: boolean("active").notNull().default(true),
     /**
      * The version new attempts receive. The composite foreign key added in
@@ -2255,16 +2255,15 @@ export const retentionAttempts = pgTable(
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     /**
-     * RESTRICT, not CASCADE: archiving a text must never delete the attempts
-     * that reference it, and a version a learner was graded against must stay
-     * exactly where it is. Content is archived, history is kept.
+     * A permanent source deletion clears these references while preserving each
+     * completed learner answer, score, breakdown and stable title snapshot.
+     * Deletion is blocked while the source has any live learner attempts.
      */
     retentionTextId: uuid("retention_text_id")
-      .notNull()
-      .references(() => retentionTexts.id, { onDelete: "restrict" }),
+      .references(() => retentionTexts.id, { onDelete: "set null" }),
     retentionTextVersionId: uuid("retention_text_version_id")
-      .notNull()
-      .references(() => retentionTextVersions.id, { onDelete: "restrict" }),
+      .references(() => retentionTextVersions.id, { onDelete: "set null" }),
+    retentionLabelSnapshot: varchar("retention_label_snapshot", { length: 20 }),
     level: retentionLevelEnum("level").notNull(),
     /** Which rotation cycle this attempt belongs to. */
     rotationCycle: integer("rotation_cycle").notNull().default(1),
