@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { requireAdministrator } from "@/lib/auth/current-user";
 import { isAccountStatus } from "@/lib/auth/account-status";
@@ -38,14 +39,24 @@ export default async function AdminPeoplePage({
   const [params, locale] = await Promise.all([searchParams, getLocale()]);
   const rawRole = first(params.role);
   const rawStatus = first(params.status);
-  const directory = await listPeople({
+  const directoryPromise = listPeople({
     q: first(params.q),
     role: isRole(rawRole) ? rawRole : undefined,
     status: isAccountStatus(rawStatus) ? rawStatus : undefined,
     page: pageNumber(params.page),
   });
   const dict = getDictionary(locale);
-
+  return <Suspense fallback={<div role="status" aria-busy="true" aria-label={dict.common.loading} data-async-loading="management-people" className="h-40 animate-pulse rounded-xl bg-ink-50" />}>
+    <PeopleResults directoryPromise={directoryPromise} actor={actor} dict={dict} locale={locale} />
+  </Suspense>;
+}
+async function PeopleResults({ directoryPromise, actor, dict, locale }: {
+  directoryPromise: ReturnType<typeof listPeople>;
+  actor: NonNullable<Awaited<ReturnType<typeof requireAdministrator>>>;
+  dict: ReturnType<typeof getDictionary>;
+  locale: Awaited<ReturnType<typeof getLocale>>;
+}) {
+  const directory = await directoryPromise;
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-4">
       <div>

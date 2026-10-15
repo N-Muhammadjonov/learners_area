@@ -189,7 +189,9 @@ test("Listening and Video entry reads are server-authorized, published, and limi
   for (const [route, reader] of [["academic", "academicListeningCards"], ["general", "generalListeningCards"]]) {
     const page = read(`src/app/app/(shell)/listening/${route}/page.tsx`);
     assert.match(page, /requireActiveUser\(\)/);
-    assert.ok(page.indexOf("if (!user) return null") < page.indexOf(`await ${reader}(user.id, page)`));
+    assert.ok(page.indexOf("if (!user) return null") < page.indexOf(`const cataloguePromise = ${reader}(user.id, page)`),
+      "a private catalogue request must start only after the authoritative user guard");
+    assert.match(page, /<Suspense fallback=/, "the authorized result streams without holding up navigation");
     assert.match(page, /Math\.min\(10000/);
   }
   assert.match(listeningData, /id: listeningTests\.id,[\s\S]*title: listeningTests\.title,[\s\S]*difficultyLevel: listeningTests\.difficultyLevel/);

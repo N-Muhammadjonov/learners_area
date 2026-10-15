@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listGeneralSets } from "@/lib/data/general-reading";
@@ -7,7 +8,13 @@ export default async function AcademicReadingPage({ searchParams }: { searchPara
   if (!user) return null;
   const dict = getDictionary(locale);
   const page = Math.max(1, Math.min(10000, Number.parseInt(query.page ?? "1", 10) || 1));
-  const sets = await listGeneralSets(user.id, { page, academic: true });
+  const setsPromise = listGeneralSets(user.id, { page, academic: true });
+  return <Suspense fallback={<div role="status" aria-busy="true" aria-label={dict.common.loading} data-async-loading="reading-academic-sets" className="h-32 animate-pulse rounded-xl bg-ink-50" />}>
+    <AcademicReadingResults setsPromise={setsPromise} page={page} dict={dict} />
+  </Suspense>;
+}
+async function AcademicReadingResults({ setsPromise, page, dict }: { setsPromise: ReturnType<typeof listGeneralSets>; page: number; dict: ReturnType<typeof getDictionary> }) {
+  const sets = await setsPromise;
   return <div className="mx-auto flex max-w-5xl flex-col gap-5" data-route-usable="reading-academic">
     <Link className="link-inline" href="/app/reading">{dict.common.back}</Link>
     <h1 className="page-title">{dict.readingV4.products.academic.title}</h1>
