@@ -95,6 +95,7 @@ export async function fullListeningCards(userId: string, page = 1, management = 
     .select({
       id: listeningTests.id,
       title: listeningTests.title,
+      publicationState: listeningTests.publicationState,
       sourceId: listeningPackages.sourceId,
       authoredRuntime: sql<boolean>`${listeningPackages.payload}->'authoredRuntime' is not null`,
       // The tab comes from the ONE classifier (`product.ts`), never from
@@ -116,7 +117,7 @@ export async function fullListeningCards(userId: string, page = 1, management = 
     })
     .from(listeningPackages)
     .innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId))
-    .where(management ? sql`${listeningTests.publicationState} <> 'archived'` : liveWhere(listeningTests))
+    .where(management ? sql`true` : liveWhere(listeningTests))
     .orderBy(desc(listeningTests.createdAt))
     .limit(101)
     .offset((page - 1) * 100);
