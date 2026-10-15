@@ -50,8 +50,6 @@ async function GeneralCatalogueRegion({ cataloguePromise, page, dict }: {
   const t = dict.listening.general;
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-general">
-      <h1 className="font-display text-2xl text-ink-900">{t.title}</h1>
-
       {cards.length === 0 ? (
         <section className="card space-y-2 p-6" data-listening-general-empty>
           <h2 className="font-display text-lg text-ink-900">{t.emptyTitle}</h2>
