@@ -98,7 +98,7 @@ export function RetentionBankPanel({
   dict,
   level,
   rows,
-  isOwner = false,
+  canPermanentlyDelete = false,
   filter,
   sort,
   page = 1,
@@ -108,7 +108,7 @@ export function RetentionBankPanel({
   dict: Dictionary;
   level: RetentionLevel;
   rows: RetentionBankRow[];
-  isOwner?: boolean;
+  canPermanentlyDelete?: boolean;
   filter: string;
   sort: string;
   page?: number;
@@ -315,7 +315,7 @@ export function RetentionBankPanel({
                               marker: { "data-retention-restore": row.textId },
                               onSelect: () => void setActive(row, true),
                             },
-                        ...(isOwner ? [{
+                        ...(canPermanentlyDelete ? [{
                           key: "delete",
                           label: t.archive,
                           marker: { "data-retention-delete": row.textId },
