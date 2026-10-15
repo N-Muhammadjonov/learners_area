@@ -50,20 +50,18 @@ async function AcademicCatalogueRegion({ cataloguePromise, page, dict }: {
   const { cards, hasMore, total } = await cataloguePromise;
   const t = dict.listening.academic;
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-academic">
-      <h1 className="font-display text-2xl text-ink-900">{t.title}</h1>
-
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-5" data-route-usable="listening-academic">
       {cards.length === 0 ? (
         <Card data-listening-academic-empty>
           <h2 className="font-display text-lg text-ink-900">{t.emptyTitle}</h2>
           <p className="mt-1 text-sm text-ink-500">{t.emptyHint}</p>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2" data-listening-academic-grid>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4" data-listening-academic-grid>
           {cards.map((card) => (
-            <Card key={card.testId} data-listening-academic-card={card.testId}>
+            <Card key={card.testId} className="min-w-0 p-4" data-listening-academic-card={card.testId}>
               <div className="flex h-full flex-col gap-2">
-                <h2 className="font-display text-lg text-ink-900">{card.title}</h2>
+                <h2 className="min-w-0 text-base font-semibold leading-snug text-ink-900">{card.title}</h2>
                 <p className="text-xs text-ink-300">
                   <span data-listening-academic-card-parts>{t.parts.replace("{n}", String(card.parts))}</span>
                   {" · "}
@@ -90,7 +88,7 @@ async function AcademicCatalogueRegion({ cataloguePromise, page, dict }: {
                   <p className="text-xs text-ink-300">{t.noProgress}</p>
                 )}
                 <Link
-                  className="btn-secondary mt-auto self-start"
+                  className="btn-secondary mt-auto self-start px-3 py-2 text-sm"
                   href={`/app/listening/academic/${card.testId}`}
                   data-listening-academic-open
                 >
