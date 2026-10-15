@@ -55,3 +55,20 @@ test("the global shell does not query the avatar schema and users table before t
   assert.doesNotMatch(source, /to_regclass|innerJoin\(users/);
   assert.match(read("src/app/app/(shell)/layout.tsx"), /await hasProfilePhoto\(user\.id\)/);
 });
+
+test("all staff dashboards stream expensive data only AFTER database role authorization", () => {
+  for (const [path, guard, boundary] of [
+    ["src/app/app/(shell)/admin/people/page.tsx", "requireAdministrator", "management-people"],
+    ["src/app/app/(shell)/admin/admissions/page.tsx", "requireAdministrator", "management-admissions"],
+    ["src/app/app/(shell)/teacher/students/page.tsx", "requireStaff", "management-students"],
+    ["src/app/app/(shell)/teacher/support/page.tsx", "requireStaff", "management-support"],
+    ["src/app/app/(shell)/owner/page.tsx", "requireOwner", "management-owner"],
+  ] as const) {
+    const source = read(path);
+    assert.match(source, new RegExp(`await ${guard}\\(\\)`), path);
+    assert.match(source, /<Suspense fallback=/, path);
+    assert.match(source, new RegExp(`data-async-loading="${boundary}"`), path);
+    assert.match(source, /if \(!(?:actor|staff|user|owner)\) redirect\("\/app"\)/,
+      `${path} must refuse demoted users before reading the restricted catalogue`);
+  }
+});
