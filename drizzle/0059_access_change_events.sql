@@ -11,9 +11,9 @@ BEGIN
   END IF;
   RETURN NEW;
 END
-$$;
+$;--> statement-breakpoint
 
-DROP TRIGGER IF EXISTS users_access_changed ON public.users;
+DROP TRIGGER IF EXISTS users_access_changed ON public.users;--> statement-breakpoint
 CREATE TRIGGER users_access_changed
 AFTER UPDATE OF role, account_status ON public.users
 FOR EACH ROW EXECUTE FUNCTION public.learners_area_access_changed();
