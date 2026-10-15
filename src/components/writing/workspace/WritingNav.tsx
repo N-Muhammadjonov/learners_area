@@ -32,7 +32,7 @@ export function WritingNav({ active, labels, label }: { active: WritingTab; labe
               refs.current[n]?.focus();
               go(WRITING_TABS[n]!);
             }}
-            className={`min-h-11 shrink-0 whitespace-nowrap border-b-2 px-3 text-sm font-medium transition-colors ${selected ? "border-signal-600 text-ink-900 dark:border-signal-400" : "border-transparent text-ink-500 hover:text-ink-900"}`}>
+            className={`min-h-11 shrink-0 whitespace-nowrap border-b-2 px-3 text-sm font-medium transition-colors ${selected ? "border-signal-600 text-ink-900 dark:border-signal-400 dark:text-white" : "border-transparent text-ink-500 hover:text-ink-900 dark:text-white dark:hover:text-white"}`}>
             {labels[tab]}
           </button>
         );

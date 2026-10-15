@@ -3,7 +3,6 @@ import { PerformanceDiagnostics } from "@/components/diagnostics/PerformanceDiag
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { getLocale, getDictionary } from "@/lib/i18n";
 import { Sidebar } from "@/components/shell/Sidebar";
-import { ModuleContextHeading } from "@/components/shell/ModuleContextHeading";
 import { Topbar } from "@/components/shell/Topbar";
 import { hasProfilePhoto } from "@/lib/profile/photo";
 import { ShellUtilities } from "@/components/shell/ShellUtilities";
@@ -105,7 +104,6 @@ export default async function ShellLayout({ children }: { children: React.ReactN
                 paddingBottom: "calc(var(--shell-pad-y) + env(safe-area-inset-bottom))",
               }}
             >
-              <ModuleContextHeading dict={dict} />
               <InstantWorkspaceOutlet>{children}</InstantWorkspaceOutlet>
             </div>
           </main>

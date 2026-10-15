@@ -1,4 +1,3 @@
-import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { Suspense } from "react";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -51,16 +50,7 @@ async function GeneralCatalogueRegion({ cataloguePromise, page, dict }: {
   const t = dict.listening.general;
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-general">
-      <div>
-        <BackLink fallbackHref="/app/listening" label={dict.listening.practiceTitle} data-listening-general-back />
-        <h1 className="mt-2 font-display text-2xl text-ink-900">🎙️ {t.title}</h1>
-        <p className="mt-1 text-sm text-ink-500">{t.subtitle}</p>
-        {total > 0 && (
-          <p className="mt-1 text-xs text-ink-300" data-listening-general-count data-listening-general-total={total}>
-            {t.catalogueCount.replace("{n}", String(total))}
-          </p>
-        )}
-      </div>
+      <h1 className="font-display text-2xl text-ink-900">{t.title}</h1>
 
       {cards.length === 0 ? (
         <section className="card space-y-2 p-6" data-listening-general-empty>

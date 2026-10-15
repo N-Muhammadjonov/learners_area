@@ -1075,7 +1075,7 @@ const uz: Dictionary = {
 
     /** Listening → Lessons (o'quvchi uchun: Tavsif / O'qituvchi izohlari / Xulosangiz). */
     lessons: {
-      title: "Listening darslari",
+      title: "Darslar",
       subtitle: "Markaz tayyorlagan darslar: avval tinglash materiali, yonida markazning izohlari.",
       open: "Darsni ochish",
       minutes: "daq.",
