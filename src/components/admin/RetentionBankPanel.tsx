@@ -150,6 +150,37 @@ export function RetentionBankPanel({
     }
   }
 
+  async function deleteText(row: RetentionBankRow) {
+    if (busyRef.current) return;
+    if (!window.confirm(t.confirmPermanentDelete.replace("{label}", row.internalLabel))) return;
+    if (window.prompt(t.confirmDeleteLabel.replace("{label}", row.internalLabel)) !== row.internalLabel) return;
+    busyRef.current = row.textId;
+    setBusy(row.textId);
+    setConflict(false);
+    try {
+      const response = await fetchWithDeadline(
+        `/api/admin/retention/texts/${row.textId}`,
+        { method: "DELETE" },
+        WRITE_TIMEOUT_MS
+      );
+      if (response.status === 409) {
+        setNotice(t.deleteBlocked);
+        return;
+      }
+      if (!response.ok) {
+        setNotice(t.deleteFailed);
+        return;
+      }
+      setNotice(t.saved);
+      router.refresh();
+    } catch (error) {
+      setNotice(error instanceof RequestTimeout ? t.saveUnknown : t.deleteFailed);
+    } finally {
+      busyRef.current = null;
+      setBusy(null);
+    }
+  }
+
   return (
     <section className="flex flex-col gap-4" data-retention-bank={level}>
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -269,19 +300,18 @@ export function RetentionBankPanel({
                           marker: { "data-retention-change": row.textId },
                           onSelect: () => setEditor({ mode: "change", textId: row.textId, label: row.internalLabel }),
                         },
-                        row.active
-                          ? {
-                              key: "archive",
-                              label: t.archive,
-                              marker: { "data-retention-archive": row.textId },
-                              onSelect: () => void setActive(row, false),
-                            }
-                          : {
-                              key: "restore",
-                              label: t.restore,
-                              marker: { "data-retention-restore": row.textId },
-                              onSelect: () => void setActive(row, true),
-                            },
+                        ...(!row.active ? [{
+                          key: "restore",
+                          label: t.restore,
+                          marker: { "data-retention-restore": row.textId },
+                          onSelect: () => void setActive(row, true),
+                        }] : []),
+                        {
+                          key: "delete",
+                          label: t.archive,
+                          marker: { "data-retention-delete": row.textId },
+                          onSelect: () => void deleteText(row),
+                        },
                       ]}
                     />
                   </td>
