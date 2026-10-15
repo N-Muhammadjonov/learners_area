@@ -116,9 +116,10 @@ test("D-6 the day states its own progress, and the catalogue links to it by auth
   const catalogue = code(CATALOGUE);
   assert.match(catalogue, /mcqProgramDays\(/, "the catalogue reads the programme");
   assert.match(catalogue, /href=\{`\/app\/listening\/mcq\/day\/\$\{card\.day\}`\}/, "one address per day, built from the stored day number");
-  assert.match(catalogue, /import \{ MCQ_DAY_QUESTION_COUNT \}/, "the per-day shape comes from the programme constant, not a literal");
-  assert.match(catalogue, /data-listening-mcq-days-published=\{progress\.daysPublished\}/, "the headline states published days");
-  assert.match(catalogue, /data-listening-mcq-days-completed=\{progress\.daysCompleted\}/, "and the learner's finished days");
+  assert.match(catalogue, /data-listening-mcq-card-questions/, "each authored day still shows its own real question count");
+  assert.match(catalogue, /data-listening-mcq-card-status=\{card\.status\.state\}/, "individual learner progress stays visible");
+  assert.doesNotMatch(catalogue, /data-listening-mcq-days-published|data-listening-mcq-days-completed|MCQ_DAY_QUESTION_COUNT/,
+    "owner-requested module-header programme counts are hidden without changing real day cards");
   assert.match(catalogue, /data-listening-mcq-empty/, "an empty programme has an honest empty state");
   assert.match(catalogue, /\{staff && </, "and only staff are told where days come from — a learner never gets a dead admin link");
 });
