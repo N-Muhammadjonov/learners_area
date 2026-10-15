@@ -41,6 +41,9 @@ export function AccessChangeListener({ enabled }: { enabled: boolean }) {
         // Fetch the server-authorized shell and menu once on role change.
         // Existing notes/exam progress are still stored under the same account.
         router.refresh();
+      } catch {
+        // A transient network error must not grant access or kill EventSource.
+        // Authoritative server API/page gates remain active.
       } finally {
         pending = false;
       }
