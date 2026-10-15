@@ -1,10 +1,8 @@
-import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { isStaff } from "@/lib/auth/roles";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { mcqProgramDays } from "@/lib/data/listening-mcq";
-import { MCQ_DAY_QUESTION_COUNT } from "@/lib/listening/mcq-program";
 
 export const dynamic = "force-dynamic";
 
@@ -47,24 +45,7 @@ export default async function ListeningMcqPage({
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-mcq">
-      <div>
-        <BackLink fallbackHref="/app/listening" label={dict.listening.practiceTitle} data-listening-mcq-back />
-        <h1 className="mt-2 font-display text-2xl text-ink-900">🎯 {t.title}</h1>
-        <p className="mt-1 text-sm text-ink-500">{t.subtitle}</p>
-        {/* Truthful arithmetic: published days first, the authored target stated separately. */}
-        <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-300">
-          <span data-listening-mcq-days-published={progress.daysPublished}>
-            {t.daysPublished.replace("{published}", String(progress.daysPublished))}
-          </span>
-          {progress.daysPublished > 0 && (
-            <span data-listening-mcq-days-completed={progress.daysCompleted}>
-              {t.daysCompleted
-                .replace("{done}", String(progress.daysCompleted))
-                .replace("{available}", String(progress.daysPublished))}
-            </span>
-          )}
-        </p>
-      </div>
+      <h1 className="font-display text-2xl text-ink-900">{t.title}</h1>
 
       {days.length === 0 ? (
         <section className="card space-y-2 p-6" data-listening-mcq-empty>
@@ -141,7 +122,6 @@ export default async function ListeningMcqPage({
         </nav>
       )}
 
-      <p className="text-xs text-ink-300">{t.targetNote.replace("{perDay}", String(MCQ_DAY_QUESTION_COUNT))}</p>
     </div>
   );
 }
