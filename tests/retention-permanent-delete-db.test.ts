@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  createRetentionText, permanentlyDeleteRetentionText,
+  createRetentionText, createRetentionTextVersion, permanentlyDeleteRetentionText,
   setRetentionTextActive, getRetentionTextDetail,
 } from "../src/lib/data/retention-bank";
 import {
@@ -42,6 +42,19 @@ test("hard deletion removes source and versions but keeps completed scores and h
       "incorrect confirmed label must never delete a different text",
     );
 
+    const detail = await getRetentionTextDetail(created.textId, database.db);
+    await createRetentionTextVersion({
+      textId: created.textId,
+      bodyText: bodyOfWords(110),
+      scoringStructure: simpleStructure("updated after learner started"),
+      expectedCurrentVersionId: detail!.currentVersionId,
+      actorUserId: owner!.id,
+    }, database.db);
+    const oldVersions = await database.query(
+      "select id from retention_text_versions where retention_text_id=$1",
+      [created.textId],
+    );
+    assert.equal(oldVersions.length, 2, "the owner update must really create a second version");
     const done = await submitAttempt({
       attemptId: start.attempt.id, userId: student!.id,
       recallText: "The company was founded in 1998 by two students.",
@@ -58,9 +71,9 @@ test("hard deletion removes source and versions but keeps completed scores and h
 
     const rows = await database.query<{
       retention_text_id: string | null; retention_text_version_id: string | null;
-      retention_label_snapshot: string; score: number; recall_text: string;
+      retention_label_snapshot: string; score: number; recall_text: string; score_breakdown: unknown;
     }>(
-      "select retention_text_id,retention_text_version_id,retention_label_snapshot,score,recall_text from retention_attempts where id=$1",
+      "select retention_text_id,retention_text_version_id,retention_label_snapshot,score,recall_text,score_breakdown from retention_attempts where id=$1",
       [start.attempt.id],
     );
     assert.equal(rows.length, 1);
@@ -69,6 +82,7 @@ test("hard deletion removes source and versions but keeps completed scores and h
     assert.equal(rows[0]!.retention_label_snapshot, created.internalLabel);
     assert.equal(rows[0]!.score, 100);
     assert.equal(rows[0]!.recall_text, done.attempt.recallText);
+    assert.deepEqual(rows[0]!.score_breakdown, done.attempt.scoreBreakdown);
 
     const versions = await database.query("select id from retention_text_versions where retention_text_id=$1", [created.textId]);
     assert.equal(versions.length, 0);
