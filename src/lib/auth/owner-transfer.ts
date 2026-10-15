@@ -12,6 +12,7 @@ import {
 import { countActiveOwnersIn } from "@/lib/auth/owner-invariant";
 import { recordAudit } from "@/lib/data/audit";
 import { notifyUsers } from "@/lib/data/notifications";
+import { publishAccessChanges } from "@/lib/auth/publish-access-change";
 import {
   WEBSITE_OWNER_TRANSFER,
   canInitiateWebsiteTransfer,
@@ -320,6 +321,9 @@ export async function decideWebsiteChallengeFromTelegram(input: {
     return { ok: true as const, rejected: true as const };
   }
   if (!("committed" in result)) return { ok: false as const, error: "aborted" as const };
+
+  // Both roles changed atomically; invalidate both open UI sessions once.
+  await publishAccessChanges([result.fromUserId, result.toUserId]);
 
   await recordAudit({
     actorUserId: result.fromUserId,
