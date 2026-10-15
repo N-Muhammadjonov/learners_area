@@ -1083,7 +1083,7 @@ const en = {
      * the learner's own private Xulosangiz — see src/lib/listening/lessons.ts.
      */
     lessons: {
-      title: "Listening lessons",
+      title: "Lessons",
       subtitle: "Lessons the centre has authored, with the listening material first and the centre's notes beside them.",
       open: "Open the lesson",
       minutes: "min",
