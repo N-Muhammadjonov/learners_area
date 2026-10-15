@@ -64,7 +64,8 @@ test("section tabs use the same bounded native-link intent prefetch as the sideb
   assert.doesNotMatch(nav, /prefetch=\{true\}/, "no eager prefetch of every visible tab");
   const writing = read("src/components/writing/workspace/WritingNav.tsx");
   assert.match(writing, /useOptionalInstantInteraction/);
-  assert.match(writing, /interaction\.navigate\(href\)/);
+  assert.match(writing, /interaction\?\.beginNavigation\(href\)/);
+  assert.match(writing, /router\.push\(href, \{ scroll: false \}\)/, "preserve Writing tab scroll semantics");
 });
 
 test("prefetch never warms private attempts, answers, admin, external or parameterized routes", () => {
