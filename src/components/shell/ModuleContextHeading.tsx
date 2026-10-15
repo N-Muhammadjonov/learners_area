@@ -1,7 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
+import { parentFor } from "@/lib/nav/routes";
+import { IconBack } from "@/components/ui/icons";
 import { Breadcrumbs } from "./Breadcrumbs";
 
 /**
@@ -35,13 +38,24 @@ export function ModuleContextHeading({ dict }: { dict: Dictionary }) {
       : pathname === item.path || pathname.startsWith(item.path + "/")
   );
   if (!activeModule) return <Breadcrumbs dict={dict} />;
+  // A Management subsection still needs a real parent-link on direct visits.
+  // Only the module label, not the entire breadcrumb trail, is visible here.
+  const parent = activeModule.key === "management" ? parentFor(pathname, dict) : null;
   return (
-    <span
-      data-module-context-heading={activeModule.key}
-      aria-current="location"
-      className="min-w-0 truncate text-base font-semibold text-ink-900"
-    >
-      {activeModule.label}
-    </span>
+    <div className="flex min-w-0 items-center gap-2">
+      {parent && (
+        <Link href={parent.href} aria-label={`${dict.shell.back}: ${parent.label}`}
+          className="flex h-10 shrink-0 items-center rounded-[10px] border border-ink-100 px-2 text-ink-700 hover:text-ink-900">
+          <IconBack className="text-[17px]" />
+        </Link>
+      )}
+      <span
+        data-module-context-heading={activeModule.key}
+        aria-current="location"
+        className="min-w-0 truncate text-base font-semibold text-ink-900"
+      >
+        {activeModule.label}
+      </span>
+    </div>
   );
 }
