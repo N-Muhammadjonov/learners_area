@@ -43,7 +43,7 @@ export async function AuthShell({
           href="https://t.me/learners_area"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Learners Area Telegram channel"
+          aria-label={dict.shell.telegramBrand}
           className="mx-auto mb-6 flex w-fit max-w-full items-center justify-center rounded-sm px-2 py-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-600"
           data-auth-brand
         >
