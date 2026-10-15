@@ -43,6 +43,10 @@ test("section links expose native destinations, current URL, preserved filters a
     await act(async () => root.render(element("/app/vocabulary", "tab=revision&q=keep", () => {})));
     assert.equal(document.querySelectorAll("nav a").length, 4);
     assert.equal(document.querySelectorAll('nav button,[role="tab"]').length, 0);
+    assert.equal(document.querySelectorAll("nav a[data-instant-navigation]").length, 4,
+      "section tabs must use the same real, intent-enabled links as fast module entry");
+    assert.equal(anchor("games").getAttribute("href"), "/app/vocabulary/games",
+      "deep module destination remains a real URL");
     assert.equal(anchor("revision").getAttribute("aria-current"), "page");
     assert.equal(anchor("dictionary").getAttribute("href"), "/app/vocabulary?tab=dictionary&q=keep");
     assert.equal(anchor("words").getAttribute("href"), "/app/vocabulary?q=keep");
