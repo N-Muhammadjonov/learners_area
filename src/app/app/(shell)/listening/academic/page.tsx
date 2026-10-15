@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -52,16 +51,7 @@ async function AcademicCatalogueRegion({ cataloguePromise, page, dict }: {
   const t = dict.listening.academic;
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-academic">
-      <div>
-        <BackLink fallbackHref="/app/listening" label={dict.listening.practiceTitle} data-listening-academic-back />
-        <h1 className="mt-2 font-display text-2xl text-ink-900">🎧 {t.title}</h1>
-        <p className="mt-1 text-sm text-ink-500">{t.subtitle}</p>
-        {total > 0 && (
-          <p className="mt-1 text-xs text-ink-300" data-listening-academic-count data-listening-academic-total={total}>
-            {t.catalogueCount.replace("{n}", String(total))}
-          </p>
-        )}
-      </div>
+      <h1 className="font-display text-2xl text-ink-900">{t.title}</h1>
 
       {cards.length === 0 ? (
         <Card data-listening-academic-empty>
