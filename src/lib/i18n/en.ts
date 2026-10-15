@@ -2599,6 +2599,7 @@ const en = {
       cancel: "Cancel",
       change: "Change",
       archive: "Delete",
+      archiveAction: "Archive",
       restore: "Restore",
       archivedBadge: "Archived",
       versionBadge: "v{n}",
