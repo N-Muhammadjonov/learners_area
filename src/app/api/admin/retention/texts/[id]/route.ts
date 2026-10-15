@@ -45,13 +45,17 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
 }
 
 /** Owner-only permanent deletion removes authored content, never scored history. */
-export async function DELETE(_request: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const gate = await requireRetentionAdmin();
   if (!gate.ok) return gate.response;
   if (gate.user.role !== "owner") return forbidden();
   const { id } = await context.params;
+  const body: unknown = await request.json().catch(() => null);
+  if (!body || typeof body !== "object" || Array.isArray(body)) return invalidJson();
+  const expectedLabel = (body as Record<string, unknown>).expectedLabel;
+  if (typeof expectedLabel !== "string" || !/^(A2|B1|B2|C1|C2)-[0-9]{3,}$/.test(expectedLabel)) return invalidJson();
   return retentionJson(async () => {
-    const result = await permanentlyDeleteRetentionText({ textId: id, actorUserId: gate.user.id }, db);
+    const result = await permanentlyDeleteRetentionText({ textId: id, expectedLabel, actorUserId: gate.user.id }, db);
     return { ok: true, ...result };
   });
 }
