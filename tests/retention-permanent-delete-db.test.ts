@@ -29,11 +29,18 @@ test("hard deletion removes source and versions but keeps completed scores and h
     const start = await startOrResumeAttempt({ userId: student.id, level: "A2", now: time }, database.db);
 
     await assert.rejects(
-      () => permanentlyDeleteRetentionText({ textId: created.textId, actorUserId: owner.id }, database.db),
+      () => permanentlyDeleteRetentionText({ textId: created.textId, expectedLabel: created.internalLabel, actorUserId: owner.id }, database.db),
       (error: unknown) => error instanceof RetentionError && error.code === "retention_conflict",
       "a live learner must not lose their scoring source",
     );
     assert.ok(await getRetentionTextDetail(created.textId, database.db));
+    await assert.rejects(
+      () => permanentlyDeleteRetentionText({
+        textId: created.textId, expectedLabel: "A2-999999", actorUserId: owner.id,
+      }, database.db),
+      (error: unknown) => error instanceof RetentionError && error.code === "retention_conflict",
+      "incorrect confirmed label must never delete a different text",
+    );
 
     const done = await submitAttempt({
       attemptId: start.attempt.id, userId: student.id,
@@ -44,7 +51,7 @@ test("hard deletion removes source and versions but keeps completed scores and h
     assert.equal(done.attempt.score, 100);
     const before = await getRetentionHistoryRow({ attemptId: start.attempt.id, userId: student.id }, database.db);
 
-    const deleted = await permanentlyDeleteRetentionText({ textId: created.textId, actorUserId: owner.id }, database.db);
+    const deleted = await permanentlyDeleteRetentionText({ textId: created.textId, expectedLabel: created.internalLabel, actorUserId: owner.id }, database.db);
     assert.equal(deleted.deleted, true);
     assert.equal(deleted.preservedAttempts, 1);
     assert.equal(await getRetentionTextDetail(created.textId, database.db), null);
@@ -75,7 +82,7 @@ test("hard deletion removes source and versions but keeps completed scores and h
     assert.equal(payload.phase, "completed");
     assert.equal(payload.label, created.internalLabel);
     await assert.rejects(
-      () => permanentlyDeleteRetentionText({ textId: created.textId, actorUserId: owner.id }, database.db),
+      () => permanentlyDeleteRetentionText({ textId: created.textId, expectedLabel: created.internalLabel, actorUserId: owner.id }, database.db),
       (error: unknown) => error instanceof RetentionError && error.code === "retention_attempt_not_found",
     );
   } finally {
@@ -96,10 +103,10 @@ test("archived unused content is truly deleted; other retention texts remain", a
     const old = await make();
     const keep = await make();
     await setRetentionTextActive({ textId: old.textId, active: false, actorUserId: owner.id }, database.db);
-    await permanentlyDeleteRetentionText({ textId: old.textId, actorUserId: owner.id }, database.db);
+    await permanentlyDeleteRetentionText({ textId: old.textId, expectedLabel: old.internalLabel, actorUserId: owner.id }, database.db);
     assert.equal(await getRetentionTextDetail(old.textId, database.db), null);
     assert.ok(await getRetentionTextDetail(keep.textId, database.db));
-    await permanentlyDeleteRetentionText({ textId: keep.textId, actorUserId: owner.id }, database.db);
+    await permanentlyDeleteRetentionText({ textId: keep.textId, expectedLabel: keep.internalLabel, actorUserId: owner.id }, database.db);
     const next = await make();
     assert.equal(next.internalLabel, "B1-003", "deleted identifiers must never be reused");
   } finally {
