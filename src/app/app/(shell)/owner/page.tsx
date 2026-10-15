@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { requireOwner } from "@/lib/auth/current-user";
 import { countPeople } from "@/lib/data/people";
@@ -24,12 +25,20 @@ export default async function OwnerPage() {
   if (!owner) redirect("/app");
 
   const dict = getDictionary(await getLocale());
-  const [counts, pending, integrations] = await Promise.all([
+  const summaryPromise = Promise.all([
     countPeople(),
     listPendingAccessRequests(),
     integrationReport(),
   ]);
-
+  return <Suspense fallback={<div role="status" aria-busy="true" aria-label={dict.common.loading} data-async-loading="management-owner" className="h-36 animate-pulse rounded-xl bg-ink-50" />}>
+    <OwnerSummaryResults summaryPromise={summaryPromise} dict={dict} />
+  </Suspense>;
+}
+async function OwnerSummaryResults({ summaryPromise, dict }: {
+  summaryPromise: Promise<[Awaited<ReturnType<typeof countPeople>>, Awaited<ReturnType<typeof listPendingAccessRequests>>, Awaited<ReturnType<typeof integrationReport>>]>;
+  dict: ReturnType<typeof getDictionary>;
+}) {
+  const [counts, pending, integrations] = await summaryPromise;
   const byRole = (role: string) => counts.filter((row) => row.role === role).reduce((sum, row) => sum + row.count, 0);
   const active = counts.filter((row) => row.status === "active").reduce((sum, row) => sum + row.count, 0);
   const notConfigured = integrations.filter(
