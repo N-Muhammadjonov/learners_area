@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -26,12 +27,29 @@ export default async function AcademicListeningPage({
   const [user, locale, query] = await Promise.all([requireActiveUser(), getLocale(), searchParams]);
   if (!user) return null;
   const dict = getDictionary(locale);
-  const t = dict.listening.academic;
   // Paging is a URL parameter, like the rest of the app: a page can be linked, bookmarked and
   // returned to, and the query stays bounded on the server.
   const page = Math.max(1, Math.min(10000, Number.parseInt(query.page ?? "1", 10) || 1));
-  const { cards, hasMore, total } = await academicListeningCards(user.id, page);
+  // Start the read immediately but DO NOT block the route frame on PostgreSQL.
+  // The Suspense region streams the same rows, paging and per-user progress.
+  const cataloguePromise = academicListeningCards(user.id, page);
+  return (
+    <Suspense fallback={<div aria-busy="true" data-async-loading="listening-academic-catalogue" className="grid gap-4" role="status" aria-label={dict.common.loading}>
+      <div className="h-12 animate-pulse rounded bg-ink-50" />
+      <div className="h-28 animate-pulse rounded bg-ink-50" />
+    </div>}>
+      <AcademicCatalogueRegion cataloguePromise={cataloguePromise} page={page} dict={dict} />
+    </Suspense>
+  );
+}
 
+async function AcademicCatalogueRegion({ cataloguePromise, page, dict }: {
+  cataloguePromise: ReturnType<typeof academicListeningCards>;
+  page: number;
+  dict: ReturnType<typeof getDictionary>;
+}) {
+  const { cards, hasMore, total } = await cataloguePromise;
+  const t = dict.listening.academic;
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-academic">
       <div>
