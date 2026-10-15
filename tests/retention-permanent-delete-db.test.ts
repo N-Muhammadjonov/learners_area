@@ -99,6 +99,7 @@ test("archived unused content is truly deleted; other retention texts remain", a
     await permanentlyDeleteRetentionText({ textId: old.textId, actorUserId: owner.id }, database.db);
     assert.equal(await getRetentionTextDetail(old.textId, database.db), null);
     assert.ok(await getRetentionTextDetail(keep.textId, database.db));
+    await permanentlyDeleteRetentionText({ textId: keep.textId, actorUserId: owner.id }, database.db);
     const next = await make();
     assert.equal(next.internalLabel, "B1-003", "deleted identifiers must never be reused");
   } finally {
