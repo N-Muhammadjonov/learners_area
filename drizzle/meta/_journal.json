@@ -1,378 +1,378 @@
 {
- "version": "7",
- "dialect": "postgresql",
- "entries": [
-  {
-   "idx": 0,
-   "version": "7",
-   "when": 1790188219029,
-   "tag": "0000_upload_intents",
-   "breakpoints": true
-  },
-  {
-   "idx": 1,
-   "version": "7",
-   "when": 1790189397777,
-   "tag": "0001_speaking_practice",
-   "breakpoints": true
-  },
-  {
-   "idx": 2,
-   "version": "7",
-   "when": 1790191131151,
-   "tag": "0002_coach_evaluations",
-   "breakpoints": true
-  },
-  {
-   "idx": 3,
-   "version": "7",
-   "when": 1790275357849,
-   "tag": "0003_phase1_access_control",
-   "breakpoints": true
-  },
-  {
-   "idx": 4,
-   "version": "7",
-   "when": 1790276380642,
-   "tag": "0004_vocabulary_engine",
-   "breakpoints": true
-  },
-  {
-   "idx": 5,
-   "version": "7",
-   "when": 1790299753865,
-   "tag": "0005_lexeme_sense_key",
-   "breakpoints": true
-  },
-  {
-   "idx": 6,
-   "version": "7",
-   "when": 1790300320283,
-   "tag": "0006_lexeme_collocations",
-   "breakpoints": true
-  },
-  {
-   "idx": 7,
-   "version": "7",
-   "when": 1790300889330,
-   "tag": "0007_listening_mcq_mastery",
-   "breakpoints": true
-  },
-  {
-   "idx": 8,
-   "version": "7",
-   "when": 1790301301541,
-   "tag": "0008_typing_runs",
-   "breakpoints": true
-  },
-  {
-   "idx": 9,
-   "version": "7",
-   "when": 1790361168134,
-   "tag": "0009_grammar_activities",
-   "breakpoints": true
-  },
-  {
-   "idx": 10,
-   "version": "7",
-   "when": 1790361524937,
-   "tag": "0010_problem_reports",
-   "breakpoints": true
-  },
-  {
-   "idx": 11,
-   "version": "7",
-   "when": 1790362848900,
-   "tag": "0011_lesson_recording",
-   "breakpoints": true
-  },
-  {
-   "idx": 12,
-   "version": "7",
-   "when": 1790390667608,
-   "tag": "0012_goofy_beast",
-   "breakpoints": true
-  },
-  {
-   "idx": 13,
-   "version": "7",
-   "when": 1790391090261,
-   "tag": "0013_gifted_shotgun",
-   "breakpoints": true
-  },
-  {
-   "idx": 14,
-   "version": "7",
-   "when": 1790392022049,
-   "tag": "0014_mighty_sway",
-   "breakpoints": true
-  },
-  {
-   "idx": 15,
-   "version": "7",
-   "when": 1790395150776,
-   "tag": "0015_polite_archangel",
-   "breakpoints": true
-  },
-  {
-   "idx": 16,
-   "version": "7",
-   "when": 1790403060935,
-   "tag": "0016_publication_state",
-   "breakpoints": true
-  },
-  {
-   "idx": 17,
-   "version": "7",
-   "when": 1790425259055,
-   "tag": "0017_reading_105_library",
-   "breakpoints": true
-  },
-  {
-   "idx": 18,
-   "version": "7",
-   "when": 1790429326290,
-   "tag": "0018_resource_blocks",
-   "breakpoints": true
-  },
-  {
-   "idx": 19,
-   "version": "7",
-   "when": 1790559351334,
-   "tag": "0019_grammar_source_privacy",
-   "breakpoints": true
-  },
-  {
-   "idx": 20,
-   "version": "7",
-   "when": 1790620308660,
-   "tag": "0020_lexical_source_snapshot",
-   "breakpoints": true
-  },
-  {
-   "idx": 21,
-   "version": "7",
-   "when": 1790734416580,
-   "tag": "0021_registration_gender",
-   "breakpoints": true
-  },
-  {
-   "idx": 22,
-   "version": "7",
-   "when": 1790756280556,
-   "tag": "0022_retention_bank",
-   "breakpoints": true
-  },
-  {
-   "idx": 23,
-   "version": "7",
-   "when": 1790759035406,
-   "tag": "0023_video_lesson_notes",
-   "breakpoints": true
-  },
-  {
-   "idx": 24,
-   "version": "7",
-   "when": 1790785789328,
-   "tag": "0024_video_lessons_standalone",
-   "breakpoints": true
-  },
-  {
-   "idx": 25,
-   "version": "7",
-   "when": 1790845294168,
-   "tag": "0025_speaking_bank_identity",
-   "breakpoints": true
-  },
-  {
-   "idx": 26,
-   "version": "7",
-   "when": 1790845470436,
-   "tag": "0026_google_identity",
-   "breakpoints": true
-  },
-  {
-   "idx": 27,
-   "version": "7",
-   "when": 1790845656316,
-   "tag": "0027_live_partner",
-   "breakpoints": true
-  },
-  {
-   "idx": 28,
-   "version": "7",
-   "when": 1790857800000,
-   "tag": "0028_full_listening",
-   "breakpoints": true
-  },
-  {
-   "idx": 29,
-   "version": "7",
-   "when": 1790900000000,
-   "tag": "0029_vocabulary_architecture",
-   "breakpoints": true
-  },
-  {
-   "idx": 30,
-   "version": "7",
-   "when": 1791000000000,
-   "tag": "0030_general_reading",
-   "breakpoints": true
-  },
-  {
-   "idx": 31,
-   "version": "7",
-   "when": 1791100000000,
-   "tag": "0031_writing_workspace",
-   "breakpoints": true
-  },
-  {
-   "idx": 32,
-   "version": "7",
-   "when": 1791200000000,
-   "tag": "0032_writing_exam_papers",
-   "breakpoints": true
-  },
-  {
-   "idx": 33,
-   "version": "7",
-   "when": 1791300000000,
-   "tag": "0033_writing_language_stealing",
-   "breakpoints": true
-  },
-  {
-   "idx": 34,
-   "version": "7",
-   "when": 1791400000000,
-   "tag": "0034_typing_duration_presets",
-   "breakpoints": true
-  },
-  {
-   "idx": 35,
-   "version": "7",
-   "when": 1791500000000,
-   "tag": "0035_teacher_student_links",
-   "breakpoints": true
-  },
-  {
-   "idx": 36,
-   "version": "7",
-   "when": 1791600000000,
-   "tag": "0036_speaking_study_support",
-   "breakpoints": true
-  },
-  {
-   "idx": 37,
-   "version": "7",
-   "when": 1791700000000,
-   "tag": "0037_profile_photos",
-   "breakpoints": true
-  },
-  {
-   "idx": 38,
-   "version": "7",
-   "when": 1791800000000,
-   "tag": "0038_dictionary_releases",
-   "breakpoints": true
-  },
-  {
-   "idx": 39,
-   "version": "7",
-   "when": 1791900000000,
-   "tag": "0039_academic_reading_sets",
-   "breakpoints": true
-  },
-  {
-   "idx": 40,
-   "version": "7",
-   "when": 1792000000000,
-   "tag": "0040_content_imports",
-   "breakpoints": true
-  },
-  {
-   "idx": 41,
-   "version": "7",
-   "when": 1792100000000,
-   "tag": "0041_content_versions",
-   "breakpoints": true
-  },
-  {
-   "idx": 42,
-   "version": "7",
-   "when": 1792200000000,
-   "tag": "0042_mock_composition",
-   "breakpoints": true
-  },
-  {
-   "idx": 43,
-   "version": "7",
-   "when": 1792200100000,
-   "tag": "0043_authoring_identity",
-   "breakpoints": true
-  },
-  {
-   "idx": 44,
-   "version": "7",
-   "when": 1792200200000,
-   "tag": "0044_lesson_blocks",
-   "breakpoints": true
-  },
-  {
-   "idx": 45,
-   "version": "7",
-   "when": 1792200300000,
-   "tag": "0045_media_lessons",
-   "breakpoints": true
-  },
-  {
-   "idx": 46,
-   "version": "7",
-   "when": 1792200400000,
-   "tag": "0046_vocabulary_topic_packs",
-   "breakpoints": true
-  },
-  {
-   "idx": 47,
-   "version": "7",
-   "when": 1792200500000,
-   "tag": "0047_assignments_canonical",
-   "breakpoints": true
-  },
-  {
-   "idx": 48,
-   "version": "7",
-   "when": 1792200600000,
-   "tag": "0048_typing_trainer",
-   "breakpoints": true
-  },
-  {
-   "idx": 49,
-   "version": "7",
-   "when": 1792200700000,
-   "tag": "0049_lesson_notes",
-   "breakpoints": true
-  },
-  {
-   "idx": 50,
-   "version": "7",
-   "when": 1792200800000,
-   "tag": "0050_lesson_learning_area",
-   "breakpoints": true
-  },
-  {
-   "idx": 51,
-   "version": "7",
-   "when": 1792200900000,
-   "tag": "0051_listening_question_revision",
-   "breakpoints": true
-  },
-  {
-   "idx": 52,
-   "version": "7",
-   "when": 1792201000000,
-   "tag": "0052_listening_mcq_program_days",
-   "breakpoints": true
-  },
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1790188219029,
+      "tag": "0000_upload_intents",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790189397777,
+      "tag": "0001_speaking_practice",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790191131151,
+      "tag": "0002_coach_evaluations",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790275357849,
+      "tag": "0003_phase1_access_control",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790276380642,
+      "tag": "0004_vocabulary_engine",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790299753865,
+      "tag": "0005_lexeme_sense_key",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1790300320283,
+      "tag": "0006_lexeme_collocations",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1790300889330,
+      "tag": "0007_listening_mcq_mastery",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1790301301541,
+      "tag": "0008_typing_runs",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1790361168134,
+      "tag": "0009_grammar_activities",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1790361524937,
+      "tag": "0010_problem_reports",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1790362848900,
+      "tag": "0011_lesson_recording",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1790390667608,
+      "tag": "0012_goofy_beast",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1790391090261,
+      "tag": "0013_gifted_shotgun",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1790392022049,
+      "tag": "0014_mighty_sway",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1790395150776,
+      "tag": "0015_polite_archangel",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1790403060935,
+      "tag": "0016_publication_state",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1790425259055,
+      "tag": "0017_reading_105_library",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1790429326290,
+      "tag": "0018_resource_blocks",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1790559351334,
+      "tag": "0019_grammar_source_privacy",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1790620308660,
+      "tag": "0020_lexical_source_snapshot",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1790734416580,
+      "tag": "0021_registration_gender",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1790756280556,
+      "tag": "0022_retention_bank",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1790759035406,
+      "tag": "0023_video_lesson_notes",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1790785789328,
+      "tag": "0024_video_lessons_standalone",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1790845294168,
+      "tag": "0025_speaking_bank_identity",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1790845470436,
+      "tag": "0026_google_identity",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1790845656316,
+      "tag": "0027_live_partner",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1790857800000,
+      "tag": "0028_full_listening",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1790900000000,
+      "tag": "0029_vocabulary_architecture",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1791000000000,
+      "tag": "0030_general_reading",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1791100000000,
+      "tag": "0031_writing_workspace",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1791200000000,
+      "tag": "0032_writing_exam_papers",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1791300000000,
+      "tag": "0033_writing_language_stealing",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1791400000000,
+      "tag": "0034_typing_duration_presets",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1791500000000,
+      "tag": "0035_teacher_student_links",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1791600000000,
+      "tag": "0036_speaking_study_support",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1791700000000,
+      "tag": "0037_profile_photos",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1791800000000,
+      "tag": "0038_dictionary_releases",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1791900000000,
+      "tag": "0039_academic_reading_sets",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1792000000000,
+      "tag": "0040_content_imports",
+      "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1792100000000,
+      "tag": "0041_content_versions",
+      "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "7",
+      "when": 1792200000000,
+      "tag": "0042_mock_composition",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1792200100000,
+      "tag": "0043_authoring_identity",
+      "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1792200200000,
+      "tag": "0044_lesson_blocks",
+      "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "7",
+      "when": 1792200300000,
+      "tag": "0045_media_lessons",
+      "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1792200400000,
+      "tag": "0046_vocabulary_topic_packs",
+      "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "7",
+      "when": 1792200500000,
+      "tag": "0047_assignments_canonical",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1792200600000,
+      "tag": "0048_typing_trainer",
+      "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "7",
+      "when": 1792200700000,
+      "tag": "0049_lesson_notes",
+      "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "7",
+      "when": 1792200800000,
+      "tag": "0050_lesson_learning_area",
+      "breakpoints": true
+    },
+    {
+      "idx": 51,
+      "version": "7",
+      "when": 1792200900000,
+      "tag": "0051_listening_question_revision",
+      "breakpoints": true
+    },
+    {
+      "idx": 52,
+      "version": "7",
+      "when": 1792201000000,
+      "tag": "0052_listening_mcq_program_days",
+      "breakpoints": true
+    },
     {
       "idx": 53,
       "version": "7",
@@ -413,6 +413,13 @@
       "version": "7",
       "when": 1792201000006,
       "tag": "0058_telegram_private_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 59,
+      "version": "7",
+      "when": 1792201000007,
+      "tag": "0059_access_change_events",
       "breakpoints": true
     }
   ]
