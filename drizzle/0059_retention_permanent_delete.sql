@@ -19,4 +19,23 @@ CREATE TABLE "retention_sequence_counters" (
   "last_sequence" integer NOT NULL CHECK ("last_sequence" >= 0)
 );--> statement-breakpoint
 INSERT INTO "retention_sequence_counters" ("level","last_sequence")
-  SELECT "level", max("sequence")::int FROM "retention_texts" GROUP BY "level";--> statement-breakpoint
+  SELECT "level", max("sequence")::int FROM "retention_texts" GROUP BY "level"
+  ON CONFLICT ("level") DO UPDATE SET
+    "last_sequence" = greatest("retention_sequence_counters"."last_sequence", excluded."last_sequence");--> statement-breakpoint
+-- Historical content may already have been removed by the owner from Supabase.
+-- Preserve its previously issued labels using the durable, metadata-only audit log;
+-- neither learner results nor the deleted source text are restored.
+INSERT INTO "retention_sequence_counters" ("level","last_sequence")
+  SELECT (a.metadata ->> 'level')::retention_level AS "level",
+         max(split_part(a.metadata ->> 'label', '-', 2)::int) AS "last_sequence"
+  FROM "audit_log" a
+  WHERE a."action" IN ('retention_text.created', 'retention_text.version_created',
+                       'retention_text.archived', 'retention_text.restored',
+                       'retention_text.permanently_deleted')
+    AND a.metadata ->> 'level' IN ('A2','B1','B2','C1','C2')
+    AND a.metadata ->> 'label' ~ '^(A2|B1|B2|C1|C2)-[0-9]{1,9}
+
+    AND split_part(a.metadata ->> 'label', '-', 1) = a.metadata ->> 'level'
+  GROUP BY (a.metadata ->> 'level')::retention_level
+  ON CONFLICT ("level") DO UPDATE SET
+    "last_sequence" = greatest("retention_sequence_counters"."last_sequence", excluded."last_sequence");--> statement-breakpoint
