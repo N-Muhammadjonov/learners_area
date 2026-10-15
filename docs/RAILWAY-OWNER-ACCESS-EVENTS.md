@@ -5,8 +5,8 @@ Purpose: Owner/Admin can promote, demote or suspend someone. That decision updat
 ## Production deployment requirements
 
 1. No database schema migration is needed. Owner/Admin role and admission actions explicitly publish one lightweight `pg_notify` **after the database mutation commits**; the two-user Owner transfer publishes to both affected accounts.
-2. Configure `AUTH_EVENTS_DATABASE_URL` in **Railway website service** with a secure PostgreSQL direct or session-pooled URL. `LISTEN` does not work reliably through a transaction pooler. Keep credentials in Railway secrets. Never expose them as NEXT_PUBLIC values.
-3. Redeploy `main` to Railway after configuring the URL. No Vercel deployment configuration is involved. Without the setting the SSE component does not mount and existing database-authoritative authorization remains unchanged.
+2. Railway may reuse its existing `DATABASE_URL` when it is a direct/session-pooled PostgreSQL URL, as confirmed by the owner. `AUTH_EVENTS_DATABASE_URL` is an optional dedicated override, NOT an additional required secret. `LISTEN` is not reliable with transaction poolers. Keep credentials in Railway secrets; never expose them as NEXT_PUBLIC values.
+3. Redeploy `main` to Railway after merging this fallback change. The SSE component mounts if either `AUTH_EVENTS_DATABASE_URL` or `DATABASE_URL` exists. If the existing URL is incorrectly transaction-pooled, verify and switch to a direct/session pooler URL before considering live invalidation PASS. No Vercel deployment configuration is required.
 4. Verify in two independently logged-in browsers: Owner changes Teacher→Student; second session receives `access-changed`, calls `/api/auth/state` once, refreshes, hides Management. For suspension, the second browser clears private client resources and goes to `/pending`. Re-approval must preserve learning data. Direct requests to admin APIs must remain 403 on demotion/suspension, including with a stale signed cookie.
 5. Verify a lost/reconnected SSE connection rechecks once, that different user IDs do not receive one another's events and no role/status poller runs on ordinary button clicks.
 
