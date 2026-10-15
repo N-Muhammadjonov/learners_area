@@ -23,6 +23,7 @@ test("one module identity in persistent topbar, not a second heading in the scro
   }
   assert.match(context, /if \(!activeModule\) return <Breadcrumbs dict=\{dict\} \/>/,
     "unrelated screens retain their existing navigation");
+  assert.match(context, /parentFor\(pathname, dict\)/, "staff subsections retain direct-link Back navigation");
 });
 
 test("Listening section headings remain but duplicate back banner, subtitle and headline counts are gone", () => {
