@@ -14,8 +14,8 @@ export function WritingNav({ active, labels, label }: { active: WritingTab; labe
   const go = (tab: WritingTab) => {
     if (tab === active) return;
     const href = `/app/writing?tab=${tab}`;
-    if (interaction) interaction.navigate(href);
-    else router.push(href, { scroll: false });
+    interaction?.beginNavigation(href);
+    router.push(href, { scroll: false });
   };
   return (
     <div role="tablist" aria-label={label} className="-mx-1 flex gap-1 overflow-x-auto border-b border-ink-100 px-1" data-writing-tablist>
