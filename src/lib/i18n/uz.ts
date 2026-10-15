@@ -3311,7 +3311,7 @@ const uz: Dictionary = {
       fullListening: "🎧 To'liq Listening",
       sectionN: "🎙️ {n}-bo'lim",
       search: "Listening testlarini qidirish",
-      archivedTestHint: "Arxivlangan. O‘quvchi natijalari bo‘lmasa, Delete orqali butunlay o‘chirish mumkin.",
+      archivedTestHint: "Arxivlangan. O'quvchi natijalari bo'lmasa, O'chirish orqali butunlay o'chirish mumkin.",
       badgeSection: "10 savol · nazoratli tahlil",
       badgeFull: "40 savol",
       sectionOf: "To'liq yozuvning {n}-bo'limi",
