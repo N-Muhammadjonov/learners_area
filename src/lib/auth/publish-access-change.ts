@@ -1,6 +1,7 @@
 import "server-only";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
+import { accessEventsConnectionString } from "./access-event-config";
 
 /**
  * ONE publish on the actual staff/owner mutation path. No table triggers, no
@@ -11,7 +12,7 @@ import { db } from "@/db/client";
  * All existing server-side role and active-account guards remain authoritative.
  */
 export async function publishAccessChange(userId: string): Promise<void> {
-  if (!process.env.AUTH_EVENTS_DATABASE_URL) return;
+  if (!accessEventsConnectionString()) return;
   try {
     await db.execute(sql`select pg_notify('la_access_changed', ${JSON.stringify({ userId })})`);
   } catch {

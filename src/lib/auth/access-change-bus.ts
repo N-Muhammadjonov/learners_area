@@ -1,6 +1,7 @@
 import "server-only";
 import pg, { type Client as PgClient } from "pg";
 import { readAccessChangeUserId } from "./access-change-event";
+import { accessEventsConnectionString } from "./access-event-config";
 
 // One dedicated LISTEN connection per Railway Node process, not one per user.
 // AUTH_EVENTS_DATABASE_URL MUST be a direct/session-pooled PostgreSQL URL:
@@ -49,7 +50,7 @@ class AccessChangeBus {
   private async connect(): Promise<boolean> {
     if (this.connection) return true;
     if (this.connecting) return this.connecting;
-    const url = process.env.AUTH_EVENTS_DATABASE_URL;
+    const url = accessEventsConnectionString();
     if (!url || this.listeners.size === 0) return false;
 
     const attempt = (async (): Promise<boolean> => {
