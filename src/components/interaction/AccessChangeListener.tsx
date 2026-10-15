@@ -7,7 +7,7 @@ import { isAccountStatus } from "@/lib/auth/account-status";
 import { isRole } from "@/lib/auth/roles";
 
 /**
- * Event-driven, no setInterval and no repeated role/identity queries.
+ * Event-driven with no periodic timers or repeated role/identity queries.
  * Server pushes only after an actual owner/admin access mutation commits.
  * A disconnected/reconnected stream rechecks once to avoid stale menus.
  */
