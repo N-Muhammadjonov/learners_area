@@ -1,0 +1,1747 @@
+{
+  "test_id": "listening-test-1",
+  "title": "Listening Test 1",
+  "sections": [
+    "Jim - shared house conversation",
+    "Spring Down Junior School",
+    "Forensic Linguistics",
+    "Dormancy"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Jim's weekly rent will be $ ___",
+      "answer": "80",
+      "evidence": "I have the large bedroom, so I pay $110 a week. Yours is $80, because it’s a bit smaller.",
+      "timeStart": 150,
+      "timeEnd": 168,
+      "timeCenter": 150,
+      "why": "Peter explains the price depends on the room: “I have the large bedroom, so I pay $110 a week. Yours is $80 , because it’s a bit smaller.” 110 is what Peter pays for the big room, and 100 was the rent at Jim’s last place, so neither is the answer.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Jim's weekly rent will be $ ___  ↔  Recording evidence: I have the large bedroom, so I pay $110 a week. Yours is $80, because it’s a bit smaller.",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Jim can park his car in the ___",
+      "answer": "garage",
+      "evidence": "you’re lucky, because this house has a garage.",
+      "timeStart": 174,
+      "timeEnd": 192,
+      "timeCenter": 174,
+      "why": "When Jim asks where he can leave the car, Peter says “you’re lucky, because this house has a garage .” The street is “zoned no parking” and the back lane is too narrow, so those two are ruled out on purpose.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Jim can park his car in the ___  ↔  Recording evidence: you’re lucky, because this house has a garage.",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "The telephone is in the ___",
+      "answer": "kitchen",
+      "evidence": "Yeah, it’s in the kitchen. It was in the living room, but it was hard to hear over the television.",
+      "timeStart": 199,
+      "timeEnd": 217,
+      "timeCenter": 199,
+      "why": "Peter answers “Yeah, it’s in the kitchen . It was in the living room, but it was hard to hear over the television.” The living room is where the phone used to be, and Jim only says he did not see one in the hall.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: The telephone is in the ___  ↔  Recording evidence: Yeah, it’s in the kitchen. It was in the living room, but it was hard to hear over the television.",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Jim will bring a ___ for his bedroom.",
+      "answer": "heater",
+      "evidence": "But it does get quite cold at night in that room, and it doesn't have a heater. No problem. My friend has just given me one, so I'll bring that.",
+      "timeStart": 218,
+      "timeEnd": 236,
+      "timeCenter": 218,
+      "why": "Peter warns that the room gets cold “and it doesn’t have a heater ,” and Jim replies “My friend has just given me one, so I’ll bring that,” where “one” means a heater. The cupboard and desk are already in the room, so Jim does not need to bring those.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Jim will bring a ___ for his bedroom.  ↔  Recording evidence: But it does get quite cold at night in that room, and it doesn't have a heater. No problem. My friend has just given me one, so I'll bring that.",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Peter would like Jim to bring a ___",
+      "answer": "toaster",
+      "evidence": "Well, we've just got a microwave, and my mother bought me a rice cooker, but it would be great if you had a toaster. Mine's just broken.",
+      "timeStart": 237,
+      "timeEnd": 254,
+      "timeCenter": 237,
+      "why": "Peter lists what they already own and then asks: “it would be great if you had a toaster . Mine’s just broken.” The microwave and the rice cooker are things the house already has, so they are not what Peter wants.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Peter would like Jim to bring a ___  ↔  Recording evidence: Well, we've just got a microwave, and my mother bought me a rice cooker, but it would be great if you had a toaster. Mine's just broken.",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Peter and Jim will probably watch TV on ___",
+      "answer": "Friday evening",
+      "evidence": "I usually watch the game on TV on Friday evening,",
+      "timeStart": 279,
+      "timeEnd": 297,
+      "timeCenter": 279,
+      "why": "Jim says “I usually watch the game on TV on Friday evening ,” and Peter answers “Me too, so that’s good.” Tuesday and Thursday come up a moment later, but those are Jim’s work nights, not TV nights.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Peter and Jim will probably watch TV on ___  ↔  Recording evidence: I usually watch the game on TV on Friday evening,",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Jim works in a ___ twice a week.",
+      "answer": "supermarket",
+      "evidence": "Me too, so that's good. And I work at the supermarket on Tuesday and Thursday nights.",
+      "timeStart": 288,
+      "timeEnd": 304,
+      "timeCenter": 288,
+      "why": "Jim says “I work at the supermarket on Tuesday and Thursday nights,” which is the “twice a week” on the question paper. Do not write the days here, because the gap needs the place.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Jim works in a ___ twice a week.  ↔  Recording evidence: Me too, so that's good. And I work at the supermarket on Tuesday and Thursday nights.",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Peter will share the cost of ___ with Jim.",
+      "answer": "petrol",
+      "evidence": "Mine are in the afternoons too. You could give me a lift. We can share the petrol.",
+      "timeStart": 299,
+      "timeEnd": 315,
+      "timeCenter": 299,
+      "why": "Because both men have afternoon lectures, Peter suggests “You could give me a lift. We can share the petrol .” Shopping is mentioned just before, but that is Jim doing the shopping, not a shared cost.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Peter will share the cost of ___ with Jim.  ↔  Recording evidence: Mine are in the afternoons too. You could give me a lift. We can share the petrol.",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Peter wants Jim to move in by ___",
+      "answer": "1 June",
+      "evidence": "I need someone by the 1st of June when the new rent period starts.",
+      "timeStart": 307,
+      "timeEnd": 325,
+      "timeCenter": 307,
+      "why": "Peter sets the deadline himself: “I need someone by the 1st of June when the new rent period starts.” “Next week” belongs to Jim’s exam, not to the move-in date Peter wants.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Peter wants Jim to move in by ___  ↔  Recording evidence: I need someone by the 1st of June when the new rent period starts.",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Jim agrees to move in after his ___",
+      "answer": "exam",
+      "evidence": "The house seems big enough. The rent's reasonable. I've got an exam next week, so I'll move in after that if that's OK.",
+      "timeStart": 319,
+      "timeEnd": 335,
+      "timeCenter": 319,
+      "why": "Jim finishes with “I’ve got an exam next week, so I’ll move in after that if that’s OK.” “After that” points back to the exam, which is what the gap is asking for.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Jim agrees to move in after his ___  ↔  Recording evidence: The house seems big enough. The rent's reasonable. I've got an exam next week, so I'll move in after that if that's OK.",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "The school day starts at ___ with registration, and finishes at 4 p.m.",
+      "answer": "8:55",
+      "evidence": "and the bell is rung for everybody to go to their classrooms at 8.55 so that we can take the register",
+      "timeStart": 457,
+      "timeEnd": 473,
+      "timeCenter": 457,
+      "why": "The speaker says “the bell is rung for everybody to go to their classrooms at 8.55 so that we can take the register”, so registration starts then. The earlier times, “between 8.45 and 8.50”, are only when children arrive at school, not when the day starts.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: The school day starts at ___ with registration, and finishes at 4 p.m.  ↔  Recording evidence: and the bell is rung for everybody to go to their classrooms at 8.55 so that we can take the register",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "The school canteen offers a ___ for lunch.",
+      "answer": "hot meal",
+      "evidence": "bring their own packed lunch or a hot meal is available",
+      "timeStart": 487,
+      "timeEnd": 505,
+      "timeCenter": 487,
+      "why": "About the canteen she says children can “bring their own packed lunch or a hot meal is available”, so the canteen is the one offering the hot meal. “Packed lunch” is the option families bring themselves, so it is not what the canteen offers.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: The school canteen offers a ___ for lunch.  ↔  Recording evidence: bring their own packed lunch or a hot meal is available",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "The morning and afternoon breaks each last for ___",
+      "answer": "15 minutes",
+      "evidence": "in the middle of the morning and the middle of the afternoon there are two breaks of 15 minutes",
+      "timeStart": 500,
+      "timeEnd": 518,
+      "timeCenter": 500,
+      "why": "She says “in the middle of the morning and the middle of the afternoon there are two breaks of 15 minutes ”, so each break is that long. The “two” is the number of breaks, and the “hour for lunch” mentioned just before belongs to lunchtime.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: The morning and afternoon breaks each last for ___  ↔  Recording evidence: in the middle of the morning and the middle of the afternoon there are two breaks of 15 minutes",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "On Thursday afternoons all children must take part in ___",
+      "answer": "sports",
+      "evidence": "For example on Thursday afternoons rather than continuing with lessons we expect the whole school to do sports",
+      "timeStart": 520,
+      "timeEnd": 536,
+      "timeCenter": 520,
+      "why": "For Thursdays she says “rather than continuing with lessons we expect the whole school to do sports ”, and “the whole school” tells you it is compulsory for all children. “Lessons” is what does not happen on that afternoon, so it is the wrong word to write.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: On Thursday afternoons all children must take part in ___  ↔  Recording evidence: For example on Thursday afternoons rather than continuing with lessons we expect the whole school to do sports",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Every term the children do a special ___",
+      "answer": "poster",
+      "evidence": "Also we like the children to work on something artistic over a long period of time so for each of the three terms they are expected to produce a poster",
+      "timeStart": 543,
+      "timeEnd": 561,
+      "timeCenter": 543,
+      "why": "She explains that “for each of the three terms they are expected to produce a poster ”, which is the special piece of work done every term. “The environment” is only an example of a topic a poster might be about, not the thing they produce.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Every term the children do a special ___  ↔  Recording evidence: Also we like the children to work on something artistic over a long period of time so for each of the three terms they are expected to produce a poster",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "The children are given tests each ___",
+      "answer": "month",
+      "evidence": "and every month rather than the teacher giving the children a report as I know some schools do they have to do tests and we record their performance over the year",
+      "timeStart": 562,
+      "timeEnd": 580,
+      "timeCenter": 562,
+      "why": "She says “every month rather than the teacher giving the children a report … they have to do tests”, so the tests happen monthly. “Over the year” refers to how long performance is recorded, and “report” is what this school does not do.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: The children are given tests each ___  ↔  Recording evidence: and every month rather than the teacher giving the children a report as I know some schools do they have to do tests and we record their performance over the year",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "The children can go to ___ after school to learn new skills such as music.",
+      "answer": "clubs",
+      "evidence": "at the end of the school day many of them have set up clubs that the children go to for an extra hour to learn a new skill such as music",
+      "timeStart": 582,
+      "timeEnd": 600,
+      "timeCenter": 582,
+      "why": "At the end of the school day “many of them have set up clubs that the children go to for an extra hour to learn a new skill such as music”, which matches learning new skills after school. “Lessons” is wrong here because these are voluntary after-school groups.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: The children can go to ___ after school to learn new skills such as music.  ↔  Recording evidence: at the end of the school day many of them have set up clubs that the children go to for an extra hour to learn a new skill such as music",
+      "options": [],
+      "type": "Sentence Completion",
+      "pair": null
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Spring Down Junior School map - label 18",
+      "answer": "E",
+      "evidence": "on the right where you would normally expect to find reception you’ll see the head’s office",
+      "timeStart": 642,
+      "timeEnd": 660,
+      "timeCenter": 642,
+      "why": "Start at the main entrance and look to your right: she says “on the right where you would normally expect to find reception you’ll see the head’s office”, so that position is the Head’s office . Reception is the trap, because she names it only to say it is what you would expect there but is not.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Map / location / sequence tracking",
+      "paraphrase": "Question focus: Spring Down Junior School map - label 18  ↔  Recording evidence: on the right where you would normally expect to find reception you’ll see the head’s office",
+      "options": [
+        {
+          "code": "A",
+          "text": "Music room"
+        },
+        {
+          "code": "B",
+          "text": "Assembly hall"
+        },
+        {
+          "code": "C",
+          "text": "Computer room"
+        },
+        {
+          "code": "D",
+          "text": "Cloakroom"
+        },
+        {
+          "code": "E",
+          "text": "Head’s office"
+        },
+        {
+          "code": "F",
+          "text": "Gym"
+        },
+        {
+          "code": "G",
+          "text": "Reception"
+        }
+      ],
+      "type": "Map Labelling",
+      "pair": null
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Spring Down Junior School map - label 19",
+      "answer": "A",
+      "evidence": "On the left of the classrooms we have converted one of the old cloak rooms to create a music room.",
+      "timeStart": 680,
+      "timeEnd": 698,
+      "timeCenter": 680,
+      "why": "Move past the entrance to the classrooms and look to their left: “On the left of the classrooms we have converted one of the old cloak rooms to create a music room .” Cloakroom is wrong because it is what the room used to be, and the computer room is only a plan for inside the library.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Map / location / sequence tracking",
+      "paraphrase": "Question focus: Spring Down Junior School map - label 19  ↔  Recording evidence: On the left of the classrooms we have converted one of the old cloak rooms to create a music room.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Music room"
+        },
+        {
+          "code": "B",
+          "text": "Assembly hall"
+        },
+        {
+          "code": "C",
+          "text": "Computer room"
+        },
+        {
+          "code": "D",
+          "text": "Cloakroom"
+        },
+        {
+          "code": "E",
+          "text": "Head’s office"
+        },
+        {
+          "code": "F",
+          "text": "Gym"
+        },
+        {
+          "code": "G",
+          "text": "Reception"
+        }
+      ],
+      "type": "Map Labelling",
+      "pair": null
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Spring Down Junior School map - label 20",
+      "answer": "F",
+      "evidence": "which as you can see has now been turned into a gym for the children",
+      "timeStart": 714,
+      "timeEnd": 732,
+      "timeCenter": 714,
+      "why": "Walk through the new main hall and look at the room next door: the old assembly hall, “which as you can see has now been turned into a gym for the children”. Assembly hall is wrong because that is the room’s old name, and the new hall you are standing in is the main hall.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Map / location / sequence tracking",
+      "paraphrase": "Question focus: Spring Down Junior School map - label 20  ↔  Recording evidence: which as you can see has now been turned into a gym for the children",
+      "options": [
+        {
+          "code": "A",
+          "text": "Music room"
+        },
+        {
+          "code": "B",
+          "text": "Assembly hall"
+        },
+        {
+          "code": "C",
+          "text": "Computer room"
+        },
+        {
+          "code": "D",
+          "text": "Cloakroom"
+        },
+        {
+          "code": "E",
+          "text": "Head’s office"
+        },
+        {
+          "code": "F",
+          "text": "Gym"
+        },
+        {
+          "code": "G",
+          "text": "Reception"
+        }
+      ],
+      "type": "Map Labelling",
+      "pair": null
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "What do the students agree about defining forensic linguistics?",
+      "answer": "B",
+      "evidence": "Then we can add something about what Forensic Linguists actually do to back it up. You know, like analysing documents to find out who wrote them.",
+      "timeStart": 870,
+      "timeEnd": 886,
+      "timeCenter": 870,
+      "why": "After the definition is agreed, one of them says they can add what forensic linguists really do to back it up, “ like analysing documents to find out who wrote them ”, and the other replies “Good point. Let’s do that.” Option A tempts you because a dictionary is mentioned, but the dictionary gave “something similar”, so neither student says it was unhelpful ( B ).",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: What do the students agree about defining forensic linguistics?  ↔  Recording evidence: Then we can add something about what Forensic Linguists actually do to back it up. You know, like analysing documents to find out who wrote them.",
+      "options": [
+        {
+          "code": "A",
+          "text": "The dictionary definition was not very useful"
+        },
+        {
+          "code": "B",
+          "text": "They could provide an example of the kind of work involved."
+        },
+        {
+          "code": "C",
+          "text": "They should read about the subject to see how it is described."
+        }
+      ],
+      "type": "MCQ",
+      "pair": null
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Jen thinks it will be difficult to analyse the voice recording because",
+      "answer": "A",
+      "evidence": "Where we’re really going to get in trouble is that the recording is very unclear.",
+      "timeStart": 906,
+      "timeEnd": 924,
+      "timeCenter": 906,
+      "why": "Jen says “Where we’re really going to get in trouble is that the recording is very unclear .” C looks right because she does say she cannot tell if it is a man or a woman, but she immediately adds “I guess that doesn’t matter”, and about the local accent she says “I’m not sure how that will affect anything” ( A ).",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: Jen thinks it will be difficult to analyse the voice recording because  ↔  Recording evidence: Where we’re really going to get in trouble is that the recording is very unclear.",
+      "options": [
+        {
+          "code": "A",
+          "text": "it is not of good quality."
+        },
+        {
+          "code": "B",
+          "text": "the accent is difficult to understand."
+        },
+        {
+          "code": "C",
+          "text": "she doesn’t know if the speaker is male or female."
+        }
+      ],
+      "type": "MCQ",
+      "pair": null
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Why does Jen think that the ‘suspect’ might vary their voice patterns?",
+      "answer": "B",
+      "evidence": "but they might do something like speaking with another accent because the tutor suggests they do that just to test us.",
+      "timeStart": 948,
+      "timeEnd": 964,
+      "timeCenter": 948,
+      "why": "Jen says the suspect might speak with another accent “ because the tutor suggests they do that just to test us”. A is tempting because the word recording is everywhere and she earlier says the poor sound was done “to test us”, but that was about the sample they were given, not about why the person would change their voice ( B ).",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: Why does Jen think that the ‘suspect’ might vary their voice patterns?  ↔  Recording evidence: but they might do something like speaking with another accent because the tutor suggests they do that just to test us.",
+      "options": [
+        {
+          "code": "A",
+          "text": "because they’re being recorded."
+        },
+        {
+          "code": "B",
+          "text": "because they’ve been told to."
+        },
+        {
+          "code": "C",
+          "text": "because they feel uncomfortable about their accent."
+        }
+      ],
+      "type": "MCQ",
+      "pair": null
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "What does Rob think about Jen’s approach to study?",
+      "answer": "A",
+      "evidence": "Oh, and don't start your usual self-doubt about whether you can do the work or not. You usually do okay in the end.",
+      "timeStart": 953,
+      "timeEnd": 969,
+      "timeCenter": 953,
+      "why": "Rob tells her “don’t start your usual self-doubt about whether you can do the work or not. You usually do okay in the end.” C is the trap, since Jen admits she creates things to worry about “before I’ve even started”, but that is Jen describing her worrying, not Rob saying she cannot begin, and B is killed by her plan to “focus on the main points” ( A ).",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: What does Rob think about Jen’s approach to study?  ↔  Recording evidence: Oh, and don't start your usual self-doubt about whether you can do the work or not. You usually do okay in the end.",
+      "options": [
+        {
+          "code": "A",
+          "text": "She worries too much about her ability."
+        },
+        {
+          "code": "B",
+          "text": "She often ignores the most important issues."
+        },
+        {
+          "code": "C",
+          "text": "She has trouble getting started."
+        }
+      ],
+      "type": "MCQ",
+      "pair": null
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Choose TWO correct answers.",
+      "answer": "B",
+      "evidence": "I guess we ought to borrow that",
+      "timeStart": 1042,
+      "timeEnd": 1060,
+      "timeCenter": 1042,
+      "why": "About Research methods in forensic linguistics they say “ I guess we ought to borrow that ”. Language and crime sounds promising, but that one is already out of the library, so it is not on the list of books still to get ( E ).",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Multiple-answer reasoning / distractor",
+      "paraphrase": "Question focus: Choose TWO correct answers.  ↔  Recording evidence: I guess we ought to borrow that",
+      "options": [
+        {
+          "code": "A",
+          "text": "Voice Identification"
+        },
+        {
+          "code": "B",
+          "text": "Modern Forensic Techniques"
+        },
+        {
+          "code": "C",
+          "text": "Language and Crime"
+        },
+        {
+          "code": "D",
+          "text": "Forensics Today"
+        },
+        {
+          "code": "E",
+          "text": "Research Methods in Forensic Linguistics"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 26
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Choose TWO correct answers.",
+      "answer": "E",
+      "evidence": "But we should get out modern forensic techniques. We need all the help we can get on that subject.",
+      "timeStart": 1052,
+      "timeEnd": 1070,
+      "timeCenter": 1052,
+      "why": "“But we should get out modern forensic techniques. We need all the help we can get on that subject.” Voice identification is called useful, but it comes from their classmate George rather than the library, and Forensics today they “needn’t bother with” ( B ).",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Multiple-answer reasoning / distractor",
+      "paraphrase": "Question focus: Choose TWO correct answers.  ↔  Recording evidence: But we should get out modern forensic techniques. We need all the help we can get on that subject.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Voice Identification"
+        },
+        {
+          "code": "B",
+          "text": "Modern Forensic Techniques"
+        },
+        {
+          "code": "C",
+          "text": "Language and Crime"
+        },
+        {
+          "code": "D",
+          "text": "Forensics Today"
+        },
+        {
+          "code": "E",
+          "text": "Research Methods in Forensic Linguistics"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 25
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Choose TWO correct answers.",
+      "answer": "A",
+      "evidence": "I'm not sure about how we're going to record the voices. I'm not too good on the technical side of things.",
+      "timeStart": 1065,
+      "timeEnd": 1081,
+      "timeCenter": 1065,
+      "why": "“I’m not sure about how we’re going to record the voices. I’m not too good on the technical side of things ,” and the other agrees “Me neither.” C tempts people who hear the word once, but they actually say “At least we get more than one opportunity to speak to the person playing the suspect”, so that is good news, not a worry ( D ).",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Multiple-answer reasoning / distractor",
+      "paraphrase": "Question focus: Choose TWO correct answers.  ↔  Recording evidence: I'm not sure about how we're going to record the voices. I'm not too good on the technical side of things.",
+      "options": [
+        {
+          "code": "A",
+          "text": "how much time they have for writing up the project"
+        },
+        {
+          "code": "B",
+          "text": "being able to do enough research"
+        },
+        {
+          "code": "C",
+          "text": "only speaking to the ‘suspect’ once"
+        },
+        {
+          "code": "D",
+          "text": "using recording equipment"
+        },
+        {
+          "code": "E",
+          "text": "how easy it will be to contact the ‘suspect’"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 28
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Choose TWO correct answers.",
+      "answer": "D",
+      "evidence": "I'm more worried about fitting in the writing up. We've got loads of other assignments to finish as well.",
+      "timeStart": 1086,
+      "timeEnd": 1102,
+      "timeCenter": 1086,
+      "why": "“ I’m more worried about fitting in the writing up . We’ve got loads of other assignments to finish as well.” B is the trap because research is mentioned right before, but there it is “as long as we do our research properly, it shouldn’t be too hard”, which is confidence and not concern ( A ).",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Multiple-answer reasoning / distractor",
+      "paraphrase": "Question focus: Choose TWO correct answers.  ↔  Recording evidence: I'm more worried about fitting in the writing up. We've got loads of other assignments to finish as well.",
+      "options": [
+        {
+          "code": "A",
+          "text": "how much time they have for writing up the project"
+        },
+        {
+          "code": "B",
+          "text": "being able to do enough research"
+        },
+        {
+          "code": "C",
+          "text": "only speaking to the ‘suspect’ once"
+        },
+        {
+          "code": "D",
+          "text": "using recording equipment"
+        },
+        {
+          "code": "E",
+          "text": "how easy it will be to contact the ‘suspect’"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 27
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Choose TWO correct answers.",
+      "answer": "C",
+      "evidence": "Are you any good at introductions? They always seem to let me down,",
+      "timeStart": 1098,
+      "timeEnd": 1116,
+      "timeCenter": 1098,
+      "why": "Jen asks Rob “Are you any good at introductions? They always seem to let me down,” and he answers “ Okay, leave that to me .” Watch the trap with the literature review: Jen says “ Maybe we should split that part ”, so that one is shared, not Rob’s alone ( C ).",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Multiple-answer reasoning / distractor",
+      "paraphrase": "Question focus: Choose TWO correct answers.  ↔  Recording evidence: Are you any good at introductions? They always seem to let me down,",
+      "options": [
+        {
+          "code": "A",
+          "text": "Methodology"
+        },
+        {
+          "code": "B",
+          "text": "Literature review"
+        },
+        {
+          "code": "C",
+          "text": "Introduction"
+        },
+        {
+          "code": "D",
+          "text": "Analysis"
+        },
+        {
+          "code": "E",
+          "text": "Discussion and conclusions"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 30
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Choose TWO correct answers.",
+      "answer": "E",
+      "evidence": "I don’t mind writing the methodology section if you feel comfortable doing the discussion and conclusions",
+      "timeStart": 1110,
+      "timeEnd": 1128,
+      "timeCenter": 1110,
+      "why": "Jen says “I don’t mind writing the methodology section if you feel comfortable doing the discussion and conclusions ”, so methodology is hers and this part is Rob’s. The analysis is not an answer either, because “we can do the analysis between us ” ( E ).",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Multiple-answer reasoning / distractor",
+      "paraphrase": "Question focus: Choose TWO correct answers.  ↔  Recording evidence: I don’t mind writing the methodology section if you feel comfortable doing the discussion and conclusions",
+      "options": [
+        {
+          "code": "A",
+          "text": "Methodology"
+        },
+        {
+          "code": "B",
+          "text": "Literature review"
+        },
+        {
+          "code": "C",
+          "text": "Introduction"
+        },
+        {
+          "code": "D",
+          "text": "Analysis"
+        },
+        {
+          "code": "E",
+          "text": "Discussion and conclusions"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 29
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Dormancy helps organisms save available ___",
+      "answer": "resources",
+      "evidence": "Dormancy is a state of inactivity that organisms or living things enter when they need to conserve the resources available to them and reduce their demands on their environment.",
+      "timeStart": 1256,
+      "timeEnd": 1274,
+      "timeCenter": 1256,
+      "why": "The definition sentence says organisms become dormant when “they need to conserve the resources available to them”, so “save available” on your paper is a simpler way of saying conserve the available resources. The words right after, “reduce their demands on their environment”, are already printed as the second bullet.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Dormancy helps organisms save available ___  ↔  Recording evidence: Dormancy is a state of inactivity that organisms or living things enter when they need to conserve the resources available to them and reduce their demands on their environment.",
+      "options": [],
+      "type": "Note Completion",
+      "pair": null
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Dormant organisms can live in conditions which are environmentally ___",
+      "answer": "stressful",
+      "evidence": "can survive conditions which are stressful in environmental terms",
+      "timeStart": 1280,
+      "timeEnd": 1298,
+      "timeCenter": 1280,
+      "why": "Animals that can go dormant “can survive conditions which are stressful in environmental terms”, and the note flips that phrase into “environmentally stressful”. Do not jump at “inhospitable” a few lines later, because that word belongs to the next point about living in a larger range of places.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Dormant organisms can live in conditions which are environmentally ___  ↔  Recording evidence: can survive conditions which are stressful in environmental terms",
+      "options": [],
+      "type": "Note Completion",
+      "pair": null
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Dormant organisms have less ___ from other animals",
+      "answer": "competition",
+      "evidence": "when they are actually active and looking for food, the amount of competition they have to deal with from other creatures is greatly reduced",
+      "timeStart": 1322,
+      "timeEnd": 1338,
+      "timeCenter": 1322,
+      "why": "The lecturer says that when these creatures are active and hunting, “the amount of competition they have to deal with from other creatures is greatly reduced”, so “less” matches greatly reduced and “other animals” matches other creatures. The word “food” comes immediately before in “looking for food”, but that is what they are searching for, not what there is less of.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Dormant organisms have less ___ from other animals  ↔  Recording evidence: when they are actually active and looking for food, the amount of competition they have to deal with from other creatures is greatly reduced",
+      "options": [],
+      "type": "Note Completion",
+      "pair": null
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Dormancy can be caused by changes in temperature and ___",
+      "answer": "light",
+      "evidence": "changes in temperature and the amount of light organisms get",
+      "timeStart": 1337,
+      "timeEnd": 1355,
+      "timeCenter": 1337,
+      "why": "The most significant variables are “changes in temperature and the amount of light organisms get”, so with ONE WORD ONLY you write light and drop “the amount of”. “Food, water and oxygen” follows straight after, but that is the next bullet, already printed for you.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Dormancy can be caused by changes in temperature and ___  ↔  Recording evidence: changes in temperature and the amount of light organisms get",
+      "options": [],
+      "type": "Note Completion",
+      "pair": null
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "There may be a ___ in insect metabolism (diapause)",
+      "answer": "reduction",
+      "evidence": "Insects can experience a reduction in their metabolism, which is a form of dormancy called diapause",
+      "timeStart": 1366,
+      "timeEnd": 1384,
+      "timeCenter": 1366,
+      "why": "You hear “Insects can experience a reduction in their metabolism, which is a form of dormancy called diapause”, so the gap before “in their metabolism” takes reduction. “Diapause” is said in the same sentence, but the note already gives it in brackets.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: There may be a ___ in insect metabolism (diapause)  ↔  Recording evidence: Insects can experience a reduction in their metabolism, which is a form of dormancy called diapause",
+      "options": [],
+      "type": "Note Completion",
+      "pair": null
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "The African lungfish buries itself in the ___ and creates a slimy cocoon",
+      "answer": "mud",
+      "evidence": "the African lungfish burrows deep into the mud",
+      "timeStart": 1417,
+      "timeEnd": 1435,
+      "timeCenter": 1417,
+      "why": "When water runs low “the African lungfish burrows deep into the mud ”, and “buries itself in” on the paper is another way of saying burrows deep into. The next sentence mentions slime and a cocoon, but the note already prints “creates a slimy cocoon”.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: The African lungfish buries itself in the ___ and creates a slimy cocoon  ↔  Recording evidence: the African lungfish burrows deep into the mud",
+      "options": [],
+      "type": "Note Completion",
+      "pair": null
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Two dangers for the lungfish: ___ and desiccation",
+      "answer": "starvation",
+      "evidence": "One is the possibility of starvation",
+      "timeStart": 1433,
+      "timeEnd": 1451,
+      "timeCenter": 1433,
+      "why": "The two dangers are introduced clearly: “One is the possibility of starvation ”, and the other one, desiccation, is already printed on the paper. Be careful with “fat”, which comes right after, since stored fat is how the fish solves the problem, not the danger itself.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Two dangers for the lungfish: ___ and desiccation  ↔  Recording evidence: One is the possibility of starvation",
+      "options": [],
+      "type": "Note Completion",
+      "pair": null
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "Light-coloured snail shells reflect sunlight and limit ___",
+      "answer": "evaporation",
+      "evidence": "Snails that remain outside during their dormancy can usually be recognized by a rather brightly colored shell reflecting the sunlight and so minimizing evaporation.",
+      "timeStart": 1468,
+      "timeEnd": 1484,
+      "timeCenter": 1468,
+      "why": "The snails outside are recognised by “a rather brightly colored shell reflecting the sunlight and so minimizing evaporation ”, where the note’s “light-coloured” matches brightly colored and “limit” matches minimizing. “Sunlight” is said in the very same phrase, but that word is already in the note before the gap.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Light-coloured snail shells reflect sunlight and limit ___  ↔  Recording evidence: Snails that remain outside during their dormancy can usually be recognized by a rather brightly colored shell reflecting the sunlight and so minimizing evaporation.",
+      "options": [],
+      "type": "Note Completion",
+      "pair": null
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "The Arctic ground squirrel hibernates in an insulated, underground ___",
+      "answer": "nest",
+      "evidence": "This squirrel digs underground and builds a nest that is insulated. Once in its nest, it curls up into a ball and tucks in its arms, legs, and tail.",
+      "timeStart": 1529,
+      "timeEnd": 1547,
+      "timeCenter": 1529,
+      "why": "The recording says “This squirrel digs underground and builds a nest that is insulated”, and the note simply puts both describing words in front of the noun. “Ball” appears in the next sentence about curling up, but that is the squirrel’s body position, not the place it hibernates in.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: The Arctic ground squirrel hibernates in an insulated, underground ___  ↔  Recording evidence: This squirrel digs underground and builds a nest that is insulated. Once in its nest, it curls up into a ball and tucks in its arms, legs, and tail.",
+      "options": [],
+      "type": "Note Completion",
+      "pair": null
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "When it wakes up, the first part of the body to heat up is the ___",
+      "answer": "heart",
+      "evidence": "When this happens, there is a rapid rise in the heartbeat and circulation is affected. The area around the heart warms more quickly than the rest of the animal.",
+      "timeStart": 1573,
+      "timeEnd": 1591,
+      "timeCenter": 1573,
+      "why": "During waking up, “The area around the heart warms more quickly than the rest of the animal”, and warming more quickly than the rest is exactly what the note calls the first part of the body to heat up. “Heartbeat” and “circulation” are mentioned one sentence earlier, but only one word is allowed.",
+      "trap": "Check every competing option/detail against the evidence window. Do not choose a word merely because it is mentioned; use the role and meaning required by the question.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: When it wakes up, the first part of the body to heat up is the ___  ↔  Recording evidence: When this happens, there is a rapid rise in the heartbeat and circulation is affected. The area around the heart warms more quickly than the rest of the animal.",
+      "options": [],
+      "type": "Note Completion",
+      "pair": null
+    }
+  },
+  "answers": {
+    "1": "80",
+    "2": "garage",
+    "3": "kitchen",
+    "4": "heater",
+    "5": "toaster",
+    "6": "Friday evening",
+    "7": "supermarket",
+    "8": "petrol",
+    "9": "1 June",
+    "10": "exam",
+    "11": "8:55",
+    "12": "hot meal",
+    "13": "15 minutes",
+    "14": "sports",
+    "15": "poster",
+    "16": "month",
+    "17": "clubs",
+    "18": "E",
+    "19": "A",
+    "20": "F",
+    "21": "B",
+    "22": "A",
+    "23": "B",
+    "24": "A",
+    "25": "B",
+    "26": "E",
+    "27": "A",
+    "28": "D",
+    "29": "C",
+    "30": "E",
+    "31": "resources",
+    "32": "stressful",
+    "33": "competition",
+    "34": "light",
+    "35": "reduction",
+    "36": "mud",
+    "37": "starvation",
+    "38": "evaporation",
+    "39": "nest",
+    "40": "heart"
+  },
+  "alternatives": {
+    "1": [
+      "80",
+      "eighty"
+    ],
+    "2": [
+      "garage"
+    ],
+    "3": [
+      "kitchen"
+    ],
+    "4": [
+      "heater"
+    ],
+    "5": [
+      "toaster"
+    ],
+    "6": [
+      "Friday evening"
+    ],
+    "7": [
+      "supermarket"
+    ],
+    "8": [
+      "petrol"
+    ],
+    "9": [
+      "1 June",
+      "1st June",
+      "1st of June",
+      "1st of june",
+      "June 1",
+      "June 1st",
+      "the 1st of June"
+    ],
+    "10": [
+      "exam"
+    ],
+    "11": [
+      "8:55",
+      "8.55",
+      "8.55 a.m.",
+      "8.55am",
+      "8:55 a.m.",
+      "8:55am"
+    ],
+    "12": [
+      "hot meal"
+    ],
+    "13": [
+      "15 minutes",
+      "15 min",
+      "fifteen min",
+      "fifteen minutes"
+    ],
+    "14": [
+      "sports",
+      "sport"
+    ],
+    "15": [
+      "poster"
+    ],
+    "16": [
+      "month"
+    ],
+    "17": [
+      "clubs"
+    ],
+    "18": [
+      "E"
+    ],
+    "19": [
+      "A"
+    ],
+    "20": [
+      "F"
+    ],
+    "21": [
+      "B"
+    ],
+    "22": [
+      "A"
+    ],
+    "23": [
+      "B"
+    ],
+    "24": [
+      "A"
+    ],
+    "25": [
+      "B"
+    ],
+    "26": [
+      "E"
+    ],
+    "27": [
+      "A"
+    ],
+    "28": [
+      "D"
+    ],
+    "29": [
+      "C"
+    ],
+    "30": [
+      "E"
+    ],
+    "31": [
+      "resources"
+    ],
+    "32": [
+      "stressful"
+    ],
+    "33": [
+      "competition"
+    ],
+    "34": [
+      "light"
+    ],
+    "35": [
+      "reduction"
+    ],
+    "36": [
+      "mud"
+    ],
+    "37": [
+      "starvation"
+    ],
+    "38": [
+      "evaporation"
+    ],
+    "39": [
+      "nest"
+    ],
+    "40": [
+      "heart"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0,
+      "end": 365.64
+    },
+    "2": {
+      "start": 365.64,
+      "end": 792.12
+    },
+    "3": {
+      "start": 792.12,
+      "end": 1187.05
+    },
+    "4": {
+      "start": 1187.05,
+      "end": 1645.05
+    }
+  },
+  "transcript": {
+    "1": "Recordings, and you will have to answer questions on what you hear. There will be time for you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played once only.\n\nThe test is in four sections. Write all your answers in the listening question booklet. At the end of the test, you will be given 10 minutes to transfer your answers to an answer sheet.\n\nNow turn to section 1 on page 2 of your question booklet. Section 1. You will hear two students called Peter and Jim talking about sharing a house together. First you have some time to look at questions 1 to 5 on page 2. You will see that there is an example that has been done for you.\n\nOn this occasion only, the conversation relating to this will be played first. Hi, I'm Jim. I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. Jim is here to find out about a room, so room has been written in the space. Now we shall begin.\n\nYou should answer the questions as you listen, because you will not hear the recording a second time. Listen carefully and answer questions 1 to 5. Hi, I'm Jim. I'm here about the room. Hi, I'm Peter. We talked on the phone, didn't we? Come on in. Great. I just need to find out a few things before I make up my mind. OK. Well, first of all, I wasn't quite clear about the rent.\n\nIt depends on the room you have. I have the large bedroom, so I pay $110 a week. Yours is $80, because it's a bit smaller. That's not too bad. The last place I was in was $100 a week, and it was much smaller. And it seems like a good location.\n\nYeah, and the shops are pretty close. The only thing is, it's not very good for public transport. The nearest bus stop is quite a walk. That's not a problem. I've got a car. By the way, is there anywhere I can park? Well, you're lucky, because this house has a garage.\n\nAt the moment, there are some empty boxes in there, but there's still plenty of room for your car. You can't park in the street, it's zoned no parking, and the back lane is too narrow. Fine. Now, what about phone calls? I didn't see a phone in the hall when I came in. I've got a mobile which my friends usually call me on, but a phone in the house is useful. Yeah, it's in the kitchen.\n\nIt was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls. That's fair enough. And what about my room? Yes, we'll go up and look in a minute. It's at the front of the house. It's a nice room, and there's a cupboard and desk in there already.\n\nBut it does get quite cold at night in that room, and it doesn't have a heater. No problem. My friend has just given me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything else I can bring? Well, we've just got a microwave, and my mother bought me a rice cooker, but it would be great if you had a toaster. Mine's just broken. I'll have a look in the box.\n\nBefore you hear the rest of the conversation, you have some time to look at questions 6 to 10 on page 2. Now listen and answer questions 6 to 10. One thing. I'm a keen sports fan, and I usually watch the game on TV on Friday evening. Would that be OK? Me too, so that's good. And I work at the supermarket on Tuesday and Thursday nights.\n\nGreat. You can do the shopping then. Do you have most of your lectures in the morning or afternoon? In the afternoons. Why? Mine are in the afternoons too. You could give me a lift. We can share the petrol.\n\nGood idea. When do you think I could move in? Well, if you're interested, and the rent is OK, I need someone by the 1st of June when the new rent period starts. Yes, that should be fine. The house seems big enough. The rent's reasonable. I've got an exam next week, so I'll move in after that if that's OK. Yeah, that sounds fine.\n\nThat is the end of section 1. You now have half a minute to check your answers.",
+    "2": "Now turn to section 2 on page 3. Section 2. You will hear a teacher giving a talk about a junior school to a group of parents. First you have some time to look at questions 11 to 17 on page 3. Now listen carefully and answer questions 11 to 17.\n\nOkay, can everybody hear me? Good, well I'd like to welcome all the new parents to Springdown Junior School. My name is Anne Rawson and I'm the assistant head teacher. What I'd like to do is tell you about the school day and show you round the school and perhaps you can ask me any questions you may have at the end. Right, first of all let me start by telling you a little bit about what happens here and what's on offer.\n\nChildren are expected to arrive at school between 8.45 and 8.50 and the bell is rung for everybody to go to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the whole school meets in the hall for the head to talk to the children. He may discuss what's happened in the news or something that is important for the school.\n\nLessons run until 4.00pm with an hour for lunch. Lunch is served in the canteen and children can bring their own packed lunch or a hot meal is available. They also play outside and get some fresh air.\n\nIn the middle of the morning and the middle of the afternoon there are two breaks of 15 minutes when the children also generally go outside unless it's wet. Now we encourage the children to do as much as they can and we offer several ways of achieving this. For example on Thursday afternoons rather than continuing with lessons we expect the whole school to do sports.\n\nWe vary these between summer and winter and everything is supervised by the teachers. Also we like the children to work on something artistic over a long period of time so for each of the three terms they are expected to produce a poster. This will normally be on something particular that they have studied that term such as the environment.\n\nWe also make sure we keep a close eye on how each child is doing in their schoolwork and every month rather than the teacher giving the children a report as I know some schools do they have to do tests and we record their performance over the year. We are very proud of our school and of the very good results we achieve.\n\nOur teachers are all very committed to the school and at the end of the school day many of them have set up clubs that the children go to for an extra hour to learn a new skill such as music.\n\nBefore you hear the rest of the talk you have some time to look at questions 18 to 20 on page 4. Now listen and answer questions 18 to 20.\n\nOK, I'll quickly show you where everything is. We're here at the main entrance and on the right where you would normally expect to find reception you'll see the head's office. He likes to see visitors personally and his door is always open. Opposite this are two of the classrooms but most of the classrooms are down the long corridor. The library then is situated between those two classrooms and we are hoping that we will be able to create a computer room within that so that the children can have somewhere quiet to work on their own.\n\nOn the left of the classrooms we have converted one of the old cloak rooms to create a music room and children can go in there at lunchtime if they want to. Now if you come with me through the main hall here. OK, now as you can probably see this main hall is a new addition this year and we are very pleased with it.\n\nWe used to be squashed into the old assembly hall next door which as you can see has now been turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to answer your questions.\n\nThat is the end of section 2. You now have half a minute to check your answers.",
+    "3": "Part 3. You will hear two students called Jen and Rob discussing a project they are about to start working on. First you have some time to look at questions 21 to 24. Now listen carefully and answer questions 21 to 24.\n\nHi Jen. Hi Rob. We need to look at this project we're doing together in Forensic Linguistics. Sure. The first thing we have to do is define Forensic Linguistics. I thought we could say something like, linguistics involves the analysis of language, and forensic refers to using scientific techniques to solve crimes.\n\nSo Forensic Linguistics involves analysing people's use of language to find out whether they've committed a crime. What do you think of that as a definition? Sounds OK. I looked it up in my dictionary and I got something similar.\n\nThen we can add something about what forensic linguists actually do to back it up. You know, like analysing documents to find out who wrote them. Good point. Let's do that. What about the actual project? I'm glad we chose voice identification as the topic. Yeah.\n\nWe've been given a voice recording of a possible suspect. Not a real suspect of course. So we've got to listen to the recording and analyse their voice. Should be OK? Well, I've already listened to the recording and I can't even tell if it's a man or a woman. But I guess that doesn't matter. The accent's a local one, though I'm not sure how that will affect anything.\n\nWhere we're really going to get in trouble is that the recording is very unclear. I'm sure they've done that to test us. Well, they weren't going to make it easy. We have to analyse the voice sample with that spectrograph instrument, don't we? Learning what to do with it is the only thing that really concerns me about this project. It'll be fine. I guess so.\n\nAnd then we have to interview the suspect and make our own recording face to face and decide if it's the same person as on the original recording, right? Yes. It's not an exact science but it's usually pretty accurate. You can often tell even when they've got a cold it's the same person but they might do something like speaking with another accent because the tutor suggests they do that just to test us.\n\nSo let's get on with it then. Oh, and don't start your usual self-doubt about whether you can do the work or not. You usually do OK in the end. I reckon that as long as we focus on the main points of the assignment we can think about the finer details later. My problem is creating things to worry about before I've even started.\n\nBefore you hear the rest of the discussion you have some time to look at questions 25 to 30. Now listen and answer questions 25 to 30.\n\nWe'll have to do some background reading first. I'll go to the library later and get what we need. OK. I've already looked at Forensics Today and it didn't say much about voice identification so we needn't bother with that one. Language and Crime looks a bit more promising, doesn't it? I've got that out of the library already so we don't need to worry about borrowing that.\n\nResearch Methods in Forensic Linguistics. I guess we ought to borrow that. And Voice Identification will be a useful one. I'll borrow that from our classmate George. He won't need it for his project. But we should get out Modern Forensic Techniques. We need all the help we can get on that subject. OK. That's that sorted out.\n\nNow on to the practical stuff. I'm not sure about how we're going to record the voices. I'm not too good on the technical side of things. Me neither. We'd better work out what we're doing. At least we get more than one opportunity to speak to the person playing the suspect.\n\nI just hope whoever it is won't make the task too tricky. I'm sure they won't be too hard on us. And as long as we do our research properly it shouldn't be too hard to do the rest of it. I'm more worried about fitting in the writing up. I know. We've got loads of other assignments to finish as well.\n\nNow, Rob, let's decide how we're going to split the writing between us. Are you any good at introductions? They always seem to let me down. OK. Leave that to me. Are you OK to do the literature review then? Maybe we should split that part. I don't mind writing the methodology section if you feel comfortable doing the discussion and conclusions. OK. And we can do the analysis between us as well. Great. Let's get started.\n\nThat is the end of Part 3. You now have 30 seconds to check your answers to Part 3.",
+    "4": "Now turn to section 4 on page 7. Section 4. You will hear a biology lecture on how living things deal with changes in their environment by entering a state called dormancy. First you have some time to look at questions 31 to 40 on page 7. Now listen carefully and answer questions 31 to 40.\n\nWe've been talking about some ways in which plants and animals deal with changes in their environment, and today we'll continue that discussion by looking at dormancy. First we'll cover what dormancy is and why organisms become dormant.\n\nDormancy is a state of inactivity that organisms or living things enter when they need to conserve the resources available to them and reduce their demands on their environment. Most major groups of plants and animals have some representatives that can become dormant.\n\nSo what is the value of dormancy? To start with, animals that have the ability to become dormant can survive conditions which are stressful in environmental terms. For instance, when lakes, ponds or rivers dry up, aquatic organisms that have the ability to enter dormancy can survive the drought, while others that cannot do this will die.\n\nAnother advantage is that creatures that can become dormant in very inhospitable conditions, such as extreme cold, can live in a larger range of places than other organisms. And because of this, because they can live in places where other animals can't survive, when they are actually active and looking for food, the amount of competition they have to deal with from other creatures is greatly reduced.\n\nLet's move on to look at what causes dormancy. There are a number of variables, but the ones that are the most significant are changes in temperature and the amount of light organisms get. Availability of food, water and oxygen is also very important.\n\nNow we'll explore some specific examples. Let us first look at dormancy in insects. Insects can experience a reduction in their metabolism, which is a form of dormancy called diapause. In insects, diapause is either a reaction to difficult environmental conditions or a necessary part of the life cycle, such as with butterflies or certain moths. In terms of environment, it's interesting to note that through dormancy insects can survive when it's very cold.\n\nAnother creature we'll look at is fish. Fish share the same main environmental causes for dormancy as other creatures, but as one might imagine, they are particularly sensitive to drought. Let's take the African lungfish as an example. When the water supply is low, the African lungfish burrows deep into the mud. It surrounds itself with a cocoon of slime and remains inactive. While dormant, it faces two dangers.\n\nOne is the possibility of starvation, and to overcome this it relies on fat it has stored up in its body. The other is desiccation, or drying up, which is addressed through a reduction in the production of urine.\n\nSnails are also known to become dormant. Some snails seal off their shell with a membrane of dried mucus after settling at their place of dormancy. Other snails do not have this possibility. They trust the protection of their shell. Snails that remain outside during their dormancy can usually be recognized by a rather brightly colored shell reflecting the sunlight and so minimizing evaporation. That is why in open habitats, banded snails usually have a yellow shell.\n\nProbably the most well-known type of dormancy is hibernation, which occurs in warm-blooded creatures during the winter. We know that warm-blooded animals maintain a regular body temperature. So what's really interesting about hibernators, true hibernators that is, is they can actually adapt to extreme conditions by turning off their internal thermostat, so to speak, and hibernating until conditions improve.\n\nLet's examine the behavior of a true hibernator, the Arctic ground squirrel. This squirrel digs underground and builds a nest that is insulated. Once in its nest, it curls up into a ball and tucks in its arms, legs, and tail. Its body temperature mirrors the cold of its surroundings.\n\nAt this point, the squirrel barely breathes and doesn't react to stimulus in a normal way. During this period of hibernation, the squirrel loses nearly 40% of its weight. The process of awakening for the Arctic ground squirrel takes about three hours.\n\nWhen this happens, there is a rapid rise in the heartbeat and circulation is affected. The area around the heart warms more quickly than the rest of the animal. And despite the strain of hibernation, within 24 hours of coming out of it, the squirrel's body processes are basically normal.\n\nThat is the end of section 4. You now have half a minute to check your answers. That is the end of the listening test. You now have 10 minutes to transfer your answers to the listening answer sheet."
+  },
+  "transcript_source": "Full Part 1-4 transcript recovered from matching public transcriptions for the supplied listening source and checked against the source question/evidence anchors.",
+  "transcript_is_full": true,
+  "timestamps_source": "source package review/evidence timestamps",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "not very good for public transport",
+      "answer": "not very good for public transport",
+      "lexical_type": "adjective + prepositional chunk"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "still plenty of room for your car",
+      "answer": "still plenty of room for your car",
+      "lexical_type": "noun phrase + prepositional chunk"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "hard to hear over the television",
+      "answer": "hard to hear over the television",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "get quite cold at night",
+      "answer": "get quite cold at night",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "keen sports fan",
+      "answer": "keen sports fan",
+      "lexical_type": "noun collocation"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "give me a lift",
+      "answer": "give me a lift",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "new rent period starts",
+      "answer": "new rent period starts",
+      "lexical_type": "noun + verb chunk"
+    },
+    {
+      "q": 201,
+      "part": 2,
+      "n": 1,
+      "match": "what's on offer",
+      "answer": "what's on offer",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 202,
+      "part": 2,
+      "n": 2,
+      "match": "take the register",
+      "answer": "take the register",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 203,
+      "part": 2,
+      "n": 3,
+      "match": "rather than continuing with lessons",
+      "answer": "rather than continuing with lessons",
+      "lexical_type": "contrast chunk"
+    },
+    {
+      "q": 204,
+      "part": 2,
+      "n": 4,
+      "match": "over a long period of time",
+      "answer": "over a long period of time",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 205,
+      "part": 2,
+      "n": 5,
+      "match": "keep a close eye on",
+      "answer": "keep a close eye on",
+      "lexical_type": "idiomatic collocation"
+    },
+    {
+      "q": 206,
+      "part": 2,
+      "n": 6,
+      "match": "set up clubs",
+      "answer": "set up clubs",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 207,
+      "part": 2,
+      "n": 7,
+      "match": "turned into a gym",
+      "answer": "turned into a gym",
+      "lexical_type": "phrasal-verb chunk"
+    },
+    {
+      "q": 301,
+      "part": 3,
+      "n": 1,
+      "match": "using scientific techniques to solve crimes",
+      "answer": "using scientific techniques to solve crimes",
+      "lexical_type": "academic verb phrase"
+    },
+    {
+      "q": 302,
+      "part": 3,
+      "n": 2,
+      "match": "analysing people's use of language",
+      "answer": "analysing people's use of language",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 303,
+      "part": 3,
+      "n": 3,
+      "match": "voice identification as the topic",
+      "answer": "voice identification as the topic",
+      "lexical_type": "academic noun phrase"
+    },
+    {
+      "q": 304,
+      "part": 3,
+      "n": 4,
+      "match": "recording is very unclear",
+      "answer": "recording is very unclear",
+      "lexical_type": "adjective chunk"
+    },
+    {
+      "q": 305,
+      "part": 3,
+      "n": 5,
+      "match": "focus on the main points of the assignment",
+      "answer": "focus on the main points of the assignment",
+      "lexical_type": "academic verb phrase"
+    },
+    {
+      "q": 306,
+      "part": 3,
+      "n": 6,
+      "match": "background reading",
+      "answer": "background reading",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 307,
+      "part": 3,
+      "n": 7,
+      "match": "technical side of things",
+      "answer": "technical side of things",
+      "lexical_type": "idiomatic noun phrase"
+    },
+    {
+      "q": 308,
+      "part": 3,
+      "n": 8,
+      "match": "discussion and conclusions",
+      "answer": "discussion and conclusions",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 401,
+      "part": 4,
+      "n": 1,
+      "match": "state of inactivity",
+      "answer": "state of inactivity",
+      "lexical_type": "academic noun phrase"
+    },
+    {
+      "q": 402,
+      "part": 4,
+      "n": 2,
+      "match": "conserve the resources available to them",
+      "answer": "conserve the resources available to them",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 403,
+      "part": 4,
+      "n": 3,
+      "match": "stressful in environmental terms",
+      "answer": "stressful in environmental terms",
+      "lexical_type": "academic chunk"
+    },
+    {
+      "q": 404,
+      "part": 4,
+      "n": 4,
+      "match": "amount of competition",
+      "answer": "amount of competition",
+      "lexical_type": "noun collocation"
+    },
+    {
+      "q": 405,
+      "part": 4,
+      "n": 5,
+      "match": "reduction in their metabolism",
+      "answer": "reduction in their metabolism",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 406,
+      "part": 4,
+      "n": 6,
+      "match": "possibility of starvation",
+      "answer": "possibility of starvation",
+      "lexical_type": "academic noun phrase"
+    },
+    {
+      "q": 407,
+      "part": 4,
+      "n": 7,
+      "match": "minimizing evaporation",
+      "answer": "minimizing evaporation",
+      "lexical_type": "technical collocation"
+    },
+    {
+      "q": 408,
+      "part": 4,
+      "n": 8,
+      "match": "rapid rise in the heartbeat",
+      "answer": "rapid rise in the heartbeat",
+      "lexical_type": "academic collocation"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "make up your mind",
+      "type": "idiom · B2/C1",
+      "definition": "to make a final decision after considering the options",
+      "uzbek": "bir qarorga kelmoq",
+      "context": "I just need to find out a few things before I make up my mind.",
+      "collocations": [
+        "make up your mind",
+        "finally make up your mind",
+        "make up my mind about"
+      ],
+      "paraphrases": [
+        "decide",
+        "reach a decision"
+      ]
+    },
+    {
+      "headword": "give someone a lift",
+      "type": "collocation · B2",
+      "definition": "to take someone somewhere in your car",
+      "uzbek": "kimnidir mashinada olib borib qo‘ymoq",
+      "context": "You could give me a lift.",
+      "collocations": [
+        "give someone a lift",
+        "get a lift",
+        "offer someone a lift"
+      ],
+      "paraphrases": [
+        "give someone a ride",
+        "drive someone somewhere"
+      ]
+    },
+    {
+      "headword": "move in",
+      "type": "phrasal verb · B2",
+      "definition": "to begin living in a new home",
+      "uzbek": "yangi uyga ko‘chib kirmoq",
+      "context": "I’ll move in after that if that’s OK.",
+      "collocations": [
+        "move in",
+        "move into a house",
+        "move-in date"
+      ],
+      "paraphrases": [
+        "start living there",
+        "take up residence"
+      ]
+    },
+    {
+      "headword": "take the register",
+      "type": "collocation · B2/C1",
+      "definition": "to record which students are present",
+      "uzbek": "davomatni qayd etmoq",
+      "context": "...so that we can take the register.",
+      "collocations": [
+        "take the register",
+        "mark the register",
+        "attendance register"
+      ],
+      "paraphrases": [
+        "mark attendance",
+        "check attendance"
+      ]
+    },
+    {
+      "headword": "take part in",
+      "type": "verb phrase · B2",
+      "definition": "to participate in an activity",
+      "uzbek": "ishtirok etmoq",
+      "context": "We expect the whole school to take part in sports.",
+      "collocations": [
+        "take part in sports",
+        "take part in a project",
+        "active participation"
+      ],
+      "paraphrases": [
+        "participate in",
+        "join in"
+      ]
+    },
+    {
+      "headword": "set up a club",
+      "type": "collocation / phrasal verb · B2/C1",
+      "definition": "to create and organise a club",
+      "uzbek": "to‘garak tashkil qilmoq",
+      "context": "Many of them have set up clubs.",
+      "collocations": [
+        "set up a club",
+        "set up a group",
+        "set up an organisation"
+      ],
+      "paraphrases": [
+        "establish a club",
+        "start a club"
+      ]
+    },
+    {
+      "headword": "convert into",
+      "type": "verb phrase · B2/C1",
+      "definition": "to change something so it has a different form or purpose",
+      "uzbek": "...ga aylantirmoq",
+      "context": "We have converted one of the old cloak rooms to create a music room.",
+      "collocations": [
+        "convert into",
+        "convert a room into",
+        "conversion into"
+      ],
+      "paraphrases": [
+        "transform into",
+        "turn into"
+      ]
+    },
+    {
+      "headword": "back something up",
+      "type": "phrasal verb · C1",
+      "definition": "to support an idea or claim with evidence or an example",
+      "uzbek": "fikrni dalil bilan mustahkamlamoq",
+      "context": "...what forensic linguists actually do to back it up.",
+      "collocations": [
+        "back up a claim",
+        "back it up with evidence",
+        "evidence to back up"
+      ],
+      "paraphrases": [
+        "support",
+        "substantiate"
+      ]
+    },
+    {
+      "headword": "self-doubt",
+      "type": "noun · C1",
+      "definition": "lack of confidence in your own ability or judgement",
+      "uzbek": "o‘ziga ishonchsizlik",
+      "context": "Don’t start your usual self-doubt about whether you can do the work or not.",
+      "collocations": [
+        "self-doubt",
+        "overcome self-doubt",
+        "feelings of self-doubt"
+      ],
+      "paraphrases": [
+        "lack of confidence",
+        "uncertainty about yourself"
+      ]
+    },
+    {
+      "headword": "technical side of things",
+      "type": "idiomatic noun phrase · C1",
+      "definition": "the practical or specialist technical aspects of a task",
+      "uzbek": "ishning texnik tomoni",
+      "context": "I’m not too good on the technical side of things.",
+      "collocations": [
+        "technical side of things",
+        "technical aspects",
+        "technical expertise"
+      ],
+      "paraphrases": [
+        "technical aspects",
+        "technical details"
+      ]
+    },
+    {
+      "headword": "fit something in",
+      "type": "phrasal verb · C1",
+      "definition": "to find time for something in a busy schedule",
+      "uzbek": "band jadvalda bir ishga vaqt topmoq",
+      "context": "I’m more worried about fitting in the writing up.",
+      "collocations": [
+        "fit something in",
+        "fit in the writing",
+        "fit it into a schedule"
+      ],
+      "paraphrases": [
+        "make time for",
+        "squeeze in"
+      ]
+    },
+    {
+      "headword": "feel comfortable doing something",
+      "type": "pattern / collocation · B2/C1",
+      "definition": "to feel confident and at ease doing an activity",
+      "uzbek": "bir ishni qilishda o‘zini ishonchli his qilmoq",
+      "context": "...if you feel comfortable doing the discussion and conclusions.",
+      "collocations": [
+        "feel comfortable doing",
+        "feel comfortable with",
+        "be comfortable enough to"
+      ],
+      "paraphrases": [
+        "feel confident doing",
+        "be at ease doing"
+      ]
+    },
+    {
+      "headword": "conserve resources",
+      "type": "academic collocation · C1",
+      "definition": "to use resources carefully so they are not wasted",
+      "uzbek": "resurslarni tejamoq va asramoq",
+      "context": "...conserve the resources available to them.",
+      "collocations": [
+        "conserve resources",
+        "conserve energy",
+        "resource conservation"
+      ],
+      "paraphrases": [
+        "save resources",
+        "preserve resources"
+      ]
+    },
+    {
+      "headword": "reduce demands on",
+      "type": "academic collocation · C1",
+      "definition": "to lower the pressure or amount required from something",
+      "uzbek": "...ga tushadigan talabni kamaytirmoq",
+      "context": "...reduce their demands on their environment.",
+      "collocations": [
+        "reduce demands on",
+        "reduce pressure on",
+        "lower demand for"
+      ],
+      "paraphrases": [
+        "put less pressure on",
+        "decrease requirements"
+      ]
+    },
+    {
+      "headword": "deal with competition",
+      "type": "collocation · B2/C1",
+      "definition": "to face and manage competition from others",
+      "uzbek": "raqobat bilan kurashmoq",
+      "context": "...the amount of competition they have to deal with from other creatures...",
+      "collocations": [
+        "deal with competition",
+        "face competition",
+        "intense competition"
+      ],
+      "paraphrases": [
+        "cope with competition",
+        "compete against others"
+      ]
+    },
+    {
+      "headword": "a reduction in",
+      "type": "academic collocation · C1",
+      "definition": "a decrease in the amount, size, level or rate of something",
+      "uzbek": "...ning kamayishi",
+      "context": "Insects can experience a reduction in their metabolism.",
+      "collocations": [
+        "a reduction in metabolism",
+        "a significant reduction in",
+        "lead to a reduction in"
+      ],
+      "paraphrases": [
+        "a decrease in",
+        "a decline in"
+      ]
+    },
+    {
+      "headword": "environmentally stressful",
+      "type": "adjective phrase · C1",
+      "definition": "causing biological stress because of environmental conditions",
+      "uzbek": "atrof-muhit nuqtai nazaridan stressli",
+      "context": "...can survive conditions which are stressful in environmental terms.",
+      "collocations": [
+        "environmentally stressful conditions",
+        "environmental stress",
+        "stressful conditions"
+      ],
+      "paraphrases": [
+        "ecologically challenging",
+        "environmentally harsh"
+      ]
+    },
+    {
+      "headword": "desiccation",
+      "type": "noun · C2 / technical",
+      "definition": "the process of becoming completely dry or losing water",
+      "uzbek": "qurib qolish; suvsizlanish",
+      "context": "One danger is starvation; another is desiccation.",
+      "collocations": [
+        "risk of desiccation",
+        "prevent desiccation",
+        "desiccation resistance"
+      ],
+      "paraphrases": [
+        "extreme drying",
+        "loss of moisture"
+      ]
+    },
+    {
+      "headword": "minimise evaporation",
+      "type": "technical collocation · C1",
+      "definition": "to reduce the amount of liquid that changes into vapour",
+      "uzbek": "bug‘lanishni minimumga tushirmoq",
+      "context": "...reflecting the sunlight and so minimizing evaporation.",
+      "collocations": [
+        "minimise evaporation",
+        "reduce evaporation",
+        "evaporation rate"
+      ],
+      "paraphrases": [
+        "limit water loss",
+        "reduce moisture loss"
+      ]
+    },
+    {
+      "headword": "insulated underground nest",
+      "type": "noun phrase · C1",
+      "definition": "a nest below ground that is protected against heat loss",
+      "uzbek": "issiqlikdan himoyalangan yerosti uyasi",
+      "context": "This squirrel digs underground and builds a nest that is insulated.",
+      "collocations": [
+        "insulated nest",
+        "underground nest",
+        "thermal insulation"
+      ],
+      "paraphrases": [
+        "protected underground shelter",
+        "heat-insulated nest"
+      ]
+    }
+  ],
+  "question_types": {
+    "1-10": "Sentence Completion",
+    "11-17": "Sentence Completion",
+    "18-20": "Map Labelling",
+    "21-24": "MCQ",
+    "25-30": "Choose TWO / Multiple Answer",
+    "31-40": "Note Completion"
+  },
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Map Mastery",
+    "Choose TWO Mastery",
+    "Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ]
+}
