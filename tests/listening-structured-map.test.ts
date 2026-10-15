@@ -194,6 +194,12 @@ test("SP-MAP-18 Listening Test 1 question families survive both standalone HTML 
   assert.deepEqual(viaHtml.payload.questions, viaZip.payload.questions);
   assert.equal(viaHtml.audio.path, "embedded-listening-audio.mp3");
   assert.equal(viaZip.audio.path, "embedded-listening-audio.mp3");
+  assert.equal(viaHtml.payload.authoredRuntime, undefined,
+    "the native 40-question authored DATA/PARTS package must not become an HTML sandbox");
+  assert.equal(viaZip.payload.authoredRuntime, undefined,
+    "embedded audio ZIP must also produce a canonical study/exam package");
+  assert.equal(viaHtml.payload.questions.length, 40,
+    "never silently import Listening Test 1 as a zero-question single-section activity");
   assert.deepEqual(viaHtml.payload.sections.map(row => Boolean(row.transcript)), [true, true, true, true]);
   assert.equal(viaHtml.payload.keyword1.length, 4);
   assert.equal(viaZip.payload.studyPack?.scriptParts?.length, 4);
