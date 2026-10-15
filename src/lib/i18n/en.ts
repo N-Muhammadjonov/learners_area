@@ -167,6 +167,7 @@ const en = {
   },
 
   shell: {
+    telegramBrand: "Open Learners Area Telegram channel",
     searchShortcut: "Ctrl K",
     learningNav: "Learning sections",
     managementNav: "Management sections",
@@ -3331,6 +3332,7 @@ const en = {
       fullListening: "🎧 Full Listening",
       sectionN: "🎙️ Section {n}",
       search: "Search listening tests",
+      archivedTestHint: "Archived. Use Delete to permanently remove this unused test.",
       badgeSection: "10 questions · controlled review",
       badgeFull: "40 questions",
       sectionOf: "Section {n} of the full recording",

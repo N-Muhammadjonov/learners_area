@@ -29,6 +29,7 @@ type Card = {
   collection?: string;
   legacy?: boolean;
   authoredRuntime?: boolean;
+  publicationState?: string;
 };
 export function FullListeningLibrary({ cards, dict, management = false }: { cards: Card[]; dict: Dictionary; management?: boolean }) {
   const t = dict.fullListeningHub.library;
@@ -103,6 +104,7 @@ export function FullListeningLibrary({ cards, dict, management = false }: { card
             key={card.id}
             className="listening-library-card card p-5 flex flex-col gap-3"
           >
+            {management && card.publicationState === "archived" && <p data-archived-listening-test className="text-sm text-ink-500">{t.archivedTestHint}</p>}
             {management && <ListeningTestActions id={card.id} title={card.title} dict={dict} />}
             <span className="listening-library-badge badge">
               {card.legacy

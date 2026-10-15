@@ -1,0 +1,24 @@
+{
+  "id": "listening-test-1",
+  "title": "Listening Test 1",
+  "collection": "academic",
+  "source": "source.html",
+  "data": "data.json",
+  "sectionCount": 4,
+  "questionCount": 40,
+  "transcriptParts": 4,
+  "audio": {
+    "provider": "cloudflare-r2",
+    "objectKey": "listening/academic/test-01/full.mp3",
+    "relativeSourcePath": "audio/full.mp3",
+    "contentType": "audio/mpeg",
+    "bytes": 16450918,
+    "durationSeconds": 1645.061224,
+    "bitrateKbps": 80,
+    "sha256": "c8d072e719dd00f53df9cc8fa916f35343d21ddffb0336c768e2a3f33aa1b34f"
+  },
+  "deployment": {
+    "status": "waiting_for_r2_upload_and_safe_database_activation",
+    "note": "Source is versioned in GitHub but is not published to learners until its R2 object is uploaded, verified, and canonical DB publication is approved. Never expose answer keys in a static public directory."
+  }
+}
