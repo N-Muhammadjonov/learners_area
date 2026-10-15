@@ -50,7 +50,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
       // delete of a potentially shared object key.
       await tx.delete(resourceBlocks).where(and(eq(resourceBlocks.ownerType, "listening"), eq(resourceBlocks.ownerId, id)));
       await recordAudit({
-        actorUserId: admin.id, action: "content.deleted", targetType: "listening", targetId: id,
+        actorUserId: admin.id, action: "content.updated", targetType: "listening", targetId: id,
         metadata: { operation: "permanent_delete", noLearnerHistory: true },
       }, tx);
       await tx.delete(listeningTests).where(eq(listeningTests.id, id));
