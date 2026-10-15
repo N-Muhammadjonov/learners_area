@@ -72,3 +72,13 @@ test("all staff dashboards stream expensive data only AFTER database role author
       `${path} must refuse demoted users before reading the restricted catalogue`);
   }
 });
+
+test("content management inventory starts parallel counts behind administrator gate", () => {
+  const page = read("src/app/app/(shell)/admin/content/page.tsx");
+  assert.match(page, /const administrator = await requireAdministrator\(\)/);
+  assert.match(page, /if \(!administrator\) redirect\("\/app"\)/);
+  assert.match(page, /<ContentLibraryResults dict=\{dict\} \/>/);
+  assert.match(page, /data-async-loading="management-content-library"/);
+  assert.match(page, /const writingOtherPromise = writingContentTotals\(\)\.catch/);
+  assert.match(page, /const writingOther = await writingOtherPromise/);
+});
