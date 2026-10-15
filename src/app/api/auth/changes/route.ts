@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { subscribeAccessChanges } from "@/lib/auth/access-change-bus";
+import { accessEventsConnectionString } from "@/lib/auth/access-event-config";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,7 +15,7 @@ export const dynamic = "force-dynamic";
  * It is a UI invalidation channel, NEVER a substitute for API authorization.
  */
 export async function GET(req: NextRequest) {
-  if (!process.env.AUTH_EVENTS_DATABASE_URL) {
+  if (!accessEventsConnectionString()) {
     return NextResponse.json({ error: "access_events_disabled" }, { status: 503 });
   }
   const user = await requireActiveUser();
