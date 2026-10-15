@@ -2225,6 +2225,12 @@ export const retentionTexts = pgTable(
   })
 );
 
+/** Monotonic per-level labels survive deletion of the highest numbered item. */
+export const retentionSequenceCounters = pgTable("retention_sequence_counters", {
+  level: retentionLevelEnum("level").primaryKey(),
+  lastSequence: integer("last_sequence").notNull(),
+});
+
 export const retentionTextVersions = pgTable(
   "retention_text_versions",
   {
