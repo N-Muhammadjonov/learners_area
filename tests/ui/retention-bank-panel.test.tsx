@@ -35,7 +35,7 @@ async function render(props: Partial<Parameters<typeof RetentionBankPanel>[0]> =
   const router = { back() {}, forward() {}, refresh() {}, push() {}, replace() {}, prefetch() {} };
   try {
     await act(async () => root.render(React.createElement(AppRouterContext.Provider, { value: router as never },
-      React.createElement(RetentionBankPanel, { dict: en, level: "A2", rows: [row("t1"), row("t2", false)], isOwner: true, filter: "all", sort: "label", page: 2, pageCount: 3, total: 105, ...props }))));
+      React.createElement(RetentionBankPanel, { dict: en, level: "A2", rows: [row("t1"), row("t2", false)], canPermanentlyDelete: true, filter: "all", sort: "label", page: 2, pageCount: 3, total: 105, ...props }))));
     await run();
   } catch (error) {
     if (error instanceof AggregateError) console.error("AGG", error.errors);
@@ -95,7 +95,7 @@ test("three-dot menu: labelled, keyboard navigable, Escape/outside close, focus 
 });
 
 test("administrator may archive but cannot see permanent delete", async () => {
-  await render({ isOwner: false }, async () => {
+  await render({ canPermanentlyDelete: false }, async () => {
     await act(async () => query<HTMLButtonElement>('[data-retention-row="t1"] [data-retention-row-menu-trigger]').click());
     assert.ok(query("[data-retention-archive]"));
     assert.equal(document.querySelector("[data-retention-delete]"), null);
