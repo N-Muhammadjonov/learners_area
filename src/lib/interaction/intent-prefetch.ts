@@ -13,7 +13,8 @@ const SAFE_INDEX_ROUTES = new Set([
   "/app/reading/academic",
   "/app/reading/general",
   "/app/reading/question-types",
-  "/app/reading/retention",
+  // Retention is deliberately excluded: even a read of its active session is
+  // time-sensitive. Never warm that route until a learner intentionally opens it.
   "/app/writing",
   "/app/speaking",
   "/app/speaking/lessons",
