@@ -32,14 +32,14 @@ export default async function AdminRetentionPage({ searchParams }: {
     <div className="flex flex-col gap-4" data-route-usable="retention-admin">
       <h1 className="page-title">{dict.retentionMemory.admin.title}</h1>
       <Suspense fallback={<p className="panel" role="status" data-async-loading="retention-admin">{dict.common.loading}</p>}>
-        <RetentionBankContent dict={dict} params={params} />
+        <RetentionBankContent dict={dict} params={params} isOwner={administrator.role === "owner"} />
       </Suspense>
     </div>
   );
 }
 
-async function RetentionBankContent({ dict, params }: {
-  dict: Dictionary; params: Record<string, string | string[] | undefined>;
+async function RetentionBankContent({ dict, params, isOwner }: {
+  dict: Dictionary; params: Record<string, string | string[] | undefined>; isOwner: boolean;
 }) {
   const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
   const requestedLevel = first(params.level);
@@ -105,6 +105,7 @@ async function RetentionBankContent({ dict, params }: {
 
       <RetentionBankPanel
         dict={dict}
+        isOwner={isOwner}
         level={level}
         filter={filter}
         sort={sort}
