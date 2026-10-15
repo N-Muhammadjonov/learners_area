@@ -238,7 +238,7 @@ export const TABLE_GROUPS: { group: string; reason: string; tables: readonly str
     group: "infrastructure, ownership, billing and media plumbing",
     reason: "not content: accounts, upload intents, attached-material blocks, ops and payment rows",
     tables: [
-      "upload_intents", "users", "access_requests", "notifications", "audit_log", "ownership_transfers",
+      "upload_intents", "users", "access_requests", "notifications", "audit_log", "retention_sequence_counters", "ownership_transfers",
       "password_reset_tokens", "onboarding_profiles", "resource_blocks", "material_blocks", "user_profile_photos",
       "problem_reports", "products", "plans", "prices", "subscriptions", "payments", "access_entitlements",
     ],
