@@ -2,12 +2,21 @@
 
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useOptionalInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import { WRITING_TABS, nextTabIndex, type WritingTab } from "@/lib/writing/tabs";
 
 export function WritingNav({ active, labels, label }: { active: WritingTab; labels: Record<WritingTab, string>; label: string }) {
   const router = useRouter();
+  const interaction = useOptionalInstantInteraction();
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
-  const go = (tab: WritingTab) => router.push(`/app/writing?tab=${tab}`, { scroll: false });
+  // These controls are ARIA tabs, not anchors. Begin the same immediate
+  // navigation feedback as native module links while Next owns URL/history.
+  const go = (tab: WritingTab) => {
+    if (tab === active) return;
+    const href = `/app/writing?tab=${tab}`;
+    if (interaction) interaction.navigate(href);
+    else router.push(href, { scroll: false });
+  };
   return (
     <div role="tablist" aria-label={label} className="-mx-1 flex gap-1 overflow-x-auto border-b border-ink-100 px-1" data-writing-tablist>
       {WRITING_TABS.map((tab, i) => {
