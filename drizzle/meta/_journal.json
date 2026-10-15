@@ -414,13 +414,6 @@
       "when": 1792201000006,
       "tag": "0058_telegram_private_tables",
       "breakpoints": true
-    },
-    {
-      "idx": 59,
-      "version": "7",
-      "when": 1792201000007,
-      "tag": "0059_access_change_events",
-      "breakpoints": true
     }
   ]
 }
