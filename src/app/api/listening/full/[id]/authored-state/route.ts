@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { enforce } from '@/lib/http/rate-limit';
 import { requireActiveUser } from '@/lib/auth/current-user';
 import { fullListeningDetail } from '@/lib/data/full-listening';
 import { originalListeningState, saveOriginalListeningState } from '@/lib/data/listening-original-state';
@@ -21,6 +22,7 @@ export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>
 export async function PUT(req:NextRequest,{params}:{params:Promise<{id:string}>}) {
   const {id}=await params; const ctx=await context(id);
   if (!ctx) return NextResponse.json({error:'not_found'},{status:404,headers});
+  const limited=enforce({name:'listening_authored_state',limit:240,windowMs:60000},ctx.user.id);if(limited)return limited;
   const parsed=schema.safeParse(await req.json().catch(()=>null));
   if (!parsed.success) return NextResponse.json({error:'invalid_input'},{status:400,headers});
   try {

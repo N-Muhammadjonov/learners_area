@@ -41,6 +41,9 @@ test('original checkpoint writes canonical drafts, grades swapped Choose TWO onc
     assert.equal(Object.keys(draft!.answers).length,40);assert.equal(draft!.audio_position,321);
     assert.deepEqual(await originalListeningState(u!.id,t!.id,d.db),values);
     assert.deepEqual(await originalListeningState(other!.id,t!.id,d.db),{});
+    await d.query('delete from listening_authored_checkpoints where user_id=$1 and test_id=$2',[u!.id,t!.id]);
+    const restored=JSON.parse((await originalListeningState(u!.id,t!.id,d.db))[key]!);
+    assert.deepEqual(restored.answers,answers);assert.equal(restored.audioPosition,321);assert.equal(restored.attemptStatus,'in_progress');
     const done=await saveOriginalListeningState(u!.id,t!.id,{...values,[key]:JSON.stringify({attemptStatus:'submitted',answers,lastResults:[{q:1,ok:false}]})},pkg,d.db);
     assert.equal(JSON.parse(done.values[key]!).lastResults.filter((r:{ok:boolean})=>r.ok).length,40);
     const tampered=await saveOriginalListeningState(u!.id,t!.id,{...values,[key]:JSON.stringify({attemptStatus:'submitted',answers:{1:'wrong'}})},pkg,d.db);
