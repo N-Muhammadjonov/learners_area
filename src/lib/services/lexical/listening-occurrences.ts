@@ -1,5 +1,5 @@
 import { listeningStudySegments } from "@/lib/listening/study-segments";
-import { and, eq, or } from "drizzle-orm";
+import { and, eq, inArray, or } from "drizzle-orm";
 import type { db } from "@/db/client";
 import { lexemes, lexicalOccurrences, lexicalUnitPronunciations, lexicalUnits } from "@/db/schema";
 import type { ListeningPackage } from "@/lib/listening/package";
@@ -195,25 +195,49 @@ export type VocabularySessionItem = {
  * canonical sense. A function-word entry (never ingested) keeps senseId null.
  */
 export async function listeningVocabularySession(tx: Tx, testId: string, vocabulary: ListeningPackage["vocabulary"]): Promise<VocabularySessionItem[]> {
+  // Keep the exact per-entry sense lookup, including legacy and ambiguous rows.
+  // Independent reads can share the existing bounded connection pool instead
+  // of making every word wait for the preceding word's entire query chain.
+  const batchSize = 2;
+  const senses: Awaited<ReturnType<typeof canonicalSenseFor>>[] = [];
+  for (let offset = 0; offset < vocabulary.length; offset += batchSize) {
+    senses.push(...await Promise.all(vocabulary.slice(offset, offset + batchSize).map(entry =>
+      isFunctionWord(entry.word) ? undefined : canonicalSenseFor(tx, entry),
+    )));
+  }
+  // Unit ids are primary keys: loading their two presentation fields together
+  // preserves the same unit while avoiding one SELECT per vocabulary entry.
+  const unitIds = [...new Set(senses.flatMap(sense => sense?.lexicalUnitId ? [sense.lexicalUnitId] : []))];
+  const units = unitIds.length ? await tx.select({ id: lexicalUnits.id, lexicalType: lexicalUnits.lexicalType })
+    .from(lexicalUnits).where(inArray(lexicalUnits.id, unitIds)) : [];
+  const unitsById = new Map(units.map(unit => [unit.id, unit]));
+  // Promise.all retains package order and duplicate entries: quiz grading uses
+  // their indexes. No shared cache or learner data is introduced here.
+  // Bound queued work as well: do not put every word ahead of another user's
+  // identity query in the shared pool. Each pair has at most four reads in flight.
   const items: VocabularySessionItem[] = [];
-  // One item per package entry, in package order: quiz answers are graded by index.
-  for (const entry of vocabulary) {
-    const sense = isFunctionWord(entry.word) ? undefined : await canonicalSenseFor(tx, entry);
+  for (let offset = 0; offset < vocabulary.length; offset += batchSize) {
+    items.push(...await Promise.all(vocabulary.slice(offset, offset + batchSize).map(async (entry, index): Promise<VocabularySessionItem> => {
+    const sense = senses[offset + index];
     const presentation = { example: entry.ex, also: entry.also, quiz: entry.quiz };
     if (!sense) {
-      items.push({ senseId: null, occurrenceId: null, term: entry.word, partOfSpeech: entry.pos || null, definitionEn: entry.def, translationUz: entry.uz || null, lexicalType: null, ipa: null, ...presentation });
-      continue;
+      return { senseId: null, occurrenceId: null, term: entry.word, partOfSpeech: entry.pos || null, definitionEn: entry.def, translationUz: entry.uz || null, lexicalType: null, ipa: null, ...presentation };
     }
-    const [occurrence] = await tx.select({ id: lexicalOccurrences.id }).from(lexicalOccurrences)
-      .where(and(eq(lexicalOccurrences.listeningTestId, testId), eq(lexicalOccurrences.lexemeId, sense.id), eq(lexicalOccurrences.resolutionStatus, "resolved")))
-      .orderBy(lexicalOccurrences.sectionNumber, lexicalOccurrences.startChar).limit(1);
-    const unit = sense.lexicalUnitId ? await tx.query.lexicalUnits.findFirst({ where: eq(lexicalUnits.id, sense.lexicalUnitId) }) : undefined;
-    const pronunciation = unit ? await tx.query.lexicalUnitPronunciations.findFirst({ where: eq(lexicalUnitPronunciations.lexicalUnitId, unit.id) }) : undefined;
-    items.push({
+    const unit = sense.lexicalUnitId ? unitsById.get(sense.lexicalUnitId) : undefined;
+    // Preserve both existing first-row queries, including their ordering and
+    // test scope; neither read depends on the other.
+    const [[occurrence], pronunciation] = await Promise.all([
+      tx.select({ id: lexicalOccurrences.id }).from(lexicalOccurrences)
+        .where(and(eq(lexicalOccurrences.listeningTestId, testId), eq(lexicalOccurrences.lexemeId, sense.id), eq(lexicalOccurrences.resolutionStatus, "resolved")))
+        .orderBy(lexicalOccurrences.sectionNumber, lexicalOccurrences.startChar).limit(1),
+      unit ? tx.query.lexicalUnitPronunciations.findFirst({ where: eq(lexicalUnitPronunciations.lexicalUnitId, unit.id) }) : undefined,
+    ]);
+    return {
       senseId: sense.id, occurrenceId: occurrence?.id ?? null, term: sense.term, partOfSpeech: sense.partOfSpeech,
       definitionEn: sense.definitionEn, translationUz: sense.translationUz, lexicalType: unit?.lexicalType ?? null, ipa: pronunciation?.ipa ?? null,
       ...presentation,
-    });
+    };
+    })));
   }
   return items;
 }
