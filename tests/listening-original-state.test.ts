@@ -16,6 +16,10 @@ test('original nine-activity document runs all original controls; confirmations 
   try {
     assert.deepEqual(errors,[]);
     assert.equal(dom.window.document.querySelectorAll('[data-open]').length,9);
+    (dom.window.document.querySelector('[data-open="exam"]') as HTMLElement).click();
+    assert.equal(dom.window.document.querySelector('#startScreen')!.classList.contains('hidden'),false,'activity opens the Start screen without an artificial delay');
+    assert.equal(dom.window.document.querySelector('#examInterface')!.classList.contains('hidden'),true,'opening the activity does not start the exam');
+    (dom.window.document.querySelector('#activity-exam [data-back]') as HTMLElement).click();
     for(const id of ['review','script','mcq','map','multi','completion','vocab','retry']){
       (dom.window.document.querySelector(`[data-open="${id}"]`) as HTMLElement).click();
       assert.ok(dom.window.document.querySelector(`#activity-${id}.active`),id);

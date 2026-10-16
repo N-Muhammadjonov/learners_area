@@ -17,4 +17,6 @@ test("iframe messages bind to the exact source window and a per-mount channel",(
  assert.equal(validRuntimeMessage({source:{},data},frame,'random-per-mount'),false);
  assert.equal(validRuntimeMessage({source:frame,data},frame,'other'),false);
  assert.equal(validRuntimeMessage({source:frame,data:{...data,op:'fetch'}},frame,'random-per-mount'),false);
+ assert.equal(validRuntimeMessage({source:frame,data:{...data,op:'view',hub:false}},frame,'random-per-mount'),true);
+ assert.equal(validRuntimeMessage({source:{},data:{...data,op:'view',hub:false}},frame,'random-per-mount'),false);
 });

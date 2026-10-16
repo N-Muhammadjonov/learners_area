@@ -34,7 +34,7 @@ test("the namespace gate covers the focus group, and the focus layout mounts no 
   assert.doesNotMatch(layout, /<Sidebar|<Topbar|<ShellUtilities|InstantWorkspaceOutlet|<InstantInteractionProvider/);
 });
 
-test("every Listening test surface has one design-system BackLink with a safe library fallback", () => {
+test("the Listening hub has a design-system BackLink; authored activities hide that bar and own their Activities control", () => {
   const layout = read("src/app/app/(focus)/listening/layout.tsx");
   assert.match(layout, /data-listening-full-focus/);
   assert.match(layout, /listening-full-focus/);
@@ -44,6 +44,8 @@ test("every Listening test surface has one design-system BackLink with a safe li
   assert.match(layout, /<BackLink/);
   assert.match(layout, /fallbackHref="\/app\/listening"/);
   assert.match(layout, /className="btn-secondary/);
+  const css=read("src/app/globals.css");
+  assert.ok(css.includes(':has([data-authored-listening][data-activity-active="true"]) [data-listening-focus-backbar] { display: none; }'));
 });
 
 test("moved Listening pages retain route-level auth and the correct ownership/publication checks", () => {
