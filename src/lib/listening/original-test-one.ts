@@ -4,6 +4,8 @@ import { readFile } from 'node:fs/promises';
 
 export const ORIGINAL_TEST_ONE_ID = 'e44e3d4b-3af6-41a9-b465-7d4bc21e1019';
 export const ORIGINAL_TEST_ONE_STORAGE = 'la_listening_test_1_v2';
+/** All nine activity buttons are present in the versioned original HTML. */
+export const ORIGINAL_TEST_ONE_ACTIVITY_COUNT = 9;
 /** Explicit identity: no title matching and no DB re-import or revision change. */
 export function usesOriginalTestOne(id: string, sourceId: string) {
   return id === ORIGINAL_TEST_ONE_ID && sourceId === 'listening-test-1';

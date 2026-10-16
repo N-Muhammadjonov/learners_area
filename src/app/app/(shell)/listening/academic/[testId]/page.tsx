@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -31,6 +31,8 @@ export default async function AcademicListeningTestPage({ params }: { params: Pr
   const t = dict.listening.academic;
   const test = await academicListeningTest(testId, user);
   if (!test) notFound();
+  // Keep the catalogue entry and direct URL on the same original nine-activity hub.
+  if (test.originalRuntime) redirect(`/app/listening/tests/${test.testId}`);
 
   return (
     <div

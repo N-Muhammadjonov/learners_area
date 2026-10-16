@@ -17,6 +17,7 @@ import { listeningLearnerFacts } from "../src/lib/data/full-listening";
 import { listeningProduct, productSql, type ListeningProductKind } from "../src/lib/listening/product";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { ORIGINAL_TEST_ONE_ID } from "../src/lib/listening/original-test-one";
 
 /**
  * ACADEMIC LISTENING — the catalogue and the per-test hub.
@@ -281,6 +282,31 @@ async function submit(database: Awaited<ReturnType<typeof createTestDatabase>>, 
   );
   return attempt!.id;
 }
+
+test("original Test 1 uses the same nine-activity destination from Academic for owner and student", async () => {
+  const database = await createTestDatabase();
+  try {
+    const ids = await seed(database);
+    const payload = fixtureA();
+    await database.db.insert(listeningTests).values({ id: ORIGINAL_TEST_ONE_ID, title: "Listening Test 1", audioType: "audio", publicationState: "published", publishAt: new Date(), createdByUserId: OWNER });
+    await database.db.insert(listeningPackages).values({ testId: ORIGINAL_TEST_ONE_ID, sourceId: "listening-test-1", payload, audioObjectKey: "qa/original.mp3", sourceHash: "0".repeat(64), legacyRuntime: false });
+    for (const user of [{ id: OWNER, role: "owner" as const }, { id: LEARNER, role: "student" as const }]) {
+      const hub = await academicListeningTest(ORIGINAL_TEST_ONE_ID, user, database.db);
+      assert.equal(hub?.originalRuntime, true, `${user.role} must enter the original renderer`);
+      const card = (await academicListeningCards(user.id, 1, database.db)).cards.find(row => row.testId === ORIGINAL_TEST_ONE_ID);
+      assert.equal(card?.activityCount, 9, "catalogue count agrees with the original HTML");
+      assert.equal((await academicListeningTest(ids.a, user, database.db))?.originalRuntime, false, "other tests keep their registry");
+    }
+    await database.db.update(listeningPackages).set({ sourceId: "another-source" }).where(eq(listeningPackages.testId, ORIGINAL_TEST_ONE_ID));
+    assert.equal((await academicListeningTest(ORIGINAL_TEST_ONE_ID, { id: OWNER, role: "owner" }, database.db))?.originalRuntime, false, "the UUID alone never substitutes another source");
+    await database.db.update(listeningPackages).set({ sourceId: "listening-test-1" }).where(eq(listeningPackages.testId, ORIGINAL_TEST_ONE_ID));
+    await database.db.update(listeningTests).set({ publicationState: "draft" }).where(eq(listeningTests.id, ORIGINAL_TEST_ONE_ID));
+    assert.equal(await academicListeningTest(ORIGINAL_TEST_ONE_ID, { id: LEARNER, role: "student" }, database.db), null, "the redirect never bypasses publication permissions");
+    assert.equal((await academicListeningTest(ORIGINAL_TEST_ONE_ID, { id: OWNER, role: "owner" }, database.db))?.originalRuntime, true);
+  } finally {
+    await database.close();
+  }
+});
 
 test("A1–A6 the catalogue offers ONLY formal Academic full tests: category, publication and compatibility", async () => {
   const database = await createTestDatabase();
