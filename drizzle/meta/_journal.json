@@ -419,7 +419,14 @@
       "idx": 59,
       "version": "7",
       "when": 1792201000007,
-      "tag": "0059_retention_permanent_delete",
+      "tag": "0059_listening_authored_checkpoints",
+      "breakpoints": true
+    },
+    {
+      "idx": 60,
+      "version": "7",
+      "when": 1792201000008,
+      "tag": "0060_retention_permanent_delete",
       "breakpoints": true
     }
   ]

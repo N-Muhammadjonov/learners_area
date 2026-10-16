@@ -33,8 +33,7 @@ INSERT INTO "retention_sequence_counters" ("level","last_sequence")
                        'retention_text.archived', 'retention_text.restored',
                        'retention_text.permanently_deleted')
     AND a.metadata ->> 'level' IN ('A2','B1','B2','C1','C2')
-    AND a.metadata ->> 'label' ~ '^(A2|B1|B2|C1|C2)-[0-9]{1,9}
-
+    AND (a.metadata ->> 'label') ~ '^(A2|B1|B2|C1|C2)-[0-9]+$'
     AND split_part(a.metadata ->> 'label', '-', 1) = a.metadata ->> 'level'
   GROUP BY (a.metadata ->> 'level')::retention_level
   ON CONFLICT ("level") DO UPDATE SET

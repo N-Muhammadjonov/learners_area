@@ -220,7 +220,7 @@ export const TABLE_GROUPS: { group: string; reason: string; tables: readonly str
       // progress read, a staff screen or the content pipeline (PHASE C, "Xulosangiz").
       "lesson_notes",
       "reading_attempts", "reading_answers", "listening_attempts", "listening_answers", "listening_mcq_sessions",
-      "listening_activity_runs", "listening_drafts", "grammar_attempts", "speaking_attempts",
+      "listening_activity_runs", "listening_drafts", "listening_authored_checkpoints", "grammar_attempts", "speaking_attempts",
       "writing_submissions", "writing_feedback", "writing_lesson_progress", "writing_translation_attempts",
       "writing_translation_answers", "writing_exam_sessions", "writing_grade_requests", "writing_stealing_sessions",
       "typing_runs", "mock_attempts", "lesson_progress", "lesson_block_responses", "assignment_responses",

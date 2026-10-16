@@ -4,6 +4,7 @@ import { appLegacyAliasRedirects, canonicalHomeRedirects, legacyModuleRedirects 
 const nextConfig = {
   reactStrictMode: true,
   outputFileTracingIncludes: {
+    "/api/listening/full/[id]/authored": ["./content/listening/academic/test-01/source.html"],
     "/api/owner/student-export": ["./src/assets/fonts/DejaVuSans.ttf"],
     // The guarded Owner QA page reads staged JSONL from disk at runtime.
     // The learner bundle and public routes never receive these rubric files.
