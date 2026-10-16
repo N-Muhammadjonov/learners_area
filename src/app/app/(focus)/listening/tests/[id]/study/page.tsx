@@ -1,4 +1,5 @@
-import { notFound } from "next/navigation";
+import { usesOriginalTestOne } from "@/lib/listening/original-test-one";
+import { notFound, redirect } from "next/navigation";
 import { db } from "@/db/client";
 import { listeningOccurrenceSpans, listeningSegmentSpans } from "@/lib/services/lexical/listening-occurrences";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -21,6 +22,7 @@ export default async function Study({
   if (!isUuid(id)) notFound();
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
+  if (usesOriginalTestOne(id,detail.pkg.sourceId)) redirect(`/app/listening/tests/${id}#review`);
   const p = detail.pkg.payload;
   // Study help is available while no full exam attempt is open.
   const lexicalAssistance = lexicalAssistanceAllowed("REVIEW_CONTROL", await listeningExamState(user, id));
