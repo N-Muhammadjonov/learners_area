@@ -33,7 +33,7 @@ test("package-owned Listening audio remains authorized even for imports without 
 
 test("authored Listening opens before study-progress queries that its runtime does not need", () => {
   const page = read("src/app/app/(focus)/listening/tests/[id]/page.tsx");
-  const authored = page.indexOf("if (detail.pkg.payload.authoredRuntime)");
+  const authored = page.indexOf("if (detail.pkg.payload.authoredRuntime");
   // The hub reads study progress through the ONE learner-facts helper (`listeningLearnerFacts`,
   // which wraps `fullListeningProgress`): whichever name is in use, the read must come after
   // the authored-runtime branch, because that branch returns before any of it is needed.
