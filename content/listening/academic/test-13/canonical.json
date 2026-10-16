@@ -1,0 +1,1074 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-13",
+  "title": "Listening Test 13",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "40a38f54f71288b9a03417e4d75f197f2ad888b0cc397bcb776493968e45d4aa",
+      "path": "audio/full.mp3"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1870.236735,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": null,
+    "imagePath": null,
+    "sections": [
+      {
+        "number": 1,
+        "title": "North Star Camping Equipment - Customer Order",
+        "transcript": "Sales assistant: Hello, North Star Camping Equipment. This is Emma.\nCustomer: Oh, hello. I've been looking through your online catalogue. The problem is, I haven't got time to come into the store this week. Is there any chance you can put some things aside for me?\nSales assistant: Sure. Let me just get an order form. OK, so what's your surname, please?\nCustomer: Greenaway.\nSales assistant: OK, Mr Greenaway. I'll give you an order reference to write down.\nCustomer: OK.\nSales assistant: It's a mixture of numbers and letters. The reference is 5174XCM.\nCustomer: Right, got that.\nSales assistant: So, what were you looking for?\nCustomer: Well, we're going on a camping holiday, two adults and two children. So the first thing would be a tent. We need something family size, and I'd like to have a door at the front and one at the back.\nSales assistant: OK. And anything else?\nCustomer: We all need sleeping bags as well.\nSales assistant: So, what design do you need? Are you going to the mountains? Will there be snow?\nCustomer: Oh no, we're going to the beach. It'll be warm weather.\nSales assistant: OK, so the design you need is what we call our summer sleeping bag. I'll put four aside for you.\nCustomer: Then we'll also need something to sleep on. Some camp beds, I guess.\nSales assistant: Camp beds, yeah. Or these days a lot of people are using, you know, air mattresses that you blow up.\nCustomer: That sounds good. Easier to pack away, and more comfortable. But how do we blow them up?\nSales assistant: You'll need a pump. I'll put one in for you.\nCustomer: OK.\nSales assistant: Now, what other things are you looking for?\nCustomer: Well, thinking about the cooking equipment, we need a stove.\nSales assistant: There are all sorts of camping stoves. It depends what fuel you want it to run on. There's kerosene, charcoal...\nCustomer: Oh, that sounds too messy. I think we want the fuel to be gas, if possible.\nSales assistant: No problem. They're a bit more expensive than the other options.\nCustomer: That's OK.\nSales assistant: Then do you need any pots, a frying pan, anything like that?\nCustomer: No, we'll bring those from home. What we need to think about is water. We'll need a large bottle for that.\nSales assistant: All right. And how about knives and forks?\nCustomer: No, we'll be OK for those. But we'll need something to eat off. You know, something unbreakable, metal maybe.\nSales assistant: Yeah, that's best. So plates then, a set of four in metal. Shall I add that to your order?\nCustomer: Yes, please. They'll last a lifetime.\nSales assistant: Now, I'm just thinking what else we might need.\nCustomer: We've got raincoats, but we really need a couple of new torches. I'd rather not have plastic. The boys will just break them.\nSales assistant: We've got some good rubber ones. They'll be perfect. I'll organise two of those. Then, I don't know, do you want some games for your children to play?\nCustomer: That's not a bad idea. Even just a football or something? We've already got a ball. Let's think. What we really need is something that young kids can use. Do you have a baseball set? They'd love that.\nSales assistant: Sure, I'll put one in for you. Any other games?\nCustomer: No, I think that'll be enough. There's lots of things to do up there.\nSales assistant: Where are you going, by the way?\nCustomer: Up to the Bay of Islands.\nSales assistant: Oh, that's a lovely region.\nCustomer: In fact, that reminds me, we need an up-to-date map of the area. Do you sell those? Mine is very old.\nSales assistant: No problem.\nCustomer: Great. Now, I've just thought, is there any chance you can deliver all these things?\nSales assistant: Absolutely. What's the address?\nCustomer: It's 56 Taupo Street. I'll spell that for you: T-A-U-P-O.\nSales assistant: That's in Bayswater, isn't it?\nCustomer: Yes, that's right. And what would the charge be on that?\nSales assistant: The standard charge is fifty dollars. But hang on, your order will be over five hundred dollars, so you get a discounted delivery charge of only twenty-five dollars fifty.\nCustomer: Great. Now, my wife and I will still be at work this week, so we won't be at home.",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "The McFaddin Hiking and Nature Trail",
+        "transcript": "Warden: Good morning. I'm Susan Meyer, trail warden for the McFadden Hiking and Nature Trail. Let me tell you a bit about the trail. The trail is twenty-five miles long, running roughly east to west. To hike it, you may start at either end of the trail or in between. You can hike the whole length of the trail, or just a couple of miles, because there are twenty entry points along the trail, each connected to public roads by short paths. For hikers coming from Johnson City, there's a shuttle bus to each of the two end points every morning and evening, and four of the entry points have a free car park with television camera surveillance.\nAt one-mile intervals along the trail, there are rest stations providing picnic areas, water, toilets, and places where you can recharge your electronic devices. In response to a poll of walkers last year, we've recently installed kiosks at each rest station with clear, easy-to-follow maps and other trail information.\nThere are several distinct sections of trail. The Red Rock Walk offers a superb opportunity to study a huge variety of vegetation along the way. There's lots to look at, though you can't see great distances. Birds are actually hard to spot, but with a pair of binoculars and at certain times of day, you may see some rare varieties.\nThe River Walk comprises about five miles of trail winding along the bank of the Mulder River. Personally, I prefer this section of the trail in winter. The river does freeze over and the snow can accumulate, but that doesn't always discourage visitors. Sometimes, though, if the weather conditions are really unsuitable, we might have to close this walk to the public. But often it can get crowded with hikers who've discovered the attraction of the area.\nNow let me tell you about the Halfway Hostel, located approximately midway along the trail. It has a range of facilities available to help make your walking experience memorable. Let me give you some information about the various facilities available there. Of course, there are beds in dormitories for use at a very reasonable seven dollars per person, weekdays or weekends. Unfortunately, we found that pre-booking beds just didn't work, so now we allocate them as people arrive, but we have extra cots and sleeping bags to help with any overflow.\nThere are two family rooms accommodating six people each with private bathrooms. They're thirty-five dollars per room, and for them you will need to make arrangements ahead of time, as they're very popular, especially at the weekends. A popular facility that we've recently added is coin-operated washing machines for your clothes. You can get awfully wet and dirty if you're walking the trail in bad weather, and since we got these machines, you can put on clean gear when you set out in the morning.\nThe hostel serves two meals a day, breakfast at four dollars and dinner at eight dollars, the same for adults and kids. There's always a vegetarian and a non-vegetarian option, depending on your preferences. We do ask you to give a hand with serving and cleaning up after meals. We have plenty of showers and unlimited hot water available, so you can have this luxury at no charge and you can enjoy it as long as you like.\nNow, some people like to spend time on the trail on mountain bikes and maybe take a bit of a rest from all that walking, and that's permitted as long as you observe basic safety rules. The hostel's in the process of creating a bike rental scheme, which should be up and running next year. So, if you think...",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "Shampoo Marketing Project",
+        "transcript": "Michael: Hi, Janet. How are you getting on with the shampoo marketing project?\nJanet: Hi, Michael. It's interesting. I've read how shampoo marketing has developed over the last hundred years.\nMichael: Oh, I didn't think we needed to do that.\nJanet: True, but I'm interested anyway. Basically, what was once sold as an economical way of getting your hair clean has evolved into a beauty product.\nMichael: Right.\nJanet: And shampoo's interesting because it's a key influence in how we see ourselves. You've heard of bad hair days. When your hair looks bad, maybe you didn't wash it and you feel bad about it?\nMichael: Heard of them, yes. Had one? No. Don't think they're real, bad hair days. Come on.\nJanet: Well, whatever you want to call them, that's not what research from Yale is suggesting. They're not just imagined, and both sexes are equally affected by them. And when they happen, people tend to perform and feel worse than usual.\nMichael: Right. And I've been reading about shampoo ingredients, chemicals like sodium lauryl sulphate...\nJanet: Methyl chloride.\nMichael: Many of the manufacturers tend to use these, or others like them, though they keep it quiet.\nJanet: Right. When it comes to the product packaging, they're strangely silent about it. Another area it would be interesting to investigate is the labelling on bottles. Apparently, printing directly onto the bottles costs about fifty percent less than sticking a printed label on, because it's a much quicker process. But manufacturers are lukewarm about this because it doesn't enhance the visual impact of the bottle. It comes across as a bit cheap.\nMichael: We need to think about environmental issues. I was surprised how little recycled plastic goes into the bottles. I think it's because light-coloured plastic is more difficult to make from recycled stuff.\nJanet: Yeah, but manufacturers can make their packaging more environmentally friendly just by making it less heavy. I'd like to find out whether some of them actually do when we do the research.\nMichael: Yes, that's worth looking into. Thinking about you as a customer, what's important when choosing shampoo?\nJanet: I'm always wary of special offers. When something's flagged as being half-price, it rarely is, really. But if there's a make I've never seen before, I'm usually up for giving it a go, rather than sticking to one or two favourite brands all my life.\nMichael: Interesting.\nJanet: Shall we discuss some of these shampoo advertisements, then, and try and identify what sort of psychological response each one is trying to get from the viewer?\nMichael: Okay. What about Zing?\nJanet: Well, it'd probably appeal equally to men and women. In the ad we see this happy family, lovely home, healthy good-looking children...\nMichael: With clean hair.\nJanet: Obviously, yes. And I think we're supposed to watch the ad and think, wow, if only my life was like that.\nMichael: Yeah, I know what you mean. I think the advertisers want the viewers to almost wish they were the people in the ad.\nJanet: Sure. I mean, that's very common in advertising.\nMichael: But not universal. You know that ad for Splash shampoo that lasts about five minutes and where there's a story?\nJanet: Oh yes, the commercial about the couple?\nMichael: And all through the commercial, it's not clear if they're going to break up or stay together?\nJanet: Exactly. Well, I think the marketing's been done very cleverly there. I don't think we're supposed to want to be the characters in the commercial, but we're supposed to get to know them a bit.\nMichael: Yes, well, I thought the story was effective. You're glad to learn when it's over that they're obviously going to stay together. But I think the role of the shampoo in the story was a bit thin, to say the least.\nJanet: Hmm, maybe. I suppose some manufacturers don't want to bore people with all the science.\nMichael: Sure. And then there's the Just Go advertisement.\nJanet: Yes, that had lots of technical information about what the shampoo actually consists of. I suppose they want customers to feel confident that when they buy Just Go, they are at least making an informed decision.\nMichael: Yes, they're buying something that will do the job they want it to.\nJanet: That's it. I've read one of the most effective shampoo ads in recent times was the one for Brozene.\nMichael: Yes, but there's no commentary, just images of the shampoo and lots of clean hair. I suppose the effect, though, is very calming, with soft music and very peaceful imagery.\nJanet: Yes, but at the end of the ad we've hardly learned anything about the product, have we?\nMichael: I suppose not. But isn't it interesting how much the ads for what are essentially very similar products vary so much?",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "Science in the Future",
+        "transcript": "Lecturer: In this final lecture of our course on the history of science, I would like to look to the future and tell you about some predictions that have been made about scientific developments. The content for my talk is based on some research in which thirty scientific leaders were invited to comment on the developments that they envisage as likely to come about in their own discipline within fifty years. After summarising some of their most interesting contributions for you, I'll ask you to give me your opinions as to the likelihood of these changes occurring within this timescale. You may also like to suggest some other likely changes yourselves.\nSo first, let's start with computer science, as this is clearly an area where there are bound to be dramatic developments and, even more significantly perhaps, these developments are likely to impact on every other field of learning. The invention of computers represents an enormous leap forward in the field of human endeavour. It could indeed be considered as being as momentous a development as when our predecessors in caves first learned to make fire and use it for all sorts of purposes.\nIn the future, the computational revolution is certain to be generally recognised as a transformation as significant as, say, the industrial revolution. The computer scientists in the study I referred to felt that in the coming decades lives will be significantly enhanced by automated reasoning systems of different types. There was considerable agreement that people will increasingly perceive these computer systems as intelligent. Although many of these will be deployed behind the scenes, others will be in the foreground, serving in an elegant, often collaborative manner to help people do their jobs, to learn and teach, to reflect and remember, to plan and decide.\nWithout going into further detail about this at this point, let's turn to what predictions psychologists had to make. Their key point was that psychological research would inevitably become increasingly varied. It would move into such areas as behavioural economics and social neuroscience. There is likely to be further expansion into domains with more practical relevance, as increasing numbers of women become research scientists, so areas such as health, environment, family and social identity will receive more attention.\nAt the same time as they broaden their horizons, psychologists will also intensify their search to discover what exactly determines how we act. They will be assisted in this by imaging devices that will be inserted into the brain and provide a great deal of information about how it behaves. There should be some fascinating discoveries coming to light very soon.\nAnother field that is currently undergoing enormous changes is that of genetics. It is not new to suggest that average life expectancy is likely to continue rising in most countries. However, today geneticists emphasise that it is vital that the increasing number of the elderly in society must take quality of life into account.\nSo how will genetics help this to happen? To start with, they hope to develop technologies that can sequence each person's genome extremely cheaply. This information about our DNA enables healthcare providers to predict our likelihood of suffering from any particular disease. From there on, it is a matter of weighing up various factors with a view to determining what can be done to minimise each individual's level of risk. With such information in hand, new treatments will be developed, and the current one-size-fits-all approach to healthcare will give way to a more personal approach.\nThe final subject area that I wish to bring to your attention is that of zoology. Once again, computers and technology have a key role to play here. Experts comment specifically on the importance of satellites for future developments in this field. These enable people to explore the world from their homes, offices and schools. It is now possible, for instance, to go online and see for yourself the abundant wildlife in one part of East Africa, and in the surrounding region the harm people have done by destroying the forests, all supposedly in the name of development.\nZoologists believe the breakthrough that lies ahead is how people act on such information as this. They hope that we will learn to connect our minds to our hearts and apply this knowledge to help protect our planet. They express a clear hope that a greater understanding of the consequences of human short-sightedness will make people anxious to rectify what we can before it is too late.",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "North Star Camping Equipment – order reference",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "5174XCM",
+        "alternatives": [
+          "5174 XCM",
+          "5174-XCM"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Sleeping bags – design",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "SUMMER",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Air mattresses – item needed",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "PUMP",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Water container",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "BOTTLE",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "Metal dining items",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "PLATES",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "Material of two torches",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "RUBBER",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "Children’s ball-game set",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "BASEBALL",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Recent item for the area",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "MAP",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "Street in Bayswater",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "TAUPO",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Discounted delivery charge",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "25.50",
+        "alternatives": [
+          "$25.50",
+          "25.5",
+          "25,50",
+          "$25.5"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "All entry points along the trail",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) provide secure parking facilities for cars.",
+          "B) are within easy access from public roads.",
+          "C) have a regular shuttle bus service."
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "Facility added as a result of a user survey",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) electric recharge points",
+          "B) picnic areas",
+          "C) maps and other information"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "Red Rock Walk – what can hikers easily do?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) see many different plants.",
+          "B) enjoy spectacular scenic views.",
+          "C) identify a wide range of birds."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "River Walk in wintertime",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) There are not many other walkers in the area.",
+          "B) The area does not get much ice and snow.",
+          "C) It may not be possible to use this section of the trail."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "Halfway Hostel – dormitory beds",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) only at weekends",
+          "B) voluntary donation expected",
+          "C) not yet available",
+          "D) help from guests requested",
+          "E) provided free",
+          "F) advance booking required",
+          "G) new equipment",
+          "H) available on first-come-first-served basis",
+          "I) special rate for children"
+        ],
+        "key": "H",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "Halfway Hostel – family rooms",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) only at weekends",
+          "B) voluntary donation expected",
+          "C) not yet available",
+          "D) help from guests requested",
+          "E) provided free",
+          "F) advance booking required",
+          "G) new equipment",
+          "H) available on first-come-first-served basis",
+          "I) special rate for children"
+        ],
+        "key": "F",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "Halfway Hostel – clothes washing",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) only at weekends",
+          "B) voluntary donation expected",
+          "C) not yet available",
+          "D) help from guests requested",
+          "E) provided free",
+          "F) advance booking required",
+          "G) new equipment",
+          "H) available on first-come-first-served basis",
+          "I) special rate for children"
+        ],
+        "key": "G",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "Halfway Hostel – meals",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) only at weekends",
+          "B) voluntary donation expected",
+          "C) not yet available",
+          "D) help from guests requested",
+          "E) provided free",
+          "F) advance booking required",
+          "G) new equipment",
+          "H) available on first-come-first-served basis",
+          "I) special rate for children"
+        ],
+        "key": "D",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "Halfway Hostel – hot showers",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) only at weekends",
+          "B) voluntary donation expected",
+          "C) not yet available",
+          "D) help from guests requested",
+          "E) provided free",
+          "F) advance booking required",
+          "G) new equipment",
+          "H) available on first-come-first-served basis",
+          "I) special rate for children"
+        ],
+        "key": "E",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "Halfway Hostel – bicycle rental",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) only at weekends",
+          "B) voluntary donation expected",
+          "C) not yet available",
+          "D) help from guests requested",
+          "E) provided free",
+          "F) advance booking required",
+          "G) new equipment",
+          "H) available on first-come-first-served basis",
+          "I) special rate for children"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "How shampoo has changed over time",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) a cheaper product.",
+          "B) more hygienic in its effects.",
+          "C) a different kind of commodity."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "Janet’s opinion of bad hair days",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) They really do exist.",
+          "B) Women worry about them more than men.",
+          "C) Their name is inaccurate."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "Chemicals used in shampoos",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) All shampoos contain the same chemicals.",
+          "B) The chemicals are believed to be dangerous.",
+          "C) The presence of the chemicals is rarely publicised."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "Direct bottle printing compared with labels",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) costs more.",
+          "B) looks less attractive.",
+          "C) takes a lot longer."
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "Environmental aspect to investigate",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) the appearance of shampoo bottles.",
+          "B) variations in the weight of shampoo bottles.",
+          "C) the source of recycled plastic in shampoo bottles."
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "Michael’s purchase preferences",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) loyalty to certain brands.",
+          "B) desire to get value for money.",
+          "C) willingness to try new products."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "Zing – advertising focus",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) link to relaxation",
+          "B) enviable lifestyle",
+          "C) natural ingredients",
+          "D) masculine image",
+          "E) product reliability",
+          "F) romantic interest",
+          "G) use by celebrities"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Splash – advertising focus",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) link to relaxation",
+          "B) enviable lifestyle",
+          "C) natural ingredients",
+          "D) masculine image",
+          "E) product reliability",
+          "F) romantic interest",
+          "G) use by celebrities"
+        ],
+        "key": "F",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Just Go – advertising focus",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) link to relaxation",
+          "B) enviable lifestyle",
+          "C) natural ingredients",
+          "D) masculine image",
+          "E) product reliability",
+          "F) romantic interest",
+          "G) use by celebrities"
+        ],
+        "key": "E",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Brozene – advertising focus",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) link to relaxation",
+          "B) enviable lifestyle",
+          "C) natural ingredients",
+          "D) masculine image",
+          "E) product reliability",
+          "F) romantic interest",
+          "G) use by celebrities"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "Discovery as significant as the invention of computers",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "FIRE",
+        "alternatives": [
+          "fire"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "How future computer systems will be perceived",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "INTELLIGENT",
+        "alternatives": [
+          "intelligent"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "Psychology research – how it will become",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "VARIED",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "More people working in psychology research",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "WOMEN",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "Organ studied using brain-imaging devices",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "BRAIN",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "Important consideration for elderly people",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "QUALITY",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Potential health risk identified by genome sequencing",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "DISEASE",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "Basis of future personalised treatment",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "PERSONAL",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "What has been destroyed in East Africa",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "FORESTS",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "What zoologists hope to protect",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "PLANET",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The source question, answer key and corresponding recording support this answer.\nListen for a correction or a distractor before committing to an answer. Keep the requested word limit and letter code."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "put aside",
+        "pos": "phrasal verb",
+        "uz": "ajratib qo‘ymoq",
+        "def": "reserve or save something for a later occasion",
+        "ex": "The assistant agreed to put camping equipment aside for the customer.",
+        "also": []
+      },
+      {
+        "word": "online catalogue",
+        "pos": "noun phrase",
+        "uz": "onlayn katalog",
+        "def": "an online list of products or services",
+        "ex": "He browsed the online catalogue before calling.",
+        "also": []
+      },
+      {
+        "word": "order reference",
+        "pos": "noun phrase",
+        "uz": "buyurtma raqami",
+        "def": "identifier used to locate a purchase",
+        "ex": "Please quote your order reference when contacting support.",
+        "also": []
+      },
+      {
+        "word": "air mattress",
+        "pos": "noun phrase",
+        "uz": "havo to‘shagi",
+        "def": "inflatable mattress used for camping",
+        "ex": "Air mattresses are convenient for family camping.",
+        "also": []
+      },
+      {
+        "word": "unbreakable",
+        "pos": "adjective",
+        "uz": "sinmaydigan",
+        "def": "unlikely to break when dropped",
+        "ex": "Metal plates are an unbreakable alternative.",
+        "also": []
+      },
+      {
+        "word": "up-to-date",
+        "pos": "adjective",
+        "uz": "eng so‘nggi ma’lumotli",
+        "def": "containing current and accurate information",
+        "ex": "Pack an up-to-date map before you set off.",
+        "also": []
+      },
+      {
+        "word": "discounted delivery charge",
+        "pos": "noun phrase",
+        "uz": "chegirmali yetkazib berish haqi",
+        "def": "lowered shipping fee",
+        "ex": "The order qualified for a discounted delivery charge.",
+        "also": []
+      },
+      {
+        "word": "entry point",
+        "pos": "noun phrase",
+        "uz": "kirish nuqtasi",
+        "def": "place where a route may be joined",
+        "ex": "All entry points are connected to public roads.",
+        "also": []
+      },
+      {
+        "word": "roughly east to west",
+        "pos": "adverbial phrase",
+        "uz": "taxminan sharqdan g‘arbga",
+        "def": "approximately in that direction",
+        "ex": "The trail runs roughly east to west.",
+        "also": []
+      },
+      {
+        "word": "in response to",
+        "pos": "fixed expression",
+        "uz": "...ga javoban",
+        "def": "as a reaction to something",
+        "ex": "New kiosks were installed in response to survey feedback.",
+        "also": []
+      },
+      {
+        "word": "vegetation",
+        "pos": "noun",
+        "uz": "o‘simliklar qoplami",
+        "def": "plant life in an area",
+        "ex": "Visitors can study varied vegetation along the trail.",
+        "also": []
+      },
+      {
+        "word": "allocate on arrival",
+        "pos": "verb phrase",
+        "uz": "kelganda taqsimlamoq",
+        "def": "assign something to people as they arrive",
+        "ex": "The hostel allocates dormitory beds on arrival.",
+        "also": []
+      },
+      {
+        "word": "arrangements ahead of time",
+        "pos": "noun phrase",
+        "uz": "oldindan kelishuvlar",
+        "def": "plans made before an event",
+        "ex": "Family rooms require arrangements ahead of time.",
+        "also": []
+      },
+      {
+        "word": "coin-operated",
+        "pos": "adjective",
+        "uz": "tanga bilan ishlaydigan",
+        "def": "operated by inserting coins",
+        "ex": "Coin-operated washing machines are available.",
+        "also": []
+      },
+      {
+        "word": "environmentally friendly",
+        "pos": "adjective phrase",
+        "uz": "atrof-muhitga zarar yetkazmaydigan",
+        "def": "designed to reduce environmental harm",
+        "ex": "Lighter packaging is often more environmentally friendly.",
+        "also": []
+      },
+      {
+        "word": "evolve into",
+        "pos": "phrasal verb",
+        "uz": "...ga aylanish",
+        "def": "develop or change into something",
+        "ex": "Shampoo has evolved into a beauty product.",
+        "also": []
+      },
+      {
+        "word": "psychological response",
+        "pos": "noun phrase",
+        "uz": "psixologik reaksiya",
+        "def": "mental or emotional reaction",
+        "ex": "Ads are designed to prompt a psychological response.",
+        "also": []
+      },
+      {
+        "word": "lukewarm about",
+        "pos": "adjective phrase",
+        "uz": "...ga unchalik qiziqmas",
+        "def": "not enthusiastic or supportive",
+        "ex": "Manufacturers are lukewarm about direct printing.",
+        "also": []
+      },
+      {
+        "word": "visual impact",
+        "pos": "noun phrase",
+        "uz": "vizual ta’sir",
+        "def": "visual effect on an audience",
+        "ex": "Packaging design affects a product’s visual impact.",
+        "also": []
+      },
+      {
+        "word": "make an informed decision",
+        "pos": "collocation",
+        "uz": "xabardor holda qaror qabul qilmoq",
+        "def": "choose after considering relevant evidence",
+        "ex": "Technical details help buyers make an informed decision.",
+        "also": []
+      },
+      {
+        "word": "short-sightedness",
+        "pos": "noun",
+        "uz": "uzoqni ko‘ra olmaslik",
+        "def": "failure to consider future consequences",
+        "ex": "Environmental short-sightedness can cause lasting damage.",
+        "also": []
+      },
+      {
+        "word": "an enormous leap forward",
+        "pos": "noun phrase",
+        "uz": "ulkan taraqqiyot",
+        "def": "very significant progress",
+        "ex": "Computing represented an enormous leap forward.",
+        "also": []
+      },
+      {
+        "word": "automated reasoning",
+        "pos": "noun phrase",
+        "uz": "avtomatlashtirilgan mantiqiy xulosa chiqarish",
+        "def": "software reasoning without constant human direction",
+        "ex": "Automated reasoning can help people plan and decide.",
+        "also": []
+      },
+      {
+        "word": "behind the scenes",
+        "pos": "idiom",
+        "uz": "parda ortida",
+        "def": "working without being obvious or visible",
+        "ex": "Many future systems will operate behind the scenes.",
+        "also": []
+      },
+      {
+        "word": "broaden your horizons",
+        "pos": "idiom",
+        "uz": "dunyoqarashni kengaytirmoq",
+        "def": "increase your knowledge and experience",
+        "ex": "New research fields broaden scientists’ horizons.",
+        "also": []
+      },
+      {
+        "word": "life expectancy",
+        "pos": "noun phrase",
+        "uz": "kutilayotgan umr davomiyligi",
+        "def": "average time a person is expected to live",
+        "ex": "Life expectancy is predicted to rise.",
+        "also": []
+      },
+      {
+        "word": "genome sequencing",
+        "pos": "noun phrase",
+        "uz": "genom ketma-ketligini aniqlash",
+        "def": "reading an organism’s genetic information",
+        "ex": "Genome sequencing can reveal disease risk.",
+        "also": []
+      },
+      {
+        "word": "one-size-fits-all",
+        "pos": "adjective",
+        "uz": "hamma uchun bir xil",
+        "def": "designed without individual differences",
+        "ex": "Personal treatment may replace a one-size-fits-all approach.",
+        "also": []
+      },
+      {
+        "word": "in the name of",
+        "pos": "fixed expression",
+        "uz": "...nomi bilan",
+        "def": "supposedly for a particular purpose",
+        "ex": "Forests were cleared in the name of development.",
+        "also": []
+      },
+      {
+        "word": "rectify",
+        "pos": "verb",
+        "uz": "tuzatmoq",
+        "def": "put something right",
+        "ex": "We must rectify the harm before it is too late.",
+        "also": []
+      }
+    ]
+  }
+}

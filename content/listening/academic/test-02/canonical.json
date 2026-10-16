@@ -1,0 +1,1108 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-2",
+  "title": "Listening Test 2",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "c7860b1c9de8b195e884fbe45323a42388042b6f43010234d07fc504de7a1dc2",
+      "path": "audio/full.mp3"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1964.773878,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": null,
+    "imagePath": null,
+    "sections": [
+      {
+        "number": 1,
+        "title": "AA Property Rentals",
+        "transcript": "SECTION 1 Questions 1-10 You will hear a telephone conversation between a man who wants to rent an apartment and an agent at a property rental service. Good morning, AA Property. Can I help you? Yes, good morning. I'm looking for an apartment to rent. OK. Is that here in Birmingham? That's right. Right. I'll just take some personal details if I may. So, if I can just take your name? Kevin Walker. Right. And can I have your present address, please? Well, we're staying with friends at present, so the address is 354 Forest Road. Is that Forest with one R? That's right. And that's in West Bromwich. I'm afraid I don't know the postcode. That's OK. And a contact phone number? 07817983602 . Lovely. And if I could just ask your occupation? Certainly. I'm a dentist and my wife's a teacher, but she's at home at present looking after the children. OK. So, I'll just put your occupation. Right. Well, now I'll take some details about the kind of property you're looking for. You said you're looking for an apartment, is that right? Yeah. OK. So, how many bedrooms do you want? Two. And did you want it furnished? No, unfurnished . Right. Well, that gives you quite a bit more choice, so that's good. And what's the maximum rent you'd be prepared to pay? Well, we'd like to stay under £600 if possible, but we could go up to £650 for the right place. Right. So, do you have any other definite requirements? Well, coming back to the bedrooms, they have to be doubles , both of them. OK. I'll make a note of that. So, are you looking for something straight away? I assume you are if you're staying with friends. Well, as soon as possible, yes. Well, it's October 17th today, so we're probably looking at November 1st at the earliest. Would that be OK? Well, I'd have preferred something in October, but OK, let's put that date down for now. Fine. Now, is there anything else you'd like? Well, our last flat had a garage, but actually, we never used it, so I'm not really worried about that. But we'd like a balcony if possible. It's nice not to be too shut in. Yes. You'll find most modern apartments do have one. It's only the converted properties that don't. But of course, if you're in an older property, you might have use of a garden . Would that be a possible alternative? Oh yes, either of those would be good. What about transport? Would you want off-street parking? No, parking doesn't matter, but it'd be good to have somewhere not too far from a station if possible. But it's not essential. I've got a bike. Right. And what else? You'll want a lounge, and will you want a separate dining room? Well, not really. We tend to eat in the kitchen, so it'd be good if that was large enough for us to do that. That might be difficult, but I'll make a note of it anyway. Right, well, let's have a look at what...",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Storm Clean-up",
+        "transcript": "SECTION 2 Questions 11-20 You will hear a local councillor giving advice on the radio about cleaning up after recent bad weather. Welcome to Radio OK, your community radio station. After our recent bad storm, we have Councillor Phil Evans joining us to tell us about the clean-up effort. Welcome, Phil. Hello. Thanks for having me. Well, we had some pretty severe weather at the weekend. Thankfully, it wasn't quite as bad as last year's storm. Although there was some damage to trees, it was definitely not on the same scale as last year, and we were expecting the river level to rise higher than it did. But having said that, a much larger number of homes have been damaged this year due to flash flooding near the creek. Those of you who have experienced flooding, we ask you to be especially careful. I know it's upsetting to see your home full of water, but please be patient, as there's nothing you can do until the river level drops, hopefully in two or three days. You won't have any electricity at the moment, but we are working as fast as we can to get it reconnected. When it comes to cleaning up your garden, you might be tempted to just throw dead branches and so on into your normal garbage bin. Please don't. We're asking people to simply stack them outside on the footpath ready for Council collection. We plan to cut them up and use them for composting. For those of you who don't have cooking facilities at the moment, I'm afraid we won't be able to deliver hot meals to your home like the community centre did last year. Instead, we'll be issuing vouchers that you can use to get food from any of the nominated restaurants . Just come to the Council office to collect them. We've had an overwhelming number of people offering to help out. Anyone who would like to volunteer, please don't call the Council office directly. Instead, if you're available to help clean up, just turn up at the community centre by 8am tomorrow and you'll be given the necessary tools and assigned a task by the Council Work Supervisor. As the water level goes down, we may discover more problems. We'll be assessing the drinking water regularly so that there's no risk of contamination. Just be aware that local wildlife can be forced out of their natural habitat in this weather. Let the Council know of any unusual sightings so we can safely relocate them. It may seem that mosquitoes are around in abundance right now, but the actual population is usual for this time of year. Now we'll give you some information about key areas in the town. The school escaped any real problems and we'll be using its car park and some of the classrooms to coordinate the clean up. Because of that, the Principal is asking for volunteers to assist in getting the classrooms set back up again with the desks back in their proper places before the new term begins after the holidays. The hospital is still fully functional and the only damage there was to the canteen where a tree branch broke a window . You can still access the area as normal, we just ask that you park at the rear of the hospital until the repair work has been completed. If you need to get to the shops, the High Street is still a little flooded so I'm afraid you'll have to collect your shopping on foot for a little while. Hopefully, it won't be long before you'll be able to drive there again. Before the storm, we had hoped to begin work on modernising the bikeway that runs along the river. We were particularly looking forward to having bike storage facilities installed. While the bikeway itself is okay, unfortunately the area around it is covered in water. So we've postponed our work there indefinitely and I'm afraid it's now unlikely that this will ever go ahead. Well, that's everything for now. I'll be back with a further update tomorrow.",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "Possible Course Change",
+        "transcript": "SECTION 3 Questions 21-30 You will hear a student talking to a tutor at her college about the possibility of changing her course. Ah, hello. Do come in. Thanks. I understand you wanted to see me about changing courses? Yes, that's right. Well, that's fine. Do sit down. Oh, thank you. Now, you're Sally Lehman? That's it. Right then, Sally. And what course are you doing at the present? It's Economic History . Uh-huh. And when did you start? Last September . Right, good. Now, of course, we'll have the chance to talk through any problems you've been having in a moment, but let me just make a note of what courses you might be interested in changing to. Well, there are several that I've thought about, but what I'd like to do most is Politics . Well, that is a very popular course. I know, and there might not be places, but… Sure, I'll certainly take a note of that. But what about another option? Well, I had thought of changing course completely and trying business studies, but then I realised it wasn't really me, so I thought of Philosophy . Right, well, that's useful to know, but if at all possible, it is good to talk through the problems you are having at the moment and see if there's any way we can help or that you can help yourself. After all, with all the effort that you've put in already, it would be a pity to have to start all over again. Oh no, I realise that. And actually, I would like to have a go at staying with Economic History. Good. Yeah, well, let's see. Let's talk through some of the problems you've been having. What would you say was your major difficulty on the course? I think I'd have to say the worst thing is that I find the lectures difficult . Aha. And how have you tried to overcome this? Well, I did try recording lectures, you know. Yes, that's a good idea. And did you find it helped? To a certain extent, but... Well, I would certainly continue with that strategy, but you might also like to try getting together with other fellow students to discuss lectures in what we call a discussion group . Yeah, I've heard of some of my course mates doing that. I could certainly ask if I could join. Good. I'm sure you'd find it a help. And any other problems? Well, this really worried me at the beginning. The fact that there are not enough tutorials . Not enough tutorials. Did you talk to your tutor about it? Yeah, that was what I thought was the best strategy. It's what all the student handbooks say. Yeah, and what was the outcome? Well, really, just that she's very busy and I have to fit in tutorials when she's available, which is really difficult. I agree. It must seem that way. Why don't you try arranging meetings in advance? Well, I can certainly give it a go. Yeah. But I suppose the thing that's been really upsetting me recently is my bad assignment grade. How many have you had back? Just the one. Well, you could say it was early days yet. Well, for the last assignment, which we've just handed in, I did more background reading. And did you feel that helped? Oh, yes, I think so. Well, another strategy might be visiting student services . They offer a lot of advice on assignment preparation. Well, I didn't want to bother them. That's their job. It'd be well worth trying. OK, I'll certainly look into that. Now, what I've done here is to keep a record of our discussions and suggested strategies. And what we normally do is to ask you to try out our suggestions for a while and then come back to discuss the situation, see whether it's improved. And if not, then we can start thinking seriously about those alternative courses. So you'd like me to come back? Yes. Let's say in a month's time. OK. That'd be on 17th of February at 3.30. Is that all right? Yeah, sure. And will I meet with you? I'm afraid I'll be on leave at that time. But I'll leave this record on file and you'll be meeting our senior advisor . Senior advisor. OK, fine. Lovely. Well, I do hope things improve, Sally, and that the change won't be necessary. And if it is, well, we can think about that later. OK? OK. Thanks very much.",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "Perfume Ornaments",
+        "transcript": "SECTION 4 Questions 31-40 You will hear a museum curator giving a presentation about her museum's collection of perfume containers, also known as perfume ornaments. Good morning and welcome to the Walden Gallery. In today's open lecture, I'm going to be talking about our collection of perfume ornaments, or containers. These beautiful objects now form a significant part of the museum's collection and are very popular with the public. But this has not always been the case. Up until relatively recently, the large collection of perfume ornaments held in store, donated by Lady Walden at the beginning of the last century, was not considered to be of much interest and was not on show to the general public. Then, as late as 1989, a visiting professor from the Victoria and Albert Museum commented that some of the objects were worth a great deal , and so the display was created, much as you see it here today. Now before I say anything more about the perfume containers, I thought I'd briefly touch on the background to the development of perfumes themselves. In the West, perfumery really began as late as the 11th century. Bathing and laundering were considered hazardous undertakings because even though there were ample supplies of water, it was often dirty or even infected. As a consequence, as you can imagine, the air was heavy with unpleasant smells, which had to be countered or covered up. In those early days, perfumes were in solid form and mainly made from spices, leaves, and animal fixatives in paste form, for example, musk and ambergris. Wealthy people, the only people who could afford them, carried small globular vessels known as pomanders. I've brought out one ornament from the collection, the oldest one, in fact, from the 14th century, which I'll pass around for you to sample. These pomanders are solid paste balls made of ambergris impregnated with fragrance. The name was derived from the French for apple of ambergris . They must have had a powerful aroma in those days because even now you can smell the fragrance. Now, during the mediaeval period, basically up until the 16th century, perfumes not only made your surroundings smell sweeter, they were believed to have other special properties. Researchers in the 19th century revealed that in mediaeval times, people thought perfumes could help overcome all kinds of bodily ills. But only recently, researchers at our museum have found that they were also believed to significantly raise the spirits of the wearer . Turning now to some more technical details, with the advent of liquid perfume from the mid-18th century, craftsmen had to use precision techniques to ensure there was an airtight seal on the container. It is clear that however beautiful these seemingly fragile objects were, they were essentially utilitarian, designed to stop the extremely valuable substances inside them from evaporating . Let's turn now to have a look at some of the key developments in perfume containers in the last 200 years or so. From the late 18th century onwards, the vinaigrette came into vogue. The vinaigrette was a miniature box which opened on a hinge, containing a tiny sponge soaked with perfume . This was placed under a grill through which you could smell the fragrance. It was widely used to carry the highly corrosive scent known as vinegar water, hence the name. The outer box could be made of any material, but the lining was gold because the perfume tended to corrode other substances. From the mid-19th century, vinaigrettes were replaced by more conventional bottles. They were often made of glass, of course, but metal was another common material used, and very occasionally they were made of more unusual materials like horn. By now these beautiful objects were more affordable . This was the age of the Industrial Revolution in Western Europe, and the bottles were mass-produced and thus available not just to the very wealthy. In the last quarter of the 19th century, one company above all became associated with the design and production of perfume bottles, the Tiffany Company. They developed a wide range of designs, most notably based on those of the furniture of the period. Their particular achievement was their stylish and clever working of crystal . Although these perfume ornaments were very expensive, Tiffany & Co. were able to use catalogues to reach a wider clientele. Many innovative designs were used in perfume ornaments produced in the 1920s and 30s. The most notable was probably the vanity. This was an ingeniously designed case used not only for holding perfume, but also makeup, in a whole maze of tiny additional compartments. It was made in the first instance of ivory, but later bakelite was used, the resinous plastic which was so popular with all kinds of designers of the period. Now, I've brought along a selection of the items in the collection which I've set out here. If you'd like to come and gather...",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "Address: ___ Road, West Bromwich",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "form_completion",
+        "options": [],
+        "key": "354 Forest",
+        "alternatives": [
+          "354 Forest"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘the address is 354 Forest Road’. The answer ‘354 Forest’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Contact telephone number",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "form_completion",
+        "options": [],
+        "key": "07817983602",
+        "alternatives": [
+          "07817983602"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘And a contact phone number? 07817983602.’. The answer ‘07817983602’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Occupation",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "form_completion",
+        "options": [],
+        "key": "dentist",
+        "alternatives": [
+          "dentist"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘I'm a dentist’. The answer ‘dentist’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "A two-bedroom ___ apartment to rent",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "form_completion",
+        "options": [],
+        "key": "unfurnished",
+        "alternatives": [
+          "unfurnished"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘did you want it furnished? No, unfurnished’. The answer ‘unfurnished’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "The bedrooms must be ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "form_completion",
+        "options": [],
+        "key": "doubles",
+        "alternatives": [
+          "doubles"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘they have to be doubles, both of them’. The answer ‘doubles’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "Date required",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "form_completion",
+        "options": [],
+        "key": "1 November",
+        "alternatives": [
+          "1 November",
+          "1st November",
+          "November 1",
+          "November 1st"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘we're probably looking at November 1st at the earliest’. The answer ‘1 November / 1st November / November 1 / November 1st’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "If possible, the apartment should have a ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "form_completion",
+        "options": [],
+        "key": "balcony",
+        "alternatives": [
+          "balcony"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘we'd like a balcony if possible’. The answer ‘balcony’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Alternative outdoor space: a ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "form_completion",
+        "options": [],
+        "key": "garden",
+        "alternatives": [
+          "garden"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘you might have use of a garden’. The answer ‘garden’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "The apartment should be near a ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "form_completion",
+        "options": [],
+        "key": "station",
+        "alternatives": [
+          "station"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘not too far from a station’. The answer ‘station’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "The apartment should have a large ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "form_completion",
+        "options": [],
+        "key": "kitchen",
+        "alternatives": [
+          "kitchen"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘We tend to eat in the kitchen, so it'd be good if that was large enough’. The answer ‘kitchen’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "Compared to last year's storm, what was different this year?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) more houses in the area were affected.",
+          "B) the water levels rose much higher.",
+          "C) there was more severe damage to trees."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘a much larger number of homes have been damaged this year’. This corresponds to A) more houses in the area were affected..\nDistractors: B) the water levels rose much higher. | C) there was more severe damage to trees."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "What should a resident do if their home has been flooded?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) switch off the electricity",
+          "B) try to drain the water",
+          "C) wait for a few days"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘please be patient, as there's nothing you can do until the river level drops, hopefully in two or three days’. This corresponds to C) wait for a few days.\nDistractors: A) switch off the electricity | B) try to drain the water"
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "What should residents do with garden waste?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) put it in a special bin",
+          "B) take it to the council rubbish centre",
+          "C) pile it next to the road"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘stack them outside on the footpath’. This corresponds to C) pile it next to the road.\nDistractors: A) put it in a special bin | B) take it to the council rubbish centre"
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "What should people without cooking facilities do?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) pick up vouchers from the council office",
+          "B) get a meal in the community centre",
+          "C) arrange for food to be brought to their home"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘issuing vouchers that you can use to get food from any of the nominated restaurants’. This corresponds to A) pick up vouchers from the council office.\nDistractors: B) get a meal in the community centre | C) arrange for food to be brought to their home"
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "What are people who want to help asked to do?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) contact their local council office",
+          "B) come to the community centre in the morning",
+          "C) bring their tools to the council office"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘turn up at the community centre by 8am tomorrow’. This corresponds to B) come to the community centre in the morning.\nDistractors: A) contact their local council office | C) bring their tools to the council office"
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "What problem should residents report to the council?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) an increased number of mosquitoes",
+          "B) native animals found in unusual places",
+          "C) contaminated water"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘local wildlife can be forced out of their natural habitat’. This corresponds to B) native animals found in unusual places.\nDistractors: A) an increased number of mosquitoes | C) contaminated water"
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "What comment is made about the school?",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A It can't be reached by car.",
+          "B Repairs are now finished.",
+          "C Planned work has been cancelled.",
+          "D Help is needed to move furniture.",
+          "E New equipment will be bought.",
+          "F Part of the building is damaged."
+        ],
+        "key": "D",
+        "alternatives": [
+          "D"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘volunteers to assist in getting the classrooms set back up again with the desks back in their proper places’. This corresponds to D Help is needed to move furniture..\nDistractors: A It can't be reached by car. | B Repairs are now finished. | C Planned work has been cancelled. | E New equipment will be bought. | F Part of the building is damaged."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "What comment is made about the hospital?",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A It can't be reached by car.",
+          "B Repairs are now finished.",
+          "C Planned work has been cancelled.",
+          "D Help is needed to move furniture.",
+          "E New equipment will be bought.",
+          "F Part of the building is damaged."
+        ],
+        "key": "F",
+        "alternatives": [
+          "F"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘broke a window’. This corresponds to F Part of the building is damaged..\nDistractors: A It can't be reached by car. | B Repairs are now finished. | C Planned work has been cancelled. | D Help is needed to move furniture. | E New equipment will be bought."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "What comment is made about the High Street?",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A It can't be reached by car.",
+          "B Repairs are now finished.",
+          "C Planned work has been cancelled.",
+          "D Help is needed to move furniture.",
+          "E New equipment will be bought.",
+          "F Part of the building is damaged."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘you'll have to collect your shopping on foot’. This corresponds to A It can't be reached by car..\nDistractors: B Repairs are now finished. | C Planned work has been cancelled. | D Help is needed to move furniture. | E New equipment will be bought. | F Part of the building is damaged."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "What comment is made about the bikeway?",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A It can't be reached by car.",
+          "B Repairs are now finished.",
+          "C Planned work has been cancelled.",
+          "D Help is needed to move furniture.",
+          "E New equipment will be bought.",
+          "F Part of the building is damaged."
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘postponed our work there indefinitely’. This corresponds to C Planned work has been cancelled..\nDistractors: A It can't be reached by car. | B Repairs are now finished. | D Help is needed to move furniture. | E New equipment will be bought. | F Part of the building is damaged."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "Current course",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "Economic History",
+        "alternatives": [
+          "Economic History"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘Economic History’. The answer ‘Economic History’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "Date the course started",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "last September",
+        "alternatives": [
+          "last September"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘Last September’. The answer ‘last September’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "First-choice course",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "Politics",
+        "alternatives": [
+          "Politics"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘Politics’. The answer ‘Politics’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "Second-choice course",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "Philosophy",
+        "alternatives": [
+          "Philosophy"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘Philosophy’. The answer ‘Philosophy’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "Main problem: finds lectures ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "difficult",
+        "alternatives": [
+          "difficult"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘I find the lectures difficult’. The answer ‘difficult’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "Suggested strategy: join a ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "discussion group",
+        "alternatives": [
+          "discussion group"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘a discussion group’. The answer ‘discussion group’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "Problem with tutorials",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "not enough tutorials",
+        "alternatives": [
+          "not enough tutorials"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘not enough tutorials’. The answer ‘not enough tutorials’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Further strategy for assignment work",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "visiting student services",
+        "alternatives": [
+          "visiting student services"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘visiting student services’. The answer ‘visiting student services’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Date for next meeting",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "17th of February",
+        "alternatives": [
+          "17th of February",
+          "17 February",
+          "February 17",
+          "17th February"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘17th of February’. The answer ‘17th of February / 17 February / February 17 / 17th February’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Person for next meeting",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "senior advisor",
+        "alternatives": [
+          "senior advisor"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording directly gives ‘senior advisor’. The answer ‘senior advisor’ fits the blank and the task instruction.\nCommon trap: write a nearby detail, use the wrong form, or lose accuracy in spelling/number/date format."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "When did the museum start displaying perfume ornaments?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) a collection was donated",
+          "B) the public showed an interest in them",
+          "C) an expert decided some of them were valuable"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘a visiting professor from the Victoria and Albert Museum commented that some of the objects were worth a great deal’. This corresponds to C) an expert decided some of them were valuable.\nDistractors: a collection was donated | B) the public showed an interest in them"
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "Why did people need to wear perfume in the 11th century?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) washing was considered dangerous",
+          "B) soap was not generally available",
+          "C) water shortages were common"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘Bathing and laundering were considered hazardous undertakings’. This corresponds to A) washing was considered dangerous.\nDistractors: B) soap was not generally available | C) water shortages were common"
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "Where did the name 'pomander' come from?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) the substance it was made of",
+          "B) the liquid inside it",
+          "C) the person who invented it"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘the French for apple of ambergris’. This corresponds to A) the substance it was made of.\nDistractors: B) the liquid inside it | C) the person who invented it"
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "What effect was perfume believed to have in medieval times?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) more wealthy",
+          "B) more attractive",
+          "C) more cheerful"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘significantly raise the spirits of the wearer’. This corresponds to C) more cheerful.\nDistractors: A) more wealthy | B) more attractive"
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "What did craftsmen prevent liquid perfume from doing?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) being spilled",
+          "B) drying up",
+          "C) losing its scent"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘evaporating’. This corresponds to B) drying up.\nDistractors: A) being spilled | C) losing its scent"
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "How was perfume held in a vinaigrette?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) preserved in solid form",
+          "B) absorbed by a sponge",
+          "C) heated over a flame"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘a tiny sponge soaked with perfume’. This corresponds to B) absorbed by a sponge.\nDistractors: A) preserved in solid form | C) heated over a flame"
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Which part of a vinaigrette was made of gold?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) the inside",
+          "B) the outside",
+          "C) the lid"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘the lining was gold’. This corresponds to A) the inside.\nDistractors: B) the outside | C) the lid"
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "What was true of perfume bottles in the mid-19th century?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) were imports from outside Europe",
+          "B) could be bought by large numbers of people",
+          "C) were usually made of horn"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘these beautiful objects were more affordable’. This corresponds to B) could be bought by large numbers of people.\nDistractors: A) were imports from outside Europe | C) were usually made of horn"
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "What was distinctive about Tiffany bottles?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) were produced by a number of companies",
+          "B) could only be bought from catalogues",
+          "C) showed skilled use of crystal"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘their stylish and clever working of crystal’. This corresponds to C) showed skilled use of crystal.\nDistractors: A) were produced by a number of companies | B) could only be bought from catalogues"
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "What was the 'Vanity'?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) used for storing cosmetics",
+          "B) the smallest perfume ornament ever made",
+          "C) developed in the 1950s"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states: ‘a case used not only for holding perfume, but also makeup’. This corresponds to A) used for storing cosmetics.\nDistractors: B) the smallest perfume ornament ever made | C) developed in the 1950s"
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "definite requirements",
+        "pos": "collocation",
+        "uz": "aniq va qat’iy talablar",
+        "def": "specific conditions that are fixed or clearly necessary",
+        "ex": "So, do you have any other definite requirements?",
+        "also": [
+          "specific needs",
+          "fixed conditions"
+        ]
+      },
+      {
+        "word": "at the earliest",
+        "pos": "fixed expression",
+        "uz": "eng erta deganda; eng erta vaqtda",
+        "def": "not before the stated time; the soonest possible time",
+        "ex": "Well, it's October 17th today, so we're probably looking at November 1st at the earliest.",
+        "also": [
+          "no earlier than",
+          "the soonest possible"
+        ]
+      },
+      {
+        "word": "on the same scale",
+        "pos": "fixed expression",
+        "uz": "xuddi shu ko‘lamda; bir xil miqyosda",
+        "def": "to the same degree, size, or extent",
+        "ex": "Although there was some damage to trees, it was definitely not on the same scale as last year, and we were expecting the river level to rise higher than it did.",
+        "also": [
+          "to the same extent",
+          "of comparable magnitude"
+        ]
+      },
+      {
+        "word": "flash flooding",
+        "pos": "collocation",
+        "uz": "to‘satdan yuz beradigan tezkor suv toshqini",
+        "def": "sudden and rapid flooding, usually after intense rain",
+        "ex": "But having said that, a much larger number of homes have been damaged this year due to flash flooding near the creek.",
+        "also": [
+          "sudden flooding",
+          "rapid inundation"
+        ]
+      },
+      {
+        "word": "overwhelming number",
+        "pos": "collocation",
+        "uz": "nihoyatda ko‘p son; juda katta miqdor",
+        "def": "an extremely large number that is difficult to deal with or ignore",
+        "ex": "We've had an overwhelming number of people offering to help out.",
+        "also": [
+          "an exceptionally large number",
+          "a huge volume"
+        ]
+      },
+      {
+        "word": "risk of contamination",
+        "pos": "collocation",
+        "uz": "ifloslanish yoki zararlanish xavfi",
+        "def": "the possibility that something becomes polluted, infected, or unsafe",
+        "ex": "We'll be assessing the drinking water regularly so that there's no risk of contamination.",
+        "also": [
+          "danger of pollution",
+          "possibility of impurity"
+        ]
+      },
+      {
+        "word": "natural habitat",
+        "pos": "collocation",
+        "uz": "tabiiy yashash muhiti",
+        "def": "the environment in which a species normally lives and develops",
+        "ex": "Just be aware that local wildlife can be forced out of their natural habitat in this weather.",
+        "also": [
+          "native environment",
+          "natural home"
+        ]
+      },
+      {
+        "word": "postpone indefinitely",
+        "pos": "collocation",
+        "uz": "noma’lum muddatga kechiktirmoq",
+        "def": "to delay something without setting a new date or end point",
+        "ex": "So we've postponed our work there indefinitely and I'm afraid it's now unlikely that this will ever go ahead.",
+        "also": [
+          "put off without a new date",
+          "delay for an unknown period"
+        ]
+      },
+      {
+        "word": "talk through",
+        "pos": "phrasal verb",
+        "uz": "batafsil muhokama qilib chiqmoq",
+        "def": "to discuss something carefully and step by step",
+        "ex": "Now, of course, we'll have the chance to talk through any problems you've been having in a moment, but let me just make a note of what courses you might be interested in changing to.",
+        "also": [
+          "discuss in detail",
+          "work through verbally"
+        ]
+      },
+      {
+        "word": "start all over again",
+        "pos": "fixed expression",
+        "uz": "hammasini boshidan qayta boshlamoq",
+        "def": "to begin again from the very beginning",
+        "ex": "After all, with all the effort that you've put in already, it would be a pity to have to start all over again.",
+        "also": [
+          "restart completely",
+          "begin again from the beginning"
+        ]
+      },
+      {
+        "word": "to a certain extent",
+        "pos": "adverbial phrase",
+        "uz": "ma’lum darajada; qisman",
+        "def": "partly, but not completely",
+        "ex": "To a certain extent, but...",
+        "also": [
+          "partly",
+          "up to a point"
+        ]
+      },
+      {
+        "word": "background reading",
+        "pos": "collocation",
+        "uz": "mavzu bo‘yicha qo‘shimcha tayanch o‘qish",
+        "def": "reading done to build broader knowledge before or around a task",
+        "ex": "Well, for the last assignment, which we've just handed in, I did more background reading.",
+        "also": [
+          "preparatory reading",
+          "supporting reading"
+        ]
+      },
+      {
+        "word": "look into",
+        "pos": "phrasal verb",
+        "uz": "tekshirib ko‘rmoq; chuqurroq o‘rganmoq",
+        "def": "to investigate or consider something carefully",
+        "ex": "OK, I'll certainly look into that.",
+        "also": [
+          "investigate",
+          "examine more closely"
+        ]
+      },
+      {
+        "word": "hazardous undertaking",
+        "pos": "adjective + noun phrase",
+        "uz": "xavfli ish yoki faoliyat",
+        "def": "an activity or task involving significant danger or risk",
+        "ex": "Bathing and laundering were considered hazardous undertakings because even though there were ample supplies of water, it was often dirty or even infected.",
+        "also": [
+          "dangerous activity",
+          "risky undertaking"
+        ]
+      },
+      {
+        "word": "as a consequence",
+        "pos": "linking phrase",
+        "uz": "natijada; buning oqibatida",
+        "def": "used to introduce a result caused by what was just mentioned",
+        "ex": "As a consequence, as you can imagine, the air was heavy with unpleasant smells, which had to be countered or covered up.",
+        "also": [
+          "as a result",
+          "consequently"
+        ]
+      },
+      {
+        "word": "impregnated with fragrance",
+        "pos": "collocation",
+        "uz": "xushbo‘y modda bilan shimdirilgan",
+        "def": "saturated or infused with a scented substance",
+        "ex": "These pomanders are solid paste balls made of ambergris impregnated with fragrance.",
+        "also": [
+          "infused with scent",
+          "saturated with fragrance"
+        ]
+      },
+      {
+        "word": "with the advent of",
+        "pos": "fixed expression",
+        "uz": "... paydo bo‘lishi bilan; ... kirib kelishi bilan",
+        "def": "when a new development, technology, or period begins to exist",
+        "ex": "Turning now to some more technical details, with the advent of liquid perfume from the mid-18th century, craftsmen had to use precision techniques to ensure there was an airtight seal on the container.",
+        "also": [
+          "with the arrival of",
+          "following the emergence of"
+        ]
+      },
+      {
+        "word": "come into vogue",
+        "pos": "fixed expression",
+        "uz": "urfga kirmoq; ommalashmoq",
+        "def": "to become fashionable or widely popular",
+        "ex": "From the late 18th century onwards, the vinaigrette came into vogue.",
+        "also": [
+          "become fashionable",
+          "gain popularity"
+        ]
+      },
+      {
+        "word": "highly corrosive",
+        "pos": "collocation",
+        "uz": "juda kuchli yemiruvchi; korroziv",
+        "def": "capable of causing strong chemical damage or gradual destruction",
+        "ex": "It was widely used to carry the highly corrosive scent known as vinegar water, hence the name.",
+        "also": [
+          "strongly damaging chemically",
+          "chemically destructive"
+        ]
+      },
+      {
+        "word": "ingeniously designed",
+        "pos": "collocation",
+        "uz": "nihoyatda zukkolik bilan loyihalangan",
+        "def": "designed in a clever, inventive, and effective way",
+        "ex": "This was an ingeniously designed case used not only for holding perfume, but also makeup, in a whole maze of tiny additional compartments.",
+        "also": [
+          "cleverly designed",
+          "inventively constructed"
+        ]
+      }
+    ]
+  }
+}

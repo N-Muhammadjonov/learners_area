@@ -58,6 +58,32 @@ test('all nine authored activities hide the library bar, returning to the hub re
   }
 });
 
+test('split audio and map load together; frame receives every Blob only after all are ready; another test evicts reuse',async()=>{
+ const oldFetch=globalThis.fetch,oldCreate=URL.createObjectURL,oldRevoke=URL.revokeObjectURL;
+ const pending:{url:string;finish:()=>void}[]=[];
+ const split={...content,storageKey:'la_listening_test_8_v2',audioUrl:'/api/resources/part-1.mp3',audioPath:'audio/part-1.mp3',additionalAudio:[{path:'audio/part-2.mp3',url:'/api/resources/part-2.mp3'},{path:'audio/part-3.mp3',url:'/api/resources/part-3.mp3'}],imagePath:'images/map.png',imageUrl:'/api/resources/map.png',runtime:{entryPath:'source.html',files:{'source.html':'<!doctype html><html><head></head><body><audio src="[embedded:audio/part-1.mp3]"></audio><script>const parts=["[embedded:audio/part-2.mp3]","[embedded:audio/part-3.mp3]"];</script><img src="[embedded:images/map.png]"></body></html>'}}};
+ let current=split as typeof content|typeof split,created=0;
+ globalThis.fetch=async input=>{const url=String(input);if(url.endsWith('/authored'))return {ok:true,json:async()=>current} as Response;if(url.endsWith('/authored-state'))return {ok:true,json:async()=>({values:{}})} as Response;return {ok:true,blob:()=>new Promise<Blob>(resolve=>pending.push({url,finish:()=>resolve(new Blob(['media']))}))} as Response;};
+ URL.createObjectURL=()=>`blob:https://parent.fixture/${++created}`;URL.revokeObjectURL=()=>{};
+ let root=createRoot(document.getElementById('root')!);
+ try{
+  privateResources.setScope('student');
+  await act(async()=>root.render(<AuthoredListeningFrame id="split" userId="student" dict={en}/>));
+  assert.equal(pending.length,4,'all three audio requests and map start before any finishes');assert.equal(document.querySelector('iframe'),null,'existing all-assets-before-init contract remains');
+  await act(async()=>{pending.forEach(p=>p.finish());});
+  const iframe=document.querySelector('iframe')!;assert.ok(iframe);
+  let initial:{html:string;assets:Record<string,Blob>}|undefined;
+  iframe.contentWindow!.postMessage=data=>{initial=data;};
+  await act(async()=>iframe.dispatchEvent(new dom.window.Event('load')));
+  assert.equal(Object.keys(initial!.assets).length,4);assert.doesNotMatch(initial!.html,/\[embedded:/);
+  assert.match(initial!.html,/la_listening_test_8_v2/);assert.equal(privateResources.size(),3,'only this test audio is retained');
+  await act(async()=>root.unmount());current=content;root=createRoot(document.getElementById('root')!);
+  await act(async()=>root.render(<AuthoredListeningFrame id="next" userId="student" dict={en}/>));
+  await act(async()=>pending.at(-1)!.finish());
+  assert.equal(privateResources.size(),1,'moving to another test does not accumulate recordings');
+ }finally{await act(async()=>root.unmount());privateResources.setScope(null);globalThis.fetch=oldFetch;URL.createObjectURL=oldCreate;URL.revokeObjectURL=oldRevoke;}
+});
+
 test('repeat opening reuses only the original audio, rechecks auth/state, and clears reuse on account change',async()=>{
   const oldFetch=globalThis.fetch,oldCreate=URL.createObjectURL,oldRevoke=URL.revokeObjectURL;
   let audioReads=0,metadataReads=0,stateReads=0,denied=false;

@@ -6,11 +6,12 @@ import {AUTHORED_SANDBOX,isolateAuthoredDocument,validRuntimeMessage} from "@/li
 import {WordPopover} from "@/components/vocabulary/ClickableText";
 import {privateResources} from "@/lib/client/private-resource";
 type Runtime={entryPath:string;files:Record<string,string>};
-type Content={nativePersistence?:boolean;runtime:Runtime;audioUrl:string;audioPath:string;imageUrl:string|null;imagePath:string|null;vocabulary:VocabularySessionItem[]};
-function bridge(token:string,stored:Record<string,string>,notesLabel:string) {
- return `(()=>{const token=${JSON.stringify(token)}, initial=${JSON.stringify(stored)}, notesLabel=${JSON.stringify(notesLabel)};
+type Content={nativePersistence?:boolean;storageKey?:string;additionalAudio?:{path:string;url:string}[];runtime:Runtime;audioUrl:string;audioPath:string;imageUrl:string|null;imagePath:string|null;vocabulary:VocabularySessionItem[]};
+let cachedAudioTest='';
+function bridge(token:string,stored:Record<string,string>,notesLabel:string,storageKey='la_listening_test_1_v2') {
+ return `(()=>{const token=${JSON.stringify(token)}, initial=${JSON.stringify(stored)}, notesLabel=${JSON.stringify(notesLabel)}, storageKey=${JSON.stringify(storageKey)};
  const send=(op,rest)=>parent.postMessage({channel:'learners-area-authored-v1',token,op,...rest},'*');
- const makeStorage=(seed,persist)=>{const data={...seed};let timer,maxTimer,lastStatus;const flush=()=>{clearTimeout(timer);clearTimeout(maxTimer);timer=maxTimer=undefined;if(persist)send('storage',{values:{...data}});};const changed=()=>{if(!persist)return;let status;try{status=JSON.parse(data.la_listening_test_1_v2||'{}').attemptStatus;}catch{}if(status!==lastStatus){lastStatus=status;flush();return;}clearTimeout(timer);timer=setTimeout(flush,400);if(!maxTimer)maxTimer=setTimeout(flush,2000);};if(persist)addEventListener('pagehide',flush);return {getItem:k=>Object.hasOwn(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{if(String(v).length>100000)return;data[String(k)]=String(v);changed();},removeItem:k=>{delete data[String(k)];changed();},clear:()=>{for(const k in data)delete data[k];changed();},key:i=>Object.keys(data)[i]??null,get length(){return Object.keys(data).length}}};
+ const makeStorage=(seed,persist)=>{const data={...seed};let timer,maxTimer,lastStatus;const flush=()=>{clearTimeout(timer);clearTimeout(maxTimer);timer=maxTimer=undefined;if(persist)send('storage',{values:{...data}});};const changed=()=>{if(!persist)return;let status;try{status=JSON.parse(data[storageKey]||'{}').attemptStatus;}catch{}if(status!==lastStatus){lastStatus=status;flush();return;}clearTimeout(timer);timer=setTimeout(flush,400);if(!maxTimer)maxTimer=setTimeout(flush,2000);};if(persist)addEventListener('pagehide',flush);return {getItem:k=>Object.hasOwn(data,String(k))?data[String(k)]:null,setItem:(k,v)=>{if(String(v).length>100000)return;data[String(k)]=String(v);changed();},removeItem:k=>{delete data[String(k)];changed();},clear:()=>{for(const k in data)delete data[k];changed();},key:i=>Object.keys(data)[i]??null,get length(){return Object.keys(data).length}}};
  Object.defineProperty(window,'localStorage',{value:makeStorage(initial,true)});Object.defineProperty(window,'sessionStorage',{value:makeStorage({},false)});
  addEventListener('message',e=>{if(e.source===parent&&e.data?.channel==='learners-area-checkpoint'&&e.data.token===token)dispatchEvent(new CustomEvent('la-checkpoint',{detail:e.data.values}));});
  const notes=()=>{const volume=document.querySelector('#examVol,#volume')||Array.from(document.querySelectorAll('input[type="range"]')).find(input=>input.getAttribute('aria-label')?.toLowerCase()==='volume');if(!volume||document.getElementById('la-note-toggle')||document.getElementById('notesBtn'))return;const target=volume.previousElementSibling?.textContent.trim()==='Volume'?volume.previousElementSibling:volume;const button=document.createElement('button');button.id='la-note-toggle';button.type='button';button.textContent=notesLabel;button.style.cssText='background:#4f46e5;color:white;border:0;border-radius:8px;padding:8px 12px';target.before(button);const panel=document.createElement('aside');panel.style.cssText='display:none;position:fixed;right:20px;top:90px;width:min(320px,90vw);padding:16px;background:#171a30;color:white;z-index:9999;border-radius:12px';const label=document.createElement('label');label.textContent=notesLabel;const input=document.createElement('textarea');input.setAttribute('aria-label',notesLabel);input.maxLength=12000;input.value=localStorage.getItem('la-notes')||'';input.style.cssText='display:block;width:100%;min-height:220px;background:#0f1120;color:white';input.oninput=()=>localStorage.setItem('la-notes',input.value);label.append(input);panel.append(label);document.body.append(panel);button.onclick=()=>{panel.style.display=panel.style.display==='none'?'block':'none';button.setAttribute('aria-expanded',String(panel.style.display==='block'));};};
@@ -37,20 +38,23 @@ export function AuthoredListeningFrame({id,userId,dict,preview}:{id:string;userI
  if(!token.current)token.current=crypto.randomUUID();
  useEffect(()=>{const abort=new AbortController(),urls:string[]=[];let live=true;
   mediaBlobs.current={};
-  const objectUrl=(blob:Blob)=>{const url=URL.createObjectURL(blob);urls.push(url);mediaBlobs.current[url]=blob;return url;};
+  const objectUrl=(blob:Blob)=>{if(!live)throw new DOMException('Aborted','AbortError');const url=URL.createObjectURL(blob);urls.push(url);mediaBlobs.current[url]=blob;return url;};
   async function load(){try {
    const data:Content=preview?{runtime:preview.runtime,audioUrl:'',audioPath:preview.audioPath,imageUrl:null,imagePath:preview.imagePath,vocabulary:[]}:await fetch(`/api/listening/full/${id}/authored`,{signal:abort.signal,cache:'no-store'}).then(async r=>{if(!r.ok)throw Error();return r.json();});
    const media:Record<string,string>={};
    const readBlob=async(url:string)=>{if(!url.startsWith('/api/resources/'))throw Error();const read=async()=>{const r=await fetch(url,{signal:abort.signal});if(!r.ok)throw Error();return r.blob();};
-    // Only the immutable original MP3 uses the existing user-scoped memory
+    // Only this versioned test's immutable audio uses the user-scoped memory
     // cache. The authorized metadata and learner checkpoint are still fetched
     // fresh on every mount; source/answer keys and learner state are not cached.
     // Scope changes/logout already clear this cache. The sandbox/Blob handoff
     // and exam controls remain exactly the same as the uncached path.
-    if(data.nativePersistence&&url===data.audioUrl&&privateResources.scope===userId)return privateResources.read(`listening-authored-audio:${id}:${url.split('?')[0]}`,read,{maxAgeMs:5*60_000});
+    if(data.nativePersistence&&(url===data.audioUrl||data.additionalAudio?.some(extra=>extra.url===url))&&privateResources.scope===userId){const scope=userId+':'+id;if(cachedAudioTest!==scope){privateResources.invalidate('listening-authored-audio:');cachedAudioTest=scope;}return privateResources.read(`listening-authored-audio:${id}:${url.split('?')[0]}`,read,{maxAgeMs:5*60_000});}
     return read();};
-   media[data.audioPath]=objectUrl(preview?preview.audioFile:await readBlob(data.audioUrl));
-   if(data.imagePath&&(preview?.imageFile||data.imageUrl))media[data.imagePath]=objectUrl(preview?.imageFile??await readBlob(data.imageUrl!));
+   await Promise.all([
+    (async()=>{media[data.audioPath]=objectUrl(preview?preview.audioFile:await readBlob(data.audioUrl));})(),
+    ...(data.additionalAudio??[]).map(async extra=>{media[extra.path]=objectUrl(await readBlob(extra.url));}),
+    (async()=>{if(data.imagePath&&(preview?.imageFile||data.imageUrl))media[data.imagePath]=objectUrl(preview?.imageFile??await readBlob(data.imageUrl!));})(),
+   ]);
    for(const [name,value]of Object.entries(data.runtime.files))if(/\.(js|css)$/i.test(name))media[name]=objectUrl(new Blob([value],{type:/\.js$/i.test(name)?'text/javascript':'text/css'}));
    if(!live)return;
    if(data.nativePersistence){const response=await fetch(`/api/listening/full/${id}/authored-state`,{signal:abort.signal,cache:'no-store'});if(!response.ok)throw Error();const checkpoint=await response.json();let values=checkpoint.values;try{const outbox=localStorage.getItem(stateKey+':pending');if(outbox){const saved=await fetch(`/api/listening/full/${id}/authored-state`,{method:'PUT',headers:{'Content-Type':'application/json'},body:outbox,signal:abort.signal});if(!saved.ok)throw Error();values=(await saved.json()).values;localStorage.removeItem(stateKey+':pending');}}catch{throw Error();}setStored(values);}else{try{const raw=JSON.parse(localStorage.getItem(stateKey)||'{}');if(raw&&typeof raw==='object'&&JSON.stringify(raw).length<=100000)setStored(raw);}catch{}}
@@ -69,7 +73,7 @@ export function AuthoredListeningFrame({id,userId,dict,preview}:{id:string;userI
    }}window.addEventListener('message',receive);return()=>window.removeEventListener('message',receive);
  },[content,path,preview,stateKey,dict.common.error,id]);
  let document='';if(content&&path){let html=content.runtime.files[path]??'';for(const [name,url]of Object.entries(assets)){html=html.replaceAll(`[embedded:${name}]`,url);html=html.replace(new RegExp(`(["'])${name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}\\1`,'g'),`"${url}"`);}
-  html=html.replace(/\b(src|href)=(['"])([^'"]+)\2/gi,(match,attr,quote,value)=>{const asset=assets[resolvePath(path,value)??''];return asset?`${attr}=${quote}${asset}${quote}`:match;});document=isolateAuthoredDocument(html,bridge(token.current,stored,dict.fullListeningHub.examScreen.noteTaking));}
+  html=html.replace(/\b(src|href)=(['"])([^'"]+)\2/gi,(match,attr,quote,value)=>{const asset=assets[resolvePath(path,value)??''];return asset?`${attr}=${quote}${asset}${quote}`:match;});document=isolateAuthoredDocument(html,bridge(token.current,stored,dict.fullListeningHub.examScreen.noteTaking,content.storageKey));}
  const v=selected?.known;
  return <section className="relative w-full" data-authored-listening data-activity-active={activityActive?'true':undefined}>{error&&<p role="alert">{error}</p>}{!document&&!error&&<p>{dict.common.loading}</p>}{document&&<iframe ref={frame} key={path} title={dict.nav.listening} sandbox={AUTHORED_SANDBOX} referrerPolicy="no-referrer" src={`/api/listening/full/${preview?"preview":id}/sandbox${content?.nativePersistence?window.location.hash:""}`} onLoad={()=>frame.current?.contentWindow?.postMessage({channel:"learners-area-sandbox-init",html:document,assets:mediaBlobs.current},"*")} className="h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0" allow="fullscreen"/>}
  {selected&&<span ref={anchor} className="absolute h-px w-px" style={{left:selected.x,top:selected.y}}/>}

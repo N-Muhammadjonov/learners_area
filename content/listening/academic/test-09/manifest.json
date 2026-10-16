@@ -1,0 +1,53 @@
+{
+  "id": "listening-test-9",
+  "title": "Listening Test 9",
+  "collection": "academic",
+  "number": 9,
+  "questionCount": 40,
+  "sectionCount": 4,
+  "storageKey": "la_listening_test_9_v2",
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Matching Mastery",
+    "Map Mastery",
+    "Choose THREE Mastery",
+    "Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ],
+  "audio": {
+    "path": "audio/full.m4a",
+    "objectKey": "listening/academic/test-09/full.m4a",
+    "contentType": "audio/mp4",
+    "bytes": 26688515,
+    "sha256": "f8e597592a8a20f04706eff0097fda06540cfd9aa7158bae6fb62b7c9504e38d",
+    "durationSeconds": 1650.195737,
+    "localFile": "test-09-full.m4a"
+  },
+  "media": [
+    {
+      "path": "audio/full.m4a",
+      "objectKey": "listening/academic/test-09/full.m4a",
+      "contentType": "audio/mp4",
+      "bytes": 26688515,
+      "sha256": "f8e597592a8a20f04706eff0097fda06540cfd9aa7158bae6fb62b7c9504e38d",
+      "durationSeconds": 1650.195737,
+      "localFile": "test-09-full.m4a"
+    },
+    {
+      "path": "images/map.png",
+      "objectKey": "listening/academic/test-09/images/map.png",
+      "contentType": "image/png",
+      "bytes": 16374,
+      "sha256": "8a098d5febd0a55e17874dd923d50bad33994b0dea31d4ef3fe9edee6bc382d9",
+      "durationSeconds": 0,
+      "localFile": "test-09-map.png"
+    }
+  ],
+  "durationSeconds": 1650.195737,
+  "originalSha256": "07b40ccb669a508d272f3387d8b01e133292a856d57c586edced161d9295fb35",
+  "sourceSha256": "5430120c71c6f56e5a43f52bda01dcf7191c548fad610208479f4332611bcde7"
+}

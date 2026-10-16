@@ -1,0 +1,1074 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-9",
+  "title": "Listening Test 9",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mp4"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "f8e597592a8a20f04706eff0097fda06540cfd9aa7158bae6fb62b7c9504e38d",
+      "path": "audio/full.m4a"
+    },
+    {
+      "key": "image.map",
+      "role": "image",
+      "required": true,
+      "mimeTypes": [
+        "image/png"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "8a098d5febd0a55e17874dd923d50bad33994b0dea31d4ef3fe9edee6bc382d9",
+      "path": "images/map.png"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1650.195737,
+      "assetKey": "audio.full",
+      "path": "audio/full.m4a"
+    },
+    "image": {
+      "assetKey": "image.map"
+    },
+    "imagePath": "images/map.png",
+    "sections": [
+      {
+        "number": 1,
+        "title": "University Clubs",
+        "transcript": "Rachel: Hi, welcome to Freshers Week. I'm Rachel. Can I help you? Tom: Oh, hi - yes. Erm - I was hoping to find out about some clubs I could join. Rachel: Well, all the club stands are here in this hall. What were you interested in? Tom: Um - not sure. I wanted to do something where I could meet people. Rachel: Well, take this leaflet with details of all the clubs and see what you think. It'll probably depend on what day you're free. Like on Mondays there's the film club, then on Tuesdays you've got the climbing club - that's really good, I'm in that - then on Wednesdays you've got chess, if you want something a bit more intellectual! But you should look through carefully because all the clubs run extra activities as well as their normal meetings. Tom: Oh, yes I see. So it looks like the film club has discussions after the films - I'd quite like to go to those. Then climbing - goodness, it says here that the University has its own climbing wall - that's impressive - and they go on weekend trips. Cool. And it says the chess club normally just does games with whoever turns up but it also runs competitions sometimes. But I bet you've got to be pretty good to do that. Rachel: Yes, I think so! Tom: And how many people are in the clubs? Are they all really full? Rachel: Well, obviously they're all different so, for example, the film club has just increased its membership from eighty five to a hundred and twenty five but I think they're hoping to extend it to a hundred and fifty. The climbing club's quite small - forty people - and the chess club is fairly healthy at fifty five. Tom: Right. OK, so who do I see if I want to join these clubs? Rachel: Well, if you go round the stands and speak to the people there. For the film club that's the events organiser - um, for climbing you'll need the club secretary and the chess club is organised by one of the Maths tutors. OK? Tom: Yup. I think I'll start with the climbing club - it sounds good. Rachel: Yes. Oh, you must join. It's really good fun. We go away quite a bit to North Wales and every year we have a special excursion, usually to France, which is where we're going this year in the spring. The weather's too unpredictable in the autumn. Tom: Wow! That sounds good - but it must cost a lot. Rachel: Yeah, but we try and save up for it through subscriptions so rather than having a huge sum to pay in the month we go we collect those weekly so it spreads it out. Tom: Good idea. I think I'll definitely join. Rachel: There are quite good benefits you get from joining. I mean, you need that don't you? And the University clubs normally try and do deals with local businesses, so it's really worth joining. Like in the climbing club they've got a special arrangement with one of the shops in town so if you show your card you can get money off equipment. Don't think the discount extends to clothes though. Tom: That's really worth it then. I'll go over and talk to them now. Rachel: OK. Hope you do join. Oh, and another thing I meant to say. If you do become a member, you automatically receive a magazine once a year. It's quite useful and interesting because it goes out to all the national climbing clubs. And the other thing is, if you come to every session, then you can get a complimentary ticket to the big exhibition that's held in Cardiff every year. So - hope to see you ... Tom: Yeah, thanks ...",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Halls of Residence",
+        "transcript": "Accommodation Officer: Good afternoon and welcome to Stanton University. I'm here to tell you about the various halls of residence we have available should you choose to come here. We aim to offer accommodation in Halls to all first year students and you'll find there's a good variety to choose from. First of all, there's Brown Hall, which, as you'll see, is not the most modern of buildings but it is very popular with some students. It's got a good sense of community, some nice refurbished kitchens and, unlike the other halls, it has recently had a gym built in its basement. Another option is Blake Residence, which is built like a large house and so everybody cooks and eats together. It has its own sectioned-off bit of private garden and is even more peaceful because this is an all girls residence, although of course boys are allowed to visit the Hall and, I understand, frequently take part in cooking dinner! The largest Hall we have is Queens Building and this has been upgraded recently. The original parking area has been built on so that the hall now has a large common room and each bedroom now has its own shower room, which many students regard as a real bonus. A further option is the Parkway Flats, which won an award for design in its day and this building now has a preservation order on it. This has meant that only a limited amount could be done to upgrade it and the surrounding area is important so parking is not permitted around the Flats. However, the Flats do have many extra facilities such as a special computer room, a small library and a self-service restaurant. The cost of breakfast, lunch and dinner is covered in the fees for this hall so it does look a bit more expensive. The last residence we can offer you is Temple Rise, which again is slightly more expensive than other Halls as the rooms are larger. This has got very lovely views across to the coast and this more than compensates for the fact that bathrooms here are shared between six students. However, the Hall has domestic staff who clean the rooms once a week so this is perhaps an attractive option for the messier amongst you. Now if I can just show on this wall map here where they all are, you might like to go and have a look round. If you come into the main university entrance, at the first junction you'll find that Brown Hall is on the corner opposite the theatre. So you're nice and near the station here - though I think it can get a bit noisy with traffic. The same applies to Blake Residence, which is directly facing the junction to the university entrance. These Halls are often used by medical students and such like as they're out all day so don't notice the noise. Anyway, if you then walk along Campus Road towards the main Circle, you'll see the library on the corner and Queens Building is just past that as you head north. You will find that it is quieter here and you may get fewer visitors! By the way the Circle is quite a feature of the campus as it's set into the hills and has a brand new sports centre in the middle - it's worth going to look around it. Now, the Parkway Flats are on the opposite corner to the library, facing the Circle, as you head towards the main buildings. The main buildings are only about a five-minute walk from here and places in these Halls go quickly so my advice is to reserve your place as soon as possible. Then Temple Rise is inside the Circle, next to the sports centre, but further from the main University buildings. Now, if you'd like to go off and ...",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "Business Studies Project",
+        "transcript": "Jenna: Come on Marco. We've got to get on and sort out this project for Professor Barclay. Marco: Hang on. I want to make sure we've got all the information. Now ... where are we? Jenna: Well, today we need to sort out exactly what we're going to do and how we're going to divide the work up. Marco: OK. How long have we got, by the way? Jenna: Um ... the end of term is April 6th and he said to hand it in on week 8, so that's March 25th at the latest because the beginning of that week is 21st. So not long! Marco: Right. Have you got the notes there? Jenna: Yes, he wants us to do a fairly small-scale study, like the last one, on whether or not businesses were offering more benefits to staff. We've now got to look at the rise in older workers. Should be fairly straightforward. Marco: Yeah, as long as we keep it small. Who's marking it? Jenna: Don't know - sometimes he gets the PhD students to mark it for him. Marco: Oh actually it just says here 'a senior lecturer'. I suppose it's too much for Professor Barclay to do them all. Jenna: Yeah. Anyway, how are we going to go about this? Marco: Well, we have to decide how big we want it to be and who we're ... Jenna: Yeah, but I think we must sort out a timetable for the project otherwise nothing will get done. Marco: OK. Do you want to do that? Jenna: Alright. I'll do it as soon as we finish here. OK - what do we have to do now for the project? What's the best way to go about it? Marco: Um ... well, Professor Carter suggested we set up a focus group to get some in-depth interviews but I think that'll take a lot of time. Jenna: Yeah, I agree. If we did a focus group, we'd have to spend time deciding who to include in it and it's not necessary to do one anyway. Marco: Oh, fine. Jenna: And, if you agree, I think we should get in touch with the businesses on the list Professor Carter gave us and ask them if they're prepared to participate. Marco: Sounds good - then we can go there, give them questionnaires and collect them later. Jenna: Exactly. Marco: OK. Then do we need to book one of those study rooms in the library so we can work together to input the data? Perhaps not, as I guess just one of us could just sort it out, actually. Jenna: Yes, that would be easier. A lot of what we're doing is qualitative, so it'll be writing up rather than statistics. No software for that I'm afraid! Marco: And I think it would look better if we had actual shots of some of the staff because we're citing appearance as a factor in employability, aren't we? Jenna: Yeah. OK. I'll factor that all in when I sort everything out tonight. Marco: I'm glad we decided to work together. I think it's going to work out well. Jenna: Yes, well, given that we had to work in pairs on this project, I think we were right to choose each other. We complement each other academically as we're each good at what the other isn't! In fact, we should have tried working together before! Marco: Yes! Now, how shall we split the work? I'll do the analysis, shall I? Jenna: Oh - OK. Marco: It's just that it might be faster because I'm used to doing it - although your English is better than mine. I need more practice at reading, really. Jenna: OK. I'll do the presentation then. If that's OK with you? Marco: Yeah, sure. I don't mind speaking in public but I hate preparing all the notes for them. Jenna: Thing is, the tutor said one person should do the whole presentation and he's said he expects me to do it because I haven't done one yet. Marco: No, that's fine. Now ...",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "News Sources & Advertising",
+        "transcript": "Lecturer: OK, now many of you will have heard about the predicted death of newspapers as people increasingly access the TV and the internet for their news. Today I want to look at the USA, which has very advanced news sources, to see if this is actually true. In the USA the main news sources without doubt are TV, the internet and the press - that is traditional newspapers. And, although they are each surviving and growing, they are also changing. Obviously TV news has been around for a while, and the early evening bulletins when people get in from work are very popular. I suppose we traditionally think of the morning newspaper arriving on our doorstep with the daily news. Interestingly, this is not borne out by the statistics, which show that readership in the US is much higher when people have time to relax, when they're not working, especially on Sundays. The internet is also a popular weekend activity but shows no variation with weekday access. So people are using the different sources in different ways. Interestingly, local radio has been hit less by the grip of quite strong local newspapers than by the internet, which is seen to offer a better regional service. But just because the internet is seen as the new force in news media does not mean it is dominant. Television has, of course, been global for a while, but now technological changes, which have fuelled the rise of online news, have also allowed newspapers to print and distribute editions across the world. In fact, internet news, which is seen as the big competitor for traditional markets, does not offer that much variety. Often the sources are the online versions of the newspapers, whereas television, in order to offer something different, has had to come up with a much more mixed bag of reporting from hard news to light reports on celebrity events. Another issue is reliability - the internet is virtually unregulated so anything can be reported there, whether true or not. Journalists on newspapers have fought a long hard battle to fight intervention and to retain the freedom of the press. Television, however, is seen as critical to political power and has become subject to harsh controls about what it can or cannot say. Now one very critical factor in keeping newspapers alive and well in the USA has been their approach to advertising. Obviously newspapers are heavily dependent on advertising revenue and they have become more and more imaginative in what they offer, in order to make sure that advertisers use them, and not other news sources. This has meant that, contrary to popular belief, newspapers now have a significantly higher profit margin than the rest of American industry. So how have they managed to raise advertising revenue in this way? Well, they have put a lot of effort into developing and maintaining a very strong association with the retail trade. And they've come up with a winner. A critical tool in their sales plan has been suggesting that the adverts they run can have vouchers. This has been enormously effective because they have found that, not only do more people buy the paper to get the discounts but also that this inevitably means much higher sales for the clients who advertised. As well as doing this, the newspapers have also introduced aggressive sales campaigns over the last few years. This has resulted in a significant and continuing rise in the number of advertisers prepared to pay the extra for full-page ads. So, what I would like ...",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "Climbing club extra activity",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "weekend trips",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports weekend trips for this item. The climbing club description identifies weekend trips as an extra activity.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Chess club extra activity",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "competitions",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports competitions for this item. The chess club is described as running competitions in addition to ordinary games.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Current number of film club members",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "125",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports 125 for this item. The film club membership has risen to 125.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Climbing club contact",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "club secretary",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports club secretary for this item. Students interested in climbing are directed to the club secretary.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "Climbing club meets",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "twice a month",
+        "alternatives": [
+          "twice per month"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports twice a month for this item. The climbing club schedule is twice a month.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "Excursion to France in the ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "spring",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports spring for this item. The annual France excursion is planned for spring.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "Subscriptions paid ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "weekly",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports weekly for this item. Subscriptions are collected weekly to spread the cost.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Discounts on ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "equipment",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports equipment for this item. Membership gives discounts on equipment.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "Annual ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "magazine",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports magazine for this item. Members receive an annual magazine.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Free entrance to climbing ___ in Cardiff",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "exhibition",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports exhibition for this item. Regular attendance can earn free entry to a climbing exhibition in Cardiff.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "Brown Hall - available feature",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) cleaning included",
+          "B) all meals included",
+          "C) private showers",
+          "D) modern building",
+          "E) parking spaces",
+          "F) single sex",
+          "G) sports facilities"
+        ],
+        "key": "G",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports G for this item. Brown Hall is the residence with sports facilities, specifically a gym.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "Blake Residence - available feature",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) cleaning included",
+          "B) all meals included",
+          "C) private showers",
+          "D) modern building",
+          "E) parking spaces",
+          "F) single sex",
+          "G) sports facilities"
+        ],
+        "key": "F",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports F for this item. Blake Residence is the single-sex residence.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "Queens Building - available feature",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) cleaning included",
+          "B) all meals included",
+          "C) private showers",
+          "D) modern building",
+          "E) parking spaces",
+          "F) single sex",
+          "G) sports facilities"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports C for this item. Queens Building has private showers in the bedrooms.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "Parkway Flats - available feature",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) cleaning included",
+          "B) all meals included",
+          "C) private showers",
+          "D) modern building",
+          "E) parking spaces",
+          "F) single sex",
+          "G) sports facilities"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports B for this item. Parkway Flats includes all meals in the residence fees.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "Temple Rise - available feature",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) cleaning included",
+          "B) all meals included",
+          "C) private showers",
+          "D) modern building",
+          "E) parking spaces",
+          "F) single sex",
+          "G) sports facilities"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports A for this item. Temple Rise includes room cleaning by domestic staff.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "Brown Hall - map location",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) A",
+          "B) B",
+          "C) C",
+          "D) D",
+          "E) E",
+          "F) F",
+          "G) G",
+          "H) H"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports B for this item. Brown Hall is on the corner opposite the theatre, which corresponds to B on the supplied map.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "Blake Residence - map location",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) A",
+          "B) B",
+          "C) C",
+          "D) D",
+          "E) E",
+          "F) F",
+          "G) G",
+          "H) H"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports A for this item. Blake Residence directly faces the junction to the university entrance, corresponding to A.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "Queens Building - map location",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) A",
+          "B) B",
+          "C) C",
+          "D) D",
+          "E) E",
+          "F) F",
+          "G) G",
+          "H) H"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports C for this item. Queens Building is just past the library when heading north, corresponding to C.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "Parkway Flats - map location",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) A",
+          "B) B",
+          "C) C",
+          "D) D",
+          "E) E",
+          "F) F",
+          "G) G",
+          "H) H"
+        ],
+        "key": "E",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports E for this item. Parkway Flats are on the corner opposite the library facing the circle, corresponding to E.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "Temple Rise - map location",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) A",
+          "B) B",
+          "C) C",
+          "D) D",
+          "E) E",
+          "F) F",
+          "G) G",
+          "H) H"
+        ],
+        "key": "D",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports D for this item. Temple Rise is inside the circle next to the sports centre, corresponding to D.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "Project deadline",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "March 25th",
+        "alternatives": [
+          "March 25",
+          "25 March",
+          "25th March",
+          "25 March 25"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports March 25th for this item. The project must be handed in by March 25th.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "Study of the increase in ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "older workers",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports older workers for this item. The project focus is the rise in older workers.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "Project assessed by ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "senior lecturer",
+        "alternatives": [
+          "a senior lecturer"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports senior lecturer for this item. The assessment is to be marked by a senior lecturer.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "What Jenna and Marco need for the project",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "timetable",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports timetable for this item. They agree they need a timetable so the project stays organised.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "Choose THREE current project tasks - selection 1",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) interview some people",
+          "B) hand out questionnaires",
+          "C) choose their subjects",
+          "D) take photographs",
+          "E) use statistical software",
+          "F) do some work in the library",
+          "G) contact some local companies"
+        ],
+        "key": "B",
+        "alternatives": [
+          "D",
+          "G"
+        ],
+        "pair": [
+          26,
+          27
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports B for this item. One immediate task is to hand out questionnaires to participating businesses.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "Choose THREE current project tasks - selection 2",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) interview some people",
+          "B) hand out questionnaires",
+          "C) choose their subjects",
+          "D) take photographs",
+          "E) use statistical software",
+          "F) do some work in the library",
+          "G) contact some local companies"
+        ],
+        "key": "D",
+        "alternatives": [
+          "B",
+          "G"
+        ],
+        "pair": [
+          25,
+          27
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports D for this item. They also decide to take photographs for the project.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "Choose THREE current project tasks - selection 3",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) interview some people",
+          "B) hand out questionnaires",
+          "C) choose their subjects",
+          "D) take photographs",
+          "E) use statistical software",
+          "F) do some work in the library",
+          "G) contact some local companies"
+        ],
+        "key": "G",
+        "alternatives": [
+          "B",
+          "D"
+        ],
+        "pair": [
+          25,
+          26
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports G for this item. They need to contact local companies and ask them to participate.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Why did Jenna and Marco agree to work together?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) because they both wanted to work with someone else",
+          "B) because they each have different skills",
+          "C) because they have worked together before"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports B for this item. They chose each other because their academic strengths complement one another.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Why does Marco suggest that he writes the analysis?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) He needs more practice with this kind of writing.",
+          "B) He is better at English than Jenna.",
+          "C) He has more experience of this than Jenna."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports C for this item. Marco has more experience with analysis and expects to do it faster.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Why does Jenna offer to do the presentation?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Her tutor wants her to do the presentation.",
+          "B) Marco is very nervous about giving presentations.",
+          "C) She wants to divide the work on the project fairly."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports A for this item. The tutor expects Jenna to do the whole presentation because she has not done one yet.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "News source: more popular at the weekend than during the week",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching_classification",
+        "options": [
+          "A) television",
+          "B) internet",
+          "C) the press"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports C for this item. The press has much higher readership when people have more leisure time, especially at weekends.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "News source: affected the popularity of local radio",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching_classification",
+        "options": [
+          "A) television",
+          "B) internet",
+          "C) the press"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports B for this item. The internet has reduced the relative popularity of local radio.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "News source: recently able to expand internationally",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching_classification",
+        "options": [
+          "A) television",
+          "B) internet",
+          "C) the press"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports C for this item. Technological changes allow newspapers to print and distribute editions internationally.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "News source: offering more varied reporting than previously",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching_classification",
+        "options": [
+          "A) television",
+          "B) internet",
+          "C) the press"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports A for this item. Television has broadened its reporting mix to distinguish itself from other sources.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "News source: suffered from government intervention",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching_classification",
+        "options": [
+          "A) television",
+          "B) internet",
+          "C) the press"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports A for this item. Television is described as subject to strong controls because of its political influence.\nDo not select an option merely because a keyword sounds familiar; follow the relationship and final meaning."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "Newspaper advertising: ___ now exceeds that of other industries",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "profit margin",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports profit margin for this item. US newspapers are described as having a higher profit margin than the rest of industry.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Good relationship with the ___ sector",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "retail",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports retail for this item. Newspapers have cultivated a strong relationship with the retail sector.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "More adverts include ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "vouchers",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports vouchers for this item. Newspaper adverts increasingly include vouchers.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "Vouchers create more sales for the ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "clients",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports clients for this item. The vouchers increase sales for the advertising clients.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "Increasing number of more expensive ___ adverts",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "full-page",
+        "alternatives": [
+          "full page"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The verified evidence supports full-page for this item. Advertisers increasingly pay extra for full-page adverts.\nRespect the source word limit and preserve accurate spelling, number or date form."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "weekend trip",
+        "pos": "noun phrase",
+        "uz": "hafta oxiri sayohati",
+        "def": "a short journey taken during a weekend",
+        "ex": "The climbing club lists weekend trips as an extra activity.",
+        "also": [
+          "short weekend excursion"
+        ]
+      },
+      {
+        "word": "club secretary",
+        "pos": "noun phrase",
+        "uz": "klub kotibi",
+        "def": "the person responsible for a club’s records and administration",
+        "ex": "The climbing club contact is the club secretary.",
+        "also": [
+          "club administrator"
+        ]
+      },
+      {
+        "word": "annual exhibition",
+        "pos": "collocation",
+        "uz": "yillik ko‘rgazma",
+        "def": "an exhibition that takes place once every year",
+        "ex": "Members can gain entry to a climbing exhibition held annually.",
+        "also": [
+          "yearly exhibition"
+        ]
+      },
+      {
+        "word": "hall of residence",
+        "pos": "noun phrase",
+        "uz": "talabalar turar joyi",
+        "def": "university accommodation where students live",
+        "ex": "Part 2 compares several halls of residence.",
+        "also": [
+          "student residence"
+        ]
+      },
+      {
+        "word": "sports facilities",
+        "pos": "collocation",
+        "uz": "sport inshootlari",
+        "def": "buildings or equipment provided for sport and exercise",
+        "ex": "Brown Hall is matched with sports facilities.",
+        "also": [
+          "sport amenities"
+        ]
+      },
+      {
+        "word": "private shower",
+        "pos": "noun phrase",
+        "uz": "shaxsiy dush",
+        "def": "a shower intended for the exclusive use of one room or person",
+        "ex": "Queens Building offers private showers.",
+        "also": [
+          "en-suite shower"
+        ]
+      },
+      {
+        "word": "project deadline",
+        "pos": "collocation",
+        "uz": "loyiha topshirish muddati",
+        "def": "the final date by which a project must be completed",
+        "ex": "The Business Studies project has a fixed deadline.",
+        "also": [
+          "submission date"
+        ]
+      },
+      {
+        "word": "older workers",
+        "pos": "noun phrase",
+        "uz": "yoshi katta xodimlar",
+        "def": "employees in the older age range of the workforce",
+        "ex": "The project studies an increase in older workers.",
+        "also": [
+          "older employees"
+        ]
+      },
+      {
+        "word": "senior lecturer",
+        "pos": "academic noun phrase",
+        "uz": "katta o‘qituvchi",
+        "def": "an experienced university lecturer holding a senior academic post",
+        "ex": "The project is assessed by a senior lecturer.",
+        "also": [
+          "senior academic"
+        ]
+      },
+      {
+        "word": "project timetable",
+        "pos": "noun phrase",
+        "uz": "loyiha jadvali",
+        "def": "a planned schedule showing when stages of a project should happen",
+        "ex": "Jenna and Marco agree they need a timetable.",
+        "also": [
+          "project schedule"
+        ]
+      },
+      {
+        "word": "hand out questionnaires",
+        "pos": "verb phrase",
+        "uz": "so‘rovnomalarni tarqatmoq",
+        "def": "distribute survey forms to participants",
+        "ex": "One project task is to hand out questionnaires.",
+        "also": [
+          "distribute surveys"
+        ]
+      },
+      {
+        "word": "statistical software",
+        "pos": "technical noun phrase",
+        "uz": "statistik dasturiy ta’minot",
+        "def": "software used to analyse numerical data statistically",
+        "ex": "Statistical software appears as a project-task option.",
+        "also": [
+          "data-analysis software"
+        ]
+      },
+      {
+        "word": "news source",
+        "pos": "noun phrase",
+        "uz": "yangilik manbasi",
+        "def": "a medium or organisation from which news is obtained",
+        "ex": "Part 4 classifies statements by US news source.",
+        "also": [
+          "source of news"
+        ]
+      },
+      {
+        "word": "government intervention",
+        "pos": "collocation",
+        "uz": "hukumat aralashuvi",
+        "def": "action by government that influences or controls an activity",
+        "ex": "One news source is described as suffering government intervention.",
+        "also": [
+          "government involvement"
+        ]
+      },
+      {
+        "word": "profit margin",
+        "pos": "collocation",
+        "uz": "foyda marjasi",
+        "def": "the percentage or amount of sales revenue remaining as profit",
+        "ex": "Newspaper advertising is linked to a high profit margin.",
+        "also": [
+          "profitability margin"
+        ]
+      },
+      {
+        "word": "retail sector",
+        "pos": "business noun phrase",
+        "uz": "chakana savdo sektori",
+        "def": "the part of the economy that sells goods directly to consumers",
+        "ex": "Advertising growth is linked to the retail sector.",
+        "also": [
+          "retail industry"
+        ]
+      },
+      {
+        "word": "advertising voucher",
+        "pos": "noun phrase",
+        "uz": "reklama kuponi",
+        "def": "a voucher included in an advertisement that gives a discount or benefit",
+        "ex": "Newspaper adverts increasingly include vouchers.",
+        "also": [
+          "promotional coupon"
+        ]
+      },
+      {
+        "word": "readership",
+        "pos": "noun",
+        "uz": "o‘quvchilar auditoriyasi",
+        "def": "the people who regularly read a publication",
+        "ex": "Vouchers are described as increasing newspaper readership.",
+        "also": [
+          "reader audience"
+        ]
+      },
+      {
+        "word": "advertising client",
+        "pos": "noun phrase",
+        "uz": "reklama mijozi",
+        "def": "a customer who pays a media company to carry advertising",
+        "ex": "Voucher adverts can create more sales for clients.",
+        "also": [
+          "advertiser"
+        ]
+      },
+      {
+        "word": "full-page advert",
+        "pos": "compound noun",
+        "uz": "to‘liq sahifali reklama",
+        "def": "an advertisement occupying an entire page of a publication",
+        "ex": "More advertisers are paying for full-page adverts.",
+        "also": [
+          "whole-page advertisement"
+        ]
+      }
+    ]
+  }
+}

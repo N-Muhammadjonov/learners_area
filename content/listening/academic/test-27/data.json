@@ -1,0 +1,2190 @@
+{
+  "test_id": "listening-test-27",
+  "title": "Listening Test 27",
+  "sections": [
+    "Winsham Farm Centre",
+    "Vacation Jobs",
+    "Voice Training for Drama Students",
+    "Food Safety Standards"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "The centre has enough accommodation for",
+      "answer": "C",
+      "evidence": "we can sleep 38 at any one time",
+      "timeStart": 138.0,
+      "timeEnd": 193.0,
+      "timeCenter": 165.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: The centre has enough accommodation for <-> Recording evidence: we can sleep 38 at any one time",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "18 people."
+        },
+        {
+          "code": "B",
+          "text": "20 people."
+        },
+        {
+          "code": "C",
+          "text": "38 people."
+        }
+      ]
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "The meeting room is currently",
+      "answer": "A",
+      "evidence": "the floor was slightly damaged, so unfortunately it's out of use just now",
+      "timeStart": 193.0,
+      "timeEnd": 215.0,
+      "timeCenter": 204.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: The meeting room is currently <-> Recording evidence: the floor was slightly damaged, so unfortunately it's out of use just now",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "unavailable."
+        },
+        {
+          "code": "B",
+          "text": "flooded."
+        },
+        {
+          "code": "C",
+          "text": "booked."
+        }
+      ]
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Visitors must tell the centre in advance if they want to",
+      "answer": "B",
+      "evidence": "As long as you give us enough notice, we can cater for you",
+      "timeStart": 215.0,
+      "timeEnd": 238.0,
+      "timeCenter": 226.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Visitors must tell the centre in advance if they want to <-> Recording evidence: As long as you give us enough notice, we can cater for you",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "use the centre's kitchen."
+        },
+        {
+          "code": "B",
+          "text": "have meals cooked for them."
+        },
+        {
+          "code": "C",
+          "text": "eat at restaurants outside."
+        }
+      ]
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "All visitors on the farm can",
+      "answer": "A",
+      "evidence": "one of the farm managers shows people around and explains some of the principles of organic farming",
+      "timeStart": 261.0,
+      "timeEnd": 300.0,
+      "timeCenter": 280.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: All visitors on the farm can <-> Recording evidence: one of the farm managers shows people around and explains some of the principles of organic farming",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "get information about organic farming."
+        },
+        {
+          "code": "B",
+          "text": "help to feed the animals."
+        },
+        {
+          "code": "C",
+          "text": "watch a tractor demonstration."
+        }
+      ]
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "On the survival course, people have to",
+      "answer": "B",
+      "evidence": "It's mainly about collecting food and water",
+      "timeStart": 395.0,
+      "timeEnd": 413.0,
+      "timeCenter": 404.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: On the survival course, people have to <-> Recording evidence: It's mainly about collecting food and water",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "learn to use a map."
+        },
+        {
+          "code": "B",
+          "text": "find their own food."
+        },
+        {
+          "code": "C",
+          "text": "run through woodland."
+        }
+      ]
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "From the centre, it is easy to walk to",
+      "answer": "C",
+      "evidence": "there's also a cycle path which starts quite near here, about ten minutes' walk away",
+      "timeStart": 414.0,
+      "timeEnd": 465.0,
+      "timeCenter": 439.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: From the centre, it is easy to walk to <-> Recording evidence: there's also a cycle path which starts quite near here, about ten minutes' walk away",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "Exmoor National Park."
+        },
+        {
+          "code": "B",
+          "text": "the beach."
+        },
+        {
+          "code": "C",
+          "text": "a cycling route."
+        }
+      ]
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "If the weather is bad, visitors can go to a",
+      "answer": "C",
+      "evidence": "Sherbourne ... has got a very good museum",
+      "timeStart": 414.0,
+      "timeEnd": 465.0,
+      "timeCenter": 439.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: If the weather is bad, visitors can go to a <-> Recording evidence: Sherbourne ... has got a very good museum",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "cinema."
+        },
+        {
+          "code": "B",
+          "text": "theatre."
+        },
+        {
+          "code": "C",
+          "text": "museum."
+        }
+      ]
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Groups who wish to stay at the centre must pay",
+      "answer": "A",
+      "evidence": "we would need a deposit within five days to secure it. Then you just pay the balance when you're here",
+      "timeStart": 498.0,
+      "timeEnd": 639.0,
+      "timeCenter": 568.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Groups who wish to stay at the centre must pay <-> Recording evidence: we would need a deposit within five days to secure it. Then you just pay the balance when you're here",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "part of the cost in advance."
+        },
+        {
+          "code": "B",
+          "text": "all of the cost in advance."
+        },
+        {
+          "code": "C",
+          "text": "all of the cost on arrival."
+        }
+      ]
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Address: Winsham Farm ___ Road",
+      "answer": "Cotehele",
+      "evidence": "It's Winsham Farm, Cotehele Road",
+      "timeStart": 498.0,
+      "timeEnd": 639.0,
+      "timeCenter": 568.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: Address: Winsham Farm ___ Road <-> Recording evidence: It's Winsham Farm, Cotehele Road",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Postcode",
+      "answer": "SH12 1LQ",
+      "evidence": "the postcode is S-H-12-1-L-Q",
+      "timeStart": 498.0,
+      "timeEnd": 639.0,
+      "timeCenter": 568.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: Postcode <-> Recording evidence: the postcode is S-H-12-1-L-Q",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "Stocktaking - main advantage",
+      "answer": "travelling",
+      "evidence": "students said they enjoyed most about this job was the travelling",
+      "timeStart": 640.0,
+      "timeEnd": 682.0,
+      "timeCenter": 661.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: Stocktaking - main advantage <-> Recording evidence: students said they enjoyed most about this job was the travelling",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "Stocktaking - recommendation",
+      "answer": "good shoes",
+      "evidence": "get good shoes",
+      "timeStart": 683.0,
+      "timeEnd": 720.0,
+      "timeCenter": 701.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: Stocktaking - recommendation <-> Recording evidence: get good shoes",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Office work - main disadvantage",
+      "answer": "formal clothes",
+      "evidence": "The downside ... was wearing formal clothes",
+      "timeStart": 683.0,
+      "timeEnd": 720.0,
+      "timeCenter": 701.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: Office work - main disadvantage <-> Recording evidence: The downside ... was wearing formal clothes",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Office work - choose a ___",
+      "answer": "large office",
+      "evidence": "select a large office",
+      "timeStart": 720.0,
+      "timeEnd": 764.0,
+      "timeCenter": 742.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: Office work - choose a ___ <-> Recording evidence: select a large office",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Theme park attendant - main advantage",
+      "answer": "good pay",
+      "evidence": "the big plus people talked about was good pay",
+      "timeStart": 720.0,
+      "timeEnd": 764.0,
+      "timeCenter": 742.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: Theme park attendant - main advantage <-> Recording evidence: the big plus people talked about was good pay",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Theme park attendant - recommendation",
+      "answer": "live nearby",
+      "evidence": "it was a good idea to live nearby",
+      "timeStart": 720.0,
+      "timeEnd": 764.0,
+      "timeCenter": 742.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: Theme park attendant - recommendation <-> Recording evidence: it was a good idea to live nearby",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Peter learned about the job",
+      "answer": "B",
+      "evidence": "Peter Marshall had read about work opportunities on the zoo website",
+      "timeStart": 811.0,
+      "timeEnd": 852.0,
+      "timeCenter": 831.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Peter learned about the job <-> Recording evidence: Peter Marshall had read about work opportunities on the zoo website",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "from a college friend."
+        },
+        {
+          "code": "B",
+          "text": "on the computer."
+        },
+        {
+          "code": "C",
+          "text": "from a student job centre."
+        }
+      ]
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Peter mainly enjoyed the job because it was",
+      "answer": "C",
+      "evidence": "he was very pleased to be doing such original work",
+      "timeStart": 811.0,
+      "timeEnd": 852.0,
+      "timeCenter": 831.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Peter mainly enjoyed the job because it was <-> Recording evidence: he was very pleased to be doing such original work",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "easy."
+        },
+        {
+          "code": "B",
+          "text": "challenging."
+        },
+        {
+          "code": "C",
+          "text": "unusual."
+        }
+      ]
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "The job's most interesting aspect was",
+      "answer": "B",
+      "evidence": "He loved working on the educational side, in particular helping young kids",
+      "timeStart": 852.0,
+      "timeEnd": 887.0,
+      "timeCenter": 869.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: The job's most interesting aspect was <-> Recording evidence: He loved working on the educational side, in particular helping young kids",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "learning about the environment."
+        },
+        {
+          "code": "B",
+          "text": "working with children."
+        },
+        {
+          "code": "C",
+          "text": "caring for the animals."
+        }
+      ]
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Peter has decided that next vacation he",
+      "answer": "A",
+      "evidence": "with final exams coming up, he won't be able to do any paid work this coming vacation",
+      "timeStart": 852.0,
+      "timeEnd": 887.0,
+      "timeCenter": 869.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Peter has decided that next vacation he <-> Recording evidence: with final exams coming up, he won't be able to do any paid work this coming vacation",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "won't take a job."
+        },
+        {
+          "code": "B",
+          "text": "will work at the zoo."
+        },
+        {
+          "code": "C",
+          "text": "will work elsewhere."
+        }
+      ]
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Ed is giving the voice coaching workshop in order to get",
+      "answer": "B",
+      "evidence": "you'll then have finished the final stage of your voice coach diploma",
+      "timeStart": 997.0,
+      "timeEnd": 1032.0,
+      "timeCenter": 1014.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Ed is giving the voice coaching workshop in order to get <-> Recording evidence: you'll then have finished the final stage of your voice coach diploma",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "a new job."
+        },
+        {
+          "code": "B",
+          "text": "a qualification."
+        },
+        {
+          "code": "C",
+          "text": "a promotion."
+        }
+      ]
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "According to Fiona, the seating pattern that Ed chooses",
+      "answer": "A",
+      "evidence": "all these can be represented diagrammatically, which would be clearer",
+      "timeStart": 1032.0,
+      "timeEnd": 1074.0,
+      "timeCenter": 1053.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: According to Fiona, the seating pattern that Ed chooses <-> Recording evidence: all these can be represented diagrammatically, which would be clearer",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "should be illustrated visually."
+        },
+        {
+          "code": "B",
+          "text": "has to be explained in detail."
+        },
+        {
+          "code": "C",
+          "text": "is not particularly important."
+        }
+      ]
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Fiona and Ed agree that in the first activity, the students",
+      "answer": "C",
+      "evidence": "aware of other people but primarily concentrating on their own thoughts",
+      "timeStart": 1074.0,
+      "timeEnd": 1109.0,
+      "timeCenter": 1091.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Fiona and Ed agree that in the first activity, the students <-> Recording evidence: aware of other people but primarily concentrating on their own thoughts",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "may feel uncomfortable."
+        },
+        {
+          "code": "B",
+          "text": "like to make group contact."
+        },
+        {
+          "code": "C",
+          "text": "must focus on themselves."
+        }
+      ]
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Fiona and Ed agree that in the second activity, Ed should",
+      "answer": "C",
+      "evidence": "posture ... governs their lung capacity and, most crucially, their breathing",
+      "timeStart": 1109.0,
+      "timeEnd": 1144.0,
+      "timeCenter": 1126.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Fiona and Ed agree that in the second activity, Ed should <-> Recording evidence: posture ... governs their lung capacity and, most crucially, their breathing",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "insist which students work together."
+        },
+        {
+          "code": "B",
+          "text": "tell students to prepare a speech."
+        },
+        {
+          "code": "C",
+          "text": "include a focus on breath control."
+        }
+      ]
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "What does Fiona suggest about working in a big space?",
+      "answer": "A",
+      "evidence": "Ideally, an enclosed space. But there's no reason why you couldn't go somewhere outdoors",
+      "timeStart": 1145.0,
+      "timeEnd": 1189.0,
+      "timeCenter": 1167.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: What does Fiona suggest about working in a big space? <-> Recording evidence: Ideally, an enclosed space. But there's no reason why you couldn't go somewhere outdoors",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "It could be outside or inside."
+        },
+        {
+          "code": "B",
+          "text": "It is best to go to somewhere like a park."
+        },
+        {
+          "code": "C",
+          "text": "It is useful for getting actors to shout."
+        }
+      ]
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "What does Fiona think of Ed's selection of texts?",
+      "answer": "C",
+      "evidence": "consider the different kind of emotion that each extract should present ... include many more contemporary sources",
+      "timeStart": 1189.0,
+      "timeEnd": 1204.0,
+      "timeCenter": 1196.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: What does Fiona think of Ed's selection of texts? <-> Recording evidence: consider the different kind of emotion that each extract should present ... include many more contemporary sources",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "It should include more classical texts."
+        },
+        {
+          "code": "B",
+          "text": "It needs to focus on a single emotion."
+        },
+        {
+          "code": "C",
+          "text": "It has to cover a wider range."
+        }
+      ]
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Vocal Instruction",
+      "answer": "E",
+      "evidence": "it was written 30 years ago and it shows",
+      "timeStart": 1253.0,
+      "timeEnd": 1289.0,
+      "timeCenter": 1271.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Vocal Instruction <-> Recording evidence: it was written 30 years ago and it shows",
+      "mistakeType": "Matching discrimination",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "too expensive"
+        },
+        {
+          "code": "B",
+          "text": "too limited"
+        },
+        {
+          "code": "C",
+          "text": "prejudiced"
+        },
+        {
+          "code": "D",
+          "text": "unrealistic"
+        },
+        {
+          "code": "E",
+          "text": "out of date"
+        },
+        {
+          "code": "F",
+          "text": "too detailed"
+        },
+        {
+          "code": "G",
+          "text": "unavailable"
+        }
+      ]
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Improve Your Accent",
+      "answer": "B",
+      "evidence": "it's very narrow in its outlook",
+      "timeStart": 1253.0,
+      "timeEnd": 1289.0,
+      "timeCenter": 1271.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Improve Your Accent <-> Recording evidence: it's very narrow in its outlook",
+      "mistakeType": "Matching discrimination",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "too expensive"
+        },
+        {
+          "code": "B",
+          "text": "too limited"
+        },
+        {
+          "code": "C",
+          "text": "prejudiced"
+        },
+        {
+          "code": "D",
+          "text": "unrealistic"
+        },
+        {
+          "code": "E",
+          "text": "out of date"
+        },
+        {
+          "code": "F",
+          "text": "too detailed"
+        },
+        {
+          "code": "G",
+          "text": "unavailable"
+        }
+      ]
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Actors' Handbook",
+      "answer": "G",
+      "evidence": "at the moment it's out of print ... There aren't any second-hand copies",
+      "timeStart": 1253.0,
+      "timeEnd": 1312.0,
+      "timeCenter": 1282.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Actors' Handbook <-> Recording evidence: at the moment it's out of print ... There aren't any second-hand copies",
+      "mistakeType": "Matching discrimination",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "too expensive"
+        },
+        {
+          "code": "B",
+          "text": "too limited"
+        },
+        {
+          "code": "C",
+          "text": "prejudiced"
+        },
+        {
+          "code": "D",
+          "text": "unrealistic"
+        },
+        {
+          "code": "E",
+          "text": "out of date"
+        },
+        {
+          "code": "F",
+          "text": "too detailed"
+        },
+        {
+          "code": "G",
+          "text": "unavailable"
+        }
+      ]
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Confident Voice Delivery",
+      "answer": "D",
+      "evidence": "It exaggerates its claims ... positively misleading",
+      "timeStart": 1289.0,
+      "timeEnd": 1312.0,
+      "timeCenter": 1300.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Choose the option supported by the speaker, not a nearby detail or distractor.",
+      "paraphrase": "Question focus: Confident Voice Delivery <-> Recording evidence: It exaggerates its claims ... positively misleading",
+      "mistakeType": "Matching discrimination",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "too expensive"
+        },
+        {
+          "code": "B",
+          "text": "too limited"
+        },
+        {
+          "code": "C",
+          "text": "prejudiced"
+        },
+        {
+          "code": "D",
+          "text": "unrealistic"
+        },
+        {
+          "code": "E",
+          "text": "out of date"
+        },
+        {
+          "code": "F",
+          "text": "too detailed"
+        },
+        {
+          "code": "G",
+          "text": "unavailable"
+        }
+      ]
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "the product's ___",
+      "answer": "ingredients",
+      "evidence": "they have to consider the ingredients of the product",
+      "timeStart": 1417.0,
+      "timeEnd": 1462.0,
+      "timeCenter": 1439.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: the product's ___ <-> Recording evidence: they have to consider the ingredients of the product",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "how products are ___ and distributed",
+      "answer": "stored",
+      "evidence": "consider the way products are stored ... and distributed to retailers",
+      "timeStart": 1463.0,
+      "timeEnd": 1515.0,
+      "timeCenter": 1489.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: how products are ___ and distributed <-> Recording evidence: consider the way products are stored ... and distributed to retailers",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "changes in ___ affecting frozen food",
+      "answer": "temperature",
+      "evidence": "because the temperature fluctuated",
+      "timeStart": 1463.0,
+      "timeEnd": 1515.0,
+      "timeCenter": 1489.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: changes in ___ affecting frozen food <-> Recording evidence: because the temperature fluctuated",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "growth of the ___ food market in Australia",
+      "answer": "organic",
+      "evidence": "phenomenal expansion of the market for organic food in Australia",
+      "timeStart": 1515.0,
+      "timeEnd": 1567.0,
+      "timeCenter": 1541.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: growth of the ___ food market in Australia <-> Recording evidence: phenomenal expansion of the market for organic food in Australia",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "supermarkets may use price or ___ as their selling strategy",
+      "answer": "image",
+      "evidence": "for more upscale marketers, image is more important",
+      "timeStart": 1569.0,
+      "timeEnd": 1618.0,
+      "timeCenter": 1593.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: supermarkets may use price or ___ as their selling strategy <-> Recording evidence: for more upscale marketers, image is more important",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "mass media: main source of ___ for many",
+      "answer": "information",
+      "evidence": "the most important source of information for most people",
+      "timeStart": 1569.0,
+      "timeEnd": 1618.0,
+      "timeCenter": 1593.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: mass media: main source of ___ for many <-> Recording evidence: the most important source of information for most people",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "mass media: concern for ___",
+      "answer": "sales",
+      "evidence": "the prime motivation of the media ... is sales",
+      "timeStart": 1569.0,
+      "timeEnd": 1618.0,
+      "timeCenter": 1593.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: mass media: concern for ___ <-> Recording evidence: the prime motivation of the media ... is sales",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "news is now a form of ___",
+      "answer": "entertainment",
+      "evidence": "news is regarded as a type of entertainment",
+      "timeStart": 1619.0,
+      "timeEnd": 1663.0,
+      "timeCenter": 1641.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: news is now a form of ___ <-> Recording evidence: news is regarded as a type of entertainment",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "few programmes deal with food safety or ___",
+      "answer": "nutrition",
+      "evidence": "food safety and nutrition ... Very few TV or radio shows address the issues",
+      "timeStart": 1619.0,
+      "timeEnd": 1663.0,
+      "timeCenter": 1641.0,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: few programmes deal with food safety or ___ <-> Recording evidence: food safety and nutrition ... Very few TV or radio shows address the issues",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "many children can influence their ___",
+      "answer": "parents",
+      "evidence": "children ... come home and lecture their parents about it",
+      "timeStart": 1664.0,
+      "timeEnd": 1683.0,
+      "timeCenter": 1673.5,
+      "why": "The recording directly supports this answer in the cited evidence window.",
+      "trap": "Respect the stated word limit and enter only the missing word(s)/number.",
+      "paraphrase": "Question focus: many children can influence their ___ <-> Recording evidence: children ... come home and lecture their parents about it",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "C",
+    "2": "A",
+    "3": "B",
+    "4": "A",
+    "5": "B",
+    "6": "C",
+    "7": "C",
+    "8": "A",
+    "9": "Cotehele",
+    "10": "SH12 1LQ",
+    "11": "travelling",
+    "12": "good shoes",
+    "13": "formal clothes",
+    "14": "large office",
+    "15": "good pay",
+    "16": "live nearby",
+    "17": "B",
+    "18": "C",
+    "19": "B",
+    "20": "A",
+    "21": "B",
+    "22": "A",
+    "23": "C",
+    "24": "C",
+    "25": "A",
+    "26": "C",
+    "27": "E",
+    "28": "B",
+    "29": "G",
+    "30": "D",
+    "31": "ingredients",
+    "32": "stored",
+    "33": "temperature",
+    "34": "organic",
+    "35": "image",
+    "36": "information",
+    "37": "sales",
+    "38": "entertainment",
+    "39": "nutrition",
+    "40": "parents"
+  },
+  "alternatives": {
+    "1": [
+      "C"
+    ],
+    "2": [
+      "A"
+    ],
+    "3": [
+      "B"
+    ],
+    "4": [
+      "A"
+    ],
+    "5": [
+      "B"
+    ],
+    "6": [
+      "C"
+    ],
+    "7": [
+      "C"
+    ],
+    "8": [
+      "A"
+    ],
+    "9": [
+      "Cotehele",
+      "cotehele"
+    ],
+    "10": [
+      "SH12 1LQ",
+      "SH121LQ",
+      "SH12 ILQ",
+      "SH12ILQ"
+    ],
+    "11": [
+      "travelling",
+      "traveling",
+      "the travelling",
+      "the traveling"
+    ],
+    "12": [
+      "good shoes",
+      "get good shoes",
+      "buy good shoes",
+      "wear good shoes"
+    ],
+    "13": [
+      "formal clothes",
+      "wearing formal clothes",
+      "formal clothing",
+      "wearing formal clothing"
+    ],
+    "14": [
+      "large office",
+      "big office"
+    ],
+    "15": [
+      "good pay",
+      "high pay",
+      "good salary",
+      "pay"
+    ],
+    "16": [
+      "live nearby",
+      "living nearby",
+      "live near",
+      "live close",
+      "live near by"
+    ],
+    "17": [
+      "B"
+    ],
+    "18": [
+      "C"
+    ],
+    "19": [
+      "B"
+    ],
+    "20": [
+      "A"
+    ],
+    "21": [
+      "B"
+    ],
+    "22": [
+      "A"
+    ],
+    "23": [
+      "C"
+    ],
+    "24": [
+      "C"
+    ],
+    "25": [
+      "A"
+    ],
+    "26": [
+      "C"
+    ],
+    "27": [
+      "E"
+    ],
+    "28": [
+      "B"
+    ],
+    "29": [
+      "G"
+    ],
+    "30": [
+      "D"
+    ],
+    "31": [
+      "ingredients"
+    ],
+    "32": [
+      "stored"
+    ],
+    "33": [
+      "temperature"
+    ],
+    "34": [
+      "organic"
+    ],
+    "35": [
+      "image"
+    ],
+    "36": [
+      "information"
+    ],
+    "37": [
+      "sales"
+    ],
+    "38": [
+      "entertainment"
+    ],
+    "39": [
+      "nutrition"
+    ],
+    "40": [
+      "parents"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 640.0
+    },
+    "2": {
+      "start": 640.0,
+      "end": 997.0
+    },
+    "3": {
+      "start": 997.0,
+      "end": 1417.0
+    },
+    "4": {
+      "start": 1417.0,
+      "end": 1697.568
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Supplied source MP3 encoded once to approximately 80 kbps for offline delivery; full supplied recording preserved.",
+  "audio_duration_seconds": 1697.568,
+  "transcript": {
+    "1": "PART 1 - Winsham Farm Centre\n\nHello, Winsham Farm Centre. — Oh, hello. I want to arrange a weekend away for myself and some people from work, and we heard about your centre. I wonder if you could give me some details. — Yes, certainly. We are a residential centre attached to a working farm, and we organise educational activities for those guests who want them. Um, what else would you like to know?\nWell, firstly, what kind of accommodation have you got? — We've got eight rooms altogether, and we can sleep 38 at any one time. Three of the rooms have got six bunks, and five of them have got four bunks.\nRight. And what other facilities are there? — We have separate toilets and showers for each of the rooms. There's a large dining room and a large meeting room, which can be booked by groups in advance, but I'm afraid we had a flood in there last month, and the floor was slightly damaged, so unfortunately it's out of use just now.\nWe've got workmen coming in next week. When were you thinking of staying? — In three weeks' time, the 28th of September. — Oh, it should be OK by then. And what about food? Do you provide meals, or is it self-catering? — We're very flexible. As long as you give us enough notice, we can cater for you.\nOr, if you prefer, you can just bring your own food and use the kitchen facilities. And some people prefer to eat out, which is also fine. — Fine. And I heard that your farm is organic. Does that mean that you only have crops and no animals? — It doesn't, actually. A lot of people seem to think that, but we do rear livestock as well.\nAnd so we have a wide range of food. Organic means it's all produced without the use of artificial fertilisers or pesticides. — I see. That sounds good. Could you tell me what sort of recreational activities are available? — Yes. Here at the centre, we offer farm tours. They're very popular. One of the farm managers shows people around and explains some of the principles of organic farming.\nAnd for any visitors who are really keen, you let them drive a tractor, or feed the animals, and so on, with supervision, of course. — I think a lot of our group would be interested in that. It'd make a change from factory work. — Well, if they fancy it, tell them to come prepared. Plenty of old clothing, especially footwear. It can be very messy and wet.\nAnd another type of activity we do is survival courses, but that's only for groups of five or more. And they've got to be acquaintances. They have to cooperate closely. These courses are very popular, especially with school groups, but adults seem to enjoy them too. — What do they involve? Things like map reading? — Well, not exactly. We've got a large area of woodland on the farm, and we run this course there.\nIt's mainly about collecting food and water, lighting a fire without any equipment, that kind of thing. — This weekend could be hard work. What about the area around the centre? — If you look at a map, you'll see that we're very well situated here.\nOur centre's about midway between the Exmoor National Park, which is very popular for hill walking, and the South Coast, which has very good beaches. — Are they both within walking distance? — Well, they're both a bit far, unless you're very fit, but they're only about thirty minutes by road. And there's also a cycle path which starts quite near here, about ten minutes' walk away. You can hire bikes at the starting point. — What is there to do if the weather's bad? — Well, on most Saturday evenings we show films here, and then once a month a group of local musicians performs in our meeting room. And then Sherbourne is only fourteen miles away. It's only a small town, but it's got a very good museum and an old abbey, which is well worth a visit.\nWell, it sounds perfect for our purposes. One last thing. What about prices? — I'm not sure yet, but there'll probably be about fifteen of us. — We charge a standard fourteen pounds a head for accommodation, whether there are ten or twenty of you or whatever, and about seven pounds for cooked meals, depending on the menu you want. Use of the kitchen facilities is extra, as is the hire of the meeting room.\nRight. Well, I've made a note of all that, and I'll discuss it with the rest of the group. Then I'll get back to you with a firm booking. Can I do that by phone? — Yes, you can. But once you've made a booking, we would need a deposit within five days to secure it. Then you just pay the balance when you're here. — Oh, yes, of course. Could you give me the address, please? — Yes. It's Winsham Farm, Cotehele Road, that's C-O-T-E-H-E-L-E, near Sherbourne. And the postcode is S-H-12-1-L-Q.",
+    "2": "PART 2 - Vacation Jobs\n\nWelcome to Student Life. It's spring, and many of you may be thinking about arranging work for the long vacation. So, on today's programme, Roger Anwell reports on a survey we conducted into the pleasures and problems of vacation jobs. Roger. — Thank you, Sarah. Well, the first thing to say is that by far the majority of students we surveyed did just three types of jobs. Starting with stocktaking in supermarkets. The thing that students said they enjoyed most about this job was the travelling. They were often required to go to branches to do their stocktakes, and this was regarded as an interesting plus. The main negative, however, was that they tended to find the job tiring, with long hours spent on their feet and climbing high shelves.\nNow, one thing we did ask the students was whether they had any recommendations for other people taking on their job, and they said, perhaps not surprisingly, get good shoes. That's the only way you can keep going. Another job which lots of students did was office work, and the positive feature of this actually rather surprised me, until I remembered what a hot summer it was last year. Lots of students named air conditioning as the best thing about office work. The downside, which many talked about, was wearing formal clothes.\nThe advice most people gave was to select a large office. That way you have more variety of social contacts. Otherwise, the work can get very boring. The third job which had attracted large numbers of students was as a theme park attendant. And again, I got a surprise here, because the big plus people talked about was good pay. The downside I did recognise, having to deal with difficult customers, especially in the heat when tempers get frayed. And people said that it was a good idea to live nearby, because there's a lot of shift work, and you don't have to worry about transport at difficult times of the day.\nSo, those were the findings from the survey on the most common student jobs. But not all student jobs have to be mundane and boring. One of the students who responded in our survey spoke at length about his amazing job as a zoo attendant. Peter Marshall had read about work opportunities on the zoo website, and just went along with a friend to talk to someone in personnel. He was offered a job there and then, as easy as that. In previous years, he'd done singularly unexciting shop work, so he was very pleased to be doing such original work. He ended up working for just under three months, which was slightly more than he'd anticipated, and meant that he had to miss part of university term time. But he said it was well worth it, because he thinks he's found his future career path as a result of this experience.\nHe loved working on the educational side, in particular helping young kids understand about the animals in their natural environment. He said it was the most intriguing thing he'd ever done. He tells us, though, that with final exams coming up, he won't be able to do any paid work this coming vacation, so why don't you apply?",
+    "3": "PART 3 - Voice Training for Drama Students\n\nRight! Ed, well, I'm delighted that you've joined the drama department. Now, part of my job is to support you during your probationary year, so let's ensure that you're clear about what you'll be doing in the first voice coaching workshop you run next week. — OK. — I'll be observing you working with the students as you show them how to project their voices on stage. I'll be evaluating how you cope with the practical activities as well as the theory. And if all goes well, you'll then have finished the final stage of your voice coach diploma.\nThat'd be great, Fiona. Anyway, I've thought through the workshop and I've done a plan to highlight the key areas I intend to cover. — Good. Let's look at your plan. I'm glad you've thought about seating patterns. You say you want to begin with the students sitting in star-shaped patterns. That's fine. There are various seating patterns you can use at this stage. I like trainees sitting cross-legged in a circle. Other people like students in rows. But actually, all these can be represented diagrammatically, which would be clearer than going into lots of detailed explanations like you've done here.\nOh, OK. But it doesn't matter which one I use at the beginning of a workshop. It's whatever you feel comfortable with. — Fine. So, in the initial phase, I explain the objectives of the session. Then, in the first activity, you say they should quickly rise, walk briskly around the room, weaving in and out to avoid each other. — Yes. I think it's important that they don't get in each other's way and that they learn to move within a confined space, aware of other people but primarily concentrating on their own thoughts.\nAbsolutely. But in your plan, you've omitted to mention that in the second activity you will get the students to pair off. So, you need to rethink that section and include reasons why it's essential for them to listen to each other talking. It doesn't matter what they actually say. And at the same time, get them to think about their posture because that governs their lung capacity and, most crucially, their breathing. — Right. Will do.\nOK. Of course, a common issue in the UK is that we rehearse in small rooms then transfer to a larger stage. So, bearing in mind that voice projection is not shouting, later in the course you'll need to work in a much bigger space. — Does it have to be an enclosed space? I suppose it does because, ultimately, they're going to work in a theatre. — Ideally, an enclosed space. But there's no reason why you couldn't go somewhere outdoors. Although, I'd avoid a very public space like a park. — Right. Thanks. — Now, your next activity on how to convey emotion on stage is fine, but your selection of texts for the students to experience emotional depth leaves a little to be desired. It's not enough to include a few extracts that you find enjoyable.\nYou need to consider the different kind of emotion that each extract should present, from sorrow through to ecstasy. Classical stuff is all well and good, but include many more contemporary sources. — I understand.\nNow, out of the 20 books you list, some are more useful than others and I think you should flag up the disadvantages so that people don't waste money buying them. Take Vocal Instruction. I know I recommended it for you to read for its historical perspective, but bear in mind it was written 30 years ago and it shows. — Yeah, agreed. — I thought Improve Your Accent was interesting, but it's very narrow in its outlook, don't you think? — Well, I'm not sure it's interesting. — And another one you need to warn people about is the Actor's Handbook. It's an expensive book, very useful, but according to the publishers they're going to reissue it with new colour photos and at the moment it's out of print.\nThere aren't any second-hand copies out there, so tell them not to waste time looking for it. — Oh, right. I didn't know that. — There's one more that I want to mention and that's Confident Voice Delivery. It exaggerates its claims on how to be successful to such an extent that I think it is positively misleading. But maybe I'm biassed. — OK, I'll make a note of that, thanks.",
+    "4": "PART 4 - Food Safety Standards\n\nGood morning, everyone. In today's lecture, I'm going to talk about food safety and the factors involved in setting standards for the food industry with particular reference to the situation here in Australia. Now, before anyone can decide what kind of standards need to be set for ensuring that any specific food product is safe, scientists have to carry out a risk assessment. And in doing this, they have to consider several potential problems. Firstly, they have to consider the ingredients of the product.\nThey have to decide whether any of these might make the finished product more susceptible to harmful bacteria. Then, they have to consider the process used in the preparation of the food and whether or not it includes a step designed to eliminate unwanted microorganisms. After that, they've got to consider the way products are stored, for instance, in warehouses or cold stores and distributed to retailers. And it doesn't end there. The analysts even have to be aware of problems that might occur after the food has reached the supermarket. Things like frozen foods being defrosted and then refrozen because the temperature fluctuated, or foods being kept past their expiry date.\nAnd finally, any assessment of the overall risk has to take into account the way the end users, consumers, normally handle food at home. So, as you see, the risk assessment is quite complicated. Now, there are several factors affecting what kind of food we eat, only one of which is legislation. Another is the attitudes of consumers. A good example of this is the dislike that many Australians have for additives in their food, even when these additives are considered safe and without them products have a shorter shelf life or a substandard appearance. This has led to the phenomenal expansion of the market for organic food in Australia.\nAnother important influence on what we eat is the food industry itself. In some large supermarkets, low prices are the main strategy for attracting customers, while for more upscale marketers, image is more important. But we should bear in mind, for all of them, the key consideration is profitability. Finally, there is the influence of the mass media, which is the most important source of information for most people. Unfortunately, this has a rather negative effect, because, in general, they are not very objective. For one thing, the prime motivation of the media, as with the food industry, is sales, and this has a major influence on the way in which the topic is dealt with.\nA further problem is that news is regarded as a type of entertainment. Often, the issues that get a top billing are those that are sensational or controversial. So it's not at all surprising if the public ends up with a rather distorted understanding of food and food safety. On top of that, up till now, food safety and nutrition have never been considered a really interesting topic for the public. Very few TV or radio shows address the issues, and even those shows that are devoted to cooking or eating generally ignore them.\nAt this point, I'll just offer a personal opinion on this subject of food safety. I firmly believe in food safety education, starting at primary schools. We know that many children who have been taught about the benefits of exercise come home and lecture their parents about it. So, the same could be done for food and food preparation."
+  },
+  "transcript_source": "Part 1-4 speaker transcript extracted from the supplied matching source material and aligned to the supplied audio timing. Question evidence uses the supplied transcript timing windows.",
+  "timestamps_source": "Part boundaries and evidence windows follow the timing labels in the supplied source transcript and the supplied audio duration.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "attached to a working farm",
+      "answer": "attached to a working farm",
+      "lexical_type": "prepositional phrase"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "booked by groups in advance",
+      "answer": "booked by groups in advance",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "we can cater for you",
+      "answer": "we can cater for you",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "rear livestock",
+      "answer": "rear livestock",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "principles of organic farming",
+      "answer": "principles of organic farming",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "come prepared",
+      "answer": "come prepared",
+      "lexical_type": "fixed phrase"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "cooperate closely",
+      "answer": "cooperate closely",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "secure it",
+      "answer": "secure it",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 109,
+      "part": 2,
+      "n": 1,
+      "match": "pleasures and problems of vacation jobs",
+      "answer": "pleasures and problems of vacation jobs",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 110,
+      "part": 2,
+      "n": 2,
+      "match": "regarded as an interesting plus",
+      "answer": "regarded as an interesting plus",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 111,
+      "part": 2,
+      "n": 3,
+      "match": "keep going",
+      "answer": "keep going",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 112,
+      "part": 2,
+      "n": 4,
+      "match": "variety of social contacts",
+      "answer": "variety of social contacts",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 113,
+      "part": 2,
+      "n": 5,
+      "match": "difficult customers",
+      "answer": "difficult customers",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 114,
+      "part": 2,
+      "n": 6,
+      "match": "shift work",
+      "answer": "shift work",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 115,
+      "part": 2,
+      "n": 7,
+      "match": "singularly unexciting",
+      "answer": "singularly unexciting",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 116,
+      "part": 2,
+      "n": 8,
+      "match": "future career path",
+      "answer": "future career path",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 117,
+      "part": 3,
+      "n": 1,
+      "match": "probationary year",
+      "answer": "probationary year",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 118,
+      "part": 3,
+      "n": 2,
+      "match": "final stage of your voice coach diploma",
+      "answer": "final stage of your voice coach diploma",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 119,
+      "part": 3,
+      "n": 3,
+      "match": "represented diagrammatically",
+      "answer": "represented diagrammatically",
+      "lexical_type": "adverbial verb phrase"
+    },
+    {
+      "q": 120,
+      "part": 3,
+      "n": 4,
+      "match": "move within a confined space",
+      "answer": "move within a confined space",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 121,
+      "part": 3,
+      "n": 5,
+      "match": "lung capacity",
+      "answer": "lung capacity",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 122,
+      "part": 3,
+      "n": 6,
+      "match": "convey emotion on stage",
+      "answer": "convey emotion on stage",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 123,
+      "part": 3,
+      "n": 7,
+      "match": "historical perspective",
+      "answer": "historical perspective",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 124,
+      "part": 3,
+      "n": 8,
+      "match": "out of print",
+      "answer": "out of print",
+      "lexical_type": "fixed phrase"
+    },
+    {
+      "q": 125,
+      "part": 4,
+      "n": 1,
+      "match": "carry out a risk assessment",
+      "answer": "carry out a risk assessment",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 126,
+      "part": 4,
+      "n": 2,
+      "match": "susceptible to harmful bacteria",
+      "answer": "susceptible to harmful bacteria",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 127,
+      "part": 4,
+      "n": 3,
+      "match": "unwanted microorganisms",
+      "answer": "unwanted microorganisms",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 128,
+      "part": 4,
+      "n": 4,
+      "match": "past their expiry date",
+      "answer": "past their expiry date",
+      "lexical_type": "fixed phrase"
+    },
+    {
+      "q": 129,
+      "part": 4,
+      "n": 5,
+      "match": "phenomenal expansion",
+      "answer": "phenomenal expansion",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 130,
+      "part": 4,
+      "n": 6,
+      "match": "key consideration is profitability",
+      "answer": "key consideration is profitability",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 131,
+      "part": 4,
+      "n": 7,
+      "match": "top billing",
+      "answer": "top billing",
+      "lexical_type": "idiom"
+    },
+    {
+      "q": 132,
+      "part": 4,
+      "n": 8,
+      "match": "distorted understanding",
+      "answer": "distorted understanding",
+      "lexical_type": "noun phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "attached to a working farm",
+      "word": "attached to a working farm",
+      "type": "prepositional phrase",
+      "lexical_type": "prepositional phrase",
+      "pos": "prepositional phrase",
+      "definition": "physically connected with an operating farm",
+      "def": "physically connected with an operating farm",
+      "uzbek": "ishlayotgan ferma bilan tutashgan",
+      "uz": "ishlayotgan ferma bilan tutashgan",
+      "context": "Part 1: Winsham Farm Centre",
+      "collocations": [
+        "attached to a building",
+        "working farm"
+      ],
+      "paraphrases": [
+        "connected to an operating farm",
+        "linked with a farm"
+      ]
+    },
+    {
+      "headword": "booked by groups in advance",
+      "word": "booked by groups in advance",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "reserved ahead of time by groups",
+      "def": "reserved ahead of time by groups",
+      "uzbek": "guruhlar tomonidan oldindan band qilinadi",
+      "uz": "guruhlar tomonidan oldindan band qilinadi",
+      "context": "Part 1: Winsham Farm Centre",
+      "collocations": [
+        "book in advance",
+        "advance booking"
+      ],
+      "paraphrases": [
+        "reserved beforehand",
+        "pre-booked by groups"
+      ]
+    },
+    {
+      "headword": "we can cater for you",
+      "word": "we can cater for you",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "we can provide prepared food or meals for you",
+      "def": "we can provide prepared food or meals for you",
+      "uzbek": "siz uchun ovqat tayyorlab bera olamiz",
+      "uz": "siz uchun ovqat tayyorlab bera olamiz",
+      "context": "Part 1: Winsham Farm Centre",
+      "collocations": [
+        "cater for a group",
+        "catering service"
+      ],
+      "paraphrases": [
+        "provide meals for you",
+        "serve food for your group"
+      ]
+    },
+    {
+      "headword": "rear livestock",
+      "word": "rear livestock",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "raise farm animals",
+      "def": "raise farm animals",
+      "uzbek": "chorva boqmoq",
+      "uz": "chorva boqmoq",
+      "context": "Part 1: Winsham Farm Centre",
+      "collocations": [
+        "rear animals",
+        "livestock farming"
+      ],
+      "paraphrases": [
+        "raise livestock",
+        "keep farm animals"
+      ]
+    },
+    {
+      "headword": "principles of organic farming",
+      "word": "principles of organic farming",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "basic ideas and methods used in organic agriculture",
+      "def": "basic ideas and methods used in organic agriculture",
+      "uzbek": "organik dehqonchilik tamoyillari",
+      "uz": "organik dehqonchilik tamoyillari",
+      "context": "Part 1: Winsham Farm Centre",
+      "collocations": [
+        "organic farming principles",
+        "farming methods"
+      ],
+      "paraphrases": [
+        "core ideas of organic agriculture",
+        "organic methods"
+      ]
+    },
+    {
+      "headword": "come prepared",
+      "word": "come prepared",
+      "type": "fixed phrase",
+      "lexical_type": "fixed phrase",
+      "pos": "fixed phrase",
+      "definition": "arrive with the things or readiness needed",
+      "def": "arrive with the things or readiness needed",
+      "uzbek": "tayyor holda kelmoq",
+      "uz": "tayyor holda kelmoq",
+      "context": "Part 1: Winsham Farm Centre",
+      "collocations": [
+        "be prepared",
+        "come fully prepared"
+      ],
+      "paraphrases": [
+        "arrive ready",
+        "bring what you need"
+      ]
+    },
+    {
+      "headword": "cooperate closely",
+      "word": "cooperate closely",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "work together in a coordinated way",
+      "def": "work together in a coordinated way",
+      "uzbek": "yaqindan hamkorlik qilmoq",
+      "uz": "yaqindan hamkorlik qilmoq",
+      "context": "Part 1: Winsham Farm Centre",
+      "collocations": [
+        "cooperate with others",
+        "close cooperation"
+      ],
+      "paraphrases": [
+        "work closely together",
+        "coordinate closely"
+      ]
+    },
+    {
+      "headword": "secure it",
+      "word": "secure it",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "make a booking firm and guaranteed",
+      "def": "make a booking firm and guaranteed",
+      "uzbek": "uni kafolatlab qo'ymoq",
+      "uz": "uni kafolatlab qo'ymoq",
+      "context": "Part 1: Winsham Farm Centre",
+      "collocations": [
+        "secure a booking",
+        "secure a place"
+      ],
+      "paraphrases": [
+        "confirm it firmly",
+        "guarantee the reservation"
+      ]
+    },
+    {
+      "headword": "pleasures and problems of vacation jobs",
+      "word": "pleasures and problems of vacation jobs",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "the positive and negative sides of holiday work",
+      "def": "the positive and negative sides of holiday work",
+      "uzbek": "ta'til ishlarining yaxshi va yomon tomonlari",
+      "uz": "ta'til ishlarining yaxshi va yomon tomonlari",
+      "context": "Part 2: Vacation Jobs",
+      "collocations": [
+        "vacation jobs",
+        "job pros and cons"
+      ],
+      "paraphrases": [
+        "benefits and drawbacks of holiday work",
+        "upsides and downsides"
+      ]
+    },
+    {
+      "headword": "regarded as an interesting plus",
+      "word": "regarded as an interesting plus",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "considered to be an appealing advantage",
+      "def": "considered to be an appealing advantage",
+      "uzbek": "qiziqarli afzallik deb qaralgan",
+      "uz": "qiziqarli afzallik deb qaralgan",
+      "context": "Part 2: Vacation Jobs",
+      "collocations": [
+        "regarded as a plus",
+        "interesting advantage"
+      ],
+      "paraphrases": [
+        "seen as a benefit",
+        "considered an advantage"
+      ]
+    },
+    {
+      "headword": "keep going",
+      "word": "keep going",
+      "type": "phrasal verb",
+      "lexical_type": "phrasal verb",
+      "pos": "phrasal verb",
+      "definition": "continue despite tiredness or difficulty",
+      "def": "continue despite tiredness or difficulty",
+      "uzbek": "davom etmoq, bardosh bermoq",
+      "uz": "davom etmoq, bardosh bermoq",
+      "context": "Part 2: Vacation Jobs",
+      "collocations": [
+        "keep going all day",
+        "keep someone going"
+      ],
+      "paraphrases": [
+        "continue",
+        "carry on"
+      ]
+    },
+    {
+      "headword": "variety of social contacts",
+      "word": "variety of social contacts",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a range of different people one can interact with",
+      "def": "a range of different people one can interact with",
+      "uzbek": "turli xil ijtimoiy aloqalar",
+      "uz": "turli xil ijtimoiy aloqalar",
+      "context": "Part 2: Vacation Jobs",
+      "collocations": [
+        "social contacts",
+        "wide variety"
+      ],
+      "paraphrases": [
+        "range of people to meet",
+        "diverse social interaction"
+      ]
+    },
+    {
+      "headword": "difficult customers",
+      "word": "difficult customers",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "customers who are hard to deal with",
+      "def": "customers who are hard to deal with",
+      "uzbek": "muomala qilish qiyin bo'lgan mijozlar",
+      "uz": "muomala qilish qiyin bo'lgan mijozlar",
+      "context": "Part 2: Vacation Jobs",
+      "collocations": [
+        "deal with customers",
+        "difficult client"
+      ],
+      "paraphrases": [
+        "challenging customers",
+        "hard-to-handle customers"
+      ]
+    },
+    {
+      "headword": "shift work",
+      "word": "shift work",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "work organised into different time periods or shifts",
+      "def": "work organised into different time periods or shifts",
+      "uzbek": "smenali ish",
+      "uz": "smenali ish",
+      "context": "Part 2: Vacation Jobs",
+      "collocations": [
+        "do shift work",
+        "work shifts"
+      ],
+      "paraphrases": [
+        "rotating work hours",
+        "scheduled shifts"
+      ]
+    },
+    {
+      "headword": "singularly unexciting",
+      "word": "singularly unexciting",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "especially or notably dull and uninteresting",
+      "def": "especially or notably dull and uninteresting",
+      "uzbek": "nihoyatda zerikarli",
+      "uz": "nihoyatda zerikarli",
+      "context": "Part 2: Vacation Jobs",
+      "collocations": [
+        "singularly dull",
+        "unexciting work"
+      ],
+      "paraphrases": [
+        "particularly boring",
+        "remarkably dull"
+      ]
+    },
+    {
+      "headword": "future career path",
+      "word": "future career path",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "the direction someone expects their working life to take",
+      "def": "the direction someone expects their working life to take",
+      "uzbek": "kelajakdagi kasbiy yo'l",
+      "uz": "kelajakdagi kasbiy yo'l",
+      "context": "Part 2: Vacation Jobs",
+      "collocations": [
+        "career path",
+        "future career"
+      ],
+      "paraphrases": [
+        "career direction",
+        "professional route"
+      ]
+    },
+    {
+      "headword": "probationary year",
+      "word": "probationary year",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a trial period in the first year of a role",
+      "def": "a trial period in the first year of a role",
+      "uzbek": "sinov muddati bo'lgan yil",
+      "uz": "sinov muddati bo'lgan yil",
+      "context": "Part 3: Voice Training for Drama Students",
+      "collocations": [
+        "probationary period",
+        "first probation year"
+      ],
+      "paraphrases": [
+        "trial year",
+        "assessment period"
+      ]
+    },
+    {
+      "headword": "final stage of your voice coach diploma",
+      "word": "final stage of your voice coach diploma",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "the last required phase of a voice-coaching qualification",
+      "def": "the last required phase of a voice-coaching qualification",
+      "uzbek": "ovoz murabbiyligi diplomi uchun yakuniy bosqich",
+      "uz": "ovoz murabbiyligi diplomi uchun yakuniy bosqich",
+      "context": "Part 3: Voice Training for Drama Students",
+      "collocations": [
+        "final stage",
+        "voice coach diploma"
+      ],
+      "paraphrases": [
+        "last qualification stage",
+        "final diploma requirement"
+      ]
+    },
+    {
+      "headword": "represented diagrammatically",
+      "word": "represented diagrammatically",
+      "type": "adverbial verb phrase",
+      "lexical_type": "adverbial verb phrase",
+      "pos": "adverbial verb phrase",
+      "definition": "shown using a diagram rather than lengthy prose",
+      "def": "shown using a diagram rather than lengthy prose",
+      "uzbek": "diagramma orqali ko'rsatilgan",
+      "uz": "diagramma orqali ko'rsatilgan",
+      "context": "Part 3: Voice Training for Drama Students",
+      "collocations": [
+        "represent visually",
+        "diagrammatic representation"
+      ],
+      "paraphrases": [
+        "shown as a diagram",
+        "illustrated visually"
+      ]
+    },
+    {
+      "headword": "move within a confined space",
+      "word": "move within a confined space",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "move safely inside a limited area",
+      "def": "move safely inside a limited area",
+      "uzbek": "cheklangan joy ichida harakatlanmoq",
+      "uz": "cheklangan joy ichida harakatlanmoq",
+      "context": "Part 3: Voice Training for Drama Students",
+      "collocations": [
+        "confined space",
+        "move within"
+      ],
+      "paraphrases": [
+        "move in a restricted area",
+        "navigate limited space"
+      ]
+    },
+    {
+      "headword": "lung capacity",
+      "word": "lung capacity",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "the amount of air the lungs can hold or use",
+      "def": "the amount of air the lungs can hold or use",
+      "uzbek": "o'pka sig'imi",
+      "uz": "o'pka sig'imi",
+      "context": "Part 3: Voice Training for Drama Students",
+      "collocations": [
+        "increase lung capacity",
+        "breathing capacity"
+      ],
+      "paraphrases": [
+        "air capacity of the lungs",
+        "respiratory capacity"
+      ]
+    },
+    {
+      "headword": "convey emotion on stage",
+      "word": "convey emotion on stage",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "communicate feelings effectively during a performance",
+      "def": "communicate feelings effectively during a performance",
+      "uzbek": "sahnada hissiyot yetkazmoq",
+      "uz": "sahnada hissiyot yetkazmoq",
+      "context": "Part 3: Voice Training for Drama Students",
+      "collocations": [
+        "convey emotion",
+        "stage performance"
+      ],
+      "paraphrases": [
+        "express feeling on stage",
+        "communicate emotion"
+      ]
+    },
+    {
+      "headword": "historical perspective",
+      "word": "historical perspective",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a viewpoint informed by the development of something over time",
+      "def": "a viewpoint informed by the development of something over time",
+      "uzbek": "tarixiy nuqtai nazar",
+      "uz": "tarixiy nuqtai nazar",
+      "context": "Part 3: Voice Training for Drama Students",
+      "collocations": [
+        "historical perspective on",
+        "historical context"
+      ],
+      "paraphrases": [
+        "view through history",
+        "historical viewpoint"
+      ]
+    },
+    {
+      "headword": "out of print",
+      "word": "out of print",
+      "type": "fixed phrase",
+      "lexical_type": "fixed phrase",
+      "pos": "fixed phrase",
+      "definition": "no longer being produced or available new from the publisher",
+      "def": "no longer being produced or available new from the publisher",
+      "uzbek": "nashrdan chiqqan, endi chop etilmaydigan",
+      "uz": "nashrdan chiqqan, endi chop etilmaydigan",
+      "context": "Part 3: Voice Training for Drama Students",
+      "collocations": [
+        "book is out of print",
+        "currently out of print"
+      ],
+      "paraphrases": [
+        "no longer published",
+        "unavailable from the publisher"
+      ]
+    },
+    {
+      "headword": "carry out a risk assessment",
+      "word": "carry out a risk assessment",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "systematically evaluate possible hazards and their likelihood",
+      "def": "systematically evaluate possible hazards and their likelihood",
+      "uzbek": "xavfni baholashni amalga oshirmoq",
+      "uz": "xavfni baholashni amalga oshirmoq",
+      "context": "Part 4: Food Safety Standards",
+      "collocations": [
+        "risk assessment",
+        "carry out an assessment"
+      ],
+      "paraphrases": [
+        "evaluate risks",
+        "perform a hazard assessment"
+      ]
+    },
+    {
+      "headword": "susceptible to harmful bacteria",
+      "word": "susceptible to harmful bacteria",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "easily affected or contaminated by dangerous bacteria",
+      "def": "easily affected or contaminated by dangerous bacteria",
+      "uzbek": "zararli bakteriyalarga moyil",
+      "uz": "zararli bakteriyalarga moyil",
+      "context": "Part 4: Food Safety Standards",
+      "collocations": [
+        "susceptible to infection",
+        "harmful bacteria"
+      ],
+      "paraphrases": [
+        "vulnerable to dangerous bacteria",
+        "easily contaminated"
+      ]
+    },
+    {
+      "headword": "unwanted microorganisms",
+      "word": "unwanted microorganisms",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "microorganisms that should not remain in the food",
+      "def": "microorganisms that should not remain in the food",
+      "uzbek": "keraksiz mikroorganizmlar",
+      "uz": "keraksiz mikroorganizmlar",
+      "context": "Part 4: Food Safety Standards",
+      "collocations": [
+        "eliminate microorganisms",
+        "harmful microorganisms"
+      ],
+      "paraphrases": [
+        "undesired microbes",
+        "unwanted microbes"
+      ]
+    },
+    {
+      "headword": "past their expiry date",
+      "word": "past their expiry date",
+      "type": "fixed phrase",
+      "lexical_type": "fixed phrase",
+      "pos": "fixed phrase",
+      "definition": "beyond the date after which a product should not be used or sold",
+      "def": "beyond the date after which a product should not be used or sold",
+      "uzbek": "yaroqlilik muddati o'tgan",
+      "uz": "yaroqlilik muddati o'tgan",
+      "context": "Part 4: Food Safety Standards",
+      "collocations": [
+        "expiry date",
+        "past the date"
+      ],
+      "paraphrases": [
+        "expired",
+        "beyond the use-by date"
+      ]
+    },
+    {
+      "headword": "phenomenal expansion",
+      "word": "phenomenal expansion",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "exceptionally large or rapid growth",
+      "def": "exceptionally large or rapid growth",
+      "uzbek": "juda katta o'sish",
+      "uz": "juda katta o'sish",
+      "context": "Part 4: Food Safety Standards",
+      "collocations": [
+        "phenomenal growth",
+        "market expansion"
+      ],
+      "paraphrases": [
+        "remarkable growth",
+        "rapid expansion"
+      ]
+    },
+    {
+      "headword": "key consideration is profitability",
+      "word": "key consideration is profitability",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "the main factor being considered is the ability to make profit",
+      "def": "the main factor being considered is the ability to make profit",
+      "uzbek": "asosiy omil foydalilikdir",
+      "uz": "asosiy omil foydalilikdir",
+      "context": "Part 4: Food Safety Standards",
+      "collocations": [
+        "key consideration",
+        "profitability"
+      ],
+      "paraphrases": [
+        "main concern is profit",
+        "primary factor is profitability"
+      ]
+    },
+    {
+      "headword": "top billing",
+      "word": "top billing",
+      "type": "idiom",
+      "lexical_type": "idiom",
+      "pos": "idiom",
+      "definition": "the most prominent attention or headline position",
+      "def": "the most prominent attention or headline position",
+      "uzbek": "eng katta e'tibor, bosh o'rin",
+      "uz": "eng katta e'tibor, bosh o'rin",
+      "context": "Part 4: Food Safety Standards",
+      "collocations": [
+        "get top billing",
+        "top-billed story"
+      ],
+      "paraphrases": [
+        "headline prominence",
+        "leading attention"
+      ]
+    },
+    {
+      "headword": "distorted understanding",
+      "word": "distorted understanding",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "an inaccurate or misleading perception of something",
+      "def": "an inaccurate or misleading perception of something",
+      "uzbek": "buzilgan yoki noto'g'ri tushuncha",
+      "uz": "buzilgan yoki noto'g'ri tushuncha",
+      "context": "Part 4: Food Safety Standards",
+      "collocations": [
+        "distorted view",
+        "misunderstanding"
+      ],
+      "paraphrases": [
+        "misleading perception",
+        "inaccurate understanding"
+      ]
+    }
+  ],
+  "question_types": {
+    "1": "MCQ",
+    "2": "MCQ",
+    "3": "MCQ",
+    "4": "MCQ",
+    "5": "MCQ",
+    "6": "MCQ",
+    "7": "MCQ",
+    "8": "MCQ",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "Completion",
+    "12": "Completion",
+    "13": "Completion",
+    "14": "Completion",
+    "15": "Completion",
+    "16": "Completion",
+    "17": "MCQ",
+    "18": "MCQ",
+    "19": "MCQ",
+    "20": "MCQ",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "MCQ",
+    "26": "MCQ",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    [
+      "exam",
+      "01",
+      "Full IELTS Test",
+      "Q1-Q40 in a timed exam with embedded audio, FLAG and notes."
+    ],
+    [
+      "review",
+      "02",
+      "Review & Revision",
+      "Redo each Part and inspect answer-specific evidence after checking."
+    ],
+    [
+      "script",
+      "03",
+      "Script Completion",
+      "Complete the full Part 1-4 transcripts with 8 strategic lexical gaps each."
+    ],
+    [
+      "mcq",
+      "04",
+      "MCQ Mastery",
+      "Practise the 18 single-answer multiple-choice questions."
+    ],
+    [
+      "matching",
+      "05",
+      "Matching Mastery",
+      "Practise Q27-Q30 textbook-disadvantage matching."
+    ],
+    [
+      "completion",
+      "06",
+      "Completion Mastery",
+      "Practise Q9-Q16 and Q31-Q40 completion questions."
+    ],
+    [
+      "vocab",
+      "07",
+      "Vocabulary Builder",
+      "Learn 32 high-value expressions from all four transcripts."
+    ],
+    [
+      "retry",
+      "08",
+      "Retry Weak Areas",
+      "Retry missed or unanswered questions."
+    ]
+  ]
+}

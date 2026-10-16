@@ -1,0 +1,1843 @@
+{
+  "test_id": "listening-test-19",
+  "title": "Listening Test 19",
+  "sections": [
+    "Survey UK - Leeds City Centre",
+    "National Museum of Nursing",
+    "Exchange Programme Feedback",
+    "Herzberg's Two-Factor Theory"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Mary's surname",
+      "answer": "Trickett",
+      "evidence": "Part 1: Survey UK - Leeds City Centre. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 455.2,
+      "timeCenter": 227.6,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Mary's surname",
+      "options": [],
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Leeds postcode suffix",
+      "answer": "2PQ",
+      "evidence": "Part 1: Survey UK - Leeds City Centre. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 455.2,
+      "timeCenter": 227.6,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Leeds postcode suffix",
+      "options": [],
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Mary's job",
+      "answer": "manager",
+      "evidence": "Part 1: Survey UK - Leeds City Centre. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 455.2,
+      "timeCenter": 227.6,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Mary's job",
+      "options": [],
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Mary's work telephone number",
+      "answer": "28202830",
+      "evidence": "Part 1: Survey UK - Leeds City Centre. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 455.2,
+      "timeCenter": 227.6,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Mary's work telephone number",
+      "options": [],
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Recently opened Leeds city-centre facility 1",
+      "answer": "C",
+      "evidence": "Part 1: Survey UK - Leeds City Centre. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 455.2,
+      "timeCenter": 227.6,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Recently opened Leeds city-centre facility 1",
+      "options": [
+        {
+          "code": "A",
+          "text": "cinema"
+        },
+        {
+          "code": "B",
+          "text": "amusement arcade"
+        },
+        {
+          "code": "C",
+          "text": "childcare centre"
+        },
+        {
+          "code": "D",
+          "text": "department store"
+        },
+        {
+          "code": "E",
+          "text": "library garden"
+        },
+        {
+          "code": "F",
+          "text": "food street"
+        }
+      ],
+      "type": "Matching",
+      "multi_group": [
+        5,
+        6,
+        7
+      ]
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Recently opened Leeds city-centre facility 2",
+      "answer": "E",
+      "evidence": "Part 1: Survey UK - Leeds City Centre. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 455.2,
+      "timeCenter": 227.6,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Recently opened Leeds city-centre facility 2",
+      "options": [
+        {
+          "code": "A",
+          "text": "cinema"
+        },
+        {
+          "code": "B",
+          "text": "amusement arcade"
+        },
+        {
+          "code": "C",
+          "text": "childcare centre"
+        },
+        {
+          "code": "D",
+          "text": "department store"
+        },
+        {
+          "code": "E",
+          "text": "library garden"
+        },
+        {
+          "code": "F",
+          "text": "food street"
+        }
+      ],
+      "type": "Matching",
+      "multi_group": [
+        5,
+        6,
+        7
+      ]
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Recently opened Leeds city-centre facility 3",
+      "answer": "F",
+      "evidence": "Part 1: Survey UK - Leeds City Centre. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 455.2,
+      "timeCenter": 227.6,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Recently opened Leeds city-centre facility 3",
+      "options": [
+        {
+          "code": "A",
+          "text": "cinema"
+        },
+        {
+          "code": "B",
+          "text": "amusement arcade"
+        },
+        {
+          "code": "C",
+          "text": "childcare centre"
+        },
+        {
+          "code": "D",
+          "text": "department store"
+        },
+        {
+          "code": "E",
+          "text": "library garden"
+        },
+        {
+          "code": "F",
+          "text": "food street"
+        }
+      ],
+      "type": "Matching",
+      "multi_group": [
+        5,
+        6,
+        7
+      ]
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Suggested solution for cars driving too fast",
+      "answer": "speed cameras",
+      "evidence": "Part 1: Survey UK - Leeds City Centre. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 455.2,
+      "timeCenter": 227.6,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Suggested solution for cars driving too fast",
+      "options": [],
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Time when there are not enough buses",
+      "answer": "morning",
+      "evidence": "Part 1: Survey UK - Leeds City Centre. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 455.2,
+      "timeCenter": 227.6,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Time when there are not enough buses",
+      "options": [],
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Type of shop Leeds should have fewer of",
+      "answer": "phone shops",
+      "evidence": "Part 1: Survey UK - Leeds City Centre. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 455.2,
+      "timeCenter": 227.6,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Type of shop Leeds should have fewer of",
+      "options": [],
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "Year Royal Victoria Nursing College opened",
+      "answer": "1857",
+      "evidence": "Part 2: National Museum of Nursing. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 455.2,
+      "timeEnd": 832.294,
+      "timeCenter": 643.747,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Year Royal Victoria Nursing College opened",
+      "options": [],
+      "type": "Completion"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "Type of room: four were included in the original building",
+      "answer": "lecture theatres",
+      "evidence": "Part 2: National Museum of Nursing. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 455.2,
+      "timeEnd": 832.294,
+      "timeCenter": 643.747,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Type of room: four were included in the original building",
+      "options": [],
+      "type": "Completion"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Original construction cost",
+      "answer": "2 million",
+      "evidence": "Part 2: National Museum of Nursing. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 455.2,
+      "timeEnd": 832.294,
+      "timeCenter": 643.747,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Original construction cost",
+      "options": [],
+      "type": "Completion"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Country especially represented among overseas trainees",
+      "answer": "Australia",
+      "evidence": "Part 2: National Museum of Nursing. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 455.2,
+      "timeEnd": 832.294,
+      "timeCenter": 643.747,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Country especially represented among overseas trainees",
+      "options": [],
+      "type": "Completion"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Susan's main area of responsibility",
+      "answer": "B",
+      "evidence": "Part 2: National Museum of Nursing. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 455.2,
+      "timeEnd": 832.294,
+      "timeCenter": 643.747,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Susan's main area of responsibility",
+      "options": [
+        {
+          "code": "A",
+          "text": "Marketing"
+        },
+        {
+          "code": "B",
+          "text": "Media"
+        },
+        {
+          "code": "C",
+          "text": "Sales"
+        },
+        {
+          "code": "D",
+          "text": "Museum maintenance"
+        },
+        {
+          "code": "E",
+          "text": "Exhibitions"
+        },
+        {
+          "code": "F",
+          "text": "Human Resources"
+        },
+        {
+          "code": "G",
+          "text": "Arts"
+        }
+      ],
+      "type": "Matching"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Vanessa's main area of responsibility",
+      "answer": "F",
+      "evidence": "Part 2: National Museum of Nursing. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 455.2,
+      "timeEnd": 832.294,
+      "timeCenter": 643.747,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Vanessa's main area of responsibility",
+      "options": [
+        {
+          "code": "A",
+          "text": "Marketing"
+        },
+        {
+          "code": "B",
+          "text": "Media"
+        },
+        {
+          "code": "C",
+          "text": "Sales"
+        },
+        {
+          "code": "D",
+          "text": "Museum maintenance"
+        },
+        {
+          "code": "E",
+          "text": "Exhibitions"
+        },
+        {
+          "code": "F",
+          "text": "Human Resources"
+        },
+        {
+          "code": "G",
+          "text": "Arts"
+        }
+      ],
+      "type": "Matching"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Gordon's main area of responsibility",
+      "answer": "E",
+      "evidence": "Part 2: National Museum of Nursing. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 455.2,
+      "timeEnd": 832.294,
+      "timeCenter": 643.747,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Gordon's main area of responsibility",
+      "options": [
+        {
+          "code": "A",
+          "text": "Marketing"
+        },
+        {
+          "code": "B",
+          "text": "Media"
+        },
+        {
+          "code": "C",
+          "text": "Sales"
+        },
+        {
+          "code": "D",
+          "text": "Museum maintenance"
+        },
+        {
+          "code": "E",
+          "text": "Exhibitions"
+        },
+        {
+          "code": "F",
+          "text": "Human Resources"
+        },
+        {
+          "code": "G",
+          "text": "Arts"
+        }
+      ],
+      "type": "Matching"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "September lecture topic: history of nursing ___ at the college",
+      "answer": "research",
+      "evidence": "Part 2: National Museum of Nursing. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 455.2,
+      "timeEnd": 832.294,
+      "timeCenter": 643.747,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "September lecture topic: history of nursing ___ at the college",
+      "options": [],
+      "type": "Completion"
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "October lecture: Nursing in ___",
+      "answer": "India",
+      "evidence": "Part 2: National Museum of Nursing. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 455.2,
+      "timeEnd": 832.294,
+      "timeCenter": 643.747,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "October lecture: Nursing in ___",
+      "options": [],
+      "type": "Completion"
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "November lecture: The ___ of nursing",
+      "answer": "future",
+      "evidence": "Part 2: National Museum of Nursing. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 455.2,
+      "timeEnd": 832.294,
+      "timeCenter": 643.747,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "November lecture: The ___ of nursing",
+      "options": [],
+      "type": "Completion"
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Purpose of the exchange-program feedback meeting",
+      "answer": "B",
+      "evidence": "Part 3: Exchange Programme Feedback. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 832.294,
+      "timeEnd": 1189.845,
+      "timeCenter": 1011.07,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Purpose of the exchange-program feedback meeting",
+      "options": [
+        {
+          "code": "A",
+          "text": "Report on problems with the program."
+        },
+        {
+          "code": "B",
+          "text": "Help to make the program better for future students."
+        },
+        {
+          "code": "C",
+          "text": "Discuss what was most enjoyable about the program."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Why Freya adapted easily to studying in Germany",
+      "answer": "C",
+      "evidence": "Part 3: Exchange Programme Feedback. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 832.294,
+      "timeEnd": 1189.845,
+      "timeCenter": 1011.07,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Why Freya adapted easily to studying in Germany",
+      "options": [
+        {
+          "code": "A",
+          "text": "She had been there before."
+        },
+        {
+          "code": "B",
+          "text": "She speaks perfect German."
+        },
+        {
+          "code": "C",
+          "text": "Many things were familiar."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Why Tom felt pre-program support could never be enough",
+      "answer": "C",
+      "evidence": "Part 3: Exchange Programme Feedback. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 832.294,
+      "timeEnd": 1189.845,
+      "timeCenter": 1011.07,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Why Tom felt pre-program support could never be enough",
+      "options": [
+        {
+          "code": "A",
+          "text": "The preparation booklet didn't have enough information about living in China."
+        },
+        {
+          "code": "B",
+          "text": "It didn't provide enough practical skills for living independently abroad."
+        },
+        {
+          "code": "C",
+          "text": "It is impossible to prepare everything in advance."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Why Tom felt unhappy after three months in China",
+      "answer": "B",
+      "evidence": "Part 3: Exchange Programme Feedback. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 832.294,
+      "timeEnd": 1189.845,
+      "timeCenter": 1011.07,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Why Tom felt unhappy after three months in China",
+      "options": [
+        {
+          "code": "A",
+          "text": "He didn't have any friends."
+        },
+        {
+          "code": "B",
+          "text": "He wasn't making much progress with learning Chinese."
+        },
+        {
+          "code": "C",
+          "text": "He was frustrated about no longer being the best student."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "How Tom improved his experience",
+      "answer": "A",
+      "evidence": "Part 3: Exchange Programme Feedback. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 832.294,
+      "timeEnd": 1189.845,
+      "timeCenter": 1011.07,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "How Tom improved his experience",
+      "options": [
+        {
+          "code": "A",
+          "text": "Becoming more socially active."
+        },
+        {
+          "code": "B",
+          "text": "Having a lot of trips around China."
+        },
+        {
+          "code": "C",
+          "text": "Spending more time on study."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Class attendance in Germany compared with the UK",
+      "answer": "C",
+      "evidence": "Part 3: Exchange Programme Feedback. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 832.294,
+      "timeEnd": 1189.845,
+      "timeCenter": 1011.07,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Class attendance in Germany compared with the UK",
+      "options": [
+        {
+          "code": "A",
+          "text": "Less than in the UK."
+        },
+        {
+          "code": "B",
+          "text": "About the same as in the UK."
+        },
+        {
+          "code": "C",
+          "text": "More than in the UK."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "What Freya noticed about management case studies in Germany",
+      "answer": "B",
+      "evidence": "Part 3: Exchange Programme Feedback. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 832.294,
+      "timeEnd": 1189.845,
+      "timeCenter": 1011.07,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "What Freya noticed about management case studies in Germany",
+      "options": [
+        {
+          "code": "A",
+          "text": "There were a lot of arguments between the students."
+        },
+        {
+          "code": "B",
+          "text": "There was more focus on solving problems with theory."
+        },
+        {
+          "code": "C",
+          "text": "Increasing profit was one of the most important factors."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Why Tom found the new course hard to adapt to at first",
+      "answer": "A",
+      "evidence": "Part 3: Exchange Programme Feedback. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 832.294,
+      "timeEnd": 1189.845,
+      "timeCenter": 1011.07,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Why Tom found the new course hard to adapt to at first",
+      "options": [
+        {
+          "code": "A",
+          "text": "He was not able to use his first language."
+        },
+        {
+          "code": "B",
+          "text": "He found it difficult to get along with his classmates."
+        },
+        {
+          "code": "C",
+          "text": "The course materials were not interesting."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "What Tom and Freya both found useful",
+      "answer": "C",
+      "evidence": "Part 3: Exchange Programme Feedback. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 832.294,
+      "timeEnd": 1189.845,
+      "timeCenter": 1011.07,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "What Tom and Freya both found useful",
+      "options": [
+        {
+          "code": "A",
+          "text": "Ask other students for help."
+        },
+        {
+          "code": "B",
+          "text": "Go on trips with other students."
+        },
+        {
+          "code": "C",
+          "text": "Study with other students."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "What Tom and Freya both suggest before starting an exchange program",
+      "answer": "B",
+      "evidence": "Part 3: Exchange Programme Feedback. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 832.294,
+      "timeEnd": 1189.845,
+      "timeCenter": 1011.07,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "What Tom and Freya both suggest before starting an exchange program",
+      "options": [
+        {
+          "code": "A",
+          "text": "Making friends with local people in the new country."
+        },
+        {
+          "code": "B",
+          "text": "Visiting the country you will be studying in."
+        },
+        {
+          "code": "C",
+          "text": "Watching TV shows about the country you will be studying in."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Factor type that leads to increased satisfaction",
+      "answer": "motivators",
+      "evidence": "Part 4: Herzberg's Two-Factor Theory. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1189.845,
+      "timeEnd": 1632.209,
+      "timeCenter": 1411.027,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Factor type that leads to increased satisfaction",
+      "options": [],
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Factor type that leads to increased dissatisfaction",
+      "answer": "hygiene",
+      "evidence": "Part 4: Herzberg's Two-Factor Theory. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1189.845,
+      "timeEnd": 1632.209,
+      "timeCenter": 1411.027,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Factor type that leads to increased dissatisfaction",
+      "options": [],
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "How the two sets of factors are considered",
+      "answer": "independent",
+      "evidence": "Part 4: Herzberg's Two-Factor Theory. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1189.845,
+      "timeEnd": 1632.209,
+      "timeCenter": 1411.027,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "How the two sets of factors are considered",
+      "options": [],
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Satisfaction factor after achievement",
+      "answer": "recognition",
+      "evidence": "Part 4: Herzberg's Two-Factor Theory. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1189.845,
+      "timeEnd": 1632.209,
+      "timeCenter": 1411.027,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Satisfaction factor after achievement",
+      "options": [],
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Personal ___ as a satisfaction factor",
+      "answer": "advancement",
+      "evidence": "Part 4: Herzberg's Two-Factor Theory. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1189.845,
+      "timeEnd": 1632.209,
+      "timeCenter": 1411.027,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Personal ___ as a satisfaction factor",
+      "options": [],
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Relations with whom can increase dissatisfaction",
+      "answer": "supervisor",
+      "evidence": "Part 4: Herzberg's Two-Factor Theory. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1189.845,
+      "timeEnd": 1632.209,
+      "timeCenter": 1411.027,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Relations with whom can increase dissatisfaction",
+      "options": [],
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "High hygiene + high motivation: few ___",
+      "answer": "complaints",
+      "evidence": "Part 4: Herzberg's Two-Factor Theory. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1189.845,
+      "timeEnd": 1632.209,
+      "timeCenter": 1411.027,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "High hygiene + high motivation: few ___",
+      "options": [],
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "Low hygiene + high motivation: conditions are ___",
+      "answer": "inadequate",
+      "evidence": "Part 4: Herzberg's Two-Factor Theory. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1189.845,
+      "timeEnd": 1632.209,
+      "timeCenter": 1411.027,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Low hygiene + high motivation: conditions are ___",
+      "options": [],
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Guarantee employee ___ in the workplace",
+      "answer": "security",
+      "evidence": "Part 4: Herzberg's Two-Factor Theory. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1189.845,
+      "timeEnd": 1632.209,
+      "timeCenter": 1411.027,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Guarantee employee ___ in the workplace",
+      "options": [],
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Provide more challenging and ___ work",
+      "answer": "rewarding",
+      "evidence": "Part 4: Herzberg's Two-Factor Theory. The user-provided question PDF, transcript/answer PDF and pr9.mp3 were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1189.845,
+      "timeEnd": 1632.209,
+      "timeCenter": 1411.027,
+      "why": "The supplied answer key and transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Provide more challenging and ___ work",
+      "options": [],
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "Trickett",
+    "2": "2PQ",
+    "3": "manager",
+    "4": "28202830",
+    "5": "C",
+    "6": "E",
+    "7": "F",
+    "8": "speed cameras",
+    "9": "morning",
+    "10": "phone shops",
+    "11": "1857",
+    "12": "lecture theatres",
+    "13": "2 million",
+    "14": "Australia",
+    "15": "B",
+    "16": "F",
+    "17": "E",
+    "18": "research",
+    "19": "India",
+    "20": "future",
+    "21": "B",
+    "22": "C",
+    "23": "C",
+    "24": "B",
+    "25": "A",
+    "26": "C",
+    "27": "B",
+    "28": "A",
+    "29": "C",
+    "30": "B",
+    "31": "motivators",
+    "32": "hygiene",
+    "33": "independent",
+    "34": "recognition",
+    "35": "advancement",
+    "36": "supervisor",
+    "37": "complaints",
+    "38": "inadequate",
+    "39": "security",
+    "40": "rewarding"
+  },
+  "alternatives": {
+    "3": [
+      "office manager"
+    ],
+    "8": [
+      "cameras"
+    ],
+    "13": [
+      "2m",
+      "£2 million",
+      "2 million pounds"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 455.2
+    },
+    "2": {
+      "start": 455.2,
+      "end": 832.294
+    },
+    "3": {
+      "start": 832.294,
+      "end": 1189.845
+    },
+    "4": {
+      "start": 1189.845,
+      "end": 1632.209
+    }
+  },
+  "audio_available": true,
+  "audio_status": "User-provided pr9.mp3 four-section recording transcoded and embedded as mono 80 kbps MP3; audio is fully offline.",
+  "audio_duration_seconds": 1632.209,
+  "transcript": {
+    "1": "Section 1. You will hear a conversation between a person carrying out a survey in Leeds city centre and a passer-by. First you have some time to look at questions 1 to 4.\n\nMan: Excuse me, are you in a hurry? I wonder if I could have a few minutes of your time?\nWoman: No problem, I'm not in a rush.\nMan: OK, good. Just to introduce myself, I'm Jim and I work for a company called Survey UK. As our name suggests, we carry out surveys all over the country asking people about their habits and lifestyle choices.\nWoman: Sounds interesting! So, what's the topic for today?\nMan: Well, we've been asked by Leeds city council to come here today and find out more about what people think about the city centre, and in particular, to collect different views on the current range of facilities. So if you wouldn't mind, I'd like to ask you a few questions. It shouldn't take up too much time.\nWoman: That's fine, fire away.\n\nThe survey is about the city centre, so city centre has been written in the space. Now we shall begin. You should answer the questions as you listen because you will not hear the recording a second time. Listen carefully and answer questions 1 to 4.\n\nMan: Excuse me, are you in a hurry? I wonder if I could have a few minutes of your time?\nWoman: No problem, I'm not in a rush.\nMan: OK, good. Just to introduce myself, I'm Jim and I work for a company called Survey UK. As our name suggests, we carry out surveys all over the country asking people about their habits and lifestyle choices.\nWoman: Sounds interesting! So, what's the topic for today?\nMan: Well, we've been asked by Leeds city council to come here today and find out more about what people think about the city centre, and in particular, to collect different views on the current range of facilities. So if you wouldn't mind, I'd like to ask you a few questions. It shouldn't take up too much time.\nWoman: That's fine, fire away.\n\nMan: Right, to start I'll need to take a few of your personal details if you don't mind.\nWoman: No, that's fine.\nMan: And also, I'm pleased to say you'll be entered into our monthly prize draw with a chance to win 100 pounds!\nWoman: Well, I should be so lucky!\nMan: Your name, please?\nWoman: Mary Trickett. That's T-R-I-C-K-E-T-T.\nMan: Sorry Mary, was that one T or two T's?\nWoman: Two T's, three if you count the first one! I'll say it again, T-R-I-C-K-E-T-T.\nMan: Thanks. And your address?\nWoman: That's easier! It's 14 Bay Road, Leeds, and the postcode is L11 2PQ.\nMan: Sorry, did you say L11 2PU?\nWoman: No, 2PQ.\nMan: Ah. And what do you do? We just want to make sure we survey a wide range of people, that's all.\nWoman: I'm an office manager actually.\nMan: Oh, so you get to boss people around! Thanks, and do you have a contact telephone number? Just in case of follow up.\nWoman: Erm, well I'd rather not give it to you if you don't mind, I get enough phone calls as it is! Er, well actually I suppose I could give you my work number - 28202830.\nMan: Oh, that's easy to remember! 28202830. Thanks, and do you have an email address? We're going to be sending everyone the results of the survey.\nWoman: Yeah, it's leedsmary1977@ukmail.com.\nMan: Great, thanks.\n\nBefore you hear the rest of the conversation, you have some time to look at questions 5 to 10. Now listen and answer questions 5 to 10.\n\nMan: Right, now that we've got that out of the way, just a few quick questions.\nWoman: OK, sounds good.\nMan: So, firstly, how often do you come into the city centre?\nWoman: Well my company is just across from the main shopping mall so I'm there every day, more or less. But I suppose in terms of actually doing some serious shopping, then generally only a couple of times a month. I like to invite my gal pals, make a day of it, you know.\nMan: So, thinking about the city centre, what changes have you noticed recently?\nWoman: Well, quite a few actually. The council have obviously spent quite a bit in recent years to make it more modern, and I like how they've added some new areas. I especially like that food street with lots of trendy places to eat and coffee bars, that's always full of people. Of course, there's still that link to the old days with the cinema and the big department store. Oh, and I'm also pleased they've got rid of that old amusement arcade as well.\nMan: Anything else?\nWoman: Yes, well obviously I'm a mother, so I'm really happy that there's more places for my little one nowadays. The main one that comes into my mind is that new day centre for kids that has just opened up. It's great, you can drop your kid off while you go shopping and there's so much for them to do. Oh, and I love that little garden behind the library as well. I think it's something the council have been working on for a while now and now it's finished we finally have the chance to use it. I think it's a lovely place to escape from the hustle and bustle of a busy city.\nMan: Great. I don't want to take up much more of your time, so just quickly, what problems do you see in the city centre and what should be done about them?\nWoman: Ha, that's a good question! Let me see. Well, there are quite a few boy racers who drive really quickly. There are lots of traffic lights but they don't seem to slow them down so I think more speed cameras would be more effective.\nMan: Good suggestion. Anything else?\nWoman: Erm, oh yes, and I usually get the bus to work in the morning, but recently there seems to be fewer of them, so more would be good, especially at around 7am. They seem to have enough running in the evening. Maybe the council could hire more drivers?\nWoman: Oh, and one more thing, it would be nice to have a bigger variety of different shops like there were in the old days. As an example, look around, how many phone shops do you see? Why not have more music shops or something else more interesting?\nMan: OK, I've made a note of that. Well, thanks very much for your time and for your feedback today Mary, that's great stuff. Have a good day, and good luck in the prize draw!\nWoman: Thanks!\n\nThat is the end of section 1. You now have half a minute to check your answers.",
+    "2": "Section 2. You will hear a museum director talking about his museum. First you have some time to look at questions 11 to 14. Listen carefully and answer questions 11 to 14.\n\nDirector: Hello everyone, and thanks for coming on this very exciting day as we launch the UK's first National Museum of Nursing here in London. My name's Mark Fisher and I'm the Director of the museum.\n\nAs most of you will know, this building began life as the Royal Victoria Nursing College. As you might have guessed from the name, it was officially opened during the reign of Queen Victoria in the 19th century. At that time, there was a strong movement calling for increased professionalism in the field of nursing, so in 1855 the relevant government department granted permission for this institute of education and research to be established, here in London on the bank of the River Thames. It was officially opened two years later.\n\nAt seven stories high, it was one of the tallest buildings in London at the time of construction. It contained 85 individual rooms, including 25 classrooms, 4 lecture theatres and 8 wards for nursing practice. Most of the other rooms were used as offices and for storage space. The construction of the building cost 2 million pounds, around 800 million pounds in today's money, which shows that the development of the nursing profession was a top priority at the time.\n\nThe golden age for this institute was between the two World Wars. In the 1920s it was considered the leading nursing college in the world. Nurses from all over the world came here to study, especially from India, Canada, Australia and New Zealand. The USA and some of our European neighbours like France also sent trainees, but not in the same numbers.\n\nHowever, in the late 1990s it was felt that upgrading the building to meet the demands of 21st century nursing would cost too much. It was decided instead to build a new state-of-the-art college in the Midlands, in Derby. For a time, the survival of this place was in doubt, but in 2012 permission was granted to convert it into a National Museum of Nursing, and that is why we are all here today!\n\nBefore you hear the rest of the talk, you have some time to look at questions 15 to 20. Now listen and answer questions 15 to 20.\n\nDirector: So, that's some information about the history of the building and why it was so important to continue its legacy. Now I'd like to move on to introduce some of our new department managers who will be in charge of the day-to-day running of this museum, and explain what their roles will be.\n\nFirst, please welcome Susan Jones, who will be responsible for media relations. Her degree was in Marketing but she has spent most of her career working for some of our most prestigious national newspapers as an Arts correspondent. Susan has a deep knowledge of the museum world and will be making sure that our institution maintains a high profile and hopefully draws in the crowds.\n\nNext up, where's Vanessa? Oh, there she is. Well, Vanessa Redmond has had a long and colourful career in a number of fields, starting off in Sales and eventually going back to university to get a postgraduate degree. As our Director of H.R., she will be ensuring that we attract the most dynamic people to work in our museum and contribute to our success.\n\nLast but by no means least, I'd like to introduce Gordon Timms. Well, as such a well-known figure in the UK arts world, Gordon really needs no introduction. Having worked in museum maintenance for most of his career, I am very glad that he has now decided to join us as our exhibitions manager. This will be an important focus for our museum, especially during the initial period as we try to get as many people through the door as possible and spread the word. We already have a number of exciting projects in the pipeline and Gordon will be telling you more about those in due course.\n\nBefore I finish today, I'd just like to point you in the direction of our new monthly lecture event. Starting from next month we will be inviting prominent speakers to give talks on a nursing-related topic, always beginning at 7pm. To kick things off, I will be giving a talk on the college's achievements in nursing research, dating back to the 19th century. That will be held next month, September the 15th. The following month on the 10th Mrs Margaret Hall, who has spent most of her career in Singapore, will be reporting to us on a fascinating year she recently spent in the Indian countryside. And on November the 12th, Mrs Nigella Smith, who has written a number of well-known books on nursing, will be giving us her views on nursing's future, which is also the topic of her new publication. Do come along, tickets are free on a first come first served basis.\n\nWell, that's all I'd like to say today. As I said, thanks very much for coming today and I hope you will continue to support the museum in the future. Now, before we finish, does anyone have any questions?\n\nThat is the end of section 2. You now have half a minute to check your answers.",
+    "3": "Section 3. You will hear a conversation between a tutor and two students who are discussing an exchange year spent at an overseas university. First you have some time to look at questions 21 to 25. Listen carefully and answer questions 21 to 25.\n\nTutor: Hi Freya, Tom, thanks for coming today. You both spent the last academic year on exchange programs at overseas universities. Now, at the start of this new semester I'd like to get some feedback from you to help us to provide more support to our exchange students in the future. Does that sound OK?\nTom: Sounds fine to me.\nFreya: Me too. By the way, where were you Tom? I was in Germany.\nTom: Oh, are you a languages student too? I was in Beijing studying Chinese.\nFreya: Wow, cool! Actually, I was studying management. All my lectures were in English, and my father's German, so I felt very much at home.\nTutor: I actually wanted to get started by talking about day-to-day challenges. Seems like you were able to adapt quite smoothly, Freya. How about you Tom, did you feel that the university provided enough support?\nTom: Well, yes and no really. I mean, I did have a meeting with my course tutor which was quite useful, and I also remember reading some travel guides and the university's own preparation booklet. However, it was my first time to travel independently to another country, and I don't really think there is any program that can completely prepare someone for having to deal with living in a new country.\nTutor: That's true, and in our booklet, it does mention the stages of culture shock, especially coping with the most difficult stage, stage 2, which sets in after two or three months.\nTom: Yes, the negotiation stage isn't it? Well, I'd been studying Chinese for a year before I went over to China and was considered one of the best students in the class, but suddenly I was in China and still using English all the time except in the classroom. It just made me feel really frustrated that my Chinese skills were still pretty limited and that I was too lazy to improve. Like you say, that period around three months was really hard. It just seemed like even the simplest things like going to the shops were incredibly difficult.\nTutor: But you managed to get through it?\nTom: Well I didn't have much choice! Yes, it was a pretty steep learning curve. It was mostly making friends with locals, forcing myself to use Chinese all the time and getting more involved in campus activities. That did the trick. The second six months just flew by, and I can't wait to go back at some point in the future.\nTutor: Great! So overall sounds like a pretty successful year, yeah?\nTom: Yes, it was, on the whole.\n\nBefore you hear the rest of the conversation, you have some time to look at questions 26 to 30. Now listen and answer questions 26 to 30.\n\nTutor: OK, let's move on now to discuss in more detail some of the differences in the educational environment. Freya, shall we start with you? What were some of your main impressions?\nFreya: Well, the number of people attending lectures was much greater than I was used to, and the seminars were also quite large, so it was quite difficult to get direct feedback from tutors.\nTutor: And what about the learning process, was it similar to what you were used to?\nFreya: Pretty much. Like I said, all the classes were in English. I did notice something different when analyzing case studies though. For example, in the UK it seems generally more a case of trying to find the most practical solution, whereas in Germany there was much more focus on finding a model or framework to deal with the problem more effectively. That was a real eye-opener, and it's definitely something to keep in mind in the future.\nTutor: So you mean that applying theory to practice is more common in German management training than in the UK? Interesting. Anything else? How about you, Tom? Thinking about the study side of things, was there anything in your experience of studying in China that surprised you or took a bit of getting used to?\nTom: Well, I suppose the biggest challenge was that the teacher spoke in Chinese the whole time, and all the study materials were in Chinese, so there was no use of English to make things easier from time to time.\nTutor: Wow, sounds tough! And you were able to cope with that?\nTom: Yes, eventually. Getting to know new people helped a lot as well, and as time went by we got together more often to do homework and practice together. That really helped a lot, especially as I'm more of a group learner.\nFreya: I can definitely relate to that, Tom. I learnt so much from other students, sometimes even more than from the teachers, just because we were all in the same boat and wanted to get the most out of being there.\nTutor: Great. Before we finish, any other tips for potential exchange students?\nFreya: Well, yes, I'd certainly recommend going to take a look at the place before you start the course, just as a tourist. Just to get familiar with the people and the living environment.\nTom: Yes, I'd go along with that, though not easy when you have to go as far as China!\nTutor: Well, Tom and Freya, thanks again for coming today, the feedback you've given me has been really useful.\n\nThat is the end of section 3. You now have half a minute to check your answers.",
+    "4": "Section 4. You will hear a talk on the topic of what factors make people happy or unhappy with their job. First you have some time to look at questions 31 to 36. Listen carefully and answer questions 31 to 36.\n\nLecturer: Morning everyone. This semester, we are focusing on different approaches for understanding how employees can be motivated to perform well at their jobs. Today, we are going to be looking at a theory developed in the 1960s by a German psychologist named Frederick Herzberg, which has been very influential on management training courses. However, it is not without its drawbacks, as we shall see later.\n\nNow, the basic idea that Herzberg developed is that, in a given workplace, there are two types of factors at play. On the one hand, there are those factors that create increased job satisfaction, which Herzberg called the motivators. On the other hand, there are those aspects of a job that lead to increased dissatisfaction, which are labelled hygiene factors. Having identified these two factors, these motivators and hygiene factors, Herzberg went on to state that a consequence of his theory was that the underlying reasons for job satisfaction and job dissatisfaction must be understood as independent of each other, hence the common name of this approach, the two-factor theory.\n\nLet's firstly consider the former set of factors in more detail. What aspects of a job tend to motivate employees and thus bring about greater job satisfaction? Well, Herzberg's own conclusions were not based on armchair speculation, but rather supported by research carried out within a variety of corporations. Perhaps unsurprisingly, he found that achievement was the number one factor leading to increased satisfaction. Obviously, everyone likes to be a success! This was followed by recognition, that is, being acknowledged for doing a good job. Enjoyment of the work itself and being given more responsibility were also important. Finally, personal advancement, such as getting a promotion, completed the list.\n\nNow, some of you may have noticed something missing from the list that usually gets included when people give their main reasons for working hard - salary. So, why isn't it there? Well, the answer is that, for Herzberg, salary is not a great motivator because any pay rise will never completely satisfy. Instead, it will eventually give rise to a demand for more money, while insufficient salary will contribute to employee dissatisfaction.\n\nApart from salary, what are some of the other factors leading to employee dissatisfaction? Well, again, based on Herzberg's research, the findings tell us that company policy and administration, relationship with one's supervisor, work conditions and how well the employee gets on with colleagues are also key hygiene factors. However, it is perhaps not surprising that how well an individual interacts with the people around them will affect their degree of satisfaction with their job.\n\nOK, so we have looked at the two different types of factors and discussed why, according to the theory, some factors increase employee satisfaction and some contribute to dissatisfaction. Before we move on, are there any questions?\n\nBefore you hear the rest of the talk, you have some time to look at questions 37 to 40. Now listen and answer questions 37 to 40.\n\nLecturer: Thus, according to the Two-Factor theory, we can find that there are four possible combinations. The ideal situation is high hygiene and high motivation, which means that employees are stimulated by their work and have few complaints. If only it were so easy! The second scenario is high hygiene and low motivation. Employees have no major issues with their work, but are not driven to improve themselves, and their focus is on the level of salary they receive. The third is low hygiene and high motivation. The job is stimulating and challenging, but the salary and working conditions are inadequate, which means that the employees have a lot of complaints. The fourth and worst set of circumstances is where the employees have both low hygiene and low motivation. This means both that the staff are not motivated and also that they have many complaints.\n\nRight, so having discussed the distinction between motivators and hygiene factors, what are some of the consequences of the theory? Well, in terms of increasing employee well-being, Herzberg thought that it was important to eliminate job dissatisfaction first before going onto creating conditions for job satisfaction. This is because otherwise they would work against each other. There are several ways to decrease dissatisfaction, but some of the most important ways are those discussed earlier, such as paying reasonable wages, ensuring employees job security, and creating a positive culture in the workplace, for example by using team building activities.\n\nHowever, eliminating dissatisfaction is only one half of the task of the two-factor theory; the other half would be to increase satisfaction in the workplace. This can be done by improving on motivating factors, which are needed to stimulate an employee to achieve a higher level of performance. As previously mentioned, these often relate to opportunities for increased recognition, responsibilities and respect within the workplace, such as being assigned more challenging and rewarding tasks, or by achieving a promotion to a higher level position.\n\nOK, so in summary we can see that, according to this theory, what makes the employee happy in their job and what makes them unhappy exist as two separate sets of factors. However, is it really the case that factors relating to employee satisfaction in a workplace can be divided so neatly into two categories? Some critics have suggested otherwise. Let's now move on to look at some of these criticisms.\n\nThat is the end of section 4. You now have half a minute to check your answers. That is the end of the Listening test. You now have 10 minutes to transfer your answers."
+  },
+  "transcript_source": "Full transcripts recovered from the user-provided 15-page Listening Test Answers PDF and cross-checked against the supplied question PDF, answer key and pr9.mp3. One page-break phrase in Part 3 was independently verified against matching public transcript copies.",
+  "timestamps_source": "Part-level boundaries are aligned to long inter-section pauses in the supplied pr9.mp3; no question-level word timestamps are claimed.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "monthly prize draw",
+      "answer": "monthly prize draw",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "wide range of people",
+      "answer": "wide range of people",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "serious shopping",
+      "answer": "serious shopping",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "a couple of times a month",
+      "answer": "a couple of times a month",
+      "lexical_type": "frequency phrase"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "hustle and bustle",
+      "answer": "hustle and bustle",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "speed cameras",
+      "answer": "speed cameras",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "hire more drivers",
+      "answer": "hire more drivers",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "bigger variety of different shops",
+      "answer": "bigger variety of different shops",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 201,
+      "part": 2,
+      "n": 1,
+      "match": "granted permission",
+      "answer": "granted permission",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 202,
+      "part": 2,
+      "n": 2,
+      "match": "state-of-the-art college",
+      "answer": "state-of-the-art college",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 203,
+      "part": 2,
+      "n": 3,
+      "match": "day-to-day running",
+      "answer": "day-to-day running",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 204,
+      "part": 2,
+      "n": 4,
+      "match": "media relations",
+      "answer": "media relations",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 205,
+      "part": 2,
+      "n": 5,
+      "match": "maintains a high profile",
+      "answer": "maintains a high profile",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 206,
+      "part": 2,
+      "n": 6,
+      "match": "most dynamic people",
+      "answer": "most dynamic people",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 207,
+      "part": 2,
+      "n": 7,
+      "match": "projects in the pipeline",
+      "answer": "projects in the pipeline",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 208,
+      "part": 2,
+      "n": 8,
+      "match": "first come first served basis",
+      "answer": "first come first served basis",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 301,
+      "part": 3,
+      "n": 1,
+      "match": "day-to-day challenges",
+      "answer": "day-to-day challenges",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 302,
+      "part": 3,
+      "n": 2,
+      "match": "culture shock",
+      "answer": "culture shock",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 303,
+      "part": 3,
+      "n": 3,
+      "match": "pretty steep learning curve",
+      "answer": "pretty steep learning curve",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 304,
+      "part": 3,
+      "n": 4,
+      "match": "getting more involved in campus activities",
+      "answer": "getting more involved in campus activities",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 305,
+      "part": 3,
+      "n": 5,
+      "match": "educational environment",
+      "answer": "educational environment",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 306,
+      "part": 3,
+      "n": 6,
+      "match": "applying theory to practice",
+      "answer": "applying theory to practice",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 307,
+      "part": 3,
+      "n": 7,
+      "match": "study materials",
+      "answer": "study materials",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 308,
+      "part": 3,
+      "n": 8,
+      "match": "get the most out of being there",
+      "answer": "get the most out of being there",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 401,
+      "part": 4,
+      "n": 1,
+      "match": "influential on management training courses",
+      "answer": "influential on management training courses",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 402,
+      "part": 4,
+      "n": 2,
+      "match": "increased job satisfaction",
+      "answer": "increased job satisfaction",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 403,
+      "part": 4,
+      "n": 3,
+      "match": "independent of each other",
+      "answer": "independent of each other",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 404,
+      "part": 4,
+      "n": 4,
+      "match": "company policy and administration",
+      "answer": "company policy and administration",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 405,
+      "part": 4,
+      "n": 5,
+      "match": "key hygiene factors",
+      "answer": "key hygiene factors",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 406,
+      "part": 4,
+      "n": 6,
+      "match": "four possible combinations",
+      "answer": "four possible combinations",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 407,
+      "part": 4,
+      "n": 7,
+      "match": "job security",
+      "answer": "job security",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 408,
+      "part": 4,
+      "n": 8,
+      "match": "challenging and rewarding tasks",
+      "answer": "challenging and rewarding tasks",
+      "lexical_type": "noun phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "monthly prize draw",
+      "word": "monthly prize draw",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Survey UK - Leeds City Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "wide range of people",
+      "word": "wide range of people",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Survey UK - Leeds City Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "serious shopping",
+      "word": "serious shopping",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Survey UK - Leeds City Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "a couple of times a month",
+      "word": "a couple of times a month",
+      "type": "frequency phrase",
+      "lexical_type": "frequency phrase",
+      "pos": "frequency phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Survey UK - Leeds City Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "hustle and bustle",
+      "word": "hustle and bustle",
+      "type": "fixed expression",
+      "lexical_type": "fixed expression",
+      "pos": "fixed expression",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Survey UK - Leeds City Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "speed cameras",
+      "word": "speed cameras",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Survey UK - Leeds City Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "hire more drivers",
+      "word": "hire more drivers",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Survey UK - Leeds City Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "bigger variety of different shops",
+      "word": "bigger variety of different shops",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Survey UK - Leeds City Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "granted permission",
+      "word": "granted permission",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: National Museum of Nursing",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "state-of-the-art college",
+      "word": "state-of-the-art college",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: National Museum of Nursing",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "day-to-day running",
+      "word": "day-to-day running",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: National Museum of Nursing",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "media relations",
+      "word": "media relations",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: National Museum of Nursing",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "maintains a high profile",
+      "word": "maintains a high profile",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: National Museum of Nursing",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "most dynamic people",
+      "word": "most dynamic people",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: National Museum of Nursing",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "projects in the pipeline",
+      "word": "projects in the pipeline",
+      "type": "fixed expression",
+      "lexical_type": "fixed expression",
+      "pos": "fixed expression",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: National Museum of Nursing",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "first come first served basis",
+      "word": "first come first served basis",
+      "type": "fixed expression",
+      "lexical_type": "fixed expression",
+      "pos": "fixed expression",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: National Museum of Nursing",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "day-to-day challenges",
+      "word": "day-to-day challenges",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Exchange Programme Feedback",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "culture shock",
+      "word": "culture shock",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Exchange Programme Feedback",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "pretty steep learning curve",
+      "word": "pretty steep learning curve",
+      "type": "fixed expression",
+      "lexical_type": "fixed expression",
+      "pos": "fixed expression",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Exchange Programme Feedback",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "getting more involved in campus activities",
+      "word": "getting more involved in campus activities",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Exchange Programme Feedback",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "educational environment",
+      "word": "educational environment",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Exchange Programme Feedback",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "applying theory to practice",
+      "word": "applying theory to practice",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Exchange Programme Feedback",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "study materials",
+      "word": "study materials",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Exchange Programme Feedback",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "get the most out of being there",
+      "word": "get the most out of being there",
+      "type": "fixed expression",
+      "lexical_type": "fixed expression",
+      "pos": "fixed expression",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Exchange Programme Feedback",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "influential on management training courses",
+      "word": "influential on management training courses",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Herzberg's Two-Factor Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "increased job satisfaction",
+      "word": "increased job satisfaction",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Herzberg's Two-Factor Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "independent of each other",
+      "word": "independent of each other",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Herzberg's Two-Factor Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "company policy and administration",
+      "word": "company policy and administration",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Herzberg's Two-Factor Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "key hygiene factors",
+      "word": "key hygiene factors",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Herzberg's Two-Factor Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "four possible combinations",
+      "word": "four possible combinations",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Herzberg's Two-Factor Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "job security",
+      "word": "job security",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Herzberg's Two-Factor Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "challenging and rewarding tasks",
+      "word": "challenging and rewarding tasks",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Herzberg's Two-Factor Theory",
+      "collocations": [],
+      "paraphrases": []
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Matching",
+    "6": "Matching",
+    "7": "Matching",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "Completion",
+    "12": "Completion",
+    "13": "Completion",
+    "14": "Completion",
+    "15": "Matching",
+    "16": "Matching",
+    "17": "Matching",
+    "18": "Completion",
+    "19": "Completion",
+    "20": "Completion",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "MCQ",
+    "26": "MCQ",
+    "27": "MCQ",
+    "28": "MCQ",
+    "29": "MCQ",
+    "30": "MCQ",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    [
+      "exam",
+      "01",
+      "Full IELTS Test",
+      "Q1-Q40 in a timed exam with embedded audio, FLAG and notes."
+    ],
+    [
+      "review",
+      "02",
+      "Review & Revision",
+      "Redo a Part and inspect answers/evidence after checking."
+    ],
+    [
+      "script",
+      "03",
+      "Script Completion",
+      "Complete full Part 1-4 transcripts with 8 lexical gaps each."
+    ],
+    [
+      "mcq",
+      "04",
+      "MCQ Mastery",
+      "Practise Q21-Q30 single-answer multiple-choice questions and distractors."
+    ],
+    [
+      "matching",
+      "05",
+      "Matching Mastery",
+      "Practise Q5-Q7 facility classification and Q15-Q17 responsibility matching."
+    ],
+    [
+      "completion",
+      "06",
+      "Completion Mastery",
+      "Practise notes, tables and one-word completion."
+    ],
+    [
+      "vocab",
+      "07",
+      "Vocabulary Builder",
+      "Learn useful expressions from all four transcripts."
+    ],
+    [
+      "retry",
+      "08",
+      "Retry Weak Areas",
+      "Retry missed or unanswered questions."
+    ]
+  ]
+}

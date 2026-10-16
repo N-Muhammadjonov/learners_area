@@ -1,0 +1,1272 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-30",
+  "title": "Listening Test 30",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "5df80627dd4b5d05e6451e8a026836ecf4a4bfdc53aae7d9448e3e397a39c91b",
+      "path": "audio/full.mp3"
+    },
+    {
+      "key": "image.map",
+      "role": "image",
+      "required": true,
+      "mimeTypes": [
+        "image/png"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "b5c690370bb856e2220d0fb1bf5bfdcfe0aa5a3f7b9ee1208529540436e188c5",
+      "path": "images/map.png"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1506.6,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": {
+      "assetKey": "image.map"
+    },
+    "imagePath": "images/map.png",
+    "sections": [
+      {
+        "number": 1,
+        "title": "Kiwi Air Customer Complaint Form",
+        "transcript": "PART 1 - Kiwi Air Customer Complaint Form\n\nNARRATOR: Part 1. You will hear a telephone conversation between a woman and a staff member of an airline. First, you have some time to look at Questions 1 to 4. Now listen carefully and answer Questions 1 to 4.\n\nMAN: Kiwi Air, good morning. You're speaking with Roger. How may I help you?\nWOMAN: Yes, hi. My name's Janet. I've just been trying to make a booking on the internet, and I'm having a problem that I'd like to complain about.\nMAN: So let me just take down your full name.\nWOMAN: It's Janet Quigley. That's Q-U-I-G-L-E-Y.\nMAN: Thank you. And what's the problem exactly?\nWOMAN: Well, yes. I'm trying to book myself and three children, so four tickets, to fly within New Zealand. We're wanting to fly from Wellington to Christchurch. Not one way, I mean, but return. So it's just a simple booking.\nMAN: Yes, and you've put your dates in, have you?\nWOMAN: Yes, the dates are, um, what are we in now? It's September, isn't it? So I'm booking for October. Oh, sorry, I mean November. The 10th till the 15th.\nMAN: Right. Let me just get that down on the form. And what time would that be?\nWOMAN: We'd be leaving at 11:45 in the morning, arriving into Christchurch at 12:30.\nMAN: Mm-hmm.\nWOMAN: I know that it's cheaper to not make the reservation in person, so to save paying the fee, I've been trying to do it through your home page.\nMAN: Yes. So what's the problem exactly?\nWOMAN: Well, every time I put in the number of adults and children travelling, the website automatically alters the rate for one of the children to what you'd pay for an adult. It's very annoying. I'm getting so frustrated with it. And each time I change it back, I've been getting error messages telling me to call you directly. I really can't understand it.\n\nNARRATOR: Before you hear the rest of the conversation, you have some time to look at Questions 5 to 10. Now listen and answer Questions 5 to 10.\n\nMAN: All right. Well, yes, there is a reason for why that's happening. It's Kiwi Air policy, I'm afraid, to allow a maximum of two children to travel on child fares with just the one adult accompanying them.\nWOMAN: So because there's three of them and just me, do you mean I have to pay an adult fare for one of my children?\nMAN: Yes, that's right.\nWOMAN: But I've flown to Australia before on my own with the children, and we didn't have to pay extra.\nMAN: It's a policy that we've just introduced for domestic air travel. It may be extended later for international travel as well.\nWOMAN: But an adult fare is for someone over the age of 12. My children are only 11, 8 and 5. It's not fair to charge them for an adult rate. Besides, they actually eat less than an adult, so they wouldn't consume as much food on the plane. I just don't think it's right.\nMAN: Well, I'm sorry, but that's how we charge. We do look after children well on our flights, you know. We give them little packs of games and coloured pencils so they have something to do.\nWOMAN: Well, still, the difference to pay between the fares is a lot of extra money that I hadn't budgeted for. It seems to me that your rules discriminate against a parent travelling on their own with the children, and also families with lots of children. And what about school groups? That wouldn't be fair.\nMAN: Well, madam, yes, I can see your point. You're welcome to put your complaint in writing if that's what you'd like to do.\nWOMAN: Well, I certainly would. I'll be writing a letter to your customer services officer, is it?\nMAN: Just address it to the manager. Then it will reach the right person.\nWOMAN: That's fine. And how soon do you think they'll get back to me? I must say, I really am shocked at this. I'm not happy about it at all.\nMAN: Well, at busy times it sometimes takes a month, but it's low season now, so you should expect to receive a response probably inside a week. You need to take down this reference number. I'll just give it to you. It's GBK8422.\nWOMAN: All right, then. I'll put that in the letter. Well, thanks for your help.\nMAN: Thank you for calling Kiwi Air.\n\nNARRATOR: That is the end of Part 1. You now have one minute to check your answers to Part 1.",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Linwood Apartment Complex",
+        "transcript": "PART 2 - Linwood Apartment Complex\n\nNARRATOR: Part 2. You will hear the manager of the Linwood apartment complex introducing the complex to a group of new residents. First, you have some time to look at Questions 11 to 14. Now listen carefully and answer Questions 11 to 14.\n\nMANAGER: Good afternoon everyone, and thank you for coming to the meeting. My name is Bob McDonald, and I'm the manager of the Linwood apartment complex. Firstly, I'd like to welcome you all. I'm sure you'll enjoy living here.\nLet's start with a little bit of history about the Linwood apartments. The council first discussed the concept of this project five years ago. There was a small delay initially while plans and administration were completed. Work finally started three years later. And one year ago, the complex was finished and received its first residents. And I'm happy to say it's been a great place to live ever since.\nSo now just a little bit more about my role within the complex. I'm responsible for ensuring that rent is paid on time, but I can't say I get a lot of satisfaction from that aspect of the job. Fortunately, because the building is quite new, there is generally little to do to keep everything in good working order. What I love is working with the people who live here, especially helping neighbours deal with any little misunderstandings that might come up between them.\nWe want you to feel at home here, but there are some restrictions on what you can do. You're welcome to redecorate inside your apartment if you don't like the colour, but you can't change the outward appearance of the building in any way, and that also includes altering the plantings around the complex by putting in your own trees or flowers.\nNow, some of you were asking earlier about the welcome party. That will be held as planned next Friday evening. We'll be doing all the catering, so there are no worries about food. But it would be great if you could come along for a while on the day of the party to help put some party lights in the hall. When you arrive, you'll find there are badges already prepared for everybody, so one will have your name on it.\n\nNARRATOR: Before you hear the rest of the talk, you have some time to look at Questions 15 to 20. Now listen and answer Questions 15 to 20.\n\nMANAGER: Now, if you'd all like to have a look at your map of the apartment complex, I'll just go over where you can find all the facilities. The complex is a pedestrian-only area, so you can park your car here, in the car park at the bottom of the map. There are two main apartment blocks, blue and red, with an open walkway up the middle called the arcade.\nWhen you first arrive, you'll probably want to know where the shop is. So if you go up from the car park into the arcade, you'll find the shop at the end on the right, opposite the internet cafe.\nOne popular attraction, especially in summer, is the barbecue area, so if you walk from the car park and through the arcade, then turn right and follow the path, you'll see it at the end.\nFor those of you with young children, we have an excellent childcare centre. From the car park, head north, but before you get to the arcade, turn left and follow the path around until you reach the pond. You'll find it opposite the pond, on the west side of the blue block.\nNow if you need to use the laundry, walk up from the car park and into the arcade, look on your left and you'll see the gym, but keep going, and it's directly next door to that.\nYou all need to know where the recreation room is. Head north from the car park and take the first turning on the right. Go straight on to the end and you'll find two buildings facing each other. You want the one to the north, opposite the cafe.\nFinally, for the welcome party in the hall next week, from the car park, go straight on to the end of the arcade, but then don't go too far. Take the path up to the left, and it's at the end of that path, just above the trees on your map. Well, I look forward to welcoming you all.\n\nNARRATOR: That is the end of Part 2. You now have 30 seconds to check your answers to Part 2.",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "The History and Development of the Bicycle",
+        "transcript": "PART 3 - The History and Development of the Bicycle\n\nNARRATOR: Part 3. You will hear two Design and Technology students, called Max and Izzy, planning their presentation about the history and development of the bicycle. First, you have some time to look at Questions 21 to 24. Now listen carefully and answer Questions 21 to 24.\n\nMAX: Hi, Izzy. Can we talk about our presentation?\nIZZY: Sure. So, our topic's the bicycle, its history and its effect on society in the Western world.\nMAX: We should start with its invention in the 1800s. The first bike wasn't very successful, was it?\nIZZY: I think the model they called the safety bicycle is more significant.\nMAX: Yes. Was that name because it was safe for cyclists of all ages, including young kids?\nIZZY: I think it was more to do with the comparison to previous versions, which got their speed from one large wheel. This bike had equally sized wheels and its speed came from gears. It was an important development, as it was the first model that actually looked like a bike you'd see today.\nMAX: Right. And the development of that bicycle at the end of the 19th century had an enormous impact on the working classes.\nIZZY: You mean how it gave them freedom to move around and look for jobs?\nMAX: I suppose before the bike, they didn't have private transport, so were limited in where they could work.\nIZZY: Right. Because it took such a long time to go anywhere.\nMAX: But I'd really like to draw attention to how inhabitants of rural areas were able to travel outside their communities, and that led them to marrying people they never could have met in the past.\nIZZY: That changed society, and I'd like to discuss it in our presentation.\nMAX: Good idea. So what should we stress about changing attitudes to bicycles in the 20th century?\nIZZY: Well, the bicycle was an important means of transport through the early 1900s, and that continued until the 1950s, when cars became available to the general population and much more popular. That led to people losing interest in bikes for a while.\nMAX: I hadn't realised the impact that people's love of motorised transport had on the bike's reputation.\nIZZY: Yes, that's a key point we should make. Then the fold-up bike and others came along in the 60s, which helped sales pick up. Then things stayed fairly stable until the fitness craze of the 80s piqued interest in mountain biking and sales went up, but the bike had lost its position as a key mode of transport.\nMAX: Right. I'd like to talk about some current projects around the world involving bikes. How about the scheme in an American school that provides bikes for all its pupils?\nIZZY: I expect the pupils are delighted, not to mention the parents.\nMAX: I suppose so, although I wonder how much it costs.\nIZZY: Probably not as much as other initiatives.\nMAX: I just wonder if the advantages really justify the scheme.\nIZZY: Well, it must enable pupils to get to school more easily.\nMAX: But does attendance actually improve? If there's any data to support that, we need to include it, but I haven't found enough. Let's look into that later.\n\nNARRATOR: Before you hear the rest of the discussion, you have some time to look at Questions 25 to 30. Now listen and answer Questions 25 to 30.\n\nMAX: Could we look at the results of the survey we did with cyclists? We each spoke to different people.\nIZZY: Yes. One of my first interviewees was David. He works from home and spends a lot of time indoors. So at weekends he goes out with a cycling club. He said it's a way to connect with people, apart from the other benefits.\nMAX: Okay. Who else?\nIZZY: I interviewed a woman called Marlene. I asked her what her main reason for using a bike was. She's got young children and doesn't have much free time, so cycling to work is a way for her to keep fit. That's what she likes about it.\nMAX: Okay. How about Annabelle? Was she the one who sold her car and uses a bike instead? Was that because of pollution?\nIZZY: She did sell her car, but her choice to travel by bike was made for financial reasons, as she was paying so much for petrol.\nMAX: I see. And Rashid? He was probably the oldest person we spoke to.\nIZZY: He's in his 70s, yes. And he's been cycling around the city for years. He said that there are several advantages, but he really loves the way it helps him think clearly and takes his mind off any worries he has.\nMAX: Great. What about Saira? Have you got notes about her?\nIZZY: Yes, I spoke to her last week. She lives in the countryside, and she loves being on her bike in the open air and enjoying the beautiful environment and landscape around her.\nMAX: Right. The last person I interviewed was Giovanni. He's very practical, and he said it's just easier for him to use a bike to get around town than to drive. He finds sitting in traffic and looking for parking spaces too time-consuming. So he switched to using a bike instead.\nIZZY: Great. Shall we meet next week and then we can...\n\nNARRATOR: That is the end of Part 3. You now have half a minute to check your answers to Part 3.",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "The Patagon People of South America",
+        "transcript": "PART 4 - The Patagon People of South America\n\nNARRATOR: Part 4. You will hear part of a lecture about archaeological research in the Patagonia region of South America. First, you have some time to look at Questions 31 to 40. Now listen carefully and answer Questions 31 to 40.\n\nLECTURER: Afternoon, everyone. Welcome to today's archaeology lecture. This afternoon's topic will be the Patagon civilisation that flourished at the southern tip of the South American continent around 600 years ago.\nNow, archaeologists don't know a great deal about the Patagon people. However, they did leave behind one important piece of evidence, a type of coat that was worn over the body for warmth that gives us valuable information about this lost culture.\nThe coat was made from the fur of the guanaco. That's a wild animal like a goat. And it took as many as 13 young guanaco to make a single coat. Young animals were preferred as their skin was soft, which made it easy to work with.\nFor the Patagon men, hunting was a way of life, particularly hunting guanaco. However, once the animals were killed, then different skills were needed, and it was the women who were mostly responsible for the manufacturing process. In particular, it was their ability to sew together many small skins into a coat that made women integral to the process.\nSo, the first thing they did was get the skins ready, and for this they used a special scraper tool. Several examples of the scrapers may still be seen today in various museums in the region. They were constructed from specially sharpened stone, so have survived remarkably well.\nOnce the skins were clean, they were usually decorated, usually done by painting on colours, mostly some combination of red, yellow and green. The colours themselves occurred naturally in minerals that were dug up from the ground and processed, usually by mixing with water.\nThis basically was the way the Patagon people made coats for over a thousand years and perhaps longer. But the process changed dramatically after the Spanish arrived in the early 1500s.\nThe coming of the Spanish obviously had numerous impacts on the area, but in terms of coat making, there was one significant development in the hunting technique. Many more guanaco were hunted after the introduction of the horse to the region, which made the Patagon people more mobile.\nAnother important development was that the Spanish themselves were great admirers of the coats and bought them for high prices, so that while in the past guanaco had only been hunted to meet subsistence needs, now the coats were increasingly part of a commercial process, something that could be bought and sold for money. And that meant many more guanaco were hunted as well.\nFinally, the manufacturing process itself was changed by the arrival of the Spanish. That's because they brought many new materials with them that weren't previously known in the region. Most important for coat making, the old scrapers used for cleaning the skins were replaced with new ones made from glass, and this was more effective and easier to keep sharp.\nSo what conclusions can we draw from Patagon coats? Well, the striking designs that were painted onto many of the more elaborate coats have always fascinated archaeologists. These patterns must have their origins far back in prehistoric times. We are able to say this with some confidence because very similar designs have been found in examples of art painted on the rock walls of caves that have very ancient origins.\nDid the designs have any significance, or were they merely decorations? The answer isn't clear, but some archaeologists have been prepared to speculate. One possibility is that the designs may have represented a way of connecting with ancestors from previous times, and this is certainly an idea that deserves further investigation.\nAnother interesting speculation concerns the location of large Patagon settlements. Because the natural habitat of the young guanaco was the rich grasslands of inland areas, it seems unlikely that these were constructed around the coast, but rather in parts of the interior.\nFinally, we should note that the traditional art of coat making has long since been lost in this region, but Patagon shepherds today do still employ some of the same techniques to make blankets in the winter months, though there is no painting or design work involved.\nWell, that is the end of my lecture, but if you have any questions, please feel free.\n\nNARRATOR: That is the end of Part 4. You now have one minute to check your answers to Part 4. That is the end of the listening test.",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "Name: Janet ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Quigley",
+        "alternatives": [
+          "Quigley",
+          "QUIGLEY",
+          "quigley"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Ticket details: four ___ tickets",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "return",
+        "alternatives": [
+          "return"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Time: departing at ___ a.m.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "11:45",
+        "alternatives": [
+          "11:45",
+          "11.45",
+          "1145",
+          "11 45"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Website keeps giving the customer ___ messages",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "error",
+        "alternatives": [
+          "error"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "No more than ___ child fares per adult",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "2",
+        "alternatives": [
+          "2",
+          "two"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "None of her children are ___ years old or older",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "12",
+        "alternatives": [
+          "12",
+          "twelve"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "Child passengers require less ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "food",
+        "alternatives": [
+          "food"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Rule is unfair for large families and ___ groups",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "school",
+        "alternatives": [
+          "school"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "Letter to go to the ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "manager",
+        "alternatives": [
+          "manager"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Reference number: ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "GBK8422",
+        "alternatives": [
+          "GBK8422",
+          "gbk8422",
+          "GBK 8422",
+          "gbk 8422"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "When was the first apartment complex completed?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) 1 year ago",
+          "B) 3 years ago",
+          "C) 5 years ago"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's final meaning matches this option; competing details are either rejected, background information, or less central.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "What does the manager say he enjoys most about the job?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) resolving problems between residents",
+          "B) dealing with financial matters",
+          "C) organizing building maintenance"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's final meaning matches this option; competing details are either rejected, background information, or less central.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "Regarding restrictions in the complex, the manager says",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) only some types of flowers can be planted",
+          "B) only the interiors of apartments can be painted",
+          "C) only certain colors can be used on the walls"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's final meaning matches this option; competing details are either rejected, background information, or less central.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "What does the manager ask residents to do for the welcome party?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) bring food",
+          "B) prepare name tags",
+          "C) decorate the hall"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's final meaning matches this option; competing details are either rejected, background information, or less central.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "Shop",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G",
+          "H) Map position H",
+          "I) Map position I",
+          "J) Map position J",
+          "K) Map position K"
+        ],
+        "key": "F",
+        "alternatives": [
+          "F"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "Barbecue area",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G",
+          "H) Map position H",
+          "I) Map position I",
+          "J) Map position J",
+          "K) Map position K"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "Childcare centre",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G",
+          "H) Map position H",
+          "I) Map position I",
+          "J) Map position J",
+          "K) Map position K"
+        ],
+        "key": "D",
+        "alternatives": [
+          "D"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "Laundry",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G",
+          "H) Map position H",
+          "I) Map position I",
+          "J) Map position J",
+          "K) Map position K"
+        ],
+        "key": "E",
+        "alternatives": [
+          "E"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "Recreation room",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G",
+          "H) Map position H",
+          "I) Map position I",
+          "J) Map position J",
+          "K) Map position K"
+        ],
+        "key": "H",
+        "alternatives": [
+          "H"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "Hall",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G",
+          "H) Map position H",
+          "I) Map position I",
+          "J) Map position J",
+          "K) Map position K"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "Why is the 'safety bicycle' significant?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) It was specifically made for children to use.",
+          "B) It was the first bicycle to be similar to modern bicycles.",
+          "C) It was designed to travel at higher speeds than previous models."
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's final meaning matches this option; competing details are either rejected, background information, or less central.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "What effect of bicycles on the 19th-century working classes does Max want to highlight?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) how people spent their free time",
+          "B) where people were employed",
+          "C) the way people found romantic partners"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's final meaning matches this option; competing details are either rejected, background information, or less central.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "What will Max and Izzy stress about attitudes to bicycles in the 20th century?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) The popularity of cars reduced the status of bicycles in the 1950s.",
+          "B) New designs led to an increase in sales of bicycles in the 1960s.",
+          "C) An interest in fitness promoted demand for bicycles in the 1980s."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's final meaning matches this option; competing details are either rejected, background information, or less central.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "What does Max say about a scheme to provide free bikes to school pupils?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) He wants to see more evidence of its benefits.",
+          "B) He thinks it could cost the government a lot of money.",
+          "C) He questions whether all parents would support it."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's final meaning matches this option; competing details are either rejected, background information, or less central.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "David",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Cycling is a convenient way to travel.",
+          "B) Bikes are environmentally friendly.",
+          "C) Riding a bike can be a social activity.",
+          "D) Bikes are a cheap form of transport.",
+          "E) Cycling is a way to spend time outdoors.",
+          "F) Riding a bike is good for mental health.",
+          "G) Riding a bike is good exercise.",
+          "H) Cycling can be done by all ages."
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "Marlene",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Cycling is a convenient way to travel.",
+          "B) Bikes are environmentally friendly.",
+          "C) Riding a bike can be a social activity.",
+          "D) Bikes are a cheap form of transport.",
+          "E) Cycling is a way to spend time outdoors.",
+          "F) Riding a bike is good for mental health.",
+          "G) Riding a bike is good exercise.",
+          "H) Cycling can be done by all ages."
+        ],
+        "key": "G",
+        "alternatives": [
+          "G"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "Annabelle",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Cycling is a convenient way to travel.",
+          "B) Bikes are environmentally friendly.",
+          "C) Riding a bike can be a social activity.",
+          "D) Bikes are a cheap form of transport.",
+          "E) Cycling is a way to spend time outdoors.",
+          "F) Riding a bike is good for mental health.",
+          "G) Riding a bike is good exercise.",
+          "H) Cycling can be done by all ages."
+        ],
+        "key": "D",
+        "alternatives": [
+          "D"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Rashid",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Cycling is a convenient way to travel.",
+          "B) Bikes are environmentally friendly.",
+          "C) Riding a bike can be a social activity.",
+          "D) Bikes are a cheap form of transport.",
+          "E) Cycling is a way to spend time outdoors.",
+          "F) Riding a bike is good for mental health.",
+          "G) Riding a bike is good exercise.",
+          "H) Cycling can be done by all ages."
+        ],
+        "key": "F",
+        "alternatives": [
+          "F"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Saira",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Cycling is a convenient way to travel.",
+          "B) Bikes are environmentally friendly.",
+          "C) Riding a bike can be a social activity.",
+          "D) Bikes are a cheap form of transport.",
+          "E) Cycling is a way to spend time outdoors.",
+          "F) Riding a bike is good for mental health.",
+          "G) Riding a bike is good exercise.",
+          "H) Cycling can be done by all ages."
+        ],
+        "key": "E",
+        "alternatives": [
+          "E"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Giovanni",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Cycling is a convenient way to travel.",
+          "B) Bikes are environmentally friendly.",
+          "C) Riding a bike can be a social activity.",
+          "D) Bikes are a cheap form of transport.",
+          "E) Cycling is a way to spend time outdoors.",
+          "F) Riding a bike is good for mental health.",
+          "G) Riding a bike is good exercise.",
+          "H) Cycling can be done by all ages."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker's description or reason maps directly to this letter in the supplied plan/list.\nTrack the contrast and choose the option or label supported by the recording."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "Young guanaco were used because of their ___ skin",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "soft",
+        "alternatives": [
+          "soft"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "Scrapers made from ___ are displayed in museums",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "stone",
+        "alternatives": [
+          "stone"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "Colours from natural ___ were used",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "minerals",
+        "alternatives": [
+          "minerals"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "More guanaco were caught because of the use of the ___ for hunting",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "horse",
+        "alternatives": [
+          "horse"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "Coats played a ___ role rather than just being for personal use",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "commercial",
+        "alternatives": [
+          "commercial"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "New materials such as ___ improved the scraping process",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "glass",
+        "alternatives": [
+          "glass"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Similar prehistoric coat designs are found inside ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "caves",
+        "alternatives": [
+          "caves"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "Coat designs may have been a link with people's ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "ancestors",
+        "alternatives": [
+          "ancestors"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "Large Patagon settlements were not built on the ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "coast",
+        "alternatives": [
+          "coast"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "Shepherds still make ___ using similar techniques",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "blankets",
+        "alternatives": [
+          "blankets",
+          "blanket"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording states the exact word or number needed for the gap and it fits the source word limit.\nRespect the stated word limit and copy the spoken answer accurately."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "make a booking on the internet",
+        "pos": "verb phrase",
+        "uz": "internet orqali bron qilmoq",
+        "def": "to reserve a service online through a website",
+        "ex": "Part 1: Kiwi Air Customer Complaint Form",
+        "also": [
+          "to reserve a service online through a website"
+        ]
+      },
+      {
+        "word": "take down your full name",
+        "pos": "phrasal verb",
+        "uz": "to‘liq ismni yozib olmoq",
+        "def": "to write or record someone's complete name",
+        "ex": "Part 1: Kiwi Air Customer Complaint Form",
+        "also": [
+          "to write or record someone's complete name"
+        ]
+      },
+      {
+        "word": "save paying the fee",
+        "pos": "verb phrase",
+        "uz": "to‘lovni to‘lashdan qochmoq",
+        "def": "to avoid having to pay an extra charge",
+        "ex": "Part 1: Kiwi Air Customer Complaint Form",
+        "also": [
+          "to avoid having to pay an extra charge"
+        ]
+      },
+      {
+        "word": "automatically alters the rate",
+        "pos": "verb phrase",
+        "uz": "narxni avtomatik o‘zgartirmoq",
+        "def": "changes the price without manual action",
+        "ex": "Part 1: Kiwi Air Customer Complaint Form",
+        "also": [
+          "changes the price without manual action"
+        ]
+      },
+      {
+        "word": "a maximum of two children",
+        "pos": "quantifier phrase",
+        "uz": "eng ko‘pi bilan ikki bola",
+        "def": "no more than two children",
+        "ex": "Part 1: Kiwi Air Customer Complaint Form",
+        "also": [
+          "no more than two children"
+        ]
+      },
+      {
+        "word": "domestic air travel",
+        "pos": "noun phrase",
+        "uz": "ichki aviaqatnov",
+        "def": "air travel within the same country",
+        "ex": "Part 1: Kiwi Air Customer Complaint Form",
+        "also": [
+          "air travel within the same country"
+        ]
+      },
+      {
+        "word": "discriminate against a parent",
+        "pos": "verb phrase",
+        "uz": "ota-onaga nisbatan adolatsiz munosabatda bo‘lmoq",
+        "def": "treat a parent unfairly because of their situation",
+        "ex": "Part 1: Kiwi Air Customer Complaint Form",
+        "also": [
+          "treat a parent unfairly because of their situation"
+        ]
+      },
+      {
+        "word": "put your complaint in writing",
+        "pos": "fixed phrase",
+        "uz": "shikoyatni yozma ravishda topshirmoq",
+        "def": "submit a complaint as a written document",
+        "ex": "Part 1: Kiwi Air Customer Complaint Form",
+        "also": [
+          "submit a complaint as a written document"
+        ]
+      },
+      {
+        "word": "received its first residents",
+        "pos": "verb phrase",
+        "uz": "birinchi yashovchilarni qabul qilmoq",
+        "def": "began housing the first people who lived there",
+        "ex": "Part 2: Linwood Apartment Complex",
+        "also": [
+          "began housing the first people who lived there"
+        ]
+      },
+      {
+        "word": "get a lot of satisfaction",
+        "pos": "collocation",
+        "uz": "katta qoniqish olmoq",
+        "def": "feel considerable enjoyment or fulfilment",
+        "ex": "Part 2: Linwood Apartment Complex",
+        "also": [
+          "feel considerable enjoyment or fulfilment"
+        ]
+      },
+      {
+        "word": "deal with any little misunderstandings",
+        "pos": "verb phrase",
+        "uz": "kichik tushunmovchiliklarni hal qilmoq",
+        "def": "resolve small disagreements between people",
+        "ex": "Part 2: Linwood Apartment Complex",
+        "also": [
+          "resolve small disagreements between people"
+        ]
+      },
+      {
+        "word": "altering the plantings around the complex",
+        "pos": "verb phrase",
+        "uz": "majmua atrofidagi ekinlarni o‘zgartirmoq",
+        "def": "changing the trees or flowers around the buildings",
+        "ex": "Part 2: Linwood Apartment Complex",
+        "also": [
+          "changing the trees or flowers around the buildings"
+        ]
+      },
+      {
+        "word": "badges already prepared",
+        "pos": "noun phrase",
+        "uz": "oldindan tayyorlangan nishonchalar",
+        "def": "name badges made ready in advance",
+        "ex": "Part 2: Linwood Apartment Complex",
+        "also": [
+          "name badges made ready in advance"
+        ]
+      },
+      {
+        "word": "pedestrian-only area",
+        "pos": "compound adjective",
+        "uz": "faqat piyodalar uchun hudud",
+        "def": "an area where cars are not allowed",
+        "ex": "Part 2: Linwood Apartment Complex",
+        "also": [
+          "an area where cars are not allowed"
+        ]
+      },
+      {
+        "word": "opposite the internet cafe",
+        "pos": "prepositional phrase",
+        "uz": "internet kafening ro‘parasida",
+        "def": "directly across from the internet cafe",
+        "ex": "Part 2: Linwood Apartment Complex",
+        "also": [
+          "directly across from the internet cafe"
+        ]
+      },
+      {
+        "word": "take the first turning on the right",
+        "pos": "direction phrase",
+        "uz": "birinchi o‘ng burilishdan burilmoq",
+        "def": "use the first available right turn",
+        "ex": "Part 2: Linwood Apartment Complex",
+        "also": [
+          "use the first available right turn"
+        ]
+      },
+      {
+        "word": "equally sized wheels",
+        "pos": "noun phrase",
+        "uz": "bir xil o‘lchamdagi g‘ildiraklar",
+        "def": "wheels that are the same size",
+        "ex": "Part 3: The History and Development of the Bicycle",
+        "also": [
+          "wheels that are the same size"
+        ]
+      },
+      {
+        "word": "enormous impact on the working classes",
+        "pos": "collocation",
+        "uz": "ishchilar sinfiga juda katta ta’sir",
+        "def": "a very large effect on working-class people",
+        "ex": "Part 3: The History and Development of the Bicycle",
+        "also": [
+          "a very large effect on working-class people"
+        ]
+      },
+      {
+        "word": "draw attention to",
+        "pos": "phrasal verb",
+        "uz": "e’tiborni qaratmoq",
+        "def": "make people notice or focus on something",
+        "ex": "Part 3: The History and Development of the Bicycle",
+        "also": [
+          "make people notice or focus on something"
+        ]
+      },
+      {
+        "word": "key mode of transport",
+        "pos": "noun phrase",
+        "uz": "asosiy transport turi",
+        "def": "an important main means of travelling",
+        "ex": "Part 3: The History and Development of the Bicycle",
+        "also": [
+          "an important main means of travelling"
+        ]
+      },
+      {
+        "word": "justify the scheme",
+        "pos": "verb phrase",
+        "uz": "loyihaning o‘zini oqlashini ko‘rsatmoq",
+        "def": "show that a project is worthwhile or reasonable",
+        "ex": "Part 3: The History and Development of the Bicycle",
+        "also": [
+          "show that a project is worthwhile or reasonable"
+        ]
+      },
+      {
+        "word": "connect with people",
+        "pos": "phrasal verb",
+        "uz": "odamlar bilan aloqa o‘rnatmoq",
+        "def": "build social contact or relationships with others",
+        "ex": "Part 3: The History and Development of the Bicycle",
+        "also": [
+          "build social contact or relationships with others"
+        ]
+      },
+      {
+        "word": "takes his mind off any worries",
+        "pos": "idiomatic phrase",
+        "uz": "tashvishlarni unutishga yordam bermoq",
+        "def": "helps him stop thinking about problems",
+        "ex": "Part 3: The History and Development of the Bicycle",
+        "also": [
+          "helps him stop thinking about problems"
+        ]
+      },
+      {
+        "word": "too time-consuming",
+        "pos": "adjective phrase",
+        "uz": "juda ko‘p vaqt talab qiladigan",
+        "def": "taking more time than is convenient",
+        "ex": "Part 3: The History and Development of the Bicycle",
+        "also": [
+          "taking more time than is convenient"
+        ]
+      },
+      {
+        "word": "integral to the process",
+        "pos": "adjective phrase",
+        "uz": "jarayonning ajralmas qismi",
+        "def": "essential to making the process work",
+        "ex": "Part 4: The Patagon People of South America",
+        "also": [
+          "essential to making the process work"
+        ]
+      },
+      {
+        "word": "special scraper tool",
+        "pos": "noun phrase",
+        "uz": "maxsus qirg‘ich asbobi",
+        "def": "a purpose-made tool used for scraping skins",
+        "ex": "Part 4: The Patagon People of South America",
+        "also": [
+          "a purpose-made tool used for scraping skins"
+        ]
+      },
+      {
+        "word": "occurred naturally in minerals",
+        "pos": "verb phrase",
+        "uz": "minerallarda tabiiy ravishda uchramoq",
+        "def": "existed naturally within mineral materials",
+        "ex": "Part 4: The Patagon People of South America",
+        "also": [
+          "existed naturally within mineral materials"
+        ]
+      },
+      {
+        "word": "subsistence needs",
+        "pos": "noun phrase",
+        "uz": "tirikchilik ehtiyojlari",
+        "def": "basic needs required for survival",
+        "ex": "Part 4: The Patagon People of South America",
+        "also": [
+          "basic needs required for survival"
+        ]
+      },
+      {
+        "word": "part of a commercial process",
+        "pos": "noun phrase",
+        "uz": "tijoriy jarayonning bir qismi",
+        "def": "an element of activity involving buying and selling",
+        "ex": "Part 4: The Patagon People of South America",
+        "also": [
+          "an element of activity involving buying and selling"
+        ]
+      },
+      {
+        "word": "more effective and easier to keep sharp",
+        "pos": "comparative phrase",
+        "uz": "samaraliroq va o‘tkir saqlash osonroq",
+        "def": "worked better and could be maintained sharp more easily",
+        "ex": "Part 4: The Patagon People of South America",
+        "also": [
+          "worked better and could be maintained sharp more easily"
+        ]
+      },
+      {
+        "word": "connecting with ancestors",
+        "pos": "verb phrase",
+        "uz": "ajdodlar bilan ramziy bog‘lanish",
+        "def": "forming a symbolic link with people from earlier generations",
+        "ex": "Part 4: The Patagon People of South America",
+        "also": [
+          "forming a symbolic link with people from earlier generations"
+        ]
+      },
+      {
+        "word": "traditional art of coat making",
+        "pos": "noun phrase",
+        "uz": "an’anaviy palto tayyorlash san’ati",
+        "def": "the inherited craft of producing traditional coats",
+        "ex": "Part 4: The Patagon People of South America",
+        "also": [
+          "the inherited craft of producing traditional coats"
+        ]
+      }
+    ]
+  }
+}

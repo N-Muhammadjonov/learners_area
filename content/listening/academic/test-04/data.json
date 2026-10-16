@@ -1,0 +1,1802 @@
+{
+  "test_id": "listening-test-4",
+  "title": "Listening Test 4",
+  "sections": [
+    "Getting a Job with an Airline",
+    "Hospitality Scholarships",
+    "Education House",
+    "Textiles with Business Studies"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "some responsibility for ___ from sales during the flight",
+      "answer": "money",
+      "evidence": "Greg explains that cabin crew are responsible for money collected from onboard sales.",
+      "timeStart": 197,
+      "timeEnd": 213,
+      "timeCenter": 204,
+      "why": "The evidence for Q1 directly supports the required answer money.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for money",
+      "options": []
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "must be over age 19 and at least ___ cm tall",
+      "answer": "168",
+      "evidence": "The minimum height requirement is stated as 168 centimetres.",
+      "timeStart": 207,
+      "timeEnd": 223,
+      "timeCenter": 214,
+      "why": "The evidence for Q2 directly supports the required answer 168.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Number accuracy",
+      "paraphrase": "Question wording ↔ recording evidence for 168",
+      "options": []
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "basic academic requirements: English and ___",
+      "answer": "maths",
+      "evidence": "The basic academic requirements include English and maths.",
+      "timeStart": 231,
+      "timeEnd": 247,
+      "timeCenter": 238,
+      "why": "The evidence for Q3 directly supports the required answer maths.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for maths",
+      "options": []
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "at least one other ___ is desirable",
+      "answer": "language",
+      "evidence": "Speaking another language is described as desirable for cabin crew.",
+      "timeStart": 244,
+      "timeEnd": 260,
+      "timeCenter": 251,
+      "why": "The evidence for Q4 directly supports the required answer language.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for language",
+      "options": []
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "must be able to ___",
+      "answer": "swim",
+      "evidence": "Swimming ability is stated as a requirement.",
+      "timeStart": 266,
+      "timeEnd": 282,
+      "timeCenter": 273,
+      "why": "The evidence for Q5 directly supports the required answer swim.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for swim",
+      "options": []
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "what to do in case of ___ during a flight",
+      "answer": "illness",
+      "evidence": "Training covers how to respond when a passenger becomes ill during a flight.",
+      "timeStart": 323,
+      "timeEnd": 339,
+      "timeCenter": 330,
+      "why": "The evidence for Q6 directly supports the required answer illness.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for illness",
+      "options": []
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "awareness of different ___",
+      "answer": "cultures",
+      "evidence": "Training includes awareness of passengers from different cultures.",
+      "timeStart": 341,
+      "timeEnd": 357,
+      "timeCenter": 348,
+      "why": "The evidence for Q7 directly supports the required answer cultures.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for cultures",
+      "options": []
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "the airline is called ___",
+      "answer": "EURONTAS",
+      "evidence": "The airline name is spelled out as EURONTAS.",
+      "timeStart": 358,
+      "timeEnd": 374,
+      "timeCenter": 365,
+      "why": "The evidence for Q8 directly supports the required answer EURONTAS.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for EURONTAS",
+      "options": []
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "working in a ___ (voluntary work)",
+      "answer": "team",
+      "evidence": "Ellie mentions voluntary work as part of a team.",
+      "timeStart": 388,
+      "timeEnd": 404,
+      "timeCenter": 395,
+      "why": "The evidence for Q9 directly supports the required answer team.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for team",
+      "options": []
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "you don't have to buy a ___",
+      "answer": "uniform",
+      "evidence": "Greg says the airline provides the uniform, so applicants do not have to buy one.",
+      "timeStart": 409,
+      "timeEnd": 425,
+      "timeCenter": 416,
+      "why": "The evidence for Q10 directly supports the required answer uniform.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for uniform",
+      "options": []
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "Which TWO kinds of people are the scholarships intended for?",
+      "answer": "D / E (pair)",
+      "evidence": "Eligibility requires at least three years of hospitality experience.",
+      "timeStart": 553,
+      "timeEnd": 569,
+      "timeCenter": 560,
+      "why": "The evidence for Q11 directly supports the required answer D / E (pair).",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for D / E (pair)",
+      "options": [
+        {
+          "code": "A",
+          "text": "people working as temporary staff"
+        },
+        {
+          "code": "B",
+          "text": "people with management experience"
+        },
+        {
+          "code": "C",
+          "text": "people straight from college"
+        },
+        {
+          "code": "D",
+          "text": "people with at least three years' experience"
+        },
+        {
+          "code": "E",
+          "text": "people with or without qualifications"
+        }
+      ],
+      "pairGroup": "11-12"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "Which TWO kinds of people are the scholarships intended for?",
+      "answer": "D / E (pair)",
+      "evidence": "No minimum qualifications are required, so applicants can have qualifications or not.",
+      "timeStart": 568,
+      "timeEnd": 584,
+      "timeCenter": 575,
+      "why": "The evidence for Q12 directly supports the required answer D / E (pair).",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for D / E (pair)",
+      "options": [
+        {
+          "code": "A",
+          "text": "people working as temporary staff"
+        },
+        {
+          "code": "B",
+          "text": "people with management experience"
+        },
+        {
+          "code": "C",
+          "text": "people straight from college"
+        },
+        {
+          "code": "D",
+          "text": "people with at least three years' experience"
+        },
+        {
+          "code": "E",
+          "text": "people with or without qualifications"
+        }
+      ],
+      "pairGroup": "11-12"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Which TWO things does Marie say about the hospitality industry in Scotland?",
+      "answer": "C / D (pair)",
+      "evidence": "Marie says hospitality is economically important because many people depend on it for income.",
+      "timeStart": 593,
+      "timeEnd": 609,
+      "timeCenter": 600,
+      "why": "The evidence for Q13 directly supports the required answer C / D (pair).",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for C / D (pair)",
+      "options": [
+        {
+          "code": "A",
+          "text": "It mainly attracts UK tourists."
+        },
+        {
+          "code": "B",
+          "text": "It pays high wages."
+        },
+        {
+          "code": "C",
+          "text": "It is very important for the Scottish economy."
+        },
+        {
+          "code": "D",
+          "text": "It is highly regarded by visitors."
+        },
+        {
+          "code": "E",
+          "text": "It is attracting a lot of investment."
+        }
+      ],
+      "pairGroup": "13-14"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Which TWO things does Marie say about the hospitality industry in Scotland?",
+      "answer": "C / D (pair)",
+      "evidence": "The scholarships help maintain Scotland as a quality destination with a strong visitor reputation.",
+      "timeStart": 608,
+      "timeEnd": 624,
+      "timeCenter": 615,
+      "why": "The evidence for Q14 directly supports the required answer C / D (pair).",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for C / D (pair)",
+      "options": [
+        {
+          "code": "A",
+          "text": "It mainly attracts UK tourists."
+        },
+        {
+          "code": "B",
+          "text": "It pays high wages."
+        },
+        {
+          "code": "C",
+          "text": "It is very important for the Scottish economy."
+        },
+        {
+          "code": "D",
+          "text": "It is highly regarded by visitors."
+        },
+        {
+          "code": "E",
+          "text": "It is attracting a lot of investment."
+        }
+      ],
+      "pairGroup": "13-14"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Why did Marie start working at the Rock Hotel?",
+      "answer": "B",
+      "evidence": "Marie took the Rock Hotel job because its hours fitted around her young family.",
+      "timeStart": 693,
+      "timeEnd": 709,
+      "timeCenter": 700,
+      "why": "The evidence for Q15 directly supports the required answer B.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for B",
+      "options": [
+        {
+          "code": "A",
+          "text": "It was the only job available"
+        },
+        {
+          "code": "B",
+          "text": "She needed a job with flexible working hours."
+        },
+        {
+          "code": "C",
+          "text": "She wanted a job working with people."
+        }
+      ]
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "What did the scholarship application process involve?",
+      "answer": "B",
+      "evidence": "The application required a report about the applicant’s current workplace and possible improvements.",
+      "timeStart": 720,
+      "timeEnd": 736,
+      "timeCenter": 727,
+      "why": "The evidence for Q16 directly supports the required answer B.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for B",
+      "options": [
+        {
+          "code": "A",
+          "text": "giving a presentation"
+        },
+        {
+          "code": "B",
+          "text": "writing a report about the Rock Hotel"
+        },
+        {
+          "code": "C",
+          "text": "researching the role of hotel manager"
+        }
+      ]
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "What does Marie say about the other winners she met?",
+      "answer": "A",
+      "evidence": "Marie expected to be among the youngest winners, but many winners were younger than she expected.",
+      "timeStart": 748,
+      "timeEnd": 764,
+      "timeCenter": 755,
+      "why": "The evidence for Q17 directly supports the required answer A.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for A",
+      "options": [
+        {
+          "code": "A",
+          "text": "They were not as old as she expected"
+        },
+        {
+          "code": "B",
+          "text": "They were doing a variety of jobs in the hotel sector"
+        },
+        {
+          "code": "C",
+          "text": "Most of them had applied for scholarships before"
+        }
+      ]
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Marie says that at the Florida Beach Hotel, every member of staff...",
+      "answer": "C",
+      "evidence": "At the Florida Beach Hotel even staff doing routine tasks are encouraged to interact with guests.",
+      "timeStart": 771,
+      "timeEnd": 787,
+      "timeCenter": 778,
+      "why": "The evidence for Q18 directly supports the required answer C.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for C",
+      "options": [
+        {
+          "code": "A",
+          "text": "takes part in annual customer service training sessions"
+        },
+        {
+          "code": "B",
+          "text": "is responsible for providing an efficient service"
+        },
+        {
+          "code": "C",
+          "text": "is expected to interact with visitors"
+        }
+      ]
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "What did Marie find out about people's attitude to visiting Scotland?",
+      "answer": "C",
+      "evidence": "Marie found that visitors tended to focus on a limited set of Scottish destinations.",
+      "timeStart": 798,
+      "timeEnd": 814,
+      "timeCenter": 805,
+      "why": "The evidence for Q19 directly supports the required answer C.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for C",
+      "options": [
+        {
+          "code": "A",
+          "text": "Most people would be interested in visiting it"
+        },
+        {
+          "code": "B",
+          "text": "People knew a surprising amount about it"
+        },
+        {
+          "code": "C",
+          "text": "People only wanted to see a limited number of places"
+        }
+      ]
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "What improvement has Marie introduced at the Rock Hotel?",
+      "answer": "A",
+      "evidence": "Back at the Rock Hotel, Marie redesigned the customer survey to obtain better feedback.",
+      "timeStart": 818,
+      "timeEnd": 834,
+      "timeCenter": 825,
+      "why": "The evidence for Q20 directly supports the required answer A.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for A",
+      "options": [
+        {
+          "code": "A",
+          "text": "getting better feedback from customers"
+        },
+        {
+          "code": "B",
+          "text": "providing more information for customers"
+        },
+        {
+          "code": "C",
+          "text": "making contact with more customers"
+        }
+      ]
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Cooling Tower",
+      "answer": "F",
+      "evidence": "The cooling tower removes hot stale air from inside the building.",
+      "timeStart": 988,
+      "timeEnd": 1004,
+      "timeCenter": 995,
+      "why": "The evidence for Q21 directly supports the required answer F.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Matching / diagram process",
+      "paraphrase": "Question wording ↔ recording evidence for F",
+      "options": [
+        {
+          "code": "A",
+          "text": "fresh air is removed"
+        },
+        {
+          "code": "B",
+          "text": "fresh air is pulled in"
+        },
+        {
+          "code": "C",
+          "text": "heat loss is reduced"
+        },
+        {
+          "code": "D",
+          "text": "rainwater is checked"
+        },
+        {
+          "code": "E",
+          "text": "rainwater is used"
+        },
+        {
+          "code": "F",
+          "text": "old air is removed"
+        },
+        {
+          "code": "G",
+          "text": "temperature is checked"
+        },
+        {
+          "code": "H",
+          "text": "water temperature is reduced"
+        },
+        {
+          "code": "I",
+          "text": "water is stored"
+        }
+      ]
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Weather Station",
+      "answer": "G",
+      "evidence": "The weather station checks outside temperature and feeds data to the control system.",
+      "timeStart": 998,
+      "timeEnd": 1014,
+      "timeCenter": 1005,
+      "why": "The evidence for Q22 directly supports the required answer G.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Matching / diagram process",
+      "paraphrase": "Question wording ↔ recording evidence for G",
+      "options": [
+        {
+          "code": "A",
+          "text": "fresh air is removed"
+        },
+        {
+          "code": "B",
+          "text": "fresh air is pulled in"
+        },
+        {
+          "code": "C",
+          "text": "heat loss is reduced"
+        },
+        {
+          "code": "D",
+          "text": "rainwater is checked"
+        },
+        {
+          "code": "E",
+          "text": "rainwater is used"
+        },
+        {
+          "code": "F",
+          "text": "old air is removed"
+        },
+        {
+          "code": "G",
+          "text": "temperature is checked"
+        },
+        {
+          "code": "H",
+          "text": "water temperature is reduced"
+        },
+        {
+          "code": "I",
+          "text": "water is stored"
+        }
+      ]
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Shower Tower",
+      "answer": "B",
+      "evidence": "The shower tower pulls fresh air in while water falls through the tower.",
+      "timeStart": 1014,
+      "timeEnd": 1030,
+      "timeCenter": 1021,
+      "why": "The evidence for Q23 directly supports the required answer B.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Matching / diagram process",
+      "paraphrase": "Question wording ↔ recording evidence for B",
+      "options": [
+        {
+          "code": "A",
+          "text": "fresh air is removed"
+        },
+        {
+          "code": "B",
+          "text": "fresh air is pulled in"
+        },
+        {
+          "code": "C",
+          "text": "heat loss is reduced"
+        },
+        {
+          "code": "D",
+          "text": "rainwater is checked"
+        },
+        {
+          "code": "E",
+          "text": "rainwater is used"
+        },
+        {
+          "code": "F",
+          "text": "old air is removed"
+        },
+        {
+          "code": "G",
+          "text": "temperature is checked"
+        },
+        {
+          "code": "H",
+          "text": "water temperature is reduced"
+        },
+        {
+          "code": "I",
+          "text": "water is stored"
+        }
+      ]
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Tank",
+      "answer": "H",
+      "evidence": "The tank cools water by transferring heat to metal balls, reducing its temperature.",
+      "timeStart": 1035,
+      "timeEnd": 1051,
+      "timeCenter": 1042,
+      "why": "The evidence for Q24 directly supports the required answer H.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Matching / diagram process",
+      "paraphrase": "Question wording ↔ recording evidence for H",
+      "options": [
+        {
+          "code": "A",
+          "text": "fresh air is removed"
+        },
+        {
+          "code": "B",
+          "text": "fresh air is pulled in"
+        },
+        {
+          "code": "C",
+          "text": "heat loss is reduced"
+        },
+        {
+          "code": "D",
+          "text": "rainwater is checked"
+        },
+        {
+          "code": "E",
+          "text": "rainwater is used"
+        },
+        {
+          "code": "F",
+          "text": "old air is removed"
+        },
+        {
+          "code": "G",
+          "text": "temperature is checked"
+        },
+        {
+          "code": "H",
+          "text": "water temperature is reduced"
+        },
+        {
+          "code": "I",
+          "text": "water is stored"
+        }
+      ]
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Balcony",
+      "answer": "E",
+      "evidence": "Rainwater is used at the balcony area to water plants on the outside wall.",
+      "timeStart": 1057,
+      "timeEnd": 1073,
+      "timeCenter": 1064,
+      "why": "The evidence for Q25 directly supports the required answer E.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Matching / diagram process",
+      "paraphrase": "Question wording ↔ recording evidence for E",
+      "options": [
+        {
+          "code": "A",
+          "text": "fresh air is removed"
+        },
+        {
+          "code": "B",
+          "text": "fresh air is pulled in"
+        },
+        {
+          "code": "C",
+          "text": "heat loss is reduced"
+        },
+        {
+          "code": "D",
+          "text": "rainwater is checked"
+        },
+        {
+          "code": "E",
+          "text": "rainwater is used"
+        },
+        {
+          "code": "F",
+          "text": "old air is removed"
+        },
+        {
+          "code": "G",
+          "text": "temperature is checked"
+        },
+        {
+          "code": "H",
+          "text": "water temperature is reduced"
+        },
+        {
+          "code": "I",
+          "text": "water is stored"
+        }
+      ]
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Windows",
+      "answer": "C",
+      "evidence": "Smaller upper-floor windows reduce heat loss from the building.",
+      "timeStart": 1071,
+      "timeEnd": 1087,
+      "timeCenter": 1078,
+      "why": "The evidence for Q26 directly supports the required answer C.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Matching / diagram process",
+      "paraphrase": "Question wording ↔ recording evidence for C",
+      "options": [
+        {
+          "code": "A",
+          "text": "fresh air is removed"
+        },
+        {
+          "code": "B",
+          "text": "fresh air is pulled in"
+        },
+        {
+          "code": "C",
+          "text": "heat loss is reduced"
+        },
+        {
+          "code": "D",
+          "text": "rainwater is checked"
+        },
+        {
+          "code": "E",
+          "text": "rainwater is used"
+        },
+        {
+          "code": "F",
+          "text": "old air is removed"
+        },
+        {
+          "code": "G",
+          "text": "temperature is checked"
+        },
+        {
+          "code": "H",
+          "text": "water temperature is reduced"
+        },
+        {
+          "code": "I",
+          "text": "water is stored"
+        }
+      ]
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "What do John and Debbie think will surprise visitors to the Education House building?",
+      "answer": "B",
+      "evidence": "They find the hidden main entrance behind a small cafe unexpectedly unusual.",
+      "timeStart": 1155,
+      "timeEnd": 1171,
+      "timeCenter": 1162,
+      "why": "The evidence for Q27 directly supports the required answer B.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for B",
+      "options": [
+        {
+          "code": "A",
+          "text": "how high the building is"
+        },
+        {
+          "code": "B",
+          "text": "where the main entrance is"
+        },
+        {
+          "code": "C",
+          "text": "what is on the outside walls"
+        }
+      ]
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "What is their reaction to the findings on staff productivity in the building?",
+      "answer": "A",
+      "evidence": "They regard the productivity findings as predictable rather than surprising.",
+      "timeStart": 1173,
+      "timeEnd": 1189,
+      "timeCenter": 1180,
+      "why": "The evidence for Q28 directly supports the required answer A.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for A",
+      "options": [
+        {
+          "code": "A",
+          "text": "They think the findings are predictable."
+        },
+        {
+          "code": "B",
+          "text": "They believe more research should be done."
+        },
+        {
+          "code": "C",
+          "text": "They suggest the findings are reported in the media."
+        }
+      ]
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "What do they think about the 'edge space' in the building?",
+      "answer": "B",
+      "evidence": "They are surprised that management allowed the edge space for informal staff interaction.",
+      "timeStart": 1204,
+      "timeEnd": 1220,
+      "timeCenter": 1211,
+      "why": "The evidence for Q29 directly supports the required answer B.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for B",
+      "options": [
+        {
+          "code": "A",
+          "text": "It might be unpopular with staff."
+        },
+        {
+          "code": "B",
+          "text": "It is a surprising part of the design."
+        },
+        {
+          "code": "C",
+          "text": "It is an area for managers."
+        }
+      ]
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "What could be a problem for the building's water system?",
+      "answer": "A",
+      "evidence": "They expect staff resistance to the recycled-water system to be a possible problem.",
+      "timeStart": 1220,
+      "timeEnd": 1236,
+      "timeCenter": 1227,
+      "why": "The evidence for Q30 directly supports the required answer A.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "MCQ / distractor reasoning",
+      "paraphrase": "Question wording ↔ recording evidence for A",
+      "options": [
+        {
+          "code": "A",
+          "text": "the reaction of the staff"
+        },
+        {
+          "code": "B",
+          "text": "the completion date"
+        },
+        {
+          "code": "C",
+          "text": "the possible health hazards"
+        }
+      ]
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Now possible to work with the ___ Faculty to widen learning opportunities",
+      "answer": "engineering",
+      "evidence": "The new development allows collaboration with the Engineering Faculty.",
+      "timeStart": 1383,
+      "timeEnd": 1399,
+      "timeCenter": 1390,
+      "why": "The evidence for Q31 directly supports the required answer engineering.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for engineering",
+      "options": []
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "To cover three areas of textiles: knitted, ___, woven",
+      "answer": "printed",
+      "evidence": "The textile disciplines include knitted, printed and woven textiles.",
+      "timeStart": 1423,
+      "timeEnd": 1439,
+      "timeCenter": 1430,
+      "why": "The evidence for Q32 directly supports the required answer printed.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for printed",
+      "options": []
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Work placement: studio work in the context of the ___",
+      "answer": "global market",
+      "evidence": "Work placements put studio work in the context of the global market.",
+      "timeStart": 1443,
+      "timeEnd": 1459,
+      "timeCenter": 1450,
+      "why": "The evidence for Q33 directly supports the required answer global market.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for global market",
+      "options": []
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Visual research with ___ and suggestions for its application",
+      "answer": "documentation",
+      "evidence": "First-year visual research must be supported by documentation.",
+      "timeStart": 1468,
+      "timeEnd": 1484,
+      "timeCenter": 1475,
+      "why": "The evidence for Q34 directly supports the required answer documentation.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for documentation",
+      "options": []
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Optional course: ___ design processes",
+      "answer": "traditional",
+      "evidence": "An optional second-year module covers traditional design processes.",
+      "timeStart": 1488,
+      "timeEnd": 1504,
+      "timeCenter": 1495,
+      "why": "The evidence for Q35 directly supports the required answer traditional.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for traditional",
+      "options": []
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Students are offered ___ to help them decide between course lengths",
+      "answer": "tutorials",
+      "evidence": "Students can receive tutorials when deciding between the three- and four-year routes.",
+      "timeStart": 1518,
+      "timeEnd": 1534,
+      "timeCenter": 1525,
+      "why": "The evidence for Q36 directly supports the required answer tutorials.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for tutorials",
+      "options": []
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Learning style: ___ practice",
+      "answer": "reflective",
+      "evidence": "Year three uses reflective practice as the learning style.",
+      "timeStart": 1540,
+      "timeEnd": 1556,
+      "timeCenter": 1547,
+      "why": "The evidence for Q37 directly supports the required answer reflective.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for reflective",
+      "options": []
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "Students produce a dissertation, a portfolio and a ___",
+      "answer": "business plan",
+      "evidence": "Students produce a dissertation, portfolio and business plan.",
+      "timeStart": 1563,
+      "timeEnd": 1579,
+      "timeCenter": 1570,
+      "why": "The evidence for Q38 directly supports the required answer business plan.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for business plan",
+      "options": []
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Further opportunities: jobs in ___ and trend forecasting",
+      "answer": "journalism",
+      "evidence": "Career opportunities include journalism as well as trend forecasting.",
+      "timeStart": 1583,
+      "timeEnd": 1599,
+      "timeCenter": 1590,
+      "why": "The evidence for Q39 directly supports the required answer journalism.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for journalism",
+      "options": []
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Come back tomorrow for a short ___",
+      "answer": "interview",
+      "evidence": "Prospective students can return for a short interview.",
+      "timeStart": 1603,
+      "timeEnd": 1619,
+      "timeCenter": 1610,
+      "why": "The evidence for Q40 directly supports the required answer interview.",
+      "trap": "Choose the detail that answers the exact question, not a nearby example or distractor.",
+      "mistakeType": "Detail recognition",
+      "paraphrase": "Question wording ↔ recording evidence for interview",
+      "options": []
+    }
+  },
+  "answers": {
+    "1": "money",
+    "2": "168",
+    "3": "maths",
+    "4": "language",
+    "5": "swim",
+    "6": "illness",
+    "7": "cultures",
+    "8": "EURONTAS",
+    "9": "team",
+    "10": "uniform",
+    "11": "D / E (pair)",
+    "12": "D / E (pair)",
+    "13": "C / D (pair)",
+    "14": "C / D (pair)",
+    "15": "B",
+    "16": "B",
+    "17": "A",
+    "18": "C",
+    "19": "C",
+    "20": "A",
+    "21": "F",
+    "22": "G",
+    "23": "B",
+    "24": "H",
+    "25": "E",
+    "26": "C",
+    "27": "B",
+    "28": "A",
+    "29": "B",
+    "30": "A",
+    "31": "engineering",
+    "32": "printed",
+    "33": "global market",
+    "34": "documentation",
+    "35": "traditional",
+    "36": "tutorials",
+    "37": "reflective",
+    "38": "business plan",
+    "39": "journalism",
+    "40": "interview"
+  },
+  "alternatives": {
+    "1": [
+      "money"
+    ],
+    "2": [
+      "168"
+    ],
+    "3": [
+      "maths",
+      "mathematics"
+    ],
+    "4": [
+      "language"
+    ],
+    "5": [
+      "swim"
+    ],
+    "6": [
+      "illness"
+    ],
+    "7": [
+      "cultures"
+    ],
+    "8": [
+      "EURONTAS",
+      "eurontas"
+    ],
+    "9": [
+      "team"
+    ],
+    "10": [
+      "uniform"
+    ],
+    "11": [
+      "D",
+      "E"
+    ],
+    "12": [
+      "D",
+      "E"
+    ],
+    "13": [
+      "C",
+      "D"
+    ],
+    "14": [
+      "C",
+      "D"
+    ],
+    "15": [
+      "B"
+    ],
+    "16": [
+      "B"
+    ],
+    "17": [
+      "A"
+    ],
+    "18": [
+      "C"
+    ],
+    "19": [
+      "C"
+    ],
+    "20": [
+      "A"
+    ],
+    "21": [
+      "F"
+    ],
+    "22": [
+      "G"
+    ],
+    "23": [
+      "B"
+    ],
+    "24": [
+      "H"
+    ],
+    "25": [
+      "E"
+    ],
+    "26": [
+      "C"
+    ],
+    "27": [
+      "B"
+    ],
+    "28": [
+      "A"
+    ],
+    "29": [
+      "B"
+    ],
+    "30": [
+      "A"
+    ],
+    "31": [
+      "engineering"
+    ],
+    "32": [
+      "printed"
+    ],
+    "33": [
+      "global market"
+    ],
+    "34": [
+      "documentation"
+    ],
+    "35": [
+      "traditional"
+    ],
+    "36": [
+      "tutorials",
+      "tutorial"
+    ],
+    "37": [
+      "reflective"
+    ],
+    "38": [
+      "business plan"
+    ],
+    "39": [
+      "journalism"
+    ],
+    "40": [
+      "interview"
+    ]
+  },
+  "pair_groups": [
+    {
+      "nums": [
+        11,
+        12
+      ],
+      "answers": [
+        "D",
+        "E"
+      ]
+    },
+    {
+      "nums": [
+        13,
+        14
+      ],
+      "answers": [
+        "C",
+        "D"
+      ]
+    }
+  ],
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0,
+      "end": 434
+    },
+    "2": {
+      "start": 434,
+      "end": 861
+    },
+    "3": {
+      "start": 861,
+      "end": 1250
+    },
+    "4": {
+      "start": 1300,
+      "end": 1645
+    }
+  },
+  "transcript": {
+    "1": "Ellie: Hello? Oh, hello. This is Ellie Fisher. We were at school together.\n\nGreg: Oh, hi Ellie. How are you? What are you doing these days?\n\nEllie: Well, actually, I'm looking for a job, and I was wondering about applying to an airline. You know, looking after the passengers. And I heard you're doing something like that.\n\nGreg: Yeah, I'm working as a cabin crew attendant.\n\nEllie: Right, so what does that involve?\n\nGreg: Well, you might have to give them the initial safety demonstration before takeoff, for example. You've probably seen that when you've made a journey by air.\n\nEllie: Actually, I've never flown. But I'd love to. That's why I'd like a job with an airline.\n\nGreg: Oh, right. And during the flight, you'd also be going round to see if anyone wants to buy anything.\n\nEllie: So, I'd be dealing with money.\n\nGreg: That's right, you'd be responsible for that, and then of course you'd be serving meals and snacks and things.\n\nEllie: Okay, so can anyone apply?\n\nGreg: Well, there are certain requirements. You must be at least 19 years old and there's also a minimum height - that's 168 centimetres. That's to make sure you can reach the higher cupboards in the plane.\n\nEllie: Right. I'm a hundred and sixty-nine centimetres, I think. What about qualifications?\n\nGreg: You need to show that you have a good level of English, that's written and spoken, and also maths.\n\nEllie: Okay, well, I passed my exams in both those subjects, fortunately.\n\nGreg: And it's an advantage if you can speak another language, although for cabin crew it's not essential.\n\nEllie: I can speak Spanish. I did that at school until I was 16.\n\nGreg: Excellent. That'll be very useful.\n\nEllie: And I'm pretty fit. I don't have any medical problems.\n\nGreg: Okay. Oh, and can you swim?\n\nEllie: Yes.\n\nGreg: Good, because that's another requirement.\n\nGreg: Now, if you're accepted, you'll get a six-week training course.\n\nEllie: Right.\n\nGreg: So, that'll cover all aspects of the job, all the basic things you need to know, and then some special things, like what action to take if a passenger suddenly has some sort of illness while you're in the air, for example.\n\nEllie: Right. I suppose you can't always count on a doctor being on board.\n\nGreg: No. And then you'll have to do a lot of work during the training on becoming aware of the variety of cultures that your passengers may come from, and the implications of that.\n\nEllie: That's really interesting actually. Well, I'd definitely like to apply. Um, what airline do you actually work for?\n\nGreg: It's a small airline called EURONTAS. That's E-U-R-O-N-T-A-S.\n\nEllie: Is that N or M in the middle?\n\nGreg: N for November. They're good people to work for. Have a look at their website. You can download the application form from there.\n\nEllie: Right. I don't have much in the way of experience, though.\n\nGreg: Well, what have you done since leaving school?\n\nEllie: I worked in a supermarket for a bit on the information desk. I was helping deal with queries from customers.\n\nGreg: Okay, put that down, that's one of the most important aspects of the job in fact.\n\nEllie: Oh right. And last year I also did some voluntary work as part of a team. Should I put that down too?\n\nGreg: Of course, that's something else they'll be looking for, being able to work with others. And a lot of airlines expect you to pay for your own uniform, but the good thing about this airline is that they provide it for you.\n\nEllie: Great. Well, thanks so much, Greg.",
+    "2": "Marie: Hi, my name's Marie Cooper, and I'm here to tell you about the scholarships offered by the hospitality industry in Scotland. The scholarship scheme supports people currently working in hotels, resorts and tourist attractions. Each year, 100 people are selected to go and work in some of the leading hospitality organisations in the world.\n\nThis time last year, I was wondering whether to apply for a scholarship and wasn't sure if I had enough experience to be successful. I needn't have worried. The scholarship is open to people of all ages working full time in the industry. The only stipulation is that you need to have worked for three years in hospitality, not necessarily for the same organisation. Of course, they're looking for ambitious people who want to get on, but who haven't had the chance to work in management or studied at college. So there are no minimum qualifications required.\n\nAnd you're just as likely to be offered a scholarship if you work for a large fancy hotel in Edinburgh or a small family hotel in the Highlands. As we all know, Scotland is famous for its fishing, golf, coastline and unspoilt countryside, which is why it's always been a popular destination for tourists from all over the world. Something like 10% of people in Scotland depend on the Scottish hospitality industry for their income. So it's vital that it continues to attract large numbers of visitors each year. The scholarships are a way of maintaining Scotland's reputation as a quality destination, so that visitors to Scotland continue to have a very positive experience.\n\nI currently work at the Rock Hotel in Perth as a trainee manager, but I joined as a receptionist five years ago. At the time, I was looking for work that fitted in with a young family, and I was lucky to get the perfect job for me, where I could take time off during the school holidays. I realised soon after I started that I loved working with people and enjoyed working in a hotel environment. Last year, I was lucky enough to be a scholarship winner.\n\nThe application process was actually quite simple. I was worried I'd have to give a presentation in front of loads of people, but you just have to produce a report on your current place of employment, saying how you think you could make a difference there. My manager at the Rock Hotel was very supportive and gave me time off to do the writing and the research. Then all the winners were invited to an awards ceremony.\n\nThey were mostly working in different sorts of hotels, although a few were working at tourist attractions, and one was involved in the Edinburgh Festival. I'd expected I'd be one of the youngest, but at least half the people were younger than me. All the people I met couldn't believe their luck that they'd been successful, as it's not unusual to fail the first time.\n\nI was sent to the Florida Beach Hotel. Here, the emphasis is on customer service, making sure that staff are trained to give customers a really personal service, checking that guests are enjoying their stay, so they're encouraged to chat with them, even if their job is just clearing tables. Quite a different atmosphere to some hotels I know, where the emphasis is on efficiency, which can make the guests feel in the way.\n\nOne of the things we were encouraged to do while we were on our placements was to find out what people thought about visiting Scotland. That was quite interesting. Although everyone I spoke to knew a bit about Scotland, the majority had never considered a holiday there, and of the people who were thinking of visiting Scotland, they were really only interested in visiting Edinburgh and St Andrews.\n\nAnyway, on my return to the Rock Hotel, my manager asked me to introduce some improvements. And the first thing I did was to redraft our customer survey form to get guests' detailed opinions. This used to be given to customers at the end of their stay when they're in a rush to leave. So I decided it would be better to email them to customers at home, so they have more time to complete them. It's another way of staying in contact with them too.",
+    "3": "Debbie: Hi, John!\n\nJohn: Hi Debbie, should we get ready for our presentation?\n\nDebbie: Yes, well we have to give a presentation to our seminar group about Education House, the new government building that uses cooling, heating and water in an environmentally friendly way.\n\nJohn: Let's start with a diagram of the building so the other students can see what it looks like.\n\nDebbie: Well, here's a very simplified diagram with symbols to represent key areas of the design. Shall we look at it and see if we can explain the different processes?\n\nJohn: Yes, firstly, on the left-hand side of the roof, there's a cooling tower.\n\nDebbie: Yes, this is where hot stale air from inside the building rises naturally up a chimney.\n\nJohn: There are exhaust fans mounted on the roof that push the air out.\n\nDebbie: Okay, moving along the top of the roof to the right-hand side, we have the weather station.\n\nJohn: This monitors how cool the outside air is. Once this is assessed, then the information is fed to computers and these activate the necessary heating or cooling processes.\n\nDebbie: Okay, let's talk now about the cooling processes.\n\nJohn: On the right-hand side of the building below the timber shutters is the part they call the shower tower. This is where water falls through a three-storey tube, sucking in air from outside as it falls. The unusual thing about it is, this fresh air actually helps to cool the building.\n\nDebbie: Yes, it's amazing really. Okay, below ground level in the basement on the right-hand side is a tank, which forms another part of the cooling process. The tank is full of small metal balls. Water passes through this tank. Each time it does this, the balls absorb the heat from the water, making it cooler without using any energy.\n\nJohn: What should we talk about next?\n\nDebbie: Well, you see the balcony below the light shelf.\n\nJohn: What happens there?\n\nDebbie: Rainwater is fed down from the roof and this is where it's used to water the plants that cover the outside wall.\n\nJohn: What about the square above the light shelf? It represents a window, doesn't it?\n\nDebbie: Yes, that's important to point out, because the upper floor windows get more daylight than the lower floor ones, the windows at the top of the building are smaller than those at the bottom. This means energy is saved higher up in the building because not as much heat is wasted through large windows.\n\nJohn: Let's continue the presentation by giving our opinions on some of the features of the building.\n\nDebbie: Let's talk about what we thought was surprising about the building.\n\nJohn: Yes, it's not out of the ordinary in terms of size. I mean, it's well under the height of the surrounding buildings.\n\nDebbie: Also, in the past, I think people would have been surprised by the vegetation on the facades. But that's become quite common now.\n\nJohn: That's right, but we both agreed that the access to the building through a shopping arcade is quite unusual.\n\nDebbie: Yes, the way in is behind a small cafe, which is not what you'd expect.\n\nJohn: Now, should we mention the findings on staff productivity in the building?\n\nDebbie: According to one article, the access to greenery and vegetation is increasing productivity by relieving stress.\n\nJohn: Yes, I remember that article. Researchers have been monitoring this for a couple of years now, so the results are clear. But to be honest, I think it's pretty obvious that you feel calmer seeing greenery around you.\n\nDebbie: Yes, we've been reading that in newspapers for ages, haven't we? So I wouldn't bother to mention it.\n\nJohn: Okay, so we haven't mentioned the edge space yet. You know, the place that's been marked for social interaction between workers, where you can have a coffee and a chat. What are your thoughts about it?\n\nDebbie: Well, I'm just amazed the management allowed it. I'm sure all the staff love to get away from their desks, I would.\n\nJohn: I'm just not sure how much work I'd get done if I had an edge space to go to.\n\nDebbie: I agree. Okay, let's think about the water system now. They want to supply 100% of their own non-drinking water needs by recycling water, and it looks like they are on target to complete this stage of the project by early next year.\n\nJohn: But you know, I don't think the staff are going to respond well to this.\n\nDebbie: I agree. People just don't like using too much recycled water, even though it's been proven to pose no health risks whatsoever.\n\nJohn: Well, I've really enjoyed researching this building.",
+    "4": "Speaker: Thank you first of all for coming along to the University's Open Day and in particular for coming to this talk to find out about our course in Textiles with Business Studies.\n\nThe cooperation between the Faculty of Arts and Architecture and the Business Faculty enables us to offer this undergraduate and integrated master's course. In the five years this course has been running we've learned a lot and it's become very popular.\n\nNow, thanks to the Faculty of Engineering, we're also able to offer a really exciting opportunity to those who would like to further diversify and would like to carry their learning through into new disciplines.\n\nNow the aims of this course are firstly to create innovative and highly motivated textile practitioners within the disciplines of knitted textiles, an increasingly popular area as you will have seen on the catwalks, printed and of course woven textiles. Secondly, we also ensure that our students gain an in-depth knowledge and understanding of related business operations.\n\nWe make sure that our students have sufficient hands-on experience by arranging interesting and relevant work placements. The focus of the integrated component of the work placement is the global market. Our aim is to locate studio work in this increasingly important context.\n\nMoving on to what we do in each year. In the first year students explore the three subject areas of textiles in rotation. The emphasis for the first year is experimentation and we ask for evidence of visual research which must be supported by documentation and proposals for its application.\n\nIn year two design and technical skills are related to the real world. Unlike many other university textile courses these days we give our students the opportunity to choose an extra module on the traditional processes of design which gives a historical perspective on their work. This can be done before introducing students to computer-aided design.\n\nStudents at this point, year two, decide if they intend to complete the course at year three with a BA Hons or progress to year four and conclude with a master's in design. Students can also have tutorials if they feel they need help making this important decision. This reflects our commitment to student support at all times.\n\nYear three consolidates the knowledge gained using a particular learning style - it's called reflective practice. That means you look back on what you've done and analyse and evaluate your subject in both academic and professional contexts. This helps and encourages deeper understanding.\n\nStudents produce a dissertation on a topic of their own choosing and a portfolio of their textile collection. Also, to help underpin the commercial aspect of the course, we ask for a business plan.\n\nOn the subject of career opportunities, many graduates work directly within the textile business with careers commonly found as stylists and retail managers. However, it shouldn't be forgotten that there are many other exciting opportunities out there, for example careers in journalism for those with a flair for words, or trend forecasting for those with their eye on the future. We are certain that we shall see broader and more varied opportunities for our graduates.\n\nIf you like what you've heard today and are thinking of applying for the programme and you'd like to talk to us further, please come back tomorrow. You'll have the opportunity to do a brief interview where we'll be able to assess your aptitude for this subject area. Many students who haven't studied related subjects may be surprised to find that they're quite well suited to our programme. After that, of course, you'll need to go through the usual application procedures."
+  },
+  "transcript_provenance": "Full Part 1-4 listening transcripts aligned to the user-supplied embedded audio; wording cross-checked against matching public transcript references. Script Completion only.",
+  "script_completion": [
+    {
+      "q": 1,
+      "part": 1,
+      "n": 1,
+      "match": "initial safety demonstration",
+      "answer": "initial safety demonstration",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 2,
+      "part": 1,
+      "n": 2,
+      "match": "minimum height",
+      "answer": "minimum height",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 3,
+      "part": 1,
+      "n": 3,
+      "match": "good level of English",
+      "answer": "good level of English",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 4,
+      "part": 1,
+      "n": 4,
+      "match": "six-week training course",
+      "answer": "six-week training course",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 5,
+      "part": 1,
+      "n": 5,
+      "match": "becoming aware of the variety of cultures",
+      "answer": "becoming aware of the variety of cultures",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 6,
+      "part": 1,
+      "n": 6,
+      "match": "download the application form",
+      "answer": "download the application form",
+      "lexical_type": "verb-noun collocation"
+    },
+    {
+      "q": 7,
+      "part": 1,
+      "n": 7,
+      "match": "deal with queries from customers",
+      "answer": "deal with queries from customers",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 8,
+      "part": 1,
+      "n": 8,
+      "match": "work as part of a team",
+      "answer": "work as part of a team",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 9,
+      "part": 2,
+      "n": 1,
+      "match": "working full time in the industry",
+      "answer": "working full time in the industry",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 10,
+      "part": 2,
+      "n": 2,
+      "match": "minimum qualifications required",
+      "answer": "minimum qualifications required",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 11,
+      "part": 2,
+      "n": 3,
+      "match": "maintaining Scotland's reputation",
+      "answer": "maintaining Scotland's reputation",
+      "lexical_type": "verb-noun collocation"
+    },
+    {
+      "q": 12,
+      "part": 2,
+      "n": 4,
+      "match": "fitted in with a young family",
+      "answer": "fitted in with a young family",
+      "lexical_type": "phrasal-verb chunk"
+    },
+    {
+      "q": 13,
+      "part": 2,
+      "n": 5,
+      "match": "produce a report",
+      "answer": "produce a report",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 14,
+      "part": 2,
+      "n": 6,
+      "match": "a really personal service",
+      "answer": "a really personal service",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 15,
+      "part": 2,
+      "n": 7,
+      "match": "redraft our customer survey form",
+      "answer": "redraft our customer survey form",
+      "lexical_type": "verb-noun collocation"
+    },
+    {
+      "q": 16,
+      "part": 3,
+      "n": 1,
+      "match": "in an environmentally friendly way",
+      "answer": "in an environmentally friendly way",
+      "lexical_type": "adverbial phrase"
+    },
+    {
+      "q": 17,
+      "part": 3,
+      "n": 2,
+      "match": "rises naturally up a chimney",
+      "answer": "rises naturally up a chimney",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 18,
+      "part": 3,
+      "n": 3,
+      "match": "activate the necessary heating or cooling processes",
+      "answer": "activate the necessary heating or cooling processes",
+      "lexical_type": "academic lexical chunk"
+    },
+    {
+      "q": 19,
+      "part": 3,
+      "n": 4,
+      "match": "sucking in air from outside",
+      "answer": "sucking in air from outside",
+      "lexical_type": "phrasal-verb chunk"
+    },
+    {
+      "q": 20,
+      "part": 3,
+      "n": 5,
+      "match": "without using any energy",
+      "answer": "without using any energy",
+      "lexical_type": "adverbial phrase"
+    },
+    {
+      "q": 21,
+      "part": 3,
+      "n": 6,
+      "match": "increasing productivity by relieving stress",
+      "answer": "increasing productivity by relieving stress",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 22,
+      "part": 3,
+      "n": 7,
+      "match": "social interaction between workers",
+      "answer": "social interaction between workers",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 23,
+      "part": 3,
+      "n": 8,
+      "match": "pose no health risks whatsoever",
+      "answer": "pose no health risks whatsoever",
+      "lexical_type": "verb-noun collocation"
+    },
+    {
+      "q": 24,
+      "part": 4,
+      "n": 1,
+      "match": "further diversify",
+      "answer": "further diversify",
+      "lexical_type": "C1 verb phrase"
+    },
+    {
+      "q": 25,
+      "part": 4,
+      "n": 2,
+      "match": "in-depth knowledge and understanding",
+      "answer": "in-depth knowledge and understanding",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 26,
+      "part": 4,
+      "n": 3,
+      "match": "hands-on experience",
+      "answer": "hands-on experience",
+      "lexical_type": "fixed collocation"
+    },
+    {
+      "q": 27,
+      "part": 4,
+      "n": 4,
+      "match": "traditional processes of design",
+      "answer": "traditional processes of design",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 28,
+      "part": 4,
+      "n": 5,
+      "match": "computer-aided design",
+      "answer": "computer-aided design",
+      "lexical_type": "compound noun"
+    },
+    {
+      "q": 29,
+      "part": 4,
+      "n": 6,
+      "match": "reflective practice",
+      "answer": "reflective practice",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 30,
+      "part": 4,
+      "n": 7,
+      "match": "underpin the commercial aspect",
+      "answer": "underpin the commercial aspect",
+      "lexical_type": "C1 academic collocation"
+    },
+    {
+      "q": 31,
+      "part": 4,
+      "n": 8,
+      "match": "trend forecasting",
+      "answer": "trend forecasting",
+      "lexical_type": "noun phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "take responsibility for",
+      "type": "verb-noun collocation",
+      "definition": "accept responsibility for something",
+      "uzbek": "biror narsa uchun mas’uliyatni o‘z zimmasiga olmoq",
+      "context": "Cabin crew take responsibility for money from onboard sales",
+      "collocations": [
+        "take responsibility for safety",
+        "accept responsibility"
+      ],
+      "paraphrases": [
+        "be accountable for"
+      ]
+    },
+    {
+      "headword": "minimum requirement",
+      "type": "noun phrase",
+      "definition": "the lowest condition that must be satisfied",
+      "uzbek": "eng kam talab",
+      "context": "The role has minimum age and height requirements",
+      "collocations": [
+        "meet the minimum requirement",
+        "minimum entry requirement"
+      ],
+      "paraphrases": [
+        "basic requirement"
+      ]
+    },
+    {
+      "headword": "cultural awareness",
+      "type": "noun phrase",
+      "definition": "understanding differences between cultures",
+      "uzbek": "madaniy xabardorlik",
+      "context": "Training develops cultural awareness",
+      "collocations": [
+        "raise cultural awareness",
+        "cross-cultural awareness"
+      ],
+      "paraphrases": [
+        "intercultural understanding"
+      ]
+    },
+    {
+      "headword": "customer-facing experience",
+      "type": "noun phrase",
+      "definition": "work that involves direct contact with customers",
+      "uzbek": "mijozlar bilan bevosita ishlash tajribasi",
+      "context": "Applicants should mention customer-facing experience",
+      "collocations": [
+        "customer-facing role",
+        "client-facing experience"
+      ],
+      "paraphrases": [
+        "direct customer experience"
+      ]
+    },
+    {
+      "headword": "work as part of a team",
+      "type": "fixed phrase",
+      "definition": "cooperate with other people to achieve a task",
+      "uzbek": "jamoa tarkibida ishlamoq",
+      "context": "Voluntary experience showed the ability to work as part of a team",
+      "collocations": [
+        "effective team member",
+        "team-based work"
+      ],
+      "paraphrases": [
+        "collaborate"
+      ]
+    },
+    {
+      "headword": "needn’t have worried",
+      "type": "modal perfect expression",
+      "definition": "used when a past worry turned out to be unnecessary",
+      "uzbek": "bekorga xavotirlangan ekan",
+      "context": "Marie realised she needn’t have worried about eligibility",
+      "collocations": [
+        "needn’t have done",
+        "unnecessary worry"
+      ],
+      "paraphrases": [
+        "there was no need to worry"
+      ]
+    },
+    {
+      "headword": "minimum qualifications",
+      "type": "noun phrase",
+      "definition": "the lowest formal credentials required",
+      "uzbek": "minimal malaka talablari",
+      "context": "There are no minimum qualifications for the scholarship",
+      "collocations": [
+        "formal qualifications",
+        "entry qualifications"
+      ],
+      "paraphrases": [
+        "credential requirements"
+      ]
+    },
+    {
+      "headword": "quality destination",
+      "type": "collocation",
+      "definition": "a place regarded as offering a high standard to visitors",
+      "uzbek": "yuqori sifatli sayyohlik yo‘nalishi",
+      "context": "The scheme helps maintain Scotland as a quality destination",
+      "collocations": [
+        "tourist destination",
+        "destination reputation"
+      ],
+      "paraphrases": [
+        "high-standard destination"
+      ]
+    },
+    {
+      "headword": "fit in with",
+      "type": "phrasal verb",
+      "definition": "be compatible with a schedule or situation",
+      "uzbek": "mos kelmoq",
+      "context": "The hotel job fitted in with family responsibilities",
+      "collocations": [
+        "fit in with a schedule",
+        "fit in with plans"
+      ],
+      "paraphrases": [
+        "be compatible with"
+      ]
+    },
+    {
+      "headword": "application process",
+      "type": "noun phrase",
+      "definition": "the sequence of steps used to apply for something",
+      "uzbek": "ariza topshirish jarayoni",
+      "context": "Marie describes the scholarship application process",
+      "collocations": [
+        "application procedure",
+        "selection process"
+      ],
+      "paraphrases": [
+        "procedure for applying"
+      ]
+    },
+    {
+      "headword": "customer feedback",
+      "type": "noun phrase",
+      "definition": "opinions and comments provided by customers",
+      "uzbek": "mijoz fikr-mulohazalari",
+      "context": "Marie improved the hotel’s customer feedback process",
+      "collocations": [
+        "collect customer feedback",
+        "feedback survey"
+      ],
+      "paraphrases": [
+        "customer opinions"
+      ]
+    },
+    {
+      "headword": "environmentally friendly",
+      "type": "adjective phrase",
+      "definition": "causing relatively little environmental harm",
+      "uzbek": "atrof-muhitga zararini kamaytiruvchi",
+      "context": "Education House uses environmentally friendly systems",
+      "collocations": [
+        "environmentally friendly design",
+        "eco-friendly"
+      ],
+      "paraphrases": [
+        "sustainable"
+      ]
+    },
+    {
+      "headword": "in an environmentally friendly way",
+      "type": "adverbial phrase",
+      "definition": "using methods that reduce environmental harm",
+      "uzbek": "ekologik xavfsiz usulda",
+      "context": "The building handles cooling, heating and water in an environmentally friendly way",
+      "collocations": [
+        "environmentally responsible",
+        "low-impact design"
+      ],
+      "paraphrases": [
+        "sustainably"
+      ]
+    },
+    {
+      "headword": "relieve stress",
+      "type": "verb-noun collocation",
+      "definition": "reduce mental or physical tension",
+      "uzbek": "stressni kamaytirmoq",
+      "context": "Greenery can relieve stress and support productivity",
+      "collocations": [
+        "stress relief",
+        "reduce stress"
+      ],
+      "paraphrases": [
+        "ease tension"
+      ]
+    },
+    {
+      "headword": "social interaction",
+      "type": "noun phrase",
+      "definition": "communication and contact between people",
+      "uzbek": "ijtimoiy muloqot",
+      "context": "The edge space is designed for social interaction",
+      "collocations": [
+        "encourage social interaction",
+        "informal interaction"
+      ],
+      "paraphrases": [
+        "interpersonal contact"
+      ]
+    },
+    {
+      "headword": "pose no health risks",
+      "type": "verb-noun collocation",
+      "definition": "create no significant danger to health",
+      "uzbek": "sog‘liq uchun xavf tug‘dirmaslik",
+      "context": "The recycled water is said to pose no health risks",
+      "collocations": [
+        "pose a risk",
+        "health risk"
+      ],
+      "paraphrases": [
+        "be safe for health"
+      ]
+    },
+    {
+      "headword": "in-depth knowledge",
+      "type": "noun phrase",
+      "definition": "detailed and comprehensive understanding",
+      "uzbek": "chuqur bilim",
+      "context": "Students gain in-depth knowledge of business operations",
+      "collocations": [
+        "in-depth understanding",
+        "detailed knowledge"
+      ],
+      "paraphrases": [
+        "comprehensive knowledge"
+      ]
+    },
+    {
+      "headword": "hands-on experience",
+      "type": "noun phrase",
+      "definition": "practical experience gained by doing something",
+      "uzbek": "amaliy tajriba",
+      "context": "Work placements give students hands-on experience",
+      "collocations": [
+        "gain hands-on experience",
+        "practical experience"
+      ],
+      "paraphrases": [
+        "learning by doing"
+      ]
+    },
+    {
+      "headword": "reflective practice",
+      "type": "academic collocation",
+      "definition": "systematically reviewing experience to improve future work",
+      "uzbek": "reflektiv amaliyot",
+      "context": "Year three uses reflective practice",
+      "collocations": [
+        "reflective practitioner",
+        "reflective learning"
+      ],
+      "paraphrases": [
+        "critical reflection"
+      ]
+    },
+    {
+      "headword": "have a flair for words",
+      "type": "fixed expression",
+      "definition": "have a natural talent for using language",
+      "uzbek": "so‘z bilan ishlashga iste’dodi bo‘lmoq",
+      "context": "Journalism may suit students who have a flair for words",
+      "collocations": [
+        "creative flair",
+        "flair for writing"
+      ],
+      "paraphrases": [
+        "natural writing talent"
+      ]
+    }
+  ]
+}

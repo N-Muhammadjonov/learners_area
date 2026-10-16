@@ -1,0 +1,1034 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-12",
+  "title": "Listening Test 12",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "5fed59864b56d7afecfcbc1d7d8b2e6af87fa77c6b52c343b216732f562fe810",
+      "path": "audio/full.mp3"
+    },
+    {
+      "key": "image.map",
+      "role": "image",
+      "required": true,
+      "mimeTypes": [
+        "image/png"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "da0ecfe7db25179f87b3a24193ad8bf33c4c5a0093ece7ebe0432e33eee1b1e6",
+      "path": "images/map.png"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1539.422041,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": {
+      "assetKey": "image.map"
+    },
+    "imagePath": "images/map.png",
+    "sections": [
+      {
+        "number": 1,
+        "title": "Amateur Dramatic Society",
+        "transcript": "Part 1. You will hear a telephone conversation between a man who wants to join an amateur dramatic society and the society secretary. First you have some time to look at questions 1 to 5. Now listen carefully and answer questions 1 to 5.\n\nHello, how can I help you?\n\nHi, I’ve just moved to the area and saw an advertisement for your drama society, so I’m calling to find out some more details.\n\nSure. I’m the society secretary. My name’s Jane Caulfield.\n\nThanks. Can you tell me exactly where the club is based?\n\nWell, the address for the society is my address, which is 117 Green Road, like the colour, and that’s in Prestwyn. But that’s just the mailing address. It’s not where we actually rehearse.\n\nWe do that at the clubhouse in Wynne. It’s behind the playing fields. It used to be a cricket club, you see.\n\nOh, right.\n\nSo is this a new interest or do you have some acting experience? It doesn’t matter if you haven’t, you know. Experience isn’t a requirement.\n\nWell, that’s good because I haven’t got any, but I am musical and I’ve got some experience of song festivals.\n\nOh, that’s great. We’re always looking for actors and singers, of course, especially male ones.\n\nOh, by the way, do you have a car?\n\nYes. Why?\n\nIt’s a big help if you’re able to drive. Not all our members have access to transport, so it’s very helpful.\n\nI see. Well, I’m sure I can help out there.\n\nSo when do you actually meet?\n\nOn Tuesday from 6 till 8 p.m.\n\nSorry, you said Tuesday, not Thursday.\n\nYes.\n\nGood. Thursdays are a problem for me. I do some private tutoring and can’t move that.\n\nRight.\n\nAnd that’s all year, no breaks.\n\nGood point. We do close for a couple of weeks, you know, in August, so we don’t get together then.\n\nBefore you hear the rest of the conversation, you have some time to look at questions 6 to 10. Now listen and answer questions 6 to 10.\n\nAnd is there a joining fee?\n\nTo be a member costs just £40.\n\nA year?\n\nYes, and that covers our annual dinner.\n\nRight.\n\nBut there’s a rate for concessions, which are for people over 60 and the unemployed.\n\nI’ve just retired, so that’s good news. What’s the discount?\n\nIt was 10%, but now it’s more. You now just pay £25, which is a reduction of £15.\n\nEvery little helps after all, especially with a teenage son.\n\nActually, I wanted to ask if there’s an age limit. Could Jack come along too? He’s 15.\n\nActually, we have a special youth group, and that’s open to anyone up to and including 16 years old. So he could join that.\n\nGreat. Keep him out of trouble.\n\nAnd what about the shows you put on? You said you were very busy. Do you have plays, etc., every year? Or how does it work?\n\nWell, we put on at least two productions a year. Occasionally we might do Shakespeare, but normally we choose works by modern playwrights.\n\nSounds quite varied. And challenging. And you rehearse for the two productions when you meet up?\n\nCertainly. But that’s not all we do. We also write our own family show each winter for the December holidays, which is always a lot of fun and is actually very popular in the local community. We donate the money we make to the children’s hospital here.\n\nWell, oh, that sounds very nice. I’ve been involved in...\n\nThat is the end of Part 1. You now have one minute to check your answers to Part 1.",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Information for Volunteers at Clifton Bird Park",
+        "transcript": "Part 2. You will hear a woman called Sandra Hayes who works at a bird park talking to a group of people who want to volunteer there. First you have some time to look at questions 11 to 15. Now listen carefully and answer questions 11 to 15.\n\nHello, my name is Sandra Hayes and I’m from Clifton Bird Park. It’s great to see so many possible volunteers here.\n\nI think people love coming here to see so many different types of birds in a beautiful environment. For some species that we have here, there aren’t many still alive in the wild. So a big part of our job is to make sure we help their numbers increase.\n\nAll the birds are native species.\n\nWe need volunteers to help the bird park officers with different jobs. One of these is gardening. Obviously summer is the time when we have most visitors, but the park needs looking after all year round.\n\nIf you want to help, you can choose which day, although we do already have plenty of volunteers working Saturdays and Sundays. But one day every four weeks is the minimum commitment that we ask for.\n\nSo, who’s the ideal volunteer for gardening work? If you have expert knowledge about flowers and trees, great. But we’re looking more for people who are flexible in turn-up no matter whether it’s raining or baking hot. That’s what’ll make you the best person for the job.\n\nIt’s all teamwork, so you’ll have plenty of support.\n\nWhat about volunteer guides? A guide’s role is to point out the birds and talk about the conservation program. In general, it’s people in a foreign tour group that you’re responsible for.\n\nThe Clifton residents who come to the park usually know their way around. We get a few teachers bringing in classes, but they’re the park officer’s responsibility.\n\nThe last thing to mention is the park’s maintenance day, which is coming up soon. We’re hoping to get as many volunteers as possible to come and help tidy things up. If anyone is able to drive some other volunteers to the event, please let me know because we need help there.\n\nThe park officers will provide you with spades and drills and hammers, all of that stuff. And they’ll be offering you some refreshments too, so it should be a good day out.\n\nBefore you hear the rest of the talk, you have some time to look at questions 16 to 20. Now listen and answer questions 16 to 20.\n\nSo, here’s a map of Clifton Bird Park. As you can see, the railway line runs along the north-west of the park and road access is on that side too, from Clifton Lane.\n\nWe want volunteers to work on a few different areas on maintenance day, which is coming up soon.\n\nFirstly, the wooden bridge. I’ll explain where that is. You can see Clifton Lane and the main gate, then two similar sized ponds. The wooden bridge runs between these two ponds. We just need to make it a bit stronger.\n\nSome volunteers will be doing a bit of painting at the observation tower. The tower’s in the south-east corner of the map. You see there are two different sized ponds there. The tower’s on the south side of the larger pond at the end of the path. We’ll need about three people to help out.\n\nWe need to replace the windows at the visitor cabins. So, on the map, you can see our car park on the north side of Clifton Lane. There’s the woods and on the left-hand side of the map, the railway line. The visitors’ cabins are marked there, between the woods and the railway station.\n\nYou’ll also be repairing some nesting boxes. See the picnic area? The path you want is between there and the big pond. Follow it round all the way to the end. So, as we’re looking at the map now, the nesting boxes are on the right of that pond.\n\nFinally, the boat sheds. Towards the top of the map, you’ve got that smallish pond quite near the railway line and there are two places marked up there. The boat sheds are on the same side of the pond as the woods, not the place marked at the tip of the park.\n\nThat is the end of Part 2. You now have 30 seconds to check your answers to Part 2.",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "Geology field trip to Iceland",
+        "transcript": "Part 3. You will hear two teachers called Andrew and Sarah discussing how to prepare students for a geology field trip. First you have some time to look at questions 21 to 25. Now listen carefully and answer questions 21 to 25.\n\nHi Sarah, it’s great that we’ve got some free time this afternoon to decide what advice to give when we talk to the students on the geology field trip to Iceland.\n\nHi Andrew, yes, I’ve already jotted down a few ideas about the issues that come up on these trips. We should include something about existing rules and laws that apply, like the country code.\n\nOr the mountain code.\n\nYes, the country code is mainly just common sense, so let’s include the mountain one. That’s what they need to know about for geology.\n\nThen there are similar guidelines for caving, but they won’t need those in the part of Iceland we’re going to.\n\nOK.\n\nRight, let’s think about when they’re on site and looking after the environment. I don’t mean not dropping litter, that’s obvious, or like closing gates. But what about not scaring birds or damaging rare plant life?\n\nActually, what I think happens is that they all become so focused on what they’re doing that they forget about other things around them. It’s not intentional damage.\n\nAnd we have to include something about collecting samples. That’s vital for geology students.\n\nYeah, there’s quite a list of rules about that. For example, only take minute samples and only if necessary.\n\nYes, that’s the golden rule. That has to come first and then I guess never take a fossil away from the area.\n\nAnd when you disturb an area to take a sample, make sure you leave it as you found it.\n\nOK. And there’s something we still have to find out about. Isn’t there something about how you can never take a sample from a wall?\n\nYou mean a man-made wall or something like a natural rock face?\n\nA wall, like of a building.\n\nDon’t you just have to get permission from the owner? But I’m not sure, to be honest, so we need to check that.\n\nAnother really important thing is advice on safety, especially as a lot of our trips are along the coast.\n\nYes, well, you can usually hear if any large boulders start to tumble down a cliff. And you realise you’re on soft sand when you start sinking. But when people are working on the seashore, they often fail to notice that the tides come in and they’re cut off by water. That’s what we should make a point about.\n\nOK.\n\nBefore you hear the rest of the discussion, you have some time to look at questions 26 to 30. Now listen and answer questions 26 to 30.\n\nBefore we do anything else, could we just talk about the reading packs we put together for the students to read before they go on the field trip to Iceland?\n\nAbsolutely. They’ll need to do most of the reading beforehand because there won’t be time while we’re away and there’s a lot of technical data. That’s certainly the case in the pack called geothermal fields.\n\nDoes that cover industrial uses of geothermal energy?\n\nNo, it deals with harnessing the heat generated from the earth in geothermal areas to grow vegetables for local consumption. They’ll need to understand the geological characteristics that make this possible.\n\nRight. The reading pack called the hotspot will help them understand how Iceland differs from other islands formed at the same time, like Bermuda and the Canary Islands. It’s the existence of the hotspot that explains the rock formations of this island and makes it unlike any of the others.\n\nNow I definitely think they should read the pack about glaciers. They need to be aware that although the ice and glaciers up in the mountains can stay frozen for thousands of years, if anything happens to make the glaciers melt suddenly, the water produced pours down the valleys and it can mean that whole villages suddenly have to be evacuated.\n\nRight.\n\nThen the basalt rock pack shows how Iceland’s landscape, like many other islands, has been moulded over millions of years by lava flows from volcanic eruptions, especially the area in the northwest of the island.\n\nAnd lastly, reading about geothermal power plants will inform them of Iceland’s plan to stop using energy derived from carbon in the future. Heating and electricity will come from sustainable sources which won’t cause any pollution.\n\nI think that’ll be all the reading they’ll have time for.\n\nThat is the end of Part 3. You now have 30 seconds to check your answers to Part 3.",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "The History of Umbrellas",
+        "transcript": "Part 4. You will hear a lecture on the history of the umbrella. First you have some time to look at questions 31 to 40.\n\nToday I will share the captivating story of the umbrella. This common item has a rich history that spans across various cultures around the world. It’s more than just a tool to stay dry in the rain. It has played a significant role in history and society.\n\nThe umbrella was once regarded as a power icon of authority among leaders. More than just a practical item for shade or rain protection, it was a status symbol. Carried majestically over the heads of kings and powerful leaders during parades and public gatherings, it showcased their authority and ruling power to the people watching.\n\nIn ancient Rome, umbrellas were considered a luxury accessible only to wealthy women. Owning an umbrella was a clear sign of wealth and high social rank. This made the umbrella a prestigious item, only accessible to those at the top of the social ladder, and it was seen as an exclusive accessory among the elite.\n\nThe materials used for making umbrellas varied greatly depending on where they were made. In China, umbrellas were elegantly crafted from silk, demonstrating the artisan’s skill and the cultural appreciation for beauty. Meanwhile, in India, umbrellas were made from bone and sometimes by wood, which were readily available and commonly used, showing the resourcefulness of the people.\n\nTo make the umbrella more effective in the rain, they were coated with wax. This process made them waterproof, greatly enhancing their functionality. By adding this simple but clever modification, umbrellas became more reliable and effective at keeping the rain off, thereby becoming a more essential tool for anyone stepping outside in wet weather.\n\nOriginally, umbrellas were used to shield the body not just from rain, but also from the sun and other natural elements. Their use was crucial for those needing all-around protection when outside, which made the umbrella a critical item for outdoor activities.\n\nIn their early designs, umbrellas resembled oversized lids. They were large and dome-shaped, which allowed them to cover a good amount of space, providing ample protection from the elements. This design has greatly influenced the development of modern umbrellas, which still retain a similar shape for maximum coverage.\n\nUmbrellas were frequently paired with gloves, especially with colder or rainier climates. This combination provided not only practical benefits, but also a touch of elegance to the wearer’s outfit.\n\nA major change took place in the 1850s when umbrellas started being manufactured with plastic. This change made them lighter to carry and more durable against wear and tear, and much easier for everyone to use.\n\nHowever, in England, the use of steel for umbrella frames represented a significant advancement because these materials can make umbrellas much sturdier and capable of withstanding strong winds and harsh weather. This change was particularly important in England, where the weather can often be unpredictable and windy.\n\nLastly, in Germany, the transition to using nylon for umbrellas represented another key development. This material was chosen for its lightweight and waterproof qualities, offered significant advantages. It made umbrellas easier to carry and more effective in keeping people dry, boosting their popularity in various climates and conditions.\n\nThat’s the end of Part 4. You now have half a minute to check your answers.",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "Location for rehearsals: The ____ House, Wynn",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "club",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: club.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "They need actors and ____ singers",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "male",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: male.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Also need people who can ____",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "drive",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: drive.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Meetings 6–8 p.m. every ____",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Tuesday",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Tuesday.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "Closed in ____ (for 2 weeks)",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "August",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: August.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "Standard membership: £40 (included a ____ once a year)",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "dinner",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: dinner.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "Over 60s or unemployed: £____",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "25",
+        "alternatives": [
+          "£25"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: 25.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Youth group: for people aged ____ years old and under",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "16",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: 16.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "Shows: mostly plays by ____ authors",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "modern",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: modern.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Family show in December raises money for children’s ____",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "hospital",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: hospital.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "The speaker stresses the importance to Clifton Bird Park of",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) birds that are now endangered.",
+          "B) birds from all over the world.",
+          "C) birds that are common in the local area."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option A: birds that are now endangered.\nCompare all three options with the speaker’s exact meaning; reject nearby distractors."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "People who volunteer to help with gardening at the park",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) must work at weekends.",
+          "B) need to come at least once a month.",
+          "C) will only be required in the busy season."
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option B: need to come at least once a month.\nCompare all three options with the speaker’s exact meaning; reject nearby distractors."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "According to the speaker, who would be the ideal gardening volunteer?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) someone who can work independently",
+          "B) someone who is willing to work in any weather",
+          "C) someone who knows a lot about plants"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option B: someone who is willing to work in any weather\nCompare all three options with the speaker’s exact meaning; reject nearby distractors."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "Volunteer guides will mainly be working with",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) international visitors",
+          "B) local people from Clifton",
+          "C) school groups"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option A: international visitors\nCompare all three options with the speaker’s exact meaning; reject nearby distractors."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "What is still required for the Maintenance Day at the bird park?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) food and drink",
+          "B) transport",
+          "C) tools"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option B: transport\nCompare all three options with the speaker’s exact meaning; reject nearby distractors."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "Wooden bridge",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) Location A",
+          "B) Location B",
+          "C) Location C",
+          "D) Location D",
+          "E) Location E",
+          "F) Location F",
+          "G) Location G",
+          "H) Location H"
+        ],
+        "key": "F",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The spoken route and landmark clues place wooden bridge at location F.\nTrack direction, landmarks and relative position; do not choose a nearby location from one clue alone."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "Observation tower",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) Location A",
+          "B) Location B",
+          "C) Location C",
+          "D) Location D",
+          "E) Location E",
+          "F) Location F",
+          "G) Location G",
+          "H) Location H"
+        ],
+        "key": "H",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The spoken route and landmark clues place observation tower at location H.\nTrack direction, landmarks and relative position; do not choose a nearby location from one clue alone."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "Visitor cabins",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) Location A",
+          "B) Location B",
+          "C) Location C",
+          "D) Location D",
+          "E) Location E",
+          "F) Location F",
+          "G) Location G",
+          "H) Location H"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The spoken route and landmark clues place visitor cabins at location C.\nTrack direction, landmarks and relative position; do not choose a nearby location from one clue alone."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "Nesting boxes",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) Location A",
+          "B) Location B",
+          "C) Location C",
+          "D) Location D",
+          "E) Location E",
+          "F) Location F",
+          "G) Location G",
+          "H) Location H"
+        ],
+        "key": "G",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The spoken route and landmark clues place nesting boxes at location G.\nTrack direction, landmarks and relative position; do not choose a nearby location from one clue alone."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "Boat sheds",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) Location A",
+          "B) Location B",
+          "C) Location C",
+          "D) Location D",
+          "E) Location E",
+          "F) Location F",
+          "G) Location G",
+          "H) Location H"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The spoken route and landmark clues place boat sheds at location B.\nTrack direction, landmarks and relative position; do not choose a nearby location from one clue alone."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "Why do Andrew and Sarah decide to mention the Mountain Code?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) it is the most relevant to their field trip",
+          "B) it also applies to caves",
+          "C) it covers the whole country"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option A: it is the most relevant to their field trip\nCompare all three options with the speaker’s exact meaning; reject nearby distractors."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "Andrew suggests some field trip participants harm the environment because",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) they fail to recognize rare species of plant",
+          "B) they don’t realize how fragile the environment is",
+          "C) they get too absorbed in their tasks"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option C: they get too absorbed in their tasks\nCompare all three options with the speaker’s exact meaning; reject nearby distractors."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "Which rule about taking samples is most important?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Leave the area in its natural state",
+          "B) Avoid removing fossils",
+          "C) Keep collecting to a minimum"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option C: Keep collecting to a minimum\nCompare all three options with the speaker’s exact meaning; reject nearby distractors."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "Which aspect of taking samples do they still have to find out about?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) taking them from private land",
+          "B) taking them from rock faces",
+          "C) taking them from man-made structures"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option C: taking them from man-made structures\nCompare all three options with the speaker’s exact meaning; reject nearby distractors."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "What danger in coastal areas do they decide to emphasize?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) falling rock",
+          "B) tidal movements",
+          "C) unstable sand"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option B: tidal movements\nCompare all three options with the speaker’s exact meaning; reject nearby distractors."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "Geothermal Fields",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) unique geological features of Iceland",
+          "B) replacement of fossil fuels",
+          "C) negative changes due to human activity",
+          "D) energy for agriculture",
+          "E) health risks of eruptions",
+          "F) risk of flooding",
+          "G) long-term effects of volcanoes"
+        ],
+        "key": "D",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The reading-pack description matches D: energy for agriculture.\nMatch the main focus of the pack, not a related detail mentioned elsewhere."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "The Hot Spot",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) unique geological features of Iceland",
+          "B) replacement of fossil fuels",
+          "C) negative changes due to human activity",
+          "D) energy for agriculture",
+          "E) health risks of eruptions",
+          "F) risk of flooding",
+          "G) long-term effects of volcanoes"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The reading-pack description matches A: unique geological features of Iceland.\nMatch the main focus of the pack, not a related detail mentioned elsewhere."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Glaciers",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) unique geological features of Iceland",
+          "B) replacement of fossil fuels",
+          "C) negative changes due to human activity",
+          "D) energy for agriculture",
+          "E) health risks of eruptions",
+          "F) risk of flooding",
+          "G) long-term effects of volcanoes"
+        ],
+        "key": "F",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The reading-pack description matches F: risk of flooding.\nMatch the main focus of the pack, not a related detail mentioned elsewhere."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Basalt Rock",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) unique geological features of Iceland",
+          "B) replacement of fossil fuels",
+          "C) negative changes due to human activity",
+          "D) energy for agriculture",
+          "E) health risks of eruptions",
+          "F) risk of flooding",
+          "G) long-term effects of volcanoes"
+        ],
+        "key": "G",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The reading-pack description matches G: long-term effects of volcanoes.\nMatch the main focus of the pack, not a related detail mentioned elsewhere."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Geothermal Power plants",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) unique geological features of Iceland",
+          "B) replacement of fossil fuels",
+          "C) negative changes due to human activity",
+          "D) energy for agriculture",
+          "E) health risks of eruptions",
+          "F) risk of flooding",
+          "G) long-term effects of volcanoes"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The reading-pack description matches B: replacement of fossil fuels.\nMatch the main focus of the pack, not a related detail mentioned elsewhere."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "Umbrellas symbolized ____ for rulers, showcasing authority.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "power",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: power.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "Only wealthy Roman ____ could own umbrellas, as a status symbol.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "women",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: women.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "In India, umbrellas were made from local ____, and in China from silk.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "bone",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: bone.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "Umbrellas were treated with ____ to make them waterproof.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "wax",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: wax.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "Originally, umbrellas were designed to protect the ____ from various elements.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "body",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: body.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "Early umbrellas resembled big ____, providing extensive coverage.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "lids",
+        "alternatives": [
+          "lid"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: lids.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Umbrellas were often used with ____, especially in cold or wet climates.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "gloves",
+        "alternatives": [
+          "glove"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: gloves.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "The introduction of ____ in the 1850s made umbrellas lighter and more durable.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "plastic",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: plastic.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "In England, umbrella frames began to be made with ____, enhancing durability.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "steel",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: steel.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "In Germany, the shift to using ____ improved umbrella functionality and popularity.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "nylon",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: nylon.\nRespect the stated IELTS word/number limit and preserve the exact word or number heard."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "acting experience",
+        "pos": "noun phrase",
+        "uz": "aktyorlik tajribasi",
+        "def": "previous practical experience of performing as an actor",
+        "ex": "The society asks whether the caller has any acting experience.",
+        "also": [
+          "experience of acting"
+        ]
+      },
+      {
+        "word": "access to transport",
+        "pos": "noun phrase",
+        "uz": "transportdan foydalanish imkoniyati",
+        "def": "the ability or opportunity to use a vehicle or transport service",
+        "ex": "Not all society members have access to transport.",
+        "also": [
+          "transport availability"
+        ]
+      },
+      {
+        "word": "private tutoring",
+        "pos": "noun phrase",
+        "uz": "xususiy repetitorlik",
+        "def": "one-to-one or small-group teaching provided privately",
+        "ex": "The caller does private tutoring on Thursdays.",
+        "also": [
+          "private lessons"
+        ]
+      },
+      {
+        "word": "rate for concessions",
+        "pos": "noun phrase",
+        "uz": "imtiyozli tarif",
+        "def": "a reduced price for people who qualify for a discount",
+        "ex": "The society offers a rate for concessions for over-60s and unemployed people.",
+        "also": [
+          "discounted rate"
+        ]
+      },
+      {
+        "word": "put on a production",
+        "pos": "verb phrase",
+        "uz": "spektaklni sahnalashtirmoq",
+        "def": "to organise and perform a play or show",
+        "ex": "The society puts on at least two productions a year.",
+        "also": [
+          "stage a show"
+        ]
+      },
+      {
+        "word": "native species",
+        "pos": "noun phrase",
+        "uz": "mahalliy tur",
+        "def": "a species that occurs naturally in a particular region",
+        "ex": "All the birds at the park are native species.",
+        "also": [
+          "indigenous species"
+        ]
+      },
+      {
+        "word": "minimum commitment",
+        "pos": "noun phrase",
+        "uz": "eng kam majburiyat",
+        "def": "the least amount of time or effort that someone must promise to give",
+        "ex": "One day every four weeks is the minimum commitment for gardening volunteers.",
+        "also": [
+          "least required involvement"
+        ]
+      },
+      {
+        "word": "conservation programme",
+        "pos": "noun phrase",
+        "uz": "tabiatni muhofaza qilish dasturi",
+        "def": "an organised effort to protect wildlife, habitats or natural resources",
+        "ex": "Volunteer guides talk about the conservation programme.",
+        "also": [
+          "protection programme"
+        ]
+      },
+      {
+        "word": "maintenance day",
+        "pos": "noun phrase",
+        "uz": "ta’mirlash va parvarish kuni",
+        "def": "a scheduled day for repair, upkeep and general maintenance work",
+        "ex": "The bird park is preparing for its maintenance day.",
+        "also": [
+          "upkeep day"
+        ]
+      },
+      {
+        "word": "tidy things up",
+        "pos": "phrasal verb",
+        "uz": "joyni tartibga keltirmoq",
+        "def": "to make a place neat and organised",
+        "ex": "Volunteers will help tidy things up at the park.",
+        "also": [
+          "put things in order"
+        ]
+      },
+      {
+        "word": "jot down",
+        "pos": "phrasal verb",
+        "uz": "tezda qayd qilib qo‘ymoq",
+        "def": "to write something quickly and briefly",
+        "ex": "Sarah has already jotted down a few ideas.",
+        "also": [
+          "write down briefly"
+        ]
+      },
+      {
+        "word": "common sense",
+        "pos": "noun phrase",
+        "uz": "sog‘lom fikr",
+        "def": "practical judgement based on ordinary experience",
+        "ex": "They say the country code is mainly common sense.",
+        "also": [
+          "practical judgement"
+        ]
+      },
+      {
+        "word": "minute sample",
+        "pos": "noun phrase",
+        "uz": "juda kichik namuna",
+        "def": "a very small sample taken for examination",
+        "ex": "Students are told to take only minute samples when necessary.",
+        "also": [
+          "tiny sample"
+        ]
+      },
+      {
+        "word": "cut off by water",
+        "pos": "verb phrase",
+        "uz": "suv sabab yo‘l uzilib qolmoq",
+        "def": "to become isolated because rising water blocks the way back",
+        "ex": "Students on the seashore can be cut off by water as the tide comes in.",
+        "also": [
+          "become isolated by rising water"
+        ]
+      },
+      {
+        "word": "sustainable sources",
+        "pos": "noun phrase",
+        "uz": "barqaror manbalar",
+        "def": "sources that can be used long term without causing serious environmental harm",
+        "ex": "Heating and electricity are planned to come from sustainable sources.",
+        "also": [
+          "renewable or low-impact sources"
+        ]
+      },
+      {
+        "word": "status symbol",
+        "pos": "noun phrase",
+        "uz": "maqom ramzi",
+        "def": "an object used to show wealth, rank or social position",
+        "ex": "The umbrella was once a status symbol.",
+        "also": [
+          "symbol of social rank"
+        ]
+      },
+      {
+        "word": "resourcefulness",
+        "pos": "noun",
+        "uz": "topqirlik",
+        "def": "the ability to find practical and effective ways to solve problems",
+        "ex": "Using locally available materials showed the resourcefulness of the people.",
+        "also": [
+          "practical ingenuity"
+        ]
+      },
+      {
+        "word": "wear and tear",
+        "pos": "fixed expression",
+        "uz": "tabiiy eskirish",
+        "def": "damage that happens gradually through normal use",
+        "ex": "Plastic made umbrellas more durable against wear and tear.",
+        "also": [
+          "gradual damage from use"
+        ]
+      },
+      {
+        "word": "withstand strong winds",
+        "pos": "verb phrase",
+        "uz": "kuchli shamolga bardosh bermoq",
+        "def": "to resist strong winds without being damaged",
+        "ex": "Steel frames helped umbrellas withstand strong winds.",
+        "also": [
+          "resist severe wind"
+        ]
+      },
+      {
+        "word": "lightweight and waterproof",
+        "pos": "adjective phrase",
+        "uz": "yengil va suv o‘tkazmaydigan",
+        "def": "easy to carry because it is light and able to prevent water passing through",
+        "ex": "Nylon was chosen for its lightweight and waterproof qualities.",
+        "also": [
+          "light and water-resistant"
+        ]
+      }
+    ]
+  }
+}

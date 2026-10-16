@@ -1,0 +1,2298 @@
+{
+  "test_id": "listening-test-24",
+  "title": "Listening Test 24",
+  "sections": [
+    "Holiday Rental",
+    "Bridge to Brisbane Fun Run",
+    "Farmers' Attitudes to Agricultural Developments",
+    "Aboriginal Textile Design"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Available for week beginning ___",
+      "answer": "September 14th",
+      "evidence": "The cottage is unavailable from September 21, so Dave offers the previous week, from the 14th.",
+      "timeStart": 178,
+      "timeEnd": 198,
+      "timeCenter": 188.0,
+      "why": "The offered start date is September 14th.",
+      "trap": "Do not write the initially requested September 21st; it is unavailable.",
+      "paraphrase": "'previous week from the 14th' -> September 14th",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Cost for the week: $ ___",
+      "answer": "835",
+      "evidence": "After the woman asks the price for that week, Dave says it would be $835.",
+      "timeStart": 190,
+      "timeEnd": 210,
+      "timeCenter": 200.0,
+      "why": "The quoted weekly price is 835 dollars.",
+      "trap": "Do not use the $790 figure; that is last year's price mentioned by the caller.",
+      "paraphrase": "'How much would it cost?' -> '$835'",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Building was first used as a ___",
+      "answer": "school",
+      "evidence": "Dave says the historic building was originally a school about 100 years ago.",
+      "timeStart": 218,
+      "timeEnd": 250,
+      "timeCenter": 234.0,
+      "why": "The first use of the building was a school.",
+      "trap": "Do not choose post office; that was a later use around 1950.",
+      "paraphrase": "'first used as' -> 'originally a school'",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Living room leads out to the ___",
+      "answer": "deck",
+      "evidence": "Dave explains that from the living room you can go out onto the deck.",
+      "timeStart": 240,
+      "timeEnd": 272,
+      "timeCenter": 256.0,
+      "why": "The living room leads to the deck.",
+      "trap": "Do not confuse the deck with the bedroom or bathroom.",
+      "paraphrase": "'leads out to' -> 'go out onto the deck'",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "View of the ___ from the bedroom",
+      "answer": "river",
+      "evidence": "The woman asks about the river, and Dave says it can be seen from the bedroom.",
+      "timeStart": 252,
+      "timeEnd": 280,
+      "timeCenter": 266.0,
+      "why": "The bedroom has a view of the river.",
+      "trap": "The river is the view; the bedroom is the viewing location.",
+      "paraphrase": "'View of the ___ from the bedroom' -> 'river'",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Bring your own ___",
+      "answer": "towels",
+      "evidence": "Dave says bedding is provided but there is a charge for towels unless guests bring their own.",
+      "timeStart": 270,
+      "timeEnd": 302,
+      "timeCenter": 286.0,
+      "why": "Guests can bring their own towels.",
+      "trap": "Do not write bedding; bedding is provided.",
+      "paraphrase": "'Bring your own' -> 'towels'",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Doesn't have a ___",
+      "answer": "garage",
+      "evidence": "The woman asks whether there is a garage; Dave replies that there is not one.",
+      "timeStart": 292,
+      "timeEnd": 326,
+      "timeCenter": 309.0,
+      "why": "The cottage does not have a garage.",
+      "trap": "Street parking is available, but that is not the missing facility.",
+      "paraphrase": "'Doesn't have a' -> 'garage'",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Owner recommends the ___ restaurant",
+      "answer": "Chinese",
+      "evidence": "Dave says many people like the fish restaurant, but he thinks the Chinese restaurant is the best for miles around.",
+      "timeStart": 360,
+      "timeEnd": 392,
+      "timeCenter": 376.0,
+      "why": "The owner's recommendation is the Chinese restaurant.",
+      "trap": "Fish is mentioned as popular, but it is not Dave's recommendation.",
+      "paraphrase": "'owner recommends' -> 'Chinese restaurant'",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Deposit: $ ___",
+      "answer": "200",
+      "evidence": "Dave says they ask for a deposit of $200.",
+      "timeStart": 390,
+      "timeEnd": 418,
+      "timeCenter": 404.0,
+      "why": "The deposit is 200 dollars.",
+      "trap": "Do not confuse the deposit with the weekly rental price.",
+      "paraphrase": "'Deposit' -> '$200'",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Deadline for final payment: final day of ___",
+      "answer": "July",
+      "evidence": "Dave says final payment should be made no later than the last day of July.",
+      "timeStart": 404,
+      "timeEnd": 432,
+      "timeCenter": 418.0,
+      "why": "The final-payment deadline month is July.",
+      "trap": "August is mentioned because the owners will be away then, not as the deadline.",
+      "paraphrase": "'final day of' -> 'last day of July'",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "On the day of the race the speaker recommends parking",
+      "answer": "A",
+      "evidence": "The coordinator says the best parking option is the Jack Gray Sports Field in Barker Street.",
+      "timeStart": 512,
+      "timeEnd": 548,
+      "timeCenter": 530.0,
+      "why": "The recommended parking is in the sports ground.",
+      "trap": "The river area is out of bounds and the shopping complex may tow non-customers.",
+      "paraphrase": "'Jack Gray Sports Field' -> 'in the sports ground'",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "in the sports ground."
+        },
+        {
+          "code": "B",
+          "text": "by the river."
+        },
+        {
+          "code": "C",
+          "text": "in the shopping centre."
+        }
+      ]
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "The timing chip should be attached to",
+      "answer": "B",
+      "evidence": "The coordinator says the electronic timing chip needs to be clipped onto one of the runner's shoes.",
+      "timeStart": 540,
+      "timeEnd": 578,
+      "timeCenter": 559.0,
+      "why": "The timing chip goes on a shoe.",
+      "trap": "The race number goes on the shirt and the wristband is worn separately.",
+      "paraphrase": "'timing chip ... clipped onto one of their shoes' -> 'a shoe'",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "the shirt or singlet."
+        },
+        {
+          "code": "B",
+          "text": "a shoe."
+        },
+        {
+          "code": "C",
+          "text": "the wristband."
+        }
+      ]
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Which group will run first?",
+      "answer": "A",
+      "evidence": "The yellow group are the elite athletes, and the coordinator says they should start the race.",
+      "timeStart": 570,
+      "timeEnd": 612,
+      "timeCenter": 591.0,
+      "why": "The yellow group runs first.",
+      "trap": "Red walkers and strollers are placed at the back.",
+      "paraphrase": "'yellow group ... elite athletes ... start the race' -> yellow",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "yellow"
+        },
+        {
+          "code": "B",
+          "text": "red"
+        },
+        {
+          "code": "C",
+          "text": "purple"
+        }
+      ]
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "The race organisers still need volunteers to help with",
+      "answer": "B",
+      "evidence": "The organisers still desperately need volunteers along the course to distribute water bottles.",
+      "timeStart": 602,
+      "timeEnd": 638,
+      "timeCenter": 620.0,
+      "why": "They still need help handing out water.",
+      "trap": "First aid is covered by St John's Ambulance, and the start already has enough helpers.",
+      "paraphrase": "'distribute water bottles' -> 'handing out water'",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "giving first aid."
+        },
+        {
+          "code": "B",
+          "text": "handing out water."
+        },
+        {
+          "code": "C",
+          "text": "starting the race."
+        }
+      ]
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "What does Dr Owen advise Joel to include in the title of his project?",
+      "answer": "A",
+      "evidence": "Dr Owen says the title should be more specific and advises Joel to specify where the farms are.",
+      "timeStart": 964,
+      "timeEnd": 998,
+      "timeCenter": 981.0,
+      "why": "The title should include the location of the farms.",
+      "trap": "The number of farmers and type of farming are discussed but are not the recommended title detail.",
+      "paraphrase": "'specify where they are' -> location",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "the location of the farms"
+        },
+        {
+          "code": "B",
+          "text": "the number of farmers"
+        },
+        {
+          "code": "C",
+          "text": "the types of farming"
+        }
+      ]
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Why has Joel decided to do face-to-face interviews?",
+      "answer": "C",
+      "evidence": "Joel says farmers are more likely to talk freely if he sees them in person.",
+      "timeStart": 1000,
+      "timeEnd": 1028,
+      "timeCenter": 1014.0,
+      "why": "He chose face-to-face interviews to get fuller, freer answers.",
+      "trap": "Seeing the workplaces is unnecessary, and face-to-face interviews are actually more time-consuming.",
+      "paraphrase": "'more likely to talk freely' -> fuller answers",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "to see the farmers' workplaces"
+        },
+        {
+          "code": "B",
+          "text": "to limit the time he spends on the project"
+        },
+        {
+          "code": "C",
+          "text": "to get fuller answers"
+        }
+      ]
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Joel agrees to investigate how farmers get information on new developments",
+      "answer": "B",
+      "evidence": "Dr Owen suggests asking farmers rather than showing a checklist, because spontaneous answers to open questions may be more accurate.",
+      "timeStart": 1025,
+      "timeEnd": 1068,
+      "timeCenter": 1046.5,
+      "why": "Joel will investigate this by asking open questions.",
+      "trap": "A checklist is Joel's original idea, but Dr Owen advises against it.",
+      "paraphrase": "'spontaneous response ... open questions' -> asking open questions",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "by showing them a series of pictures."
+        },
+        {
+          "code": "B",
+          "text": "by asking them open questions."
+        },
+        {
+          "code": "C",
+          "text": "by sending them a checklist in advance."
+        }
+      ]
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Concerning government communication with farmers, the speakers agree that",
+      "answer": "A",
+      "evidence": "They note that the government sends the same information to all farmers, so about half of it may not apply to a particular farmer.",
+      "timeStart": 1065,
+      "timeEnd": 1096,
+      "timeCenter": 1080.5,
+      "why": "Much of the government communication is irrelevant to individual farmers.",
+      "trap": "The issue is relevance, not unclear wording or simply insufficient quantity.",
+      "paraphrase": "'half of it doesn't actually apply' -> irrelevant",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "much of it is irrelevant."
+        },
+        {
+          "code": "B",
+          "text": "it is often insufficient for farmers' needs."
+        },
+        {
+          "code": "C",
+          "text": "the wording is sometimes unclear."
+        }
+      ]
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "According to Joel's reading about the cost of making changes, many British farmers",
+      "answer": "B",
+      "evidence": "Joel says many British farmers are too busy to work out the financial implications of new machinery and practices.",
+      "timeStart": 1092,
+      "timeEnd": 1124,
+      "timeCenter": 1108.0,
+      "why": "They lack time to calculate the costs of new methods.",
+      "trap": "They are not opposed in principle to spending money.",
+      "paraphrase": "'too busy to work out the financial implications' -> too little time to calculate costs",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "leave investment decisions to their accountants."
+        },
+        {
+          "code": "B",
+          "text": "have too little time to calculate the costs of new methods."
+        },
+        {
+          "code": "C",
+          "text": "are reluctant to spend money on improvements."
+        }
+      ]
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "A survey of Australian sheep farmers found that most of them",
+      "answer": "B",
+      "evidence": "Australian sheep farmers are described as willing to adopt new practices on the basis of only a few pieces of research.",
+      "timeStart": 1118,
+      "timeEnd": 1148,
+      "timeCenter": 1133.0,
+      "why": "Most make changes based on limited research.",
+      "trap": "They do not usually wait for overwhelming evidence.",
+      "paraphrase": "'basis of just a few pieces of research' -> limited research",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "are usually reluctant to make changes."
+        },
+        {
+          "code": "B",
+          "text": "make changes based on limited research."
+        },
+        {
+          "code": "C",
+          "text": "want plenty of evidence before they make changes."
+        }
+      ]
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Stage",
+      "answer": "F",
+      "evidence": "After runners enter the Race Village, the coordinator says the stage is on their right.",
+      "timeStart": 684,
+      "timeEnd": 716,
+      "timeCenter": 700.0,
+      "why": "The stage corresponds to map position F.",
+      "trap": "Follow the route from the race-village entrance rather than guessing from the map alphabet.",
+      "paraphrase": "'stage on your right' -> map position F",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        }
+      ]
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "T-shirt Stand",
+      "answer": "A",
+      "evidence": "After the finish line, runners can take either path to the T-shirt stand at the end of those paths.",
+      "timeStart": 704,
+      "timeEnd": 738,
+      "timeCenter": 721.0,
+      "why": "The T-shirt stand corresponds to map position A.",
+      "trap": "The two possible paths both lead to the same stand.",
+      "paraphrase": "'end of those paths' -> map position A",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        }
+      ]
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Bag Collection Area",
+      "answer": "B",
+      "evidence": "Bags are kept in the building on Bowen Road, close to the exit in the top-left area of the map.",
+      "timeStart": 728,
+      "timeEnd": 758,
+      "timeCenter": 743.0,
+      "why": "The Bag Collection Area corresponds to B.",
+      "trap": "Do not place it by the finish line; the location cue is Bowen Road near the top-left exit.",
+      "paraphrase": "'building on Bowen Road ... top left' -> B",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        }
+      ]
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Information Centre",
+      "answer": "H",
+      "evidence": "The Information Centre is described as the building in the centre of the map, just below the finish line.",
+      "timeStart": 750,
+      "timeEnd": 780,
+      "timeCenter": 765.0,
+      "why": "The Information Centre corresponds to H.",
+      "trap": "Use the 'centre' and 'below the finish line' cues together.",
+      "paraphrase": "'building in the center ... just below it' -> H",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        }
+      ]
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Prize Draw Box",
+      "answer": "G",
+      "evidence": "The prize-draw entry box is between the shade tents and the corporate catering buildings.",
+      "timeStart": 768,
+      "timeEnd": 802,
+      "timeCenter": 785.0,
+      "why": "The Prize Draw Box corresponds to G.",
+      "trap": "It is not inside the Information Centre; it is positioned between two landmarks.",
+      "paraphrase": "'between the shade tents and corporate catering' -> G",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        }
+      ]
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Water Station",
+      "answer": "I",
+      "evidence": "The main water station is beside the third exit to Gregory Terrace, to the left of the corporate catering area.",
+      "timeStart": 790,
+      "timeEnd": 826,
+      "timeCenter": 808.0,
+      "why": "The Water Station corresponds to I.",
+      "trap": "Use both the third-exit and left-of-catering cues.",
+      "paraphrase": "'third exit ... left of corporate catering' -> I",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        }
+      ]
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Contemporary Farming Manual",
+      "answer": "G",
+      "evidence": "The Contemporary Farming Manual is up to date and broad, but both speakers describe it as dull and hard going.",
+      "timeStart": 1180,
+      "timeEnd": 1218,
+      "timeCenter": 1199.0,
+      "why": "Their opinion is that it is boring.",
+      "trap": "Its content is current, so 'out of date' is the opposite of the evidence.",
+      "paraphrase": "'so dull' / 'hard going' -> boring",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "It's badly organised."
+        },
+        {
+          "code": "B",
+          "text": "It's out of date."
+        },
+        {
+          "code": "C",
+          "text": "It's clear."
+        },
+        {
+          "code": "D",
+          "text": "It's essential reading."
+        },
+        {
+          "code": "E",
+          "text": "It's inaccurate."
+        },
+        {
+          "code": "F",
+          "text": "It's well illustrated."
+        },
+        {
+          "code": "G",
+          "text": "It's boring."
+        }
+      ]
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Running a Small Farm",
+      "answer": "E",
+      "evidence": "Running a Small Farm is entertaining, but much of its information is misleading or simply wrong.",
+      "timeStart": 1210,
+      "timeEnd": 1248,
+      "timeCenter": 1229.0,
+      "why": "Their criticism is that it is inaccurate.",
+      "trap": "Its entertaining style is not the evaluated weakness.",
+      "paraphrase": "'misleading or simply wrong' -> inaccurate",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "It's badly organised."
+        },
+        {
+          "code": "B",
+          "text": "It's out of date."
+        },
+        {
+          "code": "C",
+          "text": "It's clear."
+        },
+        {
+          "code": "D",
+          "text": "It's essential reading."
+        },
+        {
+          "code": "E",
+          "text": "It's inaccurate."
+        },
+        {
+          "code": "F",
+          "text": "It's well illustrated."
+        },
+        {
+          "code": "G",
+          "text": "It's boring."
+        }
+      ]
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Agriculture and Economics",
+      "answer": "D",
+      "evidence": "Agriculture and Economics is praised, and Dr Owen says its underlying theories are universal and it is a required textbook.",
+      "timeStart": 1238,
+      "timeEnd": 1278,
+      "timeCenter": 1258.0,
+      "why": "It is essential reading.",
+      "trap": "The title seems difficult, but Joel says the book itself is brilliant.",
+      "paraphrase": "'required textbook' -> essential reading",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "It's badly organised."
+        },
+        {
+          "code": "B",
+          "text": "It's out of date."
+        },
+        {
+          "code": "C",
+          "text": "It's clear."
+        },
+        {
+          "code": "D",
+          "text": "It's essential reading."
+        },
+        {
+          "code": "E",
+          "text": "It's inaccurate."
+        },
+        {
+          "code": "F",
+          "text": "It's well illustrated."
+        },
+        {
+          "code": "G",
+          "text": "It's boring."
+        }
+      ]
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "How to Survive in Farming",
+      "answer": "B",
+      "evidence": "How to Survive in Farming was written years ago and is badly in need of a new edition.",
+      "timeStart": 1268,
+      "timeEnd": 1298,
+      "timeCenter": 1283.0,
+      "why": "The book is out of date.",
+      "trap": "The informal style is liked; age of the material is the problem.",
+      "paraphrase": "'written years ago' / 'needs a new edition' -> out of date",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "It's badly organised."
+        },
+        {
+          "code": "B",
+          "text": "It's out of date."
+        },
+        {
+          "code": "C",
+          "text": "It's clear."
+        },
+        {
+          "code": "D",
+          "text": "It's essential reading."
+        },
+        {
+          "code": "E",
+          "text": "It's inaccurate."
+        },
+        {
+          "code": "F",
+          "text": "It's well illustrated."
+        },
+        {
+          "code": "G",
+          "text": "It's boring."
+        }
+      ]
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Initially, artists produced rugs made from ___",
+      "answer": "wool",
+      "evidence": "The lecturer says that for the first thirty years the Ernabella artists crafted rugs using wool.",
+      "timeStart": 1480,
+      "timeEnd": 1512,
+      "timeCenter": 1496.0,
+      "why": "The rugs were made from wool.",
+      "trap": "Batik and screen printing were introduced later.",
+      "paraphrase": "'crafted rugs working with wool' -> wool",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Early designs included ___ images",
+      "answer": "bird",
+      "evidence": "The Tiwi designers incorporated bird motifs into their early designs.",
+      "timeStart": 1535,
+      "timeEnd": 1565,
+      "timeCenter": 1550.0,
+      "why": "The early designs included bird images.",
+      "trap": "The answer is the motif type, not the location of the Tiwi people.",
+      "paraphrase": "'bird motifs' -> bird",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Some designs are believed to bring ___",
+      "answer": "rain",
+      "evidence": "Some Tiwi textile designs are chosen because they are believed to cause rain.",
+      "timeStart": 1555,
+      "timeEnd": 1588,
+      "timeCenter": 1571.5,
+      "why": "The designs are believed to bring rain.",
+      "trap": "The question asks for the effect associated with the design.",
+      "paraphrase": "'thought to cause rain' -> rain",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Landscape influence, especially the ___",
+      "answer": "desert",
+      "evidence": "Jimmy Pike's work is strongly influenced by the Australian landscape, especially the desert.",
+      "timeStart": 1574,
+      "timeEnd": 1604,
+      "timeCenter": 1589.0,
+      "why": "The landscape feature is the desert.",
+      "trap": "The answer is a landscape type, not an artistic medium.",
+      "paraphrase": "'in particular ... the desert' -> desert",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Jimmy Pike started creating art when he was in ___",
+      "answer": "prison",
+      "evidence": "The lecturer says Jimmy Pike's life as an artist began in prison.",
+      "timeStart": 1596,
+      "timeEnd": 1628,
+      "timeCenter": 1612.0,
+      "why": "He started creating art in prison.",
+      "trap": "His later company was founded after his release.",
+      "paraphrase": "'life as an artist began in prison' -> prison",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "His textiles were used to make ___",
+      "answer": "clothing",
+      "evidence": "Pike brought his artwork onto textiles, which were used to produce clothing.",
+      "timeStart": 1620,
+      "timeEnd": 1652,
+      "timeCenter": 1636.0,
+      "why": "His textiles were used to make clothing.",
+      "trap": "Cotton is the material the designs were transferred onto, not the product made.",
+      "paraphrase": "'used to produce clothing' -> clothing",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Bronwyn Bancroft's work is a modern look at ___ and nature",
+      "answer": "family",
+      "evidence": "Bronwyn Bancroft's work gives a contemporary, fresh view of family and the natural environment.",
+      "timeStart": 1644,
+      "timeEnd": 1676,
+      "timeCenter": 1660.0,
+      "why": "Her modern perspective includes family.",
+      "trap": "Nature is already supplied in the note, so the missing word is family.",
+      "paraphrase": "'fresh view of family and the natural environment' -> family",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "Jeans were painted with lizards and a ___",
+      "answer": "rainbow",
+      "evidence": "On Cathy Freeman's jeans, Bancroft used lizard imagery and added a rainbow.",
+      "timeStart": 1662,
+      "timeEnd": 1690,
+      "timeCenter": 1676.0,
+      "why": "The second image was a rainbow.",
+      "trap": "The lizards are already stated in the question.",
+      "paraphrase": "'she added a rainbow' -> rainbow",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Parade outfit featured part of a ___",
+      "answer": "snake",
+      "evidence": "For the Journey of a Nation parade, Bancroft's outfit featured an image of a snake with no head or tail.",
+      "timeStart": 1680,
+      "timeEnd": 1710,
+      "timeCenter": 1695.0,
+      "why": "The outfit featured part of a snake.",
+      "trap": "The missing image is not the rainbow from the earlier jeans project.",
+      "paraphrase": "'image of a snake' -> snake",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Copyright example: 'The ___ Case'",
+      "answer": "carpet",
+      "evidence": "The copyright dispute over rugs using stolen Aboriginal images became known as the Carpet Case.",
+      "timeStart": 1698,
+      "timeEnd": 1726,
+      "timeCenter": 1712.0,
+      "why": "The case name is Carpet.",
+      "trap": "The answer is the name attached to the legal case, not 'copyright'.",
+      "paraphrase": "'Carpet Case' -> carpet",
+      "mistakeType": "Exact-word recognition",
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "September 14th",
+    "2": "835",
+    "3": "school",
+    "4": "deck",
+    "5": "river",
+    "6": "towels",
+    "7": "garage",
+    "8": "Chinese",
+    "9": "200",
+    "10": "July",
+    "11": "A",
+    "12": "B",
+    "13": "A",
+    "14": "B",
+    "15": "F",
+    "16": "A",
+    "17": "B",
+    "18": "H",
+    "19": "G",
+    "20": "I",
+    "21": "A",
+    "22": "C",
+    "23": "B",
+    "24": "A",
+    "25": "B",
+    "26": "B",
+    "27": "G",
+    "28": "E",
+    "29": "D",
+    "30": "B",
+    "31": "wool",
+    "32": "bird",
+    "33": "rain",
+    "34": "desert",
+    "35": "prison",
+    "36": "clothing",
+    "37": "family",
+    "38": "rainbow",
+    "39": "snake",
+    "40": "carpet"
+  },
+  "alternatives": {
+    "1": [
+      "September 14th",
+      "September 14",
+      "14 September",
+      "14th September",
+      "14th",
+      "14",
+      "fourteenth"
+    ],
+    "2": [
+      "835",
+      "835.00",
+      "$835",
+      "$835.00"
+    ],
+    "3": [
+      "school"
+    ],
+    "4": [
+      "deck"
+    ],
+    "5": [
+      "river"
+    ],
+    "6": [
+      "towels",
+      "towel"
+    ],
+    "7": [
+      "garage"
+    ],
+    "8": [
+      "Chinese"
+    ],
+    "9": [
+      "200",
+      "200.00",
+      "$200",
+      "$200.00"
+    ],
+    "10": [
+      "July"
+    ],
+    "11": [
+      "A"
+    ],
+    "12": [
+      "B"
+    ],
+    "13": [
+      "A"
+    ],
+    "14": [
+      "B"
+    ],
+    "15": [
+      "F"
+    ],
+    "16": [
+      "A"
+    ],
+    "17": [
+      "B"
+    ],
+    "18": [
+      "H"
+    ],
+    "19": [
+      "G"
+    ],
+    "20": [
+      "I"
+    ],
+    "21": [
+      "A"
+    ],
+    "22": [
+      "C"
+    ],
+    "23": [
+      "B"
+    ],
+    "24": [
+      "A"
+    ],
+    "25": [
+      "B"
+    ],
+    "26": [
+      "B"
+    ],
+    "27": [
+      "G"
+    ],
+    "28": [
+      "E"
+    ],
+    "29": [
+      "D"
+    ],
+    "30": [
+      "B"
+    ],
+    "31": [
+      "wool"
+    ],
+    "32": [
+      "bird"
+    ],
+    "33": [
+      "rain"
+    ],
+    "34": [
+      "desert"
+    ],
+    "35": [
+      "prison"
+    ],
+    "36": [
+      "clothing"
+    ],
+    "37": [
+      "family"
+    ],
+    "38": [
+      "rainbow"
+    ],
+    "39": [
+      "snake"
+    ],
+    "40": [
+      "carpet"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 457.416
+    },
+    "2": {
+      "start": 457.416,
+      "end": 885.594
+    },
+    "3": {
+      "start": 885.594,
+      "end": 1404.256
+    },
+    "4": {
+      "start": 1404.256,
+      "end": 1756.395
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Original embedded source MP3 preserved at approximately 40 kbps for offline use; no unnecessary lossy up-transcode was performed. Only trailing post-test transfer silence was removed.",
+  "audio_duration_seconds": 1756.395,
+  "transcript": {
+    "1": "PART 1 - Holiday Rental\n\nNARRATOR: You will hear a number of different recordings and answer questions on what you hear. There is time to read the instructions and questions and to check your work. All recordings are played once only. The test is in four sections. Write your answers in the Listening Question Booklet. At the end of the test, you are given ten minutes to transfer your answers to an answer sheet. Now turn to Section 1 on page 2.\nNARRATOR: Section 1. You will hear a woman who wants to rent a vacation cottage telephoning the owner. First, you have some time to look at Questions 1 to 7 on page 2. You will see that there is an example that has been done for you. On this occasion only, the conversation relating to this will be played first.\nEXAMPLE PLAYBACK:\nDAVE: Hello?\nWOMAN: Oh, hello. I'm calling about a vacation rental. The name I've been given is Carol Marriott?\nDAVE: I'm Dave, Carol's husband. We own it together.\nNARRATOR: The joint owners of the cottage are Carol Marriott and her husband Dave, so Dave has been written in the space. Now, we shall begin. You should answer the questions as you listen because you will not hear the recording a second time. Listen carefully and answer Questions 1 to 7.\n\nDAVE: Hello?\nWOMAN: Oh, hello. I'm calling about a vacation rental. The name I've been given is Carol Marriott?\nDAVE: I'm Dave, Carol's husband. We own it together.\nWOMAN: Oh, right. Well, some friends of ours rented Aster Cottage from you for a week by the ocean last summer, and they recommended it to us. My husband and I would like to rent it in the fall, for a week.\nDAVE: Okay. When exactly?\nWOMAN: Um, we're looking at the week beginning September 21st, if it's available.\nDAVE: Let me check. Um, no, I'm sorry, it's already booked that week. You could have it the previous week, from the 14th?\nWOMAN: Well, we could manage that week if we change a couple of arrangements. Um, how much would it cost?\nDAVE: That would be $835.\nWOMAN: Ah, that's rather more than we wanted to pay, I'm afraid. We were hoping to pay closer to $790, which our friends paid last year.\nDAVE: We also have a slightly smaller cottage called Periwinkle Cottage.\nWOMAN: Excuse me, um, how do you spell the name?\nDAVE: P-E-R-I-W-I-N-K-L-E, Periwinkle. It's available the week you wanted, and it's the exact same price that your friends paid last year. I take it you want a place that sleeps just two people, like Aster Cottage?\nWOMAN: Yes. Is it near Aster Cottage?\nDAVE: Yeah, it's right across the street.\nWOMAN: And what's this cottage like?\nDAVE: Well, it's part of a historic building that was originally a school 100 years ago. It was converted into a post office around 1950, then later on the post office moved, and the building was divided to make two cottages.\nWOMAN: So, is it on several floors?\nDAVE: No, it's all on one floor. There's a large living room, a kitchen that's really well-equipped, a bedroom, and a bathroom with a tub and a shower.\nWOMAN: Oh, very nice!\nDAVE: From the living room, you can go out onto the deck, which is a great place to have your meals when the weather's nice.\nWOMAN: That sounds fantastic! Can you see the river that flows through the town from the cottage?\nDAVE: You sure can. It's close by. You can see it from the bedroom.\nWOMAN: Okay. Would we need to bring anything - bedding, say?\nDAVE: That's provided. But we make a small charge for towels, unless you bring your own, of course.\nWOMAN: Oh, okay. I'll do that, because we'll be driving. There'll be plenty of room in the car for things like that. Oh, that reminds me: is there a garage that we can use?\nDAVE: I'm afraid there isn't one, but you can usually get a parking spot on the street right in front of the cottage.\nWOMAN: No problem. We probably won't use the car much while we're there anyway. We like to go for walks.\n\nNARRATOR: Before you hear the rest of the conversation, you have some time to look at Questions 8 to 10 on page 2. Now listen and answer Questions 8 to 10.\n\nWOMAN: Oh, and what about the town itself? Are there any restaurants in the neighborhood?\nDAVE: There are a few, all within walking distance. A lot of people like the fish restaurant, but in my opinion, the Chinese restaurant has got to be the best for miles around.\nWOMAN: That's good to know. We might end up eating out every evening.\nDAVE: Well, why not?\nWOMAN: Our friends said the town is pretty famous for antique stores.\nDAVE: That's right. There's a whole bunch of them - at least 10 on the Main Street.\nWOMAN: Marvelous! Okay, I'd like to make the booking, please.\nDAVE: Great! We ask for a deposit of $200 and final payment at least six weeks before your stay. But we'll be away ourselves for much of August, so let's say no later than the last day of July. Is that okay with you?\nWOMAN: Fine!\nDAVE: Okay, then let me give you our details so you can send the deposit.\n\nNARRATOR: That is the end of Section 1. You now have half a minute to check your answers.",
+    "2": "PART 2 - Bridge to Brisbane Fun Run\n\nNARRATOR: Section 2. You will hear a coordinator talking to volunteer helpers before a race involving a large number of people. First, you have some time to look at Questions 11 to 14 on page 3. Now listen carefully and answer Questions 11 to 14.\n\nRACE COORDINATOR: Thank you for all volunteering to help us with the Bridge to Brisbane Fun Run. The purpose of this meeting is to give you some information about your duties on race day.\nRACE COORDINATOR: Some of you were asking about where you can park on the day. Unfortunately, some of the usual places, down by the river, for example, will be out of bounds because we'll need extra space for emergency vehicles. Probably the best option is the Jack Gray Sports Field in Barker Street. Although the closest parking lot is the Metro Shopping Complex, I would advise you not to park there, as they tend to tow away people who aren't customers.\nRACE COORDINATOR: At the start line, most of you will be checking that runners have the necessary gear, especially their electronic timing chip, the race number, and the identity wristband. Make sure that the number is attached to the front of the running shirt or singlet, not the back. The timing chip, which records the runner's time, needs to be clipped onto one of their shoes, and check that they are wearing their wristband.\nRACE COORDINATOR: Some of you will be responsible for organizing the starting groups. It's very important that runners start in a particular order. There is a system of color codes. The red group are walkers and people with baby strollers. The purple group are runners that expect to finish in less than one hour, and the yellow group are our elite athletes. We'd like them to start the race, and we'd like the other groups to follow after that, with the red group and the strollers at the very back. This is for their own safety.\nRACE COORDINATOR: Now, we are still short on volunteers for race day, so if you have any friends or family members who might be interested, please let us know. We're probably okay for people to help with the start, but we'll still desperately need volunteers along the race course to distribute water bottles to the runners. A few of you have offered to help with first aid, but the good people of St. John's Ambulance have donated their services, so that won't be necessary.\n\nNARRATOR: Before the rest of the talk, you have time to look at Questions 15 to 20. Now listen and answer Questions 15 to 20.\n\nNARRATOR: Before you hear the rest of the talk, you have some time to look at Questions 15 to 20 on page 4. Now listen and answer Questions 15 to 20.\n\nRACE COORDINATOR: Now, I'll show you the layout of the Race Village, which is where the race ends. Can you all see the map? If you look at the bottom right-hand side, you'll see where the runners enter the village next to the corporate catering section. As you continue along the course, you'll see the stage on your right - that's where the winners will receive their medals.\nRACE COORDINATOR: Now, can you all see the finish line near the center? After they finish the race, the runners can take one of two paths - it doesn't matter which one - to get their finish T-shirts from the T-shirt stand at the end of those paths. Many of you will be stationed at the end of the race.\nRACE COORDINATOR: After they finish, the runners will also want their belongings, and all bags are kept in the building on Bowen Road. It's quite close to the exit in the top left-hand corner of your map.\nRACE COORDINATOR: Now, some of you will have an important role working in the Information Centre. That's the building in the center of the map, not far from the finish line. It's just below it on your map.\nRACE COORDINATOR: And one other thing: can you all please remind the runners to enter in the prize draw for the new car? The entry box is between the shade tents and the corporate catering buildings.\nRACE COORDINATOR: Okay, let's see now, what else do I need to point out? Ah, yes, the runners are always thirsty, and the main water station in the village is just beside the third exit through to Gregory Terrace, to the left of the corporate catering area. So everyone please direct the race finishers there to get their free bottled water.\n\nNARRATOR: That is the end of Section 2. You now have half a minute to check your answers.",
+    "3": "PART 3 - Farmers' Attitudes to Agricultural Developments\n\nNARRATOR: Section 3. You will hear a student called Joel talking to his tutor about his research into farmers' attitudes towards new developments in agriculture. First, you have some time to look at Questions 21 to 26 on page 5. Now listen carefully and answer Questions 21 to 26.\n\nDR OWEN: Come in, Joel. Right, so how's your research going? You're looking at how farmers feel about new technology in agriculture, aren't you?\nJOEL: Well, actually, it's more general than that. I'm looking at their attitudes to a variety of new developments in agriculture.\nDR OWEN: Okay. Have you got a title for the project yet?\nJOEL: I was thinking of something simple, like 'Farmers' Attitudes Towards the Adoption of New Farming Practices'.\nDR OWEN: Mmm, that's possibly a bit too general. I think the title needs to be a bit more specific. What kind of farming will you be looking at?\nJOEL: Well, that'll vary, actually. But I want to speak to each of the ten farmers in my sample. So I've chosen farms which are all in the same region.\nDR OWEN: Okay. Well, I'd specify where they are then.\nJOEL: Right. I'll amend the title to do that.\nDR OWEN: Okay. Is there any particular reason why you've decided to do face-to-face interviews? It'll be quite time-consuming, won't it?\nJOEL: Yes, and I did consider doing telephone interviews for that reason, especially as it's unnecessary for me to actually see the places where they work. It's just that, in my experience, a lot of farmers don't like talking on the phone. So they'll be more likely to talk freely if I see them in person.\nDR OWEN: Yes, you're probably right. Good!\nJOEL: Then the first thing I want to investigate is how the farmers actually find out about new developments in agriculture that they might want to adopt. What sources they use.\nDR OWEN: Right. So how are you going to do this?\nJOEL: Well, I could make a checklist of sources of information for them to look at in advance, so they could tick off the ones they actually use. Things like farming magazines, farm product advertisements, television, and the internet, and so on.\nDR OWEN: It might be more useful to ask them rather than show them a list. A spontaneous response to one or two open questions might give you a more accurate picture.\nJOEL: All right. I'll do that then.\nDR OWEN: Now, talk me through some of the other issues you want to cover.\nJOEL: Well, there's the way the government communicates with farmers.\nDR OWEN: Right. Well, one thing is farmers complain that the government sends out the same information to all of them, whether they're poultry farmers or dairy farmers or arable farmers.\nJOEL: So they get all this information, but half of it doesn't actually apply to them?\nDR OWEN: Exactly. So you could look at that.\nJOEL: Right. Then I wanted to look at attitudes of British farmers to the cost of making any changes on their farms. According to articles I've read, farmers in Britain aren't in principle against investing money in new machinery and new practices, but they're actually just too busy to work out what the financial implications are.\nDR OWEN: Yes, and a lot of them don't seem to consider getting financial advice from their accountants about it either.\nJOEL: Right.\nDR OWEN: There's also been some research in Australia on sheep rearing practices. I can give you the reference if you like. Basically, it appears that the majority of Australian sheep farmers are willing to risk adopting new practices on the basis of just a few pieces of research. They don't usually wait until the evidence in favor of the changes is overwhelming; they're quite happy to act before then so they can get ahead of the game.\nJOEL: Okay, I'll take a look at that. Thanks! We said we'd also look at some of the reading material I've been reviewing.\n\nNARRATOR: Before the rest of the discussion, you have time to look at Questions 27 to 30. Now listen and answer Questions 27 to 30.\n\nNARRATOR: Before you hear the rest of the discussion, you have some time to look at Questions 27 to 30 on page 6. Now listen and answer Questions 27 to 30.\n\nDR OWEN: Yes, I had another look at 'Contemporary Farming Manual', which is clearly bang up to date. It covers a lot of things a farmer might want to know, but it's so dull!\nJOEL: Absolutely! I found it really hard going, and I can't imagine any farmer wading through it. There aren't even any decent pictures.\nDR OWEN: Did you have time to look at 'Running a Small Farm'?\nJOEL: Yes, although I only read bits of it because, despite being entertaining, it wasn't very academic.\nDR OWEN: I know, and a lot of the information is either misleading or simply wrong! I'm surprised it got published at all. I don't imagine the farming press will rate it very highly.\nJOEL: Mmm. You recommend 'Agriculture and Economics'. I expected that it would be really difficult. The title's a bit off-putting, but I thought it was brilliant! So I've bought it.\nDR OWEN: Yes! Some people think it relies too heavily on farming practices in specific parts of the world, but the theories that underpin these are universal, and that's why it's a required textbook for anyone studying agriculture.\nJOEL: Right. What else did you come across? I borrowed 'How to Survive in Farming' from the library. I thought it'd be interesting background, and I liked the informal style, but it turned out to have been written years ago.\nDR OWEN: Yes, and like everything else, farming fashions have changed! So it's badly in need of a new edition.\n\nNARRATOR: That is the end of Section 3. You now have half a minute to check your answers. Now turn to Section 4 on page 7.",
+    "4": "PART 4 - Aboriginal Textile Design\n\nNARRATOR: Section 4. You will hear part of a lecture given by an art and design lecturer on the topic of Aboriginal textile design in Australia. First, you have some time to look at Questions 31 to 40 on page 7. Now listen carefully and answer Questions 31 to 40.\n\nLECTURER: The indigenous people of Australia, or Aboriginals, have a long history of using animal and plant fibers to make a variety of fabric. Over the years, their traditional designs and stories have been incorporated into various textiles.\nLECTURER: The Ernabella Arts Centre is a place where local Aboriginals can produce their traditional craft and also learn new techniques to decorate fabric. For the first thirty years, the artists crafted rugs working with wool. These rugs incorporated their own unique designs. However, as they became less economical to produce, the artists were introduced to batik, which is an Indonesian method of dyeing textiles.\nBatik is quicker than weaving, so many of the Ernabella artists started to produce it themselves. Screen printing was later introduced to the center, and Ernabella's artists were commissioned to produce fabric for furniture that was to be used at popular tourist destinations, such as the National Park offices at Uluru.\nLECTURER: Screen printing has also been used successfully by the Tiwi people, who live on islands north of Darwin. Their company, Tiwi Designs, produces fabric that is inspired by their surroundings. For example, they incorporated bird motifs into their early designs. Tiwi art, culture, and language are very different from those of mainland Aboriginal groups. The patterns on their fabric are related to the beliefs and legends in their culture. For example, some textile designs are chosen because they are thought to cause rain.\nLECTURER: Another successful Aboriginal design company was founded by Jimmy Pike. His dynamic prints, paintings, and fabrics are greatly influenced by the Australian landscape, in particular that of the desert, which is often featured in his work. Pike worked with acrylic paint, oil pastels, and screen printing. Surprisingly, Jimmy Pike's life as an artist began in prison, where he was serving a sentence for murder.\nThe art teachers there recognized his talent and gave him the technical skills he needed to become a successful artist. After Pike's release, he started his own company, aiming to create a product that would sell well commercially but still retain its Aboriginal cultural identity. Eventually, he decided to bring his artwork onto textiles, which were used to produce clothing. The designs he selected were transferred onto cotton and had both a strong linear character and a good color range.\nLECTURER: Bronwyn Bancroft is one of the most successful Aboriginal artists and designers to date. She has produced a great deal of artwork and textiles, and many of her paintings are held by Australian art galleries. Her work reflects her Aboriginal roots, but always with a contemporary, fresh view of family and the natural environment. In 1995, she was chosen by a charity organization to paint a pair of jeans owned by Cathy Freeman, a famous Aboriginal Australian athlete.\nShe used imagery of lizards moving quickly over the Australian terrain, and she added a rainbow, which represents the optimism that Cathy symbolizes for all Aboriginal people. In 2001, she was chosen to design costumes for the opening of the biggest street parade ever held in Australia - the 'Journey of a Nation' parade. The people in Bancroft's section of the parade all wore an outfit she designed. It featured the image of a snake that had no head or tail to represent an ongoing culture.\nLECTURER: Exploitation of creative work can be a problem for any artist, and copyright laws exist to protect individual artists from the unauthorized use of his or her work. This issue is often more complex for Aboriginal artists, as the symbols and motifs used in their designs also hold cultural significance for them. An example of this was when a businessman had rugs made overseas, incorporating images stolen from Aboriginal paintings. The 'Carpet Case', as it became known, was taken to court, where luckily, the artists won.\n\nNARRATOR: That is the end of Section 4. You now have half a minute to check your answers. That is the end of the Listening test. You now have ten minutes to transfer your answers to the Listening answer sheet."
+  },
+  "transcript_source": "Full Part 1-4 transcript aligned to the supplied embedded recording, including test/section instructions, example framing, question-preview transitions, dialogue or lecture content, and end-of-section announcements.",
+  "timestamps_source": "Part boundaries are based on long section-break silences in the supplied recording; no question-level word timestamps are claimed.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "change a couple of arrangements",
+      "answer": "change a couple of arrangements",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "right across the street",
+      "answer": "right across the street",
+      "lexical_type": "prepositional phrase"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "a historic building",
+      "answer": "a historic building",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "really well-equipped",
+      "answer": "really well-equipped",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "within walking distance",
+      "answer": "within walking distance",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "the best for miles around",
+      "answer": "the best for miles around",
+      "lexical_type": "idiomatic phrase"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "make the booking",
+      "answer": "make the booking",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "at least six weeks before your stay",
+      "answer": "at least six weeks before your stay",
+      "lexical_type": "time phrase"
+    },
+    {
+      "q": 109,
+      "part": 2,
+      "n": 1,
+      "match": "out of bounds",
+      "answer": "out of bounds",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 110,
+      "part": 2,
+      "n": 2,
+      "match": "tend to tow away",
+      "answer": "tend to tow away",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 111,
+      "part": 2,
+      "n": 3,
+      "match": "attached to the front",
+      "answer": "attached to the front",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 112,
+      "part": 2,
+      "n": 4,
+      "match": "start in a particular order",
+      "answer": "start in a particular order",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 113,
+      "part": 2,
+      "n": 5,
+      "match": "for their own safety",
+      "answer": "for their own safety",
+      "lexical_type": "prepositional phrase"
+    },
+    {
+      "q": 114,
+      "part": 2,
+      "n": 6,
+      "match": "desperately need volunteers",
+      "answer": "desperately need volunteers",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 115,
+      "part": 2,
+      "n": 7,
+      "match": "stationed at the end of the race",
+      "answer": "stationed at the end of the race",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 116,
+      "part": 2,
+      "n": 8,
+      "match": "enter in the prize draw",
+      "answer": "enter in the prize draw",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 117,
+      "part": 3,
+      "n": 1,
+      "match": "a bit too general",
+      "answer": "a bit too general",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 118,
+      "part": 3,
+      "n": 2,
+      "match": "face-to-face interviews",
+      "answer": "face-to-face interviews",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 119,
+      "part": 3,
+      "n": 3,
+      "match": "more likely to talk freely",
+      "answer": "more likely to talk freely",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 120,
+      "part": 3,
+      "n": 4,
+      "match": "a spontaneous response",
+      "answer": "a spontaneous response",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 121,
+      "part": 3,
+      "n": 5,
+      "match": "financial implications",
+      "answer": "financial implications",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 122,
+      "part": 3,
+      "n": 6,
+      "match": "on the basis of just a few pieces of research",
+      "answer": "on the basis of just a few pieces of research",
+      "lexical_type": "academic phrase"
+    },
+    {
+      "q": 123,
+      "part": 3,
+      "n": 7,
+      "match": "get ahead of the game",
+      "answer": "get ahead of the game",
+      "lexical_type": "idiom"
+    },
+    {
+      "q": 124,
+      "part": 3,
+      "n": 8,
+      "match": "badly in need of a new edition",
+      "answer": "badly in need of a new edition",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 125,
+      "part": 4,
+      "n": 1,
+      "match": "traditional craft",
+      "answer": "traditional craft",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 126,
+      "part": 4,
+      "n": 2,
+      "match": "less economical to produce",
+      "answer": "less economical to produce",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 127,
+      "part": 4,
+      "n": 3,
+      "match": "inspired by their surroundings",
+      "answer": "inspired by their surroundings",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 128,
+      "part": 4,
+      "n": 4,
+      "match": "beliefs and legends",
+      "answer": "beliefs and legends",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 129,
+      "part": 4,
+      "n": 5,
+      "match": "greatly influenced by the Australian landscape",
+      "answer": "greatly influenced by the Australian landscape",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 130,
+      "part": 4,
+      "n": 6,
+      "match": "retain its Aboriginal cultural identity",
+      "answer": "retain its Aboriginal cultural identity",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 131,
+      "part": 4,
+      "n": 7,
+      "match": "a contemporary, fresh view",
+      "answer": "a contemporary, fresh view",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 132,
+      "part": 4,
+      "n": 8,
+      "match": "cultural significance",
+      "answer": "cultural significance",
+      "lexical_type": "noun phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "change a couple of arrangements",
+      "word": "change a couple of arrangements",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "modify two or a few plans that were already organised",
+      "def": "modify two or a few plans that were already organised",
+      "uzbek": "oldindan tuzilgan bir-ikki rejani o'zgartirmoq",
+      "uz": "oldindan tuzilgan bir-ikki rejani o'zgartirmoq",
+      "context": "Part 1: Holiday Rental",
+      "collocations": [
+        "change an arrangement",
+        "rearrange plans"
+      ],
+      "paraphrases": [
+        "adjust a few plans",
+        "alter existing arrangements"
+      ]
+    },
+    {
+      "headword": "right across the street",
+      "word": "right across the street",
+      "type": "prepositional phrase",
+      "lexical_type": "prepositional phrase",
+      "pos": "prepositional phrase",
+      "definition": "directly on the opposite side of the same street",
+      "def": "directly on the opposite side of the same street",
+      "uzbek": "ko'chaning ro'parasida, aynan qarama-qarshi tomonda",
+      "uz": "ko'chaning ro'parasida, aynan qarama-qarshi tomonda",
+      "context": "Part 1: Holiday Rental",
+      "collocations": [
+        "across the street",
+        "directly opposite"
+      ],
+      "paraphrases": [
+        "on the other side of the street",
+        "opposite the building"
+      ]
+    },
+    {
+      "headword": "a historic building",
+      "word": "a historic building",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "an old building that is important because of its history or heritage",
+      "def": "an old building that is important because of its history or heritage",
+      "uzbek": "tarixiy ahamiyatga ega eski bino",
+      "uz": "tarixiy ahamiyatga ega eski bino",
+      "context": "Part 1: Holiday Rental",
+      "collocations": [
+        "historic building",
+        "heritage building"
+      ],
+      "paraphrases": [
+        "a building of historical importance",
+        "a heritage property"
+      ]
+    },
+    {
+      "headword": "really well-equipped",
+      "word": "really well-equipped",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "provided with nearly all the facilities, tools or equipment needed",
+      "def": "provided with nearly all the facilities, tools or equipment needed",
+      "uzbek": "juda yaxshi jihozlangan",
+      "uz": "juda yaxshi jihozlangan",
+      "context": "Part 1: Holiday Rental",
+      "collocations": [
+        "well-equipped kitchen",
+        "fully equipped"
+      ],
+      "paraphrases": [
+        "properly furnished with equipment",
+        "supplied with everything needed"
+      ]
+    },
+    {
+      "headword": "within walking distance",
+      "word": "within walking distance",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "close enough to reach comfortably on foot",
+      "def": "close enough to reach comfortably on foot",
+      "uzbek": "piyoda borish mumkin bo'lgan yaqin masofada",
+      "uz": "piyoda borish mumkin bo'lgan yaqin masofada",
+      "context": "Part 1: Holiday Rental",
+      "collocations": [
+        "within easy walking distance",
+        "walking distance from"
+      ],
+      "paraphrases": [
+        "close enough to walk",
+        "reachable on foot"
+      ]
+    },
+    {
+      "headword": "the best for miles around",
+      "word": "the best for miles around",
+      "type": "idiomatic phrase",
+      "lexical_type": "idiomatic phrase",
+      "pos": "idiomatic phrase",
+      "definition": "better than comparable places throughout a large surrounding area",
+      "def": "better than comparable places throughout a large surrounding area",
+      "uzbek": "atrofdagi uzoq masofada eng yaxshisi",
+      "uz": "atrofdagi uzoq masofada eng yaxshisi",
+      "context": "Part 1: Holiday Rental",
+      "collocations": [
+        "best for miles",
+        "the best around"
+      ],
+      "paraphrases": [
+        "the best in the area",
+        "better than nearby alternatives"
+      ]
+    },
+    {
+      "headword": "make the booking",
+      "word": "make the booking",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "formally reserve accommodation, a service or a place",
+      "def": "formally reserve accommodation, a service or a place",
+      "uzbek": "bandlovni amalga oshirmoq",
+      "uz": "bandlovni amalga oshirmoq",
+      "context": "Part 1: Holiday Rental",
+      "collocations": [
+        "make a booking",
+        "confirm a booking"
+      ],
+      "paraphrases": [
+        "reserve it",
+        "book the accommodation"
+      ]
+    },
+    {
+      "headword": "at least six weeks before your stay",
+      "word": "at least six weeks before your stay",
+      "type": "time phrase",
+      "lexical_type": "time phrase",
+      "pos": "time phrase",
+      "definition": "no later than a minimum six-week period before the visit begins",
+      "def": "no later than a minimum six-week period before the visit begins",
+      "uzbek": "turar joyga kelishdan kamida olti hafta oldin",
+      "uz": "turar joyga kelishdan kamida olti hafta oldin",
+      "context": "Part 1: Holiday Rental",
+      "collocations": [
+        "six weeks in advance",
+        "before your stay"
+      ],
+      "paraphrases": [
+        "with at least six weeks' notice",
+        "no later than six weeks beforehand"
+      ]
+    },
+    {
+      "headword": "out of bounds",
+      "word": "out of bounds",
+      "type": "fixed expression",
+      "lexical_type": "fixed expression",
+      "pos": "fixed expression",
+      "definition": "not permitted to be entered or used",
+      "def": "not permitted to be entered or used",
+      "uzbek": "kirish yoki foydalanish taqiqlangan",
+      "uz": "kirish yoki foydalanish taqiqlangan",
+      "context": "Part 2: Bridge to Brisbane Fun Run",
+      "collocations": [
+        "be out of bounds",
+        "declared out of bounds"
+      ],
+      "paraphrases": [
+        "off limits",
+        "not accessible"
+      ]
+    },
+    {
+      "headword": "tend to tow away",
+      "word": "tend to tow away",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "usually remove parked vehicles using a tow truck",
+      "def": "usually remove parked vehicles using a tow truck",
+      "uzbek": "odatda mashinani evakuator bilan olib ketmoq",
+      "uz": "odatda mashinani evakuator bilan olib ketmoq",
+      "context": "Part 2: Bridge to Brisbane Fun Run",
+      "collocations": [
+        "tow a car away",
+        "tend to remove vehicles"
+      ],
+      "paraphrases": [
+        "often impound cars",
+        "usually have vehicles towed"
+      ]
+    },
+    {
+      "headword": "attached to the front",
+      "word": "attached to the front",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "fixed or fastened to the front side of something",
+      "def": "fixed or fastened to the front side of something",
+      "uzbek": "old tomoniga mahkamlangan",
+      "uz": "old tomoniga mahkamlangan",
+      "context": "Part 2: Bridge to Brisbane Fun Run",
+      "collocations": [
+        "attach to the front",
+        "fastened to the front"
+      ],
+      "paraphrases": [
+        "fixed on the front",
+        "secured to the front side"
+      ]
+    },
+    {
+      "headword": "start in a particular order",
+      "word": "start in a particular order",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "begin according to a specified sequence rather than randomly",
+      "def": "begin according to a specified sequence rather than randomly",
+      "uzbek": "ma'lum tartibda boshlamoq",
+      "uz": "ma'lum tartibda boshlamoq",
+      "context": "Part 2: Bridge to Brisbane Fun Run",
+      "collocations": [
+        "start in order",
+        "a particular sequence"
+      ],
+      "paraphrases": [
+        "begin in a set sequence",
+        "follow a specified starting order"
+      ]
+    },
+    {
+      "headword": "for their own safety",
+      "word": "for their own safety",
+      "type": "prepositional phrase",
+      "lexical_type": "prepositional phrase",
+      "pos": "prepositional phrase",
+      "definition": "for the purpose of protecting those people from harm",
+      "def": "for the purpose of protecting those people from harm",
+      "uzbek": "ularning o'z xavfsizligi uchun",
+      "uz": "ularning o'z xavfsizligi uchun",
+      "context": "Part 2: Bridge to Brisbane Fun Run",
+      "collocations": [
+        "for safety reasons",
+        "ensure their safety"
+      ],
+      "paraphrases": [
+        "to keep them safe",
+        "for their protection"
+      ]
+    },
+    {
+      "headword": "desperately need volunteers",
+      "word": "desperately need volunteers",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "have an urgent and strong need for people to help without pay",
+      "def": "have an urgent and strong need for people to help without pay",
+      "uzbek": "ko'ngillilarga juda shoshilinch ehtiyoj sezmoq",
+      "uz": "ko'ngillilarga juda shoshilinch ehtiyoj sezmoq",
+      "context": "Part 2: Bridge to Brisbane Fun Run",
+      "collocations": [
+        "need volunteers badly",
+        "urgent need for volunteers"
+      ],
+      "paraphrases": [
+        "be very short of helpers",
+        "urgently require volunteers"
+      ]
+    },
+    {
+      "headword": "stationed at the end of the race",
+      "word": "stationed at the end of the race",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "assigned to work at a fixed position near the finishing area",
+      "def": "assigned to work at a fixed position near the finishing area",
+      "uzbek": "poyga oxiri yaqinida navbatchilikka joylashtirilgan",
+      "uz": "poyga oxiri yaqinida navbatchilikka joylashtirilgan",
+      "context": "Part 2: Bridge to Brisbane Fun Run",
+      "collocations": [
+        "be stationed at",
+        "race finish area"
+      ],
+      "paraphrases": [
+        "assigned to the finish",
+        "positioned near the end"
+      ]
+    },
+    {
+      "headword": "enter in the prize draw",
+      "word": "enter in the prize draw",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "submit an entry so you have a chance of winning a prize",
+      "def": "submit an entry so you have a chance of winning a prize",
+      "uzbek": "sovrinli o'yinda qatnashish uchun ariza/yozuv kiritmoq",
+      "uz": "sovrinli o'yinda qatnashish uchun ariza/yozuv kiritmoq",
+      "context": "Part 2: Bridge to Brisbane Fun Run",
+      "collocations": [
+        "enter a prize draw",
+        "prize-draw entry"
+      ],
+      "paraphrases": [
+        "join the draw",
+        "submit an entry for the prize"
+      ]
+    },
+    {
+      "headword": "a bit too general",
+      "word": "a bit too general",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "slightly too broad and not specific enough",
+      "def": "slightly too broad and not specific enough",
+      "uzbek": "biroz haddan tashqari umumiy",
+      "uz": "biroz haddan tashqari umumiy",
+      "context": "Part 3: Farmers' Attitudes to Agricultural Developments",
+      "collocations": [
+        "too general",
+        "more specific"
+      ],
+      "paraphrases": [
+        "not specific enough",
+        "slightly too broad"
+      ]
+    },
+    {
+      "headword": "face-to-face interviews",
+      "word": "face-to-face interviews",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "interviews conducted in person with interviewer and participant physically present",
+      "def": "interviews conducted in person with interviewer and participant physically present",
+      "uzbek": "yuzma-yuz o'tkaziladigan suhbat/intervyular",
+      "uz": "yuzma-yuz o'tkaziladigan suhbat/intervyular",
+      "context": "Part 3: Farmers' Attitudes to Agricultural Developments",
+      "collocations": [
+        "conduct face-to-face interviews",
+        "in-person interview"
+      ],
+      "paraphrases": [
+        "interviews in person",
+        "direct interviews"
+      ]
+    },
+    {
+      "headword": "more likely to talk freely",
+      "word": "more likely to talk freely",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "more inclined to speak openly and give fuller answers",
+      "def": "more inclined to speak openly and give fuller answers",
+      "uzbek": "erkinroq gapirish ehtimoli yuqori",
+      "uz": "erkinroq gapirish ehtimoli yuqori",
+      "context": "Part 3: Farmers' Attitudes to Agricultural Developments",
+      "collocations": [
+        "talk freely",
+        "speak openly"
+      ],
+      "paraphrases": [
+        "be more willing to speak",
+        "give more open answers"
+      ]
+    },
+    {
+      "headword": "a spontaneous response",
+      "word": "a spontaneous response",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "an immediate unrehearsed answer rather than one prepared in advance",
+      "def": "an immediate unrehearsed answer rather than one prepared in advance",
+      "uzbek": "oldindan tayyorlanmagan, o'z-o'zidan berilgan javob",
+      "uz": "oldindan tayyorlanmagan, o'z-o'zidan berilgan javob",
+      "context": "Part 3: Farmers' Attitudes to Agricultural Developments",
+      "collocations": [
+        "spontaneous response",
+        "respond spontaneously"
+      ],
+      "paraphrases": [
+        "an unrehearsed answer",
+        "an immediate natural response"
+      ]
+    },
+    {
+      "headword": "financial implications",
+      "word": "financial implications",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "the likely effects of a decision on costs, income or money",
+      "def": "the likely effects of a decision on costs, income or money",
+      "uzbek": "moliyaviy oqibatlar yoki xarajatlarga ta'sir",
+      "uz": "moliyaviy oqibatlar yoki xarajatlarga ta'sir",
+      "context": "Part 3: Farmers' Attitudes to Agricultural Developments",
+      "collocations": [
+        "financial implications of",
+        "consider the financial impact"
+      ],
+      "paraphrases": [
+        "money-related consequences",
+        "financial effects"
+      ]
+    },
+    {
+      "headword": "on the basis of just a few pieces of research",
+      "word": "on the basis of just a few pieces of research",
+      "type": "academic phrase",
+      "lexical_type": "academic phrase",
+      "pos": "academic phrase",
+      "definition": "using only a small amount of research evidence as the foundation for a decision",
+      "def": "using only a small amount of research evidence as the foundation for a decision",
+      "uzbek": "faqat oz miqdordagi tadqiqot dalillariga asoslanib",
+      "uz": "faqat oz miqdordagi tadqiqot dalillariga asoslanib",
+      "context": "Part 3: Farmers' Attitudes to Agricultural Developments",
+      "collocations": [
+        "on the basis of research",
+        "limited research evidence"
+      ],
+      "paraphrases": [
+        "based on only a few studies",
+        "using a small evidence base"
+      ]
+    },
+    {
+      "headword": "get ahead of the game",
+      "word": "get ahead of the game",
+      "type": "idiom",
+      "lexical_type": "idiom",
+      "pos": "idiom",
+      "definition": "gain an advantage by acting earlier or more effectively than others",
+      "def": "gain an advantage by acting earlier or more effectively than others",
+      "uzbek": "oldinroq harakat qilib ustunlikka ega bo'lmoq",
+      "uz": "oldinroq harakat qilib ustunlikka ega bo'lmoq",
+      "context": "Part 3: Farmers' Attitudes to Agricultural Developments",
+      "collocations": [
+        "stay ahead of the game",
+        "get ahead"
+      ],
+      "paraphrases": [
+        "gain an early advantage",
+        "be ahead of competitors"
+      ]
+    },
+    {
+      "headword": "badly in need of a new edition",
+      "word": "badly in need of a new edition",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "strongly requiring an updated published version because the current one is old",
+      "def": "strongly requiring an updated published version because the current one is old",
+      "uzbek": "yangi, yangilangan nashrga juda muhtoj",
+      "uz": "yangi, yangilangan nashrga juda muhtoj",
+      "context": "Part 3: Farmers' Attitudes to Agricultural Developments",
+      "collocations": [
+        "need a new edition",
+        "updated edition"
+      ],
+      "paraphrases": [
+        "urgently needs updating",
+        "requires a revised edition"
+      ]
+    },
+    {
+      "headword": "traditional craft",
+      "word": "traditional craft",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a skill or method of making things that is passed down through a culture or community",
+      "def": "a skill or method of making things that is passed down through a culture or community",
+      "uzbek": "avloddan-avlodga o'tgan an'anaviy hunarmandchilik",
+      "uz": "avloddan-avlodga o'tgan an'anaviy hunarmandchilik",
+      "context": "Part 4: Aboriginal Textile Design",
+      "collocations": [
+        "traditional craft techniques",
+        "craft tradition"
+      ],
+      "paraphrases": [
+        "heritage craft",
+        "traditional handmade work"
+      ]
+    },
+    {
+      "headword": "less economical to produce",
+      "word": "less economical to produce",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "more costly or less financially efficient to make",
+      "def": "more costly or less financially efficient to make",
+      "uzbek": "ishlab chiqarish iqtisodiy jihatdan kamroq foydali",
+      "uz": "ishlab chiqarish iqtisodiy jihatdan kamroq foydali",
+      "context": "Part 4: Aboriginal Textile Design",
+      "collocations": [
+        "economical to produce",
+        "production cost"
+      ],
+      "paraphrases": [
+        "less cost-effective to make",
+        "more expensive to produce"
+      ]
+    },
+    {
+      "headword": "inspired by their surroundings",
+      "word": "inspired by their surroundings",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "creatively influenced by the environment and things around them",
+      "def": "creatively influenced by the environment and things around them",
+      "uzbek": "atrof-muhitidan ijodiy ilhomlangan",
+      "uz": "atrof-muhitidan ijodiy ilhomlangan",
+      "context": "Part 4: Aboriginal Textile Design",
+      "collocations": [
+        "inspired by surroundings",
+        "draw inspiration from"
+      ],
+      "paraphrases": [
+        "influenced by the local environment",
+        "take ideas from what is around them"
+      ]
+    },
+    {
+      "headword": "beliefs and legends",
+      "word": "beliefs and legends",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "cultural ideas accepted as true together with traditional stories passed through generations",
+      "def": "cultural ideas accepted as true together with traditional stories passed through generations",
+      "uzbek": "e'tiqodlar va avloddan-avlodga o'tgan afsonalar",
+      "uz": "e'tiqodlar va avloddan-avlodga o'tgan afsonalar",
+      "context": "Part 4: Aboriginal Textile Design",
+      "collocations": [
+        "traditional beliefs",
+        "cultural legends"
+      ],
+      "paraphrases": [
+        "cultural beliefs and stories",
+        "traditional ideas and myths"
+      ]
+    },
+    {
+      "headword": "greatly influenced by the Australian landscape",
+      "word": "greatly influenced by the Australian landscape",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "strongly shaped in style or subject matter by Australia's natural scenery",
+      "def": "strongly shaped in style or subject matter by Australia's natural scenery",
+      "uzbek": "Avstraliya landshafti kuchli ta'sir ko'rsatgan",
+      "uz": "Avstraliya landshafti kuchli ta'sir ko'rsatgan",
+      "context": "Part 4: Aboriginal Textile Design",
+      "collocations": [
+        "influenced by the landscape",
+        "landscape influence"
+      ],
+      "paraphrases": [
+        "strongly shaped by Australian scenery",
+        "drawn from the Australian landscape"
+      ]
+    },
+    {
+      "headword": "retain its Aboriginal cultural identity",
+      "word": "retain its Aboriginal cultural identity",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "keep its recognisable Aboriginal cultural character while changing form or medium",
+      "def": "keep its recognisable Aboriginal cultural character while changing form or medium",
+      "uzbek": "Aborigen madaniy o'zligini saqlab qolmoq",
+      "uz": "Aborigen madaniy o'zligini saqlab qolmoq",
+      "context": "Part 4: Aboriginal Textile Design",
+      "collocations": [
+        "retain cultural identity",
+        "Aboriginal identity"
+      ],
+      "paraphrases": [
+        "preserve its cultural character",
+        "keep its Indigenous identity"
+      ]
+    },
+    {
+      "headword": "a contemporary, fresh view",
+      "word": "a contemporary, fresh view",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a modern and original way of seeing or presenting a subject",
+      "def": "a modern and original way of seeing or presenting a subject",
+      "uzbek": "zamonaviy va yangicha qarash",
+      "uz": "zamonaviy va yangicha qarash",
+      "context": "Part 4: Aboriginal Textile Design",
+      "collocations": [
+        "contemporary view",
+        "fresh perspective"
+      ],
+      "paraphrases": [
+        "a modern perspective",
+        "an original current interpretation"
+      ]
+    },
+    {
+      "headword": "cultural significance",
+      "word": "cultural significance",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "special importance or meaning that something has within a culture",
+      "def": "special importance or meaning that something has within a culture",
+      "uzbek": "madaniyat ichidagi alohida ahamiyat va ma'no",
+      "uz": "madaniyat ichidagi alohida ahamiyat va ma'no",
+      "context": "Part 4: Aboriginal Textile Design",
+      "collocations": [
+        "cultural significance of",
+        "hold cultural significance"
+      ],
+      "paraphrases": [
+        "cultural importance",
+        "meaning within a culture"
+      ]
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "MCQ",
+    "12": "MCQ",
+    "13": "MCQ",
+    "14": "MCQ",
+    "15": "Matching",
+    "16": "Matching",
+    "17": "Matching",
+    "18": "Matching",
+    "19": "Matching",
+    "20": "Matching",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "MCQ",
+    "26": "MCQ",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    [
+      "exam",
+      "01",
+      "Full IELTS Test",
+      "Q1-Q40 in a timed exam with embedded audio, FLAG and notes."
+    ],
+    [
+      "review",
+      "02",
+      "Review & Revision",
+      "Redo each Part and inspect answers/evidence after checking."
+    ],
+    [
+      "script",
+      "03",
+      "Script Completion",
+      "Complete full Part 1-4 transcripts with 8 lexical gaps each."
+    ],
+    [
+      "mcq",
+      "04",
+      "MCQ Mastery",
+      "Practise Q11-Q14 and Q21-Q26 single-answer multiple-choice questions."
+    ],
+    [
+      "matching",
+      "05",
+      "Matching Mastery",
+      "Practise the Q15-Q20 race-village map and Q27-Q30 book-opinion matching tasks."
+    ],
+    [
+      "completion",
+      "06",
+      "Completion Mastery",
+      "Practise Q1-Q10 and Q31-Q40 completion questions."
+    ],
+    [
+      "vocab",
+      "07",
+      "Vocabulary Builder",
+      "Learn useful expressions from all four transcripts."
+    ],
+    [
+      "retry",
+      "08",
+      "Retry Weak Areas",
+      "Retry missed or unanswered questions."
+    ]
+  ]
+}

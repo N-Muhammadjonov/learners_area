@@ -1,4 +1,4 @@
-import { usesOriginalTestOne } from "@/lib/listening/original-test-one";
+import { hasOriginalListeningRuntime } from "@/lib/listening/original-listening";
 import {NextRequest,NextResponse} from 'next/server';
 import {requireActiveUser, requireAdministrator} from '@/lib/auth/current-user';
 import {fullListeningDetail} from '@/lib/data/full-listening';
@@ -9,7 +9,7 @@ export async function GET(req:NextRequest,{params}:{params:Promise<{id:string}>}
  const {id}=await params;
  const user=id==="preview"?await requireAdministrator():await requireActiveUser();if(!user)return NextResponse.json({error:'unauthenticated'},{status: 401});
  if(id!=="preview"&&!isUuid(id))return NextResponse.json({error:'not_found'},{status:404});
- const detail=id==="preview"?null:await fullListeningDetail(id,user.role);if(id!=="preview"&&!(detail && (detail.pkg.payload.authoredRuntime || usesOriginalTestOne(id, detail.pkg.sourceId))))return NextResponse.json({error:'not_found'},{status:404});
+ const detail=id==="preview"?null:await fullListeningDetail(id,user.role);if(id!=="preview"&&!(detail && (detail.pkg.payload.authoredRuntime || hasOriginalListeningRuntime(id, detail.pkg.sourceId))))return NextResponse.json({error:'not_found'},{status:404});
  const host=req.headers.get("x-forwarded-host")?.split(",")[0]?.trim()??req.headers.get("host")??req.nextUrl.host;
  const protocol=req.headers.get("x-forwarded-proto")==="https"?"https:":req.nextUrl.protocol;
  const expected=JSON.stringify(new URL(`${protocol}//${host}`).origin).replace(/</g,'\\u003c');

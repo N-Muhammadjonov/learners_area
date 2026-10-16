@@ -1,0 +1,1947 @@
+{
+  "test_id": "listening-test-22",
+  "title": "Listening Test 22",
+  "sections": [
+    "Hinchingbrooke Country Park",
+    "Stanthorpe Twinning Association",
+    "Food trends",
+    "Céide Fields"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Area of Hinchingbrooke Country Park in hectares",
+      "answer": "69",
+      "evidence": "Part 1: Hinchingbrooke Country Park. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 472.66,
+      "timeCenter": 236.33,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Water feature in the wetland besides lakes and ponds",
+      "answer": "stream",
+      "evidence": "Part 1: Hinchingbrooke Country Park. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 472.66,
+      "timeCenter": 236.33,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "What children collect and analyse in science activities",
+      "answer": "data",
+      "evidence": "Part 1: Hinchingbrooke Country Park. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 472.66,
+      "timeCenter": 236.33,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Navigation tool used with a compass",
+      "answer": "map",
+      "evidence": "Part 1: Hinchingbrooke Country Park. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 472.66,
+      "timeCenter": 236.33,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "What leisure and tourism mostly concentrates on",
+      "answer": "visitors",
+      "evidence": "Part 1: Hinchingbrooke Country Park. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 472.66,
+      "timeCenter": 236.33,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "What children make with natural materials in music",
+      "answer": "sounds",
+      "evidence": "Part 1: Hinchingbrooke Country Park. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 472.66,
+      "timeCenter": 236.33,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Feeling outdoor visits give children",
+      "answer": "freedom",
+      "evidence": "Part 1: Hinchingbrooke Country Park. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 472.66,
+      "timeCenter": 236.33,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "What children develop alongside self-confidence",
+      "answer": "skills",
+      "evidence": "Part 1: Hinchingbrooke Country Park. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 472.66,
+      "timeCenter": 236.33,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Cost per child for a full-day visit",
+      "answer": "4.95",
+      "evidence": "Part 1: Hinchingbrooke Country Park. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 472.66,
+      "timeCenter": 236.33,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Adults who attend free of charge",
+      "answer": "leaders",
+      "evidence": "Part 1: Hinchingbrooke Country Park. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 472.66,
+      "timeCenter": 236.33,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "During the visit to Malatte, in France, members especially enjoyed",
+      "answer": "B",
+      "evidence": "Part 2: Stanthorpe Twinning Association. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 472.66,
+      "timeEnd": 909.897,
+      "timeCenter": 691.279,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "going to a theme park."
+        },
+        {
+          "code": "B",
+          "text": "experiencing a river trip."
+        },
+        {
+          "code": "C",
+          "text": "visiting a cheese factory."
+        }
+      ]
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "What will happen in Stanthorpe to mark the 25th anniversary of the Twinning Association?",
+      "answer": "A",
+      "evidence": "Part 2: Stanthorpe Twinning Association. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 472.66,
+      "timeEnd": 909.897,
+      "timeCenter": 691.279,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "A tree will be planted."
+        },
+        {
+          "code": "B",
+          "text": "A garden seat will be bought."
+        },
+        {
+          "code": "C",
+          "text": "A footbridge will be built."
+        }
+      ]
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Which event raised most funds this year?",
+      "answer": "B",
+      "evidence": "Part 2: Stanthorpe Twinning Association. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 472.66,
+      "timeEnd": 909.897,
+      "timeCenter": 691.279,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "the film show"
+        },
+        {
+          "code": "B",
+          "text": "the pancake evening"
+        },
+        {
+          "code": "C",
+          "text": "the cookery demonstration"
+        }
+      ]
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "For the first evening with the French visitors host families are advised to",
+      "answer": "C",
+      "evidence": "Part 2: Stanthorpe Twinning Association. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 472.66,
+      "timeEnd": 909.897,
+      "timeCenter": 691.279,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "take them for a walk round the town."
+        },
+        {
+          "code": "B",
+          "text": "go to a local restaurant."
+        },
+        {
+          "code": "C",
+          "text": "have a meal at home."
+        }
+      ]
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "On Saturday evening there will be the chance to",
+      "answer": "A",
+      "evidence": "Part 2: Stanthorpe Twinning Association. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 472.66,
+      "timeEnd": 909.897,
+      "timeCenter": 691.279,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "listen to a concert."
+        },
+        {
+          "code": "B",
+          "text": "watch a match."
+        },
+        {
+          "code": "C",
+          "text": "take part in a competition."
+        }
+      ]
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Farm shop",
+      "answer": "G",
+      "evidence": "Part 2: Stanthorpe Twinning Association. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 472.66,
+      "timeEnd": 909.897,
+      "timeCenter": 691.279,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A on the Farley House map"
+        },
+        {
+          "code": "B",
+          "text": "Location B on the Farley House map"
+        },
+        {
+          "code": "C",
+          "text": "Location C on the Farley House map"
+        },
+        {
+          "code": "D",
+          "text": "Location D on the Farley House map"
+        },
+        {
+          "code": "E",
+          "text": "Location E on the Farley House map"
+        },
+        {
+          "code": "F",
+          "text": "Location F on the Farley House map"
+        },
+        {
+          "code": "G",
+          "text": "Location G on the Farley House map"
+        },
+        {
+          "code": "H",
+          "text": "Location H on the Farley House map"
+        }
+      ]
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Disabled entry",
+      "answer": "C",
+      "evidence": "Part 2: Stanthorpe Twinning Association. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 472.66,
+      "timeEnd": 909.897,
+      "timeCenter": 691.279,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A on the Farley House map"
+        },
+        {
+          "code": "B",
+          "text": "Location B on the Farley House map"
+        },
+        {
+          "code": "C",
+          "text": "Location C on the Farley House map"
+        },
+        {
+          "code": "D",
+          "text": "Location D on the Farley House map"
+        },
+        {
+          "code": "E",
+          "text": "Location E on the Farley House map"
+        },
+        {
+          "code": "F",
+          "text": "Location F on the Farley House map"
+        },
+        {
+          "code": "G",
+          "text": "Location G on the Farley House map"
+        },
+        {
+          "code": "H",
+          "text": "Location H on the Farley House map"
+        }
+      ]
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Adventure playground",
+      "answer": "B",
+      "evidence": "Part 2: Stanthorpe Twinning Association. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 472.66,
+      "timeEnd": 909.897,
+      "timeCenter": 691.279,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A on the Farley House map"
+        },
+        {
+          "code": "B",
+          "text": "Location B on the Farley House map"
+        },
+        {
+          "code": "C",
+          "text": "Location C on the Farley House map"
+        },
+        {
+          "code": "D",
+          "text": "Location D on the Farley House map"
+        },
+        {
+          "code": "E",
+          "text": "Location E on the Farley House map"
+        },
+        {
+          "code": "F",
+          "text": "Location F on the Farley House map"
+        },
+        {
+          "code": "G",
+          "text": "Location G on the Farley House map"
+        },
+        {
+          "code": "H",
+          "text": "Location H on the Farley House map"
+        }
+      ]
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Kitchen gardens",
+      "answer": "D",
+      "evidence": "Part 2: Stanthorpe Twinning Association. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 472.66,
+      "timeEnd": 909.897,
+      "timeCenter": 691.279,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A on the Farley House map"
+        },
+        {
+          "code": "B",
+          "text": "Location B on the Farley House map"
+        },
+        {
+          "code": "C",
+          "text": "Location C on the Farley House map"
+        },
+        {
+          "code": "D",
+          "text": "Location D on the Farley House map"
+        },
+        {
+          "code": "E",
+          "text": "Location E on the Farley House map"
+        },
+        {
+          "code": "F",
+          "text": "Location F on the Farley House map"
+        },
+        {
+          "code": "G",
+          "text": "Location G on the Farley House map"
+        },
+        {
+          "code": "H",
+          "text": "Location H on the Farley House map"
+        }
+      ]
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "The Temple of the Four Winds",
+      "answer": "A",
+      "evidence": "Part 2: Stanthorpe Twinning Association. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 472.66,
+      "timeEnd": 909.897,
+      "timeCenter": 691.279,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A on the Farley House map"
+        },
+        {
+          "code": "B",
+          "text": "Location B on the Farley House map"
+        },
+        {
+          "code": "C",
+          "text": "Location C on the Farley House map"
+        },
+        {
+          "code": "D",
+          "text": "Location D on the Farley House map"
+        },
+        {
+          "code": "E",
+          "text": "Location E on the Farley House map"
+        },
+        {
+          "code": "F",
+          "text": "Location F on the Farley House map"
+        },
+        {
+          "code": "G",
+          "text": "Location G on the Farley House map"
+        },
+        {
+          "code": "H",
+          "text": "Location H on the Farley House map"
+        }
+      ]
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Which TWO things did Colin find most satisfying about his bread reuse project?",
+      "answer": "B",
+      "evidence": "Part 3: Food trends. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 909.897,
+      "timeEnd": 1330.155,
+      "timeCenter": 1120.026,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "receiving support from local restaurants"
+        },
+        {
+          "code": "B",
+          "text": "finding a good way to prevent waste"
+        },
+        {
+          "code": "C",
+          "text": "overcoming problems in a basic process"
+        },
+        {
+          "code": "D",
+          "text": "experimenting with designs and colours"
+        },
+        {
+          "code": "E",
+          "text": "learning how to apply 3-D printing"
+        }
+      ],
+      "multi_group": [
+        21,
+        22
+      ]
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Which TWO things did Colin find most satisfying about his bread reuse project?",
+      "answer": "D",
+      "evidence": "Part 3: Food trends. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 909.897,
+      "timeEnd": 1330.155,
+      "timeCenter": 1120.026,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "receiving support from local restaurants"
+        },
+        {
+          "code": "B",
+          "text": "finding a good way to prevent waste"
+        },
+        {
+          "code": "C",
+          "text": "overcoming problems in a basic process"
+        },
+        {
+          "code": "D",
+          "text": "experimenting with designs and colours"
+        },
+        {
+          "code": "E",
+          "text": "learning how to apply 3-D printing"
+        }
+      ],
+      "multi_group": [
+        21,
+        22
+      ]
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Which TWO future uses of touch-sensitive food labels do the students agree on?",
+      "answer": "A",
+      "evidence": "Part 3: Food trends. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 909.897,
+      "timeEnd": 1330.155,
+      "timeCenter": 1120.026,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "for use on medical products"
+        },
+        {
+          "code": "B",
+          "text": "to show that food is no longer fit to eat"
+        },
+        {
+          "code": "C",
+          "text": "for use with drinks as well as foods"
+        },
+        {
+          "code": "D",
+          "text": "to provide applications for blind people"
+        },
+        {
+          "code": "E",
+          "text": "to indicate the weight of certain foods"
+        }
+      ],
+      "multi_group": [
+        23,
+        24
+      ]
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Which TWO future uses of touch-sensitive food labels do the students agree on?",
+      "answer": "E",
+      "evidence": "Part 3: Food trends. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 909.897,
+      "timeEnd": 1330.155,
+      "timeCenter": 1120.026,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "for use on medical products"
+        },
+        {
+          "code": "B",
+          "text": "to show that food is no longer fit to eat"
+        },
+        {
+          "code": "C",
+          "text": "for use with drinks as well as foods"
+        },
+        {
+          "code": "D",
+          "text": "to provide applications for blind people"
+        },
+        {
+          "code": "E",
+          "text": "to indicate the weight of certain foods"
+        }
+      ],
+      "multi_group": [
+        23,
+        24
+      ]
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Use of local products",
+      "answer": "D",
+      "evidence": "Part 3: Food trends. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 909.897,
+      "timeEnd": 1330.155,
+      "timeCenter": 1120.026,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "This is only relevant to young people."
+        },
+        {
+          "code": "B",
+          "text": "This may have disappointing results."
+        },
+        {
+          "code": "C",
+          "text": "This already seems to be widespread."
+        },
+        {
+          "code": "D",
+          "text": "Retailers should do more to encourage this."
+        },
+        {
+          "code": "E",
+          "text": "More financial support is needed for this."
+        },
+        {
+          "code": "F",
+          "text": "Most people know little about this."
+        },
+        {
+          "code": "G",
+          "text": "There should be stricter regulations about this."
+        },
+        {
+          "code": "H",
+          "text": "This could be dangerous."
+        }
+      ]
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Reduction in unnecessary packaging",
+      "answer": "G",
+      "evidence": "Part 3: Food trends. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 909.897,
+      "timeEnd": 1330.155,
+      "timeCenter": 1120.026,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "This is only relevant to young people."
+        },
+        {
+          "code": "B",
+          "text": "This may have disappointing results."
+        },
+        {
+          "code": "C",
+          "text": "This already seems to be widespread."
+        },
+        {
+          "code": "D",
+          "text": "Retailers should do more to encourage this."
+        },
+        {
+          "code": "E",
+          "text": "More financial support is needed for this."
+        },
+        {
+          "code": "F",
+          "text": "Most people know little about this."
+        },
+        {
+          "code": "G",
+          "text": "There should be stricter regulations about this."
+        },
+        {
+          "code": "H",
+          "text": "This could be dangerous."
+        }
+      ]
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Gluten-free and lactose-free food",
+      "answer": "C",
+      "evidence": "Part 3: Food trends. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 909.897,
+      "timeEnd": 1330.155,
+      "timeCenter": 1120.026,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "This is only relevant to young people."
+        },
+        {
+          "code": "B",
+          "text": "This may have disappointing results."
+        },
+        {
+          "code": "C",
+          "text": "This already seems to be widespread."
+        },
+        {
+          "code": "D",
+          "text": "Retailers should do more to encourage this."
+        },
+        {
+          "code": "E",
+          "text": "More financial support is needed for this."
+        },
+        {
+          "code": "F",
+          "text": "Most people know little about this."
+        },
+        {
+          "code": "G",
+          "text": "There should be stricter regulations about this."
+        },
+        {
+          "code": "H",
+          "text": "This could be dangerous."
+        }
+      ]
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Use of branded products related to celebrity chefs",
+      "answer": "B",
+      "evidence": "Part 3: Food trends. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 909.897,
+      "timeEnd": 1330.155,
+      "timeCenter": 1120.026,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "This is only relevant to young people."
+        },
+        {
+          "code": "B",
+          "text": "This may have disappointing results."
+        },
+        {
+          "code": "C",
+          "text": "This already seems to be widespread."
+        },
+        {
+          "code": "D",
+          "text": "Retailers should do more to encourage this."
+        },
+        {
+          "code": "E",
+          "text": "More financial support is needed for this."
+        },
+        {
+          "code": "F",
+          "text": "Most people know little about this."
+        },
+        {
+          "code": "G",
+          "text": "There should be stricter regulations about this."
+        },
+        {
+          "code": "H",
+          "text": "This could be dangerous."
+        }
+      ]
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Development of 'ghost kitchens' for takeaway food",
+      "answer": "F",
+      "evidence": "Part 3: Food trends. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 909.897,
+      "timeEnd": 1330.155,
+      "timeCenter": 1120.026,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "This is only relevant to young people."
+        },
+        {
+          "code": "B",
+          "text": "This may have disappointing results."
+        },
+        {
+          "code": "C",
+          "text": "This already seems to be widespread."
+        },
+        {
+          "code": "D",
+          "text": "Retailers should do more to encourage this."
+        },
+        {
+          "code": "E",
+          "text": "More financial support is needed for this."
+        },
+        {
+          "code": "F",
+          "text": "Most people know little about this."
+        },
+        {
+          "code": "G",
+          "text": "There should be stricter regulations about this."
+        },
+        {
+          "code": "H",
+          "text": "This could be dangerous."
+        }
+      ]
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Use of mushrooms for common health concerns",
+      "answer": "H",
+      "evidence": "Part 3: Food trends. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 909.897,
+      "timeEnd": 1330.155,
+      "timeCenter": 1120.026,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "This is only relevant to young people."
+        },
+        {
+          "code": "B",
+          "text": "This may have disappointing results."
+        },
+        {
+          "code": "C",
+          "text": "This already seems to be widespread."
+        },
+        {
+          "code": "D",
+          "text": "Retailers should do more to encourage this."
+        },
+        {
+          "code": "E",
+          "text": "More financial support is needed for this."
+        },
+        {
+          "code": "F",
+          "text": "Most people know little about this."
+        },
+        {
+          "code": "G",
+          "text": "There should be stricter regulations about this."
+        },
+        {
+          "code": "H",
+          "text": "This could be dangerous."
+        }
+      ]
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "What the buried stones were once part of",
+      "answer": "walls",
+      "evidence": "Part 4: Céide Fields. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1330.155,
+      "timeEnd": 1744.953,
+      "timeCenter": 1537.554,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Relative who became an archaeologist",
+      "answer": "son",
+      "evidence": "Part 4: Céide Fields. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1330.155,
+      "timeEnd": 1744.953,
+      "timeCenter": 1537.554,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Material local people traditionally dug for",
+      "answer": "fuel",
+      "evidence": "Part 4: Céide Fields. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1330.155,
+      "timeEnd": 1744.953,
+      "timeCenter": 1537.554,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "What is deficient in the bog and helps preservation",
+      "answer": "oxygen",
+      "evidence": "Part 4: Céide Fields. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1330.155,
+      "timeEnd": 1744.953,
+      "timeCenter": 1537.554,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Shape of Neolithic houses",
+      "answer": "rectangular",
+      "evidence": "Part 4: Céide Fields. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1330.155,
+      "timeEnd": 1744.953,
+      "timeCenter": 1537.554,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "What pots could serve as when fat was lit",
+      "answer": "lamps",
+      "evidence": "Part 4: Céide Fields. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1330.155,
+      "timeEnd": 1744.953,
+      "timeCenter": 1537.554,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Group each field could support",
+      "answer": "family",
+      "evidence": "Part 4: Céide Fields. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1330.155,
+      "timeEnd": 1744.953,
+      "timeCenter": 1537.554,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "Season when no animal shelters were found",
+      "answer": "winter",
+      "evidence": "Part 4: Céide Fields. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1330.155,
+      "timeEnd": 1744.953,
+      "timeCenter": 1537.554,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "What declined in quality",
+      "answer": "soil",
+      "evidence": "Part 4: Céide Fields. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1330.155,
+      "timeEnd": 1744.953,
+      "timeCenter": 1537.554,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "What increased as the climate became wetter",
+      "answer": "rain",
+      "evidence": "Part 4: Céide Fields. The supplied embedded recording and exact-test transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1330.155,
+      "timeEnd": 1744.953,
+      "timeCenter": 1537.554,
+      "why": "The answer is supported by the supplied recording and the verified exact-test answer key.",
+      "trap": "Check distractors, paraphrases and wording changes in the surrounding audio.",
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "69",
+    "2": "stream",
+    "3": "data",
+    "4": "map",
+    "5": "visitors",
+    "6": "sounds",
+    "7": "freedom",
+    "8": "skills",
+    "9": "4.95",
+    "10": "leaders",
+    "11": "B",
+    "12": "A",
+    "13": "B",
+    "14": "C",
+    "15": "A",
+    "16": "G",
+    "17": "C",
+    "18": "B",
+    "19": "D",
+    "20": "A",
+    "21": "B",
+    "22": "D",
+    "23": "A",
+    "24": "E",
+    "25": "D",
+    "26": "G",
+    "27": "C",
+    "28": "B",
+    "29": "F",
+    "30": "H",
+    "31": "walls",
+    "32": "son",
+    "33": "fuel",
+    "34": "oxygen",
+    "35": "rectangular",
+    "36": "lamps",
+    "37": "family",
+    "38": "winter",
+    "39": "soil",
+    "40": "rain"
+  },
+  "alternatives": {
+    "1": [
+      "sixty-nine",
+      "sixty nine",
+      "sixty-nine",
+      "sixty nine"
+    ],
+    "21": [
+      "B",
+      "D"
+    ],
+    "22": [
+      "B",
+      "D"
+    ],
+    "23": [
+      "A",
+      "E"
+    ],
+    "24": [
+      "A",
+      "E"
+    ],
+    "9": [
+      "£4.95",
+      "4 pounds 95"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 472.66
+    },
+    "2": {
+      "start": 472.66,
+      "end": 909.897
+    },
+    "3": {
+      "start": 909.897,
+      "end": 1330.155
+    },
+    "4": {
+      "start": 1330.155,
+      "end": 1744.953
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Original embedded source audio was extracted and recompressed to mono 80 kbps MP3 for offline use.",
+  "audio_duration_seconds": 1744.953,
+  "transcript": {
+    "1": "SALLY: Good morning. Hinchingbrooke Country Park, Sally speaking. I’m one of the rangers.\nJOHN: Oh hello. My name’s John Chapman, and I’m a teaching assistant at a local primary school. I’ve been asked to arrange a visit to the park for two of our classes.\nSALLY: OK. What would you like to know?\nJOHN: Well, I’m new to this area, so perhaps you could tell me something about the park first, please.\nSALLY: Of course. Altogether the park covers 170 acres, that’s 69 hectares. There are three main types of habitat: wetland, grassland and woodland. The woods are well established and varied, with an oak plantation, and other areas of mixed species.\nJOHN: Right.\nSALLY: The wetland is quite varied, too. The original farmland was dug up around 40 years ago to extract gravel. Once this work was completed, the gravel pits filled with water, forming the two large lakes. There are also several smaller ones, ponds and a stream that flows through the park.\nJOHN: OK, so I suppose with these different habitats there’s quite a variety of wildlife.\nSALLY: There certainly is – a lot of different species of birds and insects, and also animals like deer and rabbits.\nJOHN: And I understand you organise educational visits for school parties.\nSALLY: That’s right. We can organise a wide range of activities and adapt them to suit all ages.\nJOHN: Can you give me some examples of the activities?\nSALLY: Well, one focus is on science, where we help children to discover and study plants, trees and insects. They also collect and analyse data about the things they see.\nJOHN: Uhuh.\nSALLY: Another focus is on geography. The park is a great environment to learn and practice reading a map and using a compass to navigate around the park.\nJOHN: Do you do anything connected with history?\nSALLY: Yes, we do. For instance, the children can explore how the use of the land has changed over time. Then there’s leisure and tourism.\nJOHN: That focuses on your visitors, I would imagine.\nSALLY: Yes, mostly. The children find out about them, their requirements, the problems they may cause and how we manage these. And another subject we cover is music: here the children experiment with natural materials to create sounds and explore rhythm and tempo.\nJOHN: That must be fun!\nSALLY: Most children really enjoy it.\nSALLY: And of course, all the activities are educational, too. Learning outside the classroom encourages children to be creative, and to explore and discover for themselves.\nJOHN: I would imagine they get a sense of freedom that might not be a normal part of their lives.\nSALLY: That’s right. And very often the children discover that they can do things they didn’t know they could do, and they develop new skills. This gives them greater self-confidence.\nJOHN: It sounds great. So, what about the practical side of it? How much does it cost for a full-day visit? We would expect to bring between 30 and 40 children.\nSALLY: If there are over 30, it costs £4.95 for each child who attends on the day. We invoice you afterwards, so you don’t pay for children who can’t come because of sickness, for example. There’s no charge for leaders and other adults – as many as you want to bring.\nJOHN: That sounds very fair. Well, thanks for all the information. I’ll need to discuss it with my colleagues, and I hope to get back to you soon to make a booking.\nSALLY: We’ll look forward to hearing from you. Goodbye.\nJOHN: Goodbye, and thank you.",
+    "2": "It’s great to see so many members of the Twinning Association here tonight. Since the twinning link between our two towns, Stanthorpe here in England and Malatte in France, was established, the relationship between the towns has gone from strength to strength.\nLast month, 25 members of the association from Stanthorpe spent a weekend in Malatte. Our hosts had arranged a great programme. We learned how cheese is produced in the region and had the chance to taste the products. The theme park trip had to be cancelled, but we all had a great time on the final boat trip down the river – that was the real highlight.\nThis is a special year for the Association because it’s 25 years since we were founded. In Malatte, they’re planning to mark this by building a footbridge in the municipal park. We’ve been discussing what to do here and we’ve decided to plant a poplar tree in the museum gardens. We considered buying a garden seat to put there, but the authorities weren’t happy with that idea.\nIn terms of fundraising to support our activities, we’ve done very well. Our pancake evening was well attended and made record profits. And everyone enjoyed the demonstration of French cookery, which was nearly as successful. Numbers for our film show were limited because of the venue so we’re looking for somewhere bigger next year.\nWe’re looking forward to welcoming our French visitors here next week, and I know that many of you here will be hosting individuals or families. The coach from France will arrive at 5 pm on Friday. Don’t try to do too much that first evening as they’ll be tired, so have dinner in the house or garden rather than eating out. The weather looks as if it’ll be OK so you might like to plan a barbecue. Then the next morning’s market day in town, and that’s always a good place to stroll round.\nOn Saturday evening, we’ll all meet up at the football club, where once again we’ll have Toby Sharp and his band performing English and Scottish country songs. Toby will already be well known to many of you as last year he organized our special quiz night and presented the prizes.\nNow on Sunday, we’ll be taking our visitors to Farley House. You may not all be familiar with it, so here’s a map to help you. You can see the car park at the bottom of the map. There’s an excellent farm shop in the grounds where our visitors can buy local produce – it’s in the old stables, which is the first building you come to. They’re built round a courtyard, and the shop’s in the far corner on the left. There’s also a small café on the right as you go in.\nI know that one or two of our visitors may not be all that mobile. The main entrance to the house has a lot of steps so you might want to use the disabled entry. This is on the far side of the house from the car park.\nChildren will probably be most interested in the adventure playground. That’s at the northern end of the larger lake, in a bend on the path that leads to the lake. There’s lots for children to do there.\nThere are a number of lovely gardens near the house. The kitchen gardens are rectangular and surrounded by a wall. They’re to the north-east of the house, quite near the smaller lake. They’re still in use and have a great collection of fruit and vegetables.\nThe Temple of the Four Winds is a bit more of a walk – but it’s worth it. Take the path from the car park and go past the western sides of the stables and the house. Then when the path forks, take the right-hand path. Go up there with the woods on your left and the temple is right at the end. There are great views over the whole area.",
+    "3": "COLIN: I haven’t seen you for a bit, Marie.\nMARIE: No. I’ve been busy with my project.\nCOLIN: You’re making a vegan alternative to eggs, aren’t you? Something that doesn’t use animal products?\nMARIE: Yes. I’m using chickpeas. I had two main aims when I first started looking for an alternative to eggs, but actually I’ve found chickpeas have got more advantages.\nCOLIN: Right.\nMARIE: But how about your project on reusing waste food – you were looking at bread, weren’t you?\nCOLIN: Yes. It’s been hard work, but I’ve enjoyed it. The basic process was quite straightforward – breaking the stale bread down to a paste then reforming it.\nMARIE: But you were using 3-D printing, weren’t you, to make the paste into biscuits?\nCOLIN: Yeah, I’d used that before, but in this project, I had time to play around with different patterns for the biscuits and finding how I could add fruit and vegetables to make them a more appetising colour, and I was really pleased with what I managed to produce.\nMARIE: It must’ve been a great feeling to make something appetising out of bits of old bread that would’ve been thrown away otherwise.\nCOLIN: It was. And I’m hoping that some of the restaurants in town will be interested in the biscuits. I’m going to send them some samples.\nMARIE: I came across something on the internet yesterday that might interest you. It was a company that’s developed touch-sensitive sensors for food labels.\nCOLIN: Mmm?\nMARIE: It’s a special sort of label on the food package. When the label’s smooth, the food is fresh and then when you can feel bumps on the label, that means the food’s gone bad. It started off as a project to help visually impaired people know whether food was fit to eat or not.\nCOLIN: Interesting. So just solid food?\nMARIE: No, things like milk and juice as well. But actually, I thought it might be really good for drug storage in hospitals and pharmacies.\nCOLIN: Right. And coming back to food, maybe it’d be possible to use it for other things besides freshness. Like how many kilograms a joint of meat is, for example.\nMARIE: Yes, there’s all sorts of possibilities.\nCOLIN: I was reading an article about food trends predicting how eating habits might change in the next few years.\nMARIE: Oh – things like more focus on local products? That seems so obvious, but the shops are still full of imported foods.\nCOLIN: Yes, they need to be more proactive to address that.\nMARIE: And somehow motivate consumers to change, yes.\nCOLIN: One thing everyone’s aware of is the need for a reduction in unnecessary packaging – but just about everything you buy in supermarkets is still covered in plastic. The government needs to do something about it.\nMARIE: Absolutely. It’s got to change.\nCOLIN: Do you think there’ll be more interest in gluten- and lactose-free food?\nMARIE: For people with allergies or food intolerances? I don’t know. Lots of people I know have been buying that type of food for years now.\nCOLIN: Yes, even if they haven’t been diagnosed with an allergy.\nMARIE: That’s right. One thing I’ve noticed is the number of branded products related to celebrity chefs – people watch them cooking on TV and then buy things like spice mixes or frozen foods with the chef’s name on. I bought something like that once, but I won’t again.\nCOLIN: Yeah – I bought a ready-made spice mix for chicken which was supposed to be used by a chef I’d seen on television, and it didn’t actually taste of anything.\nMARIE: Mm. Did the article mention ‘ghost kitchens’ used to produce takeaway food?\nCOLIN: No. What are they?\nMARIE: Well, they might have the name of a restaurant, but actually they’re a cooking facility just for delivery meals – the public don’t ever go there. But people aren’t aware of that – it’s all kept very quiet.\nCOLIN: So people don’t realise the food’s not actually from the restaurant?\nMARIE: Right.\nCOLIN: Did you know more and more people are using all sorts of different mushrooms now, to treat different health concerns? Things like heart problems?\nMARIE: Hmm. They might be taking a big risk there.\nCOLIN: Yes, it’s hard to know which varieties are safe to eat. Anyway maybe now…",
+    "4": "For my presentation today, I’m going to talk about the Céide Fields in the northwest of Ireland, one of the largest Neolithic sites in the world. I recently visited this site and observed the work that is currently being done by a team of archaeologists there.\nThe site was first discovered in the 1930s by a local teacher, Patrick Caulfield. He noticed that when local people were digging in the bog, they were constantly hitting against what seemed to be rows of stones. He realised that these must be walls and that they must be thousands of years old for them to predate the bog which subsequently grew over them.\nHe wrote to the National Museum in Dublin to ask them to investigate, but no one took him seriously. It wasn’t until 40 years later, when Patrick Caulfield’s son Seamus, who had become an archaeologist by then, began to explore further. He inserted iron probes into the bog to map the formation of the stones, a traditional method which local people had always used for finding fuel buried in the bog for thousands of years.\nCarbon dating later proved that the site was over 5,000 years old and was the largest Neolithic site in Ireland.\nThanks to the bog which covers the area, the remains of the settlement at Céide Fields, which is over 5,000 years old, are extremely well-preserved. A bog is 90 percent water; its soil is so saturated that when the grasses and heathers that grow on its surface die, they don’t fully decay but accumulate in layers. Objects remain so well preserved in these conditions because of the acidity of the peat and the deficiency of oxygen.\nAt least 175 days of rain a year are required for this to happen; this part of Ireland gets an average of 225 days.\nThe Neolithic farmers at Céide would have enjoyed several centuries of relative peace and stability. Neolithic farmers generally lived in larger communities than their predecessors, with a number of houses built around a community building. As they lived in permanent settlements, Neolithic farmers were able to build bigger houses. These weren’t round as people often assume, but rectangular with a small hole in the roof that allowed smoke to escape.\nThis is one of many innovations and indicates that the Neolithic farmers were the first people to cook indoors. Another new technology that Neolithic settlers brought to Ireland was pottery. Fragments of Neolithic pots have been found in Céide and elsewhere in Ireland. The pots were used for many things; as well as for storing food, pots were filled with a small amount of fat and when this was set alight, they served as lamps.\nIt’s thought that the Céide Fields were mainly used as paddocks for animals to graze in. Evidence from the Céide Fields suggests that each plot of land was of a suitable size to sustain an extended family. They may have used a system of rotational grazing in order to prevent over-grazing and to allow for plant recovery and regrowth. This must have been a year-round activity as no structures have been found which would have been used to shelter animals in the winter.\nHowever, archaeologists believe that this way of life at Céide ceased abruptly. Why was this? Well, several factors may have contributed to the changing circumstances. The soil would have become less productive and led to the abandonment of farming. The crop rotation system was partly responsible for this as it would have been very intensive and was not sustainable. But there were also climatic pressures too.\nThe farmers at Céide would have enjoyed a relatively dry period, but this began to change and the conditions became wetter as there was a lot more rain. It was these conditions that encouraged the bog to form over the area which survives today.\nSo now I’d like to show you some …"
+  },
+  "transcript_source": "Transcribed/aligned to the user-provided embedded recording and cross-checked against the exact Cambridge IELTS 19 Test 1 transcript/answer sources.",
+  "timestamps_source": "Part boundaries use the four supplied source audio sections; no question-level word timestamps are claimed.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "well established and varied",
+      "answer": "well established and varied",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "extract gravel",
+      "answer": "extract gravel",
+      "lexical_type": "verb-noun collocation"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "collect and analyse data",
+      "answer": "collect and analyse data",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "navigate around the park",
+      "answer": "navigate around the park",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "their requirements",
+      "answer": "their requirements",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "explore and discover for themselves",
+      "answer": "explore and discover for themselves",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "a sense of freedom",
+      "answer": "a sense of freedom",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "greater self-confidence",
+      "answer": "greater self-confidence",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 109,
+      "part": 2,
+      "n": 1,
+      "match": "gone from strength to strength",
+      "answer": "gone from strength to strength",
+      "lexical_type": "idiom"
+    },
+    {
+      "q": 110,
+      "part": 2,
+      "n": 2,
+      "match": "real highlight",
+      "answer": "real highlight",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 111,
+      "part": 2,
+      "n": 3,
+      "match": "mark this by",
+      "answer": "mark this by",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 112,
+      "part": 2,
+      "n": 4,
+      "match": "record profits",
+      "answer": "record profits",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 113,
+      "part": 2,
+      "n": 5,
+      "match": "rather than eating out",
+      "answer": "rather than eating out",
+      "lexical_type": "contrast chunk"
+    },
+    {
+      "q": 114,
+      "part": 2,
+      "n": 6,
+      "match": "performing English and Scottish country songs",
+      "answer": "performing English and Scottish country songs",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 115,
+      "part": 2,
+      "n": 7,
+      "match": "far side of the house",
+      "answer": "far side of the house",
+      "lexical_type": "fixed phrase"
+    },
+    {
+      "q": 116,
+      "part": 2,
+      "n": 8,
+      "match": "great collection of fruit and vegetables",
+      "answer": "great collection of fruit and vegetables",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 117,
+      "part": 3,
+      "n": 1,
+      "match": "vegan alternative to eggs",
+      "answer": "vegan alternative to eggs",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 118,
+      "part": 3,
+      "n": 2,
+      "match": "reusing waste food",
+      "answer": "reusing waste food",
+      "lexical_type": "academic phrase"
+    },
+    {
+      "q": 119,
+      "part": 3,
+      "n": 3,
+      "match": "basic process was quite straightforward",
+      "answer": "basic process was quite straightforward",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 120,
+      "part": 3,
+      "n": 4,
+      "match": "play around with different patterns",
+      "answer": "play around with different patterns",
+      "lexical_type": "phrasal chunk"
+    },
+    {
+      "q": 121,
+      "part": 3,
+      "n": 5,
+      "match": "touch-sensitive sensors",
+      "answer": "touch-sensitive sensors",
+      "lexical_type": "technical collocation"
+    },
+    {
+      "q": 122,
+      "part": 3,
+      "n": 6,
+      "match": "visually impaired people",
+      "answer": "visually impaired people",
+      "lexical_type": "formal collocation"
+    },
+    {
+      "q": 123,
+      "part": 3,
+      "n": 7,
+      "match": "more proactive to address that",
+      "answer": "more proactive to address that",
+      "lexical_type": "academic chunk"
+    },
+    {
+      "q": 124,
+      "part": 3,
+      "n": 8,
+      "match": "cooking facility just for delivery meals",
+      "answer": "cooking facility just for delivery meals",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 125,
+      "part": 4,
+      "n": 1,
+      "match": "rows of stones",
+      "answer": "rows of stones",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 126,
+      "part": 4,
+      "n": 2,
+      "match": "traditional method",
+      "answer": "traditional method",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 127,
+      "part": 4,
+      "n": 3,
+      "match": "extremely well-preserved",
+      "answer": "extremely well-preserved",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 128,
+      "part": 4,
+      "n": 4,
+      "match": "deficiency of oxygen",
+      "answer": "deficiency of oxygen",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 129,
+      "part": 4,
+      "n": 5,
+      "match": "relative peace and stability",
+      "answer": "relative peace and stability",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 130,
+      "part": 4,
+      "n": 6,
+      "match": "permanent settlements",
+      "answer": "permanent settlements",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 131,
+      "part": 4,
+      "n": 7,
+      "match": "rotational grazing",
+      "answer": "rotational grazing",
+      "lexical_type": "technical term"
+    },
+    {
+      "q": 132,
+      "part": 4,
+      "n": 8,
+      "match": "climatic pressures",
+      "answer": "climatic pressures",
+      "lexical_type": "academic collocation"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "well established and varied",
+      "type": "collocation",
+      "definition": "An expression used in Part 1 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "yaxshi shakllangan va xilma-xil",
+      "context": "well established and varied",
+      "collocations": [
+        "well established and varied"
+      ],
+      "paraphrases": [
+        "yaxshi shakllangan va xilma-xil"
+      ]
+    },
+    {
+      "headword": "extract gravel",
+      "type": "verb-noun collocation",
+      "definition": "An expression used in Part 1 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "shag‘al qazib olish",
+      "context": "extract gravel",
+      "collocations": [
+        "extract gravel"
+      ],
+      "paraphrases": [
+        "shag‘al qazib olish"
+      ]
+    },
+    {
+      "headword": "collect and analyse data",
+      "type": "academic collocation",
+      "definition": "An expression used in Part 1 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "ma’lumot to‘plash va tahlil qilish",
+      "context": "collect and analyse data",
+      "collocations": [
+        "collect and analyse data"
+      ],
+      "paraphrases": [
+        "ma’lumot to‘plash va tahlil qilish"
+      ]
+    },
+    {
+      "headword": "navigate around the park",
+      "type": "verb phrase",
+      "definition": "An expression used in Part 1 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "park bo‘ylab yo‘l topish",
+      "context": "navigate around the park",
+      "collocations": [
+        "navigate around the park"
+      ],
+      "paraphrases": [
+        "park bo‘ylab yo‘l topish"
+      ]
+    },
+    {
+      "headword": "their requirements",
+      "type": "noun phrase",
+      "definition": "An expression used in Part 1 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "ularning talablari",
+      "context": "their requirements",
+      "collocations": [
+        "their requirements"
+      ],
+      "paraphrases": [
+        "ularning talablari"
+      ]
+    },
+    {
+      "headword": "explore and discover for themselves",
+      "type": "lexical chunk",
+      "definition": "An expression used in Part 1 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "mustaqil o‘rganib kashf etish",
+      "context": "explore and discover for themselves",
+      "collocations": [
+        "explore and discover for themselves"
+      ],
+      "paraphrases": [
+        "mustaqil o‘rganib kashf etish"
+      ]
+    },
+    {
+      "headword": "a sense of freedom",
+      "type": "collocation",
+      "definition": "An expression used in Part 1 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "erkinlik hissi",
+      "context": "a sense of freedom",
+      "collocations": [
+        "a sense of freedom"
+      ],
+      "paraphrases": [
+        "erkinlik hissi"
+      ]
+    },
+    {
+      "headword": "greater self-confidence",
+      "type": "noun phrase",
+      "definition": "An expression used in Part 1 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "kuchliroq o‘ziga ishonch",
+      "context": "greater self-confidence",
+      "collocations": [
+        "greater self-confidence"
+      ],
+      "paraphrases": [
+        "kuchliroq o‘ziga ishonch"
+      ]
+    },
+    {
+      "headword": "gone from strength to strength",
+      "type": "idiom",
+      "definition": "An expression used in Part 2 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "tobora kuchayib bormoq",
+      "context": "gone from strength to strength",
+      "collocations": [
+        "gone from strength to strength"
+      ],
+      "paraphrases": [
+        "tobora kuchayib bormoq"
+      ]
+    },
+    {
+      "headword": "real highlight",
+      "type": "collocation",
+      "definition": "An expression used in Part 2 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "eng esda qolarli qism",
+      "context": "real highlight",
+      "collocations": [
+        "real highlight"
+      ],
+      "paraphrases": [
+        "eng esda qolarli qism"
+      ]
+    },
+    {
+      "headword": "mark this by",
+      "type": "verb phrase",
+      "definition": "An expression used in Part 2 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "buni ... bilan nishonlamoq",
+      "context": "mark this by",
+      "collocations": [
+        "mark this by"
+      ],
+      "paraphrases": [
+        "buni ... bilan nishonlamoq"
+      ]
+    },
+    {
+      "headword": "record profits",
+      "type": "collocation",
+      "definition": "An expression used in Part 2 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "rekord daromad",
+      "context": "record profits",
+      "collocations": [
+        "record profits"
+      ],
+      "paraphrases": [
+        "rekord daromad"
+      ]
+    },
+    {
+      "headword": "rather than eating out",
+      "type": "contrast chunk",
+      "definition": "An expression used in Part 2 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "tashqarida ovqatlanish o‘rniga",
+      "context": "rather than eating out",
+      "collocations": [
+        "rather than eating out"
+      ],
+      "paraphrases": [
+        "tashqarida ovqatlanish o‘rniga"
+      ]
+    },
+    {
+      "headword": "performing English and Scottish country songs",
+      "type": "lexical chunk",
+      "definition": "An expression used in Part 2 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "ingliz va shotland xalq qo‘shiqlarini ijro etish",
+      "context": "performing English and Scottish country songs",
+      "collocations": [
+        "performing English and Scottish country songs"
+      ],
+      "paraphrases": [
+        "ingliz va shotland xalq qo‘shiqlarini ijro etish"
+      ]
+    },
+    {
+      "headword": "far side of the house",
+      "type": "fixed phrase",
+      "definition": "An expression used in Part 2 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "uyning narigi tomoni",
+      "context": "far side of the house",
+      "collocations": [
+        "far side of the house"
+      ],
+      "paraphrases": [
+        "uyning narigi tomoni"
+      ]
+    },
+    {
+      "headword": "great collection of fruit and vegetables",
+      "type": "noun phrase",
+      "definition": "An expression used in Part 2 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "meva va sabzavotlarning boy to‘plami",
+      "context": "great collection of fruit and vegetables",
+      "collocations": [
+        "great collection of fruit and vegetables"
+      ],
+      "paraphrases": [
+        "meva va sabzavotlarning boy to‘plami"
+      ]
+    },
+    {
+      "headword": "vegan alternative to eggs",
+      "type": "noun phrase",
+      "definition": "An expression used in Part 3 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "tuxumning vegan muqobili",
+      "context": "vegan alternative to eggs",
+      "collocations": [
+        "vegan alternative to eggs"
+      ],
+      "paraphrases": [
+        "tuxumning vegan muqobili"
+      ]
+    },
+    {
+      "headword": "reusing waste food",
+      "type": "academic phrase",
+      "definition": "An expression used in Part 3 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "oziq-ovqat chiqindisini qayta ishlatish",
+      "context": "reusing waste food",
+      "collocations": [
+        "reusing waste food"
+      ],
+      "paraphrases": [
+        "oziq-ovqat chiqindisini qayta ishlatish"
+      ]
+    },
+    {
+      "headword": "basic process was quite straightforward",
+      "type": "lexical chunk",
+      "definition": "An expression used in Part 3 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "asosiy jarayon ancha sodda edi",
+      "context": "basic process was quite straightforward",
+      "collocations": [
+        "basic process was quite straightforward"
+      ],
+      "paraphrases": [
+        "asosiy jarayon ancha sodda edi"
+      ]
+    },
+    {
+      "headword": "play around with different patterns",
+      "type": "phrasal chunk",
+      "definition": "An expression used in Part 3 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "turli naqshlarni sinab ko‘rish",
+      "context": "play around with different patterns",
+      "collocations": [
+        "play around with different patterns"
+      ],
+      "paraphrases": [
+        "turli naqshlarni sinab ko‘rish"
+      ]
+    },
+    {
+      "headword": "touch-sensitive sensors",
+      "type": "technical collocation",
+      "definition": "An expression used in Part 3 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "teginishga sezgir sensorlar",
+      "context": "touch-sensitive sensors",
+      "collocations": [
+        "touch-sensitive sensors"
+      ],
+      "paraphrases": [
+        "teginishga sezgir sensorlar"
+      ]
+    },
+    {
+      "headword": "visually impaired people",
+      "type": "formal collocation",
+      "definition": "An expression used in Part 3 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "ko‘rish qobiliyati cheklangan odamlar",
+      "context": "visually impaired people",
+      "collocations": [
+        "visually impaired people"
+      ],
+      "paraphrases": [
+        "ko‘rish qobiliyati cheklangan odamlar"
+      ]
+    },
+    {
+      "headword": "more proactive to address that",
+      "type": "academic chunk",
+      "definition": "An expression used in Part 3 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "buni hal qilishda faolroq bo‘lish",
+      "context": "more proactive to address that",
+      "collocations": [
+        "more proactive to address that"
+      ],
+      "paraphrases": [
+        "buni hal qilishda faolroq bo‘lish"
+      ]
+    },
+    {
+      "headword": "cooking facility just for delivery meals",
+      "type": "noun phrase",
+      "definition": "An expression used in Part 3 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "faqat yetkazib berish uchun taom tayyorlaydigan oshxona",
+      "context": "cooking facility just for delivery meals",
+      "collocations": [
+        "cooking facility just for delivery meals"
+      ],
+      "paraphrases": [
+        "faqat yetkazib berish uchun taom tayyorlaydigan oshxona"
+      ]
+    },
+    {
+      "headword": "rows of stones",
+      "type": "noun phrase",
+      "definition": "An expression used in Part 4 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "tosh qatorlari",
+      "context": "rows of stones",
+      "collocations": [
+        "rows of stones"
+      ],
+      "paraphrases": [
+        "tosh qatorlari"
+      ]
+    },
+    {
+      "headword": "traditional method",
+      "type": "collocation",
+      "definition": "An expression used in Part 4 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "an’anaviy usul",
+      "context": "traditional method",
+      "collocations": [
+        "traditional method"
+      ],
+      "paraphrases": [
+        "an’anaviy usul"
+      ]
+    },
+    {
+      "headword": "extremely well-preserved",
+      "type": "adjective phrase",
+      "definition": "An expression used in Part 4 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "nihoyatda yaxshi saqlangan",
+      "context": "extremely well-preserved",
+      "collocations": [
+        "extremely well-preserved"
+      ],
+      "paraphrases": [
+        "nihoyatda yaxshi saqlangan"
+      ]
+    },
+    {
+      "headword": "deficiency of oxygen",
+      "type": "academic collocation",
+      "definition": "An expression used in Part 4 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "kislorod tanqisligi",
+      "context": "deficiency of oxygen",
+      "collocations": [
+        "deficiency of oxygen"
+      ],
+      "paraphrases": [
+        "kislorod tanqisligi"
+      ]
+    },
+    {
+      "headword": "relative peace and stability",
+      "type": "collocation",
+      "definition": "An expression used in Part 4 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "nisbiy tinchlik va barqarorlik",
+      "context": "relative peace and stability",
+      "collocations": [
+        "relative peace and stability"
+      ],
+      "paraphrases": [
+        "nisbiy tinchlik va barqarorlik"
+      ]
+    },
+    {
+      "headword": "permanent settlements",
+      "type": "academic collocation",
+      "definition": "An expression used in Part 4 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "doimiy manzilgohlar",
+      "context": "permanent settlements",
+      "collocations": [
+        "permanent settlements"
+      ],
+      "paraphrases": [
+        "doimiy manzilgohlar"
+      ]
+    },
+    {
+      "headword": "rotational grazing",
+      "type": "technical term",
+      "definition": "An expression used in Part 4 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "navbatlab boqish",
+      "context": "rotational grazing",
+      "collocations": [
+        "rotational grazing"
+      ],
+      "paraphrases": [
+        "navbatlab boqish"
+      ]
+    },
+    {
+      "headword": "climatic pressures",
+      "type": "academic collocation",
+      "definition": "An expression used in Part 4 of this listening recording; learn it as a complete lexical unit.",
+      "uzbek": "iqlim bosimlari",
+      "context": "climatic pressures",
+      "collocations": [
+        "climatic pressures"
+      ],
+      "paraphrases": [
+        "iqlim bosimlari"
+      ]
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "MCQ",
+    "12": "MCQ",
+    "13": "MCQ",
+    "14": "MCQ",
+    "15": "MCQ",
+    "16": "Matching",
+    "17": "Matching",
+    "18": "Matching",
+    "19": "Matching",
+    "20": "Matching",
+    "21": "Matching",
+    "22": "Matching",
+    "23": "Matching",
+    "24": "Matching",
+    "25": "Matching",
+    "26": "Matching",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    [
+      "exam",
+      "01",
+      "Full IELTS Test",
+      "Q1-Q40 in a timed exam with embedded audio, FLAG and notes."
+    ],
+    [
+      "review",
+      "02",
+      "Review & Revision",
+      "Redo each Part and inspect answers/evidence after checking."
+    ],
+    [
+      "script",
+      "03",
+      "Script Completion",
+      "Complete full Part 1-4 transcripts with 8 lexical gaps each."
+    ],
+    [
+      "mcq",
+      "04",
+      "MCQ Mastery",
+      "Practise Q11-Q15 single-answer multiple-choice questions."
+    ],
+    [
+      "matching",
+      "05",
+      "Matching Mastery",
+      "Practise Farley House map and Food Trends classification questions."
+    ],
+    [
+      "completion",
+      "06",
+      "Completion Mastery",
+      "Practise Q1-Q10 and Q31-Q40 note-completion questions."
+    ],
+    [
+      "vocab",
+      "07",
+      "Vocabulary Builder",
+      "Learn useful expressions from all four transcripts."
+    ],
+    [
+      "retry",
+      "08",
+      "Retry Weak Areas",
+      "Retry missed or unanswered questions."
+    ]
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "listening-test-25",
+  "title": "Listening Test 25",
+  "collection": "academic",
+  "number": 25,
+  "questionCount": 40,
+  "sectionCount": 4,
+  "storageKey": "la_listening_test_25_v3",
+  "activities": [
+    "exam",
+    "review",
+    "script",
+    "mcq",
+    "matching",
+    "completion",
+    "vocab",
+    "retry"
+  ],
+  "audio": {
+    "path": "audio/full.mp3",
+    "objectKey": "listening/academic/test-25/full.mp3",
+    "contentType": "audio/mpeg",
+    "bytes": 15594885,
+    "sha256": "a0b24cebb4f08cd58ac89018c1edb997faac4d01595f26c1dea60dfa0ad8dac3",
+    "durationSeconds": 1559.457959,
+    "localFile": "test-25-full.mp3"
+  },
+  "media": [
+    {
+      "path": "audio/full.mp3",
+      "objectKey": "listening/academic/test-25/full.mp3",
+      "contentType": "audio/mpeg",
+      "bytes": 15594885,
+      "sha256": "a0b24cebb4f08cd58ac89018c1edb997faac4d01595f26c1dea60dfa0ad8dac3",
+      "durationSeconds": 1559.457959,
+      "localFile": "test-25-full.mp3"
+    }
+  ],
+  "durationSeconds": 1559.457959,
+  "originalSha256": "6a21d4f1e3f3e379340958ef151217e493e0ddb0c5154ee3ac89938d7ea453d8",
+  "sourceSha256": "e9d2a20743f53aa65752021116e84398783a916e45c53e875ad53f00c4b6e9c6"
+}

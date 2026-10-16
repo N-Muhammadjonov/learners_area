@@ -1,0 +1,2216 @@
+{
+  "test_id": "listening-test-32",
+  "title": "Listening Test 32",
+  "sections": [
+    "Call Record Card",
+    "Preparing for a Trip to an Outdoor Education Centre",
+    "Stone Point: A New Zealand Historical Site",
+    "Rural Development — The Berbers"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Caller's surname: Robert ___",
+      "answer": "Rydyard",
+      "evidence": "The caller gives his surname as Rydyard and spells it R-I-D-Y-A-R-D.",
+      "timeStart": 108.0,
+      "timeEnd": 126.0,
+      "timeCenter": 117.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Address: 27 ___, Moortown",
+      "answer": "Station Road",
+      "evidence": "He states his address as 27 Station Road, Moortown.",
+      "timeStart": 119.0,
+      "timeEnd": 136.0,
+      "timeCenter": 127.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Date of birth: ___, 1975",
+      "answer": "25 February",
+      "evidence": "He gives his date of birth as the 25th of February, 1975.",
+      "timeStart": 130.0,
+      "timeEnd": 145.0,
+      "timeCenter": 137.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Pain in his ___ back",
+      "answer": "lower",
+      "evidence": "When asked which part of his back hurts, he answers 'Lower.'",
+      "timeStart": 151.0,
+      "timeEnd": 166.0,
+      "timeCenter": 158.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Started ___ ago",
+      "answer": "3 days",
+      "evidence": "He says he has had the problem since Monday, 'so that's three days now.'",
+      "timeStart": 172.0,
+      "timeEnd": 190.0,
+      "timeCenter": 181.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Got worse this ___",
+      "answer": "afternoon",
+      "evidence": "He says the pain suddenly became much worse 'this afternoon.'",
+      "timeStart": 186.0,
+      "timeEnd": 205.0,
+      "timeCenter": 195.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Possible cause: lifting a heavy ___",
+      "answer": "box",
+      "evidence": "He explains that he lifted a box from the floor that was heavier than expected.",
+      "timeStart": 239.0,
+      "timeEnd": 257.0,
+      "timeCenter": 248.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Has taken ___",
+      "answer": "painkillers",
+      "evidence": "The adviser asks whether he has taken any painkillers, and he says yes.",
+      "timeStart": 258.0,
+      "timeEnd": 275.0,
+      "timeCenter": 266.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Try using ___",
+      "answer": "ice",
+      "evidence": "The adviser suggests seeing whether ice makes any difference.",
+      "timeStart": 278.0,
+      "timeEnd": 300.0,
+      "timeCenter": 289.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Ask for information about ___",
+      "answer": "exercise",
+      "evidence": "The adviser suggests getting advice from his doctor about exercise.",
+      "timeStart": 306.0,
+      "timeEnd": 326.0,
+      "timeCenter": 316.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "A trip to the outdoor education centre will help the children",
+      "answer": "C",
+      "evidence": "The principal says children should try different things and not give up when it gets difficult.",
+      "timeStart": 418.0,
+      "timeEnd": 446.0,
+      "timeCenter": 432.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "create good relationships"
+        },
+        {
+          "code": "B",
+          "text": "manage without adult supervision"
+        },
+        {
+          "code": "C",
+          "text": "react positively to new challenges"
+        }
+      ]
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "To prepare their children for the trip, parents should",
+      "answer": "B",
+      "evidence": "Parents are asked to make sure children have some early nights before the trip.",
+      "timeStart": 448.0,
+      "timeEnd": 472.0,
+      "timeCenter": 460.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "let them try sleeping in a tent at home"
+        },
+        {
+          "code": "B",
+          "text": "make sure they get enough sleep before they leave"
+        },
+        {
+          "code": "C",
+          "text": "tell them they will be in a tent with their friends"
+        }
+      ]
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "What do parents need to put in their children's backpack?",
+      "answer": "A",
+      "evidence": "The principal says plastic bags are needed in the children's backpacks.",
+      "timeStart": 482.0,
+      "timeEnd": 508.0,
+      "timeCenter": 495.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "plastic bags"
+        },
+        {
+          "code": "B",
+          "text": "snacks and biscuits"
+        },
+        {
+          "code": "C",
+          "text": "a small amount of money"
+        }
+      ]
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "What are children allowed to bring on the trip?",
+      "answer": "B",
+      "evidence": "Cell phones are permitted, although they must be switched off at specified times.",
+      "timeStart": 500.0,
+      "timeEnd": 533.0,
+      "timeCenter": 516.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "electronic games"
+        },
+        {
+          "code": "B",
+          "text": "cell phones"
+        },
+        {
+          "code": "C",
+          "text": "penknives"
+        }
+      ]
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "How are parents selected to attend the trip?",
+      "answer": "A",
+      "evidence": "Parents should sign up; the first ten who are certain they can come will be selected.",
+      "timeStart": 532.0,
+      "timeEnd": 561.0,
+      "timeCenter": 546.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "The first ten parents to sign up will be able to go."
+        },
+        {
+          "code": "B",
+          "text": "Parents' names will be chosen from a box."
+        },
+        {
+          "code": "C",
+          "text": "Preference will be given to parents with camping skills."
+        }
+      ]
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Payment for the trip",
+      "answer": "B",
+      "evidence": "Parents may leave payment in an envelope in the box at the school office.",
+      "timeStart": 558.0,
+      "timeEnd": 586.0,
+      "timeCenter": 572.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "must be handed to the child's teacher"
+        },
+        {
+          "code": "B",
+          "text": "can be left at the school office"
+        },
+        {
+          "code": "C",
+          "text": "should be made directly to the outdoor education centre"
+        }
+      ]
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Woodcarving studio",
+      "answer": "E",
+      "evidence": "The wood-carving studio is beside the barbecue area, to the right of the main hall and opposite the kitchen.",
+      "timeStart": 620.0,
+      "timeEnd": 648.0,
+      "timeCenter": 634.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        }
+      ]
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Emergency meeting point",
+      "answer": "A",
+      "evidence": "The emergency meeting point is at the top of the map, north of Forest Road, on the same side of the river as the tents.",
+      "timeStart": 647.0,
+      "timeEnd": 667.0,
+      "timeCenter": 657.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        }
+      ]
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Conservation centre",
+      "answer": "F",
+      "evidence": "The conservation centre is between the two bridges, just below the kayaks building.",
+      "timeStart": 665.0,
+      "timeEnd": 685.0,
+      "timeCenter": 675.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        }
+      ]
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Arts and crafts room",
+      "answer": "B",
+      "evidence": "The arts and crafts room is to the right of the river, a little further up from the kayaks.",
+      "timeStart": 682.0,
+      "timeEnd": 703.0,
+      "timeCenter": 692.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Map/detail matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        }
+      ]
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "According to Liz, Stone Point played a key role in local history because",
+      "answer": "A",
+      "evidence": "Liz says Stone Point was used as a place to shelter from attack or launch an attack.",
+      "timeStart": 826.0,
+      "timeEnd": 860.0,
+      "timeCenter": 843.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "it was used for defence or attack purposes."
+        },
+        {
+          "code": "B",
+          "text": "it was the landing point for the first Maori settlers."
+        },
+        {
+          "code": "C",
+          "text": "it was developed as a commercial port."
+        }
+      ]
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Scott and Liz agree Maori originally chose to inhabit Stone Point because of",
+      "answer": "B",
+      "evidence": "Scott says the initial attraction for Maori was the fishing opportunities.",
+      "timeStart": 855.0,
+      "timeEnd": 886.0,
+      "timeCenter": 870.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "its rich soil."
+        },
+        {
+          "code": "B",
+          "text": "the supply of fish."
+        },
+        {
+          "code": "C",
+          "text": "available building materials."
+        }
+      ]
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Scott and Liz agree that using Maori terminology in their presentation",
+      "answer": "C",
+      "evidence": "They decide most Maori terminology should be kept out so international students can follow the presentation.",
+      "timeStart": 884.0,
+      "timeEnd": 922.0,
+      "timeCenter": 903.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "will be of interest to international students."
+        },
+        {
+          "code": "B",
+          "text": "is required as a component of their research."
+        },
+        {
+          "code": "C",
+          "text": "would be best avoided."
+        }
+      ]
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "When Scott mentions the engines at Stone Point, Liz advises him to",
+      "answer": "A",
+      "evidence": "Liz advises Scott not to focus on technical details but on Stone Point's impact on people's lives.",
+      "timeStart": 920.0,
+      "timeEnd": 965.0,
+      "timeCenter": 942.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "focus on the human aspect instead."
+        },
+        {
+          "code": "B",
+          "text": "check the accuracy of specific dates."
+        },
+        {
+          "code": "C",
+          "text": "explain complex technical language."
+        }
+      ]
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Early Maori inhabitation of Stone Point",
+      "answer": "D",
+      "evidence": "They need to re-check the material and confirm who the writers were and when they wrote it.",
+      "timeStart": 988.0,
+      "timeEnd": 1018.0,
+      "timeCenter": 1003.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Classification / matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "provide further description"
+        },
+        {
+          "code": "B",
+          "text": "find images"
+        },
+        {
+          "code": "C",
+          "text": "set up an interview"
+        },
+        {
+          "code": "D",
+          "text": "check author's details"
+        },
+        {
+          "code": "E",
+          "text": "check the exact location"
+        },
+        {
+          "code": "F",
+          "text": "obtain official permission"
+        },
+        {
+          "code": "G",
+          "text": "be more objective"
+        },
+        {
+          "code": "H",
+          "text": "reduce it in length"
+        }
+      ]
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "The use of Stone Point as a lookout point",
+      "answer": "B",
+      "evidence": "They decide to locate drawings showing Stone Point and ships from the lookout period.",
+      "timeStart": 1014.0,
+      "timeEnd": 1038.0,
+      "timeCenter": 1026.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Classification / matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "provide further description"
+        },
+        {
+          "code": "B",
+          "text": "find images"
+        },
+        {
+          "code": "C",
+          "text": "set up an interview"
+        },
+        {
+          "code": "D",
+          "text": "check author's details"
+        },
+        {
+          "code": "E",
+          "text": "check the exact location"
+        },
+        {
+          "code": "F",
+          "text": "obtain official permission"
+        },
+        {
+          "code": "G",
+          "text": "be more objective"
+        },
+        {
+          "code": "H",
+          "text": "reduce it in length"
+        }
+      ]
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "The reconstruction of the fort",
+      "answer": "A",
+      "evidence": "They need to add more information about what prisoners were adding during the fort reconstruction.",
+      "timeStart": 1035.0,
+      "timeEnd": 1060.0,
+      "timeCenter": 1047.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Classification / matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "provide further description"
+        },
+        {
+          "code": "B",
+          "text": "find images"
+        },
+        {
+          "code": "C",
+          "text": "set up an interview"
+        },
+        {
+          "code": "D",
+          "text": "check author's details"
+        },
+        {
+          "code": "E",
+          "text": "check the exact location"
+        },
+        {
+          "code": "F",
+          "text": "obtain official permission"
+        },
+        {
+          "code": "G",
+          "text": "be more objective"
+        },
+        {
+          "code": "H",
+          "text": "reduce it in length"
+        }
+      ]
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Modernisation of the fort in the 1930s–40s",
+      "answer": "F",
+      "evidence": "Liz will contact the Department of Conservation to seek permission to film the site and access tunnels.",
+      "timeStart": 1056.0,
+      "timeEnd": 1094.0,
+      "timeCenter": 1075.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Classification / matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "provide further description"
+        },
+        {
+          "code": "B",
+          "text": "find images"
+        },
+        {
+          "code": "C",
+          "text": "set up an interview"
+        },
+        {
+          "code": "D",
+          "text": "check author's details"
+        },
+        {
+          "code": "E",
+          "text": "check the exact location"
+        },
+        {
+          "code": "F",
+          "text": "obtain official permission"
+        },
+        {
+          "code": "G",
+          "text": "be more objective"
+        },
+        {
+          "code": "H",
+          "text": "reduce it in length"
+        }
+      ]
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Uses of Stone Point from 1950s to the present day",
+      "answer": "C",
+      "evidence": "They plan to arrange a meeting with the Department of Conservation about restoration work.",
+      "timeStart": 1090.0,
+      "timeEnd": 1118.0,
+      "timeCenter": 1104.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Classification / matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "provide further description"
+        },
+        {
+          "code": "B",
+          "text": "find images"
+        },
+        {
+          "code": "C",
+          "text": "set up an interview"
+        },
+        {
+          "code": "D",
+          "text": "check author's details"
+        },
+        {
+          "code": "E",
+          "text": "check the exact location"
+        },
+        {
+          "code": "F",
+          "text": "obtain official permission"
+        },
+        {
+          "code": "G",
+          "text": "be more objective"
+        },
+        {
+          "code": "H",
+          "text": "reduce it in length"
+        }
+      ]
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "The use of Stone Point as a public park",
+      "answer": "E",
+      "evidence": "They need to check exactly where the present public-park boundary is.",
+      "timeStart": 1113.0,
+      "timeEnd": 1138.0,
+      "timeCenter": 1125.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Reject nearby details or alternatives that are mentioned but do not answer the exact question.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Classification / matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "provide further description"
+        },
+        {
+          "code": "B",
+          "text": "find images"
+        },
+        {
+          "code": "C",
+          "text": "set up an interview"
+        },
+        {
+          "code": "D",
+          "text": "check author's details"
+        },
+        {
+          "code": "E",
+          "text": "check the exact location"
+        },
+        {
+          "code": "F",
+          "text": "obtain official permission"
+        },
+        {
+          "code": "G",
+          "text": "be more objective"
+        },
+        {
+          "code": "H",
+          "text": "reduce it in length"
+        }
+      ]
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Berbers began a nomadic life, moving across ___ and mountains",
+      "answer": "deserts",
+      "evidence": "Many Berbers left their settlements and wandered with animals through the deserts and across mountains.",
+      "timeStart": 1210.0,
+      "timeEnd": 1244.0,
+      "timeCenter": 1227.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Some Berbers, known as ___ nomads, moved twice a year",
+      "answer": "seasonal",
+      "evidence": "Farmers who moved twice a year between lowlands and mountains are called seasonal nomads.",
+      "timeStart": 1240.0,
+      "timeEnd": 1272.0,
+      "timeCenter": 1256.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Some settled by oases, producing fruit, vegetables and ___ to cook with",
+      "answer": "olive oil",
+      "evidence": "One settled group grew crops and made olive oil for cooking.",
+      "timeStart": 1265.0,
+      "timeEnd": 1293.0,
+      "timeCenter": 1279.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "People and belongings were carried by ___",
+      "answer": "camels",
+      "evidence": "As the Sahel became drier, Berbers relied more and more on camels to transport families and goods.",
+      "timeStart": 1288.0,
+      "timeEnd": 1320.0,
+      "timeCenter": 1304.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Meetings were held in the ___ of the village",
+      "answer": "square",
+      "evidence": "Men in settled communities met regularly in the village square.",
+      "timeStart": 1334.0,
+      "timeEnd": 1360.0,
+      "timeCenter": 1347.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "If goatskins were unavailable, tents were made from ___ or palm-leaf mats",
+      "answer": "grass",
+      "evidence": "When goatskins were unavailable, Tuaregs wove mats made of grass or palm leaves.",
+      "timeStart": 1370.0,
+      "timeEnd": 1404.0,
+      "timeCenter": 1387.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Tuareg labourers were descendants of ___",
+      "answer": "slaves",
+      "evidence": "Tuareg labourers were described as people whose ancestors had once been slaves.",
+      "timeStart": 1400.0,
+      "timeEnd": 1427.0,
+      "timeCenter": 1413.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "Adult men always wore a ___ veil",
+      "answer": "dark blue",
+      "evidence": "Adult Tuareg males wore a dark blue veil in the presence of women, strangers and in-laws.",
+      "timeStart": 1420.0,
+      "timeEnd": 1449.0,
+      "timeCenter": 1434.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Some Tuaregs moved to Burkina Faso with their ___",
+      "answer": "herds",
+      "evidence": "Surviving Tuaregs moved into Burkina Faso to find grazing lands for their herds.",
+      "timeStart": 1442.0,
+      "timeEnd": 1472.0,
+      "timeCenter": 1457.0,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Some Tuaregs now work as ___ for the Malian Department of Tourism",
+      "answer": "guides",
+      "evidence": "The Mali government's tourism department employs some Tuaregs who act as guides.",
+      "timeStart": 1466.0,
+      "timeEnd": 1497.0,
+      "timeCenter": 1481.5,
+      "why": "The keyed answer is the detail supported by the aligned recording and source question.",
+      "trap": "Respect the source word limit and copy the spoken form accurately.",
+      "paraphrase": "Match the meaning of the question to the relevant statement in the recording.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "Rydyard",
+    "2": "Station Road",
+    "3": "25 February",
+    "4": "lower",
+    "5": "3 days",
+    "6": "afternoon",
+    "7": "box",
+    "8": "painkillers",
+    "9": "ice",
+    "10": "exercise",
+    "11": "C",
+    "12": "B",
+    "13": "A",
+    "14": "B",
+    "15": "A",
+    "16": "B",
+    "17": "E",
+    "18": "A",
+    "19": "F",
+    "20": "B",
+    "21": "A",
+    "22": "B",
+    "23": "C",
+    "24": "A",
+    "25": "D",
+    "26": "B",
+    "27": "A",
+    "28": "F",
+    "29": "C",
+    "30": "E",
+    "31": "deserts",
+    "32": "seasonal",
+    "33": "olive oil",
+    "34": "camels",
+    "35": "square",
+    "36": "grass",
+    "37": "slaves",
+    "38": "dark blue",
+    "39": "herds",
+    "40": "guides"
+  },
+  "alternatives": {
+    "1": [
+      "Rydyard",
+      "RIDYARD"
+    ],
+    "2": [
+      "Station Road",
+      "27 Station Road",
+      "Station Rd"
+    ],
+    "3": [
+      "25 February",
+      "25th February",
+      "February 25",
+      "25 February 1975",
+      "25th of February"
+    ],
+    "4": [
+      "lower",
+      "lower back"
+    ],
+    "5": [
+      "3 days",
+      "three days",
+      "3 days"
+    ],
+    "6": [
+      "afternoon"
+    ],
+    "7": [
+      "box"
+    ],
+    "8": [
+      "painkillers",
+      "painkiller"
+    ],
+    "9": [
+      "ice",
+      "ice pack"
+    ],
+    "10": [
+      "exercise"
+    ],
+    "11": [
+      "C"
+    ],
+    "12": [
+      "B"
+    ],
+    "13": [
+      "A"
+    ],
+    "14": [
+      "B"
+    ],
+    "15": [
+      "A"
+    ],
+    "16": [
+      "B"
+    ],
+    "17": [
+      "E"
+    ],
+    "18": [
+      "A"
+    ],
+    "19": [
+      "F"
+    ],
+    "20": [
+      "B"
+    ],
+    "21": [
+      "A"
+    ],
+    "22": [
+      "B"
+    ],
+    "23": [
+      "C"
+    ],
+    "24": [
+      "A"
+    ],
+    "25": [
+      "D"
+    ],
+    "26": [
+      "B"
+    ],
+    "27": [
+      "A"
+    ],
+    "28": [
+      "F"
+    ],
+    "29": [
+      "C"
+    ],
+    "30": [
+      "E"
+    ],
+    "31": [
+      "deserts"
+    ],
+    "32": [
+      "seasonal"
+    ],
+    "33": [
+      "olive oil",
+      "oil"
+    ],
+    "34": [
+      "camels"
+    ],
+    "35": [
+      "square"
+    ],
+    "36": [
+      "grass"
+    ],
+    "37": [
+      "slaves"
+    ],
+    "38": [
+      "dark blue",
+      "dark-blue"
+    ],
+    "39": [
+      "herds",
+      "animals"
+    ],
+    "40": [
+      "guides"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 368.54
+    },
+    "2": {
+      "start": 368.54,
+      "end": 760.75
+    },
+    "3": {
+      "start": 760.75,
+      "end": 1151.88
+    },
+    "4": {
+      "start": 1151.88,
+      "end": 1506.432
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Supplied VOL 9 TEST 8 audio encoded at 80 kbps and embedded for offline use.",
+  "audio_duration_seconds": 1506.432,
+  "transcript": {
+    "1": "PART 1 - Call Record Card\n\nANNOUNCER: You will hear a telephone conversation between a man trying to get some advice on a medical problem and a woman working at a medical advice service. First, you have some time to look at Questions 1 to 6. You will see that there is an example that has been done for you. On this occasion only, the conversation relating to this will be played first.\n\nWOMAN: Hello, this is Medical Help Direct. How can I help you?\nMAN: Oh, hello. I've got a problem with my back, and with it being the middle of the night I can't go to the doctor, and I wonder if you can give me some advice.\nWOMAN: Certainly. But first, can I have your telephone number, please?\nMAN: It's 03786 439251.\n\nANNOUNCER: The man's telephone number is 03786 439251, so that has been written in the space. Now we shall begin. You should answer the questions as you listen. Listen carefully and answer the questions one after the other.\n\nWOMAN: Hello, how can I help you?\nMAN: Oh, hello. I've got a problem with my back, and with it being the middle of the night I can't go to the doctor. And I wonder if you can give me some advice.\nWOMAN: Certainly. But first, can I have your telephone number, please?\nMAN: It's 03786 439251.\nWOMAN: Okay. And if you could give me your first name, please?\nMAN: Robert.\nWOMAN: And your surname?\nMAN: Rydyard. That's R-I-D-Y-A-R-D.\nWOMAN: And now your address, please?\nMAN: It's 27 Station Road.\nWOMAN: Okay.\nMAN: Moortown. And do you need the postcode?\nWOMAN: Yes, please.\nMAN: D-P-17-5-H-J.\nWOMAN: And your date of birth?\nMAN: The 25th of February, 1975.\nWOMAN: Fine. Now I just need to take details of your doctor.\nMAN: She's called Dr Craven.\nWOMAN: And the surgery?\nMAN: It's Moortown Health Centre.\nWOMAN: Thanks. Now, can you tell me a bit more about what the problem is?\nMAN: Well, like I said, it's my back.\nWOMAN: Okay. Can you tell me which part of the back?\nMAN: Lower.\nWOMAN: And have you had any problems with your back before?\nMAN: Yes. I had a bit of trouble last year, in June, I think. Or was it July? No, we went on holiday at the beginning of July, and it had cleared up by then.\nWOMAN: And when did it start this time? Has it just come on?\nMAN: No, I've had it, let's see, since Monday, so that's three days now. But it wasn't too bad at first. I mean, I could just about get around, though I couldn't drive the car or anything. Then this afternoon, the pain suddenly got so bad that I went to bed. I've been in bed since, but that hasn't helped.\nWOMAN: And do you have any pain elsewhere? In your stomach or abdomen, for example?\nMAN: No.\n\nANNOUNCER: Before you hear the rest of the conversation, you have some time to look at Questions 7 to 10. Now listen and answer Questions 7 to 10.\n\nWOMAN: Okay. Now, have you any idea what caused the problem?\nMAN: Well, I was tidying up my office, and I lifted a box up from the floor that was heavier than I thought. And I think that's what did it.\nWOMAN: Yes, it's easily done, isn't it? So you're in bed now?\nMAN: Yes.\nWOMAN: Have you tried applying heat to the back?\nMAN: Yes, I've got a hot water bottle. That's usually the first thing I try.\nWOMAN: And have you taken any painkillers?\nMAN: Yes.\nWOMAN: And other than that, you feel quite well?\nMAN: I do, yes.\nWOMAN: Right. Now, I can't diagnose or prescribe any medication, but I can offer you some advice. One thing you could do now is to see if ice makes any difference. That sometimes helps. But don't put it directly onto your skin. Wrap it up in a towel or something, and don't leave it on for longer than 20 minutes.\nMAN: Oh, right. I haven't tried that before.\nWOMAN: It can be useful sometimes. Now, have you seen your doctor about this?\nMAN: No, I just thought, well, everyone has back pain. But I've never had it as bad as this before.\nWOMAN: I think you should go and see your doctor tomorrow. And she may be able to give you something to help.\nMAN: Okay, I'll do that. I'm actually feeling a bit better now.\nWOMAN: Good. And you might get some advice from her about exercise. That's often the best way of dealing with this sort of problem.\nMAN: Okay, I'll ask her.\nWOMAN: Right. Now, if you're worried about anything before tomorrow, you can always phone back. Our lines are open 24 hours.\nMAN: Thanks very much.\n\nANNOUNCER: That is the end of Part 1. You now have half a minute to check your answers.",
+    "2": "PART 2 - Preparing for a Trip to an Outdoor Education Centre\n\nANNOUNCER: Now turn to Part 2. You will hear a principal of a school talking to a group of parents about a three-day trip for pupils to an outdoor education centre. First, you have some time to look at Questions 11 to 16. Now listen carefully and answer Questions 11 to 16.\n\nPRINCIPAL: Good evening. It's good to see so many parents here. Let me begin by explaining why we go to the outdoor education centre. Well, by age ten, we feel the children are ready for a trip away from home, but still in a safe environment and under the guidance of a familiar adult. At the school, we strongly believe children should be encouraged to try different things and not give up when it gets difficult. And that's what the centre is all about, having a go.\n\nAnyway, to start with, the sleeping arrangements. For some children, this will be their first time in a tent and away from home, so please prepare them. You can do this just by making sure they have some early nights before we go. Another thing, there's space for three children per tent, so we can't guarantee your child will be in with their best friends. So do make them aware of this.\n\nNow, you should have received a list with the clothing the children will need in their backpack. But there are some extras. Please provide a packet of biscuits or maybe fruit bars, but these need to go in the box in the school hall, not with the children. Actually, what we do need in the backpacks are bags for cleaning up and for wet clothing, so plastic ones, please. A torch is a good idea, but don't worry about putting money in because there's nothing to buy.\n\nWhile we're on the subject, let's talk about some other items. Cell phones are permitted, but they must be switched off at night and also off during the teaching sessions. Also, for wood-carving activities, knives will be provided by the centre, so children shouldn't bring them from home. Electronic games are banned, so rather than bring one of these, children should bring quiet board games.\n\nTurning to the question of parent attendance, in the past we've had too many volunteers, so we have written names on bits of paper and pulled them out of a box. But then some parents have changed their minds, so if you're absolutely sure you can come, put your name down on the sign-up form and the first ten will be asked to come. Experience isn't required; we just want you to lend a hand.\n\nNow, I'm afraid the fee for the trip needs to be paid by the 15th. Payment to the centre is made by the school, not by parents. Your teacher will give your child a form with the school's bank account details if you want to use them to make payment. Otherwise, please leave payment in an envelope in the box at the school office.\n\nANNOUNCER: Before you hear the rest of the talk, you have some time to look at Questions 17 to 20. Now listen and answer Questions 17 to 20.\n\nPRINCIPAL: Right. Let's have a look at the centre. I hope you all have a leaflet with a map on the back, and we'd like you to show this to your children before they go. Now, if you look at the map, you will see the entrance at the bottom. So just through the entrance you'll see Reception.\n\nNow the wood-carving studio. You see where the main hall is located. Well, to the right of the hall and opposite the kitchen is the new barbecue area, and the wood-carving studio is right next to that overlooking Forest Road.\n\nIt's crucial that children know where the emergency meeting point is. If you look to the top of the map and to the north of Forest Road, that's the location. It is on the same side of the river as the tents.\n\nThere's a lot going on at the river, for example, the conservation centre. See the building marked Kayaks on the right side of the riverbank? Well, the conservation centre is between the two bridges just below it. I should also mention that if your child is not a confident swimmer, there are life jackets hanging all along the riverbank.\n\nIf your child likes drawing and painting, the arts and crafts room is to the right of the river, a little further up from the kayaks.\n\nOkay, so are there any questions so far?\n\nANNOUNCER: That is the end of Part 2. You now have half a minute to check your answers.",
+    "3": "PART 3 - Stone Point: A New Zealand Historical Site\n\nANNOUNCER: You will hear a discussion between two students, Liz from New Zealand and Scott from the UK, who are working on a presentation about a key historical site in New Zealand. First, you have some time to look at Questions 21 to 24. Now listen carefully and answer Questions 21 to 24.\n\nLIZ: Hi Scott. Here are my notes.\nSCOTT: Let's sort this presentation out then. The first thing I found out about Stone Point is it's an extinct volcanic cone. You probably know that already, being a New Zealander.\nLIZ: Yes, and there are two other cones nearby, which also overlook the harbour.\nSCOTT: Right.\nLIZ: The first settlers of New Zealand, the Maori, sailed to New Zealand thousands of years after these volcanoes erupted. I think the tutor allocated us this topic, though, because of Stone Point's significant historical role. It's been used by both Maori and European settlers as a place to shelter from attack, or launch an attack, for centuries.\nSCOTT: Yeah, and the fact it was an ideal place for building a village. It would have been quite a sheltered spot.\nLIZ: I suppose the Maori settled there because they thought the volcanic soil would help their crops grow.\nSCOTT: Well, they would have realised the benefits of the soil after a few good harvests, but initially the fishing opportunities would have been the attraction.\nLIZ: You're right.\nSCOTT: Actually, I also read that Maori regard Stone Point as taonga. I believe that means a treasured thing.\nLIZ: Wow, your Maori vocabulary is improving, Scott. We do have to deal with Stone Point's cultural value for Maori. That's still part of its historical significance. But we need to keep most Maori terminology out of the presentation. Otherwise, a lot of the international students won't be able to follow us.\nSCOTT: That's a shame. I'm sure they'd be interested. I mean, I am. But we wouldn't be able to explain it in the time allowed, so I guess we have to stick to English. Anyway, European migrants turned Stone Point into a lookout point for ships. Then it became a fort, an army base in the late 1880s, and then during the World Wars the fort was modernised again.\nLIZ: It's also been a public park sometimes.\nSCOTT: I'd prefer to devote more of the presentation to the military use of Stone Point. There are some great websites about the engines they installed.\nLIZ: Sorry, I wouldn't go into the technical side if I were you. If you start describing mechanical stuff, people will switch off. I think it's more interesting to look at the impact Stone Point had on the people's lives at the time. I mean, for example, there were about twenty-five years when they used local prisoners to build the tunnels and underground rooms. They lived there too.\nSCOTT: Yeah, I guess, if we can find some first-hand accounts.\n\nANNOUNCER: Before you hear the rest of the discussion, you have some time to look at Questions 25 to 30. Now listen and answer Questions 25 to 30.\n\nLIZ: Okay, so let's make a checklist of things to do. For the early Maori inhabitation section, we have to look at the material we've used again and make sure we know who the writers were and when they wrote it.\nSCOTT: Yes, that needs work. And for the part about Stone Point being used as a lookout point, I'm sure we can locate some drawings of how Stone Point looked then and the kind of ships coming in.\nLIZ: Nice. And what else? We haven't got a lot of detail for the reconstruction of the fort. We should add some more information about what it was the prisoners were adding to it.\nSCOTT: Okay, I'll do that bit too.\nLIZ: So I'll deal with the section regarding the modernisation that happened in the 1930s and 40s. I mean, that's the bit where we have the most visible evidence of historic buildings. I'll ring the Department of Conservation and see if they'll agree to let me film the site, maybe allow me access to some of the tunnels the public don't see.\nSCOTT: Okay. For the 1950s onwards, could you also arrange a meeting with someone from the Department of Conservation to ask them about their restoration work?\nLIZ: I could try. Oh, and just about its use as a public park today. Where is the boundary exactly? Does it go all the way to the beach?\nSCOTT: Not sure. I'll check that out.\nLIZ: Great. I suppose it would finish off the presentation nicely if we explain the future plans for the site.\n\nANNOUNCER: That is the end of Part 3. You now have half a minute to check your answers.",
+    "4": "PART 4 - Rural Development — The Berbers\n\nANNOUNCER: You will hear part of a lecture on rural development. First, you have some time to look at Questions 31 to 40. Now listen carefully and answer Questions 31 to 40.\n\nLECTURER: Good morning everyone. Now you'll remember that last week we looked at the migration of people from the interior of West Africa to various coastal towns, with special reference to Ghana. Today we're going to focus on the people known as the Berbers, who live in North Africa.\n\nThe Berbers inhabited this part of Africa as long ago as the seventh century, and their society was based on tribes which were scattered throughout a number of countries: Algeria, Morocco, Libya and Mali. However, at some point in the twelfth century, the area was invaded by Bedouin Arabs. These people destroyed the Berbers' peasant economy. As a result, many Berbers left their settlements to lead a nomadic life by wandering with their animals through the deserts and across the different mountains.\n\nOver the centuries, many Berbers migrated to other countries like Spain and France to work as labourers, taking with them their culture and traditions, and their descendants remain there until this day.\n\nNot all the Berbers led a fully nomadic life. There were three different groups. Some became farmers cultivating the lowlands in the winter and grazing their flocks of animals in the mountains during the summer. They are called seasonal nomads. Some Berbers, who led a completely nomadic life, tended to move from one oasis to another. A third group settled by the oases and grew fruit and vegetables, like dates and eggplants, as well as making olive oil, which they used for cooking.\n\nTraditionally, Berbers kept cattle, sheep and goats, together with oxen, mules and horses. Now, in the Sahel region of North Africa — that's the area south of the Sahara desert — the region became, and still is becoming, increasingly dry and arid. So the Berbers relied more and more on camels for transporting their families and their goods.\n\nHow did these different groups of people survive in such harsh conditions? Where did they live? Well, Berbers who stayed put in one place built single-storey stone houses for protection by quarrying the local rock, whereas nomadic Berbers carried their homes with them and erected temporary tents. Settled Berbers developed various small-scale industries such as pottery making and weaving, but these tasks were generally left to the Berber women. As you might expect, though, the life of a settled community was governed by the men, who met regularly in the village square to discuss affairs and make decisions.\n\nNow let's turn to the Tuaregs, who belong to a nomadic Berber group and move mainly in the central and western Sahara desert, north of the River Niger. The word Tuareg comes from the Arabic Tawarek and means 'God forsaken'.\n\nDesert Tuareg carried tents made of strips of goatskins sewn together. As many as forty skins were needed to make a complete tent. If the skins weren't available, they wove mats made of grass or palm leaves and hung them over a frame so that the tent looked like a humped dome.\n\nTuareg society was traditionally very feudal and organised as a strict hierarchy ranging from nobles or aristocrats downwards to labourers, whose ancestors had once been slaves. Tuaregs were famous for their warlike qualities and fierce independence. In fact, one of the greatest insults was to suggest to a Tuareg that his father had died in his bed and not while fighting.\n\nTuareg men were sometimes called 'blue men', as all adult males wore a dark blue veil in the presence of women, strangers and in-laws. Legend had it that a Tuareg man couldn't be recognised unless he was wearing this veil. But this custom of the veil began to disappear as more and more Tuaregs became urbanised and moved to the towns.\n\nI mentioned earlier how dry the Sahel region has become, and there have been very severe droughts over the past thirty years. This has meant that the number of Tuaregs living in the area has declined. Those whose animals were fortunate enough to survive have moved away from the southern Sahara into Burkina Faso in order to find new grazing lands for their herds.\n\nIf there's one city which people associate with the Sahara desert, it's probably Timbuktu. But what most people don't know is that Timbuktu was founded by Tuareg nomads almost a thousand years ago. The city became the focal point of the trans-Saharan caravan routes. North African merchants flocked there to do business, and trading in gold and salt flourished. For many years, Timbuktu was considered inaccessible. But today, what is left of the city attracts a small number of tourists. The tourism department of the Mali government employs some Tuaregs who act as guides, essential really when you realise that it's only the Tuaregs who can find their way around the desert using the sand dunes as landmarks.\n\nRight, I'll take questions now before I go on to discuss Tamasheq, the language spoken by the Tuaregs, which also has an alphabet called...\n\nANNOUNCER: That is the end of Part 4. You now have half a minute to check your answers."
+  },
+  "transcript_source": "Full Part 1-4 transcripts aligned to the supplied VOL 9 TEST 8 recording and cross-checked against the source questions.",
+  "timestamps_source": "Question evidence windows are aligned to the supplied recording; Part boundaries use the recording's section breaks.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "27 Station Road",
+      "answer": "27 Station Road",
+      "lexical_type": "proper-noun phrase"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "Moortown Health Centre",
+      "answer": "Moortown Health Centre",
+      "lexical_type": "proper-noun phrase"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "three days now",
+      "answer": "three days now",
+      "lexical_type": "time phrase"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "this afternoon",
+      "answer": "this afternoon",
+      "lexical_type": "time phrase"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "lifted a box",
+      "answer": "lifted a box",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "hot water bottle",
+      "answer": "hot water bottle",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "painkillers",
+      "answer": "painkillers",
+      "lexical_type": "noun"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "wrap it up in a towel",
+      "answer": "wrap it up in a towel",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 109,
+      "part": 2,
+      "n": 1,
+      "match": "under the guidance of a familiar adult",
+      "answer": "under the guidance of a familiar adult",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 110,
+      "part": 2,
+      "n": 3,
+      "match": "electronic games are banned",
+      "answer": "electronic games are banned",
+      "lexical_type": "passive phrase"
+    },
+    {
+      "q": 111,
+      "part": 2,
+      "n": 4,
+      "match": "the first ten will be asked to come",
+      "answer": "the first ten will be asked to come",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 112,
+      "part": 2,
+      "n": 5,
+      "match": "school office",
+      "answer": "school office",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 113,
+      "part": 2,
+      "n": 2,
+      "match": "knives will be provided by the centre",
+      "answer": "knives will be provided by the centre",
+      "lexical_type": "passive phrase"
+    },
+    {
+      "q": 114,
+      "part": 2,
+      "n": 6,
+      "match": "emergency meeting point",
+      "answer": "emergency meeting point",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 115,
+      "part": 2,
+      "n": 7,
+      "match": "between the two bridges",
+      "answer": "between the two bridges",
+      "lexical_type": "prepositional phrase"
+    },
+    {
+      "q": 116,
+      "part": 2,
+      "n": 8,
+      "match": "arts and crafts room",
+      "answer": "arts and crafts room",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 117,
+      "part": 3,
+      "n": 1,
+      "match": "significant historical role",
+      "answer": "significant historical role",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 118,
+      "part": 3,
+      "n": 2,
+      "match": "fishing opportunities",
+      "answer": "fishing opportunities",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 119,
+      "part": 3,
+      "n": 3,
+      "match": "stick to English",
+      "answer": "stick to English",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 120,
+      "part": 3,
+      "n": 4,
+      "match": "the impact Stone Point had on the people's lives",
+      "answer": "the impact Stone Point had on the people's lives",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 121,
+      "part": 3,
+      "n": 5,
+      "match": "first-hand accounts",
+      "answer": "first-hand accounts",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 122,
+      "part": 3,
+      "n": 6,
+      "match": "a checklist of things to do",
+      "answer": "a checklist of things to do",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 123,
+      "part": 3,
+      "n": 7,
+      "match": "visible evidence of historic buildings",
+      "answer": "visible evidence of historic buildings",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 124,
+      "part": 3,
+      "n": 8,
+      "match": "the boundary exactly",
+      "answer": "the boundary exactly",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 125,
+      "part": 4,
+      "n": 1,
+      "match": "special reference to Ghana",
+      "answer": "special reference to Ghana",
+      "lexical_type": "academic phrase"
+    },
+    {
+      "q": 126,
+      "part": 4,
+      "n": 2,
+      "match": "lead a nomadic life",
+      "answer": "lead a nomadic life",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 127,
+      "part": 4,
+      "n": 3,
+      "match": "seasonal nomads",
+      "answer": "seasonal nomads",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 128,
+      "part": 4,
+      "n": 4,
+      "match": "olive oil",
+      "answer": "olive oil",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 129,
+      "part": 4,
+      "n": 5,
+      "match": "relied more and more on camels",
+      "answer": "relied more and more on camels",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 130,
+      "part": 4,
+      "n": 6,
+      "match": "village square",
+      "answer": "village square",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 131,
+      "part": 4,
+      "n": 7,
+      "match": "a strict hierarchy",
+      "answer": "a strict hierarchy",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 132,
+      "part": 4,
+      "n": 8,
+      "match": "dark blue veil",
+      "answer": "dark blue veil",
+      "lexical_type": "noun phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "middle of the night",
+      "word": "middle of the night",
+      "type": "idiomatic time phrase",
+      "lexical_type": "idiomatic time phrase",
+      "pos": "idiomatic time phrase",
+      "definition": "during the middle hours of the night",
+      "def": "during the middle hours of the night",
+      "uzbek": "tunning o‘rtasi",
+      "uz": "tunning o‘rtasi",
+      "context": "Part 1: Call Record Card",
+      "collocations": [
+        "in the middle of the night"
+      ],
+      "paraphrases": [
+        "late at night"
+      ]
+    },
+    {
+      "headword": "cleared up",
+      "word": "cleared up",
+      "type": "phrasal verb",
+      "lexical_type": "phrasal verb",
+      "pos": "phrasal verb",
+      "definition": "to disappear or become better",
+      "def": "to disappear or become better",
+      "uzbek": "tuzalib ketmoq",
+      "uz": "tuzalib ketmoq",
+      "context": "Part 1: Call Record Card",
+      "collocations": [
+        "the pain cleared up"
+      ],
+      "paraphrases": [
+        "went away",
+        "improved"
+      ]
+    },
+    {
+      "headword": "come on",
+      "word": "come on",
+      "type": "phrasal verb",
+      "lexical_type": "phrasal verb",
+      "pos": "phrasal verb",
+      "definition": "to begin or appear, especially a symptom",
+      "def": "to begin or appear, especially a symptom",
+      "uzbek": "boshlanmoq",
+      "uz": "boshlanmoq",
+      "context": "Part 1: Call Record Card",
+      "collocations": [
+        "pain came on suddenly"
+      ],
+      "paraphrases": [
+        "started",
+        "appeared"
+      ]
+    },
+    {
+      "headword": "painkillers",
+      "word": "painkillers",
+      "type": "noun",
+      "lexical_type": "noun",
+      "pos": "noun",
+      "definition": "medicines used to reduce pain",
+      "def": "medicines used to reduce pain",
+      "uzbek": "og‘riq qoldiruvchi dorilar",
+      "uz": "og‘riq qoldiruvchi dorilar",
+      "context": "Part 1: Call Record Card",
+      "collocations": [
+        "take painkillers"
+      ],
+      "paraphrases": [
+        "analgesics"
+      ]
+    },
+    {
+      "headword": "apply heat",
+      "word": "apply heat",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "to use heat on an injured or painful area",
+      "def": "to use heat on an injured or painful area",
+      "uzbek": "issiq qo‘llamoq",
+      "uz": "issiq qo‘llamoq",
+      "context": "Part 1: Call Record Card",
+      "collocations": [
+        "apply heat to the back"
+      ],
+      "paraphrases": [
+        "use heat"
+      ]
+    },
+    {
+      "headword": "make a difference",
+      "word": "make a difference",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "to have a noticeable effect",
+      "def": "to have a noticeable effect",
+      "uzbek": "farq qilmoq / yordam bermoq",
+      "uz": "farq qilmoq / yordam bermoq",
+      "context": "Part 1: Call Record Card",
+      "collocations": [
+        "see if ice makes a difference"
+      ],
+      "paraphrases": [
+        "have an effect",
+        "help"
+      ]
+    },
+    {
+      "headword": "directly onto your skin",
+      "word": "directly onto your skin",
+      "type": "prepositional phrase",
+      "lexical_type": "prepositional phrase",
+      "pos": "prepositional phrase",
+      "definition": "straight onto the surface of the skin",
+      "def": "straight onto the surface of the skin",
+      "uzbek": "bevosita teriga",
+      "uz": "bevosita teriga",
+      "context": "Part 1: Call Record Card",
+      "collocations": [
+        "put ice directly onto your skin"
+      ],
+      "paraphrases": [
+        "straight onto the skin"
+      ]
+    },
+    {
+      "headword": "deal with a problem",
+      "word": "deal with a problem",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "to take action to manage a problem",
+      "def": "to take action to manage a problem",
+      "uzbek": "muammoni hal qilmoq",
+      "uz": "muammoni hal qilmoq",
+      "context": "Part 1: Call Record Card",
+      "collocations": [
+        "deal with back pain"
+      ],
+      "paraphrases": [
+        "manage",
+        "handle"
+      ]
+    },
+    {
+      "headword": "under the guidance of",
+      "word": "under the guidance of",
+      "type": "prepositional phrase",
+      "lexical_type": "prepositional phrase",
+      "pos": "prepositional phrase",
+      "definition": "with supervision or direction from someone",
+      "def": "with supervision or direction from someone",
+      "uzbek": "rahbarligi ostida",
+      "uz": "rahbarligi ostida",
+      "context": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+      "collocations": [
+        "under the guidance of an adult"
+      ],
+      "paraphrases": [
+        "under the supervision of"
+      ]
+    },
+    {
+      "headword": "have a go",
+      "word": "have a go",
+      "type": "idiom",
+      "lexical_type": "idiom",
+      "pos": "idiom",
+      "definition": "to try doing something",
+      "def": "to try doing something",
+      "uzbek": "urinib ko‘rmoq",
+      "uz": "urinib ko‘rmoq",
+      "context": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+      "collocations": [
+        "have a go at an activity"
+      ],
+      "paraphrases": [
+        "give it a try"
+      ]
+    },
+    {
+      "headword": "sleeping arrangements",
+      "word": "sleeping arrangements",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "the planned way people will sleep or be accommodated",
+      "def": "the planned way people will sleep or be accommodated",
+      "uzbek": "uxlash tartibi",
+      "uz": "uxlash tartibi",
+      "context": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+      "collocations": [
+        "discuss sleeping arrangements"
+      ],
+      "paraphrases": [
+        "accommodation arrangements"
+      ]
+    },
+    {
+      "headword": "switch off",
+      "word": "switch off",
+      "type": "phrasal verb",
+      "lexical_type": "phrasal verb",
+      "pos": "phrasal verb",
+      "definition": "to turn a device off",
+      "def": "to turn a device off",
+      "uzbek": "o‘chirib qo‘ymoq",
+      "uz": "o‘chirib qo‘ymoq",
+      "context": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+      "collocations": [
+        "switch off a phone"
+      ],
+      "paraphrases": [
+        "turn off"
+      ]
+    },
+    {
+      "headword": "lend a hand",
+      "word": "lend a hand",
+      "type": "idiom",
+      "lexical_type": "idiom",
+      "pos": "idiom",
+      "definition": "to help someone with a task",
+      "def": "to help someone with a task",
+      "uzbek": "yordam bermoq",
+      "uz": "yordam bermoq",
+      "context": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+      "collocations": [
+        "lend a hand on the trip"
+      ],
+      "paraphrases": [
+        "help out"
+      ]
+    },
+    {
+      "headword": "sign-up form",
+      "word": "sign-up form",
+      "type": "compound noun",
+      "lexical_type": "compound noun",
+      "pos": "compound noun",
+      "definition": "a form used to register for an activity",
+      "def": "a form used to register for an activity",
+      "uzbek": "ro‘yxatdan o‘tish formasi",
+      "uz": "ro‘yxatdan o‘tish formasi",
+      "context": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+      "collocations": [
+        "put your name on the sign-up form"
+      ],
+      "paraphrases": [
+        "registration form"
+      ]
+    },
+    {
+      "headword": "meeting point",
+      "word": "meeting point",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a designated place where people gather",
+      "def": "a designated place where people gather",
+      "uzbek": "uchrashuv nuqtasi",
+      "uz": "uchrashuv nuqtasi",
+      "context": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+      "collocations": [
+        "emergency meeting point"
+      ],
+      "paraphrases": [
+        "assembly point"
+      ]
+    },
+    {
+      "headword": "riverbank",
+      "word": "riverbank",
+      "type": "noun",
+      "lexical_type": "noun",
+      "pos": "noun",
+      "definition": "the land along the edge of a river",
+      "def": "the land along the edge of a river",
+      "uzbek": "daryo qirg‘og‘i",
+      "uz": "daryo qirg‘og‘i",
+      "context": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+      "collocations": [
+        "along the riverbank"
+      ],
+      "paraphrases": [
+        "river edge"
+      ]
+    },
+    {
+      "headword": "extinct volcanic cone",
+      "word": "extinct volcanic cone",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a volcanic cone that is no longer active",
+      "def": "a volcanic cone that is no longer active",
+      "uzbek": "so‘ngan vulqon konusi",
+      "uz": "so‘ngan vulqon konusi",
+      "context": "Part 3: Stone Point: A New Zealand Historical Site",
+      "collocations": [
+        "an extinct volcanic cone"
+      ],
+      "paraphrases": [
+        "inactive volcanic cone"
+      ]
+    },
+    {
+      "headword": "historical role",
+      "word": "historical role",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "the importance or function something had in history",
+      "def": "the importance or function something had in history",
+      "uzbek": "tarixiy rol",
+      "uz": "tarixiy rol",
+      "context": "Part 3: Stone Point: A New Zealand Historical Site",
+      "collocations": [
+        "significant historical role"
+      ],
+      "paraphrases": [
+        "historical significance"
+      ]
+    },
+    {
+      "headword": "shelter from attack",
+      "word": "shelter from attack",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "to use a place for protection from attack",
+      "def": "to use a place for protection from attack",
+      "uzbek": "hujumdan panalanmoq",
+      "uz": "hujumdan panalanmoq",
+      "context": "Part 3: Stone Point: A New Zealand Historical Site",
+      "collocations": [
+        "a place to shelter from attack"
+      ],
+      "paraphrases": [
+        "seek protection"
+      ]
+    },
+    {
+      "headword": "fishing opportunities",
+      "word": "fishing opportunities",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "chances or resources for fishing",
+      "def": "chances or resources for fishing",
+      "uzbek": "baliq ovlash imkoniyatlari",
+      "uz": "baliq ovlash imkoniyatlari",
+      "context": "Part 3: Stone Point: A New Zealand Historical Site",
+      "collocations": [
+        "initial fishing opportunities"
+      ],
+      "paraphrases": [
+        "access to fishing"
+      ]
+    },
+    {
+      "headword": "stick to English",
+      "word": "stick to English",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "to use only English rather than another language",
+      "def": "to use only English rather than another language",
+      "uzbek": "ingliz tilidagina qolmoq",
+      "uz": "ingliz tilidagina qolmoq",
+      "context": "Part 3: Stone Point: A New Zealand Historical Site",
+      "collocations": [
+        "stick to English"
+      ],
+      "paraphrases": [
+        "use English only"
+      ]
+    },
+    {
+      "headword": "first-hand accounts",
+      "word": "first-hand accounts",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "reports from people who directly experienced events",
+      "def": "reports from people who directly experienced events",
+      "uzbek": "bevosita guvohlarning bayonlari",
+      "uz": "bevosita guvohlarning bayonlari",
+      "context": "Part 3: Stone Point: A New Zealand Historical Site",
+      "collocations": [
+        "find first-hand accounts"
+      ],
+      "paraphrases": [
+        "eyewitness accounts"
+      ]
+    },
+    {
+      "headword": "restoration work",
+      "word": "restoration work",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "work done to return a historic place to a good condition",
+      "def": "work done to return a historic place to a good condition",
+      "uzbek": "tiklash ishlari",
+      "uz": "tiklash ishlari",
+      "context": "Part 3: Stone Point: A New Zealand Historical Site",
+      "collocations": [
+        "ask about restoration work"
+      ],
+      "paraphrases": [
+        "conservation work"
+      ]
+    },
+    {
+      "headword": "public-park boundary",
+      "word": "public-park boundary",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "the exact limit of land belonging to a public park",
+      "def": "the exact limit of land belonging to a public park",
+      "uzbek": "jamoat bog‘i chegarasi",
+      "uz": "jamoat bog‘i chegarasi",
+      "context": "Part 3: Stone Point: A New Zealand Historical Site",
+      "collocations": [
+        "check the public-park boundary"
+      ],
+      "paraphrases": [
+        "park limit"
+      ]
+    },
+    {
+      "headword": "peasant economy",
+      "word": "peasant economy",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "an economy mainly based on small-scale farming",
+      "def": "an economy mainly based on small-scale farming",
+      "uzbek": "dehqonchilik iqtisodiyoti",
+      "uz": "dehqonchilik iqtisodiyoti",
+      "context": "Part 4: Rural Development — The Berbers",
+      "collocations": [
+        "destroy a peasant economy"
+      ],
+      "paraphrases": [
+        "agrarian economy"
+      ]
+    },
+    {
+      "headword": "nomadic life",
+      "word": "nomadic life",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a way of life involving regular movement rather than permanent settlement",
+      "def": "a way of life involving regular movement rather than permanent settlement",
+      "uzbek": "ko‘chmanchi hayot",
+      "uz": "ko‘chmanchi hayot",
+      "context": "Part 4: Rural Development — The Berbers",
+      "collocations": [
+        "lead a nomadic life"
+      ],
+      "paraphrases": [
+        "mobile way of life"
+      ]
+    },
+    {
+      "headword": "seasonal nomads",
+      "word": "seasonal nomads",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "nomadic people who move according to the season",
+      "def": "nomadic people who move according to the season",
+      "uzbek": "mavsumiy ko‘chmanchilar",
+      "uz": "mavsumiy ko‘chmanchilar",
+      "context": "Part 4: Rural Development — The Berbers",
+      "collocations": [
+        "seasonal nomads moved twice a year"
+      ],
+      "paraphrases": [
+        "seasonal migrants"
+      ]
+    },
+    {
+      "headword": "oasis",
+      "word": "oasis",
+      "type": "noun",
+      "lexical_type": "noun",
+      "pos": "noun",
+      "definition": "a fertile place in a desert where water is available",
+      "def": "a fertile place in a desert where water is available",
+      "uzbek": "voha",
+      "uz": "voha",
+      "context": "Part 4: Rural Development — The Berbers",
+      "collocations": [
+        "settle by an oasis"
+      ],
+      "paraphrases": [
+        "desert water source"
+      ]
+    },
+    {
+      "headword": "increasingly arid",
+      "word": "increasingly arid",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "becoming progressively drier",
+      "def": "becoming progressively drier",
+      "uzbek": "tobora qurg‘oqchil",
+      "uz": "tobora qurg‘oqchil",
+      "context": "Part 4: Rural Development — The Berbers",
+      "collocations": [
+        "the region became increasingly arid"
+      ],
+      "paraphrases": [
+        "progressively drier"
+      ]
+    },
+    {
+      "headword": "strict hierarchy",
+      "word": "strict hierarchy",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a rigid system of social ranks",
+      "def": "a rigid system of social ranks",
+      "uzbek": "qat’iy ierarxiya",
+      "uz": "qat’iy ierarxiya",
+      "context": "Part 4: Rural Development — The Berbers",
+      "collocations": [
+        "organised as a strict hierarchy"
+      ],
+      "paraphrases": [
+        "rigid social order"
+      ]
+    },
+    {
+      "headword": "fierce independence",
+      "word": "fierce independence",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a very strong desire to remain independent",
+      "def": "a very strong desire to remain independent",
+      "uzbek": "kuchli mustaqillik ruhi",
+      "uz": "kuchli mustaqillik ruhi",
+      "context": "Part 4: Rural Development — The Berbers",
+      "collocations": [
+        "famous for fierce independence"
+      ],
+      "paraphrases": [
+        "strong autonomy"
+      ]
+    },
+    {
+      "headword": "grazing lands",
+      "word": "grazing lands",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "land where animals feed on grass",
+      "def": "land where animals feed on grass",
+      "uzbek": "yaylovlar",
+      "uz": "yaylovlar",
+      "context": "Part 4: Rural Development — The Berbers",
+      "collocations": [
+        "find new grazing lands"
+      ],
+      "paraphrases": [
+        "pasture"
+      ]
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "MCQ",
+    "12": "MCQ",
+    "13": "MCQ",
+    "14": "MCQ",
+    "15": "MCQ",
+    "16": "MCQ",
+    "17": "Matching",
+    "18": "Matching",
+    "19": "Matching",
+    "20": "Matching",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "Matching",
+    "26": "Matching",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    [
+      "exam",
+      "01",
+      "Full IELTS Test",
+      "Q1-Q40 in a timed exam with embedded audio, FLAG and notes."
+    ],
+    [
+      "review",
+      "02",
+      "Review & Revision",
+      "Redo each Part and inspect answers/evidence after checking."
+    ],
+    [
+      "script",
+      "03",
+      "Script Completion",
+      "Complete full Part 1-4 transcripts with 8 strategic lexical gaps each."
+    ],
+    [
+      "mcq",
+      "04",
+      "MCQ Mastery",
+      "Practise Q11-Q16 and Q21-Q24 single-answer multiple-choice questions."
+    ],
+    [
+      "matching",
+      "05",
+      "Matching Mastery",
+      "Practise the Q17-Q20 outdoor-centre map and Q25-Q30 Stone Point matching tasks."
+    ],
+    [
+      "completion",
+      "06",
+      "Completion Mastery",
+      "Practise Q1-Q10 and Q31-Q40 completion questions."
+    ],
+    [
+      "vocab",
+      "07",
+      "Vocabulary Builder",
+      "Learn useful expressions from all four transcripts."
+    ],
+    [
+      "retry",
+      "08",
+      "Retry Weak Areas",
+      "Retry missed or unanswered questions."
+    ]
+  ]
+}
