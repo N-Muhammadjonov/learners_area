@@ -1,0 +1,2039 @@
+{
+  "test_id": "listening-test-18",
+  "title": "Listening Test 18",
+  "sections": [
+    "International Student Travel",
+    "Bibliostack",
+    "The Just-in-Time Supply System",
+    "Dyscalculia"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Sarah Brown - date of birth",
+      "answer": "30 March 1988",
+      "evidence": "Part 1: International Student Travel. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 410.549,
+      "timeCenter": 205.274,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Sarah Brown - date of birth",
+      "options": [],
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Sarah Brown - contact telephone number",
+      "answer": "0903 775 115",
+      "evidence": "Part 1: International Student Travel. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 410.549,
+      "timeCenter": 205.274,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Sarah Brown - contact telephone number",
+      "options": [],
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Region of Europe Sarah wants to travel in",
+      "answer": "Northern",
+      "evidence": "Part 1: International Student Travel. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 410.549,
+      "timeCenter": 205.274,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Region of Europe Sarah wants to travel in",
+      "options": [],
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Preferred means of travel",
+      "answer": "train",
+      "evidence": "Part 1: International Student Travel. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 410.549,
+      "timeCenter": 205.274,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Preferred means of travel",
+      "options": [],
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Type of work Sarah is interested in",
+      "answer": "hotel",
+      "evidence": "Part 1: International Student Travel. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 410.549,
+      "timeCenter": 205.274,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Type of work Sarah is interested in",
+      "options": [],
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Alternative work suggested by the agency",
+      "answer": "farm",
+      "evidence": "Part 1: International Student Travel. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 410.549,
+      "timeCenter": 205.274,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Alternative work suggested by the agency",
+      "options": [],
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "European travel item advised by the agency",
+      "answer": "pass",
+      "evidence": "Part 1: International Student Travel. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 410.549,
+      "timeCenter": 205.274,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "European travel item advised by the agency",
+      "options": [],
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Accommodation information item given to Sarah",
+      "answer": "booklet",
+      "evidence": "Part 1: International Student Travel. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 410.549,
+      "timeCenter": 205.274,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Accommodation information item given to Sarah",
+      "options": [],
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Protection Sarah agrees to take out",
+      "answer": "insurance",
+      "evidence": "Part 1: International Student Travel. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 410.549,
+      "timeCenter": 205.274,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Protection Sarah agrees to take out",
+      "options": [],
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Place advised for contacting people",
+      "answer": "internet cafe",
+      "evidence": "Part 1: International Student Travel. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 410.549,
+      "timeCenter": 205.274,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Place advised for contacting people",
+      "options": [],
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "Bibliostack map - seating area",
+      "answer": "C",
+      "evidence": "Part 2: Bibliostack. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 410.549,
+      "timeEnd": 765.828,
+      "timeCenter": 588.188,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Map / classification matching",
+      "paraphrase": "Bibliostack map - seating area",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A on the Bibliostack map"
+        },
+        {
+          "code": "B",
+          "text": "Location B on the Bibliostack map"
+        },
+        {
+          "code": "C",
+          "text": "Location C on the Bibliostack map"
+        },
+        {
+          "code": "D",
+          "text": "Location D on the Bibliostack map"
+        },
+        {
+          "code": "E",
+          "text": "Location E on the Bibliostack map"
+        },
+        {
+          "code": "F",
+          "text": "Location F on the Bibliostack map"
+        },
+        {
+          "code": "G",
+          "text": "Location G on the Bibliostack map"
+        },
+        {
+          "code": "H",
+          "text": "Location H on the Bibliostack map"
+        }
+      ],
+      "type": "Matching"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "Bibliostack map - cushions",
+      "answer": "F",
+      "evidence": "Part 2: Bibliostack. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 410.549,
+      "timeEnd": 765.828,
+      "timeCenter": 588.188,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Map / classification matching",
+      "paraphrase": "Bibliostack map - cushions",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A on the Bibliostack map"
+        },
+        {
+          "code": "B",
+          "text": "Location B on the Bibliostack map"
+        },
+        {
+          "code": "C",
+          "text": "Location C on the Bibliostack map"
+        },
+        {
+          "code": "D",
+          "text": "Location D on the Bibliostack map"
+        },
+        {
+          "code": "E",
+          "text": "Location E on the Bibliostack map"
+        },
+        {
+          "code": "F",
+          "text": "Location F on the Bibliostack map"
+        },
+        {
+          "code": "G",
+          "text": "Location G on the Bibliostack map"
+        },
+        {
+          "code": "H",
+          "text": "Location H on the Bibliostack map"
+        }
+      ],
+      "type": "Matching"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Bibliostack map - computer bench",
+      "answer": "D",
+      "evidence": "Part 2: Bibliostack. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 410.549,
+      "timeEnd": 765.828,
+      "timeCenter": 588.188,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Map / classification matching",
+      "paraphrase": "Bibliostack map - computer bench",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A on the Bibliostack map"
+        },
+        {
+          "code": "B",
+          "text": "Location B on the Bibliostack map"
+        },
+        {
+          "code": "C",
+          "text": "Location C on the Bibliostack map"
+        },
+        {
+          "code": "D",
+          "text": "Location D on the Bibliostack map"
+        },
+        {
+          "code": "E",
+          "text": "Location E on the Bibliostack map"
+        },
+        {
+          "code": "F",
+          "text": "Location F on the Bibliostack map"
+        },
+        {
+          "code": "G",
+          "text": "Location G on the Bibliostack map"
+        },
+        {
+          "code": "H",
+          "text": "Location H on the Bibliostack map"
+        }
+      ],
+      "type": "Matching"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Bibliostack map - café bar",
+      "answer": "A",
+      "evidence": "Part 2: Bibliostack. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 410.549,
+      "timeEnd": 765.828,
+      "timeCenter": 588.188,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Map / classification matching",
+      "paraphrase": "Bibliostack map - café bar",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A on the Bibliostack map"
+        },
+        {
+          "code": "B",
+          "text": "Location B on the Bibliostack map"
+        },
+        {
+          "code": "C",
+          "text": "Location C on the Bibliostack map"
+        },
+        {
+          "code": "D",
+          "text": "Location D on the Bibliostack map"
+        },
+        {
+          "code": "E",
+          "text": "Location E on the Bibliostack map"
+        },
+        {
+          "code": "F",
+          "text": "Location F on the Bibliostack map"
+        },
+        {
+          "code": "G",
+          "text": "Location G on the Bibliostack map"
+        },
+        {
+          "code": "H",
+          "text": "Location H on the Bibliostack map"
+        }
+      ],
+      "type": "Matching"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Bibliostack map - newspapers",
+      "answer": "H",
+      "evidence": "Part 2: Bibliostack. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 410.549,
+      "timeEnd": 765.828,
+      "timeCenter": 588.188,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Map / classification matching",
+      "paraphrase": "Bibliostack map - newspapers",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A on the Bibliostack map"
+        },
+        {
+          "code": "B",
+          "text": "Location B on the Bibliostack map"
+        },
+        {
+          "code": "C",
+          "text": "Location C on the Bibliostack map"
+        },
+        {
+          "code": "D",
+          "text": "Location D on the Bibliostack map"
+        },
+        {
+          "code": "E",
+          "text": "Location E on the Bibliostack map"
+        },
+        {
+          "code": "F",
+          "text": "Location F on the Bibliostack map"
+        },
+        {
+          "code": "G",
+          "text": "Location G on the Bibliostack map"
+        },
+        {
+          "code": "H",
+          "text": "Location H on the Bibliostack map"
+        }
+      ],
+      "type": "Matching"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "The bookshop aims to ...",
+      "answer": "C",
+      "evidence": "Part 2: Bibliostack. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 410.549,
+      "timeEnd": 765.828,
+      "timeCenter": 588.188,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "The bookshop aims to ...",
+      "options": [
+        {
+          "code": "A",
+          "text": "sell as many books as possible."
+        },
+        {
+          "code": "B",
+          "text": "create an energetic environment."
+        },
+        {
+          "code": "C",
+          "text": "attract people to remain in the shop."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Children's books are located on the ...",
+      "answer": "B",
+      "evidence": "Part 2: Bibliostack. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 410.549,
+      "timeEnd": 765.828,
+      "timeCenter": 588.188,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Children's books are located on the ...",
+      "options": [
+        {
+          "code": "A",
+          "text": "ground floor."
+        },
+        {
+          "code": "B",
+          "text": "highest level."
+        },
+        {
+          "code": "C",
+          "text": "midway up."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "What the bookshop provides so parents can relax",
+      "answer": "C",
+      "evidence": "Part 2: Bibliostack. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 410.549,
+      "timeEnd": 765.828,
+      "timeCenter": 588.188,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "What the bookshop provides so parents can relax",
+      "options": [
+        {
+          "code": "A",
+          "text": "floor-staff to take care of children."
+        },
+        {
+          "code": "B",
+          "text": "a free nursery."
+        },
+        {
+          "code": "C",
+          "text": "professional child care."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Purpose of regular book readings",
+      "answer": "A",
+      "evidence": "Part 2: Bibliostack. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 410.549,
+      "timeEnd": 765.828,
+      "timeCenter": 588.188,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Purpose of regular book readings",
+      "options": [
+        {
+          "code": "A",
+          "text": "sell more books."
+        },
+        {
+          "code": "B",
+          "text": "allow authors to meet readers."
+        },
+        {
+          "code": "C",
+          "text": "earn more money by charging entry."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "What poetry-workshop participants were able to do",
+      "answer": "C",
+      "evidence": "Part 2: Bibliostack. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 410.549,
+      "timeEnd": 765.828,
+      "timeCenter": 588.188,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "What poetry-workshop participants were able to do",
+      "options": [
+        {
+          "code": "A",
+          "text": "have their work published."
+        },
+        {
+          "code": "B",
+          "text": "become professional poets."
+        },
+        {
+          "code": "C",
+          "text": "read their poems in public."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "What Ron says he should have included in his presentation",
+      "answer": "A",
+      "evidence": "Part 3: The Just-in-Time Supply System. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 765.828,
+      "timeEnd": 1174.799,
+      "timeCenter": 970.313,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "What Ron says he should have included in his presentation",
+      "options": [
+        {
+          "code": "A",
+          "text": "given credit to the originators of the JIT idea."
+        },
+        {
+          "code": "B",
+          "text": "discussed why the Japanese adopted the JIT idea."
+        },
+        {
+          "code": "C",
+          "text": "explained how supermarkets used the JIT idea."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "What the tutor says Ron omitted",
+      "answer": "B",
+      "evidence": "Part 3: The Just-in-Time Supply System. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 765.828,
+      "timeEnd": 1174.799,
+      "timeCenter": 970.313,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "What the tutor says Ron omitted",
+      "options": [
+        {
+          "code": "A",
+          "text": "a description of classic business theory."
+        },
+        {
+          "code": "B",
+          "text": "an introductory definition of JIT."
+        },
+        {
+          "code": "C",
+          "text": "a statement of the aims of JIT."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Where Ron found information on standardising parts",
+      "answer": "C",
+      "evidence": "Part 3: The Just-in-Time Supply System. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 765.828,
+      "timeEnd": 1174.799,
+      "timeCenter": 970.313,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Where Ron found information on standardising parts",
+      "options": [
+        {
+          "code": "A",
+          "text": "a website."
+        },
+        {
+          "code": "B",
+          "text": "journal articles."
+        },
+        {
+          "code": "C",
+          "text": "a textbook."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Tutor's view of JIT in the service sector",
+      "answer": "A",
+      "evidence": "Part 3: The Just-in-Time Supply System. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 765.828,
+      "timeEnd": 1174.799,
+      "timeCenter": 970.313,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Tutor's view of JIT in the service sector",
+      "options": [
+        {
+          "code": "A",
+          "text": "difficult to apply because of the absence of countable things."
+        },
+        {
+          "code": "B",
+          "text": "regarded by most members of staff as unfashionable."
+        },
+        {
+          "code": "C",
+          "text": "unlikely to be accepted by important clients."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Criticism of speed of delivery",
+      "answer": "B",
+      "evidence": "Part 3: The Just-in-Time Supply System. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 765.828,
+      "timeEnd": 1174.799,
+      "timeCenter": 970.313,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Map / classification matching",
+      "paraphrase": "Criticism of speed of delivery",
+      "options": [
+        {
+          "code": "A",
+          "text": "too informal"
+        },
+        {
+          "code": "B",
+          "text": "too irregular"
+        },
+        {
+          "code": "C",
+          "text": "too predictable"
+        },
+        {
+          "code": "D",
+          "text": "too sudden"
+        },
+        {
+          "code": "E",
+          "text": "too technical"
+        },
+        {
+          "code": "F",
+          "text": "too unenthusiastic"
+        },
+        {
+          "code": "G",
+          "text": "too loosely related"
+        },
+        {
+          "code": "H",
+          "text": "too vague"
+        }
+      ],
+      "type": "Matching"
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Criticism of purpose",
+      "answer": "H",
+      "evidence": "Part 3: The Just-in-Time Supply System. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 765.828,
+      "timeEnd": 1174.799,
+      "timeCenter": 970.313,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Map / classification matching",
+      "paraphrase": "Criticism of purpose",
+      "options": [
+        {
+          "code": "A",
+          "text": "too informal"
+        },
+        {
+          "code": "B",
+          "text": "too irregular"
+        },
+        {
+          "code": "C",
+          "text": "too predictable"
+        },
+        {
+          "code": "D",
+          "text": "too sudden"
+        },
+        {
+          "code": "E",
+          "text": "too technical"
+        },
+        {
+          "code": "F",
+          "text": "too unenthusiastic"
+        },
+        {
+          "code": "G",
+          "text": "too loosely related"
+        },
+        {
+          "code": "H",
+          "text": "too vague"
+        }
+      ],
+      "type": "Matching"
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Criticism of transitions",
+      "answer": "D",
+      "evidence": "Part 3: The Just-in-Time Supply System. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 765.828,
+      "timeEnd": 1174.799,
+      "timeCenter": 970.313,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Map / classification matching",
+      "paraphrase": "Criticism of transitions",
+      "options": [
+        {
+          "code": "A",
+          "text": "too informal"
+        },
+        {
+          "code": "B",
+          "text": "too irregular"
+        },
+        {
+          "code": "C",
+          "text": "too predictable"
+        },
+        {
+          "code": "D",
+          "text": "too sudden"
+        },
+        {
+          "code": "E",
+          "text": "too technical"
+        },
+        {
+          "code": "F",
+          "text": "too unenthusiastic"
+        },
+        {
+          "code": "G",
+          "text": "too loosely related"
+        },
+        {
+          "code": "H",
+          "text": "too vague"
+        }
+      ],
+      "type": "Matching"
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Criticism of visuals",
+      "answer": "G",
+      "evidence": "Part 3: The Just-in-Time Supply System. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 765.828,
+      "timeEnd": 1174.799,
+      "timeCenter": 970.313,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Map / classification matching",
+      "paraphrase": "Criticism of visuals",
+      "options": [
+        {
+          "code": "A",
+          "text": "too informal"
+        },
+        {
+          "code": "B",
+          "text": "too irregular"
+        },
+        {
+          "code": "C",
+          "text": "too predictable"
+        },
+        {
+          "code": "D",
+          "text": "too sudden"
+        },
+        {
+          "code": "E",
+          "text": "too technical"
+        },
+        {
+          "code": "F",
+          "text": "too unenthusiastic"
+        },
+        {
+          "code": "G",
+          "text": "too loosely related"
+        },
+        {
+          "code": "H",
+          "text": "too vague"
+        }
+      ],
+      "type": "Matching"
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Criticism of vocabulary",
+      "answer": "E",
+      "evidence": "Part 3: The Just-in-Time Supply System. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 765.828,
+      "timeEnd": 1174.799,
+      "timeCenter": 970.313,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Map / classification matching",
+      "paraphrase": "Criticism of vocabulary",
+      "options": [
+        {
+          "code": "A",
+          "text": "too informal"
+        },
+        {
+          "code": "B",
+          "text": "too irregular"
+        },
+        {
+          "code": "C",
+          "text": "too predictable"
+        },
+        {
+          "code": "D",
+          "text": "too sudden"
+        },
+        {
+          "code": "E",
+          "text": "too technical"
+        },
+        {
+          "code": "F",
+          "text": "too unenthusiastic"
+        },
+        {
+          "code": "G",
+          "text": "too loosely related"
+        },
+        {
+          "code": "H",
+          "text": "too vague"
+        }
+      ],
+      "type": "Matching"
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Criticism of body language",
+      "answer": "F",
+      "evidence": "Part 3: The Just-in-Time Supply System. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 765.828,
+      "timeEnd": 1174.799,
+      "timeCenter": 970.313,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Map / classification matching",
+      "paraphrase": "Criticism of body language",
+      "options": [
+        {
+          "code": "A",
+          "text": "too informal"
+        },
+        {
+          "code": "B",
+          "text": "too irregular"
+        },
+        {
+          "code": "C",
+          "text": "too predictable"
+        },
+        {
+          "code": "D",
+          "text": "too sudden"
+        },
+        {
+          "code": "E",
+          "text": "too technical"
+        },
+        {
+          "code": "F",
+          "text": "too unenthusiastic"
+        },
+        {
+          "code": "G",
+          "text": "too loosely related"
+        },
+        {
+          "code": "H",
+          "text": "too vague"
+        }
+      ],
+      "type": "Matching"
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Teaching method commonly applied in classes",
+      "answer": "traditional",
+      "evidence": "Part 4: Dyscalculia. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1174.799,
+      "timeEnd": 1437.336,
+      "timeCenter": 1306.068,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Teaching method commonly applied in classes",
+      "options": [],
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Concept children find difficult alongside sequence",
+      "answer": "time",
+      "evidence": "Part 4: Dyscalculia. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1174.799,
+      "timeEnd": 1437.336,
+      "timeCenter": 1306.068,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Concept children find difficult alongside sequence",
+      "options": [],
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Everyday practical example used in class",
+      "answer": "money",
+      "evidence": "Part 4: Dyscalculia. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1174.799,
+      "timeEnd": 1437.336,
+      "timeCenter": 1306.068,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Everyday practical example used in class",
+      "options": [],
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "What extra calculation practice develops",
+      "answer": "confidence",
+      "evidence": "Part 4: Dyscalculia. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1174.799,
+      "timeEnd": 1437.336,
+      "timeCenter": 1306.068,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "What extra calculation practice develops",
+      "options": [],
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "What teachers encourage children to make",
+      "answer": "guesses",
+      "evidence": "Part 4: Dyscalculia. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1174.799,
+      "timeEnd": 1437.336,
+      "timeCenter": 1306.068,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "What teachers encourage children to make",
+      "options": [],
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Type of breaks used with breathing and relaxation",
+      "answer": "walking",
+      "evidence": "Part 4: Dyscalculia. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1174.799,
+      "timeEnd": 1437.336,
+      "timeCenter": 1306.068,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Type of breaks used with breathing and relaxation",
+      "options": [],
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Potential relationship with language-learning difficulties",
+      "answer": "link",
+      "evidence": "Part 4: Dyscalculia. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1174.799,
+      "timeEnd": 1437.336,
+      "timeCenter": 1306.068,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Potential relationship with language-learning difficulties",
+      "options": [],
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "Area children may struggle with alongside focus",
+      "answer": "concentration",
+      "evidence": "Part 4: Dyscalculia. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1174.799,
+      "timeEnd": 1437.336,
+      "timeCenter": 1306.068,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Area children may struggle with alongside focus",
+      "options": [],
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Type of training no longer needed with this approach",
+      "answer": "additional",
+      "evidence": "Part 4: Dyscalculia. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1174.799,
+      "timeEnd": 1437.336,
+      "timeCenter": 1306.068,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Type of training no longer needed with this approach",
+      "options": [],
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Who is affected alongside children and families",
+      "answer": "teachers",
+      "evidence": "Part 4: Dyscalculia. User-provided audio and transcript PDF were aligned; no question-level word timestamp is claimed.",
+      "timeStart": 1174.799,
+      "timeEnd": 1437.336,
+      "timeCenter": 1306.068,
+      "why": "The supplied HTML answer key, transcript PDF and recording support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Who is affected alongside children and families",
+      "options": [],
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "30 March 1988",
+    "2": "0903 775 115",
+    "3": "Northern",
+    "4": "train",
+    "5": "hotel",
+    "6": "farm",
+    "7": "pass",
+    "8": "booklet",
+    "9": "insurance",
+    "10": "internet cafe",
+    "11": "C",
+    "12": "F",
+    "13": "D",
+    "14": "A",
+    "15": "H",
+    "16": "C",
+    "17": "B",
+    "18": "C",
+    "19": "A",
+    "20": "C",
+    "21": "A",
+    "22": "B",
+    "23": "C",
+    "24": "A",
+    "25": "B",
+    "26": "H",
+    "27": "D",
+    "28": "G",
+    "29": "E",
+    "30": "F",
+    "31": "traditional",
+    "32": "time",
+    "33": "money",
+    "34": "confidence",
+    "35": "guesses",
+    "36": "walking",
+    "37": "link",
+    "38": "concentration",
+    "39": "additional",
+    "40": "teachers"
+  },
+  "alternatives": {
+    "1": [
+      "30th March 1988",
+      "March 30 1988",
+      "March 30st 1988",
+      "30 March, 1988",
+      "March 30, 1988",
+      "March 30st, 1988",
+      "30/03/1988",
+      "30/3/1988",
+      "30.03.1988",
+      "30.3.1988",
+      "30 Mar 1988",
+      "30-03-1988",
+      "30-3-1988"
+    ],
+    "2": [
+      "0903775115",
+      "0903 775115",
+      "0903-775-115"
+    ],
+    "10": [
+      "internet café",
+      "internet-cafe",
+      "internet-café",
+      "internet cafe",
+      "internet café"
+    ],
+    "37": [
+      "connection",
+      "connection"
+    ],
+    "3": [
+      "northern"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 410.549
+    },
+    "2": {
+      "start": 410.549,
+      "end": 765.828
+    },
+    "3": {
+      "start": 765.828,
+      "end": 1174.799
+    },
+    "4": {
+      "start": 1174.799,
+      "end": 1437.336
+    }
+  },
+  "audio_available": true,
+  "audio_status": "User-provided four-part recording transcoded and embedded as mono 80 kbps MP3; audio is fully offline.",
+  "audio_duration_seconds": 1437.336,
+  "transcript": {
+    "1": "You will hear a number of different recordings, and you will have to answer questions on what you hear. There will be time for you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played once only. The test is in four parts. Write all your answers in the listening question booklet. At the end of the test, you will be given ten minutes to transfer your answers to an answer sheet. Now turn to part one on page two of your question booklet. Part one. You will hear a conversation between a travel agent and a student who is planning a trip abroad. \n\nFirst, you have some time to look at questions one to six. \n\nNow listen carefully and answer questions one to six. Hello, how can I help you? I'm taking a year off, and I'm hoping to travel abroad and to find work as well for part of the time. I know you specialise in student travel and work placements, so... That's right. We can help you arrange your travel and set up a job for you. But first of all, I need some personal details, and then we'll match your details against our database to see what's available work-wise. Great. OK. Your full name? Sarah Brown. Date of birth? March the 30th. Oh, I'm the 31st! 1988. And your address? 21 Waverley Road, Radstone, RD4 6WV. And a contact telephone number, please? I can give you my mobile number. 0903 775 115. Fine. Now, tell me where you plan to travel to, and I'll see how I can help. Well, I'd like to go to Northern Europe. Have you been there before? No. I know Southern Europe quite well, as I've been there with my family. We always went by plane, but now I can choose. I'd like to go by train so I can stop off whenever I want. OK. Now, just as important, what sort of work have you got in mind? Well, I thought about hotel work because then I might get accommodation with the job, and I'd like to work for about half the year. Hmm, that sort of work is usually quite competitive. Perhaps you should consider an alternative, just in case. Such as? Well, lots of students like to work on a farm, and we have lots of requests from people looking for student workers for a few weeks at a time throughout the year. You can generally earn quite good money if you're willing to work fairly long hours. \n\nBefore you hear the rest of the conversation, you have some time to look at questions 7 to 10.\n\nNow listen and answer questions 7 to 10. Now, travel. Buying single tickets would be expensive, so the best option would be to have a European pass, which would give you unlimited rail travel at off-peak times. To start off with, we could issue one for up to three months to cover the countries you're intending to visit. Sounds good. Do you have any information about youth hostels which I could use to plan my route? Yes, I'll give you a booklet now, but it's down to you to book your accommodation. At certain times of the year, especially during public holiday periods, such places fill up fast. And remember, if we're going to arrange work for you in the countryside, you won't be able to go out easily in the evenings. Although you'd probably be too tired anyway. I won't mind that. And you're going to be travelling alone? Yes. Well, before I make any arrangements for you, you need to have insurance for your entire trip. We can arrange that for you if you like. What does it cover? Any valuable items, jewellery for example, your money, your mobile, your health, and if you needed to get back home quickly, you'd be covered so you could buy a plane ticket. Right, I'll do that. I thought I'd take my laptop so I can email and keep in touch with people at home. Hmm, not a good idea to lug your computer around with you. It's much more sensible to rely on an internet cafe. That's what we tell people to do. Oh, OK. Right, so I've entered all your details. Let's see what the database comes up with. \n\nThat is the end of part one. \n\nYou now have one minute to check your answers to part one.",
+    "2": "Part two. You will hear the manager of a bookshop called Bibliostack talking to a group of young people about the way the bookshop is organised. \n\nFirst, you have some time to look at questions 11 to 15. \n\nNow listen carefully and answer questions 11 to 15. Good morning everyone and a big welcome to Bibliostack. Firstly, I'll explain the plan of the store to you. The building is on seven floors and is circular, as you can see, and we're here on the ground floor in its entrance hall. Right in the centre of this floor, but behind the bookshelf so you can't see it very well from here, is our main seating area, where people are encouraged to sit and read for as long as they like. But they're under no pressure to buy what they're reading. That's not how we operate. And if you look to your immediate left, past the first double row of shelves, you'll see piles of coloured cushions in front of the window there.\n\nWe provide those so that people can sit wherever they want. Lots of people like to sit close to the bookshelves, and if they want to sit on the floor there, we want them to be as comfortable as possible. On your right, between the two larger bookshelves, you'll see the computer bench, where our visitors can search through our entire catalogue. We pride ourselves in being the largest bookshop in the country, so our sales assistants can't possibly know all the available titles. Although the room in front of you is dominated by the bookshelves, at the far end, just in front of the lift, you'll see that we provide a small cafe bar here too. And just to your right, there's a door to the cloakroom, where people can leave their coats. Then after that, there's a stand where we keep a selection of local and national newspapers. Customers are welcome to browse through them, and we also have some for sale. We really want people to feel as though they're browsing through books in the comfort of their own home. \n\nBefore you hear the rest of the talk, you have some time to look at questions 16 to 20. \n\nNow listen and answer questions 16 to 20. Right, now I suggest we walk slowly up through the building, and I'll give you more information as we go. We're open 12 hours a day. We don't mind if people spend the whole day here, but leave without buying anything. Of course, we hope they'll buy something, but our purpose is to draw people in, to provide the kind of environment which makes them want to stay and read. Look at how busy each floor is, but how quiet! You may be wondering whether there are any children in the building. We debated about locating children's books on the ground floor, or halfway up the building, like the third or fourth floor, but in the end, we decided to put them on the very top level. And I can assure you, it's not the least bit quiet up there. Of course, many parents would prefer to spend time on other floors, and so we provide a supervised area for children under two in the basement, so parents can wander around the shop for a few hours and not worry. But they do have to pay for this service, because although we thought about using some of our own assistants, we decided to employ qualified nursery staff, for parents’ complete peace of mind. Now, we're just passing the fiction section, and you've probably noticed a small crowd of people beginning to gather. That's because a well-known author is going to read from her latest novel. We try to hold events like this at least once or twice a week, and as you can imagine, they're very popular. We don't make a charge for people to attend, but we obviously hope that some of them will want to purchase the book after listening to part of it being read aloud. Other events which are proving to be very popular are our workshops. Last week we held a poetry workshop, and people came along with poems that they'd written. One of the country's best-known poets ran the workshop, and the participants read their poems aloud to him.\n\nHe was kind and encouraging, and many people felt inspired by his advice. It's extremely difficult to earn your living as a professional poet, and even published poets have other jobs. Now we're going to take a look at our section on audiobooks. \n\nYou now have 30 seconds to check your answers to part 2.",
+    "3": "Part 3. You will hear a business student called Ron getting feedback from his tutor on his presentation. \n\nFirst, you have some time to look at questions 21 to 24. \n\nNow listen carefully and answer questions 21 to 24. Thanks, Ron, for coming to my office to discuss the presentation you gave yesterday to the business management seminar. We'll go over what you did with the aim of helping you improve your next presentation. Sounds good. Now, the topic was the just-in-time, or JIT, supply system used by a lot of manufacturers, first in Japan and then in the West, I think. Yes, but actually one thing I should have made clearer and talked about was the fact that the Americans actually pioneered the idea of just-in-time, though it wasn't called that. Henry Ford and his cars, in fact, at the turn of the 20th century. And later, a big US supermarket chain used it, and this was where Toyota in Japan got the idea for its car making. Yes, that would have been a good addition. Now, before we go any further, I think I would suggest that you should have stopped and clearly defined just-in-time for your seminar colleagues. You said its aim was to reduce waste, and you mentioned that classic business theory assumes that stock, or inventory of parts, are counted as assets, but just-in-time sees them as unnecessary waste. But you never told us that JIT simply means waiting until the last moment to order new supplies as you need them. Yes, you're right. I should have done that. Now, you talked a bit about standardising parts as a way of streamlining JIT. Where did you get your data from? Well, I tried an internet website on the subject, which is called The Lean Clearinghouse, but it was too technical for me. So, in the end, I got my data from a textbook called Learning from Toyota. I found some journal articles too, but they didn't seem very useful. Yes. Well, there is a US government report on it I've seen. I'll get a copy for you. Great. I look forward to reading through it. And while you're at it, you might want to find out about cases where JIT might not be suitable, and that's in service industries like tourism or healthcare, where customers are paying for something that they can't actually see or count. Although JIT is fashionable today, some people would say it hasn't proved so successful in the service sector as it has with the manufacturing of goods that can be quantified. That would be interesting. I'll see what I can find out. \n\nBefore you hear the rest of the discussion,\n\nyou have some time to look at questions 25 to 30. \n\nNow listen and answer questions 25 to 30. Now, unless you have any more questions, let's turn to a critique of the technical aspects of the presentation. I'm afraid I'll emphasise the things I think you might want to work on. It was a good talk, but with a little work, your next presentation should be excellent. Fine. That would be helpful. Actually, I wasn't happy with my delivery. I sometimes seemed to talk fast and sometimes slow. I was on edge, I guess. Yes, you were. And as well as that, your purpose wasn't very specific. In future, you need to lay out exactly what you're going to cover and why. Make it clear and concise and not so general. And what about my transitions from one section to the next? Well, you didn't link the sections, did you? You went too quickly from one to the next. It was all just too abrupt. OK. I'll try to improve that. Now, your PowerPoint visuals were lovely, but sometimes I got the feeling that, nice as they were as pictures, they didn't have much to do with what you were talking about. Right? You're right. And you know another thing? I could see from the other students’ reactions they just didn't understand some of the vocabulary I was using. Good point. Well, remember, your audience were laymen, mostly without knowledge of JIT. So you need to simplify and try to put things in everyday English. I never seem to do that. And lastly, I'll just mention your body language. You didn't use gestures and you just stood straight without any animation. It didn't make you seem very interested in the subject. I know, even though I really do like the subject. Sorry. Well, despite all this, I enjoyed your presentation and I could see you put lots of work into it. I look forward to an even better presentation from you next time. Well, thanks for your help. \n\nThat is the end of Part 3. \n\nYou now have 30 seconds to check your answers to Part 3.",
+    "4": "In Part 4, you will hear about studying dyscalculia, a neurodevelopmental disorder affecting numerical abilities. \n\nFirst, you have some time to look at questions 31 to 40. \n\nNow listen carefully and answer questions 31 to 40. Dyscalculia, a complex neurodevelopmental condition, refers to a learning disorder marked by significant challenges in understanding and manipulating numerical concepts, quantities, and mathematical operations. It's a condition that affects children's ability to understand and work with numbers. Currently, most\n\nschools use the traditional method of teaching mathematics, which may not be effective for children with dyscalculia. These children struggle with grasping mathematical concepts, especially when it comes to understanding the concept of time and sequence. They find it challenging to comprehend the passage of time and the order in which events occur. In the classroom, teachers focus on providing everyday practical examples to help these children overcome their difficulties. They engage the students in activities that involve dealing with money, as this is a common challenge for children with dyscalculia. By incorporating real-life scenarios, teachers aim to make the learning experience more meaningful and relatable for these students. Additionally, teachers provide individualized support and interventions tailored to each student's needs. To boost their confidence, children with mathematics disorders are encouraged to practice more calculations and problem-solving. This additional practice helps them develop a stronger sense of self-assurance when it comes to dealing with mathematical tasks. Teachers also provide positive reinforcement and praise for their efforts and progress. Teachers also implement strategies that encourage children to make educated guesses when they encounter mathematical problems. By empowering them to make informed guesses, teachers hope to foster problem-solving skills and reduce anxiety associated with mathematical challenges. Additionally, they incorporate various exercises, such as breathing techniques, relaxation exercises, and even walking breaks, to promote a conducive learning environment. These activities aid in reducing stress and promoting focus during math lessons. Teachers also explore alternative teaching methods, such as visual aids and manipulatives, to enhance understanding and engagement. Researchers in this field are particularly interested in finding a potential link between dyscalculia and language learning difficulties. They are investigating whether there is a connection between language barriers and the challenges children face in mathematics. Understanding this link could help inform more targeted interventions and support strategies. Children with dyscalculia often struggle with concentration and maintaining focus. Teachers are aware of this issue and work to provide additional support and accommodations to help these children stay engaged during lessons. They may use techniques like chunking information, breaking tasks into smaller steps, and providing regular breaks. With this comprehensive approach to teaching children with dyscalculia, the aim is to provide them with the necessary skills and strategies to overcome their mathematical challenges. By implementing these strategies, children may no longer require additional treatment or training specifically focused on their mathematics disorder. Ongoing assessment and monitoring of progress are crucial to ensure the effectiveness of\n\ninterventions and make any necessary adjustments. It's important to note that dyscalculia affects not only the children, but also their families and teachers. Teachers and families play a crucial role in supporting these children and understanding their unique needs in the classroom and at home. Open communication, collaboration, and a supportive environment are key in helping children with dyscalculia thrive academically and emotionally. By recognizing and addressing dyscalculia, we can provide a more inclusive and supportive learning environment for all students. \n\nThat is the end of Part 4. \n\nYou now have one minute to check your answers to Part 4."
+  },
+  "transcript_source": "Full transcripts recovered from the user-provided scanned Transcription.pdf via OCR and cross-checked against supplied HTML answer anchors and recording.",
+  "timestamps_source": "Part-level boundaries are aligned to long inter-section pauses in the supplied Audio.mp3; no question-level word timestamps are claimed.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "match your details against our database",
+      "answer": "match your details against our database",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "stop off whenever I want",
+      "answer": "stop off whenever I want",
+      "lexical_type": "phrasal verb phrase"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "quite competitive",
+      "answer": "quite competitive",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "earn quite good money",
+      "answer": "earn quite good money",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "unlimited rail travel",
+      "answer": "unlimited rail travel",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "fill up fast",
+      "answer": "fill up fast",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "make any arrangements",
+      "answer": "make any arrangements",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "lug your computer around",
+      "answer": "lug your computer around",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 201,
+      "part": 2,
+      "n": 1,
+      "match": "main seating area",
+      "answer": "main seating area",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 202,
+      "part": 2,
+      "n": 2,
+      "match": "under no pressure to buy",
+      "answer": "under no pressure to buy",
+      "lexical_type": "prepositional phrase"
+    },
+    {
+      "q": 203,
+      "part": 2,
+      "n": 3,
+      "match": "search through our entire catalogue",
+      "answer": "search through our entire catalogue",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 204,
+      "part": 2,
+      "n": 4,
+      "match": "the comfort of their own home",
+      "answer": "the comfort of their own home",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 205,
+      "part": 2,
+      "n": 5,
+      "match": "draw people in",
+      "answer": "draw people in",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 206,
+      "part": 2,
+      "n": 6,
+      "match": "qualified nursery staff",
+      "answer": "qualified nursery staff",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 207,
+      "part": 2,
+      "n": 7,
+      "match": "well-known author",
+      "answer": "well-known author",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 208,
+      "part": 2,
+      "n": 8,
+      "match": "earn your living as a professional poet",
+      "answer": "earn your living as a professional poet",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 301,
+      "part": 3,
+      "n": 1,
+      "match": "the Americans actually pioneered the idea",
+      "answer": "the Americans actually pioneered the idea",
+      "lexical_type": "clause"
+    },
+    {
+      "q": 302,
+      "part": 3,
+      "n": 2,
+      "match": "classic business theory",
+      "answer": "classic business theory",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 303,
+      "part": 3,
+      "n": 3,
+      "match": "standardising parts",
+      "answer": "standardising parts",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 304,
+      "part": 3,
+      "n": 4,
+      "match": "service industries like tourism or healthcare",
+      "answer": "service industries like tourism or healthcare",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 305,
+      "part": 3,
+      "n": 5,
+      "match": "technical aspects of the presentation",
+      "answer": "technical aspects of the presentation",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 306,
+      "part": 3,
+      "n": 6,
+      "match": "clear and concise",
+      "answer": "clear and concise",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 307,
+      "part": 3,
+      "n": 7,
+      "match": "put things in everyday English",
+      "answer": "put things in everyday English",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 308,
+      "part": 3,
+      "n": 8,
+      "match": "use gestures",
+      "answer": "use gestures",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 401,
+      "part": 4,
+      "n": 1,
+      "match": "complex neurodevelopmental condition",
+      "answer": "complex neurodevelopmental condition",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 402,
+      "part": 4,
+      "n": 2,
+      "match": "numerical concepts",
+      "answer": "numerical concepts",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 403,
+      "part": 4,
+      "n": 3,
+      "match": "everyday practical examples",
+      "answer": "everyday practical examples",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 404,
+      "part": 4,
+      "n": 4,
+      "match": "real-life scenarios",
+      "answer": "real-life scenarios",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 405,
+      "part": 4,
+      "n": 5,
+      "match": "positive reinforcement",
+      "answer": "positive reinforcement",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 406,
+      "part": 4,
+      "n": 6,
+      "match": "educated guesses",
+      "answer": "educated guesses",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 407,
+      "part": 4,
+      "n": 7,
+      "match": "targeted interventions",
+      "answer": "targeted interventions",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 408,
+      "part": 4,
+      "n": 8,
+      "match": "supportive environment",
+      "answer": "supportive environment",
+      "lexical_type": "noun phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "match your details against our database",
+      "word": "match your details against our database",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: International Student Travel",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "stop off whenever I want",
+      "word": "stop off whenever I want",
+      "type": "phrasal verb phrase",
+      "lexical_type": "phrasal verb phrase",
+      "pos": "phrasal verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: International Student Travel",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "quite competitive",
+      "word": "quite competitive",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: International Student Travel",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "earn quite good money",
+      "word": "earn quite good money",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: International Student Travel",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "unlimited rail travel",
+      "word": "unlimited rail travel",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: International Student Travel",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "fill up fast",
+      "word": "fill up fast",
+      "type": "phrasal verb",
+      "lexical_type": "phrasal verb",
+      "pos": "phrasal verb",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: International Student Travel",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "make any arrangements",
+      "word": "make any arrangements",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: International Student Travel",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "lug your computer around",
+      "word": "lug your computer around",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: International Student Travel",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "main seating area",
+      "word": "main seating area",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Bibliostack",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "under no pressure to buy",
+      "word": "under no pressure to buy",
+      "type": "prepositional phrase",
+      "lexical_type": "prepositional phrase",
+      "pos": "prepositional phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Bibliostack",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "search through our entire catalogue",
+      "word": "search through our entire catalogue",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Bibliostack",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "the comfort of their own home",
+      "word": "the comfort of their own home",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Bibliostack",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "draw people in",
+      "word": "draw people in",
+      "type": "phrasal verb",
+      "lexical_type": "phrasal verb",
+      "pos": "phrasal verb",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Bibliostack",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "qualified nursery staff",
+      "word": "qualified nursery staff",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Bibliostack",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "well-known author",
+      "word": "well-known author",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Bibliostack",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "earn your living as a professional poet",
+      "word": "earn your living as a professional poet",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Bibliostack",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "the Americans actually pioneered the idea",
+      "word": "the Americans actually pioneered the idea",
+      "type": "clause",
+      "lexical_type": "clause",
+      "pos": "clause",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: The Just-in-Time Supply System",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "classic business theory",
+      "word": "classic business theory",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: The Just-in-Time Supply System",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "standardising parts",
+      "word": "standardising parts",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: The Just-in-Time Supply System",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "service industries like tourism or healthcare",
+      "word": "service industries like tourism or healthcare",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: The Just-in-Time Supply System",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "technical aspects of the presentation",
+      "word": "technical aspects of the presentation",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: The Just-in-Time Supply System",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "clear and concise",
+      "word": "clear and concise",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: The Just-in-Time Supply System",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "put things in everyday English",
+      "word": "put things in everyday English",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: The Just-in-Time Supply System",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "use gestures",
+      "word": "use gestures",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: The Just-in-Time Supply System",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "complex neurodevelopmental condition",
+      "word": "complex neurodevelopmental condition",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dyscalculia",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "numerical concepts",
+      "word": "numerical concepts",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dyscalculia",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "everyday practical examples",
+      "word": "everyday practical examples",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dyscalculia",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "real-life scenarios",
+      "word": "real-life scenarios",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dyscalculia",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "positive reinforcement",
+      "word": "positive reinforcement",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dyscalculia",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "educated guesses",
+      "word": "educated guesses",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dyscalculia",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "targeted interventions",
+      "word": "targeted interventions",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dyscalculia",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "supportive environment",
+      "word": "supportive environment",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dyscalculia",
+      "collocations": [],
+      "paraphrases": []
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "Matching",
+    "12": "Matching",
+    "13": "Matching",
+    "14": "Matching",
+    "15": "Matching",
+    "16": "MCQ",
+    "17": "MCQ",
+    "18": "MCQ",
+    "19": "MCQ",
+    "20": "MCQ",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "Matching",
+    "26": "Matching",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    [
+      "exam",
+      "01",
+      "Full IELTS Test",
+      "Q1-Q40 in a timed exam with embedded audio, FLAG and notes."
+    ],
+    [
+      "review",
+      "02",
+      "Review & Revision",
+      "Redo a Part and inspect answers/evidence after checking."
+    ],
+    [
+      "script",
+      "03",
+      "Script Completion",
+      "Complete full Part 1-4 transcripts with 8 lexical gaps each."
+    ],
+    [
+      "mcq",
+      "04",
+      "MCQ Mastery",
+      "Practise Q16-Q24 single-answer multiple-choice questions and distractors."
+    ],
+    [
+      "matching",
+      "05",
+      "Matching Mastery",
+      "Practise Bibliostack map Q11-Q15 and JIT criticism Q25-Q30."
+    ],
+    [
+      "completion",
+      "06",
+      "Completion Mastery",
+      "Practise form and note completion."
+    ],
+    [
+      "vocab",
+      "07",
+      "Vocabulary Builder",
+      "Learn useful expressions from all four transcripts."
+    ],
+    [
+      "retry",
+      "08",
+      "Retry Weak Areas",
+      "Retry missed or unanswered questions."
+    ]
+  ]
+}

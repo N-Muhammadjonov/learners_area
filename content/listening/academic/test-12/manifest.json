@@ -1,0 +1,52 @@
+{
+  "id": "listening-test-12",
+  "title": "Listening Test 12",
+  "collection": "academic",
+  "number": 12,
+  "questionCount": 40,
+  "sectionCount": 4,
+  "storageKey": "la_listening_test_12_v2",
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Map / Plan Mastery",
+    "Matching Mastery",
+    "Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ],
+  "audio": {
+    "path": "audio/full.mp3",
+    "objectKey": "listening/academic/test-12/full.mp3",
+    "contentType": "audio/mpeg",
+    "bytes": 15394691,
+    "sha256": "5fed59864b56d7afecfcbc1d7d8b2e6af87fa77c6b52c343b216732f562fe810",
+    "durationSeconds": 1539.422041,
+    "localFile": "test-12-full.mp3"
+  },
+  "media": [
+    {
+      "path": "audio/full.mp3",
+      "objectKey": "listening/academic/test-12/full.mp3",
+      "contentType": "audio/mpeg",
+      "bytes": 15394691,
+      "sha256": "5fed59864b56d7afecfcbc1d7d8b2e6af87fa77c6b52c343b216732f562fe810",
+      "durationSeconds": 1539.422041,
+      "localFile": "test-12-full.mp3"
+    },
+    {
+      "path": "images/map.png",
+      "objectKey": "listening/academic/test-12/images/map.png",
+      "contentType": "image/png",
+      "bytes": 1249425,
+      "sha256": "da0ecfe7db25179f87b3a24193ad8bf33c4c5a0093ece7ebe0432e33eee1b1e6",
+      "durationSeconds": 0,
+      "localFile": "test-12-map.png"
+    }
+  ],
+  "durationSeconds": 1539.422041,
+  "originalSha256": "64ff87a2329956d1aaf9db96ba23c015171541802ac1d76d7196fde0c91f7f26",
+  "sourceSha256": "a4036579f4b00a0f353c4c9aa42ba07483d4ccdee2eb430551716498cf4aa3c6"
+}

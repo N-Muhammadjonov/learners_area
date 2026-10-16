@@ -1,0 +1,1495 @@
+{
+  "test_id": "listening-test-10",
+  "title": "Listening Test 10",
+  "sections": [
+    "Accommodation Request",
+    "Green Island Nature Park",
+    "Discussion on Music and Childhood Memories",
+    "Effects of Drama Activities on Children"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Preferred location in the town",
+      "answer": "southeast",
+      "evidence": "The agent explains that suitable houses are more available in the southeast, which is also convenient for the applicant.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports southeast for this item. The agent explains that suitable houses are more available in the southeast, which is also convenient for the applicant.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Preferred location in the town | Verified evidence summary: The agent explains that suitable houses are more available in the southeast, which is also convenient for the applicant.",
+      "options": [],
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Required facility in the furnished property",
+      "answer": "washing machine",
+      "evidence": "The applicant wants a furnished property and specifically asks for a washing machine.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports washing machine for this item. The applicant wants a furnished property and specifically asks for a washing machine.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Required facility in the furnished property | Verified evidence summary: The applicant wants a furnished property and specifically asks for a washing machine.",
+      "options": [],
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Start date of rental period",
+      "answer": "15th May",
+      "evidence": "After leaving her present place and visiting her parents, the applicant chooses 15th May as the rental start date.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports 15th May for this item. After leaving her present place and visiting her parents, the applicant chooses 15th May as the rental start date.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Start date of rental period | Verified evidence summary: After leaving her present place and visiting her parents, the applicant chooses 15th May as the rental start date.",
+      "options": [],
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Reference from her ___",
+      "answer": "employer",
+      "evidence": "She says her employer can provide the required reference.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports employer for this item. She says her employer can provide the required reference.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Reference from her ___ | Verified evidence summary: She says her employer can provide the required reference.",
+      "options": [],
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Maximum monthly rent",
+      "answer": "675",
+      "evidence": "She can pay no more than 675 pounds per month.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports 675 for this item. She can pay no more than 675 pounds per month.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Maximum monthly rent | Verified evidence summary: She can pay no more than 675 pounds per month.",
+      "options": [],
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Applicant's job",
+      "answer": "translator",
+      "evidence": "She works for organisations in the city as a translator.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports translator for this item. She works for organisations in the city as a translator.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Applicant's job | Verified evidence summary: She works for organisations in the city as a translator.",
+      "options": [],
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Credit-check document",
+      "answer": "bank statement",
+      "evidence": "For the credit check, the agent asks to see a bank statement.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports bank statement for this item. For the credit check, the agent asks to see a bank statement.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Credit-check document | Verified evidence summary: For the credit check, the agent asks to see a bank statement.",
+      "options": [],
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Street name for the viewing property",
+      "answer": "AINSWORTH",
+      "evidence": "The available property is at 33 Ainsworth Street.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports AINSWORTH for this item. The available property is at 33 Ainsworth Street.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Street name for the viewing property | Verified evidence summary: The available property is at 33 Ainsworth Street.",
+      "options": [],
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Facility to check inside the house",
+      "answer": "telephone",
+      "evidence": "The applicant wants to confirm whether the house has a telephone.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports telephone for this item. The applicant wants to confirm whether the house has a telephone.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Facility to check inside the house | Verified evidence summary: The applicant wants to confirm whether the house has a telephone.",
+      "options": [],
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Nearby transport facility",
+      "answer": "bus stop",
+      "evidence": "She also wants to know whether a bus stop is reasonably close to the property.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports bus stop for this item. She also wants to know whether a bus stop is reasonably close to the property.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Nearby transport facility | Verified evidence summary: She also wants to know whether a bus stop is reasonably close to the property.",
+      "options": [],
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "Which natural feature of Green Island is special?",
+      "answer": "A",
+      "evidence": "The guide contrasts ordinary fish and birds with the unusually clear water, making the water the special natural feature.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports A for this item. The guide contrasts ordinary fish and birds with the unusually clear water, making the water the special natural feature.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: Which natural feature of Green Island is special? | Verified evidence summary: The guide contrasts ordinary fish and birds with the unusually clear water, making the water the special natural feature.",
+      "options": [
+        {
+          "code": "A",
+          "text": "The water"
+        },
+        {
+          "code": "B",
+          "text": "The birds"
+        },
+        {
+          "code": "C",
+          "text": "The fish"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "Who started the nature park?",
+      "answer": "B",
+      "evidence": "Mitchell Cullen first recorded marine life and Joseph Turia established a laboratory, while Churchill Peters is linked with setting up the nature park itself.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports B for this item. Mitchell Cullen first recorded marine life and Joseph Turia established a laboratory, while Churchill Peters is linked with setting up the nature park itself.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: Who started the nature park? | Verified evidence summary: Mitchell Cullen first recorded marine life and Joseph Turia established a laboratory, while Churchill Peters is linked with setting up the nature park itself.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Mitchell Cullen"
+        },
+        {
+          "code": "B",
+          "text": "Churchill Peters"
+        },
+        {
+          "code": "C",
+          "text": "Joseph Turia"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Choose TWO conditions best for seeing fish - first selection",
+      "answer": "B",
+      "evidence": "The clearest fish viewing occurs when the sea is calm with no wind.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports B for this item. The clearest fish viewing occurs when the sea is calm with no wind.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: Choose TWO conditions best for seeing fish - first selection | Verified evidence summary: The clearest fish viewing occurs when the sea is calm with no wind.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Summer days"
+        },
+        {
+          "code": "B",
+          "text": "No wind"
+        },
+        {
+          "code": "C",
+          "text": "Early morning"
+        },
+        {
+          "code": "D",
+          "text": "High tide"
+        },
+        {
+          "code": "E",
+          "text": "No rain for one week"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "multi_group": [
+        13,
+        14
+      ]
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Choose TWO conditions best for seeing fish - second selection",
+      "answer": "E",
+      "evidence": "The guide says the water is clearest after there has been no rain for a week.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports E for this item. The guide says the water is clearest after there has been no rain for a week.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: Choose TWO conditions best for seeing fish - second selection | Verified evidence summary: The guide says the water is clearest after there has been no rain for a week.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Summer days"
+        },
+        {
+          "code": "B",
+          "text": "No wind"
+        },
+        {
+          "code": "C",
+          "text": "Early morning"
+        },
+        {
+          "code": "D",
+          "text": "High tide"
+        },
+        {
+          "code": "E",
+          "text": "No rain for one week"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "multi_group": [
+        13,
+        14
+      ]
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "play games on the beach",
+      "answer": "B",
+      "evidence": "Games may occasionally be played on the beach when visitor numbers and tide conditions allow, so this is only sometimes permitted.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports B for this item. Games may occasionally be played on the beach when visitor numbers and tide conditions allow, so this is only sometimes permitted.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: play games on the beach | Verified evidence summary: Games may occasionally be played on the beach when visitor numbers and tide conditions allow, so this is only sometimes permitted.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Visitors can always do this"
+        },
+        {
+          "code": "B",
+          "text": "Visitors can sometimes do this"
+        },
+        {
+          "code": "C",
+          "text": "Visitors must not do this"
+        }
+      ],
+      "type": "Classification"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "feed the fish",
+      "answer": "B",
+      "evidence": "Feeding fish is allowed only when the park is not busy, so it is conditional rather than always allowed.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports B for this item. Feeding fish is allowed only when the park is not busy, so it is conditional rather than always allowed.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: feed the fish | Verified evidence summary: Feeding fish is allowed only when the park is not busy, so it is conditional rather than always allowed.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Visitors can always do this"
+        },
+        {
+          "code": "B",
+          "text": "Visitors can sometimes do this"
+        },
+        {
+          "code": "C",
+          "text": "Visitors must not do this"
+        }
+      ],
+      "type": "Classification"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "touch the fish on purpose",
+      "answer": "C",
+      "evidence": "Fish may bump into swimmers, but visitors must not deliberately touch them.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports C for this item. Fish may bump into swimmers, but visitors must not deliberately touch them.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: touch the fish on purpose | Verified evidence summary: Fish may bump into swimmers, but visitors must not deliberately touch them.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Visitors can always do this"
+        },
+        {
+          "code": "B",
+          "text": "Visitors can sometimes do this"
+        },
+        {
+          "code": "C",
+          "text": "Visitors must not do this"
+        }
+      ],
+      "type": "Classification"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "take photographs underwater",
+      "answer": "A",
+      "evidence": "Underwater photography is explicitly permitted.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports A for this item. Underwater photography is explicitly permitted.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: take photographs underwater | Verified evidence summary: Underwater photography is explicitly permitted.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Visitors can always do this"
+        },
+        {
+          "code": "B",
+          "text": "Visitors can sometimes do this"
+        },
+        {
+          "code": "C",
+          "text": "Visitors must not do this"
+        }
+      ],
+      "type": "Classification"
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "climb on Green Island",
+      "answer": "B",
+      "evidence": "Climbing is forbidden in the spring nesting season but allowed at other times for a short rest, so it is only sometimes permitted.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports B for this item. Climbing is forbidden in the spring nesting season but allowed at other times for a short rest, so it is only sometimes permitted.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: climb on Green Island | Verified evidence summary: Climbing is forbidden in the spring nesting season but allowed at other times for a short rest, so it is only sometimes permitted.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Visitors can always do this"
+        },
+        {
+          "code": "B",
+          "text": "Visitors can sometimes do this"
+        },
+        {
+          "code": "C",
+          "text": "Visitors must not do this"
+        }
+      ],
+      "type": "Classification"
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "use a private boat",
+      "answer": "A",
+      "evidence": "Visitors with their own boats are welcome to use them, provided they move carefully near swimmers and divers.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports A for this item. Visitors with their own boats are welcome to use them, provided they move carefully near swimmers and divers.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: use a private boat | Verified evidence summary: Visitors with their own boats are welcome to use them, provided they move carefully near swimmers and divers.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Visitors can always do this"
+        },
+        {
+          "code": "B",
+          "text": "Visitors can sometimes do this"
+        },
+        {
+          "code": "C",
+          "text": "Visitors must not do this"
+        }
+      ],
+      "type": "Classification"
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "The lecturer likes the topic because",
+      "answer": "B",
+      "evidence": "The lecturer expects the topic to generate a lot of discussion among classmates.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports B for this item. The lecturer expects the topic to generate a lot of discussion among classmates.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: The lecturer likes the topic because | Verified evidence summary: The lecturer expects the topic to generate a lot of discussion among classmates.",
+      "options": [
+        {
+          "code": "A",
+          "text": "it links to a previous research topic."
+        },
+        {
+          "code": "B",
+          "text": "the whole class will be interested in it."
+        },
+        {
+          "code": "C",
+          "text": "there is plenty of information to write about."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "When talking about their teenage years, participants in a study were asked to say",
+      "answer": "B",
+      "evidence": "Participants had to identify who they now associated their important teenage music with.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports B for this item. Participants had to identify who they now associated their important teenage music with.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: When talking about their teenage years, participants in a study were asked to say | Verified evidence summary: Participants had to identify who they now associated their important teenage music with.",
+      "options": [
+        {
+          "code": "A",
+          "text": "how often they listened to music"
+        },
+        {
+          "code": "B",
+          "text": "who some music reminded them of"
+        },
+        {
+          "code": "C",
+          "text": "whether their musical tastes had changed"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "The study is important because it is the first to",
+      "answer": "A",
+      "evidence": "The study is significant because of its very large international sample.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports A for this item. The study is significant because of its very large international sample.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: The study is important because it is the first to | Verified evidence summary: The study is significant because of its very large international sample.",
+      "options": [
+        {
+          "code": "A",
+          "text": "involve so many participants."
+        },
+        {
+          "code": "B",
+          "text": "do research into this topic area."
+        },
+        {
+          "code": "C",
+          "text": "show a link between music and social class"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Sarah doubts the findings of the study because she thinks",
+      "answer": "C",
+      "evidence": "Sarah questions the reliability because participants described their own personalities rather than being assessed objectively.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports C for this item. Sarah questions the reliability because participants described their own personalities rather than being assessed objectively.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: Sarah doubts the findings of the study because she thinks | Verified evidence summary: Sarah questions the reliability because participants described their own personalities rather than being assessed objectively.",
+      "options": [
+        {
+          "code": "A",
+          "text": "the research was rushed."
+        },
+        {
+          "code": "B",
+          "text": "some people would not fit the findings."
+        },
+        {
+          "code": "C",
+          "text": "the information given may not be reliable"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Background to the study",
+      "answer": "C",
+      "evidence": "They decide the background section contains too many facts and should be made less detailed.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports C for this item. They decide the background section contains too many facts and should be made less detailed.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: Background to the study | Verified evidence summary: They decide the background section contains too many facts and should be made less detailed.",
+      "options": [
+        {
+          "code": "A",
+          "text": "the information is inaccurate"
+        },
+        {
+          "code": "B",
+          "text": "not interesting enough"
+        },
+        {
+          "code": "C",
+          "text": "too detailed"
+        },
+        {
+          "code": "D",
+          "text": "the statistics are incomplete"
+        },
+        {
+          "code": "E",
+          "text": "need more expert opinions"
+        },
+        {
+          "code": "F",
+          "text": "need to make it more relevant"
+        },
+        {
+          "code": "G",
+          "text": "present both sides"
+        }
+      ],
+      "type": "Matching"
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Other similar research",
+      "answer": "B",
+      "evidence": "They find the similar-research section dull and not interesting enough.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports B for this item. They find the similar-research section dull and not interesting enough.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: Other similar research | Verified evidence summary: They find the similar-research section dull and not interesting enough.",
+      "options": [
+        {
+          "code": "A",
+          "text": "the information is inaccurate"
+        },
+        {
+          "code": "B",
+          "text": "not interesting enough"
+        },
+        {
+          "code": "C",
+          "text": "too detailed"
+        },
+        {
+          "code": "D",
+          "text": "the statistics are incomplete"
+        },
+        {
+          "code": "E",
+          "text": "need more expert opinions"
+        },
+        {
+          "code": "F",
+          "text": "need to make it more relevant"
+        },
+        {
+          "code": "G",
+          "text": "present both sides"
+        }
+      ],
+      "type": "Matching"
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Findings",
+      "answer": "G",
+      "evidence": "They decide to present both similarities and differences in the findings.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports G for this item. They decide to present both similarities and differences in the findings.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: Findings | Verified evidence summary: They decide to present both similarities and differences in the findings.",
+      "options": [
+        {
+          "code": "A",
+          "text": "the information is inaccurate"
+        },
+        {
+          "code": "B",
+          "text": "not interesting enough"
+        },
+        {
+          "code": "C",
+          "text": "too detailed"
+        },
+        {
+          "code": "D",
+          "text": "the statistics are incomplete"
+        },
+        {
+          "code": "E",
+          "text": "need more expert opinions"
+        },
+        {
+          "code": "F",
+          "text": "need to make it more relevant"
+        },
+        {
+          "code": "G",
+          "text": "present both sides"
+        }
+      ],
+      "type": "Matching"
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Market research",
+      "answer": "D",
+      "evidence": "They note that not all market-research data is available yet, so the statistics are incomplete.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports D for this item. They note that not all market-research data is available yet, so the statistics are incomplete.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: Market research | Verified evidence summary: They note that not all market-research data is available yet, so the statistics are incomplete.",
+      "options": [
+        {
+          "code": "A",
+          "text": "the information is inaccurate"
+        },
+        {
+          "code": "B",
+          "text": "not interesting enough"
+        },
+        {
+          "code": "C",
+          "text": "too detailed"
+        },
+        {
+          "code": "D",
+          "text": "the statistics are incomplete"
+        },
+        {
+          "code": "E",
+          "text": "need more expert opinions"
+        },
+        {
+          "code": "F",
+          "text": "need to make it more relevant"
+        },
+        {
+          "code": "G",
+          "text": "present both sides"
+        }
+      ],
+      "type": "Matching"
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Limitations of the research",
+      "answer": "E",
+      "evidence": "They want outside researchers’ views because the limitations section needs more expert opinions.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports E for this item. They want outside researchers’ views because the limitations section needs more expert opinions.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: Limitations of the research | Verified evidence summary: They want outside researchers’ views because the limitations section needs more expert opinions.",
+      "options": [
+        {
+          "code": "A",
+          "text": "the information is inaccurate"
+        },
+        {
+          "code": "B",
+          "text": "not interesting enough"
+        },
+        {
+          "code": "C",
+          "text": "too detailed"
+        },
+        {
+          "code": "D",
+          "text": "the statistics are incomplete"
+        },
+        {
+          "code": "E",
+          "text": "need more expert opinions"
+        },
+        {
+          "code": "F",
+          "text": "need to make it more relevant"
+        },
+        {
+          "code": "G",
+          "text": "present both sides"
+        }
+      ],
+      "type": "Matching"
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Future research",
+      "answer": "F",
+      "evidence": "Future-research ideas need to connect more closely to psychology and the course, so the section must be made more relevant.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports F for this item. Future-research ideas need to connect more closely to psychology and the course, so the section must be made more relevant.",
+      "trap": "Follow the final relationship or rule, not a repeated keyword or attractive distractor.",
+      "mistakeType": "Distractor / classification / matching",
+      "paraphrase": "Question focus: Future research | Verified evidence summary: Future-research ideas need to connect more closely to psychology and the course, so the section must be made more relevant.",
+      "options": [
+        {
+          "code": "A",
+          "text": "the information is inaccurate"
+        },
+        {
+          "code": "B",
+          "text": "not interesting enough"
+        },
+        {
+          "code": "C",
+          "text": "too detailed"
+        },
+        {
+          "code": "D",
+          "text": "the statistics are incomplete"
+        },
+        {
+          "code": "E",
+          "text": "need more expert opinions"
+        },
+        {
+          "code": "F",
+          "text": "need to make it more relevant"
+        },
+        {
+          "code": "G",
+          "text": "present both sides"
+        }
+      ],
+      "type": "Matching"
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Group participation develops ___ in their own ideas",
+      "answer": "confidence",
+      "evidence": "Free expression in a group helps children develop confidence in their own opinions and ideas.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports confidence for this item. Free expression in a group helps children develop confidence in their own opinions and ideas.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Group participation develops ___ in their own ideas | Verified evidence summary: Free expression in a group helps children develop confidence in their own opinions and ideas.",
+      "options": [],
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Imaginative activities allow children to take ___",
+      "answer": "risks",
+      "evidence": "Unscripted improvisation gives children experience of taking risks.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports risks for this item. Unscripted improvisation gives children experience of taking risks.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Imaginative activities allow children to take ___ | Verified evidence summary: Unscripted improvisation gives children experience of taking risks.",
+      "options": [],
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Working as a group teaches the importance of ___ to others",
+      "answer": "listening",
+      "evidence": "Cooperative drama teaches the value of listening to one another.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports listening for this item. Cooperative drama teaches the value of listening to one another.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Working as a group teaches the importance of ___ to others | Verified evidence summary: Cooperative drama teaches the value of listening to one another.",
+      "options": [],
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Performance makes children ___ for their learning and behaviour",
+      "answer": "responsible",
+      "evidence": "Performance helps children become responsible for learning and general behaviour.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports responsible for this item. Performance helps children become responsible for learning and general behaviour.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Performance makes children ___ for their learning and behaviour | Verified evidence summary: Performance helps children become responsible for learning and general behaviour.",
+      "options": [],
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Role play can function as a form of ___",
+      "answer": "therapy",
+      "evidence": "Role play is widely used as a form of therapy for children experiencing difficulties.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports therapy for this item. Role play is widely used as a form of therapy for children experiencing difficulties.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Role play can function as a form of ___ | Verified evidence summary: Role play is widely used as a form of therapy for children experiencing difficulties.",
+      "options": [],
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Controversial subjects can be explored in a ___ environment",
+      "answer": "safe",
+      "evidence": "Potentially controversial subjects can be explored in a safe setting where children feel at ease.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports safe for this item. Potentially controversial subjects can be explored in a safe setting where children feel at ease.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Controversial subjects can be explored in a ___ environment | Verified evidence summary: Potentially controversial subjects can be explored in a safe setting where children feel at ease.",
+      "options": [],
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Develop children's self-knowledge and understanding of ___",
+      "answer": "morality",
+      "evidence": "Reflecting on thoughts and opinions can deepen self-knowledge and awareness of morality.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports morality for this item. Reflecting on thoughts and opinions can deepen self-knowledge and awareness of morality.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Develop children's self-knowledge and understanding of ___ | Verified evidence summary: Reflecting on thoughts and opinions can deepen self-knowledge and awareness of morality.",
+      "options": [],
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "Drama activities increase children's ___ in class",
+      "answer": "participation",
+      "evidence": "Re-enacting historical material increases children’s participation in the lesson.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports participation for this item. Re-enacting historical material increases children’s participation in the lesson.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Drama activities increase children's ___ in class | Verified evidence summary: Re-enacting historical material increases children’s participation in the lesson.",
+      "options": [],
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Drama makes it easier for children to ___ historical events",
+      "answer": "remember",
+      "evidence": "Drama helps children remember what happened and why it mattered.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports remember for this item. Drama helps children remember what happened and why it mattered.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Drama makes it easier for children to ___ historical events | Verified evidence summary: Drama helps children remember what happened and why it mattered.",
+      "options": [],
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Use role play to find answers to historical ___",
+      "answer": "problems",
+      "evidence": "Role play can be used to find solutions to historical problems and understand why decisions were made.",
+      "timeStart": 0,
+      "timeEnd": 0,
+      "timeCenter": 0,
+      "why": "The verified evidence supports problems for this item. Role play can be used to find solutions to historical problems and understand why decisions were made.",
+      "trap": "Respect the source word limit and preserve exact spelling, date or number form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Use role play to find answers to historical ___ | Verified evidence summary: Role play can be used to find solutions to historical problems and understand why decisions were made.",
+      "options": [],
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "southeast",
+    "2": "washing machine",
+    "3": "15th May",
+    "4": "employer",
+    "5": "675",
+    "6": "translator",
+    "7": "bank statement",
+    "8": "AINSWORTH",
+    "9": "telephone",
+    "10": "bus stop",
+    "11": "A",
+    "12": "B",
+    "13": "B",
+    "14": "E",
+    "15": "B",
+    "16": "B",
+    "17": "C",
+    "18": "A",
+    "19": "B",
+    "20": "A",
+    "21": "B",
+    "22": "B",
+    "23": "A",
+    "24": "C",
+    "25": "C",
+    "26": "B",
+    "27": "G",
+    "28": "D",
+    "29": "E",
+    "30": "F",
+    "31": "confidence",
+    "32": "risks",
+    "33": "listening",
+    "34": "responsible",
+    "35": "therapy",
+    "36": "safe",
+    "37": "morality",
+    "38": "participation",
+    "39": "remember",
+    "40": "problems"
+  },
+  "alternatives": {
+    "1": [
+      "south-east",
+      "south east"
+    ],
+    "2": [],
+    "3": [
+      "15 May",
+      "May 15th",
+      "May 15"
+    ],
+    "4": [],
+    "5": [],
+    "6": [],
+    "7": [],
+    "8": [
+      "Ainsworth"
+    ],
+    "9": [],
+    "10": [],
+    "11": [],
+    "12": [],
+    "13": [
+      "E"
+    ],
+    "14": [
+      "B"
+    ],
+    "15": [],
+    "16": [],
+    "17": [],
+    "18": [],
+    "19": [],
+    "20": [],
+    "21": [],
+    "22": [],
+    "23": [],
+    "24": [],
+    "25": [],
+    "26": [],
+    "27": [],
+    "28": [],
+    "29": [],
+    "30": [],
+    "31": [],
+    "32": [],
+    "33": [],
+    "34": [],
+    "35": [],
+    "36": [],
+    "37": [],
+    "38": [],
+    "39": [],
+    "40": []
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 439.054127
+    },
+    "2": {
+      "start": 439.054127,
+      "end": 871.525397
+    },
+    "3": {
+      "start": 871.525397,
+      "end": 1336.440748
+    },
+    "4": {
+      "start": 1336.440748,
+      "end": 1677.733265
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Embedded user-supplied four-section audio, concatenated in Part 1–4 order and encoded at 80 kbps mono.",
+  "transcript": {
+    "1": "",
+    "2": "",
+    "3": "",
+    "4": ""
+  },
+  "transcript_source": "SOURCE LIMITATION - supplied raw HTML contains no transcript text. Exact matching public transcripts were used only to verify answer/evidence anchors; full external transcript text is not republished or fabricated in the package.",
+  "timestamps_source": "Unavailable because canonical audio is absent from the supplied source.",
+  "script_completion": [],
+  "vocabulary": [
+    {
+      "headword": "bearing in mind",
+      "type": "fixed expression · C1",
+      "definition": "while remembering or considering a relevant fact",
+      "uzbek": "inobatga olgan holda",
+      "context": "The agent discusses the rental period while considering the minimum term.",
+      "collocations": [
+        "bearing in mind that",
+        "with this in mind"
+      ],
+      "paraphrases": [
+        "taking into account",
+        "considering"
+      ]
+    },
+    {
+      "headword": "proceed with a contract",
+      "type": "formal collocation · C1",
+      "definition": "continue with the formal process of making an agreement",
+      "uzbek": "shartnomani rasmiylashtirishni davom ettirmoq",
+      "context": "A reference is needed before the rental contract can proceed.",
+      "collocations": [
+        "proceed with an agreement",
+        "contractual process"
+      ],
+      "paraphrases": [
+        "continue with the agreement"
+      ]
+    },
+    {
+      "headword": "bank statement",
+      "type": "noun phrase · B2/C1",
+      "definition": "an official record of activity in a bank account",
+      "uzbek": "bank hisoboti",
+      "context": "A bank statement is requested for the credit check.",
+      "collocations": [
+        "recent bank statement",
+        "provide a bank statement"
+      ],
+      "paraphrases": [
+        "account statement"
+      ]
+    },
+    {
+      "headword": "underwater visibility",
+      "type": "technical collocation · C1",
+      "definition": "how far or clearly something can be seen under water",
+      "uzbek": "suv ostidagi ko‘rinish darajasi",
+      "context": "Weather conditions affect underwater visibility around Green Island.",
+      "collocations": [
+        "poor underwater visibility",
+        "improve visibility"
+      ],
+      "paraphrases": [
+        "clarity underwater"
+      ]
+    },
+    {
+      "headword": "use your common sense",
+      "type": "fixed expression · B2/C1",
+      "definition": "make a sensible judgement based on practical understanding",
+      "uzbek": "sog‘lom fikrdan foydalanmoq",
+      "context": "Visitors are asked to use common sense when deciding whether to feed fish.",
+      "collocations": [
+        "use common sense",
+        "common-sense approach"
+      ],
+      "paraphrases": [
+        "make a sensible judgement"
+      ]
+    },
+    {
+      "headword": "nesting season",
+      "type": "noun phrase · C1",
+      "definition": "the period when birds build nests and reproduce",
+      "uzbek": "qushlarning uya qurish mavsumi",
+      "context": "Access to the island is restricted during the nesting season.",
+      "collocations": [
+        "spring nesting season",
+        "during nesting season"
+      ],
+      "paraphrases": [
+        "breeding season"
+      ]
+    },
+    {
+      "headword": "closely associated with",
+      "type": "academic collocation · C1",
+      "definition": "strongly connected with a person, idea or event",
+      "uzbek": "chambarchas bog‘liq",
+      "context": "One person is closely associated with establishing the nature park.",
+      "collocations": [
+        "closely associated with",
+        "strongly associated with"
+      ],
+      "paraphrases": [
+        "strongly linked to"
+      ]
+    },
+    {
+      "headword": "objective fact",
+      "type": "academic noun phrase · C1",
+      "definition": "information not dependent on personal opinion or interpretation",
+      "uzbek": "obyektiv fakt",
+      "context": "Sarah distinguishes self-description from objective fact.",
+      "collocations": [
+        "objective evidence",
+        "objective fact"
+      ],
+      "paraphrases": [
+        "verifiable fact"
+      ]
+    },
+    {
+      "headword": "groundbreaking research",
+      "type": "academic collocation · C1",
+      "definition": "research that introduces an important new development or approach",
+      "uzbek": "yangilik yaratgan tadqiqot",
+      "context": "The students discuss why the international study is significant.",
+      "collocations": [
+        "groundbreaking study",
+        "groundbreaking research"
+      ],
+      "paraphrases": [
+        "pioneering research"
+      ]
+    },
+    {
+      "headword": "fit neatly",
+      "type": "verb-adverb chunk · C1",
+      "definition": "match a category or description cleanly and without exceptions",
+      "uzbek": "aniq mos tushmoq",
+      "context": "Some people may not fit neatly into the study’s descriptions.",
+      "collocations": [
+        "fit neatly into a category",
+        "does not fit neatly"
+      ],
+      "paraphrases": [
+        "match exactly"
+      ]
+    },
+    {
+      "headword": "point of view",
+      "type": "fixed noun phrase · B2/C1",
+      "definition": "a particular way of considering a subject",
+      "uzbek": "nuqtai nazar",
+      "context": "The presentation will include two different points of view on the findings.",
+      "collocations": [
+        "different point of view",
+        "from this point of view"
+      ],
+      "paraphrases": [
+        "perspective"
+      ]
+    },
+    {
+      "headword": "implications",
+      "type": "academic noun · C1",
+      "definition": "possible effects, consequences or wider meanings of something",
+      "uzbek": "oqibatlar / kengroq ta’sirlar",
+      "context": "The students discuss the marketing implications of the research.",
+      "collocations": [
+        "practical implications",
+        "implications for marketing"
+      ],
+      "paraphrases": [
+        "consequences",
+        "wider effects"
+      ]
+    },
+    {
+      "headword": "direct confrontation",
+      "type": "advanced collocation · C1",
+      "definition": "an open and direct conflict or challenge between people",
+      "uzbek": "to‘g‘ridan-to‘g‘ri qarama-qarshilik",
+      "context": "Role play can explore behaviour without direct confrontation.",
+      "collocations": [
+        "avoid direct confrontation",
+        "lead to confrontation"
+      ],
+      "paraphrases": [
+        "open conflict"
+      ]
+    },
+    {
+      "headword": "controversial subject",
+      "type": "collocation · C1",
+      "definition": "a topic likely to cause disagreement or strong opinions",
+      "uzbek": "bahsli mavzu",
+      "context": "Drama can provide a safe way to explore controversial subjects.",
+      "collocations": [
+        "controversial subject",
+        "controversial issue"
+      ],
+      "paraphrases": [
+        "contentious topic"
+      ]
+    },
+    {
+      "headword": "feel at ease",
+      "type": "fixed expression · C1",
+      "definition": "feel relaxed and comfortable in a situation",
+      "uzbek": "o‘zini erkin va qulay his qilmoq",
+      "context": "Children need a setting where they feel at ease.",
+      "collocations": [
+        "feel at ease with",
+        "put someone at ease"
+      ],
+      "paraphrases": [
+        "feel comfortable"
+      ]
+    },
+    {
+      "headword": "self-knowledge",
+      "type": "academic noun · C1",
+      "definition": "understanding of one’s own character, feelings and behaviour",
+      "uzbek": "o‘zini anglash",
+      "context": "Drama can lead to deeper self-knowledge.",
+      "collocations": [
+        "deeper self-knowledge",
+        "develop self-knowledge"
+      ],
+      "paraphrases": [
+        "self-understanding"
+      ]
+    },
+    {
+      "headword": "bring the past alive",
+      "type": "fixed expression · C1",
+      "definition": "make historical events vivid and meaningful to learners",
+      "uzbek": "o‘tmishni jonlantirmoq",
+      "context": "Classroom drama can bring historical events alive for children.",
+      "collocations": [
+        "bring history alive",
+        "bring the past alive"
+      ],
+      "paraphrases": [
+        "make history vivid"
+      ]
+    },
+    {
+      "headword": "role reversal",
+      "type": "technical noun phrase · C1",
+      "definition": "an activity in which people exchange their usual roles",
+      "uzbek": "rollarni almashtirish",
+      "context": "A bully can explore behaviour through role reversal.",
+      "collocations": [
+        "role-reversal exercise",
+        "use role reversal"
+      ],
+      "paraphrases": [
+        "switching roles"
+      ]
+    },
+    {
+      "headword": "cooperative activities",
+      "type": "academic collocation · C1",
+      "definition": "tasks in which participants work together toward a shared result",
+      "uzbek": "hamkorlikdagi faoliyatlar",
+      "context": "Drama often places emphasis on cooperative activities.",
+      "collocations": [
+        "cooperative learning activities",
+        "group cooperation"
+      ],
+      "paraphrases": [
+        "collaborative activities"
+      ]
+    },
+    {
+      "headword": "express themselves freely",
+      "type": "lexical chunk · C1",
+      "definition": "communicate thoughts or feelings without excessive restriction or fear",
+      "uzbek": "o‘z fikrini erkin ifodalamoq",
+      "context": "Group drama gives children space to express themselves freely.",
+      "collocations": [
+        "express yourself freely",
+        "freedom of expression"
+      ],
+      "paraphrases": [
+        "communicate openly"
+      ]
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "MCQ",
+    "12": "MCQ",
+    "13": "Choose TWO / Multiple Answer",
+    "14": "Choose TWO / Multiple Answer",
+    "15": "Classification",
+    "16": "Classification",
+    "17": "Classification",
+    "18": "Classification",
+    "19": "Classification",
+    "20": "Classification",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "Matching",
+    "26": "Matching",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Choose TWO Mastery",
+    "Matching Mastery",
+    "Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ]
+}

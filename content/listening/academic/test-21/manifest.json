@@ -1,0 +1,51 @@
+{
+  "id": "listening-test-21",
+  "title": "Listening Test 21",
+  "collection": "academic",
+  "number": 21,
+  "questionCount": 40,
+  "sectionCount": 4,
+  "storageKey": "la_listening_test_21_v2",
+  "activities": [
+    "exam",
+    "review",
+    "script",
+    "mcq",
+    "matching",
+    "completion",
+    "vocab",
+    "retry"
+  ],
+  "audio": {
+    "path": "audio/full.mp3",
+    "objectKey": "listening/academic/test-21/full.mp3",
+    "contentType": "audio/mpeg",
+    "bytes": 16451272,
+    "sha256": "d30b8ce61fcc0658e2141c56fc3385fe4d1cf37e259c29e815712f4165f90c3f",
+    "durationSeconds": 1645.087347,
+    "localFile": "test-21-full.mp3"
+  },
+  "media": [
+    {
+      "path": "audio/full.mp3",
+      "objectKey": "listening/academic/test-21/full.mp3",
+      "contentType": "audio/mpeg",
+      "bytes": 16451272,
+      "sha256": "d30b8ce61fcc0658e2141c56fc3385fe4d1cf37e259c29e815712f4165f90c3f",
+      "durationSeconds": 1645.087347,
+      "localFile": "test-21-full.mp3"
+    },
+    {
+      "path": "images/map.jpg",
+      "objectKey": "listening/academic/test-21/images/map.jpg",
+      "contentType": "image/jpeg",
+      "bytes": 21267,
+      "sha256": "0b9c6717611ff36d3c0b152b94a526aa7a1d5c9c388cd5a0202b3abddd5787ee",
+      "durationSeconds": 0,
+      "localFile": "test-21-map.jpg"
+    }
+  ],
+  "durationSeconds": 1645.087347,
+  "originalSha256": "eb8a8ba0dd212b478b7adf2d5ed347aabe63d9b6d12409f77c85a748789f79bd",
+  "sourceSha256": "ec1ce79c4e255f1680788c27eaf2d5b03a2f1570bd70f05de9e9da06a0b01bfb"
+}

@@ -1,0 +1,1146 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-5",
+  "title": "Listening Test 5",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "81534b674b7fdf7e94710c0cec999abf59ca1385c2973eb20b39c5a73efa25dd",
+      "path": "audio/full.mp3"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1640.333061,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": null,
+    "imagePath": null,
+    "sections": [
+      {
+        "number": 1,
+        "title": "Campsites",
+        "transcript": "Speaker 0: You will hear two friends choosing a campsite together for their holiday with their families. First, you have some time to look at questions one to five. Now listen carefully and answer questions one to five. Speaker 1: Shall we have a look at this information about campsites and then perhaps we can choose where to go on holiday? Speaker 2: Yes. My children are very excited about our two families going away together again this year. Shall we look at Westerly Campsite first? Speaker 1: Yes. It says it's most suitable for children under 12 years old, so that should be fine for us. Your daughter's just 11, isn't she? Speaker 2: Yes, that's right. Speaker 1: Now where is the Westerly Campsite? Is it the one next to a lake? Speaker 2: That's another one. This one's by the sea. Perfect. Speaker 1: Yes. That's a good place to go in the summer when the weather's hot. Speaker 2: This brochure says that most children who go to Westerly Campsite love the animals they can see there. There's a special area where they can go and feed them. Speaker 1: We might see some interesting birds too. Oh, and look. It says a farmer comes every day and you can buy eggs from him. Speaker 2: Great for breakfast. I wonder if he sells other things like cheese, but it's not mentioned. Speaker 1: I don't know. I think they grow a lot of fruit in that area, so he might sell that. Speaker 2: Another thing I like about this campsite is that they let you make a fire. We could cook some sausages and sing songs around it in the evenings. And perhaps it would be a good way to meet other families there too. Speaker 1: Great. And it isn't too expensive. Six pounds per adult per night, three pounds per child. But wait. Families of four can get it for fifteen pounds seventy-five a night. That works out even cheaper. Speaker 0: Before you hear the rest of the conversation, you have some time to look at questions six to ten. Now listen and answer questions six to ten. Speaker 2: Let's look at a couple of other campsites before we decide. Speaker 1: Yes. Let's look at Snetton Forest Campsite. It's even cheaper. Five pounds per adult and children under ten are free. They say it's a very good place if you're keen on fishing, and they even give you tips on where to go to have the best chance of catching some. Speaker 2: I prefer walking or hiking, and so do the rest of my family, so I'm not sure that will attract us that much. Oh, look. It says you can rent a bike to go around the forest. I'd do that. And your children would like that too, wouldn't they? Speaker 1: Absolutely. We could all go somewhere and have a picnic. Look, this is interesting too. At Snetton they get all the children together to play football. Your children would love that. And your husband Mike plays too, doesn't he? Speaker 2: Yes, that sounds good. Well, Mike's more into tennis actually, but I'm sure he'd be happy to be a referee if they needed one. Here's some information about Trent Valley Campsite. I've heard about this one. There's a festival near the campsite in June and it's really busy, so they say for families it's better in July when it's a bit quieter. Speaker 1: Well, that would be just right for us because we have to go in the school summer holidays. Let's look at what it says about it. Oh, look. It's quite a long way to the nearest village, eight kilometres. Speaker 2: It's too far to walk. But this one has got an open-air pool, which we'd all love in the summer. And they have a little shop where you can buy basic things like bread and milk. That's really useful. And there's lots to do there. Speaker 1: I think on Saturday night... Speaker 0: That is the end of Part 1. You now have one minute to check your answers to Part 1.",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Starting a Business",
+        "transcript": "Arthur Jones: Good evening, my name is Arthur Jones. I'm very glad to have this opportunity to speak to you over the radio. The host asked me to give a talk about my experience of starting my own business. I can't say my business is successful, but there are some things that I want to share with you, which I think will be helpful if you want to start your own company. I've talked to many young people, and they told me that they are afraid of making mistakes when they start their business. What I want to say is that mistakes are very common, especially when you do something new. Mistakes can actually show you where you need to improve, so you can take actions about them and use the chance to learn new methods. This is a very important attitude you should have. Besides, most mistakes are not that fatal. Don't be too anxious when they occur. Next, I want to go on to talk about self-confidence, which is quite important in achieving business success. Being self-confident means that you can have faith in yourself. Self-confidence can be gained through hard work, even playing sports. However, sometimes self-confidence may make you ignore problems and even cause failure. Business leaders should remain calm and not take impulsive actions. I know that when people start their business, they have confusions. They don't know how they can be more professional. They read business journals or watch related videos, but these don't seem to help sometimes. My suggestion is that, instead of aimlessly trying many new things, they should always be committed to their goal. As long as they stick to it, they will not be easily distracted or confused by other things, and they are sure to get better. We will all meet difficulties, especially at the beginning. We can't always rely on ourselves to solve all the problems. I had a problem with marketing earlier this year. Luckily, I found an expert to help me deal with it. So, there's always a way. But we should know how and when to seek help from these people. Business leaders have different kinds of styles. Some are very good at public speaking. Others are very down-to-earth and have strong executive skills. But in general, they should be able to win the respect from their employees so that they can carry out their orders more easily. There are times when a company might face risks. During such times, leaders will need to take prompt actions. And they can't always plan for the distant future. Leaders should analyze and deal with the risks with caution. If they bear this in mind, there is always a way out. At the beginning of my business, I experimented with quite a few strategies, hoping to find out the best solution for my business. Here is what I found. At first, my company wanted to work out prices for the products and make them realistic. However, prices are always changing, so they can't be fixed. Another thing I always keep in mind is that leaders must stay committed to their jobs. Without enough commitment, you may easily give up when problems happen. I have some friends whose businesses didn't survive during difficult times. It wasn't because they were stupid. It was just a lack of commitment. I can't always be sure that my products or services are better than my competitors, but I pay attention to details and try to improve all the little things, as they can actually make a big difference. You might worry that you don't have a very clear and sophisticated business strategy. Personally, I don't think it's a problem, because you will be changing them all the time anyway. In terms of support, at any stage, we do need support from others to back up our business. The support can really make a difference. Before I started my business, my family helped me a lot, both financially and mentally. There were also people who gave me advice on how to run businesses successfully. However, this advice and ideas were not so practical to me, so I didn't really use them. Looking back, I felt lucky that I followed my own way of thinking. Also, I was short of funds back then, and I loaned money from the bank to start my company. I was grateful for that. That's what I want to share in today's program. If you have any questions for me, please send it to my email, which is...",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "Dolphin Presentation",
+        "transcript": "Speaker 0: You will hear a discussion between two students called Mark and Fran about their presentation on some dolphins which are unique to New Zealand. Fran: Hi Mark, thanks for coming around. Mark: Hi Fran, no problem. We need to try and get this presentation finished. Fran: Mark, let's start with the way dolphins make sounds. Mark: Well, we all know that dolphins make clicking noises to communicate. Fran: Yes, they have tongues and larynxes as humans do, but what's really strange about the dolphin is that the sounds are focused through an extraordinary organ called the melon, which most other sea mammals don't have. Mark: So, shall I take over from there and speak about the different dolphin types? Fran: I want to share what we found out about those rare dolphins that are special just to New Zealand in particular. Mark: Yeah, great, put the emphasis on them. Fran: The rarest of all is the Hector's dolphin, isn't it? They are endangered, aren't they? Mark: I think that's mainly because so many of them get tangled up in fishing gear, especially gillnets, and die. I know that some conservationists are worried about the impact of the tourism industry on dolphin numbers, but I don't think that's a problem yet here. Fran: Also, remember that this species has a very long reproductive cycle, so their numbers don't get replenished quickly. Mark: Yeah, that's really sad. But at least the New Zealand government established a sanctuary for them, didn't it? Fran: The fishing industry was against it, but I remember reading that the general public were very supportive of the decision. It was a consequence of a study done by some marine biologists. Having a protected breeding area has made a big difference to the dolphin population already. Mark: Yeah, I think their numbers have swelled to over 7,000 in total, with a tiny group of just 89 living down off Southland, nearly 2,000 living near Christchurch on the East Coast, and the biggest group surviving off the West Coast. It's a pretty wild country over there, so I guess there aren't as many tourists and fishermen to disturb them. Fran: Okay, so how do you suggest I structure my part of the talk? Mark: Well, you could start with the common dolphin, which inhabits the whole of the sea around New Zealand. And once you've covered everything to do with them, feeding and so on, you could go on to the more unusual types. The dusky dolphin is especially interesting because you know how all the dolphins travel in small social groups called pods? Well, the dusky dolphins travel in pods as big as 800 members. Fran: And I think the duskies like to travel along beside fishing and tourist boats, don't they? Whereas the Hector's dolphins are different in that they prefer to go in the wake of boats that are coming along in the rear. Mark: Yeah, they do. But they also dive down deep to avoid fast boats. Fran: Oh, let's not forget the Maui because they are endangered too, aren't they? There are only 150 of them left, and they inhabit only the western coastal waters off the North Island of New Zealand. Mark: Yeah, it's a pity. They also face problems because of their tiny size. Now the orca is actually a dolphin too, right? Fran: Yes, surprisingly. Mark: So I'll include that in my talk. People call them killer whales, but in fact they're not whales. They're a huge and very fierce type of dolphin. In New Zealand, Kaikoura in the South Island is the best place to spot orcas swimming by, so people mistakenly think that's where they live. But actually, orcas cover vast distances. Fran: Let's not forget to mention the bottlenose. It's bigger than nearly all the other dolphins, even the common dolphin. Mark: Oh, but still not as big as the orca, right? Fran: That's right. Well, I think that's our presentation done. Speaker 0: That is the end of Part 3. You now have half a minute to check your answers.",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "Recycling Tyres in Australia",
+        "transcript": "Speaker 0: You will hear a man giving a lecture on his tyre recycling company to environmental science students. Speaker 1: Good afternoon. I'm the Managing Director of Molectra Technologies, and we are involved in recycling tyres from vehicles such as cars and trucks. This might not sound new or exciting, but the method we use is quite radical compared to traditional tyre recycling methods. We strongly believe that the business of recycling tyres is crucial, as amazingly, every month in Australia alone, the number of old tyres that are discarded exceeds 1.5 million, and when you look at the figure globally, it is a staggering 1.2 billion each year. For decades, various recycling methods have been trialled with varying degrees of success. In some cases, the solution was as bad as the problem. Incinerating tyres, for example, generates toxic fumes which are harmful to the environment. Breaking up whole tyres is energy intensive and produces a contaminated product with very little value. As a result, there was little incentive to get into the business because there was no profit in it. And yet, a tyre is made up of so many valuable components, and it is for this reason that we started trying out new recycling methods. In the end, our factory came up with a much improved system for recycling old tyres. The molecular process is different for a number of reasons. Firstly, it is a lot cheaper to run because our machines are much more compact in comparison to traditional systems. This in turn reduces energy consumption. The wear and tear on the shredding equipment, which cuts up the tyres, is also reduced, as the tyres fed through them have already been softened. Costs are reduced by over 30% using our system. And, significantly, our machines can handle a tyre of any size, from the smallest bicycle or wheelbarrow right up to the largest earth-moving truck. Most other processes can only handle car tyres. Our technology has proven to work, and we have won many awards, including the Australian Museum's Eureka Award, and last year on a national TV programme, we were chosen as the invention of the year. Winning that certainly opened many doors for us, with interest coming from 27 countries around the world, including the United States and China. To cope with the demand, we will soon have 10 more factories which will operate 24 hours a day just to stabilise the current stockpile. We are passionate about taking this process further, and so we have chosen to dedicate 5% of every dollar we make to research. In this way, we can ensure we are always the best in the business. So, let's look at the process we use, what we extract from the tyre in each stage of the process, and the uses that those materials can be put to. The first step of the process mechanically extracts the steel wires from the rim of the tyre. This high-quality wire can be cut into small pellets suitable for sandblasting shots. Next, after the tyres have been sliced into a number of segments depending on tyre diameter, they are chemically treated. This chemical treatment is essential as it removes dirt from the rubber prior to the rest of the process. The cleaning process also softens the tyres, making them easier to chop up. In the next stage, the fibre cords contained in the tyre segments are separated from the rubber using rollers. The fibres, which can include nylon and rayon, can be used as a reinforcement for concrete, or they can be used to form plastic panels. Then, the rubber is cut up into very small pieces known as crumb rubber. For a tyre weighing ten kilograms, Molectra can recover seven and a half kilograms of crumb rubber that can be used to manufacture a range of rubber products, such as asphalt used in road making. It is also used as insulation in buildings, or something simple like tiles for the floor. Alternatively, any or all of this crumb rubber can continue through to the final stage. This final stage involves a patented MolectraVac machine, which uses industrial microwave energy. This changes the remaining rubber into hydrocarbon, which can be used to make three different products. We can cheaply produce activated carbon, which is usually quite expensive to make from new materials. It's used for treating water, as well as being an integral part of air filters. Secondly, as the carbon produced is very pure - in fact, it's over 97.4% pure - we can crush it to form something called carbon black, which is used in the manufacture of batteries and also ink. Our process is very flexible, and we can alter the quantity of each of the three products depending on demand. Finally, we can even use the hydrocarbon to make oil, and we use this to generate electricity to power our own machines. It certainly helps to keep the costs down. And that's just about it, so if there are any questions...",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "Westerly Campsite - Location: near the ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "sea",
+        "alternatives": [
+          "sea"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports sea for this item. The speakers reject the lake site and identify Westerly as the campsite by the sea.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Special attraction for children: the ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "animals",
+        "alternatives": [
+          "animals"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports animals for this item. The brochure highlights the animals children can see and feed.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "A local farmer sells ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "eggs",
+        "alternatives": [
+          "eggs"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports eggs for this item. A farmer visits every day and sells eggs to campers.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Campers are allowed to have a ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "fire",
+        "alternatives": [
+          "fire"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports fire for this item. Westerly allows campers to make a fire in the evening.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "Cost per night: £___ for a family",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "15.75",
+        "alternatives": [
+          "15.75",
+          "£15.75",
+          "15 pounds 75",
+          "15 pounds 75 pence"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports 15.75 for this item. A family of four can stay for £15.75 per night.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "Snetton Forest Campsite - Recommended for people who like ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "fishing",
+        "alternatives": [
+          "fishing"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports fishing for this item. Snetton Forest is recommended for people who are keen on fishing.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "Campers can hire a ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "bike",
+        "alternatives": [
+          "bike",
+          "bicycle"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports bike for this item. Campers can rent a bike to travel around the forest.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Activity organised for children: ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "football",
+        "alternatives": [
+          "football"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports football for this item. Children at Snetton are brought together to play football.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "Trent Valley Campsite - Better month for families to go: ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "July",
+        "alternatives": [
+          "July"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports July for this item. Families are advised to visit Trent Valley in July, when it is quieter.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Has an outdoor ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "pool",
+        "alternatives": [
+          "pool",
+          "swimming pool"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports pool for this item. Trent Valley has an open-air pool.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "What is the most important attitude towards making mistakes according to Arthur?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Mistakes are inevitable.",
+          "B) Mistakes can be a chance to learn.",
+          "C) Mistakes can cause serious consequences."
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports B for this item. Arthur says mistakes can show where improvement is needed and create a chance to learn.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "What's true about self-confidence according to Arthur?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Self-confidence sometimes leads to failure.",
+          "B) It means being ambitious with what you do.",
+          "C) Self-confidence can be gained through reading."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports A for this item. He warns that self-confidence can make people ignore problems and can cause failure.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "What advice does Arthur give to new business leaders?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Read business journals.",
+          "B) Try new things.",
+          "C) Keep their aims."
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports C for this item. Arthur says new leaders should remain committed to their goal rather than trying things aimlessly.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "How does Arthur deal with difficult problems?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Ask for advice from friends.",
+          "B) Seek help from experts.",
+          "C) Try to get advice from books."
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports B for this item. When he had a marketing problem, Arthur found an expert to help him.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "What's the common quality of leaders?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Have good public speaking skills.",
+          "B) Solve all problems skillfully.",
+          "C) Be respected by the workforce."
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports C for this item. Arthur says leaders generally need to win the respect of their employees.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "How should companies take risks?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Deal with them carefully.",
+          "B) Be financially advantageous.",
+          "C) Think in the long run."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports A for this item. He says risks should be analysed and dealt with carefully.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "Choose TWO: important factors when starting a business - first selection",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) fix realistic prices",
+          "B) create products better than the competitors'",
+          "C) be committed",
+          "D) pay attention to detail",
+          "E) apply complete strategy"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C",
+          "D"
+        ],
+        "pair": [
+          18
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports C or D for this item. Arthur stresses commitment as essential when starting a business.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "Choose TWO: important factors when starting a business - second selection",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) fix realistic prices",
+          "B) create products better than the competitors'",
+          "C) be committed",
+          "D) pay attention to detail",
+          "E) apply complete strategy"
+        ],
+        "key": "D",
+        "alternatives": [
+          "C",
+          "D"
+        ],
+        "pair": [
+          17
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports C or D for this item. He says paying attention to details can make a big difference.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "Choose TWO: kinds of support important for Arthur - first selection",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) family support",
+          "B) good business advice with new ideas",
+          "C) support of the bank loan",
+          "D) friends' support",
+          "E) governmental funding"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A",
+          "C"
+        ],
+        "pair": [
+          20
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports A or C for this item. Arthur describes strong financial and emotional support from his family.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "Choose TWO: kinds of support important for Arthur - second selection",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) family support",
+          "B) good business advice with new ideas",
+          "C) support of the bank loan",
+          "D) friends' support",
+          "E) governmental funding"
+        ],
+        "key": "C",
+        "alternatives": [
+          "A",
+          "C"
+        ],
+        "pair": [
+          19
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports A or C for this item. He says he was short of funds and borrowed money from a bank.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "What is the students' purpose in mentioning the way dolphins make sounds?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) to show comparison with human speech",
+          "B) to show the unusual anatomy of a dolphin's head",
+          "C) to show recent developments in understanding the meaning of the sounds"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports B for this item. The students emphasise the unusual organ called the melon that focuses dolphin sounds.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "According to Fran, Hector's dolphins are unaffected by",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) tourist numbers.",
+          "B) the threat from fishing nets.",
+          "C) their slow breeding rate."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports A for this item. Fran says tourism is not yet a major problem for Hector’s dolphins.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "The New Zealand Government set up a marine sanctuary",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) because of public pressure.",
+          "B) as a result of scientific research.",
+          "C) to protect a dolphin feeding ground."
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports B for this item. The sanctuary followed a study by marine biologists.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "Where is the largest population of Hector's dolphins in New Zealand?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) the east coast",
+          "B) Southland",
+          "C) the west coast"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports C for this item. The largest group of Hector’s dolphins survives off the west coast.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "Common dolphins - special characteristic",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) swim along behind boats",
+          "B) swim in unusually large groups",
+          "C) live along New Zealand's entire coastline",
+          "D) swim beneath slow-moving boats",
+          "E) tend to be solitary",
+          "F) live only off New Zealand's northwest coast",
+          "G) are the second largest dolphin species in New Zealand",
+          "H) are seen mostly in Kaikoura"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports C for this item. Common dolphins inhabit the sea around the whole of New Zealand.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "Dusky dolphins - special characteristic",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) swim along behind boats",
+          "B) swim in unusually large groups",
+          "C) live along New Zealand's entire coastline",
+          "D) swim beneath slow-moving boats",
+          "E) tend to be solitary",
+          "F) live only off New Zealand's northwest coast",
+          "G) are the second largest dolphin species in New Zealand",
+          "H) are seen mostly in Kaikoura"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports B for this item. Dusky dolphins can travel in very large pods.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "Hector's dolphins - special characteristic",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) swim along behind boats",
+          "B) swim in unusually large groups",
+          "C) live along New Zealand's entire coastline",
+          "D) swim beneath slow-moving boats",
+          "E) tend to be solitary",
+          "F) live only off New Zealand's northwest coast",
+          "G) are the second largest dolphin species in New Zealand",
+          "H) are seen mostly in Kaikoura"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports A for this item. Hector's dolphins prefer to travel in the wake of boats.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Maui's dolphins - special characteristic",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) swim along behind boats",
+          "B) swim in unusually large groups",
+          "C) live along New Zealand's entire coastline",
+          "D) swim beneath slow-moving boats",
+          "E) tend to be solitary",
+          "F) live only off New Zealand's northwest coast",
+          "G) are the second largest dolphin species in New Zealand",
+          "H) are seen mostly in Kaikoura"
+        ],
+        "key": "F",
+        "alternatives": [
+          "F"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports F for this item. Maui's dolphins live only in western coastal waters of New Zealand's North Island.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Orcas - special characteristic",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) swim along behind boats",
+          "B) swim in unusually large groups",
+          "C) live along New Zealand's entire coastline",
+          "D) swim beneath slow-moving boats",
+          "E) tend to be solitary",
+          "F) live only off New Zealand's northwest coast",
+          "G) are the second largest dolphin species in New Zealand",
+          "H) are seen mostly in Kaikoura"
+        ],
+        "key": "H",
+        "alternatives": [
+          "H"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports H for this item. Kaikoura is highlighted as the best place to see orcas.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Bottle-nose dolphins - special characteristic",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) swim along behind boats",
+          "B) swim in unusually large groups",
+          "C) live along New Zealand's entire coastline",
+          "D) swim beneath slow-moving boats",
+          "E) tend to be solitary",
+          "F) live only off New Zealand's northwest coast",
+          "G) are the second largest dolphin species in New Zealand",
+          "H) are seen mostly in Kaikoura"
+        ],
+        "key": "G",
+        "alternatives": [
+          "G"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports G for this item. Bottle-nose dolphins are identified as the second largest dolphin species in New Zealand.\nDo not choose a detail simply because you hear the same keyword. Follow the speaker's contrast and final meaning."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "More than 1.5 million tyres dumped in Australia per ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "month",
+        "alternatives": [
+          "month"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports month for this item. The lecture states that more than 1.5 million old tyres are discarded in Australia every month.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "Recycling companies didn't make any ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "profit",
+        "alternatives": [
+          "profit"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports profit for this item. Earlier recycling methods offered little incentive because there was no profit.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "No limit on the ___ of tyres recycled",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "size",
+        "alternatives": [
+          "size"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports size for this item. The Molectra process has no limit on the size of tyres that can be recycled.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "Plans to spend 5% of income each year on ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "research",
+        "alternatives": [
+          "research"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports research for this item. The company plans to spend five percent of income each year on research.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "Removal of steel ___ from tyre rim",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "diagram_labeling",
+        "options": [],
+        "key": "wires",
+        "alternatives": [
+          "wires",
+          "wire"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports wires for this item. Steel wires are removed from the tyre rim and reused as pellets.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "Chemicals applied to get rid of ___ and soften rubber",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "diagram_labeling",
+        "options": [],
+        "key": "dirt",
+        "alternatives": [
+          "dirt"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports dirt for this item. Chemicals remove dirt and soften the rubber.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Fibres removed; sheets made of ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "diagram_labeling",
+        "options": [],
+        "key": "plastic",
+        "alternatives": [
+          "plastic"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports plastic for this item. Removed fibres are reused, including in sheets made of plastic.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "Crumb rubber used for asphalt, insulation and ___ tiles",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "diagram_labeling",
+        "options": [],
+        "key": "floor",
+        "alternatives": [
+          "floor"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports floor for this item. Crumb rubber can be used in floor tiles.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "Activated carbon: ___ treatment and air filtration",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "diagram_labeling",
+        "options": [],
+        "key": "water",
+        "alternatives": [
+          "water"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports water for this item. Activated carbon is used in water treatment and air filtration.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "Carbon black: batteries and ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "diagram_labeling",
+        "options": [],
+        "key": "ink",
+        "alternatives": [
+          "ink"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports ink for this item. Carbon black can be used in batteries and ink.\nRespect the word limit and listen for the exact noun, number or form required by the surrounding grammar."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "bear this in mind",
+        "pos": "fixed expression",
+        "uz": "buni yodda tutmoq",
+        "def": "remember and consider a fact when deciding what to do",
+        "ex": "Leaders should bear this in mind when dealing with risk.",
+        "also": [
+          "remember this",
+          "take this into account"
+        ]
+      },
+      {
+        "word": "down-to-earth",
+        "pos": "adjective",
+        "uz": "amaliy, sodda va realistik",
+        "def": "practical, realistic and unpretentious",
+        "ex": "Some leaders are very down-to-earth.",
+        "also": [
+          "practical",
+          "realistic"
+        ]
+      },
+      {
+        "word": "executive skills",
+        "pos": "noun phrase",
+        "uz": "boshqaruv va ijro ko‘nikmalari",
+        "def": "skills used to organise, decide and carry out management responsibilities",
+        "ex": "Some leaders have strong executive skills.",
+        "also": [
+          "management abilities",
+          "leadership execution skills"
+        ]
+      },
+      {
+        "word": "take impulsive actions",
+        "pos": "collocation",
+        "uz": "o‘ylamasdan shoshilinch harakat qilmoq",
+        "def": "act suddenly without enough thought",
+        "ex": "Business leaders should not take impulsive actions.",
+        "also": [
+          "act rashly",
+          "act without thinking"
+        ]
+      },
+      {
+        "word": "committed to a goal",
+        "pos": "collocation",
+        "uz": "maqsadga qat’iy sodiq",
+        "def": "strongly dedicated to achieving a particular objective",
+        "ex": "Arthur advises leaders to stay committed to their goal.",
+        "also": [
+          "dedicated to an objective",
+          "stay focused on a goal"
+        ]
+      },
+      {
+        "word": "stick to it",
+        "pos": "phrasal verb",
+        "uz": "undan chekinmaslik, davom ettirmoq",
+        "def": "continue with a plan or task despite difficulty",
+        "ex": "As long as they stick to it, they will not be easily distracted.",
+        "also": [
+          "persist",
+          "keep going"
+        ]
+      },
+      {
+        "word": "seek help",
+        "pos": "collocation",
+        "uz": "yordam izlamoq",
+        "def": "actively try to obtain assistance",
+        "ex": "Leaders should know when to seek help from experts.",
+        "also": [
+          "ask for assistance",
+          "look for support"
+        ]
+      },
+      {
+        "word": "win the respect of",
+        "pos": "collocation",
+        "uz": "hurmatini qozonmoq",
+        "def": "cause people to develop respect for you",
+        "ex": "A leader needs to win the respect of employees.",
+        "also": [
+          "earn admiration",
+          "gain respect"
+        ]
+      },
+      {
+        "word": "sophisticated business strategy",
+        "pos": "noun phrase",
+        "uz": "murakkab va puxta biznes strategiyasi",
+        "def": "a complex and carefully developed plan for running or growing a business",
+        "ex": "Arthur says a sophisticated business strategy is not always essential.",
+        "also": [
+          "advanced business plan",
+          "complex commercial strategy"
+        ]
+      },
+      {
+        "word": "short of funds",
+        "pos": "fixed expression",
+        "uz": "mablag‘i yetishmaslik",
+        "def": "not having enough money for a purpose",
+        "ex": "Arthur was short of funds when he started the company.",
+        "also": [
+          "lack money",
+          "have insufficient capital"
+        ]
+      },
+      {
+        "word": "endangered species",
+        "pos": "collocation",
+        "uz": "yo‘qolib ketish xavfidagi tur",
+        "def": "a species at serious risk of extinction",
+        "ex": "Hector's dolphin is an endangered species.",
+        "also": [
+          "threatened species",
+          "species at risk"
+        ]
+      },
+      {
+        "word": "reproductive cycle",
+        "pos": "academic noun phrase",
+        "uz": "ko‘payish sikli",
+        "def": "the recurring biological process through which organisms reproduce",
+        "ex": "The species has a long reproductive cycle.",
+        "also": [
+          "breeding cycle",
+          "reproduction pattern"
+        ]
+      },
+      {
+        "word": "protected breeding area",
+        "pos": "academic noun phrase",
+        "uz": "himoyalangan ko‘payish hududi",
+        "def": "a protected location reserved for animals to reproduce safely",
+        "ex": "A protected breeding area helped the dolphin population.",
+        "also": [
+          "protected nursery habitat",
+          "conservation breeding zone"
+        ]
+      },
+      {
+        "word": "in the wake of",
+        "pos": "fixed prepositional phrase",
+        "uz": "orqasidan, izidan",
+        "def": "directly behind something moving, following its path",
+        "ex": "Hector's dolphins move in the wake of boats.",
+        "also": [
+          "directly behind",
+          "following behind"
+        ]
+      },
+      {
+        "word": "live exclusively",
+        "pos": "collocation",
+        "uz": "faqat ma’lum joyda yashamoq",
+        "def": "live only in one specified place or under one condition",
+        "ex": "Maui's dolphins live exclusively in western coastal waters.",
+        "also": [
+          "occur only",
+          "be restricted to"
+        ]
+      },
+      {
+        "word": "varying degrees of success",
+        "pos": "collocation",
+        "uz": "turli darajadagi muvaffaqiyat",
+        "def": "different levels of successful outcome",
+        "ex": "Earlier recycling methods had varying degrees of success.",
+        "also": [
+          "mixed levels of success",
+          "uneven results"
+        ]
+      },
+      {
+        "word": "toxic fumes",
+        "pos": "collocation",
+        "uz": "zaharli tutun va gazlar",
+        "def": "poisonous gases or vapours produced by a process",
+        "ex": "Incinerating tyres can generate toxic fumes.",
+        "also": [
+          "poisonous gases",
+          "harmful vapours"
+        ]
+      },
+      {
+        "word": "energy intensive",
+        "pos": "technical adjective",
+        "uz": "ko‘p energiya talab qiladigan",
+        "def": "requiring a large amount of energy",
+        "ex": "Breaking up whole tyres is energy intensive.",
+        "also": [
+          "requires substantial energy",
+          "power-hungry"
+        ]
+      },
+      {
+        "word": "little incentive",
+        "pos": "collocation",
+        "uz": "deyarli rag‘bat bo‘lmasligi",
+        "def": "very little motivation or reason to do something",
+        "ex": "Low-value output gave companies little incentive to recycle tyres.",
+        "also": [
+          "weak motivation",
+          "few reasons to act"
+        ]
+      },
+      {
+        "word": "activated carbon",
+        "pos": "technical noun phrase",
+        "uz": "faollashtirilgan uglerod",
+        "def": "highly porous carbon processed for adsorption and filtration",
+        "ex": "One recovered product is activated carbon used in filtration.",
+        "also": [
+          "adsorbent carbon",
+          "filter carbon"
+        ]
+      }
+    ]
+  }
+}

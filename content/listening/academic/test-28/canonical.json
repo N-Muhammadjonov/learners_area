@@ -1,0 +1,1195 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-28",
+  "title": "Listening Test 28",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "a4001c25d3f7bf835582ccf4a48125d01dae64d0b41974bc52974d1e63fee531",
+      "path": "audio/full.mp3"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1588.344,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": null,
+    "imagePath": null,
+    "sections": [
+      {
+        "number": 1,
+        "title": "Weekend Course Booking Form",
+        "transcript": "PART 1 - Weekend Course Booking Form\n\nNARRATOR: IELTS Listening, Version 50032. You will hear a number of different recordings, and you will have to answer questions on what you hear. There will be time for you to read the instructions and questions, and you will have a chance to check your work. All the recordings will be played once only. The test is in four parts. Write all your answers in the listening question booklet. At the end of the test, you will be given ten minutes to transfer your answers to an answer sheet. Now turn to Part 1. You will hear a man phoning to book a place on a weekend course. First, you have some time to look at Questions 1 to 6. Listen carefully and answer Questions 1 to 6.\n\nWOMAN: Hello, Stanley House Courses.\nNICK: Oh, hello. I'm ringing to book a place on one of your weekend courses.\nWOMAN: Very good. Which course are you interested in?\nNICK: Well, a guitar one. I think it was a workshop, actually.\nWOMAN: That's right. And when did you want to come?\nNICK: Well, I was thinking of the weekend of July the 16th, if there's room then.\nWOMAN: Let me just check. Oh, the 16th is a Wednesday. Did you mean the 18th?\nNICK: Oh, sorry. Yes, I was looking at the wrong month.\nWOMAN: No problem. Yes, you're in luck. There are three places left there, so I'll put you down for one. So the code for that is Q1632.\nNICK: OK.\nWOMAN: That's just for our reference. So now for a few details. Can I just check if you've done any of our weekend courses before?\nNICK: Yes, in fact, I have. I did one last September. It was on photographs. We learnt about editing them. I really enjoyed it.\nWOMAN: Yes, that's always a popular course. So your details will be on the computer already. Let me see. I can just have your name, please.\nNICK: It's Nick Poskitt. That's P-O-S-K-I-T-T.\nWOMAN: Oh, that's an unusual name, isn't it? Right, here we are. So is your address still 27 Hawthorne Road?\nNICK: Oh, it's Hawthorne Way, actually.\nWOMAN: OK, I'll correct that now. And it's Bristol BS4 2QG?\nNICK: That's right.\nWOMAN: Lovely. And the next thing I need from you is a contact phone number.\nNICK: OK, that's 07707 438 297.\nWOMAN: Thanks. That's just in case we need to get hold of you in an emergency. Now, if you've stayed with us before, you'll know that our guests all stay in shared accommodation. And we've had quite a lot of requests lately for people to be put in with someone of a similar age. So can I ask how old you are?\nNICK: Sure, I'm 26.\nWOMAN: And can I ask your occupation?\nNICK: Engineer. I wish I could say musician, but maybe one day.\nWOMAN: Let's hope so.\n\nNARRATOR: Before you hear the rest of the conversation, you have some time to look at Questions 7 to 10. Now listen and answer Questions 7 to 10.\n\nWOMAN: OK, so now about meals. Do you have any special dietary requirements?\nNICK: Well, I don't like any sort of fish. I'm fine with everything else.\nWOMAN: That's fine. I'll make a note of that. OK, and if I could ask you just one more question about the course, Nick?\nNICK: Sure.\nWOMAN: On the Saturday afternoon, you can choose to have an individual one-to-one lesson on one particular aspect of guitar playing. So you can choose jazz guitar?\nNICK: Hmm, probably not.\nWOMAN: Or there's blues?\nNICK: Yes, maybe.\nWOMAN: Or rock?\nNICK: That sounds good, but no, I think I'll go for the second one.\nWOMAN: OK, fine.\nNICK: I didn't know we had individual classes. It didn't mention that in the information I read about the course.\nWOMAN: Where did you actually find out about us?\nNICK: Well, this time I just looked on your website, but I originally found out about you from a magazine.\nWOMAN: Right, yes, we'll have to update the website, but our prices are up to date. So it's still £370?\nNICK: That's right.\nWOMAN: Before I take your card details, is there anything else I can help you with?\nNICK: Well, last time I came I travelled by train and someone met me at the station, but this time I'll be driving. So will there be parking available?\nWOMAN: I'll see what I can do. I can't promise it, but I'll do my best. It's a good thing you mentioned it, actually, as places are limited.\nNICK: Great.\nWOMAN: Right, so if there's nothing else, I'll just take your credit card number.\nNICK: OK, it's 78956.\nNARRATOR: That is the end of Part 1. You now have one minute to check your answers to Part 1.",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Denford Festival",
+        "transcript": "PART 2 - Denford Festival\n\nNARRATOR: Part 2. You will hear a talk on the radio about a local festival called the Denford Festival. First you have some time to look at Questions 11 to 15. Now listen carefully and answer Questions 11 to 15.\n\nPRESENTER: I'd like to welcome Sam Goodwin to the programme. He's one of the organisers of this year's Denford Festival. So, Sam, what can you tell us about what's happening this year?\nSAM: Well, as usual, the festival will take place during the first weekend in August, and there will be things going on all over the town. There are a number of separate areas, each with their own special attraction and atmosphere. Let's start with Bridge Street. Local schoolchildren took part in a competition to paint pictures of the local landscape, and you'll be able to see all their work displayed here. The winning entries have also been made into postcards that you can buy at one of the stalls. At King's Park, we've built a climbing wall, and there'll also be an inflatable bouncy castle for kids to burn off excess energy. Both are going to be supervised by volunteer teachers at all times, so parents can go off and enjoy other parts of the festival. There's a lot happening in Oakvale School. If you're over 18, there's an exciting contest to take part in here. You'll have an hour to prepare your favourite food or dish, and the prizes will be presented by our special guest, the singer Maria Thompson. On Green Road, we'll have some top local groups performing and singing throughout the day until 5, including the Denford Choir, who've just come back from a really successful tour of Australia and New Zealand. And finally, I'll mention Sun Lane. We want you to leave the festival with more than good memories, and a full stomach, so we'd encourage everyone to go to Sun Lane, where we'll have a number of experts giving tips and advice on how to successfully grow your own fruit and vegetables. You never know, maybe next year we'll be showing your produce.\n\nNARRATOR: Before you hear the rest of the talk, you have some time to look at Questions 16 to 20. Now listen and answer Questions 16 to 20.\n\nPRESENTER: Thank you, Sam. That all sounds really interesting. And you've got some practical information for us.\nSAM: Yes, this year's festival will be bigger than ever, judging by ticket sales so far. Tickets can be purchased from our website or at the festival on the day, although those will cost a bit more. The tickets give you free entry to most areas, although you do need to pay extra to get into some of the special events. We're doing something different this year on the final evening of the festival. We usually have a big firework display, but it's proven too expensive this year. So instead, we're holding a dance for everyone who wants to come. That's going to be in the local theatre, where we'll clear away all the chairs to give us plenty of room. It should be great fun. We're expecting a large number of international visitors, so you'll be hearing a lot of different languages around the festival this year. And we've organised a help desk to advise people on finding accommodation if they need it. We'll also be offering day trips to points of interest in the region at very reasonable prices. If you do decide to drive, there are two festival car parks: Car Park A to the north and Car Park B in the east. Car Park B is in the middle of town, so it usually fills up very quickly. From Car Park A, there is a 15-minute walk along the river to the town centre. It takes a little longer to get to the festival, but it's twice the size of B, and it's a nice flat walk. There's one more change I'd like to tell you about. Last year, we sent out nearly 30,000 free programmes with the tickets, and we're aware of both the cost and the environmental impact of this. We looked into having an app instead, but that was too expensive. So, in the end, we decided to put the programme on our website and save that way. You'll still be able to pick up a hard copy at the festival if you want.\nNARRATOR: That is the end of Part 2. You now have 30 seconds to check your answers to Part 2.",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "Action Research Course for Practising Teachers",
+        "transcript": "PART 3 - Action Research Course for Practising Teachers\n\nNARRATOR: Part 3. You will hear a mature student on a teacher training programme discussing a new course with his college lecturer. First, you have some time to look at Questions 21 to 23. Now listen carefully and answer Questions 21 to 23.\n\nSTUDENT: Dr Williams.\nDR WILLIAMS: Come in.\nSTUDENT: Thanks.\nDR WILLIAMS: How can I help you?\nSTUDENT: Well, I'm interested in doing the course on action research.\nDR WILLIAMS: Sure. What would you like to know?\nSTUDENT: Well, first of all, I understand it's about ways of researching your own practice in your professional role so as to improve it.\nDR WILLIAMS: That's right, and I'm afraid I must emphasise at the outset that it's only open to working teachers.\nSTUDENT: Well, I've been one for eight years, so...\nDR WILLIAMS: That's plenty. And can I ask, will you be teaching out?\nSTUDENT: Yes, I've done so for many years, but the course leader will be one of our new lecturers, Alan Cumner.\nDR WILLIAMS: Oh. He's just written a very interesting book on action research, which you should get hold of. The title is Professional Learning.\nSTUDENT: Right. I think one of the other teachers in my school mentioned it. Okay. Can I ask you what will be covered on the course?\nDR WILLIAMS: Well, the obvious aim is to develop skills in using a variety of research techniques.\nSTUDENT: Yes, of course. I'll ask you about those in more detail later. And then there's something that's crucial to action research, and that's the skill of researching in a team.\nDR WILLIAMS: Yes, I can say that it is very important.\nSTUDENT: And what about after you've done the research? Do you do something on dissemination of findings?\nDR WILLIAMS: Well, the last major objective is similar to that, but not quite the same. It's on presenting results as part of the wider collaborative culture.\n\nNARRATOR: Before you hear the rest of the discussion, you have some time to look at Questions 24 to 30. Now listen and answer Questions 24 to 30.\n\nSTUDENT: Great. Well, that's very helpful. Can I ask you about the different components?\nDR WILLIAMS: Well, the course is organised around the data-gathering techniques, and we divide them into two main types, observational and non-observational techniques. And between each session, we ask you to try out the technique for yourself in a variety of settings. The initial sessions are on using observation checklists.\nSTUDENT: Oh, yes.\nDR WILLIAMS: And we ask you to try some out in a school so you can look at an element of a lesson, such as pupil behaviour, so you can immediately apply what you've learnt to a real situation in the classroom.\nSTUDENT: Right. Somebody told me we have to keep a diary.\nDR WILLIAMS: Yes, that's right. We ask you to keep one as a research tool.\nSTUDENT: And what's the point of that exactly?\nDR WILLIAMS: Well, it really enhances your capacity for reflection.\nSTUDENT: Oh, that sounds interesting.\nDR WILLIAMS: And then we've just added another observational technique to the course, which is video recording.\nSTUDENT: I have tried that already with colleagues. I have to say, with only limited success.\nDR WILLIAMS: Yes, that's been our experience too, especially at the beginning. So we decided to get you to try this technique out with your fellow students in classroom simulation, which I think you'll agree has fewer problems.\nSTUDENT: Yes.\nDR WILLIAMS: And then we have sessions examining what we call non-observational techniques. And rather controversially, we start with ways of scrutinising test results.\nSTUDENT: Oh, right. Yeah, I'm familiar with that.\nDR WILLIAMS: Yes, but we think these can yield some very valuable insights. We ask you to bring along statistics relating to your own students for this.\nSTUDENT: Oh, that should be easy. I have to say I quite enjoy that kind of analysis.\nDR WILLIAMS: Yes. And then we look at using questionnaires.\nSTUDENT: Oh, yes. I've done one or two projects involving those. I used one local teacher's resource group, but I've never felt that I've used them as effectively as I should have done so.\nDR WILLIAMS: Well, that is a common comment from our participants, and we thought we'd open things up a bit this year with a different approach and use the Internet in order to identify respondents. Obviously, we'd explain more about how that will work closer to the time.\nSTUDENT: Great. Look forward to that. And will there be anything on interviews?\nDR WILLIAMS: That's really the last major section, and we ask you to choose your own respondents for that as part of a final project.\nSTUDENT: Great. Well, that's been really helpful, Dr Williams. Thank you.\nNARRATOR: That is the end of Part 3. You now have half a minute to check your answers.",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "Digital Technology and Young People",
+        "transcript": "PART 4 - Digital Technology and Young People\n\nNARRATOR: Part 4. You will hear a lecture about the effects of the digital world on young people. First, you have some time to look at Questions 31 to 40. Now listen carefully and answer Questions 31 to 40.\n\nLECTURER: In this lecture series, we are looking at changes occurring due to the rapid spread of digital technology in the last decade of the 21st century. By digital technology, I include any computer-related devices such as email, the Internet, cell phones, instant messaging, to name but a few. Today's lecture focuses on the ideas of Marc Prensky and what he believes are the major effects that high exposure to digital technology has had on young people today. Firstly, what exactly does Prensky believe? He argues that because today's young people have been born into a digital world and spent hours simply playing with technology, they've changed in fundamental ways. He believes they are evolving differently and, as a result, processing information differently from previous generations. It's even possible that these young people's brains have physically changed, although whether this is literally true isn't yet known. Nor does Prensky go quite this far. Prensky divides people into digital natives and digital immigrants. Today's young people are the digital natives and they belong in this new digital age, because they were born into it and grew up native speakers of the digital language of computer technology. Whereas digital immigrants are those born in the generations before the digital age. Just as those who learn a second language often retain their foreign accent, the immigrants are usually in varying degrees not quite as effective at speaking the digital language as the natives are. For example, they are more comfortable finding phone numbers using a phone book or looking up information in an encyclopaedia rather than using the Internet as a primary source of information. Prensky calls this the digital accent. Another example of the digital accent is scanning a manual for a computer program rather than assuming the program itself will teach you how to use it. Basically, people with a digital accent have never really stopped relying on their original non-digital means of sourcing information. They prefer doing things as they've always done them without typing something into a computer. Prensky predicts that due to all this, changes are in store, mainly in the area of education.\n\nBut what do other educators and theorists such as Thompson Allen, Samuel James, and Peter Vander believe? Samuel James from Sydney University agrees with Prensky's predictions. He believes that educators are no longer successful in the way they teach. However, not surprisingly, Prensky has been criticized by more traditional theorists like Peter Vander and Thompson Allen. They disagree with many of Prensky's assertions. Vander argues that a typical classroom is more varied than Prensky believes, with students coming from a range of backgrounds. He maintains that a large percentage of these students are not necessarily proficient with technology. And not all students today fit the one stereotype. And Allen adds that even though most students today have easy access to technology, some just don't find the digital medium appealing. James disagrees, though. He believes that all today's students do share the same basic interest in and knowledge of digital technology. However, James believes our younger students can communicate with their digital immigrant teachers and can still learn using methods which have proven to be successful in the past. James's theories are taken a step further by Allen, who recognizes that both digital immigrants and natives have to deal with vast amounts of information in today's electronic society. Allen maintains that while most young students are proficient in playing computer games and using the web in quite basic ways, they are not used to using computers at advanced levels. For example, to conduct complex information searches which are so necessary for university study today. Irrespective of Allen's research, James believes it's possible for computer games to play a major role in making classroom learning more stimulating. And he cites many instances where this would be possible today. However, Vander asserts that rather than focusing on developing games, we should think of better ways to assist teachers. Because no computer program comes close to doing what a human teacher does every day.\n\nNARRATOR: That is the end of Part 4. You now have half a minute to check your answers. That is the end of the listening test. You now have ten minutes to transfer your answers to the listening answer sheet.",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "Start date",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "July 18th",
+        "alternatives": [
+          "July 18th",
+          "July 18",
+          "18 July",
+          "18th July"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corrected weekend date is July 18th.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Course code",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Q1632",
+        "alternatives": [
+          "Q1632"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The booking code is stated explicitly.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Previous course attended: Editing ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "photographs",
+        "alternatives": [
+          "photographs"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The previous course concerned editing photographs.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Name: Nick ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Poskitt",
+        "alternatives": [
+          "Poskitt"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The surname is spelled out.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "Address: 27 Hawthorn ___, Bristol",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "way",
+        "alternatives": [
+          "way"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker corrects Road to Way.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "Occupation",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "engineer",
+        "alternatives": [
+          "engineer"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "His occupation is stated directly.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "Dietary requests: no ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "fish",
+        "alternatives": [
+          "fish"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "Fish is the only dietary exclusion.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "One-to-one lesson selected: ___ guitar",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "blues",
+        "alternatives": [
+          "blues"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The second listed guitar style is blues.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "First heard about us from: a ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "magazine",
+        "alternatives": [
+          "magazine"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "He originally heard about the course from a magazine.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Additional request: would like ___ if possible",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "parking",
+        "alternatives": [
+          "parking"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "He asks for parking because he will drive.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "Bridge Street",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) talks about gardening",
+          "B) live music",
+          "C) an art exhibition",
+          "D) a children's playground",
+          "E) evening entertainment",
+          "F) a competition for adults",
+          "G) vegetable market"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "King's Park",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) talks about gardening",
+          "B) live music",
+          "C) an art exhibition",
+          "D) a children's playground",
+          "E) evening entertainment",
+          "F) a competition for adults",
+          "G) vegetable market"
+        ],
+        "key": "D",
+        "alternatives": [
+          "D"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "Oakvale School",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) talks about gardening",
+          "B) live music",
+          "C) an art exhibition",
+          "D) a children's playground",
+          "E) evening entertainment",
+          "F) a competition for adults",
+          "G) vegetable market"
+        ],
+        "key": "F",
+        "alternatives": [
+          "F"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "Green Road",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) talks about gardening",
+          "B) live music",
+          "C) an art exhibition",
+          "D) a children's playground",
+          "E) evening entertainment",
+          "F) a competition for adults",
+          "G) vegetable market"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "Sun Lane",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) talks about gardening",
+          "B) live music",
+          "C) an art exhibition",
+          "D) a children's playground",
+          "E) evening entertainment",
+          "F) a competition for adults",
+          "G) vegetable market"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "What does Sam say about the festival tickets?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) They allow you to get into all the festival events.",
+          "B) They are more expensive to buy on the day.",
+          "C) They have nearly all been sold."
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "On the last night of the festival, visitors will be able to",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) take part in a dance.",
+          "B) go to a theatre performance.",
+          "C) watch some fireworks."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "What will be provided for international visitors?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) discounts on accommodation.",
+          "B) tours of the local area.",
+          "C) a guide written in different languages."
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "What information is given about car park A?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) It is bigger than car park B.",
+          "B) It is closer to town than car park B.",
+          "C) It will close earlier than car park B."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "What change have the organisers made to the programme this year?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) replacing the programme with an app",
+          "B) reducing the number of programmes printed",
+          "C) introducing a charge for the programmes"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "Course leader Alan Cumner's recent book",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "professional learning",
+        "alternatives": [
+          "professional learning"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The book title is stated directly.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "Course objective: researching as part of a ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "team",
+        "alternatives": [
+          "team"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The required noun is team.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "Course objective: ___ in a collaborative culture",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "presenting results",
+        "alternatives": [
+          "presenting results"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The phrase fills the note exactly.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "Observation checklists can record aspects such as ___ of pupils",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "behaviour",
+        "alternatives": [
+          "behaviour",
+          "behavior"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "Behaviour is the example given.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "Writing a ___ is used to improve reflection",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "diary",
+        "alternatives": [
+          "diary"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The research tool is a diary.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "New observational technique",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "video recording",
+        "alternatives": [
+          "video recording"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The newly added technique is video recording.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "Try the technique with fellow students in classroom ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "simulation",
+        "alternatives": [
+          "simulation"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The classroom context is a simulation.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Non-observational technique: analysing ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "test results",
+        "alternatives": [
+          "test results"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The technique analyses test results.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Questionnaires: use the ___ to find respondents",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "internet",
+        "alternatives": [
+          "internet",
+          "Internet"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The Internet is used to identify respondents.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Using ___: own choice of respondents",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "interviews",
+        "alternatives": [
+          "interviews"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The final technique is interviews.\nRespect the exact word limit and copy the spoken answer accurately."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "What impact does Marc Prensky believe that digital technology has had on young people?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) It has altered their thinking patterns.",
+          "B) It has harmed their physical development.",
+          "C) It has limited their brain capacity."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "'Digital immigrants' tend to access computers",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) using their native language.",
+          "B) less efficiently than young people.",
+          "C) for less important information."
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "What example is given of having a 'digital accent'?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) having less effective typing skills",
+          "B) doing things the old-fashioned way",
+          "C) being unable to understand instructions"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "Current teaching methods don't work.",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Allen",
+          "B) James",
+          "C) Vander"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "Many students don't understand computers.",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Allen",
+          "B) James",
+          "C) Vander"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "Computer technology doesn't interest all students.",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Allen",
+          "B) James",
+          "C) Vander"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Students can still learn the traditional way.",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Allen",
+          "B) James",
+          "C) Vander"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "Students still need to learn research skills.",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Allen",
+          "B) James",
+          "C) Vander"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "We should use computer games to teach.",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Allen",
+          "B) James",
+          "C) Vander"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "Computers can't replace educators.",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Allen",
+          "B) James",
+          "C) Vander"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The cited recording evidence directly supports the keyed answer.\nChoose the option or label supported by the speaker, not a nearby distractor."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "put you down for one",
+        "pos": "phrasal chunk",
+        "uz": "siz uchun bitta joy band qilmoq",
+        "def": "to register or reserve one place for someone.",
+        "ex": "Part 1: Weekend Course Booking Form",
+        "also": [
+          "put you down for one"
+        ]
+      },
+      {
+        "word": "just for our reference",
+        "pos": "fixed phrase",
+        "uz": "faqat ichki ma’lumotimiz uchun",
+        "def": "used when information is needed only for internal records.",
+        "ex": "Part 1: Weekend Course Booking Form",
+        "also": [
+          "just for our reference"
+        ]
+      },
+      {
+        "word": "shared accommodation",
+        "pos": "noun phrase",
+        "uz": "umumiy turar joy",
+        "def": "lodging in which living space or facilities are shared with other people.",
+        "ex": "Part 1: Weekend Course Booking Form",
+        "also": [
+          "shared accommodation"
+        ]
+      },
+      {
+        "word": "special dietary requirements",
+        "pos": "noun phrase",
+        "uz": "maxsus ovqatlanish talablari",
+        "def": "food-related needs or restrictions that a provider must take into account.",
+        "ex": "Part 1: Weekend Course Booking Form",
+        "also": [
+          "special dietary requirements"
+        ]
+      },
+      {
+        "word": "one-to-one lesson",
+        "pos": "noun phrase",
+        "uz": "yakka tartibdagi dars",
+        "def": "a lesson involving one teacher and one learner.",
+        "ex": "Part 1: Weekend Course Booking Form",
+        "also": [
+          "one to one lesson"
+        ]
+      },
+      {
+        "word": "originally found out about you",
+        "pos": "verb phrase",
+        "uz": "dastlab siz haqingizda bilib qolmoq",
+        "def": "first learned about a person, organisation, or service.",
+        "ex": "Part 1: Weekend Course Booking Form",
+        "also": [
+          "originally found out about you"
+        ]
+      },
+      {
+        "word": "parking available",
+        "pos": "noun phrase",
+        "uz": "avtoturargoh mavjud",
+        "def": "having parking spaces that people are able to use.",
+        "ex": "Part 1: Weekend Course Booking Form",
+        "also": [
+          "parking available"
+        ]
+      },
+      {
+        "word": "places are limited",
+        "pos": "clause",
+        "uz": "joylar cheklangan",
+        "def": "only a restricted number of spaces are available.",
+        "ex": "Part 1: Weekend Course Booking Form",
+        "also": [
+          "places are limited"
+        ]
+      },
+      {
+        "word": "special attraction and atmosphere",
+        "pos": "noun phrase",
+        "uz": "o‘ziga xos diqqatga sazovorlik va muhit",
+        "def": "a distinctive feature and mood that make a place appealing.",
+        "ex": "Part 2: Denford Festival",
+        "also": [
+          "special attraction and atmosphere"
+        ]
+      },
+      {
+        "word": "burn off excess energy",
+        "pos": "phrasal verb",
+        "uz": "ortiqcha energiyani sarflamoq",
+        "def": "to use up extra physical energy through activity.",
+        "ex": "Part 2: Denford Festival",
+        "also": [
+          "burn off excess energy"
+        ]
+      },
+      {
+        "word": "exciting contest",
+        "pos": "noun phrase",
+        "uz": "qiziqarli tanlov",
+        "def": "an engaging competition in which people try to win.",
+        "ex": "Part 2: Denford Festival",
+        "also": [
+          "exciting contest"
+        ]
+      },
+      {
+        "word": "performing and singing throughout the day",
+        "pos": "verb phrase",
+        "uz": "kun bo‘yi ijro etib, kuylamoq",
+        "def": "giving musical performances continuously across the day.",
+        "ex": "Part 2: Denford Festival",
+        "also": [
+          "performing and singing throughout the day"
+        ]
+      },
+      {
+        "word": "judging by ticket sales so far",
+        "pos": "discourse phrase",
+        "uz": "hozirgacha sotilgan chiptalarga qaraganda",
+        "def": "forming a conclusion from the number of tickets sold up to now.",
+        "ex": "Part 2: Denford Festival",
+        "also": [
+          "judging by ticket sales so far"
+        ]
+      },
+      {
+        "word": "holding a dance",
+        "pos": "verb phrase",
+        "uz": "raqs tadbiri o‘tkazmoq",
+        "def": "organising a social event at which people dance.",
+        "ex": "Part 2: Denford Festival",
+        "also": [
+          "holding a dance"
+        ]
+      },
+      {
+        "word": "points of interest",
+        "pos": "collocation",
+        "uz": "diqqatga sazovor joylar",
+        "def": "places or features that are worth visiting or noticing.",
+        "ex": "Part 2: Denford Festival",
+        "also": [
+          "points of interest"
+        ]
+      },
+      {
+        "word": "environmental impact",
+        "pos": "noun phrase",
+        "uz": "atrof-muhitga ta’sir",
+        "def": "the effect that an activity has on the natural environment.",
+        "ex": "Part 2: Denford Festival",
+        "also": [
+          "environmental impact"
+        ]
+      },
+      {
+        "word": "working teachers",
+        "pos": "noun phrase",
+        "uz": "amaldagi o‘qituvchilar",
+        "def": "teachers who are currently employed and practising their profession.",
+        "ex": "Part 3: Action Research Course for Practising Teachers",
+        "also": [
+          "working teachers"
+        ]
+      },
+      {
+        "word": "researching in a team",
+        "pos": "verb phrase",
+        "uz": "jamoada tadqiqot olib borish",
+        "def": "conducting research collaboratively with other people.",
+        "ex": "Part 3: Action Research Course for Practising Teachers",
+        "also": [
+          "researching in a team"
+        ]
+      },
+      {
+        "word": "presenting results",
+        "pos": "verb phrase",
+        "uz": "natijalarni taqdim etish",
+        "def": "communicating research findings to other people.",
+        "ex": "Part 3: Action Research Course for Practising Teachers",
+        "also": [
+          "presenting results"
+        ]
+      },
+      {
+        "word": "data-gathering techniques",
+        "pos": "noun phrase",
+        "uz": "ma’lumot yig‘ish usullari",
+        "def": "methods used to collect information for research.",
+        "ex": "Part 3: Action Research Course for Practising Teachers",
+        "also": [
+          "data gathering techniques"
+        ]
+      },
+      {
+        "word": "observation checklists",
+        "pos": "noun phrase",
+        "uz": "kuzatuv tekshiruv ro‘yxatlari",
+        "def": "structured lists used to record specific behaviours or events that are observed.",
+        "ex": "Part 3: Action Research Course for Practising Teachers",
+        "also": [
+          "observation checklists"
+        ]
+      },
+      {
+        "word": "capacity for reflection",
+        "pos": "academic phrase",
+        "uz": "refleksiya qilish qobiliyati",
+        "def": "the ability to think critically about experience or professional practice.",
+        "ex": "Part 3: Action Research Course for Practising Teachers",
+        "also": [
+          "capacity for reflection"
+        ]
+      },
+      {
+        "word": "valuable insights",
+        "pos": "collocation",
+        "uz": "qimmatli xulosalar",
+        "def": "useful and often deeper understandings gained from evidence or experience.",
+        "ex": "Part 3: Action Research Course for Practising Teachers",
+        "also": [
+          "valuable insights"
+        ]
+      },
+      {
+        "word": "identify respondents",
+        "pos": "collocation",
+        "uz": "respondentlarni aniqlash",
+        "def": "to determine which people will provide answers or data for a study.",
+        "ex": "Part 3: Action Research Course for Practising Teachers",
+        "also": [
+          "identify respondents"
+        ]
+      },
+      {
+        "word": "processing information differently",
+        "pos": "verb phrase",
+        "uz": "axborotni boshqacha qayta ishlash",
+        "def": "handling, understanding, or organising information in a different way.",
+        "ex": "Part 4: Digital Technology and Young People",
+        "also": [
+          "processing information differently"
+        ]
+      },
+      {
+        "word": "digital natives and digital immigrants",
+        "pos": "contrastive noun phrase",
+        "uz": "raqamli avlod va raqamli muhojirlar",
+        "def": "people raised with digital technology contrasted with people who adopted it later.",
+        "ex": "Part 4: Digital Technology and Young People",
+        "also": [
+          "digital natives and digital immigrants"
+        ]
+      },
+      {
+        "word": "scanning a manual for a computer program",
+        "pos": "verb phrase",
+        "uz": "kompyuter dasturi qo‘llanmasini ko‘zdan kechirish",
+        "def": "quickly reading software instructions to locate needed information.",
+        "ex": "Part 4: Digital Technology and Young People",
+        "also": [
+          "scanning a manual for a computer program"
+        ]
+      },
+      {
+        "word": "non-digital means",
+        "pos": "noun phrase",
+        "uz": "raqamli bo‘lmagan usullar",
+        "def": "traditional methods that do not rely on digital technology.",
+        "ex": "Part 4: Digital Technology and Young People",
+        "also": [
+          "non digital means"
+        ]
+      },
+      {
+        "word": "range of backgrounds",
+        "pos": "collocation",
+        "uz": "turli kelib chiqish va tajribalar doirasi",
+        "def": "a variety of previous experiences, circumstances, or origins.",
+        "ex": "Part 4: Digital Technology and Young People",
+        "also": [
+          "range of backgrounds"
+        ]
+      },
+      {
+        "word": "digital medium appealing",
+        "pos": "lexical chunk",
+        "uz": "raqamli vositani jozibador deb bilish",
+        "def": "finding a computer-based or electronic format attractive or engaging.",
+        "ex": "Part 4: Digital Technology and Young People",
+        "also": [
+          "digital medium appealing"
+        ]
+      },
+      {
+        "word": "advanced levels",
+        "pos": "noun phrase",
+        "uz": "yuqori darajalar",
+        "def": "higher stages of ability, study, or complexity.",
+        "ex": "Part 4: Digital Technology and Young People",
+        "also": [
+          "advanced levels"
+        ]
+      },
+      {
+        "word": "making classroom learning more stimulating",
+        "pos": "verb phrase",
+        "uz": "sinfdagi ta’limni yanada rag‘batlantiruvchi qilish",
+        "def": "increasing interest, engagement, or mental activity during classroom learning.",
+        "ex": "Part 4: Digital Technology and Young People",
+        "also": [
+          "making classroom learning more stimulating"
+        ]
+      }
+    ]
+  }
+}

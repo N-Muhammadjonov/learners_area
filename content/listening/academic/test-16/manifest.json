@@ -1,0 +1,42 @@
+{
+  "id": "listening-test-16",
+  "title": "Listening Test 16",
+  "collection": "academic",
+  "number": 16,
+  "questionCount": 40,
+  "sectionCount": 4,
+  "storageKey": "la_listening_test_16_v2",
+  "activities": [
+    "exam",
+    "review",
+    "script",
+    "mcq",
+    "matching",
+    "completion",
+    "vocab",
+    "retry"
+  ],
+  "audio": {
+    "path": "audio/full.mp3",
+    "objectKey": "listening/academic/test-16/full.mp3",
+    "contentType": "audio/mpeg",
+    "bytes": 16832044,
+    "sha256": "2cb53526b9869d6666c43944246787ccc328404bd12eb8b23927a5f47e713ed5",
+    "durationSeconds": 1683.173878,
+    "localFile": "test-16-full.mp3"
+  },
+  "media": [
+    {
+      "path": "audio/full.mp3",
+      "objectKey": "listening/academic/test-16/full.mp3",
+      "contentType": "audio/mpeg",
+      "bytes": 16832044,
+      "sha256": "2cb53526b9869d6666c43944246787ccc328404bd12eb8b23927a5f47e713ed5",
+      "durationSeconds": 1683.173878,
+      "localFile": "test-16-full.mp3"
+    }
+  ],
+  "durationSeconds": 1683.173878,
+  "originalSha256": "4cd8a16b92e4914f18a61ff2c91f5b8417ae34669cfc953e3b59eeca9c87ca3a",
+  "sourceSha256": "095272e41bd3978f4ab261138fe20ae2ac09c4b45203451481871acc789cd5a0"
+}

@@ -1,0 +1,1248 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-32",
+  "title": "Listening Test 32",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "28dc4e6aa7ce406241888af7c06716cd48aaf9c8aac075652709c3986be7de17",
+      "path": "audio/full.mp3"
+    },
+    {
+      "key": "image.map",
+      "role": "image",
+      "required": true,
+      "mimeTypes": [
+        "image/jpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "f54918fc4924024617fb8bbc2d632120b04232594af1ec992f42bdfcff60c8f3",
+      "path": "images/map.jpg"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1506.432,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": {
+      "assetKey": "image.map"
+    },
+    "imagePath": "images/map.jpg",
+    "sections": [
+      {
+        "number": 1,
+        "title": "Call Record Card",
+        "transcript": "PART 1 - Call Record Card\n\nANNOUNCER: You will hear a telephone conversation between a man trying to get some advice on a medical problem and a woman working at a medical advice service. First, you have some time to look at Questions 1 to 6. You will see that there is an example that has been done for you. On this occasion only, the conversation relating to this will be played first.\n\nWOMAN: Hello, this is Medical Help Direct. How can I help you?\nMAN: Oh, hello. I've got a problem with my back, and with it being the middle of the night I can't go to the doctor, and I wonder if you can give me some advice.\nWOMAN: Certainly. But first, can I have your telephone number, please?\nMAN: It's 03786 439251.\n\nANNOUNCER: The man's telephone number is 03786 439251, so that has been written in the space. Now we shall begin. You should answer the questions as you listen. Listen carefully and answer the questions one after the other.\n\nWOMAN: Hello, how can I help you?\nMAN: Oh, hello. I've got a problem with my back, and with it being the middle of the night I can't go to the doctor. And I wonder if you can give me some advice.\nWOMAN: Certainly. But first, can I have your telephone number, please?\nMAN: It's 03786 439251.\nWOMAN: Okay. And if you could give me your first name, please?\nMAN: Robert.\nWOMAN: And your surname?\nMAN: Rydyard. That's R-I-D-Y-A-R-D.\nWOMAN: And now your address, please?\nMAN: It's 27 Station Road.\nWOMAN: Okay.\nMAN: Moortown. And do you need the postcode?\nWOMAN: Yes, please.\nMAN: D-P-17-5-H-J.\nWOMAN: And your date of birth?\nMAN: The 25th of February, 1975.\nWOMAN: Fine. Now I just need to take details of your doctor.\nMAN: She's called Dr Craven.\nWOMAN: And the surgery?\nMAN: It's Moortown Health Centre.\nWOMAN: Thanks. Now, can you tell me a bit more about what the problem is?\nMAN: Well, like I said, it's my back.\nWOMAN: Okay. Can you tell me which part of the back?\nMAN: Lower.\nWOMAN: And have you had any problems with your back before?\nMAN: Yes. I had a bit of trouble last year, in June, I think. Or was it July? No, we went on holiday at the beginning of July, and it had cleared up by then.\nWOMAN: And when did it start this time? Has it just come on?\nMAN: No, I've had it, let's see, since Monday, so that's three days now. But it wasn't too bad at first. I mean, I could just about get around, though I couldn't drive the car or anything. Then this afternoon, the pain suddenly got so bad that I went to bed. I've been in bed since, but that hasn't helped.\nWOMAN: And do you have any pain elsewhere? In your stomach or abdomen, for example?\nMAN: No.\n\nANNOUNCER: Before you hear the rest of the conversation, you have some time to look at Questions 7 to 10. Now listen and answer Questions 7 to 10.\n\nWOMAN: Okay. Now, have you any idea what caused the problem?\nMAN: Well, I was tidying up my office, and I lifted a box up from the floor that was heavier than I thought. And I think that's what did it.\nWOMAN: Yes, it's easily done, isn't it? So you're in bed now?\nMAN: Yes.\nWOMAN: Have you tried applying heat to the back?\nMAN: Yes, I've got a hot water bottle. That's usually the first thing I try.\nWOMAN: And have you taken any painkillers?\nMAN: Yes.\nWOMAN: And other than that, you feel quite well?\nMAN: I do, yes.\nWOMAN: Right. Now, I can't diagnose or prescribe any medication, but I can offer you some advice. One thing you could do now is to see if ice makes any difference. That sometimes helps. But don't put it directly onto your skin. Wrap it up in a towel or something, and don't leave it on for longer than 20 minutes.\nMAN: Oh, right. I haven't tried that before.\nWOMAN: It can be useful sometimes. Now, have you seen your doctor about this?\nMAN: No, I just thought, well, everyone has back pain. But I've never had it as bad as this before.\nWOMAN: I think you should go and see your doctor tomorrow. And she may be able to give you something to help.\nMAN: Okay, I'll do that. I'm actually feeling a bit better now.\nWOMAN: Good. And you might get some advice from her about exercise. That's often the best way of dealing with this sort of problem.\nMAN: Okay, I'll ask her.\nWOMAN: Right. Now, if you're worried about anything before tomorrow, you can always phone back. Our lines are open 24 hours.\nMAN: Thanks very much.\n\nANNOUNCER: That is the end of Part 1. You now have half a minute to check your answers.",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Preparing for a Trip to an Outdoor Education Centre",
+        "transcript": "PART 2 - Preparing for a Trip to an Outdoor Education Centre\n\nANNOUNCER: Now turn to Part 2. You will hear a principal of a school talking to a group of parents about a three-day trip for pupils to an outdoor education centre. First, you have some time to look at Questions 11 to 16. Now listen carefully and answer Questions 11 to 16.\n\nPRINCIPAL: Good evening. It's good to see so many parents here. Let me begin by explaining why we go to the outdoor education centre. Well, by age ten, we feel the children are ready for a trip away from home, but still in a safe environment and under the guidance of a familiar adult. At the school, we strongly believe children should be encouraged to try different things and not give up when it gets difficult. And that's what the centre is all about, having a go.\n\nAnyway, to start with, the sleeping arrangements. For some children, this will be their first time in a tent and away from home, so please prepare them. You can do this just by making sure they have some early nights before we go. Another thing, there's space for three children per tent, so we can't guarantee your child will be in with their best friends. So do make them aware of this.\n\nNow, you should have received a list with the clothing the children will need in their backpack. But there are some extras. Please provide a packet of biscuits or maybe fruit bars, but these need to go in the box in the school hall, not with the children. Actually, what we do need in the backpacks are bags for cleaning up and for wet clothing, so plastic ones, please. A torch is a good idea, but don't worry about putting money in because there's nothing to buy.\n\nWhile we're on the subject, let's talk about some other items. Cell phones are permitted, but they must be switched off at night and also off during the teaching sessions. Also, for wood-carving activities, knives will be provided by the centre, so children shouldn't bring them from home. Electronic games are banned, so rather than bring one of these, children should bring quiet board games.\n\nTurning to the question of parent attendance, in the past we've had too many volunteers, so we have written names on bits of paper and pulled them out of a box. But then some parents have changed their minds, so if you're absolutely sure you can come, put your name down on the sign-up form and the first ten will be asked to come. Experience isn't required; we just want you to lend a hand.\n\nNow, I'm afraid the fee for the trip needs to be paid by the 15th. Payment to the centre is made by the school, not by parents. Your teacher will give your child a form with the school's bank account details if you want to use them to make payment. Otherwise, please leave payment in an envelope in the box at the school office.\n\nANNOUNCER: Before you hear the rest of the talk, you have some time to look at Questions 17 to 20. Now listen and answer Questions 17 to 20.\n\nPRINCIPAL: Right. Let's have a look at the centre. I hope you all have a leaflet with a map on the back, and we'd like you to show this to your children before they go. Now, if you look at the map, you will see the entrance at the bottom. So just through the entrance you'll see Reception.\n\nNow the wood-carving studio. You see where the main hall is located. Well, to the right of the hall and opposite the kitchen is the new barbecue area, and the wood-carving studio is right next to that overlooking Forest Road.\n\nIt's crucial that children know where the emergency meeting point is. If you look to the top of the map and to the north of Forest Road, that's the location. It is on the same side of the river as the tents.\n\nThere's a lot going on at the river, for example, the conservation centre. See the building marked Kayaks on the right side of the riverbank? Well, the conservation centre is between the two bridges just below it. I should also mention that if your child is not a confident swimmer, there are life jackets hanging all along the riverbank.\n\nIf your child likes drawing and painting, the arts and crafts room is to the right of the river, a little further up from the kayaks.\n\nOkay, so are there any questions so far?\n\nANNOUNCER: That is the end of Part 2. You now have half a minute to check your answers.",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "Stone Point: A New Zealand Historical Site",
+        "transcript": "PART 3 - Stone Point: A New Zealand Historical Site\n\nANNOUNCER: You will hear a discussion between two students, Liz from New Zealand and Scott from the UK, who are working on a presentation about a key historical site in New Zealand. First, you have some time to look at Questions 21 to 24. Now listen carefully and answer Questions 21 to 24.\n\nLIZ: Hi Scott. Here are my notes.\nSCOTT: Let's sort this presentation out then. The first thing I found out about Stone Point is it's an extinct volcanic cone. You probably know that already, being a New Zealander.\nLIZ: Yes, and there are two other cones nearby, which also overlook the harbour.\nSCOTT: Right.\nLIZ: The first settlers of New Zealand, the Maori, sailed to New Zealand thousands of years after these volcanoes erupted. I think the tutor allocated us this topic, though, because of Stone Point's significant historical role. It's been used by both Maori and European settlers as a place to shelter from attack, or launch an attack, for centuries.\nSCOTT: Yeah, and the fact it was an ideal place for building a village. It would have been quite a sheltered spot.\nLIZ: I suppose the Maori settled there because they thought the volcanic soil would help their crops grow.\nSCOTT: Well, they would have realised the benefits of the soil after a few good harvests, but initially the fishing opportunities would have been the attraction.\nLIZ: You're right.\nSCOTT: Actually, I also read that Maori regard Stone Point as taonga. I believe that means a treasured thing.\nLIZ: Wow, your Maori vocabulary is improving, Scott. We do have to deal with Stone Point's cultural value for Maori. That's still part of its historical significance. But we need to keep most Maori terminology out of the presentation. Otherwise, a lot of the international students won't be able to follow us.\nSCOTT: That's a shame. I'm sure they'd be interested. I mean, I am. But we wouldn't be able to explain it in the time allowed, so I guess we have to stick to English. Anyway, European migrants turned Stone Point into a lookout point for ships. Then it became a fort, an army base in the late 1880s, and then during the World Wars the fort was modernised again.\nLIZ: It's also been a public park sometimes.\nSCOTT: I'd prefer to devote more of the presentation to the military use of Stone Point. There are some great websites about the engines they installed.\nLIZ: Sorry, I wouldn't go into the technical side if I were you. If you start describing mechanical stuff, people will switch off. I think it's more interesting to look at the impact Stone Point had on the people's lives at the time. I mean, for example, there were about twenty-five years when they used local prisoners to build the tunnels and underground rooms. They lived there too.\nSCOTT: Yeah, I guess, if we can find some first-hand accounts.\n\nANNOUNCER: Before you hear the rest of the discussion, you have some time to look at Questions 25 to 30. Now listen and answer Questions 25 to 30.\n\nLIZ: Okay, so let's make a checklist of things to do. For the early Maori inhabitation section, we have to look at the material we've used again and make sure we know who the writers were and when they wrote it.\nSCOTT: Yes, that needs work. And for the part about Stone Point being used as a lookout point, I'm sure we can locate some drawings of how Stone Point looked then and the kind of ships coming in.\nLIZ: Nice. And what else? We haven't got a lot of detail for the reconstruction of the fort. We should add some more information about what it was the prisoners were adding to it.\nSCOTT: Okay, I'll do that bit too.\nLIZ: So I'll deal with the section regarding the modernisation that happened in the 1930s and 40s. I mean, that's the bit where we have the most visible evidence of historic buildings. I'll ring the Department of Conservation and see if they'll agree to let me film the site, maybe allow me access to some of the tunnels the public don't see.\nSCOTT: Okay. For the 1950s onwards, could you also arrange a meeting with someone from the Department of Conservation to ask them about their restoration work?\nLIZ: I could try. Oh, and just about its use as a public park today. Where is the boundary exactly? Does it go all the way to the beach?\nSCOTT: Not sure. I'll check that out.\nLIZ: Great. I suppose it would finish off the presentation nicely if we explain the future plans for the site.\n\nANNOUNCER: That is the end of Part 3. You now have half a minute to check your answers.",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "Rural Development — The Berbers",
+        "transcript": "PART 4 - Rural Development — The Berbers\n\nANNOUNCER: You will hear part of a lecture on rural development. First, you have some time to look at Questions 31 to 40. Now listen carefully and answer Questions 31 to 40.\n\nLECTURER: Good morning everyone. Now you'll remember that last week we looked at the migration of people from the interior of West Africa to various coastal towns, with special reference to Ghana. Today we're going to focus on the people known as the Berbers, who live in North Africa.\n\nThe Berbers inhabited this part of Africa as long ago as the seventh century, and their society was based on tribes which were scattered throughout a number of countries: Algeria, Morocco, Libya and Mali. However, at some point in the twelfth century, the area was invaded by Bedouin Arabs. These people destroyed the Berbers' peasant economy. As a result, many Berbers left their settlements to lead a nomadic life by wandering with their animals through the deserts and across the different mountains.\n\nOver the centuries, many Berbers migrated to other countries like Spain and France to work as labourers, taking with them their culture and traditions, and their descendants remain there until this day.\n\nNot all the Berbers led a fully nomadic life. There were three different groups. Some became farmers cultivating the lowlands in the winter and grazing their flocks of animals in the mountains during the summer. They are called seasonal nomads. Some Berbers, who led a completely nomadic life, tended to move from one oasis to another. A third group settled by the oases and grew fruit and vegetables, like dates and eggplants, as well as making olive oil, which they used for cooking.\n\nTraditionally, Berbers kept cattle, sheep and goats, together with oxen, mules and horses. Now, in the Sahel region of North Africa — that's the area south of the Sahara desert — the region became, and still is becoming, increasingly dry and arid. So the Berbers relied more and more on camels for transporting their families and their goods.\n\nHow did these different groups of people survive in such harsh conditions? Where did they live? Well, Berbers who stayed put in one place built single-storey stone houses for protection by quarrying the local rock, whereas nomadic Berbers carried their homes with them and erected temporary tents. Settled Berbers developed various small-scale industries such as pottery making and weaving, but these tasks were generally left to the Berber women. As you might expect, though, the life of a settled community was governed by the men, who met regularly in the village square to discuss affairs and make decisions.\n\nNow let's turn to the Tuaregs, who belong to a nomadic Berber group and move mainly in the central and western Sahara desert, north of the River Niger. The word Tuareg comes from the Arabic Tawarek and means 'God forsaken'.\n\nDesert Tuareg carried tents made of strips of goatskins sewn together. As many as forty skins were needed to make a complete tent. If the skins weren't available, they wove mats made of grass or palm leaves and hung them over a frame so that the tent looked like a humped dome.\n\nTuareg society was traditionally very feudal and organised as a strict hierarchy ranging from nobles or aristocrats downwards to labourers, whose ancestors had once been slaves. Tuaregs were famous for their warlike qualities and fierce independence. In fact, one of the greatest insults was to suggest to a Tuareg that his father had died in his bed and not while fighting.\n\nTuareg men were sometimes called 'blue men', as all adult males wore a dark blue veil in the presence of women, strangers and in-laws. Legend had it that a Tuareg man couldn't be recognised unless he was wearing this veil. But this custom of the veil began to disappear as more and more Tuaregs became urbanised and moved to the towns.\n\nI mentioned earlier how dry the Sahel region has become, and there have been very severe droughts over the past thirty years. This has meant that the number of Tuaregs living in the area has declined. Those whose animals were fortunate enough to survive have moved away from the southern Sahara into Burkina Faso in order to find new grazing lands for their herds.\n\nIf there's one city which people associate with the Sahara desert, it's probably Timbuktu. But what most people don't know is that Timbuktu was founded by Tuareg nomads almost a thousand years ago. The city became the focal point of the trans-Saharan caravan routes. North African merchants flocked there to do business, and trading in gold and salt flourished. For many years, Timbuktu was considered inaccessible. But today, what is left of the city attracts a small number of tourists. The tourism department of the Mali government employs some Tuaregs who act as guides, essential really when you realise that it's only the Tuaregs who can find their way around the desert using the sand dunes as landmarks.\n\nRight, I'll take questions now before I go on to discuss Tamasheq, the language spoken by the Tuaregs, which also has an alphabet called...\n\nANNOUNCER: That is the end of Part 4. You now have half a minute to check your answers.",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "Caller's surname: Robert ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Rydyard",
+        "alternatives": [
+          "Rydyard",
+          "RIDYARD"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Address: 27 ___, Moortown",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Station Road",
+        "alternatives": [
+          "Station Road",
+          "27 Station Road",
+          "Station Rd"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Date of birth: ___, 1975",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "25 February",
+        "alternatives": [
+          "25 February",
+          "25th February",
+          "February 25",
+          "25 February 1975",
+          "25th of February"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Pain in his ___ back",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "lower",
+        "alternatives": [
+          "lower",
+          "lower back"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "Started ___ ago",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "3 days",
+        "alternatives": [
+          "3 days",
+          "three days",
+          "3 days"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "Got worse this ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "afternoon",
+        "alternatives": [
+          "afternoon"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "Possible cause: lifting a heavy ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "box",
+        "alternatives": [
+          "box"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Has taken ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "painkillers",
+        "alternatives": [
+          "painkillers",
+          "painkiller"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "Try using ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "ice",
+        "alternatives": [
+          "ice",
+          "ice pack"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Ask for information about ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "exercise",
+        "alternatives": [
+          "exercise"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "A trip to the outdoor education centre will help the children",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) create good relationships",
+          "B) manage without adult supervision",
+          "C) react positively to new challenges"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "To prepare their children for the trip, parents should",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) let them try sleeping in a tent at home",
+          "B) make sure they get enough sleep before they leave",
+          "C) tell them they will be in a tent with their friends"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "What do parents need to put in their children's backpack?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) plastic bags",
+          "B) snacks and biscuits",
+          "C) a small amount of money"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "What are children allowed to bring on the trip?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) electronic games",
+          "B) cell phones",
+          "C) penknives"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "How are parents selected to attend the trip?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) The first ten parents to sign up will be able to go.",
+          "B) Parents' names will be chosen from a box.",
+          "C) Preference will be given to parents with camping skills."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "Payment for the trip",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) must be handed to the child's teacher",
+          "B) can be left at the school office",
+          "C) should be made directly to the outdoor education centre"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "Woodcarving studio",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G"
+        ],
+        "key": "E",
+        "alternatives": [
+          "E"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "Emergency meeting point",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "Conservation centre",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G"
+        ],
+        "key": "F",
+        "alternatives": [
+          "F"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "Arts and crafts room",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "According to Liz, Stone Point played a key role in local history because",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) it was used for defence or attack purposes.",
+          "B) it was the landing point for the first Maori settlers.",
+          "C) it was developed as a commercial port."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "Scott and Liz agree Maori originally chose to inhabit Stone Point because of",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) its rich soil.",
+          "B) the supply of fish.",
+          "C) available building materials."
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "Scott and Liz agree that using Maori terminology in their presentation",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) will be of interest to international students.",
+          "B) is required as a component of their research.",
+          "C) would be best avoided."
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "When Scott mentions the engines at Stone Point, Liz advises him to",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) focus on the human aspect instead.",
+          "B) check the accuracy of specific dates.",
+          "C) explain complex technical language."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "Early Maori inhabitation of Stone Point",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) provide further description",
+          "B) find images",
+          "C) set up an interview",
+          "D) check author's details",
+          "E) check the exact location",
+          "F) obtain official permission",
+          "G) be more objective",
+          "H) reduce it in length"
+        ],
+        "key": "D",
+        "alternatives": [
+          "D"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "The use of Stone Point as a lookout point",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) provide further description",
+          "B) find images",
+          "C) set up an interview",
+          "D) check author's details",
+          "E) check the exact location",
+          "F) obtain official permission",
+          "G) be more objective",
+          "H) reduce it in length"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "The reconstruction of the fort",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) provide further description",
+          "B) find images",
+          "C) set up an interview",
+          "D) check author's details",
+          "E) check the exact location",
+          "F) obtain official permission",
+          "G) be more objective",
+          "H) reduce it in length"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Modernisation of the fort in the 1930s–40s",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) provide further description",
+          "B) find images",
+          "C) set up an interview",
+          "D) check author's details",
+          "E) check the exact location",
+          "F) obtain official permission",
+          "G) be more objective",
+          "H) reduce it in length"
+        ],
+        "key": "F",
+        "alternatives": [
+          "F"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Uses of Stone Point from 1950s to the present day",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) provide further description",
+          "B) find images",
+          "C) set up an interview",
+          "D) check author's details",
+          "E) check the exact location",
+          "F) obtain official permission",
+          "G) be more objective",
+          "H) reduce it in length"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "The use of Stone Point as a public park",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) provide further description",
+          "B) find images",
+          "C) set up an interview",
+          "D) check author's details",
+          "E) check the exact location",
+          "F) obtain official permission",
+          "G) be more objective",
+          "H) reduce it in length"
+        ],
+        "key": "E",
+        "alternatives": [
+          "E"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nReject nearby details or alternatives that are mentioned but do not answer the exact question."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "Berbers began a nomadic life, moving across ___ and mountains",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "deserts",
+        "alternatives": [
+          "deserts"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "Some Berbers, known as ___ nomads, moved twice a year",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "seasonal",
+        "alternatives": [
+          "seasonal"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "Some settled by oases, producing fruit, vegetables and ___ to cook with",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "olive oil",
+        "alternatives": [
+          "olive oil",
+          "oil"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "People and belongings were carried by ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "camels",
+        "alternatives": [
+          "camels"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "Meetings were held in the ___ of the village",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "square",
+        "alternatives": [
+          "square"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "If goatskins were unavailable, tents were made from ___ or palm-leaf mats",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "grass",
+        "alternatives": [
+          "grass"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Tuareg labourers were descendants of ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "slaves",
+        "alternatives": [
+          "slaves"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "Adult men always wore a ___ veil",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "dark blue",
+        "alternatives": [
+          "dark blue",
+          "dark-blue"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "Some Tuaregs moved to Burkina Faso with their ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "herds",
+        "alternatives": [
+          "herds",
+          "animals"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "Some Tuaregs now work as ___ for the Malian Department of Tourism",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "guides",
+        "alternatives": [
+          "guides"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The keyed answer is the detail supported by the aligned recording and source question.\nRespect the source word limit and copy the spoken form accurately."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "middle of the night",
+        "pos": "idiomatic time phrase",
+        "uz": "tunning o‘rtasi",
+        "def": "during the middle hours of the night",
+        "ex": "Part 1: Call Record Card",
+        "also": [
+          "late at night"
+        ]
+      },
+      {
+        "word": "cleared up",
+        "pos": "phrasal verb",
+        "uz": "tuzalib ketmoq",
+        "def": "to disappear or become better",
+        "ex": "Part 1: Call Record Card",
+        "also": [
+          "went away",
+          "improved"
+        ]
+      },
+      {
+        "word": "come on",
+        "pos": "phrasal verb",
+        "uz": "boshlanmoq",
+        "def": "to begin or appear, especially a symptom",
+        "ex": "Part 1: Call Record Card",
+        "also": [
+          "started",
+          "appeared"
+        ]
+      },
+      {
+        "word": "painkillers",
+        "pos": "noun",
+        "uz": "og‘riq qoldiruvchi dorilar",
+        "def": "medicines used to reduce pain",
+        "ex": "Part 1: Call Record Card",
+        "also": [
+          "analgesics"
+        ]
+      },
+      {
+        "word": "apply heat",
+        "pos": "verb phrase",
+        "uz": "issiq qo‘llamoq",
+        "def": "to use heat on an injured or painful area",
+        "ex": "Part 1: Call Record Card",
+        "also": [
+          "use heat"
+        ]
+      },
+      {
+        "word": "make a difference",
+        "pos": "collocation",
+        "uz": "farq qilmoq / yordam bermoq",
+        "def": "to have a noticeable effect",
+        "ex": "Part 1: Call Record Card",
+        "also": [
+          "have an effect",
+          "help"
+        ]
+      },
+      {
+        "word": "directly onto your skin",
+        "pos": "prepositional phrase",
+        "uz": "bevosita teriga",
+        "def": "straight onto the surface of the skin",
+        "ex": "Part 1: Call Record Card",
+        "also": [
+          "straight onto the skin"
+        ]
+      },
+      {
+        "word": "deal with a problem",
+        "pos": "collocation",
+        "uz": "muammoni hal qilmoq",
+        "def": "to take action to manage a problem",
+        "ex": "Part 1: Call Record Card",
+        "also": [
+          "manage",
+          "handle"
+        ]
+      },
+      {
+        "word": "under the guidance of",
+        "pos": "prepositional phrase",
+        "uz": "rahbarligi ostida",
+        "def": "with supervision or direction from someone",
+        "ex": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+        "also": [
+          "under the supervision of"
+        ]
+      },
+      {
+        "word": "have a go",
+        "pos": "idiom",
+        "uz": "urinib ko‘rmoq",
+        "def": "to try doing something",
+        "ex": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+        "also": [
+          "give it a try"
+        ]
+      },
+      {
+        "word": "sleeping arrangements",
+        "pos": "noun phrase",
+        "uz": "uxlash tartibi",
+        "def": "the planned way people will sleep or be accommodated",
+        "ex": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+        "also": [
+          "accommodation arrangements"
+        ]
+      },
+      {
+        "word": "switch off",
+        "pos": "phrasal verb",
+        "uz": "o‘chirib qo‘ymoq",
+        "def": "to turn a device off",
+        "ex": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+        "also": [
+          "turn off"
+        ]
+      },
+      {
+        "word": "lend a hand",
+        "pos": "idiom",
+        "uz": "yordam bermoq",
+        "def": "to help someone with a task",
+        "ex": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+        "also": [
+          "help out"
+        ]
+      },
+      {
+        "word": "sign-up form",
+        "pos": "compound noun",
+        "uz": "ro‘yxatdan o‘tish formasi",
+        "def": "a form used to register for an activity",
+        "ex": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+        "also": [
+          "registration form"
+        ]
+      },
+      {
+        "word": "meeting point",
+        "pos": "noun phrase",
+        "uz": "uchrashuv nuqtasi",
+        "def": "a designated place where people gather",
+        "ex": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+        "also": [
+          "assembly point"
+        ]
+      },
+      {
+        "word": "riverbank",
+        "pos": "noun",
+        "uz": "daryo qirg‘og‘i",
+        "def": "the land along the edge of a river",
+        "ex": "Part 2: Preparing for a Trip to an Outdoor Education Centre",
+        "also": [
+          "river edge"
+        ]
+      },
+      {
+        "word": "extinct volcanic cone",
+        "pos": "noun phrase",
+        "uz": "so‘ngan vulqon konusi",
+        "def": "a volcanic cone that is no longer active",
+        "ex": "Part 3: Stone Point: A New Zealand Historical Site",
+        "also": [
+          "inactive volcanic cone"
+        ]
+      },
+      {
+        "word": "historical role",
+        "pos": "noun phrase",
+        "uz": "tarixiy rol",
+        "def": "the importance or function something had in history",
+        "ex": "Part 3: Stone Point: A New Zealand Historical Site",
+        "also": [
+          "historical significance"
+        ]
+      },
+      {
+        "word": "shelter from attack",
+        "pos": "verb phrase",
+        "uz": "hujumdan panalanmoq",
+        "def": "to use a place for protection from attack",
+        "ex": "Part 3: Stone Point: A New Zealand Historical Site",
+        "also": [
+          "seek protection"
+        ]
+      },
+      {
+        "word": "fishing opportunities",
+        "pos": "noun phrase",
+        "uz": "baliq ovlash imkoniyatlari",
+        "def": "chances or resources for fishing",
+        "ex": "Part 3: Stone Point: A New Zealand Historical Site",
+        "also": [
+          "access to fishing"
+        ]
+      },
+      {
+        "word": "stick to English",
+        "pos": "verb phrase",
+        "uz": "ingliz tilidagina qolmoq",
+        "def": "to use only English rather than another language",
+        "ex": "Part 3: Stone Point: A New Zealand Historical Site",
+        "also": [
+          "use English only"
+        ]
+      },
+      {
+        "word": "first-hand accounts",
+        "pos": "noun phrase",
+        "uz": "bevosita guvohlarning bayonlari",
+        "def": "reports from people who directly experienced events",
+        "ex": "Part 3: Stone Point: A New Zealand Historical Site",
+        "also": [
+          "eyewitness accounts"
+        ]
+      },
+      {
+        "word": "restoration work",
+        "pos": "noun phrase",
+        "uz": "tiklash ishlari",
+        "def": "work done to return a historic place to a good condition",
+        "ex": "Part 3: Stone Point: A New Zealand Historical Site",
+        "also": [
+          "conservation work"
+        ]
+      },
+      {
+        "word": "public-park boundary",
+        "pos": "noun phrase",
+        "uz": "jamoat bog‘i chegarasi",
+        "def": "the exact limit of land belonging to a public park",
+        "ex": "Part 3: Stone Point: A New Zealand Historical Site",
+        "also": [
+          "park limit"
+        ]
+      },
+      {
+        "word": "peasant economy",
+        "pos": "noun phrase",
+        "uz": "dehqonchilik iqtisodiyoti",
+        "def": "an economy mainly based on small-scale farming",
+        "ex": "Part 4: Rural Development — The Berbers",
+        "also": [
+          "agrarian economy"
+        ]
+      },
+      {
+        "word": "nomadic life",
+        "pos": "noun phrase",
+        "uz": "ko‘chmanchi hayot",
+        "def": "a way of life involving regular movement rather than permanent settlement",
+        "ex": "Part 4: Rural Development — The Berbers",
+        "also": [
+          "mobile way of life"
+        ]
+      },
+      {
+        "word": "seasonal nomads",
+        "pos": "noun phrase",
+        "uz": "mavsumiy ko‘chmanchilar",
+        "def": "nomadic people who move according to the season",
+        "ex": "Part 4: Rural Development — The Berbers",
+        "also": [
+          "seasonal migrants"
+        ]
+      },
+      {
+        "word": "oasis",
+        "pos": "noun",
+        "uz": "voha",
+        "def": "a fertile place in a desert where water is available",
+        "ex": "Part 4: Rural Development — The Berbers",
+        "also": [
+          "desert water source"
+        ]
+      },
+      {
+        "word": "increasingly arid",
+        "pos": "adjective phrase",
+        "uz": "tobora qurg‘oqchil",
+        "def": "becoming progressively drier",
+        "ex": "Part 4: Rural Development — The Berbers",
+        "also": [
+          "progressively drier"
+        ]
+      },
+      {
+        "word": "strict hierarchy",
+        "pos": "noun phrase",
+        "uz": "qat’iy ierarxiya",
+        "def": "a rigid system of social ranks",
+        "ex": "Part 4: Rural Development — The Berbers",
+        "also": [
+          "rigid social order"
+        ]
+      },
+      {
+        "word": "fierce independence",
+        "pos": "noun phrase",
+        "uz": "kuchli mustaqillik ruhi",
+        "def": "a very strong desire to remain independent",
+        "ex": "Part 4: Rural Development — The Berbers",
+        "also": [
+          "strong autonomy"
+        ]
+      },
+      {
+        "word": "grazing lands",
+        "pos": "noun phrase",
+        "uz": "yaylovlar",
+        "def": "land where animals feed on grass",
+        "ex": "Part 4: Rural Development — The Berbers",
+        "also": [
+          "pasture"
+        ]
+      }
+    ]
+  }
+}

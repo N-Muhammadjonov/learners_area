@@ -1,0 +1,1745 @@
+{
+  "test_id": "listening-test-21",
+  "title": "Listening Test 21",
+  "sections": [
+    "Renting a room",
+    "Spring Down Junior School",
+    "Forensic Linguistics",
+    "Dormancy"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Jim's weekly rent",
+      "answer": "80",
+      "evidence": "Part 1: Renting a room. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 418.328,
+      "timeCenter": 209.164,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Where Jim can park his car",
+      "answer": "garage",
+      "evidence": "Part 1: Renting a room. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 418.328,
+      "timeCenter": 209.164,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Location of the telephone",
+      "answer": "kitchen",
+      "evidence": "Part 1: Renting a room. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 418.328,
+      "timeCenter": 209.164,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "What Jim will bring for his bedroom",
+      "answer": "heater",
+      "evidence": "Part 1: Renting a room. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 418.328,
+      "timeCenter": 209.164,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "What Peter would like Jim to bring",
+      "answer": "toaster",
+      "evidence": "Part 1: Renting a room. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 418.328,
+      "timeCenter": 209.164,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "When Peter and Jim will probably watch TV",
+      "answer": "Friday evening",
+      "evidence": "Part 1: Renting a room. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 418.328,
+      "timeCenter": 209.164,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Jim's workplace",
+      "answer": "supermarket",
+      "evidence": "Part 1: Renting a room. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 418.328,
+      "timeCenter": 209.164,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Cost Peter will share with Jim",
+      "answer": "petrol",
+      "evidence": "Part 1: Renting a room. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 418.328,
+      "timeCenter": 209.164,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Move-in deadline",
+      "answer": "1st of June",
+      "evidence": "Part 1: Renting a room. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 418.328,
+      "timeCenter": 209.164,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "What Jim will finish before moving in",
+      "answer": "exam",
+      "evidence": "Part 1: Renting a room. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 418.328,
+      "timeCenter": 209.164,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "School registration start time",
+      "answer": "8:55",
+      "evidence": "Part 2: Spring Down Junior School. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 418.328,
+      "timeEnd": 829.953,
+      "timeCenter": 624.14,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "Lunch offered by the school canteen",
+      "answer": "hot meal",
+      "evidence": "Part 2: Spring Down Junior School. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 418.328,
+      "timeEnd": 829.953,
+      "timeCenter": 624.14,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Length of each morning/afternoon break",
+      "answer": "15 minutes",
+      "evidence": "Part 2: Spring Down Junior School. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 418.328,
+      "timeEnd": 829.953,
+      "timeCenter": 624.14,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Thursday afternoon whole-school activity",
+      "answer": "sports",
+      "evidence": "Part 2: Spring Down Junior School. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 418.328,
+      "timeEnd": 829.953,
+      "timeCenter": 624.14,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Special item children produce each term",
+      "answer": "poster",
+      "evidence": "Part 2: Spring Down Junior School. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 418.328,
+      "timeEnd": 829.953,
+      "timeCenter": 624.14,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "How often children are tested",
+      "answer": "month",
+      "evidence": "Part 2: Spring Down Junior School. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 418.328,
+      "timeEnd": 829.953,
+      "timeCenter": 624.14,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "After-school activity for learning new skills",
+      "answer": "clubs",
+      "evidence": "Part 2: Spring Down Junior School. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 418.328,
+      "timeEnd": 829.953,
+      "timeCenter": 624.14,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Floor plan location 18",
+      "answer": "E",
+      "evidence": "Part 2: Spring Down Junior School. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 418.328,
+      "timeEnd": 829.953,
+      "timeCenter": 624.14,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "music room"
+        },
+        {
+          "code": "B",
+          "text": "assembly hall"
+        },
+        {
+          "code": "C",
+          "text": "computer room"
+        },
+        {
+          "code": "D",
+          "text": "cloakroom"
+        },
+        {
+          "code": "E",
+          "text": "Head's office"
+        },
+        {
+          "code": "F",
+          "text": "reception"
+        },
+        {
+          "code": "G",
+          "text": "gym"
+        }
+      ]
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Floor plan location 19",
+      "answer": "A",
+      "evidence": "Part 2: Spring Down Junior School. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 418.328,
+      "timeEnd": 829.953,
+      "timeCenter": 624.14,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "music room"
+        },
+        {
+          "code": "B",
+          "text": "assembly hall"
+        },
+        {
+          "code": "C",
+          "text": "computer room"
+        },
+        {
+          "code": "D",
+          "text": "cloakroom"
+        },
+        {
+          "code": "E",
+          "text": "Head's office"
+        },
+        {
+          "code": "F",
+          "text": "reception"
+        },
+        {
+          "code": "G",
+          "text": "gym"
+        }
+      ]
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Floor plan location 20",
+      "answer": "G",
+      "evidence": "Part 2: Spring Down Junior School. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 418.328,
+      "timeEnd": 829.953,
+      "timeCenter": 624.14,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "music room"
+        },
+        {
+          "code": "B",
+          "text": "assembly hall"
+        },
+        {
+          "code": "C",
+          "text": "computer room"
+        },
+        {
+          "code": "D",
+          "text": "cloakroom"
+        },
+        {
+          "code": "E",
+          "text": "Head's office"
+        },
+        {
+          "code": "F",
+          "text": "reception"
+        },
+        {
+          "code": "G",
+          "text": "gym"
+        }
+      ]
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "What do the students agree about defining forensic linguistics?",
+      "answer": "B",
+      "evidence": "Part 3: Forensic Linguistics. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 829.953,
+      "timeEnd": 1237.637,
+      "timeCenter": 1033.795,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "The dictionary definition was not very useful."
+        },
+        {
+          "code": "B",
+          "text": "They could provide an example of the kind of work involved."
+        },
+        {
+          "code": "C",
+          "text": "They should read about the subject to see how it is described."
+        }
+      ]
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Why will the voice recording be difficult to analyse?",
+      "answer": "A",
+      "evidence": "Part 3: Forensic Linguistics. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 829.953,
+      "timeEnd": 1237.637,
+      "timeCenter": 1033.795,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "it is not of good quality."
+        },
+        {
+          "code": "B",
+          "text": "the accent is difficult to understand."
+        },
+        {
+          "code": "C",
+          "text": "she doesn't know if the speaker is male or female."
+        }
+      ]
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Why might the 'suspect' vary their voice patterns?",
+      "answer": "B",
+      "evidence": "Part 3: Forensic Linguistics. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 829.953,
+      "timeEnd": 1237.637,
+      "timeCenter": 1033.795,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "because they're being recorded."
+        },
+        {
+          "code": "B",
+          "text": "because they've been told to."
+        },
+        {
+          "code": "C",
+          "text": "because they feel uncomfortable about their accent."
+        }
+      ]
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "What does Rob think about Jen's approach to study?",
+      "answer": "A",
+      "evidence": "Part 3: Forensic Linguistics. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 829.953,
+      "timeEnd": 1237.637,
+      "timeCenter": 1033.795,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "She worries too much about her ability."
+        },
+        {
+          "code": "B",
+          "text": "She often ignores the most important issues."
+        },
+        {
+          "code": "C",
+          "text": "She has trouble getting started."
+        }
+      ]
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Book to get from the library (1 of 2)",
+      "answer": "B",
+      "evidence": "Part 3: Forensic Linguistics. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 829.953,
+      "timeEnd": 1237.637,
+      "timeCenter": 1033.795,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Voice Identification"
+        },
+        {
+          "code": "B",
+          "text": "Modern Forensic Techniques"
+        },
+        {
+          "code": "C",
+          "text": "Language and Crime"
+        },
+        {
+          "code": "D",
+          "text": "Forensics Today"
+        },
+        {
+          "code": "E",
+          "text": "Research Methods in Forensic Linguistics"
+        }
+      ]
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Book to get from the library (2 of 2)",
+      "answer": "E",
+      "evidence": "Part 3: Forensic Linguistics. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 829.953,
+      "timeEnd": 1237.637,
+      "timeCenter": 1033.795,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Voice Identification"
+        },
+        {
+          "code": "B",
+          "text": "Modern Forensic Techniques"
+        },
+        {
+          "code": "C",
+          "text": "Language and Crime"
+        },
+        {
+          "code": "D",
+          "text": "Forensics Today"
+        },
+        {
+          "code": "E",
+          "text": "Research Methods in Forensic Linguistics"
+        }
+      ]
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Shared practical concern (1 of 2)",
+      "answer": "A",
+      "evidence": "Part 3: Forensic Linguistics. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 829.953,
+      "timeEnd": 1237.637,
+      "timeCenter": 1033.795,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "how much time they have for writing up the project"
+        },
+        {
+          "code": "B",
+          "text": "being able to do enough research"
+        },
+        {
+          "code": "C",
+          "text": "only speaking to the 'suspect' once"
+        },
+        {
+          "code": "D",
+          "text": "using recording equipment"
+        },
+        {
+          "code": "E",
+          "text": "how easy it will be to contact the 'suspect'"
+        }
+      ]
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Shared practical concern (2 of 2)",
+      "answer": "D",
+      "evidence": "Part 3: Forensic Linguistics. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 829.953,
+      "timeEnd": 1237.637,
+      "timeCenter": 1033.795,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "how much time they have for writing up the project"
+        },
+        {
+          "code": "B",
+          "text": "being able to do enough research"
+        },
+        {
+          "code": "C",
+          "text": "only speaking to the 'suspect' once"
+        },
+        {
+          "code": "D",
+          "text": "using recording equipment"
+        },
+        {
+          "code": "E",
+          "text": "how easy it will be to contact the 'suspect'"
+        }
+      ]
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Section Rob will write alone (1 of 2)",
+      "answer": "C",
+      "evidence": "Part 3: Forensic Linguistics. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 829.953,
+      "timeEnd": 1237.637,
+      "timeCenter": 1033.795,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Methodology"
+        },
+        {
+          "code": "B",
+          "text": "Literature review"
+        },
+        {
+          "code": "C",
+          "text": "Introduction"
+        },
+        {
+          "code": "D",
+          "text": "Analysis"
+        },
+        {
+          "code": "E",
+          "text": "Discussion and conclusions"
+        }
+      ]
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Section Rob will write alone (2 of 2)",
+      "answer": "E",
+      "evidence": "Part 3: Forensic Linguistics. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 829.953,
+      "timeEnd": 1237.637,
+      "timeCenter": 1033.795,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Methodology"
+        },
+        {
+          "code": "B",
+          "text": "Literature review"
+        },
+        {
+          "code": "C",
+          "text": "Introduction"
+        },
+        {
+          "code": "D",
+          "text": "Analysis"
+        },
+        {
+          "code": "E",
+          "text": "Discussion and conclusions"
+        }
+      ]
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Resource organisms save during dormancy",
+      "answer": "resources",
+      "evidence": "Part 4: Dormancy. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1237.637,
+      "timeEnd": 1645.087,
+      "timeCenter": 1441.362,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Environmental conditions dormant organisms can survive",
+      "answer": "stressful",
+      "evidence": "Part 4: Dormancy. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1237.637,
+      "timeEnd": 1645.087,
+      "timeCenter": 1441.362,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "What dormant organisms face less of",
+      "answer": "competition",
+      "evidence": "Part 4: Dormancy. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1237.637,
+      "timeEnd": 1645.087,
+      "timeCenter": 1441.362,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Environmental variable besides temperature",
+      "answer": "light",
+      "evidence": "Part 4: Dormancy. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1237.637,
+      "timeEnd": 1645.087,
+      "timeCenter": 1441.362,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Change in insect metabolism during diapause",
+      "answer": "reduction",
+      "evidence": "Part 4: Dormancy. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1237.637,
+      "timeEnd": 1645.087,
+      "timeCenter": 1441.362,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Where African lungfish buries itself",
+      "answer": "mud",
+      "evidence": "Part 4: Dormancy. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1237.637,
+      "timeEnd": 1645.087,
+      "timeCenter": 1441.362,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Danger besides desiccation",
+      "answer": "starvation",
+      "evidence": "Part 4: Dormancy. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1237.637,
+      "timeEnd": 1645.087,
+      "timeCenter": 1441.362,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "What light-coloured shells limit",
+      "answer": "evaporation",
+      "evidence": "Part 4: Dormancy. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1237.637,
+      "timeEnd": 1645.087,
+      "timeCenter": 1441.362,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Where Arctic ground squirrel hibernates",
+      "answer": "nest",
+      "evidence": "Part 4: Dormancy. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1237.637,
+      "timeEnd": 1645.087,
+      "timeCenter": 1441.362,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "First body area to warm after waking",
+      "answer": "heart",
+      "evidence": "Part 4: Dormancy. The user-provided recording, raw test and verified VOL 9 Test 1 transcript/answer sources were cross-checked; no question-level word timestamp is claimed.",
+      "timeStart": 1237.637,
+      "timeEnd": 1645.087,
+      "timeCenter": 1441.362,
+      "why": "The answer is supported by the supplied recording and verified exact-test transcript/answer key.",
+      "trap": "Check distractors and wording changes in the surrounding audio.",
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "80",
+    "2": "garage",
+    "3": "kitchen",
+    "4": "heater",
+    "5": "toaster",
+    "6": "Friday evening",
+    "7": "supermarket",
+    "8": "petrol",
+    "9": "1st of June",
+    "10": "exam",
+    "11": "8:55",
+    "12": "hot meal",
+    "13": "15 minutes",
+    "14": "sports",
+    "15": "poster",
+    "16": "month",
+    "17": "clubs",
+    "18": "E",
+    "19": "A",
+    "20": "G",
+    "21": "B",
+    "22": "A",
+    "23": "B",
+    "24": "A",
+    "25": "B",
+    "26": "E",
+    "27": "A",
+    "28": "D",
+    "29": "C",
+    "30": "E",
+    "31": "resources",
+    "32": "stressful",
+    "33": "competition",
+    "34": "light",
+    "35": "reduction",
+    "36": "mud",
+    "37": "starvation",
+    "38": "evaporation",
+    "39": "nest",
+    "40": "heart"
+  },
+  "alternatives": {
+    "1": [
+      "$80",
+      "80 dollars"
+    ],
+    "6": [
+      "friday evenings",
+      "friday"
+    ],
+    "9": [
+      "1st june",
+      "june 1st",
+      "1 june",
+      "june 1",
+      "first of june"
+    ],
+    "11": [
+      "8.55",
+      "0855",
+      "08:55",
+      "8 55"
+    ],
+    "12": [
+      "a hot meal"
+    ],
+    "13": [
+      "fifteen minutes",
+      "15 mins"
+    ],
+    "18": [
+      "head office",
+      "head's office"
+    ],
+    "19": [
+      "music room"
+    ],
+    "20": [
+      "gymnasium"
+    ],
+    "25": [
+      "B",
+      "E"
+    ],
+    "26": [
+      "B",
+      "E"
+    ],
+    "27": [
+      "A",
+      "D"
+    ],
+    "28": [
+      "A",
+      "D"
+    ],
+    "29": [
+      "C",
+      "E"
+    ],
+    "30": [
+      "C",
+      "E"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 418.328
+    },
+    "2": {
+      "start": 418.328,
+      "end": 829.953
+    },
+    "3": {
+      "start": 829.953,
+      "end": 1237.637
+    },
+    "4": {
+      "start": 1237.637,
+      "end": 1645.087
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Original embedded source audio was extracted and recompressed to mono 80 kbps MP3 for offline use.",
+  "audio_duration_seconds": 1645.087,
+  "transcript": {
+    "1": "PART 1 - Renting a room\n\nPETER: Hi, I'm Peter. We talked on the phone, didn't we? Come on in.\nJIM: Great. I just need to find out a few things before I make up my mind.\nPETER: Okay.\nJIM: Well, first of all, I wasn't quite clear about the rent.\nPETER: It depends on the room you have. I have the large bedroom, so I pay $110 a week. Yours is $80 because it's a bit smaller.\nJIM: That's not too bad. The last place I was in was $100 a week and it was much smaller. And it seems like a good location.\nPETER: Yeah, and the shops are pretty close. The only thing is it's not very good for public transport. The nearest bus stop is quite a walk.\nJIM: That's not a problem. I've got a car. By the way, is there anywhere I can park?\nPETER: Well, you're lucky because this house has a garage. At the moment there are some empty boxes in there, but there's still plenty of room for your car. You can't park in the street; it's zoned no parking, and the back lane is too narrow.\nJIM: Fine. Now, what about phone calls? I didn't see a phone in the hall when I came in. I've got a mobile which my friends usually call me on, but a phone in the house is useful.\nPETER: Yeah, it's in the kitchen. It was in the living room, but it was hard to hear over the television. Oh, and we pay for our own calls.\nJIM: That's fair enough. And what about my room?\nPETER: Yes, we'll go up and look in a minute. It's at the front of the house. It's a nice room and there's a cupboard and desk in there already. But it does get quite cold at night in that room and it doesn't have a heater.\nJIM: No problem. My friend has just given me one, so I'll bring that. He's gone travelling and has left me with a big box of things to mind. Anything else I can bring?\nPETER: Well, we've just got a microwave and my mother bought me a rice cooker, but it would be great if you had a toaster. Mine's just broken.\nJIM: I'll have a look in the box.\n\nPETER: One thing. I'm a keen sports fan and I usually watch the game on TV on Friday evening. Would that be OK?\nJIM: Me too, so that's good. And I work at the supermarket on Tuesday and Thursday nights.\nPETER: Great. You can do the shopping then. Do you have most of your lectures in the morning or afternoon?\nJIM: In the afternoons. Why?\nPETER: Mine are in the afternoons too. You could give me a lift. We can share the petrol.\nJIM: Good idea. When do you think I could move in?\nPETER: Well, if you're interested and the rent is OK, I need someone by the 1st of June when the new rent period starts.\nJIM: Yes, that should be fine. I've got an exam next week, so I'll move in after that if that's OK.\nPETER: Yeah, that sounds fine.",
+    "2": "PART 2 - Spring Down Junior School\n\nANNE RAWSON: Okay, can everybody hear me? Good. Well, I'd like to welcome all the new parents to Spring Down Junior School. My name is Anne Rawson and I'm the assistant head teacher. What I'd like to do is tell you about the school day and show you round the school, and perhaps you can ask me any questions you may have at the end.\n\nRight, first of all let me start by telling you a little bit about what happens here and what's on offer. Children are expected to arrive at school between 8.45 and 8.50 and the bell is rung for everybody to go to their classrooms at 8.55 so that we can take the register. We then have assembly at 9.00 when the whole school meets in the hall for the head to talk to the children. He may discuss what's happened in the news or something that is important for the school.\n\nLessons run until 4.00 p.m. with an hour for lunch. Lunch is served in the canteen and children can bring their own packed lunch or a hot meal is available. They also play outside and get some fresh air. In the middle of the morning and the middle of the afternoon there are two breaks of 15 minutes when the children also generally go outside, unless it's wet.\n\nNow, we encourage the children to do as much as they can and we offer several ways of achieving this. For example, on Thursday afternoons, rather than continuing with lessons, we expect the whole school to do sports. We vary these between summer and winter and everything is supervised by the teachers. Also, we like the children to work on something artistic over a long period of time, so for each of the three terms they are expected to produce a poster. This will normally be on something particular that they have studied that term, such as the environment.\n\nWe also make sure we keep a close eye on how each child is doing in their schoolwork and every month, rather than the teacher giving the children a report, as I know some schools do, they have to do tests and we record their performance over the year. We are very proud of our school and of the very good results we achieve. Our teachers are all very committed to the school and at the end of the school day many of them have set up clubs that the children go to for an extra hour to learn a new skill, such as music.\n\nOkay, I'll quickly show you where everything is. We're here at the main entrance and on the right, where you would normally expect to find reception, you'll see the Head's office. He likes to see visitors personally and his door is always open. Opposite this are two of the classrooms, but most of the classrooms are down the long corridor. The library then is situated between those two classrooms and we are hoping that we will be able to create a computer room within that so that the children can have somewhere quiet to work on their own.\n\nOn the left of the classrooms we have converted one of the old cloakrooms to create a music room, and children can go in there at lunchtime if they want to. Now if you come with me through the main hall here. Okay, now as you can probably see, this main hall is a new addition this year and we are very pleased with it. We used to be squashed into the old assembly hall next door, which, as you can see, has now been turned into a gym for the children and we have weekly lessons here. Do feel free to go and look round the classrooms and I'll be waiting here to answer your questions.",
+    "3": "PART 3 - Forensic Linguistics\n\nROB: Hi, Jen.\nJEN: Hi, Rob. We need to look at this project we're doing together in forensic linguistics.\nROB: Sure. The first thing we have to do is define forensic linguistics. I thought we could say something like: linguistics involves the analysis of language, and forensic refers to using scientific techniques to solve crimes. So forensic linguistics involves analysing people's use of language to find out whether they've committed a crime. What do you think of that as a definition?\nJEN: Sounds OK. I looked it up in my dictionary and I got something similar.\nROB: Then we can add something about what forensic linguists actually do to back it up. You know, like analysing documents to find out who wrote them.\nJEN: Good point. Let's do that. What about the actual project? I'm glad we chose voice identification as the topic.\nROB: Yeah. We've been given a voice recording of a possible suspect - not a real suspect, of course. So we've got to listen to the recording and analyse their voice. Should be OK.\nJEN: Well, I've already listened to the recording and I can't even tell if it's a man or a woman. But I guess that doesn't matter. The accent's a local one, though I'm not sure how that will affect anything. Where we're really going to get in trouble is that the recording is very unclear.\nROB: I'm sure they've done that to test us. Well, they weren't going to make it easy. We have to analyse the voice sample with that spectrograph instrument, don't we? Learning what to do with it is the only thing that really concerns me about this project.\nJEN: It'll be fine.\nROB: I guess so. And then we have to interview the suspect and make our own recording face to face and decide if it's the same person as on the original recording, right?\nJEN: Yes. It's not an exact science but it's usually pretty accurate. You can often tell even when they've got a cold it's the same person, but they might do something like speaking with another accent because the tutor suggests they do that just to test us.\nROB: So let's get on with it then. Oh, and don't start your usual self-doubt about whether you can do the work or not. You usually do OK in the end. I reckon that as long as we focus on the main points of the assignment we can think about the finer details later.\nJEN: My problem is creating things to worry about before I've even started.\n\nROB: We'll have to do some background reading first. I'll go to the library later and get what we need.\nJEN: OK. I've already looked at Forensics Today and it didn't say much about voice identification, so we needn't bother with that one. Language and Crime looks a bit more promising, doesn't it? I've got that out of the library already, so we don't need to worry about borrowing that. Research Methods in Forensic Linguistics - I guess we ought to borrow that. And Voice Identification will be a useful one.\nROB: I'll borrow that from our classmate George. He won't need it for his project. But we should get out Modern Forensic Techniques. We need all the help we can get on that subject.\nJEN: OK. That's that sorted out. Now on to the practical stuff. I'm not sure about how we're going to record the voices. I'm not too good on the technical side of things.\nROB: Me neither. We'd better work out what we're doing. At least we get more than one opportunity to speak to the person playing the suspect.\nJEN: I just hope whoever it is won't make the task too tricky.\nROB: I'm sure they won't be too hard on us. And as long as we do our research properly it shouldn't be too hard to do the rest of it.\nJEN: I'm more worried about fitting in the writing up.\nROB: I know. We've got loads of other assignments to finish as well.\nJEN: Now, Rob, let's decide how we're going to split the writing between us. Are you any good at introductions? They always seem to let me down.\nROB: OK. Leave that to me. Are you OK to do the literature review then?\nJEN: Maybe we should split that part. I don't mind writing the methodology section if you feel comfortable doing the discussion and conclusions.\nROB: OK. And we can do the analysis between us as well.\nJEN: Great. Let's get started.",
+    "4": "PART 4 - Dormancy\n\nLECTURER: Today we'll continue that discussion by looking at dormancy. First, we'll cover what dormancy is and why organisms become dormant. Dormancy is a state of inactivity that organisms or living things enter when they need to conserve the resources available to them and reduce their demands on their environment. Most major groups of plants and animals have some representatives that can become dormant.\n\nWhat is the value of dormancy? To start with, animals that have the ability to become dormant can survive conditions which are stressful in environmental terms. For instance, when lakes, ponds or rivers dry up, aquatic organisms that can enter dormancy can survive the drought, while others which cannot do this will die. Another advantage is that creatures that can become dormant in inhospitable conditions, such as extreme cold, can live in a larger range of places than other organisms. Because they can live where other animals cannot survive, when they are actually active and looking for food the amount of competition they have to deal with from other creatures is greatly reduced.\n\nLet's move on to look at what causes dormancy. There are a number of variables, but the ones that are most significant are changes in temperature and the amount of light organisms get. Availability of food, water and oxygen is also very important.\n\nNow we'll explore some specific examples. Let us first look at dormancy in insects. Insects can experience a reduction in their metabolism, which is a form of dormancy called diapause. Diapause is either a reaction to difficult environmental conditions or a necessary part of the life cycle, such as with butterflies or certain moths. In terms of environment, it's interesting to note that through dormancy insects can survive when it's very cold.\n\nAnother creature we'll look at is fish. Fish share the same main environmental causes for dormancy as other creatures, but, as one might imagine, they are particularly sensitive to drought. For example, when the water supply is low, the African lungfish burrows deep into the mud. It surrounds itself with a cocoon of slime and remains inactive. While dormant it faces two dangers. One is the possibility of starvation, and to overcome this it relies on fat it has stored up in its body. The other is desiccation, or drying up, which is addressed through a reduction in urine production.\n\nSnails are also known to become dormant. Some snails seal off their shell with a membrane of dried mucus after settling at their place of dormancy. Other snails do not have this possibility and rely on the protection of their shell. So snails that remain outside during their dormancy can usually be recognised by a rather brightly coloured shell, reflecting the sunlight and so minimising evaporation. That is why banded snails usually have light shells in open habitats.\n\nHibernation is probably the most well-known type of dormancy and occurs in warm-blooded creatures during the winter. We know that warm-blooded animals maintain a regular body temperature. What's really interesting about hibernators is that they can adapt to extreme conditions by turning off their internal thermostats and hibernating until conditions improve.\n\nLet's examine the behaviour of a true hibernator, the Arctic ground squirrel. This squirrel digs underground and builds a nest that is insulated. Once in its nest, it curls up into a ball and tucks in its arms, legs and tail. Its body temperature mirrors the cold of its surroundings. At this point the squirrel barely breathes and doesn't react to stimuli in a normal way. During this hibernation period the squirrel loses nearly 40 percent of its weight. The process of awakening for the Arctic ground squirrel takes about three hours. When this happens there is a rapid rise in the heartbeat and circulation is activated. The area around the heart warms faster than the rest of the animal. Despite the strain of hibernation, the squirrel's body processes are normal within 24 hours of coming out."
+  },
+  "transcript_source": "Transcribed/aligned to the user-provided embedded recording and cross-checked against the exact VOL 9 Test 1 / REAL IELTS EXAM transcript sources.",
+  "timestamps_source": "Part boundaries are based on section-break silences in the supplied recording; no question-level word timestamps are claimed.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "make up my mind",
+      "answer": "make up my mind",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "quite clear about the rent",
+      "answer": "quite clear about the rent",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "plenty of room",
+      "answer": "plenty of room",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "zoned no parking",
+      "answer": "zoned no parking",
+      "lexical_type": "fixed phrase"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "hard to hear over the television",
+      "answer": "hard to hear over the television",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "keen sports fan",
+      "answer": "keen sports fan",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "share the petrol",
+      "answer": "share the petrol",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "new rent period",
+      "answer": "new rent period",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 109,
+      "part": 2,
+      "n": 1,
+      "match": "take the register",
+      "answer": "take the register",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 110,
+      "part": 2,
+      "n": 2,
+      "match": "packed lunch",
+      "answer": "packed lunch",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 111,
+      "part": 2,
+      "n": 3,
+      "match": "two breaks of 15 minutes",
+      "answer": "two breaks of 15 minutes",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 112,
+      "part": 2,
+      "n": 4,
+      "match": "rather than continuing with lessons",
+      "answer": "rather than continuing with lessons",
+      "lexical_type": "contrast chunk"
+    },
+    {
+      "q": 113,
+      "part": 2,
+      "n": 5,
+      "match": "produce a poster",
+      "answer": "produce a poster",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 114,
+      "part": 2,
+      "n": 6,
+      "match": "keep a close eye",
+      "answer": "keep a close eye",
+      "lexical_type": "idiom/collocation"
+    },
+    {
+      "q": 115,
+      "part": 2,
+      "n": 7,
+      "match": "set up clubs",
+      "answer": "set up clubs",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 116,
+      "part": 2,
+      "n": 8,
+      "match": "turned into a gym",
+      "answer": "turned into a gym",
+      "lexical_type": "phrasal chunk"
+    },
+    {
+      "q": 117,
+      "part": 3,
+      "n": 1,
+      "match": "using scientific techniques to solve crimes",
+      "answer": "using scientific techniques to solve crimes",
+      "lexical_type": "academic chunk"
+    },
+    {
+      "q": 118,
+      "part": 3,
+      "n": 2,
+      "match": "analysing documents to find out who wrote them",
+      "answer": "analysing documents to find out who wrote them",
+      "lexical_type": "academic chunk"
+    },
+    {
+      "q": 119,
+      "part": 3,
+      "n": 3,
+      "match": "very unclear",
+      "answer": "very unclear",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 120,
+      "part": 3,
+      "n": 4,
+      "match": "usual self-doubt",
+      "answer": "usual self-doubt",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 121,
+      "part": 3,
+      "n": 5,
+      "match": "background reading",
+      "answer": "background reading",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 122,
+      "part": 3,
+      "n": 6,
+      "match": "technical side of things",
+      "answer": "technical side of things",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 123,
+      "part": 3,
+      "n": 7,
+      "match": "fitting in the writing up",
+      "answer": "fitting in the writing up",
+      "lexical_type": "academic chunk"
+    },
+    {
+      "q": 124,
+      "part": 3,
+      "n": 8,
+      "match": "split the writing between us",
+      "answer": "split the writing between us",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 125,
+      "part": 4,
+      "n": 1,
+      "match": "conserve the resources",
+      "answer": "conserve the resources",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 126,
+      "part": 4,
+      "n": 2,
+      "match": "stressful in environmental terms",
+      "answer": "stressful in environmental terms",
+      "lexical_type": "academic chunk"
+    },
+    {
+      "q": 127,
+      "part": 4,
+      "n": 3,
+      "match": "amount of competition",
+      "answer": "amount of competition",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 128,
+      "part": 4,
+      "n": 4,
+      "match": "changes in temperature",
+      "answer": "changes in temperature",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 129,
+      "part": 4,
+      "n": 5,
+      "match": "reduction in their metabolism",
+      "answer": "reduction in their metabolism",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 130,
+      "part": 4,
+      "n": 6,
+      "match": "cocoon of slime",
+      "answer": "cocoon of slime",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 131,
+      "part": 4,
+      "n": 7,
+      "match": "minimising evaporation",
+      "answer": "minimising evaporation",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 132,
+      "part": 4,
+      "n": 8,
+      "match": "turning off their internal thermostats",
+      "answer": "turning off their internal thermostats",
+      "lexical_type": "technical chunk"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "make up my mind",
+      "word": "make up my mind",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Renting a room",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "quite clear about the rent",
+      "word": "quite clear about the rent",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Renting a room",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "plenty of room",
+      "word": "plenty of room",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Renting a room",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "zoned no parking",
+      "word": "zoned no parking",
+      "type": "fixed phrase",
+      "lexical_type": "fixed phrase",
+      "pos": "fixed phrase",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Renting a room",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "hard to hear over the television",
+      "word": "hard to hear over the television",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Renting a room",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "keen sports fan",
+      "word": "keen sports fan",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Renting a room",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "share the petrol",
+      "word": "share the petrol",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Renting a room",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "new rent period",
+      "word": "new rent period",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Renting a room",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "take the register",
+      "word": "take the register",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Spring Down Junior School",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "packed lunch",
+      "word": "packed lunch",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Spring Down Junior School",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "two breaks of 15 minutes",
+      "word": "two breaks of 15 minutes",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Spring Down Junior School",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "rather than continuing with lessons",
+      "word": "rather than continuing with lessons",
+      "type": "contrast chunk",
+      "lexical_type": "contrast chunk",
+      "pos": "contrast chunk",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Spring Down Junior School",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "produce a poster",
+      "word": "produce a poster",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Spring Down Junior School",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "keep a close eye",
+      "word": "keep a close eye",
+      "type": "idiom/collocation",
+      "lexical_type": "idiom/collocation",
+      "pos": "idiom/collocation",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Spring Down Junior School",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "set up clubs",
+      "word": "set up clubs",
+      "type": "phrasal verb",
+      "lexical_type": "phrasal verb",
+      "pos": "phrasal verb",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Spring Down Junior School",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "turned into a gym",
+      "word": "turned into a gym",
+      "type": "phrasal chunk",
+      "lexical_type": "phrasal chunk",
+      "pos": "phrasal chunk",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Spring Down Junior School",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "using scientific techniques to solve crimes",
+      "word": "using scientific techniques to solve crimes",
+      "type": "academic chunk",
+      "lexical_type": "academic chunk",
+      "pos": "academic chunk",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Forensic Linguistics",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "analysing documents to find out who wrote them",
+      "word": "analysing documents to find out who wrote them",
+      "type": "academic chunk",
+      "lexical_type": "academic chunk",
+      "pos": "academic chunk",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Forensic Linguistics",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "very unclear",
+      "word": "very unclear",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Forensic Linguistics",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "usual self-doubt",
+      "word": "usual self-doubt",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Forensic Linguistics",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "background reading",
+      "word": "background reading",
+      "type": "academic collocation",
+      "lexical_type": "academic collocation",
+      "pos": "academic collocation",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Forensic Linguistics",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "technical side of things",
+      "word": "technical side of things",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Forensic Linguistics",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "fitting in the writing up",
+      "word": "fitting in the writing up",
+      "type": "academic chunk",
+      "lexical_type": "academic chunk",
+      "pos": "academic chunk",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Forensic Linguistics",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "split the writing between us",
+      "word": "split the writing between us",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Forensic Linguistics",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "conserve the resources",
+      "word": "conserve the resources",
+      "type": "academic collocation",
+      "lexical_type": "academic collocation",
+      "pos": "academic collocation",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dormancy",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "stressful in environmental terms",
+      "word": "stressful in environmental terms",
+      "type": "academic chunk",
+      "lexical_type": "academic chunk",
+      "pos": "academic chunk",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dormancy",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "amount of competition",
+      "word": "amount of competition",
+      "type": "academic collocation",
+      "lexical_type": "academic collocation",
+      "pos": "academic collocation",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dormancy",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "changes in temperature",
+      "word": "changes in temperature",
+      "type": "academic collocation",
+      "lexical_type": "academic collocation",
+      "pos": "academic collocation",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dormancy",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "reduction in their metabolism",
+      "word": "reduction in their metabolism",
+      "type": "academic collocation",
+      "lexical_type": "academic collocation",
+      "pos": "academic collocation",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dormancy",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "cocoon of slime",
+      "word": "cocoon of slime",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dormancy",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "minimising evaporation",
+      "word": "minimising evaporation",
+      "type": "academic collocation",
+      "lexical_type": "academic collocation",
+      "pos": "academic collocation",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dormancy",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "turning off their internal thermostats",
+      "word": "turning off their internal thermostats",
+      "type": "technical chunk",
+      "lexical_type": "technical chunk",
+      "pos": "technical chunk",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Dormancy",
+      "collocations": [],
+      "paraphrases": []
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "Completion",
+    "12": "Completion",
+    "13": "Completion",
+    "14": "Completion",
+    "15": "Completion",
+    "16": "Completion",
+    "17": "Completion",
+    "18": "Matching",
+    "19": "Matching",
+    "20": "Matching",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "Matching",
+    "26": "Matching",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    [
+      "exam",
+      "01",
+      "Full IELTS Test",
+      "Q1-Q40 in a timed exam with embedded audio, FLAG and notes."
+    ],
+    [
+      "review",
+      "02",
+      "Review & Revision",
+      "Redo each Part and inspect answers/evidence after checking."
+    ],
+    [
+      "script",
+      "03",
+      "Script Completion",
+      "Complete full Part 1-4 transcripts with 8 lexical gaps each."
+    ],
+    [
+      "mcq",
+      "04",
+      "MCQ Mastery",
+      "Practise Q21-Q24 single-answer multiple-choice questions."
+    ],
+    [
+      "matching",
+      "05",
+      "Matching Mastery",
+      "Practise Q18-Q20 floor-plan matching."
+    ],
+    [
+      "completion",
+      "06",
+      "Completion Mastery",
+      "Practise gap-fill and note-completion questions."
+    ],
+    [
+      "vocab",
+      "07",
+      "Vocabulary Builder",
+      "Learn useful expressions from all four transcripts."
+    ],
+    [
+      "retry",
+      "08",
+      "Retry Weak Areas",
+      "Retry missed or unanswered questions."
+    ]
+  ]
+}

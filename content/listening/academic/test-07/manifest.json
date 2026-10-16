@@ -1,0 +1,43 @@
+{
+  "id": "listening-test-7",
+  "title": "Listening Test 7",
+  "collection": "academic",
+  "number": 7,
+  "questionCount": 40,
+  "sectionCount": 4,
+  "storageKey": "la_listening_test_7_v2",
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Choose THREE Mastery",
+    "Matching Mastery",
+    "Form & Note Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ],
+  "audio": {
+    "path": "audio/full.mp3",
+    "objectKey": "listening/academic/test-07/full.mp3",
+    "contentType": "audio/mpeg",
+    "bytes": 16912133,
+    "sha256": "695f4a911371473e887aded0f7b2c484befa7f17fd54d4000575d6366af5a1d8",
+    "durationSeconds": 1680.53551,
+    "localFile": "test-07-full.mp3"
+  },
+  "media": [
+    {
+      "path": "audio/full.mp3",
+      "objectKey": "listening/academic/test-07/full.mp3",
+      "contentType": "audio/mpeg",
+      "bytes": 16912133,
+      "sha256": "695f4a911371473e887aded0f7b2c484befa7f17fd54d4000575d6366af5a1d8",
+      "durationSeconds": 1680.53551,
+      "localFile": "test-07-full.mp3"
+    }
+  ],
+  "durationSeconds": 1680.53551,
+  "originalSha256": "bda14d5356ae700ddd988627696fe77d2c0179ef6c97b579326df3e911bc1190",
+  "sourceSha256": "5b8c78d20c085ded81a5459d7600affe144d940033fa39f0056a0b8947dc5ef8"
+}

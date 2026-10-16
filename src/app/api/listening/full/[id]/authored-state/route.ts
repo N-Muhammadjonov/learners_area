@@ -4,20 +4,22 @@ import { enforce } from '@/lib/http/rate-limit';
 import { requireActiveUser } from '@/lib/auth/current-user';
 import { fullListeningDetail } from '@/lib/data/full-listening';
 import { originalListeningState, saveOriginalListeningState } from '@/lib/data/listening-original-state';
-import { usesOriginalTestOne, ORIGINAL_TEST_ONE_ID } from '@/lib/listening/original-test-one';
+import { hasOriginalListeningRuntime, originalListeningStorageKey } from '@/lib/listening/original-listening';
+import { isUuid } from '@/lib/validation/ids';
+import { db } from '@/db/client';
 const headers = {'Cache-Control':'private, no-store'};
 const schema = z.record(z.string().max(100),z.string().max(100000)).refine(v=>JSON.stringify(v).length<=100000);
 async function context(id:string) {
   const user = await requireActiveUser();
   if (!user) return {response:NextResponse.json({error:'unauthenticated'},{status: 401,headers})};
-  if (id !== ORIGINAL_TEST_ONE_ID) return {response:NextResponse.json({error:'not_found'},{status:404,headers})};
+  if (!isUuid(id)) return {response:NextResponse.json({error:'not_found'},{status:404,headers})};
   const detail = await fullListeningDetail(id,user.role);
-  return detail && usesOriginalTestOne(id,detail.pkg.sourceId) ? {user,detail} : {response:NextResponse.json({error:'not_found'},{status:404,headers})};
+  return detail && hasOriginalListeningRuntime(id,detail.pkg.sourceId) ? {user,detail} : {response:NextResponse.json({error:'not_found'},{status:404,headers})};
 }
 export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>}) {
   const {id}=await params; const ctx=await context(id);
   if ('response' in ctx) return ctx.response;
-  return NextResponse.json({values:await originalListeningState(ctx.user.id,id)},{headers});
+  return NextResponse.json({values:await originalListeningState(ctx.user.id,id,db,originalListeningStorageKey(ctx.detail.pkg.sourceId))},{headers});
 }
 export async function PUT(req:NextRequest,{params}:{params:Promise<{id:string}>}) {
   const {id}=await params; const ctx=await context(id);

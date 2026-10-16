@@ -1,0 +1,1023 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-11",
+  "title": "Listening Test 11",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "39dc7e45666d43585fc5841afed3d33d3ef2e3788b42e28e5693a7c769a64660",
+      "path": "audio/full.mp3"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1650.964898,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": null,
+    "imagePath": null,
+    "sections": [
+      {
+        "number": 1,
+        "title": "Information about School Registration",
+        "transcript": "Good afternoon, Lemon Grove School District, on school registration.\n\nI think my son should attend one of the schools in your district.\n\nWhat grade will your son be entering?\n\nHe just turned five, he'll be starting school this year.\n\nOh okay, one moment please. I'll get the information for kindergarten registration.\n\nOkay, thank you.\n\nCan you give me your address?\n\nYes, it's 7418 Monterey Street.\n\nCan you spell that, please?\n\nYes, it's M-O-N-T-E-R-E-Y. Monterey Heights Elementary. So how do I register him?\n\nWe have registration at each school site Monday through Thursday from 9:00 to — oh no, sorry — 1:30. You'll need to pick up a kindergarten registration packet from the school beforehand, though. It has all the forms you'll need to fill out.\n\nCan I pick up the packet anytime?\n\nSure, the school office is usually open till 3:30 in the afternoon.\n\nOh no, I can't really get there that early.\n\nWell, the school has late office hours until 4 on Thursdays, or I think you can pick up a packet in the school library any day before 5:00.\n\nOh okay, I'll stop by there someday this week then before 5:00. Can you tell me what forms we'll need?\n\nI'm sure you need his immunisation records. Yes, those, and we also need a general health history signed by your child's doctor, a form filled out by the dentist, emergency contact information, and a residency verification form with proof of residence, and an original birth certificate.\n\nOkay, that shouldn't be a problem. Can I ask one more question?\n\nSure, go ahead.\n\nI was wondering about before and after school care. Do you provide transportation after school?\n\nNo, unfortunately we don't. Parents or caregivers need to pick up the children. There is, however, an on-site licensed daycare for working parents who need after school care for their children. It's housed within the school grounds, and someone from the daycare will walk to the main school building to pick up your child each day. It's run by the City Youth Council and comes highly recommended.\n\nCan I get information about that as well?\n\nYes, flyers and contact information will be included with your packet.\n\nOkay, thank you. Was it August 3rd?\n\nThat must have been last year's flyer. We haven't put out information on this year's open house yet, but it'll probably be sometime in August. I know — actually, it will be in July this year since school started a little early this year. Once your child is registered, you'll get all that information in the mail, and it'll be on the school website as well.\n\nGreat, I'm assuming that during the open house I meet our child's teacher?\n\nYes, and you will set up a time for kindergarten entrance testing as well.\n\nWow, what?\n\nWe want to make sure children are properly placed and qualified for special services if necessary.\n\nOkay, I guess that makes sense. The first day of school?\n\nThe first day will be August 19th. We started in the middle of the week to help with the adjustment, and for kindergarteners the first three days are half days from 8 to 12:30.\n\nOkay, and then the next week the regular schedule 8:00 to 2:05 will be in force?\n\nYes, and you can access the full school calendar of holidays and breaks on the school website.\n\nOh yeah, I've seen that. The website is very helpful. Thank you so much for your time.\n\nYou're welcome, sir.",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Brightwater Adventure Park",
+        "transcript": "Hello everyone. Welcome to this information talk to help you during your first few weeks working at Brightwater Adventure Park.\n\nFirst, I'd like to give you this map of the site. It's important that you look round the whole site as soon as possible so that you can answer visitors' questions. I'll point out some of the main facilities now.\n\nFamilies often ask where the toilets that have baby changing facilities are. Well, you see the big lake in the centre of the site? Follow the path that goes round to the west of that, keep going until you come to the swimming pool, and they're just after that on your left.\n\nOkay, if it's a really hot day people buy lots of ice creams. There's an ice cream shop way over to the north of the site. From the station, follow the path that's lined with trees and you come to a sharp right bend. The shop's on the corner just before the train track crosses the path.\n\nMost people want to get a present to take home and will ask you where the gift shop is. You see the area called Young Fun, and the road that's on? There are some shops there, and it's the last one you come to on that road. In fact, as you see, that road's a dead end.\n\nIf people want to rest, recommend the film theatre. Let me point out where that is. See the central lake, and you can see that the railway track runs very close to the lake. Okay, the film theatre's right next to the track, just inside the Mega Adventure Zone. They show different films all day there on the three screens.\n\nNow, some important information about rides. As you probably know, we've got a new ride called Flying Tigers. We already had lots of rides for older children — children taller than 1.5 metres — and we've got quite a few for children over 1.3 metres, but we wanted rides for children who are over 1.1 metres, so Flying Tigers is for them. It's really exciting.\n\nMake sure you tell anyone going on the Hidden Cove ride that after about 3 minutes it suddenly goes dark. That can be scary if you're not expecting it. We want visitors to feel as if they're exploring deep underground. There's no water splash on that ride though, so getting wet's not an issue.\n\nIf families want to have lunch, recommend the picnic area. It's nice and relaxing if the children have been running around all morning and they've used up lots of energy on the rides and play areas. There's a clown there between 11 and 2 — he or she keeps the kids amused with jokes and stories.\n\nI'd like to tell you about a change to the programme for Saturday night. The barbecue won't finish until 9:00, so we're going to start the fireworks then instead of 8:00. Then there's a rock band that's very popular with teenagers. They'll play on the stage near the lake, not the one by the forest.\n\nWe've got some special deals this month, so tell visitors that if they buy two soft drinks they get a third one for free, tickets for another visit, and if they come back next month they'll be able to get a photo of themselves at the park completely free.\n\nNow, just a small piece of advice to all you new employees. To make sure you know where everything is, there are maps on boards on the paths so that'll help. Oh, and please keep a copy of the Adventure Park rules on you so that if you see someone doing something that you think is dangerous or not acceptable, you can check. For example, some people want buses to wait for them if a family member's late, but the buses have to keep to their timetable.",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "Changing course",
+        "transcript": "Stefan: I heard you wanted to change your course. Are you not happy on the sports science course you're doing?\n\nKatie: I think I'm more interested in the sports education course. I haven't quite made up my mind yet, but I'm pretty certain.\n\nStefan: So what are you going to do? Are you still coming to lectures?\n\nKatie: Yes, I think I should. I'm sure it won't affect my decision now, but if I do them till the end of the module — it's only 2 weeks, you know — then at least I can get the credits. And I asked Dr Lang, my tutor, about it and he said he would give me a reference for a different course if I needed one.\n\nStefan: I know it's a big decision.\n\nKatie: But I'm not too worried, because I'm going to talk to my family about it before I change.\n\nStefan: That's a good idea.\n\nKatie: Yes, I just feel like I should. They know me really well, so they will understand my decision to drop sports science and won't try to change my mind. And it's out of respect for my parents, because they're funding me, and they wouldn't be very happy if they thought I had taken them for granted.\n\nStefan: Yes, but the sports education course — it's more focused, so surely they'd be happy.\n\nKatie: I know it would suit me, as I want to squash more sports practice in.\n\nStefan: And you'd still have to actually find a job afterwards — that's not always easy. But certainly it's highly regarded, so you know you'd get the best training.\n\nKatie: Yes, I know it's more academic, which I may struggle with, but I think I'd get more out of teaching than something like administration work.\n\nStefan: Yes, it sounds as if you've made up your mind. But I have to say, I found changing my course brought some practical problems. For example, I had to get extra funding to cover the costs of the kit and all the travelling the teams have to do. In your case, it may be that they've covered a lot of ground that you'll find it hard to catch up with.\n\nKatie: Yes. But the whole experience has certainly altered my view of degrees. I used to think they were incredibly important for my career, while at the same time being a bit useless because they were too academic and not practical enough. Now I realise that you need to like what you're doing if you're to get anything real out of the experience.\n\nStefan: I guess. How long does it take, anyway? What exactly do I have to do?\n\nKatie: Well basically, first of all you need to find out what you need for the new course, so ask the tutor in that department. I'm sure you'll be fine, because it's not a big switch. And OK, you'd better do that quickly. Then you need to let the administration office know when you'll be moving. Once you've done that, you're committed to the change, so don't do that until you're absolutely sure. Once your switch is agreed, the departments will have to reallocate their funding, so you must let finance know. You can just send them a quick email confirming it. The departmental information that the library has about you will be wrong, so you'll have to go along and see them and get a new card. They need to know where to contact you, so they'll have to update all their systems. And the Hall of Residence needs to know as well, so everybody has their records straight.",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "Translating ancient Mayan",
+        "transcript": "When the Spanish arrived in Central America in the 1500s, they were surprised by the variety of Indian cultures. One of the most interesting of the cultures, the Maya, had partially collapsed hundreds of years before. There were Mayan ruins everywhere, and they showed evidence of advanced engineering and a sophisticated tradition of writing. The Spanish thought that this written language of the Mayans, which had survived, could be a threat to the dominance of the Spanish language in the region, and so they tried to destroy all traces of it.\n\nLuckily, three books survived the destruction and were rediscovered in the 18th and 19th century in Europe. Each of the books contained a vast collection of ancient Mayan writings. All of these books were basically handbooks to be used by the priests, but for a long time no one could read them. In the 19th and early 20th century, investigators managed to decode some numbers and some parts of the text which seemed to be on the subject of astronomy. But there were still large parts of the text they couldn't understand.\n\nThen in the 1950s and 1960s there were some breakthroughs. An amateur Mayan scholar called Heinrich Berlin, working in Mexico, decoded the first Mayan glyphs — which is the name given to the symbols that make up the Mayan script. He showed that these glyphs in fact represented famous cities that had once been a part of the Mayan empire. He was then able to match these symbols with spoken words, because the name for somewhere famous doesn't usually change much over the centuries. So by studying modern-day Mayan and listening to speakers of the evolved language, Berlin discovered how to say the symbols.\n\nNext to enter the picture was Yuri Knorozov, a Soviet linguistics expert. He discovered that many Mayan glyphs actually played a phonetic role in the text. That means they stood for a sound, not just a single word, as previously thought. So two phonetic symbols together could in fact be one word, not two separate words. The door was open to crack the code.\n\nBeginning in the 1980s, several younger academics took a new approach. Unlike their forebears, who studied Mayans from a distance, this new generation immersed themselves by living among the Central American indigenous people. These young researchers came to have a deeper understanding of Mayan art and also a greater appreciation of the culture of the Mayans, both past and present, as well as of their religion. All this meant that there was a dramatic improvement in the quality and quantity of translation.\n\nThe young academics discovered that many of the great events of Mayan history were recorded. In particular, many of the manuscripts described successes when kings fought wars with one another. But if the text was formal, the writing was not. The Mayan scribes who carved and painted the glyphs were often trying to be creative, so there simply wasn't a standard system that scholars could refer to. But once the young academics got familiar with the style used by a particular Mayan writer, steady translations became possible. But this type of translation takes a lot of time. Help was needed.\n\nStarting in 2003, one prominent scholar, David Stuart, looked for an online way for scholars and amateurs to post new inscriptions, refine translations and discuss the subtleties of Mayan language. So he started a blog that evolved into what is now the Maya Decipherment Project. Scholars in remote areas, who were often cut out of earlier research because of logistics, have become eager translation partners. Comments can be posted from anywhere in the world at high speed. It's estimated that there are more than 30 translators in 15 different countries currently at work studying and translating Mayan script through the Maya Decipherment Project. Text by text, they are giving the modern world a better understanding of the lost Mayan world.\n\nThe direction of this new understanding is that Mayans were not necessarily peaceful people who were wholly preoccupied with ceremony. This has been the general conclusion when scholarship was limited to the handbooks for priests that survived the Spanish. Thanks in part to the Maya Decipherment Project, new scholarship shows that the Mayans were interested in and wrote about the same topics as other ancient societies.",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "School: ____ Heights Elementary School",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Monterey",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Monterey.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Can pick up packet from the school ____ any afternoon up to 5.00",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Library",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Library.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Health forms from doctor and ____",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Dentist",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Dentist.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Childcare: No ____ is provided",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Transportation",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Transportation.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "There is on-site licensed daycare for working ____",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Parents",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Parents.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "This is organised by the City ____ Council",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Youth",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Youth.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "Orientation: Open house in July - details provided through the ____ and on the school's website",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Mail",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Mail.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Will tour the school, meet the ____ and schedule entrance testing",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Teacher",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Teacher.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "Schedule: First day of school will be on ____",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "August 19",
+        "alternatives": [
+          "19 August",
+          "August 19th",
+          "19th August"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: August 19.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Regular schedule is 8.00 to ____",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "2:05",
+        "alternatives": [
+          "2.05",
+          "2:05",
+          "2.05 pm",
+          "2:05 pm"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: 2.05.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "Toilets with baby changing facilities",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) Location A",
+          "B) Location B",
+          "C) Location C",
+          "D) Location D",
+          "E) Location E",
+          "F) Location F",
+          "G) Location G",
+          "H) Location H",
+          "I) Location I"
+        ],
+        "key": "F",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The spoken location clues place this facility at map location F.\nTrack the route and relative position carefully; nearby landmarks can create location distractors."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "Ice-cream shop",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) Location A",
+          "B) Location B",
+          "C) Location C",
+          "D) Location D",
+          "E) Location E",
+          "F) Location F",
+          "G) Location G",
+          "H) Location H",
+          "I) Location I"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The spoken location clues place this facility at map location B.\nTrack the route and relative position carefully; nearby landmarks can create location distractors."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "Gift shop",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) Location A",
+          "B) Location B",
+          "C) Location C",
+          "D) Location D",
+          "E) Location E",
+          "F) Location F",
+          "G) Location G",
+          "H) Location H",
+          "I) Location I"
+        ],
+        "key": "I",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The spoken location clues place this facility at map location I.\nTrack the route and relative position carefully; nearby landmarks can create location distractors."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "Film theatre",
+        "instruction": "",
+        "kind": "map",
+        "typeCode": "map_labeling",
+        "options": [
+          "A) Location A",
+          "B) Location B",
+          "C) Location C",
+          "D) Location D",
+          "E) Location E",
+          "F) Location F",
+          "G) Location G",
+          "H) Location H",
+          "I) Location I"
+        ],
+        "key": "D",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The spoken location clues place this facility at map location D.\nTrack the route and relative position carefully; nearby landmarks can create location distractors."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "On the 'Flying Tigers' ride, children have to be",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) over 1.1 metres tall.",
+          "B) over 1.3 metres tall.",
+          "C) over 1.5 metres tall."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option A and rules out the alternatives.\nListen for the final meaning rather than choosing an option only because one keyword is repeated."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "Visitors should be warned that the Hidden Cove ride involves",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) being in darkness.",
+          "B) going underground.",
+          "C) getting slightly wet."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option A and rules out the alternatives.\nListen for the final meaning rather than choosing an option only because one keyword is repeated."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "The speaker recommends the picnic area for families because",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) there is plenty of space for children to run around.",
+          "B) it has a children's playground.",
+          "C) children's entertainment is provided there."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option C and rules out the alternatives.\nListen for the final meaning rather than choosing an option only because one keyword is repeated."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "What change to this Saturday night's programme has been made?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) The fireworks will start one hour later.",
+          "B) The barbecue will be by the forest.",
+          "C) The live band will play rock music."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option A and rules out the alternatives.\nListen for the final meaning rather than choosing an option only because one keyword is repeated."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "This month, as a special deal, visitors can get",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) two photos for the price of one.",
+          "B) a discount on tickets for future visits.",
+          "C) a free soft drink when they buy lunch."
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option B and rules out the alternatives.\nListen for the final meaning rather than choosing an option only because one keyword is repeated."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "The supervisor advises new employees to carry",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) bus timetables.",
+          "B) maps of the park.",
+          "C) the park rules."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option C and rules out the alternatives.\nListen for the final meaning rather than choosing an option only because one keyword is repeated."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "Why does Katie say she will continue attending lectures on her present course?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) to gain credits for part of the course",
+          "B) to get a good reference from her tutor",
+          "C) to see if she changes her mind about her decision"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option A and rules out the alternatives.\nListen for the final meaning rather than choosing an option only because one keyword is repeated."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "Why is Katie going to speak to her family?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) because they can give her good advice",
+          "B) because they may disapprove of her decision",
+          "C) because they are paying for the course"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option C and rules out the alternatives.\nListen for the final meaning rather than choosing an option only because one keyword is repeated."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "What does Stefan say about the Sports Education course?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) It has a very good reputation.",
+          "B) It would be easy to get a job afterwards.",
+          "C) Katie would enjoy it more."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option A and rules out the alternatives.\nListen for the final meaning rather than choosing an option only because one keyword is repeated."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "What problem does Katie agree to consider?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) the extra financial support required",
+          "B) the amount of missed work to make up",
+          "C) the extra travelling that could be involved"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option B and rules out the alternatives.\nListen for the final meaning rather than choosing an option only because one keyword is repeated."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "Katie has now decided that degrees",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) are only useful if you enjoy what you study.",
+          "B) are a means to getting a better job.",
+          "C) contain too little practical experience."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The evidence matches option A and rules out the alternatives.\nListen for the final meaning rather than choosing an option only because one keyword is repeated."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "Speak to the ____ about requirements for the new course",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) administration office",
+          "B) finance department",
+          "C) hall of residence",
+          "D) head of department",
+          "E) library",
+          "F) tutor",
+          "G) welfare advisor"
+        ],
+        "key": "F",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The process description assigns this step to option F.\nFollow the sequence of actions and the organisation/person responsible for each step."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "give the ____ a date for the change",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) administration office",
+          "B) finance department",
+          "C) hall of residence",
+          "D) head of department",
+          "E) library",
+          "F) tutor",
+          "G) welfare advisor"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The process description assigns this step to option A.\nFollow the sequence of actions and the organisation/person responsible for each step."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "email the ____",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) administration office",
+          "B) finance department",
+          "C) hall of residence",
+          "D) head of department",
+          "E) library",
+          "F) tutor",
+          "G) welfare advisor"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The process description assigns this step to option B.\nFollow the sequence of actions and the organisation/person responsible for each step."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "get the ____ to change their data",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) administration office",
+          "B) finance department",
+          "C) hall of residence",
+          "D) head of department",
+          "E) library",
+          "F) tutor",
+          "G) welfare advisor"
+        ],
+        "key": "E",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The process description assigns this step to option E.\nFollow the sequence of actions and the organisation/person responsible for each step."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "notify the ____",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) administration office",
+          "B) finance department",
+          "C) hall of residence",
+          "D) head of department",
+          "E) library",
+          "F) tutor",
+          "G) welfare advisor"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The process description assigns this step to option C.\nFollow the sequence of actions and the organisation/person responsible for each step."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "They thought it represented a ____ to their control.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Threat",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Threat.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "They identified some numbers and sections of the text relating to ____",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Astronomy",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Astronomy.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "Heinrich Berlin found that certain 'glyphs' in the writing referred to some well-known ____ in the Mayan Empire.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Cities",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Cities.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "Yuri Knorozov found that some 'glyphs' referred to a ____ rather than a word.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Sound",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Sound.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "Young academics immersed themselves in present-day Mayan art, ____ and religion.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Culture",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Culture.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "They found many of the manuscripts described the success of Mayan kings in ____",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Wars",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Wars.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Academics had to learn the ____ of each writer.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Style",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Style.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "In 2003, David Stuart created a ____ that developed into a project for translating Mayan texts.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Blog",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Blog.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "Now, feedback on translations can be provided with great ____ by translators around the world.",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Speed",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Speed.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "This led to new understanding - previously Mayans were believed to be only interested in ____",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Ceremony",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The transcript evidence contains the required answer: Ceremony.\nRespect the stated word limit and preserve the exact word, date, number or spelling heard."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "kindergarten registration packet",
+        "pos": "noun phrase",
+        "uz": "bog'cha/maktabga qabul hujjatlari to'plami",
+        "def": "a set of forms and documents used to enrol a child in kindergarten",
+        "ex": "Parents need to pick up a kindergarten registration packet before registering.",
+        "also": [
+          "enrolment paperwork"
+        ]
+      },
+      {
+        "word": "immunisation records",
+        "pos": "noun phrase",
+        "uz": "emlash qaydlari",
+        "def": "official documents showing which vaccinations a person has received",
+        "ex": "The school asks for the child's immunisation records.",
+        "also": [
+          "vaccination records"
+        ]
+      },
+      {
+        "word": "residency verification form",
+        "pos": "noun phrase",
+        "uz": "yashash manzilini tasdiqlash shakli",
+        "def": "a form used to prove where someone lives",
+        "ex": "A residency verification form is required with proof of residence.",
+        "also": [
+          "address verification form"
+        ]
+      },
+      {
+        "word": "on-site licensed daycare",
+        "pos": "noun phrase",
+        "uz": "joyning o'zidagi litsenziyalangan bolalar parvarishi",
+        "def": "officially authorised childcare provided at the same location",
+        "ex": "Working parents can use an on-site licensed daycare.",
+        "also": [
+          "authorised childcare on the premises"
+        ]
+      },
+      {
+        "word": "come highly recommended",
+        "pos": "fixed expression",
+        "uz": "juda tavsiya etilmoq",
+        "def": "to be strongly praised or endorsed by others",
+        "ex": "The daycare comes highly recommended.",
+        "also": [
+          "be strongly endorsed"
+        ]
+      },
+      {
+        "word": "lined with trees",
+        "pos": "adjective phrase",
+        "uz": "daraxtlar qator bo'lib ekilgan",
+        "def": "having trees arranged along both sides",
+        "ex": "Visitors follow a path that is lined with trees.",
+        "also": [
+          "bordered by trees"
+        ]
+      },
+      {
+        "word": "a dead end",
+        "pos": "noun phrase",
+        "uz": "berk ko'cha",
+        "def": "a road or path that has no exit",
+        "ex": "The road by the gift shop is a dead end.",
+        "also": [
+          "road with no exit"
+        ]
+      },
+      {
+        "word": "keep to a timetable",
+        "pos": "verb phrase",
+        "uz": "jadvalga rioya qilmoq",
+        "def": "to follow a planned schedule without unnecessary delay",
+        "ex": "The buses have to keep to their timetable.",
+        "also": [
+          "stay on schedule"
+        ]
+      },
+      {
+        "word": "make up one's mind",
+        "pos": "idiom",
+        "uz": "qaror qilmoq",
+        "def": "to make a final decision",
+        "ex": "Katie has almost made up her mind about changing course.",
+        "also": [
+          "decide"
+        ]
+      },
+      {
+        "word": "take someone for granted",
+        "pos": "idiom",
+        "uz": "kimningdir yordamini o'z-o'zidan deb qabul qilmoq",
+        "def": "to fail to appreciate someone's support because you assume it will continue",
+        "ex": "Katie does not want her parents to think she has taken them for granted.",
+        "also": [
+          "fail to appreciate"
+        ]
+      },
+      {
+        "word": "highly regarded",
+        "pos": "adjective phrase",
+        "uz": "yuqori baholangan",
+        "def": "respected and considered to be of high quality",
+        "ex": "The Sports Education course is highly regarded.",
+        "also": [
+          "well respected"
+        ]
+      },
+      {
+        "word": "cover the costs",
+        "pos": "verb phrase",
+        "uz": "xarajatlarni qoplamoq",
+        "def": "to provide enough money to pay for expenses",
+        "ex": "Extra funding was needed to cover the costs of equipment and travel.",
+        "also": [
+          "pay the expenses"
+        ]
+      },
+      {
+        "word": "catch up with",
+        "pos": "phrasal verb",
+        "uz": "orqada qolganini yetkazib olmoq",
+        "def": "to reach the same level after falling behind",
+        "ex": "A course change may leave work that is hard to catch up with.",
+        "also": [
+          "make up lost ground"
+        ]
+      },
+      {
+        "word": "reallocate funding",
+        "pos": "collocation",
+        "uz": "mablag'ni qayta taqsimlamoq",
+        "def": "to assign money to a different purpose or department",
+        "ex": "Departments may need to reallocate their funding after a course change.",
+        "also": [
+          "redistribute funds"
+        ]
+      },
+      {
+        "word": "sophisticated tradition of writing",
+        "pos": "noun phrase",
+        "uz": "rivojlangan yozuv an'anasi",
+        "def": "a highly developed and complex writing tradition",
+        "ex": "Mayan ruins showed evidence of a sophisticated tradition of writing.",
+        "also": [
+          "advanced writing culture"
+        ]
+      },
+      {
+        "word": "crack the code",
+        "pos": "idiom",
+        "uz": "kodni yechmoq",
+        "def": "to solve or decipher a difficult coded system",
+        "ex": "Phonetic discoveries opened the way to crack the code.",
+        "also": [
+          "decipher the system"
+        ]
+      },
+      {
+        "word": "immerse oneself",
+        "pos": "verb phrase",
+        "uz": "o'zini to'liq sho'ng'itmoq",
+        "def": "to involve oneself deeply in an activity, culture, or environment",
+        "ex": "Researchers immersed themselves by living among indigenous communities.",
+        "also": [
+          "become deeply involved"
+        ]
+      },
+      {
+        "word": "dramatic improvement",
+        "pos": "collocation",
+        "uz": "keskin yaxshilanish",
+        "def": "a large and noticeable increase in quality or performance",
+        "ex": "The new approach led to a dramatic improvement in translation.",
+        "also": [
+          "major improvement"
+        ]
+      },
+      {
+        "word": "refine translations",
+        "pos": "verb phrase",
+        "uz": "tarjimalarni takomillashtirmoq",
+        "def": "to improve translations by making them more accurate or precise",
+        "ex": "Researchers use an online project to refine translations.",
+        "also": [
+          "improve translations"
+        ]
+      },
+      {
+        "word": "be preoccupied with",
+        "pos": "adjective phrase",
+        "uz": "bir narsa bilan qattiq band bo'lmoq",
+        "def": "to be strongly focused on or absorbed by something",
+        "ex": "Older scholarship portrayed the Mayans as preoccupied with ceremony.",
+        "also": [
+          "be absorbed in"
+        ]
+      }
+    ]
+  }
+}

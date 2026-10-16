@@ -17,7 +17,7 @@ import {
   type PracticeKind,
 } from "@/lib/listening/activities";
 import type { ListeningPackage } from "@/lib/listening/package";
-import { ORIGINAL_TEST_ONE_ACTIVITY_COUNT, usesOriginalTestOne } from "@/lib/listening/original-test-one";
+import { originalListeningDefinition, hasOriginalListeningRuntime } from "@/lib/listening/original-listening";
 
 /**
  * ACADEMIC LISTENING — the catalogue and the test hubs.
@@ -244,7 +244,7 @@ export async function academicListeningCards(
     const payload = row.payload as ListeningPackage;
     const examSubmitted = Boolean(row.examSubmitted);
     const activities = packageActivities(payload, { examSubmitted, missedQuestions: Number(row.missed ?? 0) });
-    const activityCount = usesOriginalTestOne(row.testId, row.sourceId) ? ORIGINAL_TEST_ONE_ACTIVITY_COUNT : activities.length;
+    const activityCount = originalListeningDefinition(row.testId, row.sourceId)?.activityCount ?? activities.length;
     const examDone = examSubmitted && activities.includes("exam") ? 1 : 0;
     const mcqDone = activities.includes("mcq") && Boolean(row.mcqComplete) ? 1 : 0;
     return {
@@ -346,7 +346,7 @@ export async function academicListeningTest(
   const facts = activityFacts(payload);
   return {
     testId: detail.test.id,
-    originalRuntime: usesOriginalTestOne(testId, detail.pkg.sourceId),
+    originalRuntime: hasOriginalListeningRuntime(testId, detail.pkg.sourceId),
     title: detail.test.title,
     minutes: minutesOf(payload.audio.durationSec),
     parts: payload.sections.length,

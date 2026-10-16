@@ -1,0 +1,1088 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-14",
+  "title": "Listening Test 14",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "d733ebf63e3e4b7d4c0e3457b9c23661bc830539b753fd78e0a09895e36015b9",
+      "path": "audio/full.mp3"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1392.74449,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": null,
+    "imagePath": null,
+    "sections": [
+      {
+        "number": 1,
+        "title": "City Archives",
+        "transcript": "Narrator: Now turn to the section on the City Archives. You will hear a conversation between a university student and a librarian about using the City Archives. First, you have some time to look at the questions.\nStudent: Hello. I was wondering if you could give me some information about using the archives.\nLibrarian: I'd be happy to. Are you a resident of the city?\nStudent: Actually, I live just outside the city, but I study at the university downtown.\nLibrarian: That's fine. All you need to do is show your university identification card and you can use the archives at no charge, as long as your ID card is current, of course.\nStudent: Yes, it's valid. So I don't have to pay anything?\nLibrarian: No. City residents pay an annual fee, but students can use the archives for free. Everyone else needs to get special permission from the director, but that doesn't apply to you, of course.\nStudent: Oh, good. I was also wondering about the schedule. I have classes every day, Monday through Friday, and I also have a part-time job, so I could really only use the archives on weekends.\nLibrarian: That's not a problem at all. We're open all weekend; actually the only day we're closed is Monday. So you can come any day, Tuesday through Sunday.\nStudent: Are you open in the evenings?\nLibrarian: Yes, we're open from 9:30 in the morning until 8:30 in the evening.\nStudent: That will fit my schedule well.\nNarrator: Before you hear the rest of the conversation, you have some time to look at Questions 5 to 10. Now listen and answer the questions.\nLibrarian: Is there something else I can help you with?\nStudent: Yes. One thing I'll be needing to see for one of my class projects is old photographs. Do you have photographs of the city in the nineteenth century that I could look at?\nLibrarian: Yes, we store all the photographs in the basement. Those stairs over there will take you down to the photography collection. Just tell the librarian there what you're interested in, and he'll help you.\nStudent: Those would be nineteenth-century photographs?\nLibrarian: Yes, the entire collection is there. Now, if you're interested in seeing documents from the nineteenth century, those are right here on the ground floor.\nStudent: I would like to see some of those documents. Does that collection include newspapers, too?\nLibrarian: No, all the newspapers from the earliest ones, in the eighteenth century, up to the current time, are on the second floor. Here, let me just give you this map of the archives, and you'll be able to find whatever it is you need.\nStudent: Thank you. Oh, I see you have a whole room devoted to maps.\nLibrarian: Yes, on the third floor.\nStudent: That's great because one thing I need to do is look at how the city has developed over time.\nLibrarian: I'm sure you'll find a lot of helpful information there. Of course, some of the maps are several centuries old, so generally visitors are only allowed to see photographic reproductions of them.\nStudent: That shouldn't be a problem. What's this on the fourth floor—Ogden's Woolen Mill?\nLibrarian: As I'm sure you know, Ogden's Woolen Mill was the major entity responsible for the growth of this city in the nineteenth century. The Ogden heirs gave money for the archives to devote an entire floor to information about the history of the mill.\nStudent: Will I be able to find information about the Ogden family there—photographs, personal papers, things like that?\nLibrarian: Probably the family photographs are stored downstairs in the photography collection. The personal papers would be on the fifth floor, where we keep all the personal papers of famous residents of our city.\nStudent: Thank you so much for your help. I'll be able to do a lot of my research here.",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Annual Ski and Snowboard Exhibition",
+        "transcript": "Good morning everyone and welcome to the Annual Ski and Snowboard Exhibition held from April 8th to 17th. I am Mary Granger, coordinator of the event this year. The 10-day event features many highlights. As a snow sports lover, I know you are looking forward to a great time here. Now I'd like to offer you some practical information about the whole event and what to expect from it.\nThis might be the first time coming here for some of you. So for those who are still wondering about the right accommodation, I recommend Sky Hotel. It has its own health and sports clubs just like most of the hotels here, but I love it because of its incredibly cozy beds which guarantees good rest after an exhausting day of exploration. If you haven't brought your own equipment, like poles, boots and skis, they are available for purchase or rent at Ski Set or Snow Rental.\nThe exhibition this year provides a colorful look into the history of skiing and an inspiring peek into the future prospects of the sport. Apart from the fascinating photo exhibitions and the most up-to-date skiing gear like always, this year we have added four computers which can imitate the process of skiing, ensuring the same physical activity and sensations that appear during the skiing process on downhill slopes. But I have to warn you that it might be quite time-consuming to line up for the free trial experience.\nMany have posed the question as to how to enter the skiing and snowboarding competition. Well, rather than filling out the back of the entrance ticket or bombarding the committee with emails, the most effective method is by checking out the exhibition newsletter delivered every month for availability.\nAs the most beloved local event, the exhibition has also drawn attention from the press. Last year, massive media coverage was on the worrisome amount of snowfall. In order to avoid the same predicament, several artificial skiing slopes have been built. With more participants this year, we have lowered the entrance fee which has been widely reported by local newspapers.\nA bonus for our participants is the ski program. It offers a wide variety of lessons and sessions with qualified instructors ensuring that all ages and abilities are catered to from the first timers to seasoned amateurs. I strongly advise you to sign up for the program as it is offering an unprecedented 30% discount. That's mainly because we are cooperating with the program organiser who promises affordable prices only for the participants of the festival this year.\nNow I would like to introduce to you the list of presentations during the following week so that you can better plan your schedule.\nThe first presenter Simon is one of our best ski instructors. As an experienced instructor, he will inform you about the dangers that face skiers and snowboarders. Accidents happen mostly to those who are careless or ignorant. Good risk management involves considering both the probability and consequences of an accident.\nThe next speech titled Solution is given by Jamie Kurt. A list of problems may occur to novice skiers and snowboarders, so he is going to offer useful information for first timers on choosing the appropriate gears, the right dress code and ways of protecting your skin. For instance, some of you may have rented the skiing equipment, but rental footwear is notoriously uncomfortable. Then Jamie will provide instructions to help make your footwear fit better.\nThe third speech is about a documentary introducing skiing and snowboarding and the difference between the two sports. It also depicts a group of snow lovers exploring new slopes with breath-taking views. The director Andy Fisher will be there, addressing the whole shooting experience.\nThe fourth talk is about the tricks of skiing, presented by Harry Tyson. It is most useful for those who have already tried skiing, yet still need more practice to master the sport. Harry will teach you how to turn more skillfully. A lot of people can keep their skis roughly parallel but there's no point if you make it hard to work with and slide around out of control. Useful exercises will also be suggested to improve your parallel skiing technique so that you can tackle steeper slopes and enjoy yourself more.\nJohnson Smith will be the last presenter, mainly addressing towards advanced skiers. He manages to apply snow climbing into skiing. Climbing in soft snow, you are floundering around. Walking becomes harder, so a good trick during climbing is to maintain a wider gait, approximately shoulder width, so that you are more stable while walking. This works for skiing as well.",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "Open Day Competition",
+        "transcript": "Clare: Hi, Grant. What sort of competition do you think we should organise?\nGrant: Well, Clare, the Open Day Committee was pretty clear on that—it must be something with youth appeal.\nClare: That makes sense—after all, most of the visitors will have just left high school.\nGrant: Yeah, so I was thinking—technology.\nClare: Do you mean something which uses the latest technology—like an iPod?\nGrant: Something like that but a bit more expensive maybe.\nClare: What about the latest iPhone? I'm saving up for one right now.\nGrant: Let's make it an iPad—I wish I'd had a tablet computer when I started university.\nClare: Yeah, that's a great idea. That should get a lot of our younger visitors interested.\nGrant: Right, let's go with that then.\nClare: Fine. We could go into town now and buy it. I saw great deals advertised at the Rick Smith store.\nGrant: Oh, I don't think we'll have to worry about that. A university purchase order will probably be arranged through the Resources and Supplies Section.\nClare: Well, that's settled then. What about the competition—is it going to be a game of skill or a guessing game or something else?\nGrant: What do you think would work best?\nClare: Good question. I don't think it should be anything too hard or anything that will make the visitors look silly—some of them have such fragile egos.\nGrant: True. So, something that anyone can do? Nothing competitive—no skill or intelligence involved?\nClare: That's right. But the main thing is that the contestants have a lot of fun.\nGrant: How do we do that?\nClare: Well, I was thinking of a popular TV series: science fiction or science fantasy—I don't actually know the difference.\nGrant: Go on.\nClare: It's a series where in every episode the main characters step through a portal into another world or another era.\nGrant: What's a portal?\nClare: It's like a gateway or entrance to something.\nGrant: Okay, I get it—they'll be stepping into the new world of tertiary learning—so somehow we encourage people to step through this portal—then what?\nClare: They get their photo taken.\nGrant: Is that all?\nClare: Not exactly—let me think.\nGrant: I can't see how that's a competition unless we pick the best photograph, but there's not much excitement or involvement in that for the participants!\nClare: Mmm. Wait. We don't decide on the winner. I mean no one person does. We get them, the public, to do it.\nGrant: How?\nClare: Put all the photos on Facebook—and the one with the most votes wins.\nGrant: I agree. Good idea. But there's just one more thing I'm not clear about—how do we get hold of a portal?\nClare: I was thinking graduates of the Engineering Department could construct it as part of their contribution to Open Day.\nGrant: How do visitors enter the competition on Open Day?\nClare: Well, firstly, they have to make their way to the portal photo booth on campus.\nGrant: Okay—a bit like a treasure hunt to start with.\nClare: Yes, and then they get their photo taken stepping through the portal.\nGrant: And they'll have to write down their details—you know, name, phone number, email. No, hang on, let's keep it simple—just name and email address should do.\nClare: Then after, say, the thirtieth of July, people can visit the university Facebook page and vote for their favourite photo.\nGrant: So the photo with the most votes wins.\nClare: Yes, I think that should generate quite a bit of interest.\nGrant: What about a cut-off date?\nClare: Of course, maybe the most popular photo as of 5 pm on the tenth of August will collect the iPad.\nGrant: And the winner will be notified by email.\nClare: And the winning photo will be enlarged and published in full colour on the university Facebook page.",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "Agriculture and Environment",
+        "transcript": "Lecturer: Welcome to this lecture on Agriculture and the Environment. I hope it is enough to make some of you decide on a career in the field of agricultural science. As you all know, food is a basic human need and producing enough of it is the single greatest challenge facing the modern world.\nDeveloping nations have rapidly expanding populations so agriculture should be central to any development agenda for those countries. What's more, 75% of people in the developing world are dependent, directly or indirectly, on agriculture for their livelihood. And, for many low-income countries, it's the most important sector of the economy accounting for 50% of GDP and sometimes it's the primary, if not only, source of foreign currency.\nNow, of course, when I talk about agriculture, I am using the term to encompass more than just growing food crops. Of course livestock farming, fishing and forestry are included.\nIn order to combat wide-scale food shortages agricultural research programmes are underway in many areas. Using science is one way to increase productivity; but, a word of warning: agriculture must also be sustainable. Let's look at approaches that are not sustainable. Firstly, overgrazing and intensive cropping are two ancient but destructive practices that lead to loss of soil fertility. Secondly, the modern idea of liberal application of chemical pesticides and herbicides has had disastrous consequences for the health of the land, ranging from the pollution of water sources to the destruction of wildlife.\nThese practices have ignored the mechanisms that sustain ecological communities. Ignorance has led to the destruction of the very biodiversity that is essential for sustainable food production. However, introducing new agricultural techniques, especially things like genetic engineering, can be difficult because many people remain suspicious of the fact that plants have had their genetic material modified by scientists.\nBiotechnology has also led to the dubious practice of bio-prospecting, or as some prefer to call it, bio-piracy. Foreign multinational companies have been accused of illegally obtaining samples of indigenous plants of other countries in order to get their hands on genetic material to improve the quality or yield of their own crops.\nWe must put aside the controversy surrounding the field of agricultural biotechnology in order to concentrate on the biggest threat to food production on this planet—which is? Yes, climate change. The effects of global warming so far have been to shrink the food supply thereby pushing up prices and making, even the most basic necessities, unaffordable.\nAs I see it, the international community must address this, and other challenges to agricultural production, with urgency. Concrete scientific and technological achievements need to be presented for farmers to evaluate and learn to use but, apart from that, governments need to address the complex issues of policy development if the world's hungry are to be fed.\nEnvironmental policies need to be put in place to protect ecosystems and correct soil degradation where possible. Countries cannot continue to exploit natural resources whilst ignoring the consequences. In fact, I'd like to see teams of agriculture and environment experts making up a global network which would monitor the world's farming systems. Different farming systems should be studied not only with a view to analyzing the environmental effects, but the social and economic effects as well. The studies would be carried out with a view to stemming pollution and erosion and promoting safe, cost-effective practices that will guarantee a secure food supply in the future.\nMonitoring sites would need to be set up all across the world and data collected in a systematic way. Of course, building the online infrastructure for such a project would cost millions of dollars and there would be ongoing costs involved with the monitoring system but the information gathered would go a long way towards solving the problem of feeding the masses and ensuring millions of people don't face a hungry future.",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "City Archives - valid student identification",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "IDENTIFICATION CARD",
+        "alternatives": [
+          "ID",
+          "IDENTIFICATION CARD/ID"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "City residents - required payment",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "AN ANNUAL FEE",
+        "alternatives": [
+          "ANNUAL FEE"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "City Archives - opening days (Tuesday through Sunday)",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "TUESDAY THROUGH SUNDAY",
+        "alternatives": [
+          "TUESDAY - SUNDAY",
+          "TUESDAY – SUNDAY",
+          "TUESDAY SUNDAY",
+          "TUESDAY TO SUNDAY"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Closing time in the evening",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "8.30",
+        "alternatives": [
+          "8:30"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "City Archives - basement collection",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) nineteenth-century documents",
+          "B) maps",
+          "C) personal papers",
+          "D) photographs",
+          "E) books about the city",
+          "F) newspapers",
+          "G) Information about the woolen mill"
+        ],
+        "key": "D",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "City Archives - ground floor collection",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) nineteenth-century documents",
+          "B) maps",
+          "C) personal papers",
+          "D) photographs",
+          "E) books about the city",
+          "F) newspapers",
+          "G) Information about the woolen mill"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "City Archives - second floor collection",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) nineteenth-century documents",
+          "B) maps",
+          "C) personal papers",
+          "D) photographs",
+          "E) books about the city",
+          "F) newspapers",
+          "G) Information about the woolen mill"
+        ],
+        "key": "F",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "City Archives - third floor collection",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) nineteenth-century documents",
+          "B) maps",
+          "C) personal papers",
+          "D) photographs",
+          "E) books about the city",
+          "F) newspapers",
+          "G) Information about the woolen mill"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "City Archives - fourth floor collection",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) nineteenth-century documents",
+          "B) maps",
+          "C) personal papers",
+          "D) photographs",
+          "E) books about the city",
+          "F) newspapers",
+          "G) Information about the woolen mill"
+        ],
+        "key": "G",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "City Archives - fifth floor collection",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) nineteenth-century documents",
+          "B) maps",
+          "C) personal papers",
+          "D) photographs",
+          "E) books about the city",
+          "F) newspapers",
+          "G) Information about the woolen mill"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "Why the speaker recommends the Sky Hotel",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Because it is quite comfortable.",
+          "B) Because it provides ski and snowboard equipment rentals.",
+          "C) Because it has a health and sports club."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "New feature of this year's exhibition",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) photos of top ski resorts worldwide",
+          "B) ski equipment",
+          "C) computer simulation"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "How to enter the skiing and snowboarding competition",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) They can send emails to the committee.",
+          "B) They can fill out the back of the entrance ticket.",
+          "C) They can check out the exhibition newsletter."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "Subject of this year's media coverage",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) not enough snow",
+          "B) reduction in fee",
+          "C) the decline of participants"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "Reason for recommending the ski programme",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) The instructors are quite friendly and patient.",
+          "B) It includes lessons and sessions that suit only beginners.",
+          "C) It provides special offers at the moment."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "Simon's presentation focus",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) exploring new destinations",
+          "B) how to make the skiing boots comfortable",
+          "C) how to become a ski instructor",
+          "D) how to combine other activities with skiing",
+          "E) how to improve the skills of skiing",
+          "F) information about skiing safety"
+        ],
+        "key": "F",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "Solution - presentation focus",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) exploring new destinations",
+          "B) how to make the skiing boots comfortable",
+          "C) how to become a ski instructor",
+          "D) how to combine other activities with skiing",
+          "E) how to improve the skills of skiing",
+          "F) information about skiing safety"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "Film - presentation focus",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) exploring new destinations",
+          "B) how to make the skiing boots comfortable",
+          "C) how to become a ski instructor",
+          "D) how to combine other activities with skiing",
+          "E) how to improve the skills of skiing",
+          "F) information about skiing safety"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "Tricks - presentation focus",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) exploring new destinations",
+          "B) how to make the skiing boots comfortable",
+          "C) how to become a ski instructor",
+          "D) how to combine other activities with skiing",
+          "E) how to improve the skills of skiing",
+          "F) information about skiing safety"
+        ],
+        "key": "E",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "Johnson's talk - presentation focus",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) exploring new destinations",
+          "B) how to make the skiing boots comfortable",
+          "C) how to become a ski instructor",
+          "D) how to combine other activities with skiing",
+          "E) how to improve the skills of skiing",
+          "F) information about skiing safety"
+        ],
+        "key": "D",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "Who the university Open Day competition should interest",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) School students",
+          "B) Open day committee members.",
+          "C) Open day visitors."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "Competition prize",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) an iPod.",
+          "B) an iPad.",
+          "C) an iPhone"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "Who will buy the prize",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) a university department.",
+          "B) Clare and Grant.",
+          "C) Rick Smith."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "Most important aspect for competitors",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) fun.",
+          "B) guesswork.",
+          "C) ability."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "Where the science-fiction portal leads",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) a portal.",
+          "B) a new world of education.",
+          "C) a different time period."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "Who will judge the contest",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) the Committee",
+          "B) the public",
+          "C) the Open Day visitors"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "Who will construct the portal",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) college graduates from the school",
+          "B) college students from the school of Engineering",
+          "C) graduates from the Engineering Department"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "First step: Portal photo booth",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "BOOTH",
+        "alternatives": [
+          "PHOTO BOOTH"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Contact details for competition",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "DETAILS",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Action on the university Facebook page",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "VOTE",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "Agriculture and Environment - greatest challenge: food production",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "FOOD",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "Agriculture - fishing",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "FISHING",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "Agriculture - forestry",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "FORESTRY",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "Destruction of biodiversity",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "DESTRUCTION",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "Genetic material used by multinational companies",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "GENETIC",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "Climate change and food shortages",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "CLIMATE",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Environmental policy development",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "POLICY",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "Global network of experts",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "NETWORK",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "Cost-effective agricultural practices",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "COST-EFFECTIVE",
+        "alternatives": [
+          "COST EFFECTIVE"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "Online infrastructure for monitoring project",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "INFRASTRUCTURE",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corresponding passage and source answer key support this answer.\nListen for distractors, corrections and the exact required form of the answer."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "university identification card",
+        "pos": "noun phrase",
+        "uz": "talaba guvohnomasi",
+        "def": "an official card proving university enrolment",
+        "ex": "Part 1: City Archives",
+        "also": []
+      },
+      {
+        "word": "at no charge",
+        "pos": "fixed expression",
+        "uz": "bepul",
+        "def": "without a fee or payment",
+        "ex": "Part 1: City Archives",
+        "also": []
+      },
+      {
+        "word": "an annual fee",
+        "pos": "noun phrase",
+        "uz": "yillik to‘lov",
+        "def": "a fee paid once every year",
+        "ex": "Part 1: City Archives",
+        "also": []
+      },
+      {
+        "word": "part-time job",
+        "pos": "noun phrase",
+        "uz": "yarim stavkali ish",
+        "def": "employment for fewer than full-time hours",
+        "ex": "Part 1: City Archives",
+        "also": []
+      },
+      {
+        "word": "photographic reproductions",
+        "pos": "noun phrase",
+        "uz": "fotosurat nusxalari",
+        "def": "photographic copies of original documents",
+        "ex": "Part 1: City Archives",
+        "also": []
+      },
+      {
+        "word": "devote an entire floor",
+        "pos": "verb phrase",
+        "uz": "butun bir qavatni ajratmoq",
+        "def": "allocate all of a floor to one purpose",
+        "ex": "Part 1: City Archives",
+        "also": []
+      },
+      {
+        "word": "famous residents of our city",
+        "pos": "noun phrase",
+        "uz": "shaharimizning mashhur aholisi",
+        "def": "notable people who lived in the city",
+        "ex": "Part 1: City Archives",
+        "also": []
+      },
+      {
+        "word": "an inspiring peek",
+        "pos": "noun phrase",
+        "uz": "ilhomlantiruvchi qisqa nazar",
+        "def": "a brief exciting preview",
+        "ex": "Part 2: Annual Ski and Snowboard Exhibition",
+        "also": []
+      },
+      {
+        "word": "up-to-date skiing gear",
+        "pos": "noun phrase",
+        "uz": "zamonaviy chang‘i jihozlari",
+        "def": "current equipment for skiing",
+        "ex": "Part 2: Annual Ski and Snowboard Exhibition",
+        "also": []
+      },
+      {
+        "word": "bombarding the committee with emails",
+        "pos": "verb phrase",
+        "uz": "qo‘mitani xatlar bilan ko‘mib tashlash",
+        "def": "sending too many emails to a group",
+        "ex": "Part 2: Annual Ski and Snowboard Exhibition",
+        "also": []
+      },
+      {
+        "word": "widely reported by local newspapers",
+        "pos": "verb phrase",
+        "uz": "mahalliy gazetalarda keng yoritilgan",
+        "def": "covered extensively by local press",
+        "ex": "Part 2: Annual Ski and Snowboard Exhibition",
+        "also": []
+      },
+      {
+        "word": "an unprecedented 30% discount",
+        "pos": "noun phrase",
+        "uz": "misli ko‘rilmagan 30% chegirma",
+        "def": "a price reduction not offered before",
+        "ex": "Part 2: Annual Ski and Snowboard Exhibition",
+        "also": []
+      },
+      {
+        "word": "Good risk management",
+        "pos": "noun phrase",
+        "uz": "xavfni yaxshi boshqarish",
+        "def": "effective recognition and reduction of hazards",
+        "ex": "Part 2: Annual Ski and Snowboard Exhibition",
+        "also": []
+      },
+      {
+        "word": "notoriously uncomfortable",
+        "pos": "adjective phrase",
+        "uz": "noqulayligi bilan mashhur",
+        "def": "widely known to be uncomfortable",
+        "ex": "Part 2: Annual Ski and Snowboard Exhibition",
+        "also": []
+      },
+      {
+        "word": "approximately shoulder width",
+        "pos": "adverbial phrase",
+        "uz": "taxminan yelka kengligida",
+        "def": "about the distance between shoulders",
+        "ex": "Part 2: Annual Ski and Snowboard Exhibition",
+        "also": []
+      },
+      {
+        "word": "youth appeal",
+        "pos": "noun phrase",
+        "uz": "yoshlarga jozibadorlik",
+        "def": "quality of attracting young people",
+        "ex": "Part 3: Open Day Competition",
+        "also": []
+      },
+      {
+        "word": "A university purchase order",
+        "pos": "noun phrase",
+        "uz": "universitet xarid buyurtmasi",
+        "def": "an official institutional order to buy something",
+        "ex": "Part 3: Open Day Competition",
+        "also": []
+      },
+      {
+        "word": "fragile egos",
+        "pos": "noun phrase",
+        "uz": "tez ranjiydigan o‘ziga baho",
+        "def": "easily wounded self-esteem",
+        "ex": "Part 3: Open Day Competition",
+        "also": []
+      },
+      {
+        "word": "the contestants have a lot of fun",
+        "pos": "clause",
+        "uz": "ishtirokchilar maroqli vaqt o‘tkazadi",
+        "def": "participants enjoy the activity",
+        "ex": "Part 3: Open Day Competition",
+        "also": []
+      },
+      {
+        "word": "the public",
+        "pos": "noun phrase",
+        "uz": "jamoatchilik",
+        "def": "ordinary people as a whole",
+        "ex": "Part 3: Open Day Competition",
+        "also": []
+      },
+      {
+        "word": "as part of their contribution",
+        "pos": "fixed expression",
+        "uz": "o‘z hissasining bir qismi sifatida",
+        "def": "as one element of their help",
+        "ex": "Part 3: Open Day Competition",
+        "also": []
+      },
+      {
+        "word": "a treasure hunt",
+        "pos": "noun phrase",
+        "uz": "xazina qidirish o‘yini",
+        "def": "a game searching for clues or an object",
+        "ex": "Part 3: Open Day Competition",
+        "also": []
+      },
+      {
+        "word": "generate quite a bit of interest",
+        "pos": "verb phrase",
+        "uz": "ancha qiziqish uyg‘otmoq",
+        "def": "attract substantial attention",
+        "ex": "Part 3: Open Day Competition",
+        "also": []
+      },
+      {
+        "word": "the single greatest challenge",
+        "pos": "noun phrase",
+        "uz": "eng katta yagona muammo",
+        "def": "the most serious problem",
+        "ex": "Part 4: Agriculture and Environment",
+        "also": []
+      },
+      {
+        "word": "directly or indirectly",
+        "pos": "adverbial phrase",
+        "uz": "bevosita yoki bilvosita",
+        "def": "in an immediate way or via other steps",
+        "ex": "Part 4: Agriculture and Environment",
+        "also": []
+      },
+      {
+        "word": "wide-scale food shortages",
+        "pos": "noun phrase",
+        "uz": "keng ko‘lamli oziq-ovqat tanqisligi",
+        "def": "large shortages of food",
+        "ex": "Part 4: Agriculture and Environment",
+        "also": []
+      },
+      {
+        "word": "the destruction of the very biodiversity",
+        "pos": "noun phrase",
+        "uz": "biologik xilma-xillikning yo‘q qilinishi",
+        "def": "the loss of essential living diversity",
+        "ex": "Part 4: Agriculture and Environment",
+        "also": []
+      },
+      {
+        "word": "illegally obtaining samples",
+        "pos": "verb phrase",
+        "uz": "namunalarni noqonuniy olish",
+        "def": "acquiring specimens without permission",
+        "ex": "Part 4: Agriculture and Environment",
+        "also": []
+      },
+      {
+        "word": "policy development",
+        "pos": "noun phrase",
+        "uz": "siyosatni ishlab chiqish",
+        "def": "the process of creating official policy",
+        "ex": "Part 4: Agriculture and Environment",
+        "also": []
+      },
+      {
+        "word": "a global network",
+        "pos": "noun phrase",
+        "uz": "global tarmoq",
+        "def": "a worldwide connected group",
+        "ex": "Part 4: Agriculture and Environment",
+        "also": []
+      },
+      {
+        "word": "safe, cost-effective practices",
+        "pos": "noun phrase",
+        "uz": "xavfsiz va tejamkor usullar",
+        "def": "methods that are safe and efficient for their cost",
+        "ex": "Part 4: Agriculture and Environment",
+        "also": []
+      }
+    ]
+  }
+}

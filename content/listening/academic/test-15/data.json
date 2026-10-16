@@ -1,0 +1,1895 @@
+{
+  "test_id": "listening-test-15",
+  "title": "Listening Test 15",
+  "sections": [
+    "Harry's Hire Company",
+    "Vietnam Cave Wildlife Tour",
+    "Professor Morgan's Lecture: Light and the Environment",
+    "Backward Evolution Theory"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Day and date of birthday event",
+      "answer": "SATURDAY 25TH",
+      "evidence": "Part 1: Harry's Hire Company. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 420.876,
+      "timeCenter": 210.438,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Day and date of birthday event",
+      "options": [],
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Number attending the event",
+      "answer": "55",
+      "evidence": "Part 1: Harry's Hire Company. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 420.876,
+      "timeCenter": 210.438,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Number attending the event",
+      "options": [],
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Five dozen sets of cutlery",
+      "answer": "KNIVES AND FORKS",
+      "evidence": "Part 1: Harry's Hire Company. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 420.876,
+      "timeCenter": 210.438,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Five dozen sets of cutlery",
+      "options": [],
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Forty plastic chairs",
+      "answer": "GARDEN CHAIRS",
+      "evidence": "The caller chooses the stackable plastic garden chairs; the raw HTML typo \"garden chains\" is corrected.",
+      "timeStart": 0.0,
+      "timeEnd": 420.876,
+      "timeCenter": 210.438,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Forty plastic chairs",
+      "options": [],
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Six containers for keeping drinks cold",
+      "answer": "ICE BUCKETS",
+      "evidence": "Part 1: Harry's Hire Company. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 420.876,
+      "timeCenter": 210.438,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Six containers for keeping drinks cold",
+      "options": [],
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Lower-cost rental package",
+      "answer": "SAME DAY",
+      "evidence": "Part 1: Harry's Hire Company. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 420.876,
+      "timeCenter": 210.438,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Lower-cost rental package",
+      "options": [],
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Optional delivery service",
+      "answer": "HOME DELIVERY",
+      "evidence": "Part 1: Harry's Hire Company. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 420.876,
+      "timeCenter": 210.438,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Optional delivery service",
+      "options": [],
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Replacement cost for a small glass",
+      "answer": "3.50",
+      "evidence": "Part 1: Harry's Hire Company. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 420.876,
+      "timeCenter": 210.438,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Replacement cost for a small glass",
+      "options": [],
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Customer full name",
+      "answer": "SUSAN MILLINS",
+      "evidence": "Part 1: Harry's Hire Company. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 420.876,
+      "timeCenter": 210.438,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Customer full name",
+      "options": [],
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Customer contact number",
+      "answer": "3987695",
+      "evidence": "Part 1: Harry's Hire Company. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 420.876,
+      "timeCenter": 210.438,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Customer contact number",
+      "options": [],
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "Creature that feeds on the guardrail beside the path",
+      "answer": "C",
+      "evidence": "Part 2: Vietnam Cave Wildlife Tour. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 420.876,
+      "timeEnd": 830.556,
+      "timeCenter": 625.716,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Creature that feeds on the guardrail beside the path",
+      "options": [
+        {
+          "code": "A",
+          "text": "swifts"
+        },
+        {
+          "code": "B",
+          "text": "bats"
+        },
+        {
+          "code": "C",
+          "text": "cockroaches"
+        },
+        {
+          "code": "D",
+          "text": "centipedes"
+        }
+      ],
+      "type": "Matching"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "Creature that is dangerous to people",
+      "answer": "D",
+      "evidence": "Part 2: Vietnam Cave Wildlife Tour. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 420.876,
+      "timeEnd": 830.556,
+      "timeCenter": 625.716,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Creature that is dangerous to people",
+      "options": [
+        {
+          "code": "A",
+          "text": "swifts"
+        },
+        {
+          "code": "B",
+          "text": "bats"
+        },
+        {
+          "code": "C",
+          "text": "cockroaches"
+        },
+        {
+          "code": "D",
+          "text": "centipedes"
+        }
+      ],
+      "type": "Matching"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Creature that collects in large groups",
+      "answer": "B",
+      "evidence": "Part 2: Vietnam Cave Wildlife Tour. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 420.876,
+      "timeEnd": 830.556,
+      "timeCenter": 625.716,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Creature that collects in large groups",
+      "options": [
+        {
+          "code": "A",
+          "text": "swifts"
+        },
+        {
+          "code": "B",
+          "text": "bats"
+        },
+        {
+          "code": "C",
+          "text": "cockroaches"
+        },
+        {
+          "code": "D",
+          "text": "centipedes"
+        }
+      ],
+      "type": "Matching"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Creature that flies only at night",
+      "answer": "B",
+      "evidence": "Part 2: Vietnam Cave Wildlife Tour. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 420.876,
+      "timeEnd": 830.556,
+      "timeCenter": 625.716,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Creature that flies only at night",
+      "options": [
+        {
+          "code": "A",
+          "text": "swifts"
+        },
+        {
+          "code": "B",
+          "text": "bats"
+        },
+        {
+          "code": "C",
+          "text": "cockroaches"
+        },
+        {
+          "code": "D",
+          "text": "centipedes"
+        }
+      ],
+      "type": "Matching"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Creature that lives on the roof of the cave",
+      "answer": "A",
+      "evidence": "Part 2: Vietnam Cave Wildlife Tour. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 420.876,
+      "timeEnd": 830.556,
+      "timeCenter": 625.716,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Creature that lives on the roof of the cave",
+      "options": [
+        {
+          "code": "A",
+          "text": "swifts"
+        },
+        {
+          "code": "B",
+          "text": "bats"
+        },
+        {
+          "code": "C",
+          "text": "cockroaches"
+        },
+        {
+          "code": "D",
+          "text": "centipedes"
+        }
+      ],
+      "type": "Matching"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Use of cave guano",
+      "answer": "FERTILISER",
+      "evidence": "Part 2: Vietnam Cave Wildlife Tour. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 420.876,
+      "timeEnd": 830.556,
+      "timeCenter": 625.716,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Use of cave guano",
+      "options": [],
+      "type": "Completion"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Use of birds' nests",
+      "answer": "SOUP",
+      "evidence": "Part 2: Vietnam Cave Wildlife Tour. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 420.876,
+      "timeEnd": 830.556,
+      "timeCenter": 625.716,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Use of birds' nests",
+      "options": [],
+      "type": "Completion"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Safety equipment: carry a ...",
+      "answer": "WORKING LIGHT",
+      "evidence": "Part 2: Vietnam Cave Wildlife Tour. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 420.876,
+      "timeEnd": 830.556,
+      "timeCenter": 625.716,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Safety equipment: carry a ...",
+      "options": [],
+      "type": "Completion"
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Safety clothing: wear a ... and a hat",
+      "answer": "WATERPROOF JACKET",
+      "evidence": "Part 2: Vietnam Cave Wildlife Tour. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 420.876,
+      "timeEnd": 830.556,
+      "timeCenter": 625.716,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Safety clothing: wear a ... and a hat",
+      "options": [],
+      "type": "Completion"
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Stay on the designated ... at all times",
+      "answer": "MARKED TRAILS",
+      "evidence": "Part 2: Vietnam Cave Wildlife Tour. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 420.876,
+      "timeEnd": 830.556,
+      "timeCenter": 625.716,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Stay on the designated ... at all times",
+      "options": [],
+      "type": "Completion"
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Ken Simpson's main opinion",
+      "answer": "A",
+      "evidence": "Part 3: Professor Morgan's Lecture: Light and the Environment. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 830.556,
+      "timeEnd": 1309.145,
+      "timeCenter": 1069.851,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Ken Simpson's main opinion",
+      "options": [
+        {
+          "code": "A",
+          "text": "lighting restrictions"
+        },
+        {
+          "code": "B",
+          "text": "alternative lighting"
+        },
+        {
+          "code": "C",
+          "text": "reduce the number of insects"
+        },
+        {
+          "code": "D",
+          "text": "decline in the number of species"
+        },
+        {
+          "code": "E",
+          "text": "climate changes"
+        },
+        {
+          "code": "F",
+          "text": "impacts on the growth of animals"
+        },
+        {
+          "code": "G",
+          "text": "impacts on water quality"
+        }
+      ],
+      "type": "Matching"
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Dave Kepler's main opinion",
+      "answer": "B",
+      "evidence": "Part 3: Professor Morgan's Lecture: Light and the Environment. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 830.556,
+      "timeEnd": 1309.145,
+      "timeCenter": 1069.851,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Dave Kepler's main opinion",
+      "options": [
+        {
+          "code": "A",
+          "text": "lighting restrictions"
+        },
+        {
+          "code": "B",
+          "text": "alternative lighting"
+        },
+        {
+          "code": "C",
+          "text": "reduce the number of insects"
+        },
+        {
+          "code": "D",
+          "text": "decline in the number of species"
+        },
+        {
+          "code": "E",
+          "text": "climate changes"
+        },
+        {
+          "code": "F",
+          "text": "impacts on the growth of animals"
+        },
+        {
+          "code": "G",
+          "text": "impacts on water quality"
+        }
+      ],
+      "type": "Matching"
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Sharon Grey's main opinion",
+      "answer": "F",
+      "evidence": "Part 3: Professor Morgan's Lecture: Light and the Environment. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 830.556,
+      "timeEnd": 1309.145,
+      "timeCenter": 1069.851,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Sharon Grey's main opinion",
+      "options": [
+        {
+          "code": "A",
+          "text": "lighting restrictions"
+        },
+        {
+          "code": "B",
+          "text": "alternative lighting"
+        },
+        {
+          "code": "C",
+          "text": "reduce the number of insects"
+        },
+        {
+          "code": "D",
+          "text": "decline in the number of species"
+        },
+        {
+          "code": "E",
+          "text": "climate changes"
+        },
+        {
+          "code": "F",
+          "text": "impacts on the growth of animals"
+        },
+        {
+          "code": "G",
+          "text": "impacts on water quality"
+        }
+      ],
+      "type": "Matching"
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Maria Jackson's main opinion",
+      "answer": "G",
+      "evidence": "Part 3: Professor Morgan's Lecture: Light and the Environment. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 830.556,
+      "timeEnd": 1309.145,
+      "timeCenter": 1069.851,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Maria Jackson's main opinion",
+      "options": [
+        {
+          "code": "A",
+          "text": "lighting restrictions"
+        },
+        {
+          "code": "B",
+          "text": "alternative lighting"
+        },
+        {
+          "code": "C",
+          "text": "reduce the number of insects"
+        },
+        {
+          "code": "D",
+          "text": "decline in the number of species"
+        },
+        {
+          "code": "E",
+          "text": "climate changes"
+        },
+        {
+          "code": "F",
+          "text": "impacts on the growth of animals"
+        },
+        {
+          "code": "G",
+          "text": "impacts on water quality"
+        }
+      ],
+      "type": "Matching"
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Barbara Swallow's main opinion",
+      "answer": "D",
+      "evidence": "Part 3: Professor Morgan's Lecture: Light and the Environment. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 830.556,
+      "timeEnd": 1309.145,
+      "timeCenter": 1069.851,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Barbara Swallow's main opinion",
+      "options": [
+        {
+          "code": "A",
+          "text": "lighting restrictions"
+        },
+        {
+          "code": "B",
+          "text": "alternative lighting"
+        },
+        {
+          "code": "C",
+          "text": "reduce the number of insects"
+        },
+        {
+          "code": "D",
+          "text": "decline in the number of species"
+        },
+        {
+          "code": "E",
+          "text": "climate changes"
+        },
+        {
+          "code": "F",
+          "text": "impacts on the growth of animals"
+        },
+        {
+          "code": "G",
+          "text": "impacts on water quality"
+        }
+      ],
+      "type": "Matching"
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Difference among species in natural and artificial light",
+      "answer": "A",
+      "evidence": "Part 3: Professor Morgan's Lecture: Light and the Environment. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 830.556,
+      "timeEnd": 1309.145,
+      "timeCenter": 1069.851,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Difference among species in natural and artificial light",
+      "options": [
+        {
+          "code": "A",
+          "text": "It makes no difference."
+        },
+        {
+          "code": "B",
+          "text": "Species will die out in natural light."
+        },
+        {
+          "code": "C",
+          "text": "Species will die out in artificial light."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Why Jim and Jane were dissatisfied with the theories",
+      "answer": "C",
+      "evidence": "Part 3: Professor Morgan's Lecture: Light and the Environment. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 830.556,
+      "timeEnd": 1309.145,
+      "timeCenter": 1069.851,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Why Jim and Jane were dissatisfied with the theories",
+      "options": [
+        {
+          "code": "A",
+          "text": "governments didn't increase any spending on them."
+        },
+        {
+          "code": "B",
+          "text": "most theories had nothing to do with the exams."
+        },
+        {
+          "code": "C",
+          "text": "many theories lacked solid proof in the field."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Future study topic - first selected option",
+      "answer": "B",
+      "evidence": "Jim and Jane select wildlife park animals, animals in tropical climates, and impacts of different environments on animals. Order is not significant.",
+      "timeStart": 830.556,
+      "timeEnd": 1309.145,
+      "timeCenter": 1069.851,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Future study topic - first selected option",
+      "options": [
+        {
+          "code": "A",
+          "text": "quality of life of tourists"
+        },
+        {
+          "code": "B",
+          "text": "wildlife park animals"
+        },
+        {
+          "code": "C",
+          "text": "migration birds"
+        },
+        {
+          "code": "D",
+          "text": "animals living in rural areas"
+        },
+        {
+          "code": "E",
+          "text": "animals living in tropical climate"
+        },
+        {
+          "code": "F",
+          "text": "the impacts of different environment on animals"
+        },
+        {
+          "code": "G",
+          "text": "pandas in the zoo"
+        }
+      ],
+      "type": "Matching"
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Future study topic - second selected option",
+      "answer": "E",
+      "evidence": "Jim and Jane select wildlife park animals, animals in tropical climates, and impacts of different environments on animals. Order is not significant.",
+      "timeStart": 830.556,
+      "timeEnd": 1309.145,
+      "timeCenter": 1069.851,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Future study topic - second selected option",
+      "options": [
+        {
+          "code": "A",
+          "text": "quality of life of tourists"
+        },
+        {
+          "code": "B",
+          "text": "wildlife park animals"
+        },
+        {
+          "code": "C",
+          "text": "migration birds"
+        },
+        {
+          "code": "D",
+          "text": "animals living in rural areas"
+        },
+        {
+          "code": "E",
+          "text": "animals living in tropical climate"
+        },
+        {
+          "code": "F",
+          "text": "the impacts of different environment on animals"
+        },
+        {
+          "code": "G",
+          "text": "pandas in the zoo"
+        }
+      ],
+      "type": "Matching"
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Future study topic - third selected option",
+      "answer": "F",
+      "evidence": "Jim and Jane select wildlife park animals, animals in tropical climates, and impacts of different environments on animals. Order is not significant.",
+      "timeStart": 830.556,
+      "timeEnd": 1309.145,
+      "timeCenter": 1069.851,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Future study topic - third selected option",
+      "options": [
+        {
+          "code": "A",
+          "text": "quality of life of tourists"
+        },
+        {
+          "code": "B",
+          "text": "wildlife park animals"
+        },
+        {
+          "code": "C",
+          "text": "migration birds"
+        },
+        {
+          "code": "D",
+          "text": "animals living in rural areas"
+        },
+        {
+          "code": "E",
+          "text": "animals living in tropical climate"
+        },
+        {
+          "code": "F",
+          "text": "the impacts of different environment on animals"
+        },
+        {
+          "code": "G",
+          "text": "pandas in the zoo"
+        }
+      ],
+      "type": "Matching"
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Backward evolution theory is widely ... by modern scientists",
+      "answer": "REFUTED",
+      "evidence": "Part 4: Backward Evolution Theory. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1309.145,
+      "timeEnd": 1480.145,
+      "timeCenter": 1394.645,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Backward evolution theory is widely ... by modern scientists",
+      "options": [],
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Type of mutations that prevent reversions",
+      "answer": "RANDOM",
+      "evidence": "Part 4: Backward Evolution Theory. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1309.145,
+      "timeEnd": 1480.145,
+      "timeCenter": 1394.645,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Type of mutations that prevent reversions",
+      "options": [],
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Stage 1 consisted of a comprehensive ...",
+      "answer": "INTRODUCTION",
+      "evidence": "Part 4: Backward Evolution Theory. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1309.145,
+      "timeEnd": 1480.145,
+      "timeCenter": 1394.645,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Stage 1 consisted of a comprehensive ...",
+      "options": [],
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Students listed any number of ...",
+      "answer": "QUESTIONS",
+      "evidence": "Part 4: Backward Evolution Theory. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1309.145,
+      "timeEnd": 1480.145,
+      "timeCenter": 1394.645,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Students listed any number of ...",
+      "options": [],
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Consistent ideas were put to a ...",
+      "answer": "VOTE",
+      "evidence": "Part 4: Backward Evolution Theory. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1309.145,
+      "timeEnd": 1480.145,
+      "timeCenter": 1394.645,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Consistent ideas were put to a ...",
+      "options": [],
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Number of main things mentioned repeatedly",
+      "answer": "THREE",
+      "evidence": "Part 4: Backward Evolution Theory. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1309.145,
+      "timeEnd": 1480.145,
+      "timeCenter": 1394.645,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Number of main things mentioned repeatedly",
+      "options": [],
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "What will be discussed for each main thing",
+      "answer": "REASONS",
+      "evidence": "Part 4: Backward Evolution Theory. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1309.145,
+      "timeEnd": 1480.145,
+      "timeCenter": 1394.645,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "What will be discussed for each main thing",
+      "options": [],
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "Which TWO arguments are given against backward evolution?",
+      "answer": "C,D",
+      "evidence": "The supplied Part 4 task requires two arguments; both C and D must be selected for this one scored item.",
+      "timeStart": 1309.145,
+      "timeEnd": 1480.145,
+      "timeCenter": 1394.645,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "Multi-select set",
+      "paraphrase": "Which TWO arguments are given against backward evolution?",
+      "options": [],
+      "type": "Choose TWO"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Why genetic studies refute backward evolution",
+      "answer": "A",
+      "evidence": "Part 4: Backward Evolution Theory. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1309.145,
+      "timeEnd": 1480.145,
+      "timeCenter": 1394.645,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Why genetic studies refute backward evolution",
+      "options": [
+        {
+          "code": "A",
+          "text": "They show a continuous accumulation of changes"
+        },
+        {
+          "code": "B",
+          "text": "They indicate random mutations"
+        },
+        {
+          "code": "C",
+          "text": "They highlight the complexity of modern organisms"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "One reason backward evolution cannot occur",
+      "answer": "B",
+      "evidence": "Part 4: Backward Evolution Theory. Full user-provided recording and transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1309.145,
+      "timeEnd": 1480.145,
+      "timeCenter": 1394.645,
+      "why": "The supplied audio/transcript and answer key support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "One reason backward evolution cannot occur",
+      "options": [
+        {
+          "code": "A",
+          "text": "Evolutionary paths are linear"
+        },
+        {
+          "code": "B",
+          "text": "Environmental factors are dynamic"
+        },
+        {
+          "code": "C",
+          "text": "Genetic diversity is too high"
+        }
+      ],
+      "type": "MCQ"
+    }
+  },
+  "answers": {
+    "1": "SATURDAY 25TH",
+    "2": "55",
+    "3": "KNIVES AND FORKS",
+    "4": "GARDEN CHAIRS",
+    "5": "ICE BUCKETS",
+    "6": "SAME DAY",
+    "7": "HOME DELIVERY",
+    "8": "3.50",
+    "9": "SUSAN MILLINS",
+    "10": "3987695",
+    "11": "C",
+    "12": "D",
+    "13": "B",
+    "14": "B",
+    "15": "A",
+    "16": "FERTILISER",
+    "17": "SOUP",
+    "18": "WORKING LIGHT",
+    "19": "WATERPROOF JACKET",
+    "20": "MARKED TRAILS",
+    "21": "A",
+    "22": "B",
+    "23": "F",
+    "24": "G",
+    "25": "D",
+    "26": "A",
+    "27": "C",
+    "28": "B",
+    "29": "E",
+    "30": "F",
+    "31": "REFUTED",
+    "32": "RANDOM",
+    "33": "INTRODUCTION",
+    "34": "QUESTIONS",
+    "35": "VOTE",
+    "36": "THREE",
+    "37": "REASONS",
+    "38": "C,D",
+    "39": "A",
+    "40": "B"
+  },
+  "alternatives": {
+    "1": [
+      "SATURDAY 25",
+      "25TH",
+      "SATURDAY THE 25TH"
+    ],
+    "3": [
+      "KNIVES/FORKS",
+      "KNIVES & FORKS"
+    ],
+    "4": [
+      "PLASTIC GARDEN CHAIRS",
+      "CHAIRS",
+      "GARDEN CHAIRS"
+    ],
+    "8": [
+      "$3.50",
+      "3.5"
+    ],
+    "16": [
+      "FERTILIZER"
+    ],
+    "18": [
+      "LIGHT",
+      "TORCH",
+      "WORKING TORCH"
+    ],
+    "19": [
+      "JACKET"
+    ],
+    "20": [
+      "TRAILS",
+      "MARKED PATH",
+      "PATH"
+    ],
+    "38": [
+      "D,C",
+      "C + D",
+      "D + C",
+      "C AND D",
+      "D AND C"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 420.876
+    },
+    "2": {
+      "start": 420.876,
+      "end": 830.556
+    },
+    "3": {
+      "start": 830.556,
+      "end": 1309.145
+    },
+    "4": {
+      "start": 1309.145,
+      "end": 1480.145
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Four user-provided Part recordings joined and embedded as mono 80 kbps MP3; fully offline.",
+  "audio_duration_seconds": 1480.124,
+  "transcript": {
+    "1": "MAN: Hello, welcome to Harry's Hire Company. How can I help you?\nWOMAN: Oh, hi, yes, I've come in to find out about renting stuff for a 21st birthday party.\nMAN: Yes, of course. First of all, what date is the party?\nWOMAN: It's next Saturday. That was the closest we could get to the actual birthday, which is the 22nd of November. Gosh, it's hard to believe it was 21 years ago; seems like yesterday.\nMAN: So, the 18th of November?\nWOMAN: No, sorry, I meant the following Saturday, the 25th.\nMAN: OK, we have just about everything here; tableware, marquees, you name it, we rent it! What size of event are we talking about here?\nWOMAN: We were planning to have about 40 people, but you know how these things grow and it went up to 60 at one stage. I think it's back to 55 now. Yes, that's right. It was all getting a bit out of hand.\nMAN: And what kind of catering and entertainment are you having? We can help with entertainment hire too if you need microphones or a sound system.\nWOMAN: We've booked a catering company and they're providing a meal. It's nothing elaborate, just finger-food snacks and then a simple buffet meal, so we'll need all the usual dinner plates and bowls. I suppose five dozen of everything, and knives and forks too, five dozen sets. We won't need cooking equipment because the caterers will do that, and they're providing tea and coffee as well.\nMAN: Do you need any tables or chairs?\nWOMAN: Not tables because we wouldn't have room for them, but I suppose some extra chairs might come in handy. What type do you have?\nMAN: We have a couple of different kinds. We do have folding wooden ones, but the most popular are those stackable plastic garden chairs.\nWOMAN: The plastic ones look great. Maybe 40 of those.\nMAN: Was there anything else? Do you want small or medium glasses? People generally want both sizes.\nWOMAN: Better get both kinds. Four dozen of each. The caterers are supplying a punch bowl. What about six ice buckets for keeping the drinks cold? We're providing all the drinks because I have a friend helping us with that.\nMAN: Let's talk about our packages and rental deals. What day do you want to collect the equipment?\nWOMAN: I'm not sure. Does that make a difference to the price?\nMAN: The weekend package deal is to pick up after 5 p.m. on Friday and drop off before 10 a.m. on Monday. That will be sixteen hundred dollars plus tax. If you want to save a bit of money, you can collect the equipment on the day of the party before 5 p.m. and drop off on Monday before 10 a.m. That will be thirteen hundred and fifty dollars plus tax. That's called the same-day package.\nWOMAN: Are there any other hidden charges with those packages?\nMAN: Not really. But if you want us to drop off and pick up at your house, there is an extra home delivery charge of $50, provided you live within 10 km. If you want to take out breakage insurance, that's a $60 flat fee. Otherwise, you pay for every item you break at the replacement cost.\nWOMAN: How much is that then?\nMAN: Tableware is $3.55 a piece, small glasses are $3.50 and medium glasses are $4.40. If you break a chair, they're $15 each.\nWOMAN: Insurance sounds like a good idea, and I think I'll take the weekend package deal. It's much more convenient and not much more expensive.\nMAN: Let's take a few details then. Your name?\nWOMAN: Susan Millins.\nMAN: Miller?\nWOMAN: No, M-I-L-L-I-N-S.\nMAN: And your address please?\nWOMAN: 28B Sandstone Close, Martinsborough.\nMAN: And just to confirm the order: the medium-size party weekend package with breakage insurance. Did you want to collect this yourself?\nWOMAN: Yes. I live within 10 km, but I don't want to pay any extra charges. I'll get my son to help me.\nMAN: We'll need an emergency contact number, just in case anything goes wrong, and credit card details, of course.\nWOMAN: The phone number is 084-398-7695.",
+    "2": "GUIDE: Good morning, everyone. Welcome to our visit to one of the most famous caves in Vietnam. As you know, this cave is famous for its wildlife, and one of the creatures you will observe in here is the small cave cockroach. They live mostly on the bird and bat droppings that are so plentiful in the caves. The guardrails along the trails are covered with these droppings, and this makes a feast for the cockroaches, so be careful where you put your hands. They will not harm you, but it can be a shock if you touch them.\nOnce you are in one of the main caves, look out for the green centipedes. They will not be on the trail but can often be seen on the wall close by. They feed on other insects and are fascinating to look at because of their colour and, of course, their many legs. Please do not try to pick one up; these centipedes have a very nasty poisonous bite.\nThere are also deep red millipedes. These have a fully rounded shape and look like a streamlined elongated train with a hundred or so closely packed legs extending right and left.\nWhen you get to the large high caves, look right up above you for the swifts and bats. The bats are mostly a type of dwarf bat, which are common in this part of the world. They will be clustered high up against the walls, maybe a hundred or two hundred together. They look like shadows high on the walls of the cave. They are likely to be very quiet right now, but because there are so many of them together you will have no difficulty identifying them. They sleep all day until they all leave the cave in a massive flock on their nightly hunt for flying insects.\nThe swifts are the creatures you can see flying around during the day, especially if they have young ones to feed. They can navigate in the darkness here and will fly outside in ones and twos at dusk to catch small winged insects like mosquitoes. However, they tend to return before it is pitch black outside, and they do not hunt at night. The swifts make nests, usually higher up on the ceiling of the cave.\nThe paths tend to run around the edges of the large caves. Mostly this is because the centre is a mound of guano, the bird and bat droppings. This is also the source of the strong smell inside the caves. You may not like this smell, but the locals know its economic value. They have harvested the products of these caves for centuries. The guano is very valuable as fertiliser, and so it is collected each year once the young birds have grown and the swifts have abandoned their nests.\nThe guano is not the only valuable by-product of the wildlife here. As you travel through the caves, you will notice some bamboo structures. These very flimsy-looking sets of poles that go a full hundred metres right up to the roof are what the locals climb up to gather the swifts' nests. These are even more valuable than the guano, as they are the main ingredient in bird's nest soup.\nBefore you begin, it is time for some safety instructions. This is a huge limestone cave that goes about one kilometre back into the hills and in places it is a hundred metres in height and three hundred metres wide. There is no need to crawl around in here as you do in other caves, but it is dark inside. That is why I insisted that you bring a working light. Please check that it shines brightly and ensure that you stay together with others who have a good torch.\nIn one of the larger areas of the cave, the roof is pierced so some sunlight will get through. It is best to turn your torches off if you can see well and save your batteries.\nIt is a good idea to put your waterproof jacket on now. The walls may be wet, but that is not the main reason for the jacket. The bats and birds do excrete, and they are above you, so just in case; and of course, your hat or hood also keeps you safe from animal droppings.\nIt is not advisable to use the guardrails as handholds. There are lots of droppings on those rails, and do not forget the cockroaches. You absolutely must follow the marked trails. The guardrails on either side are put there so that you cannot mistake them. We take no responsibility for your safety if you go over or under the rails into other cave areas.\nKeep your torches shining on the path whenever you are moving, just to be sure of your footing, and do not try to go too fast. You might trip, and you will certainly miss some of the fascinating wildlife in the cave. Now it is time to begin the tour.",
+    "3": "JIM: Jane, what did you think of Professor Morgan's lecture? I find it incredibly difficult to believe that light influences the environment as much as he says. I've never seen any journal articles, websites or anything that verifies his argument.\nJANE: On the contrary, I've seen a great deal of research supporting his argument from a wide range of renowned scientists. Have you looked at the recommended textbook listed on the course outline given to us at the beginning of the semester? All the information is in there; perhaps you've just been looking in the wrong places.\nJIM: I never look at the course outlines. I have so many loose sheets of paper I tend to lose anything I'm given by the end of the day. What's the textbook they recommend, and where can I get it from? I should probably go buy it soon; I'm already behind in the course.\nJANE: You definitely should buy it, and our grades are more important this year. It's called The Influence of Light on the Environment. You should be able to find it in the bookshop on campus. If not, they'll order it within two weeks. In the meantime, you should read up on Ken Simpson's work. He argues that in order to protect natural habitats, governments should endeavour to turn off lights in cities at night.\nJIM: That's controversial. I doubt any government would be willing to do that any time soon. I imagine roads would become quite dangerous without street lighting. Dave Kepler suggests they could replace the existing lights with more environmentally friendly bulbs. They could even install solar-powered lights; that way, roads will be more eco-friendly while maintaining safety. Although I guess they wouldn't be particularly effective in colder countries, especially during the winter.\nJANE: That's quite a good idea. The price of solar power is supposed to be on par with electricity within the next few decades. I've also heard that, according to Sharon Grey, in countries with more sunlight, insect-eating animals tend to be smaller in size, since there are fewer insects and the remaining insects produce a smaller number of eggs.\nJIM: I think I read somewhere that sunlight also has a negative effect on the quality of water, but I'm not sure I believe it. In many hot countries, particularly developing countries, there is a lot of water pollution caused by factories rather than sunlight. Nevertheless, Maria Jackson says that in direct sunlight the surface of the water becomes more translucent, therefore it affects the amount of sunlight that aquatic insects can absorb. Not much research has been undertaken to prove Jackson's theory, but it seems to have been widely accepted anyway.\nJANE: I've never heard of that. The only other theory I've studied is Barbara Swallow's study on how declined insect population adversely affects the frog population. Not that I'm complaining; I hate insects, especially spiders.\nJIM: You have arachnophobia? I never would have guessed. Didn't your brother have a pet black widow spider?\nJANE: Yes, he did, and I hated it. It escaped from its cage once and we never found it. I had nightmares for months. Okay, now I'm getting goose bumps. Let's change the subject. What's your stance on natural and artificial light?\nJIM: Honestly, I'm not sure it makes much difference which one you use; species will die out either way. I think the real argument we should consider is global warming and protection or replacement of finite fuels. Solar power provides us with an incredible opportunity to replace electricity, and governments should definitely increase spending on research in this field. The theories discussed in our lectures, like Simpson's and Grey's, are so vague and lack proof, so I don't understand why we even study them.\nJANE: I see what you mean. I don't like learning unsupported theories for exams, and I'd rather spend my time learning something else. I'd be much more interested in studying the animals in safari parks than researching migratory birds, particularly the effect of tourists on the quality of life of animals. Every year thousands of visitors drive in their own vehicles or ride in vehicles provided by the facility to observe freely roaming animals.\nJIM: That would be really interesting, especially animals living in more tropical countries like Borneo. Following on from that, I want to study how bringing animals over from foreign countries to put in our zoos affects their life expectancy. For example, do you remember when China sent pandas to Edinburgh Zoo? Apparently one of the pandas became depressed, but it was never explained why. You can't take an animal out of its natural habitat and put it in a cage on the other side of the world. It just doesn't work.",
+    "4": "LECTURER: Good morning, everyone. Today, we are going to discuss a fascinating topic in evolutionary biology: the concept of backward evolution, and why it is refuted by modern science.\nFirst, let's clarify what backward evolution means. The idea suggests that species can revert to an earlier evolutionary state. However, this theory is widely refuted by modern scientists. Genetic studies show that random mutations prevent such reversions. The complexity of modern organisms is a result of continuous adaptation to their environments.\nNow, let's delve deeper into the scientific basis for refuting backward evolution. One of the primary pieces of evidence comes from genetic studies. These studies have shown that the accumulation of genetic mutations over time leads to irreversible changes. Once a genetic mutation becomes fixed in a population, it cannot simply be undone.\nThis concept aligns with the principle of molecular evolution, which suggests that mutations accumulate in a unidirectional manner, contributing to the increasing complexity of organisms. This accumulation of mutations also leads to the diversification of species, making it impossible for them to revert to an ancestral state.\nFurthermore, the fossil record supports this argument. Fossils provide a chronological record of evolutionary changes, showing a clear progression of traits over time. There is no evidence in the fossil record of species reverting to an earlier form. Instead, we see a continuous adaptation to changing environments, with species evolving new traits to survive and thrive.\nThis is consistent with the concept of evolutionary pressure, where environmental changes drive the development of new adaptations rather than a reversion to old ones.\nTo understand this better, a survey was conducted among students and faculty. The first part consisted of a comprehensive introduction, where the basics of backward evolution were explained. Students listed any number of questions they had about their understanding of the topic. The consistent ideas were put to a vote. There were three main things mentioned repeatedly: misconceptions about evolutionary pathways, lack of awareness about genetic mutations, and the influence of environmental factors. Reasons for each of them will be discussed further in the coming sessions."
+  },
+  "transcript_source": "Transcribed from the user-provided Part audio and cross-checked against matching published IELTS transcript references for Parts 1-3; Part 4 transcript was supplied directly by the user.",
+  "timestamps_source": "Part-level boundaries are exact cumulative boundaries from the four supplied Part files; no question-level word timestamps are claimed.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "just about everything here",
+      "answer": "just about everything here",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "getting a bit out of hand",
+      "answer": "getting a bit out of hand",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "come in handy",
+      "answer": "come in handy",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "stackable plastic garden chairs",
+      "answer": "stackable plastic garden chairs",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "pick up after 5 p.m. on Friday",
+      "answer": "pick up after 5 p.m. on Friday",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "take out breakage insurance",
+      "answer": "take out breakage insurance",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "replacement cost",
+      "answer": "replacement cost",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "emergency contact number",
+      "answer": "emergency contact number",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 201,
+      "part": 2,
+      "n": 1,
+      "match": "makes a feast for the cockroaches",
+      "answer": "makes a feast for the cockroaches",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 202,
+      "part": 2,
+      "n": 2,
+      "match": "a very nasty poisonous bite",
+      "answer": "a very nasty poisonous bite",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 203,
+      "part": 2,
+      "n": 3,
+      "match": "clustered high up against the walls",
+      "answer": "clustered high up against the walls",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 204,
+      "part": 2,
+      "n": 4,
+      "match": "a massive flock",
+      "answer": "a massive flock",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 205,
+      "part": 2,
+      "n": 5,
+      "match": "economic value",
+      "answer": "economic value",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 206,
+      "part": 2,
+      "n": 6,
+      "match": "the main ingredient in bird's nest soup",
+      "answer": "the main ingredient in bird's nest soup",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 207,
+      "part": 2,
+      "n": 7,
+      "match": "stay together with others",
+      "answer": "stay together with others",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 208,
+      "part": 2,
+      "n": 8,
+      "match": "follow the marked trails",
+      "answer": "follow the marked trails",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 301,
+      "part": 3,
+      "n": 1,
+      "match": "incredibly difficult to believe",
+      "answer": "incredibly difficult to believe",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 302,
+      "part": 3,
+      "n": 2,
+      "match": "a wide range of renowned scientists",
+      "answer": "a wide range of renowned scientists",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 303,
+      "part": 3,
+      "n": 3,
+      "match": "order it within two weeks",
+      "answer": "order it within two weeks",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 304,
+      "part": 3,
+      "n": 4,
+      "match": "environmentally friendly bulbs",
+      "answer": "environmentally friendly bulbs",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 305,
+      "part": 3,
+      "n": 5,
+      "match": "on par with electricity",
+      "answer": "on par with electricity",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 306,
+      "part": 3,
+      "n": 6,
+      "match": "widely accepted anyway",
+      "answer": "widely accepted anyway",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 307,
+      "part": 3,
+      "n": 7,
+      "match": "lack proof",
+      "answer": "lack proof",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 308,
+      "part": 3,
+      "n": 8,
+      "match": "freely roaming animals",
+      "answer": "freely roaming animals",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 401,
+      "part": 4,
+      "n": 1,
+      "match": "an earlier evolutionary state",
+      "answer": "an earlier evolutionary state",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 402,
+      "part": 4,
+      "n": 2,
+      "match": "widely refuted by modern scientists",
+      "answer": "widely refuted by modern scientists",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 403,
+      "part": 4,
+      "n": 3,
+      "match": "continuous adaptation to their environments",
+      "answer": "continuous adaptation to their environments",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 404,
+      "part": 4,
+      "n": 4,
+      "match": "the scientific basis",
+      "answer": "the scientific basis",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 405,
+      "part": 4,
+      "n": 5,
+      "match": "irreversible changes",
+      "answer": "irreversible changes",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 406,
+      "part": 4,
+      "n": 6,
+      "match": "a chronological record",
+      "answer": "a chronological record",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 407,
+      "part": 4,
+      "n": 7,
+      "match": "environmental changes drive the development",
+      "answer": "environmental changes drive the development",
+      "lexical_type": "clause"
+    },
+    {
+      "q": 408,
+      "part": 4,
+      "n": 8,
+      "match": "put to a vote",
+      "answer": "put to a vote",
+      "lexical_type": "verb phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "just about everything here",
+      "word": "just about everything here",
+      "type": "fixed expression",
+      "lexical_type": "fixed expression",
+      "pos": "fixed expression",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Harry's Hire Company",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "getting a bit out of hand",
+      "word": "getting a bit out of hand",
+      "type": "fixed expression",
+      "lexical_type": "fixed expression",
+      "pos": "fixed expression",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Harry's Hire Company",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "come in handy",
+      "word": "come in handy",
+      "type": "fixed expression",
+      "lexical_type": "fixed expression",
+      "pos": "fixed expression",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Harry's Hire Company",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "stackable plastic garden chairs",
+      "word": "stackable plastic garden chairs",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Harry's Hire Company",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "pick up after 5 p.m. on Friday",
+      "word": "pick up after 5 p.m. on Friday",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Harry's Hire Company",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "take out breakage insurance",
+      "word": "take out breakage insurance",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Harry's Hire Company",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "replacement cost",
+      "word": "replacement cost",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Harry's Hire Company",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "emergency contact number",
+      "word": "emergency contact number",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Harry's Hire Company",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "makes a feast for the cockroaches",
+      "word": "makes a feast for the cockroaches",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Vietnam Cave Wildlife Tour",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "a very nasty poisonous bite",
+      "word": "a very nasty poisonous bite",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Vietnam Cave Wildlife Tour",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "clustered high up against the walls",
+      "word": "clustered high up against the walls",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Vietnam Cave Wildlife Tour",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "a massive flock",
+      "word": "a massive flock",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Vietnam Cave Wildlife Tour",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "economic value",
+      "word": "economic value",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Vietnam Cave Wildlife Tour",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "the main ingredient in bird's nest soup",
+      "word": "the main ingredient in bird's nest soup",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Vietnam Cave Wildlife Tour",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "stay together with others",
+      "word": "stay together with others",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Vietnam Cave Wildlife Tour",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "follow the marked trails",
+      "word": "follow the marked trails",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Vietnam Cave Wildlife Tour",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "incredibly difficult to believe",
+      "word": "incredibly difficult to believe",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Professor Morgan's Lecture: Light and the Environment",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "a wide range of renowned scientists",
+      "word": "a wide range of renowned scientists",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Professor Morgan's Lecture: Light and the Environment",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "order it within two weeks",
+      "word": "order it within two weeks",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Professor Morgan's Lecture: Light and the Environment",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "environmentally friendly bulbs",
+      "word": "environmentally friendly bulbs",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Professor Morgan's Lecture: Light and the Environment",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "on par with electricity",
+      "word": "on par with electricity",
+      "type": "fixed expression",
+      "lexical_type": "fixed expression",
+      "pos": "fixed expression",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Professor Morgan's Lecture: Light and the Environment",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "widely accepted anyway",
+      "word": "widely accepted anyway",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Professor Morgan's Lecture: Light and the Environment",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "lack proof",
+      "word": "lack proof",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Professor Morgan's Lecture: Light and the Environment",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "freely roaming animals",
+      "word": "freely roaming animals",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Professor Morgan's Lecture: Light and the Environment",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "an earlier evolutionary state",
+      "word": "an earlier evolutionary state",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Backward Evolution Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "widely refuted by modern scientists",
+      "word": "widely refuted by modern scientists",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Backward Evolution Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "continuous adaptation to their environments",
+      "word": "continuous adaptation to their environments",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Backward Evolution Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "the scientific basis",
+      "word": "the scientific basis",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Backward Evolution Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "irreversible changes",
+      "word": "irreversible changes",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Backward Evolution Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "a chronological record",
+      "word": "a chronological record",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Backward Evolution Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "environmental changes drive the development",
+      "word": "environmental changes drive the development",
+      "type": "clause",
+      "lexical_type": "clause",
+      "pos": "clause",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Backward Evolution Theory",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "put to a vote",
+      "word": "put to a vote",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Backward Evolution Theory",
+      "collocations": [],
+      "paraphrases": []
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "Matching",
+    "12": "Matching",
+    "13": "Matching",
+    "14": "Matching",
+    "15": "Matching",
+    "16": "Completion",
+    "17": "Completion",
+    "18": "Completion",
+    "19": "Completion",
+    "20": "Completion",
+    "21": "Matching",
+    "22": "Matching",
+    "23": "Matching",
+    "24": "Matching",
+    "25": "Matching",
+    "26": "MCQ",
+    "27": "MCQ",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Choose TWO",
+    "39": "MCQ",
+    "40": "MCQ"
+  },
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Matching Mastery",
+    "Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ]
+}

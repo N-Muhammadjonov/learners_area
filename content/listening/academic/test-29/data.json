@@ -1,0 +1,2417 @@
+{
+  "test_id": "listening-test-29",
+  "title": "Listening Test 29",
+  "sections": [
+    "How to Become a Tea Taster",
+    "Pioneer Historical Village",
+    "Attitudes to Waste Disposal",
+    "Whale Shark Conservation Field Trip"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "A trainee tea taster mainly works in the company's ___",
+      "answer": "lab",
+      "evidence": "based in our lab for most of their time",
+      "timeStart": 43.0,
+      "timeEnd": 77.0,
+      "timeCenter": 60.0,
+      "why": "The trainee is mainly based in the lab.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: A trainee tea taster mainly works in the company's ___ <-> Recording evidence: based in our lab for most of their time",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Taste the tea using a ___",
+      "answer": "spoon",
+      "evidence": "we sip it from a spoon",
+      "timeStart": 77.0,
+      "timeEnd": 100.0,
+      "timeCenter": 88.5,
+      "why": "The tasting utensil is a spoon.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Taste the tea using a ___ <-> Recording evidence: we sip it from a spoon",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Give a ___ to samples of tea according to quality",
+      "answer": "grade",
+      "evidence": "decide which grade should be assigned to each sample",
+      "timeStart": 100.0,
+      "timeEnd": 119.0,
+      "timeCenter": 109.5,
+      "why": "Grade is the quality classification.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Give a ___ to samples of tea according to quality <-> Recording evidence: decide which grade should be assigned to each sample",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Remember the ___ of different kinds of tea",
+      "answer": "names",
+      "evidence": "do all of the teas have their own name? ... remembered them all",
+      "timeStart": 119.0,
+      "timeEnd": 139.0,
+      "timeCenter": 129.0,
+      "why": "The trainee must remember tea names.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Remember the ___ of different kinds of tea <-> Recording evidence: do all of the teas have their own name? ... remembered them all",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Qualifies after ___ of training",
+      "answer": "five",
+      "evidence": "now it only takes five",
+      "timeStart": 139.0,
+      "timeEnd": 160.0,
+      "timeCenter": 149.5,
+      "why": "The current training period is five years.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Qualifies after ___ of training <-> Recording evidence: now it only takes five",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "A degree: ___ is an advantage",
+      "answer": "science",
+      "evidence": "it doesn't have to be a science degree, even though that's a definite bonus",
+      "timeStart": 191.0,
+      "timeEnd": 214.0,
+      "timeCenter": 202.5,
+      "why": "Science is an advantage, not a requirement.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: A degree: ___ is an advantage <-> Recording evidence: it doesn't have to be a science degree, even though that's a definite bonus",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Able to do ___ quickly",
+      "answer": "maths",
+      "evidence": "you need to be able to do maths and do it fast",
+      "timeStart": 214.0,
+      "timeEnd": 232.0,
+      "timeCenter": 223.0,
+      "why": "Maths must be done quickly.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Able to do ___ quickly <-> Recording evidence: you need to be able to do maths and do it fast",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Ability to distinguish different kinds of ___ accurately",
+      "answer": "colour",
+      "evidence": "you have to see colour accurately",
+      "timeStart": 232.0,
+      "timeEnd": 249.0,
+      "timeCenter": 240.5,
+      "why": "Colour discrimination is tested.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Ability to distinguish different kinds of ___ accurately <-> Recording evidence: you have to see colour accurately",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Effective ___ skills in different situations",
+      "answer": "communication",
+      "evidence": "how important is good communication? ... Essential",
+      "timeStart": 249.0,
+      "timeEnd": 271.0,
+      "timeCenter": 260.0,
+      "why": "Communication skills are essential.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Effective ___ skills in different situations <-> Recording evidence: how important is good communication? ... Essential",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Being prepared to ___",
+      "answer": "travel",
+      "evidence": "there's no point doing this job if you don't like to travel",
+      "timeStart": 271.0,
+      "timeEnd": 292.0,
+      "timeCenter": 281.5,
+      "why": "The job requires willingness to travel.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Being prepared to ___ <-> Recording evidence: there's no point doing this job if you don't like to travel",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "When did Pioneer Historical Village open to the public?",
+      "answer": "C",
+      "evidence": "In 1980 the village welcomed its first paying visitors.",
+      "timeStart": 386.0,
+      "timeEnd": 414.0,
+      "timeCenter": 400.0,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: When did Pioneer Historical Village open to the public? <-> Recording evidence: In 1980 the village welcomed its first paying visitors.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "1962"
+        },
+        {
+          "code": "B",
+          "text": "1970"
+        },
+        {
+          "code": "C",
+          "text": "1980"
+        }
+      ]
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "How much will each adult in the group pay for a ticket?",
+      "answer": "A",
+      "evidence": "it'll only be $11 per person for all of you today",
+      "timeStart": 414.0,
+      "timeEnd": 442.0,
+      "timeCenter": 428.0,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: How much will each adult in the group pay for a ticket? <-> Recording evidence: it'll only be $11 per person for all of you today",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "$11.00"
+        },
+        {
+          "code": "B",
+          "text": "$12.50"
+        },
+        {
+          "code": "C",
+          "text": "$16.00"
+        }
+      ]
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "What sort of demonstration will the visitors be able to watch?",
+      "answer": "C",
+      "evidence": "an expert sweet maker ... making lollipops the old-fashioned way",
+      "timeStart": 442.0,
+      "timeEnd": 470.0,
+      "timeCenter": 456.0,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: What sort of demonstration will the visitors be able to watch? <-> Recording evidence: an expert sweet maker ... making lollipops the old-fashioned way",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "an unusual approach to baking bread"
+        },
+        {
+          "code": "B",
+          "text": "a quick way of making candles"
+        },
+        {
+          "code": "C",
+          "text": "a traditional method of making sweets"
+        }
+      ]
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "What kind of experience with animals can visitors have at Pioneer Village?",
+      "answer": "A",
+      "evidence": "You're welcome to ... see if you can find any [eggs] to collect.",
+      "timeStart": 470.0,
+      "timeEnd": 507.0,
+      "timeCenter": 488.5,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: What kind of experience with animals can visitors have at Pioneer Village? <-> Recording evidence: You're welcome to ... see if you can find any [eggs] to collect.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "gathering eggs"
+        },
+        {
+          "code": "B",
+          "text": "milking cows"
+        },
+        {
+          "code": "C",
+          "text": "feeding goats"
+        }
+      ]
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Schoolhouse",
+      "answer": "I",
+      "evidence": "head directly north to the church; the schoolhouse is diagonally across from it",
+      "timeStart": 553.0,
+      "timeEnd": 574.0,
+      "timeCenter": 563.5,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Schoolhouse <-> Recording evidence: head directly north to the church; the schoolhouse is diagonally across from it",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        },
+        {
+          "code": "J",
+          "text": "Map position J"
+        },
+        {
+          "code": "K",
+          "text": "Map position K"
+        }
+      ]
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Mill",
+      "answer": "B",
+      "evidence": "go straight up from the main gate to the clock tower; turn right, across from the pond",
+      "timeStart": 574.0,
+      "timeEnd": 595.0,
+      "timeCenter": 584.5,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Mill <-> Recording evidence: go straight up from the main gate to the clock tower; turn right, across from the pond",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        },
+        {
+          "code": "J",
+          "text": "Map position J"
+        },
+        {
+          "code": "K",
+          "text": "Map position K"
+        }
+      ]
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Stables",
+      "answer": "G",
+      "evidence": "a large building backing onto the car park; west past the church, first building",
+      "timeStart": 595.0,
+      "timeEnd": 616.0,
+      "timeCenter": 605.5,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Stables <-> Recording evidence: a large building backing onto the car park; west past the church, first building",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        },
+        {
+          "code": "J",
+          "text": "Map position J"
+        },
+        {
+          "code": "K",
+          "text": "Map position K"
+        }
+      ]
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Doctor's Office",
+      "answer": "E",
+      "evidence": "in the middle of the map, in a block of three buildings close together",
+      "timeStart": 616.0,
+      "timeEnd": 638.0,
+      "timeCenter": 627.0,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Doctor's Office <-> Recording evidence: in the middle of the map, in a block of three buildings close together",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        },
+        {
+          "code": "J",
+          "text": "Map position J"
+        },
+        {
+          "code": "K",
+          "text": "Map position K"
+        }
+      ]
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Hotel",
+      "answer": "F",
+      "evidence": "up past the picnic area, on the opposite side of the path, near the pond",
+      "timeStart": 638.0,
+      "timeEnd": 650.0,
+      "timeCenter": 644.0,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Hotel <-> Recording evidence: up past the picnic area, on the opposite side of the path, near the pond",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        },
+        {
+          "code": "J",
+          "text": "Map position J"
+        },
+        {
+          "code": "K",
+          "text": "Map position K"
+        }
+      ]
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Workshop",
+      "answer": "K",
+      "evidence": "at the end of the narrow winding path just south of the picnic area, on the right/eastern end",
+      "timeStart": 650.0,
+      "timeEnd": 665.0,
+      "timeCenter": 657.5,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Workshop <-> Recording evidence: at the end of the narrow winding path just south of the picnic area, on the right/eastern end",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "Map position A"
+        },
+        {
+          "code": "B",
+          "text": "Map position B"
+        },
+        {
+          "code": "C",
+          "text": "Map position C"
+        },
+        {
+          "code": "D",
+          "text": "Map position D"
+        },
+        {
+          "code": "E",
+          "text": "Map position E"
+        },
+        {
+          "code": "F",
+          "text": "Map position F"
+        },
+        {
+          "code": "G",
+          "text": "Map position G"
+        },
+        {
+          "code": "H",
+          "text": "Map position H"
+        },
+        {
+          "code": "I",
+          "text": "Map position I"
+        },
+        {
+          "code": "J",
+          "text": "Map position J"
+        },
+        {
+          "code": "K",
+          "text": "Map position K"
+        }
+      ]
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Which TWO things do Annie and Ryan agree are surprising about people's behaviour and attitudes to waste disposal?",
+      "answer": "B",
+      "evidence": "They find waste disposal tiresome, and people often forget the environmental danger when disposing of hazardous materials.",
+      "timeStart": 770.0,
+      "timeEnd": 834.0,
+      "timeCenter": 802.0,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Which TWO things do Annie and Ryan agree are surprising about people's behaviour and attitudes to waste disposal? <-> Recording evidence: They find waste disposal tiresome, and people often forget the environmental danger when disposing of hazardous materials.",
+      "mistakeType": "Choose-TWO set selection",
+      "type": "Multi-select",
+      "options": [
+        {
+          "code": "A",
+          "text": "People like to be reminded about what to recycle."
+        },
+        {
+          "code": "B",
+          "text": "People often forget what is dangerous."
+        },
+        {
+          "code": "C",
+          "text": "People are prepared to pay more for safer products."
+        },
+        {
+          "code": "D",
+          "text": "People recycle cheap items less often than expensive ones."
+        },
+        {
+          "code": "E",
+          "text": "People think waste disposal is boring."
+        }
+      ],
+      "multi_group": [
+        21,
+        22
+      ]
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Which TWO things do Annie and Ryan agree are surprising about people's behaviour and attitudes to waste disposal?",
+      "answer": "E",
+      "evidence": "They find waste disposal tiresome, and people often forget the environmental danger when disposing of hazardous materials.",
+      "timeStart": 770.0,
+      "timeEnd": 834.0,
+      "timeCenter": 802.0,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Which TWO things do Annie and Ryan agree are surprising about people's behaviour and attitudes to waste disposal? <-> Recording evidence: They find waste disposal tiresome, and people often forget the environmental danger when disposing of hazardous materials.",
+      "mistakeType": "Choose-TWO set selection",
+      "type": "Multi-select",
+      "options": [
+        {
+          "code": "A",
+          "text": "People like to be reminded about what to recycle."
+        },
+        {
+          "code": "B",
+          "text": "People often forget what is dangerous."
+        },
+        {
+          "code": "C",
+          "text": "People are prepared to pay more for safer products."
+        },
+        {
+          "code": "D",
+          "text": "People recycle cheap items less often than expensive ones."
+        },
+        {
+          "code": "E",
+          "text": "People think waste disposal is boring."
+        }
+      ],
+      "multi_group": [
+        21,
+        22
+      ]
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Which TWO things does Ryan think will improve recycling rates in the local area?",
+      "answer": "B",
+      "evidence": "Ryan favours a penalty on homes that do not recycle and involving schools/children to establish lasting habits.",
+      "timeStart": 834.0,
+      "timeEnd": 889.0,
+      "timeCenter": 861.5,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Which TWO things does Ryan think will improve recycling rates in the local area? <-> Recording evidence: Ryan favours a penalty on homes that do not recycle and involving schools/children to establish lasting habits.",
+      "mistakeType": "Choose-TWO set selection",
+      "type": "Multi-select",
+      "options": [
+        {
+          "code": "A",
+          "text": "giving people financial rewards for recycling"
+        },
+        {
+          "code": "B",
+          "text": "giving a fine to households which don't recycle"
+        },
+        {
+          "code": "C",
+          "text": "involving children in more schemes"
+        },
+        {
+          "code": "D",
+          "text": "passing laws which require local councils to recycle more"
+        },
+        {
+          "code": "E",
+          "text": "having more research on people's current habits"
+        }
+      ],
+      "multi_group": [
+        23,
+        24
+      ]
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Which TWO things does Ryan think will improve recycling rates in the local area?",
+      "answer": "C",
+      "evidence": "Ryan favours a penalty on homes that do not recycle and involving schools/children to establish lasting habits.",
+      "timeStart": 834.0,
+      "timeEnd": 889.0,
+      "timeCenter": 861.5,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Which TWO things does Ryan think will improve recycling rates in the local area? <-> Recording evidence: Ryan favours a penalty on homes that do not recycle and involving schools/children to establish lasting habits.",
+      "mistakeType": "Choose-TWO set selection",
+      "type": "Multi-select",
+      "options": [
+        {
+          "code": "A",
+          "text": "giving people financial rewards for recycling"
+        },
+        {
+          "code": "B",
+          "text": "giving a fine to households which don't recycle"
+        },
+        {
+          "code": "C",
+          "text": "involving children in more schemes"
+        },
+        {
+          "code": "D",
+          "text": "passing laws which require local councils to recycle more"
+        },
+        {
+          "code": "E",
+          "text": "having more research on people's current habits"
+        }
+      ],
+      "multi_group": [
+        23,
+        24
+      ]
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Paint",
+      "answer": "E",
+      "evidence": "take it to a centre to be used by people who need it",
+      "timeStart": 927.0,
+      "timeEnd": 954.0,
+      "timeCenter": 940.5,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Paint <-> Recording evidence: take it to a centre to be used by people who need it",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "should be disposed of more regularly"
+        },
+        {
+          "code": "B",
+          "text": "some medicines should have better labelling"
+        },
+        {
+          "code": "C",
+          "text": "should normally be used up completely"
+        },
+        {
+          "code": "D",
+          "text": "should be saved for later disposal"
+        },
+        {
+          "code": "E",
+          "text": "should be made available for others' use"
+        },
+        {
+          "code": "F",
+          "text": "should be repaired rather than thrown away"
+        },
+        {
+          "code": "G",
+          "text": "should be further modified to be made less harmful"
+        },
+        {
+          "code": "H",
+          "text": "should be retained and used for different purposes"
+        }
+      ]
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Batteries",
+      "answer": "D",
+      "evidence": "have a storage container at home ... until enough to take to a collection facility",
+      "timeStart": 954.0,
+      "timeEnd": 980.0,
+      "timeCenter": 967.0,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Batteries <-> Recording evidence: have a storage container at home ... until enough to take to a collection facility",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "should be disposed of more regularly"
+        },
+        {
+          "code": "B",
+          "text": "some medicines should have better labelling"
+        },
+        {
+          "code": "C",
+          "text": "should normally be used up completely"
+        },
+        {
+          "code": "D",
+          "text": "should be saved for later disposal"
+        },
+        {
+          "code": "E",
+          "text": "should be made available for others' use"
+        },
+        {
+          "code": "F",
+          "text": "should be repaired rather than thrown away"
+        },
+        {
+          "code": "G",
+          "text": "should be further modified to be made less harmful"
+        },
+        {
+          "code": "H",
+          "text": "should be retained and used for different purposes"
+        }
+      ]
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Medicines",
+      "answer": "C",
+      "evidence": "finish off the whole course of tablets so there are none left for waste",
+      "timeStart": 980.0,
+      "timeEnd": 1004.0,
+      "timeCenter": 992.0,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Medicines <-> Recording evidence: finish off the whole course of tablets so there are none left for waste",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "should be disposed of more regularly"
+        },
+        {
+          "code": "B",
+          "text": "some medicines should have better labelling"
+        },
+        {
+          "code": "C",
+          "text": "should normally be used up completely"
+        },
+        {
+          "code": "D",
+          "text": "should be saved for later disposal"
+        },
+        {
+          "code": "E",
+          "text": "should be made available for others' use"
+        },
+        {
+          "code": "F",
+          "text": "should be repaired rather than thrown away"
+        },
+        {
+          "code": "G",
+          "text": "should be further modified to be made less harmful"
+        },
+        {
+          "code": "H",
+          "text": "should be retained and used for different purposes"
+        }
+      ]
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Pesticides",
+      "answer": "B",
+      "evidence": "clearer information given on the packaging",
+      "timeStart": 1004.0,
+      "timeEnd": 1026.0,
+      "timeCenter": 1015.0,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Pesticides <-> Recording evidence: clearer information given on the packaging",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "should be disposed of more regularly"
+        },
+        {
+          "code": "B",
+          "text": "some medicines should have better labelling"
+        },
+        {
+          "code": "C",
+          "text": "should normally be used up completely"
+        },
+        {
+          "code": "D",
+          "text": "should be saved for later disposal"
+        },
+        {
+          "code": "E",
+          "text": "should be made available for others' use"
+        },
+        {
+          "code": "F",
+          "text": "should be repaired rather than thrown away"
+        },
+        {
+          "code": "G",
+          "text": "should be further modified to be made less harmful"
+        },
+        {
+          "code": "H",
+          "text": "should be retained and used for different purposes"
+        }
+      ]
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Tyres",
+      "answer": "H",
+      "evidence": "make them into things like plant holders for your garden",
+      "timeStart": 1026.0,
+      "timeEnd": 1051.0,
+      "timeCenter": 1038.5,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Tyres <-> Recording evidence: make them into things like plant holders for your garden",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "should be disposed of more regularly"
+        },
+        {
+          "code": "B",
+          "text": "some medicines should have better labelling"
+        },
+        {
+          "code": "C",
+          "text": "should normally be used up completely"
+        },
+        {
+          "code": "D",
+          "text": "should be saved for later disposal"
+        },
+        {
+          "code": "E",
+          "text": "should be made available for others' use"
+        },
+        {
+          "code": "F",
+          "text": "should be repaired rather than thrown away"
+        },
+        {
+          "code": "G",
+          "text": "should be further modified to be made less harmful"
+        },
+        {
+          "code": "H",
+          "text": "should be retained and used for different purposes"
+        }
+      ]
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Fridge",
+      "answer": "G",
+      "evidence": "use less dangerous materials ... reduce effects on the ozone layer",
+      "timeStart": 1051.0,
+      "timeEnd": 1072.0,
+      "timeCenter": 1061.5,
+      "why": "The cited recording evidence directly supports the keyed answer.",
+      "trap": "Choose only the option or label supported by the recording.",
+      "paraphrase": "Question focus: Fridge <-> Recording evidence: use less dangerous materials ... reduce effects on the ozone layer",
+      "mistakeType": "Map / classification matching",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "should be disposed of more regularly"
+        },
+        {
+          "code": "B",
+          "text": "some medicines should have better labelling"
+        },
+        {
+          "code": "C",
+          "text": "should normally be used up completely"
+        },
+        {
+          "code": "D",
+          "text": "should be saved for later disposal"
+        },
+        {
+          "code": "E",
+          "text": "should be made available for others' use"
+        },
+        {
+          "code": "F",
+          "text": "should be repaired rather than thrown away"
+        },
+        {
+          "code": "G",
+          "text": "should be further modified to be made less harmful"
+        },
+        {
+          "code": "H",
+          "text": "should be retained and used for different purposes"
+        }
+      ]
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Whale sharks stay near the ___",
+      "answer": "surface",
+      "evidence": "swim close to the surface of the water",
+      "timeStart": 1200.0,
+      "timeEnd": 1230.0,
+      "timeCenter": 1215.0,
+      "why": "Surface is the location stated.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Whale sharks stay near the ___ <-> Recording evidence: swim close to the surface of the water",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Whale sharks lack any actual ___",
+      "answer": "bones",
+      "evidence": "whales ... skeletons made of real bones",
+      "timeStart": 1230.0,
+      "timeEnd": 1258.0,
+      "timeCenter": 1244.0,
+      "why": "Whale sharks have cartilage rather than bones.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Whale sharks lack any actual ___ <-> Recording evidence: whales ... skeletons made of real bones",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "The coral reef is unusually close to the ___",
+      "answer": "shore",
+      "evidence": "the reef is in close proximity to the shore",
+      "timeStart": 1258.0,
+      "timeEnd": 1283.0,
+      "timeCenter": 1270.5,
+      "why": "Shore fills the note.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: The coral reef is unusually close to the ___ <-> Recording evidence: the reef is in close proximity to the shore",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Tracking devices are attached to the whale shark's ___",
+      "answer": "fin",
+      "evidence": "attach manually to the fin",
+      "timeStart": 1283.0,
+      "timeEnd": 1317.0,
+      "timeCenter": 1300.0,
+      "why": "The tag is attached to the fin.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Tracking devices are attached to the whale shark's ___ <-> Recording evidence: attach manually to the fin",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Whale sharks can be monitored from a ___",
+      "answer": "drone",
+      "evidence": "with a special drone to spot the animals",
+      "timeStart": 1317.0,
+      "timeEnd": 1335.0,
+      "timeCenter": 1326.0,
+      "why": "Drone is the monitoring platform.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Whale sharks can be monitored from a ___ <-> Recording evidence: with a special drone to spot the animals",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Plankton shows different amounts of ___ varieties",
+      "answer": "carbon",
+      "evidence": "different quantities of carbon types",
+      "timeStart": 1335.0,
+      "timeEnd": 1368.0,
+      "timeCenter": 1351.5,
+      "why": "Carbon is the differentiating material.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Plankton shows different amounts of ___ varieties <-> Recording evidence: different quantities of carbon types",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Noise caused whale sharks to ___",
+      "answer": "dive",
+      "evidence": "As soon as it heard the sound, we saw it dive.",
+      "timeStart": 1368.0,
+      "timeEnd": 1401.0,
+      "timeCenter": 1384.5,
+      "why": "The observed response was to dive.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Noise caused whale sharks to ___ <-> Recording evidence: As soon as it heard the sound, we saw it dive.",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "A mature whale shark is assigned to a ___ to follow",
+      "answer": "school",
+      "evidence": "they allocate it to a school",
+      "timeStart": 1401.0,
+      "timeEnd": 1425.0,
+      "timeCenter": 1413.0,
+      "why": "A school follows each tagged shark.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: A mature whale shark is assigned to a ___ to follow <-> Recording evidence: they allocate it to a school",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Record any ___ to whale sharks",
+      "answer": "injuries",
+      "evidence": "all injuries which whale sharks suffer must be documented",
+      "timeStart": 1425.0,
+      "timeEnd": 1452.0,
+      "timeCenter": 1438.5,
+      "why": "Injuries must be recorded.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Record any ___ to whale sharks <-> Recording evidence: all injuries which whale sharks suffer must be documented",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Whale sharks are affected by the ___ scuba activities produce",
+      "answer": "bubbles",
+      "evidence": "whale sharks find bubbles disturbing",
+      "timeStart": 1452.0,
+      "timeEnd": 1473.0,
+      "timeCenter": 1462.5,
+      "why": "Bubbles are the disturbing output.",
+      "trap": "Respect the exact word limit and copy the spoken answer accurately.",
+      "paraphrase": "Question focus: Whale sharks are affected by the ___ scuba activities produce <-> Recording evidence: whale sharks find bubbles disturbing",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "lab",
+    "2": "spoon",
+    "3": "grade",
+    "4": "names",
+    "5": "five",
+    "6": "science",
+    "7": "maths",
+    "8": "colour",
+    "9": "communication",
+    "10": "travel",
+    "11": "C",
+    "12": "A",
+    "13": "C",
+    "14": "A",
+    "15": "I",
+    "16": "B",
+    "17": "G",
+    "18": "E",
+    "19": "F",
+    "20": "K",
+    "21": "B",
+    "22": "E",
+    "23": "B",
+    "24": "C",
+    "25": "E",
+    "26": "D",
+    "27": "C",
+    "28": "B",
+    "29": "H",
+    "30": "G",
+    "31": "surface",
+    "32": "bones",
+    "33": "shore",
+    "34": "fin",
+    "35": "drone",
+    "36": "carbon",
+    "37": "dive",
+    "38": "school",
+    "39": "injuries",
+    "40": "bubbles"
+  },
+  "alternatives": {
+    "1": [
+      "lab"
+    ],
+    "2": [
+      "spoon"
+    ],
+    "3": [
+      "grade"
+    ],
+    "4": [
+      "names"
+    ],
+    "5": [
+      "five",
+      "5",
+      "five years",
+      "5 years"
+    ],
+    "6": [
+      "science"
+    ],
+    "7": [
+      "maths",
+      "math",
+      "mathematics"
+    ],
+    "8": [
+      "colour",
+      "color"
+    ],
+    "9": [
+      "communication"
+    ],
+    "10": [
+      "travel"
+    ],
+    "11": [
+      "C"
+    ],
+    "12": [
+      "A"
+    ],
+    "13": [
+      "C"
+    ],
+    "14": [
+      "A"
+    ],
+    "15": [
+      "I"
+    ],
+    "16": [
+      "B"
+    ],
+    "17": [
+      "G"
+    ],
+    "18": [
+      "E"
+    ],
+    "19": [
+      "F"
+    ],
+    "20": [
+      "K"
+    ],
+    "21": [
+      "B"
+    ],
+    "22": [
+      "E"
+    ],
+    "23": [
+      "B"
+    ],
+    "24": [
+      "C"
+    ],
+    "25": [
+      "E"
+    ],
+    "26": [
+      "D"
+    ],
+    "27": [
+      "C"
+    ],
+    "28": [
+      "B"
+    ],
+    "29": [
+      "H"
+    ],
+    "30": [
+      "G"
+    ],
+    "31": [
+      "surface"
+    ],
+    "32": [
+      "bones"
+    ],
+    "33": [
+      "shore"
+    ],
+    "34": [
+      "fin"
+    ],
+    "35": [
+      "drone"
+    ],
+    "36": [
+      "carbon"
+    ],
+    "37": [
+      "dive"
+    ],
+    "38": [
+      "school"
+    ],
+    "39": [
+      "injuries"
+    ],
+    "40": [
+      "bubbles"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 327.894
+    },
+    "2": {
+      "start": 327.894,
+      "end": 708.268
+    },
+    "3": {
+      "start": 708.268,
+      "end": 1150.183
+    },
+    "4": {
+      "start": 1150.183,
+      "end": 1473.768
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Full supplied source audio encoded at approximately 87 kbps and embedded for offline use.",
+  "audio_duration_seconds": 1473.768,
+  "transcript": {
+    "1": "PART 1 - How to Become a Tea Taster\n\nANNOUNCER: You will hear a student at a job fair talking to a man who works as a professional tea taster. First, you have some time to look at Questions 1 to 5. Now listen carefully and answer Questions 1 to 5.\n\nMAN: Hello, can I help you?\nWOMAN: Hi. I'm still a student, but I've done a bit of research into the tea company you work for, and I have a few questions about the tea taster jobs you have advertised.\nMAN: Well, that's actually what I do. Would you like me to tell you a bit about what it's like being a trainee tea taster?\nWOMAN: Yes, please.\nMAN: Well, initially, even though there's some time spent in meetings at our office, a trainee is based in our lab for most of their time, being trained how to do the tasting.\nWOMAN: Right. How do you actually learn how to taste tea? Do you use a special kind of cup?\nMAN: No. Rather than that, or even a glass to do the tasting, we sip it from a spoon.\nWOMAN: Ah, okay. And what other kinds of things will I need to learn?\nMAN: Well, there are many different qualities of tea, so one of the most important things is to learn how to decide which grade should be assigned to each sample. That's a very important part of the job.\nWOMAN: Yes, I can see why.\nMAN: And then another important thing to learn is how to choose the right leaf for tea bags. Shape isn't nearly as important as the size in that case.\nWOMAN: Gosh, I'd never really thought about what goes into a tea bag. So do all of the teas have their own name?\nMAN: Yes, that's another important part of the training. It took me ages before I remembered them all.\nWOMAN: I can imagine. So how long before I qualify? I heard it was seven years. Is that right?\nMAN: Well, it used to be, but we've speeded things up a bit, so now it only takes five. That's two years less than before, which is quite significant really.\nWOMAN: Right, I see.\n\nANNOUNCER: Before you hear the rest of the conversation, you have some time to look at Questions 6 to 10. Now listen and answer Questions 6 to 10.\n\nWOMAN: The job sounds really interesting. But what I'd like to know before applying is what kind of person you're looking for. That way I can see whether I'll be a good fit.\nMAN: Well, you need to have a degree.\nWOMAN: Well, that's fine. I'm just finishing mine.\nMAN: However, it doesn't have to be a science degree, even though that's a definite bonus. My degree was in history, for example.\nWOMAN: I'm studying languages.\nMAN: Yes, that'll be fine.\nWOMAN: Is there anything else?\nMAN: Yes, you need to be able to do maths and do it fast. A lot of the job is to do with the price of tea, so that's really important.\nWOMAN: Okay, that makes sense.\nMAN: And this might seem unusual, but you'll have your sight tested. We're not worried about whether you need glasses or not, that's fine, but you have to see colour accurately. It's very important when looking at tea leaves.\nWOMAN: Wow, I'd never have thought of that. But it makes sense. What about other things, like how important is good communication?\nMAN: Essential. You'll need to be highly skilled at that, as you'll meet such varied people in this job. Everyone from farmers to buyers.\nWOMAN: Okay, I've noted that. Anything else I should remember?\nMAN: Yes, I'd say there's no point doing this job if you don't like to travel. You'll be living out of a suitcase for a while. So if you're not worried about spending time abroad, for example, that'll work in your favour.\nWOMAN: Okay, well, thanks for all the information. You've been so helpful.\nANNOUNCER: That is the end of Part 1. You now have one minute to check your answers to Part 1.",
+    "2": "PART 2 - Pioneer Historical Village\n\nANNOUNCER: Part 2. You will hear a guide talking to a group of visitors to Pioneer Historical Village. First you have some time to look at Questions 11 to 14. Now listen carefully and answer Questions 11 to 14.\n\nGUIDE: Hello, everyone, and welcome to Pioneer Historical Village. It's an outdoor park recreated to look just like a village from the mid-19th century. Visitors can wander through the village, look inside the houses, and get a feel for what life was like back then.\nThe village has grown somewhat since it was first opened to the public. Going back a bit, in 1962 a committee was formed in the hope of preserving some of the local history. Many years of planning and fundraising followed. Volunteers worked throughout the 1970s to restore and move buildings to the site. In 1980 the village welcomed its first paying visitors. We'll go in now, and I'll help you purchase your tickets. Since there are 10 of you all together in this party, you qualify for the group discount. The normal price of admission is $16 for adults and $12.50 for students and seniors, but it'll only be $11 per person for all of you today, which is quite a saving.\nSometimes we have shows and demonstrations. We had hoped to show you how candles are made, but the person organising it had to cancel at the last minute. You're all in for a treat of another kind, though. Just outside the shop we have an expert sweet maker who will be making lollipops the old-fashioned way, so do go and have a look. If you want to make bread yourself, head to the bakery and have a go. The space is quite small though, so no spectators please.\nYou'll have a chance to interact with some farm animals today. We used to keep cows in the dairy, but someone had to be here twice a day to milk them, and it became difficult to manage. Chickens are everywhere, though. Not just on the farms. Every house kept a few for the eggs. You're welcome to have a look and see if you can find any to collect. Goats were another favourite animal, but they caused trouble too. They're fun to feed, but they eat everything in sight. The ones that we had have moved to a nearby farm.\n\nANNOUNCER: Before you hear the rest of the talk, you have some time to look at Questions 15 to 20. Now listen and answer Questions 15 to 20.\n\nGUIDE: Now, you'll probably want some time to explore the village. Please open your maps and we'll have a look at the layout. We'll enter through the Main Gate, which is at the bottom of your map. So, if you'd like to see the schoolhouse, that's a good first stop because it's not too far from the gate. If you head directly north, you'll come to a beautiful old church. The schoolhouse is diagonally across from it.\nThe mill is quite interesting. That's where they ground wheat to make flour for baking. To find it, go straight up from the main gate until you get to the clock tower. Turn right, and it's on the other side of the road, across from the pond.\nThen there are the stables, where the horses were kept. You may have seen the back of the stables already, because they're a large building backing onto the car park. If you head west past the church, it's the first building you come to.\nMedical care was quite basic in those days. To get an idea of what it was like, you might like to visit the doctor's office. Look in the middle of your maps, and it's in a block of three buildings that are all close together. It's one of them.\nThere's even an old hotel. Go up past the picnic area, and the hotel is on the opposite side of the path, near the pond.\nAnother place to see is the workshop. It's at the end of that narrow winding path just south of the picnic area, which is on the right-hand side of your map, at the eastern end of the village.\nANNOUNCER: That is the end of Part 2. You now have 30 seconds to check your answers to Part 2.",
+    "3": "PART 3 - Attitudes to Waste Disposal\n\nANNOUNCER: Part 3. You will hear two environmental studies students called Annie and Ryan discussing with their tutor a presentation they will give on disposing of dangerous household waste products. First, you have some time to look at Questions 21 to 24. Now listen carefully and answer Questions 21 to 24.\n\nTUTOR: Hi, Annie, Ryan, come in.\nANNIE AND RYAN: Morning.\nTUTOR: I know you want to discuss your project presentation. Start by reminding me what you're focusing on.\nANNIE: We've been looking at a research article on the disposal of hazardous household waste. That includes things like dangerous chemicals we use in the home, but also less obvious items like electrical equipment, which are potentially really polluting as well. The research basically involved interviews, trying to find out what influenced the methods people use to get rid of their dangerous waste.\nTUTOR: There were some really surprising results about people's behaviour and attitudes with regard to waste disposal?\nRYAN: Yeah. It's no great shock that, in general, people are much more aware than they used to be, you know, about the effects of these materials on the environment, and about the value of careful disposal, even the smallest, cheapest things.\nANNIE: Yes, but I did think it was surprising that people don't get very enthusiastic about the subject of waste disposal, like they do about other aspects of environmental protection.\nRYAN: Me too. Apparently, they find it all rather tiresome. Another striking thing was that many people are more careful when they're using certain hazardous materials than when they're getting rid of them. At that stage, they simply don't remember that they'll be bad for the environment.\nANNIE: Absolutely, that really amazed us.\nTUTOR: I can see why. But were there any positives? Hope for the future?\nRYAN: Well, in the conclusion section of the article, they talked about ways to improve recycling rates in the local area.\nANNIE: And I think some of the ideas would improve things around here, you know? The article talked about laws in certain countries that certain types of waste have to be disposed of safely or you're taken to court. I think financial penalties are a good idea, but criminalising people is too harsh.\nRYAN: I think it's more effective to impose a penalty on homes if they don't recycle stuff.\nANNIE: I still think legislation forcing local councils to increase recycling rates works better.\nRYAN: You can present both ideas.\nANNIE: Yeah, and agree to differ.\nRYAN: I think encouragement is always better in the long run. And getting the local community involved, such as schools, working with kids. That way you establish good habits which last throughout their lives.\nTUTOR: Okay.\n\nANNOUNCER: Before you hear the rest of the discussion, you have some time to look at Questions 25 to 30. Now listen and answer Questions 25 to 30.\n\nTUTOR: Do you want to talk through your actual presentation?\nANNIE: Yes. We thought we'd talk about different types of waste covered in the research and give advice on each one.\nTUTOR: That's a great idea.\nANNIE: We thought we'd start with paint.\nRYAN: Yeah, we'll explain that we advise setting up schemes where you can take it to a centre to be used by people who need it, repainting an elderly person's home, for example, like they do in many parts of the world.\nANNIE: Yes, which is a positive note to start on.\nTUTOR: And will you discuss batteries?\nRYAN: Definitely. They're so small that they're the simplest things to drop in a bin and forget. And I think we should emphasise that people should have a storage container at home where they can put them until they've got enough to take to a central collection facility, because they're full of toxic substances.\nTUTOR: Medicines are really interesting. I imagine people don't think of them as dangerous.\nANNIE: No, indeed. The point we want to make is that, as a rule, things like antibiotics should not need to be thrown away in the first place, because doctors usually tell us we should finish off the whole course of tablets. So there aren't any left to go for waste.\nRYAN: Doubly good strategy.\nTUTOR: Are you discussing pesticides?\nRYAN: Yes. The point we highlight from the article is that people are often unsure what to do with them. And there needs to be clearer information given on the packaging, so people are left in no doubt.\nANNIE: We thought we'd also look at tyres. Rather than sending them to the dump, people should be encouraged to be creative with them. Not just sending them away to be recut for retreads, but to make them into things like plant holders for your garden.\nRYAN: Good, yeah.\nTUTOR: And will you mention any electrical appliances?\nANNIE: We've opted to finish with fridges, because this is actually a good news story. The fact that we now have the capacity to use less dangerous materials. And we should continue to exploit that capacity to reduce effects on the ozone layer.\nTUTOR: Good. Well, that seems all very comprehensive.\nANNOUNCER: That is the end of Part 3. You now have 30 seconds to check your answers to Part 3.",
+    "4": "PART 4 - Whale Shark Conservation Field Trip\n\nANNOUNCER: Part 4. You will hear part of a student presentation about a field trip to a whale shark research centre given to fellow marine biology students. First, you have some time to look at Questions 31 to 40. Now listen carefully and answer Questions 31 to 40.\n\nPRESENTER: Hi everyone. I've just returned from my field trip and want to share some of my experiences with you. I learned a lot about whale sharks on this trip. For example, they're actually the largest species of fish in the world's seas, about the size of a bus. Despite their massive size, whale sharks are docile animals.\nBecause of the name, you might be confused about whether these animals are whales or sharks. They are in fact sharks, but they do have some things in common with whales. They're similar in terms of their large size and what they eat. Like many species of whales, their diet consists mainly of plankton and krill, which are tiny plants and animals. Unlike many whale species, they prefer to swim close to the surface of the water, rather than cruising the depths of the ocean. So that's a key difference relating to their habits. Another one relates to their physical makeup. Their skeleton is made entirely of cartilage, in comparison to whales that have skeletons made of real bones.\nThe place I visited is called Ningaloo in Western Australia. We were there to observe a large group of whale sharks which congregate in that part of the ocean each year between April and July. Ningaloo is ideal for whale sharks because there is a coral reef nearby which ensures an abundant supply of food. It's great for divers too, because although it's in relatively deep waters, the reef is in close proximity to the shore, unlike some reefs that you have to travel miles to get to.\nI'd like to move on now to tell you about the whale shark research centre and the research being conducted there. We know that whale sharks are migratory, but not a lot is known about where they go and why. The methods currently being used to monitor them could be better. One way is to use an electronic tracking device or tag, which researchers have to attach manually to the fin. It's not an easy process and the tags are also quite expensive. So if it falls off, you're in trouble. Another way of monitoring whale sharks is with a special drone to spot the animals in the ocean. This can give you a rough idea of numbers, but obviously it's not an exact science.\nThe researchers at Ningaloo are involved in a new research project that's currently being carried out to investigate whale shark feeding habits. They hope to find out more about how far whale sharks travel to feed. They're using an innovative approach to do this which analyses plankton. Apparently, plankton from different places contains different quantities of carbon types. The researchers are checking the plankton consumed by the whale shark against maps which have all the different plankton zones marked on them. This comparison allows them to track exactly where the whale shark has been feeding.\nSome research that I was involved in on my field trip was directly observing the whale shark behaviour. This was part of a small study being carried out in Ningaloo to find out how whale sharks are affected by human activity. We drifted along in our boat with the engine off, then when a whale shark was nearby we switched on the engine. We noticed that the resulting noise affected the behaviour of the animal. As soon as it heard the sound, we saw it dive. This happened on several occasions and was quite obvious.\nOne day we got to witness the great work they're doing at the centre to educate the community about whale sharks. At the moment there's a whale shark race. The researchers select a mature whale shark which has been tagged and they allocate it to a school. The children get to track the journey of their whale shark and see which one travels the furthest. All the data is on the website.\nIt's clear that these majestic creatures require careful conservation and management. With humans and whale sharks being in close proximity, problems can occur. While these events may be rare, all injuries which whale sharks suffer must be documented, with information such as date and location and a photograph if possible. The fisheries department has agreed to keep these records in their digital image library.\nSomething that is being introduced next year in Ningaloo is a code of conduct. It covers the rules that need to be followed to minimise any distress to the sharks. Scuba diving is not going to be allowed anymore, as previous research has found that whale sharks find bubbles disturbing.\nANNOUNCER: That is the end of Part 4. You now have half a minute to check your answers. That is the end of the listening test. You now have ten minutes to transfer your answers to the listening answer sheet."
+  },
+  "transcript_source": "Full Part 1-4 transcript aligned to the supplied Volume 9 Test 5 recording.",
+  "timestamps_source": "Part boundaries are aligned to the supplied recording; evidence windows are question-specific approximate windows inside each Part.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "based in our lab",
+      "answer": "based in our lab",
+      "lexical_type": "prepositional chunk"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "assigned to each sample",
+      "answer": "assigned to each sample",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "choose the right leaf",
+      "answer": "choose the right leaf",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "speeded things up a bit",
+      "answer": "speeded things up a bit",
+      "lexical_type": "phrasal chunk"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "a definite bonus",
+      "answer": "a definite bonus",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "do maths and do it fast",
+      "answer": "do maths and do it fast",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "highly skilled at that",
+      "answer": "highly skilled at that",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "living out of a suitcase",
+      "answer": "living out of a suitcase",
+      "lexical_type": "idiomatic phrase"
+    },
+    {
+      "q": 109,
+      "part": 2,
+      "n": 1,
+      "match": "preserving some of the local history",
+      "answer": "preserving some of the local history",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 110,
+      "part": 2,
+      "n": 2,
+      "match": "qualify for the group discount",
+      "answer": "qualify for the group discount",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 111,
+      "part": 2,
+      "n": 3,
+      "match": "making lollipops the old-fashioned way",
+      "answer": "making lollipops the old-fashioned way",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 112,
+      "part": 2,
+      "n": 4,
+      "match": "interact with some farm animals",
+      "answer": "interact with some farm animals",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 113,
+      "part": 2,
+      "n": 5,
+      "match": "diagonally across from it",
+      "answer": "diagonally across from it",
+      "lexical_type": "spatial phrase"
+    },
+    {
+      "q": 114,
+      "part": 2,
+      "n": 6,
+      "match": "backing onto the car park",
+      "answer": "backing onto the car park",
+      "lexical_type": "spatial phrase"
+    },
+    {
+      "q": 115,
+      "part": 2,
+      "n": 7,
+      "match": "in a block of three buildings",
+      "answer": "in a block of three buildings",
+      "lexical_type": "prepositional phrase"
+    },
+    {
+      "q": 116,
+      "part": 2,
+      "n": 8,
+      "match": "at the eastern end of the village",
+      "answer": "at the eastern end of the village",
+      "lexical_type": "spatial phrase"
+    },
+    {
+      "q": 117,
+      "part": 3,
+      "n": 1,
+      "match": "hazardous household waste",
+      "answer": "hazardous household waste",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 118,
+      "part": 3,
+      "n": 2,
+      "match": "potentially really polluting",
+      "answer": "potentially really polluting",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 119,
+      "part": 3,
+      "n": 3,
+      "match": "rather tiresome",
+      "answer": "rather tiresome",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 120,
+      "part": 3,
+      "n": 4,
+      "match": "impose a penalty on homes",
+      "answer": "impose a penalty on homes",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 121,
+      "part": 3,
+      "n": 5,
+      "match": "establish good habits",
+      "answer": "establish good habits",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 122,
+      "part": 3,
+      "n": 6,
+      "match": "central collection facility",
+      "answer": "central collection facility",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 123,
+      "part": 3,
+      "n": 7,
+      "match": "clearer information given on the packaging",
+      "answer": "clearer information given on the packaging",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 124,
+      "part": 3,
+      "n": 8,
+      "match": "reduce effects on the ozone layer",
+      "answer": "reduce effects on the ozone layer",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 125,
+      "part": 4,
+      "n": 1,
+      "match": "docile animals",
+      "answer": "docile animals",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 126,
+      "part": 4,
+      "n": 2,
+      "match": "close to the surface",
+      "answer": "close to the surface",
+      "lexical_type": "prepositional phrase"
+    },
+    {
+      "q": 127,
+      "part": 4,
+      "n": 3,
+      "match": "in close proximity to the shore",
+      "answer": "in close proximity to the shore",
+      "lexical_type": "academic phrase"
+    },
+    {
+      "q": 128,
+      "part": 4,
+      "n": 4,
+      "match": "electronic tracking device",
+      "answer": "electronic tracking device",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 129,
+      "part": 4,
+      "n": 5,
+      "match": "innovative approach",
+      "answer": "innovative approach",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 130,
+      "part": 4,
+      "n": 6,
+      "match": "different quantities of carbon types",
+      "answer": "different quantities of carbon types",
+      "lexical_type": "academic phrase"
+    },
+    {
+      "q": 131,
+      "part": 4,
+      "n": 7,
+      "match": "affected by human activity",
+      "answer": "affected by human activity",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 132,
+      "part": 4,
+      "n": 8,
+      "match": "careful conservation and management",
+      "answer": "careful conservation and management",
+      "lexical_type": "noun phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "based in our lab",
+      "word": "based in our lab",
+      "type": "prepositional chunk",
+      "lexical_type": "prepositional chunk",
+      "pos": "prepositional chunk",
+      "definition": "located mainly in the company laboratory for work or training",
+      "def": "located mainly in the company laboratory for work or training",
+      "uzbek": "asosan laboratoriyamizda ishlaydi",
+      "uz": "asosan laboratoriyamizda ishlaydi",
+      "context": "Part 1: How to Become a Tea Taster",
+      "collocations": [
+        "based in our lab",
+        "based lab"
+      ],
+      "paraphrases": [
+        "situated mainly in the company laboratory for work or training"
+      ]
+    },
+    {
+      "headword": "assigned to each sample",
+      "word": "assigned to each sample",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "officially given to each individual sample",
+      "def": "officially given to each individual sample",
+      "uzbek": "har bir namunaga biriktiriladi",
+      "uz": "har bir namunaga biriktiriladi",
+      "context": "Part 1: How to Become a Tea Taster",
+      "collocations": [
+        "assigned to each sample",
+        "assigned sample"
+      ],
+      "paraphrases": [
+        "officially given to each individual sample"
+      ]
+    },
+    {
+      "headword": "choose the right leaf",
+      "word": "choose the right leaf",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "select the leaf that is most suitable for a particular purpose",
+      "def": "select the leaf that is most suitable for a particular purpose",
+      "uzbek": "to‘g‘ri bargni tanlamoq",
+      "uz": "to‘g‘ri bargni tanlamoq",
+      "context": "Part 1: How to Become a Tea Taster",
+      "collocations": [
+        "choose the right leaf",
+        "choose leaf"
+      ],
+      "paraphrases": [
+        "choose the leaf that is most suitable for a particular purpose"
+      ]
+    },
+    {
+      "headword": "speeded things up a bit",
+      "word": "speeded things up a bit",
+      "type": "phrasal chunk",
+      "lexical_type": "phrasal chunk",
+      "pos": "phrasal chunk",
+      "definition": "made a process happen somewhat faster",
+      "def": "made a process happen somewhat faster",
+      "uzbek": "jarayonni biroz tezlashtirmoq",
+      "uz": "jarayonni biroz tezlashtirmoq",
+      "context": "Part 1: How to Become a Tea Taster",
+      "collocations": [
+        "speeded things up a bit",
+        "speeded bit"
+      ],
+      "paraphrases": [
+        "made a process happen somewhat faster"
+      ]
+    },
+    {
+      "headword": "a definite bonus",
+      "word": "a definite bonus",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a clear additional advantage",
+      "def": "a clear additional advantage",
+      "uzbek": "aniq ustunlik",
+      "uz": "aniq ustunlik",
+      "context": "Part 1: How to Become a Tea Taster",
+      "collocations": [
+        "a definite bonus",
+        "a bonus"
+      ],
+      "paraphrases": [
+        "a clear additional advantage"
+      ]
+    },
+    {
+      "headword": "do maths and do it fast",
+      "word": "do maths and do it fast",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "perform numerical calculations quickly",
+      "def": "perform numerical calculations quickly",
+      "uzbek": "hisob-kitobni tez bajarmoq",
+      "uz": "hisob-kitobni tez bajarmoq",
+      "context": "Part 1: How to Become a Tea Taster",
+      "collocations": [
+        "do maths and do it fast",
+        "do fast"
+      ],
+      "paraphrases": [
+        "perform numerical calculations quickly"
+      ]
+    },
+    {
+      "headword": "highly skilled at that",
+      "word": "highly skilled at that",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "very capable in that particular ability",
+      "def": "very capable in that particular ability",
+      "uzbek": "bunda juda malakali bo‘lmoq",
+      "uz": "bunda juda malakali bo‘lmoq",
+      "context": "Part 1: How to Become a Tea Taster",
+      "collocations": [
+        "highly skilled at that",
+        "highly that"
+      ],
+      "paraphrases": [
+        "very capable in that particular ability"
+      ]
+    },
+    {
+      "headword": "living out of a suitcase",
+      "word": "living out of a suitcase",
+      "type": "idiomatic phrase",
+      "lexical_type": "idiomatic phrase",
+      "pos": "idiomatic phrase",
+      "definition": "travelling so often that belongings remain packed",
+      "def": "travelling so often that belongings remain packed",
+      "uzbek": "doim safarda yashash",
+      "uz": "doim safarda yashash",
+      "context": "Part 1: How to Become a Tea Taster",
+      "collocations": [
+        "living out of a suitcase",
+        "living suitcase"
+      ],
+      "paraphrases": [
+        "travelling so often that belongings remain packed"
+      ]
+    },
+    {
+      "headword": "preserving some of the local history",
+      "word": "preserving some of the local history",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "protecting part of a community’s historical heritage",
+      "def": "protecting part of a community’s historical heritage",
+      "uzbek": "mahalliy tarixning bir qismini saqlash",
+      "uz": "mahalliy tarixning bir qismini saqlash",
+      "context": "Part 2: Pioneer Historical Village",
+      "collocations": [
+        "preserving some of the local history",
+        "preserving history"
+      ],
+      "paraphrases": [
+        "protecting part of a community’s historical heritage"
+      ]
+    },
+    {
+      "headword": "qualify for the group discount",
+      "word": "qualify for the group discount",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "meet the conditions for a reduced group price",
+      "def": "meet the conditions for a reduced group price",
+      "uzbek": "guruh chegirmasiga ega bo‘lish",
+      "uz": "guruh chegirmasiga ega bo‘lish",
+      "context": "Part 2: Pioneer Historical Village",
+      "collocations": [
+        "qualify for the group discount",
+        "qualify discount"
+      ],
+      "paraphrases": [
+        "meet the conditions for a reduced group price"
+      ]
+    },
+    {
+      "headword": "making lollipops the old-fashioned way",
+      "word": "making lollipops the old-fashioned way",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "producing sweets using a traditional method",
+      "def": "producing sweets using a traditional method",
+      "uzbek": "konfetni an’anaviy usulda tayyorlash",
+      "uz": "konfetni an’anaviy usulda tayyorlash",
+      "context": "Part 2: Pioneer Historical Village",
+      "collocations": [
+        "making lollipops the old-fashioned way",
+        "making way"
+      ],
+      "paraphrases": [
+        "producing sweets using a traditional method"
+      ]
+    },
+    {
+      "headword": "interact with some farm animals",
+      "word": "interact with some farm animals",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "have direct contact or activity with farm animals",
+      "def": "have direct contact or activity with farm animals",
+      "uzbek": "ferma hayvonlari bilan muloqot qilish",
+      "uz": "ferma hayvonlari bilan muloqot qilish",
+      "context": "Part 2: Pioneer Historical Village",
+      "collocations": [
+        "interact with some farm animals",
+        "interact animals"
+      ],
+      "paraphrases": [
+        "have direct contact or activity with farm animals"
+      ]
+    },
+    {
+      "headword": "diagonally across from it",
+      "word": "diagonally across from it",
+      "type": "spatial phrase",
+      "lexical_type": "spatial phrase",
+      "pos": "spatial phrase",
+      "definition": "positioned opposite at a diagonal angle",
+      "def": "positioned opposite at a diagonal angle",
+      "uzbek": "undan diagonal qarama-qarshida",
+      "uz": "undan diagonal qarama-qarshida",
+      "context": "Part 2: Pioneer Historical Village",
+      "collocations": [
+        "diagonally across from it",
+        "diagonally it"
+      ],
+      "paraphrases": [
+        "positioned opposite at a diagonal angle"
+      ]
+    },
+    {
+      "headword": "backing onto the car park",
+      "word": "backing onto the car park",
+      "type": "spatial phrase",
+      "lexical_type": "spatial phrase",
+      "pos": "spatial phrase",
+      "definition": "having the rear side directly beside a car park",
+      "def": "having the rear side directly beside a car park",
+      "uzbek": "orqa tomoni avtoturargohga qaragan",
+      "uz": "orqa tomoni avtoturargohga qaragan",
+      "context": "Part 2: Pioneer Historical Village",
+      "collocations": [
+        "backing onto the car park",
+        "backing park"
+      ],
+      "paraphrases": [
+        "having the rear side directly beside a car park"
+      ]
+    },
+    {
+      "headword": "in a block of three buildings",
+      "word": "in a block of three buildings",
+      "type": "prepositional phrase",
+      "lexical_type": "prepositional phrase",
+      "pos": "prepositional phrase",
+      "definition": "located within a cluster of three buildings",
+      "def": "located within a cluster of three buildings",
+      "uzbek": "uchta bino guruhida",
+      "uz": "uchta bino guruhida",
+      "context": "Part 2: Pioneer Historical Village",
+      "collocations": [
+        "in a block of three buildings",
+        "in buildings"
+      ],
+      "paraphrases": [
+        "situated within a cluster of three buildings"
+      ]
+    },
+    {
+      "headword": "at the eastern end of the village",
+      "word": "at the eastern end of the village",
+      "type": "spatial phrase",
+      "lexical_type": "spatial phrase",
+      "pos": "spatial phrase",
+      "definition": "at the far east side of the village",
+      "def": "at the far east side of the village",
+      "uzbek": "qishloqning sharqiy chekkasida",
+      "uz": "qishloqning sharqiy chekkasida",
+      "context": "Part 2: Pioneer Historical Village",
+      "collocations": [
+        "at the eastern end of the village",
+        "at village"
+      ],
+      "paraphrases": [
+        "at the far east side of the village"
+      ]
+    },
+    {
+      "headword": "hazardous household waste",
+      "word": "hazardous household waste",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "dangerous waste materials produced in the home",
+      "def": "dangerous waste materials produced in the home",
+      "uzbek": "xavfli maishiy chiqindi",
+      "uz": "xavfli maishiy chiqindi",
+      "context": "Part 3: Attitudes to Waste Disposal",
+      "collocations": [
+        "hazardous household waste",
+        "hazardous waste"
+      ],
+      "paraphrases": [
+        "dangerous waste materials produced in the home"
+      ]
+    },
+    {
+      "headword": "potentially really polluting",
+      "word": "potentially really polluting",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "capable of causing significant pollution",
+      "def": "capable of causing significant pollution",
+      "uzbek": "kuchli ifloslantirishi mumkin",
+      "uz": "kuchli ifloslantirishi mumkin",
+      "context": "Part 3: Attitudes to Waste Disposal",
+      "collocations": [
+        "potentially really polluting",
+        "potentially polluting"
+      ],
+      "paraphrases": [
+        "capable of causing significant pollution"
+      ]
+    },
+    {
+      "headword": "rather tiresome",
+      "word": "rather tiresome",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "somewhat boring or irritating",
+      "def": "somewhat boring or irritating",
+      "uzbek": "ancha zerikarli",
+      "uz": "ancha zerikarli",
+      "context": "Part 3: Attitudes to Waste Disposal",
+      "collocations": [
+        "rather tiresome",
+        "rather tiresome"
+      ],
+      "paraphrases": [
+        "somewhat boring or irritating"
+      ]
+    },
+    {
+      "headword": "impose a penalty on homes",
+      "word": "impose a penalty on homes",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "apply a financial punishment to households",
+      "def": "apply a financial punishment to households",
+      "uzbek": "xonadonlarga jarima belgilamoq",
+      "uz": "xonadonlarga jarima belgilamoq",
+      "context": "Part 3: Attitudes to Waste Disposal",
+      "collocations": [
+        "impose a penalty on homes",
+        "impose homes"
+      ],
+      "paraphrases": [
+        "apply a financial punishment to households"
+      ]
+    },
+    {
+      "headword": "establish good habits",
+      "word": "establish good habits",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "create positive behaviours that become regular",
+      "def": "create positive behaviours that become regular",
+      "uzbek": "yaxshi odatlarni shakllantirmoq",
+      "uz": "yaxshi odatlarni shakllantirmoq",
+      "context": "Part 3: Attitudes to Waste Disposal",
+      "collocations": [
+        "establish good habits",
+        "establish habits"
+      ],
+      "paraphrases": [
+        "create positive behaviours that become regular"
+      ]
+    },
+    {
+      "headword": "central collection facility",
+      "word": "central collection facility",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a main place where waste or items are gathered",
+      "def": "a main place where waste or items are gathered",
+      "uzbek": "markaziy yig‘ish punkti",
+      "uz": "markaziy yig‘ish punkti",
+      "context": "Part 3: Attitudes to Waste Disposal",
+      "collocations": [
+        "central collection facility",
+        "central facility"
+      ],
+      "paraphrases": [
+        "a main place where waste or items are gathered"
+      ]
+    },
+    {
+      "headword": "clearer information given on the packaging",
+      "word": "clearer information given on the packaging",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "more understandable guidance printed on product packaging",
+      "def": "more understandable guidance printed on product packaging",
+      "uzbek": "qadoqda aniqroq ma’lumot berilishi",
+      "uz": "qadoqda aniqroq ma’lumot berilishi",
+      "context": "Part 3: Attitudes to Waste Disposal",
+      "collocations": [
+        "clearer information given on the packaging",
+        "clearer packaging"
+      ],
+      "paraphrases": [
+        "more understandable guidance printed on product packaging"
+      ]
+    },
+    {
+      "headword": "reduce effects on the ozone layer",
+      "word": "reduce effects on the ozone layer",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "lessen harmful impact on the ozone layer",
+      "def": "lessen harmful impact on the ozone layer",
+      "uzbek": "ozon qatlamiga ta’sirni kamaytirish",
+      "uz": "ozon qatlamiga ta’sirni kamaytirish",
+      "context": "Part 3: Attitudes to Waste Disposal",
+      "collocations": [
+        "reduce effects on the ozone layer",
+        "reduce layer"
+      ],
+      "paraphrases": [
+        "lessen harmful impact on the ozone layer"
+      ]
+    },
+    {
+      "headword": "docile animals",
+      "word": "docile animals",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "animals that are calm and not aggressive",
+      "def": "animals that are calm and not aggressive",
+      "uzbek": "yuvosh hayvonlar",
+      "uz": "yuvosh hayvonlar",
+      "context": "Part 4: Whale Shark Conservation Field Trip",
+      "collocations": [
+        "docile animals",
+        "docile animals"
+      ],
+      "paraphrases": [
+        "animals that are calm and not aggressive"
+      ]
+    },
+    {
+      "headword": "close to the surface",
+      "word": "close to the surface",
+      "type": "prepositional phrase",
+      "lexical_type": "prepositional phrase",
+      "pos": "prepositional phrase",
+      "definition": "near the uppermost level of water",
+      "def": "near the uppermost level of water",
+      "uzbek": "sirtga yaqin",
+      "uz": "sirtga yaqin",
+      "context": "Part 4: Whale Shark Conservation Field Trip",
+      "collocations": [
+        "close to the surface",
+        "close surface"
+      ],
+      "paraphrases": [
+        "near the uppermost level of water"
+      ]
+    },
+    {
+      "headword": "in close proximity to the shore",
+      "word": "in close proximity to the shore",
+      "type": "academic phrase",
+      "lexical_type": "academic phrase",
+      "pos": "academic phrase",
+      "definition": "situated very near the coastline",
+      "def": "situated very near the coastline",
+      "uzbek": "qirg‘oqqa juda yaqin",
+      "uz": "qirg‘oqqa juda yaqin",
+      "context": "Part 4: Whale Shark Conservation Field Trip",
+      "collocations": [
+        "in close proximity to the shore",
+        "in shore"
+      ],
+      "paraphrases": [
+        "situated very near the coastline"
+      ]
+    },
+    {
+      "headword": "electronic tracking device",
+      "word": "electronic tracking device",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "an electronic tool used to monitor location or movement",
+      "def": "an electronic tool used to monitor location or movement",
+      "uzbek": "elektron kuzatuv qurilmasi",
+      "uz": "elektron kuzatuv qurilmasi",
+      "context": "Part 4: Whale Shark Conservation Field Trip",
+      "collocations": [
+        "electronic tracking device",
+        "electronic device"
+      ],
+      "paraphrases": [
+        "an electronic tool used to monitor location or movement"
+      ]
+    },
+    {
+      "headword": "innovative approach",
+      "word": "innovative approach",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a new and creative method of dealing with a problem",
+      "def": "a new and creative method of dealing with a problem",
+      "uzbek": "innovatsion yondashuv",
+      "uz": "innovatsion yondashuv",
+      "context": "Part 4: Whale Shark Conservation Field Trip",
+      "collocations": [
+        "innovative approach",
+        "innovative approach"
+      ],
+      "paraphrases": [
+        "a new and creative method of dealing with a problem"
+      ]
+    },
+    {
+      "headword": "different quantities of carbon types",
+      "word": "different quantities of carbon types",
+      "type": "academic phrase",
+      "lexical_type": "academic phrase",
+      "pos": "academic phrase",
+      "definition": "varying amounts of distinct carbon forms",
+      "def": "varying amounts of distinct carbon forms",
+      "uzbek": "uglerod turlarining turli miqdorlari",
+      "uz": "uglerod turlarining turli miqdorlari",
+      "context": "Part 4: Whale Shark Conservation Field Trip",
+      "collocations": [
+        "different quantities of carbon types",
+        "different types"
+      ],
+      "paraphrases": [
+        "varying amounts of distinct carbon forms"
+      ]
+    },
+    {
+      "headword": "affected by human activity",
+      "word": "affected by human activity",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "changed or influenced by what people do",
+      "def": "changed or influenced by what people do",
+      "uzbek": "inson faoliyati ta’sirida",
+      "uz": "inson faoliyati ta’sirida",
+      "context": "Part 4: Whale Shark Conservation Field Trip",
+      "collocations": [
+        "affected by human activity",
+        "affected activity"
+      ],
+      "paraphrases": [
+        "changed or influenced by what people do"
+      ]
+    },
+    {
+      "headword": "careful conservation and management",
+      "word": "careful conservation and management",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "responsible protection and controlled management of wildlife",
+      "def": "responsible protection and controlled management of wildlife",
+      "uzbek": "ehtiyotkor muhofaza va boshqaruv",
+      "uz": "ehtiyotkor muhofaza va boshqaruv",
+      "context": "Part 4: Whale Shark Conservation Field Trip",
+      "collocations": [
+        "careful conservation and management",
+        "careful management"
+      ],
+      "paraphrases": [
+        "responsible protection and controlled management of wildlife"
+      ]
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "MCQ",
+    "12": "MCQ",
+    "13": "MCQ",
+    "14": "MCQ",
+    "15": "Matching",
+    "16": "Matching",
+    "17": "Matching",
+    "18": "Matching",
+    "19": "Matching",
+    "20": "Matching",
+    "21": "Multi-select",
+    "22": "Multi-select",
+    "23": "Multi-select",
+    "24": "Multi-select",
+    "25": "Matching",
+    "26": "Matching",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    [
+      "exam",
+      "01",
+      "Full IELTS Test",
+      "Q1-Q40 in a timed exam with embedded audio, FLAG and notes."
+    ],
+    [
+      "review",
+      "02",
+      "Review & Revision",
+      "Redo each Part and inspect answer-specific evidence after checking."
+    ],
+    [
+      "script",
+      "03",
+      "Script Completion",
+      "Complete the full Part 1-4 transcripts with 8 strategic lexical gaps each."
+    ],
+    [
+      "mcq",
+      "04",
+      "MCQ Mastery",
+      "Practise the 4 single-answer multiple-choice questions."
+    ],
+    [
+      "multi",
+      "05",
+      "Choose TWO Mastery",
+      "Practise both original Choose TWO groups with all A-E options."
+    ],
+    [
+      "matching",
+      "06",
+      "Matching Mastery",
+      "Practise the Pioneer Village map and waste-advice matching questions."
+    ],
+    [
+      "completion",
+      "07",
+      "Completion Mastery",
+      "Practise Q1-Q10 and Q31-Q40 completion questions."
+    ],
+    [
+      "vocab",
+      "08",
+      "Vocabulary Builder",
+      "Learn 32 high-value expressions from all four transcripts."
+    ],
+    [
+      "retry",
+      "09",
+      "Retry Weak Areas",
+      "Retry missed or unanswered questions."
+    ]
+  ]
+}
