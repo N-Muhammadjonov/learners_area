@@ -85,11 +85,13 @@ export async function generalSetDetail(setId: string, role: Role) {
   const set = await db.query.generalReadingSets.findFirst({ where: eq(generalReadingSets.id, setId) });
   if (!set || (!isLive(set) && !isStaff(role))) return null;
   const slots = await db.select().from(generalReadingPassages).where(eq(generalReadingPassages.setId, setId)).orderBy(asc(generalReadingPassages.passageNo));
-  const passages = [];
-  for (const slot of slots) {
+  // Each passage owns independent read-only queries. Preserve slot order and
+  // the same publication checks while sharing the existing bounded DB pool.
+  const loaded = await Promise.all(slots.map(async (slot) => {
     const data = await getPassageWithQuestions(slot.passageId);
-    if (data && (isLive(data.passage) || isStaff(role))) passages.push({ passageNo: slot.passageNo, ...data });
-  }
+    return data && (isLive(data.passage) || isStaff(role)) ? { passageNo: slot.passageNo, ...data } : null;
+  }));
+  const passages = loaded.filter((passage): passage is NonNullable<typeof passage> => passage !== null);
   if(!isStaff(role) && passages.length!==slots.length) return null;
   return { set, passages };
 }
