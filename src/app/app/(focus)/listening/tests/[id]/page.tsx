@@ -1,3 +1,4 @@
+import { usesOriginalTestOne } from "@/lib/listening/original-test-one";
 import { packageActivities, activityPath } from "@/lib/listening/activities";
 import { AuthoredListeningFrame } from "@/components/listening/AuthoredListeningFrame";
 import Link from "next/link";
@@ -16,7 +17,7 @@ export default async function Hub({ params }: { params: Promise<{ id: string }> 
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
   const dict = getDictionary(await getLocale());
-  if (detail.pkg.payload.authoredRuntime) return <div className="w-full"><AuthoredListeningFrame id={id} userId={user.id} dict={dict}/></div>;
+  if (detail.pkg.payload.authoredRuntime || usesOriginalTestOne(id, detail.pkg.sourceId)) return <div className="w-full"><AuthoredListeningFrame id={id} userId={user.id} dict={dict}/></div>;
   // The registry needs what is true about this learner, or "Review by Part" and "Retry Weak
   // Areas" would be hidden from the very people who have a result to review and mistakes to
   // retry. Both hubs ask this one function, so neither can disagree with the other.

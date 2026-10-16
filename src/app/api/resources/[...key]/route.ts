@@ -39,7 +39,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ key:
 
   const storage = getStorageService();
 
-  const signed = await storage.signedReadUrl(objectKey, READ_URL_TTL_SECONDS);
+  // Blob consumers need a same-origin response: signed redirects require bucket CORS.
+  const signed = req.nextUrl.searchParams.get("download") === "1"
+    ? null : await storage.signedReadUrl(objectKey, READ_URL_TTL_SECONDS);
   if (signed) {
     // Endpoint-backed providers may return a same-origin rewrite path so a
     // browser fetch does not become a cross-origin R2 request after this hop.
