@@ -8,20 +8,20 @@ import { usesOriginalTestOne, ORIGINAL_TEST_ONE_ID } from '@/lib/listening/origi
 const headers = {'Cache-Control':'private, no-store'};
 const schema = z.record(z.string().max(100),z.string().max(100000)).refine(v=>JSON.stringify(v).length<=100000);
 async function context(id:string) {
-  if (id !== ORIGINAL_TEST_ONE_ID) return null;
   const user = await requireActiveUser();
-  if (!user) return null;
+  if (!user) return {response:NextResponse.json({error:'unauthenticated'},{status: 401,headers})};
+  if (id !== ORIGINAL_TEST_ONE_ID) return {response:NextResponse.json({error:'not_found'},{status:404,headers})};
   const detail = await fullListeningDetail(id,user.role);
-  return detail && usesOriginalTestOne(id,detail.pkg.sourceId) ? {user,detail} : null;
+  return detail && usesOriginalTestOne(id,detail.pkg.sourceId) ? {user,detail} : {response:NextResponse.json({error:'not_found'},{status:404,headers})};
 }
 export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>}) {
   const {id}=await params; const ctx=await context(id);
-  if (!ctx) return NextResponse.json({error:'not_found'},{status:404,headers});
+  if ('response' in ctx) return ctx.response;
   return NextResponse.json({values:await originalListeningState(ctx.user.id,id)},{headers});
 }
 export async function PUT(req:NextRequest,{params}:{params:Promise<{id:string}>}) {
   const {id}=await params; const ctx=await context(id);
-  if (!ctx) return NextResponse.json({error:'not_found'},{status:404,headers});
+  if ('response' in ctx) return ctx.response;
   const limited=enforce({name:'listening_authored_state',limit:240,windowMs:60000},ctx.user.id);if(limited)return limited;
   const parsed=schema.safeParse(await req.json().catch(()=>null));
   if (!parsed.success) return NextResponse.json({error:'invalid_input'},{status:400,headers});
