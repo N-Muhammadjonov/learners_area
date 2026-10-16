@@ -14,5 +14,6 @@ export function isolateAuthoredDocument(html:string, prelude:string) {
 export function validRuntimeMessage(event: {source:unknown;data:unknown}, frameWindow:unknown, token:string) {
   if(event.source!==frameWindow || !event.data || typeof event.data!=="object")return false;
   const data=event.data as Record<string,unknown>;
-  return data.channel==="learners-area-authored-v1" && data.token===token && ["storage","navigate","word"].includes(String(data.op));
+  // A view message is UI state only; it remains bound to this exact frame/token.
+  return data.channel==="learners-area-authored-v1" && data.token===token && ["storage","navigate","word","view"].includes(String(data.op));
 }
