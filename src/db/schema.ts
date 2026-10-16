@@ -2424,6 +2424,15 @@ export const listeningActivityRuns = pgTable("listening_activity_runs", {
   score: integer("score"), total: integer("total"), completed: boolean("completed").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, table => ({ ownerTest: index("listening_activity_owner_test_idx").on(table.userId, table.testId) }));
+/** Per-student source-UI state; separate from graded activity history. */
+export const listeningAuthoredCheckpoints = pgTable("listening_authored_checkpoints", {
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  testId: uuid("test_id").notNull().references(() => listeningPackages.testId, { onDelete: "cascade" }),
+  values: jsonb("values").$type<Record<string,string>>().notNull().default({}),
+  attemptId: uuid("attempt_id").references(() => listeningAttempts.id, { onDelete: "set null" }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => ({pk: primaryKey({columns:[table.userId,table.testId]})}));
+
 export const listeningDrafts = pgTable("listening_drafts", {
   attemptId: uuid("attempt_id").primaryKey().references(() => listeningAttempts.id, { onDelete: "cascade" }),
   answers: jsonb("answers").$type<Record<string, string>>().notNull().default({}),
