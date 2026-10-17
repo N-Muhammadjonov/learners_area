@@ -1,0 +1,1837 @@
+{
+  "test_id": "listening-test-20",
+  "title": "Listening Test 20",
+  "sections": [
+    "Moving Company Service Report",
+    "Annual Wullaballoo Conference",
+    "General Course Details",
+    "How to Choose Flooring Materials"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Work phone number",
+      "answer": "94635550",
+      "evidence": "Part 1: Moving Company Service Report. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 417.123,
+      "timeCenter": 208.561,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Work phone number",
+      "options": [],
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "USA address: 509 ___",
+      "answer": "Clark House",
+      "evidence": "Part 1: Moving Company Service Report. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 417.123,
+      "timeCenter": 208.561,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "USA address: 509 ___",
+      "options": [],
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "USA address: 1137 ___, Seattle",
+      "answer": "University Drive",
+      "evidence": "Part 1: Moving Company Service Report. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 417.123,
+      "timeCenter": 208.561,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "USA address: 1137 ___, Seattle",
+      "options": [],
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Packing day",
+      "answer": "Monday",
+      "evidence": "Part 1: Moving Company Service Report. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 417.123,
+      "timeCenter": 208.561,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Packing day",
+      "options": [],
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Clean-up day: ___ 14th",
+      "answer": "Thursday",
+      "evidence": "Part 1: Moving Company Service Report. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 417.123,
+      "timeCenter": 208.561,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Clean-up day: ___ 14th",
+      "options": [],
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Storage time",
+      "answer": "a month",
+      "evidence": "Part 1: Moving Company Service Report. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 417.123,
+      "timeCenter": 208.561,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Storage time",
+      "options": [],
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Cutlery and dishes - where packed",
+      "answer": "A",
+      "evidence": "Part 1: Moving Company Service Report. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 417.123,
+      "timeCenter": 208.561,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Cutlery and dishes - where packed",
+      "options": [
+        {
+          "code": "A",
+          "text": "in emergency pack"
+        },
+        {
+          "code": "B",
+          "text": "in personal package"
+        },
+        {
+          "code": "C",
+          "text": "in storage with the furniture"
+        }
+      ],
+      "type": "Matching"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Kettle - where packed",
+      "answer": "C",
+      "evidence": "Part 1: Moving Company Service Report. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 417.123,
+      "timeCenter": 208.561,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Kettle - where packed",
+      "options": [
+        {
+          "code": "A",
+          "text": "in emergency pack"
+        },
+        {
+          "code": "B",
+          "text": "in personal package"
+        },
+        {
+          "code": "C",
+          "text": "in storage with the furniture"
+        }
+      ],
+      "type": "Matching"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Alarm clock - where packed",
+      "answer": "B",
+      "evidence": "Part 1: Moving Company Service Report. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 417.123,
+      "timeCenter": 208.561,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Alarm clock - where packed",
+      "options": [
+        {
+          "code": "A",
+          "text": "in emergency pack"
+        },
+        {
+          "code": "B",
+          "text": "in personal package"
+        },
+        {
+          "code": "C",
+          "text": "in storage with the furniture"
+        }
+      ],
+      "type": "Matching"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "CD player - where packed",
+      "answer": "C",
+      "evidence": "Part 1: Moving Company Service Report. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 417.123,
+      "timeCenter": 208.561,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "CD player - where packed",
+      "options": [
+        {
+          "code": "A",
+          "text": "in emergency pack"
+        },
+        {
+          "code": "B",
+          "text": "in personal package"
+        },
+        {
+          "code": "C",
+          "text": "in storage with the furniture"
+        }
+      ],
+      "type": "Matching"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "Title of the 9:00 lecture",
+      "answer": "Computer as Teacher",
+      "evidence": "Part 2: Annual Wullaballoo Conference. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 417.123,
+      "timeEnd": 848.248,
+      "timeCenter": 632.686,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Title of the 9:00 lecture",
+      "options": [],
+      "type": "Completion"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "John Smith university",
+      "answer": "University of Melbourne",
+      "evidence": "Part 2: Annual Wullaballoo Conference. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 417.123,
+      "timeEnd": 848.248,
+      "timeCenter": 632.686,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "John Smith university",
+      "options": [],
+      "type": "Completion"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Sea View Restaurant floor",
+      "answer": "top floor",
+      "evidence": "Part 2: Annual Wullaballoo Conference. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 417.123,
+      "timeEnd": 848.248,
+      "timeCenter": 632.686,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Sea View Restaurant floor",
+      "options": [],
+      "type": "Completion"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Lift location floor",
+      "answer": "ground floor",
+      "evidence": "Part 2: Annual Wullaballoo Conference. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 417.123,
+      "timeEnd": 848.248,
+      "timeCenter": 632.686,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Lift location floor",
+      "options": [],
+      "type": "Completion"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Afternoon tea time",
+      "answer": "3:10",
+      "evidence": "Part 2: Annual Wullaballoo Conference. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 417.123,
+      "timeEnd": 848.248,
+      "timeCenter": 632.686,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Afternoon tea time",
+      "options": [],
+      "type": "Completion"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Informal reception location",
+      "answer": "Palm Lounge",
+      "evidence": "Part 2: Annual Wullaballoo Conference. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 417.123,
+      "timeEnd": 848.248,
+      "timeCenter": 632.686,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Informal reception location",
+      "options": [],
+      "type": "Completion"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "When tickets are available",
+      "answer": "C",
+      "evidence": "Part 2: Annual Wullaballoo Conference. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 417.123,
+      "timeEnd": 848.248,
+      "timeCenter": 632.686,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "When tickets are available",
+      "options": [
+        {
+          "code": "A",
+          "text": "only at the reception desk."
+        },
+        {
+          "code": "B",
+          "text": "tomorrow evening."
+        },
+        {
+          "code": "C",
+          "text": "at any time before the reception."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Delegate lunch charge",
+      "answer": "B",
+      "evidence": "Part 2: Annual Wullaballoo Conference. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 417.123,
+      "timeEnd": 848.248,
+      "timeCenter": 632.686,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Delegate lunch charge",
+      "options": [
+        {
+          "code": "A",
+          "text": "$6.50"
+        },
+        {
+          "code": "B",
+          "text": "$15.00"
+        },
+        {
+          "code": "C",
+          "text": "$25.00"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "What the restaurant is famous for",
+      "answer": "B",
+      "evidence": "Part 2: Annual Wullaballoo Conference. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 417.123,
+      "timeEnd": 848.248,
+      "timeCenter": 632.686,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "What the restaurant is famous for",
+      "options": [
+        {
+          "code": "A",
+          "text": "steak."
+        },
+        {
+          "code": "B",
+          "text": "fish."
+        },
+        {
+          "code": "C",
+          "text": "barbecue."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Sunday trip / package cost",
+      "answer": "A",
+      "evidence": "Part 2: Annual Wullaballoo Conference. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 417.123,
+      "timeEnd": 848.248,
+      "timeCenter": 632.686,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Sunday trip / package cost",
+      "options": [
+        {
+          "code": "A",
+          "text": "$35 in total."
+        },
+        {
+          "code": "B",
+          "text": "$35 plus entrance fees."
+        },
+        {
+          "code": "C",
+          "text": "$35 plus lunch."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Defining characteristic of a specialised course",
+      "answer": "C",
+      "evidence": "Part 3: General Course Details. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 848.248,
+      "timeEnd": 1308.369,
+      "timeCenter": 1078.309,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Defining characteristic of a specialised course",
+      "options": [
+        {
+          "code": "A",
+          "text": "Taking a proficiency exam"
+        },
+        {
+          "code": "B",
+          "text": "Attending the class frequently"
+        },
+        {
+          "code": "C",
+          "text": "Compulsory and regular"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Who Microbiology courses are available for",
+      "answer": "A",
+      "evidence": "Part 3: General Course Details. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 848.248,
+      "timeEnd": 1308.369,
+      "timeCenter": 1078.309,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Who Microbiology courses are available for",
+      "options": [
+        {
+          "code": "A",
+          "text": "full-time and flexible-time students."
+        },
+        {
+          "code": "B",
+          "text": "Microbiology students only."
+        },
+        {
+          "code": "C",
+          "text": "students on a flexible schedule."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Who Biology courses are available for",
+      "answer": "B",
+      "evidence": "Part 3: General Course Details. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 848.248,
+      "timeEnd": 1308.369,
+      "timeCenter": 1078.309,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Who Biology courses are available for",
+      "options": [
+        {
+          "code": "A",
+          "text": "all students."
+        },
+        {
+          "code": "B",
+          "text": "full-time students only."
+        },
+        {
+          "code": "C",
+          "text": "freshmen only."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Who are interested in Microbiology courses",
+      "answer": "B",
+      "evidence": "Part 3: General Course Details. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 848.248,
+      "timeEnd": 1308.369,
+      "timeCenter": 1078.309,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Who are interested in Microbiology courses",
+      "options": [
+        {
+          "code": "A",
+          "text": "People who need work experience"
+        },
+        {
+          "code": "B",
+          "text": "People from off-campus"
+        },
+        {
+          "code": "C",
+          "text": "People who work at hospital"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Why Medical Science opens next year",
+      "answer": "A",
+      "evidence": "Part 3: General Course Details. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 848.248,
+      "timeEnd": 1308.369,
+      "timeCenter": 1078.309,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Why Medical Science opens next year",
+      "options": [
+        {
+          "code": "A",
+          "text": "there are no experimental facilities."
+        },
+        {
+          "code": "B",
+          "text": "the lab equipment is too expensive."
+        },
+        {
+          "code": "C",
+          "text": "the building is damaged."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Quickest increasing subject in enrolment",
+      "answer": "C",
+      "evidence": "Part 3: General Course Details. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 848.248,
+      "timeEnd": 1308.369,
+      "timeCenter": 1078.309,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Quickest increasing subject in enrolment",
+      "options": [
+        {
+          "code": "A",
+          "text": "Medical Science"
+        },
+        {
+          "code": "B",
+          "text": "Statistics"
+        },
+        {
+          "code": "C",
+          "text": "Environmental Science"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Compulsory course 1",
+      "answer": "C",
+      "evidence": "Part 3: General Course Details. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 848.248,
+      "timeEnd": 1308.369,
+      "timeCenter": 1078.309,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Compulsory course 1",
+      "options": [
+        {
+          "code": "A",
+          "text": "Medical Science"
+        },
+        {
+          "code": "B",
+          "text": "Computing"
+        },
+        {
+          "code": "C",
+          "text": "Mathematics"
+        },
+        {
+          "code": "D",
+          "text": "Laboratory Techniques"
+        },
+        {
+          "code": "E",
+          "text": "Statistics"
+        },
+        {
+          "code": "F",
+          "text": "Medicine"
+        },
+        {
+          "code": "G",
+          "text": "Environmental Science"
+        }
+      ],
+      "type": "Matching",
+      "multi_group": [
+        27,
+        28,
+        29
+      ]
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Compulsory course 2",
+      "answer": "E",
+      "evidence": "Part 3: General Course Details. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 848.248,
+      "timeEnd": 1308.369,
+      "timeCenter": 1078.309,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Compulsory course 2",
+      "options": [
+        {
+          "code": "A",
+          "text": "Medical Science"
+        },
+        {
+          "code": "B",
+          "text": "Computing"
+        },
+        {
+          "code": "C",
+          "text": "Mathematics"
+        },
+        {
+          "code": "D",
+          "text": "Laboratory Techniques"
+        },
+        {
+          "code": "E",
+          "text": "Statistics"
+        },
+        {
+          "code": "F",
+          "text": "Medicine"
+        },
+        {
+          "code": "G",
+          "text": "Environmental Science"
+        }
+      ],
+      "type": "Matching",
+      "multi_group": [
+        27,
+        28,
+        29
+      ]
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Compulsory course 3",
+      "answer": "F",
+      "evidence": "Part 3: General Course Details. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 848.248,
+      "timeEnd": 1308.369,
+      "timeCenter": 1078.309,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Classification / matching",
+      "paraphrase": "Compulsory course 3",
+      "options": [
+        {
+          "code": "A",
+          "text": "Medical Science"
+        },
+        {
+          "code": "B",
+          "text": "Computing"
+        },
+        {
+          "code": "C",
+          "text": "Mathematics"
+        },
+        {
+          "code": "D",
+          "text": "Laboratory Techniques"
+        },
+        {
+          "code": "E",
+          "text": "Statistics"
+        },
+        {
+          "code": "F",
+          "text": "Medicine"
+        },
+        {
+          "code": "G",
+          "text": "Environmental Science"
+        }
+      ],
+      "type": "Matching",
+      "multi_group": [
+        27,
+        28,
+        29
+      ]
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Scholarship cash is provided as a ___",
+      "answer": "textbook allowance",
+      "evidence": "Part 3: General Course Details. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 848.248,
+      "timeEnd": 1308.369,
+      "timeCenter": 1078.309,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Scholarship cash is provided as a ___",
+      "options": [],
+      "type": "Completion"
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Man-made flooring material",
+      "answer": "plastic",
+      "evidence": "Part 4: How to Choose Flooring Materials. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 1308.369,
+      "timeEnd": 1821.492,
+      "timeCenter": 1564.93,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Man-made flooring material",
+      "options": [],
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Process material undergoes before use",
+      "answer": "processing",
+      "evidence": "Part 4: How to Choose Flooring Materials. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 1308.369,
+      "timeEnd": 1821.492,
+      "timeCenter": 1564.93,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Process material undergoes before use",
+      "options": [],
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Wood should be cut and ___",
+      "answer": "seasoned",
+      "evidence": "Part 4: How to Choose Flooring Materials. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 1308.369,
+      "timeEnd": 1821.492,
+      "timeCenter": 1564.93,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Wood should be cut and ___",
+      "options": [],
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Stone should be cut and ___",
+      "answer": "polished",
+      "evidence": "Part 4: How to Choose Flooring Materials. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 1308.369,
+      "timeEnd": 1821.492,
+      "timeCenter": 1564.93,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Stone should be cut and ___",
+      "options": [],
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Factor to consider besides environmental factors",
+      "answer": "the cost",
+      "evidence": "Part 4: How to Choose Flooring Materials. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 1308.369,
+      "timeEnd": 1821.492,
+      "timeCenter": 1564.93,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Factor to consider besides environmental factors",
+      "options": [],
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Property affecting mood: ___, texture and colour",
+      "answer": "grain patterns",
+      "evidence": "Part 4: How to Choose Flooring Materials. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 1308.369,
+      "timeEnd": 1821.492,
+      "timeCenter": 1564.93,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Property affecting mood: ___, texture and colour",
+      "options": [],
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Why mathematical formula is used: ___ are subjective",
+      "answer": "words",
+      "evidence": "Part 4: How to Choose Flooring Materials. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 1308.369,
+      "timeEnd": 1821.492,
+      "timeCenter": 1564.93,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Why mathematical formula is used: ___ are subjective",
+      "options": [],
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "White-painted plastic reflectance rate",
+      "answer": "0.8",
+      "evidence": "Part 4: How to Choose Flooring Materials. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 1308.369,
+      "timeEnd": 1821.492,
+      "timeCenter": 1564.93,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "White-painted plastic reflectance rate",
+      "options": [],
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Quarry tile reflectance rate",
+      "answer": "0.1",
+      "evidence": "Part 4: How to Choose Flooring Materials. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 1308.369,
+      "timeEnd": 1821.492,
+      "timeCenter": 1564.93,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Quarry tile reflectance rate",
+      "options": [],
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Material with almost 0.0 reflectance",
+      "answer": "black velvet",
+      "evidence": "Part 4: How to Choose Flooring Materials. Answer key and transcript were aligned to the uploaded audio; no word-level timestamp is claimed.",
+      "timeStart": 1308.369,
+      "timeEnd": 1821.492,
+      "timeCenter": 1564.93,
+      "why": "The supplied test answer key and matching audio transcript support this answer.",
+      "trap": "Listen for corrections, paraphrases, distractors and exact word limits.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Material with almost 0.0 reflectance",
+      "options": [],
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "94635550",
+    "2": "Clark House",
+    "3": "University Drive",
+    "4": "Monday",
+    "5": "Thursday",
+    "6": "a month",
+    "7": "A",
+    "8": "C",
+    "9": "B",
+    "10": "C",
+    "11": "Computer as Teacher",
+    "12": "University of Melbourne",
+    "13": "top floor",
+    "14": "ground floor",
+    "15": "3:10",
+    "16": "Palm Lounge",
+    "17": "C",
+    "18": "B",
+    "19": "B",
+    "20": "A",
+    "21": "C",
+    "22": "A",
+    "23": "B",
+    "24": "B",
+    "25": "A",
+    "26": "C",
+    "27": "C",
+    "28": "E",
+    "29": "F",
+    "30": "textbook allowance",
+    "31": "plastic",
+    "32": "processing",
+    "33": "seasoned",
+    "34": "polished",
+    "35": "the cost",
+    "36": "grain patterns",
+    "37": "words",
+    "38": "0.8",
+    "39": "0.1",
+    "40": "black velvet"
+  },
+  "alternatives": {
+    "6": [
+      "one month",
+      "1 month"
+    ],
+    "33": [
+      "properly seasoned"
+    ],
+    "35": [
+      "cost"
+    ],
+    "36": [
+      "grain pattern"
+    ],
+    "27": [
+      "C",
+      "E",
+      "F"
+    ],
+    "28": [
+      "C",
+      "E",
+      "F"
+    ],
+    "29": [
+      "C",
+      "E",
+      "F"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 417.123
+    },
+    "2": {
+      "start": 417.123,
+      "end": 848.248
+    },
+    "3": {
+      "start": 848.248,
+      "end": 1308.369
+    },
+    "4": {
+      "start": 1308.369,
+      "end": 1821.492
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Four uploaded Part MP3 files concatenated and embedded offline as mono 80 kbps MP3.",
+  "audio_duration_seconds": 1821.414,
+  "transcript": {
+    "1": "CLERK: Good morning, ma'am, and welcome to Australia's Moving Experience! How can I help you?\nWOMAN: Well, I... I hope you can help me. I'm so up in the air right now... I...\nCLERK: Just calm down now. Let me guess: you're moving and it has you a little confused.\nWOMAN: That's it exactly. You see, I'm relocating to the United States next month and I'm having a hard time getting organised.\nCLERK: Here, fill out your name and address, and let me ask you a few questions. Oh, what should I call you?\nWOMAN: My name is Jane, Jane Bond.\nCLERK: OK, Jane, first of all, what's your work phone number? In case I have any questions about things.\nWOMAN: My work phone is 94635550. But please try not to call me too often there. My boss hates personal calls.\nCLERK: So does mine, ma'am, so does mine. And what address should we ship your things to?\nWOMAN: My new company is letting me stay temporarily at 509 Clark House, that's C-L-A-R-K, 1137 University Drive in Seattle.\nCLERK: Seattle? Beautiful city, I hear. Mountains right beside the ocean, almost. Cooler than Australia, too. OK, and when should we come pack your things?\nWOMAN: I guess that would be on Monday, March 11th.\nCLERK: Do you want any help with an after-packing clean-up? We do that for a small additional charge.\nWOMAN: Yes, that would be helpful. I promised the landlord I'd give her the keys back by 5:00 p.m. on Thursday, the 14th.\nCLERK: Great, we'll just schedule the clean-up for that day. That way, the place will smell clean and there'll be no dust.\nWOMAN: Well, you do think of everything! Oh, how much is this going to cost?\nCLERK: Here is a list of our basic prices.\nWOMAN: Oh dear, this seems rather expensive!\nCLERK: Yes ma'am, but you're paying for the best. We're careful and we're fast. Like we say, the only thing we break are speed records getting you moved.\nWOMAN: Well... maybe that's so... Oh, I nearly forgot to tell you. I don't want my furniture shipped with me. I won't be looking for an apartment till after I arrive in America. Would it be possible to put my furniture in storage here for a month, then have it sent along later?\nCLERK: Of course, we do that all the time. A couple of other things. Here at A Moving Experience, we try to pack your things logically. We don't just throw stuff in boxes.\nCLERK: Do you have any special requests? You know, things you want packed in some special place, so you know where to find them?\nWOMAN: Like what?\nCLERK: Oh, I don't know... Things like dishes maybe. Not to be rude, but you look like a lady who likes to eat.\nWOMAN: Ahhh! Yes, I need my dishes and things where I can find them quickly.\nCLERK: Great. We'll put those dishes and cutlery in what we call the emergency pack. Can you think of anything else?\nWOMAN: Ummm, I do have an antique tea kettle my great-grandmother gave my mother. I wouldn't want to lose that. So I guess you'd better put that in storage with the furniture.\nCLERK: Grandma's tea kettle with the furniture, got it! Say, how about things like your alarm clock? You don't want to miss your plane on the big day, right?\nWOMAN: Well, you certainly think of everything! Yes, that's right. I'll also need my alarm clock where I can find it.\nCLERK: Fine, we'll put that in your personal package. And of course, we'll give you a list of where we pack everything. So, all you'll have to do on Thursday, the 14th is grab your luggage on your way out the door. Um, I couldn't help noticing the new CD player you're carrying. Is that a Samsung?\nWOMAN: Why? Yes, it is. One of their best. Cost me nearly a hundred dollars, it did!\nCLERK: Do you want to take special care of it? I mean it's brand new.\nWOMAN: Take care of it, but nothing special. You can just put it in storage with the furniture.\nCLERK: That looks like everything we need here. I guess you're all set.\nWOMAN: That was certainly quick. Thank you, young man. This has been a most moving experience!",
+    "2": "Good morning everyone, and welcome to the 2nd Annual Wullaballoo Conference on Mastering Computer Languages. I hope you all had a good trip. Before we get underway with today's programme, let me fill you in as to what's on tap for tomorrow, Sunday, February 19th.\nAt 9:00 a.m. right here in the Main Hall, we'll be hearing a lecture from Dr John Smith about Computer as Teacher. Professor Smith, from the University of Melbourne, is a world-class expert in the field of computer-assisted education, and his talk promises to be both stimulating and informative.\nImmediately afterwards, at 10:30, there will be a presentation of papers by various delegates. That, however, will take place in the Garden Room on the ground floor. If you don't yet know, the Garden Room is also called the Ballroom, and we'll be gathering at the west end, the slightly raised area called Level 2. Just look for the crowd. If you get lost, there are signs in the foyer.\nAfter all that thinking, talking, and listening, I expect everyone will be a bit weary. So at 11:15, there will be a break for coffee, cookies, and other light refreshments. These will be available at the aptly named Refreshment Stand, placed by the door back here in the Main Hall. Also, if you choose to skip the formal lunch, you can buy a packed lunch at the stand for a reasonable price.\nI strongly urge you, however, to join us at the formal lunch. That won't be till one o'clock sharp, so you have time to stroll about town a bit. We'll be eating at the Sea View Restaurant. The restaurant is located right here in the hotel, on the top floor. It's a good dozen flights of stairs, so I suggest you take the lift on the ground floor, eh? If you're not fond of fish, there is an all-you-can-eat barbecue available as well. They even offer wallaby meat!\nAfter lunch, we'll troop back downstairs to Level 2 in the Ballroom for the presentation of further papers, which will begin at 2:00 p.m. Please try to be on time. I know you'll be a bit tired after lunch, but the Ballroom echoes so with people coming in late. Thank you in advance.\nOnce we've heard the papers, we'll break for afternoon tea at 3:10 p.m. No need to walk. The manager of the refreshment stand has graciously agreed to have tea served in the Ballroom. He's even promised us some special scones, baked from a recipe of his dear old Scottish grandmother.\nThen, tea being drunk and scones munched, we'll retire here to the Main Hall for some closing remarks and questions. So, by 5:00 we should have the conference wrapped up. But the fun isn't over! This is Australia mates! We'll be flocking to the hotel's own Palm Lounge on the east side of the foyer for an informal reception. You can relax, mingle with the other delegates, and let your hair down a bit. This will run from 5:10 to 6:10, though you're free to stay as long as you like.\nThe lounge manager has informed me that, for the duration of the actual reception, you can have all-you-can-drink beer for $20.00 with purchase of an advance ticket. And, yes, tickets can be purchased from any conference organiser or at the front desk anytime between now and the start of the reception.\nI suggest you come by tomorrow evening to pick up the tickets since the conference hall only holds 800 people. That way, you can also get your journey planned ahead of time and be sure not to miss this truly memorable conference. If you want cocktails, however, I'm sorry. You'll have to pay for those at the regular price.\nOh my goodness! Speaking of paying, I see I forgot to tell you a couple of things. The first is about lunch. The charge for the lunch will be $15.00 for all you delegates. If you have guests with you, the cost is $25.00 for the general public, and $6.50 for children under the age of 10. That's fifteen dollars each, not total for everyone! Another item is about the lunch menu. I very much urge you to try the fish. I mean, look at the restaurant's name: Sea View.\nAs the name suggests, it is a famous seafood restaurant. The chef is a Basque from Spain, and he really gets quite put out when people ignore his fish specialties for burgers or barbecue. If fish isn't your thing though, try the steak - he makes an exquisite Filet mignon topped with bleu cheese and mushrooms.\nFinally, if you'd like to buy a ticket, you can have both lunch and the unlimited beer for $35.00. I should have mentioned that earlier, but I am a bit forgetful. Maybe I should avoid the beer after the conference, eh?\nWell, I've said my bit. Are there any questions?",
+    "3": "STUDENT: Hello... are you Professor Van Diezen?\nPROFESSOR: Yes, I am. And who might you be?\nSTUDENT: Oh! Sorry, my name is Tina. I'm a freshman here. They told me I should ask you for advice in choosing courses.\nPROFESSOR: Well, that's part of what I'm here for. Please come in and sit down. Now, what are your questions?\nSTUDENT: I, I almost don't know! Everything is so confusing! Like what is a specialised course?\nPROFESSOR: Oh, easy. A specialised course is one that is compulsory, meaning it's a requirement for your major and regular, so you can't place out by taking a proficiency exam.\nSTUDENT: That sounds pretty strict. Then what are all these general courses? I seem to have to take so many.\nPROFESSOR: Nothing to be alarmed over. These are courses open to all students and not directly related to your major. The university offers these general courses to choose so that you can become more well-rounded individuals. For example, I see you're a Microbiology major. So it might be a good idea to take some literature or history courses so that you can know something besides all science.\nSTUDENT: You mean these courses are, like, for fun?\nPROFESSOR: That might be one way to look at it, but don't tell the literature professor such a thing. Think of a general course as the opposite of a specified course. A specified course is one that pertains directly to your major.\nSTUDENT: So can I take any Microbiology course I want?\nPROFESSOR: Let's see. Oh, those courses used to be open to Microbiology students only. The good thing is, now it's open to students on a flexible schedule, so it's not only for full-time students. So the answer is yes, if you have the instructor's permission. May I ask you why you chose Microbiology?\nSTUDENT: Well, I also like plain old Biology, too. You know, full-sized animals. I might even become a veterinarian. Could I take some Biology classes?\nPROFESSOR: Well, they are open to full-time students only, which I believe is what you are. I don't know how a freshman would get along with Microbiology, though. I mean, most of the students presently looking into it are from off-campus.\nSTUDENT: Off-campus?\nPROFESSOR: Yes, you know, people who use it in their work at hospitals, laboratories, even a police detective. Why did you choose Microbiology, if I may ask? I don't think you quite answered that.\nSTUDENT: Well, eventually I want to be a doctor. At least my dad tells me so.\nPROFESSOR: If I may say so, young lady, you seem a little uncertain. Still, I think that might be a good idea for a career. Of course, if you're thinking about being either a doctor or a vet, you should take some Medical Science classes before you even think of applying to med school.\nSTUDENT: Great! What should I take?\nPROFESSOR: There is one small problem. The new Medical Sciences building is under construction, so there are no experimental facilities available until next year. I'm afraid you'll have to wait. But don't forget to take those courses at the first opportunity!\nSTUDENT: Oh, bummer. Is there any other course you'd recommend for someone like me?\nPROFESSOR: Well, since you seem to like animals, have you ever thought about looking into Environmental Science?\nSTUDENT: No, I never really thought about it before. Is it worthwhile?\nPROFESSOR: Quite! In fact, it's the fastest growing subject on this campus. I'm sorry, I couldn't help noticing the long list of classes you've written out there. May I have a look?\nSTUDENT: Oh, sure.\nPROFESSOR: Medical Science, Statistics, Laboratory Techniques, Medicine, Mathematics, Computing. My, my, a bit of everything here.\nSTUDENT: Is it too much?\nPROFESSOR: For your first semester, yes. What I suggest is starting out by taking the compulsory courses. Like we said before, the Medical Science can wait. Consider taking that in your sophomore year. I think I'd put off Computing, too. I recommend to all freshmen that I talk to get the compulsory Mathematics out of the way as early as possible, so take that one. It'll be one less difficult course you have to focus on when the science lab opens next year, and you have to catch up on classes like Laboratory Techniques. Your major also requires Statistics so you have to balance two Maths classes, and no doubt you should take that. Otherwise, get your required Medicine course out of the way by taking something theory-based. Oh, of course and your Environmental Science class if you're interested. The others can wait, though I think Computing is definitely a good idea, even though it's not required. I see too, on your paper there, you seem to have had high marks on the entrance exam.\nSTUDENT: Uhhh, yeah. I guess so.\nPROFESSOR: Don't be shy! Have you thought about applying for a scholarship?\nSTUDENT: Do they have any? I mean, my dad is always complaining about how much money it costs him.\nPROFESSOR: In your department, there are actually three full scholarships available. They cover tuition and provide $1,500 cash.\nSTUDENT: $1,500 cash?! Party!\nPROFESSOR: Please, Miss. The money is intended more as a textbook allowance, not party money. If you promise to behave, I'll show you how to apply.\nSTUDENT: Great, and thanks!",
+    "4": "We've been talking about choosing building materials in the last week. Now, a great many factors influence the choice of building materials. You can't make a house of cards, right? And people who live in glass houses... and all that... Anyhow, today I'd like to say a few words about flooring.\nSome artificial materials can be used, like plastic for instance, which offer mixed blessings when used as a flooring surface. On the one hand, plastic is cheaper than nearly any other alternative, short of bare ground. Plastic also does not warp like wood. On the other hand, the best that can be said about plastic is that it looks like wood or stone. However, it cannot replace the real materials. As I have mentioned, I'm fixing up a new house.\nThe decorator my wife hired told me, Plastic does a great job of looking exactly like plastic. Besides, it scratches easily, fades or discolours, and starts cracking within a year or two. So, if you're fitting out a sleazy hotel or plan to live in a trailer park, go with the plastic. Really, though, for all intents and purposes, this leaves us with wood or stone as choices for flooring.\nStone and wood are alike in at least one respect: both go through processing before they can be put to use. Since few of us cut our own lumber or quarry our own stone, this is not perhaps a pressing concern. Still, do-it-yourselfers would do well to remember to buy only properly seasoned wood. Unseasoned wood warps and a warped floor quickly becomes firewood, and its owner quickly becomes poorer.\nLikewise, except for dull-hued materials like slate or sandstone, most stone floors are polished before installation. The choice goes well beyond just wood or stone - each type requires many further considerations. A few special remarks are called for when considering wood, for example. As always, aesthetics, personal taste, and layout all play roles as well as the type of house or room. Oh, and certainly don't forget the cost.\nWhen it comes to cost, a rule of thumb is that the softer and less exotic the wood, the lower the cost. In the US, for instance, pine is both ubiquitous and cheap. Mahogany is imported and exorbitantly expensive. If you're on any kind of budget when remodeling, it's really helpful to remember to go for the softer woods.\nAside from cost, there are still lots of different factors that are important in choosing the best flooring for the job. Continuing with the example of wood, one must consider the effects of each type of wood on the mood of the room. When selecting the best wood to use, particular attention needs to be paid to its grain patterns, texture, and colour. In rooms where relaxation or deep thought is the aim - say bedrooms or the study - dark, strong grained woods are the rule.\nHere the grain ought to match the furniture for a feeling of homogeneity. In rooms where activity and motion are typical - the dining room or living room - lighter, finer-grained lumber is more suitable.\nIn such a setting, the wood grain might be useful in offering a contrast to the furniture. This leads to a feel of subconscious excitement, in keeping with the room's function.\nIn either case, though, consult a decorator. It is a decorator's job to know what materials to use to fit the function of the room. Though some things about putting together a room are subjective and based on one's individual taste, materials appropriate to a room's function are much more straightforward. A decorator takes the needs of the customer and uses a mathematical formula, rather than subjective words.\nSince feelings vary from person to person, verbal descriptions of wood types tend to be ambiguous. You want the wood you select, not something approximate! And if you do decide to do it yourself, remember that all wood must be treated with preservatives to enhance its appearance and preserve its natural beauty.\nIn the case of stone, or quarry tile as flat-cut flooring stone is properly called, a new set of considerations must be weighed up. Simple colour aside, the degree of reflection must be kept in mind. This is called the reflectance rate, which is expressed in a number between 0.0 and 1.0, depending on the amount of light it reflects.\nAt one end of the scale is polished silver. At a rating of 1.0, this shiny surface reflects nearly all of the light directed at it. Numbers closer to zero describe materials that absorb more light. Moving down the scale a bit, we see the plastic that has been painted white has a rate of 0.8, which makes sense. We know that the colour white reflects all other colours while black absorbs all colours, and plastic itself is a relatively reflective material.\nMaterials that are denser and darker have reflectance rates much closer to zero. The quarry tile I mentioned a while ago has a rate of 0.1. As you may know, quarry tile is generally dark brown and made from clay so it is quite dense. Of course, there is considerable variation among types of quarry tile because of the hue or treatment of the clay during its creation.\nDoes anyone have any guesses as to what materials may have a rate of almost 0.0? We can guess most of these materials are black in colour, but plastic, wood, and even stone reflect some light. One material with a rate of almost 0.0 is black velvet. The texture produces almost no shine at all.\nCarrara marble, despite its white hue, is actually lower in reflectivity than black onyx! In any case, the fact that tiles vary somewhat should not be forgotten. A highly reflective floor would not be suitable in a library; it would be indispensable in a ballroom, should your home be large enough to feature one. Again, a rule of thumb is that light means lively.\nSince form and material follow function, one should only use the more reflective materials in rooms where the cultivation and expression of energy is important. Bear in mind too that most types of stone cost more than all but the rarest of woods.\nOf course, there is no reason why some rooms of a house should not feature wood floors or other stone tiles. You can even mix the two. A room with wood panels on the walls can have a beautiful stone floor. My bedroom has white birch walls and a light blue slate floor. The place looks like a Russian hunting lodge. Remember, though, go with what feels right for you. Good taste and the laws of interior design are the homeowner's servants, not his master. It's only beautiful when you decide it is. I mean, you're the one who lives there, not the decorator, right? OK, are there any questions?"
+  },
+  "transcript_source": "Part 1 transcript supplied in the conversation; Parts 2-4 were matched to the uploaded audio and the same test transcript, then cross-checked with the raw answer key.",
+  "timestamps_source": "Part boundaries are based on the four separately uploaded Part audio files; no question-level word timestamps are claimed.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "relocating to the United States",
+      "answer": "relocating to the United States",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "having a hard time",
+      "answer": "having a hard time",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "temporarily",
+      "answer": "temporarily",
+      "lexical_type": "adverb"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "after-packing clean-up",
+      "answer": "after-packing clean-up",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "basic prices",
+      "answer": "basic prices",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "put my furniture in storage",
+      "answer": "put my furniture in storage",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "emergency pack",
+      "answer": "emergency pack",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "personal package",
+      "answer": "personal package",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 201,
+      "part": 2,
+      "n": 1,
+      "match": "computer-assisted education",
+      "answer": "computer-assisted education",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 202,
+      "part": 2,
+      "n": 2,
+      "match": "presentation of papers",
+      "answer": "presentation of papers",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 203,
+      "part": 2,
+      "n": 3,
+      "match": "light refreshments",
+      "answer": "light refreshments",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 204,
+      "part": 2,
+      "n": 4,
+      "match": "one o'clock sharp",
+      "answer": "one o'clock sharp",
+      "lexical_type": "time expression"
+    },
+    {
+      "q": 205,
+      "part": 2,
+      "n": 5,
+      "match": "presentation of further papers",
+      "answer": "presentation of further papers",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 206,
+      "part": 2,
+      "n": 6,
+      "match": "closing remarks",
+      "answer": "closing remarks",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 207,
+      "part": 2,
+      "n": 7,
+      "match": "informal reception",
+      "answer": "informal reception",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 208,
+      "part": 2,
+      "n": 8,
+      "match": "advance ticket",
+      "answer": "advance ticket",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 301,
+      "part": 3,
+      "n": 1,
+      "match": "proficiency exam",
+      "answer": "proficiency exam",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 302,
+      "part": 3,
+      "n": 2,
+      "match": "well-rounded individuals",
+      "answer": "well-rounded individuals",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 303,
+      "part": 3,
+      "n": 3,
+      "match": "flexible schedule",
+      "answer": "flexible schedule",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 304,
+      "part": 3,
+      "n": 4,
+      "match": "instructor's permission",
+      "answer": "instructor's permission",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 305,
+      "part": 3,
+      "n": 5,
+      "match": "experimental facilities",
+      "answer": "experimental facilities",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 306,
+      "part": 3,
+      "n": 6,
+      "match": "fastest growing subject",
+      "answer": "fastest growing subject",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 307,
+      "part": 3,
+      "n": 7,
+      "match": "compulsory courses",
+      "answer": "compulsory courses",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 308,
+      "part": 3,
+      "n": 8,
+      "match": "textbook allowance",
+      "answer": "textbook allowance",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 401,
+      "part": 4,
+      "n": 1,
+      "match": "mixed blessings",
+      "answer": "mixed blessings",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 402,
+      "part": 4,
+      "n": 2,
+      "match": "properly seasoned",
+      "answer": "properly seasoned",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 403,
+      "part": 4,
+      "n": 3,
+      "match": "personal taste",
+      "answer": "personal taste",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 404,
+      "part": 4,
+      "n": 4,
+      "match": "exorbitantly expensive",
+      "answer": "exorbitantly expensive",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 405,
+      "part": 4,
+      "n": 5,
+      "match": "grain patterns",
+      "answer": "grain patterns",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 406,
+      "part": 4,
+      "n": 6,
+      "match": "mathematical formula",
+      "answer": "mathematical formula",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 407,
+      "part": 4,
+      "n": 7,
+      "match": "degree of reflection",
+      "answer": "degree of reflection",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 408,
+      "part": 4,
+      "n": 8,
+      "match": "black velvet",
+      "answer": "black velvet",
+      "lexical_type": "noun phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "relocating to the United States",
+      "word": "relocating to the United States",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Moving Company Service Report",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "having a hard time",
+      "word": "having a hard time",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Moving Company Service Report",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "temporarily",
+      "word": "temporarily",
+      "type": "adverb",
+      "lexical_type": "adverb",
+      "pos": "adverb",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Moving Company Service Report",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "after-packing clean-up",
+      "word": "after-packing clean-up",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Moving Company Service Report",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "basic prices",
+      "word": "basic prices",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Moving Company Service Report",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "put my furniture in storage",
+      "word": "put my furniture in storage",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Moving Company Service Report",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "emergency pack",
+      "word": "emergency pack",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Moving Company Service Report",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "personal package",
+      "word": "personal package",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 1.",
+      "def": "An important expression from Part 1.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Moving Company Service Report",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "computer-assisted education",
+      "word": "computer-assisted education",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Annual Wullaballoo Conference",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "presentation of papers",
+      "word": "presentation of papers",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Annual Wullaballoo Conference",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "light refreshments",
+      "word": "light refreshments",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Annual Wullaballoo Conference",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "one o'clock sharp",
+      "word": "one o'clock sharp",
+      "type": "time expression",
+      "lexical_type": "time expression",
+      "pos": "time expression",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Annual Wullaballoo Conference",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "presentation of further papers",
+      "word": "presentation of further papers",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Annual Wullaballoo Conference",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "closing remarks",
+      "word": "closing remarks",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Annual Wullaballoo Conference",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "informal reception",
+      "word": "informal reception",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Annual Wullaballoo Conference",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "advance ticket",
+      "word": "advance ticket",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 2.",
+      "def": "An important expression from Part 2.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Annual Wullaballoo Conference",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "proficiency exam",
+      "word": "proficiency exam",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: General Course Details",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "well-rounded individuals",
+      "word": "well-rounded individuals",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: General Course Details",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "flexible schedule",
+      "word": "flexible schedule",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: General Course Details",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "instructor's permission",
+      "word": "instructor's permission",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: General Course Details",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "experimental facilities",
+      "word": "experimental facilities",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: General Course Details",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "fastest growing subject",
+      "word": "fastest growing subject",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: General Course Details",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "compulsory courses",
+      "word": "compulsory courses",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: General Course Details",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "textbook allowance",
+      "word": "textbook allowance",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 3.",
+      "def": "An important expression from Part 3.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: General Course Details",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "mixed blessings",
+      "word": "mixed blessings",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: How to Choose Flooring Materials",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "properly seasoned",
+      "word": "properly seasoned",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: How to Choose Flooring Materials",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "personal taste",
+      "word": "personal taste",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: How to Choose Flooring Materials",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "exorbitantly expensive",
+      "word": "exorbitantly expensive",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: How to Choose Flooring Materials",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "grain patterns",
+      "word": "grain patterns",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: How to Choose Flooring Materials",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "mathematical formula",
+      "word": "mathematical formula",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: How to Choose Flooring Materials",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "degree of reflection",
+      "word": "degree of reflection",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: How to Choose Flooring Materials",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "black velvet",
+      "word": "black velvet",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from Part 4.",
+      "def": "An important expression from Part 4.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: How to Choose Flooring Materials",
+      "collocations": [],
+      "paraphrases": []
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Matching",
+    "8": "Matching",
+    "9": "Matching",
+    "10": "Matching",
+    "11": "Completion",
+    "12": "Completion",
+    "13": "Completion",
+    "14": "Completion",
+    "15": "Completion",
+    "16": "Completion",
+    "17": "MCQ",
+    "18": "MCQ",
+    "19": "MCQ",
+    "20": "MCQ",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "MCQ",
+    "26": "MCQ",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Completion",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    [
+      "exam",
+      "01",
+      "Full IELTS Test",
+      "Q1-Q40 in a timed exam with embedded audio, FLAG and notes."
+    ],
+    [
+      "review",
+      "02",
+      "Review & Revision",
+      "Redo each Part and inspect answers/evidence after checking."
+    ],
+    [
+      "script",
+      "03",
+      "Script Completion",
+      "Complete full Part 1-4 transcripts with 8 lexical gaps each."
+    ],
+    [
+      "mcq",
+      "04",
+      "MCQ Mastery",
+      "Practise Q17-Q26 single-answer multiple-choice questions."
+    ],
+    [
+      "matching",
+      "05",
+      "Matching Mastery",
+      "Practise Q7-Q10 packing classification and Q27-Q29 compulsory-course matching."
+    ],
+    [
+      "completion",
+      "06",
+      "Completion Mastery",
+      "Practise forms, tables, notes and sentence completion."
+    ],
+    [
+      "vocab",
+      "07",
+      "Vocabulary Builder",
+      "Learn useful expressions from all four transcripts."
+    ],
+    [
+      "retry",
+      "08",
+      "Retry Weak Areas",
+      "Retry missed or unanswered questions."
+    ]
+  ]
+}

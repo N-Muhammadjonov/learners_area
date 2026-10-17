@@ -1,4 +1,4 @@
-import { usesOriginalTestOne } from "@/lib/listening/original-test-one";
+import { hasOriginalListeningRuntime } from "@/lib/listening/original-listening";
 import { ListeningPractice } from "@/components/listening/ListeningPractice";
 import { listeningPracticeProgress } from "@/lib/data/full-listening";
 import type { PracticeKind } from "@/lib/listening/activities";
@@ -37,7 +37,7 @@ export default async function Activity({
   if (!isUuid(id) || (!practiceKind && (!Number.isInteger(n) || n < 1 || n > 5))) notFound();
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
-  if (detail.pkg.payload.authoredRuntime || usesOriginalTestOne(id, detail.pkg.sourceId)) redirect(`/app/listening/tests/${id}`);
+  if (detail.pkg.payload.authoredRuntime || hasOriginalListeningRuntime(id, detail.pkg.sourceId)) redirect(`/app/listening/tests/${id}`);
   const dict = getDictionary(await getLocale());
   if (practiceKind) {
     if (!detail.pkg.payload.studyPack?.activities?.includes(practiceKind)) notFound();

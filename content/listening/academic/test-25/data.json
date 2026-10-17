@@ -1,0 +1,2212 @@
+{
+  "test_id": "listening-test-25",
+  "title": "Listening Test 25",
+  "sections": [
+    "Volunteering at Mountain Festival",
+    "Bay Life Sea Trips",
+    "Dissertation on learners' vocabulary notebooks",
+    "Construction Materials"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Volunteers should arrive on Friday ___.",
+      "answer": "morning",
+      "evidence": "Angie: So the festival doesn't start until Friday afternoon. I was thinking I'd come in the morning. Is that okay?",
+      "timeStart": 100,
+      "timeEnd": 124,
+      "timeCenter": 112.0,
+      "why": "The speaker gives the required answer as \"morning\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Volunteers should arrive on Friday ___. -> morning",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "A ___ is recommended for outdoors.",
+      "answer": "hat",
+      "evidence": "Jack: Well, let's see. It's going to be hot. We suggest you bring a hat for sure because the open area doesn't have much shade. I remember last year everyone needed their umbrellas, but I don't think we'll have any rain this time.",
+      "timeStart": 124,
+      "timeEnd": 150,
+      "timeCenter": 137.0,
+      "why": "The speaker gives the required answer as \"hat\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "A ___ is recommended for outdoors. -> hat",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Bring ___ for purchases.",
+      "answer": "cash",
+      "evidence": "Jack: There are lots of craft vendors and food booths too. You may want to have some cash handy because most of them don't take credit cards.",
+      "timeStart": 150,
+      "timeEnd": 178,
+      "timeCenter": 164.0,
+      "why": "The speaker gives the required answer as \"cash\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Bring ___ for purchases. -> cash",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "The bicycle parking area has good ___.",
+      "answer": "security",
+      "evidence": "Jack: Sure, we do. There's parking for volunteers at the south end of the site, and there's no need to worry about security. It'll be very safe there.",
+      "timeStart": 178,
+      "timeEnd": 205,
+      "timeCenter": 191.5,
+      "why": "The speaker gives the required answer as \"security\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "The bicycle parking area has good ___. -> security",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "A free ___ will operate during the festival.",
+      "answer": "bus",
+      "evidence": "Jack: They do, but if you don't want to get there that way, we have a bus that picks people up at certain points in the city. There's no charge for that.",
+      "timeStart": 205,
+      "timeEnd": 230,
+      "timeCenter": 217.5,
+      "why": "The speaker gives the required answer as \"bus\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "A free ___ will operate during the festival. -> bus",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Volunteers should collect a ___ at the entrance.",
+      "answer": "pass",
+      "evidence": "Jack: I hope so. But remember to go to Gate A when you get here. They'll give you a pass that you must carry at all times. This lets everyone know that you're a volunteer.",
+      "timeStart": 252,
+      "timeEnd": 277,
+      "timeCenter": 264.5,
+      "why": "The speaker gives the required answer as \"pass\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Volunteers should collect a ___ at the entrance. -> pass",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Remember to bring bedding and a ___.",
+      "answer": "towel",
+      "evidence": "Jack: You just have to bring your own bedding. Oh yes, we've really good facilities for a hot shower, so don't forget a towel. But we do provide soap and shampoo.",
+      "timeStart": 277,
+      "timeEnd": 305,
+      "timeCenter": 291.0,
+      "why": "The speaker gives the required answer as \"towel\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Remember to bring bedding and a ___. -> towel",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "A ticket for ___ is provided for all volunteers.",
+      "answer": "meals",
+      "evidence": "Jack: Yep, that's right. Because our experienced volunteers wait on tables, you can eat in the canteen yourself, or you'll have time to visit the food vendors for meals, you'll be given a ticket, so you don't have to pay.",
+      "timeStart": 305,
+      "timeEnd": 330,
+      "timeCenter": 317.5,
+      "why": "The speaker gives the required answer as \"meals\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "A ticket for ___ is provided for all volunteers. -> meals",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Hand in the form with information about your ___ in case there is a problem.",
+      "answer": "contact",
+      "evidence": "Jack: One more thing, there's a document that needs to be signed by all our volunteers. We need the name of who your contact is in the case of an emergency.",
+      "timeStart": 330,
+      "timeEnd": 356,
+      "timeCenter": 343.0,
+      "why": "The speaker gives the required answer as \"contact\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Hand in the form with information about your ___ in case there is a problem. -> contact",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "The First Aid area helps with minor problems and ___ is also provided if needed.",
+      "answer": "water",
+      "evidence": "Jack: If you run into any minor health problems over the weekend, there's a first aid area open 24 hours. They'll help if they can. They'll have a lot of water on hand because it's going to be so hot.",
+      "timeStart": 356,
+      "timeEnd": 386,
+      "timeCenter": 371.0,
+      "why": "The speaker gives the required answer as \"water\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "The First Aid area helps with minor problems and ___ is also provided if needed. -> water",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "How does Bay Life differ from other similar companies?",
+      "answer": "A",
+      "evidence": "In terms of popularity, Bay Life is the number one boat tour company in the area. Bay Life trips are different than other trips organized to observe marine life. There are other companies which run more boats. We just run two, but ours are the only ones which are accompanied by marine biologists who have the knowledge to run quality trips.",
+      "timeStart": 505,
+      "timeEnd": 535,
+      "timeCenter": 520.0,
+      "why": "The transcript evidence supports option A: It has scientists on board.",
+      "trap": "Compare the meaning of all options with the speaker's exact statement; nearby details are distractors.",
+      "paraphrase": "How does Bay Life differ from other similar companies? -> It has scientists on board.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "It has scientists on board."
+        },
+        {
+          "code": "B",
+          "text": "It was established only recently."
+        },
+        {
+          "code": "C",
+          "text": "It owns a large number of boats."
+        }
+      ]
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "How does Bay Life maximise opportunities for observing marine life?",
+      "answer": "B",
+      "evidence": "We want to give you as much opportunity for viewing marine life as possible, so all our trips are at least three hours in length, while some even last up to five hours. However, we do not guarantee that you will see all the species that frequent the bay in just one trip. We explore only limited parts of the bay, and we are careful not to disturb the animals by tracking them too aggressively.",
+      "timeStart": 535,
+      "timeEnd": 562,
+      "timeCenter": 548.5,
+      "why": "The transcript evidence supports option B: It allows plenty of time for its trips.",
+      "trap": "Compare the meaning of all options with the speaker's exact statement; nearby details are distractors.",
+      "paraphrase": "How does Bay Life maximise opportunities for observing marine life? -> It allows plenty of time for its trips.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "It searches in a very wide area."
+        },
+        {
+          "code": "B",
+          "text": "It allows plenty of time for its trips."
+        },
+        {
+          "code": "C",
+          "text": "It follows the creatures closely."
+        }
+      ]
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "What does the speaker say about observing dolphins on Bay Life trips?",
+      "answer": "C",
+      "evidence": "Bay Life special dolphin trips are extremely popular. Unlike whales, which pass through the bay only at certain times of the year, dolphins are sighted year-round. Six species are regularly visible, sometimes in schools numbering over 1000 individuals, and due to the varying sea depths, we can find deep water species of dolphin too.",
+      "timeStart": 562,
+      "timeEnd": 595,
+      "timeCenter": 578.5,
+      "why": "The transcript evidence supports option C: They can occasionally be seen in very large groups.",
+      "trap": "Compare the meaning of all options with the speaker's exact statement; nearby details are distractors.",
+      "paraphrase": "What does the speaker say about observing dolphins on Bay Life trips? -> They can occasionally be seen in very large groups.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "They can only be seen in certain seasons."
+        },
+        {
+          "code": "B",
+          "text": "Only shallow-water species can be seen."
+        },
+        {
+          "code": "C",
+          "text": "They can occasionally be seen in very large groups."
+        }
+      ]
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Under what circumstances might Bay Life cancel a boat trip?",
+      "answer": "B",
+      "evidence": "To cancel a trip, you need to call us at least 24 hours beforehand if you want to avoid the full charge. Bay Life may cancel a trip at any time, either due to adverse weather conditions or insufficient passenger numbers. Trips will depart if it rains, but not if there's a strong wind. In the event that one of our regular crew is sick, we have a reserve list, so we can always rely on a full complement of staff.",
+      "timeStart": 595,
+      "timeEnd": 630,
+      "timeCenter": 612.5,
+      "why": "The transcript evidence supports option B: if there are too few bookings",
+      "trap": "Compare the meaning of all options with the speaker's exact statement; nearby details are distractors.",
+      "paraphrase": "Under what circumstances might Bay Life cancel a boat trip? -> if there are too few bookings",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "if it rains"
+        },
+        {
+          "code": "B",
+          "text": "if there are too few bookings"
+        },
+        {
+          "code": "C",
+          "text": "if a crew member is sick"
+        }
+      ]
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "What information does the speaker give about private group trips?",
+      "answer": "A",
+      "evidence": "We can organize private group tours for conferences, corporate events, company rewards, or school and youth groups. These tours can be customized to meet your group's needs, and rates are negotiable. Passengers of all ages are welcome on trips.",
+      "timeStart": 630,
+      "timeEnd": 665,
+      "timeCenter": 647.5,
+      "why": "The transcript evidence supports option A: The trips can be adapted.",
+      "trap": "Compare the meaning of all options with the speaker's exact statement; nearby details are distractors.",
+      "paraphrase": "What information does the speaker give about private group trips? -> The trips can be adapted.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "The trips can be adapted."
+        },
+        {
+          "code": "B",
+          "text": "Charges are fixed."
+        },
+        {
+          "code": "C",
+          "text": "There are age restrictions."
+        }
+      ]
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Buy the Baytown Gazette and check",
+      "answer": "D",
+      "evidence": "During the month of May, a local weekly newspaper, the Baytown Gazette, is holding a competition to win a free boat trip for four people. The competition will be announced in the paper on the second of May, so if you're interested in taking part, get a copy of the newspaper and go over the terms and conditions of entry.",
+      "timeStart": 698,
+      "timeEnd": 718,
+      "timeCenter": 708.0,
+      "why": "The transcript evidence supports option D: the competition rules",
+      "trap": "Follow the sequence and match the exact step/action mentioned; unused options are distractors.",
+      "paraphrase": "Buy the Baytown Gazette and check -> the competition rules",
+      "mistakeType": "Matching / sequence tracking",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "a short paragraph"
+        },
+        {
+          "code": "B",
+          "text": "a picture"
+        },
+        {
+          "code": "C",
+          "text": "the answers"
+        },
+        {
+          "code": "D",
+          "text": "the competition rules"
+        },
+        {
+          "code": "E",
+          "text": "the papers"
+        },
+        {
+          "code": "F",
+          "text": "a title"
+        },
+        {
+          "code": "G",
+          "text": "your prize"
+        }
+      ]
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Choose",
+      "answer": "B",
+      "evidence": "If, after reading these, you think you're eligible to take part, you need to cut out the application form, which will appear in the same issue, and complete it. The next thing you need to do is find a picture of wildlife. This can be either a plant or animal or insect that you particularly like.",
+      "timeStart": 718,
+      "timeEnd": 740,
+      "timeCenter": 729.0,
+      "why": "The transcript evidence supports option B: a picture",
+      "trap": "Follow the sequence and match the exact step/action mentioned; unused options are distractors.",
+      "paraphrase": "Choose -> a picture",
+      "mistakeType": "Matching / sequence tracking",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "a short paragraph"
+        },
+        {
+          "code": "B",
+          "text": "a picture"
+        },
+        {
+          "code": "C",
+          "text": "the answers"
+        },
+        {
+          "code": "D",
+          "text": "the competition rules"
+        },
+        {
+          "code": "E",
+          "text": "the papers"
+        },
+        {
+          "code": "F",
+          "text": "a title"
+        },
+        {
+          "code": "G",
+          "text": "your prize"
+        }
+      ]
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Put on the back",
+      "answer": "F",
+      "evidence": "Make up a suitable heading for the picture and write it on the back. Then, on a separate piece of paper, explain in a few sentences why you find this particular picture interesting. Your account should be just one paragraph, not more than 150 words in total.",
+      "timeStart": 740,
+      "timeEnd": 755,
+      "timeCenter": 747.5,
+      "why": "The transcript evidence supports option F: a title",
+      "trap": "Follow the sequence and match the exact step/action mentioned; unused options are distractors.",
+      "paraphrase": "Put on the back -> a title",
+      "mistakeType": "Matching / sequence tracking",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "a short paragraph"
+        },
+        {
+          "code": "B",
+          "text": "a picture"
+        },
+        {
+          "code": "C",
+          "text": "the answers"
+        },
+        {
+          "code": "D",
+          "text": "the competition rules"
+        },
+        {
+          "code": "E",
+          "text": "the papers"
+        },
+        {
+          "code": "F",
+          "text": "a title"
+        },
+        {
+          "code": "G",
+          "text": "your prize"
+        }
+      ]
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Add on a separate sheet",
+      "answer": "A",
+      "evidence": "Make up a suitable heading for the picture and write it on the back. Then, on a separate piece of paper, explain in a few sentences why you find this particular picture interesting. Your account should be just one paragraph, not more than 150 words in total.",
+      "timeStart": 755,
+      "timeEnd": 777,
+      "timeCenter": 766.0,
+      "why": "The transcript evidence supports option A: a short paragraph",
+      "trap": "Follow the sequence and match the exact step/action mentioned; unused options are distractors.",
+      "paraphrase": "Add on a separate sheet -> a short paragraph",
+      "mistakeType": "Matching / sequence tracking",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "a short paragraph"
+        },
+        {
+          "code": "B",
+          "text": "a picture"
+        },
+        {
+          "code": "C",
+          "text": "the answers"
+        },
+        {
+          "code": "D",
+          "text": "the competition rules"
+        },
+        {
+          "code": "E",
+          "text": "the papers"
+        },
+        {
+          "code": "F",
+          "text": "a title"
+        },
+        {
+          "code": "G",
+          "text": "your prize"
+        }
+      ]
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Secure and submit your entry",
+      "answer": "E",
+      "evidence": "Finally, staple or clip your papers firmly together, put them in an envelope and send in your entry to the address given in the newspaper. The closing date for receipt of entries is the 31st of May. Good luck.",
+      "timeStart": 777,
+      "timeEnd": 793,
+      "timeCenter": 785.0,
+      "why": "The transcript evidence supports option E: the papers",
+      "trap": "Follow the sequence and match the exact step/action mentioned; unused options are distractors.",
+      "paraphrase": "Secure and submit your entry -> the papers",
+      "mistakeType": "Matching / sequence tracking",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "a short paragraph"
+        },
+        {
+          "code": "B",
+          "text": "a picture"
+        },
+        {
+          "code": "C",
+          "text": "the answers"
+        },
+        {
+          "code": "D",
+          "text": "the competition rules"
+        },
+        {
+          "code": "E",
+          "text": "the papers"
+        },
+        {
+          "code": "F",
+          "text": "a title"
+        },
+        {
+          "code": "G",
+          "text": "your prize"
+        }
+      ]
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "What did all the participants in Jeff's study have in common?",
+      "answer": "C",
+      "evidence": "Jeff: A lot of the participants were, but I wanted to focus on intermediate level, and I didn't have enough students at that level, so I had to borrow a group from another school where a friend teaches.",
+      "timeStart": 925,
+      "timeEnd": 955,
+      "timeCenter": 940.0,
+      "why": "The transcript evidence supports option C: They were at a similar language level.",
+      "trap": "Compare the meaning of all options with the speaker's exact statement; nearby details are distractors.",
+      "paraphrase": "What did all the participants in Jeff's study have in common? -> They were at a similar language level.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "They had the same teacher."
+        },
+        {
+          "code": "B",
+          "text": "They studied at the same school."
+        },
+        {
+          "code": "C",
+          "text": "They were at a similar language level."
+        }
+      ]
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "What does Jeff say was most difficult?",
+      "answer": "A",
+      "evidence": "Jeff: Yes. Well, I did have some problems. Getting the kids to take part wasn't as hard as I thought, and I managed to make a connection between what I found in the notebooks and what theorists were saying. But I looked at over 100 notebooks. I think I underestimated the quantity of stuff to go through, especially as I was teaching at the same time.",
+      "timeStart": 955,
+      "timeEnd": 990,
+      "timeCenter": 972.5,
+      "why": "The transcript evidence supports option A: managing his workload",
+      "trap": "Compare the meaning of all options with the speaker's exact statement; nearby details are distractors.",
+      "paraphrase": "What does Jeff say was most difficult? -> managing his workload",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "managing his workload"
+        },
+        {
+          "code": "B",
+          "text": "motivating the participants"
+        },
+        {
+          "code": "C",
+          "text": "linking theory and practice"
+        }
+      ]
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "What was the main reason for students noting down a particular word?",
+      "answer": "B",
+      "evidence": "Jeff: That's exactly what I'd anticipated. But according to several of the kids I interviewed, it was more often either they thought, \"that word looks familiar, but I don't really know it,\" or even more common was that they were encountering a word for the very first time.",
+      "timeStart": 990,
+      "timeEnd": 1020,
+      "timeCenter": 1005.0,
+      "why": "The transcript evidence supports option B: They had never seen it before.",
+      "trap": "Compare the meaning of all options with the speaker's exact statement; nearby details are distractors.",
+      "paraphrase": "What was the main reason for students noting down a particular word? -> They had never seen it before.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "Their teacher told them to write it."
+        },
+        {
+          "code": "B",
+          "text": "They had never seen it before."
+        },
+        {
+          "code": "C",
+          "text": "They recognised it, but couldn't use it."
+        }
+      ]
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Jeff feels that the students need to make better choices when",
+      "answer": "A",
+      "evidence": "Jeff: They obviously considered them to be, but I found that they often chose words that are so rare and complicated that they would really struggle to use them, given their level.",
+      "timeStart": 1020,
+      "timeEnd": 1048,
+      "timeCenter": 1034.0,
+      "why": "The transcript evidence supports option A: assessing the usefulness of new words.",
+      "trap": "Compare the meaning of all options with the speaker's exact statement; nearby details are distractors.",
+      "paraphrase": "Jeff feels that the students need to make better choices when -> assessing the usefulness of new words.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "assessing the usefulness of new words."
+        },
+        {
+          "code": "B",
+          "text": "identifying examples of new words in texts."
+        },
+        {
+          "code": "C",
+          "text": "writing definitions of new words."
+        }
+      ]
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "What is the main difference between Jeff's research and James Morgan's?",
+      "answer": "B",
+      "evidence": "Marta: Yeah, just basing everything on quantitative research rather than sitting down with any participants and hearing what they had to say.",
+      "timeStart": 1048,
+      "timeEnd": 1072,
+      "timeCenter": 1060.0,
+      "why": "The transcript evidence supports option B: Morgan did not interview his participants.",
+      "trap": "Compare the meaning of all options with the speaker's exact statement; nearby details are distractors.",
+      "paraphrase": "What is the main difference between Jeff's research and James Morgan's? -> Morgan did not interview his participants.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "Morgan avoided statistics."
+        },
+        {
+          "code": "B",
+          "text": "Morgan did not interview his participants."
+        },
+        {
+          "code": "C",
+          "text": "Morgan reached very different conclusions."
+        }
+      ]
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Jeff agrees with James Morgan's view that learners should record more",
+      "answer": "B",
+      "evidence": "Jeff: No, I mean why do they just write that and not, for example, major event or organize an event? Much more useful.",
+      "timeStart": 1072,
+      "timeEnd": 1095,
+      "timeCenter": 1083.5,
+      "why": "The transcript evidence supports option B: phrases.",
+      "trap": "Compare the meaning of all options with the speaker's exact statement; nearby details are distractors.",
+      "paraphrase": "Jeff agrees with James Morgan's view that learners should record more -> phrases.",
+      "mistakeType": "Distractor discrimination",
+      "type": "MCQ",
+      "options": [
+        {
+          "code": "A",
+          "text": "nouns."
+        },
+        {
+          "code": "B",
+          "text": "phrases."
+        },
+        {
+          "code": "C",
+          "text": "translations."
+        }
+      ]
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Introduction",
+      "answer": "D",
+      "evidence": "Marta: Let's start with the introduction. I reckon you've devoted more space than you needed to it.",
+      "timeStart": 1122,
+      "timeEnd": 1146,
+      "timeCenter": 1134.0,
+      "why": "The transcript evidence supports option D: shorten it",
+      "trap": "Follow the sequence and match the exact step/action mentioned; unused options are distractors.",
+      "paraphrase": "Introduction -> shorten it",
+      "mistakeType": "Matching / sequence tracking",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "add information from other sources"
+        },
+        {
+          "code": "B",
+          "text": "rewrite it more critically"
+        },
+        {
+          "code": "C",
+          "text": "give it a new title"
+        },
+        {
+          "code": "D",
+          "text": "shorten it"
+        },
+        {
+          "code": "E",
+          "text": "divide it into sections"
+        },
+        {
+          "code": "F",
+          "text": "remove it"
+        }
+      ]
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Methodology",
+      "answer": "A",
+      "evidence": "Marta: Well, I think you could have brought in more things you'd read, like comparing Morgan's methodology to your own. You could mention some other writers too.",
+      "timeStart": 1146,
+      "timeEnd": 1175,
+      "timeCenter": 1160.5,
+      "why": "The transcript evidence supports option A: add information from other sources",
+      "trap": "Follow the sequence and match the exact step/action mentioned; unused options are distractors.",
+      "paraphrase": "Methodology -> add information from other sources",
+      "mistakeType": "Matching / sequence tracking",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "add information from other sources"
+        },
+        {
+          "code": "B",
+          "text": "rewrite it more critically"
+        },
+        {
+          "code": "C",
+          "text": "give it a new title"
+        },
+        {
+          "code": "D",
+          "text": "shorten it"
+        },
+        {
+          "code": "E",
+          "text": "divide it into sections"
+        },
+        {
+          "code": "F",
+          "text": "remove it"
+        }
+      ]
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Discussion",
+      "answer": "B",
+      "evidence": "Marta: Then the discussion. There's no shortage of references, but I thought maybe you showed a tendency to take things at face value without really scrutinizing and questioning other people's findings.",
+      "timeStart": 1175,
+      "timeEnd": 1205,
+      "timeCenter": 1190.0,
+      "why": "The transcript evidence supports option B: rewrite it more critically",
+      "trap": "Follow the sequence and match the exact step/action mentioned; unused options are distractors.",
+      "paraphrase": "Discussion -> rewrite it more critically",
+      "mistakeType": "Matching / sequence tracking",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "add information from other sources"
+        },
+        {
+          "code": "B",
+          "text": "rewrite it more critically"
+        },
+        {
+          "code": "C",
+          "text": "give it a new title"
+        },
+        {
+          "code": "D",
+          "text": "shorten it"
+        },
+        {
+          "code": "E",
+          "text": "divide it into sections"
+        },
+        {
+          "code": "F",
+          "text": "remove it"
+        }
+      ]
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Conclusion",
+      "answer": "E",
+      "evidence": "Marta: And the conclusion, you cover quite a lot of topics, but it might be clearer if they were dealt with separately. You know, order them like 5.1, 5.2, and so on.",
+      "timeStart": 1205,
+      "timeEnd": 1236,
+      "timeCenter": 1220.5,
+      "why": "The transcript evidence supports option E: divide it into sections",
+      "trap": "Follow the sequence and match the exact step/action mentioned; unused options are distractors.",
+      "paraphrase": "Conclusion -> divide it into sections",
+      "mistakeType": "Matching / sequence tracking",
+      "type": "Matching",
+      "options": [
+        {
+          "code": "A",
+          "text": "add information from other sources"
+        },
+        {
+          "code": "B",
+          "text": "rewrite it more critically"
+        },
+        {
+          "code": "C",
+          "text": "give it a new title"
+        },
+        {
+          "code": "D",
+          "text": "shorten it"
+        },
+        {
+          "code": "E",
+          "text": "divide it into sections"
+        },
+        {
+          "code": "F",
+          "text": "remove it"
+        }
+      ]
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Manufactured construction material example: ___.",
+      "answer": "plastic",
+      "evidence": "First of all, what are the sources of the materials we use in construction? Many of them are manufactured. Plastic is one example. Others are natural, but even naturally occurring materials usually require processing before they can be used.",
+      "timeStart": 1340,
+      "timeEnd": 1355,
+      "timeCenter": 1347.5,
+      "why": "The speaker gives the required answer as \"plastic\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Manufactured construction material example: ___. -> plastic",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Natural materials usually undergo ___ before use.",
+      "answer": "processing",
+      "evidence": "First of all, what are the sources of the materials we use in construction? Many of them are manufactured. Plastic is one example. Others are natural, but even naturally occurring materials usually require processing before they can be used.",
+      "timeStart": 1355,
+      "timeEnd": 1368,
+      "timeCenter": 1361.5,
+      "why": "The speaker gives the required answer as \"processing\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Natural materials usually undergo ___ before use. -> processing",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Wood is cut and ___ before becoming timber.",
+      "answer": "seasoned",
+      "evidence": "Wood, for instance, is rarely used directly from trees. Instead, this natural material is first cut into required lengths, and then seasoned to remove the excess moisture. The result is what we call timber, and then timber itself is often treated with preservatives before use.",
+      "timeStart": 1368,
+      "timeEnd": 1385,
+      "timeCenter": 1376.5,
+      "why": "The speaker gives the required answer as \"seasoned\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Wood is cut and ___ before becoming timber. -> seasoned",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Stone is cut and may also be ___.",
+      "answer": "polished",
+      "evidence": "In a similar way, stone needs to be cut to shape and may also be polished before being used for building. Of course, the more processing that's required, the more expensive the material becomes.",
+      "timeStart": 1385,
+      "timeEnd": 1400,
+      "timeCenter": 1392.5,
+      "why": "The speaker gives the required answer as \"polished\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Stone is cut and may also be ___. -> polished",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "A main consideration when selecting materials: ___.",
+      "answer": "cost",
+      "evidence": "What about selection? When we're deciding which kind of material to use, cost is not the only consideration. It's important to consider the effect on the environment too. Large amounts of energy are used — it takes huge amounts of energy to produce aluminium, and materials like timber need a lot of energy to transport because of their weight.",
+      "timeStart": 1400,
+      "timeEnd": 1420,
+      "timeCenter": 1410.0,
+      "why": "The speaker gives the required answer as \"cost\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "A main consideration when selecting materials: ___. -> cost",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Timber pieces have unique ___.",
+      "answer": "grain patterns",
+      "evidence": "Let's move on to material properties, and let's first consider appearance. Even for any single building material, appearance may vary greatly. Brick and stone come in a very wide range of colours and can be smooth or very rough, and timber is especially interesting because the grain patterns on each piece, even from the same tree, are unique.",
+      "timeStart": 1420,
+      "timeEnd": 1433,
+      "timeCenter": 1426.5,
+      "why": "The speaker gives the required answer as \"grain patterns\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Timber pieces have unique ___. -> grain patterns",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Mathematical formulae are used because ___ are too subjective.",
+      "answer": "words",
+      "evidence": "But properties have to be described very accurately, and that usually involves the use of mathematical formulae. It isn't enough to say that a particular material is rough or strong or heavy. Words are subjective, and they can be ambiguous.",
+      "timeStart": 1439,
+      "timeEnd": 1460,
+      "timeCenter": 1449.5,
+      "why": "The speaker gives the required answer as \"words\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Mathematical formulae are used because ___ are too subjective. -> words",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "Reflectance of plaster painted white: approximately ___.",
+      "answer": "0.8",
+      "evidence": "Reflectance is a good example of this. Precise values for a range of building materials are available. Reflectance is a measure of the ability of a surface to reflect light, and a perfect reflector has a reflectance of one. A polished mirror-like silver surface has a reflectance of very nearly one. A plaster surface painted brilliant white has a reflectance of around 0.8. Quarry tiles have a reflectance of about 0.1. And black velvet has a reflectance of nearly zero.",
+      "timeStart": 1460,
+      "timeEnd": 1490,
+      "timeCenter": 1475.0,
+      "why": "The speaker gives the required answer as \"0.8\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Reflectance of plaster painted white: approximately ___. -> 0.8",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Reflectance of quarry tiles: approximately ___.",
+      "answer": "0.1",
+      "evidence": "Reflectance is a good example of this. Precise values for a range of building materials are available. Reflectance is a measure of the ability of a surface to reflect light, and a perfect reflector has a reflectance of one. A polished mirror-like silver surface has a reflectance of very nearly one. A plaster surface painted brilliant white has a reflectance of around 0.8. Quarry tiles have a reflectance of about 0.1. And black velvet has a reflectance of nearly zero.",
+      "timeStart": 1490,
+      "timeEnd": 1510,
+      "timeCenter": 1500.0,
+      "why": "The speaker gives the required answer as \"0.1\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Reflectance of quarry tiles: approximately ___. -> 0.1",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Material with reflectance almost 0.0: ___.",
+      "answer": "black velvet",
+      "evidence": "Reflectance is a good example of this. Precise values for a range of building materials are available. Reflectance is a measure of the ability of a surface to reflect light, and a perfect reflector has a reflectance of one. A polished mirror-like silver surface has a reflectance of very nearly one. A plaster surface painted brilliant white has a reflectance of around 0.8. Quarry tiles have a reflectance of about 0.1. And black velvet has a reflectance of nearly zero.",
+      "timeStart": 1510,
+      "timeEnd": 1525,
+      "timeCenter": 1517.5,
+      "why": "The speaker gives the required answer as \"black velvet\".",
+      "trap": "Keep within the stated IELTS word/number limit and use the form actually heard.",
+      "paraphrase": "Material with reflectance almost 0.0: ___. -> black velvet",
+      "mistakeType": "Exact-word recognition / word limit",
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "morning",
+    "2": "hat",
+    "3": "cash",
+    "4": "security",
+    "5": "bus",
+    "6": "pass",
+    "7": "towel",
+    "8": "meals",
+    "9": "contact",
+    "10": "water",
+    "11": "A",
+    "12": "B",
+    "13": "C",
+    "14": "B",
+    "15": "A",
+    "16": "D",
+    "17": "B",
+    "18": "F",
+    "19": "A",
+    "20": "E",
+    "21": "C",
+    "22": "A",
+    "23": "B",
+    "24": "A",
+    "25": "B",
+    "26": "B",
+    "27": "D",
+    "28": "A",
+    "29": "B",
+    "30": "E",
+    "31": "plastic",
+    "32": "processing",
+    "33": "seasoned",
+    "34": "polished",
+    "35": "cost",
+    "36": "grain patterns",
+    "37": "words",
+    "38": "0.8",
+    "39": "0.1",
+    "40": "black velvet"
+  },
+  "alternatives": {
+    "1": [
+      "morning"
+    ],
+    "2": [
+      "hat"
+    ],
+    "3": [
+      "cash"
+    ],
+    "4": [
+      "security"
+    ],
+    "5": [
+      "bus"
+    ],
+    "6": [
+      "pass"
+    ],
+    "7": [
+      "towel"
+    ],
+    "8": [
+      "meals"
+    ],
+    "9": [
+      "contact"
+    ],
+    "10": [
+      "water"
+    ],
+    "11": [
+      "A"
+    ],
+    "12": [
+      "B"
+    ],
+    "13": [
+      "C"
+    ],
+    "14": [
+      "B"
+    ],
+    "15": [
+      "A"
+    ],
+    "16": [
+      "D"
+    ],
+    "17": [
+      "B"
+    ],
+    "18": [
+      "F"
+    ],
+    "19": [
+      "A"
+    ],
+    "20": [
+      "E"
+    ],
+    "21": [
+      "C"
+    ],
+    "22": [
+      "A"
+    ],
+    "23": [
+      "B"
+    ],
+    "24": [
+      "A"
+    ],
+    "25": [
+      "B"
+    ],
+    "26": [
+      "B"
+    ],
+    "27": [
+      "D"
+    ],
+    "28": [
+      "A"
+    ],
+    "29": [
+      "B"
+    ],
+    "30": [
+      "E"
+    ],
+    "31": [
+      "plastic"
+    ],
+    "32": [
+      "processing"
+    ],
+    "33": [
+      "seasoned"
+    ],
+    "34": [
+      "polished"
+    ],
+    "35": [
+      "cost",
+      "the cost"
+    ],
+    "36": [
+      "grain patterns"
+    ],
+    "37": [
+      "words"
+    ],
+    "38": [
+      "0.8",
+      ".8",
+      "nought point eight",
+      "point eight"
+    ],
+    "39": [
+      "0.1",
+      ".1",
+      "nought point one",
+      "point one"
+    ],
+    "40": [
+      "black velvet"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 92.272,
+      "end": 386.369
+    },
+    "2": {
+      "start": 498.1,
+      "end": 793.025
+    },
+    "3": {
+      "start": 886.613,
+      "end": 1235.879
+    },
+    "4": {
+      "start": 1329.645,
+      "end": 1524.01
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Source audio re-encoded once to approximately 80 kbps MP3 for offline delivery; no up-transcoding.",
+  "audio_duration_seconds": 1559.458,
+  "transcript": {
+    "1": "SECTION 1 — Volunteering at Mountain Festival\nJack: Good afternoon, Mountain Festival.\nAngie: Hi, my name is Angie, and I'm helping out this weekend at the festival. May I speak with the team leader?\nJack: That's me. I'm Jack.\nAngie: Jack, I'm looking for some general information. It's my first time volunteering at the festival, and I'm not sure what to expect.\nJack: No need to be worried. We've been doing this for over 30 years.\nAngie: So the festival doesn't start until Friday afternoon. I was thinking I'd come in the morning. Is that okay?\nJack: Oh yeah, we definitely need you then. Didn't the volunteer letter tell you that?\nAngie: Oh, I forgot. Okay, and are there any specific things I need to bring for the weekend?\nJack: Well, let's see. It's going to be hot. We suggest you bring a hat for sure because the open area doesn't have much shade. I remember last year everyone needed their umbrellas, but I don't think we'll have any rain this time.\nAngie: Okay. Anything else?\nJack: There are lots of craft vendors and food booths too. You may want to have some cash handy because most of them don't take credit cards.\nAngie: Thanks for the tip. By the way, what are the parking arrangements for volunteers? I don't have a car. I'll be riding my bike to the festival. Is there a special place to leave it?\nJack: Sure, we do. There's parking for volunteers at the south end of the site, and there's no need to worry about security. It'll be very safe there.\nAngie: Sounds like a lot of people get there that way.\nJack: They do, but if you don't want to get there that way, we have a bus that picks people up at certain points in the city. There's no charge for that.\nAngie: Sounds like the organizers have thought of everything.\nJack: I hope so. But remember to go to Gate A when you get here. They'll give you a pass that you must carry at all times. This lets everyone know that you're a volunteer.\nJack: So, Angie, are you helping out all weekend?\nAngie: Yes, I am.\nJack: So, are you going to sleep here? We have accommodation here for volunteers because the local hotels are all booked up early. We set up tents. They fit eight to 10 people.\nAngie: That sounds great.\nJack: You just have to bring your own bedding. Oh yes, we've really good facilities for a hot shower, so don't forget a towel. But we do provide soap and shampoo.\nAngie: Okay, and now about my duties. My confirmation letter says I'm helping in the canteen with some other volunteers who don't have much experience. Does that mean I'm washing dishes all weekend?\nJack: Yep, that's right. Because our experienced volunteers wait on tables, you can eat in the canteen yourself, or you'll have time to visit the food vendors for meals, you'll be given a ticket, so you don't have to pay.\nAngie: Wow, lots to remember!\nJack: One more thing, there's a document that needs to be signed by all our volunteers. We need the name of who your contact is in the case of an emergency.\nAngie: Okay, I'll do that.\nJack: If you run into any minor health problems over the weekend, there's a first aid area open 24 hours. They'll help if they can. They'll have a lot of water on hand because it's going to be so hot.\nAngie: Right. Thanks for all your help.",
+    "2": "SECTION 2 — Bay Life Sea Trips\nIn terms of popularity, Bay Life is the number one boat tour company in the area. Bay Life trips are different than other trips organized to observe marine life. There are other companies which run more boats. We just run two, but ours are the only ones which are accompanied by marine biologists who have the knowledge to run quality trips.\nWe want to give you as much opportunity for viewing marine life as possible, so all our trips are at least three hours in length, while some even last up to five hours. However, we do not guarantee that you will see all the species that frequent the bay in just one trip. We explore only limited parts of the bay, and we are careful not to disturb the animals by tracking them too aggressively.\nBay Life special dolphin trips are extremely popular. Unlike whales, which pass through the bay only at certain times of the year, dolphins are sighted year-round. Six species are regularly visible, sometimes in schools numbering over 1000 individuals, and due to the varying sea depths, we can find deep water species of dolphin too.\nTo cancel a trip, you need to call us at least 24 hours beforehand if you want to avoid the full charge. Bay Life may cancel a trip at any time, either due to adverse weather conditions or insufficient passenger numbers. Trips will depart if it rains, but not if there's a strong wind. In the event that one of our regular crew is sick, we have a reserve list, so we can always rely on a full complement of staff.\nWe can organize private group tours for conferences, corporate events, company rewards, or school and youth groups. These tours can be customized to meet your group's needs, and rates are negotiable. Passengers of all ages are welcome on trips.\nDuring the month of May, a local weekly newspaper, the Baytown Gazette, is holding a competition to win a free boat trip for four people. The competition will be announced in the paper on the second of May, so if you're interested in taking part, get a copy of the newspaper and go over the terms and conditions of entry.\nIf, after reading these, you think you're eligible to take part, you need to cut out the application form, which will appear in the same issue, and complete it. The next thing you need to do is find a picture of wildlife. This can be either a plant or animal or insect that you particularly like.\nMake up a suitable heading for the picture and write it on the back. Then, on a separate piece of paper, explain in a few sentences why you find this particular picture interesting. Your account should be just one paragraph, not more than 150 words in total.\nFinally, staple or clip your papers firmly together, put them in an envelope and send in your entry to the address given in the newspaper. The closing date for receipt of entries is the 31st of May. Good luck.",
+    "3": "SECTION 3 — Dissertation on learners' vocabulary notebooks\nJeff: Well, at the school where I'm teaching part time, I know my pupils always find learning new words quite a challenge.\nMarta: So, the participants, the pupils whose vocabulary books you looked at, were all of them your students?\nJeff: A lot of the participants were, but I wanted to focus on intermediate level, and I didn't have enough students at that level, so I had to borrow a group from another school where a friend teaches.\nMarta: Made life easier.\nJeff: Yes. Well, I did have some problems. Getting the kids to take part wasn't as hard as I thought, and I managed to make a connection between what I found in the notebooks and what theorists were saying. But I looked at over 100 notebooks. I think I underestimated the quantity of stuff to go through, especially as I was teaching at the same time.\nMarta: I know you looked into the reasons that pupils chose to note down a particular word. Didn't they just write a word if their teacher told them to?\nJeff: That's exactly what I'd anticipated. But according to several of the kids I interviewed, it was more often either they thought, \"that word looks familiar, but I don't really know it,\" or even more common was that they were encountering a word for the very first time.\nMarta: Do you think the students made wise choices?\nJeff: They obviously considered them to be, but I found that they often chose words that are so rare and complicated that they would really struggle to use them, given their level.\nMarta: Right, I was reading an article about this by James Morgan.\nJeff: He did a similar study with university students in Japan. But I did wonder about his methods.\nMarta: Yeah, just basing everything on quantitative research rather than sitting down with any participants and hearing what they had to say.\nJeff: Morgan's point was that learners need training about recording vocabulary. They think of the vocabulary as just being a word like \"event,\" so they write that on its own, not in a phrase.\nMarta: Lots of nouns, you mean?\nJeff: No, I mean why do they just write that and not, for example, major event or organize an event? Much more useful.\nMarta: Let's start with the introduction. I reckon you've devoted more space than you needed to it.\nJeff: You're probably right. What about the methodology?\nMarta: Well, I think you could have brought in more things you'd read, like comparing Morgan's methodology to your own. You could mention some other writers too.\nJeff: Okay, I'll do that.\nMarta: Then the discussion. There's no shortage of references, but I thought maybe you showed a tendency to take things at face value without really scrutinizing and questioning other people's findings.\nJeff: Right, and comparing their ideas with my own. I'll do something about it.\nMarta: And the conclusion, you cover quite a lot of topics, but it might be clearer if they were dealt with separately. You know, order them like 5.1, 5.2, and so on.\nJeff: Fair enough. Well, that's a great help, Marta.",
+    "4": "SECTION 4 — Construction Materials\nToday I'm going to be talking about construction materials, where they come from and what their properties are.\nFirst of all, what are the sources of the materials we use in construction? Many of them are manufactured. Plastic is one example. Others are natural, but even naturally occurring materials usually require processing before they can be used.\nWood, for instance, is rarely used directly from trees. Instead, this natural material is first cut into required lengths, and then seasoned to remove the excess moisture. The result is what we call timber, and then timber itself is often treated with preservatives before use.\nIn a similar way, stone needs to be cut to shape and may also be polished before being used for building. Of course, the more processing that's required, the more expensive the material becomes.\nWhat about selection? When we're deciding which kind of material to use, cost is not the only consideration. It's important to consider the effect on the environment too. Large amounts of energy are used — it takes huge amounts of energy to produce aluminium, and materials like timber need a lot of energy to transport because of their weight.\nLet's move on to material properties, and let's first consider appearance. Even for any single building material, appearance may vary greatly. Brick and stone come in a very wide range of colours and can be smooth or very rough, and timber is especially interesting because the grain patterns on each piece, even from the same tree, are unique.\nBut properties have to be described very accurately, and that usually involves the use of mathematical formulae. It isn't enough to say that a particular material is rough or strong or heavy. Words are subjective, and they can be ambiguous.\nReflectance is a good example of this. Precise values for a range of building materials are available. Reflectance is a measure of the ability of a surface to reflect light, and a perfect reflector has a reflectance of one. A polished mirror-like silver surface has a reflectance of very nearly one. A plaster surface painted brilliant white has a reflectance of around 0.8. Quarry tiles have a reflectance of about 0.1. And black velvet has a reflectance of nearly zero."
+  },
+  "transcript_source": "Exact source-provided spoken-content transcripts for Parts 1-4. Source answer markers were removed; wording was otherwise preserved.",
+  "timestamps_source": "Part and question evidence windows were derived from the supplied recording structure and long-silence boundaries; they are evidence windows, not word-level forced alignment.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "not sure what to expect",
+      "answer": "not sure what to expect",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "doesn't have much shade",
+      "answer": "doesn't have much shade",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "cash handy",
+      "answer": "cash handy",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "no need to worry about security",
+      "answer": "no need to worry about security",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "picks people up at certain points in the city",
+      "answer": "picks people up at certain points in the city",
+      "lexical_type": "phrasal-verb chunk"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "a pass that you must carry at all times",
+      "answer": "a pass that you must carry at all times",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "bring your own bedding",
+      "answer": "bring your own bedding",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "in the case of an emergency",
+      "answer": "in the case of an emergency",
+      "lexical_type": "prepositional phrase"
+    },
+    {
+      "q": 109,
+      "part": 2,
+      "n": 1,
+      "match": "accompanied by marine biologists",
+      "answer": "accompanied by marine biologists",
+      "lexical_type": "passive verb phrase"
+    },
+    {
+      "q": 110,
+      "part": 2,
+      "n": 2,
+      "match": "varying sea depths",
+      "answer": "varying sea depths",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 111,
+      "part": 2,
+      "n": 3,
+      "match": "adverse weather conditions",
+      "answer": "adverse weather conditions",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 112,
+      "part": 2,
+      "n": 4,
+      "match": "full complement of staff",
+      "answer": "full complement of staff",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 113,
+      "part": 2,
+      "n": 5,
+      "match": "customized to meet your group's needs",
+      "answer": "customized to meet your group's needs",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 114,
+      "part": 2,
+      "n": 6,
+      "match": "terms and conditions of entry",
+      "answer": "terms and conditions of entry",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 115,
+      "part": 2,
+      "n": 7,
+      "match": "eligible to take part",
+      "answer": "eligible to take part",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 116,
+      "part": 2,
+      "n": 8,
+      "match": "staple or clip your papers firmly together",
+      "answer": "staple or clip your papers firmly together",
+      "lexical_type": "instructional chunk"
+    },
+    {
+      "q": 117,
+      "part": 3,
+      "n": 1,
+      "match": "find learning new words quite a challenge",
+      "answer": "find learning new words quite a challenge",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 118,
+      "part": 3,
+      "n": 2,
+      "match": "focus on intermediate level",
+      "answer": "focus on intermediate level",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 119,
+      "part": 3,
+      "n": 3,
+      "match": "underestimated the quantity of stuff to go through",
+      "answer": "underestimated the quantity of stuff to go through",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 120,
+      "part": 3,
+      "n": 4,
+      "match": "encountering a word for the very first time",
+      "answer": "encountering a word for the very first time",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 121,
+      "part": 3,
+      "n": 5,
+      "match": "take things at face value",
+      "answer": "take things at face value",
+      "lexical_type": "idiom"
+    },
+    {
+      "q": 122,
+      "part": 3,
+      "n": 6,
+      "match": "scrutinizing and questioning",
+      "answer": "scrutinizing and questioning",
+      "lexical_type": "verb pair"
+    },
+    {
+      "q": 123,
+      "part": 3,
+      "n": 7,
+      "match": "comparing Morgan's methodology to your own",
+      "answer": "comparing Morgan's methodology to your own",
+      "lexical_type": "academic phrase"
+    },
+    {
+      "q": 124,
+      "part": 3,
+      "n": 8,
+      "match": "dealt with separately",
+      "answer": "dealt with separately",
+      "lexical_type": "passive verb phrase"
+    },
+    {
+      "q": 125,
+      "part": 4,
+      "n": 1,
+      "match": "naturally occurring materials",
+      "answer": "naturally occurring materials",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 126,
+      "part": 4,
+      "n": 2,
+      "match": "remove the excess moisture",
+      "answer": "remove the excess moisture",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 127,
+      "part": 4,
+      "n": 3,
+      "match": "treated with preservatives",
+      "answer": "treated with preservatives",
+      "lexical_type": "passive verb phrase"
+    },
+    {
+      "q": 128,
+      "part": 4,
+      "n": 4,
+      "match": "the more processing that's required",
+      "answer": "the more processing that's required",
+      "lexical_type": "comparative structure"
+    },
+    {
+      "q": 129,
+      "part": 4,
+      "n": 5,
+      "match": "effect on the environment",
+      "answer": "effect on the environment",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 130,
+      "part": 4,
+      "n": 6,
+      "match": "grain patterns",
+      "answer": "grain patterns",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 131,
+      "part": 4,
+      "n": 7,
+      "match": "mathematical formulae",
+      "answer": "mathematical formulae",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 132,
+      "part": 4,
+      "n": 8,
+      "match": "a perfect reflector",
+      "answer": "a perfect reflector",
+      "lexical_type": "noun phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "not sure what to expect",
+      "word": "not sure what to expect",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "uncertain about what is likely to happen or what conditions will be like",
+      "def": "uncertain about what is likely to happen or what conditions will be like",
+      "uzbek": "nima bo'lishini yoki qanday vaziyat bo'lishini aniq bilmaslik",
+      "uz": "nima bo'lishini yoki qanday vaziyat bo'lishini aniq bilmaslik",
+      "context": "Part 1: Volunteering at Mountain Festival",
+      "collocations": [
+        "know what to expect",
+        "unsure what to expect"
+      ],
+      "paraphrases": [
+        "uncertain about what will happen",
+        "do not know what is coming"
+      ]
+    },
+    {
+      "headword": "doesn't have much shade",
+      "word": "doesn't have much shade",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "has very little protection from direct sunlight",
+      "def": "has very little protection from direct sunlight",
+      "uzbek": "soyasi juda kam, quyoshdan pana joyi oz",
+      "uz": "soyasi juda kam, quyoshdan pana joyi oz",
+      "context": "Part 1: Volunteering at Mountain Festival",
+      "collocations": [
+        "provide shade",
+        "little shade"
+      ],
+      "paraphrases": [
+        "offers little shelter from the sun",
+        "has few shaded areas"
+      ]
+    },
+    {
+      "headword": "cash handy",
+      "word": "cash handy",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "cash kept readily available for immediate use",
+      "def": "cash kept readily available for immediate use",
+      "uzbek": "naqd pulni qo'l ostida tayyor tutish",
+      "uz": "naqd pulni qo'l ostida tayyor tutish",
+      "context": "Part 1: Volunteering at Mountain Festival",
+      "collocations": [
+        "keep cash handy",
+        "have cash available"
+      ],
+      "paraphrases": [
+        "have money ready",
+        "keep cash within easy reach"
+      ]
+    },
+    {
+      "headword": "no need to worry about security",
+      "word": "no need to worry about security",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "a reassurance that security should not be a cause for concern",
+      "def": "a reassurance that security should not be a cause for concern",
+      "uzbek": "xavfsizlik haqida tashvishlanishga hojat yo'q",
+      "uz": "xavfsizlik haqida tashvishlanishga hojat yo'q",
+      "context": "Part 1: Volunteering at Mountain Festival",
+      "collocations": [
+        "worry about security",
+        "no need to worry"
+      ],
+      "paraphrases": [
+        "security is not a concern",
+        "you can feel safe"
+      ]
+    },
+    {
+      "headword": "picks people up at certain points in the city",
+      "word": "picks people up at certain points in the city",
+      "type": "phrasal-verb chunk",
+      "lexical_type": "phrasal-verb chunk",
+      "pos": "phrasal-verb chunk",
+      "definition": "collects passengers from specified locations around the city",
+      "def": "collects passengers from specified locations around the city",
+      "uzbek": "shaharning ma'lum joylaridan odamlarni olib ketadi",
+      "uz": "shaharning ma'lum joylaridan odamlarni olib ketadi",
+      "context": "Part 1: Volunteering at Mountain Festival",
+      "collocations": [
+        "pick people up",
+        "pick-up point"
+      ],
+      "paraphrases": [
+        "collect passengers at set locations",
+        "stop at designated pick-up points"
+      ]
+    },
+    {
+      "headword": "a pass that you must carry at all times",
+      "word": "a pass that you must carry at all times",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "an identification or access pass that must remain with you throughout the event",
+      "def": "an identification or access pass that must remain with you throughout the event",
+      "uzbek": "doimo o'zingiz bilan olib yurishingiz kerak bo'lgan ruxsatnoma",
+      "uz": "doimo o'zingiz bilan olib yurishingiz kerak bo'lgan ruxsatnoma",
+      "context": "Part 1: Volunteering at Mountain Festival",
+      "collocations": [
+        "carry a pass",
+        "entry pass"
+      ],
+      "paraphrases": [
+        "keep the pass with you",
+        "carry identification throughout"
+      ]
+    },
+    {
+      "headword": "bring your own bedding",
+      "word": "bring your own bedding",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "take your personal bed linen or sleeping materials with you",
+      "def": "take your personal bed linen or sleeping materials with you",
+      "uzbek": "o'z yotoq jihozlaringizni olib kelmoq",
+      "uz": "o'z yotoq jihozlaringizni olib kelmoq",
+      "context": "Part 1: Volunteering at Mountain Festival",
+      "collocations": [
+        "bring bedding",
+        "own bedding"
+      ],
+      "paraphrases": [
+        "take your own bed linen",
+        "provide your own sleeping gear"
+      ]
+    },
+    {
+      "headword": "in the case of an emergency",
+      "word": "in the case of an emergency",
+      "type": "prepositional phrase",
+      "lexical_type": "prepositional phrase",
+      "pos": "prepositional phrase",
+      "definition": "if an emergency situation occurs",
+      "def": "if an emergency situation occurs",
+      "uzbek": "favqulodda holat yuz berganda",
+      "uz": "favqulodda holat yuz berganda",
+      "context": "Part 1: Volunteering at Mountain Festival",
+      "collocations": [
+        "in an emergency",
+        "emergency contact"
+      ],
+      "paraphrases": [
+        "if an emergency happens",
+        "in case of an emergency"
+      ]
+    },
+    {
+      "headword": "accompanied by marine biologists",
+      "word": "accompanied by marine biologists",
+      "type": "passive verb phrase",
+      "lexical_type": "passive verb phrase",
+      "pos": "passive verb phrase",
+      "definition": "traveling together with scientists who study marine organisms",
+      "def": "traveling together with scientists who study marine organisms",
+      "uzbek": "dengiz biologlari hamrohligida",
+      "uz": "dengiz biologlari hamrohligida",
+      "context": "Part 2: Bay Life Sea Trips",
+      "collocations": [
+        "accompanied by experts",
+        "marine biologist on board"
+      ],
+      "paraphrases": [
+        "joined by marine scientists",
+        "with marine biologists present"
+      ]
+    },
+    {
+      "headword": "varying sea depths",
+      "word": "varying sea depths",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "different levels of water depth in the sea",
+      "def": "different levels of water depth in the sea",
+      "uzbek": "dengizning turlicha chuqurliklari",
+      "uz": "dengizning turlicha chuqurliklari",
+      "context": "Part 2: Bay Life Sea Trips",
+      "collocations": [
+        "sea depth",
+        "varying depths"
+      ],
+      "paraphrases": [
+        "different water depths",
+        "changes in sea depth"
+      ]
+    },
+    {
+      "headword": "adverse weather conditions",
+      "word": "adverse weather conditions",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "unfavourable weather that can create difficulty or danger",
+      "def": "unfavourable weather that can create difficulty or danger",
+      "uzbek": "noqulay ob-havo sharoitlari",
+      "uz": "noqulay ob-havo sharoitlari",
+      "context": "Part 2: Bay Life Sea Trips",
+      "collocations": [
+        "adverse weather",
+        "weather conditions"
+      ],
+      "paraphrases": [
+        "bad weather conditions",
+        "unfavourable weather"
+      ]
+    },
+    {
+      "headword": "full complement of staff",
+      "word": "full complement of staff",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "the complete number of staff members required for operation",
+      "def": "the complete number of staff members required for operation",
+      "uzbek": "kerakli xodimlarning to'liq tarkibi",
+      "uz": "kerakli xodimlarning to'liq tarkibi",
+      "context": "Part 2: Bay Life Sea Trips",
+      "collocations": [
+        "full complement",
+        "staff complement"
+      ],
+      "paraphrases": [
+        "a complete staff team",
+        "all required personnel"
+      ]
+    },
+    {
+      "headword": "customized to meet your group's needs",
+      "word": "customized to meet your group's needs",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "adapted specifically to suit what a particular group requires",
+      "def": "adapted specifically to suit what a particular group requires",
+      "uzbek": "guruh ehtiyojlariga moslab o'zgartirilgan",
+      "uz": "guruh ehtiyojlariga moslab o'zgartirilgan",
+      "context": "Part 2: Bay Life Sea Trips",
+      "collocations": [
+        "customized service",
+        "meet specific needs"
+      ],
+      "paraphrases": [
+        "tailored to the group",
+        "adapted to requirements"
+      ]
+    },
+    {
+      "headword": "terms and conditions of entry",
+      "word": "terms and conditions of entry",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "the rules and requirements that apply to entering a competition or activity",
+      "def": "the rules and requirements that apply to entering a competition or activity",
+      "uzbek": "ishtirok etish shartlari va qoidalari",
+      "uz": "ishtirok etish shartlari va qoidalari",
+      "context": "Part 2: Bay Life Sea Trips",
+      "collocations": [
+        "terms and conditions",
+        "entry conditions"
+      ],
+      "paraphrases": [
+        "rules for entering",
+        "participation requirements"
+      ]
+    },
+    {
+      "headword": "eligible to take part",
+      "word": "eligible to take part",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "meeting the conditions required to participate",
+      "def": "meeting the conditions required to participate",
+      "uzbek": "ishtirok etish huquqiga ega",
+      "uz": "ishtirok etish huquqiga ega",
+      "context": "Part 2: Bay Life Sea Trips",
+      "collocations": [
+        "eligible to participate",
+        "eligible applicant"
+      ],
+      "paraphrases": [
+        "qualified to join",
+        "allowed to participate"
+      ]
+    },
+    {
+      "headword": "staple or clip your papers firmly together",
+      "word": "staple or clip your papers firmly together",
+      "type": "instructional chunk",
+      "lexical_type": "instructional chunk",
+      "pos": "instructional chunk",
+      "definition": "fasten the sheets securely so they remain together",
+      "def": "fasten the sheets securely so they remain together",
+      "uzbek": "qog'ozlarni stepler yoki qisqich bilan mahkam biriktirmoq",
+      "uz": "qog'ozlarni stepler yoki qisqich bilan mahkam biriktirmoq",
+      "context": "Part 2: Bay Life Sea Trips",
+      "collocations": [
+        "staple papers together",
+        "clip documents together"
+      ],
+      "paraphrases": [
+        "fasten the sheets securely",
+        "attach the papers firmly"
+      ]
+    },
+    {
+      "headword": "find learning new words quite a challenge",
+      "word": "find learning new words quite a challenge",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "consider learning unfamiliar vocabulary fairly difficult",
+      "def": "consider learning unfamiliar vocabulary fairly difficult",
+      "uzbek": "yangi so'zlarni o'rganishni ancha qiyin deb bilmoq",
+      "uz": "yangi so'zlarni o'rganishni ancha qiyin deb bilmoq",
+      "context": "Part 3: Dissertation on learners' vocabulary notebooks",
+      "collocations": [
+        "find something challenging",
+        "vocabulary challenge"
+      ],
+      "paraphrases": [
+        "consider vocabulary learning difficult",
+        "struggle with new words"
+      ]
+    },
+    {
+      "headword": "focus on intermediate level",
+      "word": "focus on intermediate level",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "concentrate the study on learners at the intermediate proficiency level",
+      "def": "concentrate the study on learners at the intermediate proficiency level",
+      "uzbek": "o'rta darajaga e'tibor qaratmoq",
+      "uz": "o'rta darajaga e'tibor qaratmoq",
+      "context": "Part 3: Dissertation on learners' vocabulary notebooks",
+      "collocations": [
+        "focus on a level",
+        "intermediate learners"
+      ],
+      "paraphrases": [
+        "concentrate on intermediate students",
+        "target the intermediate level"
+      ]
+    },
+    {
+      "headword": "underestimated the quantity of stuff to go through",
+      "word": "underestimated the quantity of stuff to go through",
+      "type": "lexical chunk",
+      "lexical_type": "lexical chunk",
+      "pos": "lexical chunk",
+      "definition": "judged the amount of material needing review to be smaller than it really was",
+      "def": "judged the amount of material needing review to be smaller than it really was",
+      "uzbek": "ko'rib chiqish kerak bo'lgan material hajmini kam baholamoq",
+      "uz": "ko'rib chiqish kerak bo'lgan material hajmini kam baholamoq",
+      "context": "Part 3: Dissertation on learners' vocabulary notebooks",
+      "collocations": [
+        "underestimate the workload",
+        "go through material"
+      ],
+      "paraphrases": [
+        "misjudge the amount to review",
+        "expect less material than there was"
+      ]
+    },
+    {
+      "headword": "encountering a word for the very first time",
+      "word": "encountering a word for the very first time",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "seeing or hearing a particular word for the first time",
+      "def": "seeing or hearing a particular word for the first time",
+      "uzbek": "so'zni ilk bor uchratish",
+      "uz": "so'zni ilk bor uchratish",
+      "context": "Part 3: Dissertation on learners' vocabulary notebooks",
+      "collocations": [
+        "encounter a word",
+        "first encounter"
+      ],
+      "paraphrases": [
+        "meet a word for the first time",
+        "come across an unfamiliar word"
+      ]
+    },
+    {
+      "headword": "take things at face value",
+      "word": "take things at face value",
+      "type": "idiom",
+      "lexical_type": "idiom",
+      "pos": "idiom",
+      "definition": "accept information as it appears without examining it critically",
+      "def": "accept information as it appears without examining it critically",
+      "uzbek": "ma'lumotni tanqidiy tekshirmasdan yuzaki qabul qilmoq",
+      "uz": "ma'lumotni tanqidiy tekshirmasdan yuzaki qabul qilmoq",
+      "context": "Part 3: Dissertation on learners' vocabulary notebooks",
+      "collocations": [
+        "take at face value",
+        "accept uncritically"
+      ],
+      "paraphrases": [
+        "accept without questioning",
+        "believe the surface meaning"
+      ]
+    },
+    {
+      "headword": "scrutinizing and questioning",
+      "word": "scrutinizing and questioning",
+      "type": "verb pair",
+      "lexical_type": "verb pair",
+      "pos": "verb pair",
+      "definition": "examining something very carefully and challenging its claims",
+      "def": "examining something very carefully and challenging its claims",
+      "uzbek": "sinchiklab tekshirish va savol ostiga qo'yish",
+      "uz": "sinchiklab tekshirish va savol ostiga qo'yish",
+      "context": "Part 3: Dissertation on learners' vocabulary notebooks",
+      "collocations": [
+        "scrutinize evidence",
+        "question findings"
+      ],
+      "paraphrases": [
+        "examine critically",
+        "inspect and challenge"
+      ]
+    },
+    {
+      "headword": "comparing Morgan's methodology to your own",
+      "word": "comparing Morgan's methodology to your own",
+      "type": "academic phrase",
+      "lexical_type": "academic phrase",
+      "pos": "academic phrase",
+      "definition": "examining Morgan's research method alongside the writer's own method",
+      "def": "examining Morgan's research method alongside the writer's own method",
+      "uzbek": "Morganning metodologiyasini o'z metodologiyang bilan solishtirish",
+      "uz": "Morganning metodologiyasini o'z metodologiyang bilan solishtirish",
+      "context": "Part 3: Dissertation on learners' vocabulary notebooks",
+      "collocations": [
+        "compare methodologies",
+        "research methodology"
+      ],
+      "paraphrases": [
+        "contrast Morgan’s method with yours",
+        "compare research approaches"
+      ]
+    },
+    {
+      "headword": "dealt with separately",
+      "word": "dealt with separately",
+      "type": "passive verb phrase",
+      "lexical_type": "passive verb phrase",
+      "pos": "passive verb phrase",
+      "definition": "handled or discussed as distinct individual items rather than together",
+      "def": "handled or discussed as distinct individual items rather than together",
+      "uzbek": "alohida-alohida ko'rib chiqilgan",
+      "uz": "alohida-alohida ko'rib chiqilgan",
+      "context": "Part 3: Dissertation on learners' vocabulary notebooks",
+      "collocations": [
+        "deal with separately",
+        "separate sections"
+      ],
+      "paraphrases": [
+        "treat individually",
+        "discuss one by one"
+      ]
+    },
+    {
+      "headword": "naturally occurring materials",
+      "word": "naturally occurring materials",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "materials that exist in nature rather than being manufactured",
+      "def": "materials that exist in nature rather than being manufactured",
+      "uzbek": "tabiatda tabiiy ravishda uchraydigan materiallar",
+      "uz": "tabiatda tabiiy ravishda uchraydigan materiallar",
+      "context": "Part 4: Construction Materials",
+      "collocations": [
+        "naturally occurring",
+        "natural materials"
+      ],
+      "paraphrases": [
+        "materials found in nature",
+        "non-manufactured materials"
+      ]
+    },
+    {
+      "headword": "remove the excess moisture",
+      "word": "remove the excess moisture",
+      "type": "collocation",
+      "lexical_type": "collocation",
+      "pos": "collocation",
+      "definition": "take away more water content than is needed or desirable",
+      "def": "take away more water content than is needed or desirable",
+      "uzbek": "ortiqcha namlikni chiqarib tashlamoq",
+      "uz": "ortiqcha namlikni chiqarib tashlamoq",
+      "context": "Part 4: Construction Materials",
+      "collocations": [
+        "remove moisture",
+        "excess moisture"
+      ],
+      "paraphrases": [
+        "dry out extra moisture",
+        "eliminate surplus water"
+      ]
+    },
+    {
+      "headword": "treated with preservatives",
+      "word": "treated with preservatives",
+      "type": "passive verb phrase",
+      "lexical_type": "passive verb phrase",
+      "pos": "passive verb phrase",
+      "definition": "processed with substances that protect material from decay or damage",
+      "def": "processed with substances that protect material from decay or damage",
+      "uzbek": "saqlovchi himoya moddalar bilan ishlov berilgan",
+      "uz": "saqlovchi himoya moddalar bilan ishlov berilgan",
+      "context": "Part 4: Construction Materials",
+      "collocations": [
+        "wood preservatives",
+        "treated timber"
+      ],
+      "paraphrases": [
+        "protected with preservative chemicals",
+        "preservative-treated"
+      ]
+    },
+    {
+      "headword": "the more processing that's required",
+      "word": "the more processing that's required",
+      "type": "comparative structure",
+      "lexical_type": "comparative structure",
+      "pos": "comparative structure",
+      "definition": "a comparative structure linking a greater amount of processing to another result",
+      "def": "a comparative structure linking a greater amount of processing to another result",
+      "uzbek": "qancha ko'p qayta ishlash talab qilinsa",
+      "uz": "qancha ko'p qayta ishlash talab qilinsa",
+      "context": "Part 4: Construction Materials",
+      "collocations": [
+        "processing required",
+        "require more processing"
+      ],
+      "paraphrases": [
+        "as processing requirements increase",
+        "when more treatment is needed"
+      ]
+    },
+    {
+      "headword": "effect on the environment",
+      "word": "effect on the environment",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "the impact an action or material has on the natural environment",
+      "def": "the impact an action or material has on the natural environment",
+      "uzbek": "atrof-muhitga ta'sir",
+      "uz": "atrof-muhitga ta'sir",
+      "context": "Part 4: Construction Materials",
+      "collocations": [
+        "environmental effect",
+        "impact on the environment"
+      ],
+      "paraphrases": [
+        "environmental impact",
+        "consequence for nature"
+      ]
+    },
+    {
+      "headword": "grain patterns",
+      "word": "grain patterns",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "natural lines and markings visible in wood caused by its growth structure",
+      "def": "natural lines and markings visible in wood caused by its growth structure",
+      "uzbek": "yog'ochdagi tabiiy tolalar va naqshlar",
+      "uz": "yog'ochdagi tabiiy tolalar va naqshlar",
+      "context": "Part 4: Construction Materials",
+      "collocations": [
+        "wood grain",
+        "grain pattern"
+      ],
+      "paraphrases": [
+        "natural wood markings",
+        "patterns in timber"
+      ]
+    },
+    {
+      "headword": "mathematical formulae",
+      "word": "mathematical formulae",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "symbolic mathematical expressions used to describe relationships precisely",
+      "def": "symbolic mathematical expressions used to describe relationships precisely",
+      "uzbek": "matematik formulalar",
+      "uz": "matematik formulalar",
+      "context": "Part 4: Construction Materials",
+      "collocations": [
+        "use a formula",
+        "mathematical expression"
+      ],
+      "paraphrases": [
+        "mathematical equations or expressions",
+        "formal calculations"
+      ]
+    },
+    {
+      "headword": "a perfect reflector",
+      "word": "a perfect reflector",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "a surface that reflects all incident light in the ideal theoretical case",
+      "def": "a surface that reflects all incident light in the ideal theoretical case",
+      "uzbek": "yorug'likni ideal holda to'liq qaytaruvchi sirt",
+      "uz": "yorug'likni ideal holda to'liq qaytaruvchi sirt",
+      "context": "Part 4: Construction Materials",
+      "collocations": [
+        "perfect reflector",
+        "reflect light"
+      ],
+      "paraphrases": [
+        "an ideal reflecting surface",
+        "a surface with complete reflection"
+      ]
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "MCQ",
+    "12": "MCQ",
+    "13": "MCQ",
+    "14": "MCQ",
+    "15": "MCQ",
+    "16": "Matching",
+    "17": "Matching",
+    "18": "Matching",
+    "19": "Matching",
+    "20": "Matching",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "MCQ",
+    "26": "MCQ",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    [
+      "exam",
+      "01",
+      "Full IELTS Test",
+      "Q1-Q40 in a timed exam with embedded audio, FLAG and notes."
+    ],
+    [
+      "review",
+      "02",
+      "Review & Revision",
+      "Redo each Part and inspect answers/evidence after checking."
+    ],
+    [
+      "script",
+      "03",
+      "Script Completion",
+      "Complete full source-provided Part 1-4 transcripts with 8 strategic lexical gaps each."
+    ],
+    [
+      "mcq",
+      "04",
+      "MCQ Mastery",
+      "Practise Q11-Q15 and Q21-Q26 single-answer multiple-choice questions."
+    ],
+    [
+      "matching",
+      "05",
+      "Matching Mastery",
+      "Practise Q16-Q20 competition flow matching and Q27-Q30 dissertation actions."
+    ],
+    [
+      "completion",
+      "06",
+      "Completion Mastery",
+      "Practise Q1-Q10 and Q31-Q40 completion questions."
+    ],
+    [
+      "vocab",
+      "07",
+      "Vocabulary Builder",
+      "Learn 32 high-value expressions from all four transcripts."
+    ],
+    [
+      "retry",
+      "08",
+      "Retry Weak Areas",
+      "Retry missed or unanswered questions."
+    ]
+  ]
+}

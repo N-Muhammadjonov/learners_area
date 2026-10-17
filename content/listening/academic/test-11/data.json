@@ -1,0 +1,1714 @@
+{
+  "test_id": "listening-test-11",
+  "title": "Listening Test 11",
+  "sections": [
+    "Information about School Registration",
+    "Brightwater Adventure Park",
+    "Changing course",
+    "Translating ancient Mayan"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "School: ____ Heights Elementary School",
+      "answer": "Monterey",
+      "evidence": "M-O-N-T-E-R-E-Y. Monterey Heights Elementary.",
+      "timeStart": 121.092,
+      "timeEnd": 141.092,
+      "timeCenter": 131.092,
+      "why": "The transcript evidence contains the required answer: Monterey.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Can pick up packet from the school ____ any afternoon up to 5.00",
+      "answer": "Library",
+      "evidence": "you can pick up a packet in the school library any day before 5:00",
+      "timeStart": 169.175,
+      "timeEnd": 189.175,
+      "timeCenter": 179.175,
+      "why": "The transcript evidence contains the required answer: Library.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Health forms from doctor and ____",
+      "answer": "Dentist",
+      "evidence": "a form filled out by the dentist",
+      "timeStart": 194.25,
+      "timeEnd": 214.25,
+      "timeCenter": 204.25,
+      "why": "The transcript evidence contains the required answer: Dentist.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Childcare: No ____ is provided",
+      "answer": "Transportation",
+      "evidence": "Do you provide transportation after school?\n\nNo, unfortunately we don't.",
+      "timeStart": 221.877,
+      "timeEnd": 241.877,
+      "timeCenter": 231.877,
+      "why": "The transcript evidence contains the required answer: Transportation.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "There is on-site licensed daycare for working ____",
+      "answer": "Parents",
+      "evidence": "an on-site licensed daycare for working parents",
+      "timeStart": 233.447,
+      "timeEnd": 253.447,
+      "timeCenter": 243.447,
+      "why": "The transcript evidence contains the required answer: Parents.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "This is organised by the City ____ Council",
+      "answer": "Youth",
+      "evidence": "It's run by the City Youth Council",
+      "timeStart": 253.375,
+      "timeEnd": 273.375,
+      "timeCenter": 263.375,
+      "why": "The transcript evidence contains the required answer: Youth.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Orientation: Open house in July - details provided through the ____ and on the school's website",
+      "answer": "Mail",
+      "evidence": "you'll get all that information in the mail",
+      "timeStart": 296.618,
+      "timeEnd": 316.618,
+      "timeCenter": 306.618,
+      "why": "The transcript evidence contains the required answer: Mail.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Will tour the school, meet the ____ and schedule entrance testing",
+      "answer": "Teacher",
+      "evidence": "meet our child's teacher",
+      "timeStart": 308.012,
+      "timeEnd": 328.012,
+      "timeCenter": 318.012,
+      "why": "The transcript evidence contains the required answer: Teacher.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Schedule: First day of school will be on ____",
+      "answer": "August 19",
+      "evidence": "The first day will be August 19th",
+      "timeStart": 332.428,
+      "timeEnd": 352.428,
+      "timeCenter": 342.428,
+      "why": "The transcript evidence contains the required answer: August 19.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Regular schedule is 8.00 to ____",
+      "answer": "2:05",
+      "evidence": "the regular schedule 8:00 to 2:05 will be in force",
+      "timeStart": 351.388,
+      "timeEnd": 371.388,
+      "timeCenter": 361.388,
+      "why": "The transcript evidence contains the required answer: 2.05.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "Toilets with baby changing facilities",
+      "answer": "F",
+      "evidence": "Follow the path that goes round to the west of that, keep going until you come to the swimming pool, and they're just after that on your left.",
+      "timeStart": 481.289,
+      "timeEnd": 501.289,
+      "timeCenter": 491.289,
+      "why": "The spoken location clues place this facility at map location F.",
+      "trap": "Track the route and relative position carefully; nearby landmarks can create location distractors.",
+      "mistakeType": "Map / location tracking",
+      "paraphrase": "The spoken directions must be converted into a position on the plan.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A"
+        },
+        {
+          "code": "B",
+          "text": "Location B"
+        },
+        {
+          "code": "C",
+          "text": "Location C"
+        },
+        {
+          "code": "D",
+          "text": "Location D"
+        },
+        {
+          "code": "E",
+          "text": "Location E"
+        },
+        {
+          "code": "F",
+          "text": "Location F"
+        },
+        {
+          "code": "G",
+          "text": "Location G"
+        },
+        {
+          "code": "H",
+          "text": "Location H"
+        },
+        {
+          "code": "I",
+          "text": "Location I"
+        }
+      ],
+      "type": "Map / Plan"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "Ice-cream shop",
+      "answer": "B",
+      "evidence": "follow the path that's lined with trees and you come to a sharp right bend. The shop's on the corner just before the train track crosses the path.",
+      "timeStart": 510.088,
+      "timeEnd": 530.088,
+      "timeCenter": 520.088,
+      "why": "The spoken location clues place this facility at map location B.",
+      "trap": "Track the route and relative position carefully; nearby landmarks can create location distractors.",
+      "mistakeType": "Map / location tracking",
+      "paraphrase": "The spoken directions must be converted into a position on the plan.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A"
+        },
+        {
+          "code": "B",
+          "text": "Location B"
+        },
+        {
+          "code": "C",
+          "text": "Location C"
+        },
+        {
+          "code": "D",
+          "text": "Location D"
+        },
+        {
+          "code": "E",
+          "text": "Location E"
+        },
+        {
+          "code": "F",
+          "text": "Location F"
+        },
+        {
+          "code": "G",
+          "text": "Location G"
+        },
+        {
+          "code": "H",
+          "text": "Location H"
+        },
+        {
+          "code": "I",
+          "text": "Location I"
+        }
+      ],
+      "type": "Map / Plan"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Gift shop",
+      "answer": "I",
+      "evidence": "There are some shops there, and it's the last one you come to on that road. In fact, as you see, that road's a dead end.",
+      "timeStart": 538.386,
+      "timeEnd": 558.386,
+      "timeCenter": 548.386,
+      "why": "The spoken location clues place this facility at map location I.",
+      "trap": "Track the route and relative position carefully; nearby landmarks can create location distractors.",
+      "mistakeType": "Map / location tracking",
+      "paraphrase": "The spoken directions must be converted into a position on the plan.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A"
+        },
+        {
+          "code": "B",
+          "text": "Location B"
+        },
+        {
+          "code": "C",
+          "text": "Location C"
+        },
+        {
+          "code": "D",
+          "text": "Location D"
+        },
+        {
+          "code": "E",
+          "text": "Location E"
+        },
+        {
+          "code": "F",
+          "text": "Location F"
+        },
+        {
+          "code": "G",
+          "text": "Location G"
+        },
+        {
+          "code": "H",
+          "text": "Location H"
+        },
+        {
+          "code": "I",
+          "text": "Location I"
+        }
+      ],
+      "type": "Map / Plan"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Film theatre",
+      "answer": "D",
+      "evidence": "the film theatre's right next to the track, just inside the Mega Adventure Zone",
+      "timeStart": 566.633,
+      "timeEnd": 586.633,
+      "timeCenter": 576.633,
+      "why": "The spoken location clues place this facility at map location D.",
+      "trap": "Track the route and relative position carefully; nearby landmarks can create location distractors.",
+      "mistakeType": "Map / location tracking",
+      "paraphrase": "The spoken directions must be converted into a position on the plan.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Location A"
+        },
+        {
+          "code": "B",
+          "text": "Location B"
+        },
+        {
+          "code": "C",
+          "text": "Location C"
+        },
+        {
+          "code": "D",
+          "text": "Location D"
+        },
+        {
+          "code": "E",
+          "text": "Location E"
+        },
+        {
+          "code": "F",
+          "text": "Location F"
+        },
+        {
+          "code": "G",
+          "text": "Location G"
+        },
+        {
+          "code": "H",
+          "text": "Location H"
+        },
+        {
+          "code": "I",
+          "text": "Location I"
+        }
+      ],
+      "type": "Map / Plan"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "On the 'Flying Tigers' ride, children have to be",
+      "answer": "A",
+      "evidence": "we wanted rides for children who are over 1.1 metres, so Flying Tigers is for them",
+      "timeStart": 606.722,
+      "timeEnd": 626.722,
+      "timeCenter": 616.722,
+      "why": "The evidence matches option A and rules out the alternatives.",
+      "trap": "Listen for the final meaning rather than choosing an option only because one keyword is repeated.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "The recording paraphrases the correct option rather than necessarily repeating its wording.",
+      "options": [
+        {
+          "code": "A",
+          "text": "over 1.1 metres tall."
+        },
+        {
+          "code": "B",
+          "text": "over 1.3 metres tall."
+        },
+        {
+          "code": "C",
+          "text": "over 1.5 metres tall."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Visitors should be warned that the Hidden Cove ride involves",
+      "answer": "A",
+      "evidence": "after about 3 minutes it suddenly goes dark",
+      "timeStart": 621.623,
+      "timeEnd": 641.623,
+      "timeCenter": 631.623,
+      "why": "The evidence matches option A and rules out the alternatives.",
+      "trap": "Listen for the final meaning rather than choosing an option only because one keyword is repeated.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "The recording paraphrases the correct option rather than necessarily repeating its wording.",
+      "options": [
+        {
+          "code": "A",
+          "text": "being in darkness."
+        },
+        {
+          "code": "B",
+          "text": "going underground."
+        },
+        {
+          "code": "C",
+          "text": "getting slightly wet."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "The speaker recommends the picnic area for families because",
+      "answer": "C",
+      "evidence": "There's a clown there between 11 and 2 — he or she keeps the kids amused with jokes and stories.",
+      "timeStart": 667.833,
+      "timeEnd": 687.833,
+      "timeCenter": 677.833,
+      "why": "The evidence matches option C and rules out the alternatives.",
+      "trap": "Listen for the final meaning rather than choosing an option only because one keyword is repeated.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "The recording paraphrases the correct option rather than necessarily repeating its wording.",
+      "options": [
+        {
+          "code": "A",
+          "text": "there is plenty of space for children to run around."
+        },
+        {
+          "code": "B",
+          "text": "it has a children's playground."
+        },
+        {
+          "code": "C",
+          "text": "children's entertainment is provided there."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "What change to this Saturday night's programme has been made?",
+      "answer": "A",
+      "evidence": "The barbecue won't finish until 9:00, so we're going to start the fireworks then instead of 8:00.",
+      "timeStart": 685.042,
+      "timeEnd": 705.042,
+      "timeCenter": 695.042,
+      "why": "The evidence matches option A and rules out the alternatives.",
+      "trap": "Listen for the final meaning rather than choosing an option only because one keyword is repeated.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "The recording paraphrases the correct option rather than necessarily repeating its wording.",
+      "options": [
+        {
+          "code": "A",
+          "text": "The fireworks will start one hour later."
+        },
+        {
+          "code": "B",
+          "text": "The barbecue will be by the forest."
+        },
+        {
+          "code": "C",
+          "text": "The live band will play rock music."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "This month, as a special deal, visitors can get",
+      "answer": "B",
+      "evidence": "if they come back next month they'll be able to get a photo of themselves at the park completely free",
+      "timeStart": 723.475,
+      "timeEnd": 743.475,
+      "timeCenter": 733.475,
+      "why": "The evidence matches option B and rules out the alternatives.",
+      "trap": "Listen for the final meaning rather than choosing an option only because one keyword is repeated.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "The recording paraphrases the correct option rather than necessarily repeating its wording.",
+      "options": [
+        {
+          "code": "A",
+          "text": "two photos for the price of one."
+        },
+        {
+          "code": "B",
+          "text": "a discount on tickets for future visits."
+        },
+        {
+          "code": "C",
+          "text": "a free soft drink when they buy lunch."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "The supervisor advises new employees to carry",
+      "answer": "C",
+      "evidence": "please keep a copy of the Adventure Park rules on you",
+      "timeStart": 748.16,
+      "timeEnd": 768.16,
+      "timeCenter": 758.16,
+      "why": "The evidence matches option C and rules out the alternatives.",
+      "trap": "Listen for the final meaning rather than choosing an option only because one keyword is repeated.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "The recording paraphrases the correct option rather than necessarily repeating its wording.",
+      "options": [
+        {
+          "code": "A",
+          "text": "bus timetables."
+        },
+        {
+          "code": "B",
+          "text": "maps of the park."
+        },
+        {
+          "code": "C",
+          "text": "the park rules."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Why does Katie say she will continue attending lectures on her present course?",
+      "answer": "A",
+      "evidence": "if I do them till the end of the module — it's only 2 weeks, you know — then at least I can get the credits",
+      "timeStart": 886.874,
+      "timeEnd": 906.874,
+      "timeCenter": 896.874,
+      "why": "The evidence matches option A and rules out the alternatives.",
+      "trap": "Listen for the final meaning rather than choosing an option only because one keyword is repeated.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "The recording paraphrases the correct option rather than necessarily repeating its wording.",
+      "options": [
+        {
+          "code": "A",
+          "text": "to gain credits for part of the course"
+        },
+        {
+          "code": "B",
+          "text": "to get a good reference from her tutor"
+        },
+        {
+          "code": "C",
+          "text": "to see if she changes her mind about her decision"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Why is Katie going to speak to her family?",
+      "answer": "C",
+      "evidence": "it's out of respect for my parents, because they're funding me",
+      "timeStart": 932.416,
+      "timeEnd": 952.416,
+      "timeCenter": 942.416,
+      "why": "The evidence matches option C and rules out the alternatives.",
+      "trap": "Listen for the final meaning rather than choosing an option only because one keyword is repeated.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "The recording paraphrases the correct option rather than necessarily repeating its wording.",
+      "options": [
+        {
+          "code": "A",
+          "text": "because they can give her good advice"
+        },
+        {
+          "code": "B",
+          "text": "because they may disapprove of her decision"
+        },
+        {
+          "code": "C",
+          "text": "because they are paying for the course"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "What does Stefan say about the Sports Education course?",
+      "answer": "A",
+      "evidence": "it's highly regarded, so you know you'd get the best training",
+      "timeStart": 968.056,
+      "timeEnd": 988.056,
+      "timeCenter": 978.056,
+      "why": "The evidence matches option A and rules out the alternatives.",
+      "trap": "Listen for the final meaning rather than choosing an option only because one keyword is repeated.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "The recording paraphrases the correct option rather than necessarily repeating its wording.",
+      "options": [
+        {
+          "code": "A",
+          "text": "It has a very good reputation."
+        },
+        {
+          "code": "B",
+          "text": "It would be easy to get a job afterwards."
+        },
+        {
+          "code": "C",
+          "text": "Katie would enjoy it more."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "What problem does Katie agree to consider?",
+      "answer": "B",
+      "evidence": "they've covered a lot of ground that you'll find it hard to catch up with",
+      "timeStart": 1010.483,
+      "timeEnd": 1030.483,
+      "timeCenter": 1020.483,
+      "why": "The evidence matches option B and rules out the alternatives.",
+      "trap": "Listen for the final meaning rather than choosing an option only because one keyword is repeated.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "The recording paraphrases the correct option rather than necessarily repeating its wording.",
+      "options": [
+        {
+          "code": "A",
+          "text": "the extra financial support required"
+        },
+        {
+          "code": "B",
+          "text": "the amount of missed work to make up"
+        },
+        {
+          "code": "C",
+          "text": "the extra travelling that could be involved"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Katie has now decided that degrees",
+      "answer": "A",
+      "evidence": "you need to like what you're doing if you're to get anything real out of the experience",
+      "timeStart": 1039.763,
+      "timeEnd": 1059.763,
+      "timeCenter": 1049.763,
+      "why": "The evidence matches option A and rules out the alternatives.",
+      "trap": "Listen for the final meaning rather than choosing an option only because one keyword is repeated.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "The recording paraphrases the correct option rather than necessarily repeating its wording.",
+      "options": [
+        {
+          "code": "A",
+          "text": "are only useful if you enjoy what you study."
+        },
+        {
+          "code": "B",
+          "text": "are a means to getting a better job."
+        },
+        {
+          "code": "C",
+          "text": "contain too little practical experience."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Speak to the ____ about requirements for the new course",
+      "answer": "F",
+      "evidence": "ask the tutor in that department",
+      "timeStart": 1059.866,
+      "timeEnd": 1079.866,
+      "timeCenter": 1069.866,
+      "why": "The process description assigns this step to option F.",
+      "trap": "Follow the sequence of actions and the organisation/person responsible for each step.",
+      "mistakeType": "Matching / sequence tracking",
+      "paraphrase": "The spoken process must be matched to the correct organisation or person.",
+      "options": [
+        {
+          "code": "A",
+          "text": "administration office"
+        },
+        {
+          "code": "B",
+          "text": "finance department"
+        },
+        {
+          "code": "C",
+          "text": "hall of residence"
+        },
+        {
+          "code": "D",
+          "text": "head of department"
+        },
+        {
+          "code": "E",
+          "text": "library"
+        },
+        {
+          "code": "F",
+          "text": "tutor"
+        },
+        {
+          "code": "G",
+          "text": "welfare advisor"
+        }
+      ],
+      "type": "Matching"
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "give the ____ a date for the change",
+      "answer": "A",
+      "evidence": "let the administration office know when you'll be moving",
+      "timeStart": 1073.269,
+      "timeEnd": 1093.269,
+      "timeCenter": 1083.269,
+      "why": "The process description assigns this step to option A.",
+      "trap": "Follow the sequence of actions and the organisation/person responsible for each step.",
+      "mistakeType": "Matching / sequence tracking",
+      "paraphrase": "The spoken process must be matched to the correct organisation or person.",
+      "options": [
+        {
+          "code": "A",
+          "text": "administration office"
+        },
+        {
+          "code": "B",
+          "text": "finance department"
+        },
+        {
+          "code": "C",
+          "text": "hall of residence"
+        },
+        {
+          "code": "D",
+          "text": "head of department"
+        },
+        {
+          "code": "E",
+          "text": "library"
+        },
+        {
+          "code": "F",
+          "text": "tutor"
+        },
+        {
+          "code": "G",
+          "text": "welfare advisor"
+        }
+      ],
+      "type": "Matching"
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "email the ____",
+      "answer": "B",
+      "evidence": "you must let finance know. You can just send them a quick email",
+      "timeStart": 1094.567,
+      "timeEnd": 1114.567,
+      "timeCenter": 1104.567,
+      "why": "The process description assigns this step to option B.",
+      "trap": "Follow the sequence of actions and the organisation/person responsible for each step.",
+      "mistakeType": "Matching / sequence tracking",
+      "paraphrase": "The spoken process must be matched to the correct organisation or person.",
+      "options": [
+        {
+          "code": "A",
+          "text": "administration office"
+        },
+        {
+          "code": "B",
+          "text": "finance department"
+        },
+        {
+          "code": "C",
+          "text": "hall of residence"
+        },
+        {
+          "code": "D",
+          "text": "head of department"
+        },
+        {
+          "code": "E",
+          "text": "library"
+        },
+        {
+          "code": "F",
+          "text": "tutor"
+        },
+        {
+          "code": "G",
+          "text": "welfare advisor"
+        }
+      ],
+      "type": "Matching"
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "get the ____ to change their data",
+      "answer": "E",
+      "evidence": "departmental information that the library has about you will be wrong",
+      "timeStart": 1101.909,
+      "timeEnd": 1121.909,
+      "timeCenter": 1111.909,
+      "why": "The process description assigns this step to option E.",
+      "trap": "Follow the sequence of actions and the organisation/person responsible for each step.",
+      "mistakeType": "Matching / sequence tracking",
+      "paraphrase": "The spoken process must be matched to the correct organisation or person.",
+      "options": [
+        {
+          "code": "A",
+          "text": "administration office"
+        },
+        {
+          "code": "B",
+          "text": "finance department"
+        },
+        {
+          "code": "C",
+          "text": "hall of residence"
+        },
+        {
+          "code": "D",
+          "text": "head of department"
+        },
+        {
+          "code": "E",
+          "text": "library"
+        },
+        {
+          "code": "F",
+          "text": "tutor"
+        },
+        {
+          "code": "G",
+          "text": "welfare advisor"
+        }
+      ],
+      "type": "Matching"
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "notify the ____",
+      "answer": "C",
+      "evidence": "the Hall of Residence needs to know as well",
+      "timeStart": 1119.579,
+      "timeEnd": 1135.0,
+      "timeCenter": 1129.579,
+      "why": "The process description assigns this step to option C.",
+      "trap": "Follow the sequence of actions and the organisation/person responsible for each step.",
+      "mistakeType": "Matching / sequence tracking",
+      "paraphrase": "The spoken process must be matched to the correct organisation or person.",
+      "options": [
+        {
+          "code": "A",
+          "text": "administration office"
+        },
+        {
+          "code": "B",
+          "text": "finance department"
+        },
+        {
+          "code": "C",
+          "text": "hall of residence"
+        },
+        {
+          "code": "D",
+          "text": "head of department"
+        },
+        {
+          "code": "E",
+          "text": "library"
+        },
+        {
+          "code": "F",
+          "text": "tutor"
+        },
+        {
+          "code": "G",
+          "text": "welfare advisor"
+        }
+      ],
+      "type": "Matching"
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "They thought it represented a ____ to their control.",
+      "answer": "Threat",
+      "evidence": "could be a threat to the dominance of the Spanish language",
+      "timeStart": 1257.263,
+      "timeEnd": 1277.263,
+      "timeCenter": 1267.263,
+      "why": "The transcript evidence contains the required answer: Threat.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "They identified some numbers and sections of the text relating to ____",
+      "answer": "Astronomy",
+      "evidence": "some parts of the text which seemed to be on the subject of astronomy",
+      "timeStart": 1307.289,
+      "timeEnd": 1327.289,
+      "timeCenter": 1317.289,
+      "why": "The transcript evidence contains the required answer: Astronomy.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Heinrich Berlin found that certain 'glyphs' in the writing referred to some well-known ____ in the Mayan Empire.",
+      "answer": "Cities",
+      "evidence": "these glyphs in fact represented famous cities",
+      "timeStart": 1344.329,
+      "timeEnd": 1364.329,
+      "timeCenter": 1354.329,
+      "why": "The transcript evidence contains the required answer: Cities.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Yuri Knorozov found that some 'glyphs' referred to a ____ rather than a word.",
+      "answer": "Sound",
+      "evidence": "they stood for a sound, not just a single word",
+      "timeStart": 1396.667,
+      "timeEnd": 1416.667,
+      "timeCenter": 1406.667,
+      "why": "The transcript evidence contains the required answer: Sound.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Young academics immersed themselves in present-day Mayan art, ____ and religion.",
+      "answer": "Culture",
+      "evidence": "a greater appreciation of the culture of the Mayans",
+      "timeStart": 1446.3,
+      "timeEnd": 1466.3,
+      "timeCenter": 1456.3,
+      "why": "The transcript evidence contains the required answer: Culture.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "They found many of the manuscripts described the success of Mayan kings in ____",
+      "answer": "Wars",
+      "evidence": "manuscripts described successes when kings fought wars with one another",
+      "timeStart": 1479.159,
+      "timeEnd": 1499.159,
+      "timeCenter": 1489.159,
+      "why": "The transcript evidence contains the required answer: Wars.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Academics had to learn the ____ of each writer.",
+      "answer": "Style",
+      "evidence": "got familiar with the style used by a particular Mayan writer",
+      "timeStart": 1508.968,
+      "timeEnd": 1528.968,
+      "timeCenter": 1518.968,
+      "why": "The transcript evidence contains the required answer: Style.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "In 2003, David Stuart created a ____ that developed into a project for translating Mayan texts.",
+      "answer": "Blog",
+      "evidence": "he started a blog that evolved into what is now the Maya Decipherment Project",
+      "timeStart": 1546.057,
+      "timeEnd": 1566.057,
+      "timeCenter": 1556.057,
+      "why": "The transcript evidence contains the required answer: Blog.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Now, feedback on translations can be provided with great ____ by translators around the world.",
+      "answer": "Speed",
+      "evidence": "Comments can be posted from anywhere in the world at high speed",
+      "timeStart": 1566.029,
+      "timeEnd": 1586.029,
+      "timeCenter": 1576.029,
+      "why": "The transcript evidence contains the required answer: Speed.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "This led to new understanding - previously Mayans were believed to be only interested in ____",
+      "answer": "Ceremony",
+      "evidence": "Mayans were not necessarily peaceful people who were wholly preoccupied with ceremony",
+      "timeStart": 1604.987,
+      "timeEnd": 1624.987,
+      "timeCenter": 1614.987,
+      "why": "The transcript evidence contains the required answer: Ceremony.",
+      "trap": "Respect the stated word limit and preserve the exact word, date, number or spelling heard.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "The note prompt is completed by the exact detail heard in the recording.",
+      "options": [],
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "Monterey",
+    "2": "Library",
+    "3": "Dentist",
+    "4": "Transportation",
+    "5": "Parents",
+    "6": "Youth",
+    "7": "Mail",
+    "8": "Teacher",
+    "9": "August 19",
+    "10": "2:05",
+    "11": "F",
+    "12": "B",
+    "13": "I",
+    "14": "D",
+    "15": "A",
+    "16": "A",
+    "17": "C",
+    "18": "A",
+    "19": "B",
+    "20": "C",
+    "21": "A",
+    "22": "C",
+    "23": "A",
+    "24": "B",
+    "25": "A",
+    "26": "F",
+    "27": "A",
+    "28": "B",
+    "29": "E",
+    "30": "C",
+    "31": "Threat",
+    "32": "Astronomy",
+    "33": "Cities",
+    "34": "Sound",
+    "35": "Culture",
+    "36": "Wars",
+    "37": "Style",
+    "38": "Blog",
+    "39": "Speed",
+    "40": "Ceremony"
+  },
+  "alternatives": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": [],
+    "6": [],
+    "7": [],
+    "8": [],
+    "9": [
+      "19 August",
+      "August 19th",
+      "19th August"
+    ],
+    "10": [
+      "2.05",
+      "2:05",
+      "2.05 pm",
+      "2:05 pm"
+    ],
+    "11": [],
+    "12": [],
+    "13": [],
+    "14": [],
+    "15": [],
+    "16": [],
+    "17": [],
+    "18": [],
+    "19": [],
+    "20": [],
+    "21": [],
+    "22": [],
+    "23": [],
+    "24": [],
+    "25": [],
+    "26": [],
+    "27": [],
+    "28": [],
+    "29": [],
+    "30": [],
+    "31": [],
+    "32": [],
+    "33": [],
+    "34": [],
+    "35": [],
+    "36": [],
+    "37": [],
+    "38": [],
+    "39": [],
+    "40": []
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 90.4,
+      "end": 381.8
+    },
+    "2": {
+      "start": 436.7,
+      "end": 784.1
+    },
+    "3": {
+      "start": 859.1,
+      "end": 1135.0
+    },
+    "4": {
+      "start": 1222.5,
+      "end": 1647.6
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Embedded canonical source recording, transcoded to 80 kbps MP3 for the standalone package.",
+  "transcript": {
+    "1": "Good afternoon, Lemon Grove School District, on school registration.\n\nI think my son should attend one of the schools in your district.\n\nWhat grade will your son be entering?\n\nHe just turned five, he'll be starting school this year.\n\nOh okay, one moment please. I'll get the information for kindergarten registration.\n\nOkay, thank you.\n\nCan you give me your address?\n\nYes, it's 7418 Monterey Street.\n\nCan you spell that, please?\n\nYes, it's M-O-N-T-E-R-E-Y. Monterey Heights Elementary. So how do I register him?\n\nWe have registration at each school site Monday through Thursday from 9:00 to — oh no, sorry — 1:30. You'll need to pick up a kindergarten registration packet from the school beforehand, though. It has all the forms you'll need to fill out.\n\nCan I pick up the packet anytime?\n\nSure, the school office is usually open till 3:30 in the afternoon.\n\nOh no, I can't really get there that early.\n\nWell, the school has late office hours until 4 on Thursdays, or I think you can pick up a packet in the school library any day before 5:00.\n\nOh okay, I'll stop by there someday this week then before 5:00. Can you tell me what forms we'll need?\n\nI'm sure you need his immunisation records. Yes, those, and we also need a general health history signed by your child's doctor, a form filled out by the dentist, emergency contact information, and a residency verification form with proof of residence, and an original birth certificate.\n\nOkay, that shouldn't be a problem. Can I ask one more question?\n\nSure, go ahead.\n\nI was wondering about before and after school care. Do you provide transportation after school?\n\nNo, unfortunately we don't. Parents or caregivers need to pick up the children. There is, however, an on-site licensed daycare for working parents who need after school care for their children. It's housed within the school grounds, and someone from the daycare will walk to the main school building to pick up your child each day. It's run by the City Youth Council and comes highly recommended.\n\nCan I get information about that as well?\n\nYes, flyers and contact information will be included with your packet.\n\nOkay, thank you. Was it August 3rd?\n\nThat must have been last year's flyer. We haven't put out information on this year's open house yet, but it'll probably be sometime in August. I know — actually, it will be in July this year since school started a little early this year. Once your child is registered, you'll get all that information in the mail, and it'll be on the school website as well.\n\nGreat, I'm assuming that during the open house I meet our child's teacher?\n\nYes, and you will set up a time for kindergarten entrance testing as well.\n\nWow, what?\n\nWe want to make sure children are properly placed and qualified for special services if necessary.\n\nOkay, I guess that makes sense. The first day of school?\n\nThe first day will be August 19th. We started in the middle of the week to help with the adjustment, and for kindergarteners the first three days are half days from 8 to 12:30.\n\nOkay, and then the next week the regular schedule 8:00 to 2:05 will be in force?\n\nYes, and you can access the full school calendar of holidays and breaks on the school website.\n\nOh yeah, I've seen that. The website is very helpful. Thank you so much for your time.\n\nYou're welcome, sir.",
+    "2": "Hello everyone. Welcome to this information talk to help you during your first few weeks working at Brightwater Adventure Park.\n\nFirst, I'd like to give you this map of the site. It's important that you look round the whole site as soon as possible so that you can answer visitors' questions. I'll point out some of the main facilities now.\n\nFamilies often ask where the toilets that have baby changing facilities are. Well, you see the big lake in the centre of the site? Follow the path that goes round to the west of that, keep going until you come to the swimming pool, and they're just after that on your left.\n\nOkay, if it's a really hot day people buy lots of ice creams. There's an ice cream shop way over to the north of the site. From the station, follow the path that's lined with trees and you come to a sharp right bend. The shop's on the corner just before the train track crosses the path.\n\nMost people want to get a present to take home and will ask you where the gift shop is. You see the area called Young Fun, and the road that's on? There are some shops there, and it's the last one you come to on that road. In fact, as you see, that road's a dead end.\n\nIf people want to rest, recommend the film theatre. Let me point out where that is. See the central lake, and you can see that the railway track runs very close to the lake. Okay, the film theatre's right next to the track, just inside the Mega Adventure Zone. They show different films all day there on the three screens.\n\nNow, some important information about rides. As you probably know, we've got a new ride called Flying Tigers. We already had lots of rides for older children — children taller than 1.5 metres — and we've got quite a few for children over 1.3 metres, but we wanted rides for children who are over 1.1 metres, so Flying Tigers is for them. It's really exciting.\n\nMake sure you tell anyone going on the Hidden Cove ride that after about 3 minutes it suddenly goes dark. That can be scary if you're not expecting it. We want visitors to feel as if they're exploring deep underground. There's no water splash on that ride though, so getting wet's not an issue.\n\nIf families want to have lunch, recommend the picnic area. It's nice and relaxing if the children have been running around all morning and they've used up lots of energy on the rides and play areas. There's a clown there between 11 and 2 — he or she keeps the kids amused with jokes and stories.\n\nI'd like to tell you about a change to the programme for Saturday night. The barbecue won't finish until 9:00, so we're going to start the fireworks then instead of 8:00. Then there's a rock band that's very popular with teenagers. They'll play on the stage near the lake, not the one by the forest.\n\nWe've got some special deals this month, so tell visitors that if they buy two soft drinks they get a third one for free, tickets for another visit, and if they come back next month they'll be able to get a photo of themselves at the park completely free.\n\nNow, just a small piece of advice to all you new employees. To make sure you know where everything is, there are maps on boards on the paths so that'll help. Oh, and please keep a copy of the Adventure Park rules on you so that if you see someone doing something that you think is dangerous or not acceptable, you can check. For example, some people want buses to wait for them if a family member's late, but the buses have to keep to their timetable.",
+    "3": "Stefan: I heard you wanted to change your course. Are you not happy on the sports science course you're doing?\n\nKatie: I think I'm more interested in the sports education course. I haven't quite made up my mind yet, but I'm pretty certain.\n\nStefan: So what are you going to do? Are you still coming to lectures?\n\nKatie: Yes, I think I should. I'm sure it won't affect my decision now, but if I do them till the end of the module — it's only 2 weeks, you know — then at least I can get the credits. And I asked Dr Lang, my tutor, about it and he said he would give me a reference for a different course if I needed one.\n\nStefan: I know it's a big decision.\n\nKatie: But I'm not too worried, because I'm going to talk to my family about it before I change.\n\nStefan: That's a good idea.\n\nKatie: Yes, I just feel like I should. They know me really well, so they will understand my decision to drop sports science and won't try to change my mind. And it's out of respect for my parents, because they're funding me, and they wouldn't be very happy if they thought I had taken them for granted.\n\nStefan: Yes, but the sports education course — it's more focused, so surely they'd be happy.\n\nKatie: I know it would suit me, as I want to squash more sports practice in.\n\nStefan: And you'd still have to actually find a job afterwards — that's not always easy. But certainly it's highly regarded, so you know you'd get the best training.\n\nKatie: Yes, I know it's more academic, which I may struggle with, but I think I'd get more out of teaching than something like administration work.\n\nStefan: Yes, it sounds as if you've made up your mind. But I have to say, I found changing my course brought some practical problems. For example, I had to get extra funding to cover the costs of the kit and all the travelling the teams have to do. In your case, it may be that they've covered a lot of ground that you'll find it hard to catch up with.\n\nKatie: Yes. But the whole experience has certainly altered my view of degrees. I used to think they were incredibly important for my career, while at the same time being a bit useless because they were too academic and not practical enough. Now I realise that you need to like what you're doing if you're to get anything real out of the experience.\n\nStefan: I guess. How long does it take, anyway? What exactly do I have to do?\n\nKatie: Well basically, first of all you need to find out what you need for the new course, so ask the tutor in that department. I'm sure you'll be fine, because it's not a big switch. And OK, you'd better do that quickly. Then you need to let the administration office know when you'll be moving. Once you've done that, you're committed to the change, so don't do that until you're absolutely sure. Once your switch is agreed, the departments will have to reallocate their funding, so you must let finance know. You can just send them a quick email confirming it. The departmental information that the library has about you will be wrong, so you'll have to go along and see them and get a new card. They need to know where to contact you, so they'll have to update all their systems. And the Hall of Residence needs to know as well, so everybody has their records straight.",
+    "4": "When the Spanish arrived in Central America in the 1500s, they were surprised by the variety of Indian cultures. One of the most interesting of the cultures, the Maya, had partially collapsed hundreds of years before. There were Mayan ruins everywhere, and they showed evidence of advanced engineering and a sophisticated tradition of writing. The Spanish thought that this written language of the Mayans, which had survived, could be a threat to the dominance of the Spanish language in the region, and so they tried to destroy all traces of it.\n\nLuckily, three books survived the destruction and were rediscovered in the 18th and 19th century in Europe. Each of the books contained a vast collection of ancient Mayan writings. All of these books were basically handbooks to be used by the priests, but for a long time no one could read them. In the 19th and early 20th century, investigators managed to decode some numbers and some parts of the text which seemed to be on the subject of astronomy. But there were still large parts of the text they couldn't understand.\n\nThen in the 1950s and 1960s there were some breakthroughs. An amateur Mayan scholar called Heinrich Berlin, working in Mexico, decoded the first Mayan glyphs — which is the name given to the symbols that make up the Mayan script. He showed that these glyphs in fact represented famous cities that had once been a part of the Mayan empire. He was then able to match these symbols with spoken words, because the name for somewhere famous doesn't usually change much over the centuries. So by studying modern-day Mayan and listening to speakers of the evolved language, Berlin discovered how to say the symbols.\n\nNext to enter the picture was Yuri Knorozov, a Soviet linguistics expert. He discovered that many Mayan glyphs actually played a phonetic role in the text. That means they stood for a sound, not just a single word, as previously thought. So two phonetic symbols together could in fact be one word, not two separate words. The door was open to crack the code.\n\nBeginning in the 1980s, several younger academics took a new approach. Unlike their forebears, who studied Mayans from a distance, this new generation immersed themselves by living among the Central American indigenous people. These young researchers came to have a deeper understanding of Mayan art and also a greater appreciation of the culture of the Mayans, both past and present, as well as of their religion. All this meant that there was a dramatic improvement in the quality and quantity of translation.\n\nThe young academics discovered that many of the great events of Mayan history were recorded. In particular, many of the manuscripts described successes when kings fought wars with one another. But if the text was formal, the writing was not. The Mayan scribes who carved and painted the glyphs were often trying to be creative, so there simply wasn't a standard system that scholars could refer to. But once the young academics got familiar with the style used by a particular Mayan writer, steady translations became possible. But this type of translation takes a lot of time. Help was needed.\n\nStarting in 2003, one prominent scholar, David Stuart, looked for an online way for scholars and amateurs to post new inscriptions, refine translations and discuss the subtleties of Mayan language. So he started a blog that evolved into what is now the Maya Decipherment Project. Scholars in remote areas, who were often cut out of earlier research because of logistics, have become eager translation partners. Comments can be posted from anywhere in the world at high speed. It's estimated that there are more than 30 translators in 15 different countries currently at work studying and translating Mayan script through the Maya Decipherment Project. Text by text, they are giving the modern world a better understanding of the lost Mayan world.\n\nThe direction of this new understanding is that Mayans were not necessarily peaceful people who were wholly preoccupied with ceremony. This has been the general conclusion when scholarship was limited to the handbooks for priests that survived the Spanish. Thanks in part to the Maya Decipherment Project, new scholarship shows that the Mayans were interested in and wrote about the same topics as other ancient societies."
+  },
+  "transcript_source": "User-supplied raw HTML transcript; Part 3 missing continuation restored from a matched transcript and cross-checked against the supplied answer key.",
+  "timestamps_source": "Part boundaries derived from long-silence structure; question evidence windows estimated from transcript position within each verified Part window.",
+  "script_completion": [
+    {
+      "part": 1,
+      "n": 1,
+      "q": "p1g1",
+      "match": "pick up a kindergarten registration packet",
+      "answer": "pick up a kindergarten registration packet"
+    },
+    {
+      "part": 1,
+      "n": 2,
+      "q": "p1g2",
+      "match": "immunisation records",
+      "answer": "immunisation records"
+    },
+    {
+      "part": 1,
+      "n": 3,
+      "q": "p1g3",
+      "match": "residency verification form",
+      "answer": "residency verification form"
+    },
+    {
+      "part": 1,
+      "n": 4,
+      "q": "p1g4",
+      "match": "on-site licensed daycare",
+      "answer": "on-site licensed daycare"
+    },
+    {
+      "part": 1,
+      "n": 5,
+      "q": "p1g5",
+      "match": "comes highly recommended",
+      "answer": "comes highly recommended"
+    },
+    {
+      "part": 1,
+      "n": 6,
+      "q": "p1g6",
+      "match": "properly placed",
+      "answer": "properly placed"
+    },
+    {
+      "part": 2,
+      "n": 1,
+      "q": "p2g1",
+      "match": "answer visitors' questions",
+      "answer": "answer visitors' questions"
+    },
+    {
+      "part": 2,
+      "n": 2,
+      "q": "p2g2",
+      "match": "lined with trees",
+      "answer": "lined with trees"
+    },
+    {
+      "part": 2,
+      "n": 3,
+      "q": "p2g3",
+      "match": "a dead end",
+      "answer": "a dead end"
+    },
+    {
+      "part": 2,
+      "n": 4,
+      "q": "p2g4",
+      "match": "deep underground",
+      "answer": "deep underground"
+    },
+    {
+      "part": 2,
+      "n": 5,
+      "q": "p2g5",
+      "match": "used up lots of energy",
+      "answer": "used up lots of energy"
+    },
+    {
+      "part": 2,
+      "n": 6,
+      "q": "p2g6",
+      "match": "keep to their timetable",
+      "answer": "keep to their timetable"
+    },
+    {
+      "part": 3,
+      "n": 1,
+      "q": "p3g1",
+      "match": "made up my mind",
+      "answer": "made up my mind"
+    },
+    {
+      "part": 3,
+      "n": 2,
+      "q": "p3g2",
+      "match": "taken them for granted",
+      "answer": "taken them for granted"
+    },
+    {
+      "part": 3,
+      "n": 3,
+      "q": "p3g3",
+      "match": "highly regarded",
+      "answer": "highly regarded"
+    },
+    {
+      "part": 3,
+      "n": 4,
+      "q": "p3g4",
+      "match": "cover the costs",
+      "answer": "cover the costs"
+    },
+    {
+      "part": 3,
+      "n": 5,
+      "q": "p3g5",
+      "match": "catch up with",
+      "answer": "catch up with"
+    },
+    {
+      "part": 3,
+      "n": 6,
+      "q": "p3g6",
+      "match": "reallocate their funding",
+      "answer": "reallocate their funding"
+    },
+    {
+      "part": 4,
+      "n": 1,
+      "q": "p4g1",
+      "match": "sophisticated tradition of writing",
+      "answer": "sophisticated tradition of writing"
+    },
+    {
+      "part": 4,
+      "n": 2,
+      "q": "p4g2",
+      "match": "decode some numbers",
+      "answer": "decode some numbers"
+    },
+    {
+      "part": 4,
+      "n": 3,
+      "q": "p4g3",
+      "match": "played a phonetic role",
+      "answer": "played a phonetic role"
+    },
+    {
+      "part": 4,
+      "n": 4,
+      "q": "p4g4",
+      "match": "immersed themselves",
+      "answer": "immersed themselves"
+    },
+    {
+      "part": 4,
+      "n": 5,
+      "q": "p4g5",
+      "match": "dramatic improvement",
+      "answer": "dramatic improvement"
+    },
+    {
+      "part": 4,
+      "n": 6,
+      "q": "p4g6",
+      "match": "cut out of earlier research",
+      "answer": "cut out of earlier research"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "kindergarten registration packet",
+      "type": "noun phrase · B2",
+      "definition": "a set of forms and documents used to enrol a child in kindergarten",
+      "uzbek": "bog'cha/maktabga qabul hujjatlari to'plami",
+      "context": "Parents need to pick up a kindergarten registration packet before registering.",
+      "collocations": [
+        "pick up a registration packet",
+        "complete a registration packet"
+      ],
+      "paraphrases": [
+        "enrolment paperwork"
+      ]
+    },
+    {
+      "headword": "immunisation records",
+      "type": "noun phrase · B2",
+      "definition": "official documents showing which vaccinations a person has received",
+      "uzbek": "emlash qaydlari",
+      "context": "The school asks for the child's immunisation records.",
+      "collocations": [
+        "provide immunisation records",
+        "up-to-date immunisation records"
+      ],
+      "paraphrases": [
+        "vaccination records"
+      ]
+    },
+    {
+      "headword": "residency verification form",
+      "type": "noun phrase · C1",
+      "definition": "a form used to prove where someone lives",
+      "uzbek": "yashash manzilini tasdiqlash shakli",
+      "context": "A residency verification form is required with proof of residence.",
+      "collocations": [
+        "proof of residence",
+        "verify residency"
+      ],
+      "paraphrases": [
+        "address verification form"
+      ]
+    },
+    {
+      "headword": "on-site licensed daycare",
+      "type": "noun phrase · C1",
+      "definition": "officially authorised childcare provided at the same location",
+      "uzbek": "joyning o'zidagi litsenziyalangan bolalar parvarishi",
+      "context": "Working parents can use an on-site licensed daycare.",
+      "collocations": [
+        "licensed daycare",
+        "on-site childcare"
+      ],
+      "paraphrases": [
+        "authorised childcare on the premises"
+      ]
+    },
+    {
+      "headword": "come highly recommended",
+      "type": "fixed expression · C1",
+      "definition": "to be strongly praised or endorsed by others",
+      "uzbek": "juda tavsiya etilmoq",
+      "context": "The daycare comes highly recommended.",
+      "collocations": [
+        "come recommended",
+        "highly recommended service"
+      ],
+      "paraphrases": [
+        "be strongly endorsed"
+      ]
+    },
+    {
+      "headword": "lined with trees",
+      "type": "adjective phrase · B2",
+      "definition": "having trees arranged along both sides",
+      "uzbek": "daraxtlar qator bo'lib ekilgan",
+      "context": "Visitors follow a path that is lined with trees.",
+      "collocations": [
+        "tree-lined path",
+        "street lined with trees"
+      ],
+      "paraphrases": [
+        "bordered by trees"
+      ]
+    },
+    {
+      "headword": "a dead end",
+      "type": "noun phrase · B2",
+      "definition": "a road or path that has no exit",
+      "uzbek": "berk ko'cha",
+      "context": "The road by the gift shop is a dead end.",
+      "collocations": [
+        "reach a dead end",
+        "dead-end road"
+      ],
+      "paraphrases": [
+        "road with no exit"
+      ]
+    },
+    {
+      "headword": "keep to a timetable",
+      "type": "verb phrase · C1",
+      "definition": "to follow a planned schedule without unnecessary delay",
+      "uzbek": "jadvalga rioya qilmoq",
+      "context": "The buses have to keep to their timetable.",
+      "collocations": [
+        "keep to schedule",
+        "strict timetable"
+      ],
+      "paraphrases": [
+        "stay on schedule"
+      ]
+    },
+    {
+      "headword": "make up one's mind",
+      "type": "idiom · B2",
+      "definition": "to make a final decision",
+      "uzbek": "qaror qilmoq",
+      "context": "Katie has almost made up her mind about changing course.",
+      "collocations": [
+        "make up your mind",
+        "finally make up one's mind"
+      ],
+      "paraphrases": [
+        "decide"
+      ]
+    },
+    {
+      "headword": "take someone for granted",
+      "type": "idiom · C1",
+      "definition": "to fail to appreciate someone's support because you assume it will continue",
+      "uzbek": "kimningdir yordamini o'z-o'zidan deb qabul qilmoq",
+      "context": "Katie does not want her parents to think she has taken them for granted.",
+      "collocations": [
+        "feel taken for granted",
+        "take support for granted"
+      ],
+      "paraphrases": [
+        "fail to appreciate"
+      ]
+    },
+    {
+      "headword": "highly regarded",
+      "type": "adjective phrase · C1",
+      "definition": "respected and considered to be of high quality",
+      "uzbek": "yuqori baholangan",
+      "context": "The Sports Education course is highly regarded.",
+      "collocations": [
+        "highly regarded course",
+        "widely regarded"
+      ],
+      "paraphrases": [
+        "well respected"
+      ]
+    },
+    {
+      "headword": "cover the costs",
+      "type": "verb phrase · B2",
+      "definition": "to provide enough money to pay for expenses",
+      "uzbek": "xarajatlarni qoplamoq",
+      "context": "Extra funding was needed to cover the costs of equipment and travel.",
+      "collocations": [
+        "cover travel costs",
+        "cover the full cost"
+      ],
+      "paraphrases": [
+        "pay the expenses"
+      ]
+    },
+    {
+      "headword": "catch up with",
+      "type": "phrasal verb · B2",
+      "definition": "to reach the same level after falling behind",
+      "uzbek": "orqada qolganini yetkazib olmoq",
+      "context": "A course change may leave work that is hard to catch up with.",
+      "collocations": [
+        "catch up with work",
+        "catch up on missed material"
+      ],
+      "paraphrases": [
+        "make up lost ground"
+      ]
+    },
+    {
+      "headword": "reallocate funding",
+      "type": "formal collocation · C1",
+      "definition": "to assign money to a different purpose or department",
+      "uzbek": "mablag'ni qayta taqsimlamoq",
+      "context": "Departments may need to reallocate their funding after a course change.",
+      "collocations": [
+        "reallocate resources",
+        "funding allocation"
+      ],
+      "paraphrases": [
+        "redistribute funds"
+      ]
+    },
+    {
+      "headword": "sophisticated tradition of writing",
+      "type": "noun phrase · C1",
+      "definition": "a highly developed and complex writing tradition",
+      "uzbek": "rivojlangan yozuv an'anasi",
+      "context": "Mayan ruins showed evidence of a sophisticated tradition of writing.",
+      "collocations": [
+        "sophisticated system",
+        "writing tradition"
+      ],
+      "paraphrases": [
+        "advanced writing culture"
+      ]
+    },
+    {
+      "headword": "crack the code",
+      "type": "idiom · C1",
+      "definition": "to solve or decipher a difficult coded system",
+      "uzbek": "kodni yechmoq",
+      "context": "Phonetic discoveries opened the way to crack the code.",
+      "collocations": [
+        "attempt to crack the code",
+        "code-breaking"
+      ],
+      "paraphrases": [
+        "decipher the system"
+      ]
+    },
+    {
+      "headword": "immerse oneself",
+      "type": "verb phrase · C1",
+      "definition": "to involve oneself deeply in an activity, culture, or environment",
+      "uzbek": "o'zini to'liq sho'ng'itmoq",
+      "context": "Researchers immersed themselves by living among indigenous communities.",
+      "collocations": [
+        "immerse oneself in a culture",
+        "fully immersed"
+      ],
+      "paraphrases": [
+        "become deeply involved"
+      ]
+    },
+    {
+      "headword": "dramatic improvement",
+      "type": "collocation · C1",
+      "definition": "a large and noticeable increase in quality or performance",
+      "uzbek": "keskin yaxshilanish",
+      "context": "The new approach led to a dramatic improvement in translation.",
+      "collocations": [
+        "dramatic improvement in quality",
+        "show dramatic improvement"
+      ],
+      "paraphrases": [
+        "major improvement"
+      ]
+    },
+    {
+      "headword": "refine translations",
+      "type": "verb phrase · C1",
+      "definition": "to improve translations by making them more accurate or precise",
+      "uzbek": "tarjimalarni takomillashtirmoq",
+      "context": "Researchers use an online project to refine translations.",
+      "collocations": [
+        "refine a translation",
+        "refine an interpretation"
+      ],
+      "paraphrases": [
+        "improve translations"
+      ]
+    },
+    {
+      "headword": "be preoccupied with",
+      "type": "adjective phrase · C1",
+      "definition": "to be strongly focused on or absorbed by something",
+      "uzbek": "bir narsa bilan qattiq band bo'lmoq",
+      "context": "Older scholarship portrayed the Mayans as preoccupied with ceremony.",
+      "collocations": [
+        "preoccupied with work",
+        "wholly preoccupied with"
+      ],
+      "paraphrases": [
+        "be absorbed in"
+      ]
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "Map / Plan",
+    "12": "Map / Plan",
+    "13": "Map / Plan",
+    "14": "Map / Plan",
+    "15": "MCQ",
+    "16": "MCQ",
+    "17": "MCQ",
+    "18": "MCQ",
+    "19": "MCQ",
+    "20": "MCQ",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "MCQ",
+    "26": "Matching",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Map / Plan Mastery",
+    "Matching Mastery",
+    "Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ]
+}

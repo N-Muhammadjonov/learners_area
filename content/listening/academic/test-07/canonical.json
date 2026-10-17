@@ -1,0 +1,1015 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-7",
+  "title": "Listening Test 7",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "695f4a911371473e887aded0f7b2c484befa7f17fd54d4000575d6366af5a1d8",
+      "path": "audio/full.mp3"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1680.53551,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": null,
+    "imagePath": null,
+    "sections": [
+      {
+        "number": 1,
+        "title": "Bakewell Travel",
+        "transcript": "Man: Hello, Bakewell Travel. How can I help? Sarah: Oh, hello. My name's Sarah Carter. I wonder if you could tell me about the price of plane tickets to Dubai. Man: Our computers are down, so what I can do is take some details about you and your travel plans. Then when everything's OK again, I can call you back, alright? Sarah: OK then. Man: Right. So, some details first. Your name was Sarah Carter, wasn't it? Sarah: That's right. Man: And can I take a contact phone number? Sarah: 07 958 847 222. Man: Now, I'll probably need to get back to you on this. Shall I call you back tomorrow morning? Sarah: Oh, I work on Wednesdays. Can you call me back on Thursday before 12? Man: Fine. OK, so, Mrs Carter, how many tickets will you need? Sarah: Three adults and four children. Man: So, seven altogether. Are all the children under the age of 14? Sarah: They are, yes. Man: Which date do you wish to travel on? Sarah: Well, we definitely need to be there for the 24th. So, if we leave the UK on the 22nd, we'll have time to recover on the 23rd. Man: So, the 22nd of October? Sarah: Not this month. Next month. November. Man: Right. And I assume these are return tickets? Sarah: Yes, we want to fly back on the Tuesday. Is that the 25th or the 26th? Man: It's the 25th, so it's going to be a short holiday. Sarah: We're going to a wedding. We're not going for a holiday. Man: Oh, that's nice. Now, do any travellers have any special requirements? You know, special assistance with mobility and that sort of thing? Sarah: Oh, well, actually, yes. My son's allergic to cheese. It makes him really, really ill. Man: Fine. So, as soon as I can, I'll look into finding some tickets for you. Man: Now, I wonder if I could just ask you a couple of questions as part of our market research. Would you be happy to do that? Sarah: Will this take long? Man: Just a couple of minutes, that's all. Sarah: OK. Man: So, how many foreign visits have you made in the last 12 months? Sarah: About six, I suppose. Man: And where was your last foreign trip? Sarah: Well, I was in Egypt in May, then most recently India. Man: Oh, nice. Yes, I'm off for some IT training in Bangalore next month, actually. And was that a vacation? Sarah: I'd love to go back there for a holiday, but it was for business this time. Man: And I presume you use the internet? Sarah: I do, yes. Man: And so you've seen our website? Sarah: Yes, I had a look this morning, actually. Man: Well, we had it redesigned a month ago and we're keen to get feedback on how our customers find it, so... Sarah: Oh, right. OK. Well, I have to say I found it terribly slow, so I just gave up and thought I'd give you a call. Man: Oh, well, I'm sorry to hear that. But yes, it does happen sometimes. Would it be OK for us to email you with any promotional offers? Sarah: I suppose so. Well, OK. My address is carter.s at speedtech.com. Man: Is that S-P-E-E-D-T-E-C-H? Sarah: Yes. Man: That's great. And can I ask how you found out about Bakewell Travel?",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Annual Running Competition",
+        "transcript": "Dave: Good morning everyone, I'm Dave, the manager of Creton Running Sports Club. Today, I'll tell you something about the running competition which will be held next month. As we know, the annual run is one of the most popular events in our town, and it attracts young and old every year. This year we will continue the tradition, but there'll be some small adjustments. First, about the date. The exact time of the run is still on the first Saturday of May, but we'll inform you in advance if it's to be delayed due to bad weather. The run used to start at the park, which is being refurbished at the moment, so this time all the runners are expected to gather in front of the castle and start from there. The actual run begins at 9 a.m., but the runners start arriving at about 8:45, so some of you might have to get up early that morning if you live far away. Someone has asked how long you'll be required to run. In the past few years, the runners have had to complete the distance of five miles, but most people want to do a bit more than that, so we will lengthen it to seven miles this time. Some of you might not be sure whether you can run that far, so you'd better start doing a bit of training. I'm excited to tell you that this year we've got sponsorship from a big company who has promised to cover all the competition expenses, including the prize for the champion. The runner with the shortest time will be awarded sports equipment worth about £1,000. Each runner will be timed from the starting point till the end. When you cross the finish line marked on the ground of the station, you'll be given a barcode, and you should take this to one of the run volunteers who will scan it. Then you can get your time on the computer immediately, and the volunteers will collect all the results. If you are interested in the run, I suggest you register as soon as possible. The deadline is next Sunday. However, I should tell you this year you can't enrol through the internet, but have to go to the town hall and give all the personal information and sign your name. It doesn't cost anything to register. As I've just said, all the costs related to the competition will be paid by our sponsor. As for the age limit, you have to be at least 16, and the top limit is now 70, though you need to obtain a health certificate from your doctor if you're over 60 years old. If you do come and participate in the run, I definitely recommend that you should prepare an extra pair of shoes, as last year one of the runners got something wrong with his shoes during the running and had to give up halfway through the competition. Besides, a jacket will also be advisable, so you don't catch a cold after sweating a lot during the running. There is no need to worry about snacks or drinks, as every runner will be supplied with chocolates and bottled water. To prepare for this annual running competition, our club is going to organize a training class for all the participants. In the class, an experienced trainer will teach you the professional steps on how to do a running competition, like warming up before running. For those who plan to do training by yourselves, there are some suggestions for you. First, don't just do morning jogging with your dog. Remember that you're going to compete with others. I know some people like to exercise in groups, but it's more effective to run with your friend who can be your rival and stimulate your potential. Then I suggest you make a record of your running time. It can show whether you've made any progress day by day. What's more, you'd better get used to different roads and paths in the countryside or village, as you won't just be running on level ground during the competition. By the way, you don't have to run in all kinds of weather. As I've just said, our competition is going to be held in good weather. Well, that's all the details about the running competition. If you have any other questions, please call our club at 8345 6234. Anyone who is interested in the run, just get started.",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "Selective Course",
+        "transcript": "Rick: Hey Nina, have you chosen a selective course yet? Nina: Not really, Rick. I haven't made up my mind yet. What about you? Rick: Me either. We have to decide as soon as possible though. Nina: Why? Today is not the final day for choosing selective courses, is it? Rick: No, but they will be booked up very soon. Actually, some courses are already full. Nina: Really? That's too bad. Well, I was thinking of taking a language course. What do you think? Rick: Yes, you can do that. You can choose all courses on the school website except mathematics since it's a required course for all students. By the way, I think the business course is a good choice. Nina: Yeah, it's not bad. I think it's going to be quite helpful after we graduate. Rick: I think so. Guess what? I wanted to choose Information Statistics. Nina: Why? Rick: It's related to our major, so I think it's very useful for us. I mean, we all have an advantage in job hunting. But the bad thing is, it's in the morning, so we have to skip other classes in order to take it. Nina: That's not good. We need to find an alternative that is more convenient for us. Rick: I know, it's a shame. Nina, I think we need to get to know the courses more before choosing them. Otherwise we may end up studying something that's either boring or useless. Nina: You are right. Maybe we can look online to see if there's information about it. We could also ask our parents for advice. Rick: I don't think that's going to help much. People have all kinds of opinions online. We wouldn't know which one to listen to. And our parents probably don't know much about our field. I think the best way is asking the former students who have taken the class themselves. Nina: They can tell us how they thought about it from their own experience. Rick: Oh yes, they know it better than anyone, just like how much we know the Art Design class. Nina: Yes, before we took it last year, many people said on the internet that it was quite confusing, but it turned out to be quite easy and helpful, right? Rick: Mm-hmm. It didn't let us down. I definitely value the course. Design is an important skill in today's world. Nina: Well, whatever course we want to choose, there are still things I need to figure out. Rick: What do you mean? Do you mean things like the time of the courses? Nina: Since it's the first time we can choose selective courses, I need to know how to register. Rick: I think there will be instruction on our school website for registration. I'll let you know. Nina: You are so considerate, Nina. Rick: I think that's necessary. We need to make sure we can register as soon as we make up our mind. Nina: The courses we studied last semester were quite interesting. Maybe we could get some inspiration from those courses. Do you think so? Rick: Well, yeah, some of them were quite fun for me, such as Metallurgy, though there were quite a lot of terms to remember. But there's also a lot of useful information about it on the internet, which made things easier. Nina: That's right. I can refer to many things when I was working on the paper. And the professor in Fluid Mechanics was really patient. His explanation was crystal clear, so students had no difficulty understanding it. Rick: Yes, that's true. I was good at this course. What do you think of Computing? Nina: I think it was kind of boring in the beginning. Do you think so? Rick: That's exactly how I felt. There were a lot of numbers to deal with, but thankfully it got more interesting when the course went on. Nina: Right, because later we could relate the theories to real-life examples. Rick: Exactly. Another course that I think was really practical is Energy Economy. Nina: Oh yes, there are a lot of practical works in the course. What we learned can come in handy in our future jobs. Rick: We should make the decision based on our own experience and preference. Nina: Yeah. Anyway, we really need to hurry up. I'm sure we can reach a conclusion today.",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "Boar and Red Deer",
+        "transcript": "You will hear a lecture about the situation of wild animals, especially wild boar. Good morning. My name's Jim Robinson and today we're going to look at the control of wild animals, specifically wild boar. Now, boar have been natural inhabitants of Western Europe for thousands of years, but in recent years, there has been a surge in boar activity that poses real threat. Boars are not currently on the protected animals list, which is perhaps why there has been a spike in their breeding activity. Boars are an indigenous species and are particularly plentiful in rural France and the Bavarian uplands of Germany. Boar hunting is a European tradition that goes back to Roman times and became particularly popular among courtiers during the Middle Ages. Even during the 20th century, boar hunting was seen as an integral part of rural life. The decline in boar hunting has obviously led to a rise in the boar populations of Europe, and the situation has reached a critical point, with boar posing a critical threat to the environment. Proponents of boar hunting cite this factor as a major reason why boar populations should be contained. Boar also pose a threat to humans too, with countless reports of people being injured during boar attacks. The origins of the wild boar have roots in Germanic, and this perhaps explains their prevalence in Germany. The problems with the boar population in Germany have ramifications for the rest of Europe, as boar packs migrate towards Central and Eastern Europe. One of the main issues that is of great concern is the transmission of diseases that infect other species. Dairy farmers in France are particularly concerned, as many of them have seen their herds depleted by infections. The methods for containing boar populations have been looked at in great detail and numerous options are available. One is to encourage more boar hunting in wild regions such as mountains and forests. Hunters would be given licenses to hunt, either for food or sport. Of course, boar do pose a threat to human life, so this possibility must be looked at with caution. One method that must be ruled out is poison, as legislation has been introduced prohibiting this. Such methods were tried with rabbits in the 1960s, and this had a disastrous impact on the food chain. The introduction of natural predators into the ecosystem is also an option that can't be considered. The only known predators of boar in the world are wild cats, like lions and tigers. Obviously there's no way such animals can be allowed to roam the mountains and forests of Europe. Given the threat that boars pose to humans, it is imperative that forest-dwelling boar are kept well away from people and cities. This is absolutely essential as human safety must be the main priority of policymakers. By the 11th century, boars in several European countries were becoming increasingly rare in Great Britain. King Charles attempted to reintroduce boars in the New Forest area of the country. Yet the entire population was almost wiped out during the battles of the English Civil War, when roaming soldiers hunted them for food. During the 1980s, wild boar rearing was encouraged and boar populations began to rise again. By the 1990s, there was a huge rise in the number of boar across England. Due in large part to the species no longer forced to live in captivity, many boar have broken free from farms across England and are breeding at a rapid rate. Aside from their environmental threats, boars also pose a problem for farmers growing crops and vegetables. Other species such as red deer are a threat to farm produce like grain and potatoes, but boars certainly present the most serious risk. The damage done to the farming industry is estimated to cost millions of pounds, and insurance payments as a result of this have spiked in the last decade. Red deer are predominantly confined to forest areas, and it is unusual to see them outside their habitats during the summer months. However, as the weather gets colder, they can be seen looking for food around local villages and fields. Red deer have their origins in Asia and are ruminant species, which means they have a stomach that consists of four compartments, much like cows. They are slaughtered for food and their meat is sold as venison and is increasingly popular among consumers. There are nine subspecies of red deer, with three of them on the endangered species list. The deer population doesn't pose the same threat as the boar population, but it certainly needs to be addressed. Forest areas are their main habitats and they are now breeding at a much higher rate than in previous years. Of course, deer are an important part of the food chain and are an important part of the hunting traditions of the UK, so it is important that their population is kept stable for this reason. Though the real concern is the problems that deer present for farmers who have seen their crops suffer in devastating ways. Protection needs to be offered, and many farmers report building large perimeter fences around their fields to keep deer out, which costs them a huge amount of money. Government funding is so far inadequate to offer the protection farmers need, but ways are being looked at to provide subsidies through other means.",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "Bakewell Travel - Contact phone number",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "07958847222",
+        "alternatives": [
+          "07958 847222",
+          "07 958 847 222",
+          "07958847222"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports 07958847222 for this item. Sarah gives the contact number 07958847222.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Best day to call: ___ morning",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "Thursday",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports Thursday for this item. She asks to be called back on Thursday before 12.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Number of people travelling",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "7",
+        "alternatives": [
+          "seven"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports 7 for this item. Three adults and four children make seven travellers.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Date of outward journey",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "22 November",
+        "alternatives": [
+          "22nd November",
+          "November 22",
+          "November 22nd",
+          "22 November"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports 22 November for this item. She corrects October to November and confirms the 22nd.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "Purpose of trip",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "wedding",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports wedding for this item. The trip is for a wedding, not a holiday.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "Special requirements: one passenger can't eat ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "cheese",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports cheese for this item. Her son is allergic to cheese.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "Last country visited",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "India",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports India for this item. Her most recent foreign trip was to India.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Purpose of last foreign trip",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "business",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports business for this item. That trip was for business.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "Customer feedback on website: too ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "slow",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports slow for this item. She says the redesigned website was terribly slow.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Email domain: carter.s@___.com",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "speedtech",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports speedtech for this item. She spells the email domain as SPEEDTECH.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "Annual Running Competition - Starting point",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "castle",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports castle for this item. The runners will gather in front of the castle and start there.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "Distance",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "7",
+        "alternatives": [
+          "seven",
+          "7 miles",
+          "seven miles"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports 7 for this item. The race distance is lengthened from five miles to seven miles.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "Prize for the winner",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "sports equipment",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports sports equipment for this item. The winner receives sports equipment worth about £1,000.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "Finishing point",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "station",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports station for this item. The finish line is at the station.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "Registration site",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "town hall",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports town hall for this item. Registration must be completed at the town hall.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "Age limit",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "16",
+        "alternatives": [
+          "sixteen"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports 16 for this item. Participants must be at least 16.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "Need to bring a ___ and spare shoes",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "jacket",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports jacket for this item. A jacket is recommended along with spare shoes.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "Training advice - choose THREE correct answers",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) be careful of dogs",
+          "B) compete with a friend",
+          "C) run under all weather conditions",
+          "D) warm up before running",
+          "E) compete in groups",
+          "F) time yourself",
+          "G) run on various types of roads and paths"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [
+          19,
+          20
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports B for this item. The speaker advises training with a friend who can act as a rival.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "Training advice - choose THREE correct answers",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) be careful of dogs",
+          "B) compete with a friend",
+          "C) run under all weather conditions",
+          "D) warm up before running",
+          "E) compete in groups",
+          "F) time yourself",
+          "G) run on various types of roads and paths"
+        ],
+        "key": "F",
+        "alternatives": [],
+        "pair": [
+          18,
+          20
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports F for this item. Runners are advised to record/time their runs to track progress.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "Training advice - choose THREE correct answers",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) be careful of dogs",
+          "B) compete with a friend",
+          "C) run under all weather conditions",
+          "D) warm up before running",
+          "E) compete in groups",
+          "F) time yourself",
+          "G) run on various types of roads and paths"
+        ],
+        "key": "G",
+        "alternatives": [],
+        "pair": [
+          18,
+          19
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports G for this item. Runners should practise on different roads and paths, not only level ground.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "Why should they choose selective course immediately?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) It's the final day.",
+          "B) It will be full very soon.",
+          "C) They don't have time later on."
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports B for this item. Courses will be booked up very soon, and some are already full.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "What is the compulsory course for all students?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Language course",
+          "B) Business study",
+          "C) Mathematics"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports C for this item. Mathematics is a required course for all students.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "What does Rick think of the course Information Statistics?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) It's useful.",
+          "B) It's convenient to take.",
+          "C) It involves a lot of work."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports A for this item. Rick says Information Statistics is useful because it relates to their major and job hunting.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "What will they do before choosing the selective courses?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) consult the students about the teaching quality",
+          "B) look online about the related information",
+          "C) ask their parents for suggestions"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports A for this item. They decide former students who took the class are the best people to ask.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "How did they feel about the art design class?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) surprising",
+          "B) confusing",
+          "C) valuable"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports C for this item. They say Art Design turned out easy and helpful and they value it.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "What does Nina want to make sure about selective courses?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) How they register the course",
+          "B) When the course will take place",
+          "C) amount of work to be done online"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports A for this item. Nina wants to know how to register for the selective courses.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "Metallurgy - course evaluation",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) became more engaging",
+          "B) Professor's note was detailed",
+          "C) involved lot of practical work",
+          "D) Professor's explanation was clear",
+          "E) Useful material online",
+          "F) Harder than expected"
+        ],
+        "key": "E",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports E for this item. Metallurgy had useful information available online.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Fluid mechanics - course evaluation",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) became more engaging",
+          "B) Professor's note was detailed",
+          "C) involved lot of practical work",
+          "D) Professor's explanation was clear",
+          "E) Useful material online",
+          "F) Harder than expected"
+        ],
+        "key": "D",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports D for this item. The Fluid Mechanics professor gave crystal-clear explanations.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Computing - course evaluation",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) became more engaging",
+          "B) Professor's note was detailed",
+          "C) involved lot of practical work",
+          "D) Professor's explanation was clear",
+          "E) Useful material online",
+          "F) Harder than expected"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports A for this item. Computing became more engaging as the course went on.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Energy economy - course evaluation",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) became more engaging",
+          "B) Professor's note was detailed",
+          "C) involved lot of practical work",
+          "D) Professor's explanation was clear",
+          "E) Useful material online",
+          "F) Harder than expected"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports C for this item. Energy Economy involved a lot of practical work.\nFollow the final meaning, not the first keyword or distractor."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "Boar is not a ___ species",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "protected",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports protected for this item. The lecture says boars are not currently on the protected animals list.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "Damage to the ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "environment",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports environment for this item. The boar population poses a critical threat to the environment.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "They also spread ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "diseases",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports diseases for this item. A major concern is transmission of diseases to other species.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "Banning use of ___ in killing boars",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "poison",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports poison for this item. Poison is ruled out because legislation prohibits it.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "Keep boars in the ___ away from urban areas",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "forest",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports forest for this item. Forest-dwelling boars should be kept well away from people and cities.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "Population rise due to escape from ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "captivity",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports captivity for this item. Many boars escaped captivity on farms and then bred rapidly.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Red deer damage grain and ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "potatoes",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports potatoes for this item. Red deer damage agricultural produce such as grain and potatoes.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "In winter deer come to villages for ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "food",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports food for this item. In colder weather, red deer search for food around villages and fields.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "Deer numbers kept stable for ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "hunting",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports hunting for this item. Hunting traditions are one reason the deer population needs to be kept stable.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "Devastating effect on local ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "crops",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The recording supports crops for this item. Farmers report devastating damage to their crops.\nRespect the stated word limit, spelling and singular/plural form."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "get back to someone",
+        "pos": "phrasal verb",
+        "uz": "keyinroq qayta bog‘lanmoq",
+        "def": "contact or reply to someone later",
+        "ex": "I can call you back / get back to you on this.",
+        "also": [
+          "respond later",
+          "contact again"
+        ]
+      },
+      {
+        "word": "special requirements",
+        "pos": "collocation",
+        "uz": "maxsus talablar",
+        "def": "specific needs that require special arrangements",
+        "ex": "Do any travellers have any special requirements?",
+        "also": [
+          "specific needs"
+        ]
+      },
+      {
+        "word": "market research",
+        "pos": "noun phrase",
+        "uz": "bozor tadqiqoti",
+        "def": "systematic study of customers and markets",
+        "ex": "A couple of questions as part of our market research.",
+        "also": [
+          "consumer research"
+        ]
+      },
+      {
+        "word": "promotional offers",
+        "pos": "collocation",
+        "uz": "reklama aksiyalari / takliflari",
+        "def": "special deals used to promote a product or service",
+        "ex": "Email you with any promotional offers.",
+        "also": [
+          "marketing deals"
+        ]
+      },
+      {
+        "word": "be refurbished",
+        "pos": "verb",
+        "uz": "ta’mirdan chiqarilmoq",
+        "def": "be renovated and improved",
+        "ex": "The park is being refurbished at the moment.",
+        "also": [
+          "be renovated"
+        ]
+      },
+      {
+        "word": "cover the expenses",
+        "pos": "collocation",
+        "uz": "xarajatlarni qoplamoq",
+        "def": "pay all or part of the costs",
+        "ex": "The sponsor will cover all the competition expenses.",
+        "also": [
+          "pay the costs"
+        ]
+      },
+      {
+        "word": "stimulate your potential",
+        "pos": "collocation",
+        "uz": "salohiyatni rag‘batlantirmoq",
+        "def": "encourage someone to perform closer to their full ability",
+        "ex": "A rival can stimulate your potential.",
+        "also": [
+          "push you to perform better"
+        ]
+      },
+      {
+        "word": "get used to",
+        "pos": "phrasal",
+        "uz": "ko‘nikmoq",
+        "def": "become accustomed to something",
+        "ex": "Get used to different roads and paths.",
+        "also": [
+          "become accustomed to"
+        ]
+      },
+      {
+        "word": "make up your mind",
+        "pos": "idiom",
+        "uz": "qaror qilmoq",
+        "def": "reach a decision",
+        "ex": "I haven't made up my mind yet.",
+        "also": [
+          "decide"
+        ]
+      },
+      {
+        "word": "book up",
+        "pos": "phrasal verb",
+        "uz": "joylar to‘lib ketmoq",
+        "def": "become fully reserved or unavailable",
+        "ex": "They will be booked up very soon.",
+        "also": [
+          "fill up",
+          "be fully reserved"
+        ]
+      },
+      {
+        "word": "job hunting",
+        "pos": "compound noun",
+        "uz": "ish qidirish",
+        "def": "the activity of looking for employment",
+        "ex": "An advantage in job hunting.",
+        "also": [
+          "searching for work"
+        ]
+      },
+      {
+        "word": "crystal clear",
+        "pos": "idiomatic adjective phrase",
+        "uz": "juda aniq",
+        "def": "extremely clear and easy to understand",
+        "ex": "His explanation was crystal clear.",
+        "also": [
+          "perfectly clear"
+        ]
+      },
+      {
+        "word": "come in handy",
+        "pos": "idiom",
+        "uz": "asqotmoq",
+        "def": "prove useful in a particular situation",
+        "ex": "What we learned can come in handy in our future jobs.",
+        "also": [
+          "be useful"
+        ]
+      },
+      {
+        "word": "indigenous species",
+        "pos": "academic noun phrase",
+        "uz": "mahalliy tur",
+        "def": "a species native to a particular region",
+        "ex": "Boars are an indigenous species.",
+        "also": [
+          "native species"
+        ]
+      },
+      {
+        "word": "integral part",
+        "pos": "collocation",
+        "uz": "ajralmas qism",
+        "def": "an essential or fundamental component",
+        "ex": "Boar hunting was an integral part of rural life.",
+        "also": [
+          "essential component"
+        ]
+      },
+      {
+        "word": "reach a critical point",
+        "pos": "collocation",
+        "uz": "jiddiy nuqtaga yetmoq",
+        "def": "reach a stage at which a situation becomes urgent or decisive",
+        "ex": "The situation has reached a critical point.",
+        "also": [
+          "become urgent"
+        ]
+      },
+      {
+        "word": "transmission of diseases",
+        "pos": "academic noun phrase",
+        "uz": "kasalliklarning yuqishi",
+        "def": "the spread of diseases from one host or population to another",
+        "ex": "The transmission of diseases that infect other species.",
+        "also": [
+          "spread of disease"
+        ]
+      },
+      {
+        "word": "rule out",
+        "pos": "phrasal verb",
+        "uz": "variant sifatida rad etmoq",
+        "def": "exclude something as a possibility or option",
+        "ex": "One method that must be ruled out is poison.",
+        "also": [
+          "exclude",
+          "eliminate"
+        ]
+      },
+      {
+        "word": "human safety",
+        "pos": "collocation",
+        "uz": "inson xavfsizligi",
+        "def": "the protection of people from harm",
+        "ex": "Human safety must be the main priority.",
+        "also": [
+          "safety of people"
+        ]
+      },
+      {
+        "word": "devastating effect",
+        "pos": "collocation",
+        "uz": "halokatli ta’sir",
+        "def": "an extremely damaging impact",
+        "ex": "Deer can have a devastating effect on local crops.",
+        "also": [
+          "severe damage"
+        ]
+      }
+    ]
+  }
+}

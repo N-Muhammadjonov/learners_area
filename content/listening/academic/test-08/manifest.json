@@ -1,0 +1,60 @@
+{
+  "id": "listening-test-8",
+  "title": "Listening Test 8",
+  "collection": "academic",
+  "number": 8,
+  "questionCount": 40,
+  "sectionCount": 4,
+  "storageKey": "la_listening_test_8_v2",
+  "activities": [],
+  "audio": {
+    "path": "audio/part-1.mp3",
+    "objectKey": "listening/academic/test-08/part-1.mp3",
+    "contentType": "audio/mpeg",
+    "bytes": 4350215,
+    "sha256": "9ab275dd0ab7d1bbc2f5db374bb58a2bb3908955a254efe1e26f66dad9b1671e",
+    "durationSeconds": 434.99102,
+    "localFile": "test-08-part-1.mp3"
+  },
+  "media": [
+    {
+      "path": "audio/part-1.mp3",
+      "objectKey": "listening/academic/test-08/part-1.mp3",
+      "contentType": "audio/mpeg",
+      "bytes": 4350215,
+      "sha256": "9ab275dd0ab7d1bbc2f5db374bb58a2bb3908955a254efe1e26f66dad9b1671e",
+      "durationSeconds": 434.99102,
+      "localFile": "test-08-part-1.mp3"
+    },
+    {
+      "path": "audio/part-2.mp3",
+      "objectKey": "listening/academic/test-08/part-2.mp3",
+      "contentType": "audio/mpeg",
+      "bytes": 4088730,
+      "sha256": "c34facf9cfd9e97975599e406008f74abc12a47b65765fd9cce94ca1d474504e",
+      "durationSeconds": 408.842449,
+      "localFile": "test-08-part-2.mp3"
+    },
+    {
+      "path": "audio/part-3.mp3",
+      "objectKey": "listening/academic/test-08/part-3.mp3",
+      "contentType": "audio/mpeg",
+      "bytes": 3969611,
+      "sha256": "6fc200131e25be358083376487c7edb576a9d4e36bf62b1a21f1421a5f37f2e5",
+      "durationSeconds": 396.930612,
+      "localFile": "test-08-part-3.mp3"
+    },
+    {
+      "path": "audio/part-4.mp3",
+      "objectKey": "listening/academic/test-08/part-4.mp3",
+      "contentType": "audio/mpeg",
+      "bytes": 3318640,
+      "sha256": "e87009af72b236c1f7c1ef83ee0c5315fbb09bbd9d79e1ddab333902e4a7e122",
+      "durationSeconds": 331.833469,
+      "localFile": "test-08-part-4.mp3"
+    }
+  ],
+  "durationSeconds": 1572.59755,
+  "originalSha256": "b3d8267db6b12e8cb9e7e374dc4959aee99e915263b8ea7987fb9106a9aaf6da",
+  "sourceSha256": "a2de37be316d4bb8cf4e0fe821b01d7feae5046c771f158e36fd1554acb9285e"
+}

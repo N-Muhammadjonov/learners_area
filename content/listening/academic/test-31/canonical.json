@@ -1,0 +1,1239 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-31",
+  "title": "Listening Test 31",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "826db1074af8b84e77afacaf56baac70d7ea4cb80fc25e79988c69c36a1742fa",
+      "path": "audio/full.mp3"
+    },
+    {
+      "key": "image.map",
+      "role": "image",
+      "required": true,
+      "mimeTypes": [
+        "image/png"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "62b97330570719aebb8d91764ea8e48bf7160ca4570cce67c38faf429f76d204",
+      "path": "images/map.png"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1515.048,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": {
+      "assetKey": "image.map"
+    },
+    "imagePath": "images/map.png",
+    "sections": [
+      {
+        "number": 1,
+        "title": "Car Servicing Form",
+        "transcript": "You will hear a telephone conversation between an assistant at a car service station and a customer. First, you have some time to look at questions one and two on page two. You will see that there is an example that has been done for you.\n\nOn this occasion only, the conversation relating to this will be played first. Good morning servicing department. Good morning, I'd like to book my car in for a service please.\n\nThe customer's name is Ian Croft, so Croft has been written in the space. Now we shall begin. You should answer the questions as you listen because you will not hear the recording a second time.\n\nListen carefully and answer questions one and two. Good morning servicing department. Good morning, I'd like to book my car in for a service please.\n\nCertainly sir. If I could just take your name. Ian Croft.\n\nRight, and have you had the car serviced with us before? No, I've only just moved here. Right, so I'll need to take some details of the car then. So could I have a registration number please? BD51STR. Is that B for Bravo at the beginning? Yes, that's right.\n\nAnd the make of the car? It's a Vida. Right, and is that the estate? No, the four-door saloon. Good, and do you know the date of manufacture? Mmm, about… oh hold on, I'll have to work this one out.\n\nWe've had it for ages. It must be 2001. Right, and can you tell me what the mileage is? It's done a lot. Let's see, I did make a note of it. Yes, it's 180,000 miles. It's done very well actually.\n\nBefore you hear the rest of the conversation, you have some time to look at questions three to ten on page two. Now listen and answer questions three to ten. Right, well now of course we'll do a full service, but are there any particular problems or things you'd like us to check? Yes, a few.\n\nI think a couple of the tyres probably need replacing. They're getting a bit worn. OK, we do automatically look at those, but I'll make a note of that anyway.\n\nThen, it's not a big problem, but it's a bit annoying. When you open the car door, the light ought to come on inside automatically, but it seems to have stopped working. Right, we'll have a look at that for you. I'm sure we can fix that. OK, what else? Oh yes, on one of the passenger seats at the back, you can't fasten the belt. It seems to have stuck.\n\nIt just happened yesterday, so that needs looking at. Yes, that's quite important if you carry passengers in the back. Anything else? Er, there was something. Let me see. Well, one thing that's actually going to need replacing, I think, is the radio. It hasn't worked for some time.\n\nWould you like us to give you a quote for that before we fit a new one? Yes, please. Oh, and I know what I meant to say. I know you'll check the brakes in a service, but can you have a particular look at the front ones? I think they might be a bit worn.\n\nCertainly. I'll make a note of that too. OK. And the other thing is, I only have one key for the car and I really need a spare. Yes, we'll have to order that for you, but we can do that. Great. So, when would you like to come in for the service? Well, do you have anything next week? Tuesday would be good. Er, that's the 4th of October, isn't it? No, the 5th. Yes, can you make 8am? Yes, that's fine.\n\nAnd the service will take a few hours, so would you like to have a courtesy car during that time? There's no extra charge. Yes, that would be good, but can I have an automatic if possible, please? We'll see what we can do. Right, and now I just need to take your address, Mr Croft.\n\nIt's 361 College Road, Norwich. And would you like a phone number? Yes, please. A daytime number would be best, if possible.\n\nRight, 07847 355780. Lovely. So, that's it. Thank you very much, Mr Croft.",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Rosedale Library",
+        "transcript": "Good morning, everyone. Welcome to Rosedale Library Open Day.\n\nIt's good to see that so many members of the public are interested in the future of the library. For those of you who don't know me, my name is David Laws. I'm the new personal assistant to Penny Williams, the library director.\n\nPenny was supposed to be leading this meeting, but due to unexpected illness, I will be taking her place this morning. We felt that this would be better than postponing the meeting to a later date. Firstly, a couple of small matters.\n\nThe guest speaker talks this year have been incredibly popular, and the slight rise in ticket price has not put anyone off. We will continue to hold these events on a monthly basis. It has, however, come to our attention that some people have missed events because they didn't know they were on.\n\nWe now intend to notify everyone through email reminders. Also, you might be aware that we had a break-in last month, and while the thief or thieves actually left empty-handed, they did smash a number of windows and kick down a door trying to get in. Police believe the offenders were just taking a chance that there might be something valuable in the library.\n\nAnyway, we hope that the new security cameras along Roberts Avenue might deter this kind of activity. Now, the purpose of the meeting, of course, is to present the proposals for a new library layout. Rosedale Library has been serving the public for 50 years, but it's not been extended since the renovations in 1969.\n\nSince opening, the number of books on our shelves and other items has more than doubled, and visitor numbers have increased 20% in the last 10 years. There is, therefore, a clear need for an extension. We hope that you have noticed some recent improvements to the library, such as the eight new PCs that were installed back in June.\n\nWe're also aware that the lighting is quite poor, but you'll shortly see a big difference because the City Council continued to support us and have authorised the spending in this area. We've also applied to the Council to approve the addition of another member of staff to work part-time in the afternoons, when mothers and children tend to use the library more often, and this decision will be made in the next few weeks. Before you hear the rest of the talk, you have some time to look at questions 16 to 20.\n\nNow listen and answer questions 16 to 20. Now, turning to the proposal for the extensions and alterations to the library, please see the second page of your handout. The double line indicates the rooms in the existing building, and the dotted lines show where the extensions might be.\n\nAs you can see, the location of the entrance hall to the library would remain unchanged there at the bottom of the plan. Once you go all the way through the entrance hall, on your immediate left would be the local history display that would face the information desk. Behind it, the plan is for an access ramp inside the existing building, meaning the mothers with pushchairs and wheelchair users could ascend to the first new area.\n\nThis new room is designed to be light and airy, and could be the ideal location for a new children's room looking out onto the park. You will notice there are steps that lead back down to the ground floor. At the bottom of these, on the left, would be the adult fiction section, so no change there.\n\nBut behind this is proposed to construct a new community room for public lectures, special events and so forth. This will be the largest new room. To the right of the adult fiction room, with magnificent views of the sea, a cafe could provide visitors with light refreshments and an opportunity to browse a range of magazines.\n\nThere would be external access to this area via a set of steps leading down towards Queen's Parade. Now, let's go back to the entrance hall again. On the right of the entrance hall, facing onto the right Roberts Avenue, is the new staff workroom.\n\nThe fact that the workroom would be overlooking Roberts Avenue means the staff will actually be able to see outside rather than be stuck in the small room behind the toilets. The room looking out onto both Queen's Parade and Roberts Avenue would be the academic study room, a facility we believe could be used by the growing number of local students. Also facing Roberts Avenue but not Queen's Parade would be the multimedia room with our extensive audio collection right behind it.\n\nThat is the end of Part 2. You now have half a minute to check your answers.",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "The Artist Samuel Prout",
+        "transcript": "You will hear an art history student called Jack talking to a lecturer, Dr. Reuben, about an English artist called Samuel Prout. First, you have some time to look at questions 21 to 25 on page 5. Now, listen carefully and answer questions 21 to 25.\n\nDr. Reuben? Hello, Jack. So, have you chosen which artist you're going to give your presentation on? Yes, Samuel Prout, the 19th century English watercolour painter. Right, interesting choice.\n\nI always feel he never quite got the fame he deserved, did he? No, I think that's true. I mean, I don't think he ever went completely out of vogue even though tastes and fashions come and go. He was really prolific in his day but there's never really been a high-profile showing of his paintings.\n\nThat could have brought him to more people's attention. Sure, but I think it's remarkable that he achieved any critical success given the problems that he had. Apparently, he was prone to chronic chest infections throughout his life.\n\nYes, it must have been hard for him but it seems he had a loving wife and family. And a strong network of colleagues and supporters. Yeah, I've been trying to find out what got him interested in painting in the first place.\n\nHe doesn't seem to have learned the skill from his father like so many artists of his time. No, well, I think he painstakingly reproduced other painters' works essentially sort of schooling himself. And then later on he actually became an art teacher.\n\nHow do you feel about Prout's style of painting? It's interesting how a lot of artists you can see how their style is developing as their work matures but not so much with Prout. He seemed to have several on the go all at the same time. Yes, with others you can say oh, that must be by so-and-so and painted in around 1820, say.\n\nRight, but not so much with Prout. Of course, Prout's career had a huge boost when the art critic John Ruskin declared him a great artist. Yes, but Ruskin's assessment was quite biassed, wasn't it? How do you mean? Well, Ruskin admired Prout and he didn't seem to mind the fact that many of his paintings showed more or less the same thing European street scenes or that the people in Prout's pictures can look rather wooden and not very lifelike.\n\nFor me, his detailing of architecture was too predictable but for Ruskin that was where Prout's genius lay. Well, I guess that's what Ruskin was particularly interested in. Before you hear the rest of the discussion you have some time to look at questions 26 to 30 on page 6. Now listen and answer questions 26 to 30.\n\nOK, Jack, so your brief was to prepare a presentation to give to the group and show some pictures associated with the artist each of which makes a key point about their work, OK? Right, well, I wanted to start with a view in Germany at Würzburg. It's a detailed watercolour showing a busy market scene with a background of flamboyant detail like in so many of his pictures. Yes, basically what Prout had made his name doing so well.\n\nIt really gives the flavour of his work. Right. There's a painting called Bridge on the Ouse near York except that experts now think this isn't York at all but somewhere in the south of England.\n\nRight. But as far as I know the picture has never been renamed. No, that would make cataloguing and researching Prout's pictures more complicated.\n\nAnd the next one is called Woodland Scene. This one has a signature, it says S. Prout in the bottom left but even so experts on Prout say they doubt he actually painted it. Yes, I remember reading that.\n\nThe detailing is too clumsy with the sun not casting shade in the right place. Exactly and there's a lot of blue that basically doesn't appear in any other Prout pictures so it's probably a forgery. Yes.\n\nAnd what's the next one? Venice. It's a view from the Grand Canal with some rather grand buildings. They're bathed in sunlight with a sort of picturesque shadow cast by the buildings opposite which is shown brilliantly.\n\nLovely use of colour. Prout at his best, I think. Right.\n\nAnd then there's Entrance to a Harbour. Right. He grew up by the sea, didn't he? Yes, in Plymouth.\n\nHe didn't specialise in seascapes but this same location with the harbour and the sea also appear in other pictures showing a range of weather conditions. They don't all have figures like this one but I think they're really well done. Right.\n\nThat is the end of section three. You now have half a minute to check your answers.",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "Case Study: Chocozine's Difficult Decision",
+        "transcript": "Now turn to section four on page seven. You will hear part of a lecture in a business class. The professor is discussing a case study of a company in North America called Chocozine. First, you have some time to look at questions thirty-one to forty on page seven.\n\nNow listen carefully and answer questions thirty-one to forty. We've been talking about small businesses and some of the challenges they face. Today, I want to look at a case study based on a company called Chocozine that illustrates the need to evaluate opportunities very carefully.\n\nA man called Eric Smith and two of his colleagues were struck by the mass customisation movement that was spreading through a large number of industries in the US. This involved mass-producing products and at the same time individually customising them for their customers. Why not apply the same concept to chocolate? Customers could choose the ingredients they'd like to have put into their chocolate bars.\n\nSo Smith and his colleagues decided to launch a customised chocolate operation called Chocozine. Then, when Chocozine was only about nine months old, Smith received an email from a large European luxury retailer. This retailer was enquiring about ordering 15,000 bars of chocolate for their customers.\n\nThey wanted to give these as a gift in their high-end stores in New York City, Miami and Los Angeles during the holiday shopping season. The offer certainly sounded enticing because Chocozine was selling fewer than 150 chocolate bars a day. Smith and his co-founders knew it could also be very good publicity, so they needed to consider it carefully.\n\nThey had many things to consider. Obviously, it was a tempting offer. But at the same time, the risk was great.\n\nThey didn't know whether they could get the order completed in time. Also, if they accepted it and then it turned out they couldn't do it, what about the financial fallout as well as the possible damage to the company's reputation? As well as this, another thing they had to think about was how they were actually going to produce all these chocolate bars as the number of machines they had was limited. They only had three of them, and that clearly wasn't going to be enough.\n\nSo they decided to think creatively and try to find a subcontractor to produce the bars. They weren't ready to pass up such a rare opportunity. Smith spent two days searching for a suitable subcontractor, but he couldn't find anyone who had experience of making bars with the type of melted toppings that Chocozine used.\n\nThen something rather unexpected happened. A professor at Harvard Business School was teaching a class about product customisation. So she wrote to Smith and asked if he would speak to the students.\n\nSo in late October, Smith had an opportunity to talk about the deal to about 90 MBA students and to ask them for their advice. Many of the students thought that doing the deal with a luxury retailer would be a mistake. However, after the class, Smith spoke with one of the students.\n\nThis student had worked as a buyer at a major chocolate retailer, and he said he had a contact in the business who might be interested in doing the job. Smith called the new subcontractor the next day. He said he was interested in doing the order, but he found there were difficult technical issues to be worked out, including how to faithfully reproduce the distinctive shape of the Chocozine bars.\n\nSmith thought about it, and in the end, reluctantly, he sent an email declining the luxury retailer's order. But fortunately for Chocozine, their sales picked up anyway, and the company gradually expanded its market share and is now doing very well. Chocozine's case is important.\n\nThey were wise to carefully consider whether they could actually manage an order of this kind. But not every small business will have the happy ending that Chocozine did. And taking on too big an order has destroyed many a small business.",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "Registration number: ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "BD51STR",
+        "alternatives": [
+          "BD51STR",
+          "bd51str"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The registration number is stated directly as BD51STR.\nDo not confuse the registration with the car model or manufacture year."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Number of miles: ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "180,000",
+        "alternatives": [
+          "180,000",
+          "180000",
+          "180,000 miles",
+          "180000 miles",
+          "180000",
+          "180,000 miles",
+          "180000 miles"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker gives the mileage explicitly: 180,000 miles.\nThe nearby year 2001 is a different detail."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Needs two new ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "tyres",
+        "alternatives": [
+          "tyres",
+          "tires",
+          "tires"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The form asks what needs replacing; the speaker names the tyres.\nThe word 'worn' describes their condition, not the item required in the gap."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "The inside ___ needs fixing",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "light",
+        "alternatives": [
+          "light"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The malfunctioning inside item is the light.\nThe door is where the action happens, but it is not the thing that needs fixing."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "One passenger seat ___ is stuck",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "belt",
+        "alternatives": [
+          "belt"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The stuck item is the seat belt.\n'Passenger seat' is location/context; the missing noun is belt."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "The ___ needs replacing",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "radio",
+        "alternatives": [
+          "radio"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speaker explicitly says the radio needs replacing.\nDo not select a previous problem such as the belt or light."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "The ___ brakes of the car need attention",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "front",
+        "alternatives": [
+          "front"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "'The front ones' refers back to the brakes.\nThe speaker does not say rear brakes."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Needs a spare ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "key",
+        "alternatives": [
+          "key"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "A spare key is requested.\nDo not write 'car'; the form already supplies the context."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "Courtesy car? ___ (Yes, preferably)",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "automatic",
+        "alternatives": [
+          "automatic"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The customer prefers an automatic courtesy car.\n'Courtesy car' is already in the form; the missing preference is automatic."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Phone: ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "07847 355780",
+        "alternatives": [
+          "07847 355780",
+          "07847355780",
+          "07847355780"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The daytime phone number is spoken directly.\nKeep all digits in the correct order."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "Why is David Laws leading the meeting instead of Penny Williams today?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Penny Williams is not well recently.",
+          "B) David Laws is the director now.",
+          "C) The meeting will be postponed."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "David is leading because Penny is ill.\nThe talk is not postponed; David explicitly says replacing her is better than postponing."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "What does David say has been a problem with guest speaker talks?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) expensive tickets",
+          "B) lack of publicity",
+          "C) inconvenient time"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The problem is lack of publicity/awareness.\nTicket price is mentioned only to say it did not put people off."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "What did the man say about the break-in at the library?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) The building was damaged to some extent.",
+          "B) Some valuable items were stolen.",
+          "C) The thieves had prepared carefully."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The building was damaged during the break-in.\nThe thieves left empty-handed, so valuable items were not stolen."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "Why do they want to make an extension to the library?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) It has had no renovation since it was founded.",
+          "B) It needs to double the number of computers.",
+          "C) There has been an increased number of visiting people."
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The extension is justified by increased use/visitor numbers.\nThe library had renovations before, and the PC count is a separate improvement."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "The investment from the city council will be used for",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) extra staff recruitment.",
+          "B) buying more computers.",
+          "C) improving the lighting."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "Council investment is for improving lighting.\nExtra staff is only an application awaiting approval; PCs were already installed."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "Children's room",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G",
+          "H) Map position H"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The described position corresponds to map letter C.\nUse the entrance, ramp, park and steps as orientation; other letters mark different rooms."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "Community room",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G",
+          "H) Map position H"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "That relative position corresponds to map letter A.\nDo not confuse it with the adjacent café on the right."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "Café",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G",
+          "H) Map position H"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "That right-hand location corresponds to map letter B.\nCommunity room is behind adult fiction; café is to the right."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "Academic study room",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G",
+          "H) Map position H"
+        ],
+        "key": "H",
+        "alternatives": [
+          "H"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The corner room facing both roads corresponds to H.\nMultimedia faces Roberts Avenue but not Queen's Parade."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "Multimedia room",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) Map position A",
+          "B) Map position B",
+          "C) Map position C",
+          "D) Map position D",
+          "E) Map position E",
+          "F) Map position F",
+          "G) Map position G",
+          "H) Map position H"
+        ],
+        "key": "G",
+        "alternatives": [
+          "G"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "That location corresponds to G.\nThe academic room is the one facing both roads."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "According to Jack, why did Samuel Prout never become very famous?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) His output was very limited.",
+          "B) He was seen as out of fashion.",
+          "C) His work never had a major exhibition."
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "Jack's reason is that Prout never had a major exhibition/showing.\nHe was prolific and did not completely go out of vogue."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "Dr Rubin and Jack agree that many of Prout's problems were caused by",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) poor health.",
+          "B) jealous colleagues.",
+          "C) an unhappy marriage."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The agreed major problem was poor health.\nHis wife/family and colleagues are described as supportive, not problematic."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "How did Prout learn painting?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) His father taught him.",
+          "B) He went to art galleries.",
+          "C) He copied pictures."
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "He learned by copying/reproducing other paintings.\nHis father did not teach him; art galleries are not given as the method."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "What point does Jack make about Prout's style?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Prout used different styles simultaneously.",
+          "B) Many other artists had a similar style.",
+          "C) Prout's style developed throughout his career."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "Jack says Prout used multiple styles simultaneously.\nThe contrast is with artists whose style develops clearly through a career."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "What did John Ruskin admire about Prout's paintings?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) their realism",
+          "B) their presentation of buildings",
+          "C) their wide range of subject matters"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "Ruskin particularly admired how Prout presented/detailled buildings.\nRuskin tolerated repeated subjects and wooden figures; those were not the admired feature."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "A view in Germany: at Wurzburg",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) one of several paintings of the same view",
+          "B) probably an inaccurate title",
+          "C) may not be genuine",
+          "D) was never finished",
+          "E) typical subject matter for Prout",
+          "F) skillful painting of light and dark",
+          "G) shows an event that never took place"
+        ],
+        "key": "E",
+        "alternatives": [
+          "E"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "This is described as typical subject matter/style for Prout, so E.\nNo claim is made here about title accuracy, authenticity or unfinished work."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "Bridge on the Ouse, near York",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) one of several paintings of the same view",
+          "B) probably an inaccurate title",
+          "C) may not be genuine",
+          "D) was never finished",
+          "E) typical subject matter for Prout",
+          "F) skillful painting of light and dark",
+          "G) shows an event that never took place"
+        ],
+        "key": "B",
+        "alternatives": [
+          "B"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The title is probably inaccurate, so B.\nThe issue is location/title, not authenticity."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Wooden scene",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) one of several paintings of the same view",
+          "B) probably an inaccurate title",
+          "C) may not be genuine",
+          "D) was never finished",
+          "E) typical subject matter for Prout",
+          "F) skillful painting of light and dark",
+          "G) shows an event that never took place"
+        ],
+        "key": "C",
+        "alternatives": [
+          "C"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The work may not be genuine, so C.\nA signature is present, but the experts still doubt authorship."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Venice",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) one of several paintings of the same view",
+          "B) probably an inaccurate title",
+          "C) may not be genuine",
+          "D) was never finished",
+          "E) typical subject matter for Prout",
+          "F) skillful painting of light and dark",
+          "G) shows an event that never took place"
+        ],
+        "key": "F",
+        "alternatives": [
+          "F"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The speakers praise the handling of light and dark, so F.\nThe point is lighting/shadow, not title or authenticity."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Entrance to a harbour",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) one of several paintings of the same view",
+          "B) probably an inaccurate title",
+          "C) may not be genuine",
+          "D) was never finished",
+          "E) typical subject matter for Prout",
+          "F) skillful painting of light and dark",
+          "G) shows an event that never took place"
+        ],
+        "key": "A",
+        "alternatives": [
+          "A"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "It is one of several paintings of the same view, so A.\nThe speakers do not question whether the painting is genuine."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "Spread of mass-customisation in many US ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "industries",
+        "alternatives": [
+          "industries"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The note requires the plural noun industries.\n'Products' appears later but does not complete 'many US ___'."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "15,000 chocolate bars to use as a ___ for customers",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "gift",
+        "alternatives": [
+          "gift"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The bars were intended as a gift for customers.\n'Retailer' is the buyer, not the purpose of the bars."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "The deal could improve sales and provide ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "publicity",
+        "alternatives": [
+          "publicity"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The potential benefit was publicity.\nSales are already mentioned separately in the notes."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "Failure could affect finances and company ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "reputation",
+        "alternatives": [
+          "reputation"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The second risk paired with finances is reputation.\nDo not write 'fallout'; it describes the financial consequence."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "They only had three ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "machines",
+        "alternatives": [
+          "machines"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The three items were machines.\n'Bars' is what they needed to produce, not what they possessed three of."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "Subcontractor needed the right ___",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "toppings",
+        "alternatives": [
+          "toppings"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The required experience concerned toppings.\n'Subcontractor' is the person/company they were seeking, not the technical specialty."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Many students said it would be a ___ to do the deal",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "mistake",
+        "alternatives": [
+          "mistake"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "Students called the deal a mistake.\nThe lecture presents the offer as tempting earlier, which is a distractor."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "One student had a ___ in the chocolate industry",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "contact",
+        "alternatives": [
+          "contact"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The student had a contact in the chocolate industry.\nDo not write 'buyer'; that was the student's previous job."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "Subcontractor had trouble with the unusual ___ of the bar",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "shape",
+        "alternatives": [
+          "shape"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The technical problem involved the bar's shape.\n'Toppings' was the earlier subcontractor-search problem."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "Accepting ___ orders has created severe problems for many new businesses",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "big",
+        "alternatives": [
+          "big"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The final comment warns about big orders.\nThe word must match the ONE WORD ONLY instruction."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "take some details of the car",
+        "pos": "verb phrase",
+        "uz": "avtomobil tafsilotlarini yozib olmoq",
+        "def": "to record the car's identifying information",
+        "ex": "Part 1: Car Servicing Form",
+        "also": [
+          "to record the car's identifying information"
+        ]
+      },
+      {
+        "word": "work this one out",
+        "pos": "phrasal verb",
+        "uz": "buni hisoblab/topib chiqmoq",
+        "def": "to solve or calculate something",
+        "ex": "Part 1: Car Servicing Form",
+        "also": [
+          "to solve or calculate something"
+        ]
+      },
+      {
+        "word": "make a note of it",
+        "pos": "collocation",
+        "uz": "uni yozib qo‘ymoq",
+        "def": "to record something for later",
+        "ex": "Part 1: Car Servicing Form",
+        "also": [
+          "to record something for later"
+        ]
+      },
+      {
+        "word": "getting a bit worn",
+        "pos": "adjective phrase",
+        "uz": "biroz eskirib bormoqda",
+        "def": "becoming damaged through use",
+        "ex": "Part 1: Car Servicing Form",
+        "also": [
+          "becoming damaged through use"
+        ]
+      },
+      {
+        "word": "a bit annoying",
+        "pos": "adjective phrase",
+        "uz": "biroz bezovta qiladigan",
+        "def": "slightly irritating",
+        "ex": "Part 1: Car Servicing Form",
+        "also": [
+          "slightly irritating"
+        ]
+      },
+      {
+        "word": "can't fasten the belt",
+        "pos": "verb phrase",
+        "uz": "kamarni mahkamlab bo‘lmaydi",
+        "def": "cannot secure the seat belt",
+        "ex": "Part 1: Car Servicing Form",
+        "also": [
+          "cannot secure the seat belt"
+        ]
+      },
+      {
+        "word": "give you a quote",
+        "pos": "collocation",
+        "uz": "narx taklifini bermoq",
+        "def": "to provide an estimated price",
+        "ex": "Part 1: Car Servicing Form",
+        "also": [
+          "to provide an estimated price"
+        ]
+      },
+      {
+        "word": "have a particular look at the front ones",
+        "pos": "lexical chunk",
+        "uz": "oldingi qismlarni alohida tekshirmoq",
+        "def": "to inspect the front ones especially",
+        "ex": "Part 1: Car Servicing Form",
+        "also": [
+          "to inspect the front ones especially"
+        ]
+      },
+      {
+        "word": "due to unexpected illness",
+        "pos": "prepositional phrase",
+        "uz": "kutilmagan kasallik sababli",
+        "def": "because of an unforeseen illness",
+        "ex": "Part 2: Rosedale Library",
+        "also": [
+          "because of an unforeseen illness"
+        ]
+      },
+      {
+        "word": "come to our attention",
+        "pos": "fixed expression",
+        "uz": "e’tiborimizga tushmoq",
+        "def": "to become known or noticed",
+        "ex": "Part 2: Rosedale Library",
+        "also": [
+          "to become known or noticed"
+        ]
+      },
+      {
+        "word": "taking a chance",
+        "pos": "idiom",
+        "uz": "tavakkal qilib ko‘rmoq",
+        "def": "acting in hope of success without certainty",
+        "ex": "Part 2: Rosedale Library",
+        "also": [
+          "acting in hope of success without certainty"
+        ]
+      },
+      {
+        "word": "a clear need for an extension",
+        "pos": "noun phrase",
+        "uz": "kengaytirishga aniq ehtiyoj",
+        "def": "an obvious need to enlarge the building",
+        "ex": "Part 2: Rosedale Library",
+        "also": [
+          "an obvious need to enlarge the building"
+        ]
+      },
+      {
+        "word": "authorised the spending in this area",
+        "pos": "verb phrase",
+        "uz": "shu yo‘nalishdagi xarajatni tasdiqlamoq",
+        "def": "approved spending for this purpose",
+        "ex": "Part 2: Rosedale Library",
+        "also": [
+          "approved spending for this purpose"
+        ]
+      },
+      {
+        "word": "extensions and alterations to the library",
+        "pos": "noun phrase",
+        "uz": "kutubxona kengaytmalari va o‘zgartirishlari",
+        "def": "planned additions and changes to the library",
+        "ex": "Part 2: Rosedale Library",
+        "also": [
+          "planned additions and changes to the library"
+        ]
+      },
+      {
+        "word": "light and airy",
+        "pos": "adjective phrase",
+        "uz": "yorug‘ va havodor",
+        "def": "bright with plenty of air and space",
+        "ex": "Part 2: Rosedale Library",
+        "also": [
+          "bright with plenty of air and space"
+        ]
+      },
+      {
+        "word": "magnificent views of the sea",
+        "pos": "noun phrase",
+        "uz": "dengizning ajoyib manzaralari",
+        "def": "excellent views overlooking the sea",
+        "ex": "Part 2: Rosedale Library",
+        "also": [
+          "excellent views overlooking the sea"
+        ]
+      },
+      {
+        "word": "went completely out of vogue",
+        "pos": "idiom",
+        "uz": "butunlay urfdan chiqmoq",
+        "def": "became completely unfashionable",
+        "ex": "Part 3: The Artist Samuel Prout",
+        "also": [
+          "became completely unfashionable"
+        ]
+      },
+      {
+        "word": "a high-profile showing",
+        "pos": "noun phrase",
+        "uz": "katta e’tiborli ko‘rgazma",
+        "def": "a prominent public exhibition",
+        "ex": "Part 3: The Artist Samuel Prout",
+        "also": [
+          "a prominent public exhibition"
+        ]
+      },
+      {
+        "word": "prone to chronic chest infections",
+        "pos": "adjective phrase",
+        "uz": "surunkali ko‘krak infeksiyalariga moyil",
+        "def": "likely to suffer recurring chest infections",
+        "ex": "Part 3: The Artist Samuel Prout",
+        "also": [
+          "likely to suffer recurring chest infections"
+        ]
+      },
+      {
+        "word": "a strong network of colleagues and supporters",
+        "pos": "noun phrase",
+        "uz": "hamkasb va tarafdorlarning kuchli tarmog‘i",
+        "def": "a dependable circle of professional supporters",
+        "ex": "Part 3: The Artist Samuel Prout",
+        "also": [
+          "a dependable circle of professional supporters"
+        ]
+      },
+      {
+        "word": "painstakingly reproduced other painters' works",
+        "pos": "verb phrase",
+        "uz": "boshqa rassomlar ishlarini sinchiklab ko‘chirgan",
+        "def": "carefully copied other artists' work",
+        "ex": "Part 3: The Artist Samuel Prout",
+        "also": [
+          "carefully copied other artists' work"
+        ]
+      },
+      {
+        "word": "several on the go all at the same time",
+        "pos": "idiomatic chunk",
+        "uz": "bir vaqtning o‘zida bir nechta uslubni olib borgan",
+        "def": "had several styles in progress simultaneously",
+        "ex": "Part 3: The Artist Samuel Prout",
+        "also": [
+          "had several styles in progress simultaneously"
+        ]
+      },
+      {
+        "word": "bathed in sunlight",
+        "pos": "verb phrase",
+        "uz": "quyosh nuriga cho‘milgan",
+        "def": "filled or covered with sunlight",
+        "ex": "Part 3: The Artist Samuel Prout",
+        "also": [
+          "filled or covered with sunlight"
+        ]
+      },
+      {
+        "word": "probably a forgery",
+        "pos": "noun phrase",
+        "uz": "ehtimol soxta asar",
+        "def": "probably an artwork falsely presented as genuine",
+        "ex": "Part 3: The Artist Samuel Prout",
+        "also": [
+          "probably an artwork falsely presented as genuine"
+        ]
+      },
+      {
+        "word": "evaluate opportunities very carefully",
+        "pos": "verb phrase",
+        "uz": "imkoniyatlarni juda ehtiyotkor baholamoq",
+        "def": "assess opportunities with great care",
+        "ex": "Part 4: Case Study: Chocozine's Difficult Decision",
+        "also": [
+          "assess opportunities with great care"
+        ]
+      },
+      {
+        "word": "mass customisation movement",
+        "pos": "noun phrase",
+        "uz": "ommaviy individuallashtirish harakati",
+        "def": "the trend of customising mass-produced products",
+        "ex": "Part 4: Case Study: Chocozine's Difficult Decision",
+        "also": [
+          "the trend of customising mass-produced products"
+        ]
+      },
+      {
+        "word": "individually customising them for their customers",
+        "pos": "verb phrase",
+        "uz": "mijozlar uchun alohida moslashtirmoq",
+        "def": "tailoring products to individual customers",
+        "ex": "Part 4: Case Study: Chocozine's Difficult Decision",
+        "also": [
+          "tailoring products to individual customers"
+        ]
+      },
+      {
+        "word": "very good publicity",
+        "pos": "noun phrase",
+        "uz": "juda yaxshi reklama/oshkoralik",
+        "def": "strong positive public exposure",
+        "ex": "Part 4: Case Study: Chocozine's Difficult Decision",
+        "also": [
+          "strong positive public exposure"
+        ]
+      },
+      {
+        "word": "financial fallout",
+        "pos": "noun phrase",
+        "uz": "moliyaviy salbiy oqibatlar",
+        "def": "negative financial consequences",
+        "ex": "Part 4: Case Study: Chocozine's Difficult Decision",
+        "also": [
+          "negative financial consequences"
+        ]
+      },
+      {
+        "word": "pass up such a rare opportunity",
+        "pos": "phrasal verb",
+        "uz": "bunday noyob imkoniyatni qo‘ldan boy bermoq",
+        "def": "decline or miss an unusual opportunity",
+        "ex": "Part 4: Case Study: Chocozine's Difficult Decision",
+        "also": [
+          "decline or miss an unusual opportunity"
+        ]
+      },
+      {
+        "word": "technical issues to be worked out",
+        "pos": "noun phrase",
+        "uz": "hal qilinishi kerak bo‘lgan texnik masalalar",
+        "def": "technical problems that still need solutions",
+        "ex": "Part 4: Case Study: Chocozine's Difficult Decision",
+        "also": [
+          "technical problems that still need solutions"
+        ]
+      },
+      {
+        "word": "gradually expanded its market share",
+        "pos": "verb phrase",
+        "uz": "bozor ulushini asta-sekin kengaytirdi",
+        "def": "slowly increased its share of the market",
+        "ex": "Part 4: Case Study: Chocozine's Difficult Decision",
+        "also": [
+          "slowly increased its share of the market"
+        ]
+      }
+    ]
+  }
+}

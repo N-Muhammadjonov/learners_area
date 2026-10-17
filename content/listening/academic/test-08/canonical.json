@@ -1,0 +1,1075 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-8",
+  "title": "Listening Test 8",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "9ab275dd0ab7d1bbc2f5db374bb58a2bb3908955a254efe1e26f66dad9b1671e",
+      "path": "audio/part-1.mp3"
+    },
+    {
+      "key": "audio.part2",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "c34facf9cfd9e97975599e406008f74abc12a47b65765fd9cce94ca1d474504e",
+      "path": "audio/part-2.mp3"
+    },
+    {
+      "key": "audio.part3",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "6fc200131e25be358083376487c7edb576a9d4e36bf62b1a21f1421a5f37f2e5",
+      "path": "audio/part-3.mp3"
+    },
+    {
+      "key": "audio.part4",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "e87009af72b236c1f7c1ef83ee0c5315fbb09bbd9d79e1ddab333902e4a7e122",
+      "path": "audio/part-4.mp3"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1572.59755,
+      "assetKey": "audio.full",
+      "path": "audio/part-1.mp3"
+    },
+    "image": null,
+    "imagePath": null,
+    "sections": [
+      {
+        "number": 1,
+        "title": "Adventure Camp",
+        "transcript": "Full verbatim transcript is not present in the supplied source HTML. Script Completion is unavailable for this Part until a verified full transcript matching the source audio is supplied or recovered.",
+        "reviewRequired": true
+      },
+      {
+        "number": 2,
+        "title": "Temporary restaurant work",
+        "transcript": "Full verbatim transcript is not present in the supplied source HTML. Script Completion is unavailable for this Part until a verified full transcript matching the source audio is supplied or recovered.",
+        "reviewRequired": true
+      },
+      {
+        "number": 3,
+        "title": "Bachelor of Communications Degree",
+        "transcript": "Full verbatim transcript is not present in the supplied source HTML. Script Completion is unavailable for this Part until a verified full transcript matching the source audio is supplied or recovered.",
+        "reviewRequired": true
+      },
+      {
+        "number": 4,
+        "title": "Spices",
+        "transcript": "Full verbatim transcript is not present in the supplied source HTML. Script Completion is unavailable for this Part until a verified full transcript matching the source audio is supplied or recovered.",
+        "reviewRequired": true
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "Adventure Camp — maximum number of people",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "44",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives 44.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Cost for two days",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "180",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives 180.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Day One morning: lesson in riding a ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "HORSE",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives HORSE.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Day One afternoon: go down the river by ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "CANOE",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives CANOE.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "Explore one of the ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "CAVES",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives CAVES.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "Safety equipment provided",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "HELMET",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives HELMET.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "Dinner option besides barbecue or pizza",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "PASTA",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives PASTA.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Day Two morning: cycle to a ___ and back",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "VILLAGE",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives VILLAGE.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "Day Two afternoon: play ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "BASKETBALL",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives BASKETBALL.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Learn how to make ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "BUTTER",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives BUTTER.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "Why are restaurants currently looking for more staff?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Additional staff will be required for the food festival.",
+          "B) They always need extra staff during the summer.",
+          "C) Greater numbers of people are using restaurants in the area."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives C.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "What kind of work are staff most needed for?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) kitchen duties",
+          "B) serving customers",
+          "C) administration"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives A.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "The speaker says that the working hours will particularly suit people",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) who are also studying.",
+          "B) who have young families.",
+          "C) who dislike getting up early."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives A.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "What skill is particularly important for kitchen staff?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) communication with customers",
+          "B) teamwork",
+          "C) working with numbers"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives B.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "What advice does the speaker give about CVs?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Include a recent photo.",
+          "B) Check contact details are up to date.",
+          "C) List all relevant qualifications."
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives B.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "The Tower — restaurant comment",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) convenient for public transport",
+          "B) interesting and stylish food",
+          "C) attracts many different types of customer",
+          "D) recommended by a food website",
+          "E) part of a successful chain",
+          "F) opportunities for longer term employment",
+          "G) accommodation available for staff"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives A.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "Beachside — restaurant comment",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) convenient for public transport",
+          "B) interesting and stylish food",
+          "C) attracts many different types of customer",
+          "D) recommended by a food website",
+          "E) part of a successful chain",
+          "F) opportunities for longer term employment",
+          "G) accommodation available for staff"
+        ],
+        "key": "F",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives F.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "Marco's — restaurant comment",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) convenient for public transport",
+          "B) interesting and stylish food",
+          "C) attracts many different types of customer",
+          "D) recommended by a food website",
+          "E) part of a successful chain",
+          "F) opportunities for longer term employment",
+          "G) accommodation available for staff"
+        ],
+        "key": "D",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives D.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "Silverlea — restaurant comment",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) convenient for public transport",
+          "B) interesting and stylish food",
+          "C) attracts many different types of customer",
+          "D) recommended by a food website",
+          "E) part of a successful chain",
+          "F) opportunities for longer term employment",
+          "G) accommodation available for staff"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives B.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "The Lion — restaurant comment",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) convenient for public transport",
+          "B) interesting and stylish food",
+          "C) attracts many different types of customer",
+          "D) recommended by a food website",
+          "E) part of a successful chain",
+          "F) opportunities for longer term employment",
+          "G) accommodation available for staff"
+        ],
+        "key": "G",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives G.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "Simon thinks the Global Communications major",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) will help him get work in other countries.",
+          "B) has easier courses than the Public Relations major.",
+          "C) could lead to a well-paid job in New Zealand."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives A.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "Simon says that the Economic Principles course was",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) too challenging for him.",
+          "B) uninteresting as a subject.",
+          "C) similar to other courses on the major."
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives B.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "Anna thinks that the foreign language courses",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) give students a better understanding of the whole major.",
+          "B) are less useful than the courses dealing with culture.",
+          "C) should remain optional to students."
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives A.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "What reason does Anna give for her choice of foreign language?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) It was a language she had previously studied.",
+          "B) It would enable her to travel.",
+          "C) It could be useful in commerce."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives C.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "Which TWO things do Anna and Simon both appreciate about their lecturers?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) They encourage freedom of thought.",
+          "B) They help individual students in seminars.",
+          "C) They are willing to adapt courses.",
+          "D) They are enthusiastic about their subject.",
+          "E) They encourage students to improve."
+        ],
+        "key": "A",
+        "alternatives": [
+          "A",
+          "E"
+        ],
+        "pair": [
+          26
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives A.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "Which TWO things do Anna and Simon both appreciate about their lecturers?",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A) They encourage freedom of thought.",
+          "B) They help individual students in seminars.",
+          "C) They are willing to adapt courses.",
+          "D) They are enthusiastic about their subject.",
+          "E) They encourage students to improve."
+        ],
+        "key": "E",
+        "alternatives": [
+          "A",
+          "E"
+        ],
+        "pair": [
+          25
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives E.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "Communication 1 — skill developed",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) making decisions under pressure",
+          "B) working in large groups",
+          "C) reducing problems between co-workers",
+          "D) talking in public",
+          "E) understanding cultural differences",
+          "F) using logical argument"
+        ],
+        "key": "D",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives D.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Psychology — skill developed",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) making decisions under pressure",
+          "B) working in large groups",
+          "C) reducing problems between co-workers",
+          "D) talking in public",
+          "E) understanding cultural differences",
+          "F) using logical argument"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives B.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Interpersonal Skills — skill developed",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) making decisions under pressure",
+          "B) working in large groups",
+          "C) reducing problems between co-workers",
+          "D) talking in public",
+          "E) understanding cultural differences",
+          "F) using logical argument"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives C.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Communication 3 — skill developed",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) making decisions under pressure",
+          "B) working in large groups",
+          "C) reducing problems between co-workers",
+          "D) talking in public",
+          "E) understanding cultural differences",
+          "F) using logical argument"
+        ],
+        "key": "E",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives E.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "Ancient Greeks and Romans also used spices in the preparation of ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "PERFUMES",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives PERFUMES.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "Ancient Romans used spices to display their ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "WEALTH",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives WEALTH.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "The search for spices contributed to the ___ of the New World",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "EXPLORATION",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives EXPLORATION.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "Spices were believed to change a person's ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "MOOD",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives MOOD.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "Nutmeg: reduce the pain of ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "TOOTHACHE",
+        "alternatives": [
+          "TOOTH ACHE",
+          "TOOTHACHE"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives TOOTHACHE.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "Peppercorns: take the place of ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "MONEY",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives MONEY.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "Burnt spices: hide domestic ___",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "SMELLS",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives SMELLS.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "Importing spices: greatest expense — ___ costs",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "TRANSPORT",
+        "alternatives": [
+          "TRANSPORTATION",
+          "TRANSPORT"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives TRANSPORT.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "Demand led to development of the European ___ industry",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "SHIPBUILDING",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives SHIPBUILDING.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "Cities received valuable ___ from merchants",
+        "instruction": "",
+        "kind": "completion",
+        "typeCode": "note_completion",
+        "options": [],
+        "key": "INCOME",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied source answer key gives INCOME.\nUse the exact question wording and do not rely on distractor keywords."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "food festival",
+        "pos": "noun phrase",
+        "uz": "oziq-ovqat festivali",
+        "def": "an organised public event centred on food",
+        "ex": "Additional staff will be required for the food festival.",
+        "also": [
+          "culinary event"
+        ]
+      },
+      {
+        "word": "up to date",
+        "pos": "adjective phrase",
+        "uz": "yangilangan / dolzarb",
+        "def": "containing the latest correct information",
+        "ex": "Check contact details are up to date.",
+        "also": [
+          "current"
+        ]
+      },
+      {
+        "word": "public transport",
+        "pos": "noun phrase",
+        "uz": "jamoat transporti",
+        "def": "transport services available for public use",
+        "ex": "convenient for public transport",
+        "also": [
+          "mass transit"
+        ]
+      },
+      {
+        "word": "longer-term employment",
+        "pos": "noun phrase",
+        "uz": "uzoqroq muddatli ish",
+        "def": "work that may continue for an extended period",
+        "ex": "opportunities for longer term employment",
+        "also": [
+          "ongoing work"
+        ]
+      },
+      {
+        "word": "freedom of thought",
+        "pos": "noun phrase",
+        "uz": "fikrlash erkinligi",
+        "def": "the ability to form and express independent ideas",
+        "ex": "They encourage freedom of thought.",
+        "also": [
+          "independent thinking"
+        ]
+      },
+      {
+        "word": "adapt courses",
+        "pos": "verb phrase",
+        "uz": "kurslarni moslashtirmoq",
+        "def": "modify courses to suit circumstances or needs",
+        "ex": "They are willing to adapt courses.",
+        "also": [
+          "modify courses"
+        ]
+      },
+      {
+        "word": "enthusiastic about",
+        "pos": "adjective phrase",
+        "uz": "...ga ishtiyoqli",
+        "def": "showing strong interest or excitement",
+        "ex": "They are enthusiastic about their subject.",
+        "also": [
+          "passionate about"
+        ]
+      },
+      {
+        "word": "global communications",
+        "pos": "noun phrase",
+        "uz": "global kommunikatsiyalar",
+        "def": "communication across countries and cultures",
+        "ex": "Global Communications major",
+        "also": [
+          "international communication"
+        ]
+      },
+      {
+        "word": "economic principles",
+        "pos": "noun phrase",
+        "uz": "iqtisodiy tamoyillar",
+        "def": "fundamental ideas explaining economic behaviour",
+        "ex": "Economic Principles course",
+        "also": [
+          "economics fundamentals"
+        ]
+      },
+      {
+        "word": "understanding cultural differences",
+        "pos": "noun phrase",
+        "uz": "madaniy farqlarni tushunish",
+        "def": "recognising how cultures differ in norms and behaviour",
+        "ex": "understanding cultural differences",
+        "also": [
+          "intercultural awareness"
+        ]
+      },
+      {
+        "word": "reduce problems between co-workers",
+        "pos": "verb phrase",
+        "uz": "hamkasblar orasidagi muammolarni kamaytirmoq",
+        "def": "lessen conflict or difficulty between colleagues",
+        "ex": "reducing problems between co-workers",
+        "also": [
+          "manage workplace conflict"
+        ]
+      },
+      {
+        "word": "working in large groups",
+        "pos": "verb phrase",
+        "uz": "katta guruhlarda ishlash",
+        "def": "collaborating effectively with many people",
+        "ex": "working in large groups",
+        "also": [
+          "team collaboration"
+        ]
+      },
+      {
+        "word": "preparation of perfumes",
+        "pos": "noun phrase",
+        "uz": "atirlar tayyorlash",
+        "def": "the process of making perfumes",
+        "ex": "the preparation of perfumes",
+        "also": [
+          "perfume making"
+        ]
+      },
+      {
+        "word": "display their wealth",
+        "pos": "verb phrase",
+        "uz": "boyligini namoyish etmoq",
+        "def": "show wealth publicly as a sign of status",
+        "ex": "used certain spices to display their wealth",
+        "also": [
+          "show status"
+        ]
+      },
+      {
+        "word": "contributed to the exploration",
+        "pos": "verb phrase",
+        "uz": "kashfiyotlarga hissa qo‘shmoq",
+        "def": "help cause or support exploration",
+        "ex": "contributed to the exploration of the New World",
+        "also": [
+          "helped spur exploration"
+        ]
+      },
+      {
+        "word": "take the place of",
+        "pos": "verb phrase",
+        "uz": "o‘rnini egallamoq",
+        "def": "replace something",
+        "ex": "to take the place of money",
+        "also": [
+          "substitute for"
+        ]
+      },
+      {
+        "word": "domestic smells",
+        "pos": "noun phrase",
+        "uz": "uy-ro‘zg‘or hidlari",
+        "def": "odours occurring in homes",
+        "ex": "to hide domestic smells",
+        "also": [
+          "household odours"
+        ]
+      },
+      {
+        "word": "transport costs",
+        "pos": "noun phrase",
+        "uz": "transport xarajatlari",
+        "def": "expenses involved in transporting goods",
+        "ex": "greatest expense: transport costs",
+        "also": [
+          "shipping expenses"
+        ]
+      },
+      {
+        "word": "shipbuilding industry",
+        "pos": "noun phrase",
+        "uz": "kema qurish sanoati",
+        "def": "the industry concerned with constructing ships",
+        "ex": "development of the European shipbuilding industry",
+        "also": [
+          "ship construction sector"
+        ]
+      },
+      {
+        "word": "valuable income",
+        "pos": "noun phrase",
+        "uz": "muhim daromad",
+        "def": "financial revenue of significant value",
+        "ex": "cities received valuable income from merchants",
+        "also": [
+          "revenue"
+        ]
+      }
+    ]
+  }
+}

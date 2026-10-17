@@ -1,0 +1,33 @@
+{
+  "id": "listening-test-4",
+  "title": "Listening Test 4",
+  "collection": "academic",
+  "number": 4,
+  "questionCount": 40,
+  "sectionCount": 4,
+  "storageKey": "la_listening_test_4_v2",
+  "activities": [],
+  "audio": {
+    "path": "audio/full.mp3",
+    "objectKey": "listening/academic/test-04/full.mp3",
+    "contentType": "audio/mpeg",
+    "bytes": 17379064,
+    "sha256": "8822ddab3326c220aa58377731394fbee3a2748a4d2112ce59052c080c2b0b85",
+    "durationSeconds": 2299.95102,
+    "localFile": "test-04-full.mp3"
+  },
+  "media": [
+    {
+      "path": "audio/full.mp3",
+      "objectKey": "listening/academic/test-04/full.mp3",
+      "contentType": "audio/mpeg",
+      "bytes": 17379064,
+      "sha256": "8822ddab3326c220aa58377731394fbee3a2748a4d2112ce59052c080c2b0b85",
+      "durationSeconds": 2299.95102,
+      "localFile": "test-04-full.mp3"
+    }
+  ],
+  "durationSeconds": 2299.95102,
+  "originalSha256": "99b9d0b1fcc5d840fcb8e8c40f68c5dadba28be9c83dc740ad4f2217fa55af54",
+  "sourceSha256": "97ea2d28a4be660de3c7030d14e7a3cdc9d725465ff286614372846715a54fb2"
+}

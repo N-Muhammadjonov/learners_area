@@ -1,0 +1,1800 @@
+{
+  "test_id": "listening-test-16",
+  "title": "Listening Test 16",
+  "sections": [
+    "Dragon Boat Race",
+    "Adult Education Centre",
+    "Research Project on Attitudes Towards Study",
+    "Ethnography in Business"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Dragon Boat Race - day and date",
+      "answer": "SUNDAY 2 JULY",
+      "evidence": "Part 1: Dragon Boat Race. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 351.324,
+      "timeCenter": 175.662,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Dragon Boat Race - day and date",
+      "options": [],
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Dragon Boat Race - location: Brighton ...",
+      "answer": "MARINA",
+      "evidence": "Part 1: Dragon Boat Race. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 351.324,
+      "timeCenter": 175.662,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Dragon Boat Race - location: Brighton ...",
+      "options": [],
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Dragon Boat Race - registration time",
+      "answer": "9.30 AM",
+      "evidence": "Part 1: Dragon Boat Race. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 351.324,
+      "timeCenter": 175.662,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Dragon Boat Race - registration time",
+      "options": [],
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Sponsorship target for a free T-shirt",
+      "answer": "£1000",
+      "evidence": "Part 1: Dragon Boat Race. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 351.324,
+      "timeCenter": 175.662,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Sponsorship target for a free T-shirt",
+      "options": [],
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Prize-draw destination",
+      "answer": "HONG KONG",
+      "evidence": "Part 1: Dragon Boat Race. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 351.324,
+      "timeCenter": 175.662,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Prize-draw destination",
+      "options": [],
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Team role elected by the crew",
+      "answer": "CAPTAIN",
+      "evidence": "Part 1: Dragon Boat Race. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 351.324,
+      "timeCenter": 175.662,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Team role elected by the crew",
+      "options": [],
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Requirement for team members under 18",
+      "answer": "PARENTS’ PERMISSION",
+      "evidence": "Part 1: Dragon Boat Race. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 351.324,
+      "timeCenter": 175.662,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Requirement for team members under 18",
+      "options": [],
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Safety equipment that can be hired",
+      "answer": "LIFE JACKETS",
+      "evidence": "Part 1: Dragon Boat Race. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 351.324,
+      "timeCenter": 175.662,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Safety equipment that can be hired",
+      "options": [],
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Extra item of clothing advised",
+      "answer": "CLOTHES",
+      "evidence": "Part 1: Dragon Boat Race. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 351.324,
+      "timeCenter": 175.662,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Extra item of clothing advised",
+      "options": [],
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "What the team must choose",
+      "answer": "NAME",
+      "evidence": "Part 1: Dragon Boat Race. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 0.0,
+      "timeEnd": 351.324,
+      "timeCenter": 175.662,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "What the team must choose",
+      "options": [],
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "Organisation that founded the Adult Education Centre",
+      "answer": "TOWN COUNCIL",
+      "evidence": "Part 2: Adult Education Centre. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 351.324,
+      "timeEnd": 748.333,
+      "timeCenter": 549.828,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Organisation that founded the Adult Education Centre",
+      "options": [],
+      "type": "Completion"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "How often teachers are assessed",
+      "answer": "EVERY 6 MONTHS",
+      "evidence": "Part 2: Adult Education Centre. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 351.324,
+      "timeEnd": 748.333,
+      "timeCenter": 549.828,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "How often teachers are assessed",
+      "options": [],
+      "type": "Completion"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Where lesson resources are available online",
+      "answer": "INTERACTIVE CLASSROOM",
+      "evidence": "Part 2: Adult Education Centre. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 351.324,
+      "timeEnd": 748.333,
+      "timeCenter": 549.828,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Where lesson resources are available online",
+      "options": [],
+      "type": "Completion"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Length of each weekly online tutorial session",
+      "answer": "3 HOURS",
+      "evidence": "Part 2: Adult Education Centre. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 351.324,
+      "timeEnd": 748.333,
+      "timeCenter": 549.828,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Length of each weekly online tutorial session",
+      "options": [],
+      "type": "Completion"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Public closing time of the administration section",
+      "answer": "2 PM",
+      "evidence": "Part 2: Adult Education Centre. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 351.324,
+      "timeEnd": 748.333,
+      "timeCenter": 549.828,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Public closing time of the administration section",
+      "options": [],
+      "type": "Completion"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Languages - online placement resource",
+      "answer": "SELF-ASSESSMENT TEST",
+      "evidence": "Part 2: Adult Education Centre. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 351.324,
+      "timeEnd": 748.333,
+      "timeCenter": 549.828,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Languages - online placement resource",
+      "options": [],
+      "type": "Completion"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Business course topic between computer software and SEO",
+      "answer": "BOOKKEEPING",
+      "evidence": "Part 2: Adult Education Centre. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 351.324,
+      "timeEnd": 748.333,
+      "timeCenter": 549.828,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Business course topic between computer software and SEO",
+      "options": [],
+      "type": "Completion"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Photography and ...",
+      "answer": "COMPUTERS FOR PHOTOGRAPHY",
+      "evidence": "Part 2: Adult Education Centre. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 351.324,
+      "timeEnd": 748.333,
+      "timeCenter": 549.828,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Photography and ...",
+      "options": [],
+      "type": "Completion"
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Cooking - fast and fun cooking technique",
+      "answer": "SHORTCUTS",
+      "evidence": "Part 2: Adult Education Centre. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 351.324,
+      "timeEnd": 748.333,
+      "timeCenter": 549.828,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Cooking - fast and fun cooking technique",
+      "options": [],
+      "type": "Completion"
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Creative writing - what aspiring writers develop",
+      "answer": "SKILLS",
+      "evidence": "Part 2: Adult Education Centre. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 351.324,
+      "timeEnd": 748.333,
+      "timeCenter": 549.828,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Creative writing - what aspiring writers develop",
+      "options": [],
+      "type": "Completion"
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Phoebe's main reason for choosing her topic",
+      "answer": "C",
+      "evidence": "Part 3: Research Project on Attitudes Towards Study. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 748.333,
+      "timeEnd": 1170.864,
+      "timeCenter": 959.599,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Phoebe's main reason for choosing her topic",
+      "options": [
+        {
+          "code": "A",
+          "text": "her classmates had been very interested in it."
+        },
+        {
+          "code": "B",
+          "text": "it would help prepare her for her first teaching post."
+        },
+        {
+          "code": "C",
+          "text": "she had been inspired by a particular book."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Phoebe's main research question",
+      "answer": "A",
+      "evidence": "Part 3: Research Project on Attitudes Towards Study. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 748.333,
+      "timeEnd": 1170.864,
+      "timeCenter": 959.599,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Phoebe's main research question",
+      "options": [
+        {
+          "code": "A",
+          "text": "the effect of teacher discipline."
+        },
+        {
+          "code": "B",
+          "text": "the variety of learning activities."
+        },
+        {
+          "code": "C",
+          "text": "levels of pupil confidence."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Phoebe's most surprising finding",
+      "answer": "B",
+      "evidence": "Part 3: Research Project on Attitudes Towards Study. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 748.333,
+      "timeEnd": 1170.864,
+      "timeCenter": 959.599,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "Phoebe's most surprising finding",
+      "options": [
+        {
+          "code": "A",
+          "text": "gender did not influence behaviour significantly."
+        },
+        {
+          "code": "B",
+          "text": "girls were more negative about school than boys."
+        },
+        {
+          "code": "C",
+          "text": "boys were more talkative than girls in class."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "What Phoebe learned about teaching",
+      "answer": "A",
+      "evidence": "Part 3: Research Project on Attitudes Towards Study. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 748.333,
+      "timeEnd": 1170.864,
+      "timeCenter": 959.599,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "What Phoebe learned about teaching",
+      "options": [
+        {
+          "code": "A",
+          "text": "teachers should be flexible in their lesson planning."
+        },
+        {
+          "code": "B",
+          "text": "brighter children learn from supporting weaker ones."
+        },
+        {
+          "code": "C",
+          "text": "children vary from each other in unpredictable ways."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "What particularly impressed Tony",
+      "answer": "B",
+      "evidence": "Part 3: Research Project on Attitudes Towards Study. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 748.333,
+      "timeEnd": 1170.864,
+      "timeCenter": 959.599,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "MCQ distractor",
+      "paraphrase": "What particularly impressed Tony",
+      "options": [
+        {
+          "code": "A",
+          "text": "recognise the limitations of such small-scale research."
+        },
+        {
+          "code": "B",
+          "text": "reflect on her own research experience in an interesting way."
+        },
+        {
+          "code": "C",
+          "text": "design her research in such a way as to minimise difficulties."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Problem with observing lessons",
+      "answer": "E",
+      "evidence": "Part 3: Research Project on Attitudes Towards Study. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 748.333,
+      "timeEnd": 1170.864,
+      "timeCenter": 959.599,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Problem with observing lessons",
+      "options": [
+        {
+          "code": "A",
+          "text": "Obtaining permission"
+        },
+        {
+          "code": "B",
+          "text": "Deciding on a suitable focus"
+        },
+        {
+          "code": "C",
+          "text": "Concentrating while gathering data"
+        },
+        {
+          "code": "D",
+          "text": "Working collaboratively"
+        },
+        {
+          "code": "E",
+          "text": "Processing data she had gathered"
+        },
+        {
+          "code": "F",
+          "text": "Finding a suitable time to conduct the research"
+        },
+        {
+          "code": "G",
+          "text": "Getting hold of suitable equipment"
+        }
+      ],
+      "type": "Matching"
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Problem with interviewing teachers",
+      "answer": "G",
+      "evidence": "Part 3: Research Project on Attitudes Towards Study. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 748.333,
+      "timeEnd": 1170.864,
+      "timeCenter": 959.599,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Problem with interviewing teachers",
+      "options": [
+        {
+          "code": "A",
+          "text": "Obtaining permission"
+        },
+        {
+          "code": "B",
+          "text": "Deciding on a suitable focus"
+        },
+        {
+          "code": "C",
+          "text": "Concentrating while gathering data"
+        },
+        {
+          "code": "D",
+          "text": "Working collaboratively"
+        },
+        {
+          "code": "E",
+          "text": "Processing data she had gathered"
+        },
+        {
+          "code": "F",
+          "text": "Finding a suitable time to conduct the research"
+        },
+        {
+          "code": "G",
+          "text": "Getting hold of suitable equipment"
+        }
+      ],
+      "type": "Matching"
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Problem with interviewing pupils",
+      "answer": "A",
+      "evidence": "Part 3: Research Project on Attitudes Towards Study. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 748.333,
+      "timeEnd": 1170.864,
+      "timeCenter": 959.599,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Problem with interviewing pupils",
+      "options": [
+        {
+          "code": "A",
+          "text": "Obtaining permission"
+        },
+        {
+          "code": "B",
+          "text": "Deciding on a suitable focus"
+        },
+        {
+          "code": "C",
+          "text": "Concentrating while gathering data"
+        },
+        {
+          "code": "D",
+          "text": "Working collaboratively"
+        },
+        {
+          "code": "E",
+          "text": "Processing data she had gathered"
+        },
+        {
+          "code": "F",
+          "text": "Finding a suitable time to conduct the research"
+        },
+        {
+          "code": "G",
+          "text": "Getting hold of suitable equipment"
+        }
+      ],
+      "type": "Matching"
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Problem with questionnaires",
+      "answer": "D",
+      "evidence": "Part 3: Research Project on Attitudes Towards Study. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 748.333,
+      "timeEnd": 1170.864,
+      "timeCenter": 959.599,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Problem with questionnaires",
+      "options": [
+        {
+          "code": "A",
+          "text": "Obtaining permission"
+        },
+        {
+          "code": "B",
+          "text": "Deciding on a suitable focus"
+        },
+        {
+          "code": "C",
+          "text": "Concentrating while gathering data"
+        },
+        {
+          "code": "D",
+          "text": "Working collaboratively"
+        },
+        {
+          "code": "E",
+          "text": "Processing data she had gathered"
+        },
+        {
+          "code": "F",
+          "text": "Finding a suitable time to conduct the research"
+        },
+        {
+          "code": "G",
+          "text": "Getting hold of suitable equipment"
+        }
+      ],
+      "type": "Matching"
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Problem with taking photographs",
+      "answer": "B",
+      "evidence": "Part 3: Research Project on Attitudes Towards Study. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 748.333,
+      "timeEnd": 1170.864,
+      "timeCenter": 959.599,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Matching / classification",
+      "paraphrase": "Problem with taking photographs",
+      "options": [
+        {
+          "code": "A",
+          "text": "Obtaining permission"
+        },
+        {
+          "code": "B",
+          "text": "Deciding on a suitable focus"
+        },
+        {
+          "code": "C",
+          "text": "Concentrating while gathering data"
+        },
+        {
+          "code": "D",
+          "text": "Working collaboratively"
+        },
+        {
+          "code": "E",
+          "text": "Processing data she had gathered"
+        },
+        {
+          "code": "F",
+          "text": "Finding a suitable time to conduct the research"
+        },
+        {
+          "code": "G",
+          "text": "Getting hold of suitable equipment"
+        }
+      ],
+      "type": "Matching"
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Ethnography can investigate customer needs and ...",
+      "answer": "ATTITUDE",
+      "evidence": "Part 4: Ethnography in Business. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1170.864,
+      "timeEnd": 1683.203,
+      "timeCenter": 1427.034,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Ethnography can investigate customer needs and ...",
+      "options": [],
+      "type": "Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "What cooks could not easily see in measuring cups",
+      "answer": "NUMBERS",
+      "evidence": "Part 4: Ethnography in Business. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1170.864,
+      "timeEnd": 1683.203,
+      "timeCenter": 1427.034,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "What cooks could not easily see in measuring cups",
+      "options": [],
+      "type": "Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "What Ugandan phone users wanted to check",
+      "answer": "TIME",
+      "evidence": "Part 4: Ethnography in Business. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1170.864,
+      "timeEnd": 1683.203,
+      "timeCenter": 1427.034,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "What Ugandan phone users wanted to check",
+      "options": [],
+      "type": "Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "What computer companies needed to develop",
+      "answer": "SOFTWARE",
+      "evidence": "Part 4: Ethnography in Business. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1170.864,
+      "timeEnd": 1683.203,
+      "timeCenter": 1427.034,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "What computer companies needed to develop",
+      "options": [],
+      "type": "Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Whose information nurses needed to access",
+      "answer": "PATIENTS",
+      "evidence": "Part 4: Ethnography in Business. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1170.864,
+      "timeEnd": 1683.203,
+      "timeCenter": 1427.034,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Whose information nurses needed to access",
+      "options": [],
+      "type": "Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "What airline respondents recorded",
+      "answer": "EMOTIONS",
+      "evidence": "Part 4: Ethnography in Business. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1170.864,
+      "timeEnd": 1683.203,
+      "timeCenter": 1427.034,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "What airline respondents recorded",
+      "options": [],
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Participant-selection criterion besides age/product",
+      "answer": "INCOME",
+      "evidence": "Part 4: Ethnography in Business. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1170.864,
+      "timeEnd": 1683.203,
+      "timeCenter": 1427.034,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Participant-selection criterion besides age/product",
+      "options": [],
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "How participants must feel about taking part",
+      "answer": "COMFORTABLE",
+      "evidence": "Part 4: Ethnography in Business. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1170.864,
+      "timeEnd": 1683.203,
+      "timeCenter": 1427.034,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "How participants must feel about taking part",
+      "options": [],
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Main direct method used in ethnography",
+      "answer": "OBSERVATION",
+      "evidence": "Part 4: Ethnography in Business. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1170.864,
+      "timeEnd": 1683.203,
+      "timeCenter": 1427.034,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Main direct method used in ethnography",
+      "options": [],
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Stage that consumes most researcher time",
+      "answer": "ANALYSIS",
+      "evidence": "Part 4: Ethnography in Business. Full supplied recording and aligned transcript are available; no question-level timestamp is claimed.",
+      "timeStart": 1170.864,
+      "timeEnd": 1683.203,
+      "timeCenter": 1427.034,
+      "why": "The supplied audio, source answer key and aligned transcript support this answer.",
+      "trap": "Listen for corrections, distractors, paraphrases and the exact word limit.",
+      "mistakeType": "Detail recognition / word limit",
+      "paraphrase": "Stage that consumes most researcher time",
+      "options": [],
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "SUNDAY 2 JULY",
+    "2": "MARINA",
+    "3": "9.30 AM",
+    "4": "£1000",
+    "5": "HONG KONG",
+    "6": "CAPTAIN",
+    "7": "PARENTS’ PERMISSION",
+    "8": "LIFE JACKETS",
+    "9": "CLOTHES",
+    "10": "NAME",
+    "11": "TOWN COUNCIL",
+    "12": "EVERY 6 MONTHS",
+    "13": "INTERACTIVE CLASSROOM",
+    "14": "3 HOURS",
+    "15": "2 PM",
+    "16": "SELF-ASSESSMENT TEST",
+    "17": "BOOKKEEPING",
+    "18": "COMPUTERS FOR PHOTOGRAPHY",
+    "19": "SHORTCUTS",
+    "20": "SKILLS",
+    "21": "C",
+    "22": "A",
+    "23": "B",
+    "24": "A",
+    "25": "B",
+    "26": "E",
+    "27": "G",
+    "28": "A",
+    "29": "D",
+    "30": "B",
+    "31": "ATTITUDE",
+    "32": "NUMBERS",
+    "33": "TIME",
+    "34": "SOFTWARE",
+    "35": "PATIENTS",
+    "36": "EMOTIONS",
+    "37": "INCOME",
+    "38": "COMFORTABLE",
+    "39": "OBSERVATION",
+    "40": "ANALYSIS"
+  },
+  "alternatives": {
+    "1": [
+      "2 JULY",
+      "2ND JULY",
+      "SUNDAY 2ND JULY",
+      "SUNDAY, 2 JULY",
+      "SUNDAY JULY 2"
+    ],
+    "2": [
+      "BRIGHTON MARINA"
+    ],
+    "3": [
+      "9:30 AM",
+      "9.30",
+      "9:30",
+      "09:30 AM"
+    ],
+    "4": [
+      "1000",
+      "1,000",
+      "£1,000",
+      "1000 POUNDS",
+      "£1000"
+    ],
+    "7": [
+      "PARENTS' PERMISSION",
+      "PARENTAL PERMISSION"
+    ],
+    "8": [
+      "LIFE JACKET"
+    ],
+    "9": [
+      "SPARE CLOTHES"
+    ],
+    "11": [
+      "THE TOWN COUNCIL",
+      "COUNCIL"
+    ],
+    "12": [
+      "EVERY SIX MONTHS",
+      "6 MONTHS"
+    ],
+    "13": [
+      "THE INTERACTIVE CLASSROOM"
+    ],
+    "14": [
+      "THREE HOURS",
+      "3 HRS"
+    ],
+    "15": [
+      "2:00 PM",
+      "2.00 PM",
+      "2PM"
+    ],
+    "16": [
+      "SELF ASSESSMENT TEST"
+    ],
+    "31": [
+      "ATTITUDES"
+    ],
+    "33": [
+      "MINUTES"
+    ],
+    "36": [
+      "FEELINGS"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 351.324
+    },
+    "2": {
+      "start": 351.324,
+      "end": 748.333
+    },
+    "3": {
+      "start": 748.333,
+      "end": 1170.864
+    },
+    "4": {
+      "start": 1170.864,
+      "end": 1683.203
+    }
+  },
+  "audio_available": true,
+  "audio_status": "Four user-provided Part recordings joined and embedded as mono 80 kbps MP3; fully offline.",
+  "audio_duration_seconds": 1683.174,
+  "transcript": {
+    "1": "NARRATOR: Section one. A man wants to find out about taking part in a dragon boat race. Listen to the conversation between the man and the woman and answer the questions. First, you have some time to look at questions one to five.\nNARRATOR: Now we shall begin. You should answer the questions as you listen because you will not hear the recording a second time. Listen carefully and answer questions one to five.\nWOMAN: Scope charity office, how can I help you?\nMAN: Oh hello. I'm ringing about the Dragon Boat Race that you're asking people to take part in.\nWOMAN: Oh yes. We still need a few more teams. Are you interested in joining the race?\nMAN: Yes. We want to enter a team, but we don't know anything about it. Could I ask you for some more information first?\nWOMAN: Of course.\nMAN: I don't even know when it's being held.\nWOMAN: It's taking place on the second of July.\nMAN: Is that a Saturday?\nWOMAN: No, it's a Sunday. It's a much more popular day and more people can take part then.\nMAN: Right. And where's it being held?\nWOMAN: At the Brighton Marina.\nMAN: Oh, I'm an overseas student. Could you spell that for me?\nWOMAN: Yes. It's Brighton Marina. That's M-A-R-I-N-A. Do you know where it is?\nMAN: I'm not sure.\nWOMAN: It's a couple of miles past the Palace Pier.\nMAN: Oh yes, I know it.\nWOMAN: You take a right turning off the coast road, or you can cycle along the seafront.\nMAN: That's good. What time does the race start?\nWOMAN: Well, the first heats begin at ten a.m., but you need to register half an hour before that, at nine-thirty, and we really recommend that you aim to be there by nine. It's a good idea to arrange a meeting place for your team.\nMAN: Right. And the race is to help raise money for charity?\nWOMAN: It is. We're asking every team member to try and raise thirty-five pounds by getting friends and/or relatives to sponsor them. Every crew member will receive a free tournament T-shirt if your team manages to raise a thousand pounds or more.\nMAN: Oh, that's quite good.\nWOMAN: Also, we're holding a raffle. Every crew member who takes part in the race this season will be entered into a free prize draw.\nMAN: Oh, what's the prize?\nWOMAN: It's pretty good. It's a holiday in Hong Kong.\nMAN: Sounds great.\nNARRATOR: The man asks for more information. Look at questions six to ten.\nNARRATOR: Now listen to their conversation and answer questions six to ten.\nWOMAN: Is there anything else you need to know?\nMAN: Could you just tell me a little bit more about the teams?\nWOMAN: Well, you need to have a crew of twenty people for your dragon boat, and you then need to agree on who's going to be the team captain. That will probably be you.\nMAN: Fine. I've got a group of twenty people who are interested. Do all the team members have to be a certain age?\nWOMAN: Well, there's no age limit as such, but if you have a team member who's under eighteen, then they have to get their parents' permission to take part.\nMAN: Yes, that makes sense.\nWOMAN: It isn't dangerous, but we do have boats that turn over in the water, and for that reason we need to insist that everyone wears a life jacket as well. And you can hire life jackets from us when your team arrives.\nMAN: What do you advise people to wear?\nWOMAN: Well, most people wear a T-shirt, shorts and trainers. I certainly wouldn't recommend that you wear jeans or boots. In fact, it's a very good idea to bring some spare clothes.\nMAN: Okay.\nWOMAN: It can get quite cold and wet if the weather's bad, and there's quite a bit of hanging around, especially if you qualify for the semi-finals or the final.\nMAN: I see what you mean.\nWOMAN: Have you got a name for your team?\nMAN: Oh, not yet, no.\nWOMAN: Well, you need to decide on one and then put it on the entrance form, which I'll send you.\nMAN: Oh, okay.\nWOMAN: So if you'd like to give me your address, I'll be happy to send details first class.\nNARRATOR: That is the end of section one. You now have half a minute to check your answers.",
+    "2": "NARRATOR: Section two. You will hear a man giving an information talk at an adult education centre. First, you have some time to look at questions eleven to fifteen.\nNARRATOR: Now listen carefully to the information talk and answer questions eleven to fifteen.\nMIKE: Good evening everyone, and thanks for coming to this information evening at the Adult Education Centre. My name is Mike, and I'll be speaking to you for a short while before you can go and explore the various departments that we have here. The centre was founded fifty years ago by the town council in order to help people who had failed to get a proper education when they were children. The idea today is a little different.\nMIKE: We can give people the chance to study what they missed at school for whatever reason, but we can also just give them training in everyday skills or just allow them to extend themselves. The teachers in the centre are fully qualified and their teaching is appraised every six months by inspectors from the Ministry of Education. Our teachers have the latest teaching aids and accessories, from interactive whiteboards to computer labs with the most up-to-date technology.\nMIKE: All our teachers undergo special training and all their lessons can be found online at what we call the interactive classroom, which is accessible by all registered students. All notes, videos and worksheets can be found there, so if you miss a lesson, you can catch up on your computer at home. As well as just finding the resources, you can be in direct contact with your teacher.\nMIKE: Naturally, he or she cannot be online all day, but every teacher has two online tutorial sessions of three hours each when they are available to chat. They can of course be in demand, so they are limited to four students at any one time and students can only interact with their teacher for a maximum of ten minutes. If the teacher is free though, students may continue to chat for longer. Naturally, we also have a normal website. This has details of all our courses, teachers, fees and timetables.\nMIKE: All courses can be booked and paid for online, although you'll need of course to supply credit card or bank account details. If you don't want to book online, you'll need to come to our main centre on Langdon Street between the hours of ten a.m. and two p.m., which are the hours that our administration section is open to the general public.\nNARRATOR: You now have some time to look at questions sixteen to twenty. Now listen to the rest of the information talk and answer questions sixteen to twenty.\nMIKE: Now let me tell you a little about the courses that we have on offer. I'll begin with languages, as they're often very popular. We offer a variety of European languages, including French, German, Polish and Spanish. In addition, we offer Arabic, Korean, Japanese and Mandarin Chinese. These languages are offered at various stages of ability and, to find out which class you belong in, you can do our self-assessment test available on our website for all the languages we offer.\nMIKE: Next, I'd like to tell you about our business-related courses. Our business courses vary from short morning or afternoon sessions, where you will develop an excellent understanding of a particular topic, to courses that run for over thirty weeks, where you can achieve an industry-recognised qualification. From learning how to use essential computer software to bookkeeping or search engine optimisation and website development, we have the business courses to help you achieve your goals.\nMIKE: These courses are always the most popular, so if you're interested, make sure you make your booking fast. We only take ten people per course and these places go quickly. One of our most popular course areas is photography and computers for photography. Our range of courses on these subjects can help you learn to get the most out of your camera. From basic to advanced, our courses will allow you to build up your knowledge and learn new ways to use your equipment. Another favourite are our cooking courses.\nMIKE: We offer speciality courses, but a favourite is our introduction to cooking. This course is ideal for those new to cooking or for anyone wishing to create achievable and inspiring dishes. Learn a variety of essential cooking techniques to help you create simple everyday dishes or some more elaborate things to impress your guests. You will also learn to make the best use of store cupboard ingredients, and how to take delicious shortcuts to make cooking quick and enjoyable every day.\nMIKE: I'll finish with telling you about our creative writing course. It looks at practical ways to get started, whilst promoting greater writing confidence. The focus of this course is placed on practical exercises supported by discussion and examples and builds upon the strengths of each writer. It will give you an insight into the creative process and encourage you to achieve your writing goals.\nMIKE: Our creative writing course provides an opportunity for all aspiring writers to develop the skills for writing fiction. We have lots more courses and I urge you to check our website, as we don't have enough time to introduce everything that we have on offer.\nNARRATOR: That is the end of section two. You now have half a minute to check your answers.",
+    "3": "NARRATOR: You will hear a woman called Phoebe, who is training to be a teacher, talking to her tutor called Tony about research she has done in a school. First, you have some time to look at questions twenty-one to twenty-five.\nNARRATOR: Now listen and answer questions twenty-one to twenty-five.\nTONY: So, how did you get on with your school-based research, Phoebe?\nPHOEBE: Well, it was exhausting, but really valuable.\nTONY: Good. What was the specific focus you chose?\nPHOEBE: My title is \"Attitudes towards study among eleven- to twelve-year-old pupils.\"\nTONY: Right, and what made you choose that focus?\nPHOEBE: Well, that's a bit difficult. Lots of my classmates decided on their focus really early on, mainly on the basis of what they thought would help in their future career, you know, in their first year's teaching.\nTONY: So that's what helped you decide?\nPHOEBE: Actually, it was that I came across a book written by experienced teachers on student attitudes, and that motivated me to go for the topic.\nTONY: Okay. So what were your research questions or issues?\nPHOEBE: Well, I wanted to look at the way students responded to different teachers, particularly focusing on whether very strict teachers made teenagers less motivated.\nTONY: And from your research, did you find that was true?\nPHOEBE: No, not from what I saw, you know, from my five days' observation, talking to people and so forth.\nTONY: Okay. We'll talk about the actual research methods in a moment, but before that, can you briefly summarize what your most striking findings are?\nPHOEBE: Well, what really amazed me was the significant gender differences. I didn't set out to focus on that, but I found that boys were much more positive about being at school. Girls were more impatient; they talked a lot about wanting to grow up and leave school.\nTONY: Very interesting.\nPHOEBE: Yes, it is. From doing the research, it was clear to me that you might start out to focus on one thing, but you pick up lots of unexpected insights.\nTONY: Right. Did you get any insights into teaching?\nPHOEBE: Yes, certainly. I was doing a lot of observations of the way kids with very different abilities collaborate on certain tasks, you know, help each other. And I began to realize that the lessons were developing in really unexpected ways.\nTONY: So what conclusion do you draw from that?\nPHOEBE: Well, I know it's necessary for teachers to prepare lessons carefully, but it's great if they also allow lessons to go their own ways.\nTONY: Good point. Now, I'm really pleased to see you doing this, analyzing and drawing conclusions based on data.\nPHOEBE: But surely this isn't proper data?\nTONY: Because it's derived from such small-scale research? Well, as long as you don't make grand claims for your findings, this data is entirely valid.\nPHOEBE: Hmm.\nTONY: I like the way you're already stepping back from the experience and thinking about what you've learned about research. Well done.\nPHOEBE: But I know I could have done it better.\nTONY: As you become more experienced, you'll find ways to reduce the risk of difficulties.\nPHOEBE: Okay.\nNARRATOR: Now you have some time to look at questions twenty-six to thirty.\nNARRATOR: Now listen and answer questions twenty-six to thirty.\nTONY: So, let's look in more detail at how you gathered your data. Let's start with lesson observation.\nPHOEBE: Well, it generally went quite smoothly. I chose my focus and designed my checklist. Then teachers allowed me into their classes without any problems, which surprised me. It was afterwards that the grueling work started.\nTONY: Yeah, it's very time-consuming, isn't it? Making sense of, analyzing your observation notes.\nPHOEBE: Absolutely. Much more so than interview data, for example. That was relatively easy to process. Though I wanted to make sure I used a high-quality recorder to make transcription easier, and I had to wait until one became available.\nTONY: Right. And did you interview some kids as well?\nPHOEBE: In the end, yes. I talked to ten, and they were great. I'd imagined I'd be bored listening to them, but...\nTONY: So it was easy to concentrate?\nPHOEBE: Sure. One of the teachers was a bit worried about the ethics, you know, whether it was right to interview young pupils, and it took a while for him to agree to let me talk to three of the kids in his class. But he relented in the end.\nTONY: Good. What other methods did you use?\nPHOEBE: I experimented with questionnaires, but I really regret that now. I decided to share the work with another student, but we had such different agendas it ended up taking twice as long.\nTONY: That's a shame. It might be worth you reflecting on ways you might improve on that for future projects.\nPHOEBE: You're right, yeah.\nTONY: Okay.\nPHOEBE: And the other thing I did was still photography. I didn't take as many pictures as I'd hoped to.\nTONY: Lack of time?\nPHOEBE: It's pretty easy just snapping away, but I wanted each snap to have a purpose, you know, that would contribute to my research aims, and I found that difficult.\nTONY: Well, that's understandable, but remember...\nNARRATOR: That is the end of section three. You now have half a minute to check your answers.",
+    "4": "NARRATOR: You will hear part of a lecture to business students about the use of one particular type of research known as ethnography. First, you have some time to look at questions thirty-one to forty. Now listen carefully and answer questions thirty-one to forty.\nLECTURER: So what I'm going to talk about to you today is something called ethnography. This is a type of research aimed at exploring the way human cultures work. It was first developed for use in anthropology, and it's also been used in sociology and communication studies. So what's it got to do with business, you may ask?\nLECTURER: Well, businesses are finding that ethnography can offer them deeper insight into the possible needs of customers, either present or future, as well as providing valuable information about their attitudes towards existing products. And ethnography can also help companies to design new products or services that customers really want.\nLECTURER: Let's look at some examples of how ethnographic research works in business. One team of researchers did a project for a company manufacturing kitchen equipment. They watched how cooks used measuring cups to measure out things like sugar and flour. They saw that the cooks had to check and recheck the contents, because although the measuring cups had numbers inside them, the cooks couldn't see these easily. So a new design of cup was developed to overcome this problem, and it was a top seller.\nLECTURER: Another team of ethnographic researchers looked at how cell phones were used in Uganda, in Africa. They found that people who didn't have their own phones could pay to use the phones of local entrepreneurs. Because these customers paid in advance for their calls, they were eager to know how much time they'd spent on the call so far. So the phone company designed phones for use globally with this added feature.\nLECTURER: Ethnographic research has also been carried out in computer companies. In one company, IT systems administrators were observed for several weeks. It was found that a large amount of their work involved communicating with colleagues in order to solve problems, but that they didn't have a standard way of exchanging information from spreadsheets and so on. So the team came up with an idea for software that would help them to do this.\nLECTURER: In another piece of research, a team observed and talked to nurses working in hospitals. This led to the recognition that the nurses needed to access the computer records of their patients, no matter where they were. This led to the development of a portable computer tablet that allowed the nurses to check records in locations throughout the hospital.\nLECTURER: Occasionally, research can be done even in environments where the researchers can't be present. For example, in one project done for an airline, respondents used their smartphones to record information during airline trips, in a study aiming at tracking the emotions of passengers during a flight.\nLECTURER: So what makes studies like these different from ordinary research? Let's look at some of the general principles behind ethnographic research in business. First of all, the researcher has to be completely open-minded. He or she hasn't thought up a hypothesis to be tested, as is the case in other types of research. Instead they wait for the participants in the research to inform them.\nLECTURER: As far as choosing the participants themselves is concerned, that's not really all that different from ordinary research. The criteria according to which the participants are chosen may be something as simple as the age bracket they fall into, or the researchers may select them according to their income, or they might try to find a set of people who all use a particular product, for example. But it's absolutely crucial to recruit the right people as participants.\nLECTURER: As well as the criteria I've mentioned, they have to be comfortable talking about themselves and being watched as they go about their activities. Actually, most researchers say that people open up pretty easily, maybe because they're often in their own home or workplace.\nLECTURER: So what makes this type of research special is that it's not just a matter of sending a questionnaire to the participants. Instead the research is usually based on first-hand observation of what they are doing at the time. But that doesn't mean that the researcher never talks to the participants. However, unlike in traditional research, in this case it's the participant rather than the researchers who decides what direction the interview will follow.\nLECTURER: This means that there's less likelihood of the researcher imposing his or her own ideas on the participant.\nLECTURER: But after they've said goodbye to their participants and got back to their office, the researchers' work isn't finished. Most researchers estimate that seventy to eighty per cent of their time is spent not on the collecting of data but on its analysis, looking at photos, listening to recordings and transcribing them and so on. The researchers may end up with hundreds of pages of notes.\nLECTURER: And to determine what's significant, they don't focus on the sensational things or the unusual things. Instead they try to identify a pattern of some sort in all this data, and to discern the meaning behind it. This can result in some compelling insights that can in turn feed back to the whole design process."
+  },
+  "transcript_source": "Transcribed/aligned from the four user-provided Part recordings; public IELTS transcript references were used only to cross-check wording and answer anchors.",
+  "timestamps_source": "Part-level boundaries are exact cumulative boundaries from the four supplied Part files; no question-level word timestamps are claimed.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "a couple of miles past the Palace Pier",
+      "answer": "a couple of miles past the Palace Pier",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "arrange a meeting place",
+      "answer": "arrange a meeting place",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "raise thirty-five pounds",
+      "answer": "raise thirty-five pounds",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "entered into a free prize draw",
+      "answer": "entered into a free prize draw",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "a crew of twenty people",
+      "answer": "a crew of twenty people",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "parents' permission",
+      "answer": "parents' permission",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "wears a life jacket",
+      "answer": "wears a life jacket",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "bring some spare clothes",
+      "answer": "bring some spare clothes",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 201,
+      "part": 2,
+      "n": 1,
+      "match": "fully qualified",
+      "answer": "fully qualified",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 202,
+      "part": 2,
+      "n": 2,
+      "match": "appraised every six months",
+      "answer": "appraised every six months",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 203,
+      "part": 2,
+      "n": 3,
+      "match": "interactive classroom",
+      "answer": "interactive classroom",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 204,
+      "part": 2,
+      "n": 4,
+      "match": "be in direct contact",
+      "answer": "be in direct contact",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 205,
+      "part": 2,
+      "n": 5,
+      "match": "industry-recognised qualification",
+      "answer": "industry-recognised qualification",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 206,
+      "part": 2,
+      "n": 6,
+      "match": "search engine optimisation",
+      "answer": "search engine optimisation",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 207,
+      "part": 2,
+      "n": 7,
+      "match": "store cupboard ingredients",
+      "answer": "store cupboard ingredients",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 208,
+      "part": 2,
+      "n": 8,
+      "match": "practical exercises supported by discussion and examples",
+      "answer": "practical exercises supported by discussion and examples",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 301,
+      "part": 3,
+      "n": 1,
+      "match": "school-based research",
+      "answer": "school-based research",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 302,
+      "part": 3,
+      "n": 2,
+      "match": "significant gender differences",
+      "answer": "significant gender differences",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 303,
+      "part": 3,
+      "n": 3,
+      "match": "unexpected insights",
+      "answer": "unexpected insights",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 304,
+      "part": 3,
+      "n": 4,
+      "match": "allow lessons to go their own ways",
+      "answer": "allow lessons to go their own ways",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 305,
+      "part": 3,
+      "n": 5,
+      "match": "small-scale research",
+      "answer": "small-scale research",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 306,
+      "part": 3,
+      "n": 6,
+      "match": "high-quality recorder",
+      "answer": "high-quality recorder",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 307,
+      "part": 3,
+      "n": 7,
+      "match": "different agendas",
+      "answer": "different agendas",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 308,
+      "part": 3,
+      "n": 8,
+      "match": "contribute to my research aims",
+      "answer": "contribute to my research aims",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 401,
+      "part": 4,
+      "n": 1,
+      "match": "deeper insight into the possible needs",
+      "answer": "deeper insight into the possible needs",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 402,
+      "part": 4,
+      "n": 2,
+      "match": "check and recheck the contents",
+      "answer": "check and recheck the contents",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 403,
+      "part": 4,
+      "n": 3,
+      "match": "paid in advance",
+      "answer": "paid in advance",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 404,
+      "part": 4,
+      "n": 4,
+      "match": "standard way of exchanging information",
+      "answer": "standard way of exchanging information",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 405,
+      "part": 4,
+      "n": 5,
+      "match": "portable computer tablet",
+      "answer": "portable computer tablet",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 406,
+      "part": 4,
+      "n": 6,
+      "match": "completely open-minded",
+      "answer": "completely open-minded",
+      "lexical_type": "adjective phrase"
+    },
+    {
+      "q": 407,
+      "part": 4,
+      "n": 7,
+      "match": "first-hand observation",
+      "answer": "first-hand observation",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 408,
+      "part": 4,
+      "n": 8,
+      "match": "identify a pattern of some sort",
+      "answer": "identify a pattern of some sort",
+      "lexical_type": "verb phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "a couple of miles past the Palace Pier",
+      "word": "a couple of miles past the Palace Pier",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Dragon Boat Race",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "arrange a meeting place",
+      "word": "arrange a meeting place",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Dragon Boat Race",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "raise thirty-five pounds",
+      "word": "raise thirty-five pounds",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Dragon Boat Race",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "entered into a free prize draw",
+      "word": "entered into a free prize draw",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Dragon Boat Race",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "a crew of twenty people",
+      "word": "a crew of twenty people",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Dragon Boat Race",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "parents' permission",
+      "word": "parents' permission",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Dragon Boat Race",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "wears a life jacket",
+      "word": "wears a life jacket",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Dragon Boat Race",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "bring some spare clothes",
+      "word": "bring some spare clothes",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 1 transcript.",
+      "def": "An important expression from the Part 1 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 1: Dragon Boat Race",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "fully qualified",
+      "word": "fully qualified",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Adult Education Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "appraised every six months",
+      "word": "appraised every six months",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Adult Education Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "interactive classroom",
+      "word": "interactive classroom",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Adult Education Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "be in direct contact",
+      "word": "be in direct contact",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Adult Education Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "industry-recognised qualification",
+      "word": "industry-recognised qualification",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Adult Education Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "search engine optimisation",
+      "word": "search engine optimisation",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Adult Education Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "store cupboard ingredients",
+      "word": "store cupboard ingredients",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Adult Education Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "practical exercises supported by discussion and examples",
+      "word": "practical exercises supported by discussion and examples",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 2 transcript.",
+      "def": "An important expression from the Part 2 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 2: Adult Education Centre",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "school-based research",
+      "word": "school-based research",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Research Project on Attitudes Towards Study",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "significant gender differences",
+      "word": "significant gender differences",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Research Project on Attitudes Towards Study",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "unexpected insights",
+      "word": "unexpected insights",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Research Project on Attitudes Towards Study",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "allow lessons to go their own ways",
+      "word": "allow lessons to go their own ways",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Research Project on Attitudes Towards Study",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "small-scale research",
+      "word": "small-scale research",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Research Project on Attitudes Towards Study",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "high-quality recorder",
+      "word": "high-quality recorder",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Research Project on Attitudes Towards Study",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "different agendas",
+      "word": "different agendas",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Research Project on Attitudes Towards Study",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "contribute to my research aims",
+      "word": "contribute to my research aims",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 3 transcript.",
+      "def": "An important expression from the Part 3 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 3: Research Project on Attitudes Towards Study",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "deeper insight into the possible needs",
+      "word": "deeper insight into the possible needs",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Ethnography in Business",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "check and recheck the contents",
+      "word": "check and recheck the contents",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Ethnography in Business",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "paid in advance",
+      "word": "paid in advance",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Ethnography in Business",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "standard way of exchanging information",
+      "word": "standard way of exchanging information",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Ethnography in Business",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "portable computer tablet",
+      "word": "portable computer tablet",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Ethnography in Business",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "completely open-minded",
+      "word": "completely open-minded",
+      "type": "adjective phrase",
+      "lexical_type": "adjective phrase",
+      "pos": "adjective phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Ethnography in Business",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "first-hand observation",
+      "word": "first-hand observation",
+      "type": "noun phrase",
+      "lexical_type": "noun phrase",
+      "pos": "noun phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Ethnography in Business",
+      "collocations": [],
+      "paraphrases": []
+    },
+    {
+      "headword": "identify a pattern of some sort",
+      "word": "identify a pattern of some sort",
+      "type": "verb phrase",
+      "lexical_type": "verb phrase",
+      "pos": "verb phrase",
+      "definition": "An important expression from the Part 4 transcript.",
+      "def": "An important expression from the Part 4 transcript.",
+      "uzbek": "Kontekst orqali o‘rganiladigan ibora",
+      "uz": "Kontekst orqali o‘rganiladigan ibora",
+      "context": "Part 4: Ethnography in Business",
+      "collocations": [],
+      "paraphrases": []
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "Completion",
+    "12": "Completion",
+    "13": "Completion",
+    "14": "Completion",
+    "15": "Completion",
+    "16": "Completion",
+    "17": "Completion",
+    "18": "Completion",
+    "19": "Completion",
+    "20": "Completion",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "MCQ",
+    "26": "Matching",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Completion",
+    "32": "Completion",
+    "33": "Completion",
+    "34": "Completion",
+    "35": "Completion",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    [
+      "exam",
+      "01",
+      "Full IELTS Test",
+      "Q1-Q40 in a timed exam with embedded audio, FLAG and notes."
+    ],
+    [
+      "review",
+      "02",
+      "Review & Revision",
+      "Redo a Part and inspect answers/evidence after checking."
+    ],
+    [
+      "script",
+      "03",
+      "Script Completion",
+      "Complete full Part 1-4 transcripts with 8 lexical gaps each."
+    ],
+    [
+      "mcq",
+      "04",
+      "MCQ Mastery",
+      "Practise Q21-Q25 and their distractors."
+    ],
+    [
+      "matching",
+      "05",
+      "Matching Mastery",
+      "Practise the Q26-Q30 research-method matching task."
+    ],
+    [
+      "completion",
+      "06",
+      "Completion Mastery",
+      "Practise note and short-answer completion."
+    ],
+    [
+      "vocab",
+      "07",
+      "Vocabulary Builder",
+      "Learn useful expressions from the four transcripts."
+    ],
+    [
+      "retry",
+      "08",
+      "Retry Weak Areas",
+      "Retry missed or unanswered questions."
+    ]
+  ]
+}

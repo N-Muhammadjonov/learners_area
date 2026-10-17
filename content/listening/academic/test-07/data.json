@@ -1,0 +1,1599 @@
+{
+  "test_id": "listening-test-7",
+  "title": "Listening Test 7",
+  "sections": [
+    "Bakewell Travel",
+    "Annual Running Competition",
+    "Selective Course",
+    "Boar and Red Deer"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Bakewell Travel - Contact phone number",
+      "answer": "07958847222",
+      "evidence": "Sarah gives the contact number 07958847222.",
+      "timeStart": 161,
+      "timeEnd": 179,
+      "timeCenter": 168,
+      "why": "The recording supports 07958847222 for this item. Sarah gives the contact number 07958847222.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Bakewell Travel - Contact phone number | Listening evidence: Sarah gives the contact number 07958847222.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Best day to call: ___ morning",
+      "answer": "Thursday",
+      "evidence": "She asks to be called back on Thursday before 12.",
+      "timeStart": 177,
+      "timeEnd": 195,
+      "timeCenter": 184,
+      "why": "The recording supports Thursday for this item. She asks to be called back on Thursday before 12.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Best day to call: ___ morning | Listening evidence: She asks to be called back on Thursday before 12.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Number of people travelling",
+      "answer": "7",
+      "evidence": "Three adults and four children make seven travellers.",
+      "timeStart": 191,
+      "timeEnd": 209,
+      "timeCenter": 198,
+      "why": "The recording supports 7 for this item. Three adults and four children make seven travellers.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Number of people travelling | Listening evidence: Three adults and four children make seven travellers.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Date of outward journey",
+      "answer": "22 November",
+      "evidence": "She corrects October to November and confirms the 22nd.",
+      "timeStart": 209,
+      "timeEnd": 227,
+      "timeCenter": 216,
+      "why": "The recording supports 22 November for this item. She corrects October to November and confirms the 22nd.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Date of outward journey | Listening evidence: She corrects October to November and confirms the 22nd.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Purpose of trip",
+      "answer": "wedding",
+      "evidence": "The trip is for a wedding, not a holiday.",
+      "timeStart": 225,
+      "timeEnd": 243,
+      "timeCenter": 232,
+      "why": "The recording supports wedding for this item. The trip is for a wedding, not a holiday.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Purpose of trip | Listening evidence: The trip is for a wedding, not a holiday.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Special requirements: one passenger can't eat ___",
+      "answer": "cheese",
+      "evidence": "Her son is allergic to cheese.",
+      "timeStart": 240,
+      "timeEnd": 258,
+      "timeCenter": 247,
+      "why": "The recording supports cheese for this item. Her son is allergic to cheese.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Special requirements: one passenger can't eat ___ | Listening evidence: Her son is allergic to cheese.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Last country visited",
+      "answer": "India",
+      "evidence": "Her most recent foreign trip was to India.",
+      "timeStart": 309,
+      "timeEnd": 327,
+      "timeCenter": 316,
+      "why": "The recording supports India for this item. Her most recent foreign trip was to India.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Last country visited | Listening evidence: Her most recent foreign trip was to India.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Purpose of last foreign trip",
+      "answer": "business",
+      "evidence": "That trip was for business.",
+      "timeStart": 323,
+      "timeEnd": 341,
+      "timeCenter": 330,
+      "why": "The recording supports business for this item. That trip was for business.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Purpose of last foreign trip | Listening evidence: That trip was for business.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Customer feedback on website: too ___",
+      "answer": "slow",
+      "evidence": "She says the redesigned website was terribly slow.",
+      "timeStart": 346,
+      "timeEnd": 364,
+      "timeCenter": 353,
+      "why": "The recording supports slow for this item. She says the redesigned website was terribly slow.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Customer feedback on website: too ___ | Listening evidence: She says the redesigned website was terribly slow.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Email domain: carter.s@___.com",
+      "answer": "speedtech",
+      "evidence": "She spells the email domain as SPEEDTECH.",
+      "timeStart": 365,
+      "timeEnd": 383,
+      "timeCenter": 372,
+      "why": "The recording supports speedtech for this item. She spells the email domain as SPEEDTECH.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Email domain: carter.s@___.com | Listening evidence: She spells the email domain as SPEEDTECH.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "Annual Running Competition - Starting point",
+      "answer": "castle",
+      "evidence": "The runners will gather in front of the castle and start there.",
+      "timeStart": 545,
+      "timeEnd": 563,
+      "timeCenter": 552,
+      "why": "The recording supports castle for this item. The runners will gather in front of the castle and start there.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Annual Running Competition - Starting point | Listening evidence: The runners will gather in front of the castle and start there.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "Distance",
+      "answer": "7",
+      "evidence": "The race distance is lengthened from five miles to seven miles.",
+      "timeStart": 571,
+      "timeEnd": 589,
+      "timeCenter": 578,
+      "why": "The recording supports 7 for this item. The race distance is lengthened from five miles to seven miles.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Distance | Listening evidence: The race distance is lengthened from five miles to seven miles.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Prize for the winner",
+      "answer": "sports equipment",
+      "evidence": "The winner receives sports equipment worth about £1,000.",
+      "timeStart": 597,
+      "timeEnd": 615,
+      "timeCenter": 604,
+      "why": "The recording supports sports equipment for this item. The winner receives sports equipment worth about £1,000.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Prize for the winner | Listening evidence: The winner receives sports equipment worth about £1,000.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Finishing point",
+      "answer": "station",
+      "evidence": "The finish line is at the station.",
+      "timeStart": 625,
+      "timeEnd": 643,
+      "timeCenter": 632,
+      "why": "The recording supports station for this item. The finish line is at the station.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Finishing point | Listening evidence: The finish line is at the station.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Registration site",
+      "answer": "town hall",
+      "evidence": "Registration must be completed at the town hall.",
+      "timeStart": 641,
+      "timeEnd": 659,
+      "timeCenter": 648,
+      "why": "The recording supports town hall for this item. Registration must be completed at the town hall.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Registration site | Listening evidence: Registration must be completed at the town hall.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Age limit",
+      "answer": "16",
+      "evidence": "Participants must be at least 16.",
+      "timeStart": 664,
+      "timeEnd": 682,
+      "timeCenter": 671,
+      "why": "The recording supports 16 for this item. Participants must be at least 16.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Age limit | Listening evidence: Participants must be at least 16.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Need to bring a ___ and spare shoes",
+      "answer": "jacket",
+      "evidence": "A jacket is recommended along with spare shoes.",
+      "timeStart": 683,
+      "timeEnd": 701,
+      "timeCenter": 690,
+      "why": "The recording supports jacket for this item. A jacket is recommended along with spare shoes.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Need to bring a ___ and spare shoes | Listening evidence: A jacket is recommended along with spare shoes.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Training advice - choose THREE correct answers",
+      "answer": "B",
+      "evidence": "The speaker advises training with a friend who can act as a rival.",
+      "timeStart": 709,
+      "timeEnd": 727,
+      "timeCenter": 716,
+      "why": "The recording supports B for this item. The speaker advises training with a friend who can act as a rival.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Training advice - choose THREE correct answers | Listening evidence: The speaker advises training with a friend who can act as a rival.",
+      "options": [
+        {
+          "code": "A",
+          "text": "be careful of dogs"
+        },
+        {
+          "code": "B",
+          "text": "compete with a friend"
+        },
+        {
+          "code": "C",
+          "text": "run under all weather conditions"
+        },
+        {
+          "code": "D",
+          "text": "warm up before running"
+        },
+        {
+          "code": "E",
+          "text": "compete in groups"
+        },
+        {
+          "code": "F",
+          "text": "time yourself"
+        },
+        {
+          "code": "G",
+          "text": "run on various types of roads and paths"
+        }
+      ],
+      "type": "Choose THREE / Multiple Answer",
+      "multi_group": [
+        18,
+        19,
+        20
+      ]
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Training advice - choose THREE correct answers",
+      "answer": "F",
+      "evidence": "Runners are advised to record/time their runs to track progress.",
+      "timeStart": 731,
+      "timeEnd": 749,
+      "timeCenter": 738,
+      "why": "The recording supports F for this item. Runners are advised to record/time their runs to track progress.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Training advice - choose THREE correct answers | Listening evidence: Runners are advised to record/time their runs to track progress.",
+      "options": [
+        {
+          "code": "A",
+          "text": "be careful of dogs"
+        },
+        {
+          "code": "B",
+          "text": "compete with a friend"
+        },
+        {
+          "code": "C",
+          "text": "run under all weather conditions"
+        },
+        {
+          "code": "D",
+          "text": "warm up before running"
+        },
+        {
+          "code": "E",
+          "text": "compete in groups"
+        },
+        {
+          "code": "F",
+          "text": "time yourself"
+        },
+        {
+          "code": "G",
+          "text": "run on various types of roads and paths"
+        }
+      ],
+      "type": "Choose THREE / Multiple Answer",
+      "multi_group": [
+        18,
+        19,
+        20
+      ]
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Training advice - choose THREE correct answers",
+      "answer": "G",
+      "evidence": "Runners should practise on different roads and paths, not only level ground.",
+      "timeStart": 745,
+      "timeEnd": 763,
+      "timeCenter": 752,
+      "why": "The recording supports G for this item. Runners should practise on different roads and paths, not only level ground.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Training advice - choose THREE correct answers | Listening evidence: Runners should practise on different roads and paths, not only level ground.",
+      "options": [
+        {
+          "code": "A",
+          "text": "be careful of dogs"
+        },
+        {
+          "code": "B",
+          "text": "compete with a friend"
+        },
+        {
+          "code": "C",
+          "text": "run under all weather conditions"
+        },
+        {
+          "code": "D",
+          "text": "warm up before running"
+        },
+        {
+          "code": "E",
+          "text": "compete in groups"
+        },
+        {
+          "code": "F",
+          "text": "time yourself"
+        },
+        {
+          "code": "G",
+          "text": "run on various types of roads and paths"
+        }
+      ],
+      "type": "Choose THREE / Multiple Answer",
+      "multi_group": [
+        18,
+        19,
+        20
+      ]
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Why should they choose selective course immediately?",
+      "answer": "B",
+      "evidence": "Courses will be booked up very soon, and some are already full.",
+      "timeStart": 868,
+      "timeEnd": 886,
+      "timeCenter": 875,
+      "why": "The recording supports B for this item. Courses will be booked up very soon, and some are already full.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Why should they choose selective course immediately? | Listening evidence: Courses will be booked up very soon, and some are already full.",
+      "options": [
+        {
+          "code": "A",
+          "text": "It's the final day."
+        },
+        {
+          "code": "B",
+          "text": "It will be full very soon."
+        },
+        {
+          "code": "C",
+          "text": "They don't have time later on."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "What is the compulsory course for all students?",
+      "answer": "C",
+      "evidence": "Mathematics is a required course for all students.",
+      "timeStart": 899,
+      "timeEnd": 917,
+      "timeCenter": 906,
+      "why": "The recording supports C for this item. Mathematics is a required course for all students.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: What is the compulsory course for all students? | Listening evidence: Mathematics is a required course for all students.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Language course"
+        },
+        {
+          "code": "B",
+          "text": "Business study"
+        },
+        {
+          "code": "C",
+          "text": "Mathematics"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "What does Rick think of the course Information Statistics?",
+      "answer": "A",
+      "evidence": "Rick says Information Statistics is useful because it relates to their major and job hunting.",
+      "timeStart": 935,
+      "timeEnd": 953,
+      "timeCenter": 942,
+      "why": "The recording supports A for this item. Rick says Information Statistics is useful because it relates to their major and job hunting.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: What does Rick think of the course Information Statistics? | Listening evidence: Rick says Information Statistics is useful because it relates to their major and job hunting.",
+      "options": [
+        {
+          "code": "A",
+          "text": "It's useful."
+        },
+        {
+          "code": "B",
+          "text": "It's convenient to take."
+        },
+        {
+          "code": "C",
+          "text": "It involves a lot of work."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "What will they do before choosing the selective courses?",
+      "answer": "A",
+      "evidence": "They decide former students who took the class are the best people to ask.",
+      "timeStart": 979,
+      "timeEnd": 997,
+      "timeCenter": 986,
+      "why": "The recording supports A for this item. They decide former students who took the class are the best people to ask.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: What will they do before choosing the selective courses? | Listening evidence: They decide former students who took the class are the best people to ask.",
+      "options": [
+        {
+          "code": "A",
+          "text": "consult the students about the teaching quality"
+        },
+        {
+          "code": "B",
+          "text": "look online about the related information"
+        },
+        {
+          "code": "C",
+          "text": "ask their parents for suggestions"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "How did they feel about the art design class?",
+      "answer": "C",
+      "evidence": "They say Art Design turned out easy and helpful and they value it.",
+      "timeStart": 1015,
+      "timeEnd": 1033,
+      "timeCenter": 1022,
+      "why": "The recording supports C for this item. They say Art Design turned out easy and helpful and they value it.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: How did they feel about the art design class? | Listening evidence: They say Art Design turned out easy and helpful and they value it.",
+      "options": [
+        {
+          "code": "A",
+          "text": "surprising"
+        },
+        {
+          "code": "B",
+          "text": "confusing"
+        },
+        {
+          "code": "C",
+          "text": "valuable"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "What does Nina want to make sure about selective courses?",
+      "answer": "A",
+      "evidence": "Nina wants to know how to register for the selective courses.",
+      "timeStart": 1045,
+      "timeEnd": 1063,
+      "timeCenter": 1052,
+      "why": "The recording supports A for this item. Nina wants to know how to register for the selective courses.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: What does Nina want to make sure about selective courses? | Listening evidence: Nina wants to know how to register for the selective courses.",
+      "options": [
+        {
+          "code": "A",
+          "text": "How they register the course"
+        },
+        {
+          "code": "B",
+          "text": "When the course will take place"
+        },
+        {
+          "code": "C",
+          "text": "amount of work to be done online"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Metallurgy - course evaluation",
+      "answer": "E",
+      "evidence": "Metallurgy had useful information available online.",
+      "timeStart": 1088,
+      "timeEnd": 1106,
+      "timeCenter": 1095,
+      "why": "The recording supports E for this item. Metallurgy had useful information available online.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Metallurgy - course evaluation | Listening evidence: Metallurgy had useful information available online.",
+      "options": [
+        {
+          "code": "A",
+          "text": "became more engaging"
+        },
+        {
+          "code": "B",
+          "text": "Professor's note was detailed"
+        },
+        {
+          "code": "C",
+          "text": "involved lot of practical work"
+        },
+        {
+          "code": "D",
+          "text": "Professor's explanation was clear"
+        },
+        {
+          "code": "E",
+          "text": "Useful material online"
+        },
+        {
+          "code": "F",
+          "text": "Harder than expected"
+        }
+      ],
+      "type": "Matching"
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Fluid mechanics - course evaluation",
+      "answer": "D",
+      "evidence": "The Fluid Mechanics professor gave crystal-clear explanations.",
+      "timeStart": 1111,
+      "timeEnd": 1129,
+      "timeCenter": 1118,
+      "why": "The recording supports D for this item. The Fluid Mechanics professor gave crystal-clear explanations.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Fluid mechanics - course evaluation | Listening evidence: The Fluid Mechanics professor gave crystal-clear explanations.",
+      "options": [
+        {
+          "code": "A",
+          "text": "became more engaging"
+        },
+        {
+          "code": "B",
+          "text": "Professor's note was detailed"
+        },
+        {
+          "code": "C",
+          "text": "involved lot of practical work"
+        },
+        {
+          "code": "D",
+          "text": "Professor's explanation was clear"
+        },
+        {
+          "code": "E",
+          "text": "Useful material online"
+        },
+        {
+          "code": "F",
+          "text": "Harder than expected"
+        }
+      ],
+      "type": "Matching"
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Computing - course evaluation",
+      "answer": "A",
+      "evidence": "Computing became more engaging as the course went on.",
+      "timeStart": 1136,
+      "timeEnd": 1154,
+      "timeCenter": 1143,
+      "why": "The recording supports A for this item. Computing became more engaging as the course went on.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Computing - course evaluation | Listening evidence: Computing became more engaging as the course went on.",
+      "options": [
+        {
+          "code": "A",
+          "text": "became more engaging"
+        },
+        {
+          "code": "B",
+          "text": "Professor's note was detailed"
+        },
+        {
+          "code": "C",
+          "text": "involved lot of practical work"
+        },
+        {
+          "code": "D",
+          "text": "Professor's explanation was clear"
+        },
+        {
+          "code": "E",
+          "text": "Useful material online"
+        },
+        {
+          "code": "F",
+          "text": "Harder than expected"
+        }
+      ],
+      "type": "Matching"
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Energy economy - course evaluation",
+      "answer": "C",
+      "evidence": "Energy Economy involved a lot of practical work.",
+      "timeStart": 1161,
+      "timeEnd": 1179,
+      "timeCenter": 1168,
+      "why": "The recording supports C for this item. Energy Economy involved a lot of practical work.",
+      "trap": "Follow the final meaning, not the first keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Energy economy - course evaluation | Listening evidence: Energy Economy involved a lot of practical work.",
+      "options": [
+        {
+          "code": "A",
+          "text": "became more engaging"
+        },
+        {
+          "code": "B",
+          "text": "Professor's note was detailed"
+        },
+        {
+          "code": "C",
+          "text": "involved lot of practical work"
+        },
+        {
+          "code": "D",
+          "text": "Professor's explanation was clear"
+        },
+        {
+          "code": "E",
+          "text": "Useful material online"
+        },
+        {
+          "code": "F",
+          "text": "Harder than expected"
+        }
+      ],
+      "type": "Matching"
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Boar is not a ___ species",
+      "answer": "protected",
+      "evidence": "The lecture says boars are not currently on the protected animals list.",
+      "timeStart": 1285,
+      "timeEnd": 1303,
+      "timeCenter": 1292,
+      "why": "The recording supports protected for this item. The lecture says boars are not currently on the protected animals list.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Boar is not a ___ species | Listening evidence: The lecture says boars are not currently on the protected animals list.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Damage to the ___",
+      "answer": "environment",
+      "evidence": "The boar population poses a critical threat to the environment.",
+      "timeStart": 1328,
+      "timeEnd": 1346,
+      "timeCenter": 1335,
+      "why": "The recording supports environment for this item. The boar population poses a critical threat to the environment.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Damage to the ___ | Listening evidence: The boar population poses a critical threat to the environment.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "They also spread ___",
+      "answer": "diseases",
+      "evidence": "A major concern is transmission of diseases to other species.",
+      "timeStart": 1383,
+      "timeEnd": 1401,
+      "timeCenter": 1390,
+      "why": "The recording supports diseases for this item. A major concern is transmission of diseases to other species.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: They also spread ___ | Listening evidence: A major concern is transmission of diseases to other species.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Banning use of ___ in killing boars",
+      "answer": "poison",
+      "evidence": "Poison is ruled out because legislation prohibits it.",
+      "timeStart": 1445,
+      "timeEnd": 1463,
+      "timeCenter": 1452,
+      "why": "The recording supports poison for this item. Poison is ruled out because legislation prohibits it.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Banning use of ___ in killing boars | Listening evidence: Poison is ruled out because legislation prohibits it.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Keep boars in the ___ away from urban areas",
+      "answer": "forest",
+      "evidence": "Forest-dwelling boars should be kept well away from people and cities.",
+      "timeStart": 1483,
+      "timeEnd": 1501,
+      "timeCenter": 1490,
+      "why": "The recording supports forest for this item. Forest-dwelling boars should be kept well away from people and cities.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Keep boars in the ___ away from urban areas | Listening evidence: Forest-dwelling boars should be kept well away from people and cities.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Population rise due to escape from ___",
+      "answer": "captivity",
+      "evidence": "Many boars escaped captivity on farms and then bred rapidly.",
+      "timeStart": 1513,
+      "timeEnd": 1531,
+      "timeCenter": 1520,
+      "why": "The recording supports captivity for this item. Many boars escaped captivity on farms and then bred rapidly.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Population rise due to escape from ___ | Listening evidence: Many boars escaped captivity on farms and then bred rapidly.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Red deer damage grain and ___",
+      "answer": "potatoes",
+      "evidence": "Red deer damage agricultural produce such as grain and potatoes.",
+      "timeStart": 1545,
+      "timeEnd": 1563,
+      "timeCenter": 1552,
+      "why": "The recording supports potatoes for this item. Red deer damage agricultural produce such as grain and potatoes.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Red deer damage grain and ___ | Listening evidence: Red deer damage agricultural produce such as grain and potatoes.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "In winter deer come to villages for ___",
+      "answer": "food",
+      "evidence": "In colder weather, red deer search for food around villages and fields.",
+      "timeStart": 1583,
+      "timeEnd": 1601,
+      "timeCenter": 1590,
+      "why": "The recording supports food for this item. In colder weather, red deer search for food around villages and fields.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: In winter deer come to villages for ___ | Listening evidence: In colder weather, red deer search for food around villages and fields.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Deer numbers kept stable for ___",
+      "answer": "hunting",
+      "evidence": "Hunting traditions are one reason the deer population needs to be kept stable.",
+      "timeStart": 1621,
+      "timeEnd": 1639,
+      "timeCenter": 1628,
+      "why": "The recording supports hunting for this item. Hunting traditions are one reason the deer population needs to be kept stable.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Deer numbers kept stable for ___ | Listening evidence: Hunting traditions are one reason the deer population needs to be kept stable.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Devastating effect on local ___",
+      "answer": "crops",
+      "evidence": "Farmers report devastating damage to their crops.",
+      "timeStart": 1643,
+      "timeEnd": 1661,
+      "timeCenter": 1650,
+      "why": "The recording supports crops for this item. Farmers report devastating damage to their crops.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Devastating effect on local ___ | Listening evidence: Farmers report devastating damage to their crops.",
+      "options": [],
+      "type": "Note Completion"
+    }
+  },
+  "answers": {
+    "1": "07958847222",
+    "2": "Thursday",
+    "3": "7",
+    "4": "22 November",
+    "5": "wedding",
+    "6": "cheese",
+    "7": "India",
+    "8": "business",
+    "9": "slow",
+    "10": "speedtech",
+    "11": "castle",
+    "12": "7",
+    "13": "sports equipment",
+    "14": "station",
+    "15": "town hall",
+    "16": "16",
+    "17": "jacket",
+    "18": "B",
+    "19": "F",
+    "20": "G",
+    "21": "B",
+    "22": "C",
+    "23": "A",
+    "24": "A",
+    "25": "C",
+    "26": "A",
+    "27": "E",
+    "28": "D",
+    "29": "A",
+    "30": "C",
+    "31": "protected",
+    "32": "environment",
+    "33": "diseases",
+    "34": "poison",
+    "35": "forest",
+    "36": "captivity",
+    "37": "potatoes",
+    "38": "food",
+    "39": "hunting",
+    "40": "crops"
+  },
+  "alternatives": {
+    "1": [
+      "07958 847222",
+      "07 958 847 222",
+      "07958847222"
+    ],
+    "2": [],
+    "3": [
+      "seven"
+    ],
+    "4": [
+      "22nd November",
+      "November 22",
+      "November 22nd",
+      "22 November"
+    ],
+    "5": [],
+    "6": [],
+    "7": [],
+    "8": [],
+    "9": [],
+    "10": [],
+    "11": [],
+    "12": [
+      "seven",
+      "7 miles",
+      "seven miles"
+    ],
+    "13": [],
+    "14": [],
+    "15": [],
+    "16": [
+      "sixteen"
+    ],
+    "17": [],
+    "18": [],
+    "19": [],
+    "20": [],
+    "21": [],
+    "22": [],
+    "23": [],
+    "24": [],
+    "25": [],
+    "26": [],
+    "27": [],
+    "28": [],
+    "29": [],
+    "30": [],
+    "31": [],
+    "32": [],
+    "33": [],
+    "34": [],
+    "35": [],
+    "36": [],
+    "37": [],
+    "38": [],
+    "39": [],
+    "40": []
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 143.82,
+      "end": 383.45
+    },
+    "2": {
+      "start": 482.85,
+      "end": 765.02
+    },
+    "3": {
+      "start": 854.37,
+      "end": 1192.69
+    },
+    "4": {
+      "start": 1250.63,
+      "end": 1668.34
+    }
+  },
+  "transcript": {
+    "1": "Man: Hello, Bakewell Travel. How can I help? Sarah: Oh, hello. My name's Sarah Carter. I wonder if you could tell me about the price of plane tickets to Dubai. Man: Our computers are down, so what I can do is take some details about you and your travel plans. Then when everything's OK again, I can call you back, alright? Sarah: OK then. Man: Right. So, some details first. Your name was Sarah Carter, wasn't it? Sarah: That's right. Man: And can I take a contact phone number? Sarah: 07 958 847 222. Man: Now, I'll probably need to get back to you on this. Shall I call you back tomorrow morning? Sarah: Oh, I work on Wednesdays. Can you call me back on Thursday before 12? Man: Fine. OK, so, Mrs Carter, how many tickets will you need? Sarah: Three adults and four children. Man: So, seven altogether. Are all the children under the age of 14? Sarah: They are, yes. Man: Which date do you wish to travel on? Sarah: Well, we definitely need to be there for the 24th. So, if we leave the UK on the 22nd, we'll have time to recover on the 23rd. Man: So, the 22nd of October? Sarah: Not this month. Next month. November. Man: Right. And I assume these are return tickets? Sarah: Yes, we want to fly back on the Tuesday. Is that the 25th or the 26th? Man: It's the 25th, so it's going to be a short holiday. Sarah: We're going to a wedding. We're not going for a holiday. Man: Oh, that's nice. Now, do any travellers have any special requirements? You know, special assistance with mobility and that sort of thing? Sarah: Oh, well, actually, yes. My son's allergic to cheese. It makes him really, really ill. Man: Fine. So, as soon as I can, I'll look into finding some tickets for you. Man: Now, I wonder if I could just ask you a couple of questions as part of our market research. Would you be happy to do that? Sarah: Will this take long? Man: Just a couple of minutes, that's all. Sarah: OK. Man: So, how many foreign visits have you made in the last 12 months? Sarah: About six, I suppose. Man: And where was your last foreign trip? Sarah: Well, I was in Egypt in May, then most recently India. Man: Oh, nice. Yes, I'm off for some IT training in Bangalore next month, actually. And was that a vacation? Sarah: I'd love to go back there for a holiday, but it was for business this time. Man: And I presume you use the internet? Sarah: I do, yes. Man: And so you've seen our website? Sarah: Yes, I had a look this morning, actually. Man: Well, we had it redesigned a month ago and we're keen to get feedback on how our customers find it, so... Sarah: Oh, right. OK. Well, I have to say I found it terribly slow, so I just gave up and thought I'd give you a call. Man: Oh, well, I'm sorry to hear that. But yes, it does happen sometimes. Would it be OK for us to email you with any promotional offers? Sarah: I suppose so. Well, OK. My address is carter.s at speedtech.com. Man: Is that S-P-E-E-D-T-E-C-H? Sarah: Yes. Man: That's great. And can I ask how you found out about Bakewell Travel?",
+    "2": "Dave: Good morning everyone, I'm Dave, the manager of Creton Running Sports Club. Today, I'll tell you something about the running competition which will be held next month. As we know, the annual run is one of the most popular events in our town, and it attracts young and old every year. This year we will continue the tradition, but there'll be some small adjustments. First, about the date. The exact time of the run is still on the first Saturday of May, but we'll inform you in advance if it's to be delayed due to bad weather. The run used to start at the park, which is being refurbished at the moment, so this time all the runners are expected to gather in front of the castle and start from there. The actual run begins at 9 a.m., but the runners start arriving at about 8:45, so some of you might have to get up early that morning if you live far away. Someone has asked how long you'll be required to run. In the past few years, the runners have had to complete the distance of five miles, but most people want to do a bit more than that, so we will lengthen it to seven miles this time. Some of you might not be sure whether you can run that far, so you'd better start doing a bit of training. I'm excited to tell you that this year we've got sponsorship from a big company who has promised to cover all the competition expenses, including the prize for the champion. The runner with the shortest time will be awarded sports equipment worth about £1,000. Each runner will be timed from the starting point till the end. When you cross the finish line marked on the ground of the station, you'll be given a barcode, and you should take this to one of the run volunteers who will scan it. Then you can get your time on the computer immediately, and the volunteers will collect all the results. If you are interested in the run, I suggest you register as soon as possible. The deadline is next Sunday. However, I should tell you this year you can't enrol through the internet, but have to go to the town hall and give all the personal information and sign your name. It doesn't cost anything to register. As I've just said, all the costs related to the competition will be paid by our sponsor. As for the age limit, you have to be at least 16, and the top limit is now 70, though you need to obtain a health certificate from your doctor if you're over 60 years old. If you do come and participate in the run, I definitely recommend that you should prepare an extra pair of shoes, as last year one of the runners got something wrong with his shoes during the running and had to give up halfway through the competition. Besides, a jacket will also be advisable, so you don't catch a cold after sweating a lot during the running. There is no need to worry about snacks or drinks, as every runner will be supplied with chocolates and bottled water. To prepare for this annual running competition, our club is going to organize a training class for all the participants. In the class, an experienced trainer will teach you the professional steps on how to do a running competition, like warming up before running. For those who plan to do training by yourselves, there are some suggestions for you. First, don't just do morning jogging with your dog. Remember that you're going to compete with others. I know some people like to exercise in groups, but it's more effective to run with your friend who can be your rival and stimulate your potential. Then I suggest you make a record of your running time. It can show whether you've made any progress day by day. What's more, you'd better get used to different roads and paths in the countryside or village, as you won't just be running on level ground during the competition. By the way, you don't have to run in all kinds of weather. As I've just said, our competition is going to be held in good weather. Well, that's all the details about the running competition. If you have any other questions, please call our club at 8345 6234. Anyone who is interested in the run, just get started.",
+    "3": "Rick: Hey Nina, have you chosen a selective course yet? Nina: Not really, Rick. I haven't made up my mind yet. What about you? Rick: Me either. We have to decide as soon as possible though. Nina: Why? Today is not the final day for choosing selective courses, is it? Rick: No, but they will be booked up very soon. Actually, some courses are already full. Nina: Really? That's too bad. Well, I was thinking of taking a language course. What do you think? Rick: Yes, you can do that. You can choose all courses on the school website except mathematics since it's a required course for all students. By the way, I think the business course is a good choice. Nina: Yeah, it's not bad. I think it's going to be quite helpful after we graduate. Rick: I think so. Guess what? I wanted to choose Information Statistics. Nina: Why? Rick: It's related to our major, so I think it's very useful for us. I mean, we all have an advantage in job hunting. But the bad thing is, it's in the morning, so we have to skip other classes in order to take it. Nina: That's not good. We need to find an alternative that is more convenient for us. Rick: I know, it's a shame. Nina, I think we need to get to know the courses more before choosing them. Otherwise we may end up studying something that's either boring or useless. Nina: You are right. Maybe we can look online to see if there's information about it. We could also ask our parents for advice. Rick: I don't think that's going to help much. People have all kinds of opinions online. We wouldn't know which one to listen to. And our parents probably don't know much about our field. I think the best way is asking the former students who have taken the class themselves. Nina: They can tell us how they thought about it from their own experience. Rick: Oh yes, they know it better than anyone, just like how much we know the Art Design class. Nina: Yes, before we took it last year, many people said on the internet that it was quite confusing, but it turned out to be quite easy and helpful, right? Rick: Mm-hmm. It didn't let us down. I definitely value the course. Design is an important skill in today's world. Nina: Well, whatever course we want to choose, there are still things I need to figure out. Rick: What do you mean? Do you mean things like the time of the courses? Nina: Since it's the first time we can choose selective courses, I need to know how to register. Rick: I think there will be instruction on our school website for registration. I'll let you know. Nina: You are so considerate, Nina. Rick: I think that's necessary. We need to make sure we can register as soon as we make up our mind. Nina: The courses we studied last semester were quite interesting. Maybe we could get some inspiration from those courses. Do you think so? Rick: Well, yeah, some of them were quite fun for me, such as Metallurgy, though there were quite a lot of terms to remember. But there's also a lot of useful information about it on the internet, which made things easier. Nina: That's right. I can refer to many things when I was working on the paper. And the professor in Fluid Mechanics was really patient. His explanation was crystal clear, so students had no difficulty understanding it. Rick: Yes, that's true. I was good at this course. What do you think of Computing? Nina: I think it was kind of boring in the beginning. Do you think so? Rick: That's exactly how I felt. There were a lot of numbers to deal with, but thankfully it got more interesting when the course went on. Nina: Right, because later we could relate the theories to real-life examples. Rick: Exactly. Another course that I think was really practical is Energy Economy. Nina: Oh yes, there are a lot of practical works in the course. What we learned can come in handy in our future jobs. Rick: We should make the decision based on our own experience and preference. Nina: Yeah. Anyway, we really need to hurry up. I'm sure we can reach a conclusion today.",
+    "4": "You will hear a lecture about the situation of wild animals, especially wild boar. Good morning. My name's Jim Robinson and today we're going to look at the control of wild animals, specifically wild boar. Now, boar have been natural inhabitants of Western Europe for thousands of years, but in recent years, there has been a surge in boar activity that poses real threat. Boars are not currently on the protected animals list, which is perhaps why there has been a spike in their breeding activity. Boars are an indigenous species and are particularly plentiful in rural France and the Bavarian uplands of Germany. Boar hunting is a European tradition that goes back to Roman times and became particularly popular among courtiers during the Middle Ages. Even during the 20th century, boar hunting was seen as an integral part of rural life. The decline in boar hunting has obviously led to a rise in the boar populations of Europe, and the situation has reached a critical point, with boar posing a critical threat to the environment. Proponents of boar hunting cite this factor as a major reason why boar populations should be contained. Boar also pose a threat to humans too, with countless reports of people being injured during boar attacks. The origins of the wild boar have roots in Germanic, and this perhaps explains their prevalence in Germany. The problems with the boar population in Germany have ramifications for the rest of Europe, as boar packs migrate towards Central and Eastern Europe. One of the main issues that is of great concern is the transmission of diseases that infect other species. Dairy farmers in France are particularly concerned, as many of them have seen their herds depleted by infections. The methods for containing boar populations have been looked at in great detail and numerous options are available. One is to encourage more boar hunting in wild regions such as mountains and forests. Hunters would be given licenses to hunt, either for food or sport. Of course, boar do pose a threat to human life, so this possibility must be looked at with caution. One method that must be ruled out is poison, as legislation has been introduced prohibiting this. Such methods were tried with rabbits in the 1960s, and this had a disastrous impact on the food chain. The introduction of natural predators into the ecosystem is also an option that can't be considered. The only known predators of boar in the world are wild cats, like lions and tigers. Obviously there's no way such animals can be allowed to roam the mountains and forests of Europe. Given the threat that boars pose to humans, it is imperative that forest-dwelling boar are kept well away from people and cities. This is absolutely essential as human safety must be the main priority of policymakers. By the 11th century, boars in several European countries were becoming increasingly rare in Great Britain. King Charles attempted to reintroduce boars in the New Forest area of the country. Yet the entire population was almost wiped out during the battles of the English Civil War, when roaming soldiers hunted them for food. During the 1980s, wild boar rearing was encouraged and boar populations began to rise again. By the 1990s, there was a huge rise in the number of boar across England. Due in large part to the species no longer forced to live in captivity, many boar have broken free from farms across England and are breeding at a rapid rate. Aside from their environmental threats, boars also pose a problem for farmers growing crops and vegetables. Other species such as red deer are a threat to farm produce like grain and potatoes, but boars certainly present the most serious risk. The damage done to the farming industry is estimated to cost millions of pounds, and insurance payments as a result of this have spiked in the last decade. Red deer are predominantly confined to forest areas, and it is unusual to see them outside their habitats during the summer months. However, as the weather gets colder, they can be seen looking for food around local villages and fields. Red deer have their origins in Asia and are ruminant species, which means they have a stomach that consists of four compartments, much like cows. They are slaughtered for food and their meat is sold as venison and is increasingly popular among consumers. There are nine subspecies of red deer, with three of them on the endangered species list. The deer population doesn't pose the same threat as the boar population, but it certainly needs to be addressed. Forest areas are their main habitats and they are now breeding at a much higher rate than in previous years. Of course, deer are an important part of the food chain and are an important part of the hunting traditions of the UK, so it is important that their population is kept stable for this reason. Though the real concern is the problems that deer present for farmers who have seen their crops suffer in devastating ways. Protection needs to be offered, and many farmers report building large perimeter fences around their fields to keep deer out, which costs them a huge amount of money. Government funding is so far inadequate to offer the protection farmers need, but ways are being looked at to provide subsidies through other means."
+  },
+  "transcript_source": "FULL TRANSCRIPT RECOVERED for the exact user-provided audio/test and cross-checked against section order and answer anchors.",
+  "timestamps_source": "Machine-derived approximate alignment against the user-provided canonical audio.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "get back to you",
+      "answer": "get back to you",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "special requirements",
+      "answer": "special requirements",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "market research",
+      "answer": "market research",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "had it redesigned",
+      "answer": "had it redesigned",
+      "lexical_type": "causative chunk"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "gave up",
+      "answer": "gave up",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "promotional offers",
+      "answer": "promotional offers",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 107,
+      "part": 2,
+      "n": 1,
+      "match": "small adjustments",
+      "answer": "small adjustments",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 108,
+      "part": 2,
+      "n": 2,
+      "match": "being refurbished",
+      "answer": "being refurbished",
+      "lexical_type": "passive lexical chunk"
+    },
+    {
+      "q": 109,
+      "part": 2,
+      "n": 3,
+      "match": "competition expenses",
+      "answer": "competition expenses",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 110,
+      "part": 2,
+      "n": 4,
+      "match": "as soon as possible",
+      "answer": "as soon as possible",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 111,
+      "part": 2,
+      "n": 5,
+      "match": "stimulate your potential",
+      "answer": "stimulate your potential",
+      "lexical_type": "advanced collocation"
+    },
+    {
+      "q": 112,
+      "part": 2,
+      "n": 6,
+      "match": "get used to",
+      "answer": "get used to",
+      "lexical_type": "fixed verb phrase"
+    },
+    {
+      "q": 113,
+      "part": 3,
+      "n": 1,
+      "match": "made up my mind",
+      "answer": "made up my mind",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 114,
+      "part": 3,
+      "n": 2,
+      "match": "booked up very soon",
+      "answer": "booked up very soon",
+      "lexical_type": "phrasal verb chunk"
+    },
+    {
+      "q": 115,
+      "part": 3,
+      "n": 3,
+      "match": "advantage in job hunting",
+      "answer": "advantage in job hunting",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 116,
+      "part": 3,
+      "n": 4,
+      "match": "former students",
+      "answer": "former students",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 117,
+      "part": 3,
+      "n": 5,
+      "match": "crystal clear",
+      "answer": "crystal clear",
+      "lexical_type": "advanced adjective phrase"
+    },
+    {
+      "q": 118,
+      "part": 3,
+      "n": 6,
+      "match": "come in handy",
+      "answer": "come in handy",
+      "lexical_type": "idiomatic phrase"
+    },
+    {
+      "q": 119,
+      "part": 4,
+      "n": 1,
+      "match": "natural inhabitants",
+      "answer": "natural inhabitants",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 120,
+      "part": 4,
+      "n": 2,
+      "match": "integral part",
+      "answer": "integral part",
+      "lexical_type": "C1 collocation"
+    },
+    {
+      "q": 121,
+      "part": 4,
+      "n": 3,
+      "match": "reached a critical point",
+      "answer": "reached a critical point",
+      "lexical_type": "advanced collocation"
+    },
+    {
+      "q": 122,
+      "part": 4,
+      "n": 4,
+      "match": "transmission of diseases",
+      "answer": "transmission of diseases",
+      "lexical_type": "academic noun phrase"
+    },
+    {
+      "q": 123,
+      "part": 4,
+      "n": 5,
+      "match": "must be ruled out",
+      "answer": "must be ruled out",
+      "lexical_type": "phrasal/passive chunk"
+    },
+    {
+      "q": 124,
+      "part": 4,
+      "n": 6,
+      "match": "human safety",
+      "answer": "human safety",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 125,
+      "part": 4,
+      "n": 7,
+      "match": "devastating ways",
+      "answer": "devastating ways",
+      "lexical_type": "advanced adjective phrase"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "get back to someone",
+      "type": "phrasal verb · B2/C1",
+      "definition": "contact or reply to someone later",
+      "uzbek": "keyinroq qayta bog‘lanmoq",
+      "context": "I can call you back / get back to you on this.",
+      "collocations": [
+        "get back to a customer",
+        "get back to you shortly"
+      ],
+      "paraphrases": [
+        "respond later",
+        "contact again"
+      ]
+    },
+    {
+      "headword": "special requirements",
+      "type": "collocation · C1",
+      "definition": "specific needs that require special arrangements",
+      "uzbek": "maxsus talablar",
+      "context": "Do any travellers have any special requirements?",
+      "collocations": [
+        "meet special requirements",
+        "special dietary requirements"
+      ],
+      "paraphrases": [
+        "specific needs"
+      ]
+    },
+    {
+      "headword": "market research",
+      "type": "noun phrase · C1",
+      "definition": "systematic study of customers and markets",
+      "uzbek": "bozor tadqiqoti",
+      "context": "A couple of questions as part of our market research.",
+      "collocations": [
+        "conduct market research",
+        "market research survey"
+      ],
+      "paraphrases": [
+        "consumer research"
+      ]
+    },
+    {
+      "headword": "promotional offers",
+      "type": "collocation · C1",
+      "definition": "special deals used to promote a product or service",
+      "uzbek": "reklama aksiyalari / takliflari",
+      "context": "Email you with any promotional offers.",
+      "collocations": [
+        "receive promotional offers",
+        "limited promotional offer"
+      ],
+      "paraphrases": [
+        "marketing deals"
+      ]
+    },
+    {
+      "headword": "be refurbished",
+      "type": "verb · C1",
+      "definition": "be renovated and improved",
+      "uzbek": "ta’mirdan chiqarilmoq",
+      "context": "The park is being refurbished at the moment.",
+      "collocations": [
+        "newly refurbished",
+        "under refurbishment"
+      ],
+      "paraphrases": [
+        "be renovated"
+      ]
+    },
+    {
+      "headword": "cover the expenses",
+      "type": "collocation · C1",
+      "definition": "pay all or part of the costs",
+      "uzbek": "xarajatlarni qoplamoq",
+      "context": "The sponsor will cover all the competition expenses.",
+      "collocations": [
+        "cover travel expenses",
+        "cover the full cost"
+      ],
+      "paraphrases": [
+        "pay the costs"
+      ]
+    },
+    {
+      "headword": "stimulate your potential",
+      "type": "advanced collocation · C1",
+      "definition": "encourage someone to perform closer to their full ability",
+      "uzbek": "salohiyatni rag‘batlantirmoq",
+      "context": "A rival can stimulate your potential.",
+      "collocations": [
+        "realise your potential",
+        "stimulate performance"
+      ],
+      "paraphrases": [
+        "push you to perform better"
+      ]
+    },
+    {
+      "headword": "get used to",
+      "type": "phrasal/idiomatic verb · B2",
+      "definition": "become accustomed to something",
+      "uzbek": "ko‘nikmoq",
+      "context": "Get used to different roads and paths.",
+      "collocations": [
+        "get used to doing",
+        "become used to"
+      ],
+      "paraphrases": [
+        "become accustomed to"
+      ]
+    },
+    {
+      "headword": "make up your mind",
+      "type": "idiom · B2/C1",
+      "definition": "reach a decision",
+      "uzbek": "qaror qilmoq",
+      "context": "I haven't made up my mind yet.",
+      "collocations": [
+        "make up your mind about",
+        "finally make up your mind"
+      ],
+      "paraphrases": [
+        "decide"
+      ]
+    },
+    {
+      "headword": "book up",
+      "type": "phrasal verb · C1",
+      "definition": "become fully reserved or unavailable",
+      "uzbek": "joylar to‘lib ketmoq",
+      "context": "They will be booked up very soon.",
+      "collocations": [
+        "fully booked up",
+        "book up quickly"
+      ],
+      "paraphrases": [
+        "fill up",
+        "be fully reserved"
+      ]
+    },
+    {
+      "headword": "job hunting",
+      "type": "compound noun · C1",
+      "definition": "the activity of looking for employment",
+      "uzbek": "ish qidirish",
+      "context": "An advantage in job hunting.",
+      "collocations": [
+        "job-hunting process",
+        "job-hunting skills"
+      ],
+      "paraphrases": [
+        "searching for work"
+      ]
+    },
+    {
+      "headword": "crystal clear",
+      "type": "idiomatic adjective phrase · C1",
+      "definition": "extremely clear and easy to understand",
+      "uzbek": "juda aniq",
+      "context": "His explanation was crystal clear.",
+      "collocations": [
+        "crystal-clear explanation",
+        "make something crystal clear"
+      ],
+      "paraphrases": [
+        "perfectly clear"
+      ]
+    },
+    {
+      "headword": "come in handy",
+      "type": "idiom · C1",
+      "definition": "prove useful in a particular situation",
+      "uzbek": "asqotmoq",
+      "context": "What we learned can come in handy in our future jobs.",
+      "collocations": [
+        "come in handy later",
+        "might come in handy"
+      ],
+      "paraphrases": [
+        "be useful"
+      ]
+    },
+    {
+      "headword": "indigenous species",
+      "type": "academic noun phrase · C1",
+      "definition": "a species native to a particular region",
+      "uzbek": "mahalliy tur",
+      "context": "Boars are an indigenous species.",
+      "collocations": [
+        "indigenous species",
+        "native species"
+      ],
+      "paraphrases": [
+        "native species"
+      ]
+    },
+    {
+      "headword": "integral part",
+      "type": "collocation · C1",
+      "definition": "an essential or fundamental component",
+      "uzbek": "ajralmas qism",
+      "context": "Boar hunting was an integral part of rural life.",
+      "collocations": [
+        "integral part of",
+        "play an integral role"
+      ],
+      "paraphrases": [
+        "essential component"
+      ]
+    },
+    {
+      "headword": "reach a critical point",
+      "type": "advanced collocation · C1",
+      "definition": "reach a stage at which a situation becomes urgent or decisive",
+      "uzbek": "jiddiy nuqtaga yetmoq",
+      "context": "The situation has reached a critical point.",
+      "collocations": [
+        "reach a critical point",
+        "critical stage"
+      ],
+      "paraphrases": [
+        "become urgent"
+      ]
+    },
+    {
+      "headword": "transmission of diseases",
+      "type": "academic noun phrase · C1",
+      "definition": "the spread of diseases from one host or population to another",
+      "uzbek": "kasalliklarning yuqishi",
+      "context": "The transmission of diseases that infect other species.",
+      "collocations": [
+        "disease transmission",
+        "prevent transmission"
+      ],
+      "paraphrases": [
+        "spread of disease"
+      ]
+    },
+    {
+      "headword": "rule out",
+      "type": "phrasal verb · C1",
+      "definition": "exclude something as a possibility or option",
+      "uzbek": "variant sifatida rad etmoq",
+      "context": "One method that must be ruled out is poison.",
+      "collocations": [
+        "rule out an option",
+        "cannot rule out"
+      ],
+      "paraphrases": [
+        "exclude",
+        "eliminate"
+      ]
+    },
+    {
+      "headword": "human safety",
+      "type": "formal collocation · C1",
+      "definition": "the protection of people from harm",
+      "uzbek": "inson xavfsizligi",
+      "context": "Human safety must be the main priority.",
+      "collocations": [
+        "protect human safety",
+        "public safety"
+      ],
+      "paraphrases": [
+        "safety of people"
+      ]
+    },
+    {
+      "headword": "devastating effect",
+      "type": "advanced collocation · C1",
+      "definition": "an extremely damaging impact",
+      "uzbek": "halokatli ta’sir",
+      "context": "Deer can have a devastating effect on local crops.",
+      "collocations": [
+        "devastating effect on",
+        "devastating impact"
+      ],
+      "paraphrases": [
+        "severe damage"
+      ]
+    }
+  ],
+  "question_types": {
+    "1": "Note Completion",
+    "2": "Note Completion",
+    "3": "Note Completion",
+    "4": "Note Completion",
+    "5": "Note Completion",
+    "6": "Note Completion",
+    "7": "Note Completion",
+    "8": "Note Completion",
+    "9": "Note Completion",
+    "10": "Note Completion",
+    "11": "Note Completion",
+    "12": "Note Completion",
+    "13": "Note Completion",
+    "14": "Note Completion",
+    "15": "Note Completion",
+    "16": "Note Completion",
+    "17": "Note Completion",
+    "18": "Choose THREE / Multiple Answer",
+    "19": "Choose THREE / Multiple Answer",
+    "20": "Choose THREE / Multiple Answer",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "MCQ",
+    "26": "MCQ",
+    "27": "Matching",
+    "28": "Matching",
+    "29": "Matching",
+    "30": "Matching",
+    "31": "Note Completion",
+    "32": "Note Completion",
+    "33": "Note Completion",
+    "34": "Note Completion",
+    "35": "Note Completion",
+    "36": "Note Completion",
+    "37": "Note Completion",
+    "38": "Note Completion",
+    "39": "Note Completion",
+    "40": "Note Completion"
+  },
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Choose THREE Mastery",
+    "Matching Mastery",
+    "Form & Note Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ]
+}

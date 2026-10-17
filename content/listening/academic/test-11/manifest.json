@@ -1,0 +1,43 @@
+{
+  "id": "listening-test-11",
+  "title": "Listening Test 11",
+  "collection": "academic",
+  "number": 11,
+  "questionCount": 40,
+  "sectionCount": 4,
+  "storageKey": "la_listening_test_10_v2",
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Map / Plan Mastery",
+    "Matching Mastery",
+    "Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ],
+  "audio": {
+    "path": "audio/full.mp3",
+    "objectKey": "listening/academic/test-11/full.mp3",
+    "contentType": "audio/mpeg",
+    "bytes": 16509954,
+    "sha256": "39dc7e45666d43585fc5841afed3d33d3ef2e3788b42e28e5693a7c769a64660",
+    "durationSeconds": 1650.964898,
+    "localFile": "test-11-full.mp3"
+  },
+  "media": [
+    {
+      "path": "audio/full.mp3",
+      "objectKey": "listening/academic/test-11/full.mp3",
+      "contentType": "audio/mpeg",
+      "bytes": 16509954,
+      "sha256": "39dc7e45666d43585fc5841afed3d33d3ef2e3788b42e28e5693a7c769a64660",
+      "durationSeconds": 1650.964898,
+      "localFile": "test-11-full.mp3"
+    }
+  ],
+  "durationSeconds": 1650.964898,
+  "originalSha256": "eae0c5f8950c8fb6f2f3e4b6cb8d60c63ac37a43e7825c867f8258febbb8700b",
+  "sourceSha256": "262a8ffa5b63da3fa5bfdc85eca8d902872352ebd08b0f50b323748a443a6279"
+}

@@ -1,0 +1,1086 @@
+{
+  "schemaVersion": 2,
+  "module": "listening",
+  "contentType": "full_test",
+  "sourceRef": "listening-test-17",
+  "title": "Listening Test 17",
+  "language": "en",
+  "provenance": {
+    "source": "owner_authored",
+    "note": "Owner batch 2-32. Native answer/lexical index only; source HTML retains the full study activities. Evidence timestamps and script gaps are not imported into this index because source families carry incompatible or unverified coordinates; the exact authored values remain in versioned source/data."
+  },
+  "publication": {
+    "state": "draft"
+  },
+  "assets": [
+    {
+      "key": "audio.full",
+      "role": "audio",
+      "required": true,
+      "mimeTypes": [
+        "audio/mpeg"
+      ],
+      "maxBytes": 62914560,
+      "sha256": "44eb12017692a3a34da5b5e639f7c8b838f26d036624de453c224b177cfba1b6",
+      "path": "audio/full.mp3"
+    }
+  ],
+  "content": {
+    "collection": "academic",
+    "audio": {
+      "durationSec": 1514.527347,
+      "assetKey": "audio.full",
+      "path": "audio/full.mp3"
+    },
+    "image": null,
+    "imagePath": null,
+    "sections": [
+      {
+        "number": 1,
+        "title": "The London Relocation Services",
+        "transcript": "NARRATOR: You will hear a telephone conversation between a woman who is moving to London and an employee of a relocation service. First, you have some time to look at questions one to seven.\nNARRATOR: Now listen carefully and answer questions one to seven.\nDANIEL: London Relocation Services, Daniel speaking. How may I help you?\nANNA: Good morning. My family and I are moving to London later this year and I wonder if you can help?\nDANIEL: Sure. First of all, I'll need to get some personal details. May I take your full name, please?\nANNA: It's Anna Woods.\nDANIEL: Thanks. Where are you moving from?\nANNA: Northern Ireland, just outside Belfast, actually.\nDANIEL: Right. And what's your current address?\nANNA: It's 118 Fordyce Park. I'll spell that for you. It's F-O-R-D-Y-C-E. And that's in Ballysillan.\nDANIEL: And what's the postcode?\nANNA: It's BT14 9BJ.\nDANIEL: All right. And could I take a contact phone number?\nANNA: I'll give you my mobile number as you can get me on that any time. It's 07840051963.\nDANIEL: Great. Got that. Now, we always like to get a bit more information about the families that we're moving. It helps with the search. Are you moving for work?\nANNA: Yes. My husband's just got a new job in London.\nDANIEL: And what about you? Do you work?\nANNA: Well, I've been working as a teaching assistant recently, but I'm actually a qualified nurse and I'd like to get back into that if possible.\nDANIEL: Right. And do you have any children?\nANNA: Yes, a son. So we need to find a school for him.\nDANIEL: Is it a secondary school you'll be looking for?\nANNA: No, he's still in primary school. He's not quite at the secondary level yet.\nDANIEL: Fine. So let's go on to talk about your requirements for the property. Do you have a preferred location? Is your husband's job in the centre?\nANNA: No, it's in East London, but we'd rather live somewhere quieter.\nDANIEL: Sure. There are some lovely areas in the south.\nANNA: OK, that sounds great. Now, my husband doesn't want to spend too long commuting to work every day.\nDANIEL: So I imagine that ideally he'd like to be not too far from a station then?\nANNA: Yes, he drives now, but I guess that's not going to be possible and he's not keen on buses.\nDANIEL: What about you or your son? Do you have any preferences? Does your son do any sport, for example?\nANNA: He's quite active, so I'm sure he'd love a park nearby to run around in. He doesn't do swimming or anything like that.\nDANIEL: Great.\nNARRATOR: Before you hear the rest of the conversation, you have some time to look at questions eight to ten. Now listen and answer questions eight to ten.\nDANIEL: So what sort of property do you have in mind?\nANNA: We have friends who live in an amazing flat over there, but as we've always lived in a house, I think we'll stick with that. We'd find it hard to adapt to a flat.\nDANIEL: OK. And size-wise, how many bedrooms would you like? Well, there's just yourself, your husband and your son. So you definitely need a two-bedroom property. But how about having a guest room? I might be able to find a three-bedroom property for you.\nANNA: Yes, that would be ideal. We're sure to have family visiting often.\nDANIEL: All right. I've made a note of that. Now, are there any other requirements for your new property?\nANNA: Hmm. Well, it's not essential, but it'd be handy to have an office for when my husband works from home. It doesn't need to be a big one. I guess it all comes down to budget.\nDANIEL: Yes. OK, Anna. Well, I've certainly got enough to be getting on with.\nNARRATOR: That is the end of Part One. You now have one minute to check your answers.",
+        "reviewRequired": false
+      },
+      {
+        "number": 2,
+        "title": "Moving Office",
+        "transcript": "NARRATOR: Section two. You will hear a manager talking to company employees about moving to a new office building. First, you have some time to look at questions eleven to sixteen.\nNARRATOR: Now listen carefully and answer questions eleven to sixteen.\nMANAGER: Thank you for coming to today's meeting, everyone. I'd like to give you some information about moving to our new office building so that you know what the plans are. So first let me explain why we're moving. Even though we've taken on quite a few new employees over the last year, we still have plenty of space here, but the problem is where we are. But we've now found the perfect place in the city centre. Originally we chose this building in the suburbs because the rent was much cheaper, but our clients aren't always keen on coming out here.\nMANAGER: I visited the new office last week, and I'm pretty sure that you'll find the greatest advantage is the huge windows. I'm not sure we'll need desk lamps at all. Of course we'll have everything checked out to make sure we can control the temperature of each office, and we may have to put some room dividers in some offices so that you're not disturbed by your colleagues' conversations.\nMANAGER: We've just set a date for the move. The finance department wanted us to wait until after the end of the tax year, April, but we've decided to move earlier. As soon as the sales conference is over in January, we'll move. That'll give us plenty of time to organise everything before you start taking your annual holidays.\nMANAGER: We've already put quite a bit of information about the move on the company website, like restaurants and cafes around the new office, but we're still checking bus routes and things like that, so transport information will be up by next Monday. Another thing still to get confirmed is which car park we can use and how many people can use it.\nMANAGER: OK, let's move on to some practical things you have to do now. Don't worry yet about taking home your photos and things like that. That can be sorted out much nearer the time, along with getting rid of any unwanted paperwork. We need to find out how many new desks and chairs to order, so could you make a list of any of the ones you use that are scratched or broken?\nMANAGER: Just one thing: all documents containing non-confidential information can go into the general packing boxes, but when it comes to documents containing confidential information, you'll need to put these in special bags. You'll be given grey plastic ones for this, so one thing to do now is go through your filing cabinets and identify which folders are confidential.\nNARRATOR: Before you hear the rest of the talk, you have some time to look at questions seventeen to twenty. Now listen and answer questions seventeen to twenty.\nMANAGER: Now, to help you prepare for the move, I'd like to talk about lifting heavy things. You shouldn't really have to do this because a removal company will be used, but you might want to move a box out of your way or something. It's surprising how often people don't remember to use the handles on the boxes, although they all have them. You've all had the leaflet explaining that you should keep your back straight and your head up when lifting, and it also tells you to stand with your feet firmly on the ground and a little bit apart, so I think that's clear. But the leaflet emphasises the importance of not twisting to the left or right once you've picked something up, and if you're like me, that's easy to forget.\nMANAGER: I'd also like to talk about papers. If they've been stored for a long time, they can get mould on them, a sort of fungus, and as soon as you start moving them, the fungus gets disturbed. As you know, you can't open the windows in this building, but I suggest you use the gloves that we'll provide. We'll also get some face masks, but we've been advised that these shouldn't be necessary. What you should do is drink one or two litres of water a day; that's essential. Often the best time to do this sort of work is after your afternoon break, so that you can leave the building soon afterwards. Now, are there any questions?\nNARRATOR: That is the end of Section Two. You now have half a minute to check your answers.",
+        "reviewRequired": false
+      },
+      {
+        "number": 3,
+        "title": "Discussion on Design Development Presentation",
+        "transcript": "NARRATOR: Section three. You will hear two students named Mona and Ted talking about a presentation on design development. First, you have some time to look at questions twenty-one to twenty-six.\nNARRATOR: Now listen carefully and answer questions twenty-one to twenty-six.\nMONA: Ted, you've looked at my presentation, haven't you? What do you think of it?\nTED: Hey, Mona. Yes, I have. Before giving you some advice, I have a question. Why didn't you write about the development of design and its influence, or connection with social advancement, or even art movement? In my opinion, this direction would have more significance.\nMONA: Actually, I just want to focus on the history of design. I'm particularly interested in its history from the 1800s. That's why I wrote about it.\nTED: I see. It could save some effort.\nMONA: Not really. I've covered different areas of design, such as building, clothing, and products. It's a lot of work.\nTED: Right. Is it because you want to give a comprehensive talk?\nMONA: To be honest, I was worried about my teacher's reaction. If I only talk about one area, she might think I've been lazy.\nTED: You know what? Even though it's okay to talk about different aspects, I think the topic is too broad. It would be hard for the listeners to focus on any specific area.\nMONA: Um, you are right. I only have about forty-five minutes for the talk. Maybe I should narrow the range.\nTED: That would be much better. And you can use computer technology to assist you in your presentation, like using CAD or other computer software.\nMONA: I'm not sure. Although computer technology can improve the visual effects of my presentation, I'd rather use the traditional way since I'm talking about the history of design. I guess traditional media is more affected by computers rather than the designing industry.\nTED: That makes sense. You could do it your own way. As for the content, you mentioned purism, and you said it can save people's effort. I don't really agree with that. I think it's not really easy to achieve. On the other hand, I do think it's important to apply this concept in architecture. I mean the building should look simple and elegant.\nMONA: That's a good point. Ted, what do you think I should do to further improve my talk?\nTED: Well, I think you have read enough books about it. So it's not the theories that you lack. Why don't you visit the design museum in the north of the city? One of my friends went there last month, and he said it was worth it. I'm sure it can give you some inspiration.\nNARRATOR: Before you hear the rest of the discussion, you have some time to look at questions twenty-seven to thirty. Now listen and answer questions twenty-seven to thirty.\nMONA: How do you usually prepare for a presentation? You have done it many times, right?\nTED: You can say that. When I prepare for a presentation, I would first try to come up with an introduction telling the audience what my topic is. It's very important to grasp people's attention and let them know what you want to talk about.\nMONA: Okay, I think so. A good beginning can mean everything.\nTED: Exactly. Maybe you could use a story to start. Step two, I would research deeper into the topic and give the audience something new.\nMONA: Yeah, that's what I've been working on. I always try to look for more related information online. I want them to learn something from my presentation.\nTED: Since you work so hard, they will like it. I notice that you use a lot of pictures in your slides. What I would do is put a statement under each picture so the audience would know what exactly the pictures are about.\nMONA: I just thought it would be more impressive to use only pictures. All right, I will add that.\nTED: In the next step, you should try illustrating slide by slide. Each slide should only contain one thought or idea, so all of these thoughts will link together in your illustration. This step would need a lot of practice.\nMONA: Exactly. A lot of practice is needed before you stand in front of the real audience.\nTED: There's one final step you should not forget. I suggest you prepare some text handouts with important details.\nMONA: What are they for?\nTED: The audience can reflect on what you talk about in and after your presentation.\nMONA: I've never thought about that. Thank you so much. Ted, you're a great help.\nTED: No problem, Mona.\nNARRATOR: That is the end of Section Three. You now have half a minute to check your answers.",
+        "reviewRequired": false
+      },
+      {
+        "number": 4,
+        "title": "Graphical Symbol",
+        "transcript": "NARRATOR: Section four. You will hear a talk on the research of the graphical symbol. First, you have some time to look at questions thirty-one to forty. Now listen carefully and answer questions thirty-one to forty.\nLECTURER: Good morning everyone. Today I'm going to talk about the graphical symbol. A graphic symbol is a written symbol that is used to represent speech, such as those used in the Greek alphabet. The term graphic symbol encompasses anything from the logographs used in Egyptian hieroglyphic writing to ancient Chinese pictograms. Early symbols were based on pictographs and ideograms before they were developed into logographic writing systems. These systems are still in use in some non-literate cultures in Africa, the Americas and Oceania.\nLECTURER: Indeed, elements of pictography are still found in modern Chinese characters and it is often an interesting exercise to trace the origins of some Chinese characters. Pictographs remain in common commercial use today as signs, instructions or statistical diagrams. Road signs and public toilet signs and even flat-pack assembly instructions utilising pictures are considered pictographic.\nLECTURER: Ancient graphic writing systems provide researchers with a wealth of knowledge about past civilisations. In 1799, one of the most important historical discoveries was made by accident when members of Napoleon's expedition to Egypt found a stone in Rosetta that exhibited three different scripts. The stone, now known as the Rosetta Stone, was studied in significant depth by scholars and was first deciphered by Frenchman Jean-François Champollion in 1822. He was able to correctly determine the phonetic values of the symbols and later research has confirmed his findings. In many of these symbols, lines are used to portray a multitude of meanings and knowledge and understanding of these lines holds the key to comprehension of graphic writing systems.\nLECTURER: A key moment in the history of communication was the invention of the camera obscura, or camera. Although the concept can be traced back to the fifth-century BC Chinese philosopher Mo Ti, the first photographic image was ultimately created in 1826 by Joseph Nicéphore Niépce. Photography, as it was later known, enables researchers to piece together and better understand history. Today, photography forms a huge part of everyday life and most publications contain a vast number of photographs.\nLECTURER: Photography is used in advertising and is now becoming a way to increase awareness of existing world issues. For example, animal welfare charities are increasingly using photography to advertise animals that are at high risk of endangerment. Charity workers are sometimes flown to far-flung locations to document the suffering endured by high-risk animals in an attempt to raise human awareness of their consumption activities and how they impact others. One recent high-profile campaign was undertaken by attaching a camera to the foot of a bird in order to obtain photographs of the animals in their natural habitats and understand how often they come into contact with human waste. A soon-to-be-released documentary about the suffering of animals on Midway Island shows the full extent to which human consumption is harming animals thousands of miles away from us.\nLECTURER: As photography continues to progress, with the use of drones now becoming somewhat commonplace, we should expect more and more objects to be included in the future, expanding the horizon of photography ever further. Indeed, the downward pressure on traditional media prices means that media companies are being forced to get creative on how to make a profit. Many have found that the answer to this lies in advertising, and companies are now willing to devote a large portion of their budgets to advertising in newspapers. By the same token, marketing has become an essential part of a company's business model, often meaning the success or failure of a company.\nLECTURER: As a result, much time and money has been pumped into the development of effective branding, with attractive packaging playing a large role in this. However, many governments are now seen to be cracking down on marketing and packaging in an attempt to protect consumers from being misled. In particular, tobacco companies are now subject to ever-increasing regulation. For example, in the United Kingdom, legislation is soon to pass preventing any form of branding or differentiation on cigarette packaging in efforts to curb the harmful effects of smoking.\nLECTURER: Finally, one must not forget the fundamental role that graphic writing systems have had to play in mathematics. Graphs, icons and diagrams often form the very basis of these branches of academia. Indeed, one needs to look no further than chemistry's periodic table to see a perfect example of graphic writing systems in use today.",
+        "reviewRequired": false
+      }
+    ],
+    "questions": [
+      {
+        "number": 1,
+        "section": 1,
+        "text": "Current address: 118 ___ Park",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Fordyce",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 2,
+        "section": 1,
+        "text": "Anna Woods - mobile phone number",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "07840051963",
+        "alternatives": [
+          "07840 051963",
+          "078400 51963",
+          "07840-051963"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 3,
+        "section": 1,
+        "text": "Job Anna hopes to find",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "nurse",
+        "alternatives": [
+          "NURSE"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 4,
+        "section": 1,
+        "text": "Type of school needed for her son",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "primary",
+        "alternatives": [
+          "PRIMARY SCHOOL"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 5,
+        "section": 1,
+        "text": "Preferred part of the city",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "south",
+        "alternatives": [
+          "SOUTH"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 6,
+        "section": 1,
+        "text": "Transport feature preferred by her husband",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "station",
+        "alternatives": [
+          "STATION"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 7,
+        "section": 1,
+        "text": "Amenity preferred by her son",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "park",
+        "alternatives": [
+          "PARK"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 8,
+        "section": 1,
+        "text": "Type of property preferred",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "house",
+        "alternatives": [
+          "HOUSE"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 9,
+        "section": 1,
+        "text": "Number of bedrooms preferred",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "three",
+        "alternatives": [
+          "3"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 10,
+        "section": 1,
+        "text": "Additional desirable feature",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "garden",
+        "alternatives": [
+          "GARDEN"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 11,
+        "section": 2,
+        "text": "Reason for moving to a new office building",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) to have more space",
+          "B) to pay less rent",
+          "C) to be in a central location"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 12,
+        "section": 2,
+        "text": "Best feature of the new office building",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) the air-conditioning system",
+          "B) the amount of natural light",
+          "C) the low level of noise"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 13,
+        "section": 2,
+        "text": "When the office move will take place",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) after the sales conference",
+          "B) after the end of the tax year",
+          "C) after the annual holiday period"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 14,
+        "section": 2,
+        "text": "Information already on the company website",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) where to park",
+          "B) places to eat",
+          "C) public transport"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 15,
+        "section": 2,
+        "text": "Practical task staff must do now",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) give details of damaged furniture",
+          "B) throw away unnecessary papers",
+          "C) take home personal items"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 16,
+        "section": 2,
+        "text": "Where confidential folders must be put",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) into packing boxes",
+          "B) into grey plastic bags",
+          "C) into new filing cabinets"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 17,
+        "section": 2,
+        "text": "First commonly forgotten lifting-safety point",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A keep your head up",
+          "B don't bend your back",
+          "C don't lean to one side",
+          "D use handles",
+          "E stand with feet apart"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [
+          18
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 18,
+        "section": 2,
+        "text": "Second commonly forgotten lifting-safety point",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A keep your head up",
+          "B don't bend your back",
+          "C don't lean to one side",
+          "D use handles",
+          "E stand with feet apart"
+        ],
+        "key": "D",
+        "alternatives": [],
+        "pair": [
+          17
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 19,
+        "section": 2,
+        "text": "First action staff should take when moving papers",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A wear a face mask",
+          "B open windows",
+          "C wear gloves",
+          "D take frequent breaks",
+          "E drink plenty of water"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [
+          20
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 20,
+        "section": 2,
+        "text": "Second action staff should take when moving papers",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_multi",
+        "options": [
+          "A wear a face mask",
+          "B open windows",
+          "C wear gloves",
+          "D take frequent breaks",
+          "E drink plenty of water"
+        ],
+        "key": "E",
+        "alternatives": [],
+        "pair": [
+          19
+        ],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 21,
+        "section": 3,
+        "text": "Mona's presentation topic",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) design development from 1800s",
+          "B) design development and social advancement",
+          "C) design development and art movement"
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 22,
+        "section": 3,
+        "text": "Why Mona does not want to talk about only one topic",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) She is afraid of her tutor's response",
+          "B) She wants to give a complete talk.",
+          "C) She thinks it would be too simple."
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 23,
+        "section": 3,
+        "text": "Ted's view of Mona's topic",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) Very detailed",
+          "B) Too old",
+          "C) Too broad"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 24,
+        "section": 3,
+        "text": "Mona's viewpoint on computers",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) They have improved work efficiency.",
+          "B) They have influenced traditional media.",
+          "C) They have changed people's sense of style."
+        ],
+        "key": "B",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 25,
+        "section": 3,
+        "text": "Ted's view of purism",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) It's important for architecture",
+          "B) It saves a lot of effort",
+          "C) He admires it in arts"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 26,
+        "section": 3,
+        "text": "Ted's suggestion to Mona",
+        "instruction": "",
+        "kind": "mcq",
+        "typeCode": "mcq_single",
+        "options": [
+          "A) meet one of his friends",
+          "B) read more books",
+          "C) visit a museum"
+        ],
+        "key": "C",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 27,
+        "section": 3,
+        "text": "Presentation Step 1",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) text handouts",
+          "B) questions",
+          "C) an outline",
+          "D) an introduction",
+          "E) statement",
+          "F) explain",
+          "G) research"
+        ],
+        "key": "D",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 28,
+        "section": 3,
+        "text": "Presentation Step 2",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) text handouts",
+          "B) questions",
+          "C) an outline",
+          "D) an introduction",
+          "E) statement",
+          "F) explain",
+          "G) research"
+        ],
+        "key": "G",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 29,
+        "section": 3,
+        "text": "Presentation Step 3",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) text handouts",
+          "B) questions",
+          "C) an outline",
+          "D) an introduction",
+          "E) statement",
+          "F) explain",
+          "G) research"
+        ],
+        "key": "E",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 30,
+        "section": 3,
+        "text": "Presentation Step 5",
+        "instruction": "",
+        "kind": "matching",
+        "typeCode": "matching",
+        "options": [
+          "A) text handouts",
+          "B) questions",
+          "C) an outline",
+          "D) an introduction",
+          "E) statement",
+          "F) explain",
+          "G) research"
+        ],
+        "key": "A",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 31,
+        "section": 4,
+        "text": "Modern use connected with graphical symbols",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "commercial",
+        "alternatives": [
+          "COMMERCIAL USE"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 32,
+        "section": 4,
+        "text": "What ancient graphic writing systems provide about past civilisations",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "knowledge",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 33,
+        "section": 4,
+        "text": "What is used to depict meanings in ancient symbols",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "lines",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 34,
+        "section": 4,
+        "text": "What helps people understand history better",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "Photography",
+        "alternatives": [
+          "PHOTOGRAPHY"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 35,
+        "section": 4,
+        "text": "What charities use photography to do for endangered animals",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "advertise",
+        "alternatives": [
+          "ADVERTISE"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 36,
+        "section": 4,
+        "text": "Where a camera was attached to a bird",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "foot",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 37,
+        "section": 4,
+        "text": "What will be increasingly included as photography develops",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "objects",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 38,
+        "section": 4,
+        "text": "Where companies invest advertising money",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "newspapers",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 39,
+        "section": 4,
+        "text": "What is designed as part of effective branding",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "packaging",
+        "alternatives": [],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      },
+      {
+        "number": 40,
+        "section": 4,
+        "text": "Subject in which graphic writing systems are important",
+        "instruction": "",
+        "kind": "completion",
+        "options": [],
+        "key": "mathematics",
+        "alternatives": [
+          "MATHEMATICS"
+        ],
+        "pair": [],
+        "evidence": {
+          "at": 0,
+          "why": "The supplied audio, verified source answer key and aligned transcript support this answer.\nListen for corrections, distractors, paraphrases and the exact word limit."
+        }
+      }
+    ],
+    "keyword1": [],
+    "keyword2": [],
+    "vocabulary": [
+      {
+        "word": "a bit more information",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 1 transcript.",
+        "ex": "Part 1: The London Relocation Services",
+        "also": []
+      },
+      {
+        "word": "qualified nurse",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 1 transcript.",
+        "ex": "Part 1: The London Relocation Services",
+        "also": []
+      },
+      {
+        "word": "preferred location",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 1 transcript.",
+        "ex": "Part 1: The London Relocation Services",
+        "also": []
+      },
+      {
+        "word": "not too far from a station",
+        "pos": "prepositional phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 1 transcript.",
+        "ex": "Part 1: The London Relocation Services",
+        "also": []
+      },
+      {
+        "word": "quite active",
+        "pos": "adjective phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 1 transcript.",
+        "ex": "Part 1: The London Relocation Services",
+        "also": []
+      },
+      {
+        "word": "stick with that",
+        "pos": "phrasal verb",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 1 transcript.",
+        "ex": "Part 1: The London Relocation Services",
+        "also": []
+      },
+      {
+        "word": "a guest room",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 1 transcript.",
+        "ex": "Part 1: The London Relocation Services",
+        "also": []
+      },
+      {
+        "word": "comes down to budget",
+        "pos": "verb phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 1 transcript.",
+        "ex": "Part 1: The London Relocation Services",
+        "also": []
+      },
+      {
+        "word": "taken on quite a few new employees",
+        "pos": "verb phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 2 transcript.",
+        "ex": "Part 2: Moving Office",
+        "also": []
+      },
+      {
+        "word": "the greatest advantage",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 2 transcript.",
+        "ex": "Part 2: Moving Office",
+        "also": []
+      },
+      {
+        "word": "set a date for the move",
+        "pos": "verb phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 2 transcript.",
+        "ex": "Part 2: Moving Office",
+        "also": []
+      },
+      {
+        "word": "quite a bit of information",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 2 transcript.",
+        "ex": "Part 2: Moving Office",
+        "also": []
+      },
+      {
+        "word": "documents containing confidential information",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 2 transcript.",
+        "ex": "Part 2: Moving Office",
+        "also": []
+      },
+      {
+        "word": "go through your filing cabinets",
+        "pos": "phrasal verb phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 2 transcript.",
+        "ex": "Part 2: Moving Office",
+        "also": []
+      },
+      {
+        "word": "keep your back straight",
+        "pos": "verb phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 2 transcript.",
+        "ex": "Part 2: Moving Office",
+        "also": []
+      },
+      {
+        "word": "drink one or two litres of water a day",
+        "pos": "verb phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 2 transcript.",
+        "ex": "Part 2: Moving Office",
+        "also": []
+      },
+      {
+        "word": "connection with social advancement",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 3 transcript.",
+        "ex": "Part 3: Discussion on Design Development Presentation",
+        "also": []
+      },
+      {
+        "word": "a comprehensive talk",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 3 transcript.",
+        "ex": "Part 3: Discussion on Design Development Presentation",
+        "also": []
+      },
+      {
+        "word": "the topic is too broad",
+        "pos": "clause",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 3 transcript.",
+        "ex": "Part 3: Discussion on Design Development Presentation",
+        "also": []
+      },
+      {
+        "word": "narrow the range",
+        "pos": "verb phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 3 transcript.",
+        "ex": "Part 3: Discussion on Design Development Presentation",
+        "also": []
+      },
+      {
+        "word": "traditional media",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 3 transcript.",
+        "ex": "Part 3: Discussion on Design Development Presentation",
+        "also": []
+      },
+      {
+        "word": "simple and elegant",
+        "pos": "adjective phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 3 transcript.",
+        "ex": "Part 3: Discussion on Design Development Presentation",
+        "also": []
+      },
+      {
+        "word": "come up with an introduction",
+        "pos": "phrasal verb phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 3 transcript.",
+        "ex": "Part 3: Discussion on Design Development Presentation",
+        "also": []
+      },
+      {
+        "word": "text handouts",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 3 transcript.",
+        "ex": "Part 3: Discussion on Design Development Presentation",
+        "also": []
+      },
+      {
+        "word": "represent speech",
+        "pos": "verb phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 4 transcript.",
+        "ex": "Part 4: Graphical Symbol",
+        "also": []
+      },
+      {
+        "word": "common commercial use",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 4 transcript.",
+        "ex": "Part 4: Graphical Symbol",
+        "also": []
+      },
+      {
+        "word": "a wealth of knowledge",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 4 transcript.",
+        "ex": "Part 4: Graphical Symbol",
+        "also": []
+      },
+      {
+        "word": "phonetic values",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 4 transcript.",
+        "ex": "Part 4: Graphical Symbol",
+        "also": []
+      },
+      {
+        "word": "raise human awareness",
+        "pos": "verb phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 4 transcript.",
+        "ex": "Part 4: Graphical Symbol",
+        "also": []
+      },
+      {
+        "word": "natural habitats",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 4 transcript.",
+        "ex": "Part 4: Graphical Symbol",
+        "also": []
+      },
+      {
+        "word": "effective branding",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 4 transcript.",
+        "ex": "Part 4: Graphical Symbol",
+        "also": []
+      },
+      {
+        "word": "fundamental role",
+        "pos": "noun phrase",
+        "uz": "Kontekst orqali o‘rganiladigan ibora",
+        "def": "An important expression from the Part 4 transcript.",
+        "ex": "Part 4: Graphical Symbol",
+        "also": []
+      }
+    ]
+  }
+}

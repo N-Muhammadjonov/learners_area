@@ -1,0 +1,1904 @@
+{
+  "test_id": "listening-test-9",
+  "title": "Listening Test 9",
+  "sections": [
+    "University Clubs",
+    "Halls of Residence",
+    "Business Studies Project",
+    "News Sources & Advertising"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Climbing club extra activity",
+      "answer": "weekend trips",
+      "evidence": "The climbing club description identifies weekend trips as an extra activity.",
+      "timeStart": 110.5,
+      "timeEnd": 121.83,
+      "timeCenter": 120.5,
+      "why": "The verified evidence supports weekend trips for this item. The climbing club description identifies weekend trips as an extra activity.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Climbing club extra activity | Verified evidence summary: The climbing club description identifies weekend trips as an extra activity.",
+      "options": [],
+      "type": "Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Chess club extra activity",
+      "answer": "competitions",
+      "evidence": "The chess club is described as running competitions in addition to ordinary games.",
+      "timeStart": 121.83,
+      "timeEnd": 130.24,
+      "timeCenter": 128.2,
+      "why": "The verified evidence supports competitions for this item. The chess club is described as running competitions in addition to ordinary games.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Chess club extra activity | Verified evidence summary: The chess club is described as running competitions in addition to ordinary games.",
+      "options": [],
+      "type": "Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Current number of film club members",
+      "answer": "125",
+      "evidence": "The film club membership has risen to 125.",
+      "timeStart": 138.67,
+      "timeEnd": 163.24,
+      "timeCenter": 154.5,
+      "why": "The verified evidence supports 125 for this item. The film club membership has risen to 125.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Current number of film club members | Verified evidence summary: The film club membership has risen to 125.",
+      "options": [],
+      "type": "Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Climbing club contact",
+      "answer": "club secretary",
+      "evidence": "Students interested in climbing are directed to the club secretary.",
+      "timeStart": 163.24,
+      "timeEnd": 193.65,
+      "timeCenter": 189.0,
+      "why": "The verified evidence supports club secretary for this item. Students interested in climbing are directed to the club secretary.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Climbing club contact | Verified evidence summary: Students interested in climbing are directed to the club secretary.",
+      "options": [],
+      "type": "Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Climbing club meets",
+      "answer": "twice a month",
+      "evidence": "The climbing club schedule is twice a month.",
+      "timeStart": 230.44,
+      "timeEnd": 256.17,
+      "timeCenter": 243.0,
+      "why": "The verified evidence supports twice a month for this item. The climbing club schedule is twice a month.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Climbing club meets | Verified evidence summary: The climbing club schedule is twice a month.",
+      "options": [],
+      "type": "Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Excursion to France in the ___",
+      "answer": "spring",
+      "evidence": "The annual France excursion is planned for spring.",
+      "timeStart": 230.44,
+      "timeEnd": 256.17,
+      "timeCenter": 251.5,
+      "why": "The verified evidence supports spring for this item. The annual France excursion is planned for spring.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Excursion to France in the ___ | Verified evidence summary: The annual France excursion is planned for spring.",
+      "options": [],
+      "type": "Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Subscriptions paid ___",
+      "answer": "weekly",
+      "evidence": "Subscriptions are collected weekly to spread the cost.",
+      "timeStart": 256.17,
+      "timeEnd": 271.05,
+      "timeCenter": 270.0,
+      "why": "The verified evidence supports weekly for this item. Subscriptions are collected weekly to spread the cost.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Subscriptions paid ___ | Verified evidence summary: Subscriptions are collected weekly to spread the cost.",
+      "options": [],
+      "type": "Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Discounts on ___",
+      "answer": "equipment",
+      "evidence": "Membership gives discounts on equipment.",
+      "timeStart": 280.0,
+      "timeEnd": 300.93,
+      "timeCenter": 297.0,
+      "why": "The verified evidence supports equipment for this item. Membership gives discounts on equipment.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Discounts on ___ | Verified evidence summary: Membership gives discounts on equipment.",
+      "options": [],
+      "type": "Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Annual ___",
+      "answer": "magazine",
+      "evidence": "Members receive an annual magazine.",
+      "timeStart": 300.93,
+      "timeEnd": 318.62,
+      "timeCenter": 316.5,
+      "why": "The verified evidence supports magazine for this item. Members receive an annual magazine.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Annual ___ | Verified evidence summary: Members receive an annual magazine.",
+      "options": [],
+      "type": "Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Free entrance to climbing ___ in Cardiff",
+      "answer": "exhibition",
+      "evidence": "Regular attendance can earn free entry to a climbing exhibition in Cardiff.",
+      "timeStart": 318.62,
+      "timeEnd": 332.76,
+      "timeCenter": 329.0,
+      "why": "The verified evidence supports exhibition for this item. Regular attendance can earn free entry to a climbing exhibition in Cardiff.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Free entrance to climbing ___ in Cardiff | Verified evidence summary: Regular attendance can earn free entry to a climbing exhibition in Cardiff.",
+      "options": [],
+      "type": "Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "Brown Hall - available feature",
+      "answer": "G",
+      "evidence": "Brown Hall is the residence with sports facilities, specifically a gym.",
+      "timeStart": 384.1,
+      "timeEnd": 426.57,
+      "timeCenter": 420.0,
+      "why": "The verified evidence supports G for this item. Brown Hall is the residence with sports facilities, specifically a gym.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Brown Hall - available feature | Verified evidence summary: Brown Hall is the residence with sports facilities, specifically a gym.",
+      "options": [
+        {
+          "code": "A",
+          "text": "cleaning included"
+        },
+        {
+          "code": "B",
+          "text": "all meals included"
+        },
+        {
+          "code": "C",
+          "text": "private showers"
+        },
+        {
+          "code": "D",
+          "text": "modern building"
+        },
+        {
+          "code": "E",
+          "text": "parking spaces"
+        },
+        {
+          "code": "F",
+          "text": "single sex"
+        },
+        {
+          "code": "G",
+          "text": "sports facilities"
+        }
+      ],
+      "type": "Matching"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "Blake Residence - available feature",
+      "answer": "F",
+      "evidence": "Blake Residence is the single-sex residence.",
+      "timeStart": 440.0,
+      "timeEnd": 454.72,
+      "timeCenter": 452.0,
+      "why": "The verified evidence supports F for this item. Blake Residence is the single-sex residence.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Blake Residence - available feature | Verified evidence summary: Blake Residence is the single-sex residence.",
+      "options": [
+        {
+          "code": "A",
+          "text": "cleaning included"
+        },
+        {
+          "code": "B",
+          "text": "all meals included"
+        },
+        {
+          "code": "C",
+          "text": "private showers"
+        },
+        {
+          "code": "D",
+          "text": "modern building"
+        },
+        {
+          "code": "E",
+          "text": "parking spaces"
+        },
+        {
+          "code": "F",
+          "text": "single sex"
+        },
+        {
+          "code": "G",
+          "text": "sports facilities"
+        }
+      ],
+      "type": "Matching"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "Queens Building - available feature",
+      "answer": "C",
+      "evidence": "Queens Building has private showers in the bedrooms.",
+      "timeStart": 458.99,
+      "timeEnd": 476.85,
+      "timeCenter": 473.0,
+      "why": "The verified evidence supports C for this item. Queens Building has private showers in the bedrooms.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Queens Building - available feature | Verified evidence summary: Queens Building has private showers in the bedrooms.",
+      "options": [
+        {
+          "code": "A",
+          "text": "cleaning included"
+        },
+        {
+          "code": "B",
+          "text": "all meals included"
+        },
+        {
+          "code": "C",
+          "text": "private showers"
+        },
+        {
+          "code": "D",
+          "text": "modern building"
+        },
+        {
+          "code": "E",
+          "text": "parking spaces"
+        },
+        {
+          "code": "F",
+          "text": "single sex"
+        },
+        {
+          "code": "G",
+          "text": "sports facilities"
+        }
+      ],
+      "type": "Matching"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "Parkway Flats - available feature",
+      "answer": "B",
+      "evidence": "Parkway Flats includes all meals in the residence fees.",
+      "timeStart": 484.53,
+      "timeEnd": 518.81,
+      "timeCenter": 515.0,
+      "why": "The verified evidence supports B for this item. Parkway Flats includes all meals in the residence fees.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Parkway Flats - available feature | Verified evidence summary: Parkway Flats includes all meals in the residence fees.",
+      "options": [
+        {
+          "code": "A",
+          "text": "cleaning included"
+        },
+        {
+          "code": "B",
+          "text": "all meals included"
+        },
+        {
+          "code": "C",
+          "text": "private showers"
+        },
+        {
+          "code": "D",
+          "text": "modern building"
+        },
+        {
+          "code": "E",
+          "text": "parking spaces"
+        },
+        {
+          "code": "F",
+          "text": "single sex"
+        },
+        {
+          "code": "G",
+          "text": "sports facilities"
+        }
+      ],
+      "type": "Matching"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "Temple Rise - available feature",
+      "answer": "A",
+      "evidence": "Temple Rise includes room cleaning by domestic staff.",
+      "timeStart": 530.27,
+      "timeEnd": 553.22,
+      "timeCenter": 550.0,
+      "why": "The verified evidence supports A for this item. Temple Rise includes room cleaning by domestic staff.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Temple Rise - available feature | Verified evidence summary: Temple Rise includes room cleaning by domestic staff.",
+      "options": [
+        {
+          "code": "A",
+          "text": "cleaning included"
+        },
+        {
+          "code": "B",
+          "text": "all meals included"
+        },
+        {
+          "code": "C",
+          "text": "private showers"
+        },
+        {
+          "code": "D",
+          "text": "modern building"
+        },
+        {
+          "code": "E",
+          "text": "parking spaces"
+        },
+        {
+          "code": "F",
+          "text": "single sex"
+        },
+        {
+          "code": "G",
+          "text": "sports facilities"
+        }
+      ],
+      "type": "Matching"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Brown Hall - map location",
+      "answer": "B",
+      "evidence": "Brown Hall is on the corner opposite the theatre, which corresponds to B on the supplied map.",
+      "timeStart": 590.34,
+      "timeEnd": 616.63,
+      "timeCenter": 610.0,
+      "why": "The verified evidence supports B for this item. Brown Hall is on the corner opposite the theatre, which corresponds to B on the supplied map.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Brown Hall - map location | Verified evidence summary: Brown Hall is on the corner opposite the theatre, which corresponds to B on the supplied map.",
+      "options": [
+        {
+          "code": "A",
+          "text": "A"
+        },
+        {
+          "code": "B",
+          "text": "B"
+        },
+        {
+          "code": "C",
+          "text": "C"
+        },
+        {
+          "code": "D",
+          "text": "D"
+        },
+        {
+          "code": "E",
+          "text": "E"
+        },
+        {
+          "code": "F",
+          "text": "F"
+        },
+        {
+          "code": "G",
+          "text": "G"
+        },
+        {
+          "code": "H",
+          "text": "H"
+        }
+      ],
+      "type": "Map Labelling"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Blake Residence - map location",
+      "answer": "A",
+      "evidence": "Blake Residence directly faces the junction to the university entrance, corresponding to A.",
+      "timeStart": 616.63,
+      "timeEnd": 624.04,
+      "timeCenter": 622.0,
+      "why": "The verified evidence supports A for this item. Blake Residence directly faces the junction to the university entrance, corresponding to A.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Blake Residence - map location | Verified evidence summary: Blake Residence directly faces the junction to the university entrance, corresponding to A.",
+      "options": [
+        {
+          "code": "A",
+          "text": "A"
+        },
+        {
+          "code": "B",
+          "text": "B"
+        },
+        {
+          "code": "C",
+          "text": "C"
+        },
+        {
+          "code": "D",
+          "text": "D"
+        },
+        {
+          "code": "E",
+          "text": "E"
+        },
+        {
+          "code": "F",
+          "text": "F"
+        },
+        {
+          "code": "G",
+          "text": "G"
+        },
+        {
+          "code": "H",
+          "text": "H"
+        }
+      ],
+      "type": "Map Labelling"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Queens Building - map location",
+      "answer": "C",
+      "evidence": "Queens Building is just past the library when heading north, corresponding to C.",
+      "timeStart": 632.56,
+      "timeEnd": 646.95,
+      "timeCenter": 644.0,
+      "why": "The verified evidence supports C for this item. Queens Building is just past the library when heading north, corresponding to C.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Queens Building - map location | Verified evidence summary: Queens Building is just past the library when heading north, corresponding to C.",
+      "options": [
+        {
+          "code": "A",
+          "text": "A"
+        },
+        {
+          "code": "B",
+          "text": "B"
+        },
+        {
+          "code": "C",
+          "text": "C"
+        },
+        {
+          "code": "D",
+          "text": "D"
+        },
+        {
+          "code": "E",
+          "text": "E"
+        },
+        {
+          "code": "F",
+          "text": "F"
+        },
+        {
+          "code": "G",
+          "text": "G"
+        },
+        {
+          "code": "H",
+          "text": "H"
+        }
+      ],
+      "type": "Map Labelling"
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Parkway Flats - map location",
+      "answer": "E",
+      "evidence": "Parkway Flats are on the corner opposite the library facing the circle, corresponding to E.",
+      "timeStart": 663.37,
+      "timeEnd": 685.71,
+      "timeCenter": 674.0,
+      "why": "The verified evidence supports E for this item. Parkway Flats are on the corner opposite the library facing the circle, corresponding to E.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Parkway Flats - map location | Verified evidence summary: Parkway Flats are on the corner opposite the library facing the circle, corresponding to E.",
+      "options": [
+        {
+          "code": "A",
+          "text": "A"
+        },
+        {
+          "code": "B",
+          "text": "B"
+        },
+        {
+          "code": "C",
+          "text": "C"
+        },
+        {
+          "code": "D",
+          "text": "D"
+        },
+        {
+          "code": "E",
+          "text": "E"
+        },
+        {
+          "code": "F",
+          "text": "F"
+        },
+        {
+          "code": "G",
+          "text": "G"
+        },
+        {
+          "code": "H",
+          "text": "H"
+        }
+      ],
+      "type": "Map Labelling"
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Temple Rise - map location",
+      "answer": "D",
+      "evidence": "Temple Rise is inside the circle next to the sports centre, corresponding to D.",
+      "timeStart": 685.71,
+      "timeEnd": 698.76,
+      "timeCenter": 694.0,
+      "why": "The verified evidence supports D for this item. Temple Rise is inside the circle next to the sports centre, corresponding to D.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Temple Rise - map location | Verified evidence summary: Temple Rise is inside the circle next to the sports centre, corresponding to D.",
+      "options": [
+        {
+          "code": "A",
+          "text": "A"
+        },
+        {
+          "code": "B",
+          "text": "B"
+        },
+        {
+          "code": "C",
+          "text": "C"
+        },
+        {
+          "code": "D",
+          "text": "D"
+        },
+        {
+          "code": "E",
+          "text": "E"
+        },
+        {
+          "code": "F",
+          "text": "F"
+        },
+        {
+          "code": "G",
+          "text": "G"
+        },
+        {
+          "code": "H",
+          "text": "H"
+        }
+      ],
+      "type": "Map Labelling"
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Project deadline",
+      "answer": "March 25th",
+      "evidence": "The project must be handed in by March 25th.",
+      "timeStart": 760.0,
+      "timeEnd": 796.3,
+      "timeCenter": 793.0,
+      "why": "The verified evidence supports March 25th for this item. The project must be handed in by March 25th.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Project deadline | Verified evidence summary: The project must be handed in by March 25th.",
+      "options": [],
+      "type": "Completion"
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "Study of the increase in ___",
+      "answer": "older workers",
+      "evidence": "The project focus is the rise in older workers.",
+      "timeStart": 796.3,
+      "timeEnd": 818.2,
+      "timeCenter": 812.0,
+      "why": "The verified evidence supports older workers for this item. The project focus is the rise in older workers.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Study of the increase in ___ | Verified evidence summary: The project focus is the rise in older workers.",
+      "options": [],
+      "type": "Completion"
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Project assessed by ___",
+      "answer": "senior lecturer",
+      "evidence": "The assessment is to be marked by a senior lecturer.",
+      "timeStart": 810.0,
+      "timeEnd": 822.45,
+      "timeCenter": 820.0,
+      "why": "The verified evidence supports senior lecturer for this item. The assessment is to be marked by a senior lecturer.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Project assessed by ___ | Verified evidence summary: The assessment is to be marked by a senior lecturer.",
+      "options": [],
+      "type": "Completion"
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "What Jenna and Marco need for the project",
+      "answer": "timetable",
+      "evidence": "They agree they need a timetable so the project stays organised.",
+      "timeStart": 822.45,
+      "timeEnd": 836.43,
+      "timeCenter": 831.0,
+      "why": "The verified evidence supports timetable for this item. They agree they need a timetable so the project stays organised.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: What Jenna and Marco need for the project | Verified evidence summary: They agree they need a timetable so the project stays organised.",
+      "options": [],
+      "type": "Completion"
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Choose THREE current project tasks - selection 1",
+      "answer": "B",
+      "evidence": "One immediate task is to hand out questionnaires to participating businesses.",
+      "timeStart": 886.0,
+      "timeEnd": 942.0,
+      "timeCenter": 909.0,
+      "why": "The verified evidence supports B for this item. One immediate task is to hand out questionnaires to participating businesses.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Choose THREE current project tasks - selection 1 | Verified evidence summary: One immediate task is to hand out questionnaires to participating businesses.",
+      "options": [
+        {
+          "code": "A",
+          "text": "interview some people"
+        },
+        {
+          "code": "B",
+          "text": "hand out questionnaires"
+        },
+        {
+          "code": "C",
+          "text": "choose their subjects"
+        },
+        {
+          "code": "D",
+          "text": "take photographs"
+        },
+        {
+          "code": "E",
+          "text": "use statistical software"
+        },
+        {
+          "code": "F",
+          "text": "do some work in the library"
+        },
+        {
+          "code": "G",
+          "text": "contact some local companies"
+        }
+      ],
+      "type": "Choose THREE / Multiple Answer",
+      "multi_group": [
+        25,
+        26,
+        27
+      ]
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Choose THREE current project tasks - selection 2",
+      "answer": "D",
+      "evidence": "They also decide to take photographs for the project.",
+      "timeStart": 886.0,
+      "timeEnd": 942.0,
+      "timeCenter": 936.0,
+      "why": "The verified evidence supports D for this item. They also decide to take photographs for the project.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Choose THREE current project tasks - selection 2 | Verified evidence summary: They also decide to take photographs for the project.",
+      "options": [
+        {
+          "code": "A",
+          "text": "interview some people"
+        },
+        {
+          "code": "B",
+          "text": "hand out questionnaires"
+        },
+        {
+          "code": "C",
+          "text": "choose their subjects"
+        },
+        {
+          "code": "D",
+          "text": "take photographs"
+        },
+        {
+          "code": "E",
+          "text": "use statistical software"
+        },
+        {
+          "code": "F",
+          "text": "do some work in the library"
+        },
+        {
+          "code": "G",
+          "text": "contact some local companies"
+        }
+      ],
+      "type": "Choose THREE / Multiple Answer",
+      "multi_group": [
+        25,
+        26,
+        27
+      ]
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Choose THREE current project tasks - selection 3",
+      "answer": "G",
+      "evidence": "They need to contact local companies and ask them to participate.",
+      "timeStart": 886.0,
+      "timeEnd": 942.0,
+      "timeCenter": 902.0,
+      "why": "The verified evidence supports G for this item. They need to contact local companies and ask them to participate.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Choose THREE current project tasks - selection 3 | Verified evidence summary: They need to contact local companies and ask them to participate.",
+      "options": [
+        {
+          "code": "A",
+          "text": "interview some people"
+        },
+        {
+          "code": "B",
+          "text": "hand out questionnaires"
+        },
+        {
+          "code": "C",
+          "text": "choose their subjects"
+        },
+        {
+          "code": "D",
+          "text": "take photographs"
+        },
+        {
+          "code": "E",
+          "text": "use statistical software"
+        },
+        {
+          "code": "F",
+          "text": "do some work in the library"
+        },
+        {
+          "code": "G",
+          "text": "contact some local companies"
+        }
+      ],
+      "type": "Choose THREE / Multiple Answer",
+      "multi_group": [
+        25,
+        26,
+        27
+      ]
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Why did Jenna and Marco agree to work together?",
+      "answer": "B",
+      "evidence": "They chose each other because their academic strengths complement one another.",
+      "timeStart": 976.75,
+      "timeEnd": 999.9,
+      "timeCenter": 995.0,
+      "why": "The verified evidence supports B for this item. They chose each other because their academic strengths complement one another.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Why did Jenna and Marco agree to work together? | Verified evidence summary: They chose each other because their academic strengths complement one another.",
+      "options": [
+        {
+          "code": "A",
+          "text": "because they both wanted to work with someone else"
+        },
+        {
+          "code": "B",
+          "text": "because they each have different skills"
+        },
+        {
+          "code": "C",
+          "text": "because they have worked together before"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Why does Marco suggest that he writes the analysis?",
+      "answer": "C",
+      "evidence": "Marco has more experience with analysis and expects to do it faster.",
+      "timeStart": 1000.0,
+      "timeEnd": 1019.17,
+      "timeCenter": 1015.0,
+      "why": "The verified evidence supports C for this item. Marco has more experience with analysis and expects to do it faster.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Why does Marco suggest that he writes the analysis? | Verified evidence summary: Marco has more experience with analysis and expects to do it faster.",
+      "options": [
+        {
+          "code": "A",
+          "text": "He needs more practice with this kind of writing."
+        },
+        {
+          "code": "B",
+          "text": "He is better at English than Jenna."
+        },
+        {
+          "code": "C",
+          "text": "He has more experience of this than Jenna."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Why does Jenna offer to do the presentation?",
+      "answer": "A",
+      "evidence": "The tutor expects Jenna to do the whole presentation because she has not done one yet.",
+      "timeStart": 1019.17,
+      "timeEnd": 1036.43,
+      "timeCenter": 1032.0,
+      "why": "The verified evidence supports A for this item. The tutor expects Jenna to do the whole presentation because she has not done one yet.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: Why does Jenna offer to do the presentation? | Verified evidence summary: The tutor expects Jenna to do the whole presentation because she has not done one yet.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Her tutor wants her to do the presentation."
+        },
+        {
+          "code": "B",
+          "text": "Marco is very nervous about giving presentations."
+        },
+        {
+          "code": "C",
+          "text": "She wants to divide the work on the project fairly."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "News source: more popular at the weekend than during the week",
+      "answer": "C",
+      "evidence": "The press has much higher readership when people have more leisure time, especially at weekends.",
+      "timeStart": 1144.86,
+      "timeEnd": 1167.94,
+      "timeCenter": 1158.0,
+      "why": "The verified evidence supports C for this item. The press has much higher readership when people have more leisure time, especially at weekends.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: News source: more popular at the weekend than during the week | Verified evidence summary: The press has much higher readership when people have more leisure time, especially at weekends.",
+      "options": [
+        {
+          "code": "A",
+          "text": "television"
+        },
+        {
+          "code": "B",
+          "text": "internet"
+        },
+        {
+          "code": "C",
+          "text": "the press"
+        }
+      ],
+      "type": "Classification"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "News source: affected the popularity of local radio",
+      "answer": "B",
+      "evidence": "The internet has reduced the relative popularity of local radio.",
+      "timeStart": 1173.03,
+      "timeEnd": 1185.82,
+      "timeCenter": 1183.0,
+      "why": "The verified evidence supports B for this item. The internet has reduced the relative popularity of local radio.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: News source: affected the popularity of local radio | Verified evidence summary: The internet has reduced the relative popularity of local radio.",
+      "options": [
+        {
+          "code": "A",
+          "text": "television"
+        },
+        {
+          "code": "B",
+          "text": "internet"
+        },
+        {
+          "code": "C",
+          "text": "the press"
+        }
+      ],
+      "type": "Classification"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "News source: recently able to expand internationally",
+      "answer": "C",
+      "evidence": "Technological changes allow newspapers to print and distribute editions internationally.",
+      "timeStart": 1198.54,
+      "timeEnd": 1210.57,
+      "timeCenter": 1208.0,
+      "why": "The verified evidence supports C for this item. Technological changes allow newspapers to print and distribute editions internationally.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: News source: recently able to expand internationally | Verified evidence summary: Technological changes allow newspapers to print and distribute editions internationally.",
+      "options": [
+        {
+          "code": "A",
+          "text": "television"
+        },
+        {
+          "code": "B",
+          "text": "internet"
+        },
+        {
+          "code": "C",
+          "text": "the press"
+        }
+      ],
+      "type": "Classification"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "News source: offering more varied reporting than previously",
+      "answer": "A",
+      "evidence": "Television has broadened its reporting mix to distinguish itself from other sources.",
+      "timeStart": 1220.28,
+      "timeEnd": 1238.06,
+      "timeCenter": 1234.0,
+      "why": "The verified evidence supports A for this item. Television has broadened its reporting mix to distinguish itself from other sources.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: News source: offering more varied reporting than previously | Verified evidence summary: Television has broadened its reporting mix to distinguish itself from other sources.",
+      "options": [
+        {
+          "code": "A",
+          "text": "television"
+        },
+        {
+          "code": "B",
+          "text": "internet"
+        },
+        {
+          "code": "C",
+          "text": "the press"
+        }
+      ],
+      "type": "Classification"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "News source: suffered from government intervention",
+      "answer": "A",
+      "evidence": "Television is described as subject to strong controls because of its political influence.",
+      "timeStart": 1249.14,
+      "timeEnd": 1269.99,
+      "timeCenter": 1268.0,
+      "why": "The verified evidence supports A for this item. Television is described as subject to strong controls because of its political influence.",
+      "trap": "Do not select an option merely because a keyword sounds familiar; follow the relationship and final meaning.",
+      "mistakeType": "Distractor / mapping / classification",
+      "paraphrase": "Question focus: News source: suffered from government intervention | Verified evidence summary: Television is described as subject to strong controls because of its political influence.",
+      "options": [
+        {
+          "code": "A",
+          "text": "television"
+        },
+        {
+          "code": "B",
+          "text": "internet"
+        },
+        {
+          "code": "C",
+          "text": "the press"
+        }
+      ],
+      "type": "Classification"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Newspaper advertising: ___ now exceeds that of other industries",
+      "answer": "profit margin",
+      "evidence": "US newspapers are described as having a higher profit margin than the rest of industry.",
+      "timeStart": 1306.99,
+      "timeEnd": 1342.02,
+      "timeCenter": 1340.0,
+      "why": "The verified evidence supports profit margin for this item. US newspapers are described as having a higher profit margin than the rest of industry.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Newspaper advertising: ___ now exceeds that of other industries | Verified evidence summary: US newspapers are described as having a higher profit margin than the rest of industry.",
+      "options": [],
+      "type": "Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Good relationship with the ___ sector",
+      "answer": "retail",
+      "evidence": "Newspapers have cultivated a strong relationship with the retail sector.",
+      "timeStart": 1348.34,
+      "timeEnd": 1360.71,
+      "timeCenter": 1357.0,
+      "why": "The verified evidence supports retail for this item. Newspapers have cultivated a strong relationship with the retail sector.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Good relationship with the ___ sector | Verified evidence summary: Newspapers have cultivated a strong relationship with the retail sector.",
+      "options": [],
+      "type": "Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "More adverts include ___",
+      "answer": "vouchers",
+      "evidence": "Newspaper adverts increasingly include vouchers.",
+      "timeStart": 1360.71,
+      "timeEnd": 1368.84,
+      "timeCenter": 1367.0,
+      "why": "The verified evidence supports vouchers for this item. Newspaper adverts increasingly include vouchers.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: More adverts include ___ | Verified evidence summary: Newspaper adverts increasingly include vouchers.",
+      "options": [],
+      "type": "Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Vouchers create more sales for the ___",
+      "answer": "clients",
+      "evidence": "The vouchers increase sales for the advertising clients.",
+      "timeStart": 1377.48,
+      "timeEnd": 1385.14,
+      "timeCenter": 1384.0,
+      "why": "The verified evidence supports clients for this item. The vouchers increase sales for the advertising clients.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Vouchers create more sales for the ___ | Verified evidence summary: The vouchers increase sales for the advertising clients.",
+      "options": [],
+      "type": "Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Increasing number of more expensive ___ adverts",
+      "answer": "full-page",
+      "evidence": "Advertisers increasingly pay extra for full-page adverts.",
+      "timeStart": 1394.71,
+      "timeEnd": 1409.52,
+      "timeCenter": 1405.0,
+      "why": "The verified evidence supports full-page for this item. Advertisers increasingly pay extra for full-page adverts.",
+      "trap": "Respect the source word limit and preserve accurate spelling, number or date form.",
+      "mistakeType": "Detail recognition / spelling / word limit",
+      "paraphrase": "Question focus: Increasing number of more expensive ___ adverts | Verified evidence summary: Advertisers increasingly pay extra for full-page adverts.",
+      "options": [],
+      "type": "Completion"
+    }
+  },
+  "answers": {
+    "1": "weekend trips",
+    "2": "competitions",
+    "3": "125",
+    "4": "club secretary",
+    "5": "twice a month",
+    "6": "spring",
+    "7": "weekly",
+    "8": "equipment",
+    "9": "magazine",
+    "10": "exhibition",
+    "11": "G",
+    "12": "F",
+    "13": "C",
+    "14": "B",
+    "15": "A",
+    "16": "B",
+    "17": "A",
+    "18": "C",
+    "19": "E",
+    "20": "D",
+    "21": "March 25th",
+    "22": "older workers",
+    "23": "senior lecturer",
+    "24": "timetable",
+    "25": "B",
+    "26": "D",
+    "27": "G",
+    "28": "B",
+    "29": "C",
+    "30": "A",
+    "31": "C",
+    "32": "B",
+    "33": "C",
+    "34": "A",
+    "35": "A",
+    "36": "profit margin",
+    "37": "retail",
+    "38": "vouchers",
+    "39": "clients",
+    "40": "full-page"
+  },
+  "alternatives": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": [
+      "twice per month"
+    ],
+    "6": [],
+    "7": [],
+    "8": [],
+    "9": [],
+    "10": [],
+    "11": [],
+    "12": [],
+    "13": [],
+    "14": [],
+    "15": [],
+    "16": [],
+    "17": [],
+    "18": [],
+    "19": [],
+    "20": [],
+    "21": [
+      "March 25",
+      "25 March",
+      "25th March",
+      "25 March 25"
+    ],
+    "22": [],
+    "23": [
+      "a senior lecturer"
+    ],
+    "24": [],
+    "25": [
+      "D",
+      "G"
+    ],
+    "26": [
+      "B",
+      "G"
+    ],
+    "27": [
+      "B",
+      "D"
+    ],
+    "28": [],
+    "29": [],
+    "30": [],
+    "31": [],
+    "32": [],
+    "33": [],
+    "34": [],
+    "35": [],
+    "36": [],
+    "37": [],
+    "38": [],
+    "39": [],
+    "40": [
+      "full page"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 340.43
+    },
+    "2": {
+      "start": 340.43,
+      "end": 706.53
+    },
+    "3": {
+      "start": 706.53,
+      "end": 1043.9
+    },
+    "4": {
+      "start": 1043.9,
+      "end": 1409.52
+    }
+  },
+  "audio_available": true,
+  "audio_status": "AVAILABLE - user-supplied canonical Listening Test 9 MP3 embedded/local byte-for-byte.",
+  "transcript": {
+    "1": "Rachel: Hi, welcome to Freshers Week. I'm Rachel. Can I help you? Tom: Oh, hi - yes. Erm - I was hoping to find out about some clubs I could join. Rachel: Well, all the club stands are here in this hall. What were you interested in? Tom: Um - not sure. I wanted to do something where I could meet people. Rachel: Well, take this leaflet with details of all the clubs and see what you think. It'll probably depend on what day you're free. Like on Mondays there's the film club, then on Tuesdays you've got the climbing club - that's really good, I'm in that - then on Wednesdays you've got chess, if you want something a bit more intellectual! But you should look through carefully because all the clubs run extra activities as well as their normal meetings. Tom: Oh, yes I see. So it looks like the film club has discussions after the films - I'd quite like to go to those. Then climbing - goodness, it says here that the University has its own climbing wall - that's impressive - and they go on weekend trips. Cool. And it says the chess club normally just does games with whoever turns up but it also runs competitions sometimes. But I bet you've got to be pretty good to do that. Rachel: Yes, I think so! Tom: And how many people are in the clubs? Are they all really full? Rachel: Well, obviously they're all different so, for example, the film club has just increased its membership from eighty five to a hundred and twenty five but I think they're hoping to extend it to a hundred and fifty. The climbing club's quite small - forty people - and the chess club is fairly healthy at fifty five. Tom: Right. OK, so who do I see if I want to join these clubs? Rachel: Well, if you go round the stands and speak to the people there. For the film club that's the events organiser - um, for climbing you'll need the club secretary and the chess club is organised by one of the Maths tutors. OK? Tom: Yup. I think I'll start with the climbing club - it sounds good. Rachel: Yes. Oh, you must join. It's really good fun. We go away quite a bit to North Wales and every year we have a special excursion, usually to France, which is where we're going this year in the spring. The weather's too unpredictable in the autumn. Tom: Wow! That sounds good - but it must cost a lot. Rachel: Yeah, but we try and save up for it through subscriptions so rather than having a huge sum to pay in the month we go we collect those weekly so it spreads it out. Tom: Good idea. I think I'll definitely join. Rachel: There are quite good benefits you get from joining. I mean, you need that don't you? And the University clubs normally try and do deals with local businesses, so it's really worth joining. Like in the climbing club they've got a special arrangement with one of the shops in town so if you show your card you can get money off equipment. Don't think the discount extends to clothes though. Tom: That's really worth it then. I'll go over and talk to them now. Rachel: OK. Hope you do join. Oh, and another thing I meant to say. If you do become a member, you automatically receive a magazine once a year. It's quite useful and interesting because it goes out to all the national climbing clubs. And the other thing is, if you come to every session, then you can get a complimentary ticket to the big exhibition that's held in Cardiff every year. So - hope to see you ... Tom: Yeah, thanks ...",
+    "2": "Accommodation Officer: Good afternoon and welcome to Stanton University. I'm here to tell you about the various halls of residence we have available should you choose to come here. We aim to offer accommodation in Halls to all first year students and you'll find there's a good variety to choose from. First of all, there's Brown Hall, which, as you'll see, is not the most modern of buildings but it is very popular with some students. It's got a good sense of community, some nice refurbished kitchens and, unlike the other halls, it has recently had a gym built in its basement. Another option is Blake Residence, which is built like a large house and so everybody cooks and eats together. It has its own sectioned-off bit of private garden and is even more peaceful because this is an all girls residence, although of course boys are allowed to visit the Hall and, I understand, frequently take part in cooking dinner! The largest Hall we have is Queens Building and this has been upgraded recently. The original parking area has been built on so that the hall now has a large common room and each bedroom now has its own shower room, which many students regard as a real bonus. A further option is the Parkway Flats, which won an award for design in its day and this building now has a preservation order on it. This has meant that only a limited amount could be done to upgrade it and the surrounding area is important so parking is not permitted around the Flats. However, the Flats do have many extra facilities such as a special computer room, a small library and a self-service restaurant. The cost of breakfast, lunch and dinner is covered in the fees for this hall so it does look a bit more expensive. The last residence we can offer you is Temple Rise, which again is slightly more expensive than other Halls as the rooms are larger. This has got very lovely views across to the coast and this more than compensates for the fact that bathrooms here are shared between six students. However, the Hall has domestic staff who clean the rooms once a week so this is perhaps an attractive option for the messier amongst you. Now if I can just show on this wall map here where they all are, you might like to go and have a look round. If you come into the main university entrance, at the first junction you'll find that Brown Hall is on the corner opposite the theatre. So you're nice and near the station here - though I think it can get a bit noisy with traffic. The same applies to Blake Residence, which is directly facing the junction to the university entrance. These Halls are often used by medical students and such like as they're out all day so don't notice the noise. Anyway, if you then walk along Campus Road towards the main Circle, you'll see the library on the corner and Queens Building is just past that as you head north. You will find that it is quieter here and you may get fewer visitors! By the way the Circle is quite a feature of the campus as it's set into the hills and has a brand new sports centre in the middle - it's worth going to look around it. Now, the Parkway Flats are on the opposite corner to the library, facing the Circle, as you head towards the main buildings. The main buildings are only about a five-minute walk from here and places in these Halls go quickly so my advice is to reserve your place as soon as possible. Then Temple Rise is inside the Circle, next to the sports centre, but further from the main University buildings. Now, if you'd like to go off and ...",
+    "3": "Jenna: Come on Marco. We've got to get on and sort out this project for Professor Barclay. Marco: Hang on. I want to make sure we've got all the information. Now ... where are we? Jenna: Well, today we need to sort out exactly what we're going to do and how we're going to divide the work up. Marco: OK. How long have we got, by the way? Jenna: Um ... the end of term is April 6th and he said to hand it in on week 8, so that's March 25th at the latest because the beginning of that week is 21st. So not long! Marco: Right. Have you got the notes there? Jenna: Yes, he wants us to do a fairly small-scale study, like the last one, on whether or not businesses were offering more benefits to staff. We've now got to look at the rise in older workers. Should be fairly straightforward. Marco: Yeah, as long as we keep it small. Who's marking it? Jenna: Don't know - sometimes he gets the PhD students to mark it for him. Marco: Oh actually it just says here 'a senior lecturer'. I suppose it's too much for Professor Barclay to do them all. Jenna: Yeah. Anyway, how are we going to go about this? Marco: Well, we have to decide how big we want it to be and who we're ... Jenna: Yeah, but I think we must sort out a timetable for the project otherwise nothing will get done. Marco: OK. Do you want to do that? Jenna: Alright. I'll do it as soon as we finish here. OK - what do we have to do now for the project? What's the best way to go about it? Marco: Um ... well, Professor Carter suggested we set up a focus group to get some in-depth interviews but I think that'll take a lot of time. Jenna: Yeah, I agree. If we did a focus group, we'd have to spend time deciding who to include in it and it's not necessary to do one anyway. Marco: Oh, fine. Jenna: And, if you agree, I think we should get in touch with the businesses on the list Professor Carter gave us and ask them if they're prepared to participate. Marco: Sounds good - then we can go there, give them questionnaires and collect them later. Jenna: Exactly. Marco: OK. Then do we need to book one of those study rooms in the library so we can work together to input the data? Perhaps not, as I guess just one of us could just sort it out, actually. Jenna: Yes, that would be easier. A lot of what we're doing is qualitative, so it'll be writing up rather than statistics. No software for that I'm afraid! Marco: And I think it would look better if we had actual shots of some of the staff because we're citing appearance as a factor in employability, aren't we? Jenna: Yeah. OK. I'll factor that all in when I sort everything out tonight. Marco: I'm glad we decided to work together. I think it's going to work out well. Jenna: Yes, well, given that we had to work in pairs on this project, I think we were right to choose each other. We complement each other academically as we're each good at what the other isn't! In fact, we should have tried working together before! Marco: Yes! Now, how shall we split the work? I'll do the analysis, shall I? Jenna: Oh - OK. Marco: It's just that it might be faster because I'm used to doing it - although your English is better than mine. I need more practice at reading, really. Jenna: OK. I'll do the presentation then. If that's OK with you? Marco: Yeah, sure. I don't mind speaking in public but I hate preparing all the notes for them. Jenna: Thing is, the tutor said one person should do the whole presentation and he's said he expects me to do it because I haven't done one yet. Marco: No, that's fine. Now ...",
+    "4": "Lecturer: OK, now many of you will have heard about the predicted death of newspapers as people increasingly access the TV and the internet for their news. Today I want to look at the USA, which has very advanced news sources, to see if this is actually true. In the USA the main news sources without doubt are TV, the internet and the press - that is traditional newspapers. And, although they are each surviving and growing, they are also changing. Obviously TV news has been around for a while, and the early evening bulletins when people get in from work are very popular. I suppose we traditionally think of the morning newspaper arriving on our doorstep with the daily news. Interestingly, this is not borne out by the statistics, which show that readership in the US is much higher when people have time to relax, when they're not working, especially on Sundays. The internet is also a popular weekend activity but shows no variation with weekday access. So people are using the different sources in different ways. Interestingly, local radio has been hit less by the grip of quite strong local newspapers than by the internet, which is seen to offer a better regional service. But just because the internet is seen as the new force in news media does not mean it is dominant. Television has, of course, been global for a while, but now technological changes, which have fuelled the rise of online news, have also allowed newspapers to print and distribute editions across the world. In fact, internet news, which is seen as the big competitor for traditional markets, does not offer that much variety. Often the sources are the online versions of the newspapers, whereas television, in order to offer something different, has had to come up with a much more mixed bag of reporting from hard news to light reports on celebrity events. Another issue is reliability - the internet is virtually unregulated so anything can be reported there, whether true or not. Journalists on newspapers have fought a long hard battle to fight intervention and to retain the freedom of the press. Television, however, is seen as critical to political power and has become subject to harsh controls about what it can or cannot say. Now one very critical factor in keeping newspapers alive and well in the USA has been their approach to advertising. Obviously newspapers are heavily dependent on advertising revenue and they have become more and more imaginative in what they offer, in order to make sure that advertisers use them, and not other news sources. This has meant that, contrary to popular belief, newspapers now have a significantly higher profit margin than the rest of American industry. So how have they managed to raise advertising revenue in this way? Well, they have put a lot of effort into developing and maintaining a very strong association with the retail trade. And they've come up with a winner. A critical tool in their sales plan has been suggesting that the adverts they run can have vouchers. This has been enormously effective because they have found that, not only do more people buy the paper to get the discounts but also that this inevitably means much higher sales for the clients who advertised. As well as doing this, the newspapers have also introduced aggressive sales campaigns over the last few years. This has resulted in a significant and continuing rise in the number of advertisers prepared to pay the extra for full-page ads. So, what I would like ..."
+  },
+  "transcript_source": "Full four-part transcript aligned by topic and Q1-Q40 anchors with the user-provided Achieve IELTS Academic Listening Test 1 audio. Transcript cross-check reference: https://engnovate.com/ielts-listening-tests/achieve-ielts-practice-tests-academic-listening-test-1/ . Timing remains approximate; wording should be checked against audio if used as an exact verbatim record.",
+  "timestamps_source": "Aligned to the user-supplied canonical Test 9 MP3 on a 10 ms time grid. Audio bytes are untrimmed and unchanged.",
+  "script_completion": [
+    {
+      "q": 101,
+      "part": 1,
+      "n": 1,
+      "match": "hoping to find out",
+      "answer": "hoping to find out",
+      "lexical_type": "fixed verb phrase"
+    },
+    {
+      "q": 102,
+      "part": 1,
+      "n": 2,
+      "match": "look through carefully",
+      "answer": "look through carefully",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 103,
+      "part": 1,
+      "n": 3,
+      "match": "increased its membership",
+      "answer": "increased its membership",
+      "lexical_type": "verb-noun collocation"
+    },
+    {
+      "q": 104,
+      "part": 1,
+      "n": 4,
+      "match": "special excursion",
+      "answer": "special excursion",
+      "lexical_type": "noun collocation"
+    },
+    {
+      "q": 105,
+      "part": 1,
+      "n": 5,
+      "match": "save up for it",
+      "answer": "save up for it",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 106,
+      "part": 1,
+      "n": 6,
+      "match": "spreads it out",
+      "answer": "spreads it out",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 107,
+      "part": 1,
+      "n": 7,
+      "match": "special arrangement",
+      "answer": "special arrangement",
+      "lexical_type": "noun collocation"
+    },
+    {
+      "q": 108,
+      "part": 1,
+      "n": 8,
+      "match": "complimentary ticket",
+      "answer": "complimentary ticket",
+      "lexical_type": "adjective + noun collocation"
+    },
+    {
+      "q": 109,
+      "part": 2,
+      "n": 1,
+      "match": "halls of residence",
+      "answer": "halls of residence",
+      "lexical_type": "compound noun"
+    },
+    {
+      "q": 110,
+      "part": 2,
+      "n": 2,
+      "match": "sense of community",
+      "answer": "sense of community",
+      "lexical_type": "fixed collocation"
+    },
+    {
+      "q": 111,
+      "part": 2,
+      "n": 3,
+      "match": "sectioned-off",
+      "answer": "sectioned-off",
+      "lexical_type": "compound adjective"
+    },
+    {
+      "q": 112,
+      "part": 2,
+      "n": 4,
+      "match": "upgraded recently",
+      "answer": "upgraded recently",
+      "lexical_type": "passive verb phrase"
+    },
+    {
+      "q": 113,
+      "part": 2,
+      "n": 5,
+      "match": "preservation order",
+      "answer": "preservation order",
+      "lexical_type": "legal noun phrase"
+    },
+    {
+      "q": 114,
+      "part": 2,
+      "n": 6,
+      "match": "covered in the fees",
+      "answer": "covered in the fees",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 115,
+      "part": 2,
+      "n": 7,
+      "match": "more than compensates for",
+      "answer": "more than compensates for",
+      "lexical_type": "advanced verb phrase"
+    },
+    {
+      "q": 116,
+      "part": 2,
+      "n": 8,
+      "match": "reserve your place as soon as possible",
+      "answer": "reserve your place as soon as possible",
+      "lexical_type": "imperative lexical chunk"
+    },
+    {
+      "q": 117,
+      "part": 3,
+      "n": 1,
+      "match": "divide the work up",
+      "answer": "divide the work up",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 118,
+      "part": 3,
+      "n": 2,
+      "match": "small-scale study",
+      "answer": "small-scale study",
+      "lexical_type": "academic noun phrase"
+    },
+    {
+      "q": 119,
+      "part": 3,
+      "n": 3,
+      "match": "a senior lecturer",
+      "answer": "a senior lecturer",
+      "lexical_type": "academic noun phrase"
+    },
+    {
+      "q": 120,
+      "part": 3,
+      "n": 4,
+      "match": "sort out a timetable",
+      "answer": "sort out a timetable",
+      "lexical_type": "phrasal-verb collocation"
+    },
+    {
+      "q": 121,
+      "part": 3,
+      "n": 5,
+      "match": "set up a focus group",
+      "answer": "set up a focus group",
+      "lexical_type": "research-methods collocation"
+    },
+    {
+      "q": 122,
+      "part": 3,
+      "n": 6,
+      "match": "in-depth interviews",
+      "answer": "in-depth interviews",
+      "lexical_type": "academic noun phrase"
+    },
+    {
+      "q": 123,
+      "part": 3,
+      "n": 7,
+      "match": "prepared to participate",
+      "answer": "prepared to participate",
+      "lexical_type": "adjective + infinitive phrase"
+    },
+    {
+      "q": 124,
+      "part": 3,
+      "n": 8,
+      "match": "complement each other academically",
+      "answer": "complement each other academically",
+      "lexical_type": "academic lexical chunk"
+    },
+    {
+      "q": 125,
+      "part": 4,
+      "n": 1,
+      "match": "predicted death of newspapers",
+      "answer": "predicted death of newspapers",
+      "lexical_type": "academic noun phrase"
+    },
+    {
+      "q": 126,
+      "part": 4,
+      "n": 2,
+      "match": "borne out by the statistics",
+      "answer": "borne out by the statistics",
+      "lexical_type": "academic evidence phrase"
+    },
+    {
+      "q": 127,
+      "part": 4,
+      "n": 3,
+      "match": "regional service",
+      "answer": "regional service",
+      "lexical_type": "noun collocation"
+    },
+    {
+      "q": 128,
+      "part": 4,
+      "n": 4,
+      "match": "technological changes",
+      "answer": "technological changes",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 129,
+      "part": 4,
+      "n": 5,
+      "match": "a much more mixed bag",
+      "answer": "a much more mixed bag",
+      "lexical_type": "idiomatic noun phrase"
+    },
+    {
+      "q": 130,
+      "part": 4,
+      "n": 6,
+      "match": "virtually unregulated",
+      "answer": "virtually unregulated",
+      "lexical_type": "adverb + adjective"
+    },
+    {
+      "q": 131,
+      "part": 4,
+      "n": 7,
+      "match": "freedom of the press",
+      "answer": "freedom of the press",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 132,
+      "part": 4,
+      "n": 8,
+      "match": "profit margin",
+      "answer": "profit margin",
+      "lexical_type": "business collocation"
+    },
+    {
+      "q": 133,
+      "part": 4,
+      "n": 9,
+      "match": "aggressive sales campaigns",
+      "answer": "aggressive sales campaigns",
+      "lexical_type": "marketing collocation"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "weekend trip",
+      "type": "noun phrase · B2",
+      "definition": "a short journey taken during a weekend",
+      "uzbek": "hafta oxiri sayohati",
+      "context": "The climbing club lists weekend trips as an extra activity.",
+      "collocations": [
+        "go on a weekend trip",
+        "organise weekend trips"
+      ],
+      "paraphrases": [
+        "short weekend excursion"
+      ]
+    },
+    {
+      "headword": "club secretary",
+      "type": "noun phrase · B2",
+      "definition": "the person responsible for a club’s records and administration",
+      "uzbek": "klub kotibi",
+      "context": "The climbing club contact is the club secretary.",
+      "collocations": [
+        "contact the club secretary",
+        "club secretary details"
+      ],
+      "paraphrases": [
+        "club administrator"
+      ]
+    },
+    {
+      "headword": "annual exhibition",
+      "type": "collocation · B2/C1",
+      "definition": "an exhibition that takes place once every year",
+      "uzbek": "yillik ko‘rgazma",
+      "context": "Members can gain entry to a climbing exhibition held annually.",
+      "collocations": [
+        "annual exhibition",
+        "attend an exhibition"
+      ],
+      "paraphrases": [
+        "yearly exhibition"
+      ]
+    },
+    {
+      "headword": "hall of residence",
+      "type": "noun phrase · B2/C1",
+      "definition": "university accommodation where students live",
+      "uzbek": "talabalar turar joyi",
+      "context": "Part 2 compares several halls of residence.",
+      "collocations": [
+        "university hall of residence",
+        "live in halls"
+      ],
+      "paraphrases": [
+        "student residence"
+      ]
+    },
+    {
+      "headword": "sports facilities",
+      "type": "collocation · B2",
+      "definition": "buildings or equipment provided for sport and exercise",
+      "uzbek": "sport inshootlari",
+      "context": "Brown Hall is matched with sports facilities.",
+      "collocations": [
+        "sports facilities",
+        "access to facilities"
+      ],
+      "paraphrases": [
+        "sport amenities"
+      ]
+    },
+    {
+      "headword": "private shower",
+      "type": "noun phrase · B2",
+      "definition": "a shower intended for the exclusive use of one room or person",
+      "uzbek": "shaxsiy dush",
+      "context": "Queens Building offers private showers.",
+      "collocations": [
+        "private shower room",
+        "private facilities"
+      ],
+      "paraphrases": [
+        "en-suite shower"
+      ]
+    },
+    {
+      "headword": "project deadline",
+      "type": "collocation · B2/C1",
+      "definition": "the final date by which a project must be completed",
+      "uzbek": "loyiha topshirish muddati",
+      "context": "The Business Studies project has a fixed deadline.",
+      "collocations": [
+        "meet a project deadline",
+        "set a deadline"
+      ],
+      "paraphrases": [
+        "submission date"
+      ]
+    },
+    {
+      "headword": "older workers",
+      "type": "noun phrase · B2",
+      "definition": "employees in the older age range of the workforce",
+      "uzbek": "yoshi katta xodimlar",
+      "context": "The project studies an increase in older workers.",
+      "collocations": [
+        "older workers",
+        "ageing workforce"
+      ],
+      "paraphrases": [
+        "older employees"
+      ]
+    },
+    {
+      "headword": "senior lecturer",
+      "type": "academic noun phrase · C1",
+      "definition": "an experienced university lecturer holding a senior academic post",
+      "uzbek": "katta o‘qituvchi",
+      "context": "The project is assessed by a senior lecturer.",
+      "collocations": [
+        "senior lecturer in",
+        "appointed senior lecturer"
+      ],
+      "paraphrases": [
+        "senior academic"
+      ]
+    },
+    {
+      "headword": "project timetable",
+      "type": "noun phrase · C1",
+      "definition": "a planned schedule showing when stages of a project should happen",
+      "uzbek": "loyiha jadvali",
+      "context": "Jenna and Marco agree they need a timetable.",
+      "collocations": [
+        "draw up a timetable",
+        "project timetable"
+      ],
+      "paraphrases": [
+        "project schedule"
+      ]
+    },
+    {
+      "headword": "hand out questionnaires",
+      "type": "verb phrase · C1",
+      "definition": "distribute survey forms to participants",
+      "uzbek": "so‘rovnomalarni tarqatmoq",
+      "context": "One project task is to hand out questionnaires.",
+      "collocations": [
+        "hand out questionnaires",
+        "complete a questionnaire"
+      ],
+      "paraphrases": [
+        "distribute surveys"
+      ]
+    },
+    {
+      "headword": "statistical software",
+      "type": "technical noun phrase · C1",
+      "definition": "software used to analyse numerical data statistically",
+      "uzbek": "statistik dasturiy ta’minot",
+      "context": "Statistical software appears as a project-task option.",
+      "collocations": [
+        "use statistical software",
+        "statistical analysis package"
+      ],
+      "paraphrases": [
+        "data-analysis software"
+      ]
+    },
+    {
+      "headword": "news source",
+      "type": "noun phrase · B2",
+      "definition": "a medium or organisation from which news is obtained",
+      "uzbek": "yangilik manbasi",
+      "context": "Part 4 classifies statements by US news source.",
+      "collocations": [
+        "reliable news source",
+        "online news source"
+      ],
+      "paraphrases": [
+        "source of news"
+      ]
+    },
+    {
+      "headword": "government intervention",
+      "type": "academic collocation · C1",
+      "definition": "action by government that influences or controls an activity",
+      "uzbek": "hukumat aralashuvi",
+      "context": "One news source is described as suffering government intervention.",
+      "collocations": [
+        "government intervention in",
+        "state intervention"
+      ],
+      "paraphrases": [
+        "government involvement"
+      ]
+    },
+    {
+      "headword": "profit margin",
+      "type": "business collocation · C1",
+      "definition": "the percentage or amount of sales revenue remaining as profit",
+      "uzbek": "foyda marjasi",
+      "context": "Newspaper advertising is linked to a high profit margin.",
+      "collocations": [
+        "increase profit margin",
+        "higher profit margin"
+      ],
+      "paraphrases": [
+        "profitability margin"
+      ]
+    },
+    {
+      "headword": "retail sector",
+      "type": "business noun phrase · C1",
+      "definition": "the part of the economy that sells goods directly to consumers",
+      "uzbek": "chakana savdo sektori",
+      "context": "Advertising growth is linked to the retail sector.",
+      "collocations": [
+        "retail sector growth",
+        "work in retail"
+      ],
+      "paraphrases": [
+        "retail industry"
+      ]
+    },
+    {
+      "headword": "advertising voucher",
+      "type": "noun phrase · C1",
+      "definition": "a voucher included in an advertisement that gives a discount or benefit",
+      "uzbek": "reklama kuponi",
+      "context": "Newspaper adverts increasingly include vouchers.",
+      "collocations": [
+        "discount voucher",
+        "include a voucher"
+      ],
+      "paraphrases": [
+        "promotional coupon"
+      ]
+    },
+    {
+      "headword": "readership",
+      "type": "noun · C1",
+      "definition": "the people who regularly read a publication",
+      "uzbek": "o‘quvchilar auditoriyasi",
+      "context": "Vouchers are described as increasing newspaper readership.",
+      "collocations": [
+        "increase readership",
+        "newspaper readership"
+      ],
+      "paraphrases": [
+        "reader audience"
+      ]
+    },
+    {
+      "headword": "advertising client",
+      "type": "noun phrase · C1",
+      "definition": "a customer who pays a media company to carry advertising",
+      "uzbek": "reklama mijozi",
+      "context": "Voucher adverts can create more sales for clients.",
+      "collocations": [
+        "advertising client",
+        "client campaign"
+      ],
+      "paraphrases": [
+        "advertiser"
+      ]
+    },
+    {
+      "headword": "full-page advert",
+      "type": "compound noun · C1",
+      "definition": "an advertisement occupying an entire page of a publication",
+      "uzbek": "to‘liq sahifali reklama",
+      "context": "More advertisers are paying for full-page adverts.",
+      "collocations": [
+        "full-page advert",
+        "full-page advertisement"
+      ],
+      "paraphrases": [
+        "whole-page advertisement"
+      ]
+    }
+  ],
+  "question_types": {
+    "1": "Completion",
+    "2": "Completion",
+    "3": "Completion",
+    "4": "Completion",
+    "5": "Completion",
+    "6": "Completion",
+    "7": "Completion",
+    "8": "Completion",
+    "9": "Completion",
+    "10": "Completion",
+    "11": "Matching",
+    "12": "Matching",
+    "13": "Matching",
+    "14": "Matching",
+    "15": "Matching",
+    "16": "Map Labelling",
+    "17": "Map Labelling",
+    "18": "Map Labelling",
+    "19": "Map Labelling",
+    "20": "Map Labelling",
+    "21": "Completion",
+    "22": "Completion",
+    "23": "Completion",
+    "24": "Completion",
+    "25": "Choose THREE / Multiple Answer",
+    "26": "Choose THREE / Multiple Answer",
+    "27": "Choose THREE / Multiple Answer",
+    "28": "MCQ",
+    "29": "MCQ",
+    "30": "MCQ",
+    "31": "Classification",
+    "32": "Classification",
+    "33": "Classification",
+    "34": "Classification",
+    "35": "Classification",
+    "36": "Completion",
+    "37": "Completion",
+    "38": "Completion",
+    "39": "Completion",
+    "40": "Completion"
+  },
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Matching Mastery",
+    "Map Mastery",
+    "Choose THREE Mastery",
+    "Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ],
+  "audio_duration_seconds": 1650.195737,
+  "audio_sha256": "f8e597592a8a20f04706eff0097fda06540cfd9aa7158bae6fb62b7c9504e38d"
+}

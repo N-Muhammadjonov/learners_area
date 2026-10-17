@@ -1,0 +1,1567 @@
+{
+  "test_id": "listening-test-6",
+  "title": "Listening Test 6",
+  "sections": [
+    "Sailing Courses",
+    "Stanley Island",
+    "Research on absence from work",
+    "Transhumance"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Sailing Courses - Children are always accompanied by their ___",
+      "answer": "instructor",
+      "evidence": "The course description states that children on the two-day course are accompanied by an instructor.",
+      "timeStart": 101,
+      "timeEnd": 119,
+      "timeCenter": 108,
+      "why": "The recording supports instructor for this item. The course description states that children on the two-day course are accompanied by an instructor.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Sailing Courses - Children are always accompanied by their ___ | Listening evidence: The course description states that children on the two-day course are accompanied by an instructor.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Two-day course cost: £___",
+      "answer": "65",
+      "evidence": "The quoted price for the two-day course is £65.",
+      "timeStart": 119,
+      "timeEnd": 137,
+      "timeCenter": 126,
+      "why": "The recording supports 65 for this item. The quoted price for the two-day course is £65.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Two-day course cost: £___ | Listening evidence: The quoted price for the two-day course is £65.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Children receive a ___ on the last day",
+      "answer": "certificate",
+      "evidence": "The five-day course ends with children receiving a certificate.",
+      "timeStart": 165,
+      "timeEnd": 183,
+      "timeCenter": 172,
+      "why": "The recording supports certificate for this item. The five-day course ends with children receiving a certificate.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Children receive a ___ on the last day | Listening evidence: The five-day course ends with children receiving a certificate.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "Children must wear ___",
+      "answer": "shoes",
+      "evidence": "The clothing advice requires children to wear shoes.",
+      "timeStart": 198,
+      "timeEnd": 216,
+      "timeCenter": 205,
+      "why": "The recording supports shoes for this item. The clothing advice requires children to wear shoes.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Children must wear ___ | Listening evidence: The clothing advice requires children to wear shoes.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Extra trousers should be ___",
+      "answer": "waterproof",
+      "evidence": "Extra trousers are recommended because they should be waterproof.",
+      "timeStart": 215,
+      "timeEnd": 233,
+      "timeCenter": 222,
+      "why": "The recording supports waterproof for this item. Extra trousers are recommended because they should be waterproof.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Extra trousers should be ___ | Listening evidence: Extra trousers are recommended because they should be waterproof.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Children are not allowed to wear ___",
+      "answer": "jeans",
+      "evidence": "Jeans are specifically listed as unsuitable clothing for the course.",
+      "timeStart": 233,
+      "timeEnd": 251,
+      "timeCenter": 240,
+      "why": "The recording supports jeans for this item. Jeans are specifically listed as unsuitable clothing for the course.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Children are not allowed to wear ___ | Listening evidence: Jeans are specifically listed as unsuitable clothing for the course.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Visitors can buy a ___ in the Marina Stores",
+      "answer": "snack",
+      "evidence": "The Marina Stores sells a snack for visitors.",
+      "timeStart": 275,
+      "timeEnd": 293,
+      "timeCenter": 282,
+      "why": "The recording supports snack for this item. The Marina Stores sells a snack for visitors.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Visitors can buy a ___ in the Marina Stores | Listening evidence: The Marina Stores sells a snack for visitors.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "Free car park next to the ___",
+      "answer": "bridge",
+      "evidence": "The free car park is located next to the bridge.",
+      "timeStart": 303,
+      "timeEnd": 321,
+      "timeCenter": 310,
+      "why": "The recording supports bridge for this item. The free car park is located next to the bridge.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Free car park next to the ___ | Listening evidence: The free car park is located next to the bridge.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "Include the name of Jacob's ___",
+      "answer": "doctor",
+      "evidence": "The registration form should include the name of Jacob's doctor.",
+      "timeStart": 331,
+      "timeEnd": 349,
+      "timeCenter": 338,
+      "why": "The recording supports doctor for this item. The registration form should include the name of Jacob's doctor.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Include the name of Jacob's ___ | Listening evidence: The registration form should include the name of Jacob's doctor.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "Optional form gives permission to take ___",
+      "answer": "photographs",
+      "evidence": "The optional permission form relates to taking photographs.",
+      "timeStart": 350,
+      "timeEnd": 368,
+      "timeCenter": 357,
+      "why": "The recording supports photographs for this item. The optional permission form relates to taking photographs.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Optional form gives permission to take ___ | Listening evidence: The optional permission form relates to taking photographs.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "At the present time, Stanley Island can be reached by ...",
+      "answer": "C",
+      "evidence": "The current transport described for Stanley Island is the ferry.",
+      "timeStart": 488,
+      "timeEnd": 506,
+      "timeCenter": 495,
+      "why": "The recording supports C for this item. The current transport described for Stanley Island is the ferry.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: At the present time, Stanley Island can be reached by ... | Listening evidence: The current transport described for Stanley Island is the ferry.",
+      "options": [
+        {
+          "code": "A",
+          "text": "hovercraft."
+        },
+        {
+          "code": "B",
+          "text": "plane."
+        },
+        {
+          "code": "C",
+          "text": "ferry."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "golf courses - coast location",
+      "answer": "C",
+      "evidence": "Golf courses are assigned to the East Coast.",
+      "timeStart": 521,
+      "timeEnd": 539,
+      "timeCenter": 528,
+      "why": "The recording supports C for this item. Golf courses are assigned to the East Coast.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: golf courses - coast location | Listening evidence: Golf courses are assigned to the East Coast.",
+      "options": [
+        {
+          "code": "A",
+          "text": "The North Coast"
+        },
+        {
+          "code": "B",
+          "text": "The South Coast"
+        },
+        {
+          "code": "C",
+          "text": "The East Coast"
+        }
+      ],
+      "type": "Matching"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "family hotels - coast location",
+      "answer": "B",
+      "evidence": "Family hotels are assigned to the South Coast.",
+      "timeStart": 541,
+      "timeEnd": 559,
+      "timeCenter": 548,
+      "why": "The recording supports B for this item. Family hotels are assigned to the South Coast.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: family hotels - coast location | Listening evidence: Family hotels are assigned to the South Coast.",
+      "options": [
+        {
+          "code": "A",
+          "text": "The North Coast"
+        },
+        {
+          "code": "B",
+          "text": "The South Coast"
+        },
+        {
+          "code": "C",
+          "text": "The East Coast"
+        }
+      ],
+      "type": "Matching"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "self-catering flats - coast location",
+      "answer": "C",
+      "evidence": "Self-catering flats are assigned to the East Coast.",
+      "timeStart": 561,
+      "timeEnd": 579,
+      "timeCenter": 568,
+      "why": "The recording supports C for this item. Self-catering flats are assigned to the East Coast.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: self-catering flats - coast location | Listening evidence: Self-catering flats are assigned to the East Coast.",
+      "options": [
+        {
+          "code": "A",
+          "text": "The North Coast"
+        },
+        {
+          "code": "B",
+          "text": "The South Coast"
+        },
+        {
+          "code": "C",
+          "text": "The East Coast"
+        }
+      ],
+      "type": "Matching"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "nature walks - coast location",
+      "answer": "A",
+      "evidence": "Nature walks are assigned to the North Coast.",
+      "timeStart": 583,
+      "timeEnd": 601,
+      "timeCenter": 590,
+      "why": "The recording supports A for this item. Nature walks are assigned to the North Coast.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: nature walks - coast location | Listening evidence: Nature walks are assigned to the North Coast.",
+      "options": [
+        {
+          "code": "A",
+          "text": "The North Coast"
+        },
+        {
+          "code": "B",
+          "text": "The South Coast"
+        },
+        {
+          "code": "C",
+          "text": "The East Coast"
+        }
+      ],
+      "type": "Matching"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "Bring your own ___ and insect spray",
+      "answer": "medication",
+      "evidence": "Visitors are told to bring their own medication as well as insect spray.",
+      "timeStart": 631,
+      "timeEnd": 649,
+      "timeCenter": 638,
+      "why": "The recording supports medication for this item. Visitors are told to bring their own medication as well as insect spray.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Bring your own ___ and insect spray | Listening evidence: Visitors are told to bring their own medication as well as insect spray.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "It may not be possible to use your ___ in the western area",
+      "answer": "mobile phone",
+      "evidence": "Visitors are warned that a mobile phone may not work in the western area.",
+      "timeStart": 648,
+      "timeEnd": 666,
+      "timeCenter": 655,
+      "why": "The recording supports mobile phone for this item. Visitors are warned that a mobile phone may not work in the western area.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: It may not be possible to use your ___ in the western area | Listening evidence: Visitors are warned that a mobile phone may not work in the western area.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Don't drink water from ___",
+      "answer": "river",
+      "evidence": "The advice says not to drink water from rivers.",
+      "timeStart": 669,
+      "timeEnd": 687,
+      "timeCenter": 676,
+      "why": "The recording supports river for this item. The advice says not to drink water from rivers.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Don't drink water from ___ | Listening evidence: The advice says not to drink water from rivers.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Be careful of the ___ as they bite",
+      "answer": "monkeys",
+      "evidence": "Visitors are warned about monkeys because they bite.",
+      "timeStart": 692,
+      "timeEnd": 710,
+      "timeCenter": 699,
+      "why": "The recording supports monkeys for this item. Visitors are warned about monkeys because they bite.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Be careful of the ___ as they bite | Listening evidence: Visitors are warned about monkeys because they bite.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Try the local ___",
+      "answer": "seafood",
+      "evidence": "The local food recommendation is seafood.",
+      "timeStart": 711,
+      "timeEnd": 729,
+      "timeCenter": 718,
+      "why": "The recording supports seafood for this item. The local food recommendation is seafood.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Try the local ___ | Listening evidence: The local food recommendation is seafood.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "Laura chose Burcock Engineering for her research because",
+      "answer": "A",
+      "evidence": "Laura chose the company after contact from the managing director.",
+      "timeStart": 820,
+      "timeEnd": 838,
+      "timeCenter": 827,
+      "why": "The recording supports A for this item. Laura chose the company after contact from the managing director.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Laura chose Burcock Engineering for her research because | Listening evidence: Laura chose the company after contact from the managing director.",
+      "options": [
+        {
+          "code": "A",
+          "text": "she was contacted by the managing director."
+        },
+        {
+          "code": "B",
+          "text": "she knew several people who worked there."
+        },
+        {
+          "code": "C",
+          "text": "she had already done a work placement there."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "What does Laura agree to do regarding the central theme of her research?",
+      "answer": "B",
+      "evidence": "The tutor advises Laura to broaden the focus of the central theme.",
+      "timeStart": 853,
+      "timeEnd": 871,
+      "timeCenter": 860,
+      "why": "The recording supports B for this item. The tutor advises Laura to broaden the focus of the central theme.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: What does Laura agree to do regarding the central theme of her research? | Listening evidence: The tutor advises Laura to broaden the focus of the central theme.",
+      "options": [
+        {
+          "code": "A",
+          "text": "check it is relevant"
+        },
+        {
+          "code": "B",
+          "text": "broaden the focus"
+        },
+        {
+          "code": "C",
+          "text": "be more specific in her aims"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "What does Laura expect to find from her research?",
+      "answer": "A",
+      "evidence": "Laura expects absence rates to vary according to the type of work done.",
+      "timeStart": 885,
+      "timeEnd": 903,
+      "timeCenter": 892,
+      "why": "The recording supports A for this item. Laura expects absence rates to vary according to the type of work done.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: What does Laura expect to find from her research? | Listening evidence: Laura expects absence rates to vary according to the type of work done.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Absence rates are related to the type of work done."
+        },
+        {
+          "code": "B",
+          "text": "A lot of worker absence is actually unnecessary."
+        },
+        {
+          "code": "C",
+          "text": "Employee absence rates are increasing."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "What employee information does the tutor think Laura will be able to obtain from company records?",
+      "answer": "B",
+      "evidence": "The tutor expects company records to provide details of employment.",
+      "timeStart": 916,
+      "timeEnd": 934,
+      "timeCenter": 923,
+      "why": "The recording supports B for this item. The tutor expects company records to provide details of employment.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: What employee information does the tutor think Laura will be able to obtain from company records? | Listening evidence: The tutor expects company records to provide details of employment.",
+      "options": [
+        {
+          "code": "A",
+          "text": "dates of birth"
+        },
+        {
+          "code": "B",
+          "text": "details of employment"
+        },
+        {
+          "code": "C",
+          "text": "individual records of absence"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Which TWO recommendations does the tutor make about Laura's questionnaire?",
+      "answer": "C",
+      "evidence": "The tutor recommends using a mixture of question types in the questionnaire.",
+      "timeStart": 971,
+      "timeEnd": 989,
+      "timeCenter": 978,
+      "why": "The recording supports C for this item. The tutor recommends using a mixture of question types in the questionnaire.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Which TWO recommendations does the tutor make about Laura's questionnaire? | Listening evidence: The tutor recommends using a mixture of question types in the questionnaire.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Leave a space for contact details."
+        },
+        {
+          "code": "B",
+          "text": "Specify a completion date."
+        },
+        {
+          "code": "C",
+          "text": "Provide a mixture of question types."
+        },
+        {
+          "code": "D",
+          "text": "Keep the length to a minimum."
+        },
+        {
+          "code": "E",
+          "text": "Trial it on someone before finalising it."
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 26
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "Which TWO recommendations does the tutor make about Laura's questionnaire?",
+      "answer": "E",
+      "evidence": "The tutor also recommends trialling the questionnaire on someone before finalising it.",
+      "timeStart": 990,
+      "timeEnd": 1008,
+      "timeCenter": 997,
+      "why": "The recording supports E for this item. The tutor also recommends trialling the questionnaire on someone before finalising it.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Which TWO recommendations does the tutor make about Laura's questionnaire? | Listening evidence: The tutor also recommends trialling the questionnaire on someone before finalising it.",
+      "options": [
+        {
+          "code": "A",
+          "text": "Leave a space for contact details."
+        },
+        {
+          "code": "B",
+          "text": "Specify a completion date."
+        },
+        {
+          "code": "C",
+          "text": "Provide a mixture of question types."
+        },
+        {
+          "code": "D",
+          "text": "Keep the length to a minimum."
+        },
+        {
+          "code": "E",
+          "text": "Trial it on someone before finalising it."
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 25
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "Which TWO things will Laura explain in her covering letter to participants?",
+      "answer": "C",
+      "evidence": "The covering letter should explain how long the questionnaire is likely to take.",
+      "timeStart": 1016,
+      "timeEnd": 1034,
+      "timeCenter": 1023,
+      "why": "The recording supports C for this item. The covering letter should explain how long the questionnaire is likely to take.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Which TWO things will Laura explain in her covering letter to participants? | Listening evidence: The covering letter should explain how long the questionnaire is likely to take.",
+      "options": [
+        {
+          "code": "A",
+          "text": "when the questionnaire should be completed"
+        },
+        {
+          "code": "B",
+          "text": "the fact that participation in the survey is voluntary"
+        },
+        {
+          "code": "C",
+          "text": "how long the questionnaire is likely to take"
+        },
+        {
+          "code": "D",
+          "text": "the purpose of the survey"
+        },
+        {
+          "code": "E",
+          "text": "the benefits of participation in the survey"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 28
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Which TWO things will Laura explain in her covering letter to participants?",
+      "answer": "D",
+      "evidence": "The covering letter should explain the purpose of the survey.",
+      "timeStart": 1032,
+      "timeEnd": 1050,
+      "timeCenter": 1039,
+      "why": "The recording supports D for this item. The covering letter should explain the purpose of the survey.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Which TWO things will Laura explain in her covering letter to participants? | Listening evidence: The covering letter should explain the purpose of the survey.",
+      "options": [
+        {
+          "code": "A",
+          "text": "when the questionnaire should be completed"
+        },
+        {
+          "code": "B",
+          "text": "the fact that participation in the survey is voluntary"
+        },
+        {
+          "code": "C",
+          "text": "how long the questionnaire is likely to take"
+        },
+        {
+          "code": "D",
+          "text": "the purpose of the survey"
+        },
+        {
+          "code": "E",
+          "text": "the benefits of participation in the survey"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 27
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "Which TWO activities does Laura already have definite dates for?",
+      "answer": "A",
+      "evidence": "Laura already has a definite date for completion of her finished assignment.",
+      "timeStart": 1063,
+      "timeEnd": 1081,
+      "timeCenter": 1070,
+      "why": "The recording supports A for this item. Laura already has a definite date for completion of her finished assignment.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Which TWO activities does Laura already have definite dates for? | Listening evidence: Laura already has a definite date for completion of her finished assignment.",
+      "options": [
+        {
+          "code": "A",
+          "text": "completion of her finished assignment"
+        },
+        {
+          "code": "B",
+          "text": "questionnaire distribution"
+        },
+        {
+          "code": "C",
+          "text": "collection of completed questionnaires"
+        },
+        {
+          "code": "D",
+          "text": "the next meeting with her tutor"
+        },
+        {
+          "code": "E",
+          "text": "analysis of figures from the company's database"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 30
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "Which TWO activities does Laura already have definite dates for?",
+      "answer": "D",
+      "evidence": "Laura also has a definite date for the next meeting with her tutor.",
+      "timeStart": 1080,
+      "timeEnd": 1098,
+      "timeCenter": 1087,
+      "why": "The recording supports D for this item. Laura also has a definite date for the next meeting with her tutor.",
+      "trap": "Follow the final meaning, not the first repeated keyword or distractor.",
+      "mistakeType": "Distractor / paraphrase discrimination",
+      "paraphrase": "Question focus: Which TWO activities does Laura already have definite dates for? | Listening evidence: Laura also has a definite date for the next meeting with her tutor.",
+      "options": [
+        {
+          "code": "A",
+          "text": "completion of her finished assignment"
+        },
+        {
+          "code": "B",
+          "text": "questionnaire distribution"
+        },
+        {
+          "code": "C",
+          "text": "collection of completed questionnaires"
+        },
+        {
+          "code": "D",
+          "text": "the next meeting with her tutor"
+        },
+        {
+          "code": "E",
+          "text": "analysis of figures from the company's database"
+        }
+      ],
+      "type": "Choose TWO / Multiple Answer",
+      "pair": 29
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Pattern of movement for fixed transhumance is described as ___",
+      "answer": "vertical",
+      "evidence": "Fixed transhumance is described as a vertical movement pattern.",
+      "timeStart": 1211,
+      "timeEnd": 1229,
+      "timeCenter": 1218,
+      "why": "The recording supports vertical for this item. Fixed transhumance is described as a vertical movement pattern.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Pattern of movement for fixed transhumance is described as ___ | Listening evidence: Fixed transhumance is described as a vertical movement pattern.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Semi-permanent shelter on high ground such as a ___",
+      "answer": "cabin",
+      "evidence": "A cabin is given as an example of a semi-permanent shelter on high ground.",
+      "timeStart": 1241,
+      "timeEnd": 1259,
+      "timeCenter": 1248,
+      "why": "The recording supports cabin for this item. A cabin is given as an example of a semi-permanent shelter on high ground.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Semi-permanent shelter on high ground such as a ___ | Listening evidence: A cabin is given as an example of a semi-permanent shelter on high ground.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Gabra homes carried on a ___",
+      "answer": "camel",
+      "evidence": "Gabra portable homes are carried on a camel.",
+      "timeStart": 1265,
+      "timeEnd": 1283,
+      "timeCenter": 1272,
+      "why": "The recording supports camel for this item. Gabra portable homes are carried on a camel.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Gabra homes carried on a ___ | Listening evidence: Gabra portable homes are carried on a camel.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Only ___ pastoralists make the journey",
+      "answer": "young",
+      "evidence": "Only young pastoralists make the fixed-transhumance journey.",
+      "timeStart": 1293,
+      "timeEnd": 1311,
+      "timeCenter": 1300,
+      "why": "The recording supports young for this item. Only young pastoralists make the fixed-transhumance journey.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Only ___ pastoralists make the journey | Listening evidence: Only young pastoralists make the fixed-transhumance journey.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "People remaining in valleys may become ___",
+      "answer": "farmer",
+      "evidence": "People who remain in the valleys may become farmers.",
+      "timeStart": 1323,
+      "timeEnd": 1341,
+      "timeCenter": 1330,
+      "why": "The recording supports farmer for this item. People who remain in the valleys may become farmers.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: People remaining in valleys may become ___ | Listening evidence: People who remain in the valleys may become farmers.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "Exchange animals with other communities for ___",
+      "answer": "grain",
+      "evidence": "Animals may be exchanged with other communities for grain.",
+      "timeStart": 1353,
+      "timeEnd": 1371,
+      "timeCenter": 1360,
+      "why": "The recording supports grain for this item. Animals may be exchanged with other communities for grain.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Exchange animals with other communities for ___ | Listening evidence: Animals may be exchanged with other communities for grain.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "Herds provide all needs - food and ___",
+      "answer": "clothing",
+      "evidence": "The herds provide needs such as food and clothing.",
+      "timeStart": 1379,
+      "timeEnd": 1397,
+      "timeCenter": 1386,
+      "why": "The recording supports clothing for this item. The herds provide needs such as food and clothing.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Herds provide all needs - food and ___ | Listening evidence: The herds provide needs such as food and clothing.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "Arrive in time to help local residents with the ___",
+      "answer": "harvest",
+      "evidence": "In Algeria, pastoralists traditionally arrive in time to help with the harvest.",
+      "timeStart": 1418,
+      "timeEnd": 1436,
+      "timeCenter": 1425,
+      "why": "The recording supports harvest for this item. In Algeria, pastoralists traditionally arrive in time to help with the harvest.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Arrive in time to help local residents with the ___ | Listening evidence: In Algeria, pastoralists traditionally arrive in time to help with the harvest.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Their homes are ___, temporary shelters",
+      "answer": "tents",
+      "evidence": "Their temporary shelters are tents.",
+      "timeStart": 1445,
+      "timeEnd": 1463,
+      "timeCenter": 1452,
+      "why": "The recording supports tents for this item. Their temporary shelters are tents.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Their homes are ___, temporary shelters | Listening evidence: Their temporary shelters are tents.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "A better term for this type might be ___",
+      "answer": "intermediate",
+      "evidence": "The lecture suggests intermediate as a better term for this type of transhumance.",
+      "timeStart": 1473,
+      "timeEnd": 1491,
+      "timeCenter": 1480,
+      "why": "The recording supports intermediate for this item. The lecture suggests intermediate as a better term for this type of transhumance.",
+      "trap": "Respect the stated word limit, spelling and singular/plural form.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: A better term for this type might be ___ | Listening evidence: The lecture suggests intermediate as a better term for this type of transhumance.",
+      "options": [],
+      "type": "Note Completion"
+    }
+  },
+  "answers": {
+    "1": "instructor",
+    "2": "65",
+    "3": "certificate",
+    "4": "shoes",
+    "5": "waterproof",
+    "6": "jeans",
+    "7": "snack",
+    "8": "bridge",
+    "9": "doctor",
+    "10": "photographs",
+    "11": "C",
+    "12": "C",
+    "13": "B",
+    "14": "C",
+    "15": "A",
+    "16": "medication",
+    "17": "mobile phone",
+    "18": "river",
+    "19": "monkeys",
+    "20": "seafood",
+    "21": "A",
+    "22": "B",
+    "23": "A",
+    "24": "B",
+    "25": "C",
+    "26": "E",
+    "27": "C",
+    "28": "D",
+    "29": "A",
+    "30": "D",
+    "31": "vertical",
+    "32": "cabin",
+    "33": "camel",
+    "34": "young",
+    "35": "farmer",
+    "36": "grain",
+    "37": "clothing",
+    "38": "harvest",
+    "39": "tents",
+    "40": "intermediate"
+  },
+  "alternatives": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": [],
+    "6": [],
+    "7": [],
+    "8": [],
+    "9": [],
+    "10": [],
+    "11": [],
+    "12": [],
+    "13": [],
+    "14": [],
+    "15": [],
+    "16": [],
+    "17": [],
+    "18": [
+      "rivers"
+    ],
+    "19": [],
+    "20": [],
+    "21": [],
+    "22": [],
+    "23": [],
+    "24": [],
+    "25": [],
+    "26": [],
+    "27": [],
+    "28": [],
+    "29": [],
+    "30": [],
+    "31": [],
+    "32": [],
+    "33": [],
+    "34": [],
+    "35": [
+      "farmers"
+    ],
+    "36": [],
+    "37": [],
+    "38": [],
+    "39": [],
+    "40": []
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 423.27
+    },
+    "2": {
+      "start": 423.27,
+      "end": 747.18
+    },
+    "3": {
+      "start": 747.18,
+      "end": 1117.15
+    },
+    "4": {
+      "start": 1117.15,
+      "end": 1509.642449
+    }
+  },
+  "transcript": {
+    "1": "Woman: Hello. Man: Oh, good morning. Woman: I'm calling on behalf of my 13-year-old son, Jacob. He's interested in learning to sail. Man: Great. Well, we have what we call a taster day on the 22nd of June. Woman: I'm not sure he can make it, but we'll see. Jacob's really interested though, so can you tell me about the courses? Man: OK, we have two types of courses for children under 16 — two-day and five-day. Woman: And could you explain the difference? Man: Well, the two-day one just covers basic techniques in sailing, and on this course the kids always sail with the instructor they've been allocated. Woman: Well, that's good to know. Man: Yeah, and the cost is £65. Woman: Oh, I thought it was more than that. I heard it was £125. Man: And that's for the five-day course. Woman: Okay, I presume that course goes into much more detail. Man: Yes, and from the third day the kids are given the choice to sail on their own if they want. We use the same types of boat, but we help them learn more techniques, in particular how to manage the boat in a variety of types of weather. Woman: Hmm, I think Jacob would enjoy that course. Do you give them a certificate if they complete the course? Man: Absolutely. We give them out on the final day, which a lot of the kids really like. Woman: Great. Could you tell me a bit more about what the children have to bring and so forth? Man: Well, the most important thing is the clothing. It goes without saying that whatever the time of year, they should have plenty of warm clothes, as it can be quite cool out on the water. Woman: What about footwear? Do they have to wear anything special? Man: The only rule is that they've got to have shoes of some kind. They mustn't have bare feet. Woman: Okay. Man: And we suggest the kids pack an extra pair of trousers — you know, waterproof ones. They don't have to wear them unless it starts to rain. Woman: Fine, so basically it's just using your common sense. Man: Yes. Oh, and one other thing we do say is that the children mustn't wear jeans because they get extremely heavy when they're wet. Woman: Oh, okay. One thing I forgot to ask is whether it's possible to get a meal anywhere. Man: I'm afraid not, but we do have a shop called the Marina Stores where he can get a snack. Woman: Okay, and before I forget, when I drop Jacob off, where can I park? Man: Good question. There are spaces near the entrance, but you have to pay for them. But there's no charge for the car park just by the bridge. Do you know it? Woman: Oh yes, I know what you mean. Man: Now, we do need you to fill in a registration form. You should send that in a couple of weeks before the course starts. The form is on the website, but we ask you to print it off and add your signature. Woman: Yes, of course. What sort of information do you need? Man: About your child's swimming ability, any special requirements and so on. Woman: Will you need to know who his doctor is? Man: Yes. Woman: We've just recently changed surgeries, so I'll make a note to get that. Man: And one more thing — there's a separate form on the website, which is optional, that asks whether you're willing for photographs to be taken during the course. Woman: Yes, of course, no problem. Man: Great. So I'll send you...",
+    "2": "Presenter: Welcome once again to the show where we give you travel tips on popular tourist destinations in the Pacific region. And today our focus is on beautiful Stanley Island. Now before we get started, a word of warning — the seaplane service to the island was discontinued last week, so for the next month at least, the sole link to the island is provided by the old ferry service, since plans to run a hovercraft service to the island have been delayed. So what is there to see and do on Stanley Island? Well, the main tourist areas are on the north, south and east coasts of the island. As far as recreation goes, in the south you'll find several leisure parklands such as Waterworld and Fantasy Island, which seem well equipped and reasonably priced. If it's golf you're after, the eighteen-hole course in the south of the island is currently being turned into a conference centre, but don't despair — there are two excellent courses just thirty minutes away on the east coast. The south of the island has many large resorts and hotels, with plenty of children's activities and clubs. This part of the island caters mainly for those seeking luxury to medium class accommodation, but the east coast has basic apartment complexes with fully equipped kitchens so that at least you can cook for yourself. For those who like to get back to nature, you'll probably find the south coast rather overdeveloped. The rainforest areas on the west coast are largely inaccessible because of the surrounding mountains, but those on the north coast are within easy reach and a local agency runs guided treks through the jungle. If you're into watersports, all of the areas have something to offer. Now, here are a few bits of advice for those visiting the island for the first time, to make your stay safer and more enjoyable. The island is generally safe, but it's as well to take a few precautions. If you're on any medication, bring this with you — it may not be available on the island. And it's also a good idea for everyone to pack some insect spray in their luggage. If you're thinking of going into the more mountainous region in the west of the island, let someone know where you're going. And remember, the reception for your mobile phone may be unreliable, so don't depend on that. Take your own water. Don't drink out of rivers. You're likely to come across lots of monkeys. They're cute, but watch out, as they can bite. Finally, when you're back in the more inhabited areas, take a break from steak and do try the local seafood. It's fresh and very good value.",
+    "3": "Tutor: Hello Laura, have a seat. Laura: Thanks. Tutor: So, I understand you're planning to investigate absence from work for your research project. Laura: That's right. I'm going to base it on a local company called Burcock Engineering. Tutor: Is there any particular reason why you've chosen Burcock? Laura: Well, I'd originally thought of asking another company, FG Engineering, because I did my placement there and I knew the staff there, but the CEO wasn't very keen. But she knows the managing director at Burcock, and she spoke to him, and then he got in touch with me. Apparently, absence is a major problem there, so he's quite interested in having it investigated. Tutor: Okay. Laura: So, my central theme is absence, but I'm thinking of concentrating on long-term absence. I thought that might allow me to give more helpful feedback to the company. Tutor: If I were you, I wouldn't be that specific. I'd look at absence as a whole. You might get more interesting results. Laura: Oh, okay. Tutor: So, what's the main thing you expect to find? Rises in absence rates over time? Laura: Not really. Initially, I wondered if workers often take time off without real justification, but I think that'll be hard to determine. So, well, I think I may find that it's something to do with what sort of job the employee is doing. Tutor: Okay. Now, have you thought how you'll get your information? Laura: Well, first of all, I need access to the company records. Tutor: Yes, obviously you'll need overall absence figures, though it's unlikely they'll let you have them for individual workers, and you probably won't have access to personal information like when they were born, but you should be able to use anonymous details like the type of work they do or how long they've been with the company. Laura: Okay. Tutor: So, let's think a bit more about your questionnaire. Laura: I know that it shouldn't be too long or people get bored. Tutor: No, but if it's too short you don't get enough information. The trick is to get the balance right. Laura: I think the questions should be closed questions too, I mean where people choose an answer from a list. Tutor: But then you miss the chance of getting unexpected information, so I'd include one or two open-ended questions too. Laura: Okay. And I won't ask for names or addresses or anything. Tutor: No, it needs to be anonymous. And after you've drafted it, you need to give it to at least one person to check there aren't any problems. So you need to leave enough time for that and any revisions necessary. Laura: What about the covering letter that I'll send out with the questionnaire? I'll need to introduce myself and explain what the questionnaire is for, but what else should I include? Tutor: I'd reassure people that the survey isn't going to be used to assess them personally, otherwise they might choose not to take part. Laura: Yes, I'll make that clear. Tutor: And what about when they do it? Will they be allowed to use work time? Laura: That's really up to their manager, but you should say roughly how much time it'll take. Tutor: Okay. So now you need to produce a schedule with dates, for example, when you'll send out the questionnaires. Laura: Yes, okay. Once I can arrange that date with the manager, I'll be able to fix the deadline for getting the completed questionnaires back. And I want to use the time in between to analyse the figures that HR is going to give me from their database, though they haven't said exactly when I'll get them. Tutor: And you have to submit your assignment by the end of June. Laura: Actually, I have to get it finished by the second because I've arranged a work placement after that. Tutor: Okay. So our next meeting is two weeks today, is that still okay? Laura: Yes, and in the meantime, I'll send you an email...",
+    "4": "Lecturer: Good afternoon, everyone. Today I'm going to talk about what may be a new concept to you, the movement of people with their herds of animals from place to place. This is known as transhumance. These peoples are pastoralists, and their animals include cows, sheep, goats, horses, camels, and reindeer. Now, researchers sometimes make a distinction between two types of transhumance, fixed and nomadic, and talk about various factors which differentiate between them. The first and most important distinction they make is to do with the climate. Fixed transhumance occurs in countries such as Switzerland, where seasons are predictable in terms of weather and timing. Nomadic transhumance, on the other hand, is generally practised in areas where climatic conditions are difficult to predict. An example of such a location is Somalia, as the anticipated rains often just don't appear. Secondly, researchers sometimes look at the type of journey that pastoralists make, their movement. For fixed transhumance, the pattern is sometimes known as vertical, because it typically consists of a journey from lower ground in the winter season to higher ground in the summer, and vice versa. In the wild, of course, animals frequently follow these kinds of migration patterns themselves. Nomadic transhumance generally takes place over a longer distance, and it's far more complex. The actual pattern varies from year to year, and it's determined primarily by the animals' needs for grass and also for water. Another distinction is sometimes made in terms of homes. In the case of fixed transhumance, the group will typically have permanent homes in the valley and a shelter, which is semi-permanent in the mountains, such as a cabin, to offer some protection from the weather. In nomadic transhumance, however, the pastoralists always live in temporary shelters, which are transported by their livestock from place to place, and are usually light and portable. In northern Kenya, for example, the Gabra pastoralist carries the frame of his home on his camel, and then covers it with branches when he stops for the night. A fourth factor often mentioned is the number of people taking part. In the case of fixed transhumance, only the people who actually look after the herds travel. These are normally the young ones, because they can withstand adverse physical conditions more easily. By contrast, in nomadic transhumance, the whole group moves with their livestock. The last points of comparison often made by researchers are diet and goods. In fixed transhumance, those who do not move from the valleys often start working as farmers, cultivating the land. They build up contacts with other communities, and in some cases, they may also trade animals for grain. In nomadic transhumance, there are fewer contacts. The group are generally regarded as providers of all their own needs, and they obtain food such as cheese and meat and also their clothing from their herds. Another example is found in Algeria in North Africa, to see how far this model applies to transhumance there. Fixed transhumance from valley to mountain pastures is common in the area, but some recent pastoralists also take their herds on longer journeys at the end of spring, from the Sahara in the south to the plains in the north, where there is more abundant rainfall. They have traditionally assisted local farmers with the harvest, which takes place while they are temporarily resident there. We have to decide whether their move would fall within the category of fixed or nomadic transhumance. It is true they live in tents, and these are movable and temporary right through the year, whether they are in the Sahara or in the north of Algeria. So, in considering their homes, they appear nomadic. On the other hand, in relation to their patterns of movement, they do not. They drive their livestock through the same passes in the mountains each year, which suggests fixed transhumance. Here, in fact, we have a case showing some features of both types of transhumance, which we might more precisely refer to as intermediate. This all goes to show that you should treat every theory with great care and not force your case history into a model if it doesn't fit."
+  },
+  "transcript_source": "Full Part transcript recovered from a matching transcript source and verified against the user-supplied test by section order and multiple answer/evidence anchors. The original source HTML itself did not contain the transcript. Only selected high-value words/collocations are blanked.",
+  "timestamps_source": "Machine-derived approximate alignment against the user-supplied canonical audio.",
+  "script_completion": [
+    {
+      "q": 1,
+      "part": 1,
+      "n": 1,
+      "match": "calling on behalf of",
+      "answer": "calling on behalf of",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 2,
+      "part": 1,
+      "n": 2,
+      "match": "basic techniques",
+      "answer": "basic techniques",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 3,
+      "part": 1,
+      "n": 3,
+      "match": "given the choice",
+      "answer": "given the choice",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 4,
+      "part": 1,
+      "n": 4,
+      "match": "in particular",
+      "answer": "in particular",
+      "lexical_type": "discourse phrase"
+    },
+    {
+      "q": 5,
+      "part": 1,
+      "n": 5,
+      "match": "plenty of",
+      "answer": "plenty of",
+      "lexical_type": "quantifier chunk"
+    },
+    {
+      "q": 6,
+      "part": 1,
+      "n": 6,
+      "match": "registration form",
+      "answer": "registration form",
+      "lexical_type": "noun collocation"
+    },
+    {
+      "q": 7,
+      "part": 2,
+      "n": 1,
+      "match": "sole link",
+      "answer": "sole link",
+      "lexical_type": "noun collocation"
+    },
+    {
+      "q": 8,
+      "part": 2,
+      "n": 2,
+      "match": "reasonably priced",
+      "answer": "reasonably priced",
+      "lexical_type": "adverb + adjective"
+    },
+    {
+      "q": 9,
+      "part": 2,
+      "n": 3,
+      "match": "caters mainly for",
+      "answer": "caters mainly for",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 10,
+      "part": 2,
+      "n": 4,
+      "match": "largely inaccessible",
+      "answer": "largely inaccessible",
+      "lexical_type": "adverb + adjective"
+    },
+    {
+      "q": 11,
+      "part": 2,
+      "n": 5,
+      "match": "take a few precautions",
+      "answer": "take a few precautions",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 12,
+      "part": 2,
+      "n": 6,
+      "match": "very good value",
+      "answer": "very good value",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 13,
+      "part": 3,
+      "n": 1,
+      "match": "got in touch with",
+      "answer": "got in touch with",
+      "lexical_type": "phrasal/fixed expression"
+    },
+    {
+      "q": 14,
+      "part": 3,
+      "n": 2,
+      "match": "concentrating on",
+      "answer": "concentrating on",
+      "lexical_type": "verb + preposition"
+    },
+    {
+      "q": 15,
+      "part": 3,
+      "n": 3,
+      "match": "real justification",
+      "answer": "real justification",
+      "lexical_type": "noun collocation"
+    },
+    {
+      "q": 16,
+      "part": 3,
+      "n": 4,
+      "match": "anonymous details",
+      "answer": "anonymous details",
+      "lexical_type": "adjective + noun"
+    },
+    {
+      "q": 17,
+      "part": 3,
+      "n": 5,
+      "match": "get the balance right",
+      "answer": "get the balance right",
+      "lexical_type": "fixed expression"
+    },
+    {
+      "q": 18,
+      "part": 3,
+      "n": 6,
+      "match": "open-ended questions",
+      "answer": "open-ended questions",
+      "lexical_type": "research collocation"
+    },
+    {
+      "q": 19,
+      "part": 3,
+      "n": 7,
+      "match": "reassure people",
+      "answer": "reassure people",
+      "lexical_type": "verb collocation"
+    },
+    {
+      "q": 20,
+      "part": 4,
+      "n": 1,
+      "match": "make a distinction",
+      "answer": "make a distinction",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 21,
+      "part": 4,
+      "n": 2,
+      "match": "climatic conditions",
+      "answer": "climatic conditions",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 22,
+      "part": 4,
+      "n": 3,
+      "match": "varies from year to year",
+      "answer": "varies from year to year",
+      "lexical_type": "lexical chunk"
+    },
+    {
+      "q": 23,
+      "part": 4,
+      "n": 4,
+      "match": "semi-permanent",
+      "answer": "semi-permanent",
+      "lexical_type": "technical adjective"
+    },
+    {
+      "q": 24,
+      "part": 4,
+      "n": 5,
+      "match": "withstand adverse physical conditions",
+      "answer": "withstand adverse physical conditions",
+      "lexical_type": "advanced collocation"
+    },
+    {
+      "q": 25,
+      "part": 4,
+      "n": 6,
+      "match": "build up contacts",
+      "answer": "build up contacts",
+      "lexical_type": "phrasal collocation"
+    },
+    {
+      "q": 26,
+      "part": 4,
+      "n": 7,
+      "match": "more abundant rainfall",
+      "answer": "more abundant rainfall",
+      "lexical_type": "academic collocation"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "basic techniques",
+      "type": "collocation · B2",
+      "definition": "fundamental practical methods used to perform an activity",
+      "uzbek": "asosiy texnikalar",
+      "context": "The two-day course covers basic techniques.",
+      "collocations": [
+        "learn basic techniques",
+        "master basic techniques"
+      ],
+      "paraphrases": [
+        "fundamental methods",
+        "core skills"
+      ]
+    },
+    {
+      "headword": "different kinds of weather",
+      "type": "lexical chunk · B2",
+      "definition": "a range of weather conditions",
+      "uzbek": "turli xil ob-havo sharoitlari",
+      "context": "Children learn to sail in different kinds of weather.",
+      "collocations": [
+        "in all kinds of weather",
+        "different weather conditions"
+      ],
+      "paraphrases": [
+        "varied weather conditions"
+      ]
+    },
+    {
+      "headword": "give permission",
+      "type": "collocation · B2/C1",
+      "definition": "formally allow something to happen",
+      "uzbek": "ruxsat bermoq",
+      "context": "An optional form gives permission for photographs.",
+      "collocations": [
+        "give permission to",
+        "obtain permission"
+      ],
+      "paraphrases": [
+        "authorise",
+        "allow"
+      ]
+    },
+    {
+      "headword": "self-catering flats",
+      "type": "compound noun · C1",
+      "definition": "holiday accommodation with facilities for guests to prepare their own meals",
+      "uzbek": "o‘zi ovqat tayyorlaydigan kvartiralar",
+      "context": "Self-catering flats are available on the East Coast.",
+      "collocations": [
+        "self-catering accommodation",
+        "self-catering flat"
+      ],
+      "paraphrases": [
+        "independent holiday accommodation"
+      ]
+    },
+    {
+      "headword": "mobile phone coverage",
+      "type": "technical collocation · C1",
+      "definition": "the area in which a mobile network signal is available",
+      "uzbek": "mobil aloqa qamrovi",
+      "context": "Mobile phone coverage is unreliable in the western area.",
+      "collocations": [
+        "poor mobile coverage",
+        "network coverage"
+      ],
+      "paraphrases": [
+        "mobile signal availability"
+      ]
+    },
+    {
+      "headword": "central theme",
+      "type": "academic noun phrase · C1",
+      "definition": "the main idea or focus around which a study is organised",
+      "uzbek": "asosiy mavzu",
+      "context": "The tutor discusses the central theme of Laura’s research.",
+      "collocations": [
+        "central theme of a study",
+        "identify the central theme"
+      ],
+      "paraphrases": [
+        "main focus",
+        "core theme"
+      ]
+    },
+    {
+      "headword": "broaden the focus",
+      "type": "academic collocation · C1",
+      "definition": "make the scope of a study or discussion wider",
+      "uzbek": "fokusni kengaytirmoq",
+      "context": "Laura agrees to broaden the focus of the research.",
+      "collocations": [
+        "broaden the focus",
+        "broaden the scope"
+      ],
+      "paraphrases": [
+        "widen the scope",
+        "expand the focus"
+      ]
+    },
+    {
+      "headword": "absence rate",
+      "type": "research collocation · C1",
+      "definition": "the frequency or proportion of absence in a workforce or group",
+      "uzbek": "ishga kelmaslik darajasi",
+      "context": "Laura expects absence rates to vary by type of work.",
+      "collocations": [
+        "high absence rate",
+        "employee absence rate"
+      ],
+      "paraphrases": [
+        "rate of absenteeism"
+      ]
+    },
+    {
+      "headword": "company records",
+      "type": "formal noun phrase · B2/C1",
+      "definition": "official information maintained by an organisation",
+      "uzbek": "kompaniya yozuvlari / ma’lumotlari",
+      "context": "The tutor discusses information available from company records.",
+      "collocations": [
+        "company records show",
+        "access company records"
+      ],
+      "paraphrases": [
+        "corporate records",
+        "organisational records"
+      ]
+    },
+    {
+      "headword": "mixture of question types",
+      "type": "research-methods chunk · C1",
+      "definition": "a questionnaire design using more than one form of question",
+      "uzbek": "savol turlarining aralashmasi",
+      "context": "The tutor recommends a mixture of question types.",
+      "collocations": [
+        "use a mixture of",
+        "question types"
+      ],
+      "paraphrases": [
+        "varied question formats"
+      ]
+    },
+    {
+      "headword": "trial a questionnaire",
+      "type": "research collocation · C1",
+      "definition": "test a questionnaire on a small scale before final use",
+      "uzbek": "so‘rovnomani sinab ko‘rmoq",
+      "context": "Laura is advised to trial the questionnaire before finalising it.",
+      "collocations": [
+        "trial a questionnaire",
+        "pilot a questionnaire"
+      ],
+      "paraphrases": [
+        "pilot-test a survey"
+      ]
+    },
+    {
+      "headword": "covering letter",
+      "type": "formal noun phrase · C1",
+      "definition": "a letter accompanying a document and explaining its purpose",
+      "uzbek": "ilova / tushuntiruvchi xat",
+      "context": "Laura will send a covering letter to participants.",
+      "collocations": [
+        "write a covering letter",
+        "covering letter to participants"
+      ],
+      "paraphrases": [
+        "accompanying letter"
+      ]
+    },
+    {
+      "headword": "participation in the survey",
+      "type": "academic noun phrase · C1",
+      "definition": "the act of taking part in a research survey",
+      "uzbek": "so‘rovda ishtirok etish",
+      "context": "The letter discusses participation in the survey.",
+      "collocations": [
+        "voluntary participation",
+        "survey participation"
+      ],
+      "paraphrases": [
+        "taking part in the survey"
+      ]
+    },
+    {
+      "headword": "definite dates",
+      "type": "planning collocation · B2/C1",
+      "definition": "dates that have been fixed rather than left provisional",
+      "uzbek": "aniq belgilangan sanalar",
+      "context": "Laura already has definite dates for two activities.",
+      "collocations": [
+        "set definite dates",
+        "have definite dates"
+      ],
+      "paraphrases": [
+        "fixed dates",
+        "confirmed dates"
+      ]
+    },
+    {
+      "headword": "transhumance",
+      "type": "technical noun · C2",
+      "definition": "seasonal movement of livestock and people between grazing areas",
+      "uzbek": "mavsumiy chorva ko‘chishi",
+      "context": "The lecture compares fixed and nomadic transhumance.",
+      "collocations": [
+        "fixed transhumance",
+        "nomadic transhumance"
+      ],
+      "paraphrases": [
+        "seasonal pastoral migration"
+      ]
+    },
+    {
+      "headword": "climatic conditions",
+      "type": "academic collocation · C1",
+      "definition": "the typical weather-related conditions of an area",
+      "uzbek": "iqlim sharoitlari",
+      "context": "Nomadic transhumance occurs under unpredictable climatic conditions.",
+      "collocations": [
+        "harsh climatic conditions",
+        "changing climatic conditions"
+      ],
+      "paraphrases": [
+        "climate conditions"
+      ]
+    },
+    {
+      "headword": "semi-permanent shelter",
+      "type": "technical noun phrase · C1",
+      "definition": "a shelter intended to remain for a substantial but not permanent period",
+      "uzbek": "yarim doimiy boshpana",
+      "context": "Fixed transhumance may use a semi-permanent shelter on high ground.",
+      "collocations": [
+        "semi-permanent shelter",
+        "semi-permanent structure"
+      ],
+      "paraphrases": [
+        "partly permanent dwelling"
+      ]
+    },
+    {
+      "headword": "portable shelter",
+      "type": "technical collocation · C1",
+      "definition": "a shelter designed to be moved from place to place",
+      "uzbek": "ko‘chma boshpana",
+      "context": "Nomadic groups stay in portable shelters.",
+      "collocations": [
+        "portable shelter",
+        "lightweight portable shelter"
+      ],
+      "paraphrases": [
+        "movable dwelling"
+      ]
+    },
+    {
+      "headword": "migrate with livestock",
+      "type": "verb phrase · C1",
+      "definition": "move seasonally from one place to another together with farm animals",
+      "uzbek": "chorva bilan ko‘chib yurmoq",
+      "context": "Nomadic groups migrate with their livestock.",
+      "collocations": [
+        "migrate with livestock",
+        "seasonal migration"
+      ],
+      "paraphrases": [
+        "move with herds"
+      ]
+    },
+    {
+      "headword": "intermediate",
+      "type": "adjective · C1",
+      "definition": "existing between two stages, types or extremes",
+      "uzbek": "oraliq",
+      "context": "The lecturer suggests intermediate as a better term.",
+      "collocations": [
+        "intermediate category",
+        "intermediate stage"
+      ],
+      "paraphrases": [
+        "in-between",
+        "midway"
+      ]
+    }
+  ],
+  "question_types": {
+    "1": "Note Completion",
+    "2": "Note Completion",
+    "3": "Note Completion",
+    "4": "Note Completion",
+    "5": "Note Completion",
+    "6": "Note Completion",
+    "7": "Note Completion",
+    "8": "Note Completion",
+    "9": "Note Completion",
+    "10": "Note Completion",
+    "11": "MCQ",
+    "12": "Matching",
+    "13": "Matching",
+    "14": "Matching",
+    "15": "Matching",
+    "16": "Note Completion",
+    "17": "Note Completion",
+    "18": "Note Completion",
+    "19": "Note Completion",
+    "20": "Note Completion",
+    "21": "MCQ",
+    "22": "MCQ",
+    "23": "MCQ",
+    "24": "MCQ",
+    "25": "Choose TWO / Multiple Answer",
+    "26": "Choose TWO / Multiple Answer",
+    "27": "Choose TWO / Multiple Answer",
+    "28": "Choose TWO / Multiple Answer",
+    "29": "Choose TWO / Multiple Answer",
+    "30": "Choose TWO / Multiple Answer",
+    "31": "Note Completion",
+    "32": "Note Completion",
+    "33": "Note Completion",
+    "34": "Note Completion",
+    "35": "Note Completion",
+    "36": "Note Completion",
+    "37": "Note Completion",
+    "38": "Note Completion",
+    "39": "Note Completion",
+    "40": "Note Completion"
+  },
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Choose TWO Mastery",
+    "Matching Mastery",
+    "Form & Note Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ]
+}

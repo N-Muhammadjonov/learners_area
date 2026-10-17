@@ -1,0 +1,1839 @@
+{
+  "test_id": "listening-test-3",
+  "title": "Listening Test 3",
+  "sections": [
+    "The London Relocation Services",
+    "Canadian Festival Theatre",
+    "Kathy's dissertation on water pumps",
+    "Food Safety Standards"
+  ],
+  "questions": {
+    "1": {
+      "q": 1,
+      "part": 1,
+      "prompt": "Current address: 118 ____ Park, Ballysillan",
+      "answer": "FORDYCE",
+      "evidence": "It is 118 Fordyce Park. I will spell that for you. It is F-O-R-D-Y-C-E.",
+      "timeStart": 90.0,
+      "timeEnd": 109.0,
+      "timeCenter": 92.0,
+      "why": "The address name spoken before Park is Fordyce.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Current address: 118 ____ Park, Ballysillan  ↔  Recording evidence: It is 118 Fordyce Park. I will spell that for you. It is F-O-R-D-Y-C-E.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "2": {
+      "q": 2,
+      "part": 1,
+      "prompt": "Phone No: ____ (Mobile)",
+      "answer": "07840051963",
+      "evidence": "I will give you my mobile number as you can get me on that any time. It is 078400-51963.",
+      "timeStart": 115.0,
+      "timeEnd": 133.0,
+      "timeCenter": 117.0,
+      "why": "The mobile number is stated directly.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Phone No: ____ (Mobile)  ↔  Recording evidence: I will give you my mobile number as you can get me on that any time. It is 078400-51963.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "3": {
+      "q": 3,
+      "part": 1,
+      "prompt": "Anna is hoping to find work as a ____",
+      "answer": "NURSE",
+      "evidence": "I have been working as a teaching assistant recently, but I am actually a qualified nurse and I would like to get back into that if possible.",
+      "timeStart": 145.0,
+      "timeEnd": 161.0,
+      "timeCenter": 147.0,
+      "why": "Anna says her qualification and intended work are nursing.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Anna is hoping to find work as a ____  ↔  Recording evidence: I have been working as a teaching assistant recently, but I am actually a qualified nurse and I would like to get back into that if possible.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "4": {
+      "q": 4,
+      "part": 1,
+      "prompt": "She needs to find a ____ school for her son.",
+      "answer": "PRIMARY",
+      "evidence": "Is it a secondary school you will be looking for? No, he is still in primary school.",
+      "timeStart": 161.0,
+      "timeEnd": 177.0,
+      "timeCenter": 163.0,
+      "why": "The son needs a primary school.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: She needs to find a ____ school for her son.  ↔  Recording evidence: Is it a secondary school you will be looking for? No, he is still in primary school.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "5": {
+      "q": 5,
+      "part": 1,
+      "prompt": "Her preferred location is in the ____ of the city.",
+      "answer": "SOUTH",
+      "evidence": "It is in East London, but we would rather live somewhere quieter. Sure. There are some lovely areas in the south.",
+      "timeStart": 179.0,
+      "timeEnd": 198.0,
+      "timeCenter": 181.0,
+      "why": "The preferred location is the south.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Her preferred location is in the ____ of the city.  ↔  Recording evidence: It is in East London, but we would rather live somewhere quieter. Sure. There are some lovely areas in the south.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "6": {
+      "q": 6,
+      "part": 1,
+      "prompt": "Her husband would like to be near a ____",
+      "answer": "STATION",
+      "evidence": "My husband does not want to spend too long commuting to work every day. So I imagine that ideally he would like to be not too far from a station then?",
+      "timeStart": 194.0,
+      "timeEnd": 213.0,
+      "timeCenter": 196.0,
+      "why": "The husband wants to be near a station.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Her husband would like to be near a ____  ↔  Recording evidence: My husband does not want to spend too long commuting to work every day. So I imagine that ideally he would like to be not too far from a station then?",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "7": {
+      "q": 7,
+      "part": 1,
+      "prompt": "Her son would prefer to be close to a ____",
+      "answer": "PARK",
+      "evidence": "He is quite active, so I am sure he would love a park nearby to run around in.",
+      "timeStart": 209.0,
+      "timeEnd": 227.0,
+      "timeCenter": 211.0,
+      "why": "The son would prefer a park nearby.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Her son would prefer to be close to a ____  ↔  Recording evidence: He is quite active, so I am sure he would love a park nearby to run around in.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "8": {
+      "q": 8,
+      "part": 1,
+      "prompt": "She would like to live in a ____",
+      "answer": "HOUSE",
+      "evidence": "We have friends who live in an amazing flat over there, but as we have always lived in a house, I think we will stick with that.",
+      "timeStart": 257.0,
+      "timeEnd": 278.0,
+      "timeCenter": 259.0,
+      "why": "They choose a house rather than a flat.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: She would like to live in a ____  ↔  Recording evidence: We have friends who live in an amazing flat over there, but as we have always lived in a house, I think we will stick with that.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "9": {
+      "q": 9,
+      "part": 1,
+      "prompt": "She would prefer ____ bedrooms",
+      "answer": "THREE",
+      "evidence": "I might be able to find a three-bedroom property for you. Yes, that would be ideal.",
+      "timeStart": 276.0,
+      "timeEnd": 300.0,
+      "timeCenter": 278.0,
+      "why": "Three bedrooms are preferred.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: She would prefer ____ bedrooms  ↔  Recording evidence: I might be able to find a three-bedroom property for you. Yes, that would be ideal.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "10": {
+      "q": 10,
+      "part": 1,
+      "prompt": "A small ____ is also desirable",
+      "answer": "OFFICE",
+      "evidence": "It is not essential, but it would be handy to have an office for when my husband works from home.",
+      "timeStart": 300.0,
+      "timeEnd": 321.0,
+      "timeCenter": 302.0,
+      "why": "A small office is desirable.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: A small ____ is also desirable  ↔  Recording evidence: It is not essential, but it would be handy to have an office for when my husband works from home.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "11": {
+      "q": 11,
+      "part": 2,
+      "prompt": "What special offer is there for regular theatre-goers in this season?",
+      "answer": "A",
+      "evidence": "If you order two tickets to any play performed at the theatre, you can get 50% off the price of the next play we put on.",
+      "timeStart": 406.0,
+      "timeEnd": 434.0,
+      "timeCenter": 408.0,
+      "why": "This is a reduced-price second play, so A.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: What special offer is there for regular theatre-goers in this season?  ↔  Recording evidence: If you order two tickets to any play performed at the theatre, you can get 50% off the price of the next play we put on.",
+      "options": [
+        {
+          "code": "A",
+          "text": "They can see a second play at a reduced price."
+        },
+        {
+          "code": "B",
+          "text": "They can buy two tickets and get two free."
+        },
+        {
+          "code": "C",
+          "text": "They can get a discount on Mondays."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "12": {
+      "q": 12,
+      "part": 2,
+      "prompt": "What information is given about the study guides?",
+      "answer": "C",
+      "evidence": "Each guide has suggestions for classroom discussion after seeing the show, which teachers find useful for a follow-up activity.",
+      "timeStart": 435.0,
+      "timeEnd": 469.0,
+      "timeCenter": 437.0,
+      "why": "The guides give ideas for discussion, so C.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: What information is given about the study guides?  ↔  Recording evidence: Each guide has suggestions for classroom discussion after seeing the show, which teachers find useful for a follow-up activity.",
+      "options": [
+        {
+          "code": "A",
+          "text": "They are handed out at the theatre."
+        },
+        {
+          "code": "B",
+          "text": "They provide information on the actors."
+        },
+        {
+          "code": "C",
+          "text": "They give ideas for discussion."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "13": {
+      "q": 13,
+      "part": 2,
+      "prompt": "What information is given about the 'Bring a friend' special?",
+      "answer": "B",
+      "evidence": "On Tuesday and Wednesday afternoons, everyone over 60 can buy one ticket and get one free. The offer includes all the musicals plus the plays.",
+      "timeStart": 472.0,
+      "timeEnd": 495.0,
+      "timeCenter": 474.0,
+      "why": "It applies to multiple productions, so B.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: What information is given about the 'Bring a friend' special?  ↔  Recording evidence: On Tuesday and Wednesday afternoons, everyone over 60 can buy one ticket and get one free. The offer includes all the musicals plus the plays.",
+      "options": [
+        {
+          "code": "A",
+          "text": "It is only for those over 65."
+        },
+        {
+          "code": "B",
+          "text": "It applies to a number of productions."
+        },
+        {
+          "code": "C",
+          "text": "It includes a 5% reduction on gifts."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "14": {
+      "q": 14,
+      "part": 2,
+      "prompt": "What does Michael say about the actor Christopher Plunket?",
+      "answer": "A",
+      "evidence": "This likely will be the last year we see him perform, as he has been on stage for over 60 years.",
+      "timeStart": 505.0,
+      "timeEnd": 542.0,
+      "timeCenter": 507.0,
+      "why": "The statement implies he may retire soon, so A.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: What does Michael say about the actor Christopher Plunket?  ↔  Recording evidence: This likely will be the last year we see him perform, as he has been on stage for over 60 years.",
+      "options": [
+        {
+          "code": "A",
+          "text": "He may retire from acting soon."
+        },
+        {
+          "code": "B",
+          "text": "He writes his own plays."
+        },
+        {
+          "code": "C",
+          "text": "He prefers acting in films to performing live."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "15": {
+      "q": 15,
+      "part": 2,
+      "prompt": "The Climb",
+      "answer": "B",
+      "evidence": "The Climb... Stephen... starts working for a newspaper in a very junior job... After many years and many promotions, he finally gets to the top position.",
+      "timeStart": 610.0,
+      "timeEnd": 639.0,
+      "timeCenter": 612.0,
+      "why": "The theme is achieving success, so B.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Matching / paraphrase recognition",
+      "paraphrase": "Question focus: The Climb  ↔  Recording evidence: The Climb... Stephen... starts working for a newspaper in a very junior job... After many years and many promotions, he finally gets to the top position.",
+      "options": [
+        {
+          "code": "A",
+          "text": "living in a different century"
+        },
+        {
+          "code": "B",
+          "text": "managing to achieve success"
+        },
+        {
+          "code": "C",
+          "text": "ageing slowly"
+        },
+        {
+          "code": "D",
+          "text": "growing up"
+        },
+        {
+          "code": "E",
+          "text": "experiencing disappointment"
+        },
+        {
+          "code": "F",
+          "text": "living in a magical place"
+        },
+        {
+          "code": "G",
+          "text": "overcoming poverty"
+        },
+        {
+          "code": "H",
+          "text": "handling conflict"
+        }
+      ],
+      "type": "Matching"
+    },
+    "16": {
+      "q": 16,
+      "part": 2,
+      "prompt": "The Voyagers",
+      "answer": "A",
+      "evidence": "The Voyagers... a Canadian farming family in the late 1800s and how they settled their land near Kingston, Ontario.",
+      "timeStart": 639.0,
+      "timeEnd": 670.0,
+      "timeCenter": 641.0,
+      "why": "The story is set in a different century, so A.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Matching / paraphrase recognition",
+      "paraphrase": "Question focus: The Voyagers  ↔  Recording evidence: The Voyagers... a Canadian farming family in the late 1800s and how they settled their land near Kingston, Ontario.",
+      "options": [
+        {
+          "code": "A",
+          "text": "living in a different century"
+        },
+        {
+          "code": "B",
+          "text": "managing to achieve success"
+        },
+        {
+          "code": "C",
+          "text": "ageing slowly"
+        },
+        {
+          "code": "D",
+          "text": "growing up"
+        },
+        {
+          "code": "E",
+          "text": "experiencing disappointment"
+        },
+        {
+          "code": "F",
+          "text": "living in a magical place"
+        },
+        {
+          "code": "G",
+          "text": "overcoming poverty"
+        },
+        {
+          "code": "H",
+          "text": "handling conflict"
+        }
+      ],
+      "type": "Matching"
+    },
+    "17": {
+      "q": 17,
+      "part": 2,
+      "prompt": "Joey Brown",
+      "answer": "H",
+      "evidence": "Joey Brown... he gets a new boss who always criticizes him and makes his life difficult. Poor Joey has to learn how to win over the boss.",
+      "timeStart": 665.0,
+      "timeEnd": 698.0,
+      "timeCenter": 667.0,
+      "why": "The theme is handling conflict, so H.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Matching / paraphrase recognition",
+      "paraphrase": "Question focus: Joey Brown  ↔  Recording evidence: Joey Brown... he gets a new boss who always criticizes him and makes his life difficult. Poor Joey has to learn how to win over the boss.",
+      "options": [
+        {
+          "code": "A",
+          "text": "living in a different century"
+        },
+        {
+          "code": "B",
+          "text": "managing to achieve success"
+        },
+        {
+          "code": "C",
+          "text": "ageing slowly"
+        },
+        {
+          "code": "D",
+          "text": "growing up"
+        },
+        {
+          "code": "E",
+          "text": "experiencing disappointment"
+        },
+        {
+          "code": "F",
+          "text": "living in a magical place"
+        },
+        {
+          "code": "G",
+          "text": "overcoming poverty"
+        },
+        {
+          "code": "H",
+          "text": "handling conflict"
+        }
+      ],
+      "type": "Matching"
+    },
+    "18": {
+      "q": 18,
+      "part": 2,
+      "prompt": "Main Street",
+      "answer": "E",
+      "evidence": "Main Street... a gymnast who is crushed when, during a practice session, she breaks her ankle just one week before the Games.",
+      "timeStart": 694.0,
+      "timeEnd": 723.0,
+      "timeCenter": 696.0,
+      "why": "The theme is experiencing disappointment, so E.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Matching / paraphrase recognition",
+      "paraphrase": "Question focus: Main Street  ↔  Recording evidence: Main Street... a gymnast who is crushed when, during a practice session, she breaks her ankle just one week before the Games.",
+      "options": [
+        {
+          "code": "A",
+          "text": "living in a different century"
+        },
+        {
+          "code": "B",
+          "text": "managing to achieve success"
+        },
+        {
+          "code": "C",
+          "text": "ageing slowly"
+        },
+        {
+          "code": "D",
+          "text": "growing up"
+        },
+        {
+          "code": "E",
+          "text": "experiencing disappointment"
+        },
+        {
+          "code": "F",
+          "text": "living in a magical place"
+        },
+        {
+          "code": "G",
+          "text": "overcoming poverty"
+        },
+        {
+          "code": "H",
+          "text": "handling conflict"
+        }
+      ],
+      "type": "Matching"
+    },
+    "19": {
+      "q": 19,
+      "part": 2,
+      "prompt": "Millie and Mike",
+      "answer": "D",
+      "evidence": "Millie and Mike... the twins Millie and Mike. They have a wonderful upbringing with their grandmother who teaches them life lessons through song.",
+      "timeStart": 719.0,
+      "timeEnd": 744.0,
+      "timeCenter": 721.0,
+      "why": "The theme is growing up, so D.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Matching / paraphrase recognition",
+      "paraphrase": "Question focus: Millie and Mike  ↔  Recording evidence: Millie and Mike... the twins Millie and Mike. They have a wonderful upbringing with their grandmother who teaches them life lessons through song.",
+      "options": [
+        {
+          "code": "A",
+          "text": "living in a different century"
+        },
+        {
+          "code": "B",
+          "text": "managing to achieve success"
+        },
+        {
+          "code": "C",
+          "text": "ageing slowly"
+        },
+        {
+          "code": "D",
+          "text": "growing up"
+        },
+        {
+          "code": "E",
+          "text": "experiencing disappointment"
+        },
+        {
+          "code": "F",
+          "text": "living in a magical place"
+        },
+        {
+          "code": "G",
+          "text": "overcoming poverty"
+        },
+        {
+          "code": "H",
+          "text": "handling conflict"
+        }
+      ],
+      "type": "Matching"
+    },
+    "20": {
+      "q": 20,
+      "part": 2,
+      "prompt": "Windswept",
+      "answer": "F",
+      "evidence": "In Windswept, a land of imaginary creatures, the flowers and trees dance and the enchanted animals talk.",
+      "timeStart": 740.0,
+      "timeEnd": 769.0,
+      "timeCenter": 742.0,
+      "why": "The theme is living in a magical place, so F.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Matching / paraphrase recognition",
+      "paraphrase": "Question focus: Windswept  ↔  Recording evidence: In Windswept, a land of imaginary creatures, the flowers and trees dance and the enchanted animals talk.",
+      "options": [
+        {
+          "code": "A",
+          "text": "living in a different century"
+        },
+        {
+          "code": "B",
+          "text": "managing to achieve success"
+        },
+        {
+          "code": "C",
+          "text": "ageing slowly"
+        },
+        {
+          "code": "D",
+          "text": "growing up"
+        },
+        {
+          "code": "E",
+          "text": "experiencing disappointment"
+        },
+        {
+          "code": "F",
+          "text": "living in a magical place"
+        },
+        {
+          "code": "G",
+          "text": "overcoming poverty"
+        },
+        {
+          "code": "H",
+          "text": "handling conflict"
+        }
+      ],
+      "type": "Matching"
+    },
+    "21": {
+      "q": 21,
+      "part": 3,
+      "prompt": "What part of Kathy's dissertation has the tutor just read?",
+      "answer": "B",
+      "evidence": "I have been through your first chapter now and I was quite impressed.",
+      "timeStart": 874.0,
+      "timeEnd": 897.0,
+      "timeCenter": 876.0,
+      "why": "The tutor has read the introductory/first chapter, so B.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: What part of Kathy's dissertation has the tutor just read?  ↔  Recording evidence: I have been through your first chapter now and I was quite impressed.",
+      "options": [
+        {
+          "code": "A",
+          "text": "her results section"
+        },
+        {
+          "code": "B",
+          "text": "her introductory chapter"
+        },
+        {
+          "code": "C",
+          "text": "her review of the literature"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "22": {
+      "q": 22,
+      "part": 3,
+      "prompt": "What did the tutor like about Kathy's work?",
+      "answer": "A",
+      "evidence": "Sometimes your sentences are a little long and over-complex, but the overall structure of the piece is very clear.",
+      "timeStart": 892.0,
+      "timeEnd": 916.0,
+      "timeCenter": 894.0,
+      "why": "The tutor praises the organisation/structure, so A.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: What did the tutor like about Kathy's work?  ↔  Recording evidence: Sometimes your sentences are a little long and over-complex, but the overall structure of the piece is very clear.",
+      "options": [
+        {
+          "code": "A",
+          "text": "the organisation"
+        },
+        {
+          "code": "B",
+          "text": "the style of writing"
+        },
+        {
+          "code": "C",
+          "text": "the use of resources"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "23": {
+      "q": 23,
+      "part": 3,
+      "prompt": "Kathy and the tutor agree that she needs to",
+      "answer": "B",
+      "evidence": "However, I think you would get more convincing results if you took some additional measurements.",
+      "timeStart": 933.0,
+      "timeEnd": 952.0,
+      "timeCenter": 935.0,
+      "why": "Additional measurements mean more data, so B.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: Kathy and the tutor agree that she needs to  ↔  Recording evidence: However, I think you would get more convincing results if you took some additional measurements.",
+      "options": [
+        {
+          "code": "A",
+          "text": "do some more library research."
+        },
+        {
+          "code": "B",
+          "text": "record more data"
+        },
+        {
+          "code": "C",
+          "text": "narrow down her topic."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "24": {
+      "q": 24,
+      "part": 3,
+      "prompt": "Why does the tutor give an example from his own experience?",
+      "answer": "C",
+      "evidence": "I got my first research post when I was a final year student and asked a visiting professor... So I urge all my students to take any such opportunity that arises.",
+      "timeStart": 981.0,
+      "timeEnd": 1006.0,
+      "timeCenter": 983.0,
+      "why": "The example encourages Kathy to do something similar, so C.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: Why does the tutor give an example from his own experience?  ↔  Recording evidence: I got my first research post when I was a final year student and asked a visiting professor... So I urge all my students to take any such opportunity that arises.",
+      "options": [
+        {
+          "code": "A",
+          "text": "to show how successful he has become"
+        },
+        {
+          "code": "B",
+          "text": "to illustrate how times have changed"
+        },
+        {
+          "code": "C",
+          "text": "to encourage Kathy to do something similar"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "25": {
+      "q": 25,
+      "part": 3,
+      "prompt": "Kathy would like the tutor to advise her on her",
+      "answer": "C",
+      "evidence": "I would welcome some guidance, though, about what I should or should not include in the appendices.",
+      "timeStart": 1015.0,
+      "timeEnd": 1058.0,
+      "timeCenter": 1017.0,
+      "why": "Kathy asks for advice on appendices, so C.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: Kathy would like the tutor to advise her on her  ↔  Recording evidence: I would welcome some guidance, though, about what I should or should not include in the appendices.",
+      "options": [
+        {
+          "code": "A",
+          "text": "layout."
+        },
+        {
+          "code": "B",
+          "text": "bibliography."
+        },
+        {
+          "code": "C",
+          "text": "appendices."
+        }
+      ],
+      "type": "MCQ"
+    },
+    "26": {
+      "q": 26,
+      "part": 3,
+      "prompt": "What is Kathy going to do next?",
+      "answer": "A",
+      "evidence": "I think I will go and investigate the latest version of the CAD software to see if it might help with my pump design experiments at all.",
+      "timeStart": 1066.0,
+      "timeEnd": 1085.0,
+      "timeCenter": 1068.0,
+      "why": "She is going to try/investigate software, so A.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "MCQ reasoning / distractor",
+      "paraphrase": "Question focus: What is Kathy going to do next?  ↔  Recording evidence: I think I will go and investigate the latest version of the CAD software to see if it might help with my pump design experiments at all.",
+      "options": [
+        {
+          "code": "A",
+          "text": "try out some software"
+        },
+        {
+          "code": "B",
+          "text": "go to a seminar"
+        },
+        {
+          "code": "C",
+          "text": "design a new type of pump"
+        }
+      ],
+      "type": "MCQ"
+    },
+    "27": {
+      "q": 27,
+      "part": 3,
+      "prompt": "going to Mechanical Engineers' Society meetings",
+      "answer": "F",
+      "evidence": "You need to become a member of the Mechanical Engineers Society... There, you must make a point of making yourself known to various people.",
+      "timeStart": 1130.0,
+      "timeEnd": 1161.0,
+      "timeCenter": 1132.0,
+      "why": "Society meetings help make useful contacts, so F.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Matching / paraphrase recognition",
+      "paraphrase": "Question focus: going to Mechanical Engineers' Society meetings  ↔  Recording evidence: You need to become a member of the Mechanical Engineers Society... There, you must make a point of making yourself known to various people.",
+      "options": [
+        {
+          "code": "A",
+          "text": "broadens practical experience of the field"
+        },
+        {
+          "code": "B",
+          "text": "chance to publicise own work"
+        },
+        {
+          "code": "C",
+          "text": "effective way of keeping up-to-date"
+        },
+        {
+          "code": "D",
+          "text": "looks good on a CV"
+        },
+        {
+          "code": "E",
+          "text": "provides useful access to resources"
+        },
+        {
+          "code": "F",
+          "text": "way to make useful contacts"
+        }
+      ],
+      "type": "Matching"
+    },
+    "28": {
+      "q": 28,
+      "part": 3,
+      "prompt": "Visiting different workplaces",
+      "answer": "C",
+      "evidence": "Try to set up some visits to industry... It is a very good way of making sure you are familiar with the cutting edge of what is going on.",
+      "timeStart": 1158.0,
+      "timeEnd": 1181.0,
+      "timeCenter": 1160.0,
+      "why": "Workplace visits keep her up-to-date, so C.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Matching / paraphrase recognition",
+      "paraphrase": "Question focus: Visiting different workplaces  ↔  Recording evidence: Try to set up some visits to industry... It is a very good way of making sure you are familiar with the cutting edge of what is going on.",
+      "options": [
+        {
+          "code": "A",
+          "text": "broadens practical experience of the field"
+        },
+        {
+          "code": "B",
+          "text": "chance to publicise own work"
+        },
+        {
+          "code": "C",
+          "text": "effective way of keeping up-to-date"
+        },
+        {
+          "code": "D",
+          "text": "looks good on a CV"
+        },
+        {
+          "code": "E",
+          "text": "provides useful access to resources"
+        },
+        {
+          "code": "F",
+          "text": "way to make useful contacts"
+        }
+      ],
+      "type": "Matching"
+    },
+    "29": {
+      "q": 29,
+      "part": 3,
+      "prompt": "getting some work experience abroad",
+      "answer": "A",
+      "evidence": "I would love the chance to do a bit of work abroad... that would be a great way to find out how things are done elsewhere.",
+      "timeStart": 1178.0,
+      "timeEnd": 1201.0,
+      "timeCenter": 1180.0,
+      "why": "Work abroad broadens practical experience, so A.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Matching / paraphrase recognition",
+      "paraphrase": "Question focus: getting some work experience abroad  ↔  Recording evidence: I would love the chance to do a bit of work abroad... that would be a great way to find out how things are done elsewhere.",
+      "options": [
+        {
+          "code": "A",
+          "text": "broadens practical experience of the field"
+        },
+        {
+          "code": "B",
+          "text": "chance to publicise own work"
+        },
+        {
+          "code": "C",
+          "text": "effective way of keeping up-to-date"
+        },
+        {
+          "code": "D",
+          "text": "looks good on a CV"
+        },
+        {
+          "code": "E",
+          "text": "provides useful access to resources"
+        },
+        {
+          "code": "F",
+          "text": "way to make useful contacts"
+        }
+      ],
+      "type": "Matching"
+    },
+    "30": {
+      "q": 30,
+      "part": 3,
+      "prompt": "attending an international conference",
+      "answer": "B",
+      "evidence": "You could go to the European Water Engineering Conference... I could even present my dissertation there.",
+      "timeStart": 1197.0,
+      "timeEnd": 1217.0,
+      "timeCenter": 1199.0,
+      "why": "A conference gives a chance to publicise her work, so B.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Matching / paraphrase recognition",
+      "paraphrase": "Question focus: attending an international conference  ↔  Recording evidence: You could go to the European Water Engineering Conference... I could even present my dissertation there.",
+      "options": [
+        {
+          "code": "A",
+          "text": "broadens practical experience of the field"
+        },
+        {
+          "code": "B",
+          "text": "chance to publicise own work"
+        },
+        {
+          "code": "C",
+          "text": "effective way of keeping up-to-date"
+        },
+        {
+          "code": "D",
+          "text": "looks good on a CV"
+        },
+        {
+          "code": "E",
+          "text": "provides useful access to resources"
+        },
+        {
+          "code": "F",
+          "text": "way to make useful contacts"
+        }
+      ],
+      "type": "Matching"
+    },
+    "31": {
+      "q": 31,
+      "part": 4,
+      "prompt": "Scientists consider the product's ____ (could they attract harmful bacteria?)",
+      "answer": "INGREDIENTS",
+      "evidence": "Firstly, they have to consider the ingredients of the product.",
+      "timeStart": 1345.0,
+      "timeEnd": 1365.0,
+      "timeCenter": 1347.0,
+      "why": "The first risk factor is ingredients.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Scientists consider the product's ____ (could they attract harmful bacteria?)  ↔  Recording evidence: Firstly, they have to consider the ingredients of the product.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "32": {
+      "q": 32,
+      "part": 4,
+      "prompt": "Scientists consider how products are ____ and distributed",
+      "answer": "STORED",
+      "evidence": "After that, they have got to consider the way products are stored.",
+      "timeStart": 1373.0,
+      "timeEnd": 1393.0,
+      "timeCenter": 1375.0,
+      "why": "The missing word is stored.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Scientists consider how products are ____ and distributed  ↔  Recording evidence: After that, they have got to consider the way products are stored.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "33": {
+      "q": 33,
+      "part": 4,
+      "prompt": "Changes in ____ can affect the condition of frozen food",
+      "answer": "TEMPERATURE",
+      "evidence": "Frozen foods being defrosted and then refrozen because the temperature fluctuated.",
+      "timeStart": 1396.0,
+      "timeEnd": 1413.0,
+      "timeCenter": 1398.0,
+      "why": "The relevant change is temperature.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Changes in ____ can affect the condition of frozen food  ↔  Recording evidence: Frozen foods being defrosted and then refrozen because the temperature fluctuated.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "34": {
+      "q": 34,
+      "part": 4,
+      "prompt": "Dislike of additives has grown the ____ food market in Australia",
+      "answer": "ORGANIC",
+      "evidence": "This has led to the phenomenal expansion of the market for organic food in Australia.",
+      "timeStart": 1442.0,
+      "timeEnd": 1466.0,
+      "timeCenter": 1444.0,
+      "why": "The market is organic food.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Dislike of additives has grown the ____ food market in Australia  ↔  Recording evidence: This has led to the phenomenal expansion of the market for organic food in Australia.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "35": {
+      "q": 35,
+      "part": 4,
+      "prompt": "Supermarkets may use price or ____ as their selling strategy",
+      "answer": "IMAGE",
+      "evidence": "For more upscale marketers, image is more important.",
+      "timeStart": 1473.0,
+      "timeEnd": 1494.0,
+      "timeCenter": 1475.0,
+      "why": "The alternative selling strategy is image.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Supermarkets may use price or ____ as their selling strategy  ↔  Recording evidence: For more upscale marketers, image is more important.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "36": {
+      "q": 36,
+      "part": 4,
+      "prompt": "The mass media is now the main source of ____ for many",
+      "answer": "INFORMATION",
+      "evidence": "There is the influence of the mass media, which is the most important source of information for most people.",
+      "timeStart": 1492.0,
+      "timeEnd": 1511.0,
+      "timeCenter": 1494.0,
+      "why": "Mass media is a source of information.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: The mass media is now the main source of ____ for many  ↔  Recording evidence: There is the influence of the mass media, which is the most important source of information for most people.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "37": {
+      "q": 37,
+      "part": 4,
+      "prompt": "A negative media effect comes from concern for ____",
+      "answer": "SALES",
+      "evidence": "The prime motivation of the media, as with the food industry, is sales.",
+      "timeStart": 1508.0,
+      "timeEnd": 1526.0,
+      "timeCenter": 1510.0,
+      "why": "The concern/motivation is sales.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: A negative media effect comes from concern for ____  ↔  Recording evidence: The prime motivation of the media, as with the food industry, is sales.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "38": {
+      "q": 38,
+      "part": 4,
+      "prompt": "News is now a form of ____ which can mislead the public",
+      "answer": "ENTERTAINMENT",
+      "evidence": "A further problem is that news is regarded as a type of entertainment.",
+      "timeStart": 1522.0,
+      "timeEnd": 1542.0,
+      "timeCenter": 1524.0,
+      "why": "News is treated as entertainment.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: News is now a form of ____ which can mislead the public  ↔  Recording evidence: A further problem is that news is regarded as a type of entertainment.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "39": {
+      "q": 39,
+      "part": 4,
+      "prompt": "Few programmes deal with food safety or ____",
+      "answer": "NUTRITION",
+      "evidence": "Food safety and nutrition have never been considered a really interesting topic for the public... even those shows... generally ignore them.",
+      "timeStart": 1544.0,
+      "timeEnd": 1571.0,
+      "timeCenter": 1546.0,
+      "why": "The other ignored topic is nutrition.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Few programmes deal with food safety or ____  ↔  Recording evidence: Food safety and nutrition have never been considered a really interesting topic for the public... even those shows... generally ignore them.",
+      "options": [],
+      "type": "Note Completion"
+    },
+    "40": {
+      "q": 40,
+      "part": 4,
+      "prompt": "Many children can influence their ____",
+      "answer": "PARENTS",
+      "evidence": "I firmly believe in food safety education, starting at primary schools... many children... come home and lecture their parents about it.",
+      "timeStart": 1570.0,
+      "timeEnd": 1598.0,
+      "timeCenter": 1572.0,
+      "why": "Children can influence their parents.",
+      "trap": "Check every competing option or nearby detail against the exact evidence. Do not choose an item merely because it is mentioned.",
+      "mistakeType": "Spelling / detail recognition / word limit",
+      "paraphrase": "Question focus: Many children can influence their ____  ↔  Recording evidence: I firmly believe in food safety education, starting at primary schools... many children... come home and lecture their parents about it.",
+      "options": [],
+      "type": "Note Completion"
+    }
+  },
+  "answers": {
+    "1": "FORDYCE",
+    "2": "07840051963",
+    "3": "NURSE",
+    "4": "PRIMARY",
+    "5": "SOUTH",
+    "6": "STATION",
+    "7": "PARK",
+    "8": "HOUSE",
+    "9": "THREE",
+    "10": "OFFICE",
+    "11": "A",
+    "12": "C",
+    "13": "B",
+    "14": "A",
+    "15": "B",
+    "16": "A",
+    "17": "H",
+    "18": "E",
+    "19": "D",
+    "20": "F",
+    "21": "B",
+    "22": "A",
+    "23": "B",
+    "24": "C",
+    "25": "C",
+    "26": "A",
+    "27": "F",
+    "28": "C",
+    "29": "A",
+    "30": "B",
+    "31": "INGREDIENTS",
+    "32": "STORED",
+    "33": "TEMPERATURE",
+    "34": "ORGANIC",
+    "35": "IMAGE",
+    "36": "INFORMATION",
+    "37": "SALES",
+    "38": "ENTERTAINMENT",
+    "39": "NUTRITION",
+    "40": "PARENTS"
+  },
+  "alternatives": {
+    "1": [
+      "FORDYCE"
+    ],
+    "2": [
+      "07840051963",
+      "078400 51963",
+      "078400-51963"
+    ],
+    "3": [
+      "NURSE"
+    ],
+    "4": [
+      "PRIMARY"
+    ],
+    "5": [
+      "SOUTH"
+    ],
+    "6": [
+      "STATION"
+    ],
+    "7": [
+      "PARK"
+    ],
+    "8": [
+      "HOUSE"
+    ],
+    "9": [
+      "THREE",
+      "3",
+      "three"
+    ],
+    "10": [
+      "OFFICE"
+    ],
+    "11": [
+      "A"
+    ],
+    "12": [
+      "C"
+    ],
+    "13": [
+      "B"
+    ],
+    "14": [
+      "A"
+    ],
+    "15": [
+      "B"
+    ],
+    "16": [
+      "A"
+    ],
+    "17": [
+      "H"
+    ],
+    "18": [
+      "E"
+    ],
+    "19": [
+      "D"
+    ],
+    "20": [
+      "F"
+    ],
+    "21": [
+      "B"
+    ],
+    "22": [
+      "A"
+    ],
+    "23": [
+      "B"
+    ],
+    "24": [
+      "C"
+    ],
+    "25": [
+      "C"
+    ],
+    "26": [
+      "A"
+    ],
+    "27": [
+      "F"
+    ],
+    "28": [
+      "C"
+    ],
+    "29": [
+      "A"
+    ],
+    "30": [
+      "B"
+    ],
+    "31": [
+      "INGREDIENTS"
+    ],
+    "32": [
+      "STORED"
+    ],
+    "33": [
+      "TEMPERATURE"
+    ],
+    "34": [
+      "ORGANIC"
+    ],
+    "35": [
+      "IMAGE"
+    ],
+    "36": [
+      "INFORMATION"
+    ],
+    "37": [
+      "SALES"
+    ],
+    "38": [
+      "ENTERTAINMENT"
+    ],
+    "39": [
+      "NUTRITION"
+    ],
+    "40": [
+      "PARENTS"
+    ]
+  },
+  "part_audio_boundaries": {
+    "1": {
+      "start": 0.0,
+      "end": 332.0
+    },
+    "2": {
+      "start": 333.0,
+      "end": 789.0
+    },
+    "3": {
+      "start": 790.0,
+      "end": 1230.0
+    },
+    "4": {
+      "start": 1231.0,
+      "end": 1699.0
+    }
+  },
+  "transcript": {
+    "1": "You will hear a telephone conversation between a woman who is moving to London and an employee of a relocation service. First you have some time to look at questions 1 to 7. Now listen carefully and answer questions 1 to 7. London Relocation Services, Daniel speaking. How may I help you? Good morning. My family and I are moving to London later this year and I wonder if you can help? Sure. First of all, I'll need to get some personal details. May I take your full name please? It's Anna Woods. Thanks. Where are you moving from? Northern Ireland, just outside Belfast actually. Right. And what's your current address? It's 118 Fordyce Park. I'll spell that for you. It's F-O-R-D-Y-C-E. And that's in Ballysalem. And what's the postcode? It's B-T-14-9-B-J. Alright. And could I take a contact phone number? I'll give you my mobile number as you can get me on that any time. It's 078400-51963. Great. Got that. Now we always like to get a bit more information about the families that we're moving. It helps with the search. Are you moving for work? Yes. My husband's just got a new job in London. And what about you? Do you work? Well, I've been working as a teaching assistant recently, but I'm actually a qualified nurse and I'd like to get back into that if possible. Right. And do you have any children? Yes, a son. So we need to find a school for him. Is it a secondary school you'll be looking for? No, he's still in primary school. He's not quite at the secondary level yet. Right. Fine. So, let's go on to talk about your requirements for the property. Do you have a preferred location? Is your husband's job in the centre? No, it's in East London, but we'd rather live somewhere quieter. Sure. There are some lovely areas in the south. Okay, that sounds great. Now, my husband doesn't want to spend too long commuting to work every day. So, I imagine that ideally he'd like to be not too far from a station then? Yes. He drives now, but I guess that's not going to be possible and he's not keen on buses. What about you or your son? Do you have any preferences? Does your son do any sport, for example? He's quite active, so I'm sure he'd love a park nearby to run around in. He doesn't do swimming or anything like that. Great. Before you hear the rest of the conversation, you have some time to look at questions 8 to 10. Now listen and answer questions 8 to 10. So, what sort of property do you have in mind? We have friends who live in an amazing flat over there, but as we've always lived in a house, I think we'll stick with that. We'd find it hard to adapt to a flat. Okay. And size-wise, how many bedrooms would you like? Well, there's just myself, my husband and our son. So, you definitely need a two-bedroom property. But how about having a guest room? I might be able to find a three-bedroom property for you. Yes, that would be ideal. We're sure to have family visiting often. Alright. I've made a note of that. Now, are there any other requirements for your new property? Hmm. Well, it's not essential, but it'd be handy to have an office for when my husband works from home. It doesn't need to be a big one. I guess it all comes down to budget. Yes. Okay, Anna. Well, I've certainly got enough to be getting on with, and I... That is the end of Part 1. You now have one minute to check your answers to Part 1.",
+    "2": "Part 2 You will hear a radio show host interviewing a man called Michael McKay, who is the director of a Canadian theatre. First, you have some time to look at questions 11 to 14. Now listen carefully and answer questions 11 to 14. Michael McKay, the executive director of the Canadiana Festival Theatre, is here with us to talk about the season starting in June. Welcome! Thank you. We have an amazing season this year with some great deals for our clients. You know, we have a lot of regular theatre goers who will be happy to know that we have some great specials for the upcoming season. For example, if you order two tickets to any play performed at the theatre, you can get 50% off the price of the next play we put on. This replaces the special offer we had last season, which was for 50% off all performances on Mondays. It is good to get youth interested in theatre, so many schools arrange class trips to our theatre. This year we will send a special study guide to each class so the students can familiarize themselves with the play beforehand. Having some background information always makes the experience of watching the actors perform the play more enjoyable. Each guide has suggestions for classroom discussion after seeing the show, which teachers find useful for a follow-up activity. Also, we mustn't forget the Bring a Friend special for our senior citizens. On Tuesday and Wednesday afternoons, everyone over 60 can buy one ticket and get one free. The offer includes all the musicals plus the plays, so there is lots of choice. We also include $5 off any gift shop purchase for those clients who spend more than $30 there. So, what would you say is the best play you have this year? Ha! All the plays are great, but the must-see play is called Something to Say. It stars the amazing actor Christopher Plunkett. This likely will be the last year we see him perform, as he has been on stage for over 60 years. Actually, for the first time, he helped write this play, and it really is a commentary on his amazing career as an actor. You may have seen him in supporting roles in movies, but acting on stage is his first love. He has been in so many fantastic dramas, I can't think of him ever not being on stage. Before you hear the rest of the interview, you have some time to look at questions 15 to 20. Now listen and answer questions 15 to 20. Now, let's talk about the season's musicals. The first one is called The Climb. Of course, the best part is that we have that really amazing singer, Justin McDonald, playing the part of the hero. It is an inspiring story of a man called Stephen, who starts working for a newspaper in a very junior job in the mailroom. After many years and many promotions, he finally gets to the top position. He becomes editor-in-chief of the newspaper. Then we have that wonderful classic that we show every two years because it is so popular, The Voyagers. It is a wonderful story of a Canadian farming family in the late 1800s and how they settled their land near Kingston, Ontario. The musical gives a good description of the times, the struggles, and the way of life in that period. The next musical, Joey Brown, is a comical story of a piano player who writes songs for kids' TV shows. However, he ends up having a terrible time when he gets a new boss who always criticizes him and makes his life difficult. Poor Joey has to learn how to win over the boss. The show has a couple of funny twists and a surprise ending. In Main Street, Karen Hines stars in the true story of a young woman whose dream is to compete in the Olympics. She is such a powerful actress in this role. It is about a gymnast who is crushed when, during a practice session, she breaks her ankle just one week before the Games. Now for Millie and Mike. What a story this is. Stephanie James and Peter Dumas are only ten years old, but they star in the musical as the twins Millie and Mike. They have a wonderful upbringing with their grandmother who teaches them life's lessons through song. The final must-see is so whimsical. In Windswept, a land of imaginary creatures, the flowers and trees dance and the enchanted animals talk. It is delightful. And we even have a very talented actor who is amazing as he travels with us through the world of make-believe. Kids love this one. The music is fun and their imagination goes wild. Michael, that all sounds wonderful. Now tell me about the restaurants in the theater district. That is the end of Part 2. You now have 30 seconds to check your answers to Part 2.",
+    "3": "Part 3 You will hear an engineering student called Kathy discussing a piece of work with her tutor. First, you have some time to look at questions 21 to 26. Now listen carefully and answer questions 21 to 26. Hello, Kathy. How's your dissertation on water pumps going? Not too bad, thanks. I'm getting on well with the literature review now and my lab work's fine so far. Oh, that's good. Remember, you should aim to have your results section completed by the end of next month, so there's plenty of time to finalise the whole thing by the summer deadline. Anyway, looks like you're on track. I've been through your first chapter now and I was quite impressed. Oh, that's a relief. Sometimes your sentences are a little long and over-complex, but the overall structure of the piece is very clear. I'd recommend you get a critical friend to go through it with you. Then, once you've built in citations of other work in the field, I think it'll be pretty good. Oh, thanks. I was pleased I decided to focus on water pumps. You seem to be testing an appropriate range of pump design. Lots of students make the mistake of either restricting their range too much or, conversely, not narrowing it down enough. You've managed to avoid those twin traps. However, I think you'd get more convincing results if you took some additional measurements. I've noted exactly what I mean on your work. Yes, I thought that might be necessary. And I know I need to get down to some more library work too. Well, I don't think that's essential at the moment. Oh, right. So, what do you suggest I do next? Repeat my last experiment using different variables? Well, you could have a word with James Higgins tomorrow. He's coming here to give a lecture on hydraulics to the faculty and it would be a great chance to have a chat with him. Especially as your experimental work has drawn so heavily from his last article in the British Engineering Journal. Oh, fantastic! And you never know how successful a chat with him might turn out to be. I got my first research post when I was a final year student and asked a visiting professor to explain what he meant in some article he'd written. So I urge all my students to take any such opportunity that arises. But times have changed. People like that are too busy to talk to mere students these days. I don't know about that. Anyway, is there anything else I can help with? Any practical information about layout, perhaps? Well, I suppose I'm a bit unsure about how the bibliography should be presented. Mind you, I can just check what's normally done in journal articles, so that's not something to bother you with. I'd welcome some guidance, though, about what I should or shouldn't include in the appendices. I know some things, some of my data tables or details of specs perhaps, are not really needed in the main body of the text and I'm likely to be pushed for words there. OK, I can certainly help you with that. But it will take a while, so can we deal with that next week? I've got that solar panel seminar to go into in a few minutes. There's plenty of work you can be carrying on with in the meantime. Sure, that's no problem. I think I'll go and investigate the latest version of the CAD software to see if it might help with my pump design experiments at all. Before you hear the rest of the discussion, you have some time to look at questions 27 to 30. Now listen and answer questions 27 to 30. Before you go, though, I'd like quickly to run through what you should be doing over the next few months, not just for your dissertation, but also to help your chances of getting the research post you'd like. Is that OK with you? Yes, that would be really helpful. Well, you certainly need to become a member of the Mechanical Engineers Society, and then you'll be able to go along to their meetings. There, you must make a point of making yourself known to various people, like Professor Jones. He's the current president and is very approachable. OK, so I could do some networking there. Exactly. Also, I think you should try to set up some visits to industry. Go to a lot of different workplaces just to see how things are done. It's actually a very good way of making sure you're familiar with the cutting edge of what's going on. Textbooks, even academic articles, sometimes lag behind industry. That sounds really interesting. Also, I'd love the chance to do a bit of work abroad for a while. Well, that's actually the next thing I was going to recommend. I'm sure we could set up a month for you in either the States or Canada, and that would be a great way to find out how things are done elsewhere. That'd be good. Thank you. And the last thing I was going to suggest was that you could go to the European Water Engineering Conference being held in Spain in May. I could even present my dissertation there. Yes. Oh, thank you so much. That's all really helpful. Good. That is the end of Part 3. You now have 30 seconds to check your answers to Part 3.",
+    "4": "Part 4. You will hear part of a lecture given to students in a food science department about safety standards. First, you have some time to look at questions 31 to 40. Now listen carefully and answer questions 31 to 40. Good morning, everyone. In today's lecture, I'm going to talk about food safety and the factors involved in setting standards for the food industry with particular reference to the situation here in Australia. Now, before anyone can decide what kind of standards need to be set for ensuring that any specific food product is safe, scientists have to carry out a risk assessment. And in doing this, they have to consider several potential problems. Firstly, they have to consider the ingredients of the product. They have to decide whether any of these might make the finished product more susceptible to harmful bacteria. Then, they have to consider the process used in the preparation of the food and whether or not it includes a step designed to eliminate unwanted microorganisms. After that, they've got to consider the way products are stored. For instance, in warehouses or cold stores and distributed to retailers. And it doesn't end there. The analysts even have to be aware of problems that might occur after the food has reached the supermarket. Things like frozen foods being defrosted and then refrozen because the temperature fluctuated or foods being kept past their expiry date. And finally, any assessment of the overall risk has to take into account the way the end users, consumers, normally handle food at home. So, as you see, the risk assessment is quite complicated. Now, there are several factors affecting what kind of food we eat. Only one of which is legislation. Another is the attitudes of consumers. A good example of this is the dislike that many Australians have for additives in their food, even when these additives are considered safe and without them products have a shorter shelf life or a substandard appearance. This has led to the phenomenal expansion of the market for organic food in Australia. Another important influence on what we eat is the food industry itself. In some large supermarkets, low prices are the main strategy for attracting customers, while for more upscale marketers, image is more important. But we should bear in mind, for all of them, the key consideration is profitability. Finally, there is the influence of the mass media, which is the most important source of information for most people. Unfortunately, this has a rather negative effect, because, in general, they are not very objective. For one thing, the prime motivation of the media, as with the food industry, is sales. And this has a major influence on the way in which the topic is dealt with. A further problem is that news is regarded as a type of entertainment. Often, the issues that get a top billing are those that are sensational or controversial. So it's not at all surprising if the public ends up with a rather distorted understanding of food and food safety. On top of that, up till now, food safety and nutrition have never been considered a really interesting topic for the public. Very few TV or radio shows address the issues, and even those shows that are devoted to cooking or eating generally ignore them. At this point, I'll just offer a personal opinion on this subject of food safety. I firmly believe in food safety education, starting at primary schools. We know that many children who have been taught about the benefits of exercise come home and lecture their parents about it. So, the same could be done for food and food preparation. And at the same time, the countless educational television shows... You now have one minute to check your answers to Part 4. That is the end of the listening test. You now have ten minutes to transfer your answers to the listening answer sheet. That is the end of Section 4. You now have two minutes to check your answers."
+  },
+  "transcript_source": "source-supplied full transcript from user-provided LISTENING .html",
+  "timestamps_source": "source transcript timestamps and evidence windows",
+  "script_completion": [
+    {
+      "q": 1,
+      "part": 1,
+      "n": 1,
+      "match": "get back into that",
+      "answer": "get back into that",
+      "lexical_type": "phrasal-verb chunk"
+    },
+    {
+      "q": 2,
+      "part": 1,
+      "n": 2,
+      "match": "spend too long commuting to work",
+      "answer": "spend too long commuting to work",
+      "lexical_type": "verb phrase"
+    },
+    {
+      "q": 3,
+      "part": 1,
+      "n": 3,
+      "match": "not keen on buses",
+      "answer": "not keen on buses",
+      "lexical_type": "adjective + preposition"
+    },
+    {
+      "q": 4,
+      "part": 1,
+      "n": 4,
+      "match": "stick with that",
+      "answer": "stick with that",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 5,
+      "part": 1,
+      "n": 5,
+      "match": "works from home",
+      "answer": "works from home",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 6,
+      "part": 1,
+      "n": 6,
+      "match": "comes down to budget",
+      "answer": "comes down to budget",
+      "lexical_type": "phrasal-verb chunk"
+    },
+    {
+      "q": 7,
+      "part": 2,
+      "n": 1,
+      "match": "regular theatre goers",
+      "answer": "regular theatre goers",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 8,
+      "part": 2,
+      "n": 2,
+      "match": "get 50% off the price",
+      "answer": "get 50% off the price",
+      "lexical_type": "discount collocation"
+    },
+    {
+      "q": 9,
+      "part": 2,
+      "n": 3,
+      "match": "familiarize themselves with the play beforehand",
+      "answer": "familiarize themselves with the play beforehand",
+      "lexical_type": "academic verb chunk"
+    },
+    {
+      "q": 10,
+      "part": 2,
+      "n": 4,
+      "match": "background information",
+      "answer": "background information",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 11,
+      "part": 2,
+      "n": 5,
+      "match": "follow-up activity",
+      "answer": "follow-up activity",
+      "lexical_type": "noun phrase"
+    },
+    {
+      "q": 12,
+      "part": 2,
+      "n": 6,
+      "match": "supporting roles",
+      "answer": "supporting roles",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 13,
+      "part": 2,
+      "n": 7,
+      "match": "many promotions",
+      "answer": "many promotions",
+      "lexical_type": "career collocation"
+    },
+    {
+      "q": 14,
+      "part": 2,
+      "n": 8,
+      "match": "surprise ending",
+      "answer": "surprise ending",
+      "lexical_type": "collocation"
+    },
+    {
+      "q": 15,
+      "part": 3,
+      "n": 1,
+      "match": "getting on well with the literature review",
+      "answer": "getting on well with the literature review",
+      "lexical_type": "academic chunk"
+    },
+    {
+      "q": 16,
+      "part": 3,
+      "n": 2,
+      "match": "on track",
+      "answer": "on track",
+      "lexical_type": "idiom"
+    },
+    {
+      "q": 17,
+      "part": 3,
+      "n": 3,
+      "match": "overall structure of the piece",
+      "answer": "overall structure of the piece",
+      "lexical_type": "academic noun phrase"
+    },
+    {
+      "q": 18,
+      "part": 3,
+      "n": 4,
+      "match": "narrowing it down enough",
+      "answer": "narrowing it down enough",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 19,
+      "part": 3,
+      "n": 5,
+      "match": "more convincing results",
+      "answer": "more convincing results",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 20,
+      "part": 3,
+      "n": 6,
+      "match": "get down to some more library work",
+      "answer": "get down to some more library work",
+      "lexical_type": "phrasal-verb chunk"
+    },
+    {
+      "q": 21,
+      "part": 3,
+      "n": 7,
+      "match": "drawn so heavily from his last article",
+      "answer": "drawn so heavily from his last article",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 22,
+      "part": 3,
+      "n": 8,
+      "match": "take any such opportunity that arises",
+      "answer": "take any such opportunity that arises",
+      "lexical_type": "formal lexical chunk"
+    },
+    {
+      "q": 23,
+      "part": 3,
+      "n": 9,
+      "match": "cutting edge of what's going on",
+      "answer": "cutting edge of what's going on",
+      "lexical_type": "advanced collocation"
+    },
+    {
+      "q": 24,
+      "part": 4,
+      "n": 1,
+      "match": "with particular reference to",
+      "answer": "with particular reference to",
+      "lexical_type": "academic linking phrase"
+    },
+    {
+      "q": 25,
+      "part": 4,
+      "n": 2,
+      "match": "carry out a risk assessment",
+      "answer": "carry out a risk assessment",
+      "lexical_type": "academic collocation"
+    },
+    {
+      "q": 26,
+      "part": 4,
+      "n": 3,
+      "match": "susceptible to harmful bacteria",
+      "answer": "susceptible to harmful bacteria",
+      "lexical_type": "adjective collocation"
+    },
+    {
+      "q": 27,
+      "part": 4,
+      "n": 4,
+      "match": "eliminate unwanted microorganisms",
+      "answer": "eliminate unwanted microorganisms",
+      "lexical_type": "technical collocation"
+    },
+    {
+      "q": 28,
+      "part": 4,
+      "n": 5,
+      "match": "take into account",
+      "answer": "take into account",
+      "lexical_type": "phrasal verb"
+    },
+    {
+      "q": 29,
+      "part": 4,
+      "n": 6,
+      "match": "key consideration is profitability",
+      "answer": "key consideration is profitability",
+      "lexical_type": "business collocation"
+    },
+    {
+      "q": 30,
+      "part": 4,
+      "n": 7,
+      "match": "distorted understanding of food and food safety",
+      "answer": "distorted understanding of food and food safety",
+      "lexical_type": "academic collocation"
+    }
+  ],
+  "vocabulary": [
+    {
+      "headword": "get back into",
+      "type": "phrasal verb · B2/C1",
+      "definition": "to start doing an activity or type of work again after a break",
+      "uzbek": "yana qaytib shug‘ullanmoq; qayta boshlamoq",
+      "context": "I'd like to get back into that if possible.",
+      "collocations": [
+        "get back into nursing",
+        "get back into work",
+        "get back into a routine"
+      ],
+      "paraphrases": [
+        "return to",
+        "resume"
+      ]
+    },
+    {
+      "headword": "commute to work",
+      "type": "collocation · B2",
+      "definition": "to travel regularly between home and the workplace",
+      "uzbek": "ishga muntazam qatnab bormoq",
+      "context": "My husband does not want to spend too long commuting to work every day.",
+      "collocations": [
+        "daily commute",
+        "commute to work",
+        "long commute"
+      ],
+      "paraphrases": [
+        "travel to work",
+        "make the daily journey"
+      ]
+    },
+    {
+      "headword": "adapt to",
+      "type": "verb pattern · B2/C1",
+      "definition": "to adjust successfully to a new situation or environment",
+      "uzbek": "moslashmoq",
+      "context": "We'd find it hard to adapt to a flat.",
+      "collocations": [
+        "adapt to change",
+        "adapt to a new environment",
+        "quickly adapt"
+      ],
+      "paraphrases": [
+        "adjust to",
+        "acclimatise to"
+      ]
+    },
+    {
+      "headword": "come down to",
+      "type": "phrasal verb · C1",
+      "definition": "to depend mainly on one decisive factor",
+      "uzbek": "oxir-oqibat ...ga bog‘liq bo‘lmoq",
+      "context": "I guess it all comes down to budget.",
+      "collocations": [
+        "come down to cost",
+        "come down to priorities"
+      ],
+      "paraphrases": [
+        "ultimately depend on",
+        "be determined by"
+      ]
+    },
+    {
+      "headword": "follow-up activity",
+      "type": "noun phrase · C1",
+      "definition": "an activity carried out after an earlier event to reinforce or extend it",
+      "uzbek": "keyingi mustahkamlash faoliyati",
+      "context": "Teachers find it useful for a follow-up activity.",
+      "collocations": [
+        "follow-up activity",
+        "follow-up task",
+        "follow-up discussion"
+      ],
+      "paraphrases": [
+        "subsequent task",
+        "reinforcement activity"
+      ]
+    },
+    {
+      "headword": "supporting role",
+      "type": "collocation · C1",
+      "definition": "a secondary acting role that supports the main characters",
+      "uzbek": "ikkinchi darajali rol",
+      "context": "You may have seen him in supporting roles in movies.",
+      "collocations": [
+        "supporting role",
+        "supporting actor",
+        "play a supporting role"
+      ],
+      "paraphrases": [
+        "secondary role"
+      ]
+    },
+    {
+      "headword": "win over",
+      "type": "phrasal verb · C1",
+      "definition": "to persuade someone to support or like you",
+      "uzbek": "o‘z tomoniga og‘dirmoq; ko‘nglini olmoq",
+      "context": "Poor Joey has to learn how to win over the boss.",
+      "collocations": [
+        "win over an audience",
+        "win someone over"
+      ],
+      "paraphrases": [
+        "persuade",
+        "gain the support of"
+      ]
+    },
+    {
+      "headword": "literature review",
+      "type": "academic noun phrase · C1",
+      "definition": "a critical survey of published research relevant to a topic",
+      "uzbek": "ilmiy adabiyotlar sharhi",
+      "context": "I'm getting on well with the literature review now.",
+      "collocations": [
+        "conduct a literature review",
+        "systematic literature review"
+      ],
+      "paraphrases": [
+        "review of the literature"
+      ]
+    },
+    {
+      "headword": "on track",
+      "type": "idiom · B2/C1",
+      "definition": "making progress as planned and likely to achieve the intended result",
+      "uzbek": "reja bo‘yicha ketayotgan; yo‘ldan chiqmagan",
+      "context": "Looks like you're on track.",
+      "collocations": [
+        "stay on track",
+        "be on track to finish"
+      ],
+      "paraphrases": [
+        "progressing as planned"
+      ]
+    },
+    {
+      "headword": "build in citations",
+      "type": "academic collocation · C1",
+      "definition": "to incorporate references to other sources into a piece of writing",
+      "uzbek": "matnga iqtibos va manba havolalarini kiritmoq",
+      "context": "Once you've built in citations of other work in the field...",
+      "collocations": [
+        "build in citations",
+        "include citations",
+        "cite previous work"
+      ],
+      "paraphrases": [
+        "integrate references"
+      ]
+    },
+    {
+      "headword": "narrow down",
+      "type": "phrasal verb · B2/C1",
+      "definition": "to reduce a range of possibilities to a smaller, more focused set",
+      "uzbek": "doirani toraytirmoq; aniqroq chegaralamoq",
+      "context": "Not narrowing it down enough.",
+      "collocations": [
+        "narrow down a topic",
+        "narrow down the options"
+      ],
+      "paraphrases": [
+        "refine",
+        "restrict the scope"
+      ]
+    },
+    {
+      "headword": "draw heavily from",
+      "type": "academic collocation · C1",
+      "definition": "to use another source extensively as the basis for ideas or work",
+      "uzbek": "manbadan katta darajada foydalanmoq",
+      "context": "Your experimental work has drawn so heavily from his last article.",
+      "collocations": [
+        "draw heavily from research",
+        "draw on previous work"
+      ],
+      "paraphrases": [
+        "rely substantially on",
+        "derive extensively from"
+      ]
+    },
+    {
+      "headword": "take an opportunity that arises",
+      "type": "formal lexical chunk · C1",
+      "definition": "to make use of a useful chance when it becomes available",
+      "uzbek": "paydo bo‘lgan imkoniyatdan foydalanmoq",
+      "context": "I urge all my students to take any such opportunity that arises.",
+      "collocations": [
+        "seize an opportunity",
+        "take an opportunity"
+      ],
+      "paraphrases": [
+        "make use of a chance"
+      ]
+    },
+    {
+      "headword": "cutting edge",
+      "type": "noun/adjective phrase · C1",
+      "definition": "the most advanced stage of development in a field",
+      "uzbek": "eng ilg‘or daraja; zamonaviy chegarasi",
+      "context": "Familiar with the cutting edge of what is going on.",
+      "collocations": [
+        "at the cutting edge",
+        "cutting-edge technology",
+        "cutting-edge research"
+      ],
+      "paraphrases": [
+        "state of the art",
+        "most advanced"
+      ]
+    },
+    {
+      "headword": "carry out a risk assessment",
+      "type": "technical collocation · C1",
+      "definition": "to systematically identify and evaluate possible risks",
+      "uzbek": "xavfni tizimli baholashni amalga oshirmoq",
+      "context": "Scientists have to carry out a risk assessment.",
+      "collocations": [
+        "carry out a risk assessment",
+        "risk assessment process"
+      ],
+      "paraphrases": [
+        "evaluate risk",
+        "conduct a risk assessment"
+      ]
+    },
+    {
+      "headword": "susceptible to",
+      "type": "adjective pattern · C1",
+      "definition": "easily affected or harmed by something",
+      "uzbek": "...ga moyil; oson ta’sirlanadigan",
+      "context": "More susceptible to harmful bacteria.",
+      "collocations": [
+        "susceptible to infection",
+        "highly susceptible to"
+      ],
+      "paraphrases": [
+        "vulnerable to",
+        "prone to"
+      ]
+    },
+    {
+      "headword": "take into account",
+      "type": "phrasal verb · C1",
+      "definition": "to consider a fact or circumstance when making a judgement",
+      "uzbek": "hisobga olmoq",
+      "context": "Any assessment of the overall risk has to take into account the way consumers handle food.",
+      "collocations": [
+        "take into account",
+        "take all factors into account"
+      ],
+      "paraphrases": [
+        "consider",
+        "factor in"
+      ]
+    },
+    {
+      "headword": "substandard appearance",
+      "type": "collocation · C1",
+      "definition": "an appearance that is below an expected level of quality",
+      "uzbek": "standartdan past tashqi ko‘rinish",
+      "context": "Without them products have a shorter shelf life or a substandard appearance.",
+      "collocations": [
+        "substandard quality",
+        "substandard appearance"
+      ],
+      "paraphrases": [
+        "below-standard appearance"
+      ]
+    },
+    {
+      "headword": "phenomenal expansion",
+      "type": "collocation · C1/C2",
+      "definition": "an exceptionally large or rapid increase in size or scale",
+      "uzbek": "juda katta va tez kengayish",
+      "context": "This has led to the phenomenal expansion of the market for organic food.",
+      "collocations": [
+        "phenomenal growth",
+        "rapid expansion",
+        "market expansion"
+      ],
+      "paraphrases": [
+        "dramatic growth",
+        "extraordinary expansion"
+      ]
+    },
+    {
+      "headword": "distorted understanding",
+      "type": "academic collocation · C1",
+      "definition": "an inaccurate or misleading interpretation of a subject",
+      "uzbek": "buzilgan yoki noto‘g‘ri tushuncha",
+      "context": "The public ends up with a rather distorted understanding of food and food safety.",
+      "collocations": [
+        "distorted understanding",
+        "distorted view",
+        "misleading impression"
+      ],
+      "paraphrases": [
+        "misconception",
+        "skewed understanding"
+      ]
+    }
+  ],
+  "question_types": {
+    "1-10": "Note Completion",
+    "11-14": "MCQ",
+    "15-20": "Matching",
+    "21-26": "MCQ",
+    "27-30": "Matching",
+    "31-40": "Note Completion"
+  },
+  "activities": [
+    "Full IELTS Test",
+    "Review & Revision",
+    "Script Completion",
+    "MCQ Mastery",
+    "Matching Mastery",
+    "Form & Note Completion Mastery",
+    "Vocabulary Builder",
+    "Retry Weak Areas"
+  ]
+}
