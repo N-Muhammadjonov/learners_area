@@ -33,7 +33,10 @@ export async function GET(req: NextRequest) {
         try { controller.enqueue(encoder.encode(value)); } catch { cleanup(); }
       };
       // "access-changed" does not carry another user's id, role or content.
-      const subscription = subscribeAccessChanges(user.id, () => send("event: access-changed\ndata: {}\n\n"));
+      let subscriptionReady=false;
+      // The bus also reconciles on reconnect. Coalesce its initial notification
+      // into the one post-LISTEN check below; genuine later changes stay queued.
+      const subscription = subscribeAccessChanges(user.id, () => {if(subscriptionReady)send("event: access-changed\ndata: {}\n\n");});
       const keepAlive = setInterval(() => send(": keep-alive\n\n"), 25000);
       let expiryTimer: ReturnType<typeof setTimeout>;
       const expire = () => {
@@ -60,6 +63,7 @@ export async function GET(req: NextRequest) {
         } else {
           // A revocation may commit after the initial read, before LISTEN is
           // live. Reconcile once after subscribing to close that setup gap.
+          subscriptionReady=true;
           send("event: access-changed\ndata: {}\n\n");
         }
       }).catch(cleanup);
