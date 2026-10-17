@@ -17,7 +17,7 @@ import {
   type PracticeKind,
 } from "@/lib/listening/activities";
 import type { ListeningPackage } from "@/lib/listening/package";
-import { originalListeningDefinition, hasOriginalListeningRuntime } from "@/lib/listening/original-listening";
+import { originalListeningDefinition, hasOriginalListeningRuntime, originalListeningBatchSequence } from "@/lib/listening/original-listening";
 
 /**
  * ACADEMIC LISTENING — the catalogue and the test hubs.
@@ -184,9 +184,9 @@ function mcqCompleteSql(testIdColumn: AnyColumn | SQL, userId: string) {
  * which the tests were authored — with the authored `source_ref` as a deterministic tiebreak
  * for two rows that share a timestamp. The display title is never parsed, and the order is
  * NOT a numeric reading of the source reference: `cam18-test10` sorts after `cam18-test2`
- * only because it was authored later, not because a regular expression said so. If the centre
- * ever needs an order that differs from import order, that is an authored position column —
- * a migration decision to be taken with the owner, not something to be guessed at read time.
+ * only because it was authored later, not because a regular expression said so. The owner's
+ * versioned Test 2–32 batch explicitly supplies numeric ordinals: use those ONLY to resolve
+ * the shared transaction timestamp, before the existing reference/id tiebreakers.
  */
 export async function academicListeningCards(
   userId: string,
@@ -202,6 +202,7 @@ export async function academicListeningCards(
   // bound — never a post-filter on an unrelated cap, which is how a legitimate test disappears
   // behind newer content on a later page.
   const membership = and(liveWhere(listeningTests), academicMembership);
+  const batchOrdinal=sql<number|null>`case ${sql.join(originalListeningBatchSequence.map(([sourceId,number])=>sql`when ${listeningPackages.sourceId}=${sourceId} then ${number}::integer`),sql` `)} else null end`;
   // Two read-only, independently bounded queries. Avoid serial network
   // round trips on the Academic tab while preserving the exact membership,
   // ordering, pagination and learner-specific progress conditions.
@@ -233,7 +234,7 @@ export async function academicListeningCards(
     .where(membership)
     // A TOTAL order, so paging can never repeat or skip a test: the authored sequence, then
     // the authored source reference, then the row id — all three are stable.
-    .orderBy(asc(listeningTests.createdAt), asc(listeningTests.sourceRef), asc(listeningTests.id))
+    .orderBy(asc(listeningTests.createdAt), asc(batchOrdinal), asc(listeningTests.sourceRef), asc(listeningTests.id))
     .limit(ACADEMIC_LISTENING_PAGE_SIZE)
     .offset((safePage - 1) * ACADEMIC_LISTENING_PAGE_SIZE);
 

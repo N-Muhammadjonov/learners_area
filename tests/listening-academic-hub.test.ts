@@ -47,6 +47,22 @@ const LEARNER = "22222222-2222-4222-8222-222222222222";
 const OTHER = "33333333-3333-4333-8333-333333333333";
 const STAFF = "44444444-4444-4444-8444-444444444444";
 
+test('owner batch timestamp ties preserve explicit Test 2–32 ordinals across both bounded catalogue pages',async()=>{
+ const database=await createTestDatabase();
+ try{
+  await database.query("insert into users(id,name,role,account_status)values($1,'Owner fixture','owner','active'),($2,'Learner fixture','student','active')",[OWNER,LEARNER]);
+  const ids:Record<number,string>={};
+  for(const n of [1,...Array.from({length:31},(_,i)=>32-i)]){
+   const [row]=await database.db.insert(listeningTests).values({...(n===1?{id:ORIGINAL_TEST_ONE_ID}:{}),title:'Unrelated display label '+(33-n),audioType:'audio',publicationState:'published',createdByUserId:OWNER,createdAt:new Date(n===1?'2026-01-01':'2026-01-02')}).returning();
+   ids[n]=row!.id;const sourceId='listening-test-'+n;
+   await database.db.insert(listeningPackages).values({testId:row!.id,sourceId,payload:{...fixtureB(),testId:sourceId},audioObjectKey:'fixture/'+n+'.mp3',sourceHash:'0'.repeat(64)});
+  }
+  const first=await academicListeningCards(LEARNER,1,database.db),second=await academicListeningCards(LEARNER,2,database.db);
+  assert.equal(first.total,32);assert.equal(first.cards.length,24);assert.equal(first.hasMore,true);assert.equal(second.cards.length,8);assert.equal(second.hasMore,false);
+  assert.deepEqual([...first.cards,...second.cards].map(c=>c.testId),Array.from({length:32},(_,i)=>ids[i+1]));
+ }finally{await database.close();}
+});
+
 function section(number: number, transcript: string) {
   return { number, title: `Part ${number}`, transcript, reviewRequired: false };
 }
