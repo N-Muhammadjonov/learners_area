@@ -9,13 +9,13 @@ export const dynamic = "force-dynamic";
 /**
  * LISTENING MCQ — the programme home: DAY cards, and nothing else.
  *
- * The owner's fourth destination is a training programme, not a test library. Each card is one
+ * Each card is one
  * authored DAY holding exactly five multiple-choice questions, and it states only what is true: the
  * day number the centre authored, how many questions it really holds, and THIS learner's status.
  * A day that has not been published is not rendered as an empty card, and NO target day count is
  * claimed: the programme has no maximum number of days, so the only figure shown is how many days
- * genuinely exist. Days are read one bounded page at a time, so a programme of a thousand days
- * stays reachable and no page streams an unbounded result set.
+ * genuinely exist. The scrolling catalogue reads summaries and live question identities;
+ * question content is loaded only when an accessible day is opened.
  *
  * The chrome is English and Uzbek; the questions themselves are the owner's material and are never
  * translated or generated.
@@ -79,7 +79,7 @@ export default async function ListeningMcqPage({
               {/* ONE address per day, whatever state the learner is in: reload, back, forward and a
                   bookmark all land on the same day (and show its real progress). */}
               <div className="mt-auto">
-                {card.locked?<div data-listening-mcq-locked><button className="btn-secondary" disabled>🔒 {dict.listening.academic.locked}</button><p className="mt-2 text-xs text-ink-500">{t.lockedHint}</p></div>:<Link
+                {card.locked?<div data-listening-mcq-locked><button type="button" className="btn-secondary" disabled>🔒 {dict.listening.academic.locked}</button><p className="mt-2 text-xs text-ink-500">{t.lockedHint}</p></div>:<Link
                   prefetch={false}
                   className="btn-primary"
                   href={`/app/listening/mcq/day/${card.day}`}

@@ -26,11 +26,10 @@ export default async function AcademicListeningPage({
   const [user, locale, query] = await Promise.all([requireActiveUser(), getLocale(), searchParams]);
   if (!user) return null;
   const dict = getDictionary(locale);
-  // Paging is a URL parameter, like the rest of the app: a page can be linked, bookmarked and
-  // returned to, and the query stays bounded on the server.
+  // Accept historical page URLs while returning the same complete summary catalogue.
   const page = Math.max(1, Math.min(10000, Number.parseInt(query.page ?? "1", 10) || 1));
   // Start the read immediately but DO NOT block the route frame on PostgreSQL.
-  // The Suspense region streams the same rows, paging and per-user progress.
+  // The Suspense region streams summaries and per-user progress without test payloads.
   const cataloguePromise = academicListeningCards(user.id, 1, undefined, user.role);
   return (
     <Suspense fallback={<div aria-busy="true" data-async-loading="listening-academic-catalogue" className="grid gap-4" role="status" aria-label={dict.common.loading}>
@@ -90,7 +89,7 @@ async function AcademicCatalogueRegion({ cataloguePromise, page, dict }: {
                   <p className="text-xs text-ink-300">{t.noProgress}</p>
                 )}
                 {card.locked ? <div className="mt-auto space-y-2" data-listening-test-locked>
-                  <button className="btn-secondary px-3 py-2 text-sm" disabled>🔒 {t.locked}</button>
+                  <button type="button" className="btn-secondary px-3 py-2 text-sm" disabled>🔒 {t.locked}</button>
                   <p className="text-xs text-ink-500">{t.lockedHint}</p>
                 </div> : <Link prefetch={false} className="btn-secondary mt-auto self-start px-3 py-2 text-sm" href={`/app/listening/academic/${card.testId}`} data-listening-academic-open>{card.started?t.open:t.openTest}</Link>}
 
