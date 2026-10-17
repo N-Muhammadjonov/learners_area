@@ -9,7 +9,7 @@ import {db} from '../src/db/client';
 import {users,uploadIntents} from '../src/db/schema';
 import {validateCanonicalListeningPackage} from '../src/lib/import/listening/canonical';
 import {importCanonicalListeningPackage} from '../src/lib/import/listening/importer';
-import {getStorageService} from '../src/lib/services/storage';
+import {S3Client,HeadObjectCommand,GetObjectCommand} from '@aws-sdk/client-s3';
 import type {ListeningCanonicalPackage} from '../src/lib/import/listening/canonical';
 import type {OriginalListeningDefinition} from '../src/lib/listening/original-listening';
 const args=new Set(process.argv.slice(2));
@@ -31,12 +31,27 @@ async function main(){
  if(!ownerId)throw Error('Missing batch owner');
  const owner=await db.query.users.findFirst({where:and(eq(users.id,ownerId),eq(users.role,'owner'),eq(users.accountStatus,'active'))});
  if(!owner)throw Error('Not an active owner');
- const storage=getStorageService();
- for(const {manifest} of packages)for(const asset of manifest.media){
-  const head=await storage.head(asset.objectKey);if(!head||head.size!==asset.bytes||head.contentType!==asset.contentType)throw Error('R2 metadata mismatch '+asset.objectKey);
-  const result=await storage.read(asset.objectKey);if(!result||result.body.length!==asset.bytes||createHash('sha256').update(result.body).digest('hex')!==asset.sha256)throw Error('R2 checksum mismatch '+asset.objectKey);
-  console.log(JSON.stringify({verified:asset.objectKey,bytes:asset.bytes,sha256:asset.sha256}));
+ const storage=new S3Client({region:process.env.R2_REGION||'auto',endpoint:process.env.R2_ENDPOINT,forcePathStyle:true,credentials:{accessKeyId:process.env.R2_ACCESS_KEY_ID!,secretAccessKey:process.env.R2_SECRET_ACCESS_KEY!}});
+ const media=packages.flatMap(p=>p.manifest.media);
+ async function verify(asset:typeof media[number]){
+  for(let attempt=0;attempt<3;attempt++){
+   try{
+    const head=await storage.send(new HeadObjectCommand({Bucket:process.env.R2_BUCKET_NAME,Key:asset.objectKey}),{abortSignal:AbortSignal.timeout(15_000)});
+    if(head.ContentLength!==asset.bytes||head.ContentType!==asset.contentType)throw Error('R2 metadata mismatch '+asset.objectKey);
+    const object=await storage.send(new GetObjectCommand({Bucket:process.env.R2_BUCKET_NAME,Key:asset.objectKey}),{abortSignal:AbortSignal.timeout(60_000)});
+    const bytes=await object.Body?.transformToByteArray();
+    if(!bytes||bytes.length!==asset.bytes||createHash('sha256').update(bytes).digest('hex')!==asset.sha256)throw Error('R2 checksum mismatch '+asset.objectKey);
+    console.log(JSON.stringify({verified:asset.objectKey,bytes:asset.bytes,sha256:asset.sha256}));return;
+   }catch(error){
+    if(error instanceof Error&&/R2 (metadata|checksum) mismatch/.test(error.message))throw error;
+    if(attempt===2)throw Error('R2 read failed after bounded retries: '+asset.objectKey);
+    console.warn(JSON.stringify({retry:asset.objectKey,attempt:attempt+1}));
+   }
+  }
  }
+ // At most two recordings occupy memory/network; all checks precede DB writes.
+ for(let offset=0;offset<media.length;offset+=2)await Promise.all(media.slice(offset,offset+2).map(verify));
+ storage.destroy();
  const results=await db.transaction(async tx=>{
   // Serialize this owner import; a concurrent retry cannot create duplicate sources.
   await tx.select({id:users.id}).from(users).where(eq(users.id,ownerId)).for('update');
