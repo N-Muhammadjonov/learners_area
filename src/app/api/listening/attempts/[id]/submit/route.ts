@@ -1,3 +1,7 @@
+import {db} from "@/db/client";
+import {listeningAttempts} from "@/db/schema";
+import {and,eq} from "drizzle-orm";
+import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
 import { touchMeaningfulActivity } from "@/lib/services/activity";
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
@@ -16,6 +20,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const body = await req.json().catch(() => null);
+  const ownedAttempt=await db.query.listeningAttempts.findFirst({where:and(eq(listeningAttempts.id,id),eq(listeningAttempts.userId,user.id))});
+  if(ownedAttempt&&!await listeningSequenceAccess(user,ownedAttempt.testId))return NextResponse.json({error:'sequence_locked'},{status:403});
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });
 

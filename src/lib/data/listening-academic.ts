@@ -1,5 +1,10 @@
+import {ORIGINAL_TEST_ONE_ID} from "@/lib/listening/original-test-one";
 import "server-only";
-import { and, asc, eq, sql, type AnyColumn, type SQL } from "drizzle-orm";
+import {isStaff} from "@/lib/auth/roles";
+import {listeningSequenceOrder,originalCourseColumns} from "./listening-sequence";
+import {listeningAuthoredCheckpoints} from "@/db/schema";
+import {originalCourseSpec,savedCourseStatus,sequentialLocks} from "@/lib/listening/course-progress";
+import { and, eq, sql, type AnyColumn, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
 import { listeningAttempts, listeningPackages, listeningTests } from "@/db/schema";
 import { ACADEMIC_PRODUCT, academicProductSql, inProgrammeSql, productSql, productOfPackage } from "@/lib/listening/product";
@@ -19,31 +24,7 @@ import {
 import type { ListeningPackage } from "@/lib/listening/package";
 import { originalListeningDefinition, hasOriginalListeningRuntime, originalListeningBatchSequence } from "@/lib/listening/original-listening";
 
-/**
- * ACADEMIC LISTENING — the catalogue and the test hubs.
- *
- * Both reads come from the ONE canonical Listening layer (`listening_tests` +
- * `listening_packages`); neither invents a test table, a React-side catalogue or a title
- * convention. The difference between them is the question each answers:
- *
- *   • the CATALOGUE answers "which Academic Listening tests may I open?" — a bounded,
- *     live-only query with the collection as a WHERE clause (never a post-filter, which
- *     would let unrelated content push a real test off the page);
- *   • a HUB answers "what may I do with THIS test?" — the authored facts of the test plus
- *     what is true about this learner, handed to the activity registry
- *     (`src/lib/listening/activities.ts`). Two genuinely different tests therefore produce
- *     two genuinely different hubs, and no card is ever faked to make the grid look full.
- *
- * Collections: canonical packages record `collection` (`academic`, `essential`, `general`,
- * `question_types`, `mcq`); rows authored before that field carry none, and none means
- * "academic" — exactly the rule the existing library component applies. `question_types`
- * and `mcq` are academic-listening practice material, so they are part of this catalogue.
- * The rule lives here, once.
- */
-
-/** How many Academic Listening tests one catalogue page shows. */
-export const ACADEMIC_LISTENING_PAGE_SIZE = 24;
-
+/** Published test summaries on one scrolling page; source and media load only on open. */
 /**
  * WHERE THIS CATALOGUE LOGIN IS DECIDED.
  *
@@ -102,6 +83,8 @@ export type AcademicListeningCard = {
    * is what the ordering is anchored to (see `academicListeningCards`).
    */
   orderKey: string;
+  locked: boolean;
+  complete: boolean;
 };
 
 export type AcademicActivity = {
@@ -171,43 +154,24 @@ function mcqCompleteSql(testIdColumn: AnyColumn | SQL, userId: string) {
   )`;
 }
 
-/**
- * The published academic catalogue for one learner.
- *
- * Bounded on purpose: one screenful of canonical tests, the same cap for everybody, so the
- * page cannot degrade as the centre authors more.
- *
- * ORDERING — the repository is the evidence here, and it says this plainly: `listening_tests`
- * has no position, number or sequence column, so there is no authored ordering field to read
- * (and none was invented for this page). What is authored and stable is WHEN the centre
- * imported each test, so the catalogue is ordered by `created_at` ascending — the sequence in
- * which the tests were authored — with the authored `source_ref` as a deterministic tiebreak
- * for two rows that share a timestamp. The display title is never parsed, and the order is
- * NOT a numeric reading of the source reference: `cam18-test10` sorts after `cam18-test2`
- * only because it was authored later, not because a regular expression said so. The owner's
- * versioned Test 2–32 batch explicitly supplies numeric ordinals: use those ONLY to resolve
- * the shared transaction timestamp, before the existing reference/id tiebreakers.
- */
+/** The complete catalogue in authored order, with server-derived per-learner progress. */
 export async function academicListeningCards(
   userId: string,
   page = 1,
   /** Optional executor, so a test can drive this exact read against its own real database. */
   database: typeof db = db,
+  role: Role = "student",
 ): Promise<AcademicListeningPage> {
   const exec = database;
-  const safePage = Math.max(1, Math.floor(Number(page) || 1));
-  if (!(await listeningSchemaReady(database))) return { cards: [], page: safePage, pageSize: ACADEMIC_LISTENING_PAGE_SIZE, hasMore: false, total: 0 };
+  const safePage = 1;
+  void page;
+  if (!(await listeningSchemaReady(database))) return { cards: [], page: safePage, pageSize: 1, hasMore: false, total: 0 };
 
   // The membership test and the live-publication test are BOTH predicates, applied before any
   // bound — never a post-filter on an unrelated cap, which is how a legitimate test disappears
   // behind newer content on a later page.
   const membership = and(liveWhere(listeningTests), academicMembership);
-  const batchOrdinal=sql<number|null>`case ${sql.join(originalListeningBatchSequence.map(([sourceId,number])=>sql`when ${listeningPackages.sourceId}=${sourceId} then ${number}::integer`),sql` `)} else null end`;
-  // Two read-only, independently bounded queries. Avoid serial network
-  // round trips on the Academic tab while preserving the exact membership,
-  // ordering, pagination and learner-specific progress conditions.
-  const countQuery = exec.select({ total: sql<number>`count(*)::integer` }).from(listeningPackages).innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId)).where(membership);
-
+  // Lightweight summaries for all tests. Original source/HTML/audio is fetched only on open.
   const rowsQuery = exec
     .select({
       testId: listeningTests.id,
@@ -218,7 +182,9 @@ export async function academicListeningCards(
       durationSec: sql<number | null>`(${listeningPackages.payload}->'audio'->>'durationSec')::real`,
       parts: sql<number>`coalesce(jsonb_array_length(${listeningPackages.payload}->'sections'), 0)`,
       questions: sql<number>`coalesce(jsonb_array_length(${listeningPackages.payload}->'questions'), 0)`,
-      payload: listeningPackages.payload,
+      payload: sql<ListeningPackage|null>`case when (${listeningTests.id}=${ORIGINAL_TEST_ONE_ID} and ${listeningPackages.sourceId}='listening-test-1') or ${listeningPackages.sourceId} in (${sql.join(originalListeningBatchSequence.map(([id])=>sql`${id}`),sql`,`)}) then null::jsonb else ${listeningPackages.payload} end`,
+      ...originalCourseColumns(userId),
+
       examSubmitted: sql<boolean>`exists(select 1 from listening_attempts a where a.test_id = ${listeningTests.id} and a.user_id = ${userId} and a.status = 'completed')`,
       examScore: sql<number | null>`(select a.score from listening_attempts a where a.test_id = ${listeningTests.id} and a.user_id = ${userId} and a.status = 'completed' order by a.submitted_at desc nulls last limit 1)`,
       examTotal: sql<number | null>`(select a.total_questions from listening_attempts a where a.test_id = ${listeningTests.id} and a.user_id = ${userId} and a.status = 'completed' order by a.submitted_at desc nulls last limit 1)`,
@@ -231,21 +197,21 @@ export async function academicListeningCards(
     })
     .from(listeningPackages)
     .innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId))
+    .leftJoin(listeningAuthoredCheckpoints,and(eq(listeningAuthoredCheckpoints.testId,listeningTests.id),eq(listeningAuthoredCheckpoints.userId,userId)))
     .where(membership)
     // A TOTAL order, so paging can never repeat or skip a test: the authored sequence, then
     // the authored source reference, then the row id — all three are stable.
-    .orderBy(asc(listeningTests.createdAt), asc(batchOrdinal), asc(listeningTests.sourceRef), asc(listeningTests.id))
-    .limit(ACADEMIC_LISTENING_PAGE_SIZE)
-    .offset((safePage - 1) * ACADEMIC_LISTENING_PAGE_SIZE);
-
-  const [[counted], rows] = await Promise.all([countQuery, rowsQuery]);
-  const total = Number(counted?.total ?? 0);
+    .orderBy(...listeningSequenceOrder());
+  const rows = await rowsQuery;
+  const total = rows.length;
 
   const cards = rows.map((row) => {
     const payload = row.payload as ListeningPackage;
     const examSubmitted = Boolean(row.examSubmitted);
-    const activities = packageActivities(payload, { examSubmitted, missedQuestions: Number(row.missed ?? 0) });
-    const activityCount = originalListeningDefinition(row.testId, row.sourceId)?.activityCount ?? activities.length;
+    const spec=hasOriginalListeningRuntime(row.testId,row.sourceId)?originalCourseSpec(row.sourceId):null;
+    const status=spec?savedCourseStatus(row.sourceId,row.courseWork,row.originalExamSubmitted,row.runtimeState):null;
+    const activities = spec?Object.keys(spec.activities):packageActivities(payload, { examSubmitted, missedQuestions: Number(row.missed ?? 0) });
+    const activityCount = status?.total ?? originalListeningDefinition(row.testId, row.sourceId)?.activityCount ?? activities.length;
     const examDone = examSubmitted && activities.includes("exam") ? 1 : 0;
     const mcqDone = activities.includes("mcq") && Boolean(row.mcqComplete) ? 1 : 0;
     return {
@@ -255,14 +221,19 @@ export async function academicListeningCards(
       parts: Number(row.parts),
       questions: Number(row.questions),
       activityCount,
-      completed: Math.min(activityCount, examDone + Number(row.practiceRuns ?? 0) + mcqDone),
+      completed: status?.completed ?? Math.min(activityCount, examDone + Number(row.practiceRuns ?? 0) + mcqDone),
+      locked:false,
+      complete:status?.complete??false,
       started: Boolean(row.started),
       exam: examSubmitted ? { score: row.examScore ?? null, total: row.examTotal ?? null } : null,
       orderKey: row.sourceRef ?? row.sourceId,
     };
   });
 
-  return { cards, page: safePage, pageSize: ACADEMIC_LISTENING_PAGE_SIZE, hasMore: safePage * ACADEMIC_LISTENING_PAGE_SIZE < total, total };
+  const originalIds=new Set(rows.filter(row=>hasOriginalListeningRuntime(row.testId,row.sourceId)).map(row=>row.testId));
+  const locks=sequentialLocks(cards.filter(card=>originalIds.has(card.testId)));
+  let index=0;for(const card of cards)if(originalIds.has(card.testId))card.locked=!isStaff(role)&&locks[index++]!;
+  return { cards, page:1, pageSize:Math.max(1,total), hasMore:false, total };
 }
 
 function minutesOf(seconds: number | null): number | null {

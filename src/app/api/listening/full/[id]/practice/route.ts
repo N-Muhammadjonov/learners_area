@@ -1,3 +1,4 @@
+import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -16,6 +17,7 @@ async function handle(req: NextRequest, { params }: { params: Promise<{ id:strin
  const user=await requireActiveUser(); if(!user) return NextResponse.json({error:"unauthenticated"},{status: 401});
  const limited=enforce({name:"listening_practice",limit:120,windowMs:60_000},user.id);if(limited)return limited;
  const {id}=await params; if(!isUuid(id)) return NextResponse.json({error:"not_found"},{status: 404});
+ if(!await listeningSequenceAccess(user,id))return NextResponse.json({error:'sequence_locked'},{status:403,headers:{'Cache-Control':'private, no-store'}});
  const detail=await fullListeningDetail(id,user.role); if(!detail) return NextResponse.json({error:"not_found"},{status: 404});
  if((await listeningExamState(user,id)).examInProgress) return NextResponse.json({error:"exam_in_progress"},{status: 409});
  const parsed=input.safeParse(await req.json().catch(()=>null)); if(!parsed.success) return NextResponse.json({error:"invalid_input"},{status: 400});

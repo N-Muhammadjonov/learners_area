@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 import en from '../../src/lib/i18n/en';
 import { adaptOriginalTestOne } from '../../src/lib/listening/original-test-one-hooks';
+import {originalCourseSpec,readCourseWork,mergeCourseAnswers,courseStatus} from '../../src/lib/listening/course-progress';
 
 const dom = new JSDOM('<!doctype html><div id="root"></div>', {url:'https://parent.fixture/app'});
 for(const key of ['window','document','navigator','localStorage','HTMLElement','Element','Event','MouseEvent','MessageEvent'] as const)
@@ -16,6 +17,39 @@ const {AuthoredListeningFrame} = await import('../../src/components/listening/Au
 const {privateResources} = await import('../../src/lib/client/private-resource');
 const source = adaptOriginalTestOne(readFileSync('content/listening/academic/test-01/source.html','utf8'));
 const content = {nativePersistence:true,runtime:{entryPath:'source.html',files:{'source.html':source}},audioUrl:'/api/resources/fixture.mp3',audioPath:'audio/full.mp3',imageUrl:null,imagePath:null,vocabulary:[]};
+
+test('activity progress changes only after a server acknowledgement; a foreign frame/token cannot submit coursework',async()=>{
+ const previousFetch=globalThis.fetch,previousCreate=URL.createObjectURL,previousRevoke=URL.revokeObjectURL;
+ const spec=originalCourseSpec('listening-test-1')!;let work=readCourseWork({},spec);
+ let initial:{html:string}|undefined,child:JSDOM|undefined,requests=0,release:(()=>void)|undefined;
+ const wait=new Promise<void>(resolve=>{release=resolve;});
+ const root=createRoot(document.getElementById('root')!);
+ globalThis.fetch=async(input,init)=>{
+  const url=String(input);
+  if(url.endsWith('/authored'))return {ok:true,json:async()=>({...content,course:courseStatus(spec,work)})} as Response;
+  if(url.endsWith('/authored-state'))return {ok:true,json:async()=>({values:{}})} as Response;
+  if(url.endsWith('/progress')){requests++;const body=JSON.parse(String(init?.body));await wait;work=mergeCourseAnswers(spec,work,body.activity,body.answers);return {ok:true,json:async()=>courseStatus(spec,work)} as Response;}
+  return {ok:true,blob:async()=>new Blob(['fixture audio'])} as Response;
+ };
+ URL.createObjectURL=()=> 'blob:https://parent.fixture/course';URL.revokeObjectURL=()=>{};
+ try{
+  await act(async()=>root.render(<AuthoredListeningFrame id="course" userId="course-student" dict={en}/>));
+  const iframe=document.querySelector('iframe')!,sourceWindow=iframe.contentWindow!;
+  const host={postMessage(data:unknown){dom.window.dispatchEvent(new dom.window.MessageEvent('message',{data,source:sourceWindow}));}};
+  sourceWindow.postMessage=data=>{if(data.channel==='learners-area-sandbox-init')initial=data;else child?.window.dispatchEvent(new child.window.MessageEvent('message',{data,source:host as unknown as Window}));};
+  await act(async()=>iframe.dispatchEvent(new dom.window.Event('load')));
+  await act(async()=>{child=new JSDOM(initial!.html,{runScripts:'dangerously',url:'https://opaque.fixture',beforeParse(w){Object.defineProperty(w,'parent',{value:host});w.scrollTo=()=>{};w.HTMLMediaElement.prototype.pause=()=>{};}});await Promise.resolve();});
+  const d=child!.window.document;
+  await act(async()=>{window.dispatchEvent(new dom.window.MessageEvent('message',{source:sourceWindow,data:{channel:'learners-area-authored-v1',token:'foreign',op:'course',activity:'completion',answers:{fake:'answer'}}}));});
+  assert.equal(requests,0);
+  await act(async()=>{d.querySelector<HTMLButtonElement>('[data-open="completion"]')!.click();d.querySelector<HTMLInputElement>('#completionAnswer')!.value='an attempted answer';d.querySelector<HTMLButtonElement>('#completionCheck')!.click();await Promise.resolve();});
+  assert.equal(requests,1);
+  assert.equal(d.querySelector('[data-open="completion"] [data-course-status]')!.textContent,'0 / 27','a client Check does not award completion before the server responds');
+  await act(async()=>{release!();await wait;await new Promise(resolve=>setTimeout(resolve,0));});
+  assert.equal(d.querySelector('[data-open="completion"] [data-course-status]')!.textContent,'1 / 27');
+  assert.equal(courseStatus(spec,work).complete,false,'one answer is never the entire test');
+ }finally{release?.();child?.window.close();await act(async()=>root.unmount());globalThis.fetch=previousFetch;URL.createObjectURL=previousCreate;URL.revokeObjectURL=previousRevoke;}
+});
 
 test('all nine authored activities hide the library bar, returning to the hub restores it; foreign messages cannot change it',async()=>{
   const oldFetch=globalThis.fetch,oldCreate=URL.createObjectURL,oldRevoke=URL.revokeObjectURL;

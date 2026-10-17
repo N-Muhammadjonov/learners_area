@@ -38,7 +38,7 @@ export default async function ListeningMcqPage({
   // A hostile or mistyped ?page= is normalised, never trusted: a non-number is page 1.
   const rawPage = Array.isArray(params.page) ? params.page[0] : params.page;
   const requestedPage = Number.parseInt(String(rawPage ?? "1"), 10);
-  const { days, page, hasNextPage, visibleDays, pageSize } = await mcqProgramDays(user, {
+  const { days } = await mcqProgramDays(user, {
     includeDrafts: staff,
     page: Number.isFinite(requestedPage) ? requestedPage : 1,
   });
@@ -79,46 +79,21 @@ export default async function ListeningMcqPage({
               {/* ONE address per day, whatever state the learner is in: reload, back, forward and a
                   bookmark all land on the same day (and show its real progress). */}
               <div className="mt-auto">
-                <Link
+                {card.locked?<div data-listening-mcq-locked><button className="btn-secondary" disabled>🔒 {dict.listening.academic.locked}</button><p className="mt-2 text-xs text-ink-500">{t.lockedHint}</p></div>:<Link
+                  prefetch={false}
                   className="btn-primary"
                   href={`/app/listening/mcq/day/${card.day}`}
                   data-listening-mcq-open
                   data-listening-mcq-action={card.status.state === "completed" ? "review" : card.status.state === "in_progress" ? "continue" : "start"}
                 >
                   {card.status.state === "completed" ? t.review : card.status.state === "in_progress" ? t.continue : t.start}
-                </Link>
+                </Link>}
               </div>
             </section>
           ))}
         </div>
       )}
 
-      {/* Pagination is rendered ONLY when more than one page of days really exists, and each
-          control is a real address: reload, back, forward and a bookmark all work. */}
-      {(hasNextPage || page > 1) && (
-        <nav className="flex items-center justify-between gap-3" data-listening-mcq-pagination={page}>
-          {page > 1 ? (
-            <Link className="btn-ghost" href={`/app/listening/mcq?page=${page - 1}`} data-listening-mcq-prev>
-              {t.previousPage}
-            </Link>
-          ) : (
-            <span />
-          )}
-          <span className="text-xs text-ink-300" data-listening-mcq-page-range>
-            {t.pageRange
-              .replace("{from}", String((page - 1) * pageSize + 1))
-              .replace("{to}", String((page - 1) * pageSize + days.length))
-              .replace("{total}", String(visibleDays))}
-          </span>
-          {hasNextPage ? (
-            <Link className="btn-ghost" href={`/app/listening/mcq?page=${page + 1}`} data-listening-mcq-next>
-              {t.nextPage}
-            </Link>
-          ) : (
-            <span />
-          )}
-        </nav>
-      )}
 
     </div>
   );

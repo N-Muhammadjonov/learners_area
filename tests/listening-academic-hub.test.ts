@@ -47,7 +47,7 @@ const LEARNER = "22222222-2222-4222-8222-222222222222";
 const OTHER = "33333333-3333-4333-8333-333333333333";
 const STAFF = "44444444-4444-4444-8444-444444444444";
 
-test('owner batch timestamp ties preserve explicit Test 2–32 ordinals across both bounded catalogue pages',async()=>{
+test('owner batch timestamp ties preserve explicit Test 2–32 ordinals on one scrolling catalogue',async()=>{
  const database=await createTestDatabase();
  try{
   await database.query("insert into users(id,name,role,account_status)values($1,'Owner fixture','owner','active'),($2,'Learner fixture','student','active')",[OWNER,LEARNER]);
@@ -58,8 +58,8 @@ test('owner batch timestamp ties preserve explicit Test 2–32 ordinals across b
    await database.db.insert(listeningPackages).values({testId:row!.id,sourceId,payload:{...fixtureB(),testId:sourceId},audioObjectKey:'fixture/'+n+'.mp3',sourceHash:'0'.repeat(64)});
   }
   const first=await academicListeningCards(LEARNER,1,database.db),second=await academicListeningCards(LEARNER,2,database.db);
-  assert.equal(first.total,32);assert.equal(first.cards.length,24);assert.equal(first.hasMore,true);assert.equal(second.cards.length,8);assert.equal(second.hasMore,false);
-  assert.deepEqual([...first.cards,...second.cards].map(c=>c.testId),Array.from({length:32},(_,i)=>ids[i+1]));
+  assert.equal(first.total,32);assert.equal(first.cards.length,32);assert.equal(first.hasMore,false);assert.equal(second.cards.length,32);assert.equal(second.hasMore,false);
+  assert.deepEqual(first.cards.map(c=>c.testId),Array.from({length:32},(_,i)=>ids[i+1]));
  }finally{await database.close();}
 });
 
@@ -393,7 +393,7 @@ test("A10 no answer key or hidden explanation is exposed by the catalogue or a h
   }
 });
 
-test("A7 seventy Academic tests paginate without disappearance or duplication", async () => {
+test("A7 seventy Academic test summaries share one scrolling catalogue without disappearance or duplication", async () => {
   const database = await createTestDatabase();
   try {
     const ids = await seed(database);
@@ -429,9 +429,9 @@ test("A7 seventy Academic tests paginate without disappearance or duplication", 
     assert.equal(new Set(seen).size, seen.length, "no test is repeated between pages");
     assert.deepEqual([...seen].sort(), [...expected].sort(), "no test disappears");
 
-    // A page entirely past the end is empty rather than an error, and says so.
+    // Old page bookmarks now resolve to the same complete scrolling list.
     const beyond = await academicListeningCards(LEARNER, 99, database.db);
-    assert.deepEqual(beyond.cards, []);
+    assert.deepEqual(beyond.cards.map(card=>card.testId),seen,"old page links return the same complete catalogue");
     assert.equal(beyond.hasMore, false);
     assert.equal(beyond.total, expected.length);
   } finally {

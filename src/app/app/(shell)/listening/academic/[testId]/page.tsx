@@ -1,3 +1,5 @@
+import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
+import {ListeningSequenceLocked} from "@/components/listening/ListeningSequenceLocked";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { BackLink } from "@/components/ui/BackLink";
@@ -29,6 +31,7 @@ export default async function AcademicListeningTestPage({ params }: { params: Pr
   if (!user) return null;
   const dict = getDictionary(locale);
   const t = dict.listening.academic;
+  if(!await listeningSequenceAccess(user,testId))return <ListeningSequenceLocked dict={dict}/>;
   const test = await academicListeningTest(testId, user);
   if (!test) notFound();
   // Keep the catalogue entry and direct URL on the same original nine-activity hub.

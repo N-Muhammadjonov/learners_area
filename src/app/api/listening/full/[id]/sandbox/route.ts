@@ -1,3 +1,4 @@
+import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
 import { hasOriginalListeningRuntime } from "@/lib/listening/original-listening";
 import {NextRequest,NextResponse} from 'next/server';
 import {requireActiveUser, requireAdministrator} from '@/lib/auth/current-user';
@@ -9,6 +10,7 @@ export async function GET(req:NextRequest,{params}:{params:Promise<{id:string}>}
  const {id}=await params;
  const user=id==="preview"?await requireAdministrator():await requireActiveUser();if(!user)return NextResponse.json({error:'unauthenticated'},{status: 401});
  if(id!=="preview"&&!isUuid(id))return NextResponse.json({error:'not_found'},{status:404});
+ if(id!=='preview'){if(!await listeningSequenceAccess(user,id))return NextResponse.json({error:'sequence_locked'},{status:403,headers:{'Cache-Control':'private, no-store'}});}
  const detail=id==="preview"?null:await fullListeningDetail(id,user.role);if(id!=="preview"&&!(detail && (detail.pkg.payload.authoredRuntime || hasOriginalListeningRuntime(id, detail.pkg.sourceId))))return NextResponse.json({error:'not_found'},{status:404});
  const host=req.headers.get("x-forwarded-host")?.split(",")[0]?.trim()??req.headers.get("host")??req.nextUrl.host;
  const protocol=req.headers.get("x-forwarded-proto")==="https"?"https:":req.nextUrl.protocol;

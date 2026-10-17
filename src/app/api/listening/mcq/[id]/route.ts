@@ -30,7 +30,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   });
   if (!question) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const access = await mcqAccess(user, question.testId);
-  if (access !== "ok") return NextResponse.json({ error: access }, { status: access === "not_found" ? 404 : 409 });
+  if (access !== "ok") return NextResponse.json({ error: access }, { status: access === "not_found" ? 404 : access === "sequence_locked" ? 403 : 409 });
   // A session on a question that has since been replaced stops here rather than advancing the
   // drill against rows no learner can be given any more.
   if (!(await listeningQuestionIsLive(question.id, question.testId)))
@@ -58,7 +58,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   });
   if (!question) return NextResponse.json({ error: "not_found" }, { status: 404 });
   const access = await mcqAccess(user, question.testId);
-  if (access !== "ok") return NextResponse.json({ error: access }, { status: access === "not_found" ? 404 : 409 });
+  if (access !== "ok") return NextResponse.json({ error: access }, { status: access === "not_found" ? 404 : access === "sequence_locked" ? 403 : 409 });
   // A session on a question that has since been replaced stops here rather than advancing the
   // drill against rows no learner can be given any more.
   if (!(await listeningQuestionIsLive(question.id, question.testId)))

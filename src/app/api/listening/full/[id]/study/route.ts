@@ -1,3 +1,4 @@
+import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -21,7 +22,8 @@ export async function POST(
   const { id } = await params;
   if (!isUuid(id))
     return NextResponse.json({ error: "not_found" }, { status: 404 });
-  const detail = await fullListeningDetail(id, user.role);
+  if(!await listeningSequenceAccess(user,id))return NextResponse.json({error:'sequence_locked'},{status:403,headers:{'Cache-Control':'private, no-store'}});
+ const detail = await fullListeningDetail(id, user.role);
   if (!detail)
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   if (!detail.pkg.payload.questions.length)
