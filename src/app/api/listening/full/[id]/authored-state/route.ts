@@ -1,5 +1,5 @@
 import {COURSE_PROGRESS_KEY} from '@/lib/listening/course-progress';
-import {originalCourseStatus} from '@/lib/data/listening-course';
+import {originalCourseStatus,originalCourseStatusFromValues} from '@/lib/data/listening-course';
 import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -24,7 +24,8 @@ async function context(id:string) {
 export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>}) {
   const {id}=await params; const ctx=await context(id);
   if ('response' in ctx) return ctx.response;
-  return NextResponse.json({values:runtimeValues(await originalListeningState(ctx.user.id,id,db,originalListeningStorageKey(ctx.detail.pkg.sourceId)))},{headers});
+  const values=await originalListeningState(ctx.user.id,id,db,originalListeningStorageKey(ctx.detail.pkg.sourceId));
+  return NextResponse.json({values:runtimeValues(values),course:await originalCourseStatusFromValues(ctx.user.id,id,ctx.detail.pkg.sourceId,values)},{headers});
 }
 export async function PUT(req:NextRequest,{params}:{params:Promise<{id:string}>}) {
   const {id}=await params; const ctx=await context(id);

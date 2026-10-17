@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
-import { listResourceOwners, RESOURCE_OWNER_TYPES } from "@/lib/services/resources/owners";
+import { countResourceOwners, RESOURCE_OWNER_TYPES } from "@/lib/services/resources/owners";
 import { kindLabel } from "@/lib/services/resources/labels";
 
 export const metadata = { title: "Materials" };
@@ -28,7 +28,7 @@ export default async function AdminMaterialsPage() {
   const dict = getDictionary(await getLocale());
 
   const counts = await Promise.all(
-    RESOURCE_OWNER_TYPES.map(async (type) => ({ type, rows: await listResourceOwners(type) }))
+    RESOURCE_OWNER_TYPES.map(async (type) => ({ type, total: await countResourceOwners(type) }))
   );
 
   return (
@@ -39,10 +39,10 @@ export default async function AdminMaterialsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {counts.map(({ type, rows }) => (
+        {counts.map(({ type, total }) => (
           <Card key={type} className="flex flex-col gap-2">
             <h2 className="card-title">{kindLabel(dict, type)}</h2>
-            <p className="meta-text">{rows.length}</p>
+            <p className="meta-text">{total}</p>
             <Link href={`/app/admin/materials/${type}`} className="btn-secondary self-start" data-materials-kind={type}>
               {dict.admin.contentLibraryOpen}
             </Link>

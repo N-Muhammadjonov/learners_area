@@ -165,7 +165,7 @@ test("every private API route rejects anonymous callers with 401", () => {
   // database-backed `requireActiveUser()` with the administrator role check, and
   // the assertions below prove that composition, so naming it here does not
   // loosen the invariant for the routes that use it.
-  const guard = /require(ActiveUser|Staff|Administrator|Owner|RoleAtLeast|RetentionAdmin)\(/;
+  const guard = /(?:require(ActiveUser|Staff|Administrator|Owner|RoleAtLeast|RetentionAdmin)|getCurrentSessionAuthority)\(/;
   const exceptions = [
     // Signed-out flows and the admission request itself (a pending applicant
     // must be able to apply; it authorizes with requireUser, not the active gate).
@@ -197,6 +197,15 @@ test("every private API route rejects anonymous callers with 401", () => {
       assert.match(source, /verifyInternalBotRequest\(/, `${route} must authenticate the service`);
       continue;
     }
+    if (route === 'src/app/api/media/authorize/route.ts') {
+      assert.match(source,/verifyMediaAuthorizationProof\(config.secret,input\)/);
+      assert.match(source,/verifyMediaCapability\(config.secret,input.token,input.key\)/);
+      assert.match(source,/validateSessionAuthority\(/);
+      assert.match(source,/hasPrivateAccess\(user.accountStatus\)/);
+      assert.match(source,/authorizeResourceRead\(actorOf\(user\),claims.key\)/);
+      assert.match(source,/status:\s*403/);
+      continue;
+    }
     assert.match(source, guard, `${route} must gate on a database-backed guard`);
     // Retention routes use the shared refusal helpers asserted above, so there is
     // no inline status to match here; every other route carries its own.
@@ -204,8 +213,8 @@ test("every private API route rejects anonymous callers with 401", () => {
     // Administrator/owner routes answer 403 for an unidentified caller (they do
     // not confirm whether the caller is signed in), student-facing routes 401.
     const expected = /^src\/app\/api\/(admin|owner|teacher)\//.test(route)
-      ? /status: (401|403)/
-      : /status: 401/;
+      ? /status:\s*(401|403)/
+      : /status:\s*401/;
     assert.match(source, expected, `${route} must refuse an unauthorised caller`);
   }
 });

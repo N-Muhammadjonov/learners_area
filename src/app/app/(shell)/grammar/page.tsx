@@ -14,7 +14,7 @@ async function GrammarTopics({ userId, dict, area }: {
   userId: string;
   dict: ReturnType<typeof getDictionary>;
 }) {
-  const rows = await getTopicMastery(userId);
+  const rows = await getTopicMastery(userId, area);
   const selectedRows = rows.filter(row => row.topic.skillArea === area);
   const masteryUnavailable = selectedRows.some((row) => row.masteryUnavailable);
   return (

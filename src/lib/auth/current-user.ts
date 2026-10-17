@@ -1,10 +1,10 @@
 import "server-only";
 import { cache } from "react";
-import { eq } from "drizzle-orm";
-import { db } from "@/db/client";
-import { users } from "@/db/schema";
 import { getSession } from "./session";
 import { timed } from "@/lib/observability/timing";
+import { validateSessionAuthority } from "./session-authority";
+export { validateSessionAuthority } from "./session-authority";
+export type { SessionAuthorityInput } from "./session-authority";
 import { hasPrivateAccess, type AccountStatus } from "./account-status";
 import { isAdministrator, isStaff, roleAtLeast, type Role } from "./roles";
 import type { Actor } from "./ownership";
@@ -33,43 +33,23 @@ export type CurrentUser = {
   statusReason: string | null;
 };
 
-export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
-  const session = await getSession();
+export type CurrentSessionAuthority = {
+  user: CurrentUser;
+  authVersion: number;
+  sessionKey: string;
+  expiresAt: number;
+};
+
+/** Server-only session binding shared by the page and media authorization. */
+export const getCurrentSessionAuthority = cache(async (): Promise<CurrentSessionAuthority | null> => {
+  const session = await timed("auth.session", getSession);
   if (!session) return null;
-
-  /*
-   * The first query of every private page, and therefore the first thing a
-   * database problem breaks. It is timed so a slow or failing identity lookup is
-   * visible in the log *before* it shows up as an error boundary.
-   */
-  const row = await timed("auth.currentUser", () =>
-    db.query.users.findFirst({
-      where: eq(users.id, session.sub),
-      columns: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        accountStatus: true,
-        locale: true,
-        onboardingCompletedAt: true,
-        statusReason: true,
-      },
-    })
-  );
-  if (!row) return null;
-
-  return {
-    id: row.id,
-    name: row.name,
-    email: row.email,
-    role: row.role,
-    accountStatus: row.accountStatus,
-    locale: row.locale,
-    onboarded: Boolean(row.onboardingCompletedAt),
-    statusReason: row.statusReason,
-  };
+  const user = await validateSessionAuthority({ userId: session.sub, authVersion: session.authVersion,
+    sessionKey: session.sessionKey, expiresAt: session.expiresAt });
+  return user ? { user, authVersion: session.authVersion, sessionKey: session.sessionKey, expiresAt: session.expiresAt } : null;
 });
+
+export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => (await getCurrentSessionAuthority())?.user ?? null);
 
 /** A signed-in account, whatever its admission state. */
 export async function requireUser(): Promise<CurrentUser | null> {

@@ -1,7 +1,7 @@
 import { publicAuthPolicy, publicAuthDisabledResponse } from "@/lib/auth/public-auth-policy";
 import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "node:crypto";
-import { and, eq, gt, isNull } from "drizzle-orm";
+import { and, eq, gt, isNull, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { users, passwordResetTokens } from "@/db/schema";
 import { confirmResetSchema } from "@/lib/validation/auth";
@@ -29,11 +29,15 @@ export async function POST(req: NextRequest) {
   }
 
   const passwordHash = await hashPassword(parsed.data.password);
-  await db.update(users).set({ passwordHash }).where(eq(users.id, record.userId));
-  await db
-    .update(passwordResetTokens)
-    .set({ usedAt: new Date() })
-    .where(eq(passwordResetTokens.id, record.id));
+  const consumed = await db.transaction(async (tx) => {
+    const claimed = await tx.update(passwordResetTokens).set({ usedAt: new Date() })
+      .where(and(eq(passwordResetTokens.id, record.id), isNull(passwordResetTokens.usedAt), gt(passwordResetTokens.expiresAt, new Date())))
+      .returning({ id: passwordResetTokens.id });
+    if (!claimed.length) return false;
+    await tx.update(users).set({ passwordHash, authVersion: sql`${users.authVersion} + 1` }).where(eq(users.id, record.userId));
+    return true;
+  });
+  if (!consumed) return NextResponse.json({ error: "invalid_or_expired_token" }, { status: 400 });
 
   return NextResponse.json({ ok: true });
 }

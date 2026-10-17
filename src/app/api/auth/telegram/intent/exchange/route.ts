@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
 
     const token = await createSessionToken({
       sub: prepared.user.id,
+      authVersion: prepared.user.authVersion,
       role: prepared.user.role,
       name: prepared.user.name,
       locale: prepared.user.locale,

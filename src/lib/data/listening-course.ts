@@ -18,9 +18,14 @@ async function existingExam(userId:string,testId:string,sourceId:string,values:R
  return {...work,exam:true,retry:results.filter(r=>!r.ok).map(r=>String(r.q))};
 }
 export async function originalCourseStatus(userId:string,testId:string,sourceId:string,database=db){
- const spec=originalCourseSpec(sourceId);if(!spec)return null;
+ if(!originalCourseSpec(sourceId))return null;
  const row=await database.query.listeningAuthoredCheckpoints.findFirst({where:and(eq(listeningAuthoredCheckpoints.userId,userId),eq(listeningAuthoredCheckpoints.testId,testId))});
- return courseStatus(spec,await existingExam(userId,testId,sourceId,row?.values??{},readCourseWork(row?.values??{},spec),database));
+ return originalCourseStatusFromValues(userId,testId,sourceId,row?.values??{},database);
+}
+/** Reuses the authoritative checkpoint already read by the hydration endpoint. */
+export async function originalCourseStatusFromValues(userId:string,testId:string,sourceId:string,values:Record<string,string>,database=db){
+ const spec=originalCourseSpec(sourceId);if(!spec)return null;
+ return courseStatus(spec,await existingExam(userId,testId,sourceId,values,readCourseWork(values,spec),database));
 }
 export async function recordOriginalCourseWork(userId:string,testId:string,sourceId:string,activity:string,answers:Record<string,string>,database=db){
  const spec=originalCourseSpec(sourceId);if(!spec)throw Error('not_found');

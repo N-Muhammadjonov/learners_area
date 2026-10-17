@@ -58,17 +58,18 @@ export async function listGeneralSets(userId: string, options: { page?: number; 
     .limit(25).offset((Math.max(1, Math.min(10000, Math.floor(options.page ?? 1) || 1)) - 1) * 24);
   if (!sets.length) return [];
   const ids = sets.map((set) => set.id);
-  const [slots, progress] = await Promise.all([
+  const [slots, progress, academicResult] = await Promise.all([
     executor.select({ setId: generalReadingPassages.setId, passageNo: generalReadingPassages.passageNo, title: readingPassages.title })
       .from(generalReadingPassages).innerJoin(readingPassages, eq(readingPassages.id, generalReadingPassages.passageId))
       .where(inArray(generalReadingPassages.setId, ids)).orderBy(asc(generalReadingPassages.passageNo)),
     executor.select({ setId: generalReadingProgress.setId, checkedAt: generalReadingProgress.checkedAt })
       .from(generalReadingProgress).where(and(eq(generalReadingProgress.userId, userId), inArray(generalReadingProgress.setId, ids))),
-  ]);
-  const academicStates = options.academic ? (await executor.execute<{ set_id: string; id: string; status: string }>(sql`
+    options.academic ? executor.execute<{ set_id: string; id: string; status: string }>(sql`
     select distinct on (a.set_id) a.set_id,r.id,r.status from reading_assessments a join reading_attempts r on r.id=a.attempt_id
     where r.user_id=${userId}::uuid and a.set_id in (${sql.join(ids.map(id => sql`${id}::uuid`), sql`,`)})
-    order by a.set_id, r.started_at desc, r.id desc`)).rows : [];
+    order by a.set_id, r.started_at desc, r.id desc`) : Promise.resolve({ rows: [] }),
+  ]);
+  const academicStates = academicResult.rows;
   return sets.map((set) => ({
     ...(options.academic ? { assessmentStatus: academicStates.find(row => row.set_id === set.id)?.status ?? "not_started", attemptId: academicStates.find(row => row.set_id === set.id)?.id ?? null } : {}),
     id: set.id, title: set.title, description: set.description, level: set.difficultyLevel,

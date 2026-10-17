@@ -66,7 +66,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - name: Authentication UI regression
-        run: TSX_TSCONFIG_PATH=tests/ui/tsconfig.json node --import tsx --test tests/ui/auth-release.test.tsx tests/ui/part1-hotfix.test.tsx tests/ui/mobile-shell.test.tsx
+        run: TSX_TSCONFIG_PATH=tests/ui/tsconfig.json node --import tsx --test tests/ui/auth-release.test.tsx tests/ui/part1-hotfix.test.tsx tests/ui/mobile-shell.test.tsx tests/ui/access-change-listener.test.tsx tests/ui/listening-authored-navigation.test.tsx
       - run: npm run build
       - name: Production-build HTTP policy regression (no production database)
         run: node scripts/verify-auth-release-http.mjs

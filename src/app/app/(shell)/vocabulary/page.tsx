@@ -2,7 +2,7 @@ import { requireActiveUser } from "@/lib/auth/current-user";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { listTopicPacksForLearner } from "@/lib/content/vocabulary-packs";
+import { listTopicPackSummariesForLearner } from "@/lib/content/vocabulary-packs";
 import { VocabStudio } from "@/components/vocabulary/VocabStudio";
 import type { TabKey } from "@/components/vocabulary/types";
 
@@ -18,7 +18,7 @@ export default async function VocabularyPage({ searchParams }: { searchParams: P
   const tab = selectedTab(params.tab);
   // Resolve the entry frame immediately. The selected learner catalogue is
   // streamed independently, without loading every vocabulary word into it.
-  const packsPromise = listTopicPacksForLearner(locale);
+  const packsPromise = listTopicPackSummariesForLearner(locale);
 
   // Only the authoritative identity and locale gate this small server frame.
   // The selected tab starts its own private request after the frame has mounted.
@@ -32,10 +32,10 @@ export default async function VocabularyPage({ searchParams }: { searchParams: P
 }
 
 async function VocabularyPacksRegion({ packsPromise, dict, tab }: {
-  packsPromise: ReturnType<typeof listTopicPacksForLearner>;
+  packsPromise: ReturnType<typeof listTopicPackSummariesForLearner>;
   dict: ReturnType<typeof getDictionary>;
   tab: TabKey;
 }) {
-  const packs = (await packsPromise).map((pack) => ({ id: pack.id, label: pack.label, wordCount: pack.words.length }));
+  const packs = (await packsPromise).map((pack) => ({ id: pack.id, label: pack.label, wordCount: pack.wordCount }));
   return <VocabStudio dict={dict} initialTab={tab} packs={packs} />;
 }
