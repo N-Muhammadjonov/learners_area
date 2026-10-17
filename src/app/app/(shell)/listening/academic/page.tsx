@@ -31,7 +31,7 @@ export default async function AcademicListeningPage({
   const page = Math.max(1, Math.min(10000, Number.parseInt(query.page ?? "1", 10) || 1));
   // Start the read immediately but DO NOT block the route frame on PostgreSQL.
   // The Suspense region streams the same rows, paging and per-user progress.
-  const cataloguePromise = academicListeningCards(user.id, page);
+  const cataloguePromise = academicListeningCards(user.id, 1, undefined, user.role);
   return (
     <Suspense fallback={<div aria-busy="true" data-async-loading="listening-academic-catalogue" className="grid gap-4" role="status" aria-label={dict.common.loading}>
       <div className="h-12 animate-pulse rounded bg-ink-50" />
@@ -47,10 +47,12 @@ async function AcademicCatalogueRegion({ cataloguePromise, page, dict }: {
   page: number;
   dict: ReturnType<typeof getDictionary>;
 }) {
-  const { cards, hasMore, total } = await cataloguePromise;
+  const { cards, total } = await cataloguePromise;
+  void page;
   const t = dict.listening.academic;
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-5" data-route-usable="listening-academic">
+      <p className="text-sm text-ink-500" data-listening-test-count>{t.catalogueCount.replace("{n}",String(total))}</p>
       {cards.length === 0 ? (
         <Card data-listening-academic-empty>
           <h2 className="font-display text-lg text-ink-900">{t.emptyTitle}</h2>
@@ -87,40 +89,18 @@ async function AcademicCatalogueRegion({ cataloguePromise, page, dict }: {
                 ) : (
                   <p className="text-xs text-ink-300">{t.noProgress}</p>
                 )}
-                <Link
-                  className="btn-secondary mt-auto self-start px-3 py-2 text-sm"
-                  href={`/app/listening/academic/${card.testId}`}
-                  data-listening-academic-open
-                >
-                  {card.started ? t.open : t.openTest}
-                </Link>
+                {card.locked ? <div className="mt-auto space-y-2" data-listening-test-locked>
+                  <button className="btn-secondary px-3 py-2 text-sm" disabled>🔒 {t.locked}</button>
+                  <p className="text-xs text-ink-500">{t.lockedHint}</p>
+                </div> : <Link prefetch={false} className="btn-secondary mt-auto self-start px-3 py-2 text-sm" href={`/app/listening/academic/${card.testId}`} data-listening-academic-open>{card.started?t.open:t.openTest}</Link>}
+
               </div>
             </Card>
           ))}
         </div>
       )}
 
-      {/* Every published test is reachable: the list is bounded per page and the reader moves
-          through it here, so a catalogue of 125 tests never stops at the first screenful. */}
-      {(page > 1 || hasMore) && (
-        <nav className="flex items-center justify-between gap-3" aria-label={t.paginationLabel} data-listening-academic-pagination>
-          {page > 1 ? (
-            <Link className="btn-secondary" href={page === 2 ? "/app/listening/academic" : `/app/listening/academic?page=${page - 1}`} data-listening-academic-prev>
-              ← {t.previousPage}
-            </Link>
-          ) : (
-            <span />
-          )}
-          <span className="text-xs text-ink-300">{t.pageLabel.replace("{page}", String(page))}</span>
-          {hasMore ? (
-            <Link className="btn-secondary" href={`/app/listening/academic?page=${page + 1}`} data-listening-academic-next>
-              {t.nextPage} →
-            </Link>
-          ) : (
-            <span />
-          )}
-        </nav>
-      )}
+
     </div>
   );
 }

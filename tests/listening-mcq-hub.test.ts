@@ -40,13 +40,13 @@ const code = (path: string) =>
 
 const HUB = "src/app/app/(shell)/listening/page.tsx";
 
-test("F1 the hub opens the owner's four destinations — and lists no content of its own", () => {
+test("F1 the hub opens the owner's three visible destinations — and lists no content of its own", () => {
   const hub = code(HUB);
   const navigation = code("src/components/navigation/ModuleNavigation.tsx");
   const routes = [...navigation.matchAll(/href: "(\/app\/listening\/[a-z]+)"/g)].map(match => match[1]);
-  assert.deepEqual(routes, ["/app/listening/lessons", "/app/listening/academic", "/app/listening/general", "/app/listening/mcq"]);
+  assert.deepEqual(routes, ["/app/listening/lessons", "/app/listening/academic", "/app/listening/mcq"]);
   assert.match(code("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation module="listening"/);
-  for (const product of ["lessons", "academic", "general", "mcqProgram"])
+  for (const product of ["lessons", "academic", "mcqProgram"])
     assert.ok(navigation.includes(`dict.listening.${product}.title`));
   const links = code("src/components/navigation/ModuleSectionNav.tsx");
   assert.match(links, /<InstantLink key=\{link.key\} href=\{href\} scroll=\{false\} intentPrefetch/,
@@ -230,7 +230,7 @@ test("F3 a day is invisible to Academic Listening and General Listening — the 
   }
 });
 
-test("F4 the four doors are stated once, and the day's own address is not the Academic hub", () => {
+test("F4 the three sections are stated once, and the day's own address is not the Academic hub", () => {
   // The day page lives under the MCQ destination and goes back there, never to a hub of another
   // product.
   const day = code("src/app/app/(shell)/listening/mcq/day/[day]/page.tsx");
@@ -242,8 +242,8 @@ test("F4 the four doors are stated once, and the day's own address is not the Ac
   const en = read("src/lib/i18n/en.ts");
   const uz = read("src/lib/i18n/uz.ts");
   for (const source of [en, uz]) {
-    assert.match(source, /title: "Listening MCQ"/, "the MCQ destination is named as its own product");
-    assert.match(source, /subtitle: "Four separate destinations|subtitle: "To'rt alohida yo'nalish/);
+    assert.match(source, /title: "MCQ mastery"/, "the MCQ destination is named as its own product");
+    assert.match(source, /subtitle: "Three destinations|subtitle: "Uchta bo'lim/);
   }
   assert.ok(!/Listening MCQ[\s\S]{0,80}Academic Listening/.test(en.slice(en.indexOf("mcqProgram: {"), en.indexOf("mcqProgram: {") + 600)), "the MCQ copy never borrows Academic's name");
 

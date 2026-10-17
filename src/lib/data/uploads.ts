@@ -1,3 +1,4 @@
+import {listeningSequenceAccess} from "./listening-sequence";
 import { and, eq, gt, inArray, lt, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
@@ -571,6 +572,7 @@ export async function authorizeResourceRead(caller: Actor, objectKey: string): P
     const owner = await loadResourceOwner("listening", listeningPackage.testId);
     if (!owner) return { allowed: false, reason: "not_found" };
     if (!mayReadResources(caller.role, owner)) return { allowed: false, reason: "forbidden" };
+    if(!await listeningSequenceAccess(caller,listeningPackage.testId))return {allowed:false,reason:"forbidden"};
     return { allowed: true, objectKey, ownerId: owner.creatorId ?? owner.id, materialId: owner.id };
   }
 
@@ -586,6 +588,7 @@ export async function authorizeResourceRead(caller: Actor, objectKey: string): P
     const owner = await loadResourceOwner(resourceBlock.ownerType, resourceBlock.ownerId);
     if (!owner) return { allowed: false, reason: "not_found" };
     if (!mayReadResources(caller.role, owner)) return { allowed: false, reason: "forbidden" };
+    if(resourceBlock.ownerType==="listening"&&!await listeningSequenceAccess(caller,resourceBlock.ownerId))return {allowed:false,reason:"forbidden"};
     return { allowed: true, objectKey, ownerId: resourceBlock.createdByUserId, materialId: owner.id };
   }
 

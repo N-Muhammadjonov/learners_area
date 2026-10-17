@@ -1,3 +1,5 @@
+import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
+import {ListeningSequenceLocked} from "@/components/listening/ListeningSequenceLocked";
 import { hasOriginalListeningRuntime } from "@/lib/listening/original-listening";
 import { ListeningPractice } from "@/components/listening/ListeningPractice";
 import { listeningPracticeProgress } from "@/lib/data/full-listening";
@@ -35,6 +37,7 @@ export default async function Activity({
   const n = Number(activity);
   const practiceKind = ["matching","completion","retry","map"].includes(activity) ? activity as PracticeKind : null;
   if (!isUuid(id) || (!practiceKind && (!Number.isInteger(n) || n < 1 || n > 5))) notFound();
+  if(!await listeningSequenceAccess(user,id))return <ListeningSequenceLocked dict={getDictionary(await getLocale())}/>;
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
   if (detail.pkg.payload.authoredRuntime || hasOriginalListeningRuntime(id, detail.pkg.sourceId)) redirect(`/app/listening/tests/${id}`);
