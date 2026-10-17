@@ -74,6 +74,10 @@ jobs:
         env:
           TEST_DATABASE_URL: postgresql://postgres:fixture-only@127.0.0.1:5432/learners_telegram_ci
         run: node scripts/verify-telegram-integration-http.mjs
+      - name: Native PostgreSQL private media and session replay integration
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:fixture-only@127.0.0.1:5432/learners_telegram_ci
+        run: node --import tsx scripts/verify-media-integration-http.mjs
   telegram-bot:
     runs-on: learners-area-ci-arm64
     timeout-minutes: 30
