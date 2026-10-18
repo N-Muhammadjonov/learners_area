@@ -13,8 +13,8 @@ export async function mount(context){
  const validators={dashboard:dashboardDTO,openLessons:openLessonsDTO,mock:mockDTO},fields={dashboard:'dashboard',openLessons:'openLessonsResult',mock:'mock'};
  function paint(key){const slot=slots[key],state=states[key];if(!slot||!state||signal.aborted)return;
   slot.setAttribute('aria-busy',String(state.pending));if(state.pending)return;
-  if(state.error){slot.replaceChildren(RegionFailureNotice({region:key==='openLessons'?'dashboard-open-lessons':key==='dashboard'?'dashboard-summary':'mock-overview',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:()=>load(key)}));return;}
-  slot.replaceChildren(renderers[key]());if(key==='dashboard')paint('openLessons');
+  if(state.error){const notice=RegionFailureNotice({region:key==='openLessons'?'dashboard-open-lessons':key==='dashboard'?'dashboard-summary':'mock-overview',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:()=>load(key)});slot.replaceChildren(notice,...(key==='dashboard'&&slots.openLessons?[slots.openLessons]:[]));return;}
+  slot.replaceChildren(renderers[key]());
  }
  async function load(key){if(signal.aborted||states[key]?.pending)return;states[key]={pending:true};paint(key);
   try{const data=await viewData(url.pathname+url.search,signal,key);if(signal.aborted)return;requireFields(data,[fields[key]]);

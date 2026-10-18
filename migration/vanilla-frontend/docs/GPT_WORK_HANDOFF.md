@@ -1,3 +1,13 @@
+# ACTIVE V6 continuation — read this before older checkpoints
+
+Current branch `arena/96836bcf-learners-area`; baseline V5 `68778f85eb862206b22750656ccaea28fc8ac324`. V6 Phase2 `/app`, `/app/mocks`, `/app/reports` FRONTEND CODE COMPLETE; Phase1 preserved. Overall PARTIAL:13/108canonical complete,16partial,79notstarted;53/206components complete,8partial,145notstarted. Latest final236unit/291ChromiumPASS,0FAIL/0SKIP, synthetic only. Exact V6 delivery SHA/hash and extracted validation are in `deliverables/V6_VALIDATION.txt` and Git history, not older V5 checkpoint text below.
+
+Phase3 Listening entered source/dependency audit after Phase2 closure, no Listening runtime changed or module-completion claimed. Ordinary native implementation remains; not all externally blocked. Continue autonomously with `LISTENING_PHASE3_AUDIT_V6.md` and complete coherent authored+legacy flow/source-state gate before promotion. Preserve ChooseTWO A–E multi-select/Day8/no artificial caps/server reveal, nine authored Test1 activities, hub-first/private media/server registry, timers/notes/flags/state recovery and opaque allow-scripts-only iframe/CSP.
+
+Read `CHECKPOINT_V6`, `SOURCE_STATE_INVENTORY_V6`, V6 route/component ledgers, `ADAPTER_CONTRACTS_V6`, `PARALLEL_INTEGRATION_V6`. Other AI owns35staff canonical routes from older V4 snapshot; don't touch staff-owned implementation or automatically merge. Latest V5/V6 must win over stale shared-file snapshots. All changes only migration/vanilla-frontend; no reset/rebase/stash/clean/forcepush/branch switch/main/deploy/backend/production changes. No live/original-rendered/Safari/production acceptance; owner approval required. V1–V5 ZIPs immutable.
+
+---
+
 # V5 current handoff — READY TO PASTE (overall PARTIAL)
 
 Current authority: CHECKPOINT_V5.md, SOURCE_STATE_INVENTORY_V5.md, ROUTE_LEDGER_V5.md, COMPONENT_LEDGER_V5.md, route-ledger-v5.json, ADAPTER_CONTRACTS_V5.md, evidence/v5/phase1-source-audit.json and external deliverables/V5_VALIDATION.txt. Exact final code/delivery local=remote SHA is recorded externally and in delivery, not recursively inside its own commit. Baseline12308e89f67e573888ef4b23e6d85e005f2c2647.

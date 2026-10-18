@@ -13,8 +13,9 @@ export function render(scope) {
     // Source presentation with explicit native DOM slots, no framework renderer.
     const Suspense = ({ children }) => fragment({ children });
     const RegionFailureNotice = p => FailureNotice({ ...p, refresh: () => context.retryRegion ? context.retryRegion(p.region) : context.refresh() });
-    const slot = (key, skeleton) => { const host = h('div', { 'data-dashboard-region-slot': key, 'aria-busy': 'true' }, skeleton); scope.slots[key] = host; return host; };
-    function DashboardContent(props) { return scope.slots ? slot('dashboard', DashboardSkeleton()) : DashboardContentResolved(props); }
+    const slot = (key, skeleton) => { if (scope.slots[key])
+        return scope.slots[key]; const host = h('div', { [key === 'openLessons' ? 'data-open-lessons-stream' : 'data-dashboard-region-slot']: key, 'aria-busy': 'true' }, skeleton); scope.slots[key] = host; return host; };
+    function DashboardContent(props) { return scope.slots ? slot('dashboard', fragment({ children: [DashboardSkeleton(), DashboardOpenLessons({ dict, openLessonsPromise })] })) : DashboardContentResolved(props); }
     function DashboardOpenLessons(props) { return scope.slots ? slot('openLessons', DashboardOpenLessonsSkeleton()) : DashboardOpenLessonsResolved(props); }
     function MockProgressOverview(props) { return scope.slots ? slot('mock', DashboardSkeleton()) : MockProgressOverviewResolved(props); }
     function DashboardContentResolved({ user, locale, dict, openLessonsPromise }) {
