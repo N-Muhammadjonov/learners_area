@@ -13,3 +13,6 @@ export function pendingResult(data){if(!object(data)||!('openRequest'in data)||d
 
 /** Source login diagnostics: categories only, no input/body/path/driver strings. */
 export function accountDiagnostic(error){return {event:'loginFailure',status:Number.isInteger(error?.status)&&error.status>=0&&error.status<=599?error.status:0,kind:error?.code==='invalid_response'?'parse':error?.status>=500?'server':error?.status?'http':'network',code:['service_unavailable','invalid_credentials','timeout','aborted'].includes(error?.code)?error.code:null,reason:null};}
+
+/** Optional development-only link: never follow arbitrary API/external URLs. */
+export function resetDevUrl(value){if(typeof value!=='string'||!value.startsWith('/')||value.startsWith('//'))return null;try{const u=new URL(value,'https://frontend.invalid');return u.origin==='https://frontend.invalid'&&u.pathname==='/reset-password/confirm'&&u.searchParams.get('token')?u.pathname+u.search+u.hash:null;}catch{return null;}}
