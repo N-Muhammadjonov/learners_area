@@ -1,6 +1,6 @@
 # V13 route ledger — Listening PARTIAL
 
-Counts RECOMPUTED from the preserved source-entry statuses: **22 COMPLETE /15 PARTIAL /71 NOT STARTED**,108 canonical inventory candidates;6 redirects and1 retired separately. Listening **9/6/1 of16**;35 staff canonical routes remain reserved (23 Admin,6 Owner,6 Teacher). V13 introduces no full-route promotions: coherent fixes inside partial authored/media consumers do not close their entire source contracts. Reading not started. No live/visual/product acceptance. Machine authority: route-ledger-v13.json.
+Counts RECOMPUTED from the preserved source-entry statuses: **22 COMPLETE /15 PARTIAL /71 NOT STARTED**,108 canonical inventory candidates;6 redirects and1 retired separately. Listening **9/6/1 of16**;35 staff canonical routes remain reserved (23 Admin,6 Owner,6 Teacher). V12 introduces no full-route promotions: coherent fixes inside partial authored/media consumers do not close their entire source contracts. Reading not started. No live/visual/product acceptance. Machine authority: route-ledger-v13.json.
 
 | Route | Frontend status |
 |---|---|
@@ -121,6 +121,8 @@ Counts RECOMPUTED from the preserved source-entry statuses: **22 COMPLETE /15 PA
 | `/reset-password` | CODE COMPLETE |
 
 
-V13 exact V11 continuation. Retry input/feedback/recovery leaf closure does not close the whole authored frame/hub, shared all-caller consumers, exam/revision, standalone MCQ or staff author desk. No route/component entry status changed. See CHECKPOINT_V13.md and independent delivery proof.
+V12 exact V11 continuation. Retry input/feedback/recovery leaf closure does not close the whole authored frame/hub, shared all-caller consumers, exam/revision, standalone MCQ or staff author desk. No route/component entry status changed. See CHECKPOINT_V12.md and independent delivery proof.
 
-V13 changes Full IELTS own UI/deadline/focus recovery and parent exam dictionary lock only. Activity remains PARTIAL; no route or source-component closure is inferred. Review & Revision has NOT received a V13 completion pass.
+## V13 delta (entry evidence above is preserved historical V12 evidence)
+
+No route/component promotions in V13 either. Full IELTS own navigation/deadline/focus recovery and parent exam dictionary lock added; activity remains PARTIAL. Original source-entry paths and accepted V12 evidence are retained verbatim, not renamed to nonexistent V13 modules. See CHECKPOINT_V13 and updated machine ledger; Review V13 pass NOT started.

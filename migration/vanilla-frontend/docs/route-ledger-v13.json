@@ -1,7 +1,7 @@
 {
   "summary": {
     "baseline": "9a7d9fc5a93608078644d61cd9f9850c05c4ddc8",
-    "previousCheckpoint": "041e02c353d86320053ea54232bb58620f5818f8",
+    "previousCheckpoint": "8ffbb39a8d1187bf9b0a4ce7a75cfec2a980aa97",
     "pageFiles": 115,
     "classificationCounts": {
       "CANONICAL_PAGE_CANDIDATE": 107,
@@ -18,7 +18,7 @@
     "componentFiles": 206,
     "partialComponentFiles": 17,
     "fullyAcceptedComponents": 0,
-    "codeCheckpoint": "V13 exact V11 continuation; authoritative independent proof deliverables/V13_VALIDATION.txt",
+    "codeCheckpoint": "V13 exact V12 continuation; authoritative executed proof deliverables/V13_VALIDATION.txt",
     "status": "PARTIAL",
     "notStartedComponentFiles": 127,
     "codeCompleteRedirectOnlyRecords": 6,
@@ -30,25 +30,36 @@
     },
     "sourceBuild": true,
     "unit": {
-      "pass": 351,
+      "pass": 363,
       "fail": 0,
       "skip": 0,
-      "proof": "External executed summary required"
+      "proof": "root363 PASS; independent execution external"
     },
     "browser": {
-      "pass": 499,
-      "fail": 0,
-      "skip": 0,
-      "historical": 496,
-      "newV13": 3,
-      "originalSource": "27 opt-in actual-source cases;1/9 supported frontend closures,0/9 comprehensive original/live closures; external proof required"
+      "manifest": 499,
+      "preservedV12": 499,
+      "newV13": 0,
+      "rootFirstAttempt": {
+        "pass": 290,
+        "fail": 1,
+        "stoppedAt": "unchanged V6 bounded-DOM assertion; remainder not executed"
+      },
+      "independentProof": "External executed summary required; no root499 PASS claimed",
+      "originalSource": {
+        "pass": 43,
+        "fail": 0,
+        "skip": 0,
+        "preservedV12": 27,
+        "newV13": 16,
+        "scope": "actual read-only HTML with isolated APIs/media; comprehensive0/9, live0/9"
+      }
     },
     "v3NewPageImplementations": 0,
     "canonicalCandidates": 108,
     "frontendCodeCompleteCanonicalCandidates": 22,
     "frontendCodeCompleteComponents": 62,
     "v4NewPageImplementations": 0,
-    "completedModule": "Original Retry Weak Areas input/feedback/recovery leaf; bounded parent Range cache and reactive MSE quota recovery; Listening PARTIAL",
+    "completedModule": "V12 supported Retry leaf retained; V13 Full IELTS resume/timer/focus/exam dictionary lock improved but PARTIAL",
     "componentAccounting": "62complete+17partial+127notstarted=206",
     "routeAccounting": "22canonicalcomplete+15partial+71notstarted+6redirects+1retired=115",
     "v5NewPageImplementations": 1,
@@ -69,11 +80,17 @@
       "CODE COMPLETE": 22,
       "NOT STARTED": 71
     },
-    "v13Promotions": 0,
+    "v12Promotions": 0,
     "originalActivityFrontendCodeClosures": [
       "retry"
     ],
     "comprehensiveOriginalActivityClosures": 0,
+    "v12RecomputedCounts": {
+      "IN PROGRESS": 15,
+      "CODE COMPLETE": 22,
+      "NOT STARTED": 71
+    },
+    "v13Promotions": 0,
     "v13RecomputedCounts": {
       "IN PROGRESS": 15,
       "CODE COMPLETE": 22,

@@ -10,8 +10,9 @@
       "NOT STARTED": 5
     },
     "acceptance": "FRONTEND/FIXTURE only; shared all-caller and staff exclusions explicit",
-    "previousCheckpoint": "041e02c353d86320053ea54232bb58620f5818f8",
+    "previousCheckpoint": "8ffbb39a8d1187bf9b0a4ce7a75cfec2a980aa97",
     "v11Promotions": 0,
+    "v12Promotions": 0,
     "v13Promotions": 0
   },
   "components": [
