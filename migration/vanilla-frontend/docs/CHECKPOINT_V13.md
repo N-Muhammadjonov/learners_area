@@ -24,7 +24,9 @@ reference binding; real-source tests caught the integration defect. No test was
 relaxed. Raw initial13 failures (12 reload + final-review) retained. Second run
 15PASS/1FAIL caught test observation ordering: request event occurred before route
 handler counted it. Awaiting RESPONSE fixes the fixture observation; identical
-reads===1 assertion retained. Fresh extracted acceptance is reported separately.
+reads===1 assertion retained. Root Chromium stopped at unchanged V6 DOM-bound
+assertion (76/77); cause unestablished, raw proof retained, no test change. Fresh
+extracted sequential acceptance is reported separately.
 
 Question focus and native labels/current/answered/flagged semantics follow source
 navigation; text accepts existing500-character API limit. Paired control changes
