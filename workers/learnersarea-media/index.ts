@@ -32,7 +32,9 @@ export async function serveMedia(request:Request,env:MediaEnvironment,authorizeF
  try {
   const timestamp=Math.floor(Date.now()/1000),method=request.method as 'GET'|'HEAD';
   const proof=await createMediaAuthorizationProof(env.MEDIA_SIGNING_SECRET,{method,token,timestamp});
-  const authority=await authorizeFetch(AUTHORIZATION_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({method,token,key,timestamp,proof}),redirect:'error',signal:AbortSignal.timeout(6000),cache:'no-store'});
+  // Workers rejects redirect:'error' before sending the request. Manual mode
+  // preserves the same fail-closed policy: only this fixed origin's 200 passes.
+  const authority=await authorizeFetch(AUTHORIZATION_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({method,token,key,timestamp,proof}),redirect:'manual',signal:AbortSignal.timeout(6000),cache:'no-store'});
   if(authority.status!==200)return reject(authority.status===401||authority.status===403?403:503);
   if((await authority.json() as {allowed?:boolean}).allowed!==true)return reject(403);
   const object=await env.MEDIA_BUCKET.head(key);if(!object)return reject(404);

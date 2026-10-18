@@ -36,6 +36,19 @@ test('CORS preflight is bounded and never grants writes, credentials or wildcard
  const bad=await serveMedia(new Request(f.url,{method:'OPTIONS',headers:{Origin:'https://learnersarea.uz','Access-Control-Request-Method':'PUT'}}),f.env,f.authorize);assert.equal(bad.status,403);assert.equal(f.counts().authorityReads,0);
 });
 
+test('the Workers-compatible authorization transport refuses redirects without following or reading R2',async()=>{
+ const f=await fixture();let requests=0;
+ const fetchInWorkers:typeof fetch=async(_url,init)=>{
+  // Workers implements follow/manual, unlike Node's supported error mode.
+  if(init?.redirect==='error')throw new TypeError('Unsupported redirect mode');
+  assert.equal(init?.redirect,'manual');requests++;
+  return new Response(null,{status:307,headers:{Location:'https://attacker.invalid'}});
+ };
+ const response=await serveMedia(new Request(f.url),f.env,fetchInWorkers);
+ assert.equal(response.status,503);assert.equal(requests,1);
+ assert.equal(f.counts().headReads,0);assert.equal(f.counts().bodyReads,0);
+});
+
 test('a concurrent object replacement or deletion never sends an old Content-Length with an empty error response',async()=>{
  const f=await fixture();
  const info=await f.env.MEDIA_BUCKET.head(key);assert.ok(info);
