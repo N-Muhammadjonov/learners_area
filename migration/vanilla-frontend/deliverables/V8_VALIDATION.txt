@@ -62,5 +62,9 @@ Original-rendered, live adapters/authorization/R2, Safari, real devices/audio/ha
 Preview APIs intentionally503, no fabricated identities/data. No1–100ms or universal leak guarantee.
 35staff canonical records unchanged/reserved23Admin6Owner6Teacher; no automatic older-V4 integration.
 No original source/backend/DB/cloud/auth/provider/main/deploy changes.
-Main remains6c5ee5537d979e057f303e6cfc08eed8d9dc874c.
+Remote main was6c5ee5537d979e057f303e6cfc08eed8d9dc874c at initial/final-code audit.
+Final read-only ls-remote observed external advancement to
+8c4e9af9f122d1fbe3de1a71274f3104d57e1d75 during independent validation.
+No main push/merge/reset or deployment was performed by this agent; external activity is not attributed
+or integrated. Every session commit/push is solely arena/96836bcf-learners-area.
 PRODUCTION CHANGES: NONE. Owner approval required before production replacement.
