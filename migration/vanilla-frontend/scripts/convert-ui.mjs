@@ -9,7 +9,10 @@ if(!fs.existsSync(path.join(root,'src/components')))process.exit(0);
 const transpile=text=>ts.transpileModule(text,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022,jsx:ts.JsxEmit.React,jsxFactory:'h',jsxFragmentFactory:'fragment'}}).outputText;
 const header="// Generated native DOM from reviewed source. No React runtime.\nimport {h,fragment,Link,InstantLink} from '../native.js';\n";
 for(const [source,dest] of [['ui/icons.tsx','icons.js'],['ui/ModuleEmoji.tsx','module-emoji.js']]){
- const text=fs.readFileSync(path.join(root,'src/components',source),'utf8');
+ let text=fs.readFileSync(path.join(root,'src/components',source),'utf8');
+ // Source React elements are immutable descriptions; native nodes are consumable.
+ // Emit factories for each static SVG mark so repeat mounts never move/empty a shared fragment.
+ if(dest==='module-emoji.js'){const ast=ts.createSourceFile('marks.tsx',text,ts.ScriptTarget.Latest,true);let object;function find(n){if(ts.isVariableDeclaration(n)&&n.name.getText(ast)==='marks')object=n.initializer;ts.forEachChild(n,find);}find(ast);if(!object||!ts.isObjectLiteralExpression(object))throw Error('Unexpected ModuleEmoji source');const replacement='{'+object.properties.map(p=>p.name.getText(ast)+':()=>('+p.initializer.getText(ast)+')').join(',')+'}';text=text.slice(0,object.pos)+replacement+text.slice(object.end);text=text.replace('{marks[kind]}','{marks[kind]()}');}
  fs.writeFileSync(path.join(base,'js/generated',dest),header+transpile(text.replace(/^import .*?;\s*$/gm,'')));
 }
 const pure=['ui/Card.tsx','ui/EmptyState.tsx','ui/ProgressBar.tsx'];

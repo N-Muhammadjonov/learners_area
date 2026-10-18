@@ -2,11 +2,12 @@ export class ApiError extends Error {
  constructor(status,code){super(code);this.status=status;this.code=code;}
 }
 /** Same-origin only, no persistent/private cache, no mutation retries. */
-export function createApi(fetcher=globalThis.fetch.bind(globalThis)){
+export function createApi(fetcher=globalThis.fetch.bind(globalThis),onUnauthorized=()=>{}){
  const pending=new Map();
  async function execute(path,{method='GET',body,signal}={}){
   if(!path.startsWith('/api/')||/[\\\u0000-\u001f]/.test(path))throw new TypeError('Only same-origin /api paths accepted');
   const response=await fetcher(path,{method,credentials:'same-origin',cache:'no-store',redirect:'error',headers:{Accept:'application/json',...(body===undefined?{}:{'Content-Type':'application/json'})},body:body===undefined?undefined:JSON.stringify(body),signal});
+  if(response.status===401)onUnauthorized(path);
   const type=response.headers.get('content-type')??'';
   if(!type.includes('application/json'))throw new ApiError(response.status,'invalid_response');
   const data=await response.json();
@@ -30,4 +31,4 @@ export function createApi(fetcher=globalThis.fetch.bind(globalThis)){
  async function bounded(path,options){const timeout=AbortSignal.timeout(25000);const signal=options.signal?AbortSignal.any([options.signal,timeout]):timeout;return execute(path,{...options,signal});}
  return {request,clear(){for(const e of pending.values())e.controller.abort();pending.clear();}};
 }
-export const api=createApi();
+export const api=createApi(globalThis.fetch.bind(globalThis),()=>{if(typeof window!=='undefined')window.dispatchEvent(new Event('learners-area:auth-failure'));});

@@ -17,7 +17,7 @@ export function watchAuthority(session,{navigate,refresh,signal,window:win=windo
  const reconcile=()=>{connect();void update();},visible=()=>{if(doc.visibilityState==='visible')reconcile();};
  const channel=typeof win.BroadcastChannel==='function'?new win.BroadcastChannel('learners-area:session'):null;
  if(channel)channel.onmessage=e=>{if(e.data==='logout')logout();};
- function stop(){if(closed)return;closed=true;clearTimer(timer);requestController?.abort();stream?.close();channel?.close();win.removeEventListener('online',reconcile);win.removeEventListener('pageshow',reconcile);doc.removeEventListener('visibilitychange',visible);signal?.removeEventListener('abort',stop);}
- schedule(session.expiresAt);connect();win.addEventListener('online',reconcile);win.addEventListener('pageshow',reconcile);doc.addEventListener('visibilitychange',visible);signal?.addEventListener('abort',stop,{once:true});return {stop,reconcile: update};
+ function stop(){if(closed)return;closed=true;clearTimer(timer);requestController?.abort();stream?.close();channel?.close();win.removeEventListener('learners-area:auth-failure',logout);win.removeEventListener('online',reconcile);win.removeEventListener('pageshow',reconcile);doc.removeEventListener('visibilitychange',visible);signal?.removeEventListener('abort',stop);}
+ schedule(session.expiresAt);connect();win.addEventListener('learners-area:auth-failure',logout);win.addEventListener('online',reconcile);win.addEventListener('pageshow',reconcile);doc.addEventListener('visibilitychange',visible);signal?.addEventListener('abort',stop,{once:true});return {stop,reconcile: update};
 }
 export async function logoutSession({signal,navigate}){await api.request('/api/auth/logout',{method:'POST',signal});if(typeof BroadcastChannel==='function'){const c=new BroadcastChannel('learners-area:session');c.postMessage('logout');c.close();}privateScope.setScope(null);api.clear();await navigate('/login',{replace:true});}
