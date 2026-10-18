@@ -28,7 +28,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/CHECKPOINT_V3.md | 13801 | c9288101aa89999705ae10fe36ab056f239aa2f79a5c5a0ea85bc4b674814852 |
 | docs/CHECKPOINT_V4.md | 5876 | e7680dabba10a881c476e157ce4bd0dcb23b5db3ede858ad66c87400924776e5 |
 | docs/CHECKPOINT_V5.md | 8033 | b86a0069be0ef98f8a20aa00e98b7d9da092cc7112a692874ba0c7ed509f7bc5 |
-| docs/CHECKPOINT_V6.md | 5608 | ab95d6c20fb6baa0ae8ad409c42c63f27bd1521f8db5219e82f4648afb274632 |
+| docs/CHECKPOINT_V6.md | 5836 | 87d1f8ce102a85e3ce6b477454a76975894fe3e02ec7b3ef6d0127a74d7ac1f4 |
 | docs/COMPONENT_LEDGER_V4.md | 30726 | bac6d1038784a48b9a141834e39d6fec5dde08b6dfa64342aaada3cbe11af689 |
 | docs/COMPONENT_LEDGER_V5.md | 34947 | fed4f89add4430360d0b59533094f87be7df24cad2b687aca7cd8092d302a06e |
 | docs/COMPONENT_LEDGER_V6.md | 34654 | fef9454919158115b8e57db32df025fb10e5a23997fd5a3b1c23ec8ec5e4ec9d |
@@ -200,7 +200,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/evidence/v5/v4-regression/search-shell-1440-uz-night.png | 367667 | f9982060d1d958cfb914f77c07bb0a6bdfd1bb816daf1679714570632b96fd46 |
 | docs/evidence/v5/v4-regression/search-shell-390-uz-night.png | 156142 | 09c2a1ca89f0d9e24395bf473a5e4a685540d86491fa7f4ccb3a84948e5508b9 |
 | docs/evidence/v5/v4-regression/search-shell-768-uz-night.png | 240569 | fa123a956bc334b5ec7752a95880b290ce2f8a22380158fb80e6e04ffadc25ca |
-| docs/evidence/v6/assets-css.json | 4137 | c3fd4e4ea52b87fb3dc0ef06e1b3d52ca04b7d02841561620601d12a15d213a8 |
+| docs/evidence/v6/assets-css.json | 4206 | 96d5ab4ce7ad785badf58680927c024cf4c818bd375260666368671a96639bcc |
 | docs/evidence/v6/browser-v6-results.json | 10806 | 34a144dac61b2813b88afeb175ab139b327174e827fcded99839d63b5e7de940 |
 | docs/evidence/v6/build-output.txt | 653 | 01f245d7738a9cd377defee349509ab91e745b5c0166bad102bb538dfdc625f5 |
 | docs/evidence/v6/dependency-audit.json | 2866 | 4e7db950fb9729deb238410b1632829985b2cb1a6dbcd37a30ba7ed1e55cc9d5 |
@@ -409,7 +409,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | package.json | 633 | 85ff6630d02204cd4b49a57fdff12548f6258844f582ea2c434f4a7fd9c2290d |
 | scripts/assets-css-v4.mjs | 1768 | 33cd8f58b1c04dedbc8643e39f52bf7acff661c32a8f0c163af9fca8a82aff08 |
 | scripts/assets-css-v5.mjs | 1768 | 04abe3ab70cefd7ae2b79946800224c6b55629c342f989938c5cb0fe5586a7c4 |
-| scripts/assets-css-v6.mjs | 1768 | c9fccc81ff85030ea90f86ba210d076ade0da3f3bbdd2b3566a1a3d3c2089246 |
+| scripts/assets-css-v6.mjs | 2435 | 48686fa68e97dba3e5a1a4e27b4eeb1c0eb7f273420d87f6986ee1063b66826a |
 | scripts/build.mjs | 4326 | c712b81b5662f03c9fe6a9d2b38716a69bb43258b1bf753ad2cb44eafae3b16b |
 | scripts/convert-auth.mjs | 1836 | d478734cc4fa82a2f23d5bf78b934c5147a78fa3170b33d3c550d7e20bfe2d22 |
 | scripts/convert-dashboard.mjs | 5723 | 64527576081ac540c688137bf53f50b1b537fa789d64df389f1828143f2eaad3 |

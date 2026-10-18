@@ -1,5 +1,6 @@
 {
   "status": "PASS",
+  "reference": "fresh original-source comparison AND pinned hashes",
   "assets": 25,
   "sourceCssExact": true,
   "sourceCssSha256": "b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2",
