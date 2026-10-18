@@ -1,0 +1,40 @@
+{
+  "status": "PASS collected; initial failures retained externally",
+  "unit": {
+    "PASS": 351,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "chromium": {
+    "PASS": 499,
+    "FAIL": 0,
+    "SKIP": 0,
+    "execution": "single preserved496 run plus targeted encoded3 run; independent strict499 required"
+  },
+  "originalSource": {
+    "PASS": 27,
+    "FAIL": 0,
+    "SKIP": 0,
+    "execution": "Collected root27: initial26 had25PASS1fixtureFAIL; same known-pair assertions rerun after canonical fixture correction PASS, plus new real clip check PASS, stronger empty/all-correct reload delta PASS. NOT a single unfiltered27 run. Independent full27 required separately."
+  },
+  "frontendOriginalClosures": 1,
+  "comprehensiveOriginalClosures": 0,
+  "reports": [
+    "browser-regression.json",
+    "browser-v2-regression.json",
+    "browser-v3-regression.json",
+    "browser-v4-regression.json",
+    "browser-v5-regression.json",
+    "browser-v6-regression.json",
+    "browser-v7-regression.json",
+    "browser-v8-regression.json",
+    "browser-v9-regression.json",
+    "browser-v10-regression.json",
+    "browser-v11-regression.json"
+  ],
+  "runtimeVulnerabilities": 0,
+  "developmentHigh": 5,
+  "visualMatchedAccepted": 0,
+  "liveOriginalAccepted": 0,
+  "productionChanges": "NONE"
+}

@@ -1,3 +1,18 @@
+# ACTIVE CHECKPOINT V12 — PARTIAL
+
+Exact continuation of verified V11. Read docs/CHECKPOINT_V12.md and the five V12
+docs/machine ledgers; authoritative delivery proof: deliverables/V12_VALIDATION.txt
+and deliverables/v12-independent/summary.json. Original Retry input/feedback/
+recovery leaf code closure1/9 supported original workflows; comprehensive0/9,
+live0/9. Listening remains PARTIAL; Reading NOT STARTED. No whole-route/component
+promotions. Sandbox/CSP and all historical archives preserved. Production NONE.
+V12 default browser runner: node scripts/regression-v12.mjs (499 cases). Opt-in
+actual read-only source: V12_SOURCE=1 ORIGINAL_SOURCE_ROOT=/path/to/checkout
+node tests/browser-original-source-v11.mjs (27 cases; no protected corpus bundled).
+
+---
+Historical V11 README below; V12 authority above takes precedence.
+
 # Current checkpoint: V11 PARTIAL — safely reimplemented, not recovered
 
 Read docs/CHECKPOINT_V11.md and deliverables/V11_VALIDATION.txt. Listening remains partial; Reading not started; production changes NONE.

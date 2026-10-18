@@ -1,0 +1,319 @@
+{
+  "date": "2026-10-18T20:02:12.170Z",
+  "scope": "authorized synthetic fixtures only; no live acceptance",
+  "results": [
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "dashboard independent summary/lessons/mock failure retry and real sections 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "mocks actual catalogue/owned states and independent unavailable retry 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search student/390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search teacher/390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search admin/390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports source scopes, six downloads, validation and deep search owner/390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "reports unavailable/malformed projection, safe download failures, cancel and stale route cleanup",
+      "status": "PASS"
+    },
+    {
+      "name": "report roles fail closed, empty roster states, URL error and malicious DOM subject cannot grant access",
+      "status": "PASS"
+    },
+    {
+      "name": "same-route locale refresh retains report selections/draft with no download replay",
+      "status": "PASS"
+    },
+    {
+      "name": "401 report download reconciles authoritative expired session, does not deliver a file",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 77,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

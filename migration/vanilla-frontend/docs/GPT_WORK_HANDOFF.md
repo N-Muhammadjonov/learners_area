@@ -1,3 +1,63 @@
+# ACTIVE V12 — exact V11 continuation; Listening PARTIAL
+
+Continue ONLY arena/96836bcf-learners-area from latest pushed delivery SHA in Git
+and deliverables/V12_VALIDATION.txt. Verified V11 baseline041e02c353d86320053ea54232bb58620f5818f8.
+No restart, branch switch/create, reset/rebase/stash/clean/force push. Stale sandbox
+local9a7d9fc was reconciled by verified359-file external backup and normal same-
+branch fast-forward, not an overwrite. See evidence/v12/preservation.json.
+All edits migration/vanilla-frontend only; original/backend/cloud/DB/main read-only.
+
+Read CHECKPOINT_V12/SOURCE_STATE_INVENTORY_V12/ROUTE_LEDGER_V12/COMPONENT_LEDGER_V12/
+ADAPTER_CONTRACTS_V12 and V12 machine ledgers, original-activities-v12.json,
+external independent summary and exact retained initial failures BEFORE editing.
+Preserve V1–V12 archives and all completed prior consumers. V11 was safely
+reimplemented historically, NOT recovered; V12 is its exact delivered continuation.
+
+Coherent frontend code closure1/9 originals: Retry Weak Areas, existing original
+shared-audio contract. All40 controls/source windows, own drafts/current question,
+reload/reentry/new-attempt invalidation, server-only feedback/paired lock, explicit
+retry/deadlines/duplicate prevention/stale cancellation/labels/Enter/status/focus,
+and old-clip pause are implemented. Retry drafts never cache verdicts/keys; no new browser grading.
+Original comprehensive0/9; live0/9. Other8 frontend workflows remain PARTIAL.
+
+Parent Range global8MiB LRU/two-transport bounds with eviction/replay and body
+cancel; MP3 MSE quota retry reclaims played data once before fallback. Native Blob
+failures visible. Backseek into evicted data/duplicates/decoder failures use
+explicit NONprogressive full Blob. Universal media STILL PARTIAL: stable duration,
+indexed unbuffered seek, decoded bounds, long aggregate Blob memory, every legacy/
+provider caller remain ordinary engineering, not merely credentials blockers.
+No allow-same-origin/CSP changes or private capability URLs in opaque content.
+
+Global22/15/71 routes;62/17/127 components; Listening9/6/1 of16 routes and9/10/5
+of24 components. No whole-entry promotions from this leaf closure.351 unit/499
+Chromium/27 original-source manifests; actual PASS/FAIL/SKIP only in final external
+proof. Retained initial foundation unit and contradictory source fixture failures
+are NOT erased by later PASS. Matched original visual0, live original accepted0;
+weighted implementation/security/visual-live aggregate metrics UNDETERMINED.
+
+NEXT: finish ONE coherent remaining original workflow at a time, other8 full
+exam/timer/type/review/script/mastery/vocab branches plus legacy/revision/standalone
+MCQ callers; finish universal supported media engineering. Do not reimplement
+accepted General/Academic/history/lessons/quiz/private notes/Activities2–5/study/
+test-MCQ/exam/review controllers. Strict16 routes/24 components/9 frontend workflows
+and all-callers gate before Reading. Reading NOT STARTED.
+
+35 staff routes reserved23 Admin/6 Owner/6 Teacher. Author desk staff-only and
+untouched; no learner CRUD. Do not auto-merge older V4 staff work. Manually reconcile
+newest routes/shell/guards/private-scope/API/extraction/styles/media against V12.
+Production changes NONE; no merge/deploy.
+
+## Deferred GPT Work — NOT V12
+
+After frontend migration/integration and separate Owner authorization: ONE Owner
+Listening HTML upload -> validation -> embedded audio extraction -> PRIVATE
+Cloudflare R2 -> material/activities/transcript/media registration -> recovery ->
+Owner preview -> EXPLICIT publication. No backend/R2/cloud/DB implementation here.
+Reading imports remain Owner-supervised AI-assisted; no automatic importer.
+
+---
+Historical V11 and earlier handoffs retained below; ACTIVE V12 supersedes them.
+
 # ACTIVE V11 — safely reimplemented from verified V10; Listening PARTIAL
 
 The lost V11 workspace was NOT found. Owner authorized reimplementation only after359 untracked V4 files were independently backed up outside the repository, then moved before normal fast-forward to9c62895674025159b4dcbab839bb1fb8f37348af. See CHECKPOINT_V11.md and evidence/v11/recovery.json. Continue ONLY arena/96836bcf-learners-area; no restart/reset/rebase/stash/clean/forcepush/branch switch. All implementation changes migration/vanilla-frontend only.
