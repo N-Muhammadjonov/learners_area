@@ -1,0 +1,14 @@
+import {el} from '../../js/dom.js';import {viewData} from '../../js/adapters/frontend.js';import {ListeningSequenceLocked} from '../../js/generated/listening-locked.js';import {RegionFailureNotice} from '../shared/presentation.js';import {listeningExam} from './exam.js';import {listeningPractice} from './practice.js';import {fullExamStart} from './exam-start.js';import {uuid} from '../../js/adapters/listening-v7.js';
+/** New source-derived consumers; projections remain proposals, never synthetic live data. */
+export function mount(context){const {root,url,dict,signal}=context,parts=url.pathname.split('/'),id=parts[4],activity=parts[5],attempt=parts[3]==='attempts',host=el('div',{'data-listening-native-v7':''});root.append(host);let pending=false;
+ async function load(){if(signal.aborted||pending)return;pending=true;host.setAttribute('aria-busy','true');host.replaceChildren(el('p',{role:'status'},dict.common.loading));try{if(!uuid(id))throw Error();const data=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;
+ if(data.kind==='locked')host.replaceChildren(ListeningSequenceLocked({dict}));
+ else if(!attempt&&data.kind==='authored'){await context.navigate('/app/listening/tests/'+id,{replace:true});}
+ else if(!attempt&&activity==='1'&&data.kind==='exam-start'&&typeof data.title==='string')host.replaceChildren(fullExamStart(context,{id,title:data.title}));
+ else if(!attempt&&['matching','completion','map','retry'].includes(activity)&&data.kind==='practice'&&data.practice?.id===id&&data.practice?.kind===activity)host.replaceChildren(listeningPractice(context,data.practice));
+ else if(attempt&&data.kind==='exam'&&data.exam?.attemptId===id)host.replaceChildren(listeningExam(context,data.exam));
+ else if(data.kind==='exam-locked')host.replaceChildren(el('p',{role:'status'},dict.fullListeningHub.research.examLocked));
+ else if(data.kind==='redirect'&&typeof data.href==='string'&&new RegExp('^/app/listening/(?:tests/[0-9a-f-]+/2|general/[0-9a-f-]+)$','i').test(data.href))await context.navigate(data.href,{replace:true});
+ else throw Error('Source mode not yet implemented');
+ }catch{if(!signal.aborted)host.replaceChildren(RegionFailureNotice({region:'listening',message:dict.common.error,retryLabel:dict.common.retry,refresh:load}));}finally{pending=false;if(!signal.aborted)host.setAttribute('aria-busy','false');}}
+ void load();}

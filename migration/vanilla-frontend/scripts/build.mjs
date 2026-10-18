@@ -28,6 +28,7 @@ execFileSync(process.execPath,[path.join(base,'scripts/convert-ui.mjs')],{cwd:ba
 execFileSync(process.execPath,[path.join(base,'scripts/convert-views.mjs')],{cwd:base,stdio:'inherit'});
 execFileSync(process.execPath,[path.join(base,'scripts/convert-dashboard.mjs')],{cwd:base,stdio:'inherit'});
 execFileSync(process.execPath,[path.join(base,'scripts/convert-reports.mjs')],{cwd:base,stdio:'inherit'});
+execFileSync(process.execPath,[path.join(base,'scripts/convert-listening-v7.mjs')],{cwd:base,stdio:'inherit'});
 execFileSync(process.execPath,[path.join(base,'scripts/convert-interactions.mjs')],{cwd:base,stdio:'inherit'});
 execFileSync(process.execPath,[path.join(base,'scripts/convert-auth.mjs')],{cwd:base,stdio:'inherit'});
 execFileSync(process.execPath,[path.join(base,'scripts/convert-phase1.mjs')],{cwd:base,stdio:'inherit'});
