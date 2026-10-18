@@ -72,7 +72,7 @@ test("D-3 one question is handed to the engine, chosen by the shared resume rule
   assert.match(source, /questions=\{\[\{/, "exactly ONE question is passed to the engine");
   assert.match(source, /order: activeIndex \+ 1/, "its authored position is what the engine states");
   assert.match(source, /stage: \(active\.stage \?\? "listen"\)/, "the learner's persisted stage is the stage they resume at");
-  assert.match(source, /audioUrl=\{day\.audioUrl\}/, "the day's own audio, passed through — never derived from a title or a count");
+  assert.match(source, /audioUrl=\{active\.audioUrl \?\? day\.audioUrl\}/, "the authored question recording, with the existing day recording as fallback");
 
   // No re-sorting: the day arrives in the item's authored order and is used as it is.
   assert.doesNotMatch(source, /\.sort\(/, "the day's order is authored; the surface never re-sorts it");

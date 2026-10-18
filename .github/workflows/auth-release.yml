@@ -30,10 +30,11 @@ jobs:
           --health-interval 5s --health-timeout 5s --health-retries 10
     steps:
       - uses: actions/checkout@v4
+      # Remote npm cache upload took 12 minutes for 229 MB on this runner.
+      # npm ci can use its local npm cache without an Actions cache transfer.
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: npm
       - run: npm ci
       # Node 24.21.0 V8/WebAssembly code-GC crashes under PGlite test churn.
       # Remove this workaround after nodejs/node#66366 is fixed in Node 24.x.
@@ -59,7 +60,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: npm
       - run: npm ci
       - name: Reading 105 source dry-run (no database)
         run: env -u DATABASE_URL node --import tsx scripts/import-reading-105.mjs --source data/import-sources/learnersarea_reading_105.zip --report /tmp/reading-105-import-ci.md

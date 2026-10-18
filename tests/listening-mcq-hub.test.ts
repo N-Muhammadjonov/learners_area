@@ -94,7 +94,7 @@ test("F2 each destination reads its OWN catalogue — no page borrows another pr
   const mcq = code("src/lib/data/listening-mcq.ts");
   assert.match(mcq, /eq\(listeningTests\.programRef, MCQ_PROGRAM_REF\)/, "membership is the relation");
   assert.match(mcq, /sql`\$\{listeningTests\.programOrdinal\} is not null`/, "at an explicit ordinal");
-  assert.ok(!mcq.includes("listeningPackages"), "and it never consults a package's collection");
+  assert.doesNotMatch(mcq, /listeningPackages\.payload/, "per-question audio reads source identity without loading package content");
   assert.ok(!/collection/i.test(mcq), "no collection string appears in the programme reads at all");
 });
 
