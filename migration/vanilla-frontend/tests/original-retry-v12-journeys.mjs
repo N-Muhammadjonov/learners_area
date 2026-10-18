@@ -1,0 +1,49 @@
+/** Extend the existing real-source harness; no curriculum or duplicated fixture server. */
+import assert from 'node:assert/strict';
+const verdict=answers=>({results:Object.keys(answers).map(q=>({number:Number(q),correct:false,key:'Authorized synthetic retry key',evidence:'Authorized synthetic retry evidence'}))});
+export async function run({check,originalFixture,target,open,submitted,key}){
+ for(const [width,height]of [[1440,900],[768,1024],[390,844]])for(const locale of ['en','uz'])for(const theme of ['day','night'])await check(`V12 retry all40 source questions; keyboard/audio mapping/progress/reentry ${width}/${locale}/${theme}`,async()=>{
+  const initial=submitted(),own=JSON.parse(initial[key]);own.lastResults=own.lastResults.map(r=>({...r,ok:false}));initial[key]=JSON.stringify(own);let requests=0;
+  const {context,page,state}=await originalFixture({width,height,locale,theme,initial,handler:async({route,path,r,body,setValues})=>{
+   if(path.endsWith('/authored-state')&&r.method()==='PUT'){setValues(body);await route.fulfill({json:{values:body,course:null}});return true;}
+   if(path.endsWith('/practice')){requests++;assert.equal(body.kind,'retry');assert(Object.values(body.answers).every(s=>typeof s==='string'&&!s.includes(',')));await route.fulfill({json:verdict(body.answers)});return true;}return false;
+  }});
+  try{
+   await page.goto(target);await open(page,'retry');const f=page.frameLocator('iframe');assert.equal(await f.locator('[data-retryq]').count(),40);
+   const groups=await f.locator('#retryHost').evaluate(()=>MULTI_GROUPS),done=new Set();
+   for(let q=1;q<=40;q++){
+    if(done.has(q))continue;await f.locator(`[data-retryq="${q}"]`).click();const pair=groups.find(g=>g.includes(q));
+    assert.equal(await f.locator('#retryPractice h2').evaluate(n=>n===document.activeElement),true);
+    // Verify source time-window arguments for EACH question/group, not synthetic
+    // recording alignment. No original source text/key is persisted in evidence.
+    assert(await f.locator('#retryPractice button').first().evaluate((n,nums)=>{const expected=[Math.min(...nums.map(q=>DATA.questions[String(q)].timeStart)),Math.max(...nums.map(q=>DATA.questions[String(q)].timeEnd))];const before=window.playWindow;let called;window.playWindow=(a,b)=>called=[a,b];n.click();window.playWindow=before;return JSON.stringify(called)===JSON.stringify(expected);},pair||[q]));
+    if(pair){assert.equal(await f.locator('[data-retry-multi]').count(),5);await f.locator('[data-retry-multi=A]').click();await f.locator('[data-retry-multi=E]').click();await f.locator('#retryMultiCheck').click();pair.forEach(n=>done.add(n));}
+    else if(await f.locator('#retryInput').count()){assert(await f.locator('#retryCheck').isDisabled());await f.locator('#retryInput').fill('own question '+q);await f.locator('#retryInput').press('Enter');done.add(q);}
+    else{await f.locator('[data-rchoice]').first().click();done.add(q);}
+    await f.getByText('Authorized synthetic retry evidence',{exact:true}).first().waitFor();
+   }
+   assert.equal(done.size,40);assert.equal(requests,40-groups.reduce((n,g)=>n+g.length-1,0));
+   assert(state.requests.some(r=>r.path.endsWith('/progress')&&r.body.activity==='retry'));
+   await f.locator('[data-retryq="1"]').click();assert.equal(await f.locator('#retryInput').inputValue(),'own question 1');
+   await page.waitForResponse(r=>r.url().endsWith('/authored-state')&&r.request().method()==='PUT');
+   await page.reload();await open(page,'retry');await f.locator('#retryInput').waitFor();assert.equal(await f.locator('#retryInput').inputValue(),'own question 1');
+   assert.equal(await page.locator('iframe').getAttribute('sandbox'),'allow-scripts');
+   const saved=await f.locator('#retryHost').evaluate(()=>localStorage.getItem('la-original-retry-v12'));assert(!saved.includes('Authorized synthetic'));
+   for(let i=0;i<3;i++){await f.locator('#activity-retry [data-back]').click();await open(page,'retry');}
+   await page.goBack();await page.goForward();
+  }finally{await context.close();}
+ });
+ for(const failure of ['403','404','503','invalid','network','timeout'])await check(`V12 retry ${failure} preserves draft, with explicit retry; old verdict cannot leak`,async()=>{
+  let broken=true,calls=0;const {context,page}=await originalFixture({initial:submitted(),handler:async({route,path,body})=>{
+   if(!path.endsWith('/practice'))return false;calls++;if(broken){if(failure==='network'){await route.abort('failed');return true;}if(failure==='timeout'){await new Promise(resolve=>setTimeout(resolve,13000));await route.fulfill({json:verdict(body.answers)}).catch(()=>{});return true;}await route.fulfill(failure==='invalid'?{json:{results:[{number:40,correct:true,key:'NEVER RELEASE',evidence:'foreign'}]}}:{status:Number(failure),json:{error:'synthetic_failure'}});return true;}await route.fulfill({json:verdict(body.answers)});return true;
+  }});
+  try{await page.goto(target);await open(page,'retry');const f=page.frameLocator('iframe');await f.locator('[data-retryq="8"]').click();await f.locator('#retryInput').fill('own recovery');await f.locator('#retryCheck').click();await f.locator('[data-retry-request]').waitFor({timeout:16000});assert.equal(await f.locator('#retryInput').inputValue(),'own recovery');assert(!(await f.locator('#retryPractice').textContent()).includes('NEVER RELEASE'));broken=false;await f.locator('[data-retry-request]').click();await f.getByText('Authorized synthetic retry evidence',{exact:true}).waitFor();assert.equal(calls,2);}finally{await context.close();}
+ });
+ await check('V12 retry empty/all-correct source states and authorized correct feedback',async()=>{for(const mode of ['empty','correct','checked']){const initial=mode==='empty'?{}:submitted();if(mode==='correct'){const own=JSON.parse(initial[key]);own.lastResults=own.lastResults.map(r=>({...r,ok:true}));initial[key]=JSON.stringify(own);}const {context,page}=await originalFixture({initial,handler:async({route,path,body})=>{if(mode!=='checked'||!path.endsWith('/practice'))return false;await route.fulfill({json:{results:Object.keys(body.answers).map(q=>({number:Number(q),correct:true,key:'Authorized synthetic key',evidence:'Authorized synthetic correct evidence'}))}});return true;}});try{await page.goto(target);await open(page,'retry');const f=page.frameLocator('iframe');if(mode==='checked'){await f.locator('[data-retryq="8"]').click();await f.locator('#retryInput').fill('own');await f.locator('#retryCheck').click();await f.getByText('Authorized synthetic correct evidence',{exact:true}).waitFor();assert.equal(await f.locator('#retryFeedback b.ok').textContent(),'Correct');}else assert.equal(await f.locator('[data-retryq]').count(),0);}finally{await context.close();}}});
+ await check('V12 retry401 expires session without answer release',async()=>{const {context,page}=await originalFixture({initial:submitted(),handler:async({route,path})=>{if(!path.endsWith('/practice'))return false;await route.fulfill({status:401,json:{error:'unauthenticated'}});return true;}});try{await page.goto(target);await open(page,'retry');const f=page.frameLocator('iframe');await f.locator('[data-retryq="8"]').click();await f.locator('#retryInput').fill('own');await f.locator('#retryCheck').click();await page.waitForURL('**/login');assert.equal(await page.locator('iframe').count(),0);}finally{await context.close();}});
+ await check('V12 retry rapid inner navigation cancels transport; paired known answer locks and restores own choice',async()=>{
+  let release,entered;const gate=new Promise(r=>release=r),seen=new Promise(r=>entered=r),initial=submitted(),own=JSON.parse(initial[key]);own.lastResults[24]={q:25,user:'A',ok:true};initial[key]=JSON.stringify(own);
+  const {context,page}=await originalFixture({initial,handler:async({route,path,body})=>{if(!path.endsWith('/practice'))return false;if(Object.hasOwn(body.answers,'8')){entered();await gate;await route.fulfill({json:verdict(body.answers)}).catch(()=>{});return true;}assert.deepEqual(body.answers,{'26':'E'});await route.fulfill({json:verdict(body.answers)});return true;}});
+  try{await page.goto(target);await open(page,'retry');const f=page.frameLocator('iframe');await f.locator('[data-retryq="8"]').click();await f.locator('#retryInput').fill('own');await f.locator('#retryCheck').click();await seen;await f.locator('#activity-retry [data-back]').click();await open(page,'retry');release();await f.locator('[data-retryq="26"]').click();assert(await f.locator('[data-retry-multi=A]').isDisabled());assert.equal(await f.locator('[data-retry-multi=A]').getAttribute('aria-pressed'),'true');await f.locator('[data-retry-multi=E]').click();await f.locator('[data-retryq="8"]').click();await f.locator('[data-retryq="26"]').click();assert.equal(await f.locator('[data-retry-multi=E]').getAttribute('aria-pressed'),'true');assert.equal(await f.locator('#retryFeedback .feedback').count(),0);await f.locator('#retryMultiCheck').click();await f.getByText('Authorized synthetic retry evidence',{exact:true}).waitFor();}finally{release();await context.close();}
+ });
+}
