@@ -1,0 +1,14 @@
+{
+  "status": "PARTIAL",
+  "source": "read-only original source.html and original adaptation functions, authorized API fixture, no copied corpus or screenshots",
+  "navigationIdentitiesVerified": 9,
+  "comprehensivelyAcceptedOriginalActivities": 0,
+  "gradingPlaybackAutosaveFullInteractions": "UNVERIFIED",
+  "productionAcceptance": "NONE",
+  "results": [
+    {
+      "name": "Actual read-only Test 1 HTML: nine genuine identities open and return in one opaque hydrated generation",
+      "status": "PASS"
+    }
+  ]
+}

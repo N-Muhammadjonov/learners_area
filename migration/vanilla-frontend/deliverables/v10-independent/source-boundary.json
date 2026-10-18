@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "baseline": "b9d9c8517c1301ea3e75ed632b23c5b40c2d452b",
+  "sourcePackageCommit": "7ffbd2cbb8a56253067a4423678be36801a28f00",
+  "changedFiles": 84,
+  "allChangesInsideMigration": true,
+  "originalBackendContentStaffCloudProductionChanges": "NONE",
+  "parallelStaffCanonicalRoutesReserved": 35,
+  "originalSourceReadOnlyNavigationProbe": true
+}

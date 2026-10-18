@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "disconnectedApiStatus": 503,
+  "contentSecurityPolicy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'",
+  "backend": "not connected; no fabricated session",
+  "sandbox": "allow-scripts only, executable browser assertions"
+}

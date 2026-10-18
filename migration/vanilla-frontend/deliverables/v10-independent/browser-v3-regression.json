@@ -1,0 +1,208 @@
+{
+  "date": "2026-10-18T16:33:05.198Z",
+  "browser": "Chromium 133",
+  "integration": "ISOLATED FIXTURES, NOT live acceptance",
+  "visualBaselineComparisons": 0,
+  "results": [
+    {
+      "name": "account deep links, history and responsive keyboard 390×844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "account deep links, history and responsive keyboard 390×844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "account deep links, history and responsive keyboard 390×844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "account deep links, history and responsive keyboard 390×844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "account deep links, history and responsive keyboard 768×1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "account deep links, history and responsive keyboard 768×1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "account deep links, history and responsive keyboard 768×1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "account deep links, history and responsive keyboard 768×1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "account deep links, history and responsive keyboard 1440×900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "account deep links, history and responsive keyboard 1440×900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "account deep links, history and responsive keyboard 1440×900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "account deep links, history and responsive keyboard 1440×900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 390×844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 390×844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 390×844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 390×844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 768×1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 768×1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 768×1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 768×1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 1440×900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 1440×900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 1440×900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source catalogue section layouts and keyboard 1440×900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "login failure 401, safe retry and secret redaction",
+      "status": "PASS"
+    },
+    {
+      "name": "login failure 429, safe retry and secret redaction",
+      "status": "PASS"
+    },
+    {
+      "name": "login failure 503, safe retry and secret redaction",
+      "status": "PASS"
+    },
+    {
+      "name": "login failure 200, safe retry and secret redaction",
+      "status": "PASS"
+    },
+    {
+      "name": "registration bootstrap error has correct title and deliberate native retry",
+      "status": "PASS"
+    },
+    {
+      "name": "reset request rejects transport failure then shows successful generic reply only after acknowledgement",
+      "status": "PASS"
+    },
+    {
+      "name": "onboarding validates source constraints, retries without losing draft and sends no identity",
+      "status": "PASS"
+    },
+    {
+      "name": "waiting room unchanged pending survives visibility; request failure/retry uses owned session only",
+      "status": "PASS"
+    },
+    {
+      "name": "logout real modal focus, Escape, server failure/pending, retry, private teardown",
+      "status": "PASS"
+    },
+    {
+      "name": "Telegram isolated intent cancel, local nonce binding, no external bot access",
+      "status": "PASS"
+    },
+    {
+      "name": "Telegram isolated intent confirmed, local nonce binding, no external bot access",
+      "status": "PASS"
+    },
+    {
+      "name": "Telegram isolated intent expired, local nonce binding, no external bot access",
+      "status": "PASS"
+    },
+    {
+      "name": "Dashboard regions stream independently, reject malformed DTO, retry locally, stale navigation cannot overwrite",
+      "status": "PASS"
+    },
+    {
+      "name": "existing catalogue 503 offers local retry without losing shell or deep query",
+      "status": "PASS"
+    },
+    {
+      "name": "MCQ six stages, visible open failure, minimum drafts, true A/E selection, outcome and reasoned refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "MCQ locked and missing source states are not transport errors or fabricated days",
+      "status": "PASS"
+    },
+    {
+      "name": "notification inbox acknowledges only half-visible rows, mark-all failure/retry keeps authoritative badge",
+      "status": "PASS"
+    },
+    {
+      "name": "two real browser tabs receive logout broadcast and both tear down private shell",
+      "status": "PASS"
+    },
+    {
+      "name": "localized source root error has no raw secrets, retries successfully and does not strand later navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "support report minimum, failure/retry, current module and private-error redaction",
+      "status": "PASS"
+    },
+    {
+      "name": "source first-paint frame preserves shell, hides outgoing private view and rejects stale lazy chunk",
+      "status": "PASS"
+    },
+    {
+      "name": "bounded idle prewarm fetches code only, never another private view DTO or media",
+      "status": "PASS"
+    },
+    {
+      "name": "back/forward restores per-entry scroll for repeated identical URLs, not one URL-wide scroll value",
+      "status": "PASS"
+    },
+    {
+      "name": "recovery uses source LoginForm query errors without public provider bootstrap or extra links",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy Telegram widget CSP/network denial displays unavailable state without weakening policy",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 49,
+    "FAIL": 0
+  }
+}

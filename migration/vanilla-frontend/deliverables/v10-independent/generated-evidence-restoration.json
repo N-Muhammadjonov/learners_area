@@ -1,0 +1,24 @@
+{
+  "scope": "temporary independent extraction ONLY; after retaining independent reports externally",
+  "restoredGeneratedEvidence": [
+    "docs/evidence/v10/assets-css.json",
+    "docs/evidence/v10/browser-output.txt",
+    "docs/evidence/v10/browser-regression.json",
+    "docs/evidence/v10/browser-v2-output.txt",
+    "docs/evidence/v10/browser-v2-regression.json",
+    "docs/evidence/v10/browser-v3-output.txt",
+    "docs/evidence/v10/browser-v3-regression.json",
+    "docs/evidence/v10/browser-v4-output.txt",
+    "docs/evidence/v10/browser-v4-regression.json",
+    "docs/evidence/v10/browser-v5-output.txt",
+    "docs/evidence/v10/browser-v5-regression.json",
+    "docs/evidence/v10/browser-v6-output.txt",
+    "docs/evidence/v10/browser-v6-regression.json",
+    "docs/evidence/v10/lesson-390-en-day.png",
+    "docs/evidence/v10/lesson-390-en-night.png",
+    "docs/evidence/v10/lesson-390-uz-day.png",
+    "docs/evidence/v10/lesson-390-uz-night.png"
+  ],
+  "sourceCodeDifferences": 0,
+  "all665SourceHashesMatchedAfterRestoration": true
+}

@@ -1,0 +1,38 @@
+{
+  "candidateFixtureScreenshots": 24,
+  "viewportSizes": [
+    [
+      1440,
+      900
+    ],
+    [
+      768,
+      1024
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "locale": [
+    "en",
+    "uz"
+  ],
+  "theme": [
+    "day",
+    "night"
+  ],
+  "manualCandidateInspection": {
+    "count": 2,
+    "paths": [
+      "docs/evidence/v10/lesson-390-uz-night.png",
+      "docs/evidence/v10/academic-history-1440-en-day.png"
+    ],
+    "scope": "No obvious candidate clipping/structural issue in these two; not a source comparison"
+  },
+  "originalRenderedComparisons": 0,
+  "liveIntegrationAccepted": 0,
+  "safariAccepted": 0,
+  "realHardwareAccepted": 0,
+  "productionChanges": "NONE"
+}

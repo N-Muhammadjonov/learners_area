@@ -1,0 +1,107 @@
+V10 — PARTIAL Listening checkpoint / exact independent archive validation
+Date: 2026-10-18 (Asia/Tashkent)
+Branch: arena/96836bcf-learners-area
+Exact verified V9 baseline: b9d9c8517c1301ea3e75ed632b23c5b40c2d452b
+V10 source/package commit: 7ffbd2cbb8a56253067a4423678be36801a28f00
+Final delivery commit: this validation record and external proofs are the subsequent
+Git commit. Final local/remote equality is checked after push and reported separately;
+no self-referential commit hash is embedded in its own commit or ZIP.
+
+ARCHIVE
+LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V10.zip
+SHA256: 64fa1cdac41632502a8a2df903189b3d2d48d44e331fd4fc1c0c9fb37deeb469
+Bytes: 39,321,269
+665 source/evidence/asset files + 2 manifest files; exact member set and all hashes
+verified. Independent extraction used no original application source tree.
+Fresh npm ci --ignore-scripts: PASS.
+Independent standalone production build: PASS (no runtime React/Next/VDOM).
+Independent units: 323 PASS / 0 FAIL / 0 SKIP.
+Independent Chromium133: 478 PASS / 0 FAIL / 0 SKIP.
+Historical425: 27+14+49+72+52+77+26+79+29 PASS.
+V10 new53: Academic/history/exam integration, learner lesson/quiz/private notes,
+focus/debounce/serialized writes/revocation, uploaded shared/generic media.
+Final independent artifact tests cover the final early-play and multi-document fixes.
+Development historical425 and final V10 53 also passed; earlier interrupted V10
+attempt was NOT counted as a completed result.
+
+AUDIO-AFTER-PAINT
+PASS in both uploaded sharedAudio and generic native-control fixtures.
+Real synthetic WAV decoding/playback, not merely iframe presence. Resource request
+observes a visible document before audio initialization. Early play now waits for
+paint/hydration rather than being silently dropped. Generic multi-document navigation
+reuses one authorized blob read, with repeated playback and frame/owned-audio cleanup.
+No authored-state API invented for generic legacy packages.
+This is bounded fixture evidence: NOT real protected audio/provider/Safari/hardware,
+complete range/expiry/revocation, universal leak/seek or all original activity acceptance.
+Generic media remains full authorized blob download AFTER paint, not universal range.
+
+ASSETS / CSS / DETERMINISM
+25 original-source assets: byte identity verified in original checkout and immutable
+pins rechecked in independent extraction. Source CSS exact.
+Source CSS SHA256: b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2
+Compiled CSS SHA256: 6941c3a420e64e13d6848440cab073d4f478475e22070a12a97363c703ff3e2f
+Independent CSS rebuild: deterministic PASS.
+Two independent repacks: byte-for-byte identical to delivered ZIP, same SHA256.
+Independent generated evidence preserved externally before restoring ONLY the scratch
+extraction's regenerated evidence to sealed archive bytes. No source/code/asset
+mismatch was hidden by restoration. See generated-evidence-restoration.json.
+V1–V9 archives: all9 byte-identical to verified V9 HEAD; checksums recorded in
+historical-archives.json. V9 SHA256 remains
+691d6a1a9a53a41470339fee3594fa2e0aaaf12abfe6c3d7199156bf6ca5a05d.
+
+SOURCE / SECURITY / ACCEPTANCE
+All84 source/package changed files inside migration/vanilla-frontend at source commit.
+35 staff routes reserved unchanged (23 Admin/6 Owner/6 Teacher); no older-V4 merge.
+Author desk is staff-only; FullListeningLibrary/ListeningTestActions have only Admin
+callers. No fabricated learner authoring or destructive staff tests.
+Existing session/status/ownership/publication/sequence/grading authority preserved.
+New views remain proposed DTOs, not deployed backend endpoints.
+Preview disconnected APIs verified503; no synthetic identity/data in runtime.
+Opaque iframe exactly sandbox="allow-scripts"; no allow-same-origin or CSP weakening.
+Strict external/provider CSP can block playback; no fake successful live claim.
+Runtime audit: 0 vulnerabilities. Development audit: 5 high,0 critical; unchanged
+pinned toolchain, no forced upgrade. See captured independent audit reports.
+No protected curriculum/answers/audio copied into standalone package.
+
+GLOBAL / LISTENING INVENTORY
+Global canonical candidates:22 CODE COMPLETE /15 partial /71 not started of108.
+6 redirects +1 retired separate;115 source route records.
+Global components:62 CODE COMPLETE /17 partial /127 not started of206.
+Listening canonical routes:9 complete /6 partial /1 not started of16;2 redirects separate.
+Listening source components:9 complete /10 partial /5 not started of24.
+New closures: Academic catalogue/detail, history, learner lesson catalogue/detail;
+ListeningLessonBody and LessonQuizBlock leaf components. Shared notes remains partial
+pending other course/Reading/Grammar consumers. Whole Listening is NOT code complete.
+Original9 comprehensive behavioral acceptance:0/9. Separate read-only actual Test1
+HTML/adaptation probe opened/returned all9 genuine identities in one opaque hydrated
+generation; navigation evidence only, not enum checks and not full workflow closure.
+Reading implementation not started.
+
+VISUAL / LIVE / METRICS
+24 candidate fixture screenshots:3 viewport sizes x2 locales x2 themes per two journeys.
+Two candidates manually inspected; no original-rendered comparison performed.
+Original-rendered visual acceptance0; live integration0; Safari/real hardware0;
+all UNVERIFIED, not production acceptance.
+Weighted frontend implementation: UNDETERMINED; inventory22/108 and62/206 are not
+weighted product completion. Functional/security aggregate: UNDETERMINED;323/323 unit
+and478/478 browser fixture gates are not whole-product or live-server acceptance.
+Visual/live aggregate: UNDETERMINED;0 accepted original/live/production cases.
+No latency or universal resource-leak guarantee.
+
+REMAINING / DEFERRED
+Finish genuine9 full original activities (timers/notes/flags/autosave/resume/server
+submit/review/grade release), universal media/range/expiry/revocation/seek/retry/position
+and rapid navigation across all callers; remaining legacy/revision/standalone MCQ
+and shared integration. Preserve completed General/Activities2–5/study/test-MCQ.
+Reconcile staff work manually against latest shared V10, never stale-V4 overwrite.
+Missing live adapters/approved media-origin normalization require Owner integration;
+ordinary frontend engineering is NOT all externally blocked.
+Deferred GPT Work AFTER frontend migration/integration: one Owner Listening HTML
+upload -> validation -> embedded audio extraction -> correct PRIVATE Cloudflare R2
+location -> HTML/material/original activities registry -> Owner preview/publication.
+NO backend/R2 implementation in V10. Reading imports remain Owner-supervised with
+AI assistance, no automatic Reading importer. Task recorded in GPT_WORK_HANDOFF.md.
+Owner approval required before production replacement.
+
+PRODUCTION / BACKEND / CLOUD / DB / MAIN CHANGES: NONE.
+External proof: deliverables/v10-independent/summary.json and executable/log reports.
