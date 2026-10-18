@@ -1,3 +1,11 @@
+# V8 current status — Listening PARTIAL
+
+Phase1/2 preserved. Coherent numeric Listening Activity2–5 journeys implemented, plus Study/testMCQ and legacy private-media exam→own review→revision speed. See [CHECKPOINT_V8](docs/CHECKPOINT_V8.md), [source inventory](docs/SOURCE_STATE_INVENTORY_V8.md), V8 ledgers/contracts and handoff.15/108canonical frontend closures,58/206components; whole Listening NOT complete, genuine original nine authored behavioral gates0/9. Reading not started. No live/original-rendered/Safari/hardware/production acceptance.
+
+`npm ci --ignore-scripts && npm run build && npm test`; `npm run preview -- --host 0.0.0.0 --port 4173`; `node scripts/regression-v8.mjs` (preserves all historical evidence) then `node tests/browser-v8.mjs`; `node scripts/assets-css-v8.mjs`; `python3 scripts/package.py` / `--verify`.277unit +396Chromium development PASS gates, independently validated in deliverables/V8_VALIDATION.txt. Preview /api/* intentionally503, no fabricated identity/data. Historical ZIPs immutable; --legacy/--v2…--v7 --verify. PRODUCTION CHANGES NONE.
+
+---
+
 # V5 current status — overall PARTIAL
 
 Phase 1 ordinary frontend is CODE COMPLETE / FIXTURE VERIFIED, not live or visual accepted. See [CHECKPOINT_V5](docs/CHECKPOINT_V5.md), [source-state audit](docs/SOURCE_STATE_INVENTORY_V5.md), [route ledger](docs/ROUTE_LEDGER_V5.md), [component ledger](docs/COMPONENT_LEDGER_V5.md), [contracts](docs/ADAPTER_CONTRACTS_V5.md) and [handoff](docs/GPT_WORK_HANDOFF.md). 10/108 canonical inventory routes closed,18partial/80notstarted;51/206 components closed,10partial/145notstarted. Six redirects and one retirement separate. **211unit +214Chromium fixture cases**, no claim of original-rendered/live/production acceptance. **PRODUCTION CHANGES NONE.**
