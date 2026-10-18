@@ -3,19 +3,19 @@ import {api} from '../../js/api-client.js';
 import {CHANGED} from '../shell/notifications.js';
 /** View-owned, visibility-bound acknowledgements. Never optimistic badge counts. */
 export function notificationRead({ids,label,errorLabel,signal}){
- const host=el('div',{class:'flex flex-col items-start gap-2'}),button=el('button',{type:'button',class:'btn-secondary'},label),error=el('p',{role:'alert',class:'text-sm text-band-bad'});host.append(button,error);
+ const host=el('div',{class:'flex flex-col items-start gap-2'}),button=el('button',{type:'button',class:'btn-secondary'},label),error=el('p',{role:'alert',hidden:true,class:'text-sm text-band-bad'});host.append(button,error);
  let observer,attachment,timer,attachDeadline,stopped=false,sending=false,allQueued=false;
  const queued=new Set(),seen=new Set(),unread=new Set(ids);
- function publish(n){window.dispatchEvent(new CustomEvent(CHANGED,{detail:n}));if(typeof BroadcastChannel==='function'){const c=new BroadcastChannel(CHANGED);c.postMessage('refresh');c.close();}}
+ function publish(n){const id=globalThis.crypto?.randomUUID?.()??Date.now()+'-'+Math.random();window.dispatchEvent(new CustomEvent(CHANGED,{detail:n}));try{if(typeof BroadcastChannel==='function'){const c=new BroadcastChannel(CHANGED);try{c.postMessage({id});}finally{c.close();}}}catch{}try{localStorage.setItem(CHANGED,id);localStorage.removeItem(CHANGED);}catch{}}
  async function flush(){
   if(stopped||signal.aborted||sending||(!allQueued&&(document.visibilityState!=='visible'||!queued.size)))return;
   sending=true;const all=allQueued;allQueued=false;const batch=[...queued];queued.clear();
-  if(all){button.disabled=true;error.textContent='';button.setAttribute('aria-busy','true');}
+  if(all){button.disabled=true;error.textContent='';error.hidden=true;button.setAttribute('aria-busy','true');}
   try{const data=await api.request('/api/notifications',{method:'POST',body:all?{all:true}:{ids:batch},signal});if(stopped||signal.aborted)return;
-   if(!Number.isSafeInteger(data?.unread)||data.unread<0)throw Error('Invalid unread count');
+   if(data?.ok===false||!Number.isSafeInteger(data?.unread)||data.unread<0)throw Error('Invalid unread count');
    if(all){unread.clear();queued.clear();observer?.disconnect();}else for(const id of batch)unread.delete(id);
    publish(data.unread);
-  }catch{if(!stopped&&!signal.aborted)error.textContent=errorLabel;}
+  }catch{if(!stopped&&!signal.aborted){error.textContent=errorLabel;error.hidden=false;}}
   finally{sending=false;if(!stopped){button.disabled=false;button.removeAttribute('aria-busy');if(allQueued||queued.size&&document.visibilityState==='visible')void flush();}}
  }
  listen(button,'click',()=>{if(button.disabled||allQueued||signal.aborted)return;allQueued=true;button.disabled=true;void flush();},signal);

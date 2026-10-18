@@ -1,3 +1,5 @@
+import {restoreWhenAttached,fieldSelection} from '../../js/focus-restore.js';
+import {publishSessionEvent} from '../../js/session-events.js';
 import {el} from '../../js/dom.js';
 import {api} from '../../js/api-client.js';
 import {accountResult,accountDiagnostic,resetDevUrl} from '../../js/adapters/account.js';
@@ -33,11 +35,11 @@ export async function passwordForm(context,auth,telegram){
    const endpoint=register?'/api/auth/register':reset?confirm?'/api/auth/reset/confirm':'/api/auth/reset/request':context.recovery?'/api/auth/recovery/login':'/api/auth/login';
    const result=accountResult(await api.request(endpoint,{method:'POST',body,signal}),register?'register':reset?'reset':'login');if(signal.aborted)return;
    if(reset&&!confirm){draft.done=true;draft.devUrl=resetDevUrl(result.devResetUrl);host.replaceChildren(view.done({dict,devUrl:draft.devUrl}));host.querySelector('a')?.focus();return;}
-   context.invalidateSession?.();
+   publishSessionEvent('refresh');context.invalidateSession?.();
    await navigate(register?'/pending':reset?'/login':result.accountStatus&&result.accountStatus!=='active'?'/pending':safeNextPath(url.searchParams.get('next'))??(result.onboarded?'/app':'/onboarding'));
   }catch(e){if(!signal.aborted&&auth.diagnostics&&!register&&!reset)console.info('[qa-auth] '+JSON.stringify(accountDiagnostic(e)));if(!signal.aborted){draft.failure={status:e?.status,code:Object.hasOwn(known,e?.code)||e?.code==='invalid_response'?e.code:undefined,name:e?.name==='TimeoutError'?'TimeoutError':undefined};error=failure(draft.failure,dict,known);}}
   finally{pending=false;paint();settle();}
  }
- signal.addEventListener('abort',()=>{if(signal.reason!=='route-refresh'||state.authDraft!==draft){for(const input of host.querySelectorAll('input'))input.value='';draft.email='';draft.password='';draft.name='';draft.gender='';}}, {once:true});
- paint();return host;
+ signal.addEventListener('abort',()=>{const focused=document.activeElement;if(signal.reason==='route-refresh'&&host.contains(focused)&&focused.matches('input'))draft.focus={id:focused.id,...fieldSelection(focused)};else delete draft.focus;if(signal.reason!=='route-refresh'||state.authDraft!==draft){for(const input of host.querySelectorAll('input'))input.value='';draft.email='';draft.password='';draft.name='';draft.gender='';}}, {once:true});
+ paint();if(draft.focus){const saved=draft.focus;delete draft.focus;restoreWhenAttached([...host.querySelectorAll('input')].find(n=>n.id===saved.id),signal,saved);}return host;
 }

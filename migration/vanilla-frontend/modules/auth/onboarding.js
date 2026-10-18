@@ -1,3 +1,4 @@
+import {publishSessionEvent} from '../../js/session-events.js';
 import {el} from '../../js/dom.js';
 import {listen} from '../../js/dom.js';
 import {field,formSubmit,errorNode} from '../shared/forms.js';
@@ -11,6 +12,6 @@ export function renderOnboarding(context){const {dict,locale,signal,navigate}=co
  }
  const draft=context.state?(context.state.onboarding??={}):{};for(const [key,input]of Object.entries(inputs)){if(typeof draft[key]==='string')input.value=draft[key];listen(input,input.tagName==='SELECT'?'change':'input',()=>draft[key]=input.value,signal);}
  const error=errorNode(),button=el('button',{type:'submit',class:'btn-primary w-full'},dict.onboarding.finish);form.append(el('div',{class:'sm:col-span-2'},error,button));
- formSubmit({form,button,error,dict,signal,endpoint:'/api/onboarding',body:()=>Object.fromEntries(Object.entries(inputs).map(([key,input])=>[key,['currentBand','examDate'].includes(key)?input.value||undefined:input.value])),success:()=>{context.invalidateSession?.();return navigate('/app');}});
+ formSubmit({form,button,error,dict,signal,endpoint:'/api/onboarding',body:()=>Object.fromEntries(Object.entries(inputs).map(([key,input])=>[key,['currentBand','examDate'].includes(key)?input.value||undefined:input.value])),success:()=>{publishSessionEvent('refresh');context.invalidateSession?.();return navigate('/app');}});
  return el('div',{class:'flex min-h-dvh items-center justify-center bg-paper-sunken p-4'},el('div',{class:'w-full max-w-xl'},el('div',{class:'card p-6'},el('h1',{class:'font-display text-xl text-ink-900'},dict.onboarding.title),el('p',{class:'mt-1 text-sm text-ink-500'},dict.onboarding.subtitle),el('div',{class:'mt-6'},form))));
 }

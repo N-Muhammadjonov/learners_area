@@ -1,3 +1,4 @@
+import {enableDiagnostics} from '../../js/diagnostics.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
 import {passwordForm} from './password-form.js';
 import {el} from '../../js/dom.js';
@@ -16,7 +17,7 @@ export async function mount(context){
  async function load(){
   if(busy||signal.aborted)return;busy=true;region.dataset.publicAuth='loading';region.replaceChildren(el('div',{role:'status','aria-busy':'true','aria-label':dict.common.loading,class:'h-32 animate-pulse rounded-xl bg-ink-50'}));
   try{
-   const {auth}=await publicPresentation(signal);if(signal.aborted)return;
+   const presentation=await publicPresentation(signal),{auth}=presentation;if(signal.aborted)return;if(presentation.diagnostics)void enableDiagnostics(signal);
    if(reset&&!auth.passwordEnabled){void navigate('/login',{replace:true});return;}
    const subtitle=reset?confirm?undefined:dict.auth.resetSubtitle:auth.telegramOnly?dict.auth.continueWithTelegram:register?dict.auth.registerSubtitle:dict.auth.loginSubtitle;
    shell.querySelector('[data-auth-subtitle]')?.remove();

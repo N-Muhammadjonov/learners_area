@@ -2,7 +2,7 @@
  * mounting runtime, hooks, hydration or diffing. All lifecycle/state is explicit. */
 const svgTags=new Set(['svg','path','circle','rect','line','polyline','polygon','ellipse','g','defs','use','linearGradient','stop','title','text']);
 export function fragment({children=[]}){const f=document.createDocumentFragment();append(f,children);return f;}
-function append(parent,children){for(const c of children.flat(Infinity)){if(c==null||typeof c==='boolean')continue;parent.append(c instanceof Node?c:document.createTextNode(String(c)));}}
+function append(parent,children){for(const c of [children].flat(Infinity)){if(c==null||typeof c==='boolean')continue;parent.append(c instanceof Node?c:document.createTextNode(String(c)));}}
 export function h(tag,props,...children){props??={};if(typeof tag==='function')return tag({...props,children:children.length?children:props.children??[]});
  const n=svgTags.has(tag)?document.createElementNS('http://www.w3.org/2000/svg',tag):document.createElement(tag);
  for(let [key,value] of Object.entries(props)){
@@ -18,4 +18,10 @@ export function h(tag,props,...children){props??={};if(typeof tag==='function')r
  append(n,children.length?children:props.children??[]);if(props.value!=null&&['input','select','textarea'].includes(tag))n.value=String(props.value);return n;
 }
 export const Link=({children,...props})=>h('a',props,children);
-export const InstantLink=Link;
+/** Original per-link intent opt-in. Timers/byte prewarm are owned by the shell. */
+export function InstantLink({intentPrefetch=false,prefetch,onMouseEnter,onMouseLeave,onFocus,onBlur,onTouchStart,onPointerDown,children,...props}){
+ const hint=(element,action,delay)=>element.dispatchEvent(new CustomEvent('learners-area:prefetch-intent',{bubbles:true,detail:{action,delay}}));
+ const prepare=(e,callback,delay=90)=>{callback?.(e);if(!e.defaultPrevented&&intentPrefetch&&prefetch!==false)hint(e.currentTarget,'prepare',delay);};
+ const cancel=(e,callback)=>{callback?.(e);hint(e.currentTarget,'cancel');};
+ return h('a',{...props,'data-instant-navigation':true,onMouseEnter:e=>prepare(e,onMouseEnter),onMouseLeave:e=>cancel(e,onMouseLeave),onFocus:e=>prepare(e,onFocus),onBlur:e=>cancel(e,onBlur),onTouchStart:e=>prepare(e,onTouchStart,0),onPointerDown:e=>{if(e.pointerType!=='touch')prepare(e,onPointerDown,0);else onPointerDown?.(e);}},children);
+}

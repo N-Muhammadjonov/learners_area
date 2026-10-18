@@ -3,7 +3,7 @@ import {h,fragment,Link,InstantLink} from '../native.js';
 import {ModuleEmoji,moduleEmojiFor} from './module-emoji.js';
 import * as Icons from './icons.js';
 const {IconDashboard,IconLive,IconAssignments,IconListening,IconVideo,IconReading,IconWriting,IconSpeaking,IconGrammar,IconVocabulary,IconProgress,IconPeople,IconAdmissions,IconSupport,IconContent,IconSettings,IconAudit}=Icons;
-const LinkPending=()=>document.createDocumentFragment();
+import {LinkPending} from '../../modules/shell/link-pending.js';
 const isManagementRoute=p=>['/app/management','/app/admin','/app/owner','/app/teacher'].some(x=>p===x||p.startsWith(x+'/'));
 function Group({ title, items, pathname, loading, groupKey }) {
     if (items.length === 0)
@@ -14,7 +14,7 @@ function Group({ title, items, pathname, loading, groupKey }) {
             const canonical = item.activePrefix ?? item.href.split("?")[0];
             const active = pathname === canonical || (!item.exact && pathname.startsWith(`${canonical}/`));
             return (h("li", { key: item.href },
-                h(InstantLink, { href: item.href, intentPrefetch: true, "data-sidebar-link": item.href, "aria-current": active ? "page" : undefined, className: active ? "sidebar-link sidebar-link-active" : "sidebar-link" },
+                h(InstantLink, { href: item.href, intentPrefetch: true, "data-sidebar-link": item.href, "data-nav-active-prefix": canonical, "data-nav-exact": Boolean(item.exact), "aria-current": active ? "page" : undefined, className: active ? "sidebar-link sidebar-link-active" : "sidebar-link" },
                     h("span", { "aria-hidden": true, className: "sidebar-link-icon" }, moduleEmojiFor(item.href) ? h(ModuleEmoji, { kind: moduleEmojiFor(item.href) }) : item.icon),
                     h("span", { className: "sidebar-link-label" }, item.label),
                     h(LinkPending, { label: loading }))));

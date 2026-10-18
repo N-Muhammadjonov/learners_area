@@ -1,0 +1,8 @@
+/** Read-only original-source/assets verification. Not a rendered visual comparison. */
+import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
+const base=path.resolve(import.meta.dirname,'..'),root=path.resolve(base,'../..'),hash=b=>crypto.createHash('sha256').update(b).digest('hex'),walk=p=>fs.readdirSync(p,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(p,e.name)):[path.join(p,e.name)]),checks=[];
+for(const dir of ['fonts','brand','images'])for(const file of walk(path.join(base,dir))){const relative=path.relative(base,file),source=path.join(root,dir==='fonts'?'src':'public',relative);assert(fs.readFileSync(file).equals(fs.readFileSync(source)),relative);checks.push({path:relative,sha256:hash(fs.readFileSync(file))});}
+assert(fs.readFileSync(path.join(base,'css/source.css')).equals(fs.readFileSync(path.join(root,'src/app/globals.css'))));
+const sourceCssSha256=hash(fs.readFileSync(path.join(base,'css/source.css')));
+const before=hash(fs.readFileSync(path.join(base,'css/global.css')));execFileSync(process.execPath,['node_modules/tailwindcss/lib/cli.js','-c','tailwind.config.mjs','-i','css/source.css','-o','node_modules/v5-css-rebuild.css','--minify'],{cwd:base,stdio:'pipe'});assert.equal(hash(fs.readFileSync(path.join(base,'node_modules/v5-css-rebuild.css'))),before);
+const report={status:'PASS',assets:checks.length,sourceCssExact:true,sourceCssSha256,compiledCssDeterministic:true,compiledCssSha256:before,checks,renderedVisualComparison:false};fs.writeFileSync(path.join(base,'docs/evidence/v5/assets-css.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({...report,checks:undefined}));

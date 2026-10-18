@@ -1,3 +1,4 @@
+import {publishSessionEvent} from '../../js/session-events.js';
 import {el,listen} from '../../js/dom.js';
 import {accountResult} from '../../js/adapters/account.js';
 import {api,ApiError} from '../../js/api-client.js';
@@ -35,7 +36,7 @@ export function telegram(context,auth,purpose){
    const data=accountResult(await api.request('/api/auth/telegram/intent/exchange',{method:'POST',body:pair,signal:flight}),'login');if(flight.aborted)return;pending=null;
    if(purpose==='link'){waiting=false;link=null;paint();}else if(data.outcome==='suspended'||data.accountStatus==='suspended')error=t.telegramSuspended;else if(purpose==='register'&&data.outcome==='already_pending')error=t.telegramAlreadyPending;else if(purpose==='register'&&['pending','reopened'].includes(data.outcome))error=t.telegramRegisterPending;else if(purpose==='register'&&data.outcome==='already_active')error=t.telegramAlreadyActive;paint();
    const destination=purpose==='link'?'/app/profile':data.outcome==='suspended'||data.accountStatus==='suspended'?'/pending':purpose==='register'&&(['pending','reopened','already_pending'].includes(data.outcome)||data.accountStatus!=='active')?'/pending':safeNextPath(url.searchParams.get('next'))??(data.onboarded?'/app':'/onboarding');
-   context.invalidateSession?.();await navigate(destination);return;
+   publishSessionEvent('refresh');context.invalidateSession?.();await navigate(destination);return;
   }
   if(!flight.aborted)throw {code:'expired'};
  }catch(e){if(!flight.aborted){waiting=false;error=failure(e,dict,known);paint();}}

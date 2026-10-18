@@ -1,3 +1,4 @@
+import {beginActionMeasurement} from '../../js/diagnostics.js';
 import {el} from '../../js/dom.js';
 let nextId=0;
 /** Native lifecycle of source ConfirmAction. Modal appearance uses original CSS. */
@@ -11,8 +12,8 @@ export function confirmAction({signal,...p}) {
  function close(restore=true){if(pending||disposed)return;opened=false;trigger.setAttribute('aria-expanded','false');if(dialog.open)dialog.close();if(restore&&trigger.isConnected)trigger.focus();}
  function open(){if(disposed||pending||signal?.aborted)return;failure.remove();opened=true;trigger.setAttribute('aria-expanded','true');if(!dialog.open)dialog.showModal();confirm.focus();}
  async function execute(){if(pending||disposed||!opened)return;pending=true;failure.remove();cancel.disabled=true;confirm.disabled=true;confirm.setAttribute('aria-busy','true');confirm.textContent=p.pendingLabel||p.confirmLabel;
-  try{await p.onConfirm();if(!disposed&&!signal?.aborted){pending=false;close();}}
-  catch{if(!disposed&&!signal?.aborted)dialog.insertBefore(failure,dialog.lastChild);}
+  const complete=beginActionMeasurement('destructive',signal);try{await p.onConfirm();complete('success');if(!disposed&&!signal?.aborted){pending=false;close();}}
+  catch{complete('failure');if(!disposed&&!signal?.aborted)dialog.insertBefore(failure,dialog.lastChild);}
   finally{pending=false;if(!disposed){cancel.disabled=false;confirm.disabled=false;confirm.removeAttribute('aria-busy');confirm.textContent=p.confirmLabel;}}
  }
  const onCancel=e=>{e.preventDefault();close();},onClose=()=>{if(opened&&!pending&&!dialog.open)close();};

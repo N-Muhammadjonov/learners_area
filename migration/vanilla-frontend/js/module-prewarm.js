@@ -9,10 +9,11 @@ export function modulePrewarm({root,routes,signal,window:win=window,document:doc
   try{const module=await route.load();if(allowed())await module.preload?.(new URL(target,win.location.origin));}catch{ /* A prewarm failure never blocks deliberate navigation. */ }finally{inflight--;}
   return true;
  }
- const intent=e=>{const a=e.target.closest?.('a[href]');if(a&&!a.target&&!a.hasAttribute('download'))void warm(a.href);};
- root.addEventListener('pointerover',intent);root.addEventListener('focusin',intent);
+ const intents=new Map();
+ const intent=e=>{const a=e.target.closest?.('a[href]');if(!a)return;clearTimer(intents.get(a));intents.delete(a);if(e.detail?.action!=='prepare'||![0,90].includes(e.detail.delay)||a.hasAttribute('download')||a.target&&a.target!=='_self'||!allowed())return;const timer=setTimer(()=>{intents.delete(a);if(a.isConnected&&root.contains(a))void warm(a.href);},e.detail.delay);intents.set(a,timer);};
+ root.addEventListener('learners-area:prefetch-intent',intent);
  function idle(){if(!allowed())return;const target=IDLE_SHELL_PREFETCH_ROUTES[index++];if(target)void warm(target);if(index<IDLE_SHELL_PREFETCH_ROUTES.length)timer=setTimer(idle,1100);}
  if(allowed())timer=setTimer(idle,2500);
- function dispose(){stopped=true;clearTimer(timer);root.removeEventListener('pointerover',intent);root.removeEventListener('focusin',intent);signal.removeEventListener('abort',dispose);}
+ function dispose(){stopped=true;clearTimer(timer);for(const id of intents.values())clearTimer(id);intents.clear();root.removeEventListener('learners-area:prefetch-intent',intent);signal.removeEventListener('abort',dispose);}
  signal.addEventListener('abort',dispose,{once:true});return {warm,dispose};
 }

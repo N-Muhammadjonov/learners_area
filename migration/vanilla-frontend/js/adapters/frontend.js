@@ -5,11 +5,11 @@ export const ADAPTERS=Object.freeze({public:'/api/frontend/public',session:'/api
 const roles=['student','teacher','admin','owner'];
 export function validateSession(value){
  const s=value?.session,u=s?.user;
- if(value?.version!==1||!u||typeof u.id!=='string'||!u.id||typeof u.name!=='string'||!roles.includes(u.role)||!['active','pending','suspended','rejected'].includes(u.accountStatus)||!Number.isSafeInteger(s.expiresAt)||typeof s.accessEventsEnabled!=='boolean'||typeof u.photoPresent!=='boolean')throw new ApiError(502,'invalid_session_adapter');
+ if(value?.version!==1||s?.diagnostics!==undefined&&typeof s.diagnostics!=='boolean'||!u||typeof u.id!=='string'||!u.id||typeof u.name!=='string'||u.email!=null&&typeof u.email!=='string'||!roles.includes(u.role)||!['active','pending','suspended','rejected'].includes(u.accountStatus)||!Number.isSafeInteger(s.expiresAt)||typeof s.accessEventsEnabled!=='boolean'||typeof u.photoPresent!=='boolean')throw new ApiError(502,'invalid_session_adapter');
  return s;
 }
 export function validatePublic(value){const p=value?.public,a=p?.auth;
- if(value?.version!==1||!a||['passwordEnabled','telegramOnly','telegramIntentEnabled','telegramConfigured','googleConfigured'].some(k=>typeof a[k]!=='boolean')||a.diagnostics!==undefined&&typeof a.diagnostics!=='boolean'||a.telegramOnly&&a.passwordEnabled||a.telegramConfigured&&(!a.botUsername||!/^[A-Za-z0-9_]{5,32}$/.test(a.botUsername)))throw new ApiError(502,'invalid_public_adapter');return p;
+ if(value?.version!==1||p?.diagnostics!==undefined&&typeof p.diagnostics!=='boolean'||!a||['passwordEnabled','telegramOnly','telegramIntentEnabled','telegramConfigured','googleConfigured'].some(k=>typeof a[k]!=='boolean')||a.diagnostics!==undefined&&typeof a.diagnostics!=='boolean'||a.telegramOnly&&a.passwordEnabled||a.telegramConfigured&&(!a.botUsername||!/^[A-Za-z0-9_]{5,32}$/.test(a.botUsername)))throw new ApiError(502,'invalid_public_adapter');return p;
 }
 export async function publicPresentation(signal){return validatePublic(await api.request(ADAPTERS.public,{signal}));}
 export async function sessionPresentation(signal){return validateSession(await api.request(ADAPTERS.session,{signal}));}

@@ -29,6 +29,7 @@ execFileSync(process.execPath,[path.join(base,'scripts/convert-views.mjs')],{cwd
 execFileSync(process.execPath,[path.join(base,'scripts/convert-dashboard.mjs')],{cwd:base,stdio:'inherit'});
 execFileSync(process.execPath,[path.join(base,'scripts/convert-interactions.mjs')],{cwd:base,stdio:'inherit'});
 execFileSync(process.execPath,[path.join(base,'scripts/convert-auth.mjs')],{cwd:base,stdio:'inherit'});
+execFileSync(process.execPath,[path.join(base,'scripts/convert-phase1.mjs')],{cwd:base,stdio:'inherit'});
 const config=path.join(base,'tailwind.config.mjs');
 if(!fs.existsSync(path.join(base,'tailwind.source.mjs')))throw Error('Missing extracted Tailwind config');
 fs.writeFileSync(config,`import source from './tailwind.source.mjs';\nexport default {...source, content: ['./index.html','./js/**/*.js','./modules/**/*.js','./css/source.css']};\n`);

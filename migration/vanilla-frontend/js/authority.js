@@ -1,3 +1,5 @@
+import {accountResult} from './adapters/account.js';
+import {SESSION_CHANNEL,SESSION_STORAGE,localSessionEvent,publishSessionEvent} from './session-events.js';
 import {api} from './api-client.js';
 import {privateScope} from './private-scope.js';
 /** Port of AccessChangeListener: event-driven, coalesced authority reconciliation,
@@ -14,10 +16,11 @@ export function watchAuthority(session,{navigate,refresh,signal,window:win=windo
   finally{clearTimer(deadline);requestController=null;pending=false;if(queued&&live()){queued=false;void update();}}
  }
  function connect(){if(!live()||!session.accessEventsEnabled||stream||!Events)return;stream=new Events('/api/auth/changes',{withCredentials:true});stream.addEventListener('access-changed',update);stream.addEventListener('open',()=>{checkedDisconnect=false;if(opened)void update();opened=true;});stream.addEventListener('error',()=>{if(!checkedDisconnect){checkedDisconnect=true;void update();}});stream.addEventListener('unavailable',()=>{stream?.close();stream=null;void update();});}
- const reconcile=()=>{connect();void update();},visible=()=>{if(doc.visibilityState==='visible')reconcile();};
- const channel=typeof win.BroadcastChannel==='function'?new win.BroadcastChannel('learners-area:session'):null;
- if(channel)channel.onmessage=e=>{if(e.data==='logout')logout();};
- function stop(){if(closed)return;closed=true;clearTimer(timer);requestController?.abort();stream?.close();channel?.close();win.removeEventListener('learners-area:auth-failure',logout);win.removeEventListener('online',reconcile);win.removeEventListener('pageshow',reconcile);doc.removeEventListener('visibilitychange',visible);signal?.removeEventListener('abort',stop);}
+ let storageUsable=false;try{const storage=win.localStorage;if(storage){storage.setItem('learners-area:signal-probe','1');storage.removeItem('learners-area:signal-probe');storageUsable=true;}}catch{}
+ const reconcile=()=>{if(!live())return;connect();if(!channel&&!storageUsable){scope.clear('authority-change');void refresh();return;}void update();},visible=()=>{if(doc.visibilityState==='visible')reconcile();};
+ let channel=null;try{if(typeof win.BroadcastChannel==='function')channel=new win.BroadcastChannel(SESSION_CHANNEL);}catch{}
+ const changed=data=>{const kind=data==='logout'?'logout':localSessionEvent(data);if(kind==='logout')logout();else if(kind==='refresh'&&live()){scope.clear('authority-change');void refresh();}};if(channel)channel.onmessage=e=>changed(e.data);const storage=e=>{if(e.key===SESSION_STORAGE&&e.newValue)try{changed(JSON.parse(e.newValue));}catch{}};win.addEventListener('storage',storage);
+ function stop(){if(closed)return;closed=true;clearTimer(timer);requestController?.abort();stream?.close();channel?.close();win.removeEventListener('learners-area:auth-failure',logout);win.removeEventListener('storage',storage);win.removeEventListener('online',reconcile);win.removeEventListener('pageshow',reconcile);doc.removeEventListener('visibilitychange',visible);signal?.removeEventListener('abort',stop);}
  if(signal?.aborted){stop();return {stop,reconcile:update};}schedule(session.expiresAt);if(closed)return {stop,reconcile:update};connect();win.addEventListener('learners-area:auth-failure',logout);win.addEventListener('online',reconcile);win.addEventListener('pageshow',reconcile);doc.addEventListener('visibilitychange',visible);signal?.addEventListener('abort',stop,{once:true});return {stop,reconcile: update};
 }
-export async function logoutSession({signal,navigate}){await api.request('/api/auth/logout',{method:'POST',signal});if(signal?.aborted)return;if(typeof BroadcastChannel==='function'){const c=new BroadcastChannel('learners-area:session');c.postMessage('logout');c.close();}privateScope.setScope(null);api.clear();await navigate('/login',{replace:true});}
+export async function logoutSession({signal,navigate}){accountResult(await api.request('/api/auth/logout',{method:'POST',signal}),'mutation');if(signal?.aborted)return;publishSessionEvent('logout');privateScope.setScope(null);api.clear();await navigate('/login',{replace:true});}
