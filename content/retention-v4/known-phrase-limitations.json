@@ -1,0 +1,358 @@
+{
+  "checked": 8217,
+  "issues": [
+    {
+      "id": "A2-001",
+      "claim": "a2_001_claim_1",
+      "phrase": "Sara did not manage to catch the seven o'clock bus.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "A2-001",
+      "claim": "a2_001_claim_1",
+      "phrase": "Sara could not catch the seven o'clock bus.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "A2-001",
+      "claim": "a2_001_claim_1",
+      "phrase": "Sara did not catch the seven o'clock bus.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "A2-001",
+      "claim": "a2_001_claim_1",
+      "phrase": "Sara did not catch the 7 o'clock bus.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "A2-001",
+      "claim": "a2_001_claim_1",
+      "phrase": "Sara did not catch the bus at seven.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "A2-005",
+      "claim": "a2_005_claim_4",
+      "phrase": "They ate together at 6:00 p.m..",
+      "points": 12,
+      "status": "partial"
+    },
+    {
+      "id": "A2-005",
+      "claim": "a2_005_claim_4",
+      "phrase": "They ate together at six p.m..",
+      "points": 12,
+      "status": "partial"
+    },
+    {
+      "id": "B1-008",
+      "claim": "b1_008_claim_2",
+      "phrase": "For one night, Lara was given the main role.",
+      "points": 13,
+      "status": "partial"
+    },
+    {
+      "id": "B1-008",
+      "claim": "b1_008_claim_3",
+      "phrase": "Lara could not remember a sentence in scene two.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B1-008",
+      "claim": "b1_008_claim_3",
+      "phrase": "Lara could not recall a sentence in scene two.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B1-008",
+      "claim": "b1_008_claim_3",
+      "phrase": "Lara could not recollect a sentence in scene two.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B1-008",
+      "claim": "b1_008_claim_3",
+      "phrase": "In scene two, Lara could not recall a line.",
+      "points": 13,
+      "status": "partial"
+    },
+    {
+      "id": "B1-008",
+      "claim": "b1_008_claim_3",
+      "phrase": "During scene number two, she forgot a line.",
+      "points": 12,
+      "status": "partial"
+    },
+    {
+      "id": "B2-005",
+      "claim": "b2_005_claim_4",
+      "phrase": "The administrator labelled the screenshot as an old image, not a live update.",
+      "points": 10,
+      "status": "partial"
+    },
+    {
+      "id": "B2-005",
+      "claim": "b2_005_claim_4",
+      "phrase": "The group moderator marked the image as an old image, not a live update.",
+      "points": 10,
+      "status": "partial"
+    },
+    {
+      "id": "B2-005",
+      "claim": "b2_005_claim_4",
+      "phrase": "The message-group manager identified the picture as an old image, not a live update.",
+      "points": 10,
+      "status": "partial"
+    },
+    {
+      "id": "B2-005",
+      "claim": "b2_005_claim_4",
+      "phrase": "The message-group manager identified the image as an old image, not a live update.",
+      "points": 10,
+      "status": "partial"
+    },
+    {
+      "id": "B2-005",
+      "claim": "b2_005_claim_4",
+      "phrase": "The message-group manager identified the photograph as an old image, not a live update.",
+      "points": 10,
+      "status": "partial"
+    },
+    {
+      "id": "B2-011",
+      "claim": "b2_011_claim_5",
+      "phrase": "The head cook did not regard one month as conclusive evidence.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-011",
+      "claim": "b2_011_claim_5",
+      "phrase": "The head cook did not regard one month definitive proof.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-011",
+      "claim": "b2_011_claim_5",
+      "phrase": "The head cook did not regard one month a final answer.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator halted without warning on seven separate days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator halted without warning on seven different days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator halted without warning during seven individual days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator halted without warning on seven distinguish days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator halted without warning on seven keep apart days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator stopped without warning on seven separate days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator suspended without warning on seven separate days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator stopped without warning on seven different days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator suspended without warning on seven different days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator halted without warning during seven personal days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator halted without warning during seven per-person days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator stopped without warning during seven individual days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "B2-013",
+      "claim": "b2_013_claim_1",
+      "phrase": "The elevator suspended without warning during seven individual days.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C1-006",
+      "claim": "c1_006_claim_1",
+      "phrase": "The textile contained replacement threads from no fewer than three phases.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C1-006",
+      "claim": "c1_006_claim_1",
+      "phrase": "The fabric included later stitching from no fewer than three phases.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C1-006",
+      "claim": "c1_006_claim_1",
+      "phrase": "The ceremonial cloth showed inserted fibres from no fewer than three phases.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C1-006",
+      "claim": "c1_006_claim_1",
+      "phrase": "The fabric contained later stitching from no fewer than three phases.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C1-006",
+      "claim": "c1_006_claim_1",
+      "phrase": "The fabric incorporated later stitching from no fewer than three phases.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C2-014",
+      "claim": "c2_014_claim_4",
+      "phrase": "Decision-makers compared feasible plans not merely one totalised ranking.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C2-014",
+      "claim": "c2_014_claim_4",
+      "phrase": "Officials evaluated workable schedules not merely one totalised ranking.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C2-014",
+      "claim": "c2_014_claim_4",
+      "phrase": "Councillors reviewed practical alternatives not merely one totalised ranking.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C2-014",
+      "claim": "c2_014_claim_4",
+      "phrase": "Decision-makers compared feasible plans not just one totalised ranking.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C2-014",
+      "claim": "c2_014_claim_4",
+      "phrase": "Decision-makers compared feasible plans not simply one totalised ranking.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C2-014",
+      "claim": "c2_014_claim_4",
+      "phrase": "Decision-makers compared practical plans not merely one totalised ranking.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C2-014",
+      "claim": "c2_014_claim_4",
+      "phrase": "Decision-makers compared workable plans not merely one totalised ranking.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C2-014",
+      "claim": "c2_014_claim_4",
+      "phrase": "Officials evaluated workable schedules not just one totalised ranking.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C2-014",
+      "claim": "c2_014_claim_4",
+      "phrase": "Officials evaluated workable schedules not simply one totalised ranking.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C2-014",
+      "claim": "c2_014_claim_4",
+      "phrase": "Authorities evaluated workable schedules not merely one totalised ranking.",
+      "points": 15,
+      "status": "partial"
+    },
+    {
+      "id": "C2-014",
+      "claim": "c2_014_claim_4",
+      "phrase": "Administrators evaluated workable schedules not merely one totalised ranking.",
+      "points": 15,
+      "status": "partial"
+    }
+  ],
+  "status": "KNOWN_EXISTING_MATCHER_LIMITATIONS",
+  "sourceAndCanonicalFullRecallPass": 75,
+  "evaluatorVersion": "retention-deterministic-v5"
+}

@@ -27,7 +27,8 @@ export const MEASUREMENT_LIMITS = {
   maxClaims: 40,
   maxGroupsPerClaim: 20,
   maxAnyOfPerGroup: 30,
-  maxAcceptedPhrases: 20,
+  // Owner V4 source has up to 32 literal paraphrases per claim. Keep the cap bounded.
+  maxAcceptedPhrases: 32,
   maxRejectPhrases: 20,
   // FINAL V2 C2 sentence-scoped semantic alternatives can be up to 171 chars.
   // Keep an explicit bounded plain-text cap; do not permit regex or code.
