@@ -1,8 +1,8 @@
 # V5 route ledger — overall PARTIAL
 
-Phase 1 is ordinary frontend CODE COMPLETE / FIXTURE VERIFIED: `/` (touch CTA + desktop intro states), `/login`, `/register`, `/auth/recovery`, `/reset-password`, `/reset-password/confirm`, `/onboarding`, `/pending`, `/app/profile`. This includes Telegram confirmation presentation within login/profile; there is no invented confirmation page. Server callbacks are existing backend routes, not counted as new pages.
+Phase 1 is ordinary frontend CODE COMPLETE / FIXTURE VERIFIED: `/` (touch CTA + desktop intro states), `/login`, `/register`, `/auth/recovery`, `/reset-password`, `/reset-password/confirm`, `/onboarding`, `/pending`, `/app/profile`, `/app/notifications`. This includes Telegram confirmation presentation within login/profile; there is no invented confirmation page. Server callbacks are existing backend routes, not counted as new pages.
 
-108 canonical inventory candidates: **9 CODE COMPLETE, 19 IN PROGRESS, 80 NOT STARTED**. Separate: 6 redirect-only CODE COMPLETE, 1 retired = 115 records. No accepted visual/live/production page. Profile was NOT STARTED in V4; five prior partials are promoted, one newly implemented profile route is closed, not left as a partial. Preserved V4 three recovery/reset closures.
+108 canonical inventory candidates: **10 CODE COMPLETE, 18 IN PROGRESS, 80 NOT STARTED**. Separate: 6 redirect-only CODE COMPLETE, 1 retired = 115 records. No accepted visual/live/production page. Profile was NOT STARTED in V4; six prior partials are promoted, one newly implemented profile route is closed, not left as a partial. Preserved V4 three recovery/reset closures.
 
 Machine authority: [route-ledger-v5.json](route-ledger-v5.json). Source-state proof: [SOURCE_STATE_INVENTORY_V5](SOURCE_STATE_INVENTORY_V5.md). All states below remain frontend statuses only.
 
@@ -63,7 +63,7 @@ Machine authority: [route-ledger-v5.json](route-ledger-v5.json). Source-state pr
 | `/app/live-classes` | NOT STARTED | NOT ACCEPTED |
 | `/app/management` | IN PROGRESS | NOT ACCEPTED |
 | `/app/mocks` | IN PROGRESS | NOT ACCEPTED |
-| `/app/notifications` | IN PROGRESS | NOT ACCEPTED |
+| `/app/notifications` | CODE COMPLETE | NOT ACCEPTED |
 | `/app/owner/audit` | IN PROGRESS | NOT ACCEPTED |
 | `/app/owner/dictionary` | NOT STARTED | NOT ACCEPTED |
 | `/app/owner/integrations` | NOT STARTED | NOT ACCEPTED |

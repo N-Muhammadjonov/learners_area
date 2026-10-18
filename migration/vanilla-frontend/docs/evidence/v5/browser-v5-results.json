@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-18T10:20:26.023Z",
+  "date": "2026-10-18T10:54:16.327Z",
   "browser": "Chromium133",
   "integration": "ISOLATED CONTRACT FIXTURES; NOT LIVE",
   "originalVisualComparisons": 0,
@@ -163,10 +163,58 @@
     {
       "name": "URL/local storage cannot enable diagnostics or expose typed values without server approval",
       "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 1440/uz/night",
+      "status": "PASS"
     }
   ],
   "counts": {
-    "PASS": 40,
+    "PASS": 52,
     "FAIL": 0,
     "SKIP": 0
   }

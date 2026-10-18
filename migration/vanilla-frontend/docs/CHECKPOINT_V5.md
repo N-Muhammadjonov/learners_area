@@ -6,20 +6,20 @@
 
 Bounded Phase1 includes landing/touch CTA/desktop intro, login/registration/Telegram confirmation/provider presentation, preserved recovery/reset confirmation, onboarding/pending/admission request, own profile name/photo/Telegram linking, session/logout/forced logout/role-status/multitab, complete persistent responsive sidebar/topbar/search/bell/profile/utilities/theme/EN-UZ and relevant shared native controls/diagnostics. See SOURCE_STATE_INVENTORY_V5.md and source-hashed evidence/v5/phase1-source-audit.json for exact source/native/state/proof mapping.
 
-Nine canonical CODE COMPLETE routes: `/`, `/login`, `/register`, `/auth/recovery`, `/reset-password`, `/reset-password/confirm`, `/onboarding`, `/pending`, `/app/profile`. Desktop intro is a landing state, NOT `/intro`; Telegram confirmation is a provider state, NOT an invented page. Server provider callbacks are not frontend pages. No other phase is promoted from shared dependency work.
+Ten canonical CODE COMPLETE routes: `/`, `/login`, `/register`, `/auth/recovery`, `/reset-password`, `/reset-password/confirm`, `/onboarding`, `/pending`, `/app/profile`, `/app/notifications`. Desktop intro is a landing state, NOT `/intro`; Telegram confirmation is a provider state, NOT an invented page. Server provider callbacks are not frontend pages. No other phase is promoted from shared dependency work.
 
 | Fixed inventory accounting | CODE COMPLETE | IN PROGRESS | NOT STARTED | Other |
 |---|---:|---:|---:|---|
-|108 canonical candidates|9|19|80|Active product denominator still unconfirmed|
+|108 canonical candidates|10|18|80|Active product denominator still unconfirmed|
 |206 original component files|51|10|145|Icons count once; source component closure is not all caller closure|
-|115 original page records|9 canonical +6 redirects|19|80|1 retired, Shadowing stays retired|
+|115 original page records|10 canonical +6 redirects|18|80|1 retired, Shadowing stays retired|
 
-V4's3 canonical and6 component closures retained. V5 promotes5 existing partial canonical routes and closes1 previously unstarted profile route; it does not leave a new profile partial. Fifty-one source components are frontend code closed, not accepted live/visual. Full `/app/notifications`, module navigation composition, dashboard/educational/staff bodies remain in their existing phases. Vocabulary ModuleNavigation integration is a specific remaining Phase7 gap.
+V4's3 canonical and6 component closures retained. V5 promotes6 existing partial canonical routes and closes1 previously unstarted profile route; it does not leave a new profile partial. Fifty-one source components are frontend code closed, not accepted live/visual. Module navigation composition, dashboard/educational/staff bodies remain in their existing phases. Vocabulary ModuleNavigation integration is a specific remaining Phase7 gap.
 
 ## Verification
 
 - Native build PASS; **211unit PASS/0FAIL/0SKIP** (V4 baseline181 intact +30 V5).
-- **202Chromium fixture PASS/0FAIL/0SKIP**: original27 +V2 14 +V3 49 +V4 72 +V5 40. Historical harnesses are unmodified and their artifacts restored after regression; V5 keeps separate copies/logs.
+- **214Chromium fixture PASS/0FAIL/0SKIP**: original27 +V2 14 +V3 49 +V4 72 +V5 52. Historical harnesses are unmodified and their artifacts restored after regression; V5 keeps separate copies/logs.
 - V5 profile/name/photo and onboarding journeys each cover all12 combinations of390×844/768×1024/1440×900 × EN/UZ × day/night. Includes actual keyboard/menu navigation, deep/query/back/reload, image decode/PNG multipart upload/failure/malformed ACK/retry/delete failure, stale/cancel, current-route mutation-aware locale/scroll/focus/selection, Telegram lifecycle, pending/status/session/multitab/diagnostics/dialog races. FileReader fallback is forced in Chromium; Safari/real hardware are NOT verified.
 -25 copied source assets hash-identical; source CSS SHA256 `b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2`; compiled CSS `81c54121be20442dc586113abc6f29a27e18190a8790956b4c21f74614597250`, deterministic rebuild. Candidate screenshots ≠ original-rendered comparison; comparison count0.
 - Runtime dependency audit0 reported vulnerabilities; full development audit5high (`braces`, dependent `chokidar`/`fast-glob`/`micromatch`/`tailwindcss`). Registry latest braces3.0.3 has no safe patch for the all-version advisory; suggested Tailwind4.3.3 is a major CSS/compiler migration, not silently applied to this parity-preserving checkpoint. Build-time risk remains a Phase10/toolchain review item, not proof of vulnerability-free software or a missing backend adapter. No runtime package was introduced.
@@ -43,9 +43,9 @@ This is an honest resumable module checkpoint, not completion of the user's enti
 
 ## Percentage interpretation
 
-Overall frontend implementation **UNDETERMINED** (active feature/state denominator and weighting unconfirmed). Fixed inventory proxies:9/108 canonical route-file closures =8.33%;51/206 source component-file closures =24.76%. Phase1 bounded frontend gate9/9 routes and51/51 audited relevant component files closed; not whole-product completion.
+Overall frontend implementation **UNDETERMINED** (active feature/state denominator and weighting unconfirmed). Fixed inventory proxies:10/108 canonical route-file closures =9.26%;51/206 source component-file closures =24.76%. Phase1 bounded frontend gate10/10 routes and51/51 audited relevant component files closed; not whole-product completion.
 
-Overall functional-security verification **UNDETERMINED** (complete acceptance-case denominator absent). Executed synthetic subset413/413 passes (211unit +202browser),100% of executed cases only, not100% of product security.
+Overall functional-security verification **UNDETERMINED** (complete acceptance-case denominator absent). Executed synthetic subset425/425 passes (211unit +214browser),100% of executed cases only, not100% of product security.
 
 Visual/live verification **UNDETERMINED overall**; original-rendered route comparisons0, live verified0, production accepted0. Against inventory proxies:0/108 visually/live accepted canonical routes and0/206 accepted components. No invented weighted percentage.
 

@@ -11,7 +11,7 @@
       "RETIRED_REDIRECT": 1
     },
     "activeCanonicalDenominator": "UNDETERMINED \u2014 108 inventory candidates are not confirmed active product pages",
-    "partialPageCandidates": 19,
+    "partialPageCandidates": 18,
     "fullyConvertedAcceptedPages": 0,
     "fullyParityVerifiedPages": 0,
     "notStartedPageRecords": 80,
@@ -24,8 +24,8 @@
     "codeCompleteRedirectOnlyRecords": 6,
     "retiredRecords": 1,
     "metrics": {
-      "implementation": "UNDETERMINED overall; inventory proxies 9/108 canonical route files (8.33%), 51/206 component files (24.76%), not weighted product implementation",
-      "functionalSecurity": "UNDETERMINED overall; 413/413 executed synthetic cases pass, not a full acceptance case denominator",
+      "implementation": "UNDETERMINED overall; inventory proxies 10/108 canonical route files (9.26%), 51/206 component files (24.76%), not weighted product implementation",
+      "functionalSecurity": "UNDETERMINED overall; 425/425 executed synthetic cases pass, not a full acceptance case denominator",
       "visualIntegration": "0 original-rendered route/component comparisons; 0 live acceptance; overall denominator UNDETERMINED"
     },
     "sourceBuild": true,
@@ -39,20 +39,20 @@
       "v2": 14,
       "v3": 49,
       "v4": 72,
-      "v5": 40,
-      "total": 202,
+      "v5": 52,
+      "total": 214,
       "fail": 0,
       "skip": 0,
       "liveAccepted": 0
     },
     "v3NewPageImplementations": 0,
     "canonicalCandidates": 108,
-    "frontendCodeCompleteCanonicalCandidates": 9,
+    "frontendCodeCompleteCanonicalCandidates": 10,
     "frontendCodeCompleteComponents": 51,
     "v4NewPageImplementations": 0,
     "completedModule": "Phase 1 ordinary frontend CODE COMPLETE; not overall migration or visual/live acceptance",
     "componentAccounting": "51 CODE COMPLETE + 10 IN PROGRESS + 145 NOT STARTED = 206",
-    "routeAccounting": "9 canonical CODE COMPLETE + 19 IN PROGRESS + 80 NOT STARTED + 6 redirect-only CODE COMPLETE + 1 RETIRED-N/A = 115",
+    "routeAccounting": "10 canonical CODE COMPLETE + 18 IN PROGRESS + 80 NOT STARTED + 6 redirect-only CODE COMPLETE + 1 RETIRED-N/A = 115",
     "v5NewPageImplementations": 1
   },
   "routes": [
@@ -1369,14 +1369,14 @@
       "sourceRedirectLiterals": [
         "/login"
       ],
-      "status": "IN PROGRESS",
-      "partialImplementation": true,
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
       "redirectImplementation": null,
-      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
-      "visual": "NOT VERIFIED \u2014 zero original comparisons",
-      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
       "acceptedComplete": false,
-      "notes": "Native candidate; not a fully converted/accepted route.",
+      "notes": "Phase 1 native ordinary frontend code closed; proposed adapters remain unavailable live. See V5 source-state audit and contracts.",
       "frontendCodeComplete": false,
       "v3": {
         "inspection": "TARGETED, NOT EXHAUSTIVE",
@@ -1387,6 +1387,11 @@
       "v4": {
         "ordinaryClientWorkOutstanding": true,
         "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v5": {
+        "ordinaryClientWorkOutstanding": false,
+        "gate": "Phase 1 frontend CODE COMPLETE",
+        "previousStatus": "IN PROGRESS"
       }
     },
     {

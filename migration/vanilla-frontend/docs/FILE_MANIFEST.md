@@ -7,7 +7,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 
 | Path | Bytes | SHA256 |
 |---|---:|---|
-| README.md | 9872 | ec2dd95df7532070dddd0cf942a4877d8d8eb5645b90c631f3631d8378a1b647 |
+| README.md | 9873 | 0b491e00d2823e2bf2abaab3f0250d067fd6fe17a6fdbc78eb4cfebecfaca028 |
 | brand/Learners_Area_intro_optimized_v17.mp4 | 6200387 | 406546b23a0ddaaacd94d4a8f04811d8cc2422bb12284dcdc87c79d8a55b94d0 |
 | brand/derived/favicon-32.png | 2687 | 92f5fc3d7e54fb2f88e8993bb7097bd8ff3eb6caff8267d12bffd787ebc3512f |
 | brand/derived/favicon.ico | 9010 | 50c93126ac7684396e765454a8c8b2a9d40d5bf6b8c7c84fc864632be25808a6 |
@@ -21,30 +21,30 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/ADAPTER_CONTRACTS_V2.md | 5753 | ba3511978541d28f7832c01435521d4e2a5415fa3e93b9cee985c52f3d3456bc |
 | docs/ADAPTER_CONTRACTS_V3.md | 9232 | b67330469a08d55e1fc2fd10eb2def8e20c6d057e73f5b5e3b192befcb9d7693 |
 | docs/ADAPTER_CONTRACTS_V4.md | 7692 | ecec048407392e871bff710f00de84f8d3fbebe8dfcdf87aea6b46efeadee44b |
-| docs/ADAPTER_CONTRACTS_V5.md | 12636 | 652907b5236f3569458a9fc33c9a815bb1e846a55b007933593c054535e2f6e0 |
+| docs/ADAPTER_CONTRACTS_V5.md | 12784 | 2d112c0cc521b0492ad0457b82e029c0b37e78f1be4a22820e897205b18d9e55 |
 | docs/API_COMPATIBILITY_MATRIX.md | 38870 | 2bb75926da68e5a3f789fd23466c0ab4902ae1bcb22042f0dc35daa3318058fb |
 | docs/CHECKPOINT_V2.md | 10934 | 0074e95ed429c13803f320a4cc8d81f3bb68373860b5c6906670a6b1aa5ae3ce |
 | docs/CHECKPOINT_V3.md | 13801 | c9288101aa89999705ae10fe36ab056f239aa2f79a5c5a0ea85bc4b674814852 |
 | docs/CHECKPOINT_V4.md | 5876 | e7680dabba10a881c476e157ce4bd0dcb23b5db3ede858ad66c87400924776e5 |
-| docs/CHECKPOINT_V5.md | 8034 | d0d3194ebfebf8a156e3c528333e32a6add3b91f05afc511f893c28b7727e6fd |
+| docs/CHECKPOINT_V5.md | 8033 | b86a0069be0ef98f8a20aa00e98b7d9da092cc7112a692874ba0c7ed509f7bc5 |
 | docs/COMPONENT_LEDGER_V4.md | 30726 | bac6d1038784a48b9a141834e39d6fec5dde08b6dfa64342aaada3cbe11af689 |
 | docs/COMPONENT_LEDGER_V5.md | 34947 | fed4f89add4430360d0b59533094f87be7df24cad2b687aca7cd8092d302a06e |
 | docs/COMPONENT_MIGRATION_MATRIX.md | 15429 | 61ef8e51ef54962b83a000897594a376ce1472a4b7ef7cf0cf9ace980a52df8c |
 | docs/DELIVERY_STATUS.md | 5326 | 2bb23faf2192e2866d3b9cb7449efa6a3cb13b9d9344c845cf94638753c0b719 |
 | docs/FUNCTIONAL_PARITY_REPORT.md | 5924 | f7693f9cc7a02742374b5b6df492428a941eee8ad9f1c78c122296999773fbcf |
-| docs/GPT_WORK_HANDOFF.md | 36547 | b1e79b29f0cb27f5566fde08735dc63c15b7e05b0c53b338438da9df706d0c97 |
+| docs/GPT_WORK_HANDOFF.md | 36625 | b460ecdc5758b5fa9c0e847e22d488769a3a0884a31b667fac0dd4d8e5d43fbd |
 | docs/KNOWN_LIMITATIONS.md | 7155 | ad83e3669f817cedb00c5098d2ebeb83f71aba17a7710c9278f269ae9475241f |
 | docs/PERFORMANCE_REPORT.md | 4066 | 0b0d87791128ab080b52ad32c8a37414aaf75525c7d7c051d61a7944d9cdad85 |
 | docs/ROUTE_LEDGER_V2.md | 21360 | f56241ff56383953f619675263260538a4b4393915eef99330bdfc3c693d686c |
 | docs/ROUTE_LEDGER_V3.md | 28728 | bff6570ac4093ef17fc86fc76ef6a0cdaac2b47510897c764f0a4cac75e57ef7 |
 | docs/ROUTE_LEDGER_V4.md | 22359 | 125a96b069f2f044f4669c5d935838a7af1a016bd4801c6fa2695af2aa28c0db |
-| docs/ROUTE_LEDGER_V5.md | 7722 | 55db9d1be389ceb1c6eb6cb88cac25902a821704dff0a611cd6e1cee498625cc |
+| docs/ROUTE_LEDGER_V5.md | 7746 | c6e7e76d3bc9c772d4379fd521b2c825f5ecd18b10659a6573a1d080af2c1524 |
 | docs/ROUTE_MIGRATION_MATRIX.md | 292382 | 183cb3c5a2d91b9ede46f772503fc535ff482c7c1c73bd82a2347e40b37279bd |
 | docs/SECURITY_BOUNDARIES.md | 5907 | bf97a7758e6eb635b8c09ec1e9722729021884e1ab789a0c55e29581f2cb7786 |
 | docs/SOURCE_STATE_INVENTORY_V4.md | 10365 | df15ab51546520f26578b89d83c888725b31a40725f51d7aff25200cc5c71b39 |
-| docs/SOURCE_STATE_INVENTORY_V5.md | 10190 | abb33a2273ee7e3c80fb36c97afba5237562371ff26fa46c3cbad24e584eca44 |
+| docs/SOURCE_STATE_INVENTORY_V5.md | 10384 | c2a2f69f01ef320088c4e671bb919b63483e724ae5e92b1d8ea71ef4d7cc7723 |
 | docs/V4_VALIDATION_REPORT.md | 4379 | ab8066c12d58a758ff2c6f86b3277903aba111b4ee5bbd7a419e48b765680c24 |
-| docs/V5_VALIDATION_REPORT.md | 1945 | 62e7bff76a9961cb2b4cc8f06061bdc7701394b66ab3ab146d39158a0482f5b7 |
+| docs/V5_VALIDATION_REPORT.md | 1945 | a9e6bba9e8302eca312f4e6ba0b59f608ca7d729893d624ef46a1c01db6ebea7 |
 | docs/VISUAL_PARITY_REPORT.md | 4385 | 3613f88d875a121e526708f456757a2e094d85d935744b286c677bbf979a96fd |
 | docs/dependency-audit.json | 4280 | 843f1e7c1d4efb5e3ccf06f5bd4542704a84431f90d7b6c3de50d9bb3d3a3c44 |
 | docs/evidence/browser-output.txt | 3141 | 202cc00655222ca92308da3f2e8dfb6d0950434d5b2646dff8f2b310f2c5067b |
@@ -150,8 +150,8 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/evidence/v4/v3-regression/catalogue-768-uz-night.png | 250014 | b00aa602c553688153004f38e22efbb637d0401319d9914e0da90b0060bcace0 |
 | docs/evidence/v4/v3-regression/mobile-reset-uz-night.png | 140146 | 82b7bdb7695491eb37f849421024fd17eaa4d0b94750b798474d01dd5512dc67 |
 | docs/evidence/v5/assets-css.json | 4137 | c3fd4e4ea52b87fb3dc0ef06e1b3d52ca04b7d02841561620601d12a15d213a8 |
-| docs/evidence/v5/browser-output.txt | 5124 | 7fba3ac5f75e44d199c68931d1bc4ebd49c2d4259b6f9d2025e4ad8fd28293c9 |
-| docs/evidence/v5/browser-v5-results.json | 5124 | 7fba3ac5f75e44d199c68931d1bc4ebd49c2d4259b6f9d2025e4ad8fd28293c9 |
+| docs/evidence/v5/browser-output.txt | 6772 | b02161e04ff50a66c0a09e01f33dd990d4f9617a403544f153ff6d4b2fa1284e |
+| docs/evidence/v5/browser-v5-results.json | 6772 | b02161e04ff50a66c0a09e01f33dd990d4f9617a403544f153ff6d4b2fa1284e |
 | docs/evidence/v5/dependency-audit.json | 2866 | 4e7db950fb9729deb238410b1632829985b2cb1a6dbcd37a30ba7ed1e55cc9d5 |
 | docs/evidence/v5/foundation-browser-output.txt | 3141 | 304959ebece71dd657ef99c7c595b9114c4db3352a810b7de21c0e42cc3a8957 |
 | docs/evidence/v5/foundation-regression/browser-results.json | 3141 | 304959ebece71dd657ef99c7c595b9114c4db3352a810b7de21c0e42cc3a8957 |
@@ -167,7 +167,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/evidence/v5/foundation-regression/tablet-recovery-night.png | 181896 | e86920b8586e418a04c028f80b1c2ad34c4ecf4b8c7c6a21b1f4b57d9669b06b |
 | docs/evidence/v5/navigation-performance-immediate.json | 25364 | 42bb8c642ee2dcfcbff89e1c6bf1f7ae6d0ab752a7e39447b8b3117a8dc302f0 |
 | docs/evidence/v5/navigation-performance.json | 25421 | 2d6abe59d607933647e0ff332252bc145a446e1e4e21f9abb6030db2ac6e4016 |
-| docs/evidence/v5/phase1-source-audit.json | 59874 | be766c21ef3eebd8b03b005eae2e358053ab8c76e6ab6ce1456cbdb0478b376d |
+| docs/evidence/v5/phase1-source-audit.json | 61296 | cea13c6561ae1164ef5f0750d0d43fd7a2c5cc27b8940b34fc98b61fcb08554e |
 | docs/evidence/v5/profile-1440-uz-night.png | 376000 | ff9d7c06a307c8e5f99fac29a59b426ea2274cb40e6bbbe8f8b4dd5d00cd4352 |
 | docs/evidence/v5/profile-390-uz-night.png | 146325 | d290402776dc73799a0f50637163d56b2ada01e6466cf1dcc18016aeffe242d9 |
 | docs/evidence/v5/profile-768-uz-night.png | 252758 | 9d37d62d33a6b28f7d61de4b2c5ed0b80b3bbcffe16668b9719fcd27a8b115ec |
@@ -196,7 +196,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/route-ledger-v2.json | 124095 | 32a7e58a5a8ee787fe77ed60a5afb0fda44bc818fb381c4176a45a333c499ec0 |
 | docs/route-ledger-v3.json | 137492 | 54902a446d237d388a684b871a5815b787fc6aa5f7dfc6a87481fa88808e23aa |
 | docs/route-ledger-v4.json | 155673 | 5e7c5b25b77fea80c8776a758a918e18f3570bc7d33d0240e1fa85accc2b6959 |
-| docs/route-ledger-v5.json | 160539 | c82cd095582720e2fb91fda455d9d0a4c1b65a6ab3ae6ab0b2d28af875c7c8a1 |
+| docs/route-ledger-v5.json | 160609 | a7b2fb24024102e64b4692fc89e9cf512c180021833ffcc2f8605bc4cee76060 |
 | docs/source-inventory.json | 966315 | 1757e17f346f5ad17f2f19bf36a677f28cef3c37c1ff5e4da69069b9acf75c6b |
 | fonts/PROVENANCE.md | 1311 | 2a0ff5dee314de3a23c00d297e5474b71be447f5a80382b09d325dd6c8d2d6bd |
 | fonts/geist-latin-wght-normal.woff2 | 29400 | 19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1 |
@@ -378,7 +378,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | tests/browser-v2.mjs | 16570 | 196b1adb5af9a5bc0dd60f31bf6e9cb1c61f669ee0613d6e1c7c483894dd5342 |
 | tests/browser-v3.mjs | 35849 | c3535519045b3b9870b22b04fbdbe5dfeaa716276ee1306b2e19857386805e77 |
 | tests/browser-v4.mjs | 21866 | 5847de606a1a17b37f9e54316097c6a76696023233cdbdfaf441f8c2af0c35a2 |
-| tests/browser-v5.mjs | 34993 | 7078e4e156e4e0c0b5861875e4020f8856995cae79e89aa302fff9741efe6e6f |
+| tests/browser-v5.mjs | 37858 | 2d12b2bbf661ed903134fb2b192cb2433f7b7776a5d88fe85bd3d1e3b5f2195f |
 | tests/browser.mjs | 6987 | 81228428545466d9a60af0c32aa3bc2abfdb8b4738aa83d2d291b60fd1cf96ba |
 | tests/continuation.test.mjs | 11384 | 4a34aa731d814bf593c697f95a54e3968b7f07f33d9aa97a447a46f1be565e42 |
 | tests/dashboard-v3.test.mjs | 4862 | 91851abefd5b5815582cfb7dd5aca697f353df4d2f171a8d26b191578873595a |

@@ -1220,58 +1220,108 @@
   ],
   "routes": [
     {
+      "pattern": "/app/notifications",
+      "source": "src/app/app/(shell)/notifications/page.tsx",
+      "sourceSha256": "89b8bae57ccc0626202ff88f4c6d860b94012e022cd67636f2b28e6d7c782fca",
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only",
+      "native": [
+        "modules/shared/route-view.js",
+        "js/generated/views/notifications.js",
+        "modules/shared/notification-read.js",
+        "js/adapters/notifications.js"
+      ]
+    },
+    {
       "pattern": "/app/profile",
       "source": "src/app/app/(shell)/profile/page.tsx",
       "sourceSha256": "21abbbd17c8ef37d1a4267dc0f6e82c83f4a357c4123d03c5d68839359b767fe",
-      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only",
+      "native": [
+        "modules/profile/page.js",
+        "modules/profile/photo-image.js"
+      ]
     },
     {
       "pattern": "/auth/recovery",
       "source": "src/app/auth/recovery/page.tsx",
       "sourceSha256": "d7b7ac2f20e7c588a1cf78be1303c6737d6859a4c513fff29e74189d6048d667",
-      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only",
+      "native": [
+        "modules/recovery.js",
+        "modules/auth/public.js",
+        "modules/auth/password-form.js"
+      ]
     },
     {
       "pattern": "/login",
       "source": "src/app/login/page.tsx",
       "sourceSha256": "75ef54f5de088168aada2bda571732d8283be4b3812be6adecff3a88561e5bdc",
-      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only",
+      "native": [
+        "modules/auth/public.js",
+        "modules/auth/password-form.js",
+        "modules/auth/telegram.js"
+      ]
     },
     {
       "pattern": "/onboarding",
       "source": "src/app/onboarding/page.tsx",
       "sourceSha256": "f7ac360a3e066e3c1ee516f718c4837b3f98e71b734d6880a363e9826e6a1db9",
-      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only",
+      "native": [
+        "modules/auth/account.js",
+        "modules/auth/onboarding.js"
+      ]
     },
     {
       "pattern": "/",
       "source": "src/app/page.tsx",
       "sourceSha256": "5c50b97694dea3dc49f0809a4c0ae65227599675cf7b1b5a221400df25dd3bca",
-      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only",
+      "native": [
+        "modules/landing.js"
+      ]
     },
     {
       "pattern": "/pending",
       "source": "src/app/pending/page.tsx",
       "sourceSha256": "1dfea441366c6ae545ac7f641ef007320f82c656361bb0e6e799cfcb91e0fe3b",
-      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only",
+      "native": [
+        "modules/auth/account.js",
+        "modules/auth/pending.js"
+      ]
     },
     {
       "pattern": "/register",
       "source": "src/app/register/page.tsx",
       "sourceSha256": "612320762e30fb0139f74c8e148c66f19608e7b5c1db59093beffa8610d46230",
-      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only",
+      "native": [
+        "modules/auth/public.js",
+        "modules/auth/password-form.js",
+        "modules/auth/telegram.js"
+      ]
     },
     {
       "pattern": "/reset-password/confirm",
       "source": "src/app/reset-password/confirm/page.tsx",
       "sourceSha256": "1046060f8150f962591d529abb2cc8f0eb64e32e0b8522b1608a09585216f449",
-      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only",
+      "native": [
+        "modules/auth/public.js",
+        "modules/auth/password-form.js"
+      ]
     },
     {
       "pattern": "/reset-password",
       "source": "src/app/reset-password/page.tsx",
       "sourceSha256": "e2a04a1007fe8ad77f891759e74fc8a89f833b222d48ddb2f1ac6fccc38c6a2c",
-      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only",
+      "native": [
+        "modules/auth/public.js",
+        "modules/auth/password-form.js"
+      ]
     }
   ]
 }
