@@ -29,7 +29,7 @@ test("one module identity in persistent topbar, not a second heading in the scro
 test("Listening section headings remain but duplicate back banner, subtitle and headline counts are gone", () => {
   for (const [suffix, key] of [
     ["lessons", "library.rows"],
-    ["academic", "cards.length"],
+    ["tests", "cards.length"],
     ["general", "cards.length"],
     ["mcq", "days.length"],
   ] as const) {
