@@ -1,3 +1,15 @@
+# V2 continuation notice — current status PARTIAL
+
+V2 adds server DTO validation, explicit protected-route gating, separate shell/authority lifetimes, SSE/reconnect/coalescing, expiry, 401/multi-tab logout, scoped teardown, original opaque sandbox protocols and native media disposal. These are candidates/subset-tested, NOT fully security audited. No backend authority changed. All original nine activities, live capability expiry/revocation/permissions/outbox/multi-tab and destructive role workflows still require real verification. 7 dev audit findings remain.
+
+Full V2 record: [CHECKPOINT_V2.md](CHECKPOINT_V2.md). Archive: `LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip`. See final response/sidecar/validation for exact hashes and local/remote HEAD. A file cannot include its own commit hash.
+
+Implementation%: UNDETERMINED (active denominator unconfirmed; 27 partial/115 page records). Functional/security%: UNDETERMINED (subset probes, not full acceptance). Visual/integration%: UNDETERMINED (0 baseline comparisons / 0 live accepted).
+
+---
+
+## Historical foundation record (22560b7) — retained for continuity, superseded above
+
 # Security boundaries
 
 ## Unchanged source of authority

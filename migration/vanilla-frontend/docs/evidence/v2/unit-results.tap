@@ -1,0 +1,362 @@
+
+> learners-area-vanilla-migration-candidate@0.1.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: native props.children survive wrapper components; no React tree
+ok 1 - native props.children survive wrapper components; no React tree
+  ---
+  duration_ms: 80.311809
+  type: 'test'
+  ...
+# Subtest: native form values, checked boolean and select initial values are properties
+ok 2 - native form values, checked boolean and select initial values are properties
+  ---
+  duration_ms: 10.080862
+  type: 'test'
+  ...
+# Subtest: native SVG text uses namespace, source style dimensions get CSS px
+ok 3 - native SVG text uses namespace, source style dimensions get CSS px
+  ---
+  duration_ms: 8.356276
+  type: 'test'
+  ...
+# Subtest: native rejects executable URL and arbitrary HTML input
+ok 4 - native rejects executable URL and arbitrary HTML input
+  ---
+  duration_ms: 5.97834
+  type: 'test'
+  ...
+# Subtest: session adapter refuses existing auth-state as identity, invalid role or status
+ok 5 - session adapter refuses existing auth-state as identity, invalid role or status
+  ---
+  duration_ms: 0.611069
+  type: 'test'
+  ...
+# Subtest: public adapter refuses contradictory or undeclared policy; no invented fallback
+ok 6 - public adapter refuses contradictory or undeclared policy; no invented fallback
+  ---
+  duration_ms: 0.480821
+  type: 'test'
+  ...
+# Subtest: private scope is identity isolated, bounded, expiring; retention cache exclusion switch
+ok 7 - private scope is identity isolated, bounded, expiring; retention cache exclusion switch
+  ---
+  duration_ms: 0.372031
+  type: 'test'
+  ...
+# Subtest: private authority teardown disposes resources exactly once
+ok 8 - private authority teardown disposes resources exactly once
+  ---
+  duration_ms: 0.198109
+  type: 'test'
+  ...
+# Subtest: route metadata gates implemented routes only; exact focus split not inferred for unknowns
+ok 9 - route metadata gates implemented routes only; exact focus split not inferred for unknowns
+  ---
+  duration_ms: 0.354477
+  type: 'test'
+  ...
+# Subtest: source-native listening-lessons: actual dictionary and truthful empty fixture render
+ok 10 - source-native listening-lessons: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 11.690348
+  type: 'test'
+  ...
+# Subtest: source-native reading-lessons: actual dictionary and truthful empty fixture render
+ok 11 - source-native reading-lessons: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 13.40035
+  type: 'test'
+  ...
+# Subtest: source-native grammar-lessons: actual dictionary and truthful empty fixture render
+ok 12 - source-native grammar-lessons: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 6.472587
+  type: 'test'
+  ...
+# Subtest: source-native listening-academic: actual dictionary and truthful empty fixture render
+ok 13 - source-native listening-academic: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 6.457822
+  type: 'test'
+  ...
+# Subtest: source-native listening-general: actual dictionary and truthful empty fixture render
+ok 14 - source-native listening-general: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 10.097951
+  type: 'test'
+  ...
+# Subtest: source-native listening-mcq: actual dictionary and truthful empty fixture render
+ok 15 - source-native listening-mcq: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 7.388242
+  type: 'test'
+  ...
+# Subtest: source-native listening-history: actual dictionary and truthful empty fixture render
+ok 16 - source-native listening-history: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 7.004403
+  type: 'test'
+  ...
+# Subtest: source-native reading-history: actual dictionary and truthful empty fixture render
+ok 17 - source-native reading-history: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 5.926443
+  type: 'test'
+  ...
+# Subtest: source-native reading-academic: actual dictionary and truthful empty fixture render
+ok 18 - source-native reading-academic: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 5.776922
+  type: 'test'
+  ...
+# Subtest: source-native management: actual dictionary and truthful empty fixture render
+ok 19 - source-native management: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 26.712772
+  type: 'test'
+  ...
+# Subtest: source-native speaking: actual dictionary and truthful empty fixture render
+ok 20 - source-native speaking: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 9.142016
+  type: 'test'
+  ...
+# Subtest: source-native notifications: actual dictionary and truthful empty fixture render
+ok 21 - source-native notifications: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 5.514454
+  type: 'test'
+  ...
+# Subtest: source-native owner-audit: actual dictionary and truthful empty fixture render
+ok 22 - source-native owner-audit: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 11.691117
+  type: 'test'
+  ...
+# Subtest: source-native admin-content: actual dictionary and truthful empty fixture render
+ok 23 - source-native admin-content: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 7.805018
+  type: 'test'
+  ...
+# Subtest: source-native admin-materials: actual dictionary and truthful empty fixture render
+ok 24 - source-native admin-materials: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 6.366058
+  type: 'test'
+  ...
+# Subtest: management roles never show owner links to teacher; source icons and cards present
+ok 25 - management roles never show owner links to teacher; source icons and cards present
+  ---
+  duration_ms: 19.981298
+  type: 'test'
+  ...
+# Subtest: MCQ active position preserves Day 8/deep q positions, no fixed day maximum
+ok 26 - MCQ active position preserves Day 8/deep q positions, no fixed day maximum
+  ---
+  duration_ms: 0.195555
+  type: 'test'
+  ...
+# Subtest: opaque authored sandbox denies same-origin, all network, top navigation and forms
+ok 27 - opaque authored sandbox denies same-origin, all network, top navigation and forms
+  ---
+  duration_ms: 0.33728
+  type: 'test'
+  ...
+# Subtest: sandbox messages require exact frame, channel and unpredictable token
+ok 28 - sandbox messages require exact frame, channel and unpredictable token
+  ---
+  duration_ms: 0.171534
+  type: 'test'
+  ...
+# Subtest: authority coalesces event checks and revokes on 401 without refreshing privileges locally
+ok 29 - authority coalesces event checks and revokes on 401 without refreshing privileges locally
+  ---
+  duration_ms: 20.347134
+  type: 'test'
+  ...
+# Subtest: dashboard source success view renders real fixture summary without inventing band 9.0
+ok 30 - dashboard source success view renders real fixture summary without inventing band 9.0
+  ---
+  duration_ms: 16.247016
+  type: 'test'
+  ...
+# Subtest: listening hub uses adapter registry cards and summary counts, never a fabricated fixed grid
+ok 31 - listening hub uses adapter registry cards and summary counts, never a fabricated fixed grid
+  ---
+  duration_ms: 7.696133
+  type: 'test'
+  ...
+# Subtest: canonical Listening and default Grammar open lessons; explicit Grammar tabs remain conditional real URLs
+ok 32 - canonical Listening and default Grammar open lessons; explicit Grammar tabs remain conditional real URLs
+  ---
+  duration_ms: 1.356811
+  type: 'test'
+  ...
+# Subtest: Reading legacy queries resolve to real products and obsolete General never revives a product
+ok 33 - Reading legacy queries resolve to real products and obsolete General never revives a product
+  ---
+  duration_ms: 0.770894
+  type: 'test'
+  ...
+# Subtest: protected legacy destinations retain role-aware source redirects without reviving old screens
+ok 34 - protected legacy destinations retain role-aware source redirects without reviving old screens
+  ---
+  duration_ms: 0.427118
+  type: 'test'
+  ...
+# Subtest: any private API 401 event immediately revokes scoped authority and closes listener
+ok 35 - any private API 401 event immediately revokes scoped authority and closes listener
+  ---
+  duration_ms: 4.193325
+  type: 'test'
+  ...
+# Subtest: repeated original ModuleEmoji artwork creates fresh SVG geometry, never consumes shared fragments
+ok 36 - repeated original ModuleEmoji artwork creates fresh SVG geometry, never consumes shared fragments
+  ---
+  duration_ms: 5.872974
+  type: 'test'
+  ...
+# Subtest: safe redirect preserves path/query/fragment
+ok 37 - safe redirect preserves path/query/fragment
+  ---
+  duration_ms: 1.415574
+  type: 'test'
+  ...
+# Subtest: safe redirect rejects external, encoded, backslash and malformed targets
+ok 38 - safe redirect rejects external, encoded, backslash and malformed targets
+  ---
+  duration_ms: 0.268065
+  type: 'test'
+  ...
+# Subtest: patterns distinguish nested static/dynamic routes
+ok 39 - patterns distinguish nested static/dynamic routes
+  ---
+  duration_ms: 0.402937
+  type: 'test'
+  ...
+# Subtest: API mutations send only JSON with same-origin cookies and no-store
+ok 40 - API mutations send only JSON with same-origin cookies and no-store
+  ---
+  duration_ms: 15.945535
+  type: 'test'
+  ...
+# Subtest: API rejects foreign paths
+ok 41 - API rejects foreign paths
+  ---
+  duration_ms: 0.997047
+  type: 'test'
+  ...
+# Subtest: API distinguishes server 401 errors
+ok 42 - API distinguishes server 401 errors
+  ---
+  duration_ms: 1.20621
+  type: 'test'
+  ...
+# Subtest: API rejects HTML fallback instead of treating it as success
+ok 43 - API rejects HTML fallback instead of treating it as success
+  ---
+  duration_ms: 0.713844
+  type: 'test'
+  ...
+# Subtest: identical concurrent GET requests deduplicate without persistent cache
+ok 44 - identical concurrent GET requests deduplicate without persistent cache
+  ---
+  duration_ms: 1.393543
+  type: 'test'
+  ...
+# Subtest: cancelling one GET subscriber does not abort another
+ok 45 - cancelling one GET subscriber does not abort another
+  ---
+  duration_ms: 1.201861
+  type: 'test'
+  ...
+# Subtest: last GET subscriber cancellation aborts transport
+ok 46 - last GET subscriber cancellation aborts transport
+  ---
+  duration_ms: 0.628859
+  type: 'test'
+  ...
+# Subtest: mutation failures are not automatically retried
+ok 47 - mutation failures are not automatically retried
+  ---
+  duration_ms: 0.701068
+  type: 'test'
+  ...
+# Subtest: router handles direct dynamic links and query/hash
+ok 48 - router handles direct dynamic links and query/hash
+  ---
+  duration_ms: 60.81408
+  type: 'test'
+  ...
+# Subtest: router navigation cleans old views and aborts lifecycle
+ok 49 - router navigation cleans old views and aborts lifecycle
+  ---
+  duration_ms: 10.207817
+  type: 'test'
+  ...
+# Subtest: router back and forward restore matching route
+ok 50 - router back and forward restore matching route
+  ---
+  duration_ms: 69.783441
+  type: 'test'
+  ...
+# Subtest: stale lazy route cannot overwrite newer navigation
+ok 51 - stale lazy route cannot overwrite newer navigation
+  ---
+  duration_ms: 8.703419
+  type: 'test'
+  ...
+# Subtest: DOM rendering treats untrusted strings as text
+ok 52 - DOM rendering treats untrusted strings as text
+  ---
+  duration_ms: 8.031235
+  type: 'test'
+  ...
+# Subtest: two dictionaries retain the same key shape
+ok 53 - two dictionaries retain the same key shape
+  ---
+  duration_ms: 15.549268
+  type: 'test'
+  ...
+# Subtest: brand uses original images rather than initials or emoji replacements
+ok 54 - brand uses original images rather than initials or emoji replacements
+  ---
+  duration_ms: 11.141031
+  type: 'test'
+  ...
+# Subtest: recovery form includes real labelled required email/password inputs
+ok 55 - recovery form includes real labelled required email/password inputs
+  ---
+  duration_ms: 22.665509
+  type: 'test'
+  ...
+# Subtest: inventory accounts for every page and never marks unavailable routes converted
+ok 56 - inventory accounts for every page and never marks unavailable routes converted
+  ---
+  duration_ms: 5.792282
+  type: 'test'
+  ...
+# Subtest: runtime has no React/Next imports or JSX entrypoints
+ok 57 - runtime has no React/Next imports or JSX entrypoints
+  ---
+  duration_ms: 3.692745
+  type: 'test'
+  ...
+# Subtest: legacy alias preserves query/hash and does not restore retired Shadowing
+ok 58 - legacy alias preserves query/hash and does not restore retired Shadowing
+  ---
+  duration_ms: 1.641064
+  type: 'test'
+  ...
+1..58
+# tests 58
+# suites 0
+# pass 58
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1354.140726

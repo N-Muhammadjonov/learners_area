@@ -1,0 +1,583 @@
+ROUND A — independent standalone extraction, before inclusion of this evidence in final package
+0e8b9ae186b02ac5d308806557a9936bd0133fc1277f694601d30c1abe496915  /home/user/learners_area/migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip
+Extracted at /home/user/learners_area/migration/vanilla-frontend/node_modules/checkpoint-v2-validation-a; build source-root is migration/vanilla-frontend, which has no original src tree.
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+
+added 134 packages, and audited 135 packages in 2s
+
+27 packages are looking for funding
+  run `npm fund` for details
+
+7 vulnerabilities (2 moderate, 5 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> learners-area-vanilla-migration-candidate@0.1.0 build
+> node scripts/build.mjs
+
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+Rebuilding...
+
+Done in 1802ms.
+Standalone browser build created. No React/Next runtime. NOT a complete route migration.
+
+> learners-area-vanilla-migration-candidate@0.1.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: native props.children survive wrapper components; no React tree
+ok 1 - native props.children survive wrapper components; no React tree
+  ---
+  duration_ms: 65.048919
+  type: 'test'
+  ...
+# Subtest: native form values, checked boolean and select initial values are properties
+ok 2 - native form values, checked boolean and select initial values are properties
+  ---
+  duration_ms: 9.96123
+  type: 'test'
+  ...
+# Subtest: native SVG text uses namespace, source style dimensions get CSS px
+ok 3 - native SVG text uses namespace, source style dimensions get CSS px
+  ---
+  duration_ms: 8.104907
+  type: 'test'
+  ...
+# Subtest: native rejects executable URL and arbitrary HTML input
+ok 4 - native rejects executable URL and arbitrary HTML input
+  ---
+  duration_ms: 5.952
+  type: 'test'
+  ...
+# Subtest: session adapter refuses existing auth-state as identity, invalid role or status
+ok 5 - session adapter refuses existing auth-state as identity, invalid role or status
+  ---
+  duration_ms: 0.665839
+  type: 'test'
+  ...
+# Subtest: public adapter refuses contradictory or undeclared policy; no invented fallback
+ok 6 - public adapter refuses contradictory or undeclared policy; no invented fallback
+  ---
+  duration_ms: 0.402136
+  type: 'test'
+  ...
+# Subtest: private scope is identity isolated, bounded, expiring; retention cache exclusion switch
+ok 7 - private scope is identity isolated, bounded, expiring; retention cache exclusion switch
+  ---
+  duration_ms: 0.468104
+  type: 'test'
+  ...
+# Subtest: private authority teardown disposes resources exactly once
+ok 8 - private authority teardown disposes resources exactly once
+  ---
+  duration_ms: 0.204845
+  type: 'test'
+  ...
+# Subtest: route metadata gates implemented routes only; exact focus split not inferred for unknowns
+ok 9 - route metadata gates implemented routes only; exact focus split not inferred for unknowns
+  ---
+  duration_ms: 0.329695
+  type: 'test'
+  ...
+# Subtest: source-native listening-lessons: actual dictionary and truthful empty fixture render
+ok 10 - source-native listening-lessons: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 11.290885
+  type: 'test'
+  ...
+# Subtest: source-native reading-lessons: actual dictionary and truthful empty fixture render
+ok 11 - source-native reading-lessons: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 7.361926
+  type: 'test'
+  ...
+# Subtest: source-native grammar-lessons: actual dictionary and truthful empty fixture render
+ok 12 - source-native grammar-lessons: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 6.261384
+  type: 'test'
+  ...
+# Subtest: source-native listening-academic: actual dictionary and truthful empty fixture render
+ok 13 - source-native listening-academic: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 6.473758
+  type: 'test'
+  ...
+# Subtest: source-native listening-general: actual dictionary and truthful empty fixture render
+ok 14 - source-native listening-general: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 10.1984
+  type: 'test'
+  ...
+# Subtest: source-native listening-mcq: actual dictionary and truthful empty fixture render
+ok 15 - source-native listening-mcq: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 7.982116
+  type: 'test'
+  ...
+# Subtest: source-native listening-history: actual dictionary and truthful empty fixture render
+ok 16 - source-native listening-history: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 14.360475
+  type: 'test'
+  ...
+# Subtest: source-native reading-history: actual dictionary and truthful empty fixture render
+ok 17 - source-native reading-history: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 6.734425
+  type: 'test'
+  ...
+# Subtest: source-native reading-academic: actual dictionary and truthful empty fixture render
+ok 18 - source-native reading-academic: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 6.497031
+  type: 'test'
+  ...
+# Subtest: source-native management: actual dictionary and truthful empty fixture render
+ok 19 - source-native management: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 18.818027
+  type: 'test'
+  ...
+# Subtest: source-native speaking: actual dictionary and truthful empty fixture render
+ok 20 - source-native speaking: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 9.436478
+  type: 'test'
+  ...
+# Subtest: source-native notifications: actual dictionary and truthful empty fixture render
+ok 21 - source-native notifications: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 15.638981
+  type: 'test'
+  ...
+# Subtest: source-native owner-audit: actual dictionary and truthful empty fixture render
+ok 22 - source-native owner-audit: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 5.95101
+  type: 'test'
+  ...
+# Subtest: source-native admin-content: actual dictionary and truthful empty fixture render
+ok 23 - source-native admin-content: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 12.491613
+  type: 'test'
+  ...
+# Subtest: source-native admin-materials: actual dictionary and truthful empty fixture render
+ok 24 - source-native admin-materials: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 5.750249
+  type: 'test'
+  ...
+# Subtest: management roles never show owner links to teacher; source icons and cards present
+ok 25 - management roles never show owner links to teacher; source icons and cards present
+  ---
+  duration_ms: 12.720558
+  type: 'test'
+  ...
+# Subtest: MCQ active position preserves Day 8/deep q positions, no fixed day maximum
+ok 26 - MCQ active position preserves Day 8/deep q positions, no fixed day maximum
+  ---
+  duration_ms: 0.251886
+  type: 'test'
+  ...
+# Subtest: opaque authored sandbox denies same-origin, all network, top navigation and forms
+ok 27 - opaque authored sandbox denies same-origin, all network, top navigation and forms
+  ---
+  duration_ms: 0.291708
+  type: 'test'
+  ...
+# Subtest: sandbox messages require exact frame, channel and unpredictable token
+ok 28 - sandbox messages require exact frame, channel and unpredictable token
+  ---
+  duration_ms: 0.178671
+  type: 'test'
+  ...
+# Subtest: authority coalesces event checks and revokes on 401 without refreshing privileges locally
+ok 29 - authority coalesces event checks and revokes on 401 without refreshing privileges locally
+  ---
+  duration_ms: 21.624813
+  type: 'test'
+  ...
+# Subtest: dashboard source success view renders real fixture summary without inventing band 9.0
+ok 30 - dashboard source success view renders real fixture summary without inventing band 9.0
+  ---
+  duration_ms: 33.445306
+  type: 'test'
+  ...
+# Subtest: listening hub uses adapter registry cards and summary counts, never a fabricated fixed grid
+ok 31 - listening hub uses adapter registry cards and summary counts, never a fabricated fixed grid
+  ---
+  duration_ms: 15.918839
+  type: 'test'
+  ...
+# Subtest: canonical Listening and default Grammar open lessons; explicit Grammar tabs remain conditional real URLs
+ok 32 - canonical Listening and default Grammar open lessons; explicit Grammar tabs remain conditional real URLs
+  ---
+  duration_ms: 1.59474
+  type: 'test'
+  ...
+# Subtest: Reading legacy queries resolve to real products and obsolete General never revives a product
+ok 33 - Reading legacy queries resolve to real products and obsolete General never revives a product
+  ---
+  duration_ms: 0.842172
+  type: 'test'
+  ...
+# Subtest: protected legacy destinations retain role-aware source redirects without reviving old screens
+ok 34 - protected legacy destinations retain role-aware source redirects without reviving old screens
+  ---
+  duration_ms: 0.499209
+  type: 'test'
+  ...
+# Subtest: any private API 401 event immediately revokes scoped authority and closes listener
+ok 35 - any private API 401 event immediately revokes scoped authority and closes listener
+  ---
+  duration_ms: 5.504731
+  type: 'test'
+  ...
+# Subtest: repeated original ModuleEmoji artwork creates fresh SVG geometry, never consumes shared fragments
+ok 36 - repeated original ModuleEmoji artwork creates fresh SVG geometry, never consumes shared fragments
+  ---
+  duration_ms: 21.829082
+  type: 'test'
+  ...
+# Subtest: safe redirect preserves path/query/fragment
+ok 37 - safe redirect preserves path/query/fragment
+  ---
+  duration_ms: 1.580722
+  type: 'test'
+  ...
+# Subtest: safe redirect rejects external, encoded, backslash and malformed targets
+ok 38 - safe redirect rejects external, encoded, backslash and malformed targets
+  ---
+  duration_ms: 0.267123
+  type: 'test'
+  ...
+# Subtest: patterns distinguish nested static/dynamic routes
+ok 39 - patterns distinguish nested static/dynamic routes
+  ---
+  duration_ms: 0.45136
+  type: 'test'
+  ...
+# Subtest: API mutations send only JSON with same-origin cookies and no-store
+ok 40 - API mutations send only JSON with same-origin cookies and no-store
+  ---
+  duration_ms: 15.661538
+  type: 'test'
+  ...
+# Subtest: API rejects foreign paths
+ok 41 - API rejects foreign paths
+  ---
+  duration_ms: 1.038924
+  type: 'test'
+  ...
+# Subtest: API distinguishes server 401 errors
+ok 42 - API distinguishes server 401 errors
+  ---
+  duration_ms: 1.173173
+  type: 'test'
+  ...
+# Subtest: API rejects HTML fallback instead of treating it as success
+ok 43 - API rejects HTML fallback instead of treating it as success
+  ---
+  duration_ms: 0.679319
+  type: 'test'
+  ...
+# Subtest: identical concurrent GET requests deduplicate without persistent cache
+ok 44 - identical concurrent GET requests deduplicate without persistent cache
+  ---
+  duration_ms: 1.279665
+  type: 'test'
+  ...
+# Subtest: cancelling one GET subscriber does not abort another
+ok 45 - cancelling one GET subscriber does not abort another
+  ---
+  duration_ms: 1.270089
+  type: 'test'
+  ...
+# Subtest: last GET subscriber cancellation aborts transport
+ok 46 - last GET subscriber cancellation aborts transport
+  ---
+  duration_ms: 0.581614
+  type: 'test'
+  ...
+# Subtest: mutation failures are not automatically retried
+ok 47 - mutation failures are not automatically retried
+  ---
+  duration_ms: 0.685939
+  type: 'test'
+  ...
+# Subtest: router handles direct dynamic links and query/hash
+ok 48 - router handles direct dynamic links and query/hash
+  ---
+  duration_ms: 61.020091
+  type: 'test'
+  ...
+# Subtest: router navigation cleans old views and aborts lifecycle
+ok 49 - router navigation cleans old views and aborts lifecycle
+  ---
+  duration_ms: 10.49221
+  type: 'test'
+  ...
+# Subtest: router back and forward restore matching route
+ok 50 - router back and forward restore matching route
+  ---
+  duration_ms: 71.157265
+  type: 'test'
+  ...
+# Subtest: stale lazy route cannot overwrite newer navigation
+ok 51 - stale lazy route cannot overwrite newer navigation
+  ---
+  duration_ms: 9.572464
+  type: 'test'
+  ...
+# Subtest: DOM rendering treats untrusted strings as text
+ok 52 - DOM rendering treats untrusted strings as text
+  ---
+  duration_ms: 8.786643
+  type: 'test'
+  ...
+# Subtest: two dictionaries retain the same key shape
+ok 53 - two dictionaries retain the same key shape
+  ---
+  duration_ms: 17.652738
+  type: 'test'
+  ...
+# Subtest: brand uses original images rather than initials or emoji replacements
+ok 54 - brand uses original images rather than initials or emoji replacements
+  ---
+  duration_ms: 12.227685
+  type: 'test'
+  ...
+# Subtest: recovery form includes real labelled required email/password inputs
+ok 55 - recovery form includes real labelled required email/password inputs
+  ---
+  duration_ms: 25.699824
+  type: 'test'
+  ...
+# Subtest: inventory accounts for every page and never marks unavailable routes converted
+ok 56 - inventory accounts for every page and never marks unavailable routes converted
+  ---
+  duration_ms: 8.293904
+  type: 'test'
+  ...
+# Subtest: runtime has no React/Next imports or JSX entrypoints
+ok 57 - runtime has no React/Next imports or JSX entrypoints
+  ---
+  duration_ms: 5.602387
+  type: 'test'
+  ...
+# Subtest: legacy alias preserves query/hash and does not restore retired Shadowing
+ok 58 - legacy alias preserves query/hash and does not restore retired Shadowing
+  ---
+  duration_ms: 2.849335
+  type: 'test'
+  ...
+1..58
+# tests 58
+# suites 0
+# pass 58
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1397.315195
+README.md: OK
+brand/Learners_Area_intro_optimized_v17.mp4: OK
+brand/derived/favicon-32.png: OK
+brand/derived/favicon.ico: OK
+brand/derived/owner-neon-day-192.png: OK
+brand/derived/owner-neon-day-96.png: OK
+brand/derived/owner-v11-night-192.png: OK
+brand/derived/owner-v11-night-96.png: OK
+css/fonts.css: OK
+css/global.css: OK
+css/source.css: OK
+docs/ADAPTER_CONTRACTS_V2.md: OK
+docs/API_COMPATIBILITY_MATRIX.md: OK
+docs/CHECKPOINT_V2.md: OK
+docs/COMPONENT_MIGRATION_MATRIX.md: OK
+docs/DELIVERY_STATUS.md: OK
+docs/FUNCTIONAL_PARITY_REPORT.md: OK
+docs/GPT_WORK_HANDOFF.md: OK
+docs/KNOWN_LIMITATIONS.md: OK
+docs/PERFORMANCE_REPORT.md: OK
+docs/ROUTE_LEDGER_V2.md: OK
+docs/ROUTE_MIGRATION_MATRIX.md: OK
+docs/SECURITY_BOUNDARIES.md: OK
+docs/VISUAL_PARITY_REPORT.md: OK
+docs/dependency-audit.json: OK
+docs/evidence/browser-output.txt: OK
+docs/evidence/browser-results.json: OK
+docs/evidence/build-output.txt: OK
+docs/evidence/desktop-entry.png: OK
+docs/evidence/desktop-intro.png: OK
+docs/evidence/desktop-recovery-day.png: OK
+docs/evidence/desktop-recovery-night.png: OK
+docs/evidence/mobile-entry.png: OK
+docs/evidence/mobile-recovery-day.png: OK
+docs/evidence/mobile-recovery-night.png: OK
+docs/evidence/package-validation.txt: OK
+docs/evidence/performance.json: OK
+docs/evidence/tablet-entry.png: OK
+docs/evidence/tablet-recovery-day.png: OK
+docs/evidence/tablet-recovery-night.png: OK
+docs/evidence/unit-results.tap: OK
+docs/evidence/v2/authored-isolated-sandbox.png: OK
+docs/evidence/v2/browser-v2-output.txt: OK
+docs/evidence/v2/browser-v2-results.json: OK
+docs/evidence/v2/build-output.txt: OK
+docs/evidence/v2/coverage-summary.json: OK
+docs/evidence/v2/dependency-audit.json: OK
+docs/evidence/v2/desktop-login-fixture-day.png: OK
+docs/evidence/v2/foundation-browser-output.txt: OK
+docs/evidence/v2/mobile-shell-fixture-day.png: OK
+docs/evidence/v2/shell-performance.json: OK
+docs/evidence/v2/unit-results.tap: OK
+docs/route-ledger-v2.json: OK
+docs/source-inventory.json: OK
+fonts/PROVENANCE.md: OK
+fonts/geist-latin-wght-normal.woff2: OK
+fonts/itim-latin-400-normal.woff2: OK
+fonts/kanit-latin-600-normal.woff2: OK
+fonts/kanit-latin-700-normal.woff2: OK
+fonts/licenses/geist-OFL.txt: OK
+fonts/licenses/itim-OFL.txt: OK
+fonts/licenses/kanit-OFL.txt: OK
+fonts/licenses/roboto-mono-OFL.txt: OK
+fonts/licenses/sora-OFL.txt: OK
+fonts/roboto-mono-latin-wght-normal.woff2: OK
+fonts/sora-latin-wght-normal.woff2: OK
+images/day/LA_DAY_DESKTOP_BACKGROUND.61b34a5a3a32.webp: OK
+images/day/LA_DAY_LANDSCAPE_BACKGROUND.2c17bc511a25.webp: OK
+images/day/LA_DAY_PORTRAIT_BACKGROUND.322ba8eda1f7.webp: OK
+images/night/LA_NIGHT_DESKTOP_BACKGROUND.8458b14681fa.webp: OK
+images/night/LA_NIGHT_MOBILE_BACKGROUND.05afe51af964.webp: OK
+images/night/LA_NIGHT_TABLET_BACKGROUND.eb7a5b8ca300.webp: OK
+index.html: OK
+js/adapters/frontend.js: OK
+js/api-client.js: OK
+js/authority.js: OK
+js/components/auth-shell.js: OK
+js/components/brand.js: OK
+js/components/controls.js: OK
+js/components/marks.js: OK
+js/dom.js: OK
+js/generated/ListeningMcqDayPage.js: OK
+js/generated/LoginForm.js: OK
+js/generated/McqMastery.js: OK
+js/generated/RegisterForm.js: OK
+js/generated/ReportProblem.js: OK
+js/generated/ResetConfirmForm.js: OK
+js/generated/ResetRequestForm.js: OK
+js/generated/ShellUtilities.js: OK
+js/generated/authored-helpers.js: OK
+js/generated/authored-media-bridge.js: OK
+js/generated/authored-media-controller.js: OK
+js/generated/authored-sandbox.js: OK
+js/generated/badges.js: OK
+js/generated/dashboard.js: OK
+js/generated/icons.js: OK
+js/generated/listening-hub.js: OK
+js/generated/listening-locked.js: OK
+js/generated/mcq-position.js: OK
+js/generated/mock-band.js: OK
+js/generated/mock-summary.js: OK
+js/generated/mocks.js: OK
+js/generated/module-emoji.js: OK
+js/generated/private-resource.js: OK
+js/generated/sidebar.js: OK
+js/generated/time.js: OK
+js/generated/ui.js: OK
+js/generated/view-registry.js: OK
+js/generated/views/admin-content.js: OK
+js/generated/views/admin-materials.js: OK
+js/generated/views/grammar-lessons.js: OK
+js/generated/views/listening-academic.js: OK
+js/generated/views/listening-general.js: OK
+js/generated/views/listening-history.js: OK
+js/generated/views/listening-lessons.js: OK
+js/generated/views/listening-mcq.js: OK
+js/generated/views/management.js: OK
+js/generated/views/notifications.js: OK
+js/generated/views/owner-audit.js: OK
+js/generated/views/reading-academic.js: OK
+js/generated/views/reading-history.js: OK
+js/generated/views/reading-lessons.js: OK
+js/generated/views/speaking.js: OK
+js/generated/word-popover.js: OK
+js/i18n/en.js: OK
+js/i18n/uz.js: OK
+js/main.js: OK
+js/native.js: OK
+js/navigation.js: OK
+js/preferences.js: OK
+js/private-modules.js: OK
+js/private-scope.js: OK
+js/reading-destinations.js: OK
+js/request-errors.js: OK
+js/router.js: OK
+js/routes.js: OK
+js/safe-next.js: OK
+js/session.js: OK
+js/workspace.js: OK
+modules/auth/account.js: OK
+modules/auth/onboarding.js: OK
+modules/auth/password-form.js: OK
+modules/auth/pending.js: OK
+modules/auth/public.js: OK
+modules/auth/telegram.js: OK
+modules/dashboard.js: OK
+modules/landing.js: OK
+modules/legacy-redirect.js: OK
+modules/listening/authored.js: OK
+modules/listening/hub.js: OK
+modules/listening/mcq-day.js: OK
+modules/listening/mcq.js: OK
+modules/not-found.js: OK
+modules/recovery.js: OK
+modules/shared/forms.js: OK
+modules/shared/inputs.js: OK
+modules/shared/notification-read.js: OK
+modules/shared/presentation.js: OK
+modules/shared/report.js: OK
+modules/shared/route-view.js: OK
+modules/shell/layout.js: OK
+modules/shell/notifications.js: OK
+modules/shell/profile.js: OK
+modules/shell/search.js: OK
+modules/shell/utilities.js: OK
+modules/speaking/microphone.js: OK
+modules/unavailable.js: OK
+modules/vocabulary/word-popover.js: OK
+package-lock.json: OK
+package.json: OK
+scripts/build.mjs: OK
+scripts/convert-auth.mjs: OK
+scripts/convert-dashboard.mjs: OK
+scripts/convert-interactions.mjs: OK
+scripts/convert-ui.mjs: OK
+scripts/convert-views.mjs: OK
+scripts/inventory.mjs: OK
+scripts/ledger-v2.mjs: OK
+scripts/package.py: OK
+scripts/performance.mjs: OK
+scripts/preview.mjs: OK
+scripts/view-recipes.mjs: OK
+tailwind.config.mjs: OK
+tailwind.source.mjs: OK
+tests/browser-v2.mjs: OK
+tests/browser.mjs: OK
+tests/continuation.test.mjs: OK
+tests/fixtures.mjs: OK
+tests/foundation.test.mjs: OK
+ROUND A PASS: independent npm ci/build/58 tests/per-file checksums. Not live/browser integration.

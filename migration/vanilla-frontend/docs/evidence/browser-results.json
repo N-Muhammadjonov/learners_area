@@ -1,6 +1,6 @@
 {
   "browser": "Chromium 133 via @sparticuz/chromium; not Safari",
-  "date": "2026-10-18T05:06:52.951Z",
+  "date": "2026-10-18T06:23:08.113Z",
   "apiIntegration": "Isolated fixtures only where named; real backend NOT connected",
   "baselineScreenshots": 0,
   "results": [

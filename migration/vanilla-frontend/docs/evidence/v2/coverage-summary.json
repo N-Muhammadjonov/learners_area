@@ -1,0 +1,20 @@
+{
+  "baseline": "9a7d9fc5a93608078644d61cd9f9850c05c4ddc8",
+  "previousCheckpoint": "22560b7a17c9074e5ca18b1526537b239aa59716",
+  "pageFiles": 115,
+  "classificationCounts": {
+    "CANONICAL_PAGE_CANDIDATE": 107,
+    "PROTECTED_REDIRECT_ONLY": 5,
+    "CONDITIONAL_CANONICAL_AND_LEGACY_REDIRECT": 1,
+    "QUERY_DEPENDENT_LEGACY_REDIRECT": 1,
+    "RETIRED_REDIRECT": 1
+  },
+  "activeCanonicalDenominator": "UNDETERMINED: canonical candidates need owner/product/integration confirmation, not every page is active",
+  "partialPageCandidates": 27,
+  "fullyConvertedAcceptedPages": 0,
+  "fullyParityVerifiedPages": 0,
+  "notStartedPageRecords": 81,
+  "componentFiles": 206,
+  "partialComponentFiles": 41,
+  "fullyAcceptedComponents": 0
+}

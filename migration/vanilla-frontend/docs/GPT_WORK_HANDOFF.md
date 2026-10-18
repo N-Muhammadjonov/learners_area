@@ -1,3 +1,15 @@
+# V2 continuation notice — current status PARTIAL
+
+CONTINUE FROM V2, not from the historical two-page foundation described below. Read CHECKPOINT_V2.md, ROUTE_LEDGER_V2.md, route-ledger-v2.json, ADAPTER_CONTRACTS_V2.md and evidence/v2 first. Only use arena/96836bcf-learners-area. Previous checkpoint22560b7a17c9074e5ca18b1526537b239aa59716. Preserve newer commits, original22 tests and old PARTIAL ZIP. Start by inspecting/fixing implemented native code, then continue missing ordinary UI AND integrate/verify approved adapters. Never replace production without explicit owner approval; no deploy/merge/main/backend/DB/Railway/Cloudflare authorization.
+
+Full V2 record: [CHECKPOINT_V2.md](CHECKPOINT_V2.md). Archive: `LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip`. See final response/sidecar/validation for exact hashes and local/remote HEAD. A file cannot include its own commit hash.
+
+Implementation%: UNDETERMINED (active denominator unconfirmed; 27 partial/115 page records). Functional/security%: UNDETERMINED (subset probes, not full acceptance). Visual/integration%: UNDETERMINED (0 baseline comparisons / 0 live accepted).
+
+---
+
+## Historical foundation record (22560b7) — retained for continuity, superseded above
+
 # GPT Work handoff — PARTIAL MIGRATION CHECKPOINT
 
 ## 1. Identity, baseline and non-negotiable safety

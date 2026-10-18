@@ -1,3 +1,15 @@
+# V2 continuation notice — current status PARTIAL
+
+Current source-file component denominator: 206. 41 partially touched native candidates, 165 NOT STARTED, 0 fully accepted. Per-file current statuses are in route-ledger-v2.json → components. An icon file counts once, not per export. Historical rows below are not the current implementation ledger.
+
+Full V2 record: [CHECKPOINT_V2.md](CHECKPOINT_V2.md). Archive: `LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip`. See final response/sidecar/validation for exact hashes and local/remote HEAD. A file cannot include its own commit hash.
+
+Implementation%: UNDETERMINED (active denominator unconfirmed; 27 partial/115 page records). Functional/security%: UNDETERMINED (subset probes, not full acceptance). Visual/integration%: UNDETERMINED (0 baseline comparisons / 0 live accepted).
+
+---
+
+## Historical foundation record (22560b7) — retained for continuity, superseded above
+
 # Component migration matrix
 
 206 component source files. Discovery is NOT conversion.

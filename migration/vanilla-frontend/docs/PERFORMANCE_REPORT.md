@@ -1,3 +1,15 @@
+# V2 continuation notice — current status PARTIAL
+
+Current raw V2 fixture-shell diagnostic: evidence/v2/shell-performance.json; median215.2 ms, range20.6–392.7 ms, 10 local desktop1440x900 repeat switches. Current public-root diagnostic: evidence/performance.json; median230.7 ms. No original comparison, backend latency, throttle, long-task or memory-leak measurements. 1–100ms/Booster gain NOT proven. Historical numbers below describe the old checkpoint, not new results.
+
+Full V2 record: [CHECKPOINT_V2.md](CHECKPOINT_V2.md). Archive: `LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip`. See final response/sidecar/validation for exact hashes and local/remote HEAD. A file cannot include its own commit hash.
+
+Implementation%: UNDETERMINED (active denominator unconfirmed; 27 partial/115 page records). Functional/security%: UNDETERMINED (subset probes, not full acceptance). Visual/integration%: UNDETERMINED (0 baseline comparisons / 0 live accepted).
+
+---
+
+## Historical foundation record (22560b7) — retained for continuity, superseded above
+
 # Performance report — LIMITED LOCAL MEASUREMENT
 
 Local HTTP, Chromium 133 headless, 390x844 touch. 10 visits to not-found followed by SPA link to landing. CSS animations NOT complete at DOM readiness. No backend, throttling or original baseline. Not an application-shell or module benchmark.

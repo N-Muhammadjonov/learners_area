@@ -1,3 +1,15 @@
+# V2 continuation notice — current status PARTIAL
+
+Current status is PARTIAL, not CODE COMPLETE. See CHECKPOINT_V2.md for the authoritative module and gate results. 27 partial page candidates, 6 redirect-only implementations, 1 retired redirect, 81 NOT STARTED records. 0 fully accepted routes. 58 unit / 27 original + 14 V2 Chromium probes pass; V2 successes are synthetic fixtures, not live acceptance.
+
+Full V2 record: [CHECKPOINT_V2.md](CHECKPOINT_V2.md). Archive: `LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip`. See final response/sidecar/validation for exact hashes and local/remote HEAD. A file cannot include its own commit hash.
+
+Implementation%: UNDETERMINED (active denominator unconfirmed; 27 partial/115 page records). Functional/security%: UNDETERMINED (subset probes, not full acceptance). Visual/integration%: UNDETERMINED (0 baseline comparisons / 0 live accepted).
+
+---
+
+## Historical foundation record (22560b7) — retained for continuity, superseded above
+
 # Delivery status: PARTIAL
 
 Repository: N-Muhammadjonov/learners_area (private).

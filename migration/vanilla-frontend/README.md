@@ -1,3 +1,29 @@
+# V2 continuation — PARTIAL, not production-ready
+
+Current status and complete module gaps: [CHECKPOINT_V2](docs/CHECKPOINT_V2.md). Current semantic ledger: [ROUTE_LEDGER_V2](docs/ROUTE_LEDGER_V2.md). Proposed integration interfaces: [ADAPTER_CONTRACTS_V2](docs/ADAPTER_CONTRACTS_V2.md). 27 partial page candidates / 115 source page records, 0 accepted. 41 partial component files / 206, 0 accepted.
+
+58 unit tests pass; 27 unchanged foundation + 14 V2 Chromium probes pass. V2 API successes are isolated synthetic fixtures, NOT live acceptance. The actual preview returns503 for APIs; no fake user or backend is shipped. Build-time reviewed TSX presentation conversion emits native DOM modules; browser runtime has NO React/Next/hidden framework. Stateful behavior is manually ported.
+
+```sh
+npm ci --ignore-scripts
+npm run build
+npm test
+npm run preview
+# with preview on4173, separate command:
+node tests/browser.mjs
+node tests/browser-v2.mjs
+python3 scripts/package.py
+python3 scripts/package.py --verify
+```
+
+New package default: `LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip`; old PARTIAL ZIP is preserved. Source inventory regeneration is historical foundation-only; use `node scripts/ledger-v2.mjs` in the source checkout for V2 stage reconciliation, not `npm run inventory` to overwrite current stage records.
+
+**GPT Work readiness: inspect / repair / continue / integrate under explicit approval / verify. NOT deploy or replace production.**
+
+---
+
+## Historical foundation README (22560b7) — retained; its coverage statements are superseded above
+
 # Learners Area — Vanilla migration checkpoint
 
 **STATUS: PARTIAL. This is not the complete migration requested and is NOT production-ready.**

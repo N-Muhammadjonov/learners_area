@@ -1,3 +1,15 @@
+# V2 continuation notice — current status PARTIAL
+
+The following historical structural rows are superseded for current stage/classification by ROUTE_LEDGER_V2.md and route-ledger-v2.json. Current page classification: 107 canonical candidates, 1 conditional canonical/legacy, 6 redirect-only, 1 retired. Active denominator UNDETERMINED. 27 partial page candidates, not 27 accepted conversions.
+
+Full V2 record: [CHECKPOINT_V2.md](CHECKPOINT_V2.md). Archive: `LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip`. See final response/sidecar/validation for exact hashes and local/remote HEAD. A file cannot include its own commit hash.
+
+Implementation%: UNDETERMINED (active denominator unconfirmed; 27 partial/115 page records). Functional/security%: UNDETERMINED (subset probes, not full acceptance). Visual/integration%: UNDETERMINED (0 baseline comparisons / 0 live accepted).
+
+---
+
+## Historical foundation record (22560b7) — retained for continuity, superseded above
+
 # Route migration matrix
 
 Source discovery, not a semantic or completion claim. 115 page files. Route groups removed; dynamic parameters retained. One page does not establish an active product URL. Conditional redirects are not unconditional aliases.
