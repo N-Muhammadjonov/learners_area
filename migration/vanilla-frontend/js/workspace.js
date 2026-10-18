@@ -13,7 +13,7 @@ export function createWorkspace(root){let pendingScroll,lastPresentation;let she
  async function prepare(context){const {url,signal}=context,{locale}=readPreferences(),dict=await dictionary(locale);
   if(!session||session.expiresAt*1000<=Date.now())try{session=await sessionPresentation(signal);}catch(e){if(e.status===401)return {redirect:'/login'};throw e;}
   if(signal.aborted)return {};
-  const resolved=session,presentation=resolved.user.id+':'+resolved.user.role+':'+resolved.user.accountStatus;if(lastPresentation&&lastPresentation!==presentation){privateScope.clear('authority-change');session=resolved;}lastPresentation=presentation;document.documentElement.lang=locale;
+  const resolved=session,presentation=resolved.user.id+':'+resolved.user.role+':'+resolved.user.accountStatus;if(lastPresentation&&lastPresentation!==presentation){if(context.state)for(const k of Object.keys(context.state))delete context.state[k];privateScope.clear('authority-change');session=resolved;}lastPresentation=presentation;document.documentElement.lang=locale;
   if(session.expiresAt*1000<=Date.now()){session=null;return {redirect:'/login'};}
   if(url.pathname==='/pending'&&session.user.accountStatus==='active')return {redirect:'/app'};
   if(url.pathname!=='/pending'&&session.user.accountStatus!=='active')return {redirect:'/pending'};
