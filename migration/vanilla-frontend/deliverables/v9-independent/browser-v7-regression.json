@@ -1,0 +1,114 @@
+{
+  "conditions": "Chromium authorized synthetic fixtures, NOT live/visual acceptance",
+  "results": [
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "source exam multiselect/notes/autosave/cleanup 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "practice source response/feedback/clip/empty 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "authored retry creates one opaque generation; forged work cannot mutate server",
+      "status": "PASS"
+    },
+    {
+      "name": "malformed/redacted exam projection retries without exposing key",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 26,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

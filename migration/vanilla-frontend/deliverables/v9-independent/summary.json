@@ -1,0 +1,101 @@
+{
+  "status": "PASS",
+  "archiveSha256": "691d6a1a9a53a41470339fee3594fa2e0aaaf12abfe6c3d7199156bf6ca5a05d",
+  "archiveBytes": 35424785,
+  "sourceFiles": 595,
+  "manifestFiles": 2,
+  "freshNpmCi": true,
+  "freshBuild": true,
+  "unit": {
+    "PASS": 303,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "browser": {
+    "historical": 396,
+    "v9": 29,
+    "PASS": 425,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "preservedSuites": [
+    {
+      "suite": "browser",
+      "PASS": 27,
+      "FAIL": 0,
+      "SKIP": 0,
+      "BLOCKED": 0
+    },
+    {
+      "suite": "browser-v2",
+      "PASS": 14,
+      "FAIL": 0
+    },
+    {
+      "suite": "browser-v3",
+      "PASS": 49,
+      "FAIL": 0
+    },
+    {
+      "suite": "browser-v4",
+      "PASS": 72,
+      "FAIL": 0,
+      "SKIP": 0
+    },
+    {
+      "suite": "browser-v5",
+      "PASS": 52,
+      "FAIL": 0,
+      "SKIP": 0
+    },
+    {
+      "suite": "browser-v6",
+      "PASS": 77,
+      "FAIL": 0,
+      "SKIP": 0
+    },
+    {
+      "suite": "browser-v7",
+      "PASS": 26,
+      "FAIL": 0,
+      "SKIP": 0
+    },
+    {
+      "suite": "browser-v8",
+      "PASS": 79,
+      "FAIL": 0,
+      "SKIP": 0
+    }
+  ],
+  "assets": 25,
+  "compiledCssSha256": "357e9360bf15fabb892850d5b1a6a300a02f34b98f88ee02bed89fa2b40116c1",
+  "sourceCssSha256": "b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2",
+  "runtimeAssetsIdenticalAfterIndependentBuild": true,
+  "changedEvidenceRestoredAfterExternalCapture": [
+    "docs/evidence/v9/assets-css.json",
+    "docs/evidence/v9/browser-output.txt",
+    "docs/evidence/v9/browser-regression.json",
+    "docs/evidence/v9/browser-v2-output.txt",
+    "docs/evidence/v9/browser-v2-regression.json",
+    "docs/evidence/v9/browser-v3-output.txt",
+    "docs/evidence/v9/browser-v3-regression.json",
+    "docs/evidence/v9/browser-v4-output.txt",
+    "docs/evidence/v9/browser-v4-regression.json",
+    "docs/evidence/v9/browser-v5-output.txt",
+    "docs/evidence/v9/browser-v5-regression.json",
+    "docs/evidence/v9/browser-v6-output.txt",
+    "docs/evidence/v9/browser-v6-regression.json",
+    "docs/evidence/v9/browser-v9-results.json",
+    "docs/evidence/v9/general-768-en-day.png",
+    "docs/evidence/v9/general-768-uz-day.png"
+  ],
+  "independentRepackSha256": [
+    "691d6a1a9a53a41470339fee3594fa2e0aaaf12abfe6c3d7199156bf6ca5a05d",
+    "691d6a1a9a53a41470339fee3594fa2e0aaaf12abfe6c3d7199156bf6ca5a05d"
+  ],
+  "originalRenderedVisualAccepted": 0,
+  "liveAccepted": 0,
+  "providerAccepted": 0,
+  "safariHardwareAccepted": 0,
+  "productionChanges": "NONE"
+}

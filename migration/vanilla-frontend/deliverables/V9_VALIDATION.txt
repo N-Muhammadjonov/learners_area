@@ -1,0 +1,92 @@
+V9 — PARTIAL Listening checkpoint / exact independent archive validation
+Date: 2026-10-18 (Asia/Tashkent)
+Branch: arena/96836bcf-learners-area
+Exact V8 baseline: 3a5c1b7dcaf491549f74d96211ba27be1cf0a253
+V9 source/package commit: f9f3882ac8478ace25ebdd079be24fbfe08236b1
+Final delivery commit: this record and independent proofs are the subsequent Git commit;
+see Git log / remote branch equality (avoids self-referential commit hash).
+
+ARCHIVE
+LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V9.zip
+SHA256: 691d6a1a9a53a41470339fee3594fa2e0aaaf12abfe6c3d7199156bf6ca5a05d
+Bytes: 35,424,785
+595 source/evidence/assets files + 2 manifest files.
+Every archived source SHA checked; exact member set and sidecar matched.
+Root repack twice identical. Independent extracted repack twice identical to final ZIP.
+V1–V8 archives internally verified/sidecars matched and no archived bytes modified.
+
+EXACT INDEPENDENT TEST
+Fresh extraction: /tmp/learners-v9-final-exact (not repository source/build).
+Fresh npm ci --ignore-scripts: exit0; fresh npm run build: exit0.
+Fresh unit: 303 PASS,0 FAIL,0 SKIP,0 CANCELLED.
+Extracted preview only served4173 during independent browser validation; root preview stopped.
+Historical browser suites:27+14+49+72+52+77+26+79=396 PASS.
+New V9 source-native browser workflows:29 PASS.
+TOTAL:425 Chromium133 PASS,0 FAIL,0 SKIP.
+Includes12 General complete viewport/locale/theme journeys1440x900,768x1024,390x844,
+EN/UZ day/night, both entry URLs/query/hash/back-forward/refresh, notes/draft/autosave,
+canonical manual vocabulary save/selection highlights/recovery/remove, server submit,
+own ungraded results/retake, error/retry/401403404500/malformed/cancel, native A–E,
+legacy source player lifecycle/revision data and actual synthetic audio403/retry/play.
+All successes are ISOLATED authorized synthetic fixtures, NOT live integration/real media.
+
+Source original assets25 PASS; source CSS exact:
+b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2
+V9 compiled CSS deterministic:
+357e9360bf15fabb892850d5b1a6a300a02f34b98f88ee02bed89fa2b40116c1
+Every tested runtime/build input/asset byte matched ZIP after fresh build/test.
+Variable browser/evidence outputs externally captured, then archived evidence restored
+ONLY AFTER runtime equality assertion. Two independent repacks matched final SHA above.
+Proof: deliverables/v9-independent/summary.json, verify-exact-archive.py, suite reports,
+logs/npm-ci-status, unit303 and two deterministic-repack outputs.
+
+ACCURATE PRODUCT STATUS
+Listening overall NOT FRONTEND CODE COMPLETE; Reading not started in this sequence.
+Global canonical:17 CODE COMPLETE/19 PARTIAL/72 NOT STARTED of108 inventory candidates.
+Six redirects + one retired =115 records. Components60/16/130 of206.
+Listening canonical4 CODE COMPLETE/10 PARTIAL/2 NOT STARTED of16,2 redirects separate.
+Listening components7 CODE COMPLETE/10 PARTIAL/7 NOT STARTED of24.
+New closures only General catalogue/section routes, SectionListeningActivity/RetakeButton.
+CODE COMPLETE here means native frontend + fixture verification, NOT live/visual acceptance.
+General catalogue→exercise/own attempt→notes/highlights/autosave/reload→submit→own
+result→retake is complete at that frontend/fixture boundary, not deployed backend acceptance.
+Legacy/revision/media improved but remain partial. Exact public/provider classification,
+private source retention/error/retry/cleanup and populated studio tested; unchanged preview
+CSP may block external/direct/YouTube playback. Honest public external fallback, no CSP bypass.
+Academic detail partial; Academic catalogue/full hub/history, full library/start caller,
+lessons/body/quiz/authorized learner create/edit/save/delete/publication remain unfinished.
+Original Full IELTS Test; Review & Revision; Script Completion; MCQ Mastery; Map Mastery;
+Choose TWO Mastery; Completion Mastery; Vocabulary Builder; Retry Weak Areas:
+0/9 comprehensive original workflow acceptance closures, UNVERIFIED.
+Universal authored hub-before-full-audio, timers/flags/notes/recovery/transcript mapping,
+range/authorized seek/expiry/revocation/repeated/rapid navigation/objectURL/listener metrics
+remain. Do not equate existing bridge/enum/fixture with nine real source workflows.
+
+THREE METRICS / ACCEPTANCE
+Weighted implementation: UNDETERMINED (inventory counts not weighted product percentage).
+Functional-security aggregate: UNDETERMINED (303unit/425fixture cases are not full denominator).
+Visual-live aggregate: UNDETERMINED; accepted original-rendered/live/production0.
+Source/CSS identity and candidate screenshot matrix NOT rendered original comparison.
+Provider/Safari/real hardware acceptance0, UNVERIFIED. No1–100ms or universal leak guarantee.
+
+SECURITY / INTEGRATION / PRODUCTION
+All changes migration/vanilla-frontend only. Original application/backend/services/content/
+public/DB/auth/cloud/R2/Supabase/Railway/Telegram/DNS untouched. No production actions.
+Server identity/roles/active status/ownership/publication/sequence/grading/answers authoritative.
+No client identity/session/local credentials/grades/secrets/private source corpus bundled.
+Restricted exam imports no dictionary controller; General wrapper uses explicit server policy.
+Opaque iframe sandbox EXACT allow-scripts, NEVER allow-same-origin. CSP unchanged.
+Private media uses same authorized resource URL; signed/credential/R2 external projections
+rejected. Proposed frontend adapter endpoints remain disconnected503, not fake live success.
+MCQ A–E/ChooseTWO/Day8/server stages/no artificial daily caps preserved.
+Runtime npm audit0 vulnerabilities; dev audit5 high existing toolchain findings, no forced upgrade.
+35staff canonical routes reserved23Admin6Owner6Teacher; no staff implementation/integration.
+Parallel older-V4 output NOT merged; manual reconciliation must preserve newest shared V9.
+No integration conflicts auto-resolved or stale infrastructure overwritten.
+Remote main observed8c4e9af9f122d1fbe3de1a71274f3104d57e1d75 (already external at V8);
+this agent did NOT push/merge/deploy main. Only Arena branch committed/pushed.
+PRODUCTION CHANGES: NONE. Owner approval required before production replacement.
+
+Continuation: docs/CHECKPOINT_V9.md, SOURCE_STATE_INVENTORY_V9.md, both V9 ledgers,
+ADAPTER_CONTRACTS_V9.md and GPT_WORK_HANDOFF.md. Preserve completed General/V7/V8;
+finish remaining Listening ordinary engineering and evidence before any Reading start.
