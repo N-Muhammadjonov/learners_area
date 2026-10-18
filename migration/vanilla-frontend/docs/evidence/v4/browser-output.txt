@@ -1,0 +1,301 @@
+{
+  "date": "2026-10-18T08:45:08.664Z",
+  "browser": "Chromium133",
+  "integration": "ISOLATED CONTRACT FIXTURES; NOT LIVE",
+  "originalVisualComparisons": 0,
+  "results": [
+    {
+      "name": "complete reset journey 390x844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete reset journey 390x844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete reset journey 390x844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete reset journey 390x844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete reset journey 768x1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete reset journey 768x1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete reset journey 768x1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete reset journey 768x1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete reset journey 1440x900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete reset journey 1440x900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete reset journey 1440x900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete reset journey 1440x900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 390x844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 390x844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 390x844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 390x844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 768x1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 768x1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 768x1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 768x1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 1440x900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 1440x900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 1440x900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete application and logout journey 1440x900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 390x844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 390x844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 390x844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 390x844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 768x1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 768x1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 768x1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 768x1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 1440x900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 1440x900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 1440x900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete administrator recovery journey 1440x900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "locale refresh preserves current credentials, gender validation and server error without storage",
+      "status": "PASS"
+    },
+    {
+      "name": "locale change during reset mutation waits for acknowledgement; no replay or false retry",
+      "status": "PASS"
+    },
+    {
+      "name": "delayed public policy paints source title/loading immediately and obsolete response cannot commit",
+      "status": "PASS"
+    },
+    {
+      "name": "password-disabled policy redirects /reset-password, recovery remains usable",
+      "status": "PASS"
+    },
+    {
+      "name": "password-disabled policy redirects /reset-password/confirm?token=synthetic-reset, recovery remains usable",
+      "status": "PASS"
+    },
+    {
+      "name": "malformed login success null is never authentication success",
+      "status": "PASS"
+    },
+    {
+      "name": "malformed login success {} is never authentication success",
+      "status": "PASS"
+    },
+    {
+      "name": "malformed login success [] is never authentication success",
+      "status": "PASS"
+    },
+    {
+      "name": "malformed login success {\"ok\":false} is never authentication success",
+      "status": "PASS"
+    },
+    {
+      "name": "malformed login success {\"onboarded\":\"true\"} is never authentication success",
+      "status": "PASS"
+    },
+    {
+      "name": "malformed login success {\"onboarded\":true,\"accountStatus\":\"active\"} is never authentication success",
+      "status": "PASS"
+    },
+    {
+      "name": "malformed login success {\"ok\":true,\"onboarded\":true} is never authentication success",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid/expired reset token preserves focused native field and allows deliberate retry",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 390x844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 390x844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 390x844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 390x844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 768x1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 768x1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 768x1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 768x1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 1440x900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 1440x900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 1440x900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete shell search journey 1440x900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "open mobile drawer crossing desktop breakpoint releases locks and closes protected overlay",
+      "status": "PASS"
+    },
+    {
+      "name": "source landing destination/history/duplicate-ended 390/guest",
+      "status": "PASS"
+    },
+    {
+      "name": "source landing destination/history/duplicate-ended 390/active",
+      "status": "PASS"
+    },
+    {
+      "name": "source landing destination/history/duplicate-ended 390/pending",
+      "status": "PASS"
+    },
+    {
+      "name": "source landing destination/history/duplicate-ended 768/guest",
+      "status": "PASS"
+    },
+    {
+      "name": "source landing destination/history/duplicate-ended 768/active",
+      "status": "PASS"
+    },
+    {
+      "name": "source landing destination/history/duplicate-ended 768/pending",
+      "status": "PASS"
+    },
+    {
+      "name": "source landing destination/history/duplicate-ended 1440/guest",
+      "status": "PASS"
+    },
+    {
+      "name": "source landing destination/history/duplicate-ended 1440/active",
+      "status": "PASS"
+    },
+    {
+      "name": "source landing destination/history/duplicate-ended 1440/pending",
+      "status": "PASS"
+    },
+    {
+      "name": "reset confirmation invalid-token and malformed acknowledgements retain focused input and cannot navigate",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 72,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

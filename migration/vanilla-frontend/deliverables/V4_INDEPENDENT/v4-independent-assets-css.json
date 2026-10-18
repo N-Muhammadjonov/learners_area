@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "assetFiles": 25,
+  "sourceCssMatchesCapturedOriginalHash": true,
+  "compiledCssRebuildMatches": true,
+  "originalSourceAvailable": false,
+  "note": "Independent archive hashes, not a fresh original-rendered comparison"
+}

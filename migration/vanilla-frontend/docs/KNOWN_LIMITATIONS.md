@@ -1,3 +1,9 @@
+# V4 current status — PARTIAL
+
+Current record: [CHECKPOINT_V4](CHECKPOINT_V4.md), SOURCE_STATE_INVENTORY_V4, V4 ledgers/contracts/validation and GPT_WORK_HANDOFF. Three canonical recovery/reset frontend code closures;24partial/81notstarted;6component code closures/46partial/154notstarted; zero original-rendered/live/product accepted.181unit +162Chromium fixture probes pass, not full migration acceptance. Historical records below are retained, not current totals. External independent ZIP validation: deliverables/V4_VALIDATION.txt. **PRODUCTION CHANGES NONE.**
+
+---
+
 # V3 continuation notice — current status PARTIAL
 
 Existing27 full source-state audits are unfinished. 81 page records and156 component files remain NOT STARTED; no educational engine/staff completion claim. Proposed adapters and live services are disconnected, but that does not excuse missing native states. Nine Listening activities, reading/writing/speaking/vocabulary/retention engines and most staff/profile/courses/video/support workflows remain engineering work.

@@ -1,0 +1,38 @@
+# V4 adapter contracts — no backend changes
+
+Extends V3/V2, which remain historical contracts. `/api/frontend/public`, `/api/frontend/session`, `/api/frontend/view` are **proposals**, NOT existing production APIs. Preview `/api/*` returns503. No frontend fixture is a production API. Public/session/view consumers have loading/error/retry/cancellation and reject malformed envelopes; missing live adapters do not account for the ordinary frontend work elsewhere.
+
+## Public presentation (proposed)
+
+`GET /api/frontend/public` → `{version:1,public:{auth:{passwordEnabled:boolean,telegramOnly:boolean,telegramConfigured:boolean,telegramIntentEnabled:boolean,googleConfigured:boolean,botUsername:string|null,nonce?:string,diagnostics?:boolean}}}` (existing V2 fields retained). Derive server-side from `src/lib/auth/public-auth-policy.ts`, telegram intent config and original login/register/reset pages. No env objects/provider credentials/token/session/driver output. Optional diagnostics is an explicit validated boolean; only redacted fixed categories are logged. Native consumer: `modules/auth/public.js`, `js/adapters/frontend.js`. Reset requires authoritative passwordEnabled; recovery deliberately does not call this projection.
+
+## Existing account APIs — not new endpoints
+
+| Endpoint | Exact native input / accepted acknowledgement | Server source / enforcement |
+|---|---|---|
+| `POST /api/auth/login`, `/api/auth/recovery/login` | `{email,password}` → `{ok:true,onboarded:boolean,accountStatus:'active'|'pending'|'rejected'|'suspended'}` | Original routes and `src/lib/auth/password-sign-in.ts`; server validates credentials/policy/rate/active administrator recovery and issues HttpOnly cookie. No client role/status grant |
+| `POST /api/auth/register` | `{name,email,password,gender:'male'|'female'}` → `{ok:true,...}` | Existing registration route validates constraints/email uniqueness/policy, establishes pending account/session; native goes pending only on ack |
+| `POST /api/auth/reset/request` | `{email}` → `{ok:true,devResetUrl?:string}` | Existing reset request route keeps email-existence privacy; service/mailer/rate configured server-side. Native generic done does NOT prove mail delivered. Optional development link accepted only as same-origin `/reset-password/confirm` with nonempty token; not logged/persisted |
+| `POST /api/auth/reset/confirm` | `{token,password}` → `{ok:true}` | Existing reset confirm route validates password, token eligibility, expiry, single use and revocation. Native disables missing-token submit, never simulates token validity; ack goes login |
+| `POST /api/onboarding` | Existing eight source fields, with source number/date/string constraints | Existing onboarding route; own authenticated eligible account only, server validates and rotates authoritative presentation. Native ack then invalidate session/read fresh |
+| `POST /api/admission/request` | `{message?:trimmedString}` → `{ok:true,...}` | Existing admission route; own pending/rejected account; reject suspended/ineligible status; server deduplicates open request. Native consumes only ok, not arbitrary request IDs; acknowledgement never means approval |
+| `POST /api/auth/logout` | Existing no-credential body → `{ok:true}` | Existing logout/revocation/cookie clearing. Native confirms, blocks double submit, surfaces safe failure and tears down private scope only on ack/authority invalidation |
+| `GET /api/auth/state` | no client identity/role input → `{ok:true,role,accountStatus,expiresAt}` or401 | Existing current-session authority; landing consumes only destination, not private content/capability. Other native authority reconciliation remains V3 |
+
+Public contract errors: 400 validation/invalid token,401 invalid credentials/expired authority,403 disabled/ineligible,409 conflict,429 rate-limited,5xx unavailable, parse/network/timeout; UI uses localized safe categories. Never echo unknown response error strings, driver details or credentials. HTTP success with malformed/missing expected acknowledgement is not success. Native account validation: `js/adapters/account.js`; form consumers stable under pending/error; credentials only ephemeral route memory, wiped on real navigation/abort. Locale refresh waits for in-flight acknowledgement, does not replay a mutation.
+
+## Telegram intent / legacy provider (existing)
+
+Original server: `src/app/api/auth/telegram/intent/{route.ts,status/route.ts,exchange/route.ts,cancel/route.ts}`, `src/lib/auth/telegram-intent.ts`, `src/db/schema.ts`. Create POST `{purpose:'login'|'register'|'link'}` → `{intentId,token,browserNonce,expiresAt,purpose,botUsername}`. Poll GET uses URL-encoded intentId and browserNonce; response `{status,expired:boolean}`. Source DB status enum: pending/confirmed/consumed/expired/cancelled. Only confirmed exchanges; unresolved/consumed status never grants auth. Exchange/cancel POST **only** `{intentId,browserNonce}`; no browser-supplied user/role/approval. Exchange returns `{success:true,onboarded:boolean,accountStatus,outcome}` and server cookie, never a browser session credential. Native source deadline5min,2sec polls, abort/stale guards and register/link/suspended outcomes retained. Pair/token stay in route-local memory, not storage/logging. Source expiry link remains visible; user cancel removes link and stops local flight even during create.
+
+Legacy widget retains original fixed `https://telegram.org/js/telegram-widget.js?22`, server-approved nonce, bot metadata and existing callback URL. Static preview's self-only script CSP blocks external widget and surfaces unavailable; do NOT weaken CSP/iframe sandbox to make fixtures appear live. Real provider/nonce/cookie/Telegram flow remains unverified and requires approved server environment, not credentials in chat.
+
+## Pending and global search projections
+
+Pending uses proposed `/api/frontend/view?route=%2Fpending`; original pending page's server open-request read must project `{version:1,route:'/pending',data:{openRequest:null|{id:nonemptyString,...safeFields}}}` for the authenticated owner. Native distinguishes no open request from malformed data, existing open-request grey state from locally acknowledged requestSent green state, and pending/rejected/suspended statuses. Do not return other applicants or staff-only review records.
+
+Search is existing `GET /api/search?q=<encoded trimmed query>`; source `src/app/api/search/route.ts` and `src/components/shell/GlobalSearch.tsx`. Output `{results:[{type:string,title:string,href:safeLocalPath,context?:string|null}]}`. Server independently limits role/ownership/enrolment/publication per hit; client filtering is not authorization. Native waits two characters, debounces280ms, aborts superseded requests, validates result array (malformed is error, not empty), filters unsafe paths and invalid rows, displays exact source loading/empty/error and keyboard/pointer navigation. No search result/data prefetch on hover; existing bounded module prewarm is **code only**. Closed/aborted search clears detached result DOM, text, aria targets and global listeners.
+
+## Unfinished integration and ordinary work
+
+V3 Dashboard/roadmap/mock regions, all educational/retention/authoring/staff contracts remain in ADAPTER_CONTRACTS_V3/V2 and source API matrix (214 handlers). No generic SQL/data proxy or client-authoritative grading/roles is permitted. Completing every native consumer/action in these modules is still ordinary engineering; simply documenting an adapter does not complete it. All server authorization, media ownership, session revocation and grading must be verified in an owner-approved environment before acceptance or replacement.

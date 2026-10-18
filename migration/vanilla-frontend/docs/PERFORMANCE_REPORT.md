@@ -1,3 +1,9 @@
+# V4 current status — PARTIAL
+
+Current record: [CHECKPOINT_V4](CHECKPOINT_V4.md), SOURCE_STATE_INVENTORY_V4, V4 ledgers/contracts/validation and GPT_WORK_HANDOFF. Three canonical recovery/reset frontend code closures;24partial/81notstarted;6component code closures/46partial/154notstarted; zero original-rendered/live/product accepted.181unit +162Chromium fixture probes pass, not full migration acceptance. Historical records below are retained, not current totals. External independent ZIP validation: deliverables/V4_VALIDATION.txt. **PRODUCTION CHANGES NONE.**
+
+---
+
 # V3 continuation notice — current status PARTIAL
 
 Controlled synthetic catalogue diagnostic:15 switches per0/50ms added fixture latency, warm JS,30 synthetic rows, desktop Chromium. Pending-frame DOM medians1.0/0.8ms; content DOM42.8/82.1ms; content after frame opportunity456.7/478.3ms. These are NOT certified pixel paint, real backend/media readiness, original comparison or guaranteed1–100ms. Long tasks observed0; documents1→1, nodes697→668, listeners71→71; finite samples do not prove leak freedom. Raw: evidence/v3/navigation-performance.json. Remaining5 dev high advisories; selector-parser override CSS A/B byte-identical.

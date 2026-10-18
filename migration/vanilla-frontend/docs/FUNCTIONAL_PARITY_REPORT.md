@@ -1,3 +1,9 @@
+# V4 current status — PARTIAL
+
+Current record: [CHECKPOINT_V4](CHECKPOINT_V4.md), SOURCE_STATE_INVENTORY_V4, V4 ledgers/contracts/validation and GPT_WORK_HANDOFF. Three canonical recovery/reset frontend code closures;24partial/81notstarted;6component code closures/46partial/154notstarted; zero original-rendered/live/product accepted.181unit +162Chromium fixture probes pass, not full migration acceptance. Historical records below are retained, not current totals. External independent ZIP validation: deliverables/V4_VALIDATION.txt. **PRODUCTION CHANGES NONE.**
+
+---
+
 # V3 continuation notice — current status PARTIAL
 
 Build PASS;142/142 unit PASS; preserved original27 and V2 14 plus V3 49 Chromium probes PASS (90 total). Original test files unchanged. Real pointer two-tab logout, independent regions, module-nav keyboard/responsive matrix, MCQ, error/retry/cancellation/scroll and code-only warming verified with synthetic fixtures. Full source-state/role/live acceptance0; no route promoted to complete.

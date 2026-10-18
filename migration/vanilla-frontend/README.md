@@ -1,3 +1,9 @@
+# V4 current status — PARTIAL
+
+Current record: [CHECKPOINT_V4](docs/CHECKPOINT_V4.md), SOURCE_STATE_INVENTORY_V4, V4 ledgers/contracts/validation and GPT_WORK_HANDOFF. Three canonical recovery/reset frontend code closures;24partial/81notstarted;6component code closures/46partial/154notstarted; zero original-rendered/live/product accepted.181unit +162Chromium fixture probes pass, not full migration acceptance. Historical records below are retained, not current totals. External independent ZIP validation: deliverables/V4_VALIDATION.txt. **PRODUCTION CHANGES NONE.**
+
+---
+
 # V3 continuation — PARTIAL, NOT CODE COMPLETE
 
 Current record: [CHECKPOINT_V3](docs/CHECKPOINT_V3.md). [Semantic ledger](docs/ROUTE_LEDGER_V3.md) / [JSON](docs/route-ledger-v3.json). [Contracts](docs/ADAPTER_CONTRACTS_V3.md). [GPT Work handoff](docs/GPT_WORK_HANDOFF.md).

@@ -1,3 +1,9 @@
+# V4 current status — PARTIAL
+
+Current record: [CHECKPOINT_V4](CHECKPOINT_V4.md), SOURCE_STATE_INVENTORY_V4, V4 ledgers/contracts/validation and GPT_WORK_HANDOFF. Three canonical recovery/reset frontend code closures;24partial/81notstarted;6component code closures/46partial/154notstarted; zero original-rendered/live/product accepted.181unit +162Chromium fixture probes pass, not full migration acceptance. Historical records below are retained, not current totals. External independent ZIP validation: deliverables/V4_VALIDATION.txt. **PRODUCTION CHANGES NONE.**
+
+---
+
 # V3 continuation notice — current status PARTIAL
 
 HttpOnly/server authority unchanged. Improved fresh session/role/status scope clearing, expiry/SSE/401/real pointer two-tab teardown, safe error redaction, source confirmation cleanup and code-only prewarm. Opaque iframe allow-scripts only; no CSP weakening. Fixture tests are not full security/live permissions acceptance. Many nested DTO schemas, role/staff/media/outbox workflows need engineering/verification. Audit now5 high dev-only /0 moderate /0 critical; runtime-only npm audit0, not a vulnerability-free claim.

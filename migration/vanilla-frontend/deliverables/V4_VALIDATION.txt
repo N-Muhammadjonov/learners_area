@@ -1,0 +1,63 @@
+V4 INDEPENDENT DELIVERY VALIDATION — PASS for stated checkpoint gates
+Overall migration status: PARTIAL, NOT FRONTEND CODE COMPLETE.
+Date UTC: 2026-10-18T08:52:18.922008+00:00
+Repository: N-Muhammadjonov/learners_area
+Branch: arena/96836bcf-learners-area
+Previous V3 delivery: 948d012cabe0c8c31fbc82502dc2077fc6af8293
+Native runtime checkpoint: 75f8e7652b6785355fee231f9a5c2f9db2f17ef7
+Validation tooling/test checkpoint: 7134ae8661901db7e0540660762e5520f914b301
+Final documentation/package delivery commit is discoverable in git and final response;
+this file cannot embed its own containing commit hash without recursion.
+
+Archive: LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V4.zip
+Bytes: 19262129
+SHA256: 6d65080db5cebcf93c913c040e5d5eafcb1680e0c7a8e568339f7d00de530739
+316 source/evidence/asset files + 2 generated manifest files.
+Full internal SHA256SUMS, ZIP CRCs, exact generated metadata and sidecar: PASS.
+Two source-workspace package generations identical: PASS.
+Independent extraction under excluded node_modules/checkpoint-v4-independent;
+original application source tree unavailable to that build: confirmed.
+Independent full SHA256SUMS before mutation by tests: PASS.
+npm ci --no-fund --no-audit: PASS.
+Standalone npm run build: PASS.
+Unit: 181 PASS / 0 FAIL / 0 SKIP.
+Chromium fixture browser: 162 PASS / 0 FAIL / 0 SKIP.
+Breakdown: foundation27, V2 14, V3 49, V4 72.
+Independent Chromium uses port4174's own extracted build, not source port4173.
+25 asset/font hashes match captured original-source comparison: PASS.
+Raw CSS matches captured original-source SHA; compiled CSS matches independent
+Tailwind rebuild: PASS. Not a fresh rendered original comparison.
+Historical evidence byte-restored after regression wrapper: PASS.
+Independent packaging regeneration byte-identical to source ZIP (cmp): PASS.
+To hold inputs constant, independent logs/results were first saved externally in
+V4_INDEPENDENT/, then packaged source/evidence members restored to the archive's
+exact bytes before the independent packaging reproducibility check. The restored
+historical/source reports are not substituted for independently saved test logs.
+Independent server stopped after validation; source preview4173 left available.
+
+Original-rendered visual comparisons: 0. Live accepted: 0. Production accepted: 0.
+Safari/hardware/actual provider/mail/media/cookie authorization: NOT VERIFIED.
+Dependencies: 0 runtime advisories; 5 HIGH dev-tool chain advisories unresolved.
+No unsafe force-fix or major Tailwind rewrite. No production API implementation.
+
+Source inventory:115 records,108 canonical candidates; active product denominator
+UNDETERMINED. Canonical frontend code gate:3 closed recovery/reset,24 partial,
+81 not started. Existing6redirect-only code closures +1retired separate.
+Components:206 =6 frontend code gate complete +46partial +154notstarted.
+Accepted original-rendered/live/product pages and components:0.
+Remaining ordinary frontend work is real, not an external-blocker label.
+Source-state and handoff: docs/SOURCE_STATE_INVENTORY_V4.md,
+docs/CHECKPOINT_V4.md, docs/GPT_WORK_HANDOFF.md, V4 ledgers/contracts/report.
+
+Immutable archives verified unchanged:
+PARTIAL 26066105e78eed7d2436782bd2e4fcf18430fbd32b736ccd6217d799b5b3f6bb
+V2      7de4a25577bcaa517e3b04f712e2de438c4a8108307f8e4394213acf2a3fc48a
+V3      5525c8482e9125c27d7edeaecf25df56f114671e78565ba32dd64495b0aade1d
+All changed paths are inside migration/vanilla-frontend/. Original source,
+backend/services/content/DB/provider/deployment/configuration not modified.
+No merge or push to main was performed by this work. Current remote main snapshot:
+9733615f40d7f3da88c581a11112cac9c2fdfddc
+It differs from historical source baseline9a7d9fc5a93608078644d61cd9f9850c05c4ddc8;
+remote-main immutability is therefore NOT asserted. Only this Arena branch was
+pushed; unrelated remote updates were not reset/rebased/overwritten.
+PRODUCTION CHANGES BY THIS WORK: NONE.

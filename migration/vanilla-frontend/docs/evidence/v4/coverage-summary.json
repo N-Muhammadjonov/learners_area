@@ -1,0 +1,54 @@
+{
+  "baseline": "9a7d9fc5a93608078644d61cd9f9850c05c4ddc8",
+  "previousCheckpoint": "948d012cabe0c8c31fbc82502dc2077fc6af8293",
+  "pageFiles": 115,
+  "classificationCounts": {
+    "CANONICAL_PAGE_CANDIDATE": 107,
+    "PROTECTED_REDIRECT_ONLY": 5,
+    "CONDITIONAL_CANONICAL_AND_LEGACY_REDIRECT": 1,
+    "QUERY_DEPENDENT_LEGACY_REDIRECT": 1,
+    "RETIRED_REDIRECT": 1
+  },
+  "activeCanonicalDenominator": "UNDETERMINED — 108 inventory candidates are not confirmed active product pages",
+  "partialPageCandidates": 24,
+  "fullyConvertedAcceptedPages": 0,
+  "fullyParityVerifiedPages": 0,
+  "notStartedPageRecords": 81,
+  "componentFiles": 206,
+  "partialComponentFiles": 46,
+  "fullyAcceptedComponents": 0,
+  "codeCheckpoint": "75f8e7652b6785355fee231f9a5c2f9db2f17ef7",
+  "status": "PARTIAL",
+  "notStartedComponentFiles": 154,
+  "codeCompleteRedirectOnlyRecords": 6,
+  "retiredRecords": 1,
+  "metrics": {
+    "implementation": "UNDETERMINED — active product denominator + all-state audits unconfirmed",
+    "functionalSecurity": "UNDETERMINED — subset synthetic evidence is not full acceptance",
+    "visualIntegration": "UNDETERMINED — zero original comparisons / zero live accepted"
+  },
+  "sourceBuild": true,
+  "unit": {
+    "pass": 181,
+    "fail": 0,
+    "skip": 0
+  },
+  "browser": {
+    "foundation": 27,
+    "v2": 14,
+    "v3": 49,
+    "v4": 72,
+    "total": 162,
+    "fail": 0,
+    "skip": 0,
+    "liveAccepted": 0
+  },
+  "v3NewPageImplementations": 0,
+  "canonicalCandidates": 108,
+  "frontendCodeCompleteCanonicalCandidates": 3,
+  "frontendCodeCompleteComponents": 6,
+  "v4NewPageImplementations": 0,
+  "completedModule": "Bounded password recovery/reset frontend; NOT whole Phase 1",
+  "componentAccounting": "6 CODE COMPLETE + 46 IN PROGRESS + 154 NOT STARTED = 206",
+  "routeAccounting": "3 canonical CODE COMPLETE + 24 IN PROGRESS + 81 NOT STARTED + 6 redirect-only CODE COMPLETE + 1 RETIRED-N/A = 115"
+}

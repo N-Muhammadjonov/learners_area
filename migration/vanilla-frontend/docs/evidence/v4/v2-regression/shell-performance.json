@@ -1,0 +1,18 @@
+{
+  "conditions": "Chromium133 local HTTP desktop1440x900; SYNTHETIC DTO fixtures, no latency/throttling/real backend/original baseline; repeat route link clicks to data-ready+one frame; 10 samples; NOT Booster acceptance",
+  "samplesMs": [
+    65.40000000037253,
+    260.2999999988824,
+    273.40000000037253,
+    271.09999999962747,
+    20,
+    357.59999999962747,
+    179.19999999925494,
+    175.90000000037253,
+    180.69999999925494,
+    176.40000000037253
+  ],
+  "medianMs": 180.69999999925494,
+  "longTasksMeasured": false,
+  "memoryLeaksMeasured": false
+}

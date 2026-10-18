@@ -1,3 +1,9 @@
+# V4 current status — PARTIAL
+
+Current record: [CHECKPOINT_V4](CHECKPOINT_V4.md), SOURCE_STATE_INVENTORY_V4, V4 ledgers/contracts/validation and GPT_WORK_HANDOFF. Three canonical recovery/reset frontend code closures;24partial/81notstarted;6component code closures/46partial/154notstarted; zero original-rendered/live/product accepted.181unit +162Chromium fixture probes pass, not full migration acceptance. Historical records below are retained, not current totals. External independent ZIP validation: deliverables/V4_VALIDATION.txt. **PRODUCTION CHANGES NONE.**
+
+---
+
 # V3 continuation notice — current status PARTIAL
 
 Status PARTIAL. Current code checkpoint a4f72f8e558398e83d2ad268b1485d343eb0cb1e follows6259ff1/V2 without resetting history. New deterministic CHECKPOINT_V3 archive; independent validation/sidecar live alongside deliverables, not inside a self-referential package. Historical archives unchanged. Current final delivery SHA and remote verification are in final response/validation. No production action authorized.

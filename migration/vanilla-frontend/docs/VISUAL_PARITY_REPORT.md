@@ -1,3 +1,9 @@
+# V4 current status — PARTIAL
+
+Current record: [CHECKPOINT_V4](CHECKPOINT_V4.md), SOURCE_STATE_INVENTORY_V4, V4 ledgers/contracts/validation and GPT_WORK_HANDOFF. Three canonical recovery/reset frontend code closures;24partial/81notstarted;6component code closures/46partial/154notstarted; zero original-rendered/live/product accepted.181unit +162Chromium fixture probes pass, not full migration acceptance. Historical records below are retained, not current totals. External independent ZIP validation: deliverables/V4_VALIDATION.txt. **PRODUCTION CHANGES NONE.**
+
+---
+
 # V3 continuation notice — current status PARTIAL
 
 Original application baseline comparisons0; visual-verified routes0. Three UZ/night catalogue screenshots at390/768/1440 were opened for containment/title/navigation inspection. Account + catalogue probes cover all3 sizes × EN/UZ × day/night. This is candidate screenshot/responsive evidence, NOT source-vs-native visual parity. Source theme/assets/tokens preserved; genuine baseline/device review outstanding.
