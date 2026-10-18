@@ -1,0 +1,57 @@
+LEARNERS AREA V7 — FINAL VALIDATION — PARTIAL, NOT LISTENING CODE COMPLETE
+Date: 2026-10-18 Asia/Tashkent
+Repository: N-Muhammadjonov/learners_area
+Branch: arena/96836bcf-learners-area
+Previous verified V6: 91cd868a66cbc24c0c093e259959add2e0f09671
+Initial V7 implementation checkpoint: 9fb0eef (full SHA in Git log)
+Final packaged implementation/docs/evidence commit: cf44845720b875d76f7450ebd2550ed139b532f6
+This external validation is committed afterwards; exact final delivery SHA is in Git log/delivery, avoiding recursive self-hash claims.
+
+ARCHIVE
+LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V7.zip
+Bytes: 31535066
+SHA256: 2b4c218deb6447190f83e52211650648fe872b2d42ac275a2db6947b19958209
+488source/evidence/assets files +2manifest files.
+Root deterministic packaging twice PASS (identical bytes).
+Independent extraction to /tmp/learners-v7-final, fresh npm ci/build/npm test PASS.
+Independent units252PASS/0FAIL/0SKIP (236historical+16new).
+Independent historical Chromium27+14+49+72+52+77=291PASS.
+Independent V7Chromium26PASS/0FAIL/0SKIP; total317PASS, no skips.
+V7matrix24cases:12viewport/locale/theme combinations ×exam/practice candidates;2additional malformed-projection retry/authored retry/forged-message cases.
+Independent assets25PASS; outside clone checks pinned original-source audit hashes, not a fabricated fresh source comparison. Inside clone separately compared source/assets directly. SourceCSSexact and compiled CSS rebuild deterministic.
+Independent results/logs retained outside ZIP in deliverables/v7-independent/.
+After capturing independent outputs externally, restored packaged primary evidence then verified all488source hashes+2metadata bytes exact.
+Independent packager regenerated archive twice and verified: same SHA256 2b4c218deb6447190f83e52211650648fe872b2d42ac275a2db6947b19958209.
+Root final package.py --verify PASS. V1–V6historical ZIP internals/sidecars verified unchanged.
+
+IMPLEMENTATION / STRICT COMPLETION
+FINAL STATUS PARTIAL. Phase1/Phase2 preserved. Listening NOT frontend code complete; Reading NOT started.
+New native source-derived exam/start/practice candidates, source5s draft/notes/recovery/confirmation/submit cleanup, native A–E multiselect, source focus layout and audio identity/abort lifecycle, map and unit-only analysis renderers, authored runtime/state/course-work validation and fresh-generation retry.
+No fake attempts/data/grading, no original protected Listening HTML/answers/audio in package. Original dynamically authorized authored HTML runtime and opaque sandbox retained, no framework/hooks/VDOM browser runtime.
+GLOBAL canonical candidates13/108CODE COMPLETE,18PARTIAL,77NOT STARTED;6redirects+1retired separate.
+Components53/206CODE COMPLETE,13PARTIAL,140NOT STARTED.
+No new completion credit. Listening16active canonical candidates9PARTIAL/7NOT STARTED;2redirect records preserved separately.
+Original nine activities NOT comprehensively verified/completed.9unit-tested COURSE-WORK enum names are not9UIactivity tests.
+Authored runtime partial: existing source dynamic delegation/hydration/streaming retained and retry/validation improved, full genuine nine-activity/restriction/outbox/media behavioral closure remains. Generic non-nativePersistence branch still uses original eager blob loading and requires further engineering for universal hub-first streaming.
+Exam/practice/review partial: source exam and graded practice candidates exercised; legacy exam/review/activity2–5/study/revision/testMCQ not closed. Source full-exam submit destination still needs native activity2.
+Media partial: same-element/abort/cancel tests and original parent progressive capability controller; real successful playback/seek/pause/expiry/long-run memory/hardware acceptance not verified.
+Exact remaining ordinary frontend tasks in SOURCE_STATE_INVENTORY_V7.md: source legacy activity2–5, review/study/revision/MCQ, General canonical lexical/highlight/result/retake, hub/catalogue/history closure, lessons/learner authoring, genuine nine activities and full media/security/state/a11y tests. These are NOT all externally blocked. Missing projections are not a completion excuse.
+
+VERIFICATION / SECURITY LIMITS
+Original-rendered visual0; live integration0; Safari0; real media/hardware0; production0 accepted.
+Fixture byte/transport/iframe tests are not genuine Test1nine-activity or backend authorization acceptance.
+Source CSS SHA b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2.
+Compiled CSS SHA b59aa68f6da82596c134b0bb616b73e01c5e7874e1246417a38aba051ce43b38; new classes come from original converted Listening markup, no redesign.
+Fresh V7runtime audit0findings; fresh full dev audit5high, unchanged lock. Not vulnerability-free.
+Initial development V7browser13PASS/12FAIL arose from fixture request-event vs handler-state observation ordering; final wait-for-response development and independent26runs pass. No runtime assertion/test weakening.
+No new Listening performance benchmark or1–100ms guarantee, no general leak-freedom claim.
+Overall weighted implementation percentage UNDETERMINED; inventory closures only13/108=12.04%routes,53/206=25.73%components (unchanged).
+Functional/security percentage UNDETERMINED: acceptance-case denominator not established;252unit/317browser executed cases pass, not whole-product100%.
+Visual/live percentage UNDETERMINED:0accepted, comprehensive acceptance denominator not established.
+
+GIT / SCOPE / RESERVED STAFF
+Initial workspace was stale Git9a7d9fc plus untracked V4migration snapshot. Preserved stale tree separately at /home/user/.arena/v7-workspace-safety/vanilla-frontend-before-reconciliation, then ff-only synced SAME branch to remote verified V6. No reset/rebase/stash/clean/force-push/branch switch/new branch/discard. No parallel-AI deliverable merge.
+All committed changes under migration/vanilla-frontend/. Original src/public/content/services/backend/API/DB remain read-only; main unchanged. No auth/roles/HttpOnly authority/revocation weakening, private media/public relocation, grading or CSP/sandbox weakening. sandbox allow-scripts ONLY, never allow-same-origin. Proposed frontend projections still not existing production endpoints; native preview intentionally503, not fake live data.
+Separate AI's35staff canonical routes (23Admin6Owner6Teacher), based on old V4snapshot, untouched/unintegrated. Future manual latest-branch reconciliation only, never overwrite newer V5/V6/V7shared files. Conflicts0 (no integration merge attempted), not a future conflict-free guarantee.
+No Supabase/Railway/Cloudflare/R2/Worker/Telegram/DNS/production/deployment changes. Owner approval required before production replacement.
+Final packaged commit was pushed to same branch. Final external evidence commit local/remote equality is verified separately in final delivery. Main remains6c5ee5537d979e057f303e6cfc08eed8d9dc874c.
