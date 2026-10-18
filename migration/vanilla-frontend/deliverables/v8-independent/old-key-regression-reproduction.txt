@@ -1,0 +1,32 @@
+TAP version 13
+# Subtest: review embedded MCQ retains its real child and audio when review answer state redraws
+not ok 1 - review embedded MCQ retains its real child and audio when review answer state redraws
+  ---
+  duration_ms: 129.401525
+  type: 'test'
+  location: '/tmp/learners-v8-final/tests/listening-v8.test.mjs:21:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Values have same structure but are not reference-equal:
+    
+    HTMLDivElement {}
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///tmp/learners-v8-final/tests/listening-v8.test.mjs:21:1033)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 586.318578

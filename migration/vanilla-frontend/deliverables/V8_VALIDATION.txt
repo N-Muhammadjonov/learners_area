@@ -1,0 +1,66 @@
+V8 INDEPENDENT EXACT-ARCHIVE VALIDATION — PASS; overall Listening remains PARTIAL
+Date: 2026-10-18. Branch: arena/96836bcf-learners-area ONLY.
+Exact prior V7: 306bd23caef975bc40459119a6b641a29ee48223.
+Packaged implementation/final lifecycle fix: 9f814a4a1a04ead1cb094d6fa48eac803dbae83f.
+Final delivery commit adds only this external validation/proof; see Git log/final response for its SHA.
+
+Archive: LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V8.zip
+SHA256: 2e8147f7104ca3afc921cb104e97853d303a5521c862977dab0769f82781b3bf
+Bytes: 32,058,063. 543 source/evidence/assets files + 2 manifest files.
+543 internal hashes, member set, ZIP CRCs and sidecar: PASS.
+Two root deterministic packages: identical.
+Two independently regenerated packages after validation: EXACT SAME SHA256.
+
+Fresh extraction: /tmp/learners-v8-final-exact, original src absent.
+Fresh npm ci --ignore-scripts: PASS.
+Fresh standalone native build: PASS.
+Fresh npm test: 277PASS / 0FAIL / 0SKIP (252preserved +25V8).
+Exact extracted preview served on 0.0.0.0:4173 for ALL browser suites (not the working tree).
+Independent historical Chromium: 27+14+49+72+52+77+26 =317PASS.
+Independent V8 Chromium: 79PASS.
+Combined:396PASS / 0FAIL / 0SKIP; no blocked executed cases.
+Matrix:1440x900,768x1024,390x844; EN/UZ; day/night.
+Includes complete canonical numeric2–5 and study; private-media legacy exam→own analysis→revision;
+server MCQ A/E/six stages; lookup/redaction/locks/error/retry/401 disposal; ACTUAL SYNTHETIC WAV
+playback, source clip stop, failed private-resource load/recovery. Not real owner media/hardware.
+
+Final review caught positional singleton-child identity teardown while a review initially had no selected
+question. Added a real part-switch/MCQ input/speed-audio retention assertion to an existing unit case.
+It FAILS against the earlier candidate's old lifetime helper (intentional pre-fix reproduction in
+v8-independent/old-key-regression-reproduction.txt). Stable kind/identity keys fix it; all277 fixed
+exact-archive unit cases PASS. The earlier candidate was superseded, not the delivered ZIP.
+
+25 assets match original-source pins; root also freshly compared original files. Independent clone has
+no original source, so uses packaged pins. Source CSS exact:
+b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2
+V8 compiled CSS deterministic:
+585f953310aee864fb5a24fcad79f9d4892d6fe516b9570ce05177c125ebd4dd
+Every independently built runtime/build input/asset byte matched archive before restoring artifacts.
+Only variable test/CSS-report evidence changed. Captured independent reports externally, restored
+archived evidence, verified all543hashes, and repacked twice. This preserves exact deterministic ZIP
+without pretending test timings/screenshots are deterministic. Reproducible check utility and actual
+reports/logs: deliverables/v8-independent/ (excluded from ZIP to avoid recursive hashes).
+
+Candidate dependency audit: runtime0; development5high known toolchain findings; lock unchanged,
+no forced Tailwind major/CSS migration. NOT a claim of global vulnerability-free status.
+V1–V7 archives/sidecars internally verified unchanged. Historical V1–V7 evidence restored byte-for-byte.
+Two obsolete unavailable-Study probes were adapted to newly protected/focus Study and still-unconverted
+General; no assertions/CSP protections weakened. No unsafe-eval for browser media tests.
+
+Frontend inventory:15/108canonical complete,19partial,74notstarted;6redirects+1retired.
+Components:58/206complete,15partial,133notstarted.
+Listening canonical16:2complete/10partial/4notstarted;2redirects separate.
+Listening source component24:5complete/9partial/10notstarted (shared lexical/material files separate).
+Genuine original Test1 nine comprehensive behavioral closures:0/9. Bridge/enum fixtures are not nine UIs.
+Private exam/practice/review subsets work; full General/retake/catalogues/lessons/authored/media gate
+remains ordinary unfinished engineering. Reading not started. Exact next work in V8 source inventory.
+
+Three metrics: weighted implementation UNDETERMINED (inventory-only13.89%routes/28.16%components);
+functional-security UNDETERMINED overall (executed277unit/396browser pass);
+visual-live UNDETERMINED overall,0accepted original-rendered/live/production comparisons.
+Original-rendered, live adapters/authorization/R2, Safari, real devices/audio/hardware: UNVERIFIED.
+Preview APIs intentionally503, no fabricated identities/data. No1–100ms or universal leak guarantee.
+35staff canonical records unchanged/reserved23Admin6Owner6Teacher; no automatic older-V4 integration.
+No original source/backend/DB/cloud/auth/provider/main/deploy changes.
+Main remains6c5ee5537d979e057f303e6cfc08eed8d9dc874c.
+PRODUCTION CHANGES: NONE. Owner approval required before production replacement.

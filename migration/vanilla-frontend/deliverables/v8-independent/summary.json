@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "archiveSha256": "2e8147f7104ca3afc921cb104e97853d303a5521c862977dab0769f82781b3bf",
+  "archiveBytes": 32058063,
+  "sourceFiles": 543,
+  "manifestFiles": 2,
+  "freshNpmCi": true,
+  "freshBuild": true,
+  "unit": {
+    "PASS": 277,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "browser": {
+    "historical": 317,
+    "v8": 79,
+    "PASS": 396,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "preservedSuites": [
+    {
+      "suite": "browser",
+      "PASS": 27,
+      "FAIL": 0,
+      "SKIP": 0,
+      "BLOCKED": 0
+    },
+    {
+      "suite": "browser-v2",
+      "PASS": 14,
+      "FAIL": 0
+    },
+    {
+      "suite": "browser-v3",
+      "PASS": 49,
+      "FAIL": 0
+    },
+    {
+      "suite": "browser-v4",
+      "PASS": 72,
+      "FAIL": 0,
+      "SKIP": 0
+    },
+    {
+      "suite": "browser-v5",
+      "PASS": 52,
+      "FAIL": 0,
+      "SKIP": 0
+    },
+    {
+      "suite": "browser-v6",
+      "PASS": 77,
+      "FAIL": 0,
+      "SKIP": 0
+    },
+    {
+      "suite": "browser-v7",
+      "PASS": 26,
+      "FAIL": 0,
+      "SKIP": 0
+    }
+  ],
+  "assets": 25,
+  "compiledCssSha256": "585f953310aee864fb5a24fcad79f9d4892d6fe516b9570ce05177c125ebd4dd",
+  "sourceCssSha256": "b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2",
+  "runtimeAssetsIdenticalAfterIndependentBuild": true,
+  "changedEvidenceRestoredAfterExternalCapture": [
+    "docs/evidence/v8/assets-css.json",
+    "docs/evidence/v8/browser-output.txt",
+    "docs/evidence/v8/browser-regression.json",
+    "docs/evidence/v8/browser-v2-output.txt",
+    "docs/evidence/v8/browser-v2-regression.json",
+    "docs/evidence/v8/browser-v3-output.txt",
+    "docs/evidence/v8/browser-v3-regression.json",
+    "docs/evidence/v8/browser-v4-output.txt",
+    "docs/evidence/v8/browser-v4-regression.json",
+    "docs/evidence/v8/browser-v5-output.txt",
+    "docs/evidence/v8/browser-v5-regression.json",
+    "docs/evidence/v8/browser-v6-output.txt",
+    "docs/evidence/v8/browser-v6-regression.json"
+  ],
+  "independentRepackSha256": [
+    "2e8147f7104ca3afc921cb104e97853d303a5521c862977dab0769f82781b3bf",
+    "2e8147f7104ca3afc921cb104e97853d303a5521c862977dab0769f82781b3bf"
+  ],
+  "originalRenderedVisualAccepted": 0,
+  "liveAccepted": 0,
+  "safariHardwareAccepted": 0,
+  "productionChanges": "NONE"
+}
