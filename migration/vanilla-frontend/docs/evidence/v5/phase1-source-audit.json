@@ -1,0 +1,1277 @@
+{
+  "version": 5,
+  "baseline": "12308e89f67e573888ef4b23e6d85e005f2c2647",
+  "gate": "PHASE_1_FRONTEND_CODE_COMPLETE",
+  "fixtureVerified": true,
+  "visualVerified": false,
+  "liveIntegrationVerified": false,
+  "productionAccepted": false,
+  "components": [
+    {
+      "source": "src/components/admission/AccessRequestForm.tsx",
+      "sourceSha256": "bfce719d7efe5e1b24b288579572b12ad0eacecc676c845b3878896c156cad1a",
+      "native": [
+        "modules/auth/pending.js"
+      ],
+      "auditedStates": "Own pending/rejected request validation/pending/ack/error/retry; suspended messaging; duplicate prevention; server status/role reconciles; logout.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/auth/AuthShell.tsx",
+      "sourceSha256": "f428c2f64769f551b252f650ba3a2cdd14d4990a0f1c5d23ebf500dabfac74e5",
+      "native": [
+        "modules/auth/public.js",
+        "modules/auth/password-form.js",
+        "modules/auth/telegram.js",
+        "js/components/auth-shell.js",
+        "js/components/controls.js",
+        "js/focus-restore.js"
+      ],
+      "auditedStates": "Policy/password/Telegram-only/Google/legacy Telegram/intent states; stable form nodes; own mutation acknowledgement; validation/error/retry/cancel; locale/theme; same-route draft/focus/selection; teardown without credential persistence.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/auth/LoginForm.tsx",
+      "sourceSha256": "0e385a9a5a93529751fbec4397baed839e2f224a83a84441e8f4ca2a6c963726",
+      "native": [
+        "modules/auth/public.js",
+        "modules/auth/password-form.js",
+        "modules/auth/telegram.js",
+        "js/components/auth-shell.js",
+        "js/components/controls.js",
+        "js/focus-restore.js"
+      ],
+      "auditedStates": "Policy/password/Telegram-only/Google/legacy Telegram/intent states; stable form nodes; own mutation acknowledgement; validation/error/retry/cancel; locale/theme; same-route draft/focus/selection; teardown without credential persistence.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/auth/RegisterForm.tsx",
+      "sourceSha256": "065cb395b2fc3ac00e3563065b71310ef17cecf1bcd5755d8f0b3a988df95c17",
+      "native": [
+        "modules/auth/public.js",
+        "modules/auth/password-form.js",
+        "modules/auth/telegram.js",
+        "js/components/auth-shell.js",
+        "js/components/controls.js",
+        "js/focus-restore.js"
+      ],
+      "auditedStates": "Policy/password/Telegram-only/Google/legacy Telegram/intent states; stable form nodes; own mutation acknowledgement; validation/error/retry/cancel; locale/theme; same-route draft/focus/selection; teardown without credential persistence.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/auth/ResetConfirmForm.tsx",
+      "sourceSha256": "2bfa7f8007edce1d10e5fee50d86a8a507fb3fccecf8bea791eec7c70e1efc7b",
+      "native": [
+        "modules/auth/public.js",
+        "modules/auth/password-form.js",
+        "modules/auth/telegram.js",
+        "js/components/auth-shell.js",
+        "js/components/controls.js",
+        "js/focus-restore.js"
+      ],
+      "auditedStates": "Policy/password/Telegram-only/Google/legacy Telegram/intent states; stable form nodes; own mutation acknowledgement; validation/error/retry/cancel; locale/theme; same-route draft/focus/selection; teardown without credential persistence.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/auth/ResetRequestForm.tsx",
+      "sourceSha256": "e3396495e513c17ffc6f049bf8e1bddccafa28484355e3c87accbee6d862e472",
+      "native": [
+        "modules/auth/public.js",
+        "modules/auth/password-form.js",
+        "modules/auth/telegram.js",
+        "js/components/auth-shell.js",
+        "js/components/controls.js",
+        "js/focus-restore.js"
+      ],
+      "auditedStates": "Policy/password/Telegram-only/Google/legacy Telegram/intent states; stable form nodes; own mutation acknowledgement; validation/error/retry/cancel; locale/theme; same-route draft/focus/selection; teardown without credential persistence.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/auth/TelegramButton.tsx",
+      "sourceSha256": "b8e492152d4bcb0deb709330bcbdcd8d3371cc70dbb7b70e71f850ab6ec2aef3",
+      "native": [
+        "modules/auth/public.js",
+        "modules/auth/password-form.js",
+        "modules/auth/telegram.js",
+        "js/components/auth-shell.js",
+        "js/components/controls.js",
+        "js/focus-restore.js"
+      ],
+      "auditedStates": "Policy/password/Telegram-only/Google/legacy Telegram/intent states; stable form nodes; own mutation acknowledgement; validation/error/retry/cancel; locale/theme; same-route draft/focus/selection; teardown without credential persistence.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/auth/TelegramIntentLogin.tsx",
+      "sourceSha256": "173804170325304062d3128733906526f98ab89f6a40e7e9bb95a235cb6b8e00",
+      "native": [
+        "modules/auth/public.js",
+        "modules/auth/password-form.js",
+        "modules/auth/telegram.js",
+        "js/components/auth-shell.js",
+        "js/components/controls.js",
+        "js/focus-restore.js"
+      ],
+      "auditedStates": "Policy/password/Telegram-only/Google/legacy Telegram/intent states; stable form nodes; own mutation acknowledgement; validation/error/retry/cancel; locale/theme; same-route draft/focus/selection; teardown without credential persistence.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/brand/DesktopIntro.tsx",
+      "sourceSha256": "55249bac042596b0ca75e0b5c34919b724de0419a6b8d3b64473b1b5279ab627",
+      "native": [
+        "modules/landing.js",
+        "js/components/brand.js"
+      ],
+      "auditedStates": "Exact approved marks/type/palette/CSS; entry state classification; mobile/touch CTA versus desktop video; push/replace/one-shot ended; keyboard/skip/error/cancellation.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/diagnostics/PerformanceDiagnostics.tsx",
+      "sourceSha256": "11f00ab9c4260f21fcf0e7b953d7793744d02e8c59ed35906edbb253c1194105",
+      "native": [
+        "js/diagnostics.js",
+        "js/generated/performance-diagnostics.js",
+        "js/generated/global-diagnostics.js"
+      ],
+      "auditedStates": "Server-only opt-in; public/private target separation; whitelisted metrics and route keys, no field values/tokens/error objects; observer/listener/frame/action-owner cleanup; explicit awaited success/failure measurements.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/AccessChangeListener.tsx",
+      "sourceSha256": "b48dbc7f079034e84a3d5545aa952acabf7edf31caa5275de5a9161f1efc2598",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/GlobalControlDiagnostics.tsx",
+      "sourceSha256": "754b1dadd1184bf6eefc1a8390a3c9d189b993976118119b2bbd36511d064c0d",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/IdleShellPrefetch.tsx",
+      "sourceSha256": "ec77760c8566da8fcb3bcc6caf12077c119109684eb32e560fbe7a6c9f4eeda2",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/InstantInteractionProvider.tsx",
+      "sourceSha256": "30384b0cb49e30f73bb6721cd58f0695f77249a87e7f8705c8145809c015492d",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/InstantLink.tsx",
+      "sourceSha256": "bc60d0780ea0c6742bd92dfd26fc4a47fb4accc4e3e5642c35c595da9f969c2a",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/InstantWorkspaceOutlet.tsx",
+      "sourceSha256": "7ec9ecd78e0baea42cdc7201f60f33d948e4e380f2725492276e20227c8f0f14",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/InteractionPrimitives.tsx",
+      "sourceSha256": "f725f6e0b509ceeee7658ce4f7e397e853dfd174919309535f741db12cdd33ec",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/PrivateResourceScope.tsx",
+      "sourceSha256": "4843083d1126566e6d3c1904a13d1e517f1807befb73d2ffd8c10fa5cf8b419b",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/RegionFailureNotice.tsx",
+      "sourceSha256": "39850ae717842d2510a3bcde2c0a500b3fbfabf67a7d04423d9a8fde126283b8",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/RegionRetryButton.tsx",
+      "sourceSha256": "e0237d70269b19842645f10f9d80ff612c218ba3b87157f377a3724d08c034bc",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/RouteEntryLoading.tsx",
+      "sourceSha256": "07c46267e85ba0a71f7d17162b021f5955fb5b451a02a3288680721c8247b4c6",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/interaction/SectionEntryFrame.tsx",
+      "sourceSha256": "60240f066fc3a9189a0789fa5661c474c51f46d4c195e9276b2f1142dc3869b3",
+      "native": [
+        "js/router.js",
+        "js/workspace.js",
+        "js/native.js",
+        "js/diagnostics.js",
+        "js/generated/global-diagnostics.js",
+        "modules/shell/transition.js",
+        "modules/shell/link-pending.js",
+        "modules/shared/async-action.js",
+        "modules/shared/confirm-action.js",
+        "modules/shared/confirm-select.js",
+        "js/session.js",
+        "js/session-events.js",
+        "js/private-scope.js"
+      ],
+      "auditedStates": "Latest-only routing/cancel/retry/stall; outgoing inert view and cold data-free frame; scroll/reload/back/deep links; code-only bounded prefetch; source InstantLink intent semantics; own private scope/expiry/SSE/reconnect/multitab cleanup; ACK-bound shared controls and stale dialog close protection. Framework context/hooks are replaced by native controllers, not emulated.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/onboarding/OnboardingForm.tsx",
+      "sourceSha256": "5b6e92bf4bf4bbd97140b88d67b621c0373a55990dcf90e638f34e8e8450b498",
+      "native": [
+        "modules/auth/onboarding.js"
+      ],
+      "auditedStates": "Eight original fields and constraints; locale defaults; first-invalid focus; mutation acknowledgement/errors/retry; session reconciliation and safe draft lifecycle.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/profile/ProfileNameForm.tsx",
+      "sourceSha256": "a45bc047c9d6188d686978d2613c67270555f2d785cd10ee4b484a253a376322",
+      "native": [
+        "modules/profile/page.js",
+        "modules/profile/photo-image.js",
+        "js/focus-restore.js"
+      ],
+      "auditedStates": "Own name min/max/trim/edit/cancel/pending/ack/failure/retry and current-name presentation; MIME/byte/image-decode validation, 256px centre PNG crop, multipart upload, delete/error/ack, avatar propagation, late/abort protection and ImageBitmap/FileReader cleanup.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/profile/ProfilePhoto.tsx",
+      "sourceSha256": "5748b0278e46f0c416cd96e4f85b982e93cf7e53467ff3dc4a4fd59fed5f95f7",
+      "native": [
+        "modules/profile/page.js",
+        "modules/profile/photo-image.js",
+        "js/focus-restore.js"
+      ],
+      "auditedStates": "Own name min/max/trim/edit/cancel/pending/ack/failure/retry and current-name presentation; MIME/byte/image-decode validation, 256px centre PNG crop, multipart upload, delete/error/ack, avatar propagation, late/abort protection and ImageBitmap/FileReader cleanup.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/BrandBlock.tsx",
+      "sourceSha256": "92ebc566dcee980c7bfa353193a76b2964098e38e1f191699561343e626ef779",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/Breadcrumbs.tsx",
+      "sourceSha256": "622068075375bbe1a37fe8d18aeee7f53db6970251f35d7d27bbfb8272f1ddba",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/GlobalSearch.tsx",
+      "sourceSha256": "3946d0b89af4b9a50af466b103415003c6aae96c5c75a1e20a0c66e3067f27bd",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/LinkPending.tsx",
+      "sourceSha256": "108fee5212d6bedec82ba2a234026a7e1fde432a9cbd1ad4f08982eb9cd4e3b0",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/LocaleSwitcher.tsx",
+      "sourceSha256": "d4c6897bc5aae331721332b07d606f349ef7e04247a9ee2bfcf589abcf2e3a9c",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/LogoutButton.tsx",
+      "sourceSha256": "582c2d22ec24cba17149e06018f4b340662e1a2ddc17e4eace360beede0b903b",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/MobileNav.tsx",
+      "sourceSha256": "623d12e1b1776bbc6e723b364285b83c35174db8e3293b857a3f00bee1519f4b",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/ModuleContextHeading.tsx",
+      "sourceSha256": "a568c2e7dcbdaa582b21625104e4909bb039522059d228bbcdd2d860182c19da",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/NotificationBell.tsx",
+      "sourceSha256": "c0cdd691b72da510b3828b95411545b6a295f5e818624e978c7011dd818894d2",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/NotificationRead.tsx",
+      "sourceSha256": "662a60fca2714fea5cc3d4848608995b1122127d47090a69b4e012515ffa2d2d",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/ProfileMenu.tsx",
+      "sourceSha256": "e8569724a63602bc38c6436e2ef28d360c83225b692f9078fe1cc96c48276b77",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/ShellUtilities.tsx",
+      "sourceSha256": "4696b45f2ca5256d62953a77adc3ac9f7ed110f5c8940171ede7d8bcbd018abe",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/Sidebar.tsx",
+      "sourceSha256": "94658c844fa8239c1b2e4c023f7b93f4ff999cfb89bfd7e5ef7191df2aa242e0",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/SidebarNav.tsx",
+      "sourceSha256": "8aa537647828575cf660d1fbd2097e36e929569aa7374945ee06202566575ccb",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/ThemeToggle.tsx",
+      "sourceSha256": "31140e9578bac040ce962d7f6f58ea3ff3a5963a0a1d0573014d0cc162e6f5a7",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/shell/Topbar.tsx",
+      "sourceSha256": "e68739276b046b4da66412e98b1cc4718a83413dc88912148043da37bf86c2ee",
+      "native": [
+        "modules/shell/layout.js",
+        "modules/shell/profile.js",
+        "modules/shell/notifications.js",
+        "modules/shared/notification-read.js",
+        "modules/shell/search.js",
+        "modules/shell/utilities.js",
+        "js/components/controls.js",
+        "modules/shell/link-pending.js"
+      ],
+      "auditedStates": "Persistent sidebar/topbar/main boundaries, stable same-mode nav links, source role/management groups and active paths, independent scroll, module/breadcrumb headings, desktop/mobile drawers and menus, focus/keyboard/resize/outside cleanup, bell/count and visible/read-all notification states, search, profile/avatar/logout, EN-UZ/day-night/focus controls and mutation-aware locale focus/scroll handoff.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/support/ReportProblem.tsx",
+      "sourceSha256": "de4a379d0ec2e491d27b5e52e383cf9b8891b2760a37583d18db52d4cbe2dca4",
+      "native": [
+        "modules/shared/report.js"
+      ],
+      "auditedStates": "Draft-preserving validated support submission; exact own route/module metadata; ACK-only close, localized safe failure/retry; panel focus restoration and abort cleanup. Grammar/profile module selection deliberately corrects source app-first-segment fallback bug.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/ui/BackLink.tsx",
+      "sourceSha256": "7b5090d0da98b20cd0e6e4588d4c3bb86727a9fdaff9d12a979c824eef00c93f",
+      "native": [
+        "js/generated/ui.js",
+        "js/generated/icons.js",
+        "js/generated/module-emoji.js",
+        "js/generated/badges.js",
+        "js/native.js",
+        "modules/shared/presentation.js"
+      ],
+      "auditedStates": "Reviewed pure presentation preserves all source exports/variants/geometry/data attributes. SVG factories avoid consuming shared nodes. Native button/input/disabled/ARIA semantics, history fallback, failure retry, bounded progress, strict empty action pairing; no route closure inferred from primitive closure.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/ui/Badge.tsx",
+      "sourceSha256": "9339b9d9658b9084ce874ec4690fa038de466bb8684a9dee6928a687cb575a98",
+      "native": [
+        "js/generated/ui.js",
+        "js/generated/icons.js",
+        "js/generated/module-emoji.js",
+        "js/generated/badges.js",
+        "js/native.js",
+        "modules/shared/presentation.js"
+      ],
+      "auditedStates": "Reviewed pure presentation preserves all source exports/variants/geometry/data attributes. SVG factories avoid consuming shared nodes. Native button/input/disabled/ARIA semantics, history fallback, failure retry, bounded progress, strict empty action pairing; no route closure inferred from primitive closure.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/ui/Button.tsx",
+      "sourceSha256": "68a5e25438627d33d2d16635b3804c64f6579dffcab9ddea1cb7a9f68ebca8d1",
+      "native": [
+        "js/generated/ui.js",
+        "js/generated/icons.js",
+        "js/generated/module-emoji.js",
+        "js/generated/badges.js",
+        "js/native.js",
+        "modules/shared/presentation.js"
+      ],
+      "auditedStates": "Reviewed pure presentation preserves all source exports/variants/geometry/data attributes. SVG factories avoid consuming shared nodes. Native button/input/disabled/ARIA semantics, history fallback, failure retry, bounded progress, strict empty action pairing; no route closure inferred from primitive closure.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/ui/Card.tsx",
+      "sourceSha256": "48e12246832427420a1f21131ece34575d37e750e15097bb8d56fae9a544cb77",
+      "native": [
+        "js/generated/ui.js",
+        "js/generated/icons.js",
+        "js/generated/module-emoji.js",
+        "js/generated/badges.js",
+        "js/native.js",
+        "modules/shared/presentation.js"
+      ],
+      "auditedStates": "Reviewed pure presentation preserves all source exports/variants/geometry/data attributes. SVG factories avoid consuming shared nodes. Native button/input/disabled/ARIA semantics, history fallback, failure retry, bounded progress, strict empty action pairing; no route closure inferred from primitive closure.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/ui/EmptyState.tsx",
+      "sourceSha256": "d3201f190834d2270fcbb5a7d0a0f216c23c6f3287250e0af4304e30a8121843",
+      "native": [
+        "js/generated/ui.js",
+        "js/generated/icons.js",
+        "js/generated/module-emoji.js",
+        "js/generated/badges.js",
+        "js/native.js",
+        "modules/shared/presentation.js"
+      ],
+      "auditedStates": "Reviewed pure presentation preserves all source exports/variants/geometry/data attributes. SVG factories avoid consuming shared nodes. Native button/input/disabled/ARIA semantics, history fallback, failure retry, bounded progress, strict empty action pairing; no route closure inferred from primitive closure.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/ui/Input.tsx",
+      "sourceSha256": "194485275425ad0f15ad6e1ee1219d682ae08faa6a55421a0a96485c2d3a42f1",
+      "native": [
+        "js/generated/ui.js",
+        "js/generated/icons.js",
+        "js/generated/module-emoji.js",
+        "js/generated/badges.js",
+        "js/native.js",
+        "modules/shared/presentation.js"
+      ],
+      "auditedStates": "Reviewed pure presentation preserves all source exports/variants/geometry/data attributes. SVG factories avoid consuming shared nodes. Native button/input/disabled/ARIA semantics, history fallback, failure retry, bounded progress, strict empty action pairing; no route closure inferred from primitive closure.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/ui/ModuleEmoji.tsx",
+      "sourceSha256": "511c74b17e4ba026939c800d62ed6c20a2ed017295be4fd9a9aed492cf5f7ec8",
+      "native": [
+        "js/generated/ui.js",
+        "js/generated/icons.js",
+        "js/generated/module-emoji.js",
+        "js/generated/badges.js",
+        "js/native.js",
+        "modules/shared/presentation.js"
+      ],
+      "auditedStates": "Reviewed pure presentation preserves all source exports/variants/geometry/data attributes. SVG factories avoid consuming shared nodes. Native button/input/disabled/ARIA semantics, history fallback, failure retry, bounded progress, strict empty action pairing; no route closure inferred from primitive closure.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/ui/ProgressBar.tsx",
+      "sourceSha256": "ab952ccda53c61472527f5ab4b549603ece394fadd53e8fde4bb782438699a35",
+      "native": [
+        "js/generated/ui.js",
+        "js/generated/icons.js",
+        "js/generated/module-emoji.js",
+        "js/generated/badges.js",
+        "js/native.js",
+        "modules/shared/presentation.js"
+      ],
+      "auditedStates": "Reviewed pure presentation preserves all source exports/variants/geometry/data attributes. SVG factories avoid consuming shared nodes. Native button/input/disabled/ARIA semantics, history fallback, failure retry, bounded progress, strict empty action pairing; no route closure inferred from primitive closure.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    },
+    {
+      "source": "src/components/ui/icons.tsx",
+      "sourceSha256": "5e5dab5075c5fa98d077e8772a59a9eec4b3ea98ab24212a876b4e929fa41285",
+      "native": [
+        "js/generated/ui.js",
+        "js/generated/icons.js",
+        "js/generated/module-emoji.js",
+        "js/generated/badges.js",
+        "js/native.js",
+        "modules/shared/presentation.js"
+      ],
+      "auditedStates": "Reviewed pure presentation preserves all source exports/variants/geometry/data attributes. SVG factories avoid consuming shared nodes. Native button/input/disabled/ARIA semantics, history fallback, failure retry, bounded progress, strict empty action pairing; no route closure inferred from primitive closure.",
+      "proof": [
+        "tests/phase1-v5.test.mjs",
+        "tests/browser-v5.mjs",
+        "tests/browser-v4.mjs",
+        "tests/browser-v3.mjs",
+        "tests/browser-v2.mjs",
+        "tests/browser.mjs"
+      ],
+      "status": "CODE COMPLETE; FIXTURE VERIFIED; NOT VISUAL/LIVE/PRODUCT ACCEPTED"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "/app/profile",
+      "source": "src/app/app/(shell)/profile/page.tsx",
+      "sourceSha256": "21abbbd17c8ef37d1a4267dc0f6e82c83f4a357c4123d03c5d68839359b767fe",
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+    },
+    {
+      "pattern": "/auth/recovery",
+      "source": "src/app/auth/recovery/page.tsx",
+      "sourceSha256": "d7b7ac2f20e7c588a1cf78be1303c6737d6859a4c513fff29e74189d6048d667",
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+    },
+    {
+      "pattern": "/login",
+      "source": "src/app/login/page.tsx",
+      "sourceSha256": "75ef54f5de088168aada2bda571732d8283be4b3812be6adecff3a88561e5bdc",
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+    },
+    {
+      "pattern": "/onboarding",
+      "source": "src/app/onboarding/page.tsx",
+      "sourceSha256": "f7ac360a3e066e3c1ee516f718c4837b3f98e71b734d6880a363e9826e6a1db9",
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+    },
+    {
+      "pattern": "/",
+      "source": "src/app/page.tsx",
+      "sourceSha256": "5c50b97694dea3dc49f0809a4c0ae65227599675cf7b1b5a221400df25dd3bca",
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+    },
+    {
+      "pattern": "/pending",
+      "source": "src/app/pending/page.tsx",
+      "sourceSha256": "1dfea441366c6ae545ac7f641ef007320f82c656361bb0e6e799cfcb91e0fe3b",
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+    },
+    {
+      "pattern": "/register",
+      "source": "src/app/register/page.tsx",
+      "sourceSha256": "612320762e30fb0139f74c8e148c66f19608e7b5c1db59093beffa8610d46230",
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+    },
+    {
+      "pattern": "/reset-password/confirm",
+      "source": "src/app/reset-password/confirm/page.tsx",
+      "sourceSha256": "1046060f8150f962591d529abb2cc8f0eb64e32e0b8522b1608a09585216f449",
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+    },
+    {
+      "pattern": "/reset-password",
+      "source": "src/app/reset-password/page.tsx",
+      "sourceSha256": "e2a04a1007fe8ad77f891759e74fc8a89f833b222d48ddb2f1ac6fccc38c6a2c",
+      "status": "CODE COMPLETE / FIXTURE VERIFIED only"
+    }
+  ]
+}

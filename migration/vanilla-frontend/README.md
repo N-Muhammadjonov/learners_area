@@ -1,3 +1,11 @@
+# V5 current status — overall PARTIAL
+
+Phase 1 ordinary frontend is CODE COMPLETE / FIXTURE VERIFIED, not live or visual accepted. See [CHECKPOINT_V5](docs/CHECKPOINT_V5.md), [source-state audit](docs/SOURCE_STATE_INVENTORY_V5.md), [route ledger](docs/ROUTE_LEDGER_V5.md), [component ledger](docs/COMPONENT_LEDGER_V5.md), [contracts](docs/ADAPTER_CONTRACTS_V5.md) and [handoff](docs/GPT_WORK_HANDOFF.md). 9/108 canonical inventory routes closed,19partial/80notstarted;51/206 components closed,10partial/145notstarted. Six redirects and one retirement separate. **211unit +202Chromium fixture cases**, no claim of original-rendered/live/production acceptance. **PRODUCTION CHANGES NONE.**
+
+Native-only, no framework runtime. `npm ci --ignore-scripts && npm run build && npm test`; browser: `node scripts/regression-v5.mjs` (preserves historical artifacts), then `node tests/browser-v5.mjs`. Start candidate: `npm run preview -- --host 0.0.0.0`. Real preview `/api/*` fails503 until approved adapters exist; no synthetic identities or data. Independent archive validation is external `deliverables/V5_VALIDATION.txt`.
+
+---
+
 # V4 current status — PARTIAL
 
 Current record: [CHECKPOINT_V4](docs/CHECKPOINT_V4.md), SOURCE_STATE_INVENTORY_V4, V4 ledgers/contracts/validation and GPT_WORK_HANDOFF. Three canonical recovery/reset frontend code closures;24partial/81notstarted;6component code closures/46partial/154notstarted; zero original-rendered/live/product accepted.181unit +162Chromium fixture probes pass, not full migration acceptance. Historical records below are retained, not current totals. External independent ZIP validation: deliverables/V4_VALIDATION.txt. **PRODUCTION CHANGES NONE.**
