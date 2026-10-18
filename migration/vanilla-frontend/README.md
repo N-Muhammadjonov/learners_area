@@ -1,3 +1,7 @@
+# V14 continuation — Full IELTS PARTIAL
+
+Single-flight checkpoint recovery/errors, start barriers/replay, canonical source synchronization, submitted-control freeze and storage-unavailable warnings added to the preserved V13 exam. No Review pass started. See docs/CHECKPOINT_V14.md and external deliverables/V14_VALIDATION.txt for exact results.
+
 # V13 continuation — Listening PARTIAL
 
 Full IELTS own navigation/deadline/keyboard recovery and parent exam dictionary lock added to the existing V12 runtime. Full activity remains PARTIAL; Review & Revision V13 pass not started. Read docs/CHECKPOINT_V13.md and docs/GPT_WORK_HANDOFF.md. Final exact execution/archive/Git evidence is in deliverables/V13_VALIDATION.txt.

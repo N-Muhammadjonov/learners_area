@@ -1,0 +1,96 @@
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 21,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V14 Full IELTS 401 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 403 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 404 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 409 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 429 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 503 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS network preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS malformed preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS duplicate preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS foreign preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS open preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS timeout preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 unacknowledged start plus submit reload replays start before close",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 unavailable local storage warns, keeps own input and reloads confirmed server draft",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 submitted answers freeze during delayed feedback and restore canonical own answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 delayed autosave coalesces edits; obsolete ACK cannot overwrite latest answer",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 pending submission reload replays own outbox once; no client score",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 server-closed own attempt reconciles active exam without local grading",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 pending exit blocks retake; canonical ACK permits a new identity and clean draft",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 route exit during delayed submission suppresses stale UI; Back/Forward recovers own result",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 source full-length clock and authorized four-part/forty-window mapping arguments",
+      "status": "PASS"
+    }
+  ]
+}
