@@ -37,3 +37,17 @@ fs.writeFileSync(path.join(base,'js/generated/section-entry.js'),compile(read('s
 fs.writeFileSync(path.join(base,'js/generated/SectionEntryFrame.js'),"import {h,fragment} from '../native.js';\n"+compile(read('src/components/interaction/SectionEntryFrame.tsx')));
 fs.writeFileSync(path.join(base,'js/generated/intent-prefetch.js'),compile(read('src/lib/interaction/intent-prefetch.ts')));
 fs.writeFileSync(path.join(base,'js/generated/interaction-navigation.js'),compile(read('src/lib/interaction/navigation.ts')).replaceAll('"@/lib/nav/private-modules.mjs"','"../private-modules.js"'));
+
+// Existing catalogue layouts: preserve source section labels, query semantics,
+// keyboard focus model and exact presentation. No new page/workflow is claimed.
+fs.writeFileSync(path.join(base,'js/generated/tablist.js'),compile(read('src/lib/a11y/tablist.ts')));
+fs.writeFileSync(path.join(base,'js/generated/reading-destinations.js'),compile(read('src/lib/reading/destinations.ts')));
+const moduleNav=read('src/components/navigation/ModuleNavigation.tsx'),moduleFn=find(moduleNav,'ModuleNavigation');
+const linkStatements=moduleFn.body.statements.filter(n=>!ts.isReturnStatement(n)&&!(ts.isVariableStatement(n)&&n.getText().startsWith('const dict ='))).map(n=>n.getText()).join('\n');
+fs.writeFileSync(path.join(base,'js/generated/module-navigation.js'),"// Reviewed pure source link selection, no server dictionary calls.\nimport {READING_DESTINATIONS} from './reading-destinations.js';\n"+compile(`export function navigationLinks({module,dict}){${linkStatements}\nreturn links;}`));
+const sections=read('src/components/navigation/ModuleSectionNav.tsx'),sectionFn=find(sections,'ModuleSectionNav');
+const sectionStatements=sectionFn.body.statements.filter(n=>!(ts.isVariableStatement(n)&&/^const (pathname|query|refs) =/.test(n.getText()))).map(n=>n.getText()).join('\n');
+fs.writeFileSync(path.join(base,'js/generated/module-section-nav.js'),"// Reviewed source navigation markup/state calculation; native lifetime and refs.\nimport {h,fragment,InstantLink} from '../native.js';\nimport {nextTabIndex} from './tablist.js';\n"+compile(`export function render({module,label,links,pathname,query,refs}){${sectionStatements}}`));
+const heading=read('src/components/listening/ListeningSectionHeading.tsx'),headingFn=find(heading,'ListeningSectionHeading');
+const sectionConstants=ast(heading).statements.find(n=>ts.isVariableStatement(n)&&n.getText().startsWith('const SECTIONS')).getText(),headingStatements=headingFn.body.statements.filter(n=>!(ts.isVariableStatement(n)&&n.getText().startsWith('const pathname ='))).map(n=>n.getText()).join('\n');
+fs.writeFileSync(path.join(base,'js/generated/listening-section-heading.js'),"// Reviewed source heading selection and markup.\nimport {h,fragment} from '../native.js';\n"+compile(`${sectionConstants}\nexport function render({titles,pathname}){${headingStatements}}`));

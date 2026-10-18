@@ -9,6 +9,6 @@ export function renderOnboarding(context){const {dict,locale,signal,navigate}=co
   else{const attrs=name==='examDate'?{type:'date'}:name==='dailyStudyMinutes'?{type:'number',min:5,max:600,required:true}:{type:'number',min:name==='targetBand'?4:0,max:9,step:.5,required:name==='targetBand'};const f=field(dict.onboarding[name],name,attrs);f.input.value=defaults[name];inputs[name]=f.input;form.append(f.node);}
  }
  const error=errorNode(),button=el('button',{type:'submit',class:'btn-primary w-full'},dict.onboarding.finish);form.append(el('div',{class:'sm:col-span-2'},error,button));
- formSubmit({form,button,error,dict,signal,endpoint:'/api/onboarding',body:()=>Object.fromEntries(Object.entries(inputs).map(([key,input])=>[key,['currentBand','examDate'].includes(key)?input.value||undefined:input.value])),success:()=>navigate('/app')});
+ formSubmit({form,button,error,dict,signal,endpoint:'/api/onboarding',body:()=>Object.fromEntries(Object.entries(inputs).map(([key,input])=>[key,['currentBand','examDate'].includes(key)?input.value||undefined:input.value])),success:()=>{context.invalidateSession?.();return navigate('/app');}});
  return el('div',{class:'flex min-h-dvh items-center justify-center bg-paper-sunken p-4'},el('div',{class:'w-full max-w-xl'},el('div',{class:'card p-6'},el('h1',{class:'font-display text-xl text-ink-900'},dict.onboarding.title),el('p',{class:'mt-1 text-sm text-ink-500'},dict.onboarding.subtitle),el('div',{class:'mt-6'},form))));
 }
