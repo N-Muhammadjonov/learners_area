@@ -1,0 +1,18 @@
+2026-10-18 UTC — locally executed archive validation
+
+Extracted the generated partial archive into ignored node_modules/archive-validation/.
+Ran from that independent extraction, without the original source tree:
+  npm ci --ignore-scripts: PASS (same 7 dev dependency audit findings disclosed)
+  npm run build: PASS
+  npm test: 22 PASS / 0 FAIL / 0 SKIP / 0 BLOCKED
+
+Compiled CSS SHA256 matched the checkout build:
+739f375a7b6f799f1d94bc1eedd7ffb5cdd6fcc2a9c0a5d74c5edf1742dd6eb9
+
+Archive excluded node_modules, build, .git, environments and deliverables recursion.
+Limited credential-pattern scan found no matching private-key headers, PostgreSQL credential URLs,
+or AWS access-key patterns. This is NOT a full security audit.
+Per-member CRC and SHA256 verification is implemented by scripts/package.py --verify.
+Deterministic repack checks run before final commit; final ZIP hash is in the sidecar and response.
+
+No live API, original visual parity, private module integration or Safari acceptance is implied.

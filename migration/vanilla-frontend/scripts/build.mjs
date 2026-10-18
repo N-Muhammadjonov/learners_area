@@ -6,6 +6,7 @@ const base=path.resolve(import.meta.dirname,'..'), root=path.resolve(base,'../..
 // This source extraction step is needed only when refreshing from the original repository.
 // The archive includes all extracted runtime inputs and can build independently.
 if(fs.existsSync(path.join(root,'src/app/globals.css'))){
+ fs.cpSync(path.join(root,'src/fonts'),path.join(base,'fonts'),{recursive:true});
  fs.copyFileSync(path.join(root,'src/lib/nav/private-modules.mjs'),path.join(base,'js/private-modules.js'));
  fs.copyFileSync(path.join(root,'src/app/globals.css'),path.join(base,'css/source.css'));
  const transpile=p=>ts.transpileModule(fs.readFileSync(path.join(root,p),'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText;
@@ -29,7 +30,7 @@ fs.writeFileSync(config,`import source from './tailwind.source.mjs';\nexport def
 execFileSync(process.execPath,[path.join(base,'node_modules/tailwindcss/lib/cli.js'),'-c','tailwind.config.mjs','-i','css/source.css','-o','css/global.css','--minify'],{cwd:base,stdio:'inherit'});
 // Explicit allowlist: source inventory and package documentation are NOT browser-published.
 fs.mkdirSync(path.join(base,'build'),{recursive:true});
-for(const name of ['index.html','js','modules','css/global.css','brand','images']){
+for(const name of ['index.html','js','modules','css/global.css','css/fonts.css','fonts','brand','images']){
  const p=path.join(base,name);if(fs.existsSync(p)){fs.mkdirSync(path.dirname(path.join(base,'build',name)),{recursive:true});fs.cpSync(p,path.join(base,'build',name),{recursive:true});}
 }
 console.log('Standalone browser build created. No React/Next runtime. NOT a complete route migration.');

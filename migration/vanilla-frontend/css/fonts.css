@@ -1,0 +1,8 @@
+/* Same OFL-1.1 files, weights, display behavior and variable roles as src/lib/ui/fonts.ts. */
+@font-face {font-family:LA-Geist;src:url('/fonts/geist-latin-wght-normal.woff2') format('woff2');font-style:normal;font-weight:100 900;font-display:swap}
+@font-face {font-family:LA-Sora;src:url('/fonts/sora-latin-wght-normal.woff2') format('woff2');font-style:normal;font-weight:100 800;font-display:swap}
+@font-face {font-family:LA-Kanit;src:url('/fonts/kanit-latin-600-normal.woff2') format('woff2');font-style:normal;font-weight:600;font-display:swap}
+@font-face {font-family:LA-Kanit;src:url('/fonts/kanit-latin-700-normal.woff2') format('woff2');font-style:normal;font-weight:700;font-display:swap}
+@font-face {font-family:LA-Roboto-Mono;src:url('/fonts/roboto-mono-latin-wght-normal.woff2') format('woff2');font-style:normal;font-weight:100 700;font-display:swap}
+@font-face {font-family:LA-Itim;src:url('/fonts/itim-latin-400-normal.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+:root {--font-ui:LA-Geist;--font-heading:LA-Sora;--font-game:LA-Kanit;--font-technical:LA-Roboto-Mono;--font-celebration:LA-Itim}
