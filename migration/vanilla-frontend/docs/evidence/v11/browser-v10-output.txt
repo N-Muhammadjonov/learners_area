@@ -1,0 +1,223 @@
+{
+  "browser": "Chromium133",
+  "apiIntegration": "ISOLATED synthetic fixtures; no original-rendered/live/production acceptance",
+  "results": [
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue/detail/start/resume/exam/review/history 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "academic 403 protects source data and retries/reprojects",
+      "status": "PASS"
+    },
+    {
+      "name": "academic 404 protects source data and retries/reprojects",
+      "status": "PASS"
+    },
+    {
+      "name": "academic 500 protects source data and retries/reprojects",
+      "status": "PASS"
+    },
+    {
+      "name": "history 403 protects source data and retries/reprojects",
+      "status": "PASS"
+    },
+    {
+      "name": "history 404 protects source data and retries/reprojects",
+      "status": "PASS"
+    },
+    {
+      "name": "history 500 protects source data and retries/reprojects",
+      "status": "PASS"
+    },
+    {
+      "name": "hub 403 protects source data and retries/reprojects",
+      "status": "PASS"
+    },
+    {
+      "name": "hub 404 protects source data and retries/reprojects",
+      "status": "PASS"
+    },
+    {
+      "name": "hub 500 protects source data and retries/reprojects",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic original redirect opens authorized canonical hub with exact registry order and no eager audio",
+      "status": "PASS"
+    },
+    {
+      "name": "academic malformed/private projection fails closed and keeps shell on retry",
+      "status": "PASS"
+    },
+    {
+      "name": "history malformed/private projection fails closed and keeps shell on retry",
+      "status": "PASS"
+    },
+    {
+      "name": "History empty source and historical query navigation do not invent pagination or zero scores",
+      "status": "PASS"
+    },
+    {
+      "name": "academic 401 disposes private view then authorized return",
+      "status": "PASS"
+    },
+    {
+      "name": "history 401 disposes private view then authorized return",
+      "status": "PASS"
+    },
+    {
+      "name": "hub 401 disposes private view then authorized return",
+      "status": "PASS"
+    },
+    {
+      "name": "History delayed response cancelled on native navigation never paints previous rows",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Listening lesson catalogue/body/quiz/tabs/private notes 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson quiz failure/retry retains selection and wrong response never leaks a key",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson 401 redaction and authorized recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson 403 redaction and authorized recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson 404 redaction and authorized recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson 500 redaction and authorized recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson private note retry and blank clear preserve newest text, not progress payload",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson uploaded media cleanup and current note exit flush survive tab navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson serialized writes coalesce without acknowledging newer private text early",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson overlong private note cannot send and 401 write revokes the lesson",
+      "status": "PASS"
+    },
+    {
+      "name": "Uploaded authored shared bridge paints before audio, really plays, reuses resources and cleans its opaque frame",
+      "status": "PASS"
+    },
+    {
+      "name": "Uploaded authored generic native controls paints before audio, really plays, reuses resources and cleans its opaque frame",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson 900ms debounce keeps the same focused textarea and selection during status updates",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 53,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

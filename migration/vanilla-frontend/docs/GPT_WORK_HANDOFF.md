@@ -1,3 +1,22 @@
+# ACTIVE V11 — safely reimplemented from verified V10; Listening PARTIAL
+
+The lost V11 workspace was NOT found. Owner authorized reimplementation only after359 untracked V4 files were independently backed up outside the repository, then moved before normal fast-forward to9c62895674025159b4dcbab839bb1fb8f37348af. See CHECKPOINT_V11.md and evidence/v11/recovery.json. Continue ONLY arena/96836bcf-learners-area; no restart/reset/rebase/stash/clean/forcepush/branch switch. All implementation changes migration/vanilla-frontend only.
+
+Read five V11 docs, machine ledgers and deliverables/V11_VALIDATION.txt plus v11-independent/summary.json. Preserve new canonical server exam ACK/retry/outbox/latest-pointer semantics, MCQ prediction/Choose TWO recovery, server-only original retry feedback, reviewed shared controller ownership/deadlines/src identity and MP3 authenticated Range→opaque MSE. Unsupported/duplicate/decoder-failure Blob fallback is not progressive. Sandbox allow-scripts ONLY and CSP unchanged. No protected source/audio/keys in package; actual original source tests require explicit read-only ORIGINAL_SOURCE_ROOT.
+
+Counts are recomputed, no new whole-route/component promotions:22/15/71 routes of108;62/17/127 components of206. Listening9/6/1 of16 routes,9/10/5 of24 components. Original9 comprehensive closures0/9 despite focused actual-source behavior. Full suite manifests341 units/496 Chromium; actual verified results and ZIP SHA/source/delivery commits are external validation, not this paragraph. Reading not started. Visual/live/provider/Safari/hardware/production acceptance unverified.
+
+NEXT finish all genuine original9 full workflows/timers/all-question types/answer restrictions/audio+transcript mapping/progress/errors/resume/exit/retry and legacy/shared all-caller gates. Universal media still needs arbitrary seek/stable duration/long-file cache/quota/all containers/approved-provider-origin/live expiry+revocation evidence. Do not duplicate accepted Phase1/2/V7/V8/V9 General or V10 Academic/history/lessons/Activities2–5/study/exam/review/MCQ. Strict Listening16/24 gate must close before Reading.
+
+35 staff canonical routes reserved23 Admin/6 Owner/6 Teacher. Author desk staff-only; FullListeningLibrary/ListeningTestActions Admin callers. Never invent learner authoring or automatically merge older V4 staff output. Shared shell/routes/guards/private-scope/API/generated extraction/CSS/media require manual reconciliation against newest V11.
+
+## Deferred GPT Work — NOT V11
+
+After frontend migration/integration and separate Owner authorization: ONE Owner Listening HTML upload → validation → embedded audio extraction → secure PRIVATE Cloudflare R2 → HTML/material registration preserving activities/transcripts/media relationships → recovery → Owner preview → EXPLICIT publication. No backend/cloud/DB/R2 implementation here. Reading imports remain Owner-supervised with AI assistance; no automatic Reading importer.
+
+---
+Historical V10 handoff retained below; ACTIVE V11 above takes precedence.
+
 # ACTIVE V10 — Academic/history/learner lessons delivered; Listening PARTIAL
 
 Continue ONLY arena/96836bcf-learners-area from latest verified V10 local/remote delivery SHA in Git log and deliverables/V10_VALIDATION.txt. Exact V9 start b9d9c8517c1301ea3e75ed632b23c5b40c2d452b. Preserve uncommitted legitimate progress, V1–V9 archives and Phase1/2/V7/V8/V9 General. No restart/reset/rebase/stash/clean/branch changes/forcepush. All edits migration/vanilla-frontend; original/backend/cloud/DB/staff/main/production read-only.

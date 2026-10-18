@@ -1,3 +1,7 @@
+# Current checkpoint: V11 PARTIAL — safely reimplemented, not recovered
+
+Read docs/CHECKPOINT_V11.md and deliverables/V11_VALIDATION.txt. Listening remains partial; Reading not started; production changes NONE.
+
 # V10 current status — Academic/history/learner lessons delivered; Listening PARTIAL
 
 Exact V9 continuation b9d9c8517c1301ea3e75ed632b23c5b40c2d452b; same Arena branch, no backend/staff/production changes. See [CHECKPOINT_V10](docs/CHECKPOINT_V10.md), [remaining work](docs/SOURCE_STATE_INVENTORY_V10.md), V10 route/component ledgers, adapters and handoff.22/108 canonical frontend closures;62/206 components. Listening9/16 routes and9/24 components closed frontend/fixture only. Original9 genuine source identities/navigation probed read-only;0/9 comprehensive behavioral acceptance. Reading not started.

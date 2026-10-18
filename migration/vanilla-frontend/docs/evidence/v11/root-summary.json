@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "unit": {
+    "PASS": 341,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "chromium": {
+    "PASS": 496,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "originalSourceDistinctFocusedScenarios": 5,
+  "originalSourceDeltaReruns": 2,
+  "originalNineComprehensiveClosures": 0,
+  "initialFailure": "Phase2 DOM-bound assertion failed on initial run; exact unchanged77-case suite passed on continuation. Initial report/output retained. No threshold weakened. Independent full run still required.",
+  "visual": "12 synthetic candidate captures;3 inspected;0 accepted matched original comparisons",
+  "production": "NONE"
+}
