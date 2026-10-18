@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "archive": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V12.zip",
+  "bytes": 39640079,
+  "sha256": "342c195cd12ae982900145e1f1365da07f015e8a4679e8bc57fc5770ca9a7a60",
+  "sourceFiles": 768,
+  "sourceCommit": "5ce5a2b0af429aec5cdb82bc957c486f9aa539ef",
+  "scratch": "/home/user/learners_area/migration/vanilla-frontend/node_modules/v12-independent-source"
+}

@@ -1,0 +1,24 @@
+{
+  "scope": "ONLY disposable independent extraction AFTER preserving independent evidence externally",
+  "restoredGeneratedEvidence": [
+    "docs/evidence/v12/assets-css.json",
+    "docs/evidence/v12/browser-output.txt",
+    "docs/evidence/v12/browser-regression.json",
+    "docs/evidence/v12/browser-v2-output.txt",
+    "docs/evidence/v12/browser-v2-regression.json",
+    "docs/evidence/v12/browser-v3-output.txt",
+    "docs/evidence/v12/browser-v3-regression.json",
+    "docs/evidence/v12/browser-v4-output.txt",
+    "docs/evidence/v12/browser-v4-regression.json",
+    "docs/evidence/v12/browser-v5-output.txt",
+    "docs/evidence/v12/browser-v5-regression.json",
+    "docs/evidence/v12/browser-v6-output.txt",
+    "docs/evidence/v12/browser-v6-regression.json",
+    "docs/evidence/v12/original-behavior-v12.json"
+  ],
+  "removedExtraGeneratedEvidenceAfterVerifiedExternalCopy": [
+    "docs/evidence/v12/browser-v12-output.txt"
+  ],
+  "sourceCodeDifferences": 0,
+  "all768SourceHashesMatch": true
+}

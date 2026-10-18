@@ -1,0 +1,147 @@
+V12 INDEPENDENT DELIVERY — VALIDATION PASS; LISTENING STILL PARTIAL
+
+EXACT CONTINUATION / GIT
+Verified V11 baseline: 041e02c353d86320053ea54232bb58620f5818f8
+Packaged source commit: 5ce5a2b0af429aec5cdb82bc957c486f9aa539ef
+Branch: arena/96836bcf-learners-area ONLY.
+Final delivery commit SHA is in Git and the delivery reply; it cannot embed its own
+SHA without changing that SHA. The subsequent delivery-only commit adds this
+report, ZIP/sidecar and external proofs. No branch switch, reset, rebase, stash,
+clean, force push, merge or deployment. Stale local9a7d9fc was preserved first,
+then normally fast-forwarded to verified V11. No restart of completed V11 code.
+
+ARCHIVE
+LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V12.zip
+SHA256 342c195cd12ae982900145e1f1365da07f015e8a4679e8bc57fc5770ca9a7a60
+39,640,079 bytes;768 source files +2 manifests.
+Every member CRC/hash verified in independent extraction. Fresh npm ci
+--ignore-scripts, independent build without original source tree, and351 units PASS.
+Single strict complete Chromium run499PASS/0FAIL/0SKIP, all496 preserved +3 V12.
+Per preserved suite:27,14,49,72,52,77,26,79,29,53,18, plus3 V12 encoded cases.
+No continuation filter; exact expected counts asserted. Separate opt-in full
+original-source run27PASS/0FAIL/0SKIP (5 preserved+22 V12), read-only actual HTML/
+hooks with synthetic APIs/audio. NOT real server grading or recording acceptance.
+Desktop1440x900/tablet768x1024/mobile390x844, EN/UZ, day/night covered.
+25 original assets/source CSS byte-exact; deterministic compiled CSS PASS.
+Source CSS b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2
+Compiled CSS 6321b6deffba5088fa187b0cd2f07b2895b5d3a53d5472c5f083f4aef8108042
+All768 source hashes match sealed archive after tests/build. No code silently
+restored. Only disposable generated evidence restored AFTER independent reports
+and raw changed evidence were preserved externally. One extra generated browser
+output was copied/verified externally before removal from disposable extraction.
+Two independent deterministic repacks are BYTE-IDENTICAL to delivered ZIP.
+No protected original HTML/audio/transcript/actual key is copied into this ZIP.
+
+COHERENT FRONTEND WORKFLOW
+Retry Weak Areas input/feedback/recovery leaf CODE COMPLETE under existing original
+shared-audio contract. Source/V11 renderer and authoritative server API reused.
+All40 question controls/types, original source window arguments, genuine A–E
+paired retry/known correct lock/missed-only body, own input/current-question
+persistence/reload/reentry/new-attempt invalidation, empty/all-correct states,
+server verdict/restricted release, duplicate prevention/deadline/errors/explicit
+retry/cancel/stale guard, labels/Enter/pressed/status/busy/focus verified.
+Real encoded source clip stops when changing question. Source private recording
+alignment and live services are separate UNVERIFIED gates. No new browser grader.
+Progress remains server-authoritative and follows feedback. Cancel cannot undo an
+already committed server run; no idempotency/cross-device guarantee invented.
+
+Nine original frontend gates:1 CODE COMPLETE supported leaf /8 PARTIAL:
+Full IELTS Test — PARTIAL (full timers/types/exit/retake/review/media remain).
+Review & Revision — PARTIAL (all parts/reveal/resume/lifecycle remain).
+Script Completion — PARTIAL (all transcript parts/rounds/recovery remain).
+MCQ Mastery — PARTIAL (all rounds/stages/media/progress/reentry remain).
+Map Mastery — PARTIAL (actual SVG retained, not Matching substitution).
+Choose TWO Mastery — PARTIAL (A–E retained; all rounds/reveal/retry remain).
+Completion Mastery — PARTIAL (all items/progress/media/error lifecycle remain).
+Vocabulary Builder — PARTIAL (cards/save/pronunciation/exercises/restrictions remain).
+Retry Weak Areas — supported frontend leaf CODE COMPLETE; comprehensive original
+behavior still PARTIAL, private recording/provider/Safari/hardware/live unverified.
+Comprehensive original0/9. Live accepted0/9. Source probes are not live acceptance.
+No whole authored route/frame/component promotion from this leaf closure.
+
+UNIVERSAL MEDIA — PARTIAL
+Global8MiB parent encoded LRU, two transports, eviction/replay consistency,
+256KiB authenticated ranges, read/body deadline/cancel/teardown verified.64MiB/
+1024-chunk synthetic transport test is NOT encoded64MiB playback.
+120s encoded browser fixture with injected quota failure reclaims played data and
+retries the rejected append once with same MSE URL. Indexed random seek is NOT
+implemented: seeking into evicted decoded data uses explicit FULL BLOB fallback.
+Decoder fallback / invalid native Blob visible failure / duplicate independent
+controls tested. Unsupported/duplicate/decoder Blob fallback is NOT progressive.
+Still ordinary engineering: stable full duration before complete acquisition,
+indexed unbuffered seeking, proactive decoded bounds, aggregate long Blob memory,
+generic persistent position/source-element-switch recovery across every caller,
+long decoder sessions, all formats/legacy/provider callers and lifecycle matrices.
+Safari/hardware/native activation/provider/real expiry+revocation integration are
+separate UNVERIFIED gates. Do not start Reading on this partial state.
+
+COUNTS — NO WHOLE-ENTRY PROMOTIONS
+Global routes22 COMPLETE/15 PARTIAL/71 NOT STARTED of108 inventory candidates.
+Global components62/17/127 of206.
+Listening routes9/6/1 of16; components9/10/5 of24.
+Remaining canonical routes: attempts/:id, attempts/:id/revision,
+tests/:id/:activity, tests/:id authored hub, mcq/day/:day, mcq; staff-only
+lessons/author NOT STARTED. Existing accepted General/Academic/history/lessons/
+quiz/private notes/Activities2–5/study/test-MCQ/exam/review consumers preserved.
+35 staff routes reserved23Admin/6Owner/6Teacher and staff author untouched.
+Manual future reconciliation: latest routes/shell/guards/private-scope/adapters/
+source extraction/styles/media, never automatic older V4 overwrite.
+Reading NOT STARTED; deferred Owner oneHTML -> validation -> audio extraction ->
+PRIVATE R2 -> material/activities/transcripts/media registration -> preview ->
+EXPLICIT publish remains deferred. Reading imports Owner-supervised AI-assisted.
+No new backend/storage/import system.
+
+FAILURES RETAINED / SECURITY / VISUAL
+Initial unchanged foundation history unit failed once350PASS/1FAIL ('/two' != '/').
+Raw output retained, no router/test change; cause not established. Unchanged full
+351-case rerun PASS, plus fresh extracted351 PASS above. No relaxed assertion.
+Initial original source26-case run25PASS/1FAIL: default fixture contradicted its
+own Q25 canonical correct verdict on PUT. Fixture now retains its canonical rows;
+SAME lock/missed-only assertions passed. Raw initial failure/JSON retained; full
+fresh extracted27 PASS above is separate evidence, not a hidden rerun count.
+Development findings also record scheduling regression fixed without changing
+preserved18 assertions, old clip playback and obsolete retry text defects fixed.
+See v12-independent/development-findings.txt and initial-root-* logs/JSON.
+Runtime npm audit0 vulnerabilities; pinned development tooling5HIGH/0CRITICAL.
+Audit JSON/real exits retained. Not a claim of complete security coverage.
+Sandbox allow-scripts ONLY, original CSP unchanged, disconnected real API503
+checked. No credentials/private R2 URL in untrusted child. No fake live endpoints.
+No accepted matched original-rendered visual comparisons (0), no live original
+activity acceptances (0), no production acceptance. Browser fixture geometry/
+asset identity != matched original visual parity. No new guaranteed performance;
+warm1–100ms remains a target, not accepted measured product readiness.
+
+PRESERVATION
+359 stale untracked files preserved in copied/, moved-originals/ and independently
+extracted trees under /home/user/learners-area-v12-preservation-20261019/.
+Backup UNTRACKED_PRESERVATION.zip SHA256
+be33d6e7e07cddead094028a4d8264a3f1b8f6aae2a8d409b7a07e4665e0e333
+All359 files in all3 trees and ZIP reverified, plus CRC. File aggregate
+97542d6ebc12bbd17a2fd8171dbbda62233e0c8eab16a59ad16ac1bc329f95da
+(sorted relative UTF8 path +NUL +raw SHA256 digest, concatenated then SHA256).
+All11 V1–V11 ZIP bytes and sidecars unchanged against verified V11 Git.
+
+THREE METRICS
+Overall frontend: UNDETERMINED weighted product completion; inventory counts above.
+Functional/security: UNDETERMINED aggregate denominator;351/499/27 bounded checks,
+not a percentage of every product behavior/security property.
+Visual/live: UNDETERMINED aggregate coverage;0 matched original and0 live original
+acceptances. No subjective percentage presented as an objective measurement.
+
+REPRODUCTION
+Extract NEW verified ZIP to node_modules/v12-independent-source (not over local
+work); npm ci --ignore-scripts; npm run build; npm test.
+Start PORT=4174 npm run preview in separate process (binds0.0.0.0).
+Run PREVIEW_URL=http://127.0.0.1:4174 npm run test:browser, with TEST_FILTER and
+REGRESSION_FROM UNSET; npm run check:assets; then explicit read-only
+V12_SOURCE=1 ORIGINAL_SOURCE_ROOT=/home/user/learners_area
+PREVIEW_URL=http://127.0.0.1:4174 node tests/browser-original-source-v11.mjs.
+Run v12-independent/verify-exact-archive.py ONCE AFTER fresh tests; it asserts
+counts, preserves results externally, rejects any code difference, restores ONLY
+generated scratch evidence, and requires2 byte-identical repacks. Never restore
+code or overwrite source to force equality. These localhost URLs are tool/test
+addresses; browser-facing application uses relative same-origin API paths.
+External JSON/logs/receipts/verifier/source-boundary and SHA manifest retained in
+v12-independent/. ZIP intentionally excludes deliverables/ and original corpus.
+
+PRODUCTION/BACKEND/DB/CLOUD/MAIN CHANGES: NONE. No merge or deployment.

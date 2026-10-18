@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "continuation": "Exact verified V11; stale sandbox preserved359 files externally and reconciled ONLY by normal same-branch fast-forward",
+  "v11Baseline": "041e02c353d86320053ea54232bb58620f5818f8",
+  "sourcePackageCommit": "5ce5a2b0af429aec5cdb82bc957c486f9aa539ef",
+  "archive": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V12.zip",
+  "sha256": "342c195cd12ae982900145e1f1365da07f015e8a4679e8bc57fc5770ca9a7a60",
+  "bytes": 39640079,
+  "sourceFiles": 768,
+  "manifestFiles": 2,
+  "npmCi": "PASS --ignore-scripts fresh extraction",
+  "build": "PASS without original source tree",
+  "unit": {
+    "PASS": 351,
+    "FAIL": 0,
+    "SKIP": 0,
+    "preserved": 341,
+    "newV12": 10
+  },
+  "chromium": {
+    "PASS": 499,
+    "FAIL": 0,
+    "SKIP": 0,
+    "preserved": 496,
+    "newV12": 3,
+    "execution": "single strict unfiltered complete runner; no REGRESSION_FROM"
+  },
+  "actualOriginalSource": {
+    "PASS": 27,
+    "FAIL": 0,
+    "SKIP": 0,
+    "preserved": 5,
+    "newV12": 22,
+    "scope": "Explicit owner read-only original HTML/hooks; synthetic APIs/media; not real provider/recording/backend acceptance",
+    "comprehensiveClosures": 0
+  },
+  "originalFrontendCodeClosures": {
+    "complete": 1,
+    "partial": 8,
+    "scope": "Retry Weak Areas supported existing shared-audio contract; not whole authored route/frame/component promotion"
+  },
+  "assets": 25,
+  "sourceCssSha256": "b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2",
+  "compiledCssSha256": "6321b6deffba5088fa187b0cd2f07b2895b5d3a53d5472c5f083f4aef8108042",
+  "byteIdenticalDeterministicRepacks": 2,
+  "runtimeVulnerabilities": 0,
+  "developmentVulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 5,
+    "critical": 0,
+    "total": 5
+  },
+  "initialFailures": "Retained raw root351-unit350PASS1FAIL unchanged foundation history assertion; root original26-case25PASS1FAIL contradictory known-pair fixture. Unchanged assertions passed after isolated rerun / canonical fixture correction; fresh independent results above are separate strict runs. No threshold relaxed. See development-findings.txt.",
+  "universalMedia": "PARTIAL; parent LRU/read/deadline bounds, reactive quota retry/decoder/duplicate paths verified. Stable duration/indexed random seek/proactive decoded bounds/Blob aggregate memory/all callers/provider/Safari/hardware remain open. Blob fallback is NOT progressive.",
+  "globalRoutes": {
+    "COMPLETE": 22,
+    "PARTIAL": 15,
+    "NOT_STARTED": 71
+  },
+  "globalComponents": {
+    "COMPLETE": 62,
+    "PARTIAL": 17,
+    "NOT_STARTED": 127
+  },
+  "listeningRoutes": {
+    "COMPLETE": 9,
+    "PARTIAL": 6,
+    "NOT_STARTED": 1
+  },
+  "listeningComponents": {
+    "COMPLETE": 9,
+    "PARTIAL": 10,
+    "NOT_STARTED": 5
+  },
+  "matchedOriginalVisualAccepted": 0,
+  "liveOriginalActivitiesAccepted": 0,
+  "overallImplementationMetric": "UNDETERMINED weighted product completion",
+  "functionalSecurityMetric": "UNDETERMINED aggregate coverage denominator",
+  "visualLiveMetric": "UNDETERMINED aggregate coverage denominator",
+  "reading": "NOT STARTED",
+  "staffIntegration": "NONE; reserved35 routes and staff author untouched",
+  "productionChanges": "NONE"
+}

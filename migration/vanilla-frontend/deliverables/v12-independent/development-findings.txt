@@ -1,0 +1,21 @@
+1. Initial Range refactor deferred native fetch invocation until after an await.
+Preserved V11 coalescing test failed "release is not a function". Fixed by retaining
+synchronous fetch start when a transport slot is free; queued slots still await.
+Unchanged18 V11 focused cases subsequently passed. Initial stack was observed in
+tool output; no raw initial file remains (overwritten by focused rerun).
+2. Source inspection found retry question replacement removed clip listeners but
+left old audio playing. V12 explicitly stops owned audio before rendering another
+retry question. New unit covers stop; encoded actual-source probe added.
+3. Failed check retry action could resend old text after own input was edited.
+V12 removes obsolete feedback/retry action on editing. New unit covers exact body.
+4. Full351-unit run initially350PASS/1FAIL in unchanged foundation back/forward
+assertion ('/two' !== '/'); raw initial-root-unit-failure.txt retained. No router or
+foundation test changes. Cause not established. Passing rerun/independent results
+must be reported separately, not replace this failure or assert leak freedom.
+5. Initial full original-source run25PASS/1FAIL in paired known-answer lock.
+The initial fixture supplied Q25 canonical correct, then its default PUT responder
+replaced that verdict with the unrelated default7-correct result on ordinary UI
+saves. V12 known-pair fixture now retains its own canonical rows on PUT, as the
+all40 fixture already did. The SAME disabled/aria-selected/missed-only assertions
+remain. Initial raw output and JSON retained. This fixture contradiction is not a
+live backend bug fix or evidence of real server grading acceptance.
