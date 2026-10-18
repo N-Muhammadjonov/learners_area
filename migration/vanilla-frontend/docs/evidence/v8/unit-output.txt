@@ -6,1111 +6,1111 @@ TAP version 13
 # Subtest: confirmation source class/title/description, trigger expansion and initial focus
 ok 1 - confirmation source class/title/description, trigger expansion and initial focus
   ---
-  duration_ms: 72.599192
+  duration_ms: 70.70468
   type: 'test'
   ...
 # Subtest: confirmation cancel does not mutate and restores trigger focus
 ok 2 - confirmation cancel does not mutate and restores trigger focus
   ---
-  duration_ms: 12.111083
+  duration_ms: 17.604799
   type: 'test'
   ...
 # Subtest: confirmation pending blocks Escape/double-submit then closes on confirmed success
 ok 3 - confirmation pending blocks Escape/double-submit then closes on confirmed success
   ---
-  duration_ms: 18.480212
+  duration_ms: 17.653013
   type: 'test'
   ...
 # Subtest: destructive failure stays open, redacts raw errors and supports deliberate retry
 ok 4 - destructive failure stays open, redacts raw errors and supports deliberate retry
   ---
-  duration_ms: 22.854197
+  duration_ms: 17.333909
   type: 'test'
   ...
 # Subtest: aborting pending modal removes top layer without stealing newer focus
 ok 5 - aborting pending modal removes top layer without stealing newer focus
   ---
-  duration_ms: 12.95306
+  duration_ms: 11.952592
   type: 'test'
   ...
 # Subtest: idle modal Escape permits a second ordinary open
 ok 6 - idle modal Escape permits a second ordinary open
   ---
-  duration_ms: 9.989492
+  duration_ms: 19.632738
   type: 'test'
   ...
 # Subtest: void region refresh never falls through to hard reload
 ok 7 - void region refresh never falls through to hard reload
   ---
-  duration_ms: 21.517649
+  duration_ms: 9.285543
   type: 'test'
   ...
 # Subtest: region retry coalesces pending clicks and recovers after refresh rejection
 ok 8 - region retry coalesces pending clicks and recovers after refresh rejection
   ---
-  duration_ms: 10.491422
+  duration_ms: 9.338053
   type: 'test'
   ...
 # Subtest: region retry without callback explicitly reloads once
 ok 9 - region retry without callback explicitly reloads once
   ---
-  duration_ms: 14.390565
+  duration_ms: 13.760205
   type: 'test'
   ...
 # Subtest: API malformed/null JSON safely classified ({, 200)
 ok 10 - API malformed/null JSON safely classified ({, 200)
   ---
-  duration_ms: 19.546321
+  duration_ms: 17.097127
   type: 'test'
   ...
 # Subtest: API malformed/null JSON safely classified (null, 503)
 ok 11 - API malformed/null JSON safely classified (null, 503)
   ---
-  duration_ms: 0.971917
+  duration_ms: 0.801771
   type: 'test'
   ...
 # Subtest: API malformed/null JSON safely classified ([object Object], 400)
 ok 12 - API malformed/null JSON safely classified ([object Object], 400)
   ---
-  duration_ms: 0.804712
+  duration_ms: 0.640871
   type: 'test'
   ...
 # Subtest: failure prioritizes rate-limit, maps parse to server and rejects prototype lookups
 ok 13 - failure prioritizes rate-limit, maps parse to server and rejects prototype lookups
   ---
-  duration_ms: 0.305266
+  duration_ms: 0.231592
   type: 'test'
   ...
 # Subtest: unchanged pending applicant stays in waiting room on reconciliation
 ok 14 - unchanged pending applicant stays in waiting room on reconciliation
   ---
-  duration_ms: 10.357644
+  duration_ms: 9.632557
   type: 'test'
   ...
 # Subtest: pending→active refreshes authoritative presentation, never locally grants access
 ok 15 - pending→active refreshes authoritative presentation, never locally grants access
   ---
-  duration_ms: 7.300097
+  duration_ms: 6.822584
   type: 'test'
   ...
 # Subtest: pending→rejected refreshes authoritative presentation, never locally grants access
 ok 16 - pending→rejected refreshes authoritative presentation, never locally grants access
   ---
-  duration_ms: 5.900773
+  duration_ms: 5.366228
   type: 'test'
   ...
 # Subtest: pending→suspended refreshes authoritative presentation, never locally grants access
 ok 17 - pending→suspended refreshes authoritative presentation, never locally grants access
   ---
-  duration_ms: 7.346392
+  duration_ms: 5.259315
   type: 'test'
   ...
 # Subtest: active→suspended clears private scope and replaces login
 ok 18 - active→suspended clears private scope and replaces login
   ---
-  duration_ms: 7.609057
+  duration_ms: 5.997763
   type: 'test'
   ...
 # Subtest: already expired authority leaves no online/pageshow listeners
 ok 19 - already expired authority leaves no online/pageshow listeners
   ---
-  duration_ms: 13.604807
+  duration_ms: 8.224549
   type: 'test'
   ...
 # Subtest: preaborted watcher cannot reconcile/connect
 ok 20 - preaborted watcher cannot reconcile/connect
   ---
-  duration_ms: 6.400448
+  duration_ms: 7.724127
   type: 'test'
   ...
 # Subtest: profile keyboard menu supports arrows/End/Escape without opening security dialog
 ok 21 - profile keyboard menu supports arrows/End/Escape without opening security dialog
   ---
-  duration_ms: 19.900482
+  duration_ms: 16.081105
   type: 'test'
   ...
 # Subtest: onboarding eight source fields/defaults and numeric constraint validation
 ok 22 - onboarding eight source fields/defaults and numeric constraint validation
   ---
-  duration_ms: 27.727213
+  duration_ms: 23.385589
   type: 'test'
   ...
 # Subtest: waiting pending, open=false: eligible form + actual logout modal
 ok 23 - waiting pending, open=false: eligible form + actual logout modal
   ---
-  duration_ms: 17.74387
+  duration_ms: 16.679663
   type: 'test'
   ...
 # Subtest: waiting rejected, open=false: eligible form + actual logout modal
 ok 24 - waiting rejected, open=false: eligible form + actual logout modal
   ---
-  duration_ms: 11.3262
+  duration_ms: 10.440551
   type: 'test'
   ...
 # Subtest: waiting suspended, open=false: eligible form + actual logout modal
 ok 25 - waiting suspended, open=false: eligible form + actual logout modal
   ---
-  duration_ms: 11.565492
+  duration_ms: 10.648538
   type: 'test'
   ...
 # Subtest: waiting pending, open=true: eligible form + actual logout modal
 ok 26 - waiting pending, open=true: eligible form + actual logout modal
   ---
-  duration_ms: 25.762455
+  duration_ms: 28.539912
   type: 'test'
   ...
 # Subtest: queued old native close event cannot dismiss a newly reopened modal
 ok 27 - queued old native close event cannot dismiss a newly reopened modal
   ---
-  duration_ms: 9.648349
+  duration_ms: 14.249938
   type: 'test'
   ...
 # Subtest: history-key scaffolding does not carry identity in navigation
 ok 28 - history-key scaffolding does not carry identity in navigation
   ---
-  duration_ms: 27.734656
+  duration_ms: 11.19291
   type: 'test'
   ...
 # Subtest: failed mount aborts its work; error view owns a fresh signal and can recover/back-navigate
 ok 29 - failed mount aborts its work; error view owns a fresh signal and can recover/back-navigate
   ---
-  duration_ms: 10.49171
+  duration_ms: 6.499197
   type: 'test'
   ...
 # Subtest: mouse focus handoff inside profile menu cannot close it while activeElement is temporarily BODY
 ok 30 - mouse focus handoff inside profile menu cannot close it while activeElement is temporarily BODY
   ---
-  duration_ms: 14.953485
+  duration_ms: 8.952811
   type: 'test'
   ...
 # Subtest: auth pending/error preserve field, provider and submit node identity and focused input selection
 ok 31 - auth pending/error preserve field, provider and submit node identity and focused input selection
   ---
-  duration_ms: 97.582566
+  duration_ms: 88.108501
   type: 'test'
   ...
 # Subtest: refresh reuses only current-route draft; real navigation wipes secrets and never serializes them
 ok 32 - refresh reuses only current-route draft; real navigation wipes secrets and never serializes them
   ---
-  duration_ms: 28.574859
+  duration_ms: 25.974523
   type: 'test'
   ...
 # Subtest: aborted request never navigates or paints later failure/success and clears old DOM credentials
 ok 33 - aborted request never navigates or paints later failure/success and clears old DOM credentials
   ---
-  duration_ms: 22.636334
+  duration_ms: 18.490968
   type: 'test'
   ...
 # Subtest: missing reset token cannot submit even via dispatched submit
 ok 34 - missing reset token cannot submit even via dispatched submit
   ---
-  duration_ms: 19.018222
+  duration_ms: 20.199558
   type: 'test'
   ...
 # Subtest: reset success survives preference refresh, but untrusted dev URL never becomes a link
 ok 35 - reset success survives preference refresh, but untrusted dev URL never becomes a link
   ---
-  duration_ms: 23.226953
+  duration_ms: 23.394145
   type: 'test'
   ...
 # Subtest: malformed login result fails closed null
 ok 36 - malformed login result fails closed null
   ---
-  duration_ms: 0.902108
+  duration_ms: 0.823134
   type: 'test'
   ...
 # Subtest: malformed login result fails closed []
 ok 37 - malformed login result fails closed []
   ---
-  duration_ms: 0.255756
+  duration_ms: 0.231479
   type: 'test'
   ...
 # Subtest: malformed login result fails closed {}
 ok 38 - malformed login result fails closed {}
   ---
-  duration_ms: 0.202375
+  duration_ms: 0.17685
   type: 'test'
   ...
 # Subtest: malformed login result fails closed "bad"
 ok 39 - malformed login result fails closed "bad"
   ---
-  duration_ms: 0.372601
+  duration_ms: 0.286033
   type: 'test'
   ...
 # Subtest: malformed login result fails closed {"ok":false}
 ok 40 - malformed login result fails closed {"ok":false}
   ---
-  duration_ms: 0.297051
+  duration_ms: 0.380123
   type: 'test'
   ...
 # Subtest: malformed login result fails closed {"error":"driver secret"}
 ok 41 - malformed login result fails closed {"error":"driver secret"}
   ---
-  duration_ms: 0.182357
+  duration_ms: 0.201068
   type: 'test'
   ...
 # Subtest: malformed login result fails closed {"onboarded":"true"}
 ok 42 - malformed login result fails closed {"onboarded":"true"}
   ---
-  duration_ms: 0.174476
+  duration_ms: 0.162795
   type: 'test'
   ...
 # Subtest: malformed login result fails closed {"onboarded":true,"accountStatus":"unknown"}
 ok 43 - malformed login result fails closed {"onboarded":true,"accountStatus":"unknown"}
   ---
-  duration_ms: 0.200267
+  duration_ms: 0.204957
   type: 'test'
   ...
 # Subtest: malformed login result fails closed {"onboarded":true,"accountStatus":"active"}
 ok 44 - malformed login result fails closed {"onboarded":true,"accountStatus":"active"}
   ---
-  duration_ms: 0.222078
+  duration_ms: 0.175892
   type: 'test'
   ...
 # Subtest: malformed login result fails closed {"ok":true,"onboarded":true}
 ok 45 - malformed login result fails closed {"ok":true,"onboarded":true}
   ---
-  duration_ms: 0.140877
+  duration_ms: 0.123118
   type: 'test'
   ...
 # Subtest: precise existing acknowledgement and pending-view shapes reject malformed success
 ok 46 - precise existing acknowledgement and pending-view shapes reject malformed success
   ---
-  duration_ms: 0.402378
+  duration_ms: 0.354887
   type: 'test'
   ...
 # Subtest: pending source status pending and sent state survive refresh
 ok 47 - pending source status pending and sent state survive refresh
   ---
-  duration_ms: 28.788887
+  duration_ms: 16.342727
   type: 'test'
   ...
 # Subtest: pending source status rejected and sent state survive refresh
 ok 48 - pending source status rejected and sent state survive refresh
   ---
-  duration_ms: 11.032333
+  duration_ms: 10.253528
   type: 'test'
   ...
 # Subtest: pending source status suspended and sent state survive refresh
 ok 49 - pending source status suspended and sent state survive refresh
   ---
-  duration_ms: 10.251808
+  duration_ms: 9.698314
   type: 'test'
   ...
 # Subtest: Telegram local deadline stops after bounded polling and leaves a deliberate retry
 ok 50 - Telegram local deadline stops after bounded polling and leaves a deliberate retry
   ---
-  duration_ms: 20.139723
+  duration_ms: 19.367048
   type: 'test'
   ...
 # Subtest: source diagnostic projection cannot contain credentials, URLs or driver text
 ok 51 - source diagnostic projection cannot contain credentials, URLs or driver text
   ---
-  duration_ms: 1.190289
+  duration_ms: 1.118808
   type: 'test'
   ...
 # Subtest: locale refresh barrier waits for one acknowledgement and abort releases its waiter
 ok 52 - locale refresh barrier waits for one acknowledgement and abort releases its waiter
   ---
-  duration_ms: 9.459224
+  duration_ms: 8.404031
   type: 'test'
   ...
 # Subtest: Telegram cancel is available while create is pending; late create cannot open or exchange
 ok 53 - Telegram cancel is available while create is pending; late create cannot open or exchange
   ---
-  duration_ms: 12.836137
+  duration_ms: 13.53753
   type: 'test'
   ...
 # Subtest: Telegram source outcome login/signed_in uses authoritative destination and bound nonce only
 ok 54 - Telegram source outcome login/signed_in uses authoritative destination and bound nonce only
   ---
-  duration_ms: 10.300207
+  duration_ms: 9.948048
   type: 'test'
   ...
 # Subtest: Telegram source outcome login/signed_in uses authoritative destination and bound nonce only
 ok 55 - Telegram source outcome login/signed_in uses authoritative destination and bound nonce only
   ---
-  duration_ms: 8.592575
+  duration_ms: 15.20547
   type: 'test'
   ...
 # Subtest: Telegram source outcome login/suspended uses authoritative destination and bound nonce only
 ok 56 - Telegram source outcome login/suspended uses authoritative destination and bound nonce only
   ---
-  duration_ms: 15.257533
+  duration_ms: 9.590431
   type: 'test'
   ...
 # Subtest: Telegram source outcome register/pending uses authoritative destination and bound nonce only
 ok 57 - Telegram source outcome register/pending uses authoritative destination and bound nonce only
   ---
-  duration_ms: 8.635955
+  duration_ms: 7.813536
   type: 'test'
   ...
 # Subtest: Telegram source outcome register/reopened uses authoritative destination and bound nonce only
 ok 58 - Telegram source outcome register/reopened uses authoritative destination and bound nonce only
   ---
-  duration_ms: 9.05745
+  duration_ms: 7.862248
   type: 'test'
   ...
 # Subtest: Telegram source outcome register/already_pending uses authoritative destination and bound nonce only
 ok 59 - Telegram source outcome register/already_pending uses authoritative destination and bound nonce only
   ---
-  duration_ms: 7.89746
+  duration_ms: 7.335712
   type: 'test'
   ...
 # Subtest: Telegram source outcome register/already_active uses authoritative destination and bound nonce only
 ok 60 - Telegram source outcome register/already_active uses authoritative destination and bound nonce only
   ---
-  duration_ms: 8.607865
+  duration_ms: 7.826158
   type: 'test'
   ...
 # Subtest: Telegram source outcome link/linked uses authoritative destination and bound nonce only
 ok 61 - Telegram source outcome link/linked uses authoritative destination and bound nonce only
   ---
-  duration_ms: 7.625037
+  duration_ms: 16.795002
   type: 'test'
   ...
 # Subtest: legacy Telegram register uses original label, script placement and abort teardown
 ok 62 - legacy Telegram register uses original label, script placement and abort teardown
   ---
-  duration_ms: 6.77157
+  duration_ms: 6.190069
   type: 'test'
   ...
 # Subtest: development reset URL is limited to same-origin confirmation with token
 ok 63 - development reset URL is limited to same-origin confirmation with token
   ---
-  duration_ms: 0.548151
+  duration_ms: 0.804866
   type: 'test'
   ...
 # Subtest: native props.children survive wrapper components; no React tree
 ok 64 - native props.children survive wrapper components; no React tree
   ---
-  duration_ms: 65.469781
+  duration_ms: 60.874341
   type: 'test'
   ...
 # Subtest: native form values, checked boolean and select initial values are properties
 ok 65 - native form values, checked boolean and select initial values are properties
   ---
-  duration_ms: 11.975167
+  duration_ms: 11.30554
   type: 'test'
   ...
 # Subtest: native SVG text uses namespace, source style dimensions get CSS px
 ok 66 - native SVG text uses namespace, source style dimensions get CSS px
   ---
-  duration_ms: 11.001764
+  duration_ms: 10.072572
   type: 'test'
   ...
 # Subtest: native rejects executable URL and arbitrary HTML input
 ok 67 - native rejects executable URL and arbitrary HTML input
   ---
-  duration_ms: 7.567474
+  duration_ms: 7.292157
   type: 'test'
   ...
 # Subtest: session adapter refuses existing auth-state as identity, invalid role or status
 ok 68 - session adapter refuses existing auth-state as identity, invalid role or status
   ---
-  duration_ms: 0.869495
+  duration_ms: 0.777249
   type: 'test'
   ...
 # Subtest: public adapter refuses contradictory or undeclared policy; no invented fallback
 ok 69 - public adapter refuses contradictory or undeclared policy; no invented fallback
   ---
-  duration_ms: 0.56907
+  duration_ms: 0.506087
   type: 'test'
   ...
 # Subtest: private scope is identity isolated, bounded, expiring; retention cache exclusion switch
 ok 70 - private scope is identity isolated, bounded, expiring; retention cache exclusion switch
   ---
-  duration_ms: 0.415793
+  duration_ms: 0.409879
   type: 'test'
   ...
 # Subtest: private authority teardown disposes resources exactly once
 ok 71 - private authority teardown disposes resources exactly once
   ---
-  duration_ms: 0.255982
+  duration_ms: 0.216907
   type: 'test'
   ...
 # Subtest: route metadata gates implemented routes only; exact focus split not inferred for unknowns
 ok 72 - route metadata gates implemented routes only; exact focus split not inferred for unknowns
   ---
-  duration_ms: 0.441307
+  duration_ms: 0.437732
   type: 'test'
   ...
 # Subtest: source-native listening-lessons: actual dictionary and truthful empty fixture render
 ok 73 - source-native listening-lessons: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 14.812968
+  duration_ms: 14.191018
   type: 'test'
   ...
 # Subtest: source-native reading-lessons: actual dictionary and truthful empty fixture render
 ok 74 - source-native reading-lessons: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 19.098262
+  duration_ms: 9.30971
   type: 'test'
   ...
 # Subtest: source-native grammar-lessons: actual dictionary and truthful empty fixture render
 ok 75 - source-native grammar-lessons: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 7.954699
+  duration_ms: 14.735411
   type: 'test'
   ...
 # Subtest: source-native listening-academic: actual dictionary and truthful empty fixture render
 ok 76 - source-native listening-academic: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 8.6091
+  duration_ms: 7.939271
   type: 'test'
   ...
 # Subtest: source-native listening-general: actual dictionary and truthful empty fixture render
 ok 77 - source-native listening-general: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 13.019042
+  duration_ms: 11.855478
   type: 'test'
   ...
 # Subtest: source-native listening-mcq: actual dictionary and truthful empty fixture render
 ok 78 - source-native listening-mcq: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 10.101083
+  duration_ms: 8.774691
   type: 'test'
   ...
 # Subtest: source-native listening-history: actual dictionary and truthful empty fixture render
 ok 79 - source-native listening-history: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 10.002587
+  duration_ms: 8.780827
   type: 'test'
   ...
 # Subtest: source-native reading-history: actual dictionary and truthful empty fixture render
 ok 80 - source-native reading-history: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 8.954876
+  duration_ms: 7.225014
   type: 'test'
   ...
 # Subtest: source-native reading-academic: actual dictionary and truthful empty fixture render
 ok 81 - source-native reading-academic: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 7.833558
+  duration_ms: 7.958469
   type: 'test'
   ...
 # Subtest: source-native management: actual dictionary and truthful empty fixture render
 ok 82 - source-native management: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 33.608628
+  duration_ms: 29.855948
   type: 'test'
   ...
 # Subtest: source-native speaking: actual dictionary and truthful empty fixture render
 ok 83 - source-native speaking: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 11.564655
+  duration_ms: 11.001962
   type: 'test'
   ...
 # Subtest: source-native notifications: actual dictionary and truthful empty fixture render
 ok 84 - source-native notifications: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 7.625948
+  duration_ms: 6.914383
   type: 'test'
   ...
 # Subtest: source-native owner-audit: actual dictionary and truthful empty fixture render
 ok 85 - source-native owner-audit: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 7.171238
+  duration_ms: 6.218537
   type: 'test'
   ...
 # Subtest: source-native admin-content: actual dictionary and truthful empty fixture render
 ok 86 - source-native admin-content: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 9.609519
+  duration_ms: 9.242597
   type: 'test'
   ...
 # Subtest: source-native admin-materials: actual dictionary and truthful empty fixture render
 ok 87 - source-native admin-materials: actual dictionary and truthful empty fixture render
   ---
-  duration_ms: 7.415775
+  duration_ms: 6.267844
   type: 'test'
   ...
 # Subtest: management roles never show owner links to teacher; source icons and cards present
 ok 88 - management roles never show owner links to teacher; source icons and cards present
   ---
-  duration_ms: 25.028111
+  duration_ms: 22.829487
   type: 'test'
   ...
 # Subtest: MCQ active position preserves Day 8/deep q positions, no fixed day maximum
 ok 89 - MCQ active position preserves Day 8/deep q positions, no fixed day maximum
   ---
-  duration_ms: 0.242762
+  duration_ms: 0.332331
   type: 'test'
   ...
 # Subtest: opaque authored sandbox denies same-origin, all network, top navigation and forms
 ok 90 - opaque authored sandbox denies same-origin, all network, top navigation and forms
   ---
-  duration_ms: 0.330344
+  duration_ms: 0.417294
   type: 'test'
   ...
 # Subtest: sandbox messages require exact frame, channel and unpredictable token
 ok 91 - sandbox messages require exact frame, channel and unpredictable token
   ---
-  duration_ms: 0.189598
+  duration_ms: 0.195833
   type: 'test'
   ...
 # Subtest: authority coalesces event checks and revokes on 401 without refreshing privileges locally
 ok 92 - authority coalesces event checks and revokes on 401 without refreshing privileges locally
   ---
-  duration_ms: 26.740401
+  duration_ms: 21.246352
   type: 'test'
   ...
 # Subtest: dashboard source success view renders real fixture summary without inventing band 9.0
 ok 93 - dashboard source success view renders real fixture summary without inventing band 9.0
   ---
-  duration_ms: 20.605174
+  duration_ms: 20.431339
   type: 'test'
   ...
 # Subtest: listening hub uses adapter registry cards and summary counts, never a fabricated fixed grid
 ok 94 - listening hub uses adapter registry cards and summary counts, never a fabricated fixed grid
   ---
-  duration_ms: 9.718272
+  duration_ms: 8.826432
   type: 'test'
   ...
 # Subtest: canonical Listening and default Grammar open lessons; explicit Grammar tabs remain conditional real URLs
 ok 95 - canonical Listening and default Grammar open lessons; explicit Grammar tabs remain conditional real URLs
   ---
-  duration_ms: 1.684194
+  duration_ms: 1.506256
   type: 'test'
   ...
 # Subtest: Reading legacy queries resolve to real products and obsolete General never revives a product
 ok 96 - Reading legacy queries resolve to real products and obsolete General never revives a product
   ---
-  duration_ms: 0.790389
+  duration_ms: 0.816092
   type: 'test'
   ...
 # Subtest: protected legacy destinations retain role-aware source redirects without reviving old screens
 ok 97 - protected legacy destinations retain role-aware source redirects without reviving old screens
   ---
-  duration_ms: 0.58171
+  duration_ms: 0.542603
   type: 'test'
   ...
 # Subtest: any private API 401 event immediately revokes scoped authority and closes listener
 ok 98 - any private API 401 event immediately revokes scoped authority and closes listener
   ---
-  duration_ms: 5.864405
+  duration_ms: 5.266348
   type: 'test'
   ...
 # Subtest: repeated original ModuleEmoji artwork creates fresh SVG geometry, never consumes shared fragments
 ok 99 - repeated original ModuleEmoji artwork creates fresh SVG geometry, never consumes shared fragments
   ---
-  duration_ms: 7.698226
+  duration_ms: 7.330705
   type: 'test'
   ...
 # Subtest: dashboard valid empty/unavailable distinctions are retained, not invented zeroes
 ok 100 - dashboard valid empty/unavailable distinctions are retained, not invented zeroes
   ---
-  duration_ms: 2.06413
+  duration_ms: 1.822458
   type: 'test'
   ...
 # Subtest: nullable source target/feedback estimates remain valid and display dash, not a fake score
 ok 101 - nullable source target/feedback estimates remain valid and display dash, not a fake score
   ---
-  duration_ms: 81.178884
+  duration_ms: 77.077298
   type: 'test'
   ...
 # Subtest: malformed dashboard consumer field rejected: d=>d.skillCounts.reading=undefined
 ok 102 - malformed dashboard consumer field rejected: d=>d.skillCounts.reading=undefined
   ---
-  duration_ms: 0.736162
+  duration_ms: 0.679993
   type: 'test'
   ...
 # Subtest: malformed dashboard consumer field rejected: d=>d.skillCounts.reading=-1
 ok 103 - malformed dashboard consumer field rejected: d=>d.skillCounts.reading=-1
   ---
-  duration_ms: 0.371804
+  duration_ms: 0.365708
   type: 'test'
   ...
 # Subtest: malformed dashboard consumer field rejected: d=>d.streak=Infinity
 ok 104 - malformed dashboard consumer field rejected: d=>d.streak=Infinity
   ---
-  duration_ms: 0.583006
+  duration_ms: 0.559726
   type: 'test'
   ...
 # Subtest: malformed dashboard consumer field rejected: d=>d.openAssignments={}
 ok 105 - malformed dashboard consumer field rejected: d=>d.openAssignments={}
   ---
-  duration_ms: 0.380836
+  duration_ms: 0.377592
   type: 'test'
   ...
 # Subtest: malformed dashboard consumer field rejected: d=>d.lastActivity={module:'reading',href:'//evil.invalid',at:'2026-10-18T00:00:00Z'}
 ok 106 - malformed dashboard consumer field rejected: d=>d.lastActivity={module:'reading',href:'//evil.invalid',at:'2026-10-18T00:00:00Z'}
   ---
-  duration_ms: 0.331705
+  duration_ms: 0.30398
   type: 'test'
   ...
 # Subtest: malformed dashboard consumer field rejected: d=>d.nextLiveClass={id:'x',title:'x',scheduledAt:'invalid'}
 ok 107 - malformed dashboard consumer field rejected: d=>d.nextLiveClass={id:'x',title:'x',scheduledAt:'invalid'}
   ---
-  duration_ms: 0.276031
+  duration_ms: 0.253984
   type: 'test'
   ...
 # Subtest: malformed dashboard consumer field rejected: d=>d.latestEvaluation={overallEstimate:10,weaknesses:[],checkedByName:'Fixture'}
 ok 108 - malformed dashboard consumer field rejected: d=>d.latestEvaluation={overallEstimate:10,weaknesses:[],checkedByName:'Fixture'}
   ---
-  duration_ms: 0.351723
+  duration_ms: 0.380656
   type: 'test'
   ...
 # Subtest: assigned source lessons are accepted; unavailable != empty, locked/scheduled are not fabricated as open
 ok 109 - assigned source lessons are accepted; unavailable != empty, locked/scheduled are not fabricated as open
   ---
-  duration_ms: 1.469867
+  duration_ms: 1.251341
   type: 'test'
   ...
 # Subtest: mock dates hydrate on a copy and original owned outcomes are never recomputed
 ok 110 - mock dates hydrate on a copy and original owned outcomes are never recomputed
   ---
-  duration_ms: 0.543262
+  duration_ms: 0.474367
   type: 'test'
   ...
 # Subtest: mock unknown/malformed fields do not become empty/successful attempts
 ok 111 - mock unknown/malformed fields do not become empty/successful attempts
   ---
-  duration_ms: 0.394995
+  duration_ms: 0.314172
   type: 'test'
   ...
 # Subtest: all source dashboard slots initially load independently without reading absent DTOs
 ok 112 - all source dashboard slots initially load independently without reading absent DTOs
   ---
-  duration_ms: 15.409501
+  duration_ms: 13.750043
   type: 'test'
   ...
 # Subtest: three reads start concurrently and stale responses after abort cannot replace newer-route DOM
 ok 113 - three reads start concurrently and stale responses after abort cannot replace newer-route DOM
   ---
-  duration_ms: 23.172137
+  duration_ms: 26.881818
   type: 'test'
   ...
 # Subtest: safe redirect preserves path/query/fragment
 ok 114 - safe redirect preserves path/query/fragment
   ---
-  duration_ms: 2.419307
+  duration_ms: 1.525256
   type: 'test'
   ...
 # Subtest: safe redirect rejects external, encoded, backslash and malformed targets
 ok 115 - safe redirect rejects external, encoded, backslash and malformed targets
   ---
-  duration_ms: 0.53156
+  duration_ms: 0.305059
   type: 'test'
   ...
 # Subtest: patterns distinguish nested static/dynamic routes
 ok 116 - patterns distinguish nested static/dynamic routes
   ---
-  duration_ms: 0.691569
+  duration_ms: 0.442622
   type: 'test'
   ...
 # Subtest: API mutations send only JSON with same-origin cookies and no-store
 ok 117 - API mutations send only JSON with same-origin cookies and no-store
   ---
-  duration_ms: 25.105164
+  duration_ms: 16.188663
   type: 'test'
   ...
 # Subtest: API rejects foreign paths
 ok 118 - API rejects foreign paths
   ---
-  duration_ms: 1.155292
+  duration_ms: 1.042482
   type: 'test'
   ...
 # Subtest: API distinguishes server 401 errors
 ok 119 - API distinguishes server 401 errors
   ---
-  duration_ms: 1.250304
+  duration_ms: 1.22777
   type: 'test'
   ...
 # Subtest: API rejects HTML fallback instead of treating it as success
 ok 120 - API rejects HTML fallback instead of treating it as success
   ---
-  duration_ms: 0.839301
+  duration_ms: 0.699705
   type: 'test'
   ...
 # Subtest: identical concurrent GET requests deduplicate without persistent cache
 ok 121 - identical concurrent GET requests deduplicate without persistent cache
   ---
-  duration_ms: 1.566514
+  duration_ms: 1.403154
   type: 'test'
   ...
 # Subtest: cancelling one GET subscriber does not abort another
 ok 122 - cancelling one GET subscriber does not abort another
   ---
-  duration_ms: 1.331008
+  duration_ms: 1.246667
   type: 'test'
   ...
 # Subtest: last GET subscriber cancellation aborts transport
 ok 123 - last GET subscriber cancellation aborts transport
   ---
-  duration_ms: 0.705981
+  duration_ms: 0.632547
   type: 'test'
   ...
 # Subtest: mutation failures are not automatically retried
 ok 124 - mutation failures are not automatically retried
   ---
-  duration_ms: 0.738794
+  duration_ms: 0.66826
   type: 'test'
   ...
 # Subtest: router handles direct dynamic links and query/hash
 ok 125 - router handles direct dynamic links and query/hash
   ---
-  duration_ms: 67.327833
+  duration_ms: 64.675082
   type: 'test'
   ...
 # Subtest: router navigation cleans old views and aborts lifecycle
 ok 126 - router navigation cleans old views and aborts lifecycle
   ---
-  duration_ms: 12.386925
+  duration_ms: 11.606322
   type: 'test'
   ...
 # Subtest: router back and forward restore matching route
 ok 127 - router back and forward restore matching route
   ---
-  duration_ms: 71.554792
+  duration_ms: 71.435083
   type: 'test'
   ...
 # Subtest: stale lazy route cannot overwrite newer navigation
 ok 128 - stale lazy route cannot overwrite newer navigation
   ---
-  duration_ms: 9.11544
+  duration_ms: 8.77085
   type: 'test'
   ...
 # Subtest: DOM rendering treats untrusted strings as text
 ok 129 - DOM rendering treats untrusted strings as text
   ---
-  duration_ms: 9.131309
+  duration_ms: 8.892393
   type: 'test'
   ...
 # Subtest: two dictionaries retain the same key shape
 ok 130 - two dictionaries retain the same key shape
   ---
-  duration_ms: 26.201396
+  duration_ms: 24.891657
   type: 'test'
   ...
 # Subtest: brand uses original images rather than initials or emoji replacements
 ok 131 - brand uses original images rather than initials or emoji replacements
   ---
-  duration_ms: 13.163074
+  duration_ms: 12.46574
   type: 'test'
   ...
 # Subtest: recovery form includes real labelled required email/password inputs
 ok 132 - recovery form includes real labelled required email/password inputs
   ---
-  duration_ms: 32.503434
+  duration_ms: 32.304119
   type: 'test'
   ...
 # Subtest: inventory accounts for every page and never marks unavailable routes converted
 ok 133 - inventory accounts for every page and never marks unavailable routes converted
   ---
-  duration_ms: 6.480293
+  duration_ms: 6.409403
   type: 'test'
   ...
 # Subtest: runtime has no React/Next imports or JSX entrypoints
 ok 134 - runtime has no React/Next imports or JSX entrypoints
   ---
-  duration_ms: 5.181748
+  duration_ms: 5.207845
   type: 'test'
   ...
 # Subtest: legacy alias preserves query/hash and does not restore retired Shadowing
 ok 135 - legacy alias preserves query/hash and does not restore retired Shadowing
   ---
-  duration_ms: 2.278632
+  duration_ms: 1.917769
   type: 'test'
   ...
 # Subtest: exam projection excludes answer keys, malformed membership, external media and unsafe map
 ok 136 - exam projection excludes answer keys, malformed membership, external media and unsafe map
   ---
-  duration_ms: 2.501968
+  duration_ms: 3.713143
   type: 'test'
   ...
 # Subtest: exam A-E multi selection remains native set; notes/audio survive UI updates and abort cleans media
 ok 137 - exam A-E multi selection remains native set; notes/audio survive UI updates and abort cleans media
   ---
-  duration_ms: 108.056409
+  duration_ms: 108.5222
   type: 'test'
   ...
 # Subtest: server-confirmed submit clears only own attempt; failure preserves recovery and retries
 ok 138 - server-confirmed submit clears only own attempt; failure preserves recovery and retries
   ---
-  duration_ms: 39.842163
+  duration_ms: 35.478972
   type: 'test'
   ...
 # Subtest: practice is server-graded, completion body uses authored question numbers, audio stable
 ok 139 - practice is server-graded, completion body uses authored question numbers, audio stable
   ---
-  duration_ms: 25.331919
+  duration_ms: 40.163209
   type: 'test'
   ...
 # Subtest: start is single-flight; valid server-owned attempt id required before navigation
 ok 140 - start is single-flight; valid server-owned attempt id required before navigation
   ---
-  duration_ms: 25.461622
+  duration_ms: 10.69858
   type: 'test'
   ...
 # Subtest: source analysis keeps four verdicts distinct without invented score/evidence
 ok 141 - source analysis keeps four verdicts distinct without invented score/evidence
   ---
-  duration_ms: 11.762597
+  duration_ms: 11.840038
   type: 'test'
   ...
 # Subtest: authored source course-work envelope review
 ok 142 - authored source course-work envelope review
   ---
-  duration_ms: 0.491752
+  duration_ms: 0.42914
   type: 'test'
   ...
 # Subtest: authored source course-work envelope script
 ok 143 - authored source course-work envelope script
   ---
-  duration_ms: 0.327995
+  duration_ms: 0.256199
   type: 'test'
   ...
 # Subtest: authored source course-work envelope mcq
 ok 144 - authored source course-work envelope mcq
   ---
-  duration_ms: 0.256876
+  duration_ms: 0.232482
   type: 'test'
   ...
 # Subtest: authored source course-work envelope matching
 ok 145 - authored source course-work envelope matching
   ---
-  duration_ms: 0.512693
+  duration_ms: 0.335459
   type: 'test'
   ...
 # Subtest: authored source course-work envelope map
 ok 146 - authored source course-work envelope map
   ---
-  duration_ms: 0.184798
+  duration_ms: 0.197329
   type: 'test'
   ...
 # Subtest: authored source course-work envelope multi
 ok 147 - authored source course-work envelope multi
   ---
-  duration_ms: 0.138439
+  duration_ms: 0.122105
   type: 'test'
   ...
 # Subtest: authored source course-work envelope completion
 ok 148 - authored source course-work envelope completion
   ---
-  duration_ms: 0.201867
+  duration_ms: 0.115768
   type: 'test'
   ...
 # Subtest: authored source course-work envelope vocab
 ok 149 - authored source course-work envelope vocab
   ---
-  duration_ms: 0.139467
+  duration_ms: 0.111025
   type: 'test'
   ...
 # Subtest: authored source course-work envelope retry
 ok 150 - authored source course-work envelope retry
   ---
-  duration_ms: 0.196334
+  duration_ms: 0.188806
   type: 'test'
   ...
 # Subtest: authored transport rejects malformed runtime, state, foreign resource URLs and unknown registry activity
 ok 151 - authored transport rejects malformed runtime, state, foreign resource URLs and unknown registry activity
   ---
-  duration_ms: 0.785275
+  duration_ms: 0.732589
   type: 'test'
   ...
 # Subtest: complete activity source states and server-only save 2/false
 ok 152 - complete activity source states and server-only save 2/false
   ---
-  duration_ms: 148.597989
+  duration_ms: 141.640578
   type: 'test'
   ...
 # Subtest: complete activity source states and server-only save 2/true
 ok 153 - complete activity source states and server-only save 2/true
   ---
-  duration_ms: 48.497992
+  duration_ms: 79.593726
   type: 'test'
   ...
 # Subtest: complete activity source states and server-only save 3/false
 ok 154 - complete activity source states and server-only save 3/false
   ---
-  duration_ms: 57.561441
+  duration_ms: 45.719687
   type: 'test'
   ...
 # Subtest: complete activity source states and server-only save 3/true
 ok 155 - complete activity source states and server-only save 3/true
   ---
-  duration_ms: 28.30199
+  duration_ms: 24.777663
   type: 'test'
   ...
 # Subtest: complete activity source states and server-only save 4/false
 ok 156 - complete activity source states and server-only save 4/false
   ---
-  duration_ms: 30.51556
+  duration_ms: 40.291088
   type: 'test'
   ...
 # Subtest: complete activity source states and server-only save 4/true
 ok 157 - complete activity source states and server-only save 4/true
   ---
-  duration_ms: 46.427412
+  duration_ms: 35.586208
   type: 'test'
   ...
 # Subtest: complete activity source states and server-only save 5/false
 ok 158 - complete activity source states and server-only save 5/false
   ---
-  duration_ms: 23.484768
+  duration_ms: 29.726867
   type: 'test'
   ...
 # Subtest: vocabulary folder failure/retry/save uses canonical sense and duplicate-click guard
 ok 159 - vocabulary folder failure/retry/save uses canonical sense and duplicate-click guard
   ---
-  duration_ms: 42.770495
+  duration_ms: 38.376528
   type: 'test'
   ...
 # Subtest: failed activity save retains scoped draft; newer edit while saving is not cleared by stale ACK
 ok 160 - failed activity save retains scoped draft; newer edit while saving is not cleared by stale ACK
   ---
-  duration_ms: 26.178198
+  duration_ms: 24.749764
   type: 'test'
   ...
 # Subtest: study checks release only server results; reload draft and same audio retained
 ok 161 - study checks release only server results; reload draft and same audio retained
   ---
-  duration_ms: 24.964511
+  duration_ms: 31.148075
   type: 'test'
   ...
 # Subtest: lexical permission fail-closed and contextual keyboard lookup carry occurrence only
 ok 162 - lexical permission fail-closed and contextual keyboard lookup carry occurrence only
   ---
-  duration_ms: 23.803312
+  duration_ms: 30.834673
   type: 'test'
   ...
 # Subtest: activity and study DTO reject cross-mode data, premature answers, malformed ACK and foreign question results
 ok 163 - activity and study DTO reject cross-mode data, premature answers, malformed ACK and foreign question results
   ---
-  duration_ms: 0.999737
+  duration_ms: 1.533517
   type: 'test'
   ...
 # Subtest: legacy confirm submit snapshots native answers, handles errors and 409 refresh, restricted materials have no lookup
 ok 164 - legacy confirm submit snapshots native answers, handles errors and 409 refresh, restricted materials have no lookup
   ---
-  duration_ms: 20.420758
+  duration_ms: 20.694433
   type: 'test'
   ...
 # Subtest: submitted own analysis distinguishes ungraded and exposes authorized transcript, section never gets Academic revision link
 ok 165 - submitted own analysis distinguishes ungraded and exposes authorized transcript, section never gets Academic revision link
   ---
-  duration_ms: 11.200568
+  duration_ms: 17.195435
   type: 'test'
   ...
 # Subtest: revision speed gates, native rate, transcript, error and media disposal
 ok 166 - revision speed gates, native rate, transcript, error and media disposal
   ---
-  duration_ms: 27.537412
+  duration_ms: 30.486369
   type: 'test'
   ...
 # Subtest: speed practice preserves answer/rate through retry, sends server-only score and retains original audio
 ok 167 - speed practice preserves answer/rate through retry, sends server-only score and retains original audio
   ---
-  duration_ms: 30.731115
+  duration_ms: 22.89812
   type: 'test'
   ...
 # Subtest: B route DTOs reject premature grading, unsubmitted revision, unsafe materials and malformed MCQ stages
 ok 168 - B route DTOs reject premature grading, unsubmitted revision, unsafe materials and malformed MCQ stages
   ---
-  duration_ms: 0.811602
+  duration_ms: 0.666466
   type: 'test'
   ...
 # Subtest: material audio retains one element across edits and is released on exam disposal
 ok 169 - material audio retains one element across edits and is released on exam disposal
   ---
-  duration_ms: 9.966109
+  duration_ms: 9.343069
   type: 'test'
   ...
 # Subtest: unlinked vocabulary preserves server-projected meaning and folder cancel defeats stale folder completion
 ok 170 - unlinked vocabulary preserves server-projected meaning and folder cancel defeats stale folder completion
   ---
-  duration_ms: 21.767118
+  duration_ms: 25.170078
   type: 'test'
   ...
 # Subtest: activity retry resets a previously saved initial answer durably within this own session
 ok 171 - activity retry resets a previously saved initial answer durably within this own session
   ---
-  duration_ms: 14.307249
+  duration_ms: 21.463977
   type: 'test'
   ...
 # Subtest: late activity and folder transport completion cannot restore aborted private content
 ok 172 - late activity and folder transport completion cannot restore aborted private content
   ---
-  duration_ms: 17.869631
+  duration_ms: 10.557783
   type: 'test'
   ...
 # Subtest: ambiguous occurrence spans never guess a contextual sense and plain highlights retain original offsets
 ok 173 - ambiguous occurrence spans never guess a contextual sense and plain highlights retain original offsets
   ---
-  duration_ms: 14.963207
+  duration_ms: 13.674205
   type: 'test'
   ...
 # Subtest: study exact section deep link and speed selection initialize to actual media state
 ok 174 - study exact section deep link and speed selection initialize to actual media state
   ---
-  duration_ms: 9.92952
+  duration_ms: 9.876778
   type: 'test'
   ...
 # Subtest: review embedded MCQ retains its real child and audio when review answer state redraws
 ok 175 - review embedded MCQ retains its real child and audio when review answer state redraws
   ---
-  duration_ms: 29.623168
+  duration_ms: 44.105629
   type: 'test'
   ...
 # Subtest: study error and malformed response retain answers for a deliberate retry; foreign draft is not restored
 ok 176 - study error and malformed response retain answers for a deliberate retry; foreign draft is not restored
   ---
-  duration_ms: 39.650235
+  duration_ms: 18.80953
   type: 'test'
   ...
 # Subtest: server outcomes/choices accepted without client grading; exact question/session binding enforced
 ok 177 - server outcomes/choices accepted without client grading; exact question/session binding enforced
   ---
-  duration_ms: 1.783908
+  duration_ms: 1.675102
   type: 'test'
   ...
 # Subtest: pre-reveal options and pre-choice grading/explanations are refused rather than displayed
 ok 178 - pre-reveal options and pre-choice grading/explanations are refused rather than displayed
   ---
-  duration_ms: 0.34746
+  duration_ms: 0.396175
   type: 'test'
   ...
 # Subtest: empty arrays/foreign/duplicate choices cannot advance; A and E are real string choices, no cap
 ok 179 - empty arrays/foreign/duplicate choices cannot advance; A and E are real string choices, no cap
   ---
-  duration_ms: 0.576879
+  duration_ms: 0.542
   type: 'test'
   ...
 # Subtest: notes/reasoning source minima and field-less reveal retain their distinct validation
 ok 180 - notes/reasoning source minima and field-less reveal retain their distinct validation
   ---
-  duration_ms: 0.289194
+  duration_ms: 0.317177
   type: 'test'
   ...
 # Subtest: Day contract validates ordinal/role/progress; does not impose a maximum day count
 ok 181 - Day contract validates ordinal/role/progress; does not impose a maximum day count
   ---
-  duration_ms: 0.988066
+  duration_ms: 0.924939
   type: 'test'
   ...
 # Subtest: initial drill POST failure is visible, redacted and retryable before any question opens
 ok 182 - initial drill POST failure is visible, redacted and retryable before any question opens
   ---
-  duration_ms: 95.289616
+  duration_ms: 96.043173
   type: 'test'
   ...
 # Subtest: native multi-select preserves nodes/focus, deselect-all disables submit and retry retains draft
 ok 183 - native multi-select preserves nodes/focus, deselect-all disables submit and retry retains draft
   ---
-  duration_ms: 43.865428
+  duration_ms: 43.094511
   type: 'test'
   ...
 # Subtest: stale drill response after abort cannot refill old private DOM
 ok 184 - stale drill response after abort cannot refill old private DOM
   ---
-  duration_ms: 12.795195
+  duration_ms: 12.532474
   type: 'test'
   ...
 # Subtest: source truthful empty question state is present, no drill buttons or fabricated questions
 ok 185 - source truthful empty question state is present, no drill buttons or fabricated questions
   ---
-  duration_ms: 8.329907
+  duration_ms: 8.840954
   type: 'test'
   ...
 # Error: Uncaught [TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.]
@@ -1305,555 +1305,555 @@ ok 185 - source truthful empty question state is present, no drill buttons or fa
 # Subtest: Listening source title above three real links, with no invented General tab
 ok 186 - Listening source title above three real links, with no invented General tab
   ---
-  duration_ms: 68.3974
+  duration_ms: 70.226723
   type: 'test'
   ...
 # Subtest: nested MCQ has active programme link, no duplicate section heading
 ok 187 - nested MCQ has active programme link, no duplicate section heading
   ---
-  duration_ms: 10.409285
+  duration_ms: 11.06145
   type: 'test'
   ...
 # Subtest: Reading five destinations keep native links; arrow/Home/End change focus only
 ok 188 - Reading five destinations keep native links; arrow/Home/End change focus only
   ---
-  duration_ms: 19.667123
+  duration_ms: 22.839716
   type: 'test'
   ...
 # Subtest: ordinary section click requests source scroll=false; modified click remains native
 ok 189 - ordinary section click requests source scroll=false; modified click remains native
   ---
-  duration_ms: 15.402989
+  duration_ms: 12.194662
   type: 'test'
   ...
 # Subtest: source query-driven links preserve unrelated params and real Grammar tabs
 ok 190 - source query-driven links preserve unrelated params and real Grammar tabs
   ---
-  duration_ms: 9.633683
+  duration_ms: 21.224202
   type: 'test'
   ...
 # Subtest: source Reading attempt hides product navigation, focus surface remains separate
 ok 191 - source Reading attempt hides product navigation, focus surface remains separate
   ---
-  duration_ms: 6.352548
+  duration_ms: 7.722678
   type: 'test'
   ...
 # Subtest: prewarm is code-only and deduplicated by original source budget, with no private-data transport
 ok 192 - prewarm is code-only and deduplicated by original source budget, with no private-data transport
   ---
-  duration_ms: 64.407992
+  duration_ms: 61.832253
   type: 'test'
   ...
 # Subtest: never prewarm time-sensitive/private/arbitrary target /app/reading/retention
 ok 193 - never prewarm time-sensitive/private/arbitrary target /app/reading/retention
   ---
-  duration_ms: 9.407842
+  duration_ms: 8.930758
   type: 'test'
   ...
 # Subtest: never prewarm time-sensitive/private/arbitrary target /app/listening/tests/secret
 ok 194 - never prewarm time-sensitive/private/arbitrary target /app/listening/tests/secret
   ---
-  duration_ms: 8.043756
+  duration_ms: 7.733238
   type: 'test'
   ...
 # Subtest: never prewarm time-sensitive/private/arbitrary target /app/listening/mcq/day/8
 ok 195 - never prewarm time-sensitive/private/arbitrary target /app/listening/mcq/day/8
   ---
-  duration_ms: 7.377017
+  duration_ms: 7.021051
   type: 'test'
   ...
 # Subtest: never prewarm time-sensitive/private/arbitrary target /app/owner
 ok 196 - never prewarm time-sensitive/private/arbitrary target /app/owner
   ---
-  duration_ms: 9.133603
+  duration_ms: 8.362831
   type: 'test'
   ...
 # Subtest: never prewarm time-sensitive/private/arbitrary target /app/teacher/students
 ok 197 - never prewarm time-sensitive/private/arbitrary target /app/teacher/students
   ---
-  duration_ms: 7.443576
+  duration_ms: 6.794154
   type: 'test'
   ...
 # Subtest: never prewarm time-sensitive/private/arbitrary target /app/reading/lessons?q=private
 ok 198 - never prewarm time-sensitive/private/arbitrary target /app/reading/lessons?q=private
   ---
-  duration_ms: 13.727127
+  duration_ms: 12.858181
   type: 'test'
   ...
 # Subtest: never prewarm time-sensitive/private/arbitrary target /app/listening/lessons\#fragment
 ok 199 - never prewarm time-sensitive/private/arbitrary target /app/listening/lessons\#fragment
   ---
-  duration_ms: 6.606001
+  duration_ms: 6.049834
   type: 'test'
   ...
 # Subtest: never prewarm time-sensitive/private/arbitrary target https://evil.invalid/app/listening/lessons
 ok 200 - never prewarm time-sensitive/private/arbitrary target https://evil.invalid/app/listening/lessons
   ---
-  duration_ms: 11.658023
+  duration_ms: 10.970051
   type: 'test'
   ...
 # Subtest: prewarm respects connection constraints {"onLine":false}
 ok 201 - prewarm respects connection constraints {"onLine":false}
   ---
-  duration_ms: 7.916357
+  duration_ms: 7.698648
   type: 'test'
   ...
 # Subtest: prewarm respects connection constraints {"onLine":true,"connection":{"saveData":true}}
 ok 202 - prewarm respects connection constraints {"onLine":true,"connection":{"saveData":true}}
   ---
-  duration_ms: 6.57647
+  duration_ms: 6.244209
   type: 'test'
   ...
 # Subtest: prewarm respects connection constraints {"onLine":true,"connection":{"effectiveType":"2g"}}
 ok 203 - prewarm respects connection constraints {"onLine":true,"connection":{"effectiveType":"2g"}}
   ---
-  duration_ms: 5.317623
+  duration_ms: 4.989621
   type: 'test'
   ...
 # Subtest: aborting shell prevents further optional imports and input intents
 ok 204 - aborting shell prevents further optional imports and input intents
   ---
-  duration_ms: 5.679375
+  duration_ms: 5.203771
   type: 'test'
   ...
 # Subtest: source transition frame hides/inerts outgoing private content, retains subtree until commit and cancels cleanly
 ok 205 - source transition frame hides/inerts outgoing private content, retains subtree until commit and cancels cleanly
   ---
-  duration_ms: 16.849681
+  duration_ms: 15.384596
   type: 'test'
   ...
 # Subtest: notification DTO checks dates, row uniqueness and safe href before any observer/control is created
 ok 206 - notification DTO checks dates, row uniqueness and safe href before any observer/control is created
   ---
-  duration_ms: 0.85629
+  duration_ms: 0.80056
   type: 'test'
   ...
 # Subtest: pre-aborted prewarmer creates no timers or root listeners
 ok 207 - pre-aborted prewarmer creates no timers or root listeners
   ---
-  duration_ms: 5.467308
+  duration_ms: 5.234559
   type: 'test'
   ...
 # Subtest: less than half-visible and foreign staged rows are not automatically acknowledged
 ok 208 - less than half-visible and foreign staged rows are not automatically acknowledged
   ---
-  duration_ms: 781.58728
+  duration_ms: 777.12197
   type: 'test'
   ...
 # Subtest: hidden document cannot auto-ack; becoming visible reobserves outstanding rows
 ok 209 - hidden document cannot auto-ack; becoming visible reobserves outstanding rows
   ---
-  duration_ms: 716.235506
+  duration_ms: 715.764078
   type: 'test'
   ...
 # Subtest: manual all-read waits behind automatic acknowledgement; server counts publish in mutation order
 ok 210 - manual all-read waits behind automatic acknowledgement; server counts publish in mutation order
   ---
-  duration_ms: 365.598115
+  duration_ms: 376.285548
   type: 'test'
   ...
 # Subtest: failed auto-ack remains honest, no optimistic count; deliberate mark-all retries once
 ok 211 - failed auto-ack remains honest, no optimistic count; deliberate mark-all retries once
   ---
-  duration_ms: 370.984199
+  duration_ms: 364.092482
   type: 'test'
   ...
 # Subtest: abort disconnects observation and late mutation cannot publish to another identity
 ok 212 - abort disconnects observation and late mutation cannot publish to another identity
   ---
-  duration_ms: 366.935415
+  duration_ms: 365.042326
   type: 'test'
   ...
 # Subtest: malformed unread count is not a successful badge update
 ok 213 - malformed unread count is not a successful badge update
   ---
-  duration_ms: 10.824425
+  duration_ms: 11.525109
   type: 'test'
   ...
 # Subtest: profile projection fails closed rather than inventing provider configuration
 ok 214 - profile projection fails closed rather than inventing provider configuration
   ---
-  duration_ms: 59.644151
+  duration_ms: 54.651319
   type: 'test'
   ...
 # Subtest: profile name error keeps input/selection; ack refreshes only after server name
 ok 215 - profile name error keeps input/selection; ack refreshes only after server name
   ---
-  duration_ms: 48.228885
+  duration_ms: 57.200916
   type: 'test'
   ...
 # Subtest: cancelled name flight cannot overwrite or unlock newer editor
 ok 216 - cancelled name flight cannot overwrite or unlock newer editor
   ---
-  duration_ms: 17.697704
+  duration_ms: 25.882876
   type: 'test'
   ...
 # Subtest: name editor honors real constraints, unchanged disable and query-driven initial opening
 ok 217 - name editor honors real constraints, unchanged disable and query-driven initial opening
   ---
-  duration_ms: 32.318813
+  duration_ms: 11.025177
   type: 'test'
   ...
 # Subtest: image conversion rejects invalid/oversized files without creating URL
 ok 218 - image conversion rejects invalid/oversized files without creating URL
   ---
-  duration_ms: 8.345155
+  duration_ms: 7.870236
   type: 'test'
   ...
 # Subtest: abort while bitmap decode is pending rejects immediately and closes any late bitmap once
 ok 219 - abort while bitmap decode is pending rejects immediately and closes any late bitmap once
   ---
-  duration_ms: 8.798934
+  duration_ms: 8.219661
   type: 'test'
   ...
 # Subtest: multipart transport leaves boundary to browser and keeps existing JSON transport
 ok 220 - multipart transport leaves boundary to browser and keeps existing JSON transport
   ---
-  duration_ms: 18.178353
+  duration_ms: 16.794589
   type: 'test'
   ...
 # Subtest: source LinkPending waits60ms and abort cancels all visible feedback
 ok 221 - source LinkPending waits60ms and abort cancels all visible feedback
   ---
-  duration_ms: 83.940295
+  duration_ms: 84.028168
   type: 'test'
   ...
 # Subtest: cancel before60ms cannot flash a pending indicator
 ok 222 - cancel before60ms cannot flash a pending indicator
   ---
-  duration_ms: 83.247381
+  duration_ms: 83.089461
   type: 'test'
   ...
 # Subtest: focus launcher/toggle keep focus; typing Escape does not exit focus; same pathname query preserves state
 ok 223 - focus launcher/toggle keep focus; typing Escape does not exit focus; same pathname query preserves state
   ---
-  duration_ms: 27.803654
+  duration_ms: 30.153143
   type: 'test'
   ...
 # Subtest: focus entry dismissal persists within path, future committed path can consume early announcement
 ok 224 - focus entry dismissal persists within path, future committed path can consume early announcement
   ---
-  duration_ms: 15.537554
+  duration_ms: 15.243096
   type: 'test'
   ...
 # Subtest: diagnostic flags are typed and absent bootstrap fails with a typed adapter error
 ok 225 - diagnostic flags are typed and absent bootstrap fails with a typed adapter error
   ---
-  duration_ms: 6.914138
+  duration_ms: 7.517611
   type: 'test'
   ...
 # Subtest: native shared inputs preserve direct children, source textarea classes, variants and native constraints
 ok 226 - native shared inputs preserve direct children, source textarea classes, variants and native constraints
   ---
-  duration_ms: 8.121547
+  duration_ms: 14.50454
   type: 'test'
   ...
 # Subtest: brand renders source 1x/2x day/night marks, optional tagline and source sizes without substitutions
 ok 227 - brand renders source 1x/2x day/night marks, optional tagline and source sizes without substitutions
   ---
-  duration_ms: 10.535715
+  duration_ms: 10.323779
   type: 'test'
   ...
 # Subtest: focus producer before shell subscription replays once and respects subsequent dismissal and route abort
 ok 228 - focus producer before shell subscription replays once and respects subsequent dismissal and route abort
   ---
-  duration_ms: 16.996466
+  duration_ms: 9.986313
   type: 'test'
   ...
 # Subtest: InstantLink opt-in, source90ms hover/leave, zero-ms pointer/touch and abort perform code imports only
 ok 229 - InstantLink opt-in, source90ms hover/leave, zero-ms pointer/touch and abort perform code imports only
   ---
-  duration_ms: 14.898063
+  duration_ms: 14.052336
   type: 'test'
   ...
 # Subtest: prevented link callback and detached/blurred intent cannot launch optional imports
 ok 230 - prevented link callback and detached/blurred intent cannot launch optional imports
   ---
-  duration_ms: 8.51972
+  duration_ms: 20.691122
   type: 'test'
   ...
 # Subtest: same-document/deduplicated session hints cannot grant roles or persist identity
 ok 231 - same-document/deduplicated session hints cannot grant roles or persist identity
   ---
-  duration_ms: 5.412929
+  duration_ms: 6.325455
   type: 'test'
   ...
 # Subtest: theme/locale persistence rejects malformed acknowledgements and mismatched echoes
 ok 232 - theme/locale persistence rejects malformed acknowledgements and mismatched echoes
   ---
-  duration_ms: 5.45972
+  duration_ms: 6.796379
   type: 'test'
   ...
 # Subtest: notification badge rejects malformed server success, aborts on lifetime end and tolerates denied channels
 ok 233 - notification badge rejects malformed server success, aborts on lifetime end and tolerates denied channels
   ---
-  duration_ms: 21.464245
+  duration_ms: 22.045975
   type: 'test'
   ...
 # Subtest: support report malformed acknowledgement retains draft rather than claiming sent; explicit retry succeeds
 ok 234 - support report malformed acknowledgement retains draft rather than claiming sent; explicit retry succeeds
   ---
-  duration_ms: 22.783433
+  duration_ms: 20.426719
   type: 'test'
   ...
 # Subtest: ConfirmSelect cancel retains authoritative value and restores select focus
 ok 235 - ConfirmSelect cancel retains authoritative value and restores select focus
   ---
-  duration_ms: 11.070107
+  duration_ms: 10.71097
   type: 'test'
   ...
 # Subtest: ConfirmSelect pending blocks duplicate/escape and acknowledges only successful callback
 ok 236 - ConfirmSelect pending blocks duplicate/escape and acknowledges only successful callback
   ---
-  duration_ms: 9.878606
+  duration_ms: 21.659109
   type: 'test'
   ...
-# (node:67501) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (node:98011) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
 # (Use `node --trace-warnings ...` to show where the warning was created)
 # Subtest: ConfirmSelect safe failure retries, authoritative update and aborted late result cannot apply stale value
 ok 237 - ConfirmSelect safe failure retries, authoritative update and aborted late result cannot apply stale value
   ---
-  duration_ms: 20.487037
+  duration_ms: 15.15847
   type: 'test'
   ...
 # Subtest: native async action owns same-tick pending, failure propagation, result, measurements and abort guard
 ok 238 - native async action owns same-tick pending, failure propagation, result, measurements and abort guard
   ---
-  duration_ms: 6.070986
+  duration_ms: 5.282348
   type: 'test'
   ...
 # Subtest: AsyncActionButton pending/disabled and every original icon/notification UI use native source geometry
 ok 239 - AsyncActionButton pending/disabled and every original icon/notification UI use native source geometry
   ---
-  duration_ms: 40.451651
+  duration_ms: 24.300897
   type: 'test'
   ...
 # Subtest: opt-in source action diagnostics record awaited outcomes without values, and dispose cancels pending frames/late completion
 ok 240 - opt-in source action diagnostics record awaited outcomes without values, and dispose cancels pending frames/late completion
   ---
-  duration_ms: 5.868549
+  duration_ms: 6.077624
   type: 'test'
   ...
 # Subtest: source15-second stalled workspace retry is real, hides old private content and cleans up on cancel
 ok 241 - source15-second stalled workspace retry is real, hides old private content and cleans up on cancel
   ---
-  duration_ms: 9.321051
+  duration_ms: 8.604732
   type: 'test'
   ...
 # Subtest: refresh focus/selection waits for real attachment and aborted destinations never steal newer focus
 ok 242 - refresh focus/selection waits for real attachment and aborted destinations never steal newer focus
   ---
-  duration_ms: 10.706512
+  duration_ms: 20.332304
   type: 'test'
   ...
 # Subtest: private provider diagnostics capture input/select changes with no values and remove their listener
 ok 243 - private provider diagnostics capture input/select changes with no values and remove their listener
   ---
-  duration_ms: 16.035477
+  duration_ms: 20.319729
   type: 'test'
   ...
 # Subtest: report presentation is source-scoped and malformed projection fails closed: student
 ok 244 - report presentation is source-scoped and malformed projection fails closed: student
   ---
-  duration_ms: 1.809908
+  duration_ms: 1.699351
   type: 'test'
   ...
 # Subtest: report presentation is source-scoped and malformed projection fails closed: teacher
 ok 245 - report presentation is source-scoped and malformed projection fails closed: teacher
   ---
-  duration_ms: 0.37603
+  duration_ms: 0.391105
   type: 'test'
   ...
 # Subtest: report presentation is source-scoped and malformed projection fails closed: admin
 ok 246 - report presentation is source-scoped and malformed projection fails closed: admin
   ---
-  duration_ms: 0.29499
+  duration_ms: 0.253833
   type: 'test'
   ...
 # Subtest: report presentation is source-scoped and malformed projection fails closed: owner
 ok 247 - report presentation is source-scoped and malformed projection fails closed: owner
   ---
-  duration_ms: 0.247679
+  duration_ms: 0.263258
   type: 'test'
   ...
 # Subtest: custom calendar rejects invalid_date
 ok 248 - custom calendar rejects invalid_date
   ---
-  duration_ms: 15.414174
+  duration_ms: 16.508608
   type: 'test'
   ...
 # Subtest: custom calendar rejects range_reversed
 ok 249 - custom calendar rejects range_reversed
   ---
-  duration_ms: 0.660456
+  duration_ms: 0.593198
   type: 'test'
   ...
 # Subtest: custom calendar rejects range_too_long
 ok 250 - custom calendar rejects range_too_long
   ---
-  duration_ms: 0.420888
+  duration_ms: 0.427538
   type: 'test'
   ...
 # Subtest: custom calendar rejects range_in_future
 ok 251 - custom calendar rejects range_in_future
   ---
-  duration_ms: 0.286915
+  duration_ms: 0.300819
   type: 'test'
   ...
 # Subtest: student cannot submit another subject and teacher cannot leave own projected roster
 ok 252 - student cannot submit another subject and teacher cannot leave own projected roster
   ---
-  duration_ms: 2.024077
+  duration_ms: 1.898431
   type: 'test'
   ...
 # Subtest: existing binary report MIME/attachment and own same-origin transport json
 ok 253 - existing binary report MIME/attachment and own same-origin transport json
   ---
-  duration_ms: 20.270188
+  duration_ms: 21.063843
   type: 'test'
   ...
 # Subtest: existing binary report MIME/attachment and own same-origin transport csv
 ok 254 - existing binary report MIME/attachment and own same-origin transport csv
   ---
-  duration_ms: 1.573363
+  duration_ms: 2.164944
   type: 'test'
   ...
 # Subtest: existing binary report MIME/attachment and own same-origin transport xlsx
 ok 255 - existing binary report MIME/attachment and own same-origin transport xlsx
   ---
-  duration_ms: 1.258843
+  duration_ms: 1.446428
   type: 'test'
   ...
 # Subtest: existing binary report MIME/attachment and own same-origin transport docx
 ok 256 - existing binary report MIME/attachment and own same-origin transport docx
   ---
-  duration_ms: 1.285131
+  duration_ms: 1.184439
   type: 'test'
   ...
 # Subtest: existing binary report MIME/attachment and own same-origin transport pdf
 ok 257 - existing binary report MIME/attachment and own same-origin transport pdf
   ---
-  duration_ms: 1.314321
+  duration_ms: 1.296968
   type: 'test'
   ...
 # Subtest: existing binary report MIME/attachment and own same-origin transport zip
 ok 258 - existing binary report MIME/attachment and own same-origin transport zip
   ---
-  duration_ms: 1.243629
+  duration_ms: 1.147502
   type: 'test'
   ...
 # Subtest: download failure, unsafe filename, MIME spoof, empty response, unauthorized and cancellation are not success
 ok 259 - download failure, unsafe filename, MIME spoof, empty response, unauthorized and cancellation are not success
   ---
-  duration_ms: 4.059182
+  duration_ms: 3.698931
   type: 'test'
   ...
 # Subtest: lessons render before delayed/failed summary and remain the same node across summary retry
 ok 260 - lessons render before delayed/failed summary and remain the same node across summary retry
   ---
-  duration_ms: 115.276702
+  duration_ms: 110.612187
   type: 'test'
   ...
 # Subtest: unknown activity, availability enum, dangerous lesson IDs and answer/snapshot payloads fail closed
 ok 261 - unknown activity, availability enum, dangerous lesson IDs and answer/snapshot payloads fail closed
   ---
-  duration_ms: 0.986479
+  duration_ms: 0.829298
   type: 'test'
   ...
 # Subtest: source mock presentation only uses completed full earned bands; removed tests do not inflate catalogue completion
 ok 262 - source mock presentation only uses completed full earned bands; removed tests do not inflate catalogue completion
   ---
-  duration_ms: 0.325468
+  duration_ms: 0.334809
   type: 'test'
   ...
 # Subtest: noncustom period ignores stale custom dates: on_demand
 ok 263 - noncustom period ignores stale custom dates: on_demand
   ---
-  duration_ms: 0.852257
+  duration_ms: 0.799235
   type: 'test'
   ...
 # Subtest: noncustom period ignores stale custom dates: weekly
 ok 264 - noncustom period ignores stale custom dates: weekly
   ---
-  duration_ms: 0.692385
+  duration_ms: 0.661818
   type: 'test'
   ...
 # Subtest: noncustom period ignores stale custom dates: monthly
 ok 265 - noncustom period ignores stale custom dates: monthly
   ---
-  duration_ms: 0.535584
+  duration_ms: 0.534487
   type: 'test'
   ...
 # Subtest: noncustom period ignores stale custom dates: yearly
 ok 266 - noncustom period ignores stale custom dates: yearly
   ---
-  duration_ms: 0.561111
+  duration_ms: 0.501372
   type: 'test'
   ...
 # Subtest: mock empty/missing scores and all independent unavailable notices preserve original non-runner UI
 ok 267 - mock empty/missing scores and all independent unavailable notices preserve original non-runner UI
   ---
-  duration_ms: 19.070861
+  duration_ms: 29.297687
   type: 'test'
   ...
 # Subtest: full and compact source mock chart preserve earned scale, last12 points and native table disclosure
 ok 268 - full and compact source mock chart preserve earned scale, last12 points and native table disclosure
   ---
-  duration_ms: 39.802967
+  duration_ms: 30.08803
   type: 'test'
   ...
 # Subtest: search source hint, three loading rows, zero-results hint, shortcut and close focus
 ok 269 - search source hint, three loading rows, zero-results hint, shortcut and close focus
   ---
-  duration_ms: 397.413163
+  duration_ms: 395.751044
   type: 'test'
   ...
 # Subtest: search hover/arrows preserve result nodes, active descendant and Enter destination
 ok 270 - search hover/arrows preserve result nodes, active descendant and Enter destination
   ---
-  duration_ms: 329.427331
+  duration_ms: 328.168541
   type: 'test'
   ...
 # Subtest: malformed search is an error, not fake zero results, and stale transport cannot restore private text
 ok 271 - malformed search is an error, not fake zero results, and stale transport cannot restore private text
   ---
-  duration_ms: 638.063044
+  duration_ms: 639.630811
   type: 'test'
   ...
 # Subtest: abort clears pending search, visible private hits and global shortcut listener
 ok 272 - abort clears pending search, visible private hits and global shortcut listener
   ---
-  duration_ms: 325.041444
+  duration_ms: 326.68928
   type: 'test'
   ...
 # Subtest: source Management direct link has real parent and nonmodule uses source breadcrumbs
 ok 273 - source Management direct link has real parent and nonmodule uses source breadcrumbs
   ---
-  duration_ms: 17.375876
+  duration_ms: 16.709063
   type: 'test'
   ...
 # Subtest: stale avatar error cannot remove the current newer photo
 ok 274 - stale avatar error cannot remove the current newer photo
   ---
-  duration_ms: 21.161997
+  duration_ms: 24.187179
   type: 'test'
   ...
 # Subtest: fresh role clears old resources/cache while retaining authoritative resolved presentation
 ok 275 - fresh role clears old resources/cache while retaining authoritative resolved presentation
   ---
-  duration_ms: 88.983816
+  duration_ms: 84.691137
   type: 'test'
   ...
 # Subtest: fresh accountStatus clears old resources/cache while retaining authoritative resolved presentation
 ok 276 - fresh accountStatus clears old resources/cache while retaining authoritative resolved presentation
   ---
-  duration_ms: 12.639401
+  duration_ms: 18.602696
   type: 'test'
   ...
 # Subtest: explicit post-mutation invalidation re-reads session/preferences without needlessly clearing unchanged identity
 ok 277 - explicit post-mutation invalidation re-reads session/preferences without needlessly clearing unchanged identity
   ---
-  duration_ms: 17.5921
+  duration_ms: 15.113308
   type: 'test'
   ...
 1..277
@@ -1864,4 +1864,4 @@ ok 277 - explicit post-mutation invalidation re-reads session/preferences withou
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 15093.465434
+# duration_ms 14648.654004

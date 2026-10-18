@@ -59,7 +59,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/SOURCE_STATE_INVENTORY_V5.md | 10384 | c2a2f69f01ef320088c4e671bb919b63483e724ae5e92b1d8ea71ef4d7cc7723 |
 | docs/SOURCE_STATE_INVENTORY_V6.md | 7719 | f40ec0f6de7cf2503f9088548261080e83f402a2339ca89703c1819f7b0b5015 |
 | docs/SOURCE_STATE_INVENTORY_V7.md | 8548 | a8de9af99f00a1b0391558d591747cbfa501c4744a97b5158fcaa2de09f08c95 |
-| docs/SOURCE_STATE_INVENTORY_V8.md | 9011 | dc098cbf94dae358a69335707d8f4f67d5580e57b8d8ee2f311db49e9d250f5b |
+| docs/SOURCE_STATE_INVENTORY_V8.md | 9242 | 9749bbdbfbbffcde0b7d2b6f4a1357a6e144be6af6534fbaabdb52129d96348c |
 | docs/V4_VALIDATION_REPORT.md | 4379 | ab8066c12d58a758ff2c6f86b3277903aba111b4ee5bbd7a419e48b765680c24 |
 | docs/V5_VALIDATION_REPORT.md | 1945 | a9e6bba9e8302eca312f4e6ba0b59f608ca7d729893d624ef46a1c01db6ebea7 |
 | docs/VISUAL_PARITY_REPORT.md | 4385 | 3613f88d875a121e526708f456757a2e094d85d935744b286c677bbf979a96fd |
@@ -294,10 +294,10 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/evidence/v8/browser-v7-output.txt | 31 | 675c4e09f62c37424b24ea560e35b9f5735a2634dce0818da805af6abac13554 |
 | docs/evidence/v8/browser-v7-regression.json | 3093 | 6f77701648a0b76c8ca874b2604f1346cbc29c03dcd0a838abdc6e298e349598 |
 | docs/evidence/v8/browser-v8-results.json | 8386 | e7a8f89a2f11430e8ddcd2a91b69db2edbfa7a6910c2e6f94b872b1451a7c70a |
-| docs/evidence/v8/build-output.txt | 653 | 6d099e9617d23aaa61760ea1cf9280a76a59adfc70c53447c1d537a8f21989ef |
+| docs/evidence/v8/build-output.txt | 653 | edf28fc1f5f72cb1be973c037b523f95cebd8d5437f44cc3de75790a3658ac33 |
 | docs/evidence/v8/dependency-audit.json | 2866 | 4e7db950fb9729deb238410b1632829985b2cb1a6dbcd37a30ba7ed1e55cc9d5 |
 | docs/evidence/v8/runtime-audit.json | 362 | 6556a26686353a160dba5f08b6f4d7a1a88ac69b0c78d9085368f8d75478a1d6 |
-| docs/evidence/v8/unit-output.txt | 92051 | 8d9d75461b2414145ba0a7784a4cb58719eacb08d7f20e97867e7418c1150f36 |
+| docs/evidence/v8/unit-output.txt | 92048 | 533d3275f03f9386c1a5574232678916be08290bb52a73fe36b7ce96f19e6dcd |
 | docs/route-ledger-v2.json | 124095 | 32a7e58a5a8ee787fe77ed60a5afb0fda44bc818fb381c4176a45a333c499ec0 |
 | docs/route-ledger-v3.json | 137492 | 54902a446d237d388a684b871a5815b787fc6aa5f7dfc6a87481fa88808e23aa |
 | docs/route-ledger-v4.json | 155673 | 5e7c5b25b77fea80c8776a758a918e18f3570bc7d33d0240e1fa85accc2b6959 |
@@ -463,7 +463,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | modules/listening/speed-practice.js | 1392 | 8c1d5cbff2376c5e9de05f6e6331eabb4ae32d7836898d1b1e6257543a4d4bb2 |
 | modules/listening/study.js | 1958 | a75957a82bc053280e36f2ebbf09c4d7b4a1cb8305b32aa4f2968704b2f41a21 |
 | modules/listening/test-mcq.js | 659 | 16f4cbb666bec4c444b11375ab08e60e65e1fa7e09fb12e5b4723c95e4d4830f |
-| modules/listening/view-lifetime.js | 2811 | 6774cd69bb792eff88eca64e8acd214992d4169509953c22cb5bedc35b7abcc0 |
+| modules/listening/view-lifetime.js | 2838 | fc3f2b7e6ae300e417a39feb689d5b9208d8727ca453dd526a6e59ac68d014f1 |
 | modules/not-found.js | 728 | 7ed45f33d5397406f5d24a9f1c0bcba7285e8fe21cdfa1c17aa91f14e3f903d8 |
 | modules/profile/page.js | 7824 | 264c0522a6aec81cee51bb586bae1dac18a2508a7fb51cfe5759852913729e62 |
 | modules/profile/photo-image.js | 2376 | e696a21037ac1ba8c04997a08f0174c5ee01a6d6fc351fcc80aa9e37faf86856 |
@@ -541,7 +541,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | tests/foundation.test.mjs | 9197 | f5880f7cf98e8ba9d0c30f25d938088685af915043ba6e064ec7d0f6ab409bff |
 | tests/listening-v7.test.mjs | 8007 | bd43e22fc43da6f35e4d8c2d020dbf9decd2ce7ba7c44351bacebfd15bd34db1 |
 | tests/listening-v8-fixtures.mjs | 3410 | d9dfbb1f4906a22634e381bc7b2559a30a5e1a5e6d748ae5d1256a2c88d78109 |
-| tests/listening-v8.test.mjs | 18361 | 44a501a2087239f4b3e0019bf99fcb7398ea5d87ebb10aaee7f2907121181f9d |
+| tests/listening-v8.test.mjs | 19079 | 3148b3fba4e0196636d4698aa2a2f08b926d17e34508f120a24fc207860c932c |
 | tests/mcq-v3.test.mjs | 5978 | a7a7ab676ef5ab2dc20fc6fcaa46671d83621f2e64d462157a5a3accb62efa2d |
 | tests/module-layout-v3.test.mjs | 3850 | bd4eccbba79aaee4972afaaa11aeb612c478a452b884d0b272cdcd4c8f0fa832 |
 | tests/navigation-v3.test.mjs | 4607 | f5056130ee084bb492a4b1ad498481c7ca3f052b18d87e7c8446845a662d0d5e |
