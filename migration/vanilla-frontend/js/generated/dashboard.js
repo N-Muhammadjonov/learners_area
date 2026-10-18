@@ -10,10 +10,14 @@ export function render(scope) {
     const { context, dict, locale, user } = scope;
     const openLessonsPromise = scope.openLessonsResult;
     const SKILLS = ['listening', 'reading', 'writing', 'speaking'];
-    // Source success compositions: all async regions are loaded by native Fetch in module mount.
+    // Source presentation with explicit native DOM slots, no framework renderer.
     const Suspense = ({ children }) => fragment({ children });
-    const RegionFailureNotice = p => FailureNotice({ ...p, refresh: context.refresh });
-    function DashboardContent({ user, locale, dict, openLessonsPromise }) {
+    const RegionFailureNotice = p => FailureNotice({ ...p, refresh: () => context.retryRegion ? context.retryRegion(p.region) : context.refresh() });
+    const slot = (key, skeleton) => { const host = h('div', { 'data-dashboard-region-slot': key, 'aria-busy': 'true' }, skeleton); scope.slots[key] = host; return host; };
+    function DashboardContent(props) { return scope.slots ? slot('dashboard', DashboardSkeleton()) : DashboardContentResolved(props); }
+    function DashboardOpenLessons(props) { return scope.slots ? slot('openLessons', DashboardOpenLessonsSkeleton()) : DashboardOpenLessonsResolved(props); }
+    function MockProgressOverview(props) { return scope.slots ? slot('mock', DashboardSkeleton()) : MockProgressOverviewResolved(props); }
+    function DashboardContentResolved({ user, locale, dict, openLessonsPromise }) {
         const data = scope.dashboard;
         const unavailable = Object.entries(data.unavailable).filter(([, failed]) => failed);
         return (h("div", { className: "flex flex-col gap-6", "data-dashboard-content": true, "data-async-content": "dashboard" },
@@ -94,7 +98,7 @@ export function render(scope) {
                         skill === "writing" && data.latestEvaluation && h(BandBadge, { band: data.latestEvaluation.overallEstimate })));
                 })))));
     }
-    function DashboardOpenLessons({ openLessonsPromise, dict }) {
+    function DashboardOpenLessonsResolved({ openLessonsPromise, dict }) {
         const result = scope.openLessonsResult;
         if (!result.ok) {
             return (h(Card, { "data-open-lessons": true },
@@ -127,7 +131,7 @@ export function render(scope) {
     function DashboardOpenLessonsSkeleton() {
         return h("div", { "aria-hidden": "true", className: "h-40 animate-pulse rounded-xl bg-ink-50", "data-async-loading": "dashboard-open-lessons" });
     }
-    function MockProgressOverview({ userId, locale, dashboard = false, }) {
+    function MockProgressOverviewResolved({ userId, locale, dashboard = false, }) {
         const uz = locale === "uz";
         const failure = (h(RegionFailureNotice, { region: "mock-overview", message: uz
                 ? "Mock natijalarini yuklab bo'lmadi."
@@ -178,6 +182,11 @@ export function render(scope) {
                         h("td", null, a.startedAt?.toISOString().slice(0, 10) ?? "—"),
                         h("td", null, a.skill ?? "—"),
                         h("td", null, a.estimatedBand ?? "—"))))))) : (h("p", null, uz ? "Hali mock urinishlari yo'q." : "No mock attempts yet.")))));
+    }
+    if (scope.renderers) {
+        scope.renderers.dashboard = () => DashboardContentResolved({ user, locale, dict, openLessonsPromise });
+        scope.renderers.openLessons = () => DashboardOpenLessonsResolved({ dict, openLessonsPromise });
+        scope.renderers.mock = () => MockProgressOverviewResolved({ userId: user.id, locale, dashboard: true });
     }
     return (h("div", { className: "mx-auto flex max-w-5xl flex-col gap-6", "data-route-usable": "dashboard" },
         h("div", null,

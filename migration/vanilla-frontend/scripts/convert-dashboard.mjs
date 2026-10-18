@@ -21,14 +21,25 @@ import {formatDate,formatDateTime} from './time.js';
 import {summarizeMocks} from './mock-summary.js';
 import {MockBandPanel} from './mock-band.js';\n`;
 const code=`export function render(scope){const {context,dict,locale,user}=scope;const openLessonsPromise=scope.openLessonsResult;const SKILLS=['listening','reading','writing','speaking'];
-// Source success compositions: all async regions are loaded by native Fetch in module mount.
-const Suspense=({children})=>fragment({children});const RegionFailureNotice=p=>FailureNotice({...p,refresh:context.refresh});
-${content}\n${lessons}\n${declaration('DashboardSkeleton')}\n${declaration('DashboardOpenLessonsSkeleton')}\n${mock}\nreturn ${expr};}`;
+// Source presentation with explicit native DOM slots, no framework renderer.
+const Suspense=({children})=>fragment({children});const RegionFailureNotice=p=>FailureNotice({...p,refresh:()=>context.retryRegion?context.retryRegion(p.region):context.refresh()});
+const slot=(key,skeleton)=>{const host=h('div',{'data-dashboard-region-slot':key,'aria-busy':'true'},skeleton);scope.slots[key]=host;return host;};
+function DashboardContent(props){return scope.slots?slot('dashboard',DashboardSkeleton()):DashboardContentResolved(props);}
+function DashboardOpenLessons(props){return scope.slots?slot('openLessons',DashboardOpenLessonsSkeleton()):DashboardOpenLessonsResolved(props);}
+function MockProgressOverview(props){return scope.slots?slot('mock',DashboardSkeleton()):MockProgressOverviewResolved(props);}
+
+${content.replace('function DashboardContent(', 'function DashboardContentResolved(')}\n${lessons.replace('function DashboardOpenLessons(', 'function DashboardOpenLessonsResolved(')}\n${declaration('DashboardSkeleton')}\n${declaration('DashboardOpenLessonsSkeleton')}\n${mock.replace('function MockProgressOverview(', 'function MockProgressOverviewResolved(')}
+if(scope.renderers){scope.renderers.dashboard=()=>DashboardContentResolved({user,locale,dict,openLessonsPromise});scope.renderers.openLessons=()=>DashboardOpenLessonsResolved({dict,openLessonsPromise});scope.renderers.mock=()=>MockProgressOverviewResolved({userId:user.id,locale,dashboard:true});}
+return ${expr};}`;
 fs.writeFileSync(path.join(base,'js/generated/dashboard.js'),'// Exact source success markup; explicit native lifecycle/data adapters. No React runtime.\n'+imports+compile(code));
 // Mock catalogue/reporting, intentionally no runner: the current source does not enable it.
 const mocks=functions(read('src/app/app/(shell)/mocks/page.tsx'));
 const mc=mocks.get('MocksContent').getText().replace(/^async /,'').replace('const data = await getMockOverview(user.id);','const data = scope.mock;');
 const me=mocks.get('MocksPage').body.statements.filter(ts.isReturnStatement).at(-1).expression.getText();
 const ms=mocks.get('MocksSkeleton').getText();
-fs.writeFileSync(path.join(base,'js/generated/mocks.js'),imports+compile(`export function render(scope){const {context,dict,user}=scope;const t=dict.mocks;const Suspense=({children})=>fragment({children}),RegionFailureNotice=p=>FailureNotice({...p,refresh:context.refresh});${mc}\n${ms}\nreturn ${me};}`));
+fs.writeFileSync(path.join(base,'js/generated/mocks.js'),imports+compile(`export function render(scope){const {context,dict,user}=scope;const t=dict.mocks;const Suspense=({children})=>fragment({children}),RegionFailureNotice=p=>FailureNotice({...p,refresh:()=>context.retryRegion?context.retryRegion(p.region):context.refresh()});
+function MocksContent(props){if(!scope.slots)return MocksContentResolved(props);const host=h('div',{'data-dashboard-region-slot':'mock','aria-busy':'true'},MocksSkeleton());scope.slots.mock=host;return host;}
+${mc.replace('function MocksContent(', 'function MocksContentResolved(')}\n${ms}
+if(scope.renderers)scope.renderers.mock=()=>MocksContentResolved({user,dict});
+return ${me};}`));
 console.log('Converted Dashboard and Mocks source success views and original mock chart');

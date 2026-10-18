@@ -76,3 +76,8 @@ export function render(scope) {
                     error && h("p", { className: "mt-2 text-sm text-band-bad" }, error)))));
         }))));
 }
+export function empty({ dict }) {
+    return (h(Card, null,
+        h("h2", { className: "font-display text-lg text-ink-900" }, dict.listening.mcqTitle),
+        h("p", { className: "mt-1 text-sm text-ink-500" }, dict.listening.mcqEmpty)));
+}

@@ -10,8 +10,8 @@ export function createApi(fetcher=globalThis.fetch.bind(globalThis),onUnauthoriz
   if(response.status===401)onUnauthorized(path);
   const type=response.headers.get('content-type')??'';
   if(!type.includes('application/json'))throw new ApiError(response.status,'invalid_response');
-  const data=await response.json();
-  if(!response.ok)throw new ApiError(response.status,typeof data.error==='string'?data.error:'request_failed');
+  let data;try{data=await response.json();}catch(e){if(signal?.aborted)throw signal.reason??e;throw new ApiError(response.status,'invalid_response');}
+  if(!response.ok)throw new ApiError(response.status,typeof data?.error==='string'?data.error:'request_failed');
   return data;
  }
  // Only identical concurrent GETs share a transport. Every consumer can cancel

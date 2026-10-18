@@ -8,8 +8,10 @@ import {MockBandPanel} from './mock-band.js';
 export function render(scope) {
     const { context, dict, user } = scope;
     const t = dict.mocks;
-    const Suspense = ({ children }) => fragment({ children }), RegionFailureNotice = p => FailureNotice({ ...p, refresh: context.refresh });
-    function MocksContent({ user, dict }) {
+    const Suspense = ({ children }) => fragment({ children }), RegionFailureNotice = p => FailureNotice({ ...p, refresh: () => context.retryRegion ? context.retryRegion(p.region) : context.refresh() });
+    function MocksContent(props) { if (!scope.slots)
+        return MocksContentResolved(props); const host = h('div', { 'data-dashboard-region-slot': 'mock', 'aria-busy': 'true' }, MocksSkeleton()); scope.slots.mock = host; return host; }
+    function MocksContentResolved({ user, dict }) {
         const t = dict.mocks;
         const data = scope.mock;
         return (h("div", { className: "flex flex-col gap-4", "data-mocks-content": true, "data-async-content": "mocks" },
@@ -40,6 +42,8 @@ export function render(scope) {
             h("div", { className: "h-32 animate-pulse rounded-xl bg-ink-50" }),
             h("div", { className: "h-40 animate-pulse rounded-xl bg-ink-50" })));
     }
+    if (scope.renderers)
+        scope.renderers.mock = () => MocksContentResolved({ user, dict });
     return (h("div", { className: "mx-auto flex max-w-3xl flex-col gap-4", "data-route-usable": "mocks" },
         h("div", null,
             h("h1", { className: "font-display text-2xl text-ink-900" }, dict.nav.mocks),
