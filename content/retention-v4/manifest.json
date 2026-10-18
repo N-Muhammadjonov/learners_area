@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "sourceFile": "Learners_Area_Retention_75_DISTINCT_V4_SYNONYMS.txt",
+  "sourceSha256": "771b5627faf2e1e32bb5eabb11488e7f4a26da20f0d6af1f1577749f0a74df5c",
+  "sourceItems": 75,
+  "perLevel": 15,
+  "files": {
+    "A2.jsonl": "decca4d8e1bf4717ba4f4852c066ae0b3bf4374b3a4829fd383fd8c8fa65621c",
+    "B1.jsonl": "1457d28ae271e32c4db04b49defdbced3e7c0a3522090b602681c20324524f7e",
+    "B2.jsonl": "eddf237bc74503a7584cac4ad68ee5dac489ae51ec78d1d5e2bf6e9bc5498f74",
+    "C1.jsonl": "87911c777eadb41c0376b9d723f87156dcc217f2968f240baa387d185998887a",
+    "C2.jsonl": "74115b6cf17af641420c24b35f02f8945ff9b0ad59734b914225c44d7e109d6b"
+  }
+}

@@ -1,9 +1,10 @@
 import { z } from "zod";
 import type { MeasurementStructureV1 } from "./types";
+import { MEASUREMENT_LIMITS } from "./measurement";
 // Allows incomplete FORM drafts. This is NOT the authoritative save validator.
 // Unknown properties/versions remain in raw JSON rather than being discarded.
 const group = z.object({ id: z.string(), points: z.number().finite(), kind: z.enum(["concept", "entity", "number", "date"]), anyOf: z.array(z.string()).max(30), critical: z.boolean().optional() }).strict();
-const claim = z.object({ id: z.string(), label: z.string(), points: z.number().finite(), scope: z.enum(["sentence", "answer"]), groups: z.array(group).max(20), acceptedPhrases: z.array(z.string()).max(20).optional(), rejectPhrases: z.array(z.string()).max(20).optional() }).strict();
+const claim = z.object({ id: z.string(), label: z.string(), points: z.number().finite(), scope: z.enum(["sentence", "answer"]), groups: z.array(group).max(20), acceptedPhrases: z.array(z.string()).max(MEASUREMENT_LIMITS.maxAcceptedPhrases).optional(), rejectPhrases: z.array(z.string()).max(20).optional() }).strict();
 const draft = z.object({ schemaVersion: z.literal(1), maxScore: z.literal(100), claims: z.array(claim).max(40) }).strict();
 export function decodeMeasurementDraft(raw: string): MeasurementStructureV1 | null {
  if (raw.length > 200_000) return null;
