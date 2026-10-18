@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { addTopicPack } from "@/lib/services/vocabulary/engine";
-import { findTopicPackForLearner, listTopicPacksForLearner } from "@/lib/content/vocabulary-packs";
+import { findTopicPackForLearner, listTopicPackSummariesForLearner } from "@/lib/content/vocabulary-packs";
 
 /**
  * The authored packs a student can add in one action. Read from the database
@@ -11,13 +11,13 @@ import { findTopicPackForLearner, listTopicPacksForLearner } from "@/lib/content
 export async function GET() {
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
-  const packs = await listTopicPacksForLearner();
+  const packs = await listTopicPackSummariesForLearner();
   return NextResponse.json({
     ok: true,
     packs: packs.map((pack) => ({
       id: pack.id,
       label: { en: pack.label, uz: pack.labelUz ?? pack.label },
-      wordCount: pack.words.length,
+      wordCount: pack.wordCount,
     })),
   });
 }

@@ -1,4 +1,4 @@
-import { asc, desc, eq } from "drizzle-orm";
+import { asc, count, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   assignments,
@@ -44,6 +44,15 @@ export type ResourceOwnerType = (typeof RESOURCE_OWNER_TYPES)[number];
 
 export function isResourceOwnerType(value: string): value is ResourceOwnerType {
   return (RESOURCE_OWNER_TYPES as readonly string[]).includes(value);
+}
+
+/** The materials index needs totals, not every owner's title or content. */
+export async function countResourceOwners(type: ResourceOwnerType): Promise<number> {
+  const tables = { reading: readingPassages, listening: listeningTests, writing: writingPrompts,
+    speaking: speakingMaterials, lesson: lessons, grammar: grammarTopics,
+    assignment: assignments, live_class: liveClasses };
+  const [row] = await db.select({ total: count() }).from(tables[type]);
+  return Number(row?.total ?? 0);
 }
 
 export type OwnerFacts = {

@@ -91,8 +91,12 @@ export function signalOrigin(value = process.env.LIVE_PARTNER_SIGNAL_URL): strin
 /** Owner-authorised direct media host for the custom TED / PODCAST player (https origin only). */
 export const authorizedMediaOrigin = normalizeOrigin(process.env.AUTHORIZED_MEDIA_ORIGIN);
 const signal = signalOrigin();
-export const connectSrcOrigins = [...new Set([...listFromEnv("CSP_CONNECT_SRC"), ...storageOrigins, ...(signal ? [signal] : [])])];
-export const mediaSrcOrigins = [...new Set([...storageOrigins, ...(authorizedMediaOrigin ? [authorizedMediaOrigin] : [])])];
+// The trusted parent owns playback. The opaque authored frame keeps its
+// separate data:/blob: policy and never receives this host or its capabilities.
+const privateMediaWorker = normalizeOrigin(process.env.MEDIA_WORKER_URL);
+const existingMediaWorker = privateMediaWorker === 'https://learnersarea-media.owneruchunla.workers.dev' ? privateMediaWorker : null;
+export const connectSrcOrigins = [...new Set([...listFromEnv("CSP_CONNECT_SRC"), ...storageOrigins, ...(signal ? [signal] : []), ...(existingMediaWorker ? [existingMediaWorker] : [])])];
+export const mediaSrcOrigins = [...new Set([...storageOrigins, ...(authorizedMediaOrigin ? [authorizedMediaOrigin] : []), ...(existingMediaWorker ? [existingMediaWorker] : [])])];
 
 /** Public video providers the app is willing to embed. */
 export const allowedVideoHosts = ["www.youtube-nocookie.com", "www.youtube.com", "youtube.com", "youtu.be"];

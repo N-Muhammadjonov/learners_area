@@ -32,12 +32,12 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
   // The Coach's evaluation is shown to the teacher as a separate, read-only
   // block: a teacher reviews automated feedback, adds their own, and never has
   // their own feedback overwritten by it.
-  const evaluations = await findEvaluationsForSources({
+  const [evaluations, prompts, activation] = await Promise.all([findEvaluationsForSources({
     sourceType: "writing_submission",
     sourceIds: detail.submissions.map(({ submission }) => submission.id),
-  });
+  }),
 
-  const prompts = await db
+  db
     .select({ id: writingPrompts.id, category: writingPrompts.category, taskType: writingPrompts.taskType })
     .from(writingPrompts)
     // A teacher may only set work on a prompt that is live for students.
@@ -46,9 +46,10 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
         publicationState: writingPrompts.publicationState,
         publishAt: writingPrompts.publishAt,
       }),
-    );
+    ),
 
-  const activation = await activationOverview(detail.student.id).catch(() => ({ wordsActivated: 0, averageActivation: null, dayStreak: 0, lastSession: null }));
+  activationOverview(detail.student.id).catch(() => ({ wordsActivated: 0, averageActivation: null, dayStreak: 0, lastSession: null })),
+  ]);
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">

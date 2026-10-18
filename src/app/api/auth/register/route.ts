@@ -75,12 +75,13 @@ export async function POST(req: NextRequest) {
 
 /** The session half of registration, kept separate so the try block above stays readable. */
 async function issueSession(
-  user: Pick<typeof users.$inferSelect, "id" | "role" | "name" | "locale" | "accountStatus">,
+  user: Pick<typeof users.$inferSelect, "id" | "role" | "name" | "locale" | "accountStatus" | "authVersion">,
   req: NextRequest
 ) {
 
   const token = await createSessionToken({
     sub: user.id,
+    authVersion: user.authVersion,
     role: user.role,
     name: user.name,
     locale: user.locale,

@@ -25,7 +25,8 @@ test("the production session and privileged access gates are not relaxed for spe
   const app = read("src/app/app/layout.tsx");
   const middleware = read("src/middleware.ts");
   assert.match(app, /hasPrivateAccess\(user\.accountStatus\)/);
-  assert.match(auth, /db\.query\.users\.findFirst/);
+  assert.match(auth, /validateSessionAuthority/);
+  assert.match(read("src/lib/auth/session-authority.ts"), /client\.query\.users\.findFirst/);
   assert.match(auth, /requireAdministrator/);
   assert.match(auth, /requireOwner/);
   assert.match(middleware, /jwtVerify\(/);
@@ -37,7 +38,7 @@ test("reading, listening, grammar and vocabulary defer catalogue DB reads behind
     ["src/app/app/(shell)/listening/general/page.tsx", "generalListeningCards", "listening-general-catalogue"],
     ["src/app/app/(shell)/reading/academic/page.tsx", "listGeneralSets", "reading-academic-sets"],
     ["src/app/app/(shell)/grammar/lessons/page.tsx", "listLessonLibrary", "grammar-lessons-library"],
-    ["src/app/app/(shell)/vocabulary/page.tsx", "listTopicPacksForLearner", "vocabulary-topic-packs"],
+    ["src/app/app/(shell)/vocabulary/page.tsx", "listTopicPackSummariesForLearner", "vocabulary-topic-packs"],
   ] as const) {
     const source = read(path);
     assert.match(source, /<Suspense fallback=/, path);

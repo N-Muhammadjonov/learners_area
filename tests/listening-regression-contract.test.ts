@@ -60,17 +60,25 @@ test("outer Listening library keeps the approved underline tabs and three-column
   assert.doesNotMatch(css, /\.full-listening-grid\{grid-template-columns:repeat\(4,/);
 });
 
-test("private resource redirects normalize same-origin signed read paths to an absolute deployment URL", () => {
+test("private resource transport capabilities remain session bound and HEAD never reads a body", () => {
   const route = read("src/app/api/resources/[...key]/route.ts");
-  assert.match(route, /signed\.startsWith\("\/"\) \? new URL\(signed, req\.url\) : signed/);
-  assert.match(route, /NextResponse\.redirect\(location, \{ status: 302 \}\)/);
+  assert.match(route, /getCurrentSessionAuthority\(\)/);
+  assert.match(route, /authorizeResourceRead\(actorOf\(authority.user\),objectKey\)/);
+  assert.match(route, /createMediaCapability/);
+  assert.match(route, /NextResponse.redirect\(url,\{status:302,headers:privateHeaders\}\)/);
+  assert.match(route, /if\(head\)return new NextResponse\(null,\{headers\}\)/);
+  assert.doesNotMatch(route, /storage.read\(/);
 });
 
 
-test("authored Listening treats vocabulary enrichment as optional metadata", () => {
+test("authored Listening defers optional vocabulary metadata to a separately authorized read", () => {
   const route = read("src/app/api/listening/full/[id]/authored/route.ts");
-  assert.match(route, /let vocabulary=\[\] as Awaited<ReturnType<typeof listeningVocabularySession>>/);
-  assert.match(route, /try\{vocabulary=await listeningVocabularySession\(db,id,detail\.pkg\.payload\.vocabulary\);\}/);
-  assert.match(route, /catch\(err\)\{console\.warn\('\[listening-authored\] vocabulary enrichment unavailable'/);
-  assert.match(route, /vocabulary\},\{headers\}\)/);
+  assert.match(route, /searchParams.get\('vocabulary'\)==='1'/);
+  assert.match(route, /vocabulary:await listeningVocabularySession/);
+  const main=route.slice(route.indexOf('const definition='));
+  assert.doesNotMatch(main, /await listeningVocabularySession|await originalCourseStatus/);
+  assert.match(main, /vocabulary:\[\]/);
+  const client=read("src/components/listening/AuthoredListeningFrame.tsx");
+  assert.match(client, /if\(!vocabularyRead.current\)vocabularyRead.current=fetch\(`/);
+  assert.doesNotMatch(client.slice(client.indexOf('background.current=()=>'),client.indexOf('setAssets(media);setContent(data)')),/vocabulary=1/);
 });

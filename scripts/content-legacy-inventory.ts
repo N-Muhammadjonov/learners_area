@@ -239,7 +239,7 @@ export const TABLE_GROUPS: { group: string; reason: string; tables: readonly str
     reason: "not content: accounts, upload intents, attached-material blocks, ops and payment rows",
     tables: [
       "upload_intents", "users", "access_requests", "notifications", "audit_log", "ownership_transfers",
-      "password_reset_tokens", "onboarding_profiles", "resource_blocks", "material_blocks", "user_profile_photos",
+      "password_reset_tokens", "auth_session_revocations", "onboarding_profiles", "resource_blocks", "material_blocks", "user_profile_photos",
       "problem_reports", "products", "plans", "prices", "subscriptions", "payments", "access_entitlements",
     ],
   },

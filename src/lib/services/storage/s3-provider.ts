@@ -155,6 +155,16 @@ export class S3StorageProvider implements StorageService {
     }
   }
 
+  async stream(key:ObjectKey,range?:{start:number;end:number}) {
+    this.assertSafeKey(key);
+    try {
+      const result=await this.client.send(new GetObjectCommand({Bucket:this.bucket,Key:key,
+        ...(range?{Range:`bytes=${range.start}-${range.end}`}:{})}));
+      if(!result.Body)return null;
+      return {body:result.Body.transformToWebStream(),contentType:result.ContentType??'application/octet-stream'};
+    }catch(error){if(isNotFound(error))return null;throw error;}
+  }
+
   async delete(key: ObjectKey): Promise<void> {
     this.assertSafeKey(key);
     await this.client.send(new DeleteObjectCommand({ Bucket: this.bucket, Key: key }));

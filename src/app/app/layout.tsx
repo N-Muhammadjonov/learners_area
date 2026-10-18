@@ -1,6 +1,6 @@
 import { performanceDiagnosticsEnabled } from "@/lib/config/site";
 import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth/current-user";
+import { getCurrentUser, getCurrentSessionAuthority } from "@/lib/auth/current-user";
 import { hasPrivateAccess } from "@/lib/auth/account-status";
 import { PrivateResourceScope } from "@/components/interaction/PrivateResourceScope";
 import { AccessChangeListener } from "@/components/interaction/AccessChangeListener";
@@ -39,6 +39,7 @@ export default async function AppNamespaceLayout({ children }: { children: React
   const [user, locale] = await Promise.all([getCurrentUser(), getLocale()]);
   if (!user) redirect("/login");
   if (!hasPrivateAccess(user.accountStatus)) redirect("/pending");
+  const authority = await getCurrentSessionAuthority();
   // `locale` is read here so the cookie read stays in the same request scope as
   // the authoritative lookup; the shell that renders the dictionary reads it
   // again from React's cache.
@@ -49,7 +50,7 @@ export default async function AppNamespaceLayout({ children }: { children: React
       {/* Private client read cache is bound to the DB-verified user id only. */}
       <PrivateResourceScope scope={user.id} />
       {/* A single owner-triggered event stream when direct PostgreSQL LISTEN is configured. */}
-      <AccessChangeListener enabled={Boolean(accessEventsConnectionString())} />
+      <AccessChangeListener enabled={Boolean(accessEventsConnectionString())} role={user.role} expiresAt={authority?.expiresAt} />
       {children}
     </>
   );

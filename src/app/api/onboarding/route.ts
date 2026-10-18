@@ -6,12 +6,14 @@ import { users, onboardingProfiles, courses, enrollments } from "@/db/schema";
 import { onboardingSchema } from "@/lib/validation/onboarding";
 import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
 import { cookiePolicyForRequest } from "@/lib/auth/cookie-policy";
-import { requireActiveUser } from "@/lib/auth/current-user";
+import { getCurrentSessionAuthority } from "@/lib/auth/current-user";
+import { hasPrivateAccess } from "@/lib/auth/account-status";
 import { localeCookieOptions, LOCALE_COOKIE } from "@/lib/i18n";
 
 export async function POST(req: NextRequest) {
-  const user = await requireActiveUser();
-  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const authority = await getCurrentSessionAuthority();
+  const user = authority?.user;
+  if (!user || !hasPrivateAccess(user.accountStatus)) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const parsed = onboardingSchema.safeParse(body);
@@ -62,6 +64,7 @@ export async function POST(req: NextRequest) {
   }
 
   const token = await createSessionToken({
+    authVersion: authority!.authVersion,
     sub: user.id,
     role: user.role,
     name: user.name,
