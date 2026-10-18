@@ -12,6 +12,17 @@ import {
 import { isLive } from "@/lib/services/cms/publication";
 
 type Conn = Pick<typeof db, "execute">;
+/** General learning must not reveal a checked key for an overlapping live exam. */
+export async function activeAcademicAttemptForPassages(userId: string, passageIds: string[], executor: Conn = db) {
+  if (!passageIds.length) return null;
+  const result = await executor.execute<{ id: string }>(sql`
+    select a.id from reading_attempts a left join reading_assessment_passages m on m.attempt_id=a.id
+    where a.user_id=${userId}::uuid and a.status='in_progress'
+      and (a.passage_id in (${sql.join(passageIds.map(id => sql`${id}::uuid`), sql`,`)})
+        or m.passage_id in (${sql.join(passageIds.map(id => sql`${id}::uuid`), sql`,`)}))
+    order by a.started_at desc,a.id desc limit 1`);
+  return result.rows[0]?.id ?? null;
+}
 /** Captured passage membership is immutable for an existing assessment. */
 export async function assessmentScope(
   attemptId: string,

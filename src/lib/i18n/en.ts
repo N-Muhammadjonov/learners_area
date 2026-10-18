@@ -236,6 +236,7 @@ const en = {
   },
   readingHub: {
     academicExamHint: "Three passages · 60 minutes · one exam. Dictionary and vocabulary assistance are unavailable in Academic Reading.",
+    academicEmpty: "No complete 40-question Academic Reading tests have been published yet.",
     title: "Reading",
     subtitle: "Academic and General reading, practice by question type, and the Retention mode.",
     subtitleAcademic: "Academic Reading: guided reading sets you work through text by text, with your progress saved.",

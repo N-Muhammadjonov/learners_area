@@ -7,6 +7,7 @@ import { gradeReadingQuestion } from "@/lib/reading/question-model";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
 import { getPassageWithQuestions } from "@/lib/data/reading";
+import { activeAcademicAttemptForPassages } from "@/lib/data/reading-assessments";
 
 /*
  * General Reading = LEARNING (develop reading). IELTS Academic = ASSESSMENT
@@ -54,7 +55,7 @@ export async function listGeneralSets(userId: string, options: { page?: number; 
     and (select count(*) from reading_questions q join general_reading_passages g on g.passage_id=q.passage_id where g.set_id=${generalReadingSets.id})=40` : undefined;
   const sets = await executor.select().from(generalReadingSets)
     .where(and(liveWhere({ publicationState: generalReadingSets.publicationState, publishAt: generalReadingSets.publishAt }), validPassages, formal))
-    .orderBy(asc(generalReadingSets.createdAt), asc(generalReadingSets.id))
+    .orderBy(sql`(select min(p.test_no) from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id}) asc nulls last`, sql`(select min(p.external_id) from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id}) asc nulls last`, asc(generalReadingSets.createdAt), asc(generalReadingSets.id))
     .limit(25).offset((Math.max(1, Math.min(10000, Math.floor(options.page ?? 1) || 1)) - 1) * 24);
   if (!sets.length) return [];
   const ids = sets.map((set) => set.id);
@@ -150,6 +151,7 @@ export function restoredGeneralCheck(
 export async function saveGeneralProgress(input: { userId: string; role: Role; passageId: string; answers: Record<string, string>; check: boolean }, executor: typeof db = db) {
   const membership = await generalMembership(input.passageId, executor);
   if (!membership || (!isLive(membership.set) && !isStaff(input.role))) return null;
+  if (await activeAcademicAttemptForPassages(input.userId, [input.passageId], executor)) return null;
   const passage = await executor.query.readingPassages.findFirst({ where: eq(readingPassages.id,input.passageId) });
   if (!passage || (!isLive(passage) && !isStaff(input.role))) return null;
   const questions = await executor.query.readingQuestions.findMany({ where: eq(readingQuestions.passageId, input.passageId) });
