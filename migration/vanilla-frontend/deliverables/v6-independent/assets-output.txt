@@ -1,0 +1,1 @@
+{"status":"PASS","reference":"pinned original-source hashes from packaged audit; original source absent","assets":25,"sourceCssExact":true,"sourceCssSha256":"b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2","compiledCssDeterministic":true,"compiledCssSha256":"81c54121be20442dc586113abc6f29a27e18190a8790956b4c21f74614597250","renderedVisualComparison":false}

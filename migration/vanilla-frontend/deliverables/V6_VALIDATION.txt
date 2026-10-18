@@ -1,0 +1,46 @@
+V6 FINAL INDEPENDENT ARCHIVE VALIDATION — overall migration PARTIAL
+Date: 2026-10-18 (Asia/Tashkent)
+Branch: arena/96836bcf-learners-area
+Baseline V5: 68778f85eb862206b22750656ccaea28fc8ac324
+Phase2 implementation/package commit: e1fe0ea21e55682ec9e616715e41cfde081828b6
+Final packaged release/tooling commit: 30229f664b9af383bcc5daf9a0e64b18e10df626
+This external validation and independent result files are committed afterwards; exact delivery HEAD is in Git log / delivery response. No recursive self-hash claim.
+
+ARCHIVE
+LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V6.zip
+SHA256: ce1fe2dad1ceafddc0c7200d8c454a500b7f444deaa33b95d6c8bced094e05f6
+Bytes: 31442883
+447 source/evidence/assets files +2manifest files, deterministic order/timestamps/permissions.
+Root packaging twice: identical SHA256 PASS.
+Independent exact extraction: /tmp/learners-v6-final (temporary, not relied on for persisted evidence).
+Fresh npm ci PASS; build PASS; npm test236PASS/0FAIL/0SKIP.
+Original browsers freshly rerun: foundation27 +V2 14 +V3 49 +V4 72 +V5 52 =214PASS.
+V6 freshly rerun:77PASS/0FAIL/0SKIP. Total291ChromiumPASS, no skips.
+Assets25PASS; outside-clone verification explicitly uses pinned original-source audit, not a fabricated fresh original comparison. Source/CSS was separately compared against originals inside repository. Compiled CSS independently rebuilt/deterministic, same V5 hash.
+Independent browser/unit/build/assets logs and result JSON retained under deliverables/v6-independent/ (excluded from ZIP to avoid recursive hashing).
+After capturing independent results externally, restored packaged evidence before manifest comparison: all447source hashes +2metadata exact PASS.
+Independent package regenerated twice from extracted sources: exact same ce1fe2dad1ceafddc0c7200d8c454a500b7f444deaa33b95d6c8bced094e05f6 PASS.
+Root final scripts/package.py --verify PASS.
+All V1–V5 immutable ZIP internals and sidecars independently verified unchanged.
+
+SCOPE / COUNTS
+Phase1 fully preserved; Phase2 Dashboard / Mocks / Reports FRONTEND CODE COMPLETE.
+Canonical inventory:13/108 complete;16partial;79notstarted.6redirects and1retired separate.
+Components:53/206 complete;8partial;145notstarted.
+New V6 closures:3canonical routes and2source-file components.
+Implementation percentages are inventory-only (12.04% routes,25.73% components), not weighted product completion; weighted functional/security/visual/live denominator UNDETERMINED.
+No mock runner exists in source; none introduced. No answers/snapshots/private source media bundled or synthetic grading.
+Phase3 Listening entered read-only source/dependency audit after Phase2 gate; no Listening runtime edits or completion claim. Remaining ordinary frontend work is precisely checkpointed in LISTENING_PHASE3_AUDIT_V6.md. Not all externally blocked.
+
+ACCEPTANCE LIMITS
+Original-rendered visual comparisons0; live backend acceptance0; Safari0; real hardware0; production0. Fixtures and browser download events are not real report encoder/authorization/live acceptance. Proposed frontend/public/session/view remain proposed; preview APIs intentionally503.
+Source source.css SHA256 b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2.
+Compiled global.css SHA256 81c54121be20442dc586113abc6f29a27e18190a8790956b4c21f74614597250, unchanged V5.
+Primary warm30switch fixture metric23–106ms includes Playwright content locator overhead, not pixel paint/backend/media or a guaranteed1–100ms result. Primary DOM476→518, listeners152→152, documents2→2; bounded short run, not leak-freedom proof. Independent raw performance result saved separately.
+One unchanged historical30msJSDOM history unit failed during simultaneous heavy browser/unit work; final normal root and final independent236runs both passed without runtime/test weakening.
+Runtime npm audit0; full dev audit5high remains, not vulnerability-free. No forced major toolchain/CSS changes.
+
+RESERVED / GIT / PRODUCTION
+Other AI exclusively owns35canonical staff product routes (23Admin/6Owner/6Teacher) from older V4snapshot12308e89f67e573888ef4b23e6d85e005f2c2647. None modified/integrated here. Shared /app/reports role UI is explicit Phase2 scope. Future manual latest-branch reconciliation only; no automatic merge or stale shared-file overwrite. Conflicts0 (no merge attempted), not a promise of conflict-free future integration.
+All changes under migration/vanilla-frontend/. Original src/public/services/drizzle read-only. No backend, production auth, DB, provider, Telegram, Railway, Cloudflare, Worker, R2, DNS or main changes; no deployment. Server authority/roles/revocation/ownership/rosters/HttpOnly credentials/private media/opaque allow-scripts-only iframe/CSP preserved. Owner approval required before any production replacement.
+Only arena/96836bcf-learners-area pushed. At packaged release verification, local and remote equal30229f664b9af383bcc5daf9a0e64b18e10df626. Final delivery commit adds only this external evidence and is separately verified in delivery. Remote main remains6c5ee5537d979e057f303e6cfc08eed8d9dc874c.
