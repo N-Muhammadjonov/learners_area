@@ -1,0 +1,156 @@
+[
+  {
+    "q": 142,
+    "sourceLabel": "Test 142",
+    "topic": "Business Leadership - Self-confidence",
+    "prompt": "Arthur warns that people can have too much confidence. Self-belief alone does not guarantee success, and self-help books are not the solution. Recent American studies found that confidence will",
+    "options": [
+      {
+        "code": "A",
+        "text": "sometimes reduce people's chances of success."
+      },
+      {
+        "code": "B",
+        "text": "be increased by reading self-help books."
+      },
+      {
+        "code": "C",
+        "text": "ensure good results on business courses."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Arthur warns that excessive confidence can make people overlook real problems and may even reduce their chances of success.",
+    "why": "The key point is that too much confidence can become harmful rather than automatically producing success, so option A is correct.",
+    "trap": "B: Arthur does not recommend self-help books as the source of confidence. C: Confidence does not guarantee good results or business success.",
+    "explanation": "Arthur treats confidence as useful only when it remains realistic; overconfidence can damage performance.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 143,
+    "sourceLabel": "Test 143",
+    "topic": "Business Leadership - Mistakes",
+    "prompt": "Arthur feels that when starting a business, mistakes should be",
+    "options": [
+      {
+        "code": "A",
+        "text": "seen as an opportunity to learn."
+      },
+      {
+        "code": "B",
+        "text": "predicted and minimised."
+      },
+      {
+        "code": "C",
+        "text": "avoided at all costs."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Arthur says mistakes cannot always be predicted and should be viewed as positive experiences that help people avoid repeating the same mistake.",
+    "why": "He explicitly presents mistakes as learning experiences, so option A is correct.",
+    "trap": "B: Arthur says people cannot really predict when they will make mistakes. C: He rejects the idea that mistakes must be avoided completely.",
+    "explanation": "For Arthur, a mistake is useful if it teaches you something and helps you improve next time.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 144,
+    "sourceLabel": "Test 144",
+    "topic": "Business Leadership - Support",
+    "prompt": "Which TWO kinds of support are important for Arthur?",
+    "instruction": "Choose TWO answers.",
+    "options": [
+      {
+        "code": "A",
+        "text": "family support"
+      },
+      {
+        "code": "B",
+        "text": "good business advice with new ideas"
+      },
+      {
+        "code": "C",
+        "text": "support of the bank loan"
+      },
+      {
+        "code": "D",
+        "text": "friends' support"
+      },
+      {
+        "code": "E",
+        "text": "governmental funding"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "evidence": "Arthur says his family helped him both financially and mentally, and that he borrowed money from the bank to start his company. He says the business advice he received was not practical for him.",
+    "why": "The two forms of support that actually helped him were family support and the bank loan, so the correct pair is A and C.",
+    "trap": "B: The advice and ideas he received were not practical for his situation. D: Friends' support is not identified as an important source here. E: Government funding is not mentioned as support he relied on.",
+    "explanation": "Arthur highlights practical support from his family and financing from the bank.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 145,
+    "sourceLabel": "Test 145",
+    "topic": "Business Leadership - Key Factors",
+    "prompt": "Which TWO factors are important when starting a business?",
+    "instruction": "Choose TWO answers.",
+    "options": [
+      {
+        "code": "A",
+        "text": "fix realistic prices"
+      },
+      {
+        "code": "B",
+        "text": "create products better than the competitors'"
+      },
+      {
+        "code": "C",
+        "text": "be committed"
+      },
+      {
+        "code": "D",
+        "text": "pay attention to detail"
+      },
+      {
+        "code": "E",
+        "text": "apply complete strategy"
+      }
+    ],
+    "answer": [
+      "C",
+      "D"
+    ],
+    "evidence": "Arthur says leaders must stay committed to their work and pay attention to details. He also says prices and strategies keep changing, and a company's products do not always have to be better than competitors' products.",
+    "why": "Commitment and attention to detail are the two factors he clearly presents as important, so the correct pair is C and D.",
+    "trap": "A: Arthur says prices are always changing and cannot simply be fixed. B: He says he cannot always be sure his products or services are better than competitors'. E: He says business strategies change all the time, so a fixed complete strategy is not the key point.",
+    "explanation": "Arthur stresses persistence and careful attention to small details rather than rigid prices, guaranteed product superiority or a fixed strategy.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 146,
+    "sourceLabel": "Test 146",
+    "topic": "Business Leadership - Risk",
+    "prompt": "How should companies take risks?",
+    "options": [
+      {
+        "code": "A",
+        "text": "deal with them carefully"
+      },
+      {
+        "code": "B",
+        "text": "be financially advantageous"
+      },
+      {
+        "code": "C",
+        "text": "think in the long run"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Arthur says leaders should analyse risks and deal with them with caution, while recognising that they cannot always plan far into the future.",
+    "why": "His explicit advice is to handle risks carefully and cautiously, so option A is correct.",
+    "trap": "B: He does not define risk-taking mainly in terms of financial advantage. C: He specifically says leaders cannot always plan for the distant future.",
+    "explanation": "Arthur recommends careful analysis and cautious action when risks appear.",
+    "audio": "audio/question-05.mp3"
+  }
+]

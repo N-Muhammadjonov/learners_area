@@ -1,0 +1,127 @@
+[
+  {
+    "q": 3,
+    "topic": "CAE Swan Encounter",
+    "prompt": "What problem did the woman have with the swan?",
+    "options": [
+      {
+        "code": "A",
+        "text": "She misunderstood its intentions."
+      },
+      {
+        "code": "B",
+        "text": "She underestimated the speed of its approach."
+      },
+      {
+        "code": "C",
+        "text": "She failed to realise the consequences of disturbing it."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The woman says the swan's aggressive body language and speed were obvious, but admits they had gone too close to the nest and that she would never have done that if she had known what would happen.",
+    "why": "She did not fail to notice the swan's intentions or speed. Her mistake was not anticipating the consequences of getting too close to the nest.",
+    "trap": "A: She immediately recognised from its body language that the swan had aggressive intentions. B: She explicitly noticed that it was approaching at incredible speed.",
+    "explanation": "Her error was disturbing the nesting area without realising how serious the swan's reaction could become.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 4,
+    "topic": "CAE Swan Encounter",
+    "prompt": "What is the man's reaction to the story?",
+    "options": [
+      {
+        "code": "A",
+        "text": "He feels he would have handled the situation better."
+      },
+      {
+        "code": "B",
+        "text": "He is unconvinced by the woman's version of events."
+      },
+      {
+        "code": "C",
+        "text": "He fails to see quite how serious the problem was."
+      }
+    ],
+    "answer": "C",
+    "evidence": "After hearing that the swan followed them onto the bank and blocked access to the boat for about an hour, the man still says he is sure the swan would not have hurt them.",
+    "why": "His comment shows that he underestimates the danger, while the woman stresses how aggressive swans can be at nesting time.",
+    "trap": "A: He does not claim that he personally would have dealt with the situation better. B: He accepts the events but does not fully appreciate their seriousness.",
+    "explanation": "The man believes the swan probably would not have harmed them, so he does not fully grasp how dangerous the encounter felt.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 11,
+    "topic": "Library Meeting",
+    "prompt": "Why is David Laws leading the meeting instead of Penny Williams today?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Penny Williams is not well recently."
+      },
+      {
+        "code": "B",
+        "text": "David Laws is the director now."
+      },
+      {
+        "code": "C",
+        "text": "The meeting will be postponed."
+      }
+    ],
+    "answer": "A",
+    "evidence": "David says Penny was supposed to lead the meeting, but because of unexpected illness he is taking her place that morning.",
+    "why": "Penny's illness is the reason David is leading the meeting.",
+    "trap": "B: David identifies himself as Penny's new personal assistant, not the library director. C: He says they decided it was better for him to lead than to postpone the meeting.",
+    "explanation": "David substitutes for Penny because she is unexpectedly ill.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 12,
+    "topic": "Library Meeting",
+    "prompt": "What does David say has been a problem with guest speaker talks?",
+    "options": [
+      {
+        "code": "A",
+        "text": "expensive tickets"
+      },
+      {
+        "code": "B",
+        "text": "lack of publicity"
+      },
+      {
+        "code": "C",
+        "text": "inconvenient time"
+      }
+    ],
+    "answer": "B",
+    "evidence": "David says the talks have been incredibly popular and the slight rise in ticket price has not put anyone off, but some people missed events because they did not know they were on.",
+    "why": "The problem was that people were not sufficiently informed about the talks, which is a publicity issue.",
+    "trap": "A: David explicitly says the higher ticket price did not discourage people. C: He does not identify the timing of the talks as the problem.",
+    "explanation": "The library plans email reminders because inadequate publicity meant some people did not know events were happening.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 13,
+    "topic": "Library Meeting",
+    "prompt": "What did the man say about the break-in at the library?",
+    "options": [
+      {
+        "code": "A",
+        "text": "The building was damaged to some extent."
+      },
+      {
+        "code": "B",
+        "text": "Some valuable items were stolen."
+      },
+      {
+        "code": "C",
+        "text": "The thieves had prepared carefully."
+      }
+    ],
+    "answer": "A",
+    "evidence": "David says the thief or thieves left empty-handed but smashed a number of windows and kicked down a door while trying to get in.",
+    "why": "Nothing was stolen, but the windows and door were damaged, so option A is supported.",
+    "trap": "B: The offenders left empty-handed. C: Police believed they were simply taking a chance that something valuable might be inside, not carrying out a carefully prepared theft.",
+    "explanation": "The break-in caused property damage even though no valuables were taken.",
+    "audio": "audio/question-05.mp3"
+  }
+]

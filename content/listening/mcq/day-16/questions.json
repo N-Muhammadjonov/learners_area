@@ -1,0 +1,132 @@
+[
+  {
+    "q": 77,
+    "sourceLabel": "Test 77",
+    "topic": "Heel Injuries - Types",
+    "prompt": "What is said about the different types of heel injury?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Diagnosis is straightforward."
+      },
+      {
+        "code": "B",
+        "text": "They are expensive to treat."
+      },
+      {
+        "code": "C",
+        "text": "Some are more serious than others."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The students note that heel injuries vary enormously in severity: one case may be only a pulled muscle, while another may involve a bone injury requiring surgery.",
+    "why": "The examples show a clear range from relatively minor to much more serious injuries, so option C is correct.",
+    "trap": "A: They say that sometimes only an expert can tell the difference, so diagnosis is not presented as straightforward. B: The cost of treatment is not the point made in the discussion.",
+    "explanation": "Heel injuries can differ greatly in severity, from a pulled muscle to an injury serious enough to need surgery.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 78,
+    "sourceLabel": "Test 78",
+    "topic": "Heel Injuries - Causes",
+    "prompt": "On the subject of causes of heel injuries, the students agree to",
+    "options": [
+      {
+        "code": "A",
+        "text": "use a source written by their professor."
+      },
+      {
+        "code": "B",
+        "text": "reject certain approaches."
+      },
+      {
+        "code": "C",
+        "text": "focus on a single reason."
+      }
+    ],
+    "answer": "C",
+    "evidence": "They list several possible causes - overuse, improper footwear and incorrect running style - but decide that, for simplicity, they should choose just one cause: sudden changes in training habits.",
+    "why": "Their agreed presentation strategy is to narrow the topic to one cause, which directly matches option C.",
+    "trap": "A: A professor recommended relevant research, but the discussion does not say the source was written by that professor. B: They do not agree to reject particular approaches; they simply narrow the scope.",
+    "explanation": "To keep the presentation manageable, they decide to focus on one cause rather than cover every possible cause.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 79,
+    "sourceLabel": "Test 79",
+    "topic": "Heel Injuries - Stretching",
+    "prompt": "What does Cath say about stretching as a treatment?",
+    "options": [
+      {
+        "code": "A",
+        "text": "It is the least effective part of treatment."
+      },
+      {
+        "code": "B",
+        "text": "It is commonly confused with strengthening."
+      },
+      {
+        "code": "C",
+        "text": "It is potentially risky."
+      }
+    ],
+    "answer": "C",
+    "evidence": "Cath says stretching must be carefully managed: overstretching or stretching before the muscles are warmed up can do more harm than good.",
+    "why": "Because incorrect or excessive stretching can cause harm, Cath is explicitly presenting it as potentially risky.",
+    "trap": "A: She does not rank stretching as the least effective treatment. B: She later mentions combining stretching with exercises that strengthen muscles, but she does not say the two are commonly confused.",
+    "explanation": "Stretching can be useful, but it can also cause harm if it is excessive or done before the muscles are properly warmed up.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 80,
+    "sourceLabel": "Test 80",
+    "topic": "University Part-time Work",
+    "prompt": "At present, the university is offering part-time work in",
+    "options": [
+      {
+        "code": "A",
+        "text": "its offices."
+      },
+      {
+        "code": "B",
+        "text": "the IT centre."
+      },
+      {
+        "code": "C",
+        "text": "the car parks."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The current vacancy is for people to check that vehicles using the university car parks have up-to-date permits. Office jobs rarely become available, and IT-centre work is only a future possibility.",
+    "why": "The job being offered now is based in the university car parks, so option C is correct.",
+    "trap": "A: The speaker says office jobs rarely come up. B: The university hopes to offer IT-centre jobs in the future, not at present.",
+    "explanation": "The current part-time work involves checking parking permits in the university car parks.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 81,
+    "sourceLabel": "Test 81",
+    "topic": "University Recruitment Events",
+    "prompt": "Local employers visit the university",
+    "options": [
+      {
+        "code": "A",
+        "text": "only in the first term."
+      },
+      {
+        "code": "B",
+        "text": "twice a term."
+      },
+      {
+        "code": "C",
+        "text": "throughout the year."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The recruitment open days involving local employers are held regularly during the year. References to two-day events describe how long an event lasts, not how often employers visit.",
+    "why": "The visits occur across the year, so option C accurately describes their timing.",
+    "trap": "A: The visits are not restricted to the first term. B: 'Two-day' refers to the duration of an event, not a frequency of twice per term.",
+    "explanation": "Local employers take part in recruitment events at different times throughout the year.",
+    "audio": "audio/question-05.mp3"
+  }
+]

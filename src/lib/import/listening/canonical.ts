@@ -109,7 +109,7 @@ export const listeningCanonicalContentSchema = z
       .optional(),
     audio: z
       .object({
-        durationSec: z.number().min(60).max(7200),
+        durationSec: z.number().positive().max(7200),
         assetKey: assetKey.default(LISTENING_AUDIO_ASSET_KEY),
         /** Transport hint (archive path). Never an object key, never ownership. */
         path: z.string().max(200).optional(),
@@ -163,6 +163,8 @@ export function listeningAssetRequirements(content: ListeningCanonicalContent): 
  */
 export function listeningSemanticIssues(pkg: ListeningCanonicalPackage): ImportIssue[] {
   const issues: ImportIssue[] = [];
+  if (pkg.content.collection !== "mcq" && pkg.content.audio.durationSec < 60)
+    issues.push(issue(2, "semantic_invalid", "A full Listening recording must be at least 60 seconds.", "content.audio.durationSec"));
   if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(pkg.sourceRef))
     issues.push(
       issue(

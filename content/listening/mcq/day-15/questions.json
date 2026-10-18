@@ -1,0 +1,132 @@
+[
+  {
+    "q": 72,
+    "sourceLabel": "Test 72",
+    "topic": "Peer Assessment - Marking Reliability",
+    "prompt": "If the peer assessment marks seem incorrect,",
+    "options": [
+      {
+        "code": "A",
+        "text": "students should mark the assignments again."
+      },
+      {
+        "code": "B",
+        "text": "the tutor should check those assignments."
+      },
+      {
+        "code": "C",
+        "text": "the marking criteria should be rewritten."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Sally says asking the students to repeat the marking may not change anything, so in that case the tutor would have to remark the assignments.",
+    "why": "If the marks look wrong, the tutor must check and remark the affected assignments, which matches option B.",
+    "trap": "A: Sally says repeating the student marking may not make any difference. C: The marking criteria should be reviewed carefully with students for the next assignment, not simply rewritten as the immediate solution.",
+    "explanation": "The tutor, not the students, should recheck the questionable marking.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 73,
+    "sourceLabel": "Test 73",
+    "topic": "Peer Assessment - Research Project",
+    "prompt": "How were the presentations in the research project marked?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Students and lecturers marked all the presentations."
+      },
+      {
+        "code": "B",
+        "text": "Students chose which presentations they wanted to mark."
+      },
+      {
+        "code": "C",
+        "text": "Lecturers marked a selection of presentations."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Each student gave a short presentation, and every presentation was assessed individually by all participants, both students and lecturers.",
+    "why": "All participants marked every presentation, so option A is the direct match.",
+    "trap": "B: Students did not choose only selected presentations to assess. C: Lecturers did not mark only a subset; they assessed all the presentations along with the students.",
+    "explanation": "Every presentation was marked by both groups: students and lecturers.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 74,
+    "sourceLabel": "Test 74",
+    "topic": "Foot Injury Presentation - Plan Structure",
+    "prompt": "John and Cath's presentation plans are different in",
+    "options": [
+      {
+        "code": "A",
+        "text": "the examples used."
+      },
+      {
+        "code": "B",
+        "text": "the order of information."
+      },
+      {
+        "code": "C",
+        "text": "the main points made."
+      }
+    ],
+    "answer": "A",
+    "evidence": "They agree that their plans have the same three main sections and the same overall organisation, but they have chosen different sports examples to illustrate the injuries.",
+    "why": "The structure and main points are the same; the examples are what differ, so option A is correct.",
+    "trap": "B: They say their presentations are organised in the same way. C: They have included the same three main sections, so the main points are not the difference.",
+    "explanation": "Their plans differ only in the sports examples used to illustrate possible injuries.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 75,
+    "sourceLabel": "Test 75",
+    "topic": "Foot Injury Presentation - Anatomy",
+    "prompt": "What do the students agree about the anatomy section of their presentation?",
+    "options": [
+      {
+        "code": "A",
+        "text": "It would be better if Cath spoke about it."
+      },
+      {
+        "code": "B",
+        "text": "It should be kept quite short."
+      },
+      {
+        "code": "C",
+        "text": "It should be based on information from the internet."
+      }
+    ],
+    "answer": "B",
+    "evidence": "They agree they should limit the anatomy section because they do not want to spend much time on anatomy when the main focus is treatment.",
+    "why": "They explicitly agree to keep this section limited and brief, which matches option B.",
+    "trap": "A: They discuss who has notes and downloaded material, but the key agreement is about length, not simply who presents it. C: Cath has lecture notes and a handout, while the other student has downloaded material; they do not agree that the section should be based on internet information.",
+    "explanation": "The anatomy section should be brief so most presentation time can be spent on treatment.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 76,
+    "sourceLabel": "Test 76",
+    "topic": "Foot Injury Presentation - Final Section",
+    "prompt": "What do the students agree to include in the last section?",
+    "options": [
+      {
+        "code": "A",
+        "text": "visuals of injuries"
+      },
+      {
+        "code": "B",
+        "text": "demonstrations of treatment"
+      },
+      {
+        "code": "C",
+        "text": "interviews with patients"
+      }
+    ],
+    "answer": "B",
+    "evidence": "They suggest that in the final section the two of them could show how some of the therapies actually work.",
+    "why": "Showing how therapies work means demonstrating treatment, so option B is correct.",
+    "trap": "A: Their final-section agreement is about showing therapies in action, not adding injury visuals. C: Patient interviews are not the agreed activity for this section.",
+    "explanation": "The final section will include practical demonstrations of how treatments work.",
+    "audio": "audio/question-05.mp3"
+  }
+]

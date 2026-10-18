@@ -1,0 +1,132 @@
+[
+  {
+    "q": 87,
+    "sourceLabel": "Test 87",
+    "topic": "Registration Desk",
+    "prompt": "What do participants need to take to the registration desk?",
+    "options": [
+      {
+        "code": "A",
+        "text": "a form of identification"
+      },
+      {
+        "code": "B",
+        "text": "a competitor number"
+      },
+      {
+        "code": "C",
+        "text": "cash for the entrance fee"
+      }
+    ],
+    "answer": "A",
+    "evidence": "The entrance fee has already been paid online and a competitor number has already been issued. Participants must show identification at the desk to complete registration.",
+    "why": "Identification is the item participants still need to bring to the registration desk, so option A is correct.",
+    "trap": "B: The competitor number has already been issued. C: The entrance fee has already been paid online, so cash is not required at the desk.",
+    "explanation": "Participants need to present a form of identification to finish registration.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 88,
+    "sourceLabel": "Test 88",
+    "topic": "Research Methods - Official Records",
+    "prompt": "What is the problem with using official records?",
+    "options": [
+      {
+        "code": "A",
+        "text": "They may be lacking in detail."
+      },
+      {
+        "code": "B",
+        "text": "They may not be readily available."
+      },
+      {
+        "code": "C",
+        "text": "They may be difficult to analyse."
+      }
+    ],
+    "answer": "A",
+    "evidence": "The tutor says official records should be accessible and easy to work with, but warns that they might not contain as much information as John wants.",
+    "why": "The weakness is insufficient detail, which directly matches option A.",
+    "trap": "B: The tutor expects the records to be accessible. C: The tutor also says they should be easy to work with, so difficulty of analysis is not the problem.",
+    "explanation": "Official records are convenient to obtain and analyse, but they may not contain enough detail for John's project.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 89,
+    "sourceLabel": "Test 89",
+    "topic": "Research Methods - Questionnaire",
+    "prompt": "What does the tutor think about John using a questionnaire to get information?",
+    "options": [
+      {
+        "code": "A",
+        "text": "He needs to do a course in questionnaire design first."
+      },
+      {
+        "code": "B",
+        "text": "He should use this method instead of looking at public records."
+      },
+      {
+        "code": "C",
+        "text": "He will find the practice useful the following year."
+      }
+    ],
+    "answer": "C",
+    "evidence": "John has already completed the questionnaire-design module. The tutor says using a questionnaire now will give him useful experience because he will need to do something similar for his final dissertation next year.",
+    "why": "The tutor values the exercise as preparation for the following year's dissertation work, so option C is correct.",
+    "trap": "A: John has already studied questionnaire design. B: The tutor says using more than one source is acceptable and even beneficial; the questionnaire is not presented as a replacement for public records.",
+    "explanation": "The questionnaire gives John practical research-methods experience that will help with his larger dissertation next year.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 90,
+    "sourceLabel": "Test 90",
+    "topic": "Research Methods - Sample Size",
+    "prompt": "How many questionnaires will John distribute?",
+    "options": [
+      {
+        "code": "A",
+        "text": "The same number as in the previous study"
+      },
+      {
+        "code": "B",
+        "text": "A greater number than he needs for analysis"
+      },
+      {
+        "code": "C",
+        "text": "The number recommended in the project guidelines"
+      }
+    ],
+    "answer": "B",
+    "evidence": "John can realistically analyse about 50 responses, but plans to distribute around 80 questionnaires to allow for wastage. The previous study used 120 and the project guidelines recommend a minimum of 100.",
+    "why": "He will distribute more questionnaires than the 50 responses he expects to analyse, so option B is correct.",
+    "trap": "A: The previous study used 120, not 80. C: The guidelines recommend 100, but John plans to distribute about 80.",
+    "explanation": "John will send out about 80 questionnaires even though he expects to analyse only around 50 completed responses.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 91,
+    "sourceLabel": "Test 91",
+    "topic": "Research Methods - Variables",
+    "prompt": "Which new variable does John agree to add to his investigation?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Occupation"
+      },
+      {
+        "code": "B",
+        "text": "Income group"
+      },
+      {
+        "code": "C",
+        "text": "Qualifications"
+      }
+    ],
+    "answer": "C",
+    "evidence": "John was already planning to analyse the kind of work people do. The tutor suggests adding education, for example whether respondents have a degree, and John agrees.",
+    "why": "Education level and whether someone has a degree are measures of qualifications, so option C is correct.",
+    "trap": "A: Occupation was already part of John's plan, so it is not the new variable. B: Income group is not the variable the tutor suggests in this exchange.",
+    "explanation": "John agrees to add qualifications or education level as a new variable.",
+    "audio": "audio/question-05.mp3"
+  }
+]

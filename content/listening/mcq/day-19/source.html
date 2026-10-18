@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111425"><title>DAY 19 MCQ | Learners Area</title>
+<style>
+:root{--bg:#0f1120;--card:#171a30;--card2:#1d2140;--border:#272b45;--violet:#8b87ff;--violet2:#aba8ff;--paper:#f2f3fb;--muted:#9aa0c3;--ok:#4ade80;--bad:#f87171;--ink:#151515;--examBorder:#d8dce4;--examBlue:#2563eb}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Sora,Inter,Arial,sans-serif;background:var(--bg);color:#fff}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+/* Hub */
+.hub{min-height:100vh;padding:34px 22px 60px;background:radial-gradient(circle at 80% 0,#24284b 0,transparent 34%),var(--bg)}.hub-inner{max-width:1160px;margin:auto}.brand{font-weight:900;letter-spacing:.1em;font-size:15px}.brand span{color:var(--violet)}.eyebrow{color:var(--violet2);font:700 12px DM Mono,monospace;letter-spacing:.13em;text-transform:uppercase}.hub h1{font-family:"Crimson Pro",Georgia,serif;font-size:clamp(42px,7vw,78px);line-height:.92;margin:28px 0 14px}.hub p.lead{max-width:760px;color:#c2c6df;font-size:17px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:15px;margin-top:30px}.activity-card{border:1px solid var(--border);background:linear-gradient(180deg,#1a1d35,#15182b);color:#fff;border-radius:16px;padding:20px;text-align:left;min-height:170px;transition:.18s}.activity-card:hover{transform:translateY(-2px);border-color:#5550b3}.num{font:700 12px DM Mono,monospace;color:var(--violet2)}.activity-card h2{font-size:20px;margin:28px 0 7px}.activity-card p{color:var(--muted);margin:0;font-size:13px}.open-chip{display:inline-block;margin-top:18px;padding:8px 11px;border-radius:8px;background:var(--violet);color:#0f1120;font-weight:850;font-size:12px}
+/* Activity shell */
+.activity{display:none;min-height:100vh;background:#f5f6fa;color:#111}.activity.active{display:block}.activity-top{height:54px;background:#111425;color:#fff;display:flex;align-items:center;gap:12px;padding:0 16px;position:sticky;top:0;z-index:1500}.back-btn,.top-btn{border:1px solid #3c405d;background:#1c2039;color:#fff;border-radius:8px;padding:8px 11px;font-weight:800}.activity-title{font-weight:850}.spacer{flex:1}.learn-wrap{max-width:1100px;margin:auto;padding:26px 18px 70px}.learn-wrap h1,.learn-wrap h2,.learn-wrap h3{color:#171927}.muted{color:#68708a}.panel{background:#fff;border:1px solid #e0e3eb;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 3px 16px rgba(22,26,48,.06)}
+.btn{border:1px solid #d3d7e2;background:#fff;border-radius:9px;padding:9px 13px;font-weight:800;color:#20243a}.btn.primary{background:#181b2e;color:#fff;border-color:#181b2e}.btn.violet{background:var(--violet);color:#111425;border-color:var(--violet)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.tabs button.active{background:#181b2e;color:#fff}
+/* Exam start/loading */
+.exam-root{min-height:100vh;background:#fff;color:#181818}.loading-screen,.start-screen{position:fixed;inset:54px 0 0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:1400}.loading-content,.start-content{text-align:center;max-width:520px;padding:30px}.spinner{width:42px;height:42px;border:4px solid #e8eaf0;border-top-color:#1d2438;border-radius:50%;margin:0 auto 20px;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.start-mark{width:64px;height:64px;border-radius:16px;background:#111425;color:#fff;display:grid;place-items:center;margin:0 auto 16px;font-weight:950}.start-title{font:700 38px "Crimson Pro",Georgia,serif;margin:0 0 9px}.start-subtitle{color:#606779}.start-button{margin-top:20px;border:0;background:#161a2e;color:#fff;border-radius:10px;padding:14px 25px;font-weight:900;font-size:16px}
+/* Exam reference-style interface */
+.exam-interface{min-height:calc(100vh - 54px);background:#fff;color:#151515;padding-bottom:104px}.exam-header{height:58px;border-bottom:1px solid #dfe2e8;display:flex;align-items:center;padding:0 18px;gap:14px;position:sticky;top:54px;background:#fff;z-index:1000}.exam-logo{font-weight:950;font-size:22px;letter-spacing:-.04em}.test-id{color:#6b7280;font-size:12px}.exam-right{margin-left:auto;display:flex;align-items:center;gap:10px}.timer{font:800 14px DM Mono,monospace;padding:7px 10px;border-radius:7px;background:#f3f4f6}.exam-icon{width:38px;height:38px;border:1px solid #d9dde5;background:#fff;border-radius:8px;display:grid;place-items:center}.volume{display:flex;align-items:center;gap:6px;color:#4b5563;font-size:12px}.volume input{width:88px}.part-header{padding:18px 26px 16px;border-bottom:1px solid #e1e3e8;background:#fafafa}.part-header h1{font-size:20px;margin:0 0 5px}.part-header p{margin:0;color:#606776}.questions-section{max-width:1040px;margin:0 auto;padding:22px 24px 36px}.exam-content{font-size:16px;line-height:1.6}.task-card{background:#fff;border:0;padding:0;margin:0 0 34px}.task-card h2{display:none}.question-prompt{margin:0 0 18px}.instructions-block p{margin:3px 0}.centered-title{text-align:center;font:700 24px "Crimson Pro",Georgia,serif;margin:18px 0}.ielts-table,.form-table,.notes-table{width:100%;border-collapse:collapse;margin:12px 0 22px}.ielts-table td,.ielts-table th{border:1px solid #333;padding:10px;vertical-align:top}.notes-table th{background:#f1f2f4}.answer-input{border:0;border-bottom:2px solid #71717a;min-width:145px;padding:4px 5px;background:transparent;outline:none}.answer-input:focus{border-bottom-color:#2563eb;background:#f4f8ff}.summary-section{border:1px solid #444;padding:14px;margin:12px 0}.q-block{scroll-margin-top:155px}.multi-choice-option{display:flex;align-items:flex-start;gap:9px;padding:8px 10px;border-radius:6px;margin:2px 0}.multi-choice-option:hover{background:#f5f6f8}.multi-choice-option input{margin-top:5px}.ldm-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,.75fr);gap:20px}.ldm-left,.ldm-right{border:1px solid #d7dae1;border-radius:9px;padding:12px}.ldm-row{display:grid;grid-template-columns:minmax(160px,1fr) minmax(200px,.7fr);gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #eceef2}.ldm-row:last-child{border:0}.ldm-slot{border:2px dashed #9aa0aa;border-radius:8px;min-height:44px;padding:10px;background:#fafafa;color:#6b7280}.ldm-slot.filled{border-style:solid;border-color:#1f2937;color:#111;background:#f1f5f9}.option-bank-title{font-weight:900;margin-bottom:8px}.ldm-option{display:flex;gap:8px;border:1px solid #d7dae1;border-radius:8px;padding:9px;margin:7px 0;background:#fff}.ldm-option.selected{outline:2px solid #2563eb;background:#eff6ff}.ldm-option.used{opacity:.42}.ldm-code{font-weight:900}.bottom-navigation{position:fixed;bottom:0;left:0;right:0;height:92px;background:#fff;border-top:1px solid #d9dde4;z-index:1100;display:flex;align-items:center;padding:8px 16px;gap:12px}.parts-navigation{display:flex;align-items:stretch;gap:7px;flex:1;overflow:auto}.part-nav-item{display:flex;align-items:center;gap:6px}.part-button{height:42px;border:1px solid #cfd3db;background:#fff;border-radius:6px;padding:0 14px;font-weight:850}.part-button.active{background:#e9efff;border-color:#5373d6}.question-numbers{display:flex;gap:4px}.question-number{width:33px;height:33px;border:1px solid #d1d5db;background:#fff;border-radius:5px;font:750 12px DM Mono,monospace}.question-number.answered{background:#e7f7ec;border-color:#66bb7a}.question-number.flagged{box-shadow:inset 0 -4px #f59e0b}.question-number.current{outline:2px solid #111}.nav-arrow{width:42px;height:42px;border:1px solid #d1d5db;background:#fff;border-radius:6px;font-size:20px}.exam-tools{position:fixed;right:18px;bottom:108px;z-index:1200;display:flex;gap:7px}.exam-tools button{border:1px solid #c9cdd6;background:#fff;border-radius:8px;padding:9px 11px;font-weight:800}.submit-bar{max-width:1040px;margin:0 auto 40px;padding:0 24px;display:flex;justify-content:flex-end}.submit-button{background:#111827;color:#fff;border:0;border-radius:9px;padding:12px 20px;font-weight:900}.exam-status{font-size:12px;color:#6b7280}.flag-btn.active{background:#fff7ed;border-color:#f59e0b}.review-phase{color:#b45309;font-weight:900}
+/* Options modal and results */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:3000;display:flex;align-items:center;justify-content:center;padding:18px}.modal-card{width:min(680px,96vw);max-height:90vh;overflow:auto;background:#fff;color:#111;border-radius:14px;padding:20px;box-shadow:0 20px 80px rgba(0,0,0,.35)}.modal-card h2{margin-top:0}.option-row{display:flex;justify-content:space-between;align-items:center;padding:14px 5px;border-bottom:1px solid #eee}.choice-buttons{display:flex;gap:6px}.choice-buttons button{border:1px solid #ccc;background:#fff;border-radius:7px;padding:7px 9px}.choice-buttons button.active{background:#111827;color:#fff}.score-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.score-box{padding:12px;border:1px solid #ddd;border-radius:9px;text-align:center}.score-box b{font-size:22px;display:block}.result-list{max-height:420px;overflow:auto;margin-top:14px}.result-row{display:grid;grid-template-columns:48px 1fr 1fr 55px;gap:7px;padding:8px;border-bottom:1px solid #eee;font-size:13px}.ok{color:#15803d}.bad{color:#b91c1c}
+/* Learning activities */
+.review-layout{display:grid;grid-template-columns:1fr;gap:10px}.review-card{border:1px solid #e0e3eb;border-radius:12px;padding:14px;background:#fff}.review-card.bad-card{border-left:4px solid var(--bad)}.kv{display:grid;grid-template-columns:130px 1fr;gap:5px 10px;font-size:13px}.evidence{background:#fff8db;border-left:4px solid #eab308;padding:10px;margin:10px 0;border-radius:7px}.audio-trainer{display:grid;grid-template-columns:auto auto auto 1fr auto;gap:8px;align-items:center}.audio-trainer input[type=range]{width:100%}.audio-time{font:750 12px DM Mono,monospace}.practice-card{border:1px solid #e0e3eb;border-radius:12px;padding:16px;background:#fff;margin:12px 0}.practice-options{display:grid;gap:7px;margin:12px 0}.practice-option{border:1px solid #d5d9e1;border-radius:8px;padding:10px;background:#fff;text-align:left}.practice-option.selected{border-color:#4f46e5;background:#eef2ff}.feedback{background:#eef7ef;border-left:4px solid #22c55e;padding:10px;border-radius:7px;margin-top:10px}.script-row{border-bottom:1px solid #e6e8ee;padding:14px 0}.script-row input{min-width:190px;border:1px solid #cfd4dd;border-radius:7px;padding:7px}.script-result{font-size:12px;font-weight:800;margin-left:7px}.script-audio-panel{margin:12px 0 16px}.script-transcript{font-family:Georgia,serif;line-height:2.05;font-size:16px;background:#fff;border:1px solid #e0e3eb;border-radius:12px;padding:20px;white-space:normal}.script-gap-wrap{display:inline-flex;align-items:center;gap:5px;vertical-align:baseline;margin:0 2px}.script-gap-number{font:800 12px DM Mono,monospace;color:#4f46e5}.script-gap-input{width:clamp(145px,18vw,235px);padding:6px 8px;border:1px solid #aeb7c5;border-radius:6px;background:#fff;line-height:1.25}.script-gap-input:focus{outline:2px solid #8b87ff;outline-offset:1px}.script-gap-input.gap-ok{border-color:#22c55e;background:#f0fdf4}.script-gap-input.gap-bad{border-color:#ef4444;background:#fff7f7}.script-gap-answer{display:none;font-size:12px;font-weight:800;color:#b42318;margin-left:2px}.script-gap-answer.show{display:inline}.script-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;align-items:center}.script-score{font-weight:850}.script-part-note{font-size:13px;color:#6b7280;margin:8px 0 14px}@media(max-width:760px){.script-transcript{font-size:15px;padding:14px;line-height:2.15}.script-gap-wrap{display:inline}.script-gap-input{width:min(190px,62vw);margin:3px 2px}.script-gap-number{margin-right:3px}}.vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.vocab-card{border:1px solid #e0e3eb;background:#fff;border-radius:12px;padding:14px}.vocab-word{font-size:18px;font-weight:900}.vocab-meta{font-size:12px;color:#6b7280}.vocab-context{font-size:13px;background:#f7f8fa;padding:8px;border-radius:7px;margin:8px 0}.retry-item{display:flex;gap:9px;align-items:center;justify-content:space-between;border-bottom:1px solid #e7e9ee;padding:10px 0}.transcript{font-family:Georgia,serif;line-height:1.75;white-space:normal}.transcript .highlight{background:#fff1a8;padding:0 2px}.save-toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#111827;color:#fff;padding:9px 14px;border-radius:8px;z-index:5000;display:none}
+/* contrast/text sizes */
+.exam-root.contrast-whiteblack .exam-interface,.exam-root.contrast-whiteblack .exam-header,.exam-root.contrast-whiteblack .part-header,.exam-root.contrast-whiteblack .bottom-navigation,.exam-root.contrast-whiteblack .task-card,.exam-root.contrast-whiteblack .questions-section{background:#000!important;color:#fff!important}.exam-root.contrast-whiteblack .part-header p,.exam-root.contrast-whiteblack .test-id{color:#ddd}.exam-root.contrast-whiteblack .part-button,.exam-root.contrast-whiteblack .question-number,.exam-root.contrast-whiteblack .nav-arrow,.exam-root.contrast-whiteblack .exam-icon,.exam-root.contrast-whiteblack .multi-choice-option{background:#000;color:#fff;border-color:#777}.exam-root.contrast-yellowblack .exam-interface,.exam-root.contrast-yellowblack .exam-header,.exam-root.contrast-yellowblack .part-header,.exam-root.contrast-yellowblack .bottom-navigation,.exam-root.contrast-yellowblack .task-card,.exam-root.contrast-yellowblack .questions-section{background:#000!important;color:#ffeb3b!important}.exam-root.contrast-yellowblack .part-header p,.exam-root.contrast-yellowblack .test-id{color:#ffeb3b}.exam-root.contrast-yellowblack .part-button,.exam-root.contrast-yellowblack .question-number,.exam-root.contrast-yellowblack .nav-arrow,.exam-root.contrast-yellowblack .exam-icon,.exam-root.contrast-yellowblack .multi-choice-option{background:#000;color:#ffeb3b;border-color:#a58f00}
+.exam-root.size-small .exam-content{font-size:14px}.exam-root.size-medium .exam-content{font-size:16px}.exam-root.size-large .exam-content{font-size:18px}.exam-root.size-xlarge .exam-content{font-size:21px}
+@media(max-width:850px){.ldm-wrap{grid-template-columns:1fr}.bottom-navigation{height:auto;min-height:92px}.part-nav-item{align-items:flex-start}.question-numbers{display:grid;grid-template-columns:repeat(5,33px)}.exam-interface{padding-bottom:128px}.exam-tools{bottom:140px}.score-grid{grid-template-columns:repeat(2,1fr)}.audio-trainer{grid-template-columns:auto auto auto 1fr}.audio-trainer select{grid-column:1/-1}.volume{display:none}}
+@media(max-width:620px){.exam-header{padding:0 10px}.test-id{display:none}.questions-section{padding:18px 12px}.part-header{padding:14px 12px}.bottom-navigation{padding:7px}.part-button{padding:0 9px}.part-nav-item:not(:has(.part-button.active)) .question-numbers{display:none!important}.question-numbers{grid-template-columns:repeat(5,30px)}.question-number{width:30px;height:30px}.exam-right .exam-status{display:none}.ldm-row{grid-template-columns:1fr}.kv{grid-template-columns:1fr}.result-row{grid-template-columns:36px 1fr 40px}.result-row .correct-col{display:none}}
+
+
+/* Corrected runtime + branding additions */
+.brand-link{display:inline-flex;align-items:center;gap:7px;color:inherit;text-decoration:none;transition:.15s}.brand-link:hover{opacity:.86}.telegram-icon{width:17px;height:17px;display:inline-block;flex:none;color:#2aabee}.start-brand-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;color:#111827;text-decoration:none}.start-brand-link .start-title{margin:0}.exam-telegram-brand{display:inline-flex;align-items:center;gap:6px;color:#374151;text-decoration:none;font-weight:800;font-size:12px;white-space:nowrap}.exam-telegram-brand:hover{color:#111827}.exam-telegram-brand .telegram-icon{width:15px;height:15px}.exam-icon.action-label{width:auto;min-width:70px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:850}.flag-btn.active{background:#fff7ed!important;border-color:#f59e0b!important;color:#9a5800}.question-number{position:relative}.question-number.noted::after{content:'';position:absolute;right:2px;top:2px;width:6px;height:6px;border-radius:50%;background:#2aabee}.audio-trainer{display:flex!important;flex-wrap:wrap;gap:8px;align-items:center}.audio-trainer input[type=range]{flex:1 1 230px;min-width:150px}.audio-trainer .btn{white-space:nowrap}.clip-playing{background:#181b2e!important;color:#fff!important;border-color:#181b2e!important}.review-answer-box{margin:10px 0 4px;padding:12px;border:1px solid #e0e3eb;border-radius:10px;background:#fafbfc}.review-answer-input{width:min(520px,100%);padding:10px 11px;border:1px solid #cfd4dd;border-radius:8px;background:#fff}.review-answer-options{display:grid;gap:6px;margin-top:8px}.review-answer-options label{display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border:1px solid #e0e3eb;border-radius:8px;background:#fff}.review-answer-options label:hover{background:#f7f8fb}.review-score{font-weight:900;color:#1f2937}.note-modal{position:fixed;inset:0;background:rgba(15,17,32,.42);z-index:4000;display:flex;align-items:flex-start;justify-content:flex-end;padding:78px 18px 18px}.note-card{width:min(420px,94vw);background:#fff;color:#111827;border-radius:14px;box-shadow:0 24px 80px rgba(0,0,0,.28);padding:18px;border:1px solid #dce0e8}.note-head{display:flex;align-items:center;gap:10px}.note-head h2{margin:0;font-size:20px}.note-head .spacer{flex:1}.note-close{border:0;background:#f2f3f6;width:34px;height:34px;border-radius:8px;font-size:20px}.note-help{font-size:12px;color:#6b7280;line-height:1.45}.note-card textarea{width:100%;min-height:180px;resize:vertical;padding:11px;border:1px solid #cfd4dd;border-radius:9px;line-height:1.5}.note-actions{display:flex;justify-content:space-between;gap:8px;margin-top:10px}.note-saved{font-size:12px;color:#15803d;min-height:18px;margin-top:7px}.review-empty{color:#7b8293;font-style:italic}
+@media(max-width:760px){.exam-telegram-brand{display:none}.exam-icon.action-label{min-width:58px;padding:0 7px}.audio-trainer{align-items:stretch}.audio-trainer input[type=range]{flex-basis:100%;order:6}.note-modal{padding:70px 10px 10px}.note-card{width:100%}}
+
+
+@media(max-width:620px){.exam-header{padding:0 6px;gap:5px}.exam-logo{font-size:18px}.exam-right{gap:4px}.timer{font-size:11px;padding:6px 7px}.volume{font-size:0;gap:0}.volume input{width:52px}.exam-icon{width:34px;height:34px}.exam-icon.action-label{min-width:48px;height:34px;padding:0 5px;font-size:10px}#fullscreenBtn{display:none}.questions-section{padding-left:10px;padding-right:10px}.ielts-table,.form-table,.notes-table{table-layout:fixed;width:100%!important;max-width:100%!important}.ielts-table td,.ielts-table th,.form-table td,.form-table th,.notes-table td,.notes-table th{overflow-wrap:anywhere}.answer-input{min-width:0!important;width:min(150px,100%)!important;max-width:100%!important}.input-cell{width:auto!important}.ldm-wrap{grid-template-columns:1fr}.ldm-row{grid-template-columns:1fr}}
+
+@media(max-width:620px){.activity-top{height:auto;min-height:54px;padding:7px 9px;gap:7px}.activity-top .back-btn{padding:7px 8px;font-size:12px;white-space:nowrap}.activity-title{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:96px}.activity-top .brand-link{font-size:11px;letter-spacing:.07em;white-space:nowrap}.activity-top .telegram-icon{width:15px;height:15px}}
+\n
+/* Day 1 MCQ: tuned using the corrected Learners Area MCQ reference. */
+:root{color-scheme:light}
+body{background:#0f1120}
+button:focus-visible,textarea:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #8b87ff;outline-offset:3px}
+button:disabled{opacity:.48;cursor:not-allowed}
+.page-hidden{display:none!important}
+#app{min-height:100vh}
+.day1-shell{background:#f5f6fa;min-height:100vh;color:#111827}
+.day1-head{position:sticky;top:0;z-index:40;min-height:54px;background:#111425;display:flex;align-items:center;gap:13px;padding:7px 16px;color:#fff}
+.day1-head .activity-title{font-weight:850;letter-spacing:.01em}
+.day1-head .brand-link{font-weight:900;font-size:13px;letter-spacing:.09em}
+.day1-brand-area{color:#aba8ff}
+.day1-brand-icon{width:16px;height:16px;color:#2aabee}
+.day1-main{max-width:1100px;margin:0 auto;padding:40px 18px 70px}
+.day1-main h1{font-size:34px;letter-spacing:-.035em;margin:0 0 16px;color:#171927}
+.day1-main p.intro{color:#636d85;font-size:15px;margin:0 0 18px}
+.day1-nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:18px 0 16px}
+.day1-nav button{width:45px;height:42px;font-weight:850;border:1px solid #d3d7e2;border-radius:9px;background:#fff;color:#1c2033}
+.day1-nav button.active{background:#181b2e;color:#fff;border-color:#181b2e}
+.day1-nav button.checked{border-color:#16a34a;background:#eaf8ed;color:#146c32}
+.day1-nav button.checked.active{background:#181b2e;color:#fff;border-color:#181b2e}
+.day1-nav button:after{content:''}
+.progress-meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;color:#677088;font-size:13px}
+.progress-track{height:6px;background:#e0e3ec;border-radius:8px;overflow:hidden;flex:1;min-width:110px}
+.progress-fill{height:100%;width:0;background:#8b87ff;transition:width .2s}
+.mcq-day-card{border:1px solid #e0e3eb;border-radius:12px;padding:16px;background:#fff;margin:12px 0}
+.mcq-day-card h2{font-size:23px;line-height:1.35;letter-spacing:-.01em;margin:18px 0 18px;color:#181b2e}
+.mcq-day-card h3{font-size:18px;margin:22px 0 10px;color:#181b2e}
+.mcq-day-card .muted{color:#68708a}
+.mcq-instruction{font-size:15px;color:#3c465a;margin:0 0 18px}
+.mcq-audio{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:10px 0 17px}
+.mcq-audio .btn{font-size:13px;padding:9px 11px;min-height:38px}
+.mcq-audio .mcq-seek{flex:1;min-width:120px;accent-color:#5450b4}
+.mcq-audio .mcq-time{font:700 12px 'DM Mono',monospace;color:#68708a;min-width:77px;text-align:right}
+.mcq-audio select{border-radius:7px;border:1px solid #d3d7e2;background:#fff;height:38px;padding:0 7px;font-size:13px}
+.mcq-prediction-label{display:block;font-size:14px;font-weight:800;margin-bottom:7px}
+#mcqPrediction{width:100%;min-height:87px;border:1px solid #9da3ad;border-radius:2px;padding:10px;font-size:15px;line-height:1.5;resize:vertical;display:block;margin:0 0 12px}
+#mcqPrediction[readonly]{background:#f8f9fc;border-color:#d5d9e1}
+.mcq-stage-intro{margin:0 0 14px;font-size:15px}
+.mcq-stage-intro strong{font-weight:850;color:#171927}
+.option-grid{display:grid;gap:7px;margin:13px 0 14px}
+.mcq-option{width:100%;display:flex;gap:12px;align-items:flex-start;border:1px solid #d3d7e2;border-radius:8px;padding:11px 13px;background:#fff;color:#151827;text-align:left;line-height:1.5}
+.mcq-option:hover:not(:disabled){background:#f7f8fc}
+.mcq-option.selected{border-color:#4f46e5;background:#eef2ff}
+.mcq-option.correct{background:#edf9f0;border-color:#23904f}
+.mcq-option.incorrect{background:#fff1f2;border-color:#e05262}
+.mcq-option .option-code{font-weight:900;width:22px;flex:none}
+.mcq-option .option-label{flex:1}
+.mcq-option .option-result{font-weight:800;font-size:12px;align-self:center}
+.mcq-feedback{background:#eef7ef;border-left:4px solid #22c55e;padding:14px;border-radius:7px;margin:16px 0 8px;line-height:1.6;font-size:14px}
+.mcq-feedback.wrong{border-left-color:#f87171;background:#fff4f4}
+.mcq-feedback h3{margin:0 0 12px}
+.mcq-feedback p{margin:8px 0}
+.mcq-feedback .feedback-strong{font-weight:850;color:#111827}
+.mcq-feedback .explanation-title{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#677088;font-weight:900}
+.mcq-feedback .answer-summary{font-weight:850;margin-bottom:7px}
+.question-actions{display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}
+.question-actions .btn{min-height:40px}
+.help-error{color:#b91c1c;font-weight:750;font-size:13px;margin:7px 0 0;min-height:17px}
+.stage-divider{border:0;border-top:1px solid #e7e9f0;margin:20px 0}
+.stage-locked{color:#7a8090;font-size:13px}
+.day1-score{background:#fff;border:1px solid #e0e3eb;border-radius:14px;padding:26px;margin:18px 0}
+.day1-score .big{font-size:55px;font-weight:900;letter-spacing:-.04em;margin:10px 0}
+.score-list{display:grid;gap:8px;margin:18px 0}
+.score-row{display:flex;justify-content:space-between;gap:12px;align-items:center;background:#f8f9fc;padding:11px 13px;border-radius:9px}
+.score-row .good{color:#15803d;font-weight:850}.score-row .poor{color:#b91c1c;font-weight:850}
+.hub .day1-activity{max-width:570px}
+.hub .hub-inner>.day1-lead{max-width:710px}
+.hub .activity-card{text-decoration:none;display:block}
+.hub .activity-card h2{margin-top:20px}
+.hub .activity-card .activity-detail{font-size:13px;color:#c1c5db}
+.hub .activity-card .day1-num{font-size:12px;color:#aba8ff;font-weight:800}
+.hub-meta{color:#9aa0c3;font:750 12px DM Mono,monospace;letter-spacing:.07em;margin-top:19px}
+.brand-link{display:inline-flex;align-items:center;gap:7px;color:inherit;text-decoration:none;transition:.15s}
+.brand-link:hover{opacity:.86}
+.stage-current{border-left:3px solid #8b87ff;padding-left:12px}
+@media(max-width:620px){
+ .day1-head{padding:7px 9px;gap:8px}
+ .day1-head .back-btn{font-size:12px;padding:7px 8px}
+ .day1-head .activity-title{font-size:13px}
+ .day1-head .brand-link{font-size:11px;letter-spacing:.04em}
+ .day1-brand-icon{width:13px;height:13px}
+ .day1-main{padding:23px 12px 50px}
+ .day1-main h1{font-size:28px}
+ .mcq-day-card{padding:13px}
+ .mcq-day-card h2{font-size:20px}
+ .mcq-audio .mcq-seek{order:6;flex-basis:100%}
+ .mcq-audio .mcq-time{margin-left:auto}
+ .hub{padding:24px 16px 50px}
+ .question-actions .btn{font-size:13px;padding:9px}
+}
+</style>
+</head><body>
+<div id="app">
+<section class="hub" id="hub" aria-label="DAY 19 MCQ activities">
+  <div class="hub-inner">
+    <a class="brand brand-link" target="_blank" rel="noopener noreferrer" href="https://t.me/LEARNERS_AREA" aria-label="Open Learners Area Telegram channel">
+      LEARNERS <span>AREA</span><svg class="telegram-icon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M21.7 3.3 18.5 20c-.2 1.2-.9 1.5-1.8.9l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6 13.8l-4.8-1.5c-1-.3-1.1-1 .2-1.5L20 3.6c.9-.3 1.8.2 1.7-.3Z" fill="currentColor"/></svg>
+    </a>
+    <div class="eyebrow" style="margin-top:70px">IELTS Listening • MCQ Mastery</div>
+    <h1>DAY 19<br>MCQ</h1>
+    <p class="lead day1-lead">Five listening clips. Five questions. Predict your answer, reveal the options, then analyse the evidence and distractors.</p>
+    <div class="cards day1-activity">
+      <button type="button" class="activity-card" id="startActivity"><span class="day1-num">01 / MCQ Mastery</span>
+      <h2>Start MCQ Practice</h2><p class="activity-detail">Art Exhibition Test 92-93 · Fishing Competition Test 94-96 · 5 individual audio clips · 3-step learning method</p><span class="open-chip">Open activity →</span></button>
+    </div>
+    <div class="hub-meta">5 QUESTIONS &nbsp; / &nbsp; 5 AUDIO CLIPS &nbsp; / &nbsp; OFFLINE READY</div>
+  </div>
+</section>
+<section class="day1-shell page-hidden" id="practice" aria-label="MCQ Mastery">
+  <header class="day1-head">
+    <button type="button" class="back-btn" id="backHub">← Activities</button>
+    <span class="activity-title">DAY 19 MCQ</span><div class="spacer"></div>
+    <a class="brand-link" target="_blank" rel="noopener noreferrer" href="https://t.me/LEARNERS_AREA" aria-label="Open Learners Area Telegram channel">LEARNERS <span class="day1-brand-area">AREA</span><svg class="day1-brand-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.7 3.3 18.5 20c-.2 1.2-.9 1.5-1.8.9l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6 13.8l-4.8-1.5c-1-.3-1.1-1 .2-1.5L20 3.6c.9-.3 1.8.2 1.7-.3Z" fill="currentColor"/></svg></a>
+  </header>
+  <main class="day1-main">
+    <div id="mcqArea">
+     <h1>MCQ Mastery</h1>
+     <p class="intro">Step 1: predict without options. Step 2: choose. Step 3: inspect distractors.</p>
+     <div class="progress-meta"><span id="progressLabel">0 / 5 checked</span><div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div><span id="mcqCounter">MCQ 1 of 5</span></div>
+     <nav class="day1-nav" aria-label="Choose MCQ question" id="questionNav"></nav>
+     <article class="mcq-day-card" id="questionCard">
+       <div id="qHeader"></div>
+       <p class="mcq-stage-intro"><strong>Step 1 - Own answer.</strong> Listen to the evidence window and write what you think the answer means before seeing options.</p>
+       <div class="mcq-audio" aria-label="Question audio controls">
+          <button type="button" class="btn" id="audioPlay">▶ Listen to evidence window</button>
+          <button type="button" class="btn" id="audioReplay" aria-label="Replay clip from beginning">↻ Replay</button>
+          <input type="range" class="mcq-seek" min="0" max="1000" value="0" id="audioSeek" aria-label="Seek within question audio">
+          <span class="mcq-time" id="audioTime">0:00 / 0:00</span>
+          <select id="audioSpeed" aria-label="Audio playback speed"><option value="1">1.0×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="0.75">0.75×</option><option value="2">2.0×</option></select>
+       </div>
+       <div id="qStages"></div>
+       <div class="question-actions">
+          <button type="button" class="btn" id="prevMCQ">← Previous</button>
+          <button type="button" class="btn" id="nextMCQ">Next →</button>
+       </div>
+     </article>
+    </div>
+    <section id="results" class="page-hidden" aria-label="DAY 19 MCQ result"></section>
+  </main>
+</section>
+<audio id="sharedAudio" preload="metadata"></audio>
+<div aria-live="polite" id="saveToast" class="save-toast"></div>
+<script>
+'use strict';
+const QUESTIONS=[{"q":92,"sourceLabel":"Test 92","topic":"Art Exhibition - Last Year's Work","prompt":"In last year's exhibition, both students were impressed by","options":[{"code":"A","text":"a set of metal sculptures."},{"code":"B","text":"a series of wooden models."},{"code":"C","text":"a collection of textile designs."}],"answer":"B","evidence":"Both students remember the wooden cars and trains and agree that the work was delicate. The textiles are not remembered by both, and metal is mentioned only as a comparison.","why":"The shared positive reaction is to the wooden models, so option B is correct.","trap":"A: Metal sculptures are not the work both students identify as impressive. C: The textile designs are not remembered positively by both speakers.","explanation":"The common point of agreement concerns the delicate wooden models shown in the previous year's exhibition.","audio":"audio/question-01.mp3"},{"q":93,"sourceLabel":"Test 93","topic":"Art Exhibition - Expectations","prompt":"Max and Abby agree that in the art exhibition they are looking forward to","options":[{"code":"A","text":"showing people their work."},{"code":"B","text":"getting feedback from their tutor."},{"code":"C","text":"talking to other students about their displays."}],"answer":"A","evidence":"Abby says she is excited about letting friends and family see what she has produced, and Max responds, 'Me too.' They do not show the same shared enthusiasm about tutor feedback or the other students' displays.","why":"Both explicitly agree that they are looking forward to showing other people their own work, so option A is correct.","trap":"B: Abby wonders what tutor feedback will be like, while Max says he is nervous about it. C: Max is keen to see other students' work, but Abby points out that they have already seen it during the year.","explanation":"Their shared excitement is about presenting their own finished work to friends, family and other visitors.","audio":"audio/question-02.mp3"},{"q":94,"sourceLabel":"Test 94","topic":"Fishing Competition - Judging","prompt":"What will happen at 6pm on Sunday?","options":[{"code":"A","text":"The time allocated for fishing will end."},{"code":"B","text":"The fish caught will be judged."},{"code":"C","text":"The prizes will be awarded to the winners."}],"answer":"B","evidence":"Fishing stops at 5:30 p.m. At exactly 6 p.m., the judges begin weighing the fish to determine the winners. Prize-giving takes place later in the evening.","why":"The 6 p.m. activity is the judging and weighing of the fish, which matches option B.","trap":"A: Fishing ends at 5:30 p.m., not 6 p.m. C: Prize-giving happens later in the evening.","explanation":"At 6 p.m. the judges start weighing the catches to decide the winners.","audio":"audio/question-03.mp3"},{"q":95,"sourceLabel":"Test 95","topic":"Fishing Competition - Licence","prompt":"Participants without a fishing license are recommended to apply for one","options":[{"code":"A","text":"at the registration desk."},{"code":"B","text":"over the phone."},{"code":"C","text":"on the internet."}],"answer":"C","evidence":"Online applications produce a licence immediately. Licences cannot be sold at the competition, while a telephone application is sent by post and would not arrive in time.","why":"Applying online is the only method described as immediate enough for participants who still need a licence, so option C is correct.","trap":"A: The organisers are not allowed to sell licences at the competition. B: Applying by phone results in postal delivery, which is too slow for the current event.","explanation":"Participants who still need a licence should apply online because it can be issued immediately.","audio":"audio/question-04.mp3"},{"q":96,"sourceLabel":"Test 96","topic":"Fishing Competition - Entrance Fee","prompt":"What does the entrance fee to the competition include?","options":[{"code":"A","text":"equipment for fishing"},{"code":"B","text":"all food for both days"},{"code":"C","text":"fuel for the fishing boat"}],"answer":"B","evidence":"The competition is fully catered, so participants can use the dining tent whenever they are hungry today or tomorrow. They must bring their own fishing equipment and pay for boat petrol themselves.","why":"Food for both days is included in the entrance fee, which matches option B.","trap":"A: Participants are expected to bring their own hooks, rods and other fishing gear. C: Anyone using a boat must cover the cost of petrol separately.","explanation":"The entrance fee covers catering throughout both days, but not fishing equipment or boat fuel.","audio":"audio/question-05.mp3"}];
+const $=sel=>document.querySelector(sel);
+const $$=sel=>Array.from(document.querySelectorAll(sel));
+const escapeHtml=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const answerFor=(q,c)=>q.options.find(x=>x.code===c)?.text||'';
+const snapshots=QUESTIONS.map(()=>({prediction:'',stage:1,selected:null,checked:false}));
+let activeIndex=0,resultsOpen=false;
+const player=$('#sharedAudio');
+let toastTimer;
+function toast(s){const el=$('#saveToast');el.textContent=s;el.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.style.display='none',2400)}
+const formatTime=(seconds)=>{if(!Number.isFinite(seconds))return '0:00';const i=Math.floor(Math.max(0,seconds));return Math.floor(i/60)+':'+String(i%60).padStart(2,'0')};
+function audioStop(){player.pause();try{player.currentTime=0}catch(e){}refreshAudioControls()}
+function refreshAudioControls(){
+ const dur=Number.isFinite(player.duration)?player.duration:0;
+ const now=player.currentTime||0;
+ $('#audioTime').textContent=formatTime(now)+' / '+formatTime(dur);
+ $('#audioSeek').value=dur?String(Math.round(1000*now/dur)):'0';
+ const playing=!player.paused&&!player.ended;
+ $('#audioPlay').textContent=playing?'❚❚ Pause evidence':'▶ Listen to evidence window';
+ $('#audioPlay').classList.toggle('clip-playing',playing);
+}
+function loadClip(){audioStop();player.src=QUESTIONS[activeIndex].audio;player.load();player.playbackRate=Number($('#audioSpeed').value)||1;refreshAudioControls()}
+async function toggleClip(){try{if(player.paused||player.ended){if(player.ended)player.currentTime=0;await player.play()}else player.pause()}catch(e){toast('Audio could not start. Try Replay.')}refreshAudioControls()}
+async function replayClip(){player.pause();try{player.currentTime=0;await player.play()}catch(e){toast('Audio could not start.')}refreshAudioControls()}
+$('#audioPlay').addEventListener('click',toggleClip);
+$('#audioReplay').addEventListener('click',replayClip);
+$('#audioSeek').addEventListener('input',e=>{if(Number.isFinite(player.duration)&&player.duration>0)player.currentTime=Number(e.target.value)/1000*player.duration;refreshAudioControls()});
+$('#audioSpeed').addEventListener('change',e=>{player.playbackRate=Number(e.target.value)||1});
+for(const ev of ['timeupdate','loadedmetadata','ended','play','pause','seeking'])player.addEventListener(ev,refreshAudioControls);
+function current(){return snapshots[activeIndex]}
+function checkedCount(){return snapshots.filter(s=>s.checked).length}
+function progressRender(){const c=checkedCount();$('#progressLabel').textContent=c+' / 5 checked';$('#progressFill').style.width=c/5*100+'%';$('#mcqCounter').textContent='MCQ '+(activeIndex+1)+' of 5';$('#questionNav').innerHTML=QUESTIONS.map((q,i)=>'<button type="button" data-nav="'+i+'" class="'+(i===activeIndex?'active ':'')+(snapshots[i].checked?'checked':'')+'" aria-label="Question '+q.q+', '+(snapshots[i].checked?'checked':'not checked')+'" '+(i===activeIndex?'aria-current="step"':'')+'>'+String(i+1).padStart(2,'0')+'</button>').join('');$$('[data-nav]').forEach(el=>el.addEventListener('click',()=>openQuestion(Number(el.dataset.nav))))}
+function stageRender(){
+ const state=current(),q=QUESTIONS[activeIndex];
+ const locked=state.stage>1;
+ let html='<label class="mcq-prediction-label" for="mcqPrediction">Your prediction / notes</label><textarea id="mcqPrediction" placeholder="Your prediction / notes" '+(locked?'readonly':'')+'>'+escapeHtml(state.prediction)+'</textarea>';
+ html+='<button type="button" class="btn primary" id="revealMcq" '+(locked?'disabled':'')+'>'+(locked?'Options revealed':'Save prediction & reveal options')+'</button><div id="predictionError" class="help-error" role="status"></div>';
+ if(state.stage>=2){
+   html+='<hr class="stage-divider"><div class="stage-current"><h3>Step 2 - Choose the official option</h3></div><p class="mcq-instruction">Choose the correct letter, A, B or C.</p>';
+   html+='<div class="option-grid" role="group" aria-label="MCQ answer options">';
+   for(const opt of q.options){
+     const selected=state.selected===opt.code;
+     const right=state.checked&&opt.code===q.answer;
+     const wrong=state.checked&&selected&&!right;
+     const klass=(selected?' selected':'')+(right?' correct':'')+(wrong?' incorrect':'');
+     const note=state.checked?(right?'Correct answer':wrong?'Your choice':''):'';
+     html+='<button type="button" '+(state.checked?'disabled':'')+' class="mcq-option'+klass+'" data-option="'+opt.code+'" aria-pressed="'+selected+'"><span class="option-code">'+opt.code+')</span><span class="option-label">'+escapeHtml(opt.text)+'</span><span class="option-result">'+note+'</span></button>';
+   }
+   html+='</div>';
+   html+='<button type="button" class="btn primary" id="checkMcq" '+(!state.selected||state.checked?'disabled':'')+'>'+(state.checked?'Checked':'Check option')+'</button>';
+ }
+ if(state.stage>=3){
+  const correct=state.selected===q.answer;
+  html+='<hr class="stage-divider"><h3>Step 3 - Distractor analysis</h3>';
+  html+='<div class="mcq-feedback'+(correct?'':' wrong')+'"><p class="answer-summary">'+(correct?'✓ Your answer is correct':'✕ Your answer is incorrect')+'</p><p><b>Correct answer:</b> '+q.answer+') '+escapeHtml(answerFor(q,q.answer))+'</p>';
+  html+='<p><span class="explanation-title">Your selection</span><br>'+escapeHtml(state.selected)+') '+escapeHtml(answerFor(q,state.selected))+'</p>';
+  html+='<p><span class="explanation-title">Evidence from the audio</span><br>'+escapeHtml(q.evidence)+'</p>';
+  html+='<p><span class="explanation-title">Why correct</span><br>'+escapeHtml(q.why)+'</p>';
+  html+='<p><span class="explanation-title">Distractor analysis</span><br>'+escapeHtml(q.trap)+'</p>';
+  html+='<button type="button" class="btn" id="retryCurrent">↻ Retry this question</button></div>';
+ }
+ $('#qStages').innerHTML=html;
+ const pred=$('#mcqPrediction');
+ if(!locked){pred.addEventListener('input',e=>{state.prediction=e.target.value;$('#predictionError').textContent=''})}
+ $('#revealMcq').addEventListener('click',()=>{
+   if(!state.prediction.trim()){$('#predictionError').textContent='Write your prediction before revealing the options.';pred.focus();return}
+   state.stage=2;stageRender();
+ });
+ $$('[data-option]').forEach(b=>b.addEventListener('click',()=>{
+   if(state.checked)return;
+   state.selected=b.dataset.option;stageRender();
+ }));
+ const check=$('#checkMcq');
+ if(check)check.addEventListener('click',()=>{if(!state.selected||state.checked)return;state.checked=true;state.stage=3;stageRender();progressRender();if(checkedCount()===5)toast('All 5 MCQs checked. View your results.');});
+ const retry=$('#retryCurrent');
+ if(retry)retry.addEventListener('click',()=>{state.prediction='';state.stage=1;state.selected=null;state.checked=false;stageRender();progressRender();});
+}
+function openQuestion(i){if(i<0||i>=QUESTIONS.length)return;resultsOpen=false;$('#results').classList.add('page-hidden');$('#mcqArea').classList.remove('page-hidden');activeIndex=i;
+ const q=QUESTIONS[i];const srcLabel=q.sourceLabel||('Q'+q.q);$('#qHeader').innerHTML='<div class="muted">MCQ '+(i+1)+' / '+QUESTIONS.length+' &nbsp; · &nbsp; Original '+escapeHtml(srcLabel)+' · '+escapeHtml(q.topic)+'</div><h2>'+escapeHtml(srcLabel)+'. '+escapeHtml(q.prompt)+'</h2><p class="mcq-instruction">Choose the correct letter, A, B or C.</p>';
+ loadClip();progressRender();stageRender();$('#prevMCQ').disabled=i===0;$('#nextMCQ').textContent=i===4?'View results →':'Next →';window.scrollTo({top:0,behavior:'instant'});
+}
+function showResults(){
+ if(checkedCount()<5){const missing=snapshots.findIndex(s=>!s.checked);toast('Complete all 5 questions before viewing results.');openQuestion(missing);return}
+ audioStop();resultsOpen=true;$('#mcqArea').classList.add('page-hidden');$('#results').classList.remove('page-hidden');const score=snapshots.filter((s,i)=>s.selected===QUESTIONS[i].answer).length;
+ let html='<h1>DAY 19 MCQ — Results</h1><p class="intro">All five questions have been checked. Your answers and the evidence remain available.</p><div class="day1-score"><div class="muted">Your score</div><div class="big">'+score+' / 5</div><p>'+Math.round(score/5*100)+'% correct</p><div class="score-list">';
+ for(let i=0;i<QUESTIONS.length;i++){const q=QUESTIONS[i],s=snapshots[i],ok=s.selected===q.answer;html+='<div class="score-row"><span>MCQ '+(i+1)+' · Q'+q.q+' · '+escapeHtml(q.topic)+'</span><span class="'+(ok?'good':'poor')+'">'+(ok?'✓':'✕')+' Your answer: '+s.selected+' · Correct: '+q.answer+'</span></div>'}
+ html+='</div><div class="question-actions"><button type="button" class="btn" id="reviewResults">← Review questions</button><button type="button" class="btn primary" id="resetDay">↻ Start again</button></div></div>';
+ $('#results').innerHTML=html;
+ $('#reviewResults').addEventListener('click',()=>openQuestion(0));
+ $('#resetDay').addEventListener('click',()=>{if(!confirm('Restart DAY 19 MCQ? Your current answers and predictions will be cleared.'))return;for(const s of snapshots){s.prediction='';s.stage=1;s.selected=null;s.checked=false}openQuestion(0)});
+ window.scrollTo({top:0,behavior:'instant'});
+}
+$('#startActivity').addEventListener('click',()=>{$('#hub').classList.add('page-hidden');$('#practice').classList.remove('page-hidden');openQuestion(activeIndex)});
+$('#backHub').addEventListener('click',()=>{audioStop();player.removeAttribute('src');player.load();$('#practice').classList.add('page-hidden');$('#hub').classList.remove('page-hidden');window.scrollTo({top:0,behavior:'instant'})});
+$('#prevMCQ').addEventListener('click',()=>openQuestion(activeIndex-1));
+$('#nextMCQ').addEventListener('click',()=>{if(activeIndex===4)showResults();else openQuestion(activeIndex+1)});
+window.addEventListener('pagehide',()=>player.pause());
+</script></body></html>

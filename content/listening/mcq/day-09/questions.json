@@ -1,0 +1,132 @@
+[
+  {
+    "q": 14,
+    "sourceLabel": "Q14",
+    "topic": "Library Extension",
+    "prompt": "Why do they want to make an extension to the library?",
+    "options": [
+      {
+        "code": "A",
+        "text": "It has had no renovation since it was founded."
+      },
+      {
+        "code": "B",
+        "text": "It needs to double the number of computers."
+      },
+      {
+        "code": "C",
+        "text": "There has been an increased number of visiting people."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The speaker describes growth in library use over the past ten years and says there is therefore a clear need for an extension.",
+    "why": "The extension is justified by increased use of the library, which matches option C.",
+    "trap": "A: The reason given is not the absence of renovation. B: New computers are mentioned as a recent improvement, not as the reason for needing the extension.",
+    "explanation": "The library needs more space because more people are using it.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 15,
+    "sourceLabel": "Q15",
+    "topic": "Library Improvements",
+    "prompt": "The investment from the city council will be used for",
+    "options": [
+      {
+        "code": "A",
+        "text": "extra staff recruitment."
+      },
+      {
+        "code": "B",
+        "text": "buying more computers."
+      },
+      {
+        "code": "C",
+        "text": "improving the lighting."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The speaker says the lighting is quite poor and that the city council has authorised spending in this area. The extra staff member is only an application awaiting a later decision.",
+    "why": "The authorised council spending specifically refers to improving the lighting, so option C is correct.",
+    "trap": "A: Extra staff recruitment has only been applied for and has not yet been approved. B: The eight new PCs were already installed earlier and are not the purpose of this investment.",
+    "explanation": "The current authorised investment is for lighting improvements. The screenshot explanation conflicts with the audio and was corrected using the audio evidence.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 44,
+    "sourceLabel": "Test 44",
+    "topic": "Samuel Prout",
+    "prompt": "According to Jack, why did Samuel Prout never become very famous?",
+    "options": [
+      {
+        "code": "A",
+        "text": "His output was very limited."
+      },
+      {
+        "code": "B",
+        "text": "He was seen as out of fashion."
+      },
+      {
+        "code": "C",
+        "text": "His work never had a major exhibition."
+      }
+    ],
+    "answer": "C",
+    "evidence": "Jack says Prout was prolific and never completely went out of vogue, but there was never a high-profile showing of his paintings that might have brought him wider attention.",
+    "why": "The missing high-profile exhibition is the reason Jack gives for Prout not achieving greater fame.",
+    "trap": "A: Jack explicitly says Prout was prolific. B: He says Prout never completely went out of vogue, so being simply out of fashion is not the explanation.",
+    "explanation": "Prout lacked the kind of major exhibition that could have raised his public profile.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 45,
+    "sourceLabel": "Test 45",
+    "topic": "Samuel Prout",
+    "prompt": "Dr Rubin and Jack agree that many of Prout's problems were caused by",
+    "options": [
+      {
+        "code": "A",
+        "text": "poor health."
+      },
+      {
+        "code": "B",
+        "text": "jealous colleagues."
+      },
+      {
+        "code": "C",
+        "text": "an unhappy marriage."
+      }
+    ],
+    "answer": "A",
+    "evidence": "They discuss Prout's chronic chest infections, which affected him throughout his life, while his wife, family, colleagues and supporters are described positively.",
+    "why": "His recurring health problems are the shared explanation for many of the difficulties he faced.",
+    "trap": "B: His colleagues and supporters are described as a strong network, not as jealous opponents. C: His wife and family are described as loving and supportive.",
+    "explanation": "The conversation attributes many of Prout's difficulties to persistent ill health.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 46,
+    "sourceLabel": "Test 46",
+    "topic": "Samuel Prout",
+    "prompt": "How did Prout learn painting?",
+    "options": [
+      {
+        "code": "A",
+        "text": "His father taught him."
+      },
+      {
+        "code": "B",
+        "text": "He went to art galleries."
+      },
+      {
+        "code": "C",
+        "text": "He copied pictures."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The speakers say Prout does not seem to have learned the skill from his father and that he painstakingly reproduced other painters' works.",
+    "why": "Reproducing other painters' works means he learned by copying pictures, which matches option C.",
+    "trap": "A: The conversation explicitly says he does not seem to have learned from his father. B: Visiting galleries is not given as the method by which he learned.",
+    "explanation": "Prout developed his painting skills by carefully reproducing the works of other painters.",
+    "audio": "audio/question-05.mp3"
+  }
+]

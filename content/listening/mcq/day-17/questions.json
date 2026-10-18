@@ -1,0 +1,132 @@
+[
+  {
+    "q": 82,
+    "sourceLabel": "Test 82",
+    "topic": "Part-time Work - Pay and Deductions",
+    "prompt": "Students who work part-time",
+    "options": [
+      {
+        "code": "A",
+        "text": "will be taxed."
+      },
+      {
+        "code": "B",
+        "text": "will be paid every week."
+      },
+      {
+        "code": "C",
+        "text": "will need private insurance."
+      }
+    ],
+    "answer": "A",
+    "evidence": "The speaker says an employer will deduct tax from what a student earns. Pay may be weekly or monthly, and insurance contributions depend on the employer and circumstances.",
+    "why": "Tax is explicitly deducted from earnings, so option A is the only statement presented as generally applicable.",
+    "trap": "B: Payment may be weekly or monthly, so weekly pay is not guaranteed. C: Insurance contributions are only a possibility and are not described as compulsory private insurance.",
+    "explanation": "The definite point is that tax is deducted from earnings; payment frequency and insurance arrangements can vary.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 83,
+    "sourceLabel": "Test 83",
+    "topic": "Part-time Work - Employer Communication",
+    "prompt": "Part-time student workers are advised to",
+    "options": [
+      {
+        "code": "A",
+        "text": "give notice in writing."
+      },
+      {
+        "code": "B",
+        "text": "communicate by email."
+      },
+      {
+        "code": "C",
+        "text": "have a mobile phone."
+      }
+    ],
+    "answer": "A",
+    "evidence": "The speaker specifically advises students who decide to leave a job to put their notice in writing. Email is not used by every employer, and a mobile phone is mentioned only as a practical way to contact an employer.",
+    "why": "Putting the decision to leave in writing is explicit advice, which matches option A.",
+    "trap": "B: The speaker warns that not all employers use email. C: Having a mobile phone is treated as useful for communication, not as the main formal advice.",
+    "explanation": "The formal recommendation is to give notice in writing when leaving the job.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 84,
+    "sourceLabel": "Test 84",
+    "topic": "Part-time Work - Future Employment",
+    "prompt": "According to the speaker, a part-time job can",
+    "options": [
+      {
+        "code": "A",
+        "text": "lead to a full-time job after graduation."
+      },
+      {
+        "code": "B",
+        "text": "provide a useful work record for the future."
+      },
+      {
+        "code": "C",
+        "text": "give the chance to develop team-work skills."
+      }
+    ],
+    "answer": "B",
+    "evidence": "The speaker says part-time work helps build an employment record that reflects a student's skills and capabilities, and that evidence of such work on a CV can give graduates an advantage.",
+    "why": "Building an employment record for later applications directly matches option B.",
+    "trap": "A: A part-time job may help later applications, but the speaker does not promise it will become a full-time job after graduation. C: The speaker mentions several useful skills, but the main point here is the value of the employment record itself.",
+    "explanation": "Part-time work gives students documented experience that can strengthen future job applications.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 85,
+    "sourceLabel": "Test 85",
+    "topic": "Public Services Research - Topic Choice",
+    "prompt": "How did John choose the topic of his research project?",
+    "options": [
+      {
+        "code": "A",
+        "text": "He thought the information would be useful for town planning."
+      },
+      {
+        "code": "B",
+        "text": "He has a special interest in the use of public services."
+      },
+      {
+        "code": "C",
+        "text": "He read about a similar study which had been done earlier."
+      }
+    ],
+    "answer": "C",
+    "evidence": "John says he found a report in the college library about an investigation carried out ten years earlier and thought it would be interesting to do a parallel study.",
+    "why": "The earlier report gave him the idea for the project, so option C is correct.",
+    "trap": "A: The tutor says the information could be useful for town planning, but John does not say this is why he chose the topic. B: John explicitly says he has no special interest in public services.",
+    "explanation": "John chose the topic after reading about a similar investigation from ten years earlier.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 86,
+    "sourceLabel": "Test 86",
+    "topic": "Public Services Research - Expected Findings",
+    "prompt": "During his research, John is expecting to find that",
+    "options": [
+      {
+        "code": "A",
+        "text": "the use of public services has altered very little."
+      },
+      {
+        "code": "B",
+        "text": "a group of people has changed its habits."
+      },
+      {
+        "code": "C",
+        "text": "the most frequently used facility is the library."
+      }
+    ],
+    "answer": "B",
+    "evidence": "John predicts changes in patterns of use, including older people using the sports centre more often, while he expects use of the library to have decreased.",
+    "why": "That prediction means a particular group - older people - has changed its habits, which matches option B.",
+    "trap": "A: John expects noticeable changes rather than very little change. C: He expects library use to have fallen, so he does not predict that the library is the most frequently used facility.",
+    "explanation": "John expects the earlier pattern of public-service use to have changed, especially among older users.",
+    "audio": "audio/question-05.mp3"
+  }
+]

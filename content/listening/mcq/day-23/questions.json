@@ -1,0 +1,132 @@
+[
+  {
+    "q": 112,
+    "sourceLabel": "Test 112",
+    "topic": "Driving Licence Application",
+    "prompt": "What does the speaker recommend about making an application?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Choosing a quiet location."
+      },
+      {
+        "code": "B",
+        "text": "Visiting the nearest branch."
+      },
+      {
+        "code": "C",
+        "text": "Completing the forms online."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The speaker recommends filling in the application form online and taking a printed copy to the agency. Different branches can all be busy and charge the same standard fee.",
+    "why": "The explicit recommendation is to complete the forms online before visiting the agency, so option C is correct.",
+    "trap": "A: The speaker does not recommend finding a quieter branch. B: The nearest branch is not presented as preferable because all branches use the same standard fee and can be busy.",
+    "explanation": "Applicants are advised to complete the paperwork online first and bring the printed form with them.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 113,
+    "sourceLabel": "Test 113",
+    "topic": "Licence Checking Service",
+    "prompt": "What does the speaker think of the licence checking service?",
+    "options": [
+      {
+        "code": "A",
+        "text": "The process is too slow."
+      },
+      {
+        "code": "B",
+        "text": "The application form is confusing."
+      },
+      {
+        "code": "C",
+        "text": "Some of the steps are unnecessary."
+      }
+    ],
+    "answer": "A",
+    "evidence": "The speaker says the procedures are clear and simply need to be followed step by step, but wishes the process were faster because it can take hours to complete.",
+    "why": "The criticism is specifically about the amount of time the process takes, so option A is correct.",
+    "trap": "B: The procedures are described as quite clear, not confusing. C: The speaker does not say any of the steps are unnecessary.",
+    "explanation": "The speaker understands the procedure but thinks the service takes too long.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 114,
+    "sourceLabel": "Test 114",
+    "topic": "Driving Licence Photos",
+    "prompt": "When applying for a UK licence, which type of photos will NOT be approved?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Photos in which the applicant is wearing glasses."
+      },
+      {
+        "code": "B",
+        "text": "Photos with a cream background."
+      },
+      {
+        "code": "C",
+        "text": "Photos that are undersized."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Photos with a cream background are rejected in favour of a monotone grey background. Small photos can be enlarged, and wearing glasses is still allowed.",
+    "why": "The only type specifically said to be rejected is a photo with a cream background, so option B is correct.",
+    "trap": "A: Wearing glasses is allowed. C: A photo that is too small can be enlarged with the agency's printer.",
+    "explanation": "The background requirement is the decisive factor: cream backgrounds are not accepted.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 115,
+    "sourceLabel": "Test 115",
+    "topic": "Foreign Licence Translation",
+    "prompt": "What is true about the translation of original licences?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Applicants need to go to a recognised organisation."
+      },
+      {
+        "code": "B",
+        "text": "It is not always necessary for foreigners when applying for a UK licence."
+      },
+      {
+        "code": "C",
+        "text": "Applicants need to pay an extra fee for translation services."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Applicants who need their foreign driving licence translated are told to visit an official agency. The translation service is included in the licence fee, so no extra translation charge is required.",
+    "why": "The source explicitly requires applicants to use an official or recognised agency, which matches option A.",
+    "trap": "B: The translation is described as a necessary step for the foreign licence process in this context. C: Translation is included in the licence fee rather than charged separately.",
+    "explanation": "The key requirement is to use an official recognised agency for the translation.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 116,
+    "sourceLabel": "Test 116",
+    "topic": "UK Driving Licence Eligibility",
+    "prompt": "What is the basic requirement for applying for a UK driving licence?",
+    "options": [
+      {
+        "code": "A",
+        "text": "a medical report."
+      },
+      {
+        "code": "B",
+        "text": "a valid licence from another country."
+      },
+      {
+        "code": "C",
+        "text": "Current residency in the UK."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The speaker says that whether someone has never held a licence before or has one from another country, they must be a UK resident to apply. A medical report is mentioned only in connection with renewal.",
+    "why": "UK residency is the basic eligibility condition stated for applicants, so option C is correct.",
+    "trap": "A: A medical report is connected with renewal, not the basic initial requirement. B: Applicants may never have had a licence before, so a foreign licence is not required.",
+    "explanation": "The fundamental condition is that the applicant must be resident in the UK.",
+    "audio": "audio/question-05.mp3"
+  }
+]

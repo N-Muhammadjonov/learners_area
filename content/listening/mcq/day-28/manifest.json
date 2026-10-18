@@ -1,0 +1,61 @@
+{
+  "day": 28,
+  "sourceRef": "listening-mcq-day-28",
+  "originalFilename": "DAY 28 MCQ.html",
+  "originalSha256": "f8ad2bf09a6150c4bf8306fcc88208c614737321432b7597ee43b37dd56e1a24",
+  "questionCount": 5,
+  "media": [
+    {
+      "question": 1,
+      "path": "audio/question-01.mp3",
+      "objectKey": "listening/mcq/day-28/question-01.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 287652,
+      "sha256": "d3eed929df382c1e76b53c17c6ebbf11d6b22abfa713e3a0ceafaf7a7c2e50b3",
+      "present": true,
+      "durationSeconds": 28.734694
+    },
+    {
+      "question": 2,
+      "path": "audio/question-02.mp3",
+      "objectKey": "listening/mcq/day-28/question-02.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 265448,
+      "sha256": "2d7eb94ab8a67030af77e44b237796882d90924a50fbe556714aa06f6ddeb3a0",
+      "present": true,
+      "durationSeconds": 26.514286
+    },
+    {
+      "question": 3,
+      "path": "audio/question-03.mp3",
+      "objectKey": "listening/mcq/day-28/question-03.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 275636,
+      "sha256": "dc270a2f7e4654b6d9f9b8bd0dda0cc26c8ba0966140d43d05df3f41fef3e640",
+      "present": true,
+      "durationSeconds": 27.533061
+    },
+    {
+      "question": 4,
+      "path": "audio/question-04.mp3",
+      "objectKey": "listening/mcq/day-28/question-04.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 189693,
+      "sha256": "b87f1d4867cee7edd820981a0c747b61c8234313518bbb4d13a655a037e8ac87",
+      "present": true,
+      "durationSeconds": 18.938776
+    },
+    {
+      "question": 5,
+      "path": "audio/question-05.mp3",
+      "objectKey": "listening/mcq/day-28/question-05.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 170624,
+      "sha256": "2889b7628375c52797c6cb59b0f3a415d6068b4d0cb9b322947adb0bbde96b1a",
+      "present": true,
+      "durationSeconds": 17.031837
+    }
+  ],
+  "sourceSha256": "c03099429f8197822a286d785ffcb67904bb0d71c22adefc88e99a2e384e6c49",
+  "questionsSha256": "ce9518879216e758754cacc9d6e363e3f2e779cd23db59bfa273b3475296a525"
+}

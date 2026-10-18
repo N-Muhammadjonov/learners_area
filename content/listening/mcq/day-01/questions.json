@@ -1,0 +1,122 @@
+[
+  {
+    "q": 21,
+    "prompt": "What was Jack's attitude to nutritional food labels before this project?",
+    "options": [
+      {
+        "code": "A",
+        "text": "He didn't read everything on them."
+      },
+      {
+        "code": "B",
+        "text": "He didn't think they were important."
+      },
+      {
+        "code": "C",
+        "text": "He thought they were too complicated."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Jack checked food labels for peanuts because of his allergy, but he did not usually check the rest of the nutritional information.",
+    "why": "He checked for allergens, rather than reading everything on the label. This matches option A.",
+    "trap": "B: He did read labels for peanut information, so the audio does not establish that he thought labels were unimportant. C: He did not say the labels were too complicated.",
+    "explanation": "Jack checked labels for peanuts because of his allergy, but otherwise he did not check how healthy the product was. Therefore, he did not read everything on the labels.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 22,
+    "prompt": "Alice says that before doing this project,",
+    "options": [
+      {
+        "code": "A",
+        "text": "she was unaware of what certain foods contained."
+      },
+      {
+        "code": "B",
+        "text": "she was too lazy to read food labels."
+      },
+      {
+        "code": "C",
+        "text": "she was only interested in the number of calories."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Alice says she tended to believe packaging claims such as 'low in fat' and later realised her usual yoghurt was full of sugar and high in calories.",
+    "why": "She discovered that she had misunderstood the contents of foods she regularly bought. That is option A.",
+    "trap": "B: Alice never says she was too lazy to read labels. C: Calories are one of the things she discovered, not her only previous interest.",
+    "explanation": "Alice says she used to trust claims such as 'low in fat' and did not realise that her usual yoghurt was full of sugar and high in calories. She was therefore unaware of what certain foods contained.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 23,
+    "prompt": "When discussing supermarket brands of pizza, Jack agrees with Alice that",
+    "options": [
+      {
+        "code": "A",
+        "text": "the list of ingredients is shocking."
+      },
+      {
+        "code": "B",
+        "text": "he will hesitate before buying pizza again."
+      },
+      {
+        "code": "C",
+        "text": "the nutritional label is misleading."
+      }
+    ],
+    "answer": "C",
+    "evidence": "Alice points out that nutritional values are given for half a pizza, although people often eat the whole pizza. Jack says, 'Not exactly transparent, is it?'",
+    "why": "The serving-size information can make the nutritional value appear lower than it is for the whole pizza. Jack agrees the labelling is misleading.",
+    "trap": "A: Their concern here is the half-pizza serving size, not a shocking ingredient list. B: Jack says the information probably will not stop him buying pizza.",
+    "explanation": "The values shown are for half a pizza even though most people eat the whole pizza. Jack calls this 'not exactly transparent,' so the label is misleading. He also admits that it probably will not stop him buying pizza.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 24,
+    "prompt": "Jack prefers the daily value system to other labelling systems because it is",
+    "options": [
+      {
+        "code": "A",
+        "text": "more accessible."
+      },
+      {
+        "code": "B",
+        "text": "more logical."
+      },
+      {
+        "code": "C",
+        "text": "more comprehensive."
+      }
+    ],
+    "answer": "C",
+    "evidence": "Jack says, 'I'm not sure it's the easiest for people to use, but at least you get the full story.' He wants information about all the ingredients.",
+    "why": "Getting the 'full story' means receiving more complete information. The closest option is C, more comprehensive.",
+    "trap": "A: Jack explicitly says the system may not be the easiest to use. B: He does not praise it as more logical; he prefers the completeness of its information.",
+    "explanation": "The speaker admits that the system may not be the easiest to use, eliminating A. He prefers it because it gives the 'full story' and shows all the ingredients; in other words, it is more comprehensive.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 25,
+    "prompt": "What surprised both students about one flavour of crisps?",
+    "options": [
+      {
+        "code": "A",
+        "text": "The percentage of artificial additives given was incorrect."
+      },
+      {
+        "code": "B",
+        "text": "The products did not contain any meat."
+      },
+      {
+        "code": "C",
+        "text": "The labels did not list all the ingredients."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Jack says the chicken-flavour crisps 'only contain artificial additives.' Alice expected at least a small percentage of real chicken, and Jack agrees.",
+    "why": "They were surprised that 'chicken flavour' did not mean there was any real chicken in the crisps. Option B is correct.",
+    "trap": "A: They do not identify an incorrect additive percentage. C: They discuss the listed artificial additives, not a missing ingredient list.",
+    "explanation": "The chicken-flavour crisps contained artificial additives, but no real chicken. Both students expected at least a small percentage of chicken, so B is correct.",
+    "audio": "audio/question-05.mp3"
+  }
+]

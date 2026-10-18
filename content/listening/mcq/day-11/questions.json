@@ -1,0 +1,132 @@
+[
+  {
+    "q": 52,
+    "sourceLabel": "Test 52",
+    "topic": "Stone Point Presentation",
+    "prompt": "When Scott mentions the engines at Stone Point, Liz advises him to",
+    "options": [
+      {
+        "code": "A",
+        "text": "focus on the human aspect instead."
+      },
+      {
+        "code": "B",
+        "text": "check the accuracy of specific dates."
+      },
+      {
+        "code": "C",
+        "text": "explain complex technical language."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Liz says technical details would make listeners switch off and recommends focusing instead on the impact Stone Point had on people's lives.",
+    "why": "Her advice is to move away from mechanical detail and concentrate on the human impact, which directly matches option A.",
+    "trap": "B: She does not ask Scott to verify dates. C: Rather than explaining more technical language, she advises avoiding that level of technical detail.",
+    "explanation": "Liz wants the presentation to stay accessible and human-centred instead of becoming too technical.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 53,
+    "sourceLabel": "Test 53",
+    "topic": "School Sports Volunteers",
+    "prompt": "The school is looking for new team coaches and managers because",
+    "options": [
+      {
+        "code": "A",
+        "text": "the overall interest in sport has grown."
+      },
+      {
+        "code": "B",
+        "text": "certain parents have given up these roles."
+      },
+      {
+        "code": "C",
+        "text": "new types of sport are being introduced."
+      }
+    ],
+    "answer": "B",
+    "evidence": "The speaker says they had excellent people last year, but some of those parents now have other commitments, so replacements are needed.",
+    "why": "The vacancies exist because some previous parent volunteers can no longer continue in those roles.",
+    "trap": "A: The speaker does not say increased overall interest is the reason. C: No new sports are being introduced as the cause of the vacancies.",
+    "explanation": "The school needs replacements for parent coaches and managers who now have other commitments.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 54,
+    "sourceLabel": "Test 54",
+    "topic": "School Sports Coaching",
+    "prompt": "What does the speaker say is the most important thing a coach needs?",
+    "options": [
+      {
+        "code": "A",
+        "text": "confidence about the rules of a particular sport"
+      },
+      {
+        "code": "B",
+        "text": "the ability to make children enthusiastic about a sport"
+      },
+      {
+        "code": "C",
+        "text": "commitment to training the team for a full season"
+      }
+    ],
+    "answer": "B",
+    "evidence": "The speaker says knowledge of the game helps and can be developed through coaching courses, but what is really required is the right attitude: motivating children and making the game exciting.",
+    "why": "The ability to motivate children and make the sport exciting is the quality the speaker identifies as essential.",
+    "trap": "A: Detailed rules knowledge can be learned through courses, so it is not described as the most important requirement. C: Full-season commitment is not presented as the key quality.",
+    "explanation": "A coach's attitude and ability to motivate children matter more than already knowing every rule.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 55,
+    "sourceLabel": "Test 55",
+    "topic": "Rugby Coaching",
+    "prompt": "For parents who would like to coach rugby, one requirement is that they",
+    "options": [
+      {
+        "code": "A",
+        "text": "attend an upcoming registration event."
+      },
+      {
+        "code": "B",
+        "text": "can commit to two coaching sessions per week."
+      },
+      {
+        "code": "C",
+        "text": "have their own child in the team."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Volunteer rugby coaches are told to attend the upcoming day when children register for teams and organisers provide parents with more information.",
+    "why": "Attendance at the registration day is explicitly required for people volunteering to coach rugby.",
+    "trap": "B: The schedule mentioned is one Wednesday training session plus Saturday matches, not two weekly coaching sessions. C: The speaker does not say coaches must have their own child in the team.",
+    "explanation": "Prospective rugby coaches need to attend the registration and information day on the rugby grounds.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 56,
+    "sourceLabel": "Test 56",
+    "topic": "Chocolate Markets",
+    "prompt": "The tutor points out to Lara that in different markets, a brand of chocolate",
+    "options": [
+      {
+        "code": "A",
+        "text": "has different proportions of the ingredients."
+      },
+      {
+        "code": "B",
+        "text": "uses different methods of advertising."
+      },
+      {
+        "code": "C",
+        "text": "is sold at different prices."
+      }
+    ],
+    "answer": "A",
+    "evidence": "The tutor points out that the proportions of ingredients such as caffeine and sugar can vary to suit tastes in different countries; Lara has already covered advertising differences separately.",
+    "why": "The contrast being added is about ingredient proportions changing between markets, so option A is correct.",
+    "trap": "B: Advertising differences had already been discussed by Lara and are not the tutor's new point here. C: The tutor does not identify price differences as the relevant distinction.",
+    "explanation": "The same brand can adjust its recipe for different national markets.",
+    "audio": "audio/question-05.mp3"
+  }
+]

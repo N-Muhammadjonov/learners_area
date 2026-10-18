@@ -1,0 +1,144 @@
+[
+  {
+    "q": 102,
+    "sourceLabel": "Test 102",
+    "topic": "Dance Workshop",
+    "prompt": "Which TWO activities will be hosted in the first afternoon and evening?",
+    "instruction": "Choose TWO answers.",
+    "options": [
+      {
+        "code": "A",
+        "text": "costume making"
+      },
+      {
+        "code": "B",
+        "text": "a musical show"
+      },
+      {
+        "code": "C",
+        "text": "an informal dance"
+      },
+      {
+        "code": "D",
+        "text": "a talk on dance history"
+      },
+      {
+        "code": "E",
+        "text": "a dance test"
+      }
+    ],
+    "answer": [
+      "C",
+      "D"
+    ],
+    "evidence": "The first afternoon and evening include an introduction to the development of dance and an informal dance. Costume making is scheduled for the next day, while the dance test is at the end of the course.",
+    "why": "An introduction to the development of dance corresponds to a talk on dance history, and the informal dance is stated directly. Therefore the correct pair is C and D.",
+    "trap": "A: Costume making is not until tomorrow. B: A musical show is not listed for the first afternoon and evening. E: The dance test is held at the end of the course.",
+    "explanation": "The two activities scheduled for the first afternoon and evening are the informal dance and the session on the development/history of dance.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 103,
+    "sourceLabel": "Test 103",
+    "topic": "Park Activities",
+    "prompt": "When does the riding in the park open?",
+    "options": [
+      {
+        "code": "A",
+        "text": "9.00 am"
+      },
+      {
+        "code": "B",
+        "text": "9.30 am"
+      },
+      {
+        "code": "C",
+        "text": "10.00 am"
+      }
+    ],
+    "answer": "C",
+    "evidence": "The park itself opens at 9.30 every morning, but the actual riding begins at 10.00 am.",
+    "why": "The question asks when the riding starts, not when the park opens, so 10.00 am is correct.",
+    "trap": "A: 9.00 am is not given as either the park opening time or riding start time. B: 9.30 am is when the park opens, but the riding begins later.",
+    "explanation": "The park opens at 9.30 am, while the riding activity starts at 10.00 am.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 104,
+    "sourceLabel": "Test 104",
+    "topic": "Park Tickets",
+    "prompt": "How much does a Family fast-line Track ticket cost if you book online?",
+    "options": [
+      {
+        "code": "A",
+        "text": "£78"
+      },
+      {
+        "code": "B",
+        "text": "£95"
+      },
+      {
+        "code": "C",
+        "text": "£113"
+      }
+    ],
+    "answer": "B",
+    "evidence": "The family fast-line Track ticket has an original price of £113, but the online price is £95.",
+    "why": "The question asks for the online price, which is £95.",
+    "trap": "A: £78 is the online price of a basic ticket. C: £113 is the original, non-discounted price of the family fast-line Track ticket.",
+    "explanation": "Booking online reduces the family fast-line Track ticket from £113 to £95.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 105,
+    "sourceLabel": "Test 105",
+    "topic": "Park Lake",
+    "prompt": "What is suggested when you plan to go to the lake in the park?",
+    "options": [
+      {
+        "code": "A",
+        "text": "take a camera"
+      },
+      {
+        "code": "B",
+        "text": "go there in summer"
+      },
+      {
+        "code": "C",
+        "text": "take waterproof clothes"
+      }
+    ],
+    "answer": "B",
+    "evidence": "Visitors are told not to take cameras and not to rely on waterproof clothing because they will still get wet. The speaker strongly advises visiting the lake in the hottest season.",
+    "why": "The hottest season means summer, so option B is correct.",
+    "trap": "A: Cameras are specifically discouraged. C: Waterproof clothing is also discouraged because visitors will still get wet.",
+    "explanation": "The recommended plan is to visit the lake during the hottest season, i.e. summer.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 106,
+    "sourceLabel": "Test 106",
+    "topic": "Rollercoaster Bike",
+    "prompt": "What is special about the rollercoaster bike?",
+    "options": [
+      {
+        "code": "A",
+        "text": "it uses special materials"
+      },
+      {
+        "code": "B",
+        "text": "it is the most exciting activity"
+      },
+      {
+        "code": "C",
+        "text": "it is designed for families"
+      }
+    ],
+    "answer": "A",
+    "evidence": "The rollercoaster bike is made of wood, which makes it lighter, and its designer received a prize for innovation.",
+    "why": "The use of wood as an unusual lightweight construction material is the distinctive feature described, so option A is correct.",
+    "trap": "B: The source does not identify it as the single most exciting activity. C: Its distinguishing feature is not that it was designed specifically for families.",
+    "explanation": "The rollercoaster bike is notable for its unusual material and innovative design.",
+    "audio": "audio/question-05.mp3"
+  }
+]

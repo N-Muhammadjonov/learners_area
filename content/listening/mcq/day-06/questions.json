@@ -1,0 +1,127 @@
+[
+  {
+    "q": 19,
+    "topic": "Safety Around Campus",
+    "prompt": "Students who complete a self-defence course are",
+    "options": [
+      {
+        "code": "A",
+        "text": "more aware of dangers."
+      },
+      {
+        "code": "B",
+        "text": "walking more confidently."
+      },
+      {
+        "code": "C",
+        "text": "mentally tougher."
+      }
+    ],
+    "answer": "A",
+    "evidence": "The speaker says the self-defence course makes students more aware of possible dangers and teaches them how to deal with those dangers.",
+    "why": "The stated benefit is greater awareness of possible dangers, which directly matches option A.",
+    "trap": "B: The speaker does not identify walking more confidently as the main result of the course. C: He does not say the course makes students mentally tougher.",
+    "explanation": "The course is presented as a way to improve awareness of possible dangers and how to respond to them.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 20,
+    "topic": "Safety Around Campus",
+    "prompt": "A university is",
+    "options": [
+      {
+        "code": "A",
+        "text": "completely safe."
+      },
+      {
+        "code": "B",
+        "text": "patrolled by the military."
+      },
+      {
+        "code": "C",
+        "text": "not surrounded by walls."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The speaker explains that there is no barrier like a wall keeping non-students out and no army force securing the borders.",
+    "why": "The absence of a wall or barrier directly supports option C.",
+    "trap": "A: The speaker says the campus is generally safe, not completely safe or immune to crime. B: He explicitly says there is no army force securing the borders.",
+    "explanation": "The university is an open environment without a wall preventing non-students from entering.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 1,
+    "topic": "CAE Problem at Work",
+    "prompt": "What is Colin's opinion of their new boss?",
+    "options": [
+      {
+        "code": "A",
+        "text": "She has little understanding of the organisation's history."
+      },
+      {
+        "code": "B",
+        "text": "She is too keen to establish new working practices."
+      },
+      {
+        "code": "C",
+        "text": "She fails to consult with colleagues."
+      }
+    ],
+    "answer": "C",
+    "evidence": "Colin contrasts Sandra with the previous boss, who involved everyone in decision-making, and says there is 'no chance' of that with Sandra.",
+    "why": "His complaint is that Sandra does not involve colleagues in decisions, which is the meaning of option C.",
+    "trap": "A: Colin says she has researched the staff profile, qualifications and experience; lack of historical knowledge is not his main complaint. B: He acknowledges that some of her new ideas are good, so introducing new practices is not the core issue.",
+    "explanation": "Colin's central criticism is that Sandra does not consult the team in the way the previous boss did.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 2,
+    "topic": "CAE Problem at Work",
+    "prompt": "When talking about the problem, Eva is",
+    "options": [
+      {
+        "code": "A",
+        "text": "trying to suggest that it is unimportant."
+      },
+      {
+        "code": "B",
+        "text": "comparing alternative ways of solving it."
+      },
+      {
+        "code": "C",
+        "text": "encouraging Colin to take a more positive attitude to it."
+      }
+    ],
+    "answer": "C",
+    "evidence": "Eva says Sandra is still finding her feet, asks Colin to focus on what she has already achieved, and suggests giving her time.",
+    "why": "Eva is trying to shift Colin toward a more positive and patient view of Sandra, so option C matches her approach.",
+    "trap": "A: Eva explicitly says the issue is not trivial. B: She is not comparing several solutions; she mainly encourages patience and a more positive perspective.",
+    "explanation": "Eva acknowledges the problem but encourages Colin to recognise Sandra's achievements and allow her time to settle in.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 3,
+    "topic": "CAE Antique Vase Restoration",
+    "prompt": "What is the expert doing at the start of the interview?",
+    "options": [
+      {
+        "code": "A",
+        "text": "describing the difficulties of matching colours during restoration"
+      },
+      {
+        "code": "B",
+        "text": "explaining what can ruin a restoration job"
+      },
+      {
+        "code": "C",
+        "text": "comparing various methods of restoration she uses"
+      }
+    ],
+    "answer": "A",
+    "evidence": "The expert describes sorting many vase fragments into colour groups and then finding pieces that match, comparing the task to completing a jigsaw.",
+    "why": "She is explaining the difficulty of identifying and matching similar-coloured fragments, which corresponds to option A.",
+    "trap": "B: She is not listing mistakes that ruin restoration. C: She does not compare several restoration methods; she describes the matching process she must carry out.",
+    "explanation": "At the start, the expert focuses on the challenge of sorting and matching coloured fragments before reconstruction.",
+    "audio": "audio/question-05.mp3"
+  }
+]

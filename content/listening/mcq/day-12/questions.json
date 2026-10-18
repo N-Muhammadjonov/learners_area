@@ -1,0 +1,132 @@
+[
+  {
+    "q": 57,
+    "sourceLabel": "Test 57",
+    "topic": "Global Marketing - Distribution",
+    "prompt": "Which aspect of distribution does Lara want to read about?",
+    "options": [
+      {
+        "code": "A",
+        "text": "stock control"
+      },
+      {
+        "code": "B",
+        "text": "delivery times"
+      },
+      {
+        "code": "C",
+        "text": "centralisation"
+      }
+    ],
+    "answer": "C",
+    "evidence": "Lara says she wants to read about the effects of managing all distribution from just one office, while noting that she already covered stock control in a previous paper.",
+    "why": "Managing distribution from one office is centralisation, so option C matches her stated research interest.",
+    "trap": "A: Lara explicitly says she studied stock control in last term's paper and would rather not revisit it. B: Delivery timing is mentioned as an issue in distribution, but it is not the specific topic she says she wants to research.",
+    "explanation": "Lara wants to investigate the effects of centralising distribution management in a single office.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 58,
+    "sourceLabel": "Test 58",
+    "topic": "Global Marketing - Multinationals",
+    "prompt": "Lara believes that some multinational companies can be criticised for",
+    "options": [
+      {
+        "code": "A",
+        "text": "failing to improve machinery."
+      },
+      {
+        "code": "B",
+        "text": "offering poor working conditions locally."
+      },
+      {
+        "code": "C",
+        "text": "replacing local managers."
+      }
+    ],
+    "answer": "C",
+    "evidence": "Lara says multinationals often bring in their own management team, ride roughshod over everyone and fail to consult at local level.",
+    "why": "Her criticism is specifically about replacing or bypassing local management with the multinational's own team.",
+    "trap": "A: Lara says introducing new machinery can be acceptable or beneficial. B: She also says improved working conditions can be a positive result rather than the criticism she is making here.",
+    "explanation": "Lara objects to companies imposing their own management teams without adequate local consultation.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 59,
+    "sourceLabel": "Test 59",
+    "topic": "Global Marketing - Local Values",
+    "prompt": "The tutor gives the example of the supermarket chain to show how companies",
+    "options": [
+      {
+        "code": "A",
+        "text": "can use new advertising methods to bring new business."
+      },
+      {
+        "code": "B",
+        "text": "need time to build up their reputation."
+      },
+      {
+        "code": "C",
+        "text": "may fail to take local values into consideration."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The supermarket handed out free plastic bags in a market that was strongly environmentally conscious, so the promotion clashed with local attitudes toward plastic waste.",
+    "why": "The example demonstrates that a marketing strategy can fail when a company ignores local environmental values.",
+    "trap": "A: The story is not mainly about a new advertising technique succeeding. B: Reputation-building time is not the lesson drawn from the example.",
+    "explanation": "The supermarket's promotion was a mistake because it ignored the local market's environmental values.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 60,
+    "sourceLabel": "Test 60",
+    "topic": "Global Marketing - Main Aim",
+    "prompt": "Which aim of global marketing has Lara explained very clearly?",
+    "options": [
+      {
+        "code": "A",
+        "text": "expanding production"
+      },
+      {
+        "code": "B",
+        "text": "maximising sales"
+      },
+      {
+        "code": "C",
+        "text": "making profit"
+      }
+    ],
+    "answer": "B",
+    "evidence": "The tutor says Lara explained really well how companies going global are usually seeking a huge increase in sales. The production link needs clarification, and profits are suggested as a later point.",
+    "why": "The tutor explicitly praises Lara's explanation of the increase in sales, which corresponds to maximising sales.",
+    "trap": "A: The tutor says the link involving production in another country is not yet clear enough. C: Profit is something the tutor suggests Lara can link in afterwards to finish the section.",
+    "explanation": "The clearest part of Lara's section is her explanation that global expansion aims to generate a major increase in sales.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 61,
+    "sourceLabel": "Test 61",
+    "topic": "Management Meeting",
+    "prompt": "Why has the manager arrived late at this meeting?",
+    "options": [
+      {
+        "code": "A",
+        "text": "He had to take a guest to hospital."
+      },
+      {
+        "code": "B",
+        "text": "He had to speak to head office."
+      },
+      {
+        "code": "C",
+        "text": "He had to complete a report."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The assistant manager took the ill guest to hospital, while the manager was delayed because an urgent report had to be completed.",
+    "why": "The manager's own delay was caused by having to finish the report, so option C is correct.",
+    "trap": "A: The assistant manager, not the manager, took the guest to hospital. B: Speaking to head office is not given as the reason for the delay.",
+    "explanation": "The manager arrived late because he had to finish an urgent report before attending the meeting.",
+    "audio": "audio/question-05.mp3"
+  }
+]

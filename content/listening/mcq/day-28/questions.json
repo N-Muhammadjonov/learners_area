@@ -1,0 +1,132 @@
+[
+  {
+    "q": 137,
+    "sourceLabel": "Test 137",
+    "topic": "Business Leadership - Difficult Problems",
+    "prompt": "How does Arthur deal with difficult problems?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Ask for advice from friends"
+      },
+      {
+        "code": "B",
+        "text": "Seek help from experts"
+      },
+      {
+        "code": "C",
+        "text": "Try to get advice from books"
+      }
+    ],
+    "answer": "B",
+    "evidence": "Arthur says people cannot always solve every problem by themselves. When he had a marketing problem, he found an expert who helped him deal with it, and he stresses knowing when and how to seek help.",
+    "why": "Arthur's own example and advice both point to seeking specialist help when a problem is beyond what he can solve alone, so option B is correct.",
+    "trap": "A: Arthur does not say he relies on friends for difficult business problems. C: Books are not presented as the solution to the marketing problem; he found an expert.",
+    "explanation": "Arthur recommends recognising when specialist help is needed and using an expert rather than trying to solve every difficult problem alone.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 138,
+    "sourceLabel": "Test 138",
+    "topic": "Business Leadership - Staying Focused",
+    "prompt": "What advice does Arthur give to new business leaders?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Read business journals"
+      },
+      {
+        "code": "B",
+        "text": "Try new things"
+      },
+      {
+        "code": "C",
+        "text": "Keep their aims"
+      }
+    ],
+    "answer": "C",
+    "evidence": "Arthur says that reading business journals or watching related videos may not always help. Instead of aimlessly trying many new things, new business leaders should stay committed to their goal and stick to it.",
+    "why": "His central advice is to remain committed to the goal and not be distracted, which corresponds to keeping their aims.",
+    "trap": "A: Business journals are mentioned as something people may try without getting enough help. B: Arthur specifically warns against aimlessly trying many new things.",
+    "explanation": "Arthur advises new business leaders to keep their goal clear and remain committed to it.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 139,
+    "sourceLabel": "Test 139",
+    "topic": "Business Leadership - Self-confidence",
+    "prompt": "What's true about self-confidence according to Arthur?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Self-confidence sometimes leads to failure"
+      },
+      {
+        "code": "B",
+        "text": "It means being ambitious with what you do"
+      },
+      {
+        "code": "C",
+        "text": "Self-confidence can be gained through reading"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Arthur says self-confidence can be developed through hard work and even sport, but warns that too much self-confidence can make people ignore problems and can even cause failure.",
+    "why": "He explicitly states that self-confidence can sometimes contribute to failure, so option A is correct.",
+    "trap": "B: Arthur defines self-confidence as having faith in yourself and what you do, not simply being ambitious. C: He gives hard work and sport as ways to build confidence, not reading.",
+    "explanation": "Self-confidence is valuable, but Arthur warns that it can become harmful if it causes a leader to ignore real problems.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 140,
+    "sourceLabel": "Test 140",
+    "topic": "Business Leadership - Mistakes",
+    "prompt": "What is the most important attitude towards making mistakes according to Arthur?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Mistakes are inevitable."
+      },
+      {
+        "code": "B",
+        "text": "Mistakes can be a chance to learn"
+      },
+      {
+        "code": "C",
+        "text": "Mistakes can cause serious consequences."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Arthur says mistakes are common when doing something new and can show where improvement is needed. They create a chance to take action and learn new methods.",
+    "why": "The key attitude is to treat mistakes as useful learning opportunities, which directly matches option B.",
+    "trap": "A: Arthur does say mistakes are common, but his main message is what people should do with them: learn and improve. C: He says most mistakes are not that fatal and people should not be overly anxious about them.",
+    "explanation": "Arthur wants business leaders to use mistakes as feedback that shows what to improve and what new methods to learn.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 141,
+    "sourceLabel": "Test 141",
+    "topic": "Business Leadership - Leadership Quality",
+    "prompt": "What's the common quality of leaders?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Have good public speaking skills"
+      },
+      {
+        "code": "B",
+        "text": "Solve all problems skillfully"
+      },
+      {
+        "code": "C",
+        "text": "Be respected by the workforce"
+      }
+    ],
+    "answer": "C",
+    "evidence": "The source explains that leaders may have different personal styles, but a quality they share is the ability to win the respect of the people who work for them.",
+    "why": "The common element across different leadership styles is respect from the workforce, so option C is correct.",
+    "trap": "A: Strong public speaking is not identified as a quality every leader must share. B: The source does not claim that good leaders personally solve every problem.",
+    "explanation": "Leadership styles can differ, but effective leaders need the respect of their employees.",
+    "audio": "audio/question-05.mp3"
+  }
+]

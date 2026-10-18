@@ -1,0 +1,127 @@
+[
+  {
+    "q": 30,
+    "topic": "New IT System",
+    "prompt": "Most companies make changes to their computer systems",
+    "options": [
+      {
+        "code": "A",
+        "text": "every year."
+      },
+      {
+        "code": "B",
+        "text": "every two years."
+      },
+      {
+        "code": "C",
+        "text": "very often."
+      }
+    ],
+    "answer": "B",
+    "evidence": "The IT adviser says that, as a rule, most companies update their systems every couple of years.",
+    "why": "“Every couple of years” means every two years, so option B directly matches the adviser’s statement.",
+    "trap": "A: The adviser does not give one year as the normal interval. C: He says the need to upgrade depends on company requirements and even notes that some companies do not upgrade very often.",
+    "explanation": "The IT adviser says that, as a rule, most companies update their systems every couple of years—meaning every two years.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 24,
+    "topic": "Amy McCarthy Travel",
+    "prompt": "Why did Amy want to go abroad?",
+    "options": [
+      {
+        "code": "A",
+        "text": "She wanted to find a job in another country."
+      },
+      {
+        "code": "B",
+        "text": "Her friends had invited her to go with them."
+      },
+      {
+        "code": "C",
+        "text": "She felt she was good at learning languages."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Amy says that Carla and Nicky asked whether she wanted to join them for a few weeks somewhere sunny, and she immediately said yes.",
+    "why": "The invitation from her friends is the direct reason she agreed to travel abroad, so option B is correct.",
+    "trap": "A: Amy talks about living and working abroad as something she does now, not the reason for that first trip. C: She says the opposite—at the time she lacked confidence in learning languages.",
+    "explanation": "Amy says she lacked confidence in travelling alone and learning languages. She agreed immediately when Carla and Nicky invited her to join them.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 25,
+    "topic": "Amy McCarthy Travel",
+    "prompt": "Amy and her friends decided to go to Ibiza because",
+    "options": [
+      {
+        "code": "A",
+        "text": "it was cheaper than similar destinations."
+      },
+      {
+        "code": "B",
+        "text": "there were lots of things to do there."
+      },
+      {
+        "code": "C",
+        "text": "none of them had been there before."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Amy says Ibiza appealed to them because it offered such a wide range of activities, including its famous nightlife.",
+    "why": "A wide range of activities means there were lots of things to do, which matches option B.",
+    "trap": "A: Amy says Ibiza cost a bit more than Greek or Turkish alternatives. C: Nicky had already visited Ibiza and wanted to go back.",
+    "explanation": "Ibiza appealed to them because it offered a wide range of activities. It cost more than some alternatives, and Nicky had already visited it.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 26,
+    "topic": "Amy McCarthy Travel",
+    "prompt": "When she was at the airport, Amy felt",
+    "options": [
+      {
+        "code": "A",
+        "text": "glad she had taken sandwiches with her."
+      },
+      {
+        "code": "B",
+        "text": "worried that she might miss her plane."
+      },
+      {
+        "code": "C",
+        "text": "annoyed that she had spent so much."
+      }
+    ],
+    "answer": "C",
+    "evidence": "At the airport Amy noticed that her wallet was already half empty and says she felt a bit angry with herself.",
+    "why": "Feeling angry with herself after seeing how much money she had already spent is the same idea as being annoyed that she had spent so much, so C is correct.",
+    "trap": "A: She wished she had brought sandwiches, but she had not. B: Her flight was delayed for two hours; she does not say she was worried about missing it.",
+    "explanation": "At the airport, Amy noticed that her wallet was already half empty and felt angry with herself. She wished she had brought sandwiches, but she had not.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 27,
+    "topic": "Amy McCarthy Travel",
+    "prompt": "Amy’s friend Carla annoyed Amy because Carla",
+    "options": [
+      {
+        "code": "A",
+        "text": "sometimes left dirty dishes in the living room."
+      },
+      {
+        "code": "B",
+        "text": "often forgot her keys when she went out."
+      },
+      {
+        "code": "C",
+        "text": "wouldn’t do any food shopping."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Amy was irritated by used cups, saucers and plates being left beside the sofa or armchair.",
+    "why": "Those used cups, saucers and plates are dirty dishes left in the living room, which directly matches option A.",
+    "trap": "B: Carla’s lockouts did not particularly bother Amy. C: The food or bread disagreement involved the other two friends rather than being Amy’s complaint about Carla.",
+    "explanation": "Amy was irritated by used cups, saucers and plates left beside the sofa or armchair. The bread disagreement involved the other two, and Carla’s lockouts did not particularly bother Amy.",
+    "audio": "audio/question-05.mp3"
+  }
+]

@@ -1,0 +1,127 @@
+[
+  {
+    "q": 4,
+    "topic": "CAE Antique Vase Restoration",
+    "prompt": "How does the expert feel about leaving visible cracks in the finished vase?",
+    "options": [
+      {
+        "code": "A",
+        "text": "They affect the value of the vase rather than its appearance."
+      },
+      {
+        "code": "B",
+        "text": "They are part of the vase's history and should be seen."
+      },
+      {
+        "code": "C",
+        "text": "They should be avoided if at all possible."
+      }
+    ],
+    "answer": "B",
+    "evidence": "The expert says the breakage happened during the vase's lifetime and should be recorded rather than completely disguised.",
+    "why": "She treats the cracks as part of the object's history, so leaving them visible is appropriate.",
+    "trap": "A: She does not frame the issue mainly as value versus appearance. C: She rejects the idea of hiding every crack, because doing so would make the restoration feel false.",
+    "explanation": "The restoration should preserve evidence of the vase's history instead of pretending the damage never happened.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 5,
+    "topic": "CAE Remote Island",
+    "prompt": "The man wants a ferry service between the mainland and the island because",
+    "options": [
+      {
+        "code": "A",
+        "text": "he is keen to develop tourism on the island."
+      },
+      {
+        "code": "B",
+        "text": "he thinks more young people would come to live on the island."
+      },
+      {
+        "code": "C",
+        "text": "he feels the island people should not be isolated from modern life."
+      }
+    ],
+    "answer": "A",
+    "evidence": "He says visitors would create catering work and employment on the island, while the ferry would also let local young people commute to mainland jobs.",
+    "why": "His central argument is economic development through visitors and the work they would create, which matches option A.",
+    "trap": "B: He says young islanders could commute to mainland jobs, not that more young people would move to the island. C: He does not present modern-life isolation as the main reason.",
+    "explanation": "The ferry is intended to support visitor-based employment and improve economic opportunities.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 6,
+    "topic": "CAE Remote Island",
+    "prompt": "The speakers have different opinions about whether",
+    "options": [
+      {
+        "code": "A",
+        "text": "building houses on the beach would be advisable."
+      },
+      {
+        "code": "B",
+        "text": "commercial development would spoil the island's unique nature."
+      },
+      {
+        "code": "C",
+        "text": "creating an airport would be advantageous."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The visitor argues that an airport would destroy the island's paradise, while the man says a small airport would not damage their quality of life and would make economic sense.",
+    "why": "They directly disagree about the benefits and consequences of building an airport.",
+    "trap": "A: Both speakers reject building on the beaches rather than disagreeing about it. B: Their explicit disagreement in this exchange centres on the airport, not a general claim about all commercial development.",
+    "explanation": "The woman sees an airport as a threat to the island, while the man sees it as economically beneficial and manageable.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 1,
+    "topic": "CAE Retail Management",
+    "prompt": "How does the woman feel now about her first job in retailing?",
+    "options": [
+      {
+        "code": "A",
+        "text": "pleased by the way she handled the staff"
+      },
+      {
+        "code": "B",
+        "text": "confident that it gave her a good start"
+      },
+      {
+        "code": "C",
+        "text": "relaxed about the mistakes she made"
+      }
+    ],
+    "answer": "B",
+    "evidence": "She calls the job 'a good grounding' but says she still blushes when she remembers mistakes she made in dealing with long-serving staff.",
+    "why": "She values the experience as a strong foundation, which matches option B.",
+    "trap": "A: She admits she made mistakes in her dealings with staff. C: She still feels embarrassed about those mistakes, so she is not relaxed about them.",
+    "explanation": "She regards the first job as useful preparation despite mistakes she now recognises.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 2,
+    "topic": "CAE Retail Management",
+    "prompt": "What is the woman advised to do next?",
+    "options": [
+      {
+        "code": "A",
+        "text": "reflect on her skills"
+      },
+      {
+        "code": "B",
+        "text": "volunteer for extra work"
+      },
+      {
+        "code": "C",
+        "text": "discuss her situation with her boss"
+      }
+    ],
+    "answer": "A",
+    "evidence": "The interviewer tells her to work out the skills she can offer, emphasise her selling points and identify what she can do before approaching her line manager.",
+    "why": "The immediate advice is to assess and articulate her own skills first, which matches option A.",
+    "trap": "B: Going the extra mile is raised as something to consider, not the main next action. C: Speaking to her manager comes after she has first worked out her skills and selling points.",
+    "explanation": "Her first step should be self-assessment so she can present a clear case when she later speaks to her manager.",
+    "audio": "audio/question-05.mp3"
+  }
+]

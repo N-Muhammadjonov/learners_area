@@ -1,0 +1,127 @@
+[
+  {
+    "q": 28,
+    "topic": "Amy McCarthy Travel",
+    "prompt": "Why didn’t Amy phone her family?",
+    "options": [
+      {
+        "code": "A",
+        "text": "She didn't have enough credit left on her phone."
+      },
+      {
+        "code": "B",
+        "text": "She forgot that she had promised to call them."
+      },
+      {
+        "code": "C",
+        "text": "She didn't want them to hear her sounding unhappy."
+      }
+    ],
+    "answer": "C",
+    "evidence": "Amy says her parents had topped up her phone, so lack of credit was not an excuse. She avoided calling because as soon as they heard her voice, they would know she was not having a great time.",
+    "why": "She deliberately avoided phoning because her family would hear from her voice that she was unhappy, which directly matches option C.",
+    "trap": "A: She explicitly says her parents had topped up her phone, so lack of credit was not the reason. B: She had not forgotten her promise; she remembered it but could not bring herself to call.",
+    "explanation": "Amy knew her family would hear from her voice that she was unhappy. Lack of credit was not the reason because her parents had topped up her phone.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 29,
+    "topic": "Amy McCarthy Travel",
+    "prompt": "What did Amy regret doing?",
+    "options": [
+      {
+        "code": "A",
+        "text": "booking three weeks at the apartment"
+      },
+      {
+        "code": "B",
+        "text": "taking the wrong items on holiday with her"
+      },
+      {
+        "code": "C",
+        "text": "agreeing to take it in turns to cook meals"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Amy felt that two weeks would have been enough and that she could have done without the third week. The shared cooking arrangement worked well, and she had packed what she needed.",
+    "why": "Her regret concerned the length of the booking: three weeks was longer than she needed, so option A is correct.",
+    "trap": "B: The source indicates she had packed what she needed. C: Taking turns to cook worked well, so that arrangement was not the regret.",
+    "explanation": "Amy felt that two weeks would have been enough and she could have done without the third week. The shared cooking arrangement worked well, and she had packed what she needed.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 30,
+    "topic": "Amy McCarthy Travel",
+    "prompt": "What were Amy's feelings when she got home?",
+    "options": [
+      {
+        "code": "A",
+        "text": "She never wanted to go on holiday with friends again."
+      },
+      {
+        "code": "B",
+        "text": "The holiday had been a useful learning experience."
+      },
+      {
+        "code": "C",
+        "text": "Next summer she would look for work abroad."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Amy says she knew she had made mistakes, but she also felt the trip had taught her important lessons that would benefit her next time and gave her confidence to try again.",
+    "why": "She viewed the trip as a learning experience despite the mistakes, which matches option B.",
+    "trap": "A: She says she had confidence to try again, perhaps with different friends or on her own. C: Her plan to return to Spain for work was for after graduation in a few years, not next summer.",
+    "explanation": "Although Amy knew she had made mistakes, she believed the holiday had taught her important lessons that would help on future trips.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 11,
+    "topic": "Safety Around Campus",
+    "prompt": "The lecture was organised by",
+    "options": [
+      {
+        "code": "A",
+        "text": "University of Nottingham Students' Union."
+      },
+      {
+        "code": "B",
+        "text": "City of Nottingham."
+      },
+      {
+        "code": "C",
+        "text": "Nottingham Police Department."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Carlos thanks the Student Union at the university for organising the lecture. He separately explains that he serves in the Nottingham police department.",
+    "why": "The organiser is explicitly identified as the University of Nottingham Students' Union, so option A is correct.",
+    "trap": "B: The City of Nottingham is not identified as the organiser. C: The police department is Carlos’s employer, not the organisation that arranged the lecture.",
+    "explanation": "Carlos explicitly thanks the University's Student Union for organising the lecture. The police department is his employer, not the organiser.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 12,
+    "topic": "Safety Around Campus",
+    "prompt": "The majority of crime on campus is",
+    "options": [
+      {
+        "code": "A",
+        "text": "theft."
+      },
+      {
+        "code": "B",
+        "text": "violence."
+      },
+      {
+        "code": "C",
+        "text": "drugs and alcohol."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Carlos says drugs and alcohol are not much of an issue, rejects violence as the main problem, and states that the biggest concern on campus is theft.",
+    "why": "He explicitly identifies theft as the biggest crime concern on campus, so option A is correct.",
+    "trap": "B: Carlos rejects violence as the main campus crime. C: He says drugs and alcohol are not much of an issue.",
+    "explanation": "Carlos dismisses drugs and alcohol and violence, then says theft is the biggest concern on campus.",
+    "audio": "audio/question-05.mp3"
+  }
+]

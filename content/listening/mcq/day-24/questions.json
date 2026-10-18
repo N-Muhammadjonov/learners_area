@@ -1,0 +1,132 @@
+[
+  {
+    "q": 117,
+    "sourceLabel": "Test 117",
+    "topic": "Biscuit Exhibition - Favourite Biscuit",
+    "prompt": "People's favourite biscuit used to be",
+    "options": [
+      {
+        "code": "A",
+        "text": "an unsweetened one"
+      },
+      {
+        "code": "B",
+        "text": "one covered in chocolate"
+      },
+      {
+        "code": "C",
+        "text": "one filled with cream"
+      }
+    ],
+    "answer": "A",
+    "evidence": "The exhibition account says the favourite biscuit was not a chocolate biscuit or one filled with jam and cream, but a plain savoury biscuit eaten with cheese.",
+    "why": "A plain savoury biscuit is an unsweetened biscuit, so option A matches the source.",
+    "trap": "B: The source explicitly says the favourite was not a chocolate biscuit. C: It also contrasts the favourite with biscuits filled with jam and cream.",
+    "explanation": "Despite the many sweet varieties on display, the most popular biscuit was a plain savoury one eaten with cheese.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 118,
+    "sourceLabel": "Test 118",
+    "topic": "Biscuit Exhibition - Hands-on Activity",
+    "prompt": "The hands-on activity allows people to",
+    "options": [
+      {
+        "code": "A",
+        "text": "make some biscuits"
+      },
+      {
+        "code": "B",
+        "text": "taste some of the biscuits"
+      },
+      {
+        "code": "C",
+        "text": "pack a biscuit tin"
+      }
+    ],
+    "answer": "C",
+    "evidence": "Visitors use wooden biscuit replicas and tins to recreate the old packing process by filling a biscuit tin themselves.",
+    "why": "The activity is a practical recreation of packing biscuits into a tin, so option C is correct.",
+    "trap": "A: Visitors are not described as baking or making biscuits in this activity. B: The activity is not a tasting session; it uses biscuit replicas for packing.",
+    "explanation": "The hands-on element lets visitors experience how biscuits were packed by filling a tin with replica biscuits.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 119,
+    "sourceLabel": "Test 119",
+    "topic": "Internship Application",
+    "prompt": "What does Mona suggest Tom do?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Talk to the university's career centre"
+      },
+      {
+        "code": "B",
+        "text": "Talk to his tutor"
+      },
+      {
+        "code": "C",
+        "text": "Contact the hotel manager"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Mona advises Tom not to call hotel managers directly because he is more likely to be rejected. She tells him to use the career office on campus, which has a list of companies offering internships and can help him contact the places he wants to apply to.",
+    "why": "The recommended next step is to work through the university career office, so option A is correct.",
+    "trap": "B: Mona mentions obtaining a reference from the tutor, but she does not tell Tom to use the tutor as the main route for finding the internship. C: She specifically advises against calling hotel managers directly.",
+    "explanation": "The source test's answer was corrected from the transcript: Tom should use the university career centre, which can connect him with internship providers.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 120,
+    "sourceLabel": "Test 120",
+    "topic": "Presentation Skills",
+    "prompt": "Why does the tutor want Mona to do the presentation?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Because she can do it skilfully."
+      },
+      {
+        "code": "B",
+        "text": "Because she wants to do it herself"
+      },
+      {
+        "code": "C",
+        "text": "Because she can show other students how to do a presentation"
+      }
+    ],
+    "answer": "C",
+    "evidence": "Mona says she is not very good at presentations, but the tutor wants her to demonstrate what is important in a presentation, such as attracting the audience, making eye contact and using gestures, so that the other students can learn from her presentation.",
+    "why": "The tutor's purpose is for the presentation to serve as a learning example for the class, which matches option C.",
+    "trap": "A: Mona explicitly says she is not very good at presenting. B: The presentation is the tutor's requirement, not something Mona is doing simply because she wants to.",
+    "explanation": "The presentation is being used as a teaching exercise so Mona and the other students can learn what makes a presentation effective.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 121,
+    "sourceLabel": "Test 121",
+    "topic": "Internship Benefits",
+    "prompt": "How does the experience benefit Mona?",
+    "options": [
+      {
+        "code": "A",
+        "text": "It is good for her future job"
+      },
+      {
+        "code": "B",
+        "text": "It is good for her dissertation."
+      },
+      {
+        "code": "C",
+        "text": "It can let her know something about the specific job."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Mona says the internship gave her practical examples that are helpful for what she intends to do after graduation, and she has always wanted to do something related to hotel management.",
+    "why": "The experience directly supports her intended career after graduation, so option A is the best answer.",
+    "trap": "B: She initially wanted to complete an essay for the course, but the benefit she emphasises is practical value for her future career. C: She says she still does not have a clear idea about specific work positions, so the internship has not simply identified one specific job for her.",
+    "explanation": "The internship is useful because it gives Mona practical experience relevant to her future career in hotel management.",
+    "audio": "audio/question-05.mp3"
+  }
+]

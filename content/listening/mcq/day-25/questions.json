@@ -1,0 +1,144 @@
+[
+  {
+    "q": 122,
+    "sourceLabel": "Test 122",
+    "topic": "Restaurant Music Research - Topic",
+    "prompt": "What is the topic of the research?",
+    "options": [
+      {
+        "code": "A",
+        "text": "the effect of music on consumers"
+      },
+      {
+        "code": "B",
+        "text": "the effect of music on eating"
+      },
+      {
+        "code": "C",
+        "text": "the effect of music on the price of food"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Jeannie explains that she became interested in a report saying that appropriate music played while people are eating may cause changes in their behaviour, and she decided to investigate those behavioural effects.",
+    "why": "The study is about how music influences the behaviour of restaurant customers, so option A is the best match.",
+    "trap": "B: Eating is the setting in which the music is played, but the research target is the customers' behaviour rather than the physical act of eating itself. C: Food prices are not the subject of the investigation.",
+    "explanation": "Jeannie's research investigates how restaurant music affects consumers' behaviour.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 123,
+    "sourceLabel": "Test 123",
+    "topic": "Restaurant Music Research - Observation",
+    "prompt": "The research finds out in the restaurant",
+    "options": [
+      {
+        "code": "A",
+        "text": "the music is played everywhere"
+      },
+      {
+        "code": "B",
+        "text": "the music is played at a uniform volume level"
+      },
+      {
+        "code": "C",
+        "text": "the music is played at a certain time"
+      }
+    ],
+    "answer": "B",
+    "evidence": "Jeannie says the five restaurants play music at different times, but the volume does not change.",
+    "why": "The unchanged volume means the restaurants use a uniform volume level, so option B is correct.",
+    "trap": "A: The observation is that each restaurant has a special section for playing music, not that music is played everywhere. C: The music is played at different times rather than at one fixed time.",
+    "explanation": "The common feature she observes is a consistent volume level even though the timing of the music varies.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 124,
+    "sourceLabel": "Test 124",
+    "topic": "Restaurant Music Research - Questionnaire",
+    "prompt": "The first few questions in the questionnaire are",
+    "options": [
+      {
+        "code": "A",
+        "text": "to understand people's taste in music"
+      },
+      {
+        "code": "B",
+        "text": "to clarify the research aim"
+      },
+      {
+        "code": "C",
+        "text": "to disguise the purpose of the survey"
+      }
+    ],
+    "answer": "C",
+    "evidence": "The first section asks about previous visits, group size and whether the customer will return. These questions deliberately avoid musical preferences so respondents are less likely to realise the survey is really about the music being played.",
+    "why": "Those opening questions act as distractors that hide the real purpose of the study, so option C is correct.",
+    "trap": "A: The early questions intentionally do not ask about musical preferences. B: Their purpose is not to make the research aim clearer to respondents, but to keep it less obvious.",
+    "explanation": "The early questions disguise the survey's true focus so participants are less likely to change their responses because they know the study is about music.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 125,
+    "sourceLabel": "Test 125",
+    "topic": "Restaurant Music Research - Questionnaire Source",
+    "prompt": "The questions in the questionnaire came from",
+    "options": [
+      {
+        "code": "A",
+        "text": "a previous study"
+      },
+      {
+        "code": "B",
+        "text": "a professional dictionary"
+      },
+      {
+        "code": "C",
+        "text": "the student herself"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Jeannie says she did not design the questions herself. She found an assignment written by a student the previous year, kept beside a dictionary in the library, and used that earlier work.",
+    "why": "The questions came from earlier student research, so 'a previous study' is the closest and correct option.",
+    "trap": "B: The dictionary only happened to be beside the assignment; it was not the source of the questions. C: Jeannie explicitly says she did not create the questionnaire entirely by herself.",
+    "explanation": "The questionnaire was based on an earlier student's assignment that Jeannie found in the library.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 126,
+    "sourceLabel": "Test 126",
+    "topic": "Accommodation",
+    "prompt": "Which TWO types of accommodation are available on a weekly basis?",
+    "instruction": "Choose TWO answers.",
+    "options": [
+      {
+        "code": "A",
+        "text": "lighthouse"
+      },
+      {
+        "code": "B",
+        "text": "hostel"
+      },
+      {
+        "code": "C",
+        "text": "castle"
+      },
+      {
+        "code": "D",
+        "text": "cottages"
+      },
+      {
+        "code": "E",
+        "text": "bed and breakfast"
+      }
+    ],
+    "answer": [
+      "B",
+      "D"
+    ],
+    "evidence": "The accommodation information indicates that hostel guests can stay for a whole week and that cottages are available for visitors wanting weekly accommodation. The bed and breakfast operates on a daily basis.",
+    "why": "The two accommodation types offered on a weekly basis are the hostel and the cottages, so the correct pair is B and D.",
+    "trap": "A: The lighthouse is not identified as a weekly accommodation option. C: The castle itself is not the weekly accommodation; cottages are recommended for castle visitors. E: Bed and breakfast accommodation is described as daily only.",
+    "explanation": "Weekly stays are available in the hostel and cottages; the bed and breakfast is a daily option.",
+    "audio": "audio/question-05.mp3"
+  }
+]

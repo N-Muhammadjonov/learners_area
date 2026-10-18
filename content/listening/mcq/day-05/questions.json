@@ -1,0 +1,127 @@
+[
+  {
+    "q": 13,
+    "topic": "Safety Around Campus",
+    "prompt": "The campus crime rate has ______ so far this year.",
+    "options": [
+      {
+        "code": "A",
+        "text": "stayed the same."
+      },
+      {
+        "code": "B",
+        "text": "decreased."
+      },
+      {
+        "code": "C",
+        "text": "increased."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Carlos contrasts regional trends with the university itself and says that on campus the overall crime rate has fallen this year.",
+    "why": "“Has fallen” means the campus crime rate has decreased, so option B matches the listening evidence.",
+    "trap": "A: He does not say the campus rate stayed unchanged. C: Increasing crime refers to the wider regional context, not the campus result for this year.",
+    "explanation": "The speaker says the overall crime rate on campus has fallen this year. The regional increase is a distractor.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 14,
+    "topic": "Safety Around Campus",
+    "prompt": "Why is there added concern about crime?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Exaggeration in the media."
+      },
+      {
+        "code": "B",
+        "text": "Factual news articles."
+      },
+      {
+        "code": "C",
+        "text": "Crime TV shows."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Carlos says extremely exaggerated stories in the media have caused more concern about crime in the area.",
+    "why": "The cause of the added concern is media exaggeration, which directly matches option A.",
+    "trap": "B: He says he would like to see more factual news articles; they are presented as a solution, not the cause. C: He describes crime shows as far-fetched but notes viewers know they are not real events.",
+    "explanation": "Exaggerated media stories are blamed for creating extra concern. Factual reporting is what Carlos wants instead.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 15,
+    "topic": "Safety Around Campus",
+    "prompt": "Carlos says that if you are the victim of a crime, you should",
+    "options": [
+      {
+        "code": "A",
+        "text": "resist."
+      },
+      {
+        "code": "B",
+        "text": "seek help."
+      },
+      {
+        "code": "C",
+        "text": "run away."
+      }
+    ],
+    "answer": "B",
+    "evidence": "When discussing being mugged, Carlos says not to resist; instead, be compliant and seek help after the incident.",
+    "why": "The explicit recommended action after the incident is to seek help, so option B is correct.",
+    "trap": "A: Carlos specifically says not to try to resist. C: He also warns against drawing attention to yourself by running away conspicuously.",
+    "explanation": "If you are mugged, Carlos advises compliance rather than resistance and tells you to seek help afterwards.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 16,
+    "topic": "Safety Around Campus",
+    "prompt": "What is the primary method for increasing safety?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Offering free self-defence courses to students."
+      },
+      {
+        "code": "B",
+        "text": "Informing students and staff of safety precautions."
+      },
+      {
+        "code": "C",
+        "text": "Reminding students to carry a mobile phone at all times."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Carlos says that educating students and staff on the correct precautions to take is the best way to increase safety.",
+    "why": "Educating people about the correct precautions is equivalent to informing students and staff of safety precautions, so option B is correct.",
+    "trap": "A: Self-defence courses are not identified as the primary method. C: Carrying a mobile phone at all times is not given as the main safety strategy.",
+    "explanation": "The speaker identifies education about correct precautions as the best way to improve safety.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 18,
+    "topic": "Safety Around Campus",
+    "prompt": "It is dangerous to",
+    "options": [
+      {
+        "code": "A",
+        "text": "carry a knife."
+      },
+      {
+        "code": "B",
+        "text": "carry pepper spray."
+      },
+      {
+        "code": "C",
+        "text": "drive home late at night."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Carlos strongly advises against carrying a knife because, if you are disarmed, the weapon could be used against you.",
+    "why": "The warning is specifically about the danger of carrying a knife, so option A is correct.",
+    "trap": "B: Pepper spray is not the action identified by the speaker as dangerous in this item. C: Driving home late at night is not the specific warning tested here.",
+    "explanation": "Carlos warns that carrying a knife can make a situation more dangerous because the weapon could be turned against you.",
+    "audio": "audio/question-05.mp3"
+  }
+]
