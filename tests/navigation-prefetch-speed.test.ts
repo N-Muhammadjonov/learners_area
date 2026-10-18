@@ -27,7 +27,7 @@ test("canonical sidebar module landing routes prefetch without an extra redirect
 
 test("only canonical learning section INDEX routes can warm on hover, focus or touch", () => {
   for (const path of [
-    "/app/listening/lessons", "/app/listening/academic", "/app/listening/general",
+    "/app/listening/lessons", "/app/listening/tests", "/app/listening/general",
     "/app/listening/mcq",
     "/app/reading/lessons", "/app/reading/academic", "/app/reading/general",
     "/app/reading/question-types",
@@ -40,7 +40,7 @@ test("only canonical learning section INDEX routes can warm on hover, focus or t
   // No automatic fetches for dynamic question banks, private answers or
   // query-driven learner state (including controlled Writing/Grammar tabs).
   for (const path of [
-    "/app/listening/academic/123",
+    "/app/listening/academic", "/app/listening/academic/123", "/app/listening/tests/123",
     "/app/listening/mcq/day/8",
     "/app/listening/general/123",
     "/app/reading/academic/123",
