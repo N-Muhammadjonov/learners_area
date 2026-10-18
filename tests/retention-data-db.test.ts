@@ -200,7 +200,7 @@ test("a completed cycle starts a new one without a back-to-back repeat", async (
   const seen: string[] = [];
   for (let index = 0; index < 2; index += 1) {
     const started = await startOrResumeAttempt({ userId: otherId, level, now: T0, random: () => 0.25 }, database.db);
-    seen.push(started.attempt.retentionTextId);
+    seen.push(started.attempt.retentionTextId!);
     await submitAttempt({ attemptId: started.attempt.id, userId: otherId, recallText: draft, now: at(200) }, database.db);
   }
   assert.equal(new Set(seen).size, 2, "both texts were used before any repeat");
@@ -259,10 +259,10 @@ test("submit scores against the ASSIGNED version even after the owner publishes 
   const assigned = live.retentionTextVersionId;
 
   // The owner edits the text mid-attempt.
-  const detail = await getRetentionTextDetail(live.retentionTextId, database.db);
+  const detail = await getRetentionTextDetail(live.retentionTextId!, database.db);
   await createRetentionTextVersion(
     {
-      textId: live.retentionTextId,
+      textId: live.retentionTextId!,
       bodyText: `${bodyOfWords(300)} republished`,
       scoringStructure: simpleStructure("republished"),
       expectedCurrentVersionId: detail!.currentVersionId,

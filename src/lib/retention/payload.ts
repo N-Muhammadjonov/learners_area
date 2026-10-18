@@ -84,8 +84,8 @@ export async function buildAttemptPayload(
   now: Date,
   connection: RetentionBankDatabase
 ): Promise<RetentionAttemptPayload> {
-  const labels = await labelsForTexts([attempt.retentionTextId], connection);
-  const label = labels.get(attempt.retentionTextId)?.label ?? "";
+  const labels = await labelsForTexts(attempt.retentionTextId ? [attempt.retentionTextId] : [], connection);
+  const label = attempt.retentionLabelSnapshot ?? (attempt.retentionTextId ? labels.get(attempt.retentionTextId)?.label : null) ?? "";
   const meta = metaOf(attempt, label);
   const serverNow = now.toISOString();
   const phase = resolvePhase(attempt, now);

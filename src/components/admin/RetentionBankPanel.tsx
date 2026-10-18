@@ -98,6 +98,7 @@ export function RetentionBankPanel({
   dict,
   level,
   rows,
+  canPermanentlyDelete = false,
   filter,
   sort,
   page = 1,
@@ -107,6 +108,7 @@ export function RetentionBankPanel({
   dict: Dictionary;
   level: RetentionLevel;
   rows: RetentionBankRow[];
+  canPermanentlyDelete?: boolean;
   filter: string;
   sort: string;
   page?: number;
@@ -144,6 +146,37 @@ export function RetentionBankPanel({
       router.refresh();
     } catch (error) {
       setNotice(error instanceof RequestTimeout ? t.saveUnknown : t.archiveFailed);
+    } finally {
+      busyRef.current = null;
+      setBusy(null);
+    }
+  }
+
+  async function deleteText(row: RetentionBankRow) {
+    if (busyRef.current) return;
+    if (!window.confirm(t.confirmPermanentDelete.replace("{label}", row.internalLabel))) return;
+    if (window.prompt(t.confirmDeleteLabel.replace("{label}", row.internalLabel)) !== row.internalLabel) return;
+    busyRef.current = row.textId;
+    setBusy(row.textId);
+    setConflict(false);
+    try {
+      const response = await fetchWithDeadline(
+        `/api/admin/retention/texts/${row.textId}`,
+        { method: "DELETE", headers: { "content-type": "application/json" }, body: JSON.stringify({ expectedLabel: row.internalLabel }) },
+        WRITE_TIMEOUT_MS
+      );
+      if (response.status === 409) {
+        setNotice(t.deleteBlocked);
+        return;
+      }
+      if (!response.ok) {
+        setNotice(t.deleteFailed);
+        return;
+      }
+      setNotice(t.saved);
+      router.refresh();
+    } catch (error) {
+      setNotice(error instanceof RequestTimeout ? t.saveUnknown : t.deleteFailed);
     } finally {
       busyRef.current = null;
       setBusy(null);
@@ -272,7 +305,7 @@ export function RetentionBankPanel({
                         row.active
                           ? {
                               key: "archive",
-                              label: t.archive,
+                              label: t.archiveAction,
                               marker: { "data-retention-archive": row.textId },
                               onSelect: () => void setActive(row, false),
                             }
@@ -282,6 +315,12 @@ export function RetentionBankPanel({
                               marker: { "data-retention-restore": row.textId },
                               onSelect: () => void setActive(row, true),
                             },
+                        ...(canPermanentlyDelete ? [{
+                          key: "delete",
+                          label: t.archive,
+                          marker: { "data-retention-delete": row.textId },
+                          onSelect: () => void deleteText(row),
+                        }] : []),
                       ]}
                     />
                   </td>

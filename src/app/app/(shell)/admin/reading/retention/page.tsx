@@ -18,7 +18,7 @@ export const metadata = { title: "Retention" };
  *
  * The level grid answers "how full is the bank?" (X / 15, with the honest 15 as a
  * target rather than a cap), and the panel below it is the whole authoring
- * workflow: Add, Change (new version), Delete (archive), Restore, and both usage
+ * workflow: Add, Change (new version), Archive, Restore, owner-only Delete, and usage
  * counts. Back-navigation goes to Reading, one step up, through the same crumb
  * table the topbar uses.
  */
@@ -32,14 +32,14 @@ export default async function AdminRetentionPage({ searchParams }: {
     <div className="flex flex-col gap-4" data-route-usable="retention-admin">
       <h1 className="page-title">{dict.retentionMemory.admin.title}</h1>
       <Suspense fallback={<p className="panel" role="status" data-async-loading="retention-admin">{dict.common.loading}</p>}>
-        <RetentionBankContent dict={dict} params={params} />
+        <RetentionBankContent dict={dict} params={params} canPermanentlyDelete={administrator.role === "owner"} />
       </Suspense>
     </div>
   );
 }
 
-async function RetentionBankContent({ dict, params }: {
-  dict: Dictionary; params: Record<string, string | string[] | undefined>;
+async function RetentionBankContent({ dict, params, canPermanentlyDelete }: {
+  dict: Dictionary; params: Record<string, string | string[] | undefined>; canPermanentlyDelete: boolean;
 }) {
   const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
   const requestedLevel = first(params.level);
@@ -105,6 +105,7 @@ async function RetentionBankContent({ dict, params }: {
 
       <RetentionBankPanel
         dict={dict}
+        canPermanentlyDelete={canPermanentlyDelete}
         level={level}
         filter={filter}
         sort={sort}

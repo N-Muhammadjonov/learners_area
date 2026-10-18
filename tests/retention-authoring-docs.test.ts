@@ -65,7 +65,9 @@ test("the document states the level table, the conservation rule and the target-
   assert.match(doc, /390–450/);
   assert.match(doc, /exactly 100 points/);
   assert.match(doc, /target\*\*, not a maximum|target.*not a maximum/i);
-  assert.match(doc, /Delete.*archives/is);
+  assert.match(doc, /Archive.*removes the text/is);
+  assert.match(doc, /Delete.*irreversible.*owner-only/is);
+  assert.match(doc, /completed attempt records.*recall answers.*scores/is);
   assert.match(doc, /grouped number is \*\*one\*\* word: `50,000`/);
 });
 

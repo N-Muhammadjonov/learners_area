@@ -52,6 +52,7 @@ export type AuditAction =
   | "retention_text.version_created"
   | "retention_text.archived"
   | "retention_text.restored"
+  | "retention_text.permanently_deleted"
   | "grammar.bundle_imported"
   | "ai.control.set"
   | "report.generated"

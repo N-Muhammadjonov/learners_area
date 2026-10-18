@@ -35,7 +35,7 @@ async function render(props: Partial<Parameters<typeof RetentionBankPanel>[0]> =
   const router = { back() {}, forward() {}, refresh() {}, push() {}, replace() {}, prefetch() {} };
   try {
     await act(async () => root.render(React.createElement(AppRouterContext.Provider, { value: router as never },
-      React.createElement(RetentionBankPanel, { dict: en, level: "A2", rows: [row("t1"), row("t2", false)], filter: "all", sort: "label", page: 2, pageCount: 3, total: 105, ...props }))));
+      React.createElement(RetentionBankPanel, { dict: en, level: "A2", rows: [row("t1"), row("t2", false)], canPermanentlyDelete: true, filter: "all", sort: "label", page: 2, pageCount: 3, total: 105, ...props }))));
     await run();
   } catch (error) {
     if (error instanceof AggregateError) console.error("AGG", error.errors);
@@ -73,11 +73,13 @@ test("three-dot menu: labelled, keyboard navigable, Escape/outside close, focus 
     await act(async () => trigger.click());
     assert.equal(trigger.getAttribute("aria-expanded"), "true");
     const items = [...document.querySelectorAll<HTMLButtonElement>('[role="menuitem"]')];
-    assert.deepEqual(items.map((item) => item.textContent), ["Change", "Delete"]);
+    assert.deepEqual(items.map((item) => item.textContent), ["Change", "Archive", "Delete"]);
     assert.equal(document.activeElement, items[0]);
     await key(items[0]!, "ArrowDown");
     assert.equal(document.activeElement, items[1]);
     await key(items[1]!, "ArrowDown");
+    assert.equal(document.activeElement, items[2]);
+    await key(items[2]!, "ArrowDown");
     assert.equal(document.activeElement, items[0]);
     await key(items[0]!, "Escape");
     assert.equal(document.querySelector('[role="menu"]'), null);
@@ -85,32 +87,44 @@ test("three-dot menu: labelled, keyboard navigable, Escape/outside close, focus 
     await act(async () => trigger.click());
     await act(async () => { query("#outside").dispatchEvent(new dom.window.MouseEvent("pointerdown", { bubbles: true }) as unknown as Event); });
     assert.equal(document.querySelector('[role="menu"]'), null);
-    // Archived row offers Restore, not Delete.
+    // Archived row offers Restore and permanent Delete.
     await act(async () => query<HTMLButtonElement>('[data-retention-row="t2"] [data-retention-row-menu-trigger]').click());
     assert.ok(query("[data-retention-restore]"));
+    assert.ok(query("[data-retention-delete]"));
   });
 });
 
-test("archive failure is honest and a double click sends one PATCH", async () => {
+test("administrator may archive but cannot see permanent delete", async () => {
+  await render({ canPermanentlyDelete: false }, async () => {
+    await act(async () => query<HTMLButtonElement>('[data-retention-row="t1"] [data-retention-row-menu-trigger]').click());
+    assert.ok(query("[data-retention-archive]"));
+    assert.equal(document.querySelector("[data-retention-delete]"), null);
+  });
+});
+
+test("hard-delete failure is honest; a pending request cannot be repeated", async () => {
   const originalFetch = globalThis.fetch;
   const originalConfirm = dom.window.confirm;
+  const originalPrompt = dom.window.prompt;
   let patches = 0;
   let release: (value: Response) => void = () => undefined;
   globalThis.fetch = (async () => { patches += 1; return new Promise<Response>((resolve) => { release = resolve; }); }) as typeof fetch;
   (globalThis.window as unknown as { confirm: () => boolean }).confirm = () => true;
+  (globalThis.window as unknown as { prompt: () => string }).prompt = () => "A2-t1";
   try {
     await render({}, async () => {
       await act(async () => query<HTMLButtonElement>('[data-retention-row="t1"] [data-retention-row-menu-trigger]').click());
-      await act(async () => query<HTMLButtonElement>("[data-retention-archive]").click());
+      await act(async () => query<HTMLButtonElement>("[data-retention-delete]").click());
       assert.equal(query<HTMLButtonElement>('[data-retention-row="t1"] [data-retention-row-menu-trigger]').disabled, true);
       assert.equal(patches, 1);
       await act(async () => release(json({ ok: false }, 500)));
       await wait(0);
-      assert.equal(query("[data-retention-bank-notice]").textContent, en.retentionMemory.admin.archiveFailed);
+      assert.equal(query("[data-retention-bank-notice]").textContent, en.retentionMemory.admin.deleteFailed);
     });
   } finally {
     globalThis.fetch = originalFetch;
     (globalThis.window as unknown as { confirm: typeof originalConfirm }).confirm = originalConfirm;
+    (globalThis.window as unknown as { prompt: typeof originalPrompt }).prompt = originalPrompt;
   }
 });
 
