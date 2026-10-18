@@ -1,0 +1,17 @@
+browser { PASS: 27, FAIL: 0, SKIP: 0, BLOCKED: 0 }
+browser-v2 { PASS: 14, FAIL: 0 }
+browser-v3 { PASS: 49, FAIL: 0 }
+browser-v4 { PASS: 72, FAIL: 0, SKIP: 0 }
+browser-v5 { PASS: 52, FAIL: 0, SKIP: 0 }
+browser-v6 { PASS: 76, FAIL: 1, SKIP: 0 }
+file:///home/user/learners_area/migration/vanilla-frontend/scripts/regression-v13.mjs:5
+try{for(const [file,count,report]of [['browser.mjs',27,'browser-results.json'],['browser-v2.mjs',14,'v2/browser-v2-results.json'],['browser-v3.mjs',49,'v3/browser-v3-results.json'],['browser-v4.mjs',72,'v4/browser-v4-results.json'],['browser-v5.mjs',52,'v5/browser-v5-results.json'],['browser-v6.mjs',77,'v6/browser-v6-results.json'],['browser-v7.mjs',26,'v7/browser-v7-results.json'],['browser-v8.mjs',79,'v8/browser-v8-results.json'],['browser-v9.mjs',29,'v9/browser-v9-results.json'],['browser-v10.mjs',53,'v10/browser-v10-results.json'],['browser-v11.mjs',18,'v11/browser-v11-results.json']]){const name=file.replace('.mjs',''),fd=fs.openSync(path.join(out,name+'-output.txt'),'w'),r=spawnSync(process.execPath,['tests/'+file],{cwd:base,stdio:['ignore',fd,fd]});fs.closeSync(fd);const p=path.join(evidence,report),j=JSON.parse(fs.readFileSync(p));fs.copyFileSync(p,path.join(out,name+'-regression.json'));console.log(name,j.counts);if(r.status!==0||j.counts.PASS!==count||j.counts.FAIL||j.counts.SKIP)throw Error('Regression '+file);}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ^
+
+Error: Regression browser-v6.mjs
+    at file:///home/user/learners_area/migration/vanilla-frontend/scripts/regression-v13.mjs:5:1012
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.22.3

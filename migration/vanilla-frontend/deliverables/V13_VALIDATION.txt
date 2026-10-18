@@ -1,0 +1,105 @@
+V13 CHECKPOINT — EXACT V12 CONTINUATION, HONEST PARTIAL DELIVERY
+
+Baseline: 8ffbb39a8d1187bf9b0a4ce7a75cfec2a980aa97
+Branch: arena/96836bcf-learners-area (no switch/reset/rebase/stash/force push)
+Source package commit: 839e1a4e7c9e85d3d59d0ed06ac7fda601a948f4
+Final delivery Git HEAD: read git rev-parse HEAD; verified clean local=remote after delivery commit.
+No merge or deploy. All edits migration/vanilla-frontend ONLY.
+
+IMPLEMENTED (one activity only, existing original runtime reused)
+Full IELTS: own question/part resume, source Start handler rebind, final-review
+absolute deadline survives reload, silent final-review resume and once-only expiry,
+elapsed listening timer with throttled-callback carryover, duplicate/pending retake
+and late playback-start guards, source native question labels/current state/focus,
+paired control restoration, native dialog/notes keyboard/focus lifecycle, timer/
+audio disposal. Notes stay source session-only. Timer hint is client UX, not new
+server anti-tamper enforcement or latest-writer guarantee.
+Parent dictionary RPC blocked before hydration and during exam/pending result;
+lookup rechecks lock before popup. Open ACK must match own attempt identity too.
+Server grading/auth/ownership/sequence/reveal authority not replaced. Existing V12
+Retry leaf and all media controllers retained. No alternative engines/frameworks.
+
+ACTIVITY GATES (frontend / fixture / original behavior / live separately)
+Full IELTS Test: PARTIAL / V13 documented subset VERIFIED / PARTIAL / UNVERIFIED.
+Review & Revision: PARTIAL / preserved V11 focused subset / PARTIAL / UNVERIFIED.
+Script Completion: PARTIAL / preserved V11 focused subset / PARTIAL / UNVERIFIED.
+MCQ Mastery: PARTIAL / preserved V11 focused subset / PARTIAL / UNVERIFIED.
+Map Mastery (actual map): PARTIAL / preserved V11 focused subset / PARTIAL / UNVERIFIED.
+Choose TWO Mastery: PARTIAL / preserved V11 focused subset / PARTIAL / UNVERIFIED.
+Completion Mastery: PARTIAL / preserved V11 focused subset / PARTIAL / UNVERIFIED.
+Vocabulary Builder: PARTIAL / preserved V11 focused subset / PARTIAL / UNVERIFIED.
+Retry Weak Areas: CODE COMPLETE for V12 supported leaf / preserved V12 VERIFIED /
+PARTIAL comprehensive original behavior / UNVERIFIED live.
+Supported frontend1/9,8partial; comprehensive original0/9; live0/9. No new whole
+activity closure. Review V13 completion pass NOT started ahead of Full IELTS.
+
+FRESH EXACT-ZIP EXTRACTION (independent sequential acceptance)
+npm ci --ignore-scripts: PASS; build without original source tree: PASS.
+Units363 PASS/0FAIL/0SKIP/0CANCEL (351 preserved+12new).
+Chromium499 PASS/0FAIL/0SKIP, all V12 cases, one strict unfiltered runner.
+Original-source43 PASS/0FAIL/0SKIP (27preserved+16new), unfiltered authorized
+read-only actual HTML/hooks, isolated API/encoded silence fixtures. NOT real
+recording/backend/provider/live acceptance. Original source SHA unchanged:
+f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e.
+All40 original exam controls x12 combinations (1440x900/768x1024/390x844,
+EN/UZ, day/night); own flags/session notes/reload/cancel/canonical result/review
+transition; simulated elapsed/deadline, dictionary lock, keyboard/options paths.
+Simulated clock is not real-duration recording proof. Existing source checks
+retain malformed/foreign/outbox/retry/expiry cases; these do not imply a complete
+new Full IELTS failure/race matrix. Protected content/audio/keys/transcript never
+copied into ZIP. No matched-original rendered visual acceptances, no live cases.
+
+TRANSPARENT DEVELOPMENT FAILURES (retained, not erased)
+Initial16 source run3PASS13FAIL caught original Start onclick holding old handler;
+corrected binding and source-style unit fixture. Second15PASS1FAIL was request
+observation before route handler count; wait for RESPONSE, SAME reads===1 and
+forbidden reads===0 assertions retained. Root strict Chromium stopped at unchanged
+V6 DOM-bound assertion76/77; cause UNESTABLISHED, no assertion/threshold changed.
+Fresh extracted complete499 passed including unchanged V6 77/77. Final independent
+results are separate from failed root runs, not retroactive first-pass claims.
+Pre-delivery ledger metadata review corrected historical pointer/manifest copying;
+preliminary cde4ee68 ZIP/proofs preserved externally with CRC/808 hash extraction at
+/home/user/learners-area-v13-preseal-20261019/. New final ZIP freshly extracted and
+retested; preliminary independent job intentionally stopped, not accepted as final.
+
+MEDIA / SECURITY / PRODUCTION
+Universal media PARTIAL, unchanged V12 hub-after-paint architecture:256KiB Range,
+8MiB global encoded LRU/two transports/15s body deadlines; quota/decoder recovery,
+eviction/replay and cleanup retained. Full Blob fallback explicitly NOT progressive.
+Open stable early duration/indexed seek/proactive decoded/aggregate Blob bounds,
+long encoded sessions/all callers/provider/Safari/hardware and real expiry/revocation.
+No universal codec/browser/1–100ms performance guarantee. New timer is not universal
+media closure. sandbox=allow-scripts ONLY; CSP unchanged; disconnected API503.
+No private URLs/keys/credentials to child. Runtime audit0; development5HIGH/0critical.
+No backend/DB/secrets/student records/cloud/Worker/R2/Supabase/DNS/main/staff or
+production edits. Deferred Owner HTML→validate/extract→privateR2→register/preview/
+explicitpublish remains unimplemented; Reading Owner-supervised AI imports deferred.
+
+SCOPE / METRICS / NEXT
+Global routes22COMPLETE/15PARTIAL/71NOTSTARTED of108 inventory candidates;
+components62/17/127 of206. Listening routes9/6/1 of16, components9/10/5 of24.
+No source-entry promotions.35staffroutes reserved:23Admin/6Owner/6Teacher. Staff
+lesson author stays staff-only NOTSTARTED; no learner author/publish invented.
+Learner Listening remains PARTIAL separately; active gate still open. Reading NOT
+STARTED. Manual future staff reconciliation against latest checkpoint, not oldV4.
+Implementation metric: UNDETERMINED weighted aggregate denominator (counts above).
+Functional/security metric: UNDETERMINED product coverage; bounded tests above.
+Visual/live metric: UNDETERMINED aggregate denominator; matched-original0/live0.
+NEXT continue Full IELTS: full status/timeout/conflict/stale/retake/rapid navigation/
+reentry/media-error/expiry matrix and real full-duration recording/transcript/seek
+alignment. THEN Review, Script, MCQ, actual Map, Choose TWO, Completion, Vocabulary;
+preserve Retry. Do not restart or advance parallel partial activity engines.
+
+ARCHIVE / PRESERVATION
+LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V13.zip
+39728642 bytes; 808 source+2manifest files.
+SHA256 4975eb9b664f951fc514aa4ba18b89ed61b7f33cb60165f9eb9228f9d80440c4
+Fresh CRC/all808source hashes PASS, assets25/source CSS exact/compiled CSS
+deterministic PASS, independently rebuilt source-code byte differences0,
+TWO byte-identical deterministic repacks PASS. Independent generated test evidence
+preserved externally BEFORE restoring ONLY disposable evidence for exact repacks;
+never source code. V1–V12 archives+sidecars byte-identical to verified V12 Git baseline.
+All final evidence external: deliverables/v13-independent/summary.json,
+generated-evidence/, unit/build/install/chromium/original-source logs, exact repack
+proofs, boundary/history/security/audits and EVIDENCE_SHA256SUMS.
+Owner approval still required for production replacement. No merge/deploy.

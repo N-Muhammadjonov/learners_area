@@ -1,0 +1,27 @@
+{
+  "unit": {
+    "PASS": 363,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "actualOriginalSourceUnfiltered": {
+    "PASS": 43,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "strictChromiumFirstAttempt": {
+    "status": "STOPPED AT UNCHANGED V6 ASSERTION",
+    "PASS": 290,
+    "FAIL": 1,
+    "remainingSuitesNotExecutedInThisAttempt": true,
+    "unchangedAssertion": "assert(after.nodes<=before.nodes+50)",
+    "cause": "UNESTABLISHED",
+    "rawFiles": [
+      "initial-root-regression-failure.txt",
+      "initial-root-v6-failure.txt",
+      "initial-root-v6-failure.json"
+    ]
+  },
+  "noAssertionOrThresholdWeakened": true,
+  "independentAcceptance": "See external delivery report after fresh sequential extracted verification"
+}

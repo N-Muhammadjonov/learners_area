@@ -1,0 +1,237 @@
+{
+  "baseline": "8ffbb39a8d1187bf9b0a4ce7a75cfec2a980aa97",
+  "scope": "migration/vanilla-frontend ONLY",
+  "protectedOriginalSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "originalSourceCopiedIntoPackage": false,
+  "staffRoutesReserved": 35,
+  "staffImplementationChanges": 0,
+  "backendDatabaseCloudMainProductionChanges": 0,
+  "changedPaths": [
+    "migration/vanilla-frontend/README.md",
+    "migration/vanilla-frontend/SHA256SUMS",
+    "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V13.md",
+    "migration/vanilla-frontend/docs/CHECKPOINT_V13.md",
+    "migration/vanilla-frontend/docs/COMPONENT_LEDGER_V13.md",
+    "migration/vanilla-frontend/docs/FILE_MANIFEST.md",
+    "migration/vanilla-frontend/docs/GPT_WORK_HANDOFF.md",
+    "migration/vanilla-frontend/docs/GPT_WORK_HANDOFF_V12.md",
+    "migration/vanilla-frontend/docs/ROUTE_LEDGER_V13.md",
+    "migration/vanilla-frontend/docs/SOURCE_STATE_INVENTORY_V13.md",
+    "migration/vanilla-frontend/docs/component-ledger-v13.json",
+    "migration/vanilla-frontend/docs/evidence/v13/assets-css.json",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-output.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-regression.json",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-v2-output.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-v2-regression.json",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-v3-output.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-v3-regression.json",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-v4-output.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-v4-regression.json",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-v5-output.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-v5-regression.json",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-v6-output.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/browser-v6-regression.json",
+    "migration/vanilla-frontend/docs/evidence/v13/build.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/development-findings.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/initial-full-source-failure.json",
+    "migration/vanilla-frontend/docs/evidence/v13/initial-full-source-failure.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/initial-root-regression-failure.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/initial-root-v6-failure.json",
+    "migration/vanilla-frontend/docs/evidence/v13/initial-root-v6-failure.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/original-behavior-v13.json",
+    "migration/vanilla-frontend/docs/evidence/v13/original-source-unfiltered.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/root-execution.json",
+    "migration/vanilla-frontend/docs/evidence/v13/second-source-run-failure.json",
+    "migration/vanilla-frontend/docs/evidence/v13/second-source-run-failure.txt",
+    "migration/vanilla-frontend/docs/evidence/v13/unit.txt",
+    "migration/vanilla-frontend/docs/original-activities-v13.json",
+    "migration/vanilla-frontend/docs/route-ledger-v13.json",
+    "migration/vanilla-frontend/modules/listening/authored.js",
+    "migration/vanilla-frontend/modules/listening/original-exam-v13.js",
+    "migration/vanilla-frontend/modules/listening/original-policy-v11.js",
+    "migration/vanilla-frontend/package.json",
+    "migration/vanilla-frontend/scripts/assets-css-v13.mjs",
+    "migration/vanilla-frontend/scripts/package.py",
+    "migration/vanilla-frontend/scripts/regression-v13.mjs",
+    "migration/vanilla-frontend/tests/browser-original-source-v11.mjs",
+    "migration/vanilla-frontend/tests/listening-v13.test.mjs",
+    "migration/vanilla-frontend/tests/original-exam-v13-journeys.mjs"
+  ],
+  "allChangesInsideImplementationDirectory": true,
+  "route-ledgerSummary": {
+    "baseline": "9a7d9fc5a93608078644d61cd9f9850c05c4ddc8",
+    "previousCheckpoint": "8ffbb39a8d1187bf9b0a4ce7a75cfec2a980aa97",
+    "pageFiles": 115,
+    "classificationCounts": {
+      "CANONICAL_PAGE_CANDIDATE": 107,
+      "PROTECTED_REDIRECT_ONLY": 5,
+      "CONDITIONAL_CANONICAL_AND_LEGACY_REDIRECT": 1,
+      "QUERY_DEPENDENT_LEGACY_REDIRECT": 1,
+      "RETIRED_REDIRECT": 1
+    },
+    "activeCanonicalDenominator": "UNDETERMINED \u2014 108 inventory candidates are not confirmed active product pages",
+    "partialPageCandidates": 15,
+    "fullyConvertedAcceptedPages": 0,
+    "fullyParityVerifiedPages": 0,
+    "notStartedPageRecords": 71,
+    "componentFiles": 206,
+    "partialComponentFiles": 17,
+    "fullyAcceptedComponents": 0,
+    "codeCheckpoint": "V13 exact V12 continuation; authoritative executed proof deliverables/V13_VALIDATION.txt",
+    "status": "PARTIAL",
+    "notStartedComponentFiles": 127,
+    "codeCompleteRedirectOnlyRecords": 6,
+    "retiredRecords": 1,
+    "metrics": {
+      "implementation": "UNDETERMINED weighted product implementation; inventory22/108 routes and62/206 components is not product acceptance",
+      "functionalSecurity": "UNDETERMINED aggregate denominator; executable fixture counts separate",
+      "visualIntegration": "0 accepted original-rendered/live/production cases; denominator UNDETERMINED"
+    },
+    "sourceBuild": true,
+    "unit": {
+      "pass": 363,
+      "fail": 0,
+      "skip": 0,
+      "proof": "root363 PASS; independent execution external"
+    },
+    "browser": {
+      "manifest": 499,
+      "preservedV12": 499,
+      "newV13": 0,
+      "rootFirstAttempt": {
+        "pass": 290,
+        "fail": 1,
+        "stoppedAt": "unchanged V6 bounded-DOM assertion; remainder not executed"
+      },
+      "independentProof": "External executed summary required; no root499 PASS claimed",
+      "originalSource": {
+        "pass": 43,
+        "fail": 0,
+        "skip": 0,
+        "preservedV12": 27,
+        "newV13": 16,
+        "scope": "actual read-only HTML with isolated APIs/media; comprehensive0/9, live0/9"
+      }
+    },
+    "v3NewPageImplementations": 0,
+    "canonicalCandidates": 108,
+    "frontendCodeCompleteCanonicalCandidates": 22,
+    "frontendCodeCompleteComponents": 62,
+    "v4NewPageImplementations": 0,
+    "completedModule": "V12 supported Retry leaf retained; V13 Full IELTS resume/timer/focus/exam dictionary lock improved but PARTIAL",
+    "componentAccounting": "62complete+17partial+127notstarted=206",
+    "routeAccounting": "22canonicalcomplete+15partial+71notstarted+6redirects+1retired=115",
+    "v5NewPageImplementations": 1,
+    "reservedStaffCanonicalRoutes": 35,
+    "listeningCanonicalStatusCounts": {
+      "CODE COMPLETE": 9,
+      "IN PROGRESS": 6,
+      "NOT STARTED": 1
+    },
+    "listeningComponentStatusCounts": {
+      "CODE COMPLETE": 9,
+      "IN PROGRESS": 10,
+      "NOT STARTED": 5
+    },
+    "v11Promotions": 0,
+    "v11RecomputedCounts": {
+      "IN PROGRESS": 15,
+      "CODE COMPLETE": 22,
+      "NOT STARTED": 71
+    },
+    "v12Promotions": 0,
+    "originalActivityFrontendCodeClosures": [
+      "retry"
+    ],
+    "comprehensiveOriginalActivityClosures": 0,
+    "v12RecomputedCounts": {
+      "IN PROGRESS": 15,
+      "CODE COMPLETE": 22,
+      "NOT STARTED": 71
+    },
+    "v13Promotions": 0,
+    "v13RecomputedCounts": {
+      "IN PROGRESS": 15,
+      "CODE COMPLETE": 22,
+      "NOT STARTED": 71
+    }
+  },
+  "route-ledgerSourceEntryObjectsUnchanged": true,
+  "component-ledgerSummary": {
+    "total": 206,
+    "complete": 62,
+    "partial": 17,
+    "notStarted": 127,
+    "listening": {
+      "CODE COMPLETE": 9,
+      "IN PROGRESS": 10,
+      "NOT STARTED": 5
+    },
+    "acceptance": "FRONTEND/FIXTURE only; shared all-caller and staff exclusions explicit",
+    "previousCheckpoint": "8ffbb39a8d1187bf9b0a4ce7a75cfec2a980aa97",
+    "v11Promotions": 0,
+    "v12Promotions": 0,
+    "v13Promotions": 0
+  },
+  "component-ledgerSourceEntryObjectsUnchanged": true,
+  "preDeliverySupersededMetadataArchivePreservation": {
+    "reason": "Superseded PRELIMINARY V13 metadata only, not delivered; no source implementation difference",
+    "status": "PASS",
+    "oldArchiveSha256": "cde4ee682c5c2bbce9535f6899696d2eae8a37decdc198459eae496abcf60bb4",
+    "independent808SourceHashExtraction": "PASS",
+    "files": [
+      {
+        "path": "deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V13.zip",
+        "sha256": "cde4ee682c5c2bbce9535f6899696d2eae8a37decdc198459eae496abcf60bb4"
+      },
+      {
+        "path": "deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V13.zip.sha256",
+        "sha256": "93fd3cdd793cd7e37464afd1a8b74ef20a135ff2c560842ec018711649e8e87c"
+      },
+      {
+        "path": "deliverables/v13-independent/historical-archives.json",
+        "sha256": "77fcd7bd36098b54089f88921044b035a4e6c3fc09cf2b183ab57da7da245cee"
+      },
+      {
+        "path": "deliverables/v13-independent/boundary.json",
+        "sha256": "a4dc4d4c502b6d83ec43fe4c48ce1ced3a79a4879665bd08d1ab4ce0673f3459"
+      },
+      {
+        "path": "deliverables/v13-independent/runtime-audit.json",
+        "sha256": "6556a26686353a160dba5f08b6f4d7a1a88ac69b0c78d9085368f8d75478a1d6"
+      },
+      {
+        "path": "deliverables/v13-independent/development-audit.json",
+        "sha256": "4e7db950fb9729deb238410b1632829985b2cb1a6dbcd37a30ba7ed1e55cc9d5"
+      },
+      {
+        "path": "deliverables/v13-independent/verify-exact-archive.py",
+        "sha256": "594245662c9494e740b3c5635d20c0f6fd24e0c7a8e0b1b9502dd8bb54308352"
+      },
+      {
+        "path": "deliverables/v13-independent/extraction.json",
+        "sha256": "836d1de0c6bb6bb6b3807fe8e6a5cba45677a4336cbbcde893efc47e8fd9288c"
+      },
+      {
+        "path": "deliverables/v13-independent/install.txt",
+        "sha256": "d1cfa6683c76c33c906a67b615d4339c64c1e30c741358a4df21025da4668610"
+      },
+      {
+        "path": "deliverables/v13-independent/build.txt",
+        "sha256": "c1320138e12adc8d53a384c485d7188c80c4fcd6d76fca159e71aa2a34514066"
+      },
+      {
+        "path": "deliverables/v13-independent/unit.txt",
+        "sha256": "70431c77c7b12c3984430de9dd83219671d970c391155af35d5f685bc1f9973d"
+      },
+      {
+        "path": "deliverables/v13-independent/assets.txt",
+        "sha256": "266fc59f7a54d8900d3263e6a3ed4310f97a78aac76de6ff2bb861b26f3109be"
+      },
+      {
+        "path": "deliverables/v13-independent/chromium.txt",
+        "sha256": "4cc9aee731690ee89fe6946860728c4dd0bbffd5321bc5d8ccb93d3374d38c88"
+      }
+    ]
+  }
+}
