@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "recovery": "NOT recovered; Owner-authorized safe reimplementation from V10 after verified359-file external backup and normal fast-forward",
+  "sourcePackageCommit": "cd5cc95b2d7ca9316c8f5d5f597550aacac66ffd",
+  "v10Baseline": "9c62895674025159b4dcbab839bb1fb8f37348af",
+  "archive": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V11.zip",
+  "sha256": "0f6f383141af5c5eca6456fd8fa415aa0fc994a9a0e2c19ea9288096c365209b",
+  "bytes": 39565556,
+  "sourceFiles": 727,
+  "manifestFiles": 2,
+  "npmCi": "PASS --ignore-scripts, fresh extraction",
+  "build": "PASS without original source tree",
+  "unit": {
+    "PASS": 341,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "chromium": {
+    "PASS": 496,
+    "FAIL": 0,
+    "SKIP": 0,
+    "preserved": 478,
+    "v11": 18
+  },
+  "actualOriginalSource": {
+    "PASS": 5,
+    "FAIL": 0,
+    "SKIP": 0,
+    "scope": "Extra opt-in read-only original HTML/hooks under isolated APIs/synthetic media; not live backend or recording acceptance",
+    "comprehensiveClosures": 0
+  },
+  "assets": 25,
+  "sourceCssSha256": "b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2",
+  "compiledCssSha256": "6321b6deffba5088fa187b0cd2f07b2895b5d3a53d5472c5f083f4aef8108042",
+  "deterministicByteIdenticalRepacks": 2,
+  "runtimeVulnerabilities": 0,
+  "developmentVulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 5,
+    "critical": 0,
+    "total": 5
+  },
+  "initialRootFailure": "unchanged Phase2 DOM-bound assertion failed on first root run; retained; unchanged full77-case suite subsequently passed. Not hidden or threshold-relaxed. Fresh independent result above is a separate strict run.",
+  "visual": "12 synthetic candidate captures,3 root inspections;0 accepted matched original-rendered comparisons",
+  "liveIntegration": "UNVERIFIED",
+  "listening": "PARTIAL;9/6/1 routes of16,9/10/5 components of24;original9 comprehensive0/9",
+  "reading": "NOT STARTED",
+  "productionChanges": "NONE"
+}

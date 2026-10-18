@@ -1,0 +1,12 @@
+{
+  "count": 359,
+  "zip": "/home/user/learners-area-v4-preservation-20261018/V4_UNTRACKED_PRESERVATION.zip",
+  "sha256": "142aa9212f2b085ebb494b16c1a0bb8567e0fad4b16e039bda34a1f2a81354c8",
+  "aggregate": "97542d6ebc12bbd17a2fd8171dbbda62233e0c8eab16a59ad16ac1bc329f95da",
+  "copyVerified": true,
+  "independentExtractionVerified": true,
+  "status": "PASS",
+  "deliveryRecheck": "All359 files match SHA256SUMS in copied, moved-originals, independent-extraction and ZIP; ZIP CRC and SHA256 rechecked",
+  "originalStaleCommit": "9a7d9fc5a93608078644d61cd9f9850c05c4ddc8",
+  "reconciledV10": "9c62895674025159b4dcbab839bb1fb8f37348af"
+}

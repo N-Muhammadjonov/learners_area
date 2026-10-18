@@ -1,0 +1,12 @@
+
+> learners-area-vanilla-migration-candidate@0.1.0 build
+> node scripts/build.mjs
+
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+Rebuilding...
+
+Done in 1751ms.
+Standalone browser build created. No React/Next runtime. NOT a complete route migration.

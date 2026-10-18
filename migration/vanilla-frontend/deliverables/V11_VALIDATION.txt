@@ -1,0 +1,114 @@
+V11 INDEPENDENT DELIVERY VALIDATION — PASS, PRODUCT STILL PARTIAL
+
+V11 was NOT recovered. It was safely reimplemented with Owner authorization
+from verified V10, following externally verified preservation and fast-forward.
+Branch: arena/96836bcf-learners-area (no branch switch, reset or force push).
+Original local: 9a7d9fc5a93608078644d61cd9f9850c05c4ddc8
+Reconciled V10: 9c62895674025159b4dcbab839bb1fb8f37348af
+Packaged source: cd5cc95b2d7ca9316c8f5d5f597550aacac66ffd
+The subsequent delivery-only commit contains this report, ZIP/checksum and
+external evidence; its actual SHA is available from Git and the delivery reply.
+A commit cannot embed its own SHA without changing that SHA.
+
+ARCHIVE
+LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V11.zip
+SHA256 0f6f383141af5c5eca6456fd8fa415aa0fc994a9a0e2c19ea9288096c365209b
+39,565,556 bytes; 727 source files + 2 manifest files.
+Fresh extraction: node_modules/v11-independent-source (ignored test scratch).
+Every ZIP member CRC and all727 source SHA256 hashes verified. Fresh npm ci
+--ignore-scripts, build and341 units PASS. Build/default tests do not require
+original application/content. Separate opt-in original-source test is read-only.
+Complete unfiltered independent Chromium suite:496 PASS/0 FAIL/0 SKIP.
+Per suite:27,14,49,72,52,77,26,79,29,53,18 (478 preserved +18 V11).
+Three viewports1440x900/768x1024/390x844, EN/UZ, day/night covered by suite.
+Fresh actual-source focused journeys:5 PASS/0 FAIL/0 SKIP; synthetic API/media.
+These5 are NOT comprehensive closures for9 activities, nor live integration.
+Root evidence also has2 targeted delta reruns, not2 additional distinct journeys.
+25 original assets PASS; source CSS byte-exact, compiled CSS deterministic.
+Source CSS b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2
+Compiled CSS 6321b6deffba5088fa187b0cd2f07b2895b5d3a53d5472c5f083f4aef8108042
+All source/code bytes remained identical after install/build/tests. Only generated
+scratch evidence was restored from sealed ZIP AFTER independent reports were
+copied outside the package. Restoration receipt lists every changed path.
+Two separate deterministic repacks are byte-identical to sealed delivered ZIP.
+Both repack receipts and machine summary: deliverables/v11-independent/.
+No original protected corpus/audio/actual answer key was copied into the ZIP.
+
+TRANSPARENCY / SECURITY / VISUAL
+Initial root Phase2 DOM-bound assertion failed once, retained in archive and
+external root logs. Its unchanged77-case rerun passed; no weakened assertion.
+The entire fresh independent suite also passed, without continuation filtering.
+This does not establish universal leak freedom or explain the initial failure.
+Runtime npm audit:0 vulnerabilities. Pinned dev tooling:5 HIGH,0 CRITICAL.
+No silent dependency upgrades. Audit JSON and real exit statuses retained.
+Opaque sandbox remains allow-scripts ONLY. CSP/default disconnected503 checked.
+No allow-same-origin, fake live API or new backend/cloud authorization claimed.
+12 synthetic candidate screenshots,3 inspected;0 accepted original-rendered
+matched visual comparisons. Real provider/audio, Safari, hardware, auth/redaction,
+expiry/revocation and live integration acceptance remain UNVERIFIED.
+Performance1–100ms is a target, not a guaranteed or newly accepted measurement.
+
+WORK DELIVERED / REMAINING
+Canonical exam ACK gating, fail-closed foreign/malformed responses, durable pending
+outbox reload/retry; original prediction and genuine A–E Choose TWO restoration;
+server-feedback Retry Weak Areas with correctly locked previously correct pair;
+owned shared-audio listeners/deadlines/source changes; bounded authenticated Range
+reads and postpaint opaque MP3 MediaSource playback; explicit NONprogressive Blob
+fallback for unsupported/duplicate/decoder-failure paths. No replacement framework.
+Random/unbuffered seek, total duration, aggregate long-file cache bounds, all media
+containers/providers/callers, full timers/items/restrictions remain open gates.
+
+Each original activity remains FRONTEND PARTIAL / focused fixture verified /
+ORIGINAL BEHAVIOR PARTIAL / LIVE UNVERIFIED. Comprehensive closure0/9:
+Full IELTS Test — canonical submit/input/flags/notes/reload/retry subset;
+Review & Revision — part4 controls subset;
+Script Completion — gaps/check/retry subset;
+MCQ Mastery — prediction/choice/rerender/reload subset;
+Map Mastery — actual SVG and map controls, NOT Matching substitution;
+Choose TWO Mastery — genuine A–E selection/rerender/reload subset;
+Completion Mastery — input/previous/next subset;
+Vocabulary Builder — original cards/practice/options subset;
+Retry Weak Areas — server-feedback/text/single/paired subset.
+See packaged SOURCE_STATE_INVENTORY_V11.md for every outstanding closure gate.
+
+No full inventory promotions. Routes22 COMPLETE/15 PARTIAL/71 NOT STARTED of108;
+components62/17/127 of206. Listening routes9/6/1 of16; components9/10/5 of24.
+Reading NOT STARTED.35 staff routes reserved23 Admin/6 Owner/6 Teacher; no staff
+implementation integration or older V4 overwrite. Existing accepted consumers
+preserved. Five V11 docs, ledgers and GPT_WORK_HANDOFF are included in ZIP.
+Deferred Owner oneHTML/validation/audio extraction/privateR2/registration/preview/
+explicit publish remains deferred. Reading imports Owner-supervised AI-assisted.
+
+THREE METRICS
+Implementation: UNDETERMINED weighted product completion; inventory counts above.
+Functional/security: UNDETERMINED aggregate coverage;341/496 are bounded test sets,
+not a denominator for all product behavior; comprehensive original closure0/9.
+Visual/live: UNDETERMINED aggregate coverage;0 matched original visual acceptances,
+0 live original activity acceptances. No invented percentages.
+
+PRESERVATION
+359 untracked V4 files preserved in copied/, moved-originals/ and independently
+extracted trees under /home/user/learners-area-v4-preservation-20261018/.
+Backup ZIP: V4_UNTRACKED_PRESERVATION.zip
+SHA256 142aa9212f2b085ebb494b16c1a0bb8567e0fad4b16e039bda34a1f2a81354c8
+Aggregate97542d6ebc12bbd17a2fd8171dbbda62233e0c8eab16a59ad16ac1bc329f95da
+Delivery recheck verified all359 files in all3 preserved trees and ZIP, plus CRC.
+All10 V1–V10 archives and SHA sidecars unchanged against verified V10 Git.
+
+REPRODUCTION / EVIDENCE
+External v11-independent/ contains logs, per-suite JSON, hashes, audit results,
+backup and historical archive receipts, source-original report, summary.json,
+deterministic repack receipts and verify-exact-archive.py. Run verifier once AFTER
+fresh tests in the documented scratch; it preserves reports externally, rejects
+ANY non-evidence source difference, restores only disposable generated evidence,
+and requires2 byte-identical repacks. Do not overwrite source to force equality.
+To rerun from a NEW verified extraction: npm ci --ignore-scripts; npm run build;
+npm test; start PORT=4174 npm run preview in a separate process; then
+PREVIEW_URL=http://127.0.0.1:4174 npm run test:browser (REGRESSION_FROM unset),
+npm run check:assets, and opt-in ORIGINAL_SOURCE_ROOT=/home/user/learners_area
+PREVIEW_URL=http://127.0.0.1:4174 npm run test:original-source.
+Preserve resulting evidence outside package before restoring generated evidence
+and deterministically repacking. Paths/ports in verification recipe are test-only;
+browser-facing application uses relative URLs, not localhost service calls.
+
+PRODUCTION/BACKEND/DB/CLOUD/MAIN CHANGES: NONE. No merge or deployment.

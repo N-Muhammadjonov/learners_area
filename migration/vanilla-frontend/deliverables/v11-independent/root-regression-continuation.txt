@@ -1,0 +1,6 @@
+browser-v6 { PASS: 77, FAIL: 0, SKIP: 0 }
+browser-v7 { PASS: 26, FAIL: 0, SKIP: 0 }
+browser-v8 { PASS: 79, FAIL: 0, SKIP: 0 }
+browser-v9 { PASS: 29, FAIL: 0, SKIP: 0 }
+browser-v10 { PASS: 53, FAIL: 0, SKIP: 0 }
+browser-v11 { PASS: 18, FAIL: 0, SKIP: 0 }

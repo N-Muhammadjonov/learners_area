@@ -1,0 +1,25 @@
+{
+  "scope": "ONLY disposable independent extraction, AFTER retaining independent reports externally",
+  "restoredGeneratedEvidence": [
+    "docs/evidence/v11/assets-css.json",
+    "docs/evidence/v11/browser-output.txt",
+    "docs/evidence/v11/browser-regression.json",
+    "docs/evidence/v11/browser-v2-output.txt",
+    "docs/evidence/v11/browser-v2-regression.json",
+    "docs/evidence/v11/browser-v3-output.txt",
+    "docs/evidence/v11/browser-v3-regression.json",
+    "docs/evidence/v11/browser-v4-output.txt",
+    "docs/evidence/v11/browser-v4-regression.json",
+    "docs/evidence/v11/browser-v5-output.txt",
+    "docs/evidence/v11/browser-v5-regression.json",
+    "docs/evidence/v11/browser-v6-output.txt",
+    "docs/evidence/v11/browser-v6-regression.json",
+    "docs/evidence/v11/range-1440-en-day.png",
+    "docs/evidence/v11/range-1440-en-night.png",
+    "docs/evidence/v11/range-1440-uz-day.png",
+    "docs/evidence/v11/range-1440-uz-night.png",
+    "docs/evidence/v11/range-390-en-night.png"
+  ],
+  "sourceCodeDifferences": 0,
+  "all727SourceHashesMatch": true
+}
