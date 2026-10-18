@@ -246,7 +246,7 @@ export function ContentWorkspace({ dict, canPublish }: { dict: Dictionary; canPu
             <input className="w-full" data-bank-version inputMode="numeric" value={filters.versionNo} onChange={(event) => setFilter({ versionNo: event.target.value.replace(/\D/g, "") })} />
           </Field>
           <Field label={t.filterTrack}>
-            <input className="w-full" data-bank-track value={filters.track} onChange={(event) => setFilter({ track: event.target.value })} placeholder="academic" />
+            <input className="w-full" data-bank-track value={filters.module === "listening" && filters.track === "academic" ? dict.listening.academic.title : filters.track} onChange={(event) => setFilter({ track: filters.module === "listening" && event.target.value.toLowerCase() === dict.listening.academic.title.toLowerCase() ? "academic" : event.target.value })} placeholder={filters.module === "listening" ? dict.listening.academic.title : "academic"} />
           </Field>
           <Field label={t.filterFrom}>
             <input className="w-full" type="date" data-bank-from value={filters.from} onChange={(event) => setFilter({ from: event.target.value })} />
@@ -616,7 +616,7 @@ function NewItemButton({ dict, modules, onCreated }: { dict: Dictionary; modules
               <select className="w-full" data-new-track value={track} onChange={(event) => setTrack(event.target.value)}>
                 {/* Tracks are a fixed vocabulary in the taxonomy; the labels are terms of art. */}
                 <option value="unspecified">unspecified</option>
-                <option value="academic">academic</option>
+                <option value="academic">{module === "listening" ? dict.listening.academic.title : "academic"}</option>
                 <option value="general_training">general_training</option>
               </select>
             </Field>

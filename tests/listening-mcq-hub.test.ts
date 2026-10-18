@@ -44,7 +44,7 @@ test("F1 the hub opens the owner's three visible destinations — and lists no c
   const hub = code(HUB);
   const navigation = code("src/components/navigation/ModuleNavigation.tsx");
   const routes = [...navigation.matchAll(/href: "(\/app\/listening\/[a-z]+)"/g)].map(match => match[1]);
-  assert.deepEqual(routes, ["/app/listening/lessons", "/app/listening/academic", "/app/listening/mcq"]);
+  assert.deepEqual(routes, ["/app/listening/lessons", "/app/listening/tests", "/app/listening/mcq"]);
   assert.match(code("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation module="listening"/);
   for (const product of ["lessons", "academic", "mcqProgram"])
     assert.ok(navigation.includes(`dict.listening.${product}.title`));
@@ -73,7 +73,7 @@ test("F1 the hub opens the owner's three visible destinations — and lists no c
 test("F2 each destination reads its OWN catalogue — no page borrows another product's reader", () => {
   const expectations: [string, string][] = [
     ["lessons", "listLessonLibrary"],
-    ["academic", "academicListeningCards"],
+    ["tests", "academicListeningCards"],
     ["general", "generalListeningCards"],
     ["mcq", "mcqProgramDays"],
   ];

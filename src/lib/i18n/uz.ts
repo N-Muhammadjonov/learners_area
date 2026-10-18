@@ -3306,7 +3306,7 @@ const uz: Dictionary = {
     library: {
       collections: "Listening to'plamlari",
       essential: "▶ Asosiy yozuvlar",
-      academic: "🎧 Academic Listening",
+      academic: "🎧 Listening Tests",
       general: "🎙️ General Listening",
       question_types: "📚 Savol turlari",
       mcq: "🔑 MCQ Mastery",

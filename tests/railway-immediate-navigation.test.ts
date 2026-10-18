@@ -34,7 +34,7 @@ test("the production session and privileged access gates are not relaxed for spe
 
 test("reading, listening, grammar and vocabulary defer catalogue DB reads behind scoped streaming regions", () => {
   for (const [path, method, boundary] of [
-    ["src/app/app/(shell)/listening/academic/page.tsx", "academicListeningCards", "listening-academic-catalogue"],
+    ["src/app/app/(shell)/listening/tests/page.tsx", "academicListeningCards", "listening-academic-catalogue"],
     ["src/app/app/(shell)/listening/general/page.tsx", "generalListeningCards", "listening-general-catalogue"],
     ["src/app/app/(shell)/reading/academic/page.tsx", "listGeneralSets", "reading-academic-sets"],
     ["src/app/app/(shell)/grammar/lessons/page.tsx", "listLessonLibrary", "grammar-lessons-library"],

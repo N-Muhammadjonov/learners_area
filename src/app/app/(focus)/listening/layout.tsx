@@ -30,8 +30,8 @@ export default async function ListeningFocusLayout({
         data-listening-focus-backbar
       >
         <BackLink
-          fallbackHref="/app/listening"
-          label={dict.nav.listening}
+          fallbackHref="/app/listening/tests"
+          label={dict.listening.academic.title}
           className="btn-secondary inline-flex min-h-11 w-fit items-center gap-1"
         />
       </div>

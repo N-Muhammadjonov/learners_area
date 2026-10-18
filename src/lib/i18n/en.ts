@@ -948,8 +948,8 @@ const en = {
       lockedHint: "Complete every activity in the previous test to unlock this test.",
 
       title: "Listening Tests",
-      subtitle: "The centre's published Listening Tests tests. Open a test to see the activities it genuinely supports.",
-      emptyTitle: "No Listening Tests test has been published yet.",
+      subtitle: "The centre's published Listening Tests. Open a test to see the activities it genuinely supports.",
+      emptyTitle: "No Listening Tests have been published yet.",
       emptyHint: "Nothing is shown here until the centre authors and publishes a canonical Listening test — there are no sample tests on this page.",
       catalogueCount: "{n} published tests",
       openTest: "Open the test",
@@ -3326,7 +3326,7 @@ const en = {
     library: {
       collections: "Listening collections",
       essential: "▶ Essential Recordings",
-      academic: "🎧 Academic Listening",
+      academic: "🎧 Listening Tests",
       general: "🎙️ General Listening",
       question_types: "📚 Question types",
       mcq: "🔑 MCQ Mastery",

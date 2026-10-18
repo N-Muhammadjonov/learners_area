@@ -89,6 +89,7 @@ async function mount(canPublish: boolean, run: () => Promise<void>) {
         modules: [
           { module: "writing", label: "Writing", contentTypes: [{ contentType: "task2", authorable: true, importable: false, label: "Task 2" }] },
           { module: "reading", label: "Reading", contentTypes: [{ contentType: "general_set", authorable: false, importable: true, label: "General set" }] },
+          { module: "listening", label: "Listening", contentTypes: [{ contentType: "full_test", authorable: false, importable: true, label: "Listening Tests" }] },
         ],
       });
     if (href.startsWith("/api/admin/content/bank"))
@@ -299,4 +300,32 @@ test("the workspace is built only on the existing content services", () => {
   const uz = read("src/lib/i18n/uz.ts");
   for (const key of Object.keys(admin.contentWorkspace))
     assert.match(uz, new RegExp(`\\b${key}:`), `uz.admin.contentWorkspace.${key}`);
+});
+
+
+test("Listening Tests display names retain the canonical academic taxonomy in authoring requests", async () => {
+  await mount(true, async () => {
+    const select = async (selector: string, value: string) => act(async () => {
+      const input = document.querySelector(selector) as HTMLSelectElement;
+      input.value = value;
+      input.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
+    });
+    await select("[data-bank-module]", "listening");
+    await act(async () => {
+      const input = document.querySelector("[data-bank-track]") as HTMLInputElement;
+      const setter = Object.getOwnPropertyDescriptor(dom.window.HTMLInputElement.prototype, "value")!.set!;
+      setter.call(input, "Listening Tests");
+      input.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+    });
+    await click("[data-bank-search]");
+    assert.ok(calls.some(call => call.url.includes("module=listening") && call.url.includes("track=academic")));
+    assert.equal((document.querySelector("[data-bank-track]") as HTMLInputElement).value, "Listening Tests");
+    await select("[data-bank-module]", "reading");
+    assert.equal((document.querySelector("[data-bank-track]") as HTMLInputElement).value, "academic");
+    await click("[data-new-item]");
+    await select("[data-new-module]", "listening");
+    assert.equal(document.querySelector('[data-new-track] option[value="academic"]')?.textContent, "Listening Tests");
+    await select("[data-new-module]", "reading");
+    assert.equal(document.querySelector('[data-new-track] option[value="academic"]')?.textContent, "academic");
+  });
 });

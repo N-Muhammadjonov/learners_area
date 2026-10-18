@@ -36,10 +36,11 @@ const ENTRIES: Entry[] = [
   { prefix: "/app/reading/attempts", build: (d) => [{ label: d.nav.reading, href: "/app/reading" }, { label: d.reading.analysisTitle, href: "/app/reading" }] },
   { prefix: "/app/reading", exact: true, build: (d) => [{ label: d.nav.reading, href: "/app/reading" }] },
 
-  // Academic Listening: the catalogue, then one test's hub. The hub's last crumb names
+  // Listening Tests: the canonical catalogue and its test hubs. The hub's last crumb names
   // the catalogue, so a reader who arrived from a link always has a way back up.
-  { prefix: "/app/listening/academic/", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/academic" }] },
-  { prefix: "/app/listening/academic", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/academic" }] },
+  { prefix: "/app/listening/tests", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/tests" }] },
+  { prefix: "/app/listening/academic/", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/tests" }] },
+  { prefix: "/app/listening/academic", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/tests" }] },
   // General Listening is a catalogue of SECTIONS, one level deep: the section opens directly
   // as an attempt, so the last crumb names the catalogue the learner came from.
   { prefix: "/app/listening/general/", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.general.title, href: "/app/listening/general" }] },
