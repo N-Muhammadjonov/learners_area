@@ -1,3 +1,4 @@
+import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { and, eq } from "drizzle-orm";
@@ -26,6 +27,8 @@ export async function PUT(
   const { id } = await params;
   if (!isUuid(id))
     return NextResponse.json({ error: "not_found" }, { status: 404 });
+  const ownedAttempt=await db.query.listeningAttempts.findFirst({where:and(eq(listeningAttempts.id,id),eq(listeningAttempts.userId,user.id))});
+  if(ownedAttempt&&!await listeningSequenceAccess(user,ownedAttempt.testId))return NextResponse.json({error:'sequence_locked'},{status:403});
   const parsed = schema.safeParse(await req.json().catch(() => null));
   if (!parsed.success)
     return NextResponse.json({ error: "invalid_input" }, { status: 400 });

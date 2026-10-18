@@ -9,13 +9,13 @@ export const dynamic = "force-dynamic";
 /**
  * LISTENING MCQ — the programme home: DAY cards, and nothing else.
  *
- * The owner's fourth destination is a training programme, not a test library. Each card is one
+ * Each card is one
  * authored DAY holding exactly five multiple-choice questions, and it states only what is true: the
  * day number the centre authored, how many questions it really holds, and THIS learner's status.
  * A day that has not been published is not rendered as an empty card, and NO target day count is
  * claimed: the programme has no maximum number of days, so the only figure shown is how many days
- * genuinely exist. Days are read one bounded page at a time, so a programme of a thousand days
- * stays reachable and no page streams an unbounded result set.
+ * genuinely exist. The scrolling catalogue reads summaries and live question identities;
+ * question content is loaded only when an accessible day is opened.
  *
  * The chrome is English and Uzbek; the questions themselves are the owner's material and are never
  * translated or generated.
@@ -38,7 +38,7 @@ export default async function ListeningMcqPage({
   // A hostile or mistyped ?page= is normalised, never trusted: a non-number is page 1.
   const rawPage = Array.isArray(params.page) ? params.page[0] : params.page;
   const requestedPage = Number.parseInt(String(rawPage ?? "1"), 10);
-  const { days, page, hasNextPage, visibleDays, pageSize } = await mcqProgramDays(user, {
+  const { days } = await mcqProgramDays(user, {
     includeDrafts: staff,
     page: Number.isFinite(requestedPage) ? requestedPage : 1,
   });
@@ -79,46 +79,21 @@ export default async function ListeningMcqPage({
               {/* ONE address per day, whatever state the learner is in: reload, back, forward and a
                   bookmark all land on the same day (and show its real progress). */}
               <div className="mt-auto">
-                <Link
+                {card.locked?<div data-listening-mcq-locked><button type="button" className="btn-secondary" disabled>🔒 {dict.listening.academic.locked}</button><p className="mt-2 text-xs text-ink-500">{t.lockedHint}</p></div>:<Link
+                  prefetch={false}
                   className="btn-primary"
                   href={`/app/listening/mcq/day/${card.day}`}
                   data-listening-mcq-open
                   data-listening-mcq-action={card.status.state === "completed" ? "review" : card.status.state === "in_progress" ? "continue" : "start"}
                 >
                   {card.status.state === "completed" ? t.review : card.status.state === "in_progress" ? t.continue : t.start}
-                </Link>
+                </Link>}
               </div>
             </section>
           ))}
         </div>
       )}
 
-      {/* Pagination is rendered ONLY when more than one page of days really exists, and each
-          control is a real address: reload, back, forward and a bookmark all work. */}
-      {(hasNextPage || page > 1) && (
-        <nav className="flex items-center justify-between gap-3" data-listening-mcq-pagination={page}>
-          {page > 1 ? (
-            <Link className="btn-ghost" href={`/app/listening/mcq?page=${page - 1}`} data-listening-mcq-prev>
-              {t.previousPage}
-            </Link>
-          ) : (
-            <span />
-          )}
-          <span className="text-xs text-ink-300" data-listening-mcq-page-range>
-            {t.pageRange
-              .replace("{from}", String((page - 1) * pageSize + 1))
-              .replace("{to}", String((page - 1) * pageSize + days.length))
-              .replace("{total}", String(visibleDays))}
-          </span>
-          {hasNextPage ? (
-            <Link className="btn-ghost" href={`/app/listening/mcq?page=${page + 1}`} data-listening-mcq-next>
-              {t.nextPage}
-            </Link>
-          ) : (
-            <span />
-          )}
-        </nav>
-      )}
 
     </div>
   );

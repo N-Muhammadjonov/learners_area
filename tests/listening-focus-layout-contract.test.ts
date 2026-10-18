@@ -42,7 +42,7 @@ test("the Listening hub has a design-system BackLink; authored activities hide t
   assert.match(layout, /w-full/);
   assert.match(layout, /data-listening-focus-backbar/);
   assert.match(layout, /<BackLink/);
-  assert.match(layout, /fallbackHref="\/app\/listening"/);
+  assert.match(layout, /fallbackHref="\/app\/listening\/tests"/);
   assert.match(layout, /className="btn-secondary/);
   const css=read("src/app/globals.css");
   assert.ok(css.includes(':has([data-authored-listening][data-activity-active="true"]) [data-listening-focus-backbar] { display: none; }'));

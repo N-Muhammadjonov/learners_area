@@ -944,9 +944,12 @@ const en = {
      * hub. Every string here is shared by the catalogue page and the hub page.
      */
     academic: {
-      title: "Academic Listening",
-      subtitle: "The centre's published Academic Listening tests. Open a test to see the activities it genuinely supports.",
-      emptyTitle: "No Academic Listening test has been published yet.",
+      locked: "Locked",
+      lockedHint: "Complete every activity in the previous test to unlock this test.",
+
+      title: "Listening Tests",
+      subtitle: "The centre's published Listening Tests. Open a test to see the activities it genuinely supports.",
+      emptyTitle: "No Listening Tests have been published yet.",
       emptyHint: "Nothing is shown here until the centre authors and publishes a canonical Listening test — there are no sample tests on this page.",
       catalogueCount: "{n} published tests",
       openTest: "Open the test",
@@ -956,13 +959,13 @@ const en = {
       activitiesLabel: "{done} / {total} activities completed",
       noProgress: "Not started",
       examResult: "Last exam: {score} / {total}",
-      hubBack: "All Academic Listening tests",
+      hubBack: "All Listening Tests",
       hubSubtitle: "Choose an activity below. Only what this test genuinely supports appears here.",
       progressLabel: "Activities completed: {done} / {total}",
       examScore: "Exam result: {score} / {total}",
       draftNotice: "This test is a draft: only staff can see it, and learners cannot open it yet.",
       notFoundTitle: "This test is not available.",
-      notFoundHint: "It may be unpublished or removed. Return to the Academic Listening catalogue.",
+      notFoundHint: "It may be unpublished or removed. Return to the Listening Tests catalogue.",
       transcriptYes: "Full transcript available",
       transcriptNo: "No transcript for this recording",
       activity: {
@@ -994,7 +997,7 @@ const en = {
       previousPage: "Previous tests",
       nextPage: "Next tests",
       pageLabel: "Page {page}",
-      paginationLabel: "Academic Listening pages",
+      paginationLabel: "Listening Tests pages",
       complete: "Completed",
       latestScore: "Last: {score} / {total}",
       open: "Open",
@@ -1037,7 +1040,7 @@ const en = {
      */
     hub: {
       title: "Listening",
-      subtitle: "Four separate destinations: authored lessons, Academic tests, General sections, and the MCQ day programme. Nothing is mixed between them.",
+      subtitle: "Three destinations: Lessons, Listening Tests and MCQ mastery.",
       open: "Open",
     },
 
@@ -1046,7 +1049,8 @@ const en = {
      * themselves are the owner's authored content and are never translated (or generated).
      */
     mcqProgram: {
-      title: "Listening MCQ",
+      lockedHint: "Finish every question in the previous day through its final stage to unlock this day.",
+      title: "MCQ mastery",
       subtitle: "A day-by-day multiple-choice programme, five questions a day. Every question is staged: listen, note, commit, then answer.",
       daysPublished: "{published} days published",
       daysCompleted: "Days completed: {done} of {available}",
@@ -3327,7 +3331,7 @@ const en = {
     library: {
       collections: "Listening collections",
       essential: "▶ Essential Recordings",
-      academic: "🎧 Academic Listening",
+      academic: "🎧 Listening Tests",
       general: "🎙️ General Listening",
       question_types: "📚 Question types",
       mcq: "🔑 MCQ Mastery",

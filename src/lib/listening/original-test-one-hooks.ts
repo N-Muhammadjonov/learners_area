@@ -1,6 +1,8 @@
+import {originalCourseHooks} from './original-course-hooks';
 /** Only the versioned Test 1 receives this adapter. Uploaded scripts never do. */
 export function adaptOriginalTestOne(html: string) {
   return html
+    .replace("const v=items[idx]", "const v=(window.laVocabUnit=items[idx].headword,items[idx])")
     // Open the ready screen immediately; this cosmetic delay is not exam time.
     .replace("setTimeout(()=>{$('#loadingScreen').classList.add('hidden');$('#startScreen').classList.remove('hidden')},600)", "$('#loadingScreen').classList.add('hidden');$('#startScreen').classList.remove('hidden')")
     .replace("if(!auto&&!confirm('Submit Listening Test 1? You will see your score, then use Review & Revision for answers and evidence.'))return;", "if(!auto){confirmInFrame('Submit Listening Test 1? You will see your score, then use Review & Revision for answers and evidence.',()=>submitExam(true));return;}")
@@ -10,7 +12,7 @@ export function adaptOriginalTestOne(html: string) {
     .replace('state.examRemaining=Math.round(1645.061);state.reviewRemaining=120;', 'state.examRemaining=Math.max(0,Math.round(1645.061-(resume?(checkpoint.audioPosition||0):0)));state.reviewRemaining=120;')
     .replace('state.reviewPhase=false;saveStored();',"state.reviewPhase=false;$('#sharedAudio').currentTime=resume?(checkpoint.audioPosition||0):0;saveStored();")
     .replace("const a=$('#sharedAudio');a.currentTime=0;", "const a=$('#sharedAudio');a.currentTime=resume?(checkpoint.audioPosition||0):0;")
-    .replace('</script></body></html>', `${originalHooks}</script></body></html>`);
+    .replace('</script></body></html>', `${originalHooks}${originalCourseHooks}</script></body></html>`);
 }
 export function adaptOriginalListening(html:string,definition:{number:number;storageKey:string;durationSeconds:number;media:{contentType:string;durationSeconds:number}[]}) {
  const audio=definition.media.filter(m=>m.contentType.startsWith('audio/'));
@@ -26,6 +28,7 @@ export function adaptOriginalListening(html:string,definition:{number:number;sto
  const restore='scriptPart=savedView.scriptPart||1;reviewPart=savedView.reviewPart||1;mcqIndex=savedView.mcqIndex||0;mcqStage=savedView.mcqStage||1;mcqSelected=savedView.mcqSelected||\'\';mapIndex=savedView.mapIndex||0;multiIndex=savedView.multiIndex||0;completionIndex=savedView.completionIndex||0;';
  hooks=hooks.replace(restore,present.map(name=>`${name}=savedView.${name}??${name};`).join(''));
  const output=html
+ .replace("const v=items[idx]", "const v=(window.laVocabUnit=items[idx].headword,items[idx])")
  .replace(/const PARTS\s*=/,"DATA.vocabulary=DATA.vocabulary.map(v=>({...v,headword:v.headword??v.word,type:v.type??v.lexical_type??v.pos,definition:v.definition??v.def,uzbek:v.uzbek??v.uz}));const PARTS=")
  .replace(/const STORAGE_KEY='[^']+'/,`const STORAGE_KEY='${definition.storageKey}'`)
  .replace("setTimeout(()=>{$('#loadingScreen').classList.add('hidden');$('#startScreen').classList.remove('hidden')},600)","$('#loadingScreen').classList.add('hidden');$('#startScreen').classList.remove('hidden')")
@@ -36,7 +39,7 @@ export function adaptOriginalListening(html:string,definition:{number:number;sto
  .replace(/state.examRemaining=[^;]+;state.reviewRemaining=120;/,`state.examRemaining=Math.max(0,Math.round(${definition.durationSeconds}-(resume?(checkpoint.audioPosition||0):0)));state.reviewRemaining=120;`)
  .replace('state.reviewPhase=false;saveStored();',`state.reviewPhase=false;(()=>{${seek}})();saveStored();`)
  .replace("const a=$('#sharedAudio');a.currentTime=0;","const a=$('#sharedAudio');")
- .replace(/<\/script>\s*<\/body>\s*<\/html>\s*$/,hooks+'</script></body></html>');
+ .replace(/<\/script>\s*<\/body>\s*<\/html>\s*$/,hooks+originalCourseHooks+'</script></body></html>');
  if(output===html||!output.includes('const originalSaveStored=saveStored;'))throw Error('Unsupported original source adapter');
  return output;
 }
@@ -50,6 +53,9 @@ $('#sharedAudio').addEventListener('timeupdate',()=>{if(!state.examStarted)retur
 // Source practice answers and position survive leaving the page and another device.
 const practiceKey='la_listening_test_1_practice';
 let practice={};try{practice=JSON.parse(localStorage.getItem(practiceKey)||'{}')}catch{}
+// The hub may paint before the authoritative checkpoint arrives. No activity
+// can open until the parent hydrates storage and calls this allowlisted hook.
+window.laHydrateOriginal=function(){loadStored();try{practice=JSON.parse(localStorage.getItem(practiceKey)||'{}')}catch{practice={}}};
 const savePractice=()=>{const active=document.querySelector('.activity.active');if(!active||active.id==='activity-exam')return;const fields={};active.querySelectorAll('input,textarea,select').forEach((el,i)=>{fields[el.id||el.name||String(i)]={value:el.value,checked:el.checked}});practice.views=practice.views||{};practice.views[active.id.replace('activity-','')]={scriptPart,reviewPart,mcqIndex,mcqStage,mcqSelected,mapIndex,multiIndex,completionIndex,fields};localStorage.setItem(practiceKey,JSON.stringify(practice));};
 const originalOpenActivity=openActivity;
 openActivity=function(id){if(state.attemptStatus==='in_progress'&&id!=='exam'){toast('Resume and finish your current exam before opening study activities.');return;}const savedView=practice.views?.[id],restore=!!savedView;if(restore){scriptPart=savedView.scriptPart||1;reviewPart=savedView.reviewPart||1;mcqIndex=savedView.mcqIndex||0;mcqStage=savedView.mcqStage||1;mcqSelected=savedView.mcqSelected||'';mapIndex=savedView.mapIndex||0;multiIndex=savedView.multiIndex||0;completionIndex=savedView.completionIndex||0;}originalOpenActivity(id);if(restore)document.querySelector('.activity.active').querySelectorAll('input,textarea,select').forEach((el,i)=>{const saved=savedView.fields?.[el.id||el.name||String(i)];if(saved){el.value=saved.value;if('checked'in el)el.checked=!!saved.checked;}});if(id==='exam'&&state.attemptStatus==='in_progress')$('#startTestBtn').textContent='Resume Test';};

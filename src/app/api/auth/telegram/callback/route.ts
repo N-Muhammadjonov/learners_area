@@ -36,6 +36,7 @@ export async function GET(req: NextRequest) {
 
   const token = await createSessionToken({
     sub: user.id,
+    authVersion: user.authVersion,
     role: user.role,
     name: user.name,
     locale: user.locale,

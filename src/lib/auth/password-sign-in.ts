@@ -57,6 +57,7 @@ export async function authenticatePassword(req: NextRequest, recoveryOnly = fals
 
   const token = await createSessionToken({
     sub: user.id,
+    authVersion: user.authVersion,
     role: user.role,
     name: user.name,
     locale: user.locale,

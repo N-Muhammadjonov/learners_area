@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 
 const SECTIONS = {
   "/app/listening/lessons": "lessons",
+  "/app/listening/tests": "academic",
   "/app/listening/academic": "academic",
   "/app/listening/general": "general",
   "/app/listening/mcq": "mcq",

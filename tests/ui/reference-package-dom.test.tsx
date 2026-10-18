@@ -37,22 +37,23 @@ test("intent prefetch: opted-in landing after 90ms hover, cancelled on early lea
   Object.defineProperty(document, "visibilityState", { value: "visible", configurable: true });
   const prefetched: string[] = [];
   await mount(React.createElement("div", null,
-    React.createElement(InstantLink, { href: "/app/reading", intentPrefetch: true, id: "a" }, "Reading"),
+    React.createElement(InstantLink, { href: "/app/reading/lessons", intentPrefetch: true, id: "a" }, "Reading"),
     React.createElement(InstantLink, { href: "/app/writing", intentPrefetch: true, id: "b" }, "Writing"),
     React.createElement(InstantLink, { href: "/app/admin/reading/retention", intentPrefetch: true, id: "c" }, "Admin"),
-    React.createElement(InstantLink, { href: "/app/listening", intentPrefetch: true, prefetch: false, id: "d" }, "Off"),
+    React.createElement(InstantLink, { href: "/app/listening/lessons", intentPrefetch: true, prefetch: false, id: "d" }, "Off"),
     React.createElement(InstantLink, { href: "/app/grammar", id: "e" }, "Not opted in"),
+    React.createElement(InstantLink, { href: "/app/reading", intentPrefetch: true, id: "f" }, "Retired alias"),
   ), prefetched, async () => {
     const a = document.querySelector("#a")!;
     assert.ok(a.hasAttribute("data-instant-navigation"));
     await hover(a); await wait(120);
-    assert.deepEqual(prefetched, ["/app/reading"]);
+    assert.deepEqual(prefetched, ["/app/reading/lessons"]);
     await wait(800);
     const b = document.querySelector("#b")!;
     await hover(b); await wait(20); await leave(b); await wait(120);
-    assert.deepEqual(prefetched, ["/app/reading"], "early leave cancels");
-    for (const id of ["#c", "#d", "#e"]) { await hover(document.querySelector(id)!); await wait(120); }
-    assert.deepEqual(prefetched, ["/app/reading"]);
+    assert.deepEqual(prefetched, ["/app/reading/lessons"], "early leave cancels");
+    for (const id of ["#c", "#d", "#e", "#f"]) { await hover(document.querySelector(id)!); await wait(120); }
+    assert.deepEqual(prefetched, ["/app/reading/lessons"]);
   });
 });
 

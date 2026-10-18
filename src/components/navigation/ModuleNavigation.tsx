@@ -11,8 +11,7 @@ export async function ModuleNavigation({ module }: { module: Module }) {
   if (module === "listening") {
     links = [
       { key: "lessons", href: "/app/listening/lessons", label: dict.listening.lessons.title },
-      { key: "academic", href: "/app/listening/academic", label: dict.listening.academic.title },
-      { key: "general", href: "/app/listening/general", label: dict.listening.general.title },
+      { key: "tests", href: "/app/listening/tests", label: dict.listening.academic.title },
       { key: "mcq", href: "/app/listening/mcq", label: dict.listening.mcqProgram.title },
     ];
   } else if (module === "reading") {

@@ -1,3 +1,5 @@
+import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
+import {ListeningSequenceLocked} from "@/components/listening/ListeningSequenceLocked";
 import { hasOriginalListeningRuntime } from "@/lib/listening/original-listening";
 import { packageActivities, activityPath } from "@/lib/listening/activities";
 import { AuthoredListeningFrame } from "@/components/listening/AuthoredListeningFrame";
@@ -14,6 +16,7 @@ export default async function Hub({ params }: { params: Promise<{ id: string }> 
   if (!user) return null;
   const { id } = await params;
   if (!isUuid(id)) notFound();
+  if(!await listeningSequenceAccess(user,id))return <ListeningSequenceLocked dict={getDictionary(await getLocale())}/>;
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
   const dict = getDictionary(await getLocale());

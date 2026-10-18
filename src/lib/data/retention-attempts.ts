@@ -772,7 +772,7 @@ export async function getRetentionSummary(
     inArray(retentionAttempts.status, ["completed", "timed_out"]),
     isNotNull(retentionAttempts.score)
   );
-  const grouped = await connection
+  const [grouped, recent] = await Promise.all([connection
     .select({
       level: retentionAttempts.level,
       attempts: sql<number>`count(*)::int`,
@@ -781,14 +781,15 @@ export async function getRetentionSummary(
     })
     .from(retentionAttempts)
     .where(scoredTerminal)
-    .groupBy(retentionAttempts.level);
+    .groupBy(retentionAttempts.level),
   // The rolling average uses only the latest ten scored attempts.
-  const recent = await connection
+  connection
     .select({ score: retentionAttempts.score })
     .from(retentionAttempts)
     .where(scoredTerminal)
     .orderBy(desc(retentionAttempts.createdAt), desc(retentionAttempts.id))
-    .limit(10);
+    .limit(10),
+  ]);
 
   const levels: RetentionLevel[] = ["A2", "B1", "B2", "C1", "C2"];
   const byLevel = new Map(grouped.map((row) => [row.level, row]));

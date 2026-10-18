@@ -426,7 +426,14 @@
       "idx": 60,
       "version": "7",
       "when": 1792201000008,
-      "tag": "0060_retention_permanent_delete",
+      "tag": "0060_auth_session_revocation",
+      "breakpoints": true
+    },
+    {
+      "idx": 61,
+      "version": "7",
+      "when": 1792201000009,
+      "tag": "0061_retention_permanent_delete",
       "breakpoints": true
     }
   ]

@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   }
   const access = await mcqAccess(user, question.testId);
-  if (access !== "ok") return NextResponse.json({ error: access }, { status: access === "not_found" ? 404 : 409 });
+  if (access !== "ok") return NextResponse.json({ error: access }, { status: access === "not_found" ? 404 : access === "sequence_locked" ? 403 : 409 });
   // Drills always use the CURRENT set: a replaced revision's question is history, not practice.
   if (!(await listeningQuestionIsLive(question.id, question.testId)))
     return NextResponse.json({ error: "not_found" }, { status: 404 });

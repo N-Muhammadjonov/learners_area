@@ -1,6 +1,7 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import pg, { type Pool } from "pg";
 import * as schema from "./schema";
+import {postgresConnectionOptions} from './postgres-connection';
 
 // `pg` ships as CommonJS; destructuring the named export directly breaks
 // under plain Node ESM (as opposed to a bundler like Next's), so go through
@@ -132,7 +133,7 @@ type PoolOptions = ConstructorParameters<typeof PoolCtor>[0] & {
 };
 
 const poolOptions: PoolOptions = {
-  connectionString: process.env.DATABASE_URL,
+  ...postgresConnectionOptions(process.env.DATABASE_URL),
   max,
   connectionTimeoutMillis: 8_000,
   query_timeout: 20_000,

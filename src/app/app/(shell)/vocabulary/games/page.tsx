@@ -3,7 +3,7 @@ import type { Dictionary } from "@/lib/i18n/en";
 import type { Locale } from "@/lib/i18n";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
-import { listTopicPacksForLearner } from "@/lib/content/vocabulary-packs";
+import { listTopicPackSummariesForLearner } from "@/lib/content/vocabulary-packs";
 import { listFolders } from "@/lib/services/vocabulary/engine";
 import { VocabGamesPanel } from "@/components/vocabulary/VocabGamesPanel";
 import { isGameSetKey } from "@/lib/services/vocabulary/game-routes";
@@ -24,8 +24,8 @@ async function GamesContent({ query, userId, locale, dict }: {
   query: { set?: string; folderId?: string; topicPack?: string };
   userId: string; locale: Locale; dict: Dictionary;
 }) {
-  const folders = await listFolders(userId);
-  const packs = (await listTopicPacksForLearner(locale)).map((pack) => ({ id: pack.id, label: pack.label, wordCount: pack.words.length }));
+  const [folders, summaries] = await Promise.all([listFolders(userId), listTopicPackSummariesForLearner(locale)]);
+  const packs = summaries.map((pack) => ({ id: pack.id, label: pack.label, wordCount: pack.wordCount }));
   const requestedSet = query.set ?? "";
   let initialSetKey = isGameSetKey(requestedSet) ? requestedSet : "due";
   const initialFolderId = query.folderId && folders.some((folder) => folder.id === query.folderId) ? query.folderId : undefined;

@@ -946,9 +946,12 @@ const uz: Dictionary = {
      * har bir test uchun faoliyat markazi. Matnlar ikki sahifada umumiy.
      */
     academic: {
-      title: "Academic Listening",
-      subtitle: "Markazning e'lon qilingan Academic Listening testlari. Testni ochib, u haqiqatan qo'llab-quvvatlaydigan faoliyatlarni ko'ring.",
-      emptyTitle: "Hozircha birorta Academic Listening testi chop etilmagan.",
+      locked: "Qulflangan",
+      lockedHint: "Bu testni ochish uchun oldingi testning barcha mashqlarini tugating.",
+
+      title: "Listening Tests",
+      subtitle: "Markazning e'lon qilingan Listening Tests testlari. Testni ochib, u haqiqatan qo'llab-quvvatlaydigan faoliyatlarni ko'ring.",
+      emptyTitle: "Hozircha birorta Listening Tests testi chop etilmagan.",
       emptyHint: "Markaz kanonik Listening testini tayyorlab, e'lon qilmaguncha bu sahifada hech narsa ko'rinmaydi — bu yerda namunaviy testlar yo'q.",
       catalogueCount: "{n} ta e'lon qilingan test",
       openTest: "Testni ochish",
@@ -958,13 +961,13 @@ const uz: Dictionary = {
       activitiesLabel: "{done} / {total} faoliyat bajarildi",
       noProgress: "Boshlanmagan",
       examResult: "Oxirgi imtihon: {score} / {total}",
-      hubBack: "Barcha Academic Listening testlari",
+      hubBack: "Barcha Listening Tests",
       hubSubtitle: "Quyidan faoliyatni tanlang. Bu yerda faqat shu test haqiqatan qo'llab-quvvatlaydiganlari ko'rinadi.",
       progressLabel: "Bajarilgan faoliyatlar: {done} / {total}",
       examScore: "Imtihon natijasi: {score} / {total}",
       draftNotice: "Bu test qoralama: uni faqat xodimlar ko'radi, o'quvchilar hozircha ocholmaydi.",
       notFoundTitle: "Bu test mavjud emas.",
-      notFoundHint: "U e'lon qilinmagan yoki olib tashlangan bo'lishi mumkin. Academic Listening katalogiga qayting.",
+      notFoundHint: "U e'lon qilinmagan yoki olib tashlangan bo'lishi mumkin. Listening Tests katalogiga qayting.",
       transcriptYes: "To'liq transkript mavjud",
       transcriptNo: "Bu yozuv uchun transkript yo'q",
       activity: {
@@ -996,7 +999,7 @@ const uz: Dictionary = {
       previousPage: "Oldingi testlar",
       nextPage: "Keyingi testlar",
       pageLabel: "{page}-sahifa",
-      paginationLabel: "Academic Listening sahifalari",
+      paginationLabel: "Listening Tests sahifalari",
       complete: "Bajarildi",
       latestScore: "Oxirgi: {score} / {total}",
       open: "Ochish",
@@ -1036,13 +1039,14 @@ const uz: Dictionary = {
     /** Listening markazi — to'rt yo'nalish va ular aralashtirilmasligi haqidagi izoh. */
     hub: {
       title: "Listening",
-      subtitle: "To'rt alohida yo'nalish: darslar, Academic testlar, General bo'limlar va MCQ kunlik dasturi. Ular bir-biriga aralashtirilmaydi.",
+      subtitle: "Uchta bo'lim: Lessons, Listening Tests va MCQ mastery.",
       open: "Ochish",
     },
 
     /** Listening → MCQ: kunma-kun dastur uchun interfeys matnlari (kunlar soni cheklanmagan; kontent tarjima qilinmaydi). */
     mcqProgram: {
-      title: "Listening MCQ",
+      lockedHint: "Bu kunni ochish uchun oldingi kundagi barcha savollarni oxirgi bosqichgacha bajaring.",
+      title: "MCQ mastery",
       subtitle: "Kunma-kun test dasturi: har kuni beshta savol. Har bir savol bosqichma-bosqich: tinglash, izoh, qaror, keyin javob.",
       daysPublished: "{published} kun chop etilgan",
       daysCompleted: "Tugatilgan kunlar: {available} kundan {done}",
@@ -1076,7 +1080,7 @@ const uz: Dictionary = {
 
     /** Listening → Lessons (o'quvchi uchun: Tavsif / O'qituvchi izohlari / Xulosangiz). */
     lessons: {
-      title: "Darslar",
+      title: "Lessons",
       subtitle: "Markaz tayyorlagan darslar: avval tinglash materiali, yonida markazning izohlari.",
       open: "Darsni ochish",
       minutes: "daq.",
@@ -3307,7 +3311,7 @@ const uz: Dictionary = {
     library: {
       collections: "Listening to'plamlari",
       essential: "▶ Asosiy yozuvlar",
-      academic: "🎧 Academic Listening",
+      academic: "🎧 Listening Tests",
       general: "🎙️ General Listening",
       question_types: "📚 Savol turlari",
       mcq: "🔑 MCQ Mastery",

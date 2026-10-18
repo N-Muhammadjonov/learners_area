@@ -217,6 +217,8 @@ export const users = pgTable("users", {
   name: varchar("name", { length: 200 }).notNull(),
   gender: genderEnum("gender"),
   role: roleEnum("role").notNull().default("student"),
+  /** Monotonic server-owned authority epoch. Never supplied by a client. */
+  authVersion: integer("auth_version").notNull().default(0),
   /** Historical column. Authorization reads `role`, never this flag. */
   isOwner: boolean("is_owner").notNull().default(false),
   /** Server-side admission gate for every private page, route and object. */
@@ -238,6 +240,16 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => ({
   statusIdx: index("users_account_status_idx").on(table.accountStatus),
+}));
+
+/** Only a SHA-256 digest is stored; one logout cannot revoke another device. */
+export const authSessionRevocations = pgTable("auth_session_revocations", {
+  tokenHash: varchar("token_hash", { length: 64 }).primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => ({
+  expiryIdx: index("auth_session_revocations_expiry_idx").on(table.expiresAt),
 }));
 
 // ---------------------------------------------------------------------------

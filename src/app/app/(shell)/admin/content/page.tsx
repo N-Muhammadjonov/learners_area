@@ -1,19 +1,10 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
-import { count } from "drizzle-orm";
-import { db } from "@/db/client";
-import {
-  grammarTopics,
-  listeningTests,
-  readingPassages,
-  videoLessons,
-  writingPrompts,
-} from "@/db/schema";
+import { contentInventory } from "@/lib/data/content-inventory";
 import { requireAdministrator } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
-import { isLive } from "@/lib/services/cms/publication";
 import { writingContentTotals } from "@/lib/services/writing/admin";
 
 export const metadata = { title: "Content" };
@@ -42,25 +33,9 @@ async function ContentLibraryResults({ dict }: { dict: ReturnType<typeof getDict
   // Inventory and auxiliary writing counts are independent reads. Start all of
   // them before awaiting the first result, but only after Owner/Admin DB gate.
   const writingOtherPromise = writingContentTotals().catch(() => ({ total: 0, live: 0 }));
-  const [readingRows, listeningRows, writingRows, grammarRows, videoRows] = await Promise.all([
-    db
-      .select({ state: readingPassages.publicationState, publishAt: readingPassages.publishAt })
-      .from(readingPassages),
-    db
-      .select({ state: listeningTests.publicationState, publishAt: listeningTests.publishAt })
-      .from(listeningTests),
-    db
-      .select({ state: writingPrompts.publicationState, publishAt: writingPrompts.publishAt })
-      .from(writingPrompts),
-    db.select({ value: count() }).from(grammarTopics),
-    db
-      .select({ state: videoLessons.publicationState, publishAt: videoLessons.publishAt })
-      .from(videoLessons),
-  ]);
+  const inventory = await contentInventory();
 
   const writingOther = await writingOtherPromise;
-  const published = (rows: { state: typeof readingRows[number]["state"]; publishAt: Date | null }[]) =>
-    rows.filter((row) => isLive({ publicationState: row.state, publishAt: row.publishAt })).length;
 
   const sections = [
     {
@@ -68,16 +43,16 @@ async function ContentLibraryResults({ dict }: { dict: ReturnType<typeof getDict
       title: dict.admin.readingTitle,
       href: "/app/admin/reading",
       materialsType: "reading" as const,
-      total: readingRows.length,
-      live: published(readingRows),
+      total: inventory.reading.total,
+      live: inventory.reading.live,
     },
     {
       key: "listening",
       title: dict.admin.listeningTitle,
       href: "/app/admin/listening",
       materialsType: "listening" as const,
-      total: listeningRows.length,
-      live: published(listeningRows),
+      total: inventory.listening.total,
+      live: inventory.listening.live,
     },
     {
       key: "writing",
@@ -85,8 +60,8 @@ async function ContentLibraryResults({ dict }: { dict: ReturnType<typeof getDict
       title: dict.admin.writingAdmin.title,
       href: "/app/admin/writing",
       materialsType: "writing" as const,
-      total: writingRows.length + writingOther.total,
-      live: published(writingRows) + writingOther.live,
+      total: inventory.writing.total + writingOther.total,
+      live: inventory.writing.live + writingOther.live,
     },
     {
       key: "grammar",
@@ -95,15 +70,15 @@ async function ContentLibraryResults({ dict }: { dict: ReturnType<typeof getDict
       materialsType: "grammar" as const,
       // Grammar topics carry no publication state, so "live" and "total" are the
       // same number here rather than a second workflow invented for the count.
-      total: grammarRows[0]?.value ?? 0,
-      live: grammarRows[0]?.value ?? 0,
+      total: inventory.grammar.total,
+      live: inventory.grammar.live,
     },
     {
       key: "video",
       title: dict.admin.videoLessonTitle,
       href: "/app/admin/video-lessons",
-      total: videoRows.length,
-      live: published(videoRows),
+      total: inventory.video.total,
+      live: inventory.video.live,
     },
   ];
 

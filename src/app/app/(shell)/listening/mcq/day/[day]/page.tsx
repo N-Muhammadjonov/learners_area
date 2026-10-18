@@ -1,3 +1,5 @@
+import {ListeningSequenceLocked} from "@/components/listening/ListeningSequenceLocked";
+import {mcqProgramDays} from "@/lib/data/listening-mcq";
 import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -37,6 +39,7 @@ export default async function ListeningMcqDayPage({
 
   const dayNumber = Number.parseInt(route.day ?? "", 10);
   const staff = isStaff(user.role);
+  if(!staff){const catalogue=await mcqProgramDays(user);if(catalogue.days.find(card=>card.day===dayNumber)?.locked)return <ListeningSequenceLocked dict={getDictionary(locale)} mcq/>;}
   const day = await mcqDayFor(dayNumber, user, { includeDrafts: staff });
   if (!day) notFound();
 

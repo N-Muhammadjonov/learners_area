@@ -65,6 +65,12 @@ export async function middleware(req: NextRequest) {
   const host = req.headers.get("x-forwarded-host")?.split(",")[0]?.trim() ?? req.nextUrl.host;
   const headerOptions = { nonce, secure, dev, hsts: secure && !dev, host };
 
+  // The capability Worker supersedes legacy presigned R2 rewrites. Reject old
+  // transport links at cutover so they cannot bypass per-read revocation.
+  if (process.env.MEDIA_WORKER_URL && (pathname === '/__storage-read' || pathname.startsWith('/__storage-read/'))) {
+    return applySecurityHeaders(new NextResponse(null,{status:404,headers:{'Cache-Control':'private, no-store'}}),headerOptions);
+  }
+
   // 1. State-changing API calls must come from this deployment.
   if (pathname.startsWith("/api/")) {
     const origin = checkRequestOrigin(req);

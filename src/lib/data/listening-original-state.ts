@@ -1,4 +1,5 @@
 import 'server-only';
+import {certifyCourseExam} from './listening-course';
 import { z } from 'zod';
 import { and, desc, eq } from 'drizzle-orm';
 import { db } from '@/db/client';
@@ -65,6 +66,7 @@ export async function saveOriginalListeningState(userId: string, testId: string,
         values = {...values,[storageKey]:JSON.stringify(raw)};
       }
     }
+    values=certifyCourseExam(values,previousValues,pkg.testId,raw);
     await tx.insert(listeningAuthoredCheckpoints).values({userId,testId,values,attemptId:attemptId||null}).onConflictDoUpdate({target:[listeningAuthoredCheckpoints.userId,listeningAuthoredCheckpoints.testId],set:{values,attemptId:attemptId||null,updatedAt:new Date()}});
     return {values,attemptId};
   });
