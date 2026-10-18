@@ -1,0 +1,127 @@
+{
+  "browser": "Chromium133",
+  "apiIntegration": "Isolated fixtures only; provider/live/production acceptance UNVERIFIED",
+  "results": [
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "General complete catalogue/exercise/notes/autosave/submit/ungraded/retake 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "General both entry URLs, query/hash reload and native back/forward preserve attempt draft",
+      "status": "PASS"
+    },
+    {
+      "name": "General keyboard lookup canonical source and element-boundary highlight/reload/remove; audio retained",
+      "status": "PASS"
+    },
+    {
+      "name": "General adapter 401 never exposes exercise or answers and recovers after authorized reload",
+      "status": "PASS"
+    },
+    {
+      "name": "General adapter 403 never exposes exercise or answers and recovers after authorized reload",
+      "status": "PASS"
+    },
+    {
+      "name": "General adapter 404 never exposes exercise or answers and recovers after authorized reload",
+      "status": "PASS"
+    },
+    {
+      "name": "General adapter 500 never exposes exercise or answers and recovers by retry",
+      "status": "PASS"
+    },
+    {
+      "name": "General submit failure retains own draft, retry accepts server and clears only own attempt",
+      "status": "PASS"
+    },
+    {
+      "name": "General restricted policy has no lookup/highlights; A–E Choose TWO is genuine set",
+      "status": "PASS"
+    },
+    {
+      "name": "General empty catalogue and query pagination return own page; no hidden media fetch",
+      "status": "PASS"
+    },
+    {
+      "name": "General rejects foreign projection and retries without replacing persistent shell",
+      "status": "PASS"
+    },
+    {
+      "name": "General delayed projection cannot paint after rapid navigation cancellation",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy private audio survives edits, error retry and repeated navigation disposes previous media",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy external YouTube source is opaque with fallback under unchanged strict preview CSP",
+      "status": "PASS"
+    },
+    {
+      "name": "revision populated tables, canonical lexical source and no invented grade",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic server-projected activity order includes keyword fallback and original redirect",
+      "status": "PASS"
+    },
+    {
+      "name": "General actual synthetic audio failure/retry/play continuity and server-authorized position recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "General retake mutation error preserves own result then retries without double-create",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 29,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

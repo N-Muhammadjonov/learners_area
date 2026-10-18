@@ -1,3 +1,17 @@
+# ACTIVE V9 — General section vertical slice delivered; Listening remains PARTIAL
+
+Continue ONLY arena/96836bcf-learners-area from latest verified V9 local/remote delivery SHA (Git log / deliverables/V9_VALIDATION.txt); exact start was V8 **3a5c1b7dcaf491549f74d96211ba27be1cf0a253**. No restart, reset, branch change, source/backend/staff/main/deploy changes. All edits migration/vanilla-frontend. Preserve all V1–V8 archives and historical evidence bytes plus completed Phase1/2/V7/V8/native General.
+
+Read CHECKPOINT_V9, SOURCE_STATE_INVENTORY_V9, ADAPTER_CONTRACTS_V9, both V9 ledgers and independent validation. New working General catalogue→section/attempt equivalent entry→all source questions→notes/drafts/highlights/autosave/reload→server submit→own nullable-grade result→retake/catalogue. section-activity composes lexical surface into unchanged exam engine (no dictionary imports there). Actual media recovery bug fixed with same private URL reload/position after403. Legacy player classification/source-native/error/retry/retention/disposal and populated revision tables implemented, not universal provider acceptance. Preview CSP and authored opaque allow-scripts remain UNCHANGED; public provider has external fallback and may be CSP-blocked. Academic detail partial, not catalogue/hub/history completion.
+
+303unit,396preserved+29V9 browser=425PASS/0FAIL/0SKIP in development; exact final independent reports remain separate proof. Global17canonicalcomplete/19partial/72notstarted; components60/16/130. Listening4/10/2routes and7/10/7components (16/24 denominators), still NOT frontend complete. Two General source routes and two section components closed frontend/fixture only. Nine original workflows still0/9 comprehensive original acceptance. Reading NOT started.
+
+NEXT finish remaining source/provider/full-library/start caller media gate, Academic catalogue/detail/hub server registry/history, lessons/body/quiz/authorized learner authoring, and nine genuine authored workflows/universal hub-before-full-audio/timers/flags/notes/recovery/grade/private media gates. Do NOT redo working General or Activities2–5/study/MCQ/exam/practice. Do not treat ordinary engineering as all externally blocked. Original-rendered/live/provider/Safari/hardware/production acceptance0UNVERIFIED. Three aggregate product metrics UNDETERMINED. No privacy/CSP/role/answer relaxation and no invented tests/scores.
+
+35staff canonical routes remain reserved23Admin6Owner6Teacher, separate older-V4 AI. No integration performed; manual conflict reconciliation must preserve current shared V9, never overwrite from stale V4. Default deterministic package V9; --v8 --verify added without modifying predecessors. Exact archive independently extract/npmci/build/unit/full browser/CSS/assets/two repacks; results external to avoid self-hash cycles. Owner approval before production. PRODUCTION CHANGES NONE.
+
+---
+
 # ACTIVE V8 — coherent Activity2–5 journeys; overall Listening PARTIAL
 
 Continue ONLY arena/96836bcf-learners-area at latest verified V8 local=remote commit (Git log / deliverables/V8_VALIDATION.txt), exact prior V7 306bd23caef975bc40459119a6b641a29ee48223. Work ONLY migration/vanilla-frontend; preserve Phase1/2, all valid V7 and V8 controllers/tests/archives. V7 was complete delivery, not pending packaging. No branch switch/create/reset/rebase/stash/clean/forcepush/backend/main/deploy/production changes.

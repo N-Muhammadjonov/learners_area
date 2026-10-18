@@ -1,0 +1,8 @@
+{
+  "PASS": 303,
+  "FAIL": 0,
+  "SKIP": 0,
+  "preserved": 277,
+  "v9": 26,
+  "scope": "Native/JSDOM/contract fixtures; not live or visual acceptance"
+}

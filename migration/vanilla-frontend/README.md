@@ -1,3 +1,11 @@
+# V9 current status — General delivered, Listening PARTIAL
+
+Continue exact V8 baseline3a5c1b7dcaf491549f74d96211ba27be1cf0a253 on the same Arena branch. Working General catalogue→section/own attempt→notes/highlights/autosave/reload→submit→own result→retake; native legacy media classification/recovery and populated revision increment. Existing V7/V8 controllers retained, not duplicated. See [CHECKPOINT_V9](docs/CHECKPOINT_V9.md), [remaining work](docs/SOURCE_STATE_INVENTORY_V9.md), V9 ledgers/contracts and handoff.17/108 canonical frontend closures,60/206components; whole Listening NOT complete, original nine comprehensive acceptance0/9. Reading not started; no original-rendered/live/provider/Safari/hardware/production acceptance.
+
+`npm ci --ignore-scripts && npm run build && npm test`; `PORT=4173 npm run preview`; `node scripts/regression-v9.mjs` then `node tests/browser-v9.mjs` (run sequentially); `node scripts/assets-css-v9.mjs`; `python3 scripts/package.py` / `--verify`.303unit and425Chromium development PASS/0FAIL/0SKIP; final exact results in deliverables/V9_VALIDATION.txt and independent summary. Preview /api/* intentionally503, never synthetic login/data. CSP unchanged; external providers have honest fallback, playback not accepted. Historical ZIPs immutable; --legacy/--v2…--v8 --verify. PRODUCTION CHANGES NONE.
+
+---
+
 # V8 current status — Listening PARTIAL
 
 Phase1/2 preserved. Coherent numeric Listening Activity2–5 journeys implemented, plus Study/testMCQ and legacy private-media exam→own review→revision speed. See [CHECKPOINT_V8](docs/CHECKPOINT_V8.md), [source inventory](docs/SOURCE_STATE_INVENTORY_V8.md), V8 ledgers/contracts and handoff.15/108canonical frontend closures,58/206components; whole Listening NOT complete, genuine original nine authored behavioral gates0/9. Reading not started. No live/original-rendered/Safari/hardware/production acceptance.

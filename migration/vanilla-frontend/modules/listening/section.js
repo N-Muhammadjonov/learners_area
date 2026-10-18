@@ -1,0 +1,3 @@
+import {render} from '../../js/generated/GeneralListeningSectionPage-v9.js';import {sectionDTO} from '../../js/adapters/listening-v9.js';import {sectionActivity} from './section-activity.js';import {startAttempt} from './start-attempt.js';
+/** Both own section URL and own attempt consume the SAME server loader/discriminant. */
+export function listeningSection(context,input,identity={}){const view=sectionDTO(input,identity);return render({dict:context.dict,view,SectionListeningActivity:props=>sectionActivity(context,props),SectionRetakeButton:props=>startAttempt(context,{testId:props.sectionId,label:props.label,retake:true})});}
