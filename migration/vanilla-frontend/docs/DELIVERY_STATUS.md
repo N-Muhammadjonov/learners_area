@@ -1,3 +1,13 @@
+# V3 continuation notice — current status PARTIAL
+
+Status PARTIAL. Current code checkpoint a4f72f8e558398e83d2ad268b1485d343eb0cb1e follows6259ff1/V2 without resetting history. New deterministic CHECKPOINT_V3 archive; independent validation/sidecar live alongside deliverables, not inside a self-referential package. Historical archives unchanged. Current final delivery SHA and remote verification are in final response/validation. No production action authorized.
+
+Authoritative current record: [CHECKPOINT_V3.md](CHECKPOINT_V3.md); evidence: `evidence/v3/`. Implementation / functional-security / visual-integration percentages remain UNDETERMINED. No production replacement without owner approval.
+
+---
+
+## Historical V2/foundation record — retained, superseded above
+
 # V2 continuation notice — current status PARTIAL
 
 Current status is PARTIAL, not CODE COMPLETE. See CHECKPOINT_V2.md for the authoritative module and gate results. 27 partial page candidates, 6 redirect-only implementations, 1 retired redirect, 81 NOT STARTED records. 0 fully accepted routes. 58 unit / 27 original + 14 V2 Chromium probes pass; V2 successes are synthetic fixtures, not live acceptance.

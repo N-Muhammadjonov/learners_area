@@ -1,3 +1,13 @@
+# V3 continuation notice — current status PARTIAL
+
+Controlled synthetic catalogue diagnostic:15 switches per0/50ms added fixture latency, warm JS,30 synthetic rows, desktop Chromium. Pending-frame DOM medians1.0/0.8ms; content DOM42.8/82.1ms; content after frame opportunity456.7/478.3ms. These are NOT certified pixel paint, real backend/media readiness, original comparison or guaranteed1–100ms. Long tasks observed0; documents1→1, nodes697→668, listeners71→71; finite samples do not prove leak freedom. Raw: evidence/v3/navigation-performance.json. Remaining5 dev high advisories; selector-parser override CSS A/B byte-identical.
+
+Authoritative current record: [CHECKPOINT_V3.md](CHECKPOINT_V3.md); evidence: `evidence/v3/`. Implementation / functional-security / visual-integration percentages remain UNDETERMINED. No production replacement without owner approval.
+
+---
+
+## Historical V2/foundation record — retained, superseded above
+
 # V2 continuation notice — current status PARTIAL
 
 Current raw V2 fixture-shell diagnostic: evidence/v2/shell-performance.json; median215.2 ms, range20.6–392.7 ms, 10 local desktop1440x900 repeat switches. Current public-root diagnostic: evidence/performance.json; median230.7 ms. No original comparison, backend latency, throttle, long-task or memory-leak measurements. 1–100ms/Booster gain NOT proven. Historical numbers below describe the old checkpoint, not new results.

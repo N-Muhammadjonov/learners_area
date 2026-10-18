@@ -1,0 +1,43 @@
+{
+  "baseline": "9a7d9fc5a93608078644d61cd9f9850c05c4ddc8",
+  "previousCheckpoint": "b22a0f4c56d3099d5e02739521c5c66d12f78196",
+  "pageFiles": 115,
+  "classificationCounts": {
+    "CANONICAL_PAGE_CANDIDATE": 107,
+    "PROTECTED_REDIRECT_ONLY": 5,
+    "CONDITIONAL_CANONICAL_AND_LEGACY_REDIRECT": 1,
+    "QUERY_DEPENDENT_LEGACY_REDIRECT": 1,
+    "RETIRED_REDIRECT": 1
+  },
+  "activeCanonicalDenominator": "UNDETERMINED: canonical candidates need owner/product/integration confirmation, not every page is active",
+  "partialPageCandidates": 27,
+  "fullyConvertedAcceptedPages": 0,
+  "fullyParityVerifiedPages": 0,
+  "notStartedPageRecords": 81,
+  "componentFiles": 206,
+  "partialComponentFiles": 50,
+  "fullyAcceptedComponents": 0,
+  "codeCheckpoint": "a4f72f8e558398e83d2ad268b1485d343eb0cb1e",
+  "status": "PARTIAL",
+  "notStartedComponentFiles": 156,
+  "codeCompleteRedirectOnlyRecords": 6,
+  "retiredRecords": 1,
+  "metrics": {
+    "implementation": "UNDETERMINED — active product denominator + all-state audits unconfirmed",
+    "functionalSecurity": "UNDETERMINED — subset synthetic evidence is not full acceptance",
+    "visualIntegration": "UNDETERMINED — zero original comparisons / zero live accepted"
+  },
+  "sourceBuild": true,
+  "unit": {
+    "pass": 142,
+    "fail": 0
+  },
+  "browser": {
+    "foundation": 27,
+    "v2": 14,
+    "v3": 49,
+    "fail": 0,
+    "liveAccepted": 0
+  },
+  "v3NewPageImplementations": 0
+}

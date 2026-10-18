@@ -1,0 +1,71 @@
+{
+  "summaries": [
+    {
+      "fixtureAddedLatencyMs": 0,
+      "sampleCount": 15,
+      "frameDomMs": {
+        "median": 1,
+        "min": 0.7000000001862645,
+        "max": 2.6000000005587935,
+        "p95": 2.6000000005587935
+      },
+      "firstAnimationFrameMs": {
+        "median": 47,
+        "min": 18.200000000186265,
+        "max": 443.20000000018626,
+        "p95": 443.20000000018626
+      },
+      "contentDomMs": {
+        "median": 42.799999999813735,
+        "min": 31.5,
+        "max": 73.59999999962747,
+        "p95": 73.59999999962747
+      },
+      "contentAfterFrameOpportunityMs": {
+        "median": 456.69999999925494,
+        "min": 410.90000000037253,
+        "max": 621.4000000003725,
+        "p95": 621.4000000003725
+      }
+    },
+    {
+      "fixtureAddedLatencyMs": 50,
+      "sampleCount": 15,
+      "frameDomMs": {
+        "median": 0.8000000007450581,
+        "min": 0.7000000001862645,
+        "max": 1,
+        "p95": 1
+      },
+      "firstAnimationFrameMs": {
+        "median": 260.79999999981374,
+        "min": 17.90000000037253,
+        "max": 277.8999999994412,
+        "p95": 277.8999999994412
+      },
+      "contentDomMs": {
+        "median": 82.1000000005588,
+        "min": 79.29999999981374,
+        "max": 97.70000000018626,
+        "p95": 97.70000000018626
+      },
+      "contentAfterFrameOpportunityMs": {
+        "median": 478.29999999981374,
+        "min": 441,
+        "max": 518.5,
+        "p95": 518.5
+      }
+    }
+  ],
+  "longTasks": 0,
+  "domBefore": {
+    "documents": 1,
+    "nodes": 697,
+    "jsEventListeners": 71
+  },
+  "domAfter": {
+    "documents": 1,
+    "nodes": 668,
+    "jsEventListeners": 71
+  }
+}

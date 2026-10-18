@@ -1,3 +1,42 @@
+# V3 continuation — READY-TO-PASTE GPT Work handoff
+
+**Status PARTIAL, not FRONTEND CODE COMPLETE.** Current authority: CHECKPOINT_V3.md, ROUTE_LEDGER_V3.md, route-ledger-v3.json, ADAPTER_CONTRACTS_V3.md and evidence/v3/. V2/history below are retained, not current completion claims. Source code checkpoint a4f72f8e558398e83d2ad268b1485d343eb0cb1e (after6259ff1); baseline/main9a7d9fc5a93608078644d61cd9f9850c05c4ddc8. Final package/delivery SHA and independent archive validation: final response / deliverables/V3_VALIDATION.txt / checksum sidecar.
+
+## Paste this prompt into GPT Work
+
+> Continue the existing Learners Area vanilla migration from its V3 PARTIAL checkpoint, not from scratch. Work only on the existing `arena/96836bcf-learners-area` branch and only under `migration/vanilla-frontend/`. Preserve all valid newer commits and immutable historical PARTIAL/V2/V3 delivery artifacts. Do not reset/rebase/clean/stash/force-push, create/switch branches, merge/deploy or touch original application/backend/services/content/configuration/production.
+>
+> First inspect current Git local/remote/main, README, CHECKPOINT_V3, both historical V2 and current V3 ledgers/contracts, GPT_WORK_HANDOFF, KNOWN_LIMITATIONS, functional/visual/security/performance reports and all native runtime/build/generator/test/assets. Verify package sidecar/internal checksums and read independent extraction/install/build/unit/browser logs alongside the V3 archive. Do not overwrite its evidence/manifest by running tests in place without a disposable extraction or backup/restore.
+>
+> Actual stable inventory:115 page records (107canonical candidates,1conditional,6redirect-only,1retired),27IN PROGRESS,81NOT STARTED,0accepted product pages;206component source files (50partial,156NOT STARTED,0accepted);214original API handlers;13supplemental boundaries. Source build and142unit +27original/14V2/49V3 Chromium probes passed. These are fixture/subset results, NOT live/visual/full-state acceptance. Original comparisons0, live accepted0; Safari/hardware mic/media unverified. Percentages UNDETERMINED.
+>
+> PRIORITY: finish ordinary source-derived states and coherent workflows of the EXISTING27 candidates before broad expansion. The V3 targeted audit is NOT exhaustive. For each source page inspect every imported component/layout/style/handler/state/API/keyboard/focus/media/cleanup path, build a source-state acceptance matrix, repair ordinary UI and add focused state/browser adversarial tests. Do not equate a touched module, source markup, pending frame or passing fixture with complete UI. Missing client engines/forms/tables are engineering work, not external blockers.
+>
+> Preserve native HTML/CSS/JS/DOM/History/Fetch/ESmodules only, no framework/virtual DOM/hooks shim; reviewed build-time pure-source extraction allowed. Preserve exact brand/assets/fonts/tokens/themes/locale/geometry/responsive behavior, redirects, query/deep/fragment/Back/Forward/reload semantics. Keep explicit Grammar writing/speaking tabs real; never revive Shadowing. Preserve source catalogue section navigation/headings and focus-only arrows/Home/End.
+>
+> Inspect the current fixes before changing architecture: shared recovery LoginForm, bootstrap/error/draft/form constraints; session invalidation after onboarding/admission and role/status scoped teardown; source confirmation/profile mouse-focus behavior; independent Dashboard/openLessons/mock regions; validated MCQ stages and true A–E ChooseTWO with no artificial cap and server reveal; notification serialization/observer and report lifecycle; source entry frames with hidden/inert outgoing private content; stale-import abort guards; code-only bounded prewarm (NO private DTO/attempt/retention/media prefetch); per-history-entry scroll. Native imports cannot be physically canceled; guards must prevent follow-up/commit.
+>
+> Complete ListeningTest1nine activities, authored host/timers/notes/flags/autosave/resume/outbox/private-media transitions and progressive hub-first/serverregistry behavior. Opaque iframe allow-scripts only, never allow-same-origin or weaker CSP. Complete Reading/Writing/Speaking/Vocabulary/Grammar/Retention and all Owner/Admin/Teacher actions with source confirmations, then profile/courses/video/notifications/support/etc, semantically classifying remaining81records. Do not add invented content/results/identities or simplified substitute products. The source itself does not enable a mock runner; do not invent one.
+>
+> Server remains authoritative for HttpOnly identity/status/role/permissions, ownership/revocation/grading/reveals/media. No browser token migration, local role authority, raw SQL/database proxy, service credentials, private content/answers/public-media substitution. Proposed `/api/frontend/public|session|view` are NOT existing backend endpoints. Inspect original source functions in contracts/registry/inventory, complete narrow nested DTO schemas/redaction and native loading/success/empty/error consumers. With EXPLICIT owner approval only, adapt/integrate with existing authoritative server functions/endpoints in an isolated review environment; verify CSRF, cookie rotation, cross-user denial, role downgrade, expiry/SSE/reconnect and media/reveal redaction. Missing backend cannot justify missing frontend work.
+>
+> Preserve all58V2unit and unchanged27original/14V2browser tests, and all later legitimate tests; extend rather than weaken. Re-run full suites and inspect result counts (filtered runs overwrite reports); keep historical evidence immutable. Test390×844/768×1024/1440×900 ×EN/UZ ×day/night for implemented workflows, direct/deep/reload/back-forward/repeated navigation, pointer and keyboard. Collect genuine original-vs-native visual comparisons and approved live role/media tests; Chromium≠Safari, fake media≠hardware mic acceptance. Never mark unrun gates as pass.
+>
+> Performance: pending-frame DOM1.0/0.8ms is NOT content readiness. Warm local30-row fixture medians were content DOM42.8/82.1ms and after-frame-opportunity456.7/478.3ms at0/50ms added fixture latency; no guaranteed perceived1–100ms or original comparison. Investigate rendering/frame scheduling on real devices and benchmark same-cache conditions with interaction/content/backend/media separated. Source diagnostic shows finite stable listener/doc counts, not leak freedom.5high dev-only audit findings remain; do safe dependency work, not a forced major Tailwind redesign. Selector-parser7.1.6 override had byte-identical CSS against6.1.4.
+>
+> Commit meaningful checkpoints on this exact branch, push only it and verify remote; preserve main and production. New package must be deterministic, checksummed and independently extracted/npmci/built/unit AND browser tested, including assets/standalone source inputs. Use a NEW CHECKPOINT name unless code-complete gates are truly met; never overwrite historical archives. Update ledgers/contracts/reports/handoff honestly, including stable denominators or UNDETERMINED for implementation/functional-security/visual-integration metrics. Explicit owner approval is required before production replacement; this prompt gives NO approval to touch backend/DB/Supabase/Railway/Cloudflare/Telegram/main/site or deploy.
+
+## Owner/reviewer actions
+
+1. Review V3 engineering checkpoint and remaining source-state gaps; it is not ready to replace production.
+2. Confirm active canonical/product semantics and authoritative DTO projections without exposing credentials in chat.
+3. Approve any separate backend integration/review environment and real roles/media testing explicitly; no destructive production testing.
+4. Require actual code-complete, functional/security, original visual, live/media/device gates before a separately authorized replacement/deployment decision.
+
+---
+
+## Historical V2/foundation handoff — preserved, superseded above
+
 # V2 continuation notice — current status PARTIAL
 
 CONTINUE FROM V2, not from the historical two-page foundation described below. Read CHECKPOINT_V2.md, ROUTE_LEDGER_V2.md, route-ledger-v2.json, ADAPTER_CONTRACTS_V2.md and evidence/v2 first. Only use arena/96836bcf-learners-area. Previous checkpoint22560b7a17c9074e5ca18b1526537b239aa59716. Preserve newer commits, original22 tests and old PARTIAL ZIP. Start by inspecting/fixing implemented native code, then continue missing ordinary UI AND integrate/verify approved adapters. Never replace production without explicit owner approval; no deploy/merge/main/backend/DB/Railway/Cloudflare authorization.

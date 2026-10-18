@@ -1,3 +1,13 @@
+# V3 continuation notice — current status PARTIAL
+
+Original application baseline comparisons0; visual-verified routes0. Three UZ/night catalogue screenshots at390/768/1440 were opened for containment/title/navigation inspection. Account + catalogue probes cover all3 sizes × EN/UZ × day/night. This is candidate screenshot/responsive evidence, NOT source-vs-native visual parity. Source theme/assets/tokens preserved; genuine baseline/device review outstanding.
+
+Authoritative current record: [CHECKPOINT_V3.md](CHECKPOINT_V3.md); evidence: `evidence/v3/`. Implementation / functional-security / visual-integration percentages remain UNDETERMINED. No production replacement without owner approval.
+
+---
+
+## Historical V2/foundation record — retained, superseded above
+
 # V2 continuation notice — current status PARTIAL
 
 No original/live reference comparisons were obtained. 0 VISUAL VERIFIED routes. Source markup/styles/assets were reused in explicit generated presentations, not screenshots-as-UI. V2 candidate-only screenshots: evidence/v2/{desktop-login-fixture-day,mobile-shell-fixture-day,authored-isolated-sandbox}.png. The authored screenshot contains only synthetic sandbox HTML. Chromium source/fixture snapshots are NOT original parity evidence.

@@ -1,3 +1,13 @@
+# V3 continuation notice — current status PARTIAL
+
+Current semantic source stages:27 IN PROGRESS,81 NOT STARTED,6 redirect-only CODE COMPLETE,1 retired (115 records). Accepted/parity-verified product pages0. Use ROUTE_LEDGER_V3.md / route-ledger-v3.json for all records and the existing27 audit gaps, not the historical foundation matrix below.
+
+Authoritative current record: [CHECKPOINT_V3.md](CHECKPOINT_V3.md); evidence: `evidence/v3/`. Implementation / functional-security / visual-integration percentages remain UNDETERMINED. No production replacement without owner approval.
+
+---
+
+## Historical V2/foundation record — retained, superseded above
+
 # V2 continuation notice — current status PARTIAL
 
 The following historical structural rows are superseded for current stage/classification by ROUTE_LEDGER_V2.md and route-ledger-v2.json. Current page classification: 107 canonical candidates, 1 conditional canonical/legacy, 6 redirect-only, 1 retired. Active denominator UNDETERMINED. 27 partial page candidates, not 27 accepted conversions.

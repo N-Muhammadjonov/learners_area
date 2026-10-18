@@ -1,3 +1,13 @@
+# V3 continuation notice — current status PARTIAL
+
+Existing27 full source-state audits are unfinished. 81 page records and156 component files remain NOT STARTED; no educational engine/staff completion claim. Proposed adapters and live services are disconnected, but that does not excuse missing native states. Nine Listening activities, reading/writing/speaking/vocabulary/retention engines and most staff/profile/courses/video/support workflows remain engineering work.
+
+Authoritative current record: [CHECKPOINT_V3.md](CHECKPOINT_V3.md); evidence: `evidence/v3/`. Implementation / functional-security / visual-integration percentages remain UNDETERMINED. No production replacement without owner approval.
+
+---
+
+## Historical V2/foundation record — retained, superseded above
+
 # V2 continuation notice — current status PARTIAL
 
 Current authoritative limitations and per-module gaps: CHECKPOINT_V2.md. In particular: 81 NOT STARTED page records; 27 candidates need repair/parity/live testing; missing frontend adapters; Dashboard async region fidelity; Telegram widget CSP; no original comparison; no real recordings/Safari/microphone; no full staff/destructive workflows or retention engines. Do not describe all unfinished UI as externally blocked.

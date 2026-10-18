@@ -1,3 +1,37 @@
+# V3 continuation — PARTIAL, NOT CODE COMPLETE
+
+Current record: [CHECKPOINT_V3](docs/CHECKPOINT_V3.md). [Semantic ledger](docs/ROUTE_LEDGER_V3.md) / [JSON](docs/route-ledger-v3.json). [Contracts](docs/ADAPTER_CONTRACTS_V3.md). [GPT Work handoff](docs/GPT_WORK_HANDOFF.md).
+
+Existing **27 partial / 115 page records; 81 NOT STARTED; 6 redirect-only code-complete; 1 retired; 0 accepted pages**. **50 partial / 206 component files; 156 NOT STARTED; 0 accepted**. Existing27 all-state audits are NOT finished; no broad new product-page expansion. Missing client engines/staff workflows are engineering gaps, not merely external blockers.
+
+Build PASS; **142/142 unit; 27 original + 14 V2 + 49 V3 = 90 Chromium probes PASS**. Selected account/catalogue states cover390×844 /768×1024 /1440×900, EN/UZ, day/night. Fixtures ≠ live; original visual comparisons0; live accepted0; Safari/hardware microphone unverified. No React/Next/virtual DOM/runtime dependency. Real preview APIs return503, never synthetic identities.
+
+```sh
+npm ci --ignore-scripts
+npm run build
+npm test
+npm run preview # 0.0.0.0:4173; disconnected APIs intentionally503
+# separate commands, same preview; source checkout: preserve historical evidence first
+node tests/browser.mjs
+node tests/browser-v2.mjs
+node tests/browser-v3.mjs
+node scripts/performance-v3.mjs # synthetic diagnostic, not original/live acceptance
+python3 scripts/package.py # NEW default: CHECKPOINT_V3, never overwrites V2/PARTIAL
+python3 scripts/package.py --verify
+python3 scripts/package.py --v2 --verify
+python3 scripts/package.py --legacy --verify
+```
+
+Historical test evidence is preserved in the source checkout; new runs are saved under docs/evidence/v3/. Do not overwrite historical evidence when rerunning old harnesses; extract to a disposable directory or back up/restore old outputs. `scripts/ledger-v3.mjs` records conservative manual reconciliation; it does not automatically audit source states. Never rerun historical inventory generators to erase later stages.
+
+Package: `deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V3.zip`; checksum sidecar and independent extraction/install/build/unit/browser evidence are alongside it in `deliverables/V3_VALIDATION.txt` / `v3-validation/`. Dependencies/builds/Git/deliverables/environments excluded; generated source/asset inputs included. Historical PARTIAL and V2 ZIPs unchanged.
+
+Implementation% / functional-security% / visual-integration%: **UNDETERMINED**; fixed source/test counts are not full product acceptance percentages. Full source/client work remains. Owner approval is required before server-adapter integration or production replacement. **main / site / backend / DB / Supabase / Railway / Cloudflare / Telegram / deployments: unchanged.**
+
+---
+
+## Historical V2 README — preserved, superseded by V3 above
+
 # V2 continuation — PARTIAL, not production-ready
 
 Current status and complete module gaps: [CHECKPOINT_V2](docs/CHECKPOINT_V2.md). Current semantic ledger: [ROUTE_LEDGER_V2](docs/ROUTE_LEDGER_V2.md). Proposed integration interfaces: [ADAPTER_CONTRACTS_V2](docs/ADAPTER_CONTRACTS_V2.md). 27 partial page candidates / 115 source page records, 0 accepted. 41 partial component files / 206, 0 accepted.

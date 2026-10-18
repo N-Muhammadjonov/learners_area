@@ -1,3 +1,13 @@
+# V3 continuation notice — current status PARTIAL
+
+Current source-file stages:50 IN PROGRESS,156 NOT STARTED,0 accepted (206 files). Newly touched section navigation/heading/transition/prewarm/retry/confirmation primitives are partial candidates, not completion. Use route-ledger-v3.json; do not treat the historical component matrix below as current.
+
+Authoritative current record: [CHECKPOINT_V3.md](CHECKPOINT_V3.md); evidence: `evidence/v3/`. Implementation / functional-security / visual-integration percentages remain UNDETERMINED. No production replacement without owner approval.
+
+---
+
+## Historical V2/foundation record — retained, superseded above
+
 # V2 continuation notice — current status PARTIAL
 
 Current source-file component denominator: 206. 41 partially touched native candidates, 165 NOT STARTED, 0 fully accepted. Per-file current statuses are in route-ledger-v2.json → components. An icon file counts once, not per export. Historical rows below are not the current implementation ledger.

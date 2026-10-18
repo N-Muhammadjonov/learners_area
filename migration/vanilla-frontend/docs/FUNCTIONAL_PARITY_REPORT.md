@@ -1,3 +1,13 @@
+# V3 continuation notice — current status PARTIAL
+
+Build PASS;142/142 unit PASS; preserved original27 and V2 14 plus V3 49 Chromium probes PASS (90 total). Original test files unchanged. Real pointer two-tab logout, independent regions, module-nav keyboard/responsive matrix, MCQ, error/retry/cancellation/scroll and code-only warming verified with synthetic fixtures. Full source-state/role/live acceptance0; no route promoted to complete.
+
+Authoritative current record: [CHECKPOINT_V3.md](CHECKPOINT_V3.md); evidence: `evidence/v3/`. Implementation / functional-security / visual-integration percentages remain UNDETERMINED. No production replacement without owner approval.
+
+---
+
+## Historical V2/foundation record — retained, superseded above
+
 # V2 continuation notice — current status PARTIAL
 
 V2 has source-derived native shell/auth/dashboard/catalogue/MCQ/authored-host candidates, not just the historical two pages. See CHECKPOINT_V2.md for EVERY module status. 58/58 unit tests and 41/41 Chromium probes pass (27 unchanged foundation, 14 V2). Whole-route live functional parity remains unverified; 0 accepted routes. Writing/Retention/most staff and attempt screens remain unfinished engineering.

@@ -1,0 +1,50 @@
+LEARNERS AREA — CHECKPOINT V3, PARTIAL (2026-10-18)
+
+Archive: LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V3.zip
+SHA256: 5525c8482e9125c27d7edeaecf25df56f114671e78565ba32dd64495b0aade1d
+Determinism: PASS, two package builds produced identical SHA256.
+Native code checkpoint: a4f72f8e558398e83d2ad268b1485d343eb0cb1e
+Earlier V3 native checkpoint: 6259ff18f5eb71186c41b7e209352c5b0f6f2343
+V2 checkpoint: b22a0f4c56d3099d5e02739521c5c66d12f78196
+Original/main baseline: 9a7d9fc5a93608078644d61cd9f9850c05c4ddc8
+Branch: arena/96836bcf-learners-area only.
+Final delivery commit cannot be embedded in itself; see final response/Git HEAD.
+
+Independent validation (NOT just rerunning source tests):
+1. Extract finalized ZIP to fresh node_modules/checkpoint-v3-independent.
+2. Confirm no node_modules/build/src and no original src at build's ../.. lookup.
+3. Verify all257 SHA256SUMS members before installation.
+4. npm ci --ignore-scripts: PASS, fresh local dependencies, Node22.22.3.
+5. npm run build: PASS, standalone generated inputs, no original checkout source.
+6. npm test:142/142 PASS,0FAIL.
+7. Stop source4173 preview; start server from independent extraction,0.0.0.0:4173.
+   Server cwd/port evidence: v3-validation/archive-preview-process.txt.
+8. Unchanged original browser harness:27/27 PASS.
+9. Unchanged V2 browser harness:14/14 PASS.
+10. V3 browser harness:49/49 PASS. Total90/90; inspected JSON counts.
+11. Existing browser fixtures test scoped workflows. Real unmocked APIs503,
+    strict CSP, static assets/fonts, range/deep-link behavior verified by suites.
+12. Restore packaged historical evidence inside disposable extraction after old
+    harnesses regenerate outputs; re-verify all257 source/asset/evidence hashes,
+    including25 asset/font files. Two generated manifests are also ZIP-verified.
+13. Final archive/internal checksums/sidecar: PASS; historical PARTIAL/V2 verify.
+
+Raw install/build/TAP/browser outputs, counts, versions and summary:
+  deliverables/v3-validation/
+The ZIP was finalized BEFORE independent tests. These validation files are
+external to it to avoid recursive self-validation/repackaging claims.
+
+Historical immutable archive SHA256s:
+PARTIAL: 26066105e78eed7d2436782bd2e4fcf18430fbd32b736ccd6217d799b5b3f6bb
+V2: 7de4a25577bcaa517e3b04f712e2de438c4a8108307f8e4394213acf2a3fc48a
+
+Limits:27 existing partial page candidates/81NOT STARTED;50partial component
+files/156NOT STARTED;0accepted pages/components. Existing27 complete-state audit
+NOT finished. No original visual comparisons or live accepted routes. No Safari,
+hardware microphone, real role/private media/recording acceptance. Fixtures do not
+make missing client engines or staff actions externally blocked/code-complete.
+Three requested percentages remain UNDETERMINED; stable source/test counts are
+in CHECKPOINT_V3 and route-ledger-v3.json, not completion percentages.
+
+NO main/site/backend/DB/Supabase/Railway/Cloudflare/Telegram/deployment changes.
+Owner approval mandatory before backend integration or production replacement.

@@ -1,3 +1,13 @@
+# V3 continuation notice — current status PARTIAL
+
+No backend endpoint added or rewritten. Existing original handlers remain214 indexed files. Proposed frontend public/session/view adapters (including independent dashboard region reads) are documented in ADAPTER_CONTRACTS_V3.md; source functions, safe projections and remaining nested-schema/client gaps are explicit. All live acceptance is still unverified.
+
+Authoritative current record: [CHECKPOINT_V3.md](CHECKPOINT_V3.md); evidence: `evidence/v3/`. Implementation / functional-security / visual-integration percentages remain UNDETERMINED. No production replacement without owner approval.
+
+---
+
+## Historical V2/foundation record — retained, superseded above
+
 # V2 continuation notice — current status PARTIAL
 
 See ADAPTER_CONTRACTS_V2.md for proposed /api/frontend/{public,session,view} interfaces and actual reused API contracts. They do NOT exist in the backend and were NOT implemented here. Auth-state/SSE/reconnect/expiry/native teardown candidates now exist; original handler enumeration below remains a source index, not full contract acceptance.

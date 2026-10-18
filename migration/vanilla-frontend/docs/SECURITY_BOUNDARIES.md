@@ -1,3 +1,13 @@
+# V3 continuation notice — current status PARTIAL
+
+HttpOnly/server authority unchanged. Improved fresh session/role/status scope clearing, expiry/SSE/401/real pointer two-tab teardown, safe error redaction, source confirmation cleanup and code-only prewarm. Opaque iframe allow-scripts only; no CSP weakening. Fixture tests are not full security/live permissions acceptance. Many nested DTO schemas, role/staff/media/outbox workflows need engineering/verification. Audit now5 high dev-only /0 moderate /0 critical; runtime-only npm audit0, not a vulnerability-free claim.
+
+Authoritative current record: [CHECKPOINT_V3.md](CHECKPOINT_V3.md); evidence: `evidence/v3/`. Implementation / functional-security / visual-integration percentages remain UNDETERMINED. No production replacement without owner approval.
+
+---
+
+## Historical V2/foundation record — retained, superseded above
+
 # V2 continuation notice — current status PARTIAL
 
 V2 adds server DTO validation, explicit protected-route gating, separate shell/authority lifetimes, SSE/reconnect/coalescing, expiry, 401/multi-tab logout, scoped teardown, original opaque sandbox protocols and native media disposal. These are candidates/subset-tested, NOT fully security audited. No backend authority changed. All original nine activities, live capability expiry/revocation/permissions/outbox/multi-tab and destructive role workflows still require real verification. 7 dev audit findings remain.
