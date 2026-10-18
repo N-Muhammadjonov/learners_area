@@ -137,3 +137,92 @@ test('generic authored compatibility still waits for its inert media Blobs',asyn
  try{await act(async()=>root.render(<AuthoredListeningFrame id="legacy" userId="student" dict={en}/>));assert.equal(document.querySelector('iframe'),null);await act(async()=>finish!());assert.ok(document.querySelector('iframe'));}
  finally{await act(async()=>root.unmount());globalThis.fetch=oldFetch;URL.createObjectURL=oldCreate;URL.revokeObjectURL=oldRevoke;}
 });
+
+test('a stale offline outbox hydrates the newer saved attempt, keeps an exportable copy, and allows later practice saves',async()=>{
+ const oldFetch=globalThis.fetch,oldCreate=URL.createObjectURL,oldRevoke=URL.revokeObjectURL;
+ const storageKey='la_listening_test_1_v2',stateKey='la-authored-listening:conflict-student:conflict';
+ const offline={[storageKey]:JSON.stringify({attemptKey:'11111111-1111-4111-8111-111111111111',attemptStatus:'exited',answers:{1:'unsent answer'},submitted:false})};
+ const canonical={[storageKey]:JSON.stringify({attemptKey:'22222222-2222-4222-8222-222222222222',attemptStatus:'exited',answers:{1:'saved answer'},submitted:false})};
+ localStorage.setItem(stateKey+':pending',JSON.stringify(offline));
+ let initial:{html:string}|undefined,child:JSDOM|undefined;
+ const writes:Record<string,string>[]=[];
+ globalThis.fetch=async(input,init)=>{
+  const url=String(input);
+  if(url.endsWith('/authored'))return Response.json(content);
+  if(url.endsWith('/authored-state')){
+   if(init?.method==='PUT'){
+    const values=JSON.parse(String(init.body));writes.push(values);
+    return writes.length===1?Response.json({error:'stale_checkpoint',values:canonical},{status:409}):Response.json({values});
+   }
+   return Response.json({values:canonical});
+  }
+  if(url.includes('capability=1'))return Response.json({url:'https://media.fixture/audio',key:'fixture.mp3',expiresAt:Date.now()+60000});
+  return new Response(new Blob(['fixture audio']));
+ };
+ URL.createObjectURL=()=> 'blob:https://parent.fixture/conflict';URL.revokeObjectURL=()=>{};
+ const root=createRoot(document.getElementById('root')!);
+ try{
+  await act(async()=>root.render(<AuthoredListeningFrame id="conflict" userId="conflict-student" dict={en}/>));
+  const iframe=document.querySelector('iframe')!,sourceWindow=iframe.contentWindow!;
+  const host={postMessage(data:unknown){dom.window.dispatchEvent(new dom.window.MessageEvent('message',{data,source:sourceWindow}));}};
+  sourceWindow.postMessage=data=>{if(data.channel==='learners-area-sandbox-init')initial=data;else child?.window.dispatchEvent(new child.window.MessageEvent('message',{data,source:host as unknown as Window}));};
+  await act(async()=>iframe.dispatchEvent(new dom.window.Event('load')));
+  await act(async()=>{child=new JSDOM(initial!.html,{runScripts:'dangerously',url:'https://opaque.fixture',beforeParse(w){Object.defineProperty(w,'parent',{value:host});w.scrollTo=()=>{};w.requestAnimationFrame=callback=>{queueMicrotask(()=>callback(0));return 1;};w.HTMLMediaElement.prototype.pause=()=>{};}});await new Promise(resolve=>setTimeout(resolve,0));});
+  assert.equal(document.querySelector('[role="alert"]'),null);
+  assert.match(document.querySelector('[data-checkpoint-recovered]')!.textContent!,/latest saved test/);
+  assert.equal(localStorage.getItem(stateKey+':pending'),null);
+  const archives=Object.keys(localStorage).filter(key=>key.startsWith(stateKey+':conflict:'));
+  assert.equal(archives.length,1);
+  assert.deepEqual(JSON.parse(localStorage.getItem(archives[0]!)!).drafts,[offline]);
+  assert.deepEqual(JSON.parse(child!.window.localStorage.getItem(storageKey)!),JSON.parse(canonical[storageKey]));
+  assert.equal(document.querySelector('[data-checkpoint-recovered] button')!.textContent,en.fullListeningHub.downloadUnsentWork);
+  const d=child!.window.document;
+  await act(async()=>{d.querySelector<HTMLButtonElement>('[data-open="script"]')!.click();await new Promise(resolve=>setTimeout(resolve,500));});
+  assert.ok(writes.length>=2,'a practice update saves after conflict recovery');
+  assert.equal(JSON.parse(writes.at(-1)![storageKey]!).attemptKey,JSON.parse(canonical[storageKey]).attemptKey,'subsequent writes use the saved attempt, not the stale offline key');
+ }finally{
+  child?.window.close();await act(async()=>root.unmount());globalThis.fetch=oldFetch;URL.createObjectURL=oldCreate;URL.revokeObjectURL=oldRevoke;
+  for(const key of Object.keys(localStorage))if(key.startsWith(stateKey))localStorage.removeItem(key);
+ }
+});
+
+test('an in-flight conflict archives later queued work and remounts once without replaying stale writes',async()=>{
+ const oldFetch=globalThis.fetch,oldCreate=URL.createObjectURL,oldRevoke=URL.revokeObjectURL;
+ const key='la_listening_test_1_v2',stateKey='la-authored-listening:queued-student:queued';
+ const old={attemptKey:'11111111-1111-4111-8111-111111111111',attemptStatus:'exited',answers:{1:'first offline'}};
+ const first={[key]:JSON.stringify(old)},last={[key]:JSON.stringify({...old,answers:{1:'later offline'}})};
+ const saved={[key]:JSON.stringify({...old,attemptKey:'22222222-2222-4222-8222-222222222222',answers:{1:'newer saved'}})};
+ let initial:{html:string}|undefined,contentReads=0,writeCount=0,release:((response:Response)=>void)|undefined;
+ const blocked=new Promise<Response>(resolve=>{release=resolve;});
+ globalThis.fetch=async(input,init)=>{
+  const url=String(input);
+  if(url.endsWith('/authored')){contentReads++;return Response.json(content);}
+  if(url.endsWith('/authored-state')){if(init?.method==='PUT'){writeCount++;return blocked;}return Response.json({values:contentReads>1?saved:first});}
+  if(url.includes('capability=1'))return Response.json({url:'https://media.fixture/audio',key:'fixture.mp3',expiresAt:Date.now()+60000});
+  return new Response(new Blob(['fixture']));
+ };
+ URL.createObjectURL=()=> 'blob:https://parent.fixture/queued';URL.revokeObjectURL=()=>{};
+ const root=createRoot(document.getElementById('root')!);
+ try{
+  await act(async()=>root.render(<AuthoredListeningFrame id="queued" userId="queued-student" dict={en}/>));
+  const iframe=document.querySelector('iframe')!,sourceWindow=iframe.contentWindow!;
+  sourceWindow.postMessage=data=>{if(data.channel==='learners-area-sandbox-init')initial=data;};
+  await act(async()=>iframe.dispatchEvent(new dom.window.Event('load')));
+  const token=JSON.parse(/const token=("[^"]+"), initial=/.exec(initial!.html)![1]!);
+  const send=(op:string,rest={})=>window.dispatchEvent(new dom.window.MessageEvent('message',{source:sourceWindow,data:{channel:'learners-area-authored-v1',token,op,...rest}}));
+  await act(async()=>{send('hub-ready');send('hydrated');send('storage',{values:first});send('storage',{values:last});await Promise.resolve();});
+  assert.equal(writeCount,1);
+  await act(async()=>{release!(Response.json({error:'stale_checkpoint',values:saved},{status:409}));await new Promise(resolve=>setTimeout(resolve,0));});
+  assert.equal(writeCount,1,'the queued stale snapshot must never reach the server');
+  assert.equal(contentReads,2,'only one fresh hydration is needed');
+  assert.notEqual(document.querySelector('iframe'),iframe,'the old in-memory attempt cannot keep writing after recovery');
+  assert.equal(localStorage.getItem(stateKey+':pending'),null);
+  const backupKey=Object.keys(localStorage).find(k=>k.startsWith(stateKey+':conflict:'))!;
+  assert.deepEqual(JSON.parse(localStorage.getItem(backupKey)!).drafts,[first,last]);
+  assert.ok(document.querySelector('[data-checkpoint-recovered]'));
+  assert.equal(document.querySelector('[role="alert"]'),null);
+ }finally{
+  release?.(Response.json({values:saved}));await act(async()=>root.unmount());globalThis.fetch=oldFetch;URL.createObjectURL=oldCreate;URL.revokeObjectURL=oldRevoke;
+  for(const item of Object.keys(localStorage))if(item.startsWith(stateKey))localStorage.removeItem(item);
+ }
+});

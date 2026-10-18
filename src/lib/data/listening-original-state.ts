@@ -12,6 +12,12 @@ import { type ListeningPackage } from '@/lib/listening/package';
 
 // Private runtime checkpoints never appear in graded activity history.
 const scope = (userId: string, testId: string) => and(eq(listeningAuthoredCheckpoints.userId,userId),eq(listeningAuthoredCheckpoints.testId,testId));
+export class StaleListeningCheckpointError extends Error {
+  constructor(readonly values: Record<string,string>) {
+    super('stale_checkpoint');
+    this.name = 'StaleListeningCheckpointError';
+  }
+}
 export async function originalListeningState(userId: string, testId: string, database = db, storageKey = ORIGINAL_TEST_ONE_STORAGE) {
   const row = await database.query.listeningAuthoredCheckpoints.findFirst({where:scope(userId,testId)});
   if(row) return row.values;
@@ -39,7 +45,7 @@ export async function saveOriginalListeningState(userId: string, testId: string,
     const previousValues = old?.values ?? {};
     const previous = JSON.parse(previousValues[storageKey] || '{}');
     let attemptId = old?.attemptId || '';
-    if (previous.attemptKey && raw.attemptKey && previous.attemptKey !== raw.attemptKey && raw.attemptStatus !== 'in_progress') throw Error('stale_checkpoint');
+    if (previous.attemptKey && raw.attemptKey && previous.attemptKey !== raw.attemptKey && raw.attemptStatus !== 'in_progress') throw new StaleListeningCheckpointError(previousValues);
     if (previous.attemptKey && raw.attemptKey === previous.attemptKey && ['submitted','exited'].includes(previous.attemptStatus) && raw.attemptStatus === 'in_progress') return {values:previousValues,attemptId};
     if (['in_progress','submitted','exited'].includes(raw.attemptStatus ?? '') && (!attemptId || raw.attemptStatus === 'in_progress' && previous.attemptStatus !== 'in_progress')) {
       attemptId = await startListeningAttempt(userId,testId,tx as never) || '';
