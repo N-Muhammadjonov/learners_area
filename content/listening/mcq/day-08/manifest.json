@@ -1,0 +1,61 @@
+{
+  "day": 8,
+  "sourceRef": "listening-mcq-day-08",
+  "originalFilename": "DAY 8 MCQ.html",
+  "originalSha256": "305d0f7328e57aaa2b5f8fcd4993a42c4a1828f2048a278ac33817e534e3ddb1",
+  "questionCount": 5,
+  "media": [
+    {
+      "question": 1,
+      "path": "audio/question-01.mp3",
+      "objectKey": "listening/mcq/day-08/question-01.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 820811,
+      "sha256": "a419ee047571f389bafbb195df71ceec9fb14eccdae4cce29096805857cdfe87",
+      "present": true,
+      "durationSeconds": 82.050612
+    },
+    {
+      "question": 2,
+      "path": "audio/question-02.mp3",
+      "objectKey": "listening/mcq/day-08/question-02.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 820811,
+      "sha256": "a419ee047571f389bafbb195df71ceec9fb14eccdae4cce29096805857cdfe87",
+      "present": true,
+      "durationSeconds": 82.050612
+    },
+    {
+      "question": 3,
+      "path": "audio/question-03.mp3",
+      "objectKey": "listening/mcq/day-08/question-03.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 420764,
+      "sha256": "fefefe35584b03e747d891c747e2bcb9e1a0605f3f78b6174fb03f545cb9acbd",
+      "present": true,
+      "durationSeconds": 42.048
+    },
+    {
+      "question": 4,
+      "path": "audio/question-04.mp3",
+      "objectKey": "listening/mcq/day-08/question-04.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 450764,
+      "sha256": "e08f34ed8b8f6f975be954801c053e4e5d428a5d48da45367239f23541e78827",
+      "present": true,
+      "durationSeconds": 45.048
+    },
+    {
+      "question": 5,
+      "path": "audio/question-05.mp3",
+      "objectKey": "listening/mcq/day-08/question-05.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 520844,
+      "sha256": "bbfe63f0adf9adc197b13ea4a3927e6a3d241fe250ff63b9c0ba785bd677b567",
+      "present": true,
+      "durationSeconds": 52.056
+    }
+  ],
+  "sourceSha256": "867de15bcef6f835e808e5bdad10de720e2fb948fb3cd1326383baea89f1f007",
+  "questionsSha256": "7ccccd9364f2018509a89915c0c6509e0f4e65146d709143ec3b505efe393564"
+}

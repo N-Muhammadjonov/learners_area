@@ -1,0 +1,132 @@
+[
+  {
+    "q": 92,
+    "sourceLabel": "Test 92",
+    "topic": "Art Exhibition - Last Year's Work",
+    "prompt": "In last year's exhibition, both students were impressed by",
+    "options": [
+      {
+        "code": "A",
+        "text": "a set of metal sculptures."
+      },
+      {
+        "code": "B",
+        "text": "a series of wooden models."
+      },
+      {
+        "code": "C",
+        "text": "a collection of textile designs."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Both students remember the wooden cars and trains and agree that the work was delicate. The textiles are not remembered by both, and metal is mentioned only as a comparison.",
+    "why": "The shared positive reaction is to the wooden models, so option B is correct.",
+    "trap": "A: Metal sculptures are not the work both students identify as impressive. C: The textile designs are not remembered positively by both speakers.",
+    "explanation": "The common point of agreement concerns the delicate wooden models shown in the previous year's exhibition.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 93,
+    "sourceLabel": "Test 93",
+    "topic": "Art Exhibition - Expectations",
+    "prompt": "Max and Abby agree that in the art exhibition they are looking forward to",
+    "options": [
+      {
+        "code": "A",
+        "text": "showing people their work."
+      },
+      {
+        "code": "B",
+        "text": "getting feedback from their tutor."
+      },
+      {
+        "code": "C",
+        "text": "talking to other students about their displays."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Abby says she is excited about letting friends and family see what she has produced, and Max responds, 'Me too.' They do not show the same shared enthusiasm about tutor feedback or the other students' displays.",
+    "why": "Both explicitly agree that they are looking forward to showing other people their own work, so option A is correct.",
+    "trap": "B: Abby wonders what tutor feedback will be like, while Max says he is nervous about it. C: Max is keen to see other students' work, but Abby points out that they have already seen it during the year.",
+    "explanation": "Their shared excitement is about presenting their own finished work to friends, family and other visitors.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 94,
+    "sourceLabel": "Test 94",
+    "topic": "Fishing Competition - Judging",
+    "prompt": "What will happen at 6pm on Sunday?",
+    "options": [
+      {
+        "code": "A",
+        "text": "The time allocated for fishing will end."
+      },
+      {
+        "code": "B",
+        "text": "The fish caught will be judged."
+      },
+      {
+        "code": "C",
+        "text": "The prizes will be awarded to the winners."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Fishing stops at 5:30 p.m. At exactly 6 p.m., the judges begin weighing the fish to determine the winners. Prize-giving takes place later in the evening.",
+    "why": "The 6 p.m. activity is the judging and weighing of the fish, which matches option B.",
+    "trap": "A: Fishing ends at 5:30 p.m., not 6 p.m. C: Prize-giving happens later in the evening.",
+    "explanation": "At 6 p.m. the judges start weighing the catches to decide the winners.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 95,
+    "sourceLabel": "Test 95",
+    "topic": "Fishing Competition - Licence",
+    "prompt": "Participants without a fishing license are recommended to apply for one",
+    "options": [
+      {
+        "code": "A",
+        "text": "at the registration desk."
+      },
+      {
+        "code": "B",
+        "text": "over the phone."
+      },
+      {
+        "code": "C",
+        "text": "on the internet."
+      }
+    ],
+    "answer": "C",
+    "evidence": "Online applications produce a licence immediately. Licences cannot be sold at the competition, while a telephone application is sent by post and would not arrive in time.",
+    "why": "Applying online is the only method described as immediate enough for participants who still need a licence, so option C is correct.",
+    "trap": "A: The organisers are not allowed to sell licences at the competition. B: Applying by phone results in postal delivery, which is too slow for the current event.",
+    "explanation": "Participants who still need a licence should apply online because it can be issued immediately.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 96,
+    "sourceLabel": "Test 96",
+    "topic": "Fishing Competition - Entrance Fee",
+    "prompt": "What does the entrance fee to the competition include?",
+    "options": [
+      {
+        "code": "A",
+        "text": "equipment for fishing"
+      },
+      {
+        "code": "B",
+        "text": "all food for both days"
+      },
+      {
+        "code": "C",
+        "text": "fuel for the fishing boat"
+      }
+    ],
+    "answer": "B",
+    "evidence": "The competition is fully catered, so participants can use the dining tent whenever they are hungry today or tomorrow. They must bring their own fishing equipment and pay for boat petrol themselves.",
+    "why": "Food for both days is included in the entrance fee, which matches option B.",
+    "trap": "A: Participants are expected to bring their own hooks, rods and other fishing gear. C: Anyone using a boat must cover the cost of petrol separately.",
+    "explanation": "The entrance fee covers catering throughout both days, but not fishing equipment or boat fuel.",
+    "audio": "audio/question-05.mp3"
+  }
+]

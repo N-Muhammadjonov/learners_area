@@ -1,0 +1,1779 @@
+{
+  "source": "Owner-supplied Desktop MCQ HTML",
+  "days": [
+    {
+      "day": 1,
+      "sourceRef": "listening-mcq-day-01",
+      "originalFilename": "DAY 1 MCQ.html",
+      "originalSha256": "2529366fce9cb26e069d45775d66e1627e88464806637d58010e4b0f46949cb7",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-01/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 320566,
+          "sha256": "022fa2db8b7421b4ab0d3a3da99eae18b289d1230bc6687daad3cb101d18c22d",
+          "present": true,
+          "durationSeconds": 32.026122
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-01/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 185775,
+          "sha256": "fa2b983498127c26df22e3a965941a0d16fe0a2e9b56faef1c2d1a12d1b79be4",
+          "present": true,
+          "durationSeconds": 18.546939
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-01/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 385611,
+          "sha256": "61000941e1c57c4245736830123959fd39a739b9ed8210b4f595003336ad2fb3",
+          "present": true,
+          "durationSeconds": 38.530612
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-01/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 415652,
+          "sha256": "1903d172136d358526c990549268a2f1ff9bb5b1ff6f841230cdf1d968347ee1",
+          "present": true,
+          "durationSeconds": 41.534694
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-01/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 365758,
+          "sha256": "33e721b90906dcc0539ece5adab5b974aff72db850e4f9c5023d9702770b7269",
+          "present": true,
+          "durationSeconds": 36.545306
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "sourceRef": "listening-mcq-day-02",
+      "originalFilename": "DAY 2 MCQ.html",
+      "originalSha256": "5d42df7fbb87c189ee22e3714b41cc30d89f5cafd8791dd1a81a2985ee201f7b",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-02/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 375685,
+          "sha256": "62aa4d94eaf528d50f9def45b053cddf4915209148eee378cfca120b6d69496a",
+          "present": true,
+          "durationSeconds": 37.537959
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-02/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 144762,
+          "sha256": "bbd85fb4a7e78e9b062b5eceef2b4a91169866e17efc1242ed7ab144ef2dc534",
+          "present": true,
+          "durationSeconds": 14.445714
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-02/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 153905,
+          "sha256": "a42315bfa7b78685898aba79d59f1c511978f6de11ecb2cba569975dc587d7d9",
+          "present": true,
+          "durationSeconds": 15.36
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-02/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 226787,
+          "sha256": "45cf63c823fa289bc9a5c8d8d9b556e567bfaa59c95f81a2cdc0d41768377ffc",
+          "present": true,
+          "durationSeconds": 22.648163
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-02/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 215815,
+          "sha256": "2acfd7bc618dd6ead4febd707918800f9c6c6c692889d817c6879594b1d254ab",
+          "present": true,
+          "durationSeconds": 21.55102
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "sourceRef": "listening-mcq-day-03",
+      "originalFilename": "DAY 3 MCQ.html",
+      "originalSha256": "e34c47c66514bf93778dc4c0c5279693122216c4651768db8651359a8e3842d5",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-03/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 310901,
+          "sha256": "6949e0dfe7786e62553702a297210a9dd685fdfa4351e0285d68e7c32486042d",
+          "present": true,
+          "durationSeconds": 31.059592
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-03/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 304893,
+          "sha256": "ec0567f645dbec1910d5667515bb1b0787034bc4c1a2a5a8d4afe46e46c628f7",
+          "present": true,
+          "durationSeconds": 30.458776
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-03/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 270934,
+          "sha256": "b58433f30dda29eed190016b968fbfc0ba4c27a4816c5b98f3ae010ce46c9ca6",
+          "present": true,
+          "durationSeconds": 27.062857
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-03/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 395799,
+          "sha256": "1c36305daa993b5b2886dc9f2f5b268d0f4b2bfa268ea4b41ebb9da33e293d8e",
+          "present": true,
+          "durationSeconds": 39.549388
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-03/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 378036,
+          "sha256": "0e2fdef4fc7745083fa856f1143a79fa8be33253c7266df6b225bb0d74e865ca",
+          "present": true,
+          "durationSeconds": 37.773061
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "sourceRef": "listening-mcq-day-04",
+      "originalFilename": "DAY 4 MCQ.html",
+      "originalSha256": "a42e01fc17d85e830322d74a1aaff044d5bc82198f539beecc978e65a3e8ff98",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-04/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 380648,
+          "sha256": "48ce43dbd55c6d69f21b78737cba89e1992625f5f500156e63582a294ea613af",
+          "present": true,
+          "durationSeconds": 38.034286
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-04/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 352958,
+          "sha256": "85a7f7c190977dd582cafd991f90ab124b0a84093f5a79009049cce9156f87f4",
+          "present": true,
+          "durationSeconds": 35.265306
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-04/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 349824,
+          "sha256": "53641cba138a40c37f3f5165be111176cf2f9c02af321c9a31613017e311c1fa",
+          "present": true,
+          "durationSeconds": 34.951837
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-04/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 242722,
+          "sha256": "e01e4ffd9c3dd2586815c6dadebde72e725819acc37d005fbd5dff6197d25cde",
+          "present": true,
+          "durationSeconds": 24.241633
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-04/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 230966,
+          "sha256": "43f7a9aaca3657aced2e83d585bc4e58c31c9010eb20181bfbf0213efe4839b9",
+          "present": true,
+          "durationSeconds": 23.066122
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "sourceRef": "listening-mcq-day-05",
+      "originalFilename": "DAY 5 MCQ.html",
+      "originalSha256": "abc944b94eb17d67320918adeb82e5ac6e35ea59197f0d4b77b4e549d8e9a583",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-05/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 240632,
+          "sha256": "8673135c610b0670c01687701db1e7282c4e3be906b139c4f23cf21f705bbfa6",
+          "present": true,
+          "durationSeconds": 24.032653
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-05/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 243766,
+          "sha256": "0d90fe5700bf475129fa390e02fde4b7adec282d3ea385878e676bb492d2dbe9",
+          "present": true,
+          "durationSeconds": 24.346122
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-05/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 272762,
+          "sha256": "e1b1ede93927053a56e4d9d2bb4d9df50550d57dac103c63f62aac85c3431b82",
+          "present": true,
+          "durationSeconds": 27.245714
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-05/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 126738,
+          "sha256": "083a90e389555e82f57681785403f61875845611e957a0d4778559397aa7f0ad",
+          "present": true,
+          "durationSeconds": 12.643265
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-05/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 293922,
+          "sha256": "7bb4313f4f89b6ff65ddfacd48b52467b4aa0a81e94f506100498bc79d324352",
+          "present": true,
+          "durationSeconds": 29.361633
+        }
+      ]
+    },
+    {
+      "day": 6,
+      "sourceRef": "listening-mcq-day-06",
+      "originalFilename": "DAY 6 MCQ.html",
+      "originalSha256": "ce0e50cbeb7feff14eb56513d84595b32a4a2dd0252b79950e0e82465f2a96de",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-06/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 258918,
+          "sha256": "e751dc39ea8b132f8f9dbc59afcc0138125790790aea22a086e0a07e187d797d",
+          "present": true,
+          "durationSeconds": 25.861224
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-06/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 315864,
+          "sha256": "3c3a43a82938def84d5cf5694d24fa335d2f77189076395e7972e1f951a3c484",
+          "present": true,
+          "durationSeconds": 31.555918
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-06/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 411734,
+          "sha256": "96368472bc0cf34e6444ac0b606993e5ee221f8079037306c69c9e31b59af365",
+          "present": true,
+          "durationSeconds": 41.142857
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-06/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 216860,
+          "sha256": "eb02cd3d084c31f714c6d0215f7e6b7e3eaefd6250a31ce789bbbcef40ec16da",
+          "present": true,
+          "durationSeconds": 21.65551
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-06/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 356615,
+          "sha256": "e336280ede794f9a9f27c205b0a35be83248d8eb90e64ddb5ad813175ddb1026",
+          "present": true,
+          "durationSeconds": 35.63102
+        }
+      ]
+    },
+    {
+      "day": 7,
+      "sourceRef": "listening-mcq-day-07",
+      "originalFilename": "DAY 7 MCQ.html",
+      "originalSha256": "fabece58f0795e2ff6f143ac8f5ac88283a78e9bb8de9346110e9ebcbbf734cc",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-07/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 251864,
+          "sha256": "1b1452a58d4734768b257dcdaa69f425c90dde9ef5b9deb743226d49e785685f",
+          "present": true,
+          "durationSeconds": 25.155918
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-07/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 340942,
+          "sha256": "5136f8a875447aa6db972dd9d8893cef2cfc57e7170aefd5ac966feeb159f87e",
+          "present": true,
+          "durationSeconds": 34.063673
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-07/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 343815,
+          "sha256": "f872116d60988132cf547ccaddc51e1a61c96937f7a247d0a8667cd8f08d759d",
+          "present": true,
+          "durationSeconds": 34.35102
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-07/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 800958,
+          "sha256": "c835aa0e6866032784034362518d15d8d4583ef70477b4bdc20c874e53e8f109",
+          "present": true,
+          "durationSeconds": 80.065306
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-07/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 800958,
+          "sha256": "c835aa0e6866032784034362518d15d8d4583ef70477b4bdc20c874e53e8f109",
+          "present": true,
+          "durationSeconds": 80.065306
+        }
+      ]
+    },
+    {
+      "day": 8,
+      "sourceRef": "listening-mcq-day-08",
+      "originalFilename": "DAY 8 MCQ.html",
+      "originalSha256": "305d0f7328e57aaa2b5f8fcd4993a42c4a1828f2048a278ac33817e534e3ddb1",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-08/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 820811,
+          "sha256": "a419ee047571f389bafbb195df71ceec9fb14eccdae4cce29096805857cdfe87",
+          "present": true,
+          "durationSeconds": 82.050612
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-08/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 820811,
+          "sha256": "a419ee047571f389bafbb195df71ceec9fb14eccdae4cce29096805857cdfe87",
+          "present": true,
+          "durationSeconds": 82.050612
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-08/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 420764,
+          "sha256": "fefefe35584b03e747d891c747e2bcb9e1a0605f3f78b6174fb03f545cb9acbd",
+          "present": true,
+          "durationSeconds": 42.048
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-08/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 450764,
+          "sha256": "e08f34ed8b8f6f975be954801c053e4e5d428a5d48da45367239f23541e78827",
+          "present": true,
+          "durationSeconds": 45.048
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-08/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 520844,
+          "sha256": "bbfe63f0adf9adc197b13ea4a3927e6a3d241fe250ff63b9c0ba785bd677b567",
+          "present": true,
+          "durationSeconds": 52.056
+        }
+      ]
+    },
+    {
+      "day": 9,
+      "sourceRef": "listening-mcq-day-09",
+      "originalFilename": "DAY 9 MCQ.html",
+      "originalSha256": "c44917b235743d3df383e059d29c251254d8bef160cc45551757a9c5fc947962",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-09/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 620684,
+          "sha256": "3f9e46e9fd59a369f59d871e9421feff9e2aa57e9f8d1ecd6af41e90ef924edc",
+          "present": true,
+          "durationSeconds": 62.04
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-09/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 540764,
+          "sha256": "609939a1e2a04cbc7f296460e1af6298e302977dea710c9f7407cd5780c42086",
+          "present": true,
+          "durationSeconds": 54.048
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-09/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 400844,
+          "sha256": "bd5ff4c6d2704406f0ccfbfd9982afbda9f01ad601e905671efd7d329a7aa5d8",
+          "present": true,
+          "durationSeconds": 40.056
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-09/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 410684,
+          "sha256": "b038a4e73e0cf9a80c01edc44fb60d58ae611a4a24dc51d30e22d8ec42b04802",
+          "present": true,
+          "durationSeconds": 41.04
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-09/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 350684,
+          "sha256": "bc02bdd0fc202867bfddd131a26ac66554bdd6d6f3c6620d7626ea32dca35e84",
+          "present": true,
+          "durationSeconds": 35.04
+        }
+      ]
+    },
+    {
+      "day": 10,
+      "sourceRef": "listening-mcq-day-10",
+      "originalFilename": "DAY 10 MCQ.html",
+      "originalSha256": "bc368189e09a69a5ce3ad3c7bd5d1408c3a74dfe39af08786481c8635bc4efd4",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-10/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 420764,
+          "sha256": "ae9e0aafb93958809d6f9f773d3b63c44e0dfad1ae4d66a128762838a9156e7c",
+          "present": true,
+          "durationSeconds": 42.048
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-10/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 450764,
+          "sha256": "4e6fcdce7fecf14104809b87ba01f353b3eb76d07ded4150cf0301b59fa23d27",
+          "present": true,
+          "durationSeconds": 45.048
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-10/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 570820,
+          "sha256": "a3845868b270931ec025ef4f2c46e6b3f4d17aa041b378c2bdcf77a2a68e2f64",
+          "present": true,
+          "durationSeconds": 57.051429
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-10/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 540779,
+          "sha256": "047a7dbd5e349b711775c51a6efdec5bcb4b72da65df8644b579c8511ca3e219",
+          "present": true,
+          "durationSeconds": 54.047347
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-10/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 730950,
+          "sha256": "f145b30f4ae745d9ebd58969b90deb89dc5ae1f374b47a132d070bbaf9554171",
+          "present": true,
+          "durationSeconds": 73.06449
+        }
+      ]
+    },
+    {
+      "day": 11,
+      "sourceRef": "listening-mcq-day-11",
+      "originalFilename": "DAY 11 MCQ.html",
+      "originalSha256": "a61244645763b08b07b13026fe29959b9f03368eb0cd0dee6d35d9b63a6b2b18",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-11/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 690722,
+          "sha256": "a741f8a45cb1b927fcc2f65af0f157007ba89b5fd39aa0cab9f66ded815f37ef",
+          "present": true,
+          "durationSeconds": 69.041633
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-11/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 360795,
+          "sha256": "08e9ead2a47c43b3f03354aab2d2a5e246ccf5718ce9b2690fb5cc732b60de8c",
+          "present": true,
+          "durationSeconds": 36.04898
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-11/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 279815,
+          "sha256": "69978ef78a2a28daa1718a174a965dd1870f93e561bdcd8871248b627662680a",
+          "present": true,
+          "durationSeconds": 27.95102
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-11/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 271195,
+          "sha256": "a8a079f1ce60628d9017a0ea27ae41d28efa19ca3fa73b0c88a373c8c4dc3613",
+          "present": true,
+          "durationSeconds": 27.08898
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-11/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 305677,
+          "sha256": "b3c75bcd0c57f50d330a45363f4889fdc1b4e3b4fcb2853aefeb924a612ec646",
+          "present": true,
+          "durationSeconds": 30.537143
+        }
+      ]
+    },
+    {
+      "day": 12,
+      "sourceRef": "listening-mcq-day-12",
+      "originalFilename": "DAY 12 MCQ.html",
+      "originalSha256": "125a813fd6d5f74637763d28c0e038cee3ca34155faa9ca1a4c4295a6bd96f2c",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-12/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 316909,
+          "sha256": "e701770debb4dc1c7f30b63f209362044bbd0dfcd3cbc61cf6293655a6591e81",
+          "present": true,
+          "durationSeconds": 31.660408
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-12/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 323179,
+          "sha256": "c8fc400f1d99fe0e9dab0910cd3921afde695ec72f753645d26dfb642fdf1ed4",
+          "present": true,
+          "durationSeconds": 32.287347
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-12/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 264926,
+          "sha256": "c9035276c5d1b4d8825cee269f552f02e67aaf72a98e6c11903744f53a39bc36",
+          "present": true,
+          "durationSeconds": 26.462041
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-12/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 351391,
+          "sha256": "7d752d0d324b844684e3655a17ca23ffd967376b17c2fe200dfde63f9ead5a2a",
+          "present": true,
+          "durationSeconds": 35.108571
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-12/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 202754,
+          "sha256": "6315e3e926faf7d16fb8aa21140f7c65b92f5a07048679a26c05a14d18ec4392",
+          "present": true,
+          "durationSeconds": 20.244898
+        }
+      ]
+    },
+    {
+      "day": 13,
+      "sourceRef": "listening-mcq-day-13",
+      "originalFilename": "DAY 13 MCQ.html",
+      "originalSha256": "4e112d2ba7b028576bdb65b4f5101f14314501fb71fe75070f80a06a256f2bbc",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-13/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 286607,
+          "sha256": "0a833d0860e303f505789de55a1c433f68db330003344311c0cf4af1c62504b4",
+          "present": true,
+          "durationSeconds": 28.630204
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-13/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 279554,
+          "sha256": "dfa52d8aeef95024a56bef38de61bf63ad4c25e18b104527cd541882865a9bcd",
+          "present": true,
+          "durationSeconds": 27.924898
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-13/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 292615,
+          "sha256": "3af7f979d36a28992a719f0e094acf2fe515fb010192f8f33ccdbda9decf6a11",
+          "present": true,
+          "durationSeconds": 29.23102
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-13/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 369415,
+          "sha256": "5cbb2f7d0720d3e2b0618267d9265a77ff5e1b1df14690a7513173d6aa5f0bee",
+          "present": true,
+          "durationSeconds": 36.91102
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-13/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 206411,
+          "sha256": "d6751b19a8d78d45056e95c742a972bb9beb2e488728651b99045d2699005882",
+          "present": true,
+          "durationSeconds": 20.610612
+        }
+      ]
+    },
+    {
+      "day": 14,
+      "sourceRef": "listening-mcq-day-14",
+      "originalFilename": "DAY 14 MCQ.html",
+      "originalSha256": "414a7a5eb3d59cfb36981db5797ad32ad7c2ed521b4864e37a1f4b92402c93b8",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-14/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 300713,
+          "sha256": "32e44bb5e67da7a689e6988fa63a96a2042177bc46c1ee760e28cf8f4505544c",
+          "present": true,
+          "durationSeconds": 30.040816
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-14/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 339375,
+          "sha256": "28fb48861f5cf95c2e86de6143a0a84bd1f1fd1f99268fe68bccb9470b899b8e",
+          "present": true,
+          "durationSeconds": 33.906939
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-14/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 268583,
+          "sha256": "9b3e554c5928c00f6aff281955dc450174922fc24c7251c8122041c7345e2802",
+          "present": true,
+          "durationSeconds": 26.827755
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-14/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 430542,
+          "sha256": "a128697539eccc1e61b06e03082312b54b90d867ed01a06ce1f30ae2496d9af6",
+          "present": true,
+          "durationSeconds": 43.023673
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-14/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 510738,
+          "sha256": "5732b438bf490dda8df40d5352bed56459bace928445d66726341e113c005aaf",
+          "present": true,
+          "durationSeconds": 51.043265
+        }
+      ]
+    },
+    {
+      "day": 15,
+      "sourceRef": "listening-mcq-day-15",
+      "originalFilename": "DAY 15 MCQ.html",
+      "originalSha256": "e8c9aebdc9332156728193092054d7e3aaa623aaed1c5272569e6d61418f153c",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-15/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 300713,
+          "sha256": "c8c40f361349b79151dad5ac373ec5d96dcb618afc6972e7235f596b2a0b50e1",
+          "present": true,
+          "durationSeconds": 30.040816
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-15/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 420615,
+          "sha256": "995bfe56961e671ae7c1b8392e301f76422509665b7646ef96ef12a77592aaaa",
+          "present": true,
+          "durationSeconds": 42.03102
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-15/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 340681,
+          "sha256": "fbc0c19c2f554b4a963e70aa341a1d85816bd64804c1324f31b621a3e0e0889e",
+          "present": true,
+          "durationSeconds": 34.037551
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-15/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 290526,
+          "sha256": "42caff9de4174c50cc33ebf1ef0ec6c3e3cadf0501074c7ffe65602e016b8ea8",
+          "present": true,
+          "durationSeconds": 29.022041
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-15/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 230444,
+          "sha256": "3d7d3dd71dc47b48c1670a08c80bf336a16ac94fff9a6886d77f711296e6eb01",
+          "present": true,
+          "durationSeconds": 23.013878
+        }
+      ]
+    },
+    {
+      "day": 16,
+      "sourceRef": "listening-mcq-day-16",
+      "originalFilename": "DAY 16 MCQ.html",
+      "originalSha256": "95c7579463b4d9d76804d2e7dcd51252fa75dc857f8e6e1fe667b31304cd2da2",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-16/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 270673,
+          "sha256": "2ddb78f1d1f9404cf77213f94ab902166e4410e6f0c9f21ccf0f3b12940df715",
+          "present": true,
+          "durationSeconds": 27.036735
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-16/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 360534,
+          "sha256": "d0e9bdf184cc82cb8cf47ac3b527c1dff3317c2f918c2b933c4a8486dbc6f8b4",
+          "present": true,
+          "durationSeconds": 36.022857
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-16/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 450395,
+          "sha256": "67b68618c9665a3f771ce42a0fdd0c4683a51d48337dacffd14943f497287483",
+          "present": true,
+          "durationSeconds": 45.00898
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-16/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 201709,
+          "sha256": "a210b465ac219b29147df623a18eef2ab1a6d3c9e7956bca2a545e37b0714185",
+          "present": true,
+          "durationSeconds": 20.140408
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-16/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 195440,
+          "sha256": "f3c7d1f9885e70a4a1804648c59de11ebd0ab345c11fc3ad58e23e15a7248bb6",
+          "present": true,
+          "durationSeconds": 19.513469
+        }
+      ]
+    },
+    {
+      "day": 17,
+      "sourceRef": "listening-mcq-day-17",
+      "originalFilename": "DAY 17 MCQ.html",
+      "originalSha256": "2d92aa676c956abe0c947ff5936c83cc80e9302db1464bc339c8a622767f867b",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-17/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 410689,
+          "sha256": "51a1d36dbca0015b5ff86ff7997e1ba144425cc425183b8e502ed3b2cd158bf8",
+          "present": true,
+          "durationSeconds": 41.038367
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-17/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 349562,
+          "sha256": "34d01ca0dae6fcd68914c101b2f8d03210569f6c656046e721b00be48aada924",
+          "present": true,
+          "durationSeconds": 34.925714
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-17/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 344599,
+          "sha256": "86de6df2d4208273cdde66a5ff9d122860d4bac43103a30ac905bb0e8f318d50",
+          "present": true,
+          "durationSeconds": 34.429388
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-17/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 305677,
+          "sha256": "3e8be5607350ff125050d3ce93eb23fd97fce876274125777770e4ad24399ec8",
+          "present": true,
+          "durationSeconds": 30.537143
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-17/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 262052,
+          "sha256": "fdff86cbcb516ed4a6ee60e9dff2a05dfdfeaef9a4d90c7ed02e19910a6217a3",
+          "present": true,
+          "durationSeconds": 26.174694
+        }
+      ]
+    },
+    {
+      "day": 18,
+      "sourceRef": "listening-mcq-day-18",
+      "originalFilename": "DAY 18 MCQ.html",
+      "originalSha256": "1e62cc711035e143f85352b601e34f06e1fab99593655f4869bad24e5f0dceb1",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-18/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 262575,
+          "sha256": "f9c1f93ac0aadf8807208a890ce61e4d14736fe08434e78dca354c445b39336e",
+          "present": true,
+          "durationSeconds": 26.226939
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-18/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 224175,
+          "sha256": "76cef39a5e64f4de4ade2e60ab9808c50f6eefddcf013b8f0d932d10e94a2fbf",
+          "present": true,
+          "durationSeconds": 22.386939
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-18/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 210852,
+          "sha256": "8550cfbcfc4dde1e186b50f2937cb8ab429ca90b5b1a2b9640717055e5447a90",
+          "present": true,
+          "durationSeconds": 21.054694
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-18/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 379603,
+          "sha256": "d60821cdc3789f0551a9b12abfa6a6feb074f2d2489f0bb63befad5569f97997",
+          "present": true,
+          "durationSeconds": 37.929796
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-18/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 313513,
+          "sha256": "0dbfd69375f93a054d16d7b16bd3b268afe5a6921dda5af510091846c5a6954b",
+          "present": true,
+          "durationSeconds": 31.320816
+        }
+      ]
+    },
+    {
+      "day": 19,
+      "sourceRef": "listening-mcq-day-19",
+      "originalFilename": "DAY 19 MCQ.html",
+      "originalSha256": "4ff62c675baa6d14c7bcc586a0fb5001d36156accb9904188f59599948aea11f",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-19/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 265971,
+          "sha256": "cbe58580e379ebbfaba224246db14bc6d025a32ebbb7e047101e7537c21a2505",
+          "present": true,
+          "durationSeconds": 26.566531
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-19/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 326575,
+          "sha256": "fd015da38d13a2da342345ddabed7e1fd9eda89d4bf48fa5d6bd0b5bf137a7ee",
+          "present": true,
+          "durationSeconds": 32.626939
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-19/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 259179,
+          "sha256": "7cfc5f6c814657e236ca038431e8726c35fc22ae7fcf0c07d301b700a0a74d6a",
+          "present": true,
+          "durationSeconds": 25.887347
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-19/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 418526,
+          "sha256": "67a43f30e723ad4b5f1a394553826d559e4fda5f991c73bfb65ed8c3f01183af",
+          "present": true,
+          "durationSeconds": 41.822041
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-19/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 343032,
+          "sha256": "727d3958bd003687d529fb55904b047f75c96dbf2b4032a1d754cd57db9bcd8b",
+          "present": true,
+          "durationSeconds": 34.272653
+        }
+      ]
+    },
+    {
+      "day": 20,
+      "sourceRef": "listening-mcq-day-20",
+      "originalFilename": "DAY 20 MCQ.html",
+      "originalSha256": "956b3b20338d6bb1c26bb93eb22af965bdd5677c556b75608ad72d843e691dda",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-20/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 326575,
+          "sha256": "8deaac66efaeb5f9ecf837f77e38f25dfb257801f976059455078606e3816c65",
+          "present": true,
+          "durationSeconds": 32.626939
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-20/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 254215,
+          "sha256": "d00007301a1ec7b21ea51f6b6dbde9f149b444bde08fabbb257aeee1cd281082",
+          "present": true,
+          "durationSeconds": 25.39102
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-20/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 214509,
+          "sha256": "aebc2e25b2fcea01921c1a3cb4eeedc4bb8bc5f96bbea00756311e7fcd4b58ca",
+          "present": true,
+          "durationSeconds": 21.420408
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-20/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 291571,
+          "sha256": "3658f85e9008a3cb43991f77e0c0c84ae581cae9c52229c761607added9bd1ba",
+          "present": true,
+          "durationSeconds": 29.126531
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-20/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 429758,
+          "sha256": "dfc90ab9046a2a5f9fbcf656d71e42530b75ae81d04a0d4da6e585f32d466456",
+          "present": true,
+          "durationSeconds": 42.945306
+        }
+      ]
+    },
+    {
+      "day": 21,
+      "sourceRef": "listening-mcq-day-21",
+      "originalFilename": "DAY 21 MCQ.html",
+      "originalSha256": "86125a00ea6d9698c40eed7c44caa767bc88df71c014088d1aa86cc391e9e1bd",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-21/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 394754,
+          "sha256": "229bc956b1ae8ec945d05e9108ab428de271d25800d040f0a56a460d29f2f9ce",
+          "present": true,
+          "durationSeconds": 39.444898
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-21/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 220518,
+          "sha256": "47cefa1519e7ee266e991f4cab5d951cd1d77aa6819f5643b24ddb9fa5e15a0c",
+          "present": true,
+          "durationSeconds": 22.021224
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-21/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 415652,
+          "sha256": "4d9c9d2b19cd436f73f7219241c7df2b1560beb6a9db725a44610509bc4396e0",
+          "present": true,
+          "durationSeconds": 41.534694
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-21/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 308811,
+          "sha256": "2ea6c0e388968f4cc5fcd1d081fe4ed1da14ba14bc599ceecddb1da1ec173571",
+          "present": true,
+          "durationSeconds": 30.850612
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-21/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 225481,
+          "sha256": "15fc1c5dedbf99e1d9a4ec9bc38261ed472f6b401d83d3889fb66a4730a4975a",
+          "present": true,
+          "durationSeconds": 22.517551
+        }
+      ]
+    },
+    {
+      "day": 22,
+      "sourceRef": "listening-mcq-day-22",
+      "originalFilename": "DAY 22 MCQ.html",
+      "originalSha256": "9036fa9638ac2d0410c1b70dab82befcae24754e4a59d34a306ed7e7f0fee179",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-22/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 373595,
+          "sha256": "2ec0a64107ebd0fdc35eb5918f5ebf5a52c59deaa4c3f444d01e6a8876838620",
+          "present": true,
+          "durationSeconds": 37.32898
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-22/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 164615,
+          "sha256": "02f110742c19741e1ef21487a2ec7bf55addb50d179efe929e15c757a3fdd26a",
+          "present": true,
+          "durationSeconds": 16.43102
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-22/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 521187,
+          "sha256": "8a456e82d42c981884bb8877526eeb3bc37ef444fe9aaf21fd50e31025dad2d5",
+          "present": true,
+          "durationSeconds": 52.088163
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-22/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 434460,
+          "sha256": "0cd2aa05225a345a47030d55e2d544df190b2e88348e5bbae3143449fde028ab",
+          "present": true,
+          "durationSeconds": 43.41551
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-22/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 483571,
+          "sha256": "378befab4cefadfc90ff096eaeb2ea5ecabaebe134a6e1afa44b4b74e6121dc3",
+          "present": true,
+          "durationSeconds": 48.326531
+        }
+      ]
+    },
+    {
+      "day": 23,
+      "sourceRef": "listening-mcq-day-23",
+      "originalFilename": "DAY 23 MCQ.html",
+      "originalSha256": "8eb6d7daff7ec22da75417f77c86596bb665aa9d54acb1b9c45dbb1114d3c655",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-23/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 155473,
+          "sha256": "57f5c819d358d24e659c935828e2ee866b9ca0b1821c5f6170b5cf78cc46ec86",
+          "present": true,
+          "durationSeconds": 15.516735
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-23/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 333628,
+          "sha256": "e75910b0b1ad01565f4fa9707a001fa5a8689d7515e2e91f7f96c366cd023af5",
+          "present": true,
+          "durationSeconds": 33.332245
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-23/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 359489,
+          "sha256": "2b278363953e2ae8163e34cf9f773d7eb8cebd12abd0de73e27657643799dc2c",
+          "present": true,
+          "durationSeconds": 35.918367
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-23/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 291571,
+          "sha256": "38d22ae8538bdefb7f2a40cfbdc380ecf7ebfbce27f08786da841f9a23a8b75c",
+          "present": true,
+          "durationSeconds": 29.126531
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-23/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 380909,
+          "sha256": "c6f7f4726798bdeb9a0a8614fc1f02a44623eac4c5a6efb4ba0456881a47dac9",
+          "present": true,
+          "durationSeconds": 38.060408
+        }
+      ]
+    },
+    {
+      "day": 24,
+      "sourceRef": "listening-mcq-day-24",
+      "originalFilename": "DAY 24 MCQ.html",
+      "originalSha256": "3409a848b2963952922fd9733d40ff996a9bc41833b24f61332a402f98e0ecf1",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-24/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 288436,
+          "sha256": "73b47a932339ceb00821f2bb538095786e5ac1c26f9f550bf31a2e8d7ffccad2",
+          "present": true,
+          "durationSeconds": 28.813061
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-24/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 275375,
+          "sha256": "48b3d98013f82d116a63f4823182f061e99742a76151635095c4806c486fcc4f",
+          "present": true,
+          "durationSeconds": 27.506939
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-24/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 417481,
+          "sha256": "3264914744a00e56dd2dab8b31831e249cc573b6a4b6bc334bbbafdeda012fa8",
+          "present": true,
+          "durationSeconds": 41.717551
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-24/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 289481,
+          "sha256": "f48932cd75d7acf59206857fe170689f264e5596f290ac2f177fb21f88b8ce1f",
+          "present": true,
+          "durationSeconds": 28.917551
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-24/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 327097,
+          "sha256": "f5afbd4e80f33a7d0185551559dff2cfcbb2a525a190e7e06338a8a7d4d5a746",
+          "present": true,
+          "durationSeconds": 32.679184
+        }
+      ]
+    },
+    {
+      "day": 25,
+      "sourceRef": "listening-mcq-day-25",
+      "originalFilename": "DAY 25 MCQ.html",
+      "originalSha256": "04e28ca0d463a8ab0488cb0daadf2b12232fea4bb06833ab71547afb2b095741",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-25/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 241677,
+          "sha256": "f96f5d125a0f228b2b1003a361b0cdc165719f509bec36478b96506088e3c37f",
+          "present": true,
+          "durationSeconds": 24.137143
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-25/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 332583,
+          "sha256": "b84f9fba250ea302b609d57a3aa4fad0a36c50d7fe2273fc5b0344684662a7ec",
+          "present": true,
+          "durationSeconds": 33.227755
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-25/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 399718,
+          "sha256": "10f2c470b859446676a5b49978710ae711392e8fd3fb5e5f49ea7a80ae5bf079",
+          "present": true,
+          "durationSeconds": 39.941224
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-25/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 163309,
+          "sha256": "5c3210ab366d66e5f51fbf53b04844bbe073e7d83d3aa2389c2af89f61bde933",
+          "present": true,
+          "durationSeconds": 16.300408
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-25/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 622542,
+          "sha256": "48d0acb10158aa233d6e299218c0f393a037975fbdf2c7011ee4b1b976e7b5f6",
+          "present": true,
+          "durationSeconds": 62.223673
+        }
+      ]
+    },
+    {
+      "day": 26,
+      "sourceRef": "listening-mcq-day-26",
+      "originalFilename": "DAY 26 MCQ.html",
+      "originalSha256": "489ab98058fa87a9bd268e31400641ebf9bbf004cb7727b049884490250dce10",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-26/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "present": true,
+          "bytes": 438274,
+          "sha256": "2a29673853c9c3d35012b24e51ebdfcf34e1097b0983df3de92b0730c2a47681",
+          "durationSeconds": 27.376327,
+          "supplementalOriginalFilename": "TEST 101.mp3",
+          "matchBasis": "Latin name first seemed funny/exaggerated; now suits the species because its tail casts a shadow. Source answer C matches recording."
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-26/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 297579,
+          "sha256": "4653fc7d327e8ca0815654d4a137eb8fd06b97d7d57169541dbaef0b571bcbc8",
+          "present": true,
+          "durationSeconds": 29.727347
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-26/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 334411,
+          "sha256": "90123340f5df5d45d8fce7ec40bce1da3f3e4b04f9c9f0f7e0cd16510081c4fb",
+          "present": true,
+          "durationSeconds": 33.410612
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-26/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 213464,
+          "sha256": "ada1e4aac3dcbc901f191db05764d1edb30e6297a7b90129f4d2b2ed757b8732",
+          "present": true,
+          "durationSeconds": 21.315918
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-26/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 688632,
+          "sha256": "eb3c6f9615a02117da26ad5dcb70cde3970ec52b30a42311b1383ba6835ac799",
+          "present": true,
+          "durationSeconds": 68.832653
+        }
+      ],
+      "sourceSha256": "63abb5b888f7f69620aaded839d91aa9015960d3dc63b7f3b94b276b6ea2ac0b",
+      "questionsSha256": "4bd6b7c115b13fde8f33af9e5c39c886b479a6615b9850e2c3615655dd86bc53"
+    },
+    {
+      "day": 27,
+      "sourceRef": "listening-mcq-day-27",
+      "originalFilename": "DAY 27 MCQ.html",
+      "originalSha256": "063c7b44b079e35eeada2fc09f1ff6f6a1f76fef66fef08697ccaab98295ccd7",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-27/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 380126,
+          "sha256": "0c9cc293689a7467fd37a1c11a0ac3fdbeec81410256afe0a481b64a1d18ad1e",
+          "present": true,
+          "durationSeconds": 37.982041
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-27/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 195962,
+          "sha256": "bc2004078b63f9277a377c398797ddb9837498603ceaca7f0c80a41080b8c061",
+          "present": true,
+          "durationSeconds": 19.565714
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-27/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 141366,
+          "sha256": "52da4789fe574cc2adb7d7d14194d27b98da0d28d0fcbec1e2733d31148789c6",
+          "present": true,
+          "durationSeconds": 14.106122
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-27/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 173236,
+          "sha256": "25e9db63f4b6def4170dbf0388e209886db0d46eed1f899531061ca8edec8c12",
+          "present": true,
+          "durationSeconds": 17.293061
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-27/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 157040,
+          "sha256": "91dd91213b090feb950e76781c3cd59da56ab268f404f6eead8d7e4bd777292a",
+          "present": true,
+          "durationSeconds": 15.673469
+        }
+      ]
+    },
+    {
+      "day": 28,
+      "sourceRef": "listening-mcq-day-28",
+      "originalFilename": "DAY 28 MCQ.html",
+      "originalSha256": "f8ad2bf09a6150c4bf8306fcc88208c614737321432b7597ee43b37dd56e1a24",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-28/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 287652,
+          "sha256": "d3eed929df382c1e76b53c17c6ebbf11d6b22abfa713e3a0ceafaf7a7c2e50b3",
+          "present": true,
+          "durationSeconds": 28.734694
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-28/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 265448,
+          "sha256": "2d7eb94ab8a67030af77e44b237796882d90924a50fbe556714aa06f6ddeb3a0",
+          "present": true,
+          "durationSeconds": 26.514286
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-28/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 275636,
+          "sha256": "dc270a2f7e4654b6d9f9b8bd0dda0cc26c8ba0966140d43d05df3f41fef3e640",
+          "present": true,
+          "durationSeconds": 27.533061
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-28/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 189693,
+          "sha256": "b87f1d4867cee7edd820981a0c747b61c8234313518bbb4d13a655a037e8ac87",
+          "present": true,
+          "durationSeconds": 18.938776
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-28/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 170624,
+          "sha256": "2889b7628375c52797c6cb59b0f3a415d6068b4d0cb9b322947adb0bbde96b1a",
+          "present": true,
+          "durationSeconds": 17.031837
+        }
+      ]
+    },
+    {
+      "day": 29,
+      "sourceRef": "listening-mcq-day-29",
+      "originalFilename": "DAY 29 MCQ.html",
+      "originalSha256": "9faa5714d8f55cd405ce8ab43c2498680e11aedf292a6abbe8b553bd6013190e",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-29/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 177677,
+          "sha256": "bec1007bab6fae734042aac7c6e9c19e37c244f75579812cbbdc348212435fbb",
+          "present": true,
+          "durationSeconds": 17.737143
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-29/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 511522,
+          "sha256": "367f786b7caaf152349f0cce3ecc74c5d37de96e90009687d3c2813d0ad081fb",
+          "present": true,
+          "durationSeconds": 51.121633
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-29/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 377513,
+          "sha256": "c73e575154b20547e06545777755b789a340b5f811daf75900cf0ce9f628ad4f",
+          "present": true,
+          "durationSeconds": 37.720816
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-29/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 231489,
+          "sha256": "50114b847b58779b3fd4379a3cca8f341c5cfd2fce2e6ad6ad9e28ff0f442539",
+          "present": true,
+          "durationSeconds": 23.118367
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-29/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 255783,
+          "sha256": "a3330d985bcd5cd664de469463826be07edfd5f7544c048a656197bdbac093f1",
+          "present": true,
+          "durationSeconds": 25.547755
+        }
+      ]
+    },
+    {
+      "day": 30,
+      "sourceRef": "listening-mcq-day-30",
+      "originalFilename": "DAY 30 MCQ.html",
+      "originalSha256": "0e27e653991f6bc0d2d86a61fcc8adf315520c9d7151bff30d3983c873381519",
+      "questionCount": 5,
+      "media": [
+        {
+          "question": 1,
+          "path": "audio/question-01.mp3",
+          "objectKey": "listening/mcq/day-30/question-01.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 234624,
+          "sha256": "6fc8dbe87156ac0a7d79bf04ccc9aac67e578cdf8adba7aaf5cca62254a1e817",
+          "present": true,
+          "durationSeconds": 23.431837
+        },
+        {
+          "question": 2,
+          "path": "audio/question-02.mp3",
+          "objectKey": "listening/mcq/day-30/question-02.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 264926,
+          "sha256": "3d41b1b7676038d0bb0c3683b75e34307ac85dce3c4e918a2659661257c1a9cf",
+          "present": true,
+          "durationSeconds": 26.462041
+        },
+        {
+          "question": 3,
+          "path": "audio/question-03.mp3",
+          "objectKey": "listening/mcq/day-30/question-03.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 218950,
+          "sha256": "3d1631b25ca448dbe6c35108ca9eb9c7c53902e9688c0c9c4c825f79fb3d92d8",
+          "present": true,
+          "durationSeconds": 21.86449
+        },
+        {
+          "question": 4,
+          "path": "audio/question-04.mp3",
+          "objectKey": "listening/mcq/day-30/question-04.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 255522,
+          "sha256": "836226dce9964884b1a33d3bf15a5ac6b4505570bb516c80d622d053740c59d7",
+          "present": true,
+          "durationSeconds": 25.521633
+        },
+        {
+          "question": 5,
+          "path": "audio/question-05.mp3",
+          "objectKey": "listening/mcq/day-30/question-05.mp3",
+          "mimeType": "audio/mpeg",
+          "bytes": 155473,
+          "sha256": "57f5c819d358d24e659c935828e2ee866b9ca0b1821c5f6170b5cf78cc46ec86",
+          "present": true,
+          "durationSeconds": 15.516735
+        }
+      ]
+    }
+  ]
+}

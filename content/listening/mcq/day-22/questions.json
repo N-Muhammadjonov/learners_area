@@ -1,0 +1,168 @@
+[
+  {
+    "q": 107,
+    "sourceLabel": "Test 107",
+    "topic": "Resort Picnic",
+    "prompt": "What should they bring to the resort?",
+    "options": [
+      {
+        "code": "A",
+        "text": "food for the picnic"
+      },
+      {
+        "code": "B",
+        "text": "cameras"
+      },
+      {
+        "code": "C",
+        "text": "bottled water"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Visitors are told to prepare their own snacks for the picnic. Bottled water is available free at the resort, and cameras are not presented as something they need to bring.",
+    "why": "They must provide their own picnic food, so option A is correct.",
+    "trap": "B: Taking photos is possible, but bringing a camera is not the required item in the question. C: Bottled water is provided free at the resort.",
+    "explanation": "Visitors should bring their own food or snacks for the picnic.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 108,
+    "sourceLabel": "Test 108",
+    "topic": "Day Trip",
+    "prompt": "What activity is recommended toward the end of a day trip?",
+    "options": [
+      {
+        "code": "A",
+        "text": "watching fireworks"
+      },
+      {
+        "code": "B",
+        "text": "going fishing"
+      },
+      {
+        "code": "C",
+        "text": "joining the circus"
+      }
+    ],
+    "answer": "A",
+    "evidence": "At the end of the one-day trip, visitors are told about a special fireworks display described as a spectacular show and a perfect ending to the day.",
+    "why": "The recommended end-of-day activity is the fireworks display, so option A is correct.",
+    "trap": "B: Fishing is mentioned only as an optional activity if time remains after the picnic. C: The source mentions watching a circus, not joining one, and it is not presented as the special end-of-day event.",
+    "explanation": "The fireworks display is presented as the special event that concludes the day trip.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 109,
+    "sourceLabel": "Test 109",
+    "topic": "School Leavers and Job Interviews",
+    "prompt": "Which TWO aspects should people just graduating from secondary schools emphasise?",
+    "instruction": "Choose TWO answers.",
+    "options": [
+      {
+        "code": "A",
+        "text": "degree of motivation"
+      },
+      {
+        "code": "B",
+        "text": "practical experience"
+      },
+      {
+        "code": "C",
+        "text": "eagerness to learn"
+      },
+      {
+        "code": "D",
+        "text": "educational qualifications"
+      },
+      {
+        "code": "E",
+        "text": "other areas of interests outside work"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "evidence": "The speaker says school leavers may lack strong educational qualifications and practical experience, so they should stress enthusiasm for work and show qualities such as curiosity and willingness to learn new things.",
+    "why": "Strong motivation for work and eagerness to learn are the two qualities the speaker specifically recommends emphasising, so the correct pair is A and C.",
+    "trap": "B: Practical experience is something school leavers may not have. D: A strong educational background is also something they may lack. E: Outside interests are not identified as one of the two key points to emphasise here.",
+    "explanation": "School leavers should compensate for limited qualifications and experience by showing motivation and willingness to learn.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 110,
+    "sourceLabel": "Test 110",
+    "topic": "Women Returning to Work",
+    "prompt": "Which TWO of the following are mentioned about women returned to work after raising children?",
+    "instruction": "Choose TWO answers.",
+    "options": [
+      {
+        "code": "A",
+        "text": "they have limited working time"
+      },
+      {
+        "code": "B",
+        "text": "they are more expensive to retrain"
+      },
+      {
+        "code": "C",
+        "text": "they are very mature"
+      },
+      {
+        "code": "D",
+        "text": "they lack confidence"
+      },
+      {
+        "code": "E",
+        "text": "they have difficulty in re-adjusting to work"
+      }
+    ],
+    "answer": [
+      "C",
+      "E"
+    ],
+    "evidence": "The speaker describes these women as mature and valuable employees but says they often find it hard to adapt after two or three years away from work. They are described as confident, and family changes are made to ensure sufficient working hours.",
+    "why": "The two supported statements are that they are mature and can find it difficult to readjust to work, so the correct pair is C and E.",
+    "trap": "A: The family is adjusted to ensure sufficient working hours, not necessarily limited hours. B: Higher retraining cost is not mentioned. D: The women are explicitly described as quite confident.",
+    "explanation": "Returning mothers are portrayed as mature, motivated workers who may nevertheless struggle to adapt to workplace changes.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 111,
+    "sourceLabel": "Test 111",
+    "topic": "Employer Hiring Decisions",
+    "prompt": "Which TWO types of people do employers always avoid hiring?",
+    "instruction": "Choose TWO answers.",
+    "options": [
+      {
+        "code": "A",
+        "text": "people who have worked for a rival company"
+      },
+      {
+        "code": "B",
+        "text": "people who have worked for their previous company for a long time"
+      },
+      {
+        "code": "C",
+        "text": "people who were sacked by a previous company"
+      },
+      {
+        "code": "D",
+        "text": "people who have been unemployed for a long time"
+      },
+      {
+        "code": "E",
+        "text": "people who quit their job because it was unsuitable"
+      }
+    ],
+    "answer": [
+      "C",
+      "E"
+    ],
+    "evidence": "The source identifies applicants who were fired and applicants who left simply because they disliked the hours or assigned work as people employers avoid. Experience with a rival company and unemployment by themselves are not treated as automatic reasons for rejection.",
+    "why": "Being sacked and leaving because the job was unsuitable are the two warning signs singled out, so the correct pair is C and E.",
+    "trap": "A: Rival-company experience is not automatically disqualifying. B: Long service with a previous employer is not given as a reason to avoid a candidate. D: Long-term unemployment alone is not presented as an automatic rejection reason.",
+    "explanation": "Employers are especially wary of applicants dismissed from previous jobs and those who left because they disliked the work or conditions.",
+    "audio": "audio/question-05.mp3"
+  }
+]

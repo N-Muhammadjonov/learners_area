@@ -1,0 +1,132 @@
+[
+  {
+    "q": 147,
+    "sourceLabel": "Test 147",
+    "topic": "Business Leadership - Risk",
+    "prompt": "What does Arthur say about taking risks?",
+    "options": [
+      {
+        "code": "A",
+        "text": "He advises being cautious."
+      },
+      {
+        "code": "B",
+        "text": "He favours a long-term view."
+      },
+      {
+        "code": "C",
+        "text": "He believes it is financially advantageous."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Arthur says even calculated risks should be approached carefully. The desire to increase profits can carry people away, and if things go wrong they may lose more than they gain.",
+    "why": "His explicit recommendation is to tread carefully when taking risks, so option A is correct.",
+    "trap": "B: Arthur discusses short-term risks and does not present a long-term view as the answer. C: He warns that risk-taking can produce losses greater than the gains rather than presenting it as automatically financially advantageous.",
+    "explanation": "Arthur supports careful, measured risk-taking rather than aggressive risk-taking for higher profits.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 148,
+    "sourceLabel": "Test 148",
+    "topic": "Business Leadership - Leadership Quality",
+    "prompt": "What does Arthur think is an important quality shared by good leaders?",
+    "options": [
+      {
+        "code": "A",
+        "text": "They are ambitious for their company."
+      },
+      {
+        "code": "B",
+        "text": "They can deal with difficult people."
+      },
+      {
+        "code": "C",
+        "text": "They earn the respect of their workforce."
+      }
+    ],
+    "answer": "C",
+    "evidence": "Arthur says a leader has to be someone workers look up to because that person has been seen to make the right decisions. He contrasts this with ruthless ambition.",
+    "why": "Workers looking up to a leader means the leader has earned their respect, so option C is correct.",
+    "trap": "A: Arthur warns that being driven solely to make a company successful can become ruthless. B: He discusses controlling and listening to people, but the shared leadership quality he emphasises is being respected by the workforce.",
+    "explanation": "Good leaders may have different styles, but they need the respect of the people they lead.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 149,
+    "sourceLabel": "Test 149",
+    "topic": "Business Leadership - Marketing",
+    "prompt": "What does Arthur say about his own experience of marketing?",
+    "options": [
+      {
+        "code": "A",
+        "text": "He relied on what he already knew."
+      },
+      {
+        "code": "B",
+        "text": "He hired an expert to take care of it."
+      },
+      {
+        "code": "C",
+        "text": "He realised its importance too late."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Arthur says he initially tried to do everything himself, but although he knew plumbing well, he did not know how to sell his ideas. He therefore got someone with more marketing knowledge to handle that side of the business.",
+    "why": "He brought in someone more knowledgeable to manage marketing, so option B is correct.",
+    "trap": "A: Arthur explicitly realised his existing knowledge was not enough for marketing. C: He recognised the gap and hired help; the source does not say he discovered marketing's importance only after it was too late.",
+    "explanation": "Arthur learned that a business owner does not need to be an expert in everything and delegated marketing to a specialist.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 150,
+    "sourceLabel": "Test 150",
+    "topic": "Business Leadership - Entrepreneurial Attitude",
+    "prompt": "The American studies recommended that new entrepreneurs",
+    "options": [
+      {
+        "code": "A",
+        "text": "listen to their colleagues' advice."
+      },
+      {
+        "code": "B",
+        "text": "get professional help when things go wrong."
+      },
+      {
+        "code": "C",
+        "text": "remain concentrated on their aims."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The studies say successful entrepreneurs need the right attitude: they should not become depressed when something goes wrong, should always keep their goals in mind, never give up, and should not listen to people who say the idea will never work.",
+    "why": "Keeping goals in mind and never giving up means remaining focused on their aims, so option C is correct.",
+    "trap": "A: The advice specifically says not to be distracted by negative people around them. B: Professional help is not the recommendation made in this part of the studies.",
+    "explanation": "The studies emphasise persistence and focus on long-term goals despite setbacks and criticism.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": "112(1)",
+    "sourceLabel": "Test 112 (repeat)",
+    "topic": "UK Driving Licence Eligibility",
+    "prompt": "What is the basic requirement for applying for a UK driving licence?",
+    "options": [
+      {
+        "code": "A",
+        "text": "a medical report."
+      },
+      {
+        "code": "B",
+        "text": "a valid licence from another country."
+      },
+      {
+        "code": "C",
+        "text": "Current residency in the UK."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The speaker says applicants must be UK residents. A medical report is mentioned in relation to renewal, and a person may apply even if they have never held a licence in another country.",
+    "why": "Current UK residency is the basic eligibility condition, so option C is correct.",
+    "trap": "A: A medical report is not the basic initial eligibility requirement. B: A foreign licence is not required because applicants may never have held a licence before.",
+    "explanation": "This source is intentionally reused for DAY 30. The fundamental requirement is current residency in the UK.",
+    "audio": "audio/question-05.mp3"
+  }
+]

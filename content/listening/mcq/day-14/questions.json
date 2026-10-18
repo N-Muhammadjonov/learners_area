@@ -1,0 +1,132 @@
+[
+  {
+    "q": 67,
+    "sourceLabel": "Test 67",
+    "topic": "Ferry Crossing",
+    "prompt": "Which items should the tourists pack in a separate bag?",
+    "options": [
+      {
+        "code": "A",
+        "text": "food"
+      },
+      {
+        "code": "B",
+        "text": "reading material"
+      },
+      {
+        "code": "C",
+        "text": "medicines"
+      }
+    ],
+    "answer": "B",
+    "evidence": "Passengers cannot access the vehicle decks during the crossing, so they are told to take likely necessities with them, including toiletries, books and magazines, preferably in a separate bag.",
+    "why": "Books and magazines are reading material, so option B matches the items the guide specifically says should be packed separately.",
+    "trap": "A: Meals are provided on board, so passengers should not need to pack food for the crossing. C: The guide says tablets are available from him if needed, so medicines are not the item he tells them to pack separately.",
+    "explanation": "The separate bag is for personal items passengers may need while they cannot return to the vehicle deck, including books and magazines.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 68,
+    "sourceLabel": "Test 68",
+    "topic": "Hostel Accommodation",
+    "prompt": "The hostel in La Vega de Liebana has",
+    "options": [
+      {
+        "code": "A",
+        "text": "good washing facilities."
+      },
+      {
+        "code": "B",
+        "text": "a games room."
+      },
+      {
+        "code": "C",
+        "text": "a number of single bedrooms."
+      }
+    ],
+    "answer": "A",
+    "evidence": "The guide says the accommodation is simple, with bunk beds and four to eight people per room, but the bathrooms and showers are of a high standard.",
+    "why": "High-standard bathrooms and showers mean the hostel has good washing facilities, which matches option A.",
+    "trap": "B: A games room is not identified among the hostel facilities in this section. C: The rooms contain bunk beds for four to eight people, not a number of single bedrooms.",
+    "explanation": "Although the sleeping accommodation is basic, the bathrooms and showers are specifically described as high quality.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 69,
+    "sourceLabel": "Test 69",
+    "topic": "Hostel Rules",
+    "prompt": "Residents at the hostel are not allowed to",
+    "options": [
+      {
+        "code": "A",
+        "text": "enter the hostel after a certain time."
+      },
+      {
+        "code": "B",
+        "text": "smoke in the hostel gardens."
+      },
+      {
+        "code": "C",
+        "text": "take furniture out of the hostel building."
+      }
+    ],
+    "answer": "A",
+    "evidence": "The guide says the doors are locked after midnight. Smoking is prohibited inside the building, while chairs or tables may be taken into the gardens if they are returned each evening.",
+    "why": "Once the doors are locked after midnight, residents cannot enter after that time, so option A is correct.",
+    "trap": "B: The rule bans smoking inside the building, not specifically in the gardens. C: Furniture can be taken outside as long as it is returned to its original place every evening.",
+    "explanation": "The time restriction is the rule that prevents residents from entering after midnight.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 70,
+    "sourceLabel": "Test 70",
+    "topic": "Peer Assessment",
+    "prompt": "Sally says many students see peer assessment as",
+    "options": [
+      {
+        "code": "A",
+        "text": "a way for tutors to save time."
+      },
+      {
+        "code": "B",
+        "text": "a useful learning tool."
+      },
+      {
+        "code": "C",
+        "text": "a valuable form of assessment."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Sally says many students are sceptical about peer assessment and think tutors favour it because tutors do not have to spend so long marking.",
+    "why": "That view treats peer assessment primarily as a time-saving device for tutors, which directly matches option A.",
+    "trap": "B: Sally herself believes students can learn a great deal from peer assessment, but she says many other students are sceptical. C: The students she describes do not regard it as a particularly valuable assessment method.",
+    "explanation": "The question asks about the sceptical students' view, not Sally's own positive view.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 71,
+    "sourceLabel": "Test 71",
+    "topic": "Peer Assessment",
+    "prompt": "What do Steve and Sally agree is an advantage of peer assessment?",
+    "options": [
+      {
+        "code": "A",
+        "text": "It's more reliable than self-assessment."
+      },
+      {
+        "code": "B",
+        "text": "It increases students' self-awareness."
+      },
+      {
+        "code": "C",
+        "text": "It builds rapport between students."
+      }
+    ],
+    "answer": "B",
+    "evidence": "They agree that judging another student's work can help learners reflect on their own work and assess it more objectively.",
+    "why": "Reflecting more objectively on one's own work increases awareness of one's strengths, weaknesses and performance, so option B is the best match.",
+    "trap": "A: They do not claim peer assessment is inherently more reliable than self-assessment. C: Building rapport is not identified as the agreed benefit in this discussion.",
+    "explanation": "The shared advantage is that peer assessment helps students become more conscious and objective about their own work.",
+    "audio": "audio/question-05.mp3"
+  }
+]

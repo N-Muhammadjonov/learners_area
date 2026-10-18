@@ -1,0 +1,132 @@
+[
+  {
+    "q": 47,
+    "sourceLabel": "Test 47",
+    "topic": "Stone Point",
+    "prompt": "Scott and Liz agree that using Maori terminology in their presentation",
+    "options": [
+      {
+        "code": "A",
+        "text": "will be of interest to international students."
+      },
+      {
+        "code": "B",
+        "text": "is required as a component of their research."
+      },
+      {
+        "code": "C",
+        "text": "would be best avoided."
+      }
+    ],
+    "answer": "C",
+    "evidence": "They decide to avoid most Maori terminology because international students may not follow it and there is not enough time to explain it.",
+    "why": "Their concern is clarity and limited presentation time, so they agree that most Maori terminology should be avoided.",
+    "trap": "A: They worry that international students may not understand the terminology. B: They do not say Maori terminology is a required component of the research.",
+    "explanation": "They choose accessibility over specialist terminology for the presentation.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 48,
+    "sourceLabel": "Test 48",
+    "topic": "Stone Point",
+    "prompt": "Scott and Liz agree that Maori originally chose to inhabit Stone Point because of",
+    "options": [
+      {
+        "code": "A",
+        "text": "its rich soil."
+      },
+      {
+        "code": "B",
+        "text": "the supply of fish."
+      },
+      {
+        "code": "C",
+        "text": "available building materials."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Scott explains that the fishing opportunities were the initial attraction; the benefits of the rich soil became clear only after later harvests.",
+    "why": "The first reason for settlement was access to fishing, so option B matches the audio.",
+    "trap": "A: The soil became an appreciated advantage later, after successful harvests. C: Building materials are not identified as the original attraction.",
+    "explanation": "Fishing opportunities attracted the first Maori settlers to Stone Point.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 49,
+    "sourceLabel": "Test 49",
+    "topic": "Stone Point",
+    "prompt": "According to Liz, Stone Point played a key role in local history because",
+    "options": [
+      {
+        "code": "A",
+        "text": "it was used for defence or attack purposes."
+      },
+      {
+        "code": "B",
+        "text": "it was the landing point for the first Maori settlers."
+      },
+      {
+        "code": "C",
+        "text": "it was developed as a commercial port."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Stone Point was historically used by both Maori and European settlers as a place to shelter from an attack or to launch an attack.",
+    "why": "Its defensive and offensive strategic role is the historical significance described in the audio.",
+    "trap": "B: The discussion does not identify Stone Point as the first Maori landing point. C: Its historical importance is not described as commercial port development.",
+    "explanation": "Stone Point mattered strategically because people could defend from it or use it as a base for attack.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 50,
+    "sourceLabel": "Test 50",
+    "topic": "Samuel Prout",
+    "prompt": "What did John Ruskin admire about Prout's paintings?",
+    "options": [
+      {
+        "code": "A",
+        "text": "their realism"
+      },
+      {
+        "code": "B",
+        "text": "their presentation of buildings"
+      },
+      {
+        "code": "C",
+        "text": "their wide range of subject matters"
+      }
+    ],
+    "answer": "B",
+    "evidence": "The discussion says Ruskin particularly admired Prout's architectural detail - his presentation of buildings.",
+    "why": "Ruskin's praise focused on how Prout depicted architecture and buildings.",
+    "trap": "A: Realism is not identified as Ruskin's main point of admiration. C: The speakers note that many Prout paintings show similar European street scenes rather than a very wide range of subjects.",
+    "explanation": "Ruskin valued Prout's architectural representation.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 51,
+    "sourceLabel": "Test 51",
+    "topic": "Samuel Prout",
+    "prompt": "What point does Jack make about Prout's style?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Prout used different styles simultaneously."
+      },
+      {
+        "code": "B",
+        "text": "Many other artists had a similar style."
+      },
+      {
+        "code": "C",
+        "text": "Prout's style developed throughout his career."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Jack says Prout seemed to have several styles 'on the go' at the same time rather than progressing through them chronologically.",
+    "why": "Jack's point is that Prout used multiple styles simultaneously, which directly matches option A.",
+    "trap": "B: Jack is comparing Prout with other artists, but he does not say many artists shared the same style. C: He specifically says Prout's styles did not develop in a clear chronological progression.",
+    "explanation": "Prout's work does not show one simple style developing over time; several styles appear at once.",
+    "audio": "audio/question-05.mp3"
+  }
+]

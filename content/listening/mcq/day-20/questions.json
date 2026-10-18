@@ -1,0 +1,144 @@
+[
+  {
+    "q": 97,
+    "sourceLabel": "Test 97",
+    "topic": "Art Exhibition - Organisation",
+    "prompt": "What aspect of the display will the students organise themselves?",
+    "options": [
+      {
+        "code": "A",
+        "text": "arranging the lighting"
+      },
+      {
+        "code": "B",
+        "text": "inviting local journalists"
+      },
+      {
+        "code": "C",
+        "text": "providing comment forms"
+      }
+    ],
+    "answer": "C",
+    "evidence": "The students say the technical staff are handling the lighting, while journalists have already been invited. One task they still need to do themselves is copy a large number of comment forms for visitors.",
+    "why": "Providing the visitor comment forms is the organisational task that remains for the students themselves, so option C is correct.",
+    "trap": "A: The technical team is responsible for the lighting. B: The journalists have already been invited, so this is not a task the students still need to organise.",
+    "explanation": "Their own practical task is to prepare enough comment forms for exhibition visitors.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 98,
+    "sourceLabel": "Test 98",
+    "topic": "Art Exhibition - Written Summary",
+    "prompt": "What does Abby say about the summary they have to write?",
+    "options": [
+      {
+        "code": "A",
+        "text": "She isn't sure whether people will read it."
+      },
+      {
+        "code": "B",
+        "text": "It will be difficult to keep it short enough."
+      },
+      {
+        "code": "C",
+        "text": "It will be hard to clarify the reasons for her work."
+      }
+    ],
+    "answer": "B",
+    "evidence": "Abby is certain visitors will read the summary and want to understand the work. Her concern is the strict word limit because she has a lot to say.",
+    "why": "Her difficulty is fitting everything into very few words, which directly matches option B.",
+    "trap": "A: Abby says she is absolutely certain visitors will read it. C: She does not say the reasons behind her work are difficult to explain; the problem is fitting the explanation within the word limit.",
+    "explanation": "The challenge is brevity, not visitor interest or lack of clarity.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 99,
+    "sourceLabel": "Test 99",
+    "topic": "Art Exhibition - Setting Up",
+    "prompt": "What does Abby think will be difficult about preparing for their displays?",
+    "options": [
+      {
+        "code": "A",
+        "text": "having enough time to set it up"
+      },
+      {
+        "code": "B",
+        "text": "choosing which pieces to show"
+      },
+      {
+        "code": "C",
+        "text": "filling up all the available space"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Abby says she has already more or less decided which pieces to include. Her main concern is how long it will take to put everything in place, even though Max thinks a day and a half will be enough.",
+    "why": "The difficulty she identifies is the time needed for installation, so option A is correct.",
+    "trap": "B: Abby says she has already reached a decision about which pieces to include. C: She is trying to make sure her best work fits the allocated space, not worrying about filling all of it.",
+    "explanation": "Abby's concern is whether there will be enough time to set up the display.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 100,
+    "sourceLabel": "Test 100",
+    "topic": "Art Exhibition - Display Name",
+    "prompt": "What has Max decided to call his display?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Mother Nature"
+      },
+      {
+        "code": "B",
+        "text": "Views of Farmland"
+      },
+      {
+        "code": "C",
+        "text": "Seasons"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Max says his work focuses on countryside and farmland. He considered the name 'Seasons', but says he has gone for 'Mother Nature' in the end.",
+    "why": "He explicitly states that his final choice is 'Mother Nature', so option A is correct.",
+    "trap": "B: 'Views of Farmland' describes much of his work but is not the title he selects. C: 'Seasons' was considered but rejected.",
+    "explanation": "Max's final display title is 'Mother Nature'.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 101,
+    "sourceLabel": "Test 101",
+    "topic": "Participant Check-in",
+    "prompt": "Which TWO items will participants receive when they check in?",
+    "instruction": "Choose TWO answers.",
+    "options": [
+      {
+        "code": "A",
+        "text": "a class list"
+      },
+      {
+        "code": "B",
+        "text": "a face towel"
+      },
+      {
+        "code": "C",
+        "text": "a name tag"
+      },
+      {
+        "code": "D",
+        "text": "a shoe bag"
+      },
+      {
+        "code": "E",
+        "text": "a water bottle"
+      }
+    ],
+    "answer": [
+      "A",
+      "D"
+    ],
+    "evidence": "At check-in participants receive a class list and a complimentary shoe bag. They are expected to bring their own towel and water bottle, while the name tag is sent beforehand.",
+    "why": "The two items handed out at check-in are the class list and shoe bag, so the correct pair is A and D.",
+    "trap": "B: Participants bring their own towel. C: The name tag is mailed beforehand rather than handed out at check-in. E: Participants bring their own water bottle.",
+    "explanation": "The check-in pack includes a class list and a complimentary shoe bag.",
+    "audio": "audio/question-05.mp3"
+  }
+]

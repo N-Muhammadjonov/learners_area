@@ -2,7 +2,8 @@ import "server-only";
 import {sequentialLocks} from "@/lib/listening/course-progress";
 import { and, asc, count, eq, inArray, sql, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
-import { listeningMcqSessions, listeningTests } from "@/db/schema";
+import { listeningMcqSessions, listeningTests, listeningPackages } from "@/db/schema";
+import { originalMcqAudioUrl } from "@/lib/listening/original-mcq";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
 import { listeningSchemaReady } from "@/lib/data/listening-schema-ready";
@@ -206,6 +207,7 @@ export type McqDayQuestionView = {
   questionText: string;
   /** The learner's persisted stage, or null when they have never opened this question. */
   stage: string | null;
+  audioUrl: string | null;
 };
 
 export type McqDayView = {
@@ -242,11 +244,13 @@ export async function mcqDayFor(
       testId: listeningTests.id,
       title: listeningTests.title,
       audioUrl: listeningTests.audioUrl,
+      sourceId: listeningPackages.sourceId,
       day: listeningTests.programOrdinal,
       publicationState: listeningTests.publicationState,
       publishAt: listeningTests.publishAt,
     })
     .from(listeningTests)
+    .leftJoin(listeningPackages, eq(listeningPackages.testId, listeningTests.id))
     .where(and(programMembership(), eq(listeningTests.programOrdinal, ordinal)))
     .limit(1);
   if (!row || row.day === null) return null;
@@ -276,6 +280,7 @@ export async function mcqDayFor(
       order: question.order,
       questionText: question.questionText,
       stage: states[index]?.stage ?? null,
+      audioUrl: originalMcqAudioUrl(row.sourceId, Number(row.day), question.order),
     })),
     status: mcqDayStatus(states),
     draft,

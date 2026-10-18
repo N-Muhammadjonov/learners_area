@@ -1,0 +1,145 @@
+[
+  {
+    "q": "Red Squirrel",
+    "sourceLabel": "Red Squirrel",
+    "topic": "Red Squirrel Photography",
+    "prompt": "What does Darren now think about the Latin name of the red squirrel?",
+    "options": [
+      {
+        "code": "A",
+        "text": "It is meaningless."
+      },
+      {
+        "code": "B",
+        "text": "It is an amusing description."
+      },
+      {
+        "code": "C",
+        "text": "It is suitable for this species."
+      }
+    ],
+    "answer": "C",
+    "evidence": "The supplied question explanation says Darren originally found the Latin description funny and exaggerated, but now thinks it suits red squirrels because their large tails cast a very noticeable shadow.",
+    "why": "His current view is that the name fits the species, so option C is correct.",
+    "trap": "A: Darren no longer treats the name as meaningless. B: Finding the description amusing reflects his earlier reaction, not what he thinks now.",
+    "explanation": "Darren's opinion changed: he now regards the Latin name as an appropriate description of the red squirrel.",
+    "audio": "audio/question-01.mp3",
+    "audioMissing": true
+  },
+  {
+    "q": 129,
+    "sourceLabel": "Test 129",
+    "topic": "Mystery Cave Tour",
+    "prompt": "What does the cave tour ticket price include?",
+    "options": [
+      {
+        "code": "A",
+        "text": "A safety helmet"
+      },
+      {
+        "code": "B",
+        "text": "A map of the cave"
+      },
+      {
+        "code": "C",
+        "text": "Shoes"
+      }
+    ],
+    "answer": "A",
+    "evidence": "The ticket covers transportation to the caves and the required safety helmet. Participants must provide their own comfortable shoes.",
+    "why": "A safety helmet is explicitly included in the ticket price, so option A is correct.",
+    "trap": "B: A cave map is not stated as part of the ticket. C: Comfortable shoes are required, but participants must bring their own.",
+    "explanation": "The required safety helmet is already covered by the cave-tour ticket.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 130,
+    "sourceLabel": "Test 130",
+    "topic": "Activity Booking",
+    "prompt": "Which sport do customers have to book in advance?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Beach soccer"
+      },
+      {
+        "code": "B",
+        "text": "Water-skiing"
+      },
+      {
+        "code": "C",
+        "text": "Scuba diving"
+      }
+    ],
+    "answer": "B",
+    "evidence": "Reservations are not necessary for beach or sand soccer, beach volleyball or scuba diving. Water-skiing should be booked at least 48 hours beforehand because an outside group runs the activity.",
+    "why": "Water-skiing is the only activity in the options that requires advance booking, so option B is correct.",
+    "trap": "A: Beach soccer does not require a reservation. C: Scuba diving is also listed among activities that normally do not require advance booking.",
+    "explanation": "Customers should book water-skiing at least 48 hours in advance so the external provider can be notified.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 128,
+    "sourceLabel": "Test 128",
+    "topic": "Resort Information Board",
+    "prompt": "Where is the information board?",
+    "options": [
+      {
+        "code": "A",
+        "text": "At the reception"
+      },
+      {
+        "code": "B",
+        "text": "Inside the cottage"
+      },
+      {
+        "code": "C",
+        "text": "On the beach"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Guests are told to check the information board every morning and are reminded that it is at the reception area in front of the resort's visitor centre.",
+    "why": "The stated location is the reception area, so option A is correct.",
+    "trap": "B: The cottage is mentioned as a place guests might spend their day, not as the location of the board. C: The beach is also mentioned as an activity area, not where the board is located.",
+    "explanation": "The resort's daily information board is located at the reception area in front of the visitor centre.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 127,
+    "sourceLabel": "Test 127",
+    "topic": "Travel Agency Membership Benefits",
+    "prompt": "Which TWO benefits can all the members get?",
+    "instruction": "Choose TWO answers.",
+    "options": [
+      {
+        "code": "A",
+        "text": "free entry to some castles"
+      },
+      {
+        "code": "B",
+        "text": "subscription of Scottish magazines"
+      },
+      {
+        "code": "C",
+        "text": "discount of apartment rent"
+      },
+      {
+        "code": "D",
+        "text": "free visitor guide"
+      },
+      {
+        "code": "E",
+        "text": "free parking"
+      }
+    ],
+    "answer": [
+      "B",
+      "D"
+    ],
+    "evidence": "Accommodation discounts and free parking are limited to premium members, while castle entrance fees must still be paid. All members receive the guide service without charge and can receive regular Scottish magazines for free.",
+    "why": "The benefits available to every member are the free magazine subscription and free guide service, so the correct pair is B and D.",
+    "trap": "A: Castle entrance fees are paid separately. C: Accommodation discounts are premium-member benefits only. E: Free parking is also limited to premium members.",
+    "explanation": "All membership levels include free guide service and complimentary Scottish magazines; the other listed benefits are restricted or separately charged.",
+    "audio": "audio/question-05.mp3"
+  }
+]

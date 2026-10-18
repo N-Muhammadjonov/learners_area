@@ -1,0 +1,63 @@
+{
+  "day": 26,
+  "sourceRef": "listening-mcq-day-26",
+  "originalFilename": "DAY 26 MCQ.html",
+  "originalSha256": "489ab98058fa87a9bd268e31400641ebf9bbf004cb7727b049884490250dce10",
+  "questionCount": 5,
+  "media": [
+    {
+      "question": 1,
+      "path": "audio/question-01.mp3",
+      "objectKey": "listening/mcq/day-26/question-01.mp3",
+      "mimeType": "audio/mpeg",
+      "present": true,
+      "bytes": 438274,
+      "sha256": "2a29673853c9c3d35012b24e51ebdfcf34e1097b0983df3de92b0730c2a47681",
+      "durationSeconds": 27.376327,
+      "supplementalOriginalFilename": "TEST 101.mp3",
+      "matchBasis": "Latin name first seemed funny/exaggerated; now suits the species because its tail casts a shadow. Source answer C matches recording."
+    },
+    {
+      "question": 2,
+      "path": "audio/question-02.mp3",
+      "objectKey": "listening/mcq/day-26/question-02.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 297579,
+      "sha256": "4653fc7d327e8ca0815654d4a137eb8fd06b97d7d57169541dbaef0b571bcbc8",
+      "present": true,
+      "durationSeconds": 29.727347
+    },
+    {
+      "question": 3,
+      "path": "audio/question-03.mp3",
+      "objectKey": "listening/mcq/day-26/question-03.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 334411,
+      "sha256": "90123340f5df5d45d8fce7ec40bce1da3f3e4b04f9c9f0f7e0cd16510081c4fb",
+      "present": true,
+      "durationSeconds": 33.410612
+    },
+    {
+      "question": 4,
+      "path": "audio/question-04.mp3",
+      "objectKey": "listening/mcq/day-26/question-04.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 213464,
+      "sha256": "ada1e4aac3dcbc901f191db05764d1edb30e6297a7b90129f4d2b2ed757b8732",
+      "present": true,
+      "durationSeconds": 21.315918
+    },
+    {
+      "question": 5,
+      "path": "audio/question-05.mp3",
+      "objectKey": "listening/mcq/day-26/question-05.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 688632,
+      "sha256": "eb3c6f9615a02117da26ad5dcb70cde3970ec52b30a42311b1383ba6835ac799",
+      "present": true,
+      "durationSeconds": 68.832653
+    }
+  ],
+  "sourceSha256": "63abb5b888f7f69620aaded839d91aa9015960d3dc63b7f3b94b276b6ea2ac0b",
+  "questionsSha256": "4bd6b7c115b13fde8f33af9e5c39c886b479a6615b9850e2c3615655dd86bc53"
+}

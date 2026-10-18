@@ -1,0 +1,132 @@
+[
+  {
+    "q": 62,
+    "sourceLabel": "Test 62",
+    "topic": "Ocean Edge Hotel - Staff Recruitment",
+    "prompt": "What is the main thing the manager is looking for in his staff?",
+    "options": [
+      {
+        "code": "A",
+        "text": "Experience"
+      },
+      {
+        "code": "B",
+        "text": "Enthusiasm"
+      },
+      {
+        "code": "C",
+        "text": "Good qualifications"
+      }
+    ],
+    "answer": "B",
+    "evidence": "The manager says qualifications matter less to him than enjoying contact with guests and genuinely wanting to make a career in hospitality.",
+    "why": "Those qualities show enthusiasm and commitment to hospitality, so option B best matches what the manager values most.",
+    "trap": "A: Experience is not presented as the main criterion. C: The manager explicitly says that qualifications and high grades are not what counts most.",
+    "explanation": "The manager prioritises enthusiasm for working with guests and for a hospitality career over formal qualifications.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 63,
+    "sourceLabel": "Test 63",
+    "topic": "Ocean Edge Hotel - History",
+    "prompt": "When did the Ocean Edge Hotel first open?",
+    "options": [
+      {
+        "code": "A",
+        "text": "in the 18th century"
+      },
+      {
+        "code": "B",
+        "text": "in the 19th century"
+      },
+      {
+        "code": "C",
+        "text": "in the 20th century"
+      }
+    ],
+    "answer": "C",
+    "evidence": "A bakery occupied the site in the 18th century, houses replaced it after a fire in the early 19th century, and those houses were demolished in the middle of the 20th century and replaced by the hotel.",
+    "why": "The hotel itself appeared only when the houses were replaced in the middle of the 20th century.",
+    "trap": "A: The 18th-century building was a bakery, not the hotel. B: Houses were constructed on the site in the 19th century, but the hotel had not yet opened.",
+    "explanation": "The site is old, but the Ocean Edge Hotel dates from the middle of the 20th century.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 64,
+    "sourceLabel": "Test 64",
+    "topic": "Ocean Edge Hotel - Staff Retention",
+    "prompt": "How long do staff generally remain at the hotel?",
+    "options": [
+      {
+        "code": "A",
+        "text": "three years"
+      },
+      {
+        "code": "B",
+        "text": "five years"
+      },
+      {
+        "code": "C",
+        "text": "ten years"
+      }
+    ],
+    "answer": "B",
+    "evidence": "The manager contrasts the hotel with places where staff stay for a year or less and says that at Ocean Edge, five years is pretty standard; several staff have stayed ten years or more.",
+    "why": "Five years is described as the normal or standard length of service, so option B is correct.",
+    "trap": "A: Three years is not given as the standard. C: Ten years or more applies only to several long-serving staff, not staff generally.",
+    "explanation": "The typical staff stay is about five years, although some employees remain much longer.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 65,
+    "sourceLabel": "Test 65",
+    "topic": "Ocean Edge Hotel - Guest Profile",
+    "prompt": "Which group of guests is growing fastest?",
+    "options": [
+      {
+        "code": "A",
+        "text": "tourists visiting local attractions"
+      },
+      {
+        "code": "B",
+        "text": "people staying for one or two nights on business"
+      },
+      {
+        "code": "C",
+        "text": "people working locally who go home at weekends"
+      }
+    ],
+    "answer": "C",
+    "evidence": "The manager says the hotel is getting more and more regulars who stay four nights every week because they work locally but live elsewhere and return home for the weekend.",
+    "why": "The specifically growing group is the weekly regulars who work in the locality and go home at weekends, which matches option C.",
+    "trap": "A: Tourists already form a large part of the hotel's business, but they are not identified as the fastest-growing group. B: Short-stay business guests are also common, but the recent growth is in regular four-night weekday guests.",
+    "explanation": "The hotel is seeing increasing numbers of weekday regulars who work nearby and return home each weekend.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 66,
+    "sourceLabel": "Test 66",
+    "topic": "Ferry Information",
+    "prompt": "Approximately how many passengers does the ferry hold?",
+    "options": [
+      {
+        "code": "A",
+        "text": "160"
+      },
+      {
+        "code": "B",
+        "text": "600"
+      },
+      {
+        "code": "C",
+        "text": "2000"
+      }
+    ],
+    "answer": "C",
+    "evidence": "The guide says the ferry has a crew of 160 and can carry about 2,000 passengers; 600 refers to the number of cars it can take.",
+    "why": "The passenger capacity is approximately 2,000, so option C is correct.",
+    "trap": "A: 160 is the crew size. B: 600 is the approximate number of cars the ferry can carry.",
+    "explanation": "The ferry holds about 2,000 passengers, while the other figures refer to crew and vehicle capacity.",
+    "audio": "audio/question-05.mp3"
+  }
+]

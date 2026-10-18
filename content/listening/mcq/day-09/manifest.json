@@ -1,0 +1,61 @@
+{
+  "day": 9,
+  "sourceRef": "listening-mcq-day-09",
+  "originalFilename": "DAY 9 MCQ.html",
+  "originalSha256": "c44917b235743d3df383e059d29c251254d8bef160cc45551757a9c5fc947962",
+  "questionCount": 5,
+  "media": [
+    {
+      "question": 1,
+      "path": "audio/question-01.mp3",
+      "objectKey": "listening/mcq/day-09/question-01.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 620684,
+      "sha256": "3f9e46e9fd59a369f59d871e9421feff9e2aa57e9f8d1ecd6af41e90ef924edc",
+      "present": true,
+      "durationSeconds": 62.04
+    },
+    {
+      "question": 2,
+      "path": "audio/question-02.mp3",
+      "objectKey": "listening/mcq/day-09/question-02.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 540764,
+      "sha256": "609939a1e2a04cbc7f296460e1af6298e302977dea710c9f7407cd5780c42086",
+      "present": true,
+      "durationSeconds": 54.048
+    },
+    {
+      "question": 3,
+      "path": "audio/question-03.mp3",
+      "objectKey": "listening/mcq/day-09/question-03.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 400844,
+      "sha256": "bd5ff4c6d2704406f0ccfbfd9982afbda9f01ad601e905671efd7d329a7aa5d8",
+      "present": true,
+      "durationSeconds": 40.056
+    },
+    {
+      "question": 4,
+      "path": "audio/question-04.mp3",
+      "objectKey": "listening/mcq/day-09/question-04.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 410684,
+      "sha256": "b038a4e73e0cf9a80c01edc44fb60d58ae611a4a24dc51d30e22d8ec42b04802",
+      "present": true,
+      "durationSeconds": 41.04
+    },
+    {
+      "question": 5,
+      "path": "audio/question-05.mp3",
+      "objectKey": "listening/mcq/day-09/question-05.mp3",
+      "mimeType": "audio/mpeg",
+      "bytes": 350684,
+      "sha256": "bc02bdd0fc202867bfddd131a26ac66554bdd6d6f3c6620d7626ea32dca35e84",
+      "present": true,
+      "durationSeconds": 35.04
+    }
+  ],
+  "sourceSha256": "7755e2ed606c19e9702eb85951bca836380828caf730ab325548f480c31018d0",
+  "questionsSha256": "83d11974a38e34857613a53a9ab8278170f5380fc26472ee32d68d16b98bcb70"
+}

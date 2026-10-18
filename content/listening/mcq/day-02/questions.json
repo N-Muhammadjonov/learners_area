@@ -1,0 +1,127 @@
+[
+  {
+    "q": 26,
+    "topic": "Food Labelling",
+    "prompt": "What do the students think about research into the impact of nutritional food labelling?",
+    "options": [
+      {
+        "code": "A",
+        "text": "It did not produce clear results."
+      },
+      {
+        "code": "B",
+        "text": "It focused on the wrong people."
+      },
+      {
+        "code": "C",
+        "text": "It made unrealistic recommendations."
+      }
+    ],
+    "answer": "A",
+    "evidence": "The students describe the findings as not conclusive, note that the study was small-scale, and agree that more research is needed.",
+    "why": "If the findings were not conclusive and further research is needed, the existing research did not produce clear results. This matches option A.",
+    "trap": "B: The discussion does not say the study focused on the wrong people. C: The problem is inconclusive evidence, not unrealistic recommendations.",
+    "explanation": "They describe the findings as not conclusive and note that the study was small-scale. They agree that more research is needed, so the existing research did not produce clear results.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 25,
+    "topic": "New IT System",
+    "prompt": "Why does his company need a new IT system?",
+    "options": [
+      {
+        "code": "A",
+        "text": "because the company is doing very well"
+      },
+      {
+        "code": "B",
+        "text": "because the Internet doesn’t work"
+      },
+      {
+        "code": "C",
+        "text": "because the printer is old and slow"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Demand is so high that the current computer system cannot cope. The Internet is slow, printing does not work properly, and the computers are old and keep breaking down.",
+    "why": "The key cause is rapid business growth and high demand: the existing system is no longer adequate. This matches option A.",
+    "trap": "B: The Internet is described as slow, not completely non-functional. C: The computers are described as old; the printer is not described as old and slow.",
+    "explanation": "Demand is so high that the existing system cannot cope. The Internet is slow rather than completely non-functional, and it is the computers—not the printer—that are described as old.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 26,
+    "topic": "New IT System",
+    "prompt": "What is Mr Farmer’s main requirement for his company’s new IT system?",
+    "options": [
+      {
+        "code": "A",
+        "text": "It must not break down often."
+      },
+      {
+        "code": "B",
+        "text": "It must not cost a lot of money."
+      },
+      {
+        "code": "C",
+        "text": "It must store client addresses."
+      }
+    ],
+    "answer": "A",
+    "evidence": "Mr Farmer says first of all they need a computer network which is reliable. Computer failures are costing time and money.",
+    "why": "A reliable system is one that does not keep failing. This directly matches option A.",
+    "trap": "B: Losing money is a consequence of failures, not his main requirement. C: Lost client addresses are another consequence of the unreliable system, not the main requirement.",
+    "explanation": "His first and main requirement is a reliable network. Losing money and client addresses are consequences of the current unreliable system, not the main requirement.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 27,
+    "topic": "New IT System",
+    "prompt": "How does his company count the time its employees spend at work?",
+    "options": [
+      {
+        "code": "A",
+        "text": "using an electronic diary"
+      },
+      {
+        "code": "B",
+        "text": "by writing down the hours worked"
+      },
+      {
+        "code": "C",
+        "text": "with an automated system"
+      }
+    ],
+    "answer": "B",
+    "evidence": "At present, someone on the reception desk writes down what time employees arrive and leave.",
+    "why": "The company currently records working time manually by writing down employees’ arrival and departure times. This matches option B.",
+    "trap": "A: The electronic diary is a proposed future improvement. C: The automated tracking system is also something they would like to introduce, not the current method.",
+    "explanation": "A receptionist currently writes down when employees arrive and leave. The electronic diary and automated tracking system are proposed future improvements.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 28,
+    "topic": "New IT System",
+    "prompt": "Why is Mr Farmer unhappy with the company which provided the computer system he has now?",
+    "options": [
+      {
+        "code": "A",
+        "text": "The printer failed repeatedly."
+      },
+      {
+        "code": "B",
+        "text": "The price was too high."
+      },
+      {
+        "code": "C",
+        "text": "The after-sales service was poor."
+      }
+    ],
+    "answer": "C",
+    "evidence": "When the printer failed, the supplier repeatedly ignored Mr Farmer’s calls, leaving the company without the support it needed.",
+    "why": "His complaint is about the supplier’s response after installation and when problems occurred. This is poor after-sales service, so C is correct.",
+    "trap": "A: The recording says calls were repeatedly ignored when the printer failed; it does not say the printer itself failed repeatedly. B: No complaint about the price is given.",
+    "explanation": "The supplier repeatedly ignored calls when the printer failed, showing poor after-sales support. The recording does not say that the printer itself failed repeatedly.",
+    "audio": "audio/question-05.mp3"
+  }
+]

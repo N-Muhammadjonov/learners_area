@@ -1,0 +1,132 @@
+[
+  {
+    "q": 132,
+    "sourceLabel": "Test 132",
+    "topic": "Toys from the Past Exhibition",
+    "prompt": "The exhibition called \"Toys from the Past\" is",
+    "options": [
+      {
+        "code": "A",
+        "text": "specially aimed at children"
+      },
+      {
+        "code": "B",
+        "text": "displayed in a new gallery"
+      },
+      {
+        "code": "C",
+        "text": "on show for a limited time"
+      }
+    ],
+    "answer": "C",
+    "evidence": "The exhibition appeals to visitors of all ages, but it is only visiting the museum for ten weeks.",
+    "why": "A ten-week visit means the exhibition is temporary and therefore on show for a limited time.",
+    "trap": "A: The source says it appeals to all ages, not only children. B: The key point is its temporary ten-week run, not that it is being shown in a new gallery.",
+    "explanation": "The exhibition is temporary: it is visiting for only ten weeks.",
+    "audio": "audio/question-01.mp3"
+  },
+  {
+    "q": 133,
+    "sourceLabel": "Test 133",
+    "topic": "Heritage Clothes - Photographs",
+    "prompt": "The photographs show the clothes worn by",
+    "options": [
+      {
+        "code": "A",
+        "text": "design students"
+      },
+      {
+        "code": "B",
+        "text": "their owners"
+      },
+      {
+        "code": "C",
+        "text": "professional models"
+      }
+    ],
+    "answer": "B",
+    "evidence": "The photos were taken by local college design students, but the clothes are shown being modelled by the real people who wear them in their everyday lives.",
+    "why": "The people wearing the garments in the photographs are the actual everyday wearers or owners, so option B is correct.",
+    "trap": "A: Design students took the photographs; they were not the people wearing the clothes. C: The source explicitly describes real everyday wearers rather than professional models.",
+    "explanation": "The photographers were design students, while the people modelling the clothes were the real people who normally wear them.",
+    "audio": "audio/question-02.mp3"
+  },
+  {
+    "q": 134,
+    "sourceLabel": "Test 134",
+    "topic": "Heritage Clothes Exhibition",
+    "prompt": "The Heritage Clothes Exhibition was put together by",
+    "options": [
+      {
+        "code": "A",
+        "text": "clothing manufacturers"
+      },
+      {
+        "code": "B",
+        "text": "museum staff"
+      },
+      {
+        "code": "C",
+        "text": "local residents"
+      }
+    ],
+    "answer": "C",
+    "evidence": "People who live in the area spent two years preparing the Heritage Clothes Exhibition.",
+    "why": "The people living in the area are local residents, so option C directly matches the source.",
+    "trap": "A: Clothing manufacturers are not identified as the organisers. B: The museum hosts the exhibition, but the people who prepared it are the local residents.",
+    "explanation": "Local residents spent two years preparing the exhibition.",
+    "audio": "audio/question-03.mp3"
+  },
+  {
+    "q": 135,
+    "sourceLabel": "Test 135",
+    "topic": "Red Squirrels - Feeding Evidence",
+    "prompt": "Darren differentiates red squirrels from rats by",
+    "options": [
+      {
+        "code": "A",
+        "text": "their food category"
+      },
+      {
+        "code": "B",
+        "text": "how the food was eaten"
+      },
+      {
+        "code": "C",
+        "text": "the way they stored food"
+      }
+    ],
+    "answer": "B",
+    "evidence": "Rats and red squirrels eat similar food, but rats bite a hole in a nut whereas red squirrels crack the nut in half and eat the kernels.",
+    "why": "Darren identifies the animal from the distinctive way the nut has been eaten, so option B is correct.",
+    "trap": "A: The two animals have very similar food categories, so the type of food does not distinguish them. C: The source discusses eating marks, not how the animals store food.",
+    "explanation": "The feeding pattern on the nut reveals which animal ate it.",
+    "audio": "audio/question-04.mp3"
+  },
+  {
+    "q": 136,
+    "sourceLabel": "Test 136",
+    "topic": "Red Squirrels - Population Decline",
+    "prompt": "The number of red squirrels is reduced due to",
+    "options": [
+      {
+        "code": "A",
+        "text": "the declining food supply"
+      },
+      {
+        "code": "B",
+        "text": "the invasion of an exotic species"
+      },
+      {
+        "code": "C",
+        "text": "a disease brought by the exotic species"
+      }
+    ],
+    "answer": "A",
+    "evidence": "Although grey squirrels carry squirrel-pox, the red-squirrel population had already declined before the disease spread. The shrinking population corresponds to a decrease in the nuts available, their primary food source.",
+    "why": "The source links the population decline to fewer available nuts, so option A is the supported cause.",
+    "trap": "B: Grey squirrels were introduced, but the source does not identify their arrival itself as the direct explanation here. C: The disease can kill red squirrels, but the decline had already started before it spread.",
+    "explanation": "The key cause identified in the passage is a reduction in the red squirrels' main food supply.",
+    "audio": "audio/question-05.mp3"
+  }
+]
