@@ -1,0 +1,1251 @@
+{
+  "scope": "Read-only dependency/import/hash inventory; NOT a complete manual parity audit or module acceptance",
+  "files": [
+    {
+      "source": "src/app/api/listening/attempts/[id]/draft/route.ts",
+      "sha256": "ea3c01441c7110749d73c41ba2a67d8cd5e7a1bd0c7f70d5f0ef0b330ec1f0a7",
+      "lines": 117,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "next/server",
+        "zod",
+        "drizzle-orm",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/auth/current-user",
+        "@/lib/validation/ids",
+        "@/lib/listening/question-set"
+      ],
+      "apiReferences": [
+        "/api/reading/attempts/"
+      ]
+    },
+    {
+      "source": "src/app/api/listening/attempts/[id]/submit/route.ts",
+      "sha256": "8449f480f8754ab215b7a0fd996849f71baa56a6913d17cbfe7101c1295322e0",
+      "lines": 34,
+      "imports": [
+        "@/db/client",
+        "@/db/schema",
+        "drizzle-orm",
+        "@/lib/data/listening-sequence",
+        "@/lib/services/activity",
+        "@/lib/validation/ids",
+        "next/server",
+        "zod",
+        "@/lib/data/listening-attempt-write",
+        "@/lib/auth/current-user"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/api/listening/attempts/route.ts",
+      "sha256": "3d28c9775886539d3d6ab4d6f6330fa8928aa9c99e1a92ca604bfedb2c6c9283",
+      "lines": 25,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "next/server",
+        "zod",
+        "@/lib/data/listening-attempt-write",
+        "@/lib/auth/current-user",
+        "@/lib/data/listening"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/api/listening/full/[id]/activity/route.ts",
+      "sha256": "3e7b09fffc8bcc1e0024b5fcaec1d03b1c8305a805e591bc396b556b92599522",
+      "lines": 100,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "next/server",
+        "zod",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/lib/listening/package",
+        "@/lib/validation/ids"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/api/listening/full/[id]/authored/route.ts",
+      "sha256": "c66fe8cbe9e9532cd67dfde5ccfe9ab804dd44ba1cf2331a1ef889c17429e127",
+      "lines": 26,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "@/lib/listening/original-listening",
+        "next/server",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/lib/validation/ids",
+        "@/lib/services/lexical/listening-occurrences",
+        "@/db/client"
+      ],
+      "apiReferences": [
+        "/api/resources/${detail.pkg.audioObjectKey}?download",
+        "/api/resources/${detail.pkg.imageObjectKey}?download",
+        "/api/resources/${m.objectKey}?download"
+      ]
+    },
+    {
+      "source": "src/app/api/listening/full/[id]/authored-state/route.ts",
+      "sha256": "8d24f8bb980c8b089536994232284aff9d939491083eba23ae3cfbc113859b00",
+      "lines": 44,
+      "imports": [
+        "@/lib/listening/course-progress",
+        "@/lib/data/listening-course",
+        "@/lib/data/listening-sequence",
+        "next/server",
+        "zod",
+        "@/lib/http/rate-limit",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/lib/data/listening-original-state",
+        "@/lib/listening/original-listening",
+        "@/lib/validation/ids",
+        "@/db/client"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/api/listening/full/[id]/practice/route.ts",
+      "sha256": "05e847f1e024fd077dcd3ca9e93d842e0bdfb3c1a7cb458f748c1754ef50245f",
+      "lines": 34,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "next/server",
+        "zod",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/listening/package",
+        "@/lib/data/listening",
+        "@/lib/validation/ids",
+        "@/lib/http/rate-limit"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/api/listening/full/[id]/progress/route.ts",
+      "sha256": "69eb0f1f7a70642392a955a7858a5dfa0ff0b1e5579ab15db476aba1b5d5e9a4",
+      "lines": 63,
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/lib/data/listening-sequence",
+        "@/lib/data/listening-course",
+        "@/lib/listening/original-listening",
+        "@/lib/http/rate-limit",
+        "@/lib/validation/ids"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/api/listening/full/[id]/sandbox/route.ts",
+      "sha256": "0e518def928232fd715fc6ab45a4257a8746878ff6616de77c71326c0b31f5e3",
+      "lines": 20,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "@/lib/listening/original-listening",
+        "next/server",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/lib/validation/ids",
+        "@/lib/listening/authored-sandbox"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/api/listening/full/[id]/start/route.ts",
+      "sha256": "db860ef1d6e9cb110ca0a5328829bb961082d9a4919ffed4602ca833aa420b8c",
+      "lines": 27,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "next/server",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/lib/data/listening-attempt-write",
+        "@/lib/validation/ids"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/api/listening/full/[id]/study/route.ts",
+      "sha256": "a8a8524d4cc76d4c0dbd571193bf9f20d257ac8e5736045382ca6e54dc8dc2b4",
+      "lines": 52,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "next/server",
+        "zod",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/lib/listening/package",
+        "@/lib/validation/ids"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/api/listening/mcq/[id]/route.ts",
+      "sha256": "b0871aeb66cf3f4a26f88a0972225938fc5b525bfe3ed4037f97f39430167955",
+      "lines": 97,
+      "imports": [
+        "@/lib/services/listening/mcq-access",
+        "@/lib/validation/ids",
+        "next/server",
+        "zod",
+        "drizzle-orm",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/listening/question-set",
+        "@/lib/auth/current-user",
+        "@/lib/data/listening",
+        "@/lib/services/listening/mcq-mastery",
+        "@/lib/services/listening/mcq-payload"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/api/listening/mcq/route.ts",
+      "sha256": "5d98acce10508f0880d595a8052194ac08b73f7871850170f1ffa3b6563da4ac",
+      "lines": 59,
+      "imports": [
+        "@/lib/services/listening/mcq-access",
+        "next/server",
+        "zod",
+        "drizzle-orm",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/listening/question-set",
+        "@/lib/auth/current-user",
+        "@/lib/services/listening/mcq-payload"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(focus)/listening/attempts/[id]/page.tsx",
+      "sha256": "4f06402c8682822d8e44e16d99d7fbd8b2940d2d757ef2be28a6c1f97b06661d",
+      "lines": 161,
+      "imports": [
+        "@/lib/data/listening-schema-ready",
+        "@/db/client",
+        "drizzle-orm",
+        "@/db/schema",
+        "@/components/listening/NativeListeningExam",
+        "@/components/listening/SectionListeningActivity",
+        "@/lib/data/full-listening",
+        "@/lib/listening/lexical-policy",
+        "next/navigation",
+        "next/link",
+        "next/navigation",
+        "@/lib/auth/current-user",
+        "@/lib/i18n",
+        "@/lib/data/listening",
+        "@/components/listening/ListeningExam",
+        "@/components/listening/ListeningAnalysis",
+        "@/components/vocabulary/ClickableText",
+        "@/lib/validation/ids",
+        "@/lib/data/listening-general",
+        "@/lib/listening/activities",
+        "@/lib/listening/section-exercise",
+        "@/components/resources/OwnerMaterialBlocks"
+      ],
+      "apiReferences": [
+        "/api/resources/${pkg.imageObjectKey}"
+      ]
+    },
+    {
+      "source": "src/app/app/(focus)/listening/attempts/[id]/revision/page.tsx",
+      "sha256": "8608de65405e835ec2fa464feaf1af2f26bd445ad090379d55b4bfc8be304675",
+      "lines": 248,
+      "imports": [
+        "next/link",
+        "next/navigation",
+        "@/lib/auth/current-user",
+        "@/lib/i18n",
+        "@/lib/data/listening",
+        "@/lib/services/listening/speed-training",
+        "@/lib/services/vocabulary/engine",
+        "@/lib/services/listening/mcq-mastery",
+        "@/components/ui/Card",
+        "@/components/ui/EmptyState",
+        "@/components/vocabulary/ClickableText",
+        "@/components/listening/McqMastery",
+        "@/components/listening/SpeedTrainer"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(focus)/listening/tests/[id]/[activity]/page.tsx",
+      "sha256": "c18e07eb690b8c8e8adeb91c0a4bf451b8d2697df9cbe6bc808b886cd314381d",
+      "lines": 125,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "@/components/listening/ListeningSequenceLocked",
+        "@/lib/listening/original-listening",
+        "@/components/listening/ListeningPractice",
+        "@/lib/data/full-listening",
+        "@/lib/listening/activities",
+        "@/db/client",
+        "@/lib/services/lexical/listening-occurrences",
+        "@/lib/listening/lexical-policy",
+        "@/lib/services/listening/mcq-mastery",
+        "@/lib/data/listening",
+        "next/navigation",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/lib/validation/ids",
+        "@/lib/listening/activities",
+        "@/components/listening/FullListeningActivity",
+        "@/components/listening/FullExamStart",
+        "@/lib/i18n"
+      ],
+      "apiReferences": [
+        "/api/resources/${detail.pkg.imageObjectKey}"
+      ]
+    },
+    {
+      "source": "src/app/app/(focus)/listening/tests/[id]/mcq/page.tsx",
+      "sha256": "fea49cb30de77805803e405c281ea51263216de94108c9731a6fc4b2469abe2a",
+      "lines": 25,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "@/components/listening/ListeningSequenceLocked",
+        "@/lib/listening/original-listening",
+        "next/navigation",
+        "next/link",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/lib/data/listening",
+        "@/lib/i18n",
+        "@/lib/validation/ids",
+        "@/components/listening/McqMastery"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(focus)/listening/tests/[id]/page.tsx",
+      "sha256": "5600ad5ab2d1677e17a3fa7d112f4aa631e3b5234959eeba0c06e2588df44d7a",
+      "lines": 51,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "@/components/listening/ListeningSequenceLocked",
+        "@/lib/listening/original-listening",
+        "@/lib/listening/activities",
+        "@/components/listening/AuthoredListeningFrame",
+        "next/link",
+        "next/navigation",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/lib/data/listening",
+        "@/lib/i18n",
+        "@/lib/validation/ids"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(focus)/listening/tests/[id]/study/page.tsx",
+      "sha256": "3644a7c393d4af420845f16542cbe03358f0106ab08ccb2ec6fdd28047d0097f",
+      "lines": 64,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "@/components/listening/ListeningSequenceLocked",
+        "@/lib/listening/original-listening",
+        "next/navigation",
+        "@/db/client",
+        "@/lib/services/lexical/listening-occurrences",
+        "@/lib/auth/current-user",
+        "@/lib/data/full-listening",
+        "@/lib/listening/lexical-policy",
+        "@/lib/listening/activities",
+        "@/lib/validation/ids",
+        "@/lib/i18n",
+        "@/components/listening/FullListeningStudy"
+      ],
+      "apiReferences": [
+        "/api/resources/${detail.pkg.imageObjectKey}"
+      ]
+    },
+    {
+      "source": "src/app/app/(shell)/listening/academic/[testId]/page.tsx",
+      "sha256": "145f209fea52971dd36bd0fb5648dff6bdfd17811b58c44627c0c0e93e1fa2d2",
+      "lines": 120,
+      "imports": [
+        "@/lib/data/listening-sequence",
+        "@/components/listening/ListeningSequenceLocked",
+        "next/link",
+        "next/navigation",
+        "@/components/ui/BackLink",
+        "@/components/ui/Card",
+        "@/lib/auth/current-user",
+        "@/lib/i18n",
+        "@/lib/data/listening-academic"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(shell)/listening/academic/page.tsx",
+      "sha256": "481e072687d6738e95acf5c3873e0ec65f9ddd72f487ee20d657207f7a7ef61f",
+      "lines": 105,
+      "imports": [
+        "next/link",
+        "react",
+        "@/components/ui/Card",
+        "@/lib/auth/current-user",
+        "@/lib/i18n",
+        "@/lib/data/listening-academic"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(shell)/listening/general/[sectionId]/page.tsx",
+      "sha256": "b5f96af73a3ee9261198b06de7668e97de05b42f902df860bd972b22fb363413",
+      "lines": 89,
+      "imports": [
+        "next/navigation",
+        "next/link",
+        "@/lib/auth/current-user",
+        "@/lib/i18n",
+        "@/components/ui/BackLink",
+        "@/components/listening/SectionListeningActivity",
+        "@/components/listening/ListeningAnalysis",
+        "@/components/listening/SectionRetakeButton",
+        "@/lib/listening/section-exercise",
+        "@/lib/validation/ids"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(shell)/listening/general/page.tsx",
+      "sha256": "0b0addd15874d511878bf795eb24514b5e5c196e26c4bc215205b722675cfd4d",
+      "lines": 130,
+      "imports": [
+        "next/link",
+        "react",
+        "@/lib/auth/current-user",
+        "@/lib/i18n",
+        "@/lib/data/listening-general"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(shell)/listening/history/page.tsx",
+      "sha256": "3f28e8f185a52a4a9e6afc7de0acc60fe02c22313256ce5779a4a7a978e5465b",
+      "lines": 47,
+      "imports": [
+        "@/components/ui/BackLink",
+        "next/link",
+        "@/lib/auth/current-user",
+        "@/lib/i18n",
+        "@/lib/data/listening",
+        "@/components/ui/Card",
+        "@/components/ui/EmptyState"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(shell)/listening/import/page.tsx",
+      "sha256": "823c5b87a5c88fb7cd4bcc32dced4f8173dd3e260ad173ecbf41496e3336d062",
+      "lines": 9,
+      "imports": [
+        "next/navigation",
+        "@/lib/auth/current-user"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(shell)/listening/lessons/[lessonId]/page.tsx",
+      "sha256": "03f469522aeaf724c3383500749b3b88805f702f48b868556e19b11bc7538e07",
+      "lines": 175,
+      "imports": [
+        "next/link",
+        "next/navigation",
+        "@/components/ui/BackLink",
+        "@/components/ui/Card",
+        "@/components/notes/LessonNotesPanel",
+        "@/components/listening/ListeningLessonBody",
+        "@/lib/auth/current-user",
+        "@/lib/i18n",
+        "@/lib/content/lesson-library",
+        "@/lib/validation/ids",
+        "@/lib/services/video/direct",
+        "@/lib/config/site"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(shell)/listening/lessons/author/page.tsx",
+      "sha256": "d8f5caae7ceb6d70c5dd1e038fcbd86086f1736dc6cfaa000361bae90d51d566",
+      "lines": 91,
+      "imports": [
+        "next/link",
+        "next/navigation",
+        "@/components/ui/BackLink",
+        "@/components/ui/Card",
+        "@/components/lessons/LessonAuthoringDesk",
+        "@/lib/auth/current-user",
+        "@/lib/import/core/permissions",
+        "@/lib/content/authoring-access",
+        "@/lib/i18n",
+        "@/lib/content/lesson-staff"
+      ],
+      "apiReferences": [
+        "/api/admin/content/drafts",
+        "/api/admin/content/versions/"
+      ]
+    },
+    {
+      "source": "src/app/app/(shell)/listening/lessons/page.tsx",
+      "sha256": "aea25db5caf35b6d4fbe50a1878af203492564cb64d15f2b372f5d60f5275867",
+      "lines": 71,
+      "imports": [
+        "next/link",
+        "@/components/ui/Card",
+        "@/lib/auth/current-user",
+        "@/lib/auth/roles",
+        "@/lib/i18n",
+        "@/lib/content/lesson-library"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(shell)/listening/mcq/day/[day]/page.tsx",
+      "sha256": "ff6334ee91b14f8a8f21b0c9b96bbe49a78a96a9e170bd6e5559696da1a9d97c",
+      "lines": 155,
+      "imports": [
+        "@/components/listening/ListeningSequenceLocked",
+        "@/lib/data/listening-mcq",
+        "@/components/ui/BackLink",
+        "next/link",
+        "next/navigation",
+        "@/components/listening/McqMastery",
+        "@/lib/auth/current-user",
+        "@/lib/auth/roles",
+        "@/lib/i18n",
+        "@/lib/data/listening-mcq",
+        "@/lib/listening/mcq-program",
+        "@/lib/services/listening/mcq-mastery"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(shell)/listening/mcq/page.tsx",
+      "sha256": "ae43b1113e16529958b1b2d94dfea9c90c555a698e370e141a4465865e730dd8",
+      "lines": 100,
+      "imports": [
+        "next/link",
+        "@/lib/auth/current-user",
+        "@/lib/auth/roles",
+        "@/lib/i18n",
+        "@/lib/data/listening-mcq"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/app/app/(shell)/listening/page.tsx",
+      "sha256": "5a39b31a32ad4b906558fee547a9d959fdf70b4308623cfcae079a6d3578a4a8",
+      "lines": 11,
+      "imports": [
+        "next/navigation",
+        "@/lib/auth/current-user"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/components/listening/AuthoredListeningFrame.tsx",
+      "sha256": "f8ad0a315fb8a3cc16b258231e9ba0fe7505fa17d08d4e8fef73dfef122bbc43",
+      "lines": 114,
+      "imports": [
+        "@/lib/listening/course-progress",
+        "react",
+        "@/lib/i18n/en",
+        "@/lib/services/lexical/listening-occurrences",
+        "@/lib/listening/authored-sandbox",
+        "@/components/vocabulary/ClickableText",
+        "@/lib/client/authored-media-controller",
+        "@/lib/listening/authored-media-bridge"
+      ],
+      "apiReferences": [
+        "/api/listening/full/${id}/authored",
+        "/api/listening/full/${id}/authored-state",
+        "/api/listening/full/${id}/authored?vocabulary",
+        "/api/listening/full/${id}/progress",
+        "/api/listening/full/${preview?",
+        "/api/resources/",
+        "/api/vocabulary",
+        "/api/vocabulary/folders"
+      ]
+    },
+    {
+      "source": "src/components/listening/FullExamStart.tsx",
+      "sha256": "bc52b9e4d02eafac7374ba99c2a2b7abf45d2831a4efd06bbe1ac4fb565e6689",
+      "lines": 65,
+      "imports": [
+        "next/navigation",
+        "@/lib/http/client-request",
+        "@/components/ui/BackLink",
+        "@/lib/i18n/en",
+        "react"
+      ],
+      "apiReferences": [
+        "/api/listening/full/${id}/start"
+      ]
+    },
+    {
+      "source": "src/components/listening/FullListeningActivity.tsx",
+      "sha256": "3bfdb720c18d30ef819ef55162d1a949286022e0ffc8ad395bf89111bae468a4",
+      "lines": 607,
+      "imports": [
+        "@/lib/http/use-scoped-response",
+        "./ListeningMap",
+        "@/lib/listening/activities",
+        "next/image",
+        "next/link",
+        "./ListeningSpeedPractice",
+        "./McqMastery",
+        "@/lib/services/listening/mcq-mastery",
+        "react",
+        "@/lib/listening/package",
+        "@/components/vocabulary/ClickableText",
+        "@/lib/services/lexical/occurrence-spans",
+        "@/lib/services/lexical/occurrence-spans",
+        "@/lib/services/lexical/listening-occurrences",
+        "@/lib/i18n/en"
+      ],
+      "apiReferences": [
+        "/api/listening/full/${id}/activity",
+        "/api/vocabulary",
+        "/api/vocabulary/folders"
+      ]
+    },
+    {
+      "source": "src/components/listening/FullListeningLibrary.tsx",
+      "sha256": "9768d60bc192789d1177edf65aa03f9af761194c5493ffc87d8cd7e5ac7f8e4b",
+      "lines": 157,
+      "imports": [
+        "./StartTestButton",
+        "next/link",
+        "./ListeningTestActions",
+        "react",
+        "@/lib/i18n/en",
+        "@/lib/listening/product"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/components/listening/FullListeningStudy.tsx",
+      "sha256": "f7eb7be2e71b417db77399fd3f04c0f8f2e9955cb25caad3998ec49e37ed15cb",
+      "lines": 284,
+      "imports": [
+        "./ListeningMap",
+        "@/lib/listening/activities",
+        "@/lib/listening/map-diagram",
+        "next/link",
+        "next/image",
+        "react",
+        "@/components/vocabulary/ClickableText",
+        "@/lib/services/lexical/occurrence-spans",
+        "@/lib/http/client-request",
+        "@/lib/i18n/en"
+      ],
+      "apiReferences": [
+        "/api/listening/full/${id}/study"
+      ]
+    },
+    {
+      "source": "src/components/listening/LessonQuizBlock.tsx",
+      "sha256": "0047ecd2b0e07910b9e9d2089379c7e1e413fc5ff0d2a98376c58ba6db1200b7",
+      "lines": 97,
+      "imports": [
+        "react",
+        "@/components/ui/Button",
+        "@/components/ui/Input",
+        "@/lib/i18n/en",
+        "@/lib/http/use-scoped-request"
+      ],
+      "apiReferences": [
+        "/api/lessons/blocks/",
+        "/api/lessons/blocks/${blockId}/answer"
+      ]
+    },
+    {
+      "source": "src/components/listening/ListeningAnalysis.tsx",
+      "sha256": "d8d5c4427dc3902020ea66d8cbb154bcc9dfd7285e2d6af1942a7bed1e69c3e1",
+      "lines": 126,
+      "imports": [
+        "@/components/ui/Card",
+        "@/lib/i18n/en",
+        "@/db/schema",
+        "no verdict has been reached"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/components/listening/ListeningExam.tsx",
+      "sha256": "e293cb0609838e6bbf59e93b019bd5a21a398c79fc27334e1218baeae862b8f1",
+      "lines": 120,
+      "imports": [
+        "react",
+        "next/navigation",
+        "@/components/ui/Button",
+        "@/components/ui/Input",
+        "@/components/speaking/MaterialPlayer",
+        "@/lib/i18n/en",
+        "@/lib/http/client-request",
+        "@/lib/interaction/focus-entry"
+      ],
+      "apiReferences": [
+        "/api/listening/attempts/${attemptId}/submit"
+      ]
+    },
+    {
+      "source": "src/components/listening/ListeningImport.tsx",
+      "sha256": "e5c8155110c3b12be57fbc1880ac0b0305115d001a9398c1bdabfc1bf552f8f1",
+      "lines": 483,
+      "imports": [
+        "next/link",
+        "react",
+        "@/lib/uploads/client",
+        "@/lib/uploads/errors",
+        "@/lib/import/zip-transport",
+        "./ListeningLegacyImport",
+        "@/lib/i18n/en",
+        "./audio-probe"
+      ],
+      "apiReferences": [
+        "/api/admin/content/import",
+        "/api/admin/content/template?module",
+        "/api/admin/content/validate"
+      ]
+    },
+    {
+      "source": "src/components/listening/ListeningLegacyImport.tsx",
+      "sha256": "5b0583b43ada5402bfadabaab7e25b7bf635f7f2a095072cf7e4199b2f5d707a",
+      "lines": 321,
+      "imports": [
+        "@/lib/listening/embedded-media",
+        "fflate",
+        "react",
+        "@/lib/import/reading-source",
+        "next/link",
+        "./AuthoredListeningFrame",
+        "@/components/import/ListeningTryout",
+        "./audio-probe",
+        "@/lib/listening/package",
+        "@/lib/uploads/client",
+        "@/lib/uploads/errors",
+        "@/lib/listening/package",
+        "@/lib/listening/discover",
+        "@/lib/listening/inspect",
+        "@/lib/i18n/en"
+      ],
+      "apiReferences": [
+        "/api/admin/listening/import",
+        "/api/admin/listening/tests/"
+      ]
+    },
+    {
+      "source": "src/components/listening/ListeningLessonBody.tsx",
+      "sha256": "b42d6e038a0301aa458051f579e36b5afdbec733a2c44500fa0ad62f9d8e2283",
+      "lines": 117,
+      "imports": [
+        "@/components/reading/ReadingHighlights",
+        "next/link",
+        "@/lib/content/lessons",
+        "@/lib/i18n/en",
+        "./LessonQuizBlock"
+      ],
+      "apiReferences": [
+        "/api/resources/${block.objectKey}"
+      ]
+    },
+    {
+      "source": "src/components/listening/ListeningMap.tsx",
+      "sha256": "c08e9b66c1d9825f7b3a367c438f761cd7e4d2b10ec1027d51431fdf29009dae",
+      "lines": 6,
+      "imports": [
+        "@/lib/listening/map-diagram"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/components/listening/ListeningPractice.tsx",
+      "sha256": "e57a2c0feec4123dd6639909bb3051b88e976ce4bd5d20f6bd4c7fc065b07f2e",
+      "lines": 35,
+      "imports": [
+        "next/link",
+        "react",
+        "@/lib/http/use-scoped-response",
+        "@/lib/i18n/en",
+        "@/lib/listening/activities",
+        "@/components/vocabulary/ClickableText",
+        "./ListeningMap",
+        "@/lib/listening/map-diagram"
+      ],
+      "apiReferences": [
+        "/api/listening/full/${id}/practice"
+      ]
+    },
+    {
+      "source": "src/components/listening/ListeningSectionHeading.tsx",
+      "sha256": "dd966f4a1abb1f5a9580c26468250f8514da2916f4b3e31d7020e2ed53642b73",
+      "lines": 27,
+      "imports": [
+        "next/navigation"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/components/listening/ListeningSequenceLocked.tsx",
+      "sha256": "34443bc9ff9f67ce531cdba054e0b2a2742fc29359c527b5dd7a5652ac8fcdbe",
+      "lines": 10,
+      "imports": [
+        "next/link",
+        "@/lib/i18n/en"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/components/listening/ListeningSpeedPractice.tsx",
+      "sha256": "295b3366ca0b3d13427f05ec6c72183c41b9d0dab4b3e73eda712548039e071d",
+      "lines": 108,
+      "imports": [
+        "@/lib/i18n/en",
+        "react",
+        "@/lib/http/client-request",
+        "next/navigation",
+        "@/lib/listening/package"
+      ],
+      "apiReferences": [
+        "/api/listening/full/${id}/activity"
+      ]
+    },
+    {
+      "source": "src/components/listening/ListeningTestActions.tsx",
+      "sha256": "d8b812536232aae146acb577cb3ed83cb95cf0868eb0c7f6599df9cedfedd01c",
+      "lines": 32,
+      "imports": [
+        "react",
+        "next/navigation",
+        "@/lib/i18n/en",
+        "@/lib/http/use-scoped-response"
+      ],
+      "apiReferences": [
+        "/api/admin/listening/tests/${id}"
+      ]
+    },
+    {
+      "source": "src/components/listening/McqMastery.tsx",
+      "sha256": "e82a1c56c3e9874be8bb1f6fb7d51a80d8f6591f5d255ba6d1073bb037bf3e6c",
+      "lines": 271,
+      "imports": [
+        "@/lib/http/use-scoped-response",
+        "next/link",
+        "next/navigation",
+        "react",
+        "@/components/ui/Card",
+        "@/components/ui/Button",
+        "@/lib/i18n/en",
+        "@/lib/services/listening/mcq-mastery"
+      ],
+      "apiReferences": [
+        "/api/listening/mcq",
+        "/api/listening/mcq/${payload.session.id}"
+      ]
+    },
+    {
+      "source": "src/components/listening/NativeListeningExam.tsx",
+      "sha256": "af027c3caef66f37337ff18066c2c33c8a8777d6130b8d35970004697890c2ef",
+      "lines": 581,
+      "imports": [
+        "./ListeningMap",
+        "@/lib/listening/activities",
+        "@/lib/listening/map-diagram",
+        "@/lib/i18n/en",
+        "@/lib/http/client-request",
+        "next/image",
+        "react",
+        "next/navigation",
+        "@/lib/listening/package",
+        "@/lib/listening/question-control",
+        "@/lib/listening/attempt-local-state"
+      ],
+      "apiReferences": [
+        "/api/listening/attempts/${attemptId}/draft",
+        "/api/listening/attempts/${attemptId}/submit"
+      ]
+    },
+    {
+      "source": "src/components/listening/SectionListeningActivity.tsx",
+      "sha256": "2c9bfd0f82d778866e74547821193e6792577a29c81e34b52b4b92ac7155a3b3",
+      "lines": 61,
+      "imports": [
+        "@/components/vocabulary/ClickableText",
+        "./NativeListeningExam",
+        "@/lib/listening/map-diagram",
+        "@/lib/i18n/en"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/components/listening/SectionRetakeButton.tsx",
+      "sha256": "5efb80e456db50173a504592c33b9fc9f0323ce476529ef2b3e1d282a7dd88bb",
+      "lines": 68,
+      "imports": [
+        "react",
+        "next/navigation",
+        "@/components/ui/Button",
+        "@/lib/http/client-request"
+      ],
+      "apiReferences": [
+        "/api/listening/attempts"
+      ]
+    },
+    {
+      "source": "src/components/listening/SpeedTrainer.tsx",
+      "sha256": "aabc18a81953d4b4f8edac9f802e483ffc33c353ccc00c79c0c6291db8111c06",
+      "lines": 122,
+      "imports": [
+        "react",
+        "@/components/vocabulary/ClickableText",
+        "@/components/ui/Card",
+        "@/lib/i18n/en",
+        "@/lib/services/listening/speed-training"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/components/listening/StartTestButton.tsx",
+      "sha256": "c2676d804398b281a80ae1fb7a57860cfb8dac81de644b84738b132060c3aa38",
+      "lines": 34,
+      "imports": [
+        "react",
+        "@/components/interaction/InstantInteractionProvider",
+        "@/components/ui/Button",
+        "@/lib/http/client-request",
+        "@/lib/validation/ids"
+      ],
+      "apiReferences": [
+        "/api/listening/attempts"
+      ]
+    },
+    {
+      "source": "src/components/listening/audio-probe.ts",
+      "sha256": "6b3901ace1df4161de541b334dbe0777829c2342cb7cea9926dc49bf7acf3c3a",
+      "lines": 42,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/client/authored-media-controller.ts",
+      "sha256": "dc3b42582153fb03ff4c2f6cb8d46c99b34df8d0f929505db6ed6ef3157d90fe",
+      "lines": 68,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/client/private-resource.ts",
+      "sha256": "00dc3f485d12834d9c9ba67e033f7cee0398bf56d820f13037e74e1a14c8a02b",
+      "lines": 216,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/activities.ts",
+      "sha256": "ec3d8a5ee4e01829c9b3f2d79c6d1251e764b3b5a82514ed4e6a0190c6074a80",
+      "lines": 294,
+      "imports": [
+        "./package",
+        "./question-identity"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/attempt-local-state.ts",
+      "sha256": "8fa589774c4d031a034f3651caae52b51ea557e83b62970f3eb9e4c323f4c167",
+      "lines": 84,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/authored-media-bridge.ts",
+      "sha256": "4e39ecf476107844817eef3c80faa2880053afaf24ae92b8de202821ae12d334",
+      "lines": 16,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/authored-sandbox.ts",
+      "sha256": "e4a34622ca397a0691d4142fcd3f3858fe219b164f2e416322a0719e5cbdc91e",
+      "lines": 20,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/classification-triage.ts",
+      "sha256": "8bcf8d5dbadcde713efca197c3b1b742f6cc08b179efdc663b8f280f92e209df",
+      "lines": 68,
+      "imports": [
+        "./product"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/course-progress.ts",
+      "sha256": "d30b7cdab3b151e4e0098f2312bbd2c986982bd0877d016983df1ec516903605",
+      "lines": 46,
+      "imports": [
+        "./original-listening-course.json"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/discover.ts",
+      "sha256": "cc2e896a7d9f4d4686a1890a8d5f956fcfc30d9e9d1d4d78c7467744ba6a87e7",
+      "lines": 328,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/embedded-media.ts",
+      "sha256": "c12a331b920cfa4b3ce86ca809c6b77707450c44c48ca864e6ec03c62054c753",
+      "lines": 22,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/inspect.ts",
+      "sha256": "5c7d7aba993cfa02500c6d2fc96e0af1d72873e3689cc042b8f683a194e260df",
+      "lines": 194,
+      "imports": [
+        "fflate",
+        "./package",
+        "./source-parser",
+        "./discover"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/lexical-policy.ts",
+      "sha256": "07952e816468e9eee1bc299ea70c550f972114b0964f52420d57aafb6c8e8e5b",
+      "lines": 67,
+      "imports": [
+        "./product"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/map-diagram.ts",
+      "sha256": "03744f27799f0de1cfd764bb56396abe14a1c038a658d816a6869585c3c08611",
+      "lines": 34,
+      "imports": [
+        "zod"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/mcq-choice.ts",
+      "sha256": "e85ed1d0971916916b2253ecbce8bcb33e51cf920a8d8d1770d4622f499c4d1a",
+      "lines": 26,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/mcq-program.ts",
+      "sha256": "1214837d6c9b8b7cefa3e6aa6326c16991bf9bc0ce46c59d16232f765b2f466a",
+      "lines": 251,
+      "imports": [
+        "./mcq-choice",
+        "./question-identity"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/original-course-hooks.ts",
+      "sha256": "e4de72a277d99912a70803fa8e79f59db441ff4aa1765d5982c94b5658f8b363",
+      "lines": 34,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/original-listening-catalogue.json",
+      "sha256": "90409db6672f950cc9d97919e332f47cc671f80adf4df3c3caf9b0f4183ca972",
+      "lines": 594,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/original-listening-course.json",
+      "sha256": "c100b9db038a6126490615d50b2d8fee4d260b9925054c9572bf7610eca240ef",
+      "lines": 8413,
+      "imports": [],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/original-listening.ts",
+      "sha256": "c3588632790d5d83c0fcfed556235f41acde1600baf34f435b45f8853af4f419",
+      "lines": 22,
+      "imports": [
+        "node:fs/promises",
+        "./original-listening-catalogue.json",
+        "./original-test-one-hooks",
+        "./original-test-one"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/original-test-one-hooks.ts",
+      "sha256": "013dce0ddf52ac318a20e6c2efe9c27d52e7980ff5b3de6c10bdae439da940ed",
+      "lines": 65,
+      "imports": [
+        "./original-course-hooks"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/original-test-one.ts",
+      "sha256": "0c0390d8052e6fedc8055f46a8e62cb7ad94bb572e40da8b43e20e3bd5ac0a3f",
+      "lines": 16,
+      "imports": [
+        "./original-test-one-hooks",
+        "node:fs/promises"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/package.ts",
+      "sha256": "8e27136bf78c85763396616f11996721adff5bb538ad13280a544a455d7017d9",
+      "lines": 304,
+      "imports": [
+        "zod",
+        "./map-diagram"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/permissions.ts",
+      "sha256": "4dc09a5e91374d58d0fbca045c6623c36adbcc63329ae6efca971782721eda24",
+      "lines": 11,
+      "imports": [
+        "@/lib/auth/roles"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/product.ts",
+      "sha256": "05193fa0dbba3b234d1cce6eadce2b5f8fd6893c374ccc57fca83c0583e2a80e",
+      "lines": 330,
+      "imports": [
+        "drizzle-orm",
+        "./package",
+        "a row with no authored classification"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/publication-guards.ts",
+      "sha256": "1b51f67a17e48dcaa09fceb90f1a6214693c90dafb33cab1a15a90e31cd7d01a",
+      "lines": 95,
+      "imports": [
+        "drizzle-orm",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/data/listening-schema-ready",
+        "./question-set",
+        "./mcq-program"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/question-control.ts",
+      "sha256": "15d88cb88916695634e2d246caa9b55580a7d74c42ca44a5cd88332617dfe794",
+      "lines": 49,
+      "imports": [
+        "@/lib/content/question-types"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/question-identity.ts",
+      "sha256": "ea5a508187e4d813ea20376e51d3e70ff134e00be2492af035618592d749c9f2",
+      "lines": 214,
+      "imports": [
+        "@/lib/content/question-types"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/question-set.ts",
+      "sha256": "e30e3420130513613186ee3cf27cb2197c2be389a451320885fb61f98396f8f9",
+      "lines": 275,
+      "imports": [
+        "drizzle-orm",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/content/attempt-binding",
+        "@/lib/listening/question-identity"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/section-exercise.ts",
+      "sha256": "43611edbeb5b6539d8f4df7289b6eb8657d33ed496387729825af1af67062381",
+      "lines": 183,
+      "imports": [
+        "drizzle-orm",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/listening/lexical-policy",
+        "@/lib/data/full-listening",
+        "@/lib/listening/question-set",
+        "@/lib/data/listening-general",
+        "@/lib/data/listening-attempt-write",
+        "@/components/listening/NativeListeningExam",
+        "@/lib/listening/map-diagram",
+        "@/lib/listening/question-control",
+        "@/lib/i18n/en",
+        "@/lib/auth/roles"
+      ],
+      "apiReferences": [
+        "/api/resources/${section.imageObjectKey}"
+      ]
+    },
+    {
+      "source": "src/lib/listening/source-parser.ts",
+      "sha256": "746e863d4f9448087372799ab7df24d5d75cf663778c5d70ffd07bc17d80f683",
+      "lines": 329,
+      "imports": [
+        "./question-identity",
+        "./map-diagram",
+        "./package",
+        "./discover"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/study-segments.ts",
+      "sha256": "6d909f9e0b322aa9b9dd7544caafcb032b80760d369ec62cce892e1426360dbe",
+      "lines": 13,
+      "imports": [
+        "./package"
+      ],
+      "apiReferences": []
+    },
+    {
+      "source": "src/lib/listening/zip.ts",
+      "sha256": "4d52c4ac102bb8147c4cf20b2b518806a814ff32af5a3d28f4b070805e354f5a",
+      "lines": 38,
+      "imports": [
+        "./embedded-media",
+        "fflate",
+        "../import/archive",
+        "./discover"
+      ],
+      "apiReferences": []
+    }
+  ]
+}

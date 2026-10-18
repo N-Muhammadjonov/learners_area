@@ -23,7 +23,7 @@ export function render(scope) {
             h("button", { type: "button", className: "btn-secondary", "aria-expanded": notesOpen, "aria-controls": "listening-exam-notes", onClick: () => setNotesOpen(open => !open) }, dict.fullListeningHub.examScreen.noteTaking),
             h("label", null,
                 dict.fullListeningHub.examScreen.volume,
-                h("input", { "aria-label": dict.fullListeningHub.examScreen.volume, type: "range", min: 0, max: 1, step: 0.05, defaultValue: 1, onChange: (e) => {
+                h("input", { "aria-label": dict.fullListeningHub.examScreen.volume, type: "range", min: 0, max: 1, step: 0.05, value: audio.current?.volume ?? 1, onChange: (e) => {
                         if (audio.current)
                             audio.current.volume = Number(e.target.value);
                     } })),

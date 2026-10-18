@@ -1,3 +1,13 @@
+# ACTIVE V7 — PARTIAL Listening implementation checkpoint
+
+Same branch arena/96836bcf-learners-area; exact prior V6 91cd868a66cbc24c0c093e259959add2e0f09671. V7 adds source-native exam/start/practice and authored typed retry/recovery. Listening NOT complete; Reading NOT started. Global13canonical complete/18partial/77notstarted,53components complete/13partial/140notstarted; no new completion credit.252unit/317Chromium final development PASS; independent final ZIP validation in deliverables/V7_VALIDATION.txt and exact delivery SHA in Git log. Preserve all original236unit/291browser and Phase1/2 behavior.
+
+Read CHECKPOINT_V7, SOURCE_STATE_INVENTORY_V7 (8precise remaining ordinary tasks), ADAPTER_CONTRACTS_V7, V7ledgers. Complete legacy activity2–5, review/study/revision/testMCQ, General canonical lexical/highlights/result/retake, catalogues/hubs/history, lessons/learner authoring, true nine-activity source behavior and media/security/state verification before module promotion. Nine progress enum tests ≠nine UIactivities. Existing protected runtime remains server-loaded in opaque allow-scripts-only iframe; never bundle answers/media or invent grading. Native source-transpiled analysis renderer is unit-tested only, NOT a finished review route. Missing backend projection does not externally block remaining frontend engineering.
+
+Initial sandbox had stale Git/untracked V4tree; preserved stale files under /home/user/.arena/v7-workspace-safety before SAME-branch ff-only sync to verified V6. Never use that stale copy to overwrite latest code.35staff routes reserved to other AI V4snapshot; no automatic merge/integration or staff changes. Same constraints as V6: only migration/vanilla-frontend edits, no reset/rebase/stash/clean/forcepush/branch switch/main/backend/DB/provider/deploy/production changes. No visual/live acceptance; explicit owner approval before production.
+
+---
+
 # ACTIVE V6 continuation — read this before older checkpoints
 
 Current branch `arena/96836bcf-learners-area`; baseline V5 `68778f85eb862206b22750656ccaea28fc8ac324`. V6 Phase2 `/app`, `/app/mocks`, `/app/reports` FRONTEND CODE COMPLETE; Phase1 preserved. Overall PARTIAL:13/108canonical complete,16partial,79notstarted;53/206components complete,8partial,145notstarted. Latest final236unit/291ChromiumPASS,0FAIL/0SKIP, synthetic only. Exact V6 delivery SHA/hash and extracted validation are in `deliverables/V6_VALIDATION.txt` and Git history, not older V5 checkpoint text below.

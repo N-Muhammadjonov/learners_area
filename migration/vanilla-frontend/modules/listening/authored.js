@@ -13,7 +13,7 @@ import {wordPopover} from '../vocabulary/word-popover.js';
 function authoredSession(context,{id}){const {dict,session,signal}=context,host=el('section',{class:'relative w-full','data-authored-listening':''}),alert=el('p',{role:'alert'}),loading=el('p',{},dict.common.loading);host.append(loading);
  const abort=new AbortController(),liveSignal=AbortSignal.any([signal,abort.signal]),token=crypto.randomUUID(),stateKey=`la-authored-listening:${session.user.id}:${id}`,urls=[],blobs={},assets={};let content,path='',frame,stored={},hydration=null,hydratedCourse=null,stateReady=false,hubReady=false,background=null,media=null,writes=Promise.resolve(),pending=null,vocabulary=[],vocabularyRead=null,popup,anchor,dialog;
  function error(){if(liveSignal.aborted)return;alert.textContent=dict.common.error;if(!alert.isConnected)host.prepend(alert);if(!host.querySelector('[data-authored-retry]')){const retry=el('button',{type:'button',class:'btn-secondary','data-authored-retry':''},dict.common.retry);listen(retry,'click',()=>context.retryAuthored(),liveSignal);host.prepend(retry);}}
- function clearError(){alert.remove();alert.textContent='';}
+ function clearError(){alert.remove();alert.textContent='';host.querySelector('[data-authored-retry]')?.remove();}
  function post(channel,data){if(!liveSignal.aborted)frame?.contentWindow?.postMessage({channel,token,...data},'*');}
  const objectUrl=blob=>{if(liveSignal.aborted)throw new DOMException('Aborted','AbortError');const url=URL.createObjectURL(blob);urls.push(url);blobs[url]=blob;return url;};
  async function request(url,options={}){return api.request(url,{...options,signal:liveSignal});}
