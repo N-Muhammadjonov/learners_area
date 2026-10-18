@@ -1,0 +1,4108 @@
+{
+  "summary": {
+    "baseline": "9a7d9fc5a93608078644d61cd9f9850c05c4ddc8",
+    "previousCheckpoint": "b9d9c8517c1301ea3e75ed632b23c5b40c2d452b",
+    "pageFiles": 115,
+    "classificationCounts": {
+      "CANONICAL_PAGE_CANDIDATE": 107,
+      "PROTECTED_REDIRECT_ONLY": 5,
+      "CONDITIONAL_CANONICAL_AND_LEGACY_REDIRECT": 1,
+      "QUERY_DEPENDENT_LEGACY_REDIRECT": 1,
+      "RETIRED_REDIRECT": 1
+    },
+    "activeCanonicalDenominator": "UNDETERMINED \u2014 108 inventory candidates are not confirmed active product pages",
+    "partialPageCandidates": 15,
+    "fullyConvertedAcceptedPages": 0,
+    "fullyParityVerifiedPages": 0,
+    "notStartedPageRecords": 71,
+    "componentFiles": 206,
+    "partialComponentFiles": 17,
+    "fullyAcceptedComponents": 0,
+    "codeCheckpoint": "V10 source/package and final proof SHAs in Git log and deliverables/V10_VALIDATION.txt",
+    "status": "PARTIAL",
+    "notStartedComponentFiles": 127,
+    "codeCompleteRedirectOnlyRecords": 6,
+    "retiredRecords": 1,
+    "metrics": {
+      "implementation": "UNDETERMINED weighted product implementation; inventory22/108 routes and62/206 components is not product acceptance",
+      "functionalSecurity": "UNDETERMINED aggregate denominator; executable fixture counts separate",
+      "visualIntegration": "0 accepted original-rendered/live/production cases; denominator UNDETERMINED"
+    },
+    "sourceBuild": true,
+    "unit": {
+      "pass": 323,
+      "fail": 0,
+      "skip": 0
+    },
+    "browser": {
+      "pass": 478,
+      "fail": 0,
+      "skip": 0,
+      "historical": 425,
+      "newV10": 53,
+      "optionalActualOriginalNavigation": "9 genuine identities navigated;0 comprehensive workflow acceptance; excluded from fixture count"
+    },
+    "v3NewPageImplementations": 0,
+    "canonicalCandidates": 108,
+    "frontendCodeCompleteCanonicalCandidates": 22,
+    "frontendCodeCompleteComponents": 62,
+    "v4NewPageImplementations": 0,
+    "completedModule": "Phase1/2/V7/V8/V9 General preserved; Academic/history/learner lessons increment; Listening PARTIAL",
+    "componentAccounting": "62complete+17partial+127notstarted=206",
+    "routeAccounting": "22canonicalcomplete+15partial+71notstarted+6redirects+1retired=115",
+    "v5NewPageImplementations": 1,
+    "reservedStaffCanonicalRoutes": 35,
+    "listeningCanonicalStatusCounts": {
+      "CODE COMPLETE": 9,
+      "IN PROGRESS": 6,
+      "NOT STARTED": 1
+    },
+    "listeningComponentStatusCounts": {
+      "CODE COMPLETE": 9,
+      "IN PROGRESS": 10,
+      "NOT STARTED": 5
+    }
+  },
+  "routes": [
+    {
+      "pattern": "/app/listening/attempts/:id",
+      "source": "src/app/app/(focus)/listening/attempts/[id]/page.tsx",
+      "layout": "FOCUS",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "PARTIAL FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "V9 adds own General section discriminant/equivalent loader and media recovery; legacy/private/native paths preserved. Whole attempt/source provider and authored media gate still partial.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/listening/attempts/:id/revision",
+      "source": "src/app/app/(focus)/listening/attempts/[id]/revision/page.tsx",
+      "layout": "FOCUS",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "PARTIAL FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "V9 populated mistake/keyword/vocabulary and source media/rate support now tested; broader source/provider/media permission and all-caller gate remains partial."
+    },
+    {
+      "pattern": "/app/listening/tests/:id/:activity",
+      "source": "src/app/app/(focus)/listening/tests/[id]/[activity]/page.tsx",
+      "layout": "FOCUS",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "PARTIAL FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "V8 numeric2\u20135 complete source-native journeys and own legacy/review integration added; canonical route remains partial pending General/provider/authored/full Listening gate. Preserve V7 controllers.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/listening/tests/:id/mcq",
+      "source": "src/app/app/(focus)/listening/tests/[id]/mcq/page.tsx",
+      "layout": "FOCUS",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "V8 coherent source-native study/testMCQ journey, server-authorized data/grades, error/retry/disposal and Chromium workflow evidence. Original-rendered/live NOT verified."
+    },
+    {
+      "pattern": "/app/listening/tests/:id",
+      "source": "src/app/app/(focus)/listening/tests/[id]/page.tsx",
+      "layout": "FOCUS",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "V10 hub registry/lock/not-found/retry and paint-before-audio implemented; original nine full behavioral/media acceptance remains open. No whole-route closure.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Opaque authored host, hub-first protocol and shell-free access lifetime retained.",
+        "remaining": "Nine ordinary activity engines, notes/flags/timers/autosave/recovery/outbox/repeated media states are NOT code-complete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/listening/tests/:id/study",
+      "source": "src/app/app/(focus)/listening/tests/[id]/study/page.tsx",
+      "layout": "FOCUS",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "V8 coherent source-native study/testMCQ journey, server-authorized data/grades, error/retry/disposal and Chromium workflow evidence. Original-rendered/live NOT verified."
+    },
+    {
+      "pattern": "/app/admin/admissions",
+      "source": "src/app/app/(shell)/admin/admissions/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/content",
+      "source": "src/app/app/(shell)/admin/content/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "Native candidate; not a fully converted/accepted route.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Existing source presentation candidate retained; shared shell interactions improved.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/admin/content/workspace",
+      "source": "src/app/app/(shell)/admin/content/workspace/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/grammar/:id",
+      "source": "src/app/app/(shell)/admin/grammar/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/grammar",
+      "source": "src/app/app/(shell)/admin/grammar/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/listening/:id",
+      "source": "src/app/app/(shell)/admin/listening/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/listening/import",
+      "source": "src/app/app/(shell)/admin/listening/import/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/listening",
+      "source": "src/app/app/(shell)/admin/listening/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/materials/:type/:id",
+      "source": "src/app/app/(shell)/admin/materials/[type]/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/materials/:type",
+      "source": "src/app/app/(shell)/admin/materials/[type]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/materials",
+      "source": "src/app/app/(shell)/admin/materials/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "Native candidate; not a fully converted/accepted route.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Existing source presentation candidate retained; shared shell interactions improved.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/admin/people/:id",
+      "source": "src/app/app/(shell)/admin/people/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/people",
+      "source": "src/app/app/(shell)/admin/people/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/reading/:id",
+      "source": "src/app/app/(shell)/admin/reading/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/reading/import",
+      "source": "src/app/app/(shell)/admin/reading/import/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/reading",
+      "source": "src/app/app/(shell)/admin/reading/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/reading/retention",
+      "source": "src/app/app/(shell)/admin/reading/retention/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/reading/retention/staged",
+      "source": "src/app/app/(shell)/admin/reading/retention/staged/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/roster",
+      "source": "src/app/app/(shell)/admin/roster/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/users",
+      "source": "src/app/app/(shell)/admin/users/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "PROTECTED_REDIRECT_ONLY",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app",
+        "/app/admin/people"
+      ],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": "source-default/query normalization; conditional Grammar tabs NOT IMPLEMENTED",
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Redirect behavior only, no revived product.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": false,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/video-lessons",
+      "source": "src/app/app/(shell)/admin/video-lessons/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/writing-prompts",
+      "source": "src/app/app/(shell)/admin/writing-prompts/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "PROTECTED_REDIRECT_ONLY",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app",
+        "/app/admin/writing?section=exam"
+      ],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": "source-default/query normalization; conditional Grammar tabs NOT IMPLEMENTED",
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Redirect behavior only, no revived product.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": false,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/writing/:kind/:id",
+      "source": "src/app/app/(shell)/admin/writing/[kind]/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/writing/:kind/new",
+      "source": "src/app/app/(shell)/admin/writing/[kind]/new/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/admin/writing",
+      "source": "src/app/app/(shell)/admin/writing/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/assignments",
+      "source": "src/app/app/(shell)/assignments/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/coach",
+      "source": "src/app/app/(shell)/coach/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/courses/ielts/lessons/:lessonId",
+      "source": "src/app/app/(shell)/courses/ielts/lessons/[lessonId]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/courses/ielts",
+      "source": "src/app/app/(shell)/courses/ielts/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/grammar/:topicId",
+      "source": "src/app/app/(shell)/grammar/[topicId]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/grammar/lessons/:lessonId",
+      "source": "src/app/app/(shell)/grammar/lessons/[lessonId]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/grammar/lessons/author",
+      "source": "src/app/app/(shell)/grammar/lessons/author/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app",
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/grammar/lessons",
+      "source": "src/app/app/(shell)/grammar/lessons/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "Native candidate; not a fully converted/accepted route.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source catalogue layout and section navigation restored for existing candidates; no new destination completed.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/grammar",
+      "source": "src/app/app/(shell)/grammar/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CONDITIONAL_CANONICAL_AND_LEGACY_REDIRECT",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app/grammar/lessons"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": "source-default/query normalization; conditional Grammar tabs NOT IMPLEMENTED",
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/listening/academic/:testId",
+      "source": "src/app/app/(shell)/listening/academic/[testId]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FRONTEND CODE COMPLETE / FIXTURE VERIFIED",
+      "visual": "CANDIDATE FIXTURES ONLY; original-rendered parity UNVERIFIED",
+      "integration": "UNVERIFIED; proposed view DTO not deployed",
+      "acceptedComplete": false,
+      "notes": "V10 source-derived native learner workflow, strict scoped DTO, failures/retry/cancel and browser journeys. No staff authoring or whole Listening acceptance.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      },
+      "frontendCodeComplete": true,
+      "v10": {
+        "ordinaryClientWorkOutstanding": false,
+        "evidence": "tests/listening-v10.test.mjs; tests/browser-v10.mjs; docs/evidence/v10"
+      }
+    },
+    {
+      "pattern": "/app/listening/academic",
+      "source": "src/app/app/(shell)/listening/academic/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FRONTEND CODE COMPLETE / FIXTURE VERIFIED",
+      "visual": "CANDIDATE FIXTURES ONLY; original-rendered parity UNVERIFIED",
+      "integration": "UNVERIFIED; proposed view DTO not deployed",
+      "acceptedComplete": false,
+      "notes": "V10 source-derived native learner workflow, strict scoped DTO, failures/retry/cancel and browser journeys. No staff authoring or whole Listening acceptance.",
+      "frontendCodeComplete": true,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source catalogue layout and section navigation restored for existing candidates; no new destination completed.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v10": {
+        "ordinaryClientWorkOutstanding": false,
+        "evidence": "tests/listening-v10.test.mjs; tests/browser-v10.mjs; docs/evidence/v10"
+      }
+    },
+    {
+      "pattern": "/app/listening/general/:sectionId",
+      "source": "src/app/app/(shell)/listening/general/[sectionId]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "V9 General catalogue/section full native source workflow: both entry URLs, strict DTO/permission, notes/draft/highlights/autosave/reload/submit/own results/retake/paging/errors/retry/cancel and workflow gates. FRONTEND/FIXTURE only, visual/live not accepted.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/listening/general",
+      "source": "src/app/app/(shell)/listening/general/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "V9 General catalogue/section full native source workflow: both entry URLs, strict DTO/permission, notes/draft/highlights/autosave/reload/submit/own results/retake/paging/errors/retry/cancel and workflow gates. FRONTEND/FIXTURE only, visual/live not accepted.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source catalogue layout and section navigation restored for existing candidates; no new destination completed.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/listening/history",
+      "source": "src/app/app/(shell)/listening/history/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FRONTEND CODE COMPLETE / FIXTURE VERIFIED",
+      "visual": "CANDIDATE FIXTURES ONLY; original-rendered parity UNVERIFIED",
+      "integration": "UNVERIFIED; proposed view DTO not deployed",
+      "acceptedComplete": false,
+      "notes": "V10 source-derived native learner workflow, strict scoped DTO, failures/retry/cancel and browser journeys. No staff authoring or whole Listening acceptance.",
+      "frontendCodeComplete": true,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source catalogue layout and section navigation restored for existing candidates; no new destination completed.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v10": {
+        "ordinaryClientWorkOutstanding": false,
+        "evidence": "tests/listening-v10.test.mjs; tests/browser-v10.mjs; docs/evidence/v10"
+      }
+    },
+    {
+      "pattern": "/app/listening/import",
+      "source": "src/app/app/(shell)/listening/import/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "PROTECTED_REDIRECT_ONLY",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": "source-default/query normalization; conditional Grammar tabs NOT IMPLEMENTED",
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Redirect behavior only, no revived product.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": false,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/listening/lessons/:lessonId",
+      "source": "src/app/app/(shell)/listening/lessons/[lessonId]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FRONTEND CODE COMPLETE / FIXTURE VERIFIED",
+      "visual": "CANDIDATE FIXTURES ONLY; original-rendered parity UNVERIFIED",
+      "integration": "UNVERIFIED; proposed view DTO not deployed",
+      "acceptedComplete": false,
+      "notes": "V10 source-derived native learner workflow, strict scoped DTO, failures/retry/cancel and browser journeys. No staff authoring or whole Listening acceptance.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      },
+      "frontendCodeComplete": true,
+      "v10": {
+        "ordinaryClientWorkOutstanding": false,
+        "evidence": "tests/listening-v10.test.mjs; tests/browser-v10.mjs; docs/evidence/v10"
+      }
+    },
+    {
+      "pattern": "/app/listening/lessons/author",
+      "source": "src/app/app/(shell)/listening/lessons/author/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app",
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Reserved staff author desk: source requiresStaff/mayAuthorContent. No learner authoring permission exists. Not implemented or modified in V10.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/listening/lessons",
+      "source": "src/app/app/(shell)/listening/lessons/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FRONTEND CODE COMPLETE / FIXTURE VERIFIED",
+      "visual": "CANDIDATE FIXTURES ONLY; original-rendered parity UNVERIFIED",
+      "integration": "UNVERIFIED; proposed view DTO not deployed",
+      "acceptedComplete": false,
+      "notes": "V10 source-derived native learner workflow, strict scoped DTO, failures/retry/cancel and browser journeys. No staff authoring or whole Listening acceptance.",
+      "frontendCodeComplete": true,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source catalogue layout and section navigation restored for existing candidates; no new destination completed.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v10": {
+        "ordinaryClientWorkOutstanding": false,
+        "evidence": "tests/listening-v10.test.mjs; tests/browser-v10.mjs; docs/evidence/v10"
+      }
+    },
+    {
+      "pattern": "/app/listening/mcq/day/:day",
+      "source": "src/app/app/(shell)/listening/mcq/day/[day]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "Native candidate; not a fully converted/accepted route.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source Day/query navigation, stage protocol, true A\u2013E multiselect, empty/error and media preservation.",
+        "remaining": "All programme stages/transitions/content/audio/resume/permissions require completion and live verification.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/listening/mcq",
+      "source": "src/app/app/(shell)/listening/mcq/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "Native candidate; not a fully converted/accepted route.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source catalogue layout and section navigation restored for existing candidates; no new destination completed.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/listening",
+      "source": "src/app/app/(shell)/listening/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "PROTECTED_REDIRECT_ONLY",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app/listening/lessons"
+      ],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": "source-default/query normalization; conditional Grammar tabs NOT IMPLEMENTED",
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Redirect behavior only, no revived product.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": false,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/live-classes",
+      "source": "src/app/app/(shell)/live-classes/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/management",
+      "source": "src/app/app/(shell)/management/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "Native candidate; not a fully converted/accepted route.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Existing source presentation candidate retained; shared shell interactions improved.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/mocks",
+      "source": "src/app/app/(shell)/mocks/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "V6 Phase2 frontend code complete; all-state audit/fixtures. No live/visual acceptance.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Independent mock projection and safe completed-attempt summaries.",
+        "remaining": "Full source/native state audit and live role/ownership acceptance; source does not enable a runner.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v6": {
+        "ordinaryClientWorkOutstanding": false,
+        "reservedStaffRoute": false
+      }
+    },
+    {
+      "pattern": "/app/notifications",
+      "source": "src/app/app/(shell)/notifications/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/login"
+      ],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Phase 1 native ordinary frontend code closed; proposed adapters remain unavailable live. See V5 source-state audit and contracts.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Validated notification rows; source observer threshold; serialized mutations/cleanup.",
+        "remaining": "Full source unread/title/empty/error/focus/scroll and live delivery acceptance required.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v5": {
+        "ordinaryClientWorkOutstanding": false,
+        "gate": "Phase 1 frontend CODE COMPLETE",
+        "previousStatus": "IN PROGRESS"
+      }
+    },
+    {
+      "pattern": "/app/owner/audit",
+      "source": "src/app/app/(shell)/owner/audit/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "Native candidate; not a fully converted/accepted route.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Existing source presentation candidate retained; shared shell interactions improved.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/owner/dictionary",
+      "source": "src/app/app/(shell)/owner/dictionary/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/owner/integrations",
+      "source": "src/app/app/(shell)/owner/integrations/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/owner",
+      "source": "src/app/app/(shell)/owner/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/owner/retention",
+      "source": "src/app/app/(shell)/owner/retention/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/owner/transfer",
+      "source": "src/app/app/(shell)/owner/transfer/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app",
+      "source": "src/app/app/(shell)/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "V6 Phase2 frontend code complete; all-state audit/fixtures. No live/visual acceptance.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Independent dashboard/openLessons/mock regions and retries; narrow validation.",
+        "remaining": "Full source-state audit, roadmap interactions, original visual and server projections required.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v6": {
+        "ordinaryClientWorkOutstanding": false,
+        "reservedStaffRoute": false
+      }
+    },
+    {
+      "pattern": "/app/profile",
+      "source": "src/app/app/(shell)/profile/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/login"
+      ],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Phase 1 native ordinary frontend code closed; proposed adapters remain unavailable live. See V5 source-state audit and contracts.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      },
+      "v5": {
+        "ordinaryClientWorkOutstanding": false,
+        "gate": "Phase 1 frontend CODE COMPLETE",
+        "previousStatus": "NOT STARTED"
+      }
+    },
+    {
+      "pattern": "/app/progress",
+      "source": "src/app/app/(shell)/progress/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/reading/academic/:setId",
+      "source": "src/app/app/(shell)/reading/academic/[setId]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/reading/academic",
+      "source": "src/app/app/(shell)/reading/academic/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "Native candidate; not a fully converted/accepted route.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source catalogue layout and section navigation restored for existing candidates; no new destination completed.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/reading/attempts/:id",
+      "source": "src/app/app/(shell)/reading/attempts/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/reading/general/:setId",
+      "source": "src/app/app/(shell)/reading/general/[setId]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/reading/general",
+      "source": "src/app/app/(shell)/reading/general/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/reading/history",
+      "source": "src/app/app/(shell)/reading/history/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "Native candidate; not a fully converted/accepted route.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source catalogue layout and section navigation restored for existing candidates; no new destination completed.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/reading/lessons/:lessonId",
+      "source": "src/app/app/(shell)/reading/lessons/[lessonId]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/reading/lessons/author",
+      "source": "src/app/app/(shell)/reading/lessons/author/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app",
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/reading/lessons",
+      "source": "src/app/app/(shell)/reading/lessons/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "Native candidate; not a fully converted/accepted route.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source catalogue layout and section navigation restored for existing candidates; no new destination completed.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/reading",
+      "source": "src/app/app/(shell)/reading/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "QUERY_DEPENDENT_LEGACY_REDIRECT",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": "source-default/query normalization; conditional Grammar tabs NOT IMPLEMENTED",
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Redirect behavior only, no revived product.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": false,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/reading/question-types",
+      "source": "src/app/app/(shell)/reading/question-types/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/reading/retention",
+      "source": "src/app/app/(shell)/reading/retention/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/reading/retention/results/:attemptId",
+      "source": "src/app/app/(shell)/reading/retention/results/[attemptId]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [
+        "/app/reading/retention"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/reports",
+      "source": "src/app/app/(shell)/reports/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/login"
+      ],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "V6 Phase2 frontend code complete; all-state audit/fixtures. No live/visual acceptance.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      },
+      "v6": {
+        "ordinaryClientWorkOutstanding": false,
+        "reservedStaffRoute": false
+      }
+    },
+    {
+      "pattern": "/app/speaking/ai",
+      "source": "src/app/app/(shell)/speaking/ai/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/speaking/history",
+      "source": "src/app/app/(shell)/speaking/history/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/speaking/lessons",
+      "source": "src/app/app/(shell)/speaking/lessons/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/speaking/live-partner",
+      "source": "src/app/app/(shell)/speaking/live-partner/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/speaking",
+      "source": "src/app/app/(shell)/speaking/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "IN PROGRESS",
+      "partialImplementation": true,
+      "redirectImplementation": null,
+      "functional": "FIXTURE SUBSET PASS; NOT full source-state/live acceptance",
+      "visual": "NOT VERIFIED \u2014 zero original comparisons",
+      "integration": "BLOCKED for live data/policy \u2014 proposed DTOs or existing APIs disconnected; ordinary client gaps remain",
+      "acceptedComplete": false,
+      "notes": "Native candidate; not a fully converted/accepted route.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Existing source presentation candidate retained; shared shell interactions improved.",
+        "remaining": "Source page + all imported controls/styles/handlers/states/API and nested workflow audit remains incomplete.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      }
+    },
+    {
+      "pattern": "/app/speaking/practice",
+      "source": "src/app/app/(shell)/speaking/practice/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/speaking/shadowing",
+      "source": "src/app/app/(shell)/speaking/shadowing/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "RETIRED_REDIRECT",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app/speaking/lessons"
+      ],
+      "status": "RETIRED-N/A",
+      "partialImplementation": false,
+      "redirectImplementation": "source-default/query normalization; conditional Grammar tabs NOT IMPLEMENTED",
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Do not revive Shadowing. Redirect only.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": false,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/support",
+      "source": "src/app/app/(shell)/support/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/teacher/live-classes/:id",
+      "source": "src/app/app/(shell)/teacher/live-classes/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/teacher/live-classes",
+      "source": "src/app/app/(shell)/teacher/live-classes/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/teacher/speaking",
+      "source": "src/app/app/(shell)/teacher/speaking/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/teacher/students/:id",
+      "source": "src/app/app/(shell)/teacher/students/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/teacher/students",
+      "source": "src/app/app/(shell)/teacher/students/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/teacher/support",
+      "source": "src/app/app/(shell)/teacher/support/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/video-lessons/:id",
+      "source": "src/app/app/(shell)/video-lessons/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/video-lessons",
+      "source": "src/app/app/(shell)/video-lessons/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/vocabulary/games/:gameId",
+      "source": "src/app/app/(shell)/vocabulary/games/[gameId]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/vocabulary/games",
+      "source": "src/app/app/(shell)/vocabulary/games/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/vocabulary",
+      "source": "src/app/app/(shell)/vocabulary/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app/vocabulary/games"
+      ],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/vocabulary/review",
+      "source": "src/app/app/(shell)/vocabulary/review/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "PROTECTED_REDIRECT_ONLY",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/app/vocabulary?tab=revision"
+      ],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": "source-default/query normalization; conditional Grammar tabs NOT IMPLEMENTED",
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Redirect behavior only, no revived product.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": false,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/writing/exam/:id",
+      "source": "src/app/app/(shell)/writing/exam/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/writing/grade/:id",
+      "source": "src/app/app/(shell)/writing/grade/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/writing/history",
+      "source": "src/app/app/(shell)/writing/history/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/writing/language-stealing/:id",
+      "source": "src/app/app/(shell)/writing/language-stealing/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/writing/lessons/:id",
+      "source": "src/app/app/(shell)/writing/lessons/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/writing",
+      "source": "src/app/app/(shell)/writing/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/writing/submissions/:id",
+      "source": "src/app/app/(shell)/writing/submissions/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/app/writing/translation/:id",
+      "source": "src/app/app/(shell)/writing/translation/[id]/page.tsx",
+      "layout": "AUTHENTICATED_SHELL",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": true,
+      "sourceRedirectLiterals": [],
+      "status": "NOT STARTED",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "NOT VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Unfinished engineering, not merely an external blocker.",
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "Stage preserved from V3; no broad expansion."
+      }
+    },
+    {
+      "pattern": "/auth/recovery",
+      "source": "src/app/auth/recovery/page.tsx",
+      "layout": "PUBLIC_OR_ACCOUNT_GATE",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": false,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Phase 1 native ordinary frontend code closed; proposed adapters remain unavailable live. See V5 source-state audit and contracts.",
+      "frontendCodeComplete": true,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Uses the same reviewed source LoginForm(recovery); query error and existing recovery endpoint.",
+        "remaining": "Complete source keyboard/focus/validation acceptance and live authorized recovery required.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": false,
+        "module": "Password recovery/reset",
+        "evidence": "SOURCE_STATE_INVENTORY_V4.md"
+      },
+      "v5": {
+        "ordinaryClientWorkOutstanding": false,
+        "gate": "Phase 1 frontend CODE COMPLETE",
+        "previousStatus": "CODE COMPLETE"
+      }
+    },
+    {
+      "pattern": "/login",
+      "source": "src/app/login/page.tsx",
+      "layout": "PUBLIC_OR_ACCOUNT_GATE",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": false,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Phase 1 native ordinary frontend code closed; proposed adapters remain unavailable live. See V5 source-state audit and contracts.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source bootstrap retry, provider states and safe error classes; Telegram fallback.",
+        "remaining": "Live provider/cookie/nonce flow and full form focus parity required.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v5": {
+        "ordinaryClientWorkOutstanding": false,
+        "gate": "Phase 1 frontend CODE COMPLETE",
+        "previousStatus": "IN PROGRESS"
+      }
+    },
+    {
+      "pattern": "/onboarding",
+      "source": "src/app/onboarding/page.tsx",
+      "layout": "PUBLIC_OR_ACCOUNT_GATE",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/login",
+        "/pending"
+      ],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Phase 1 native ordinary frontend code closed; proposed adapters remain unavailable live. See V5 source-state audit and contracts.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Eight source fields/constraints; success invalidates session; refreshed locale/lang verified.",
+        "remaining": "Entire source UI/state acceptance and real cookie rotation remain unverified.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v5": {
+        "ordinaryClientWorkOutstanding": false,
+        "gate": "Phase 1 frontend CODE COMPLETE",
+        "previousStatus": "IN PROGRESS"
+      }
+    },
+    {
+      "pattern": "/",
+      "source": "src/app/page.tsx",
+      "layout": "PUBLIC_OR_ACCOUNT_GATE",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": false,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Phase 1 native ordinary frontend code closed; proposed adapters remain unavailable live. See V5 source-state audit and contracts.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Public entry preserved; original 27 probes rerun.",
+        "remaining": "Original visual/intro-device acceptance still outstanding.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v5": {
+        "ordinaryClientWorkOutstanding": false,
+        "gate": "Phase 1 frontend CODE COMPLETE",
+        "previousStatus": "IN PROGRESS"
+      }
+    },
+    {
+      "pattern": "/pending",
+      "source": "src/app/pending/page.tsx",
+      "layout": "PUBLIC_OR_ACCOUNT_GATE",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": true,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/login",
+        "/app"
+      ],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Phase 1 native ordinary frontend code closed; proposed adapters remain unavailable live. See V5 source-state audit and contracts.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Status-specific forms, open-request state, safe retry and post-request authoritative refresh.",
+        "remaining": "All source account transitions and real approval/SSE/role acceptance required.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v5": {
+        "ordinaryClientWorkOutstanding": false,
+        "gate": "Phase 1 frontend CODE COMPLETE",
+        "previousStatus": "IN PROGRESS"
+      }
+    },
+    {
+      "pattern": "/register",
+      "source": "src/app/register/page.tsx",
+      "layout": "PUBLIC_OR_ACCOUNT_GATE",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": false,
+      "dynamic": false,
+      "sourceRedirectLiterals": [],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Phase 1 native ordinary frontend code closed; proposed adapters remain unavailable live. See V5 source-state audit and contracts.",
+      "frontendCodeComplete": false,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Source gender validation, drafts, retry and safe malformed/429/503 handling.",
+        "remaining": "Complete keyboard/focus and server-policy validation required.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": true,
+        "note": "V4 shared lifecycle/search/landing improvements; comprehensive module closure remains outstanding."
+      },
+      "v5": {
+        "ordinaryClientWorkOutstanding": false,
+        "gate": "Phase 1 frontend CODE COMPLETE",
+        "previousStatus": "IN PROGRESS"
+      }
+    },
+    {
+      "pattern": "/reset-password/confirm",
+      "source": "src/app/reset-password/confirm/page.tsx",
+      "layout": "PUBLIC_OR_ACCOUNT_GATE",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": false,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/login"
+      ],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Phase 1 native ordinary frontend code closed; proposed adapters remain unavailable live. See V5 source-state audit and contracts.",
+      "frontendCodeComplete": true,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Token/query/reload handling and unavailable states.",
+        "remaining": "Real single-use token validity/expiry and full keyboard lifecycle required.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": false,
+        "module": "Password recovery/reset",
+        "evidence": "SOURCE_STATE_INVENTORY_V4.md"
+      },
+      "v5": {
+        "ordinaryClientWorkOutstanding": false,
+        "gate": "Phase 1 frontend CODE COMPLETE",
+        "previousStatus": "CODE COMPLETE"
+      }
+    },
+    {
+      "pattern": "/reset-password",
+      "source": "src/app/reset-password/page.tsx",
+      "layout": "PUBLIC_OR_ACCOUNT_GATE",
+      "category": "CANONICAL_PAGE_CANDIDATE",
+      "protected": false,
+      "dynamic": false,
+      "sourceRedirectLiterals": [
+        "/login"
+      ],
+      "status": "CODE COMPLETE",
+      "partialImplementation": false,
+      "redirectImplementation": null,
+      "functional": "FIXTURE VERIFIED",
+      "visual": "NOT VERIFIED",
+      "integration": "NOT VERIFIED",
+      "acceptedComplete": false,
+      "notes": "Phase 1 native ordinary frontend code closed; proposed adapters remain unavailable live. See V5 source-state audit and contracts.",
+      "frontendCodeComplete": true,
+      "v3": {
+        "inspection": "TARGETED, NOT EXHAUSTIVE",
+        "improvement": "Acknowledged generic success, retry and unsafe developer URL rejection.",
+        "remaining": "Full source focus validation and real mail flow required.",
+        "ordinaryClientWorkOutstanding": true
+      },
+      "v4": {
+        "ordinaryClientWorkOutstanding": false,
+        "module": "Password recovery/reset",
+        "evidence": "SOURCE_STATE_INVENTORY_V4.md"
+      },
+      "v5": {
+        "ordinaryClientWorkOutstanding": false,
+        "gate": "Phase 1 frontend CODE COMPLETE",
+        "previousStatus": "CODE COMPLETE"
+      }
+    }
+  ],
+  "components": [
+    {
+      "source": "src/components/admin/AdmissionQueue.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/ContentWorkspace.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/GrammarImport.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewExerciseForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewListeningQuestionForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewPassageForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewPromptForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewQuestionForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewTestForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewTopicForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewVideoLessonForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/PeopleTable.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/PublicationControl.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/ReadingImport.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/RetentionBankPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/RetentionMeasurementEditor.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/RoleSelect.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/StudentResults.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/writing/WritingContentForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admission/AccessRequestForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/audio/LocalReflectionRecorder.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/auth/AuthShell.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/auth/LoginForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/auth/RegisterForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/auth/ResetConfirmForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/auth/ResetRequestForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/auth/TelegramButton.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/auth/TelegramIntentLogin.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/brand/BrandLogo.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/brand/DesktopIntro.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/coach/AssignmentBoard.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/coach/EvaluationView.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/coach/ManualTranscriptForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/courses/DirectMediaPlayer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/courses/LessonWorkspace.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/courses/TedStudyPractice.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/courses/VideoLessonStudio.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/courses/VideoVocabulary.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/diagnostics/PerformanceDiagnostics.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/grammar/GrammarQuiz.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/grammar/PracticeActivities.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/grammar/ProductionAnswer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/grammar/TopicMasteryCard.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/import/ListeningTryout.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/import/ReadingTryout.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/interaction/AccessChangeListener.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/GlobalControlDiagnostics.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/IdleShellPrefetch.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/InstantInteractionProvider.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/InstantLink.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/InstantWorkspaceOutlet.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/InteractionPrimitives.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/PrivateResourceScope.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/RegionFailureNotice.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/RegionRetryButton.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/RouteEntryLoading.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/SectionEntryFrame.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/TestFocusEntry.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/lessons/LessonAuthoringDesk.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/listening/AuthoredListeningFrame.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "Native source-derived candidate/subset; no full component acceptance"
+    },
+    {
+      "source": "src/components/listening/FullExamStart.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V7 reviewed source renderer/native consumer or pure renderer tests; module dependency/visual/live closure incomplete. No completion credit."
+    },
+    {
+      "source": "src/components/listening/FullListeningActivity.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V8 source presentation plus complete native canonical controller/composition, validation/server API/error/retry/lifecycle and workflow evidence. FRONTEND/FIXTURE only; no visual/live acceptance."
+    },
+    {
+      "source": "src/components/listening/FullListeningLibrary.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Only source Admin caller; reserved parallel staff scope. No invented learner integration, no V10 implementation."
+    },
+    {
+      "source": "src/components/listening/FullListeningStudy.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V8 source presentation plus complete native canonical controller/composition, validation/server API/error/retry/lifecycle and workflow evidence. FRONTEND/FIXTURE only; no visual/live acceptance."
+    },
+    {
+      "source": "src/components/listening/LessonQuizBlock.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V10 source-native presentation plus complete native quiz owner, all source typed blocks, server-only verdict/correct-only key, errors/retry/cancel. Unit and learner browser verification; no visual/live acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/listening/ListeningAnalysis.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V8 source presentation plus complete native canonical controller/composition, validation/server API/error/retry/lifecycle and workflow evidence. FRONTEND/FIXTURE only; no visual/live acceptance."
+    },
+    {
+      "source": "src/components/listening/ListeningExam.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V8 real private-media legacy/learner-material consumer; external provider/all caller state coverage remains. Not a whole component closure."
+    },
+    {
+      "source": "src/components/listening/ListeningImport.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/listening/ListeningLegacyImport.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/listening/ListeningLessonBody.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V10 source-native presentation plus complete native quiz owner, all source typed blocks, server-only verdict/correct-only key, errors/retry/cancel. Unit and learner browser verification; no visual/live acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/listening/ListeningMap.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V7 reviewed source renderer/native consumer or pure renderer tests; module dependency/visual/live closure incomplete. No completion credit."
+    },
+    {
+      "source": "src/components/listening/ListeningPractice.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V7 reviewed source renderer/native consumer or pure renderer tests; module dependency/visual/live closure incomplete. No completion credit."
+    },
+    {
+      "source": "src/components/listening/ListeningSectionHeading.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V3 native source-derived navigation/transition/region subset. No full component acceptance."
+    },
+    {
+      "source": "src/components/listening/ListeningSequenceLocked.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "Native source-derived candidate/subset; no full component acceptance"
+    },
+    {
+      "source": "src/components/listening/ListeningSpeedPractice.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V8 source presentation plus complete native canonical controller/composition, validation/server API/error/retry/lifecycle and workflow evidence. FRONTEND/FIXTURE only; no visual/live acceptance."
+    },
+    {
+      "source": "src/components/listening/ListeningTestActions.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Only source Admin caller; reserved parallel staff scope. No invented learner integration, no V10 implementation."
+    },
+    {
+      "source": "src/components/listening/McqMastery.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "Native source-derived candidate/subset; no full component acceptance"
+    },
+    {
+      "source": "src/components/listening/NativeListeningExam.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V7 reviewed source renderer/native consumer or pure renderer tests; module dependency/visual/live closure incomplete. No completion credit."
+    },
+    {
+      "source": "src/components/listening/SectionListeningActivity.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V9 complete native General section composition/retake integrated into both section and own attempt entry routes; API-only grades, scoped state, failures/retry/cancellation/lifecycle and unit/browser workflows. FRONTEND/FIXTURE only."
+    },
+    {
+      "source": "src/components/listening/SectionRetakeButton.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V9 complete native General section composition/retake integrated into both section and own attempt entry routes; API-only grades, scoped state, failures/retry/cancellation/lifecycle and unit/browser workflows. FRONTEND/FIXTURE only."
+    },
+    {
+      "source": "src/components/listening/SpeedTrainer.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V8 source presentation plus complete native canonical controller/composition, validation/server API/error/retry/lifecycle and workflow evidence. FRONTEND/FIXTURE only; no visual/live acceptance."
+    },
+    {
+      "source": "src/components/listening/StartTestButton.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V9 shared native start/retake owner implemented and unit-tested; full learner library source caller not integrated, no whole component closure."
+    },
+    {
+      "source": "src/components/listening/audio-probe.ts",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/live-classes/ClassStatusControls.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/live-classes/JoinButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/live-classes/NewLiveClassForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/navigation/ModuleNavigation.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V3 native source-derived navigation/transition/region subset. No full component acceptance."
+    },
+    {
+      "source": "src/components/navigation/ModuleSectionNav.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V3 native source-derived navigation/transition/region subset. No full component acceptance."
+    },
+    {
+      "source": "src/components/notes/LessonNotesPanel.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V10 complete Listening private-note consumer: serialized latest writes, 900ms debounce, focus/selection retention, clear/reload/retry/exit/revocation. Other course/Reading/Grammar consumers not integrated; shared closure withheld."
+    },
+    {
+      "source": "src/components/onboarding/OnboardingForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/owner/AiControlPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/owner/OwnershipTransferForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/owner/RetentionRunner.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/profile/ProfileNameForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/profile/ProfilePhoto.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/progress/MockBandPanel.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V6 source mock overview/band chart, native details interaction and earned-band summary; frontend only, not grading/runner/live acceptance."
+    },
+    {
+      "source": "src/components/progress/MockProgressOverview.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V6 source mock overview/band chart, native details interaction and earned-band summary; frontend only, not grading/runner/live acceptance."
+    },
+    {
+      "source": "src/components/progress/ProgressTrends.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/GeneralReadingSession.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/GeneralReadingSets.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadAloud.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingAnalysis.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingEvidence.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingExam.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingFilters.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingHighlights.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingLearningLibrary.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingPassageCard.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/RetentionCheck.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/RetentionHistory.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/RetentionResultStandalone.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/RetentionSession.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/RetentionWorkspace.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/StartPassageButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/resources/OwnerMaterialBlocks.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/resources/ResourceBlocks.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V8 real private-media legacy/learner-material consumer; external provider/all caller state coverage remains. Not a whole component closure."
+    },
+    {
+      "source": "src/components/resources/ResourceComposer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/shell/BrandBlock.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/Breadcrumbs.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/shell/FocusToggle.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/shell/GlobalSearch.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/shell/LinkPending.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/LocaleSwitcher.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/LogoutButton.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/MobileNav.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/ModuleContextHeading.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/shell/NotificationBell.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/NotificationRead.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/ProfileMenu.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/ShellUtilities.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/Sidebar.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/SidebarNav.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/ThemeToggle.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/Topbar.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/speaking/AiExaminerSession.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/BlockComposer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/BlockRenderer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/EditMaterialForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/LivePartnerClient.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/LocalAnswerRecorder.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/ManagedMaterialCard.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/MaterialPlayer.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V9 explicit public/private source classification, strict URL/provider validation, native playback/error/retry/retention/disposal and provider external fallback. CSP unchanged: actual external provider playback and all source callers incomplete."
+    },
+    {
+      "source": "src/components/speaking/MicrophoneTest.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "Native source-derived candidate/subset; no full component acceptance"
+    },
+    {
+      "source": "src/components/speaking/NewMaterialForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/PracticeStudio.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/PrimaryFileField.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/QuestionRecorder.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/SpeakingPromptComposer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/StudySupportPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/useBlockDrafts.ts",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/support/ReportProblem.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/support/ResolveReportButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/teacher/NewAssignmentForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/teacher/TeacherFeedbackForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/ui/BackLink.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/Badge.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/Button.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/Card.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/EmptyState.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/Input.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/ModuleEmoji.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/ProgressBar.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/StudyRichEditor.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/ui/icons.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/video/VideoLessonCard.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/video/VideoThumbnail.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/ClickableText.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V9 General element-boundary selection/highlight/recovery/removal and canonical manual vocabulary save completed on existing V8 source controller; broader caller gate remains partial, not visual/live acceptance."
+    },
+    {
+      "source": "src/components/vocabulary/DictionaryFolderDialog.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/DictionaryPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/DictionaryRecentSearches.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/OwnerDictionary.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabBoardPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabGamesPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabRevisionPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabStudio.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabUsePanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabWordsPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/types.ts",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/AddVocabQuick.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/Editor.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/FeedbackView.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/StartPromptButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/TypingTrainer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/activation/ActivationLab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/activation/WritingActivationTab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/exam/ExamGradeButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/exam/ExamRunner.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/exam/StartExamButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/exam/WritingExamHome.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/stealing/PatternPractice.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/stealing/StartStealingButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/stealing/StealingFlow.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/stealing/WritingLanguageStealingTab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/topic/SaveButtons.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/topic/WritingTopicVocabularyTab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/translation/TranslationResultView.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/translation/TranslationRunner.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/translation/TranslationStartForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/translation/WritingTranslationTab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/GradeForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/GradeRetryButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/LessonCompleteButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/NotMigrated.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/WritingContentTabs.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/WritingGradeTab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/WritingNav.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    }
+  ]
+}

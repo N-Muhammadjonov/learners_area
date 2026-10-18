@@ -1,3 +1,23 @@
+# ACTIVE V10 — Academic/history/learner lessons delivered; Listening PARTIAL
+
+Continue ONLY arena/96836bcf-learners-area from latest verified V10 local/remote delivery SHA in Git log and deliverables/V10_VALIDATION.txt. Exact V9 start b9d9c8517c1301ea3e75ed632b23c5b40c2d452b. Preserve uncommitted legitimate progress, V1–V9 archives and Phase1/2/V7/V8/V9 General. No restart/reset/rebase/stash/clean/branch changes/forcepush. All edits migration/vanilla-frontend; original/backend/cloud/DB/staff/main/production read-only.
+
+Read six V10 docs, machine ledgers and external independent proof. New source-native Academic catalogue/detail/hub summary/history, learner lesson list/detail/body/quiz/server feedback/private notes. Notes serialize/coalesce, retain focused textarea (real detach/blur bug fixed),900ms debounce/blur/exit/clear/retry/reload/revocation. Uploaded shared and generic HTML media now begin AFTER hub/document paint; early-play handshake deadlock fixed, repeated generic inner-document navigation reuses one authorized blob read; shared range bridge vs generic post-paint full blobs are explicitly different. Preserve scoped checkpoint/hydration, exact opaque allow-scripts-only sandbox/CSP. Original9 genuine source identities/navigation checked from original source read-only; complete9 workflow acceptance still0/9.
+
+323 units; Chromium 478 PASS/0 FAIL/0 SKIP (425 preserved+53 V10); authoritative final independent proof external. Global22complete/15partial/71notstarted of108;62/17/127 of206 components. Listening9/6/1 of16 routes;9/10/5 of24 components;2 redirects separate. Five route and two leaf closures only; not whole Listening. Shared notes remains partial pending other consumers. Original-rendered/live/provider/Safari/hardware/production acceptance0 UNVERIFIED. Product weighted implementation/security/visual-live metrics UNDETERMINED. Reading NOT started.
+
+NEXT finish genuine original9 full interactions/timers/flags/notes/autosave/resume/server submit/review and universal range/expiry/revocation/seek/retry/position/rapid-repeat lifecycle. Finish remaining legacy/revision/standalone MCQ/shared caller gates without duplicating completed General/Activities2–5/study/test-MCQ/exam/retake/highlight/vocabulary. Source actual original HTML exists in original checkout; use read-only authorized tests, never copy protected corpus into standalone package. Navigation-only ≠ behavioral closure. DTOs remain proposed, no live integration or server-policy proof fabricated.
+
+Staff boundary correction: lesson author desk requiresStaff/mayAuthorContent; FullListeningLibrary/ListeningTestActions only Admin callers. Do not invent learner create/edit/save/delete/publish or integrate reserved staff code.35 canonical staff routes remain parallel23 Admin/6 Owner/6 Teacher. Never automatically merge older-V4 staff output or overwrite newest V5–V10 shared infrastructure. Manual integration conflicts: routes/shell guards, private-scope/API adapters, generated source extraction, imports/authoring and shared styles/media helpers must be reconciled against newest branch.
+
+## DEFERRED GPT WORK — after frontend migration and integration, NOT V10
+
+Owner-approved Listening HTML upload optimization: accept ONE Owner Listening HTML upload → validate material and package → extract embedded audio → upload to correct PRIVATE Cloudflare R2 location → register HTML/material and original Listening activities/media references → validation/recovery → Owner preview → explicit publication. Preserve original controls, audio/transcripts/activities and permissions. Coordinate frontend/backend/DB/R2 only after migration/integration and Owner approval. NO backend/R2/cloud infrastructure implementation in V10. Reading imports remain Owner-supervised with AI assistance; NO automatic Reading importer.
+
+Default deterministic archive V10; historical --v9 --verify added without changing V1–V9 archives. Full extraction/npm ci/build/unit/Chromium/assets/CSS/deterministic proof external. No production replacement without Owner approval. PRODUCTION CHANGES NONE.
+
+---
+
 # ACTIVE V9 — General section vertical slice delivered; Listening remains PARTIAL
 
 Continue ONLY arena/96836bcf-learners-area from latest verified V9 local/remote delivery SHA (Git log / deliverables/V9_VALIDATION.txt); exact start was V8 **3a5c1b7dcaf491549f74d96211ba27be1cf0a253**. No restart, reset, branch change, source/backend/staff/main/deploy changes. All edits migration/vanilla-frontend. Preserve all V1–V8 archives and historical evidence bytes plus completed Phase1/2/V7/V8/native General.

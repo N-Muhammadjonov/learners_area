@@ -1,3 +1,11 @@
+# V10 current status — Academic/history/learner lessons delivered; Listening PARTIAL
+
+Exact V9 continuation b9d9c8517c1301ea3e75ed632b23c5b40c2d452b; same Arena branch, no backend/staff/production changes. See [CHECKPOINT_V10](docs/CHECKPOINT_V10.md), [remaining work](docs/SOURCE_STATE_INVENTORY_V10.md), V10 route/component ledgers, adapters and handoff.22/108 canonical frontend closures;62/206 components. Listening9/16 routes and9/24 components closed frontend/fixture only. Original9 genuine source identities/navigation probed read-only;0/9 comprehensive behavioral acceptance. Reading not started.
+
+`npm ci --ignore-scripts && npm run build && npm test`; `PORT=4173 npm run preview`; `node scripts/regression-v10.mjs` then `node tests/browser-v10.mjs` **sequentially**; `node scripts/assets-css-v10.mjs`; `python3 scripts/package.py` / `--verify`.323 units; Chromium 478 PASS/0 FAIL/0 SKIP. Optional original-source navigation probe: `ORIGINAL_SOURCE_ROOT=/read-only/original-checkout node tests/browser-original-source-v10.mjs` (no curriculum in package, not part of independent fixture counts). Preview /api/* intentionally503; never synthetic identity/data in runtime. Shared range / generic full-blob audio starts after document paint; universal media/live playback remain partial. Exact independent package proof in deliverables/V10_VALIDATION.txt. Historical ZIPs immutable, --legacy/--v2…--v9 --verify. PRODUCTION CHANGES NONE.
+
+---
+
 # V9 current status — General delivered, Listening PARTIAL
 
 Continue exact V8 baseline3a5c1b7dcaf491549f74d96211ba27be1cf0a253 on the same Arena branch. Working General catalogue→section/own attempt→notes/highlights/autosave/reload→submit→own result→retake; native legacy media classification/recovery and populated revision increment. Existing V7/V8 controllers retained, not duplicated. See [CHECKPOINT_V9](docs/CHECKPOINT_V9.md), [remaining work](docs/SOURCE_STATE_INVENTORY_V9.md), V9 ledgers/contracts and handoff.17/108 canonical frontend closures,60/206components; whole Listening NOT complete, original nine comprehensive acceptance0/9. Reading not started; no original-rendered/live/provider/Safari/hardware/production acceptance.
