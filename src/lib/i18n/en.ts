@@ -3302,6 +3302,8 @@ const en = {
     },
   },
   fullListeningHub: {
+    checkpointRecovered: "Your latest saved test was restored after an update in another tab. A copy of your unsent work is kept on this device.",
+    downloadUnsentWork: "Download unsent work",
     research: {
       matching: "Matching Mastery", completion: "Form & Note Completion", map: "Map / Plan Mastery", retry: "Retry Weak Areas", yourLocation: "Your location", examLocked: "Submit your current exam before opening study help.", weakEmpty: "No missed questions in your latest submitted test. Complete a test first, or review all questions.", prediction: "Predict the answer before listening", previous: "Previous question", next: "Next question", finish: "Save completed practice",
 

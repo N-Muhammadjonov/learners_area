@@ -4,11 +4,28 @@ import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 import { createTestDatabase } from './support/pglite';
 import { convertLegacyPackage } from '../src/lib/listening/source-parser';
-import { originalListeningState, saveOriginalListeningState } from '../src/lib/data/listening-original-state';
+import { originalListeningState, saveOriginalListeningState, StaleListeningCheckpointError } from '../src/lib/data/listening-original-state';
 import { ORIGINAL_TEST_ONE_STORAGE as key } from '../src/lib/listening/original-test-one';
 import { adaptOriginalTestOne } from '../src/lib/listening/original-test-one-hooks';
 const source=readFileSync(new URL('../content/listening/academic/test-01/source.html',import.meta.url),'utf8');
 const pkg=convertLegacyPackage({'source.html':source},1645.061224,html=>new JSDOM(html).window.document,{audioPath:'listening/academic/test-01/full.mp3'});
+test('an old exited checkpoint returns the saved state without changing answers or creating another attempt',async()=>{
+  const d=await createTestDatabase();
+  try {
+    const [u]=await d.query<{id:string}>("insert into users(name,role)values('Conflict QA','student')returning id");
+    const [t]=await d.query<{id:string}>("insert into listening_tests(created_by_user_id,title,audio_type,publication_state)values($1,'Conflict fixture','audio','published')returning id",[u!.id]);
+    await d.query("insert into listening_packages(test_id,source_id,payload,audio_object_key,source_hash)values($1,$2,$3,'fixture/audio.mp3',$4)",[t!.id,pkg.testId,JSON.stringify(pkg),'0'.repeat(64)]);
+    const saved={[key]:JSON.stringify({attemptKey:'11111111-1111-4111-8111-111111111111',attemptStatus:'exited',answers:{1:'saved answer'},submitted:false})};
+    await d.query('insert into listening_authored_checkpoints(user_id,test_id,values)values($1,$2,$3)',[u!.id,t!.id,JSON.stringify(saved)]);
+    const old={[key]:JSON.stringify({attemptKey:'22222222-2222-4222-8222-222222222222',attemptStatus:'exited',answers:{1:'offline answer'},submitted:false})};
+    await assert.rejects(()=>saveOriginalListeningState(u!.id,t!.id,old,pkg,d.db),error=>{
+      assert.ok(error instanceof StaleListeningCheckpointError);assert.deepEqual(error.values,saved);return true;
+    });
+    assert.deepEqual(await originalListeningState(u!.id,t!.id,d.db),saved);
+    const [counts]=await d.query('select (select count(*)::int from listening_attempts) attempts,(select count(*)::int from listening_answers) answers');
+    assert.deepEqual(counts,{attempts:0,answers:0});
+  } finally {await d.close();}
+});
 test('original nine-activity document runs all original controls; confirmations stay inside sandbox',()=>{
   const errors:unknown[]=[];
   const html=adaptOriginalTestOne(source);

@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { enforce } from '@/lib/http/rate-limit';
 import { requireActiveUser } from '@/lib/auth/current-user';
 import { fullListeningDetail } from '@/lib/data/full-listening';
-import { originalListeningState, saveOriginalListeningState } from '@/lib/data/listening-original-state';
+import { originalListeningState, saveOriginalListeningState, StaleListeningCheckpointError } from '@/lib/data/listening-original-state';
 import { hasOriginalListeningRuntime, originalListeningStorageKey } from '@/lib/listening/original-listening';
 import { isUuid } from '@/lib/validation/ids';
 import { db } from '@/db/client';
@@ -37,6 +37,7 @@ export async function PUT(req:NextRequest,{params}:{params:Promise<{id:string}>}
     const saved=await saveOriginalListeningState(ctx.user.id,id,parsed.data,ctx.detail.pkg.payload);
     return NextResponse.json({...saved,values:runtimeValues(saved.values),course:await originalCourseStatus(ctx.user.id,id,ctx.detail.pkg.sourceId)},{headers});
   } catch (error) {
+    if (error instanceof StaleListeningCheckpointError) return NextResponse.json({error:'stale_checkpoint',values:runtimeValues(error.values),course:await originalCourseStatusFromValues(ctx.user.id,id,ctx.detail.pkg.sourceId,error.values)},{status:409,headers});
     if (error instanceof z.ZodError || error instanceof SyntaxError || error instanceof Error && error.message==='invalid_answers') return NextResponse.json({error:'invalid_input'},{status:400,headers});
     console.error('[listening-original-state] save failed',{testId:id});
     return NextResponse.json({error:'save_failed'},{status:503,headers});

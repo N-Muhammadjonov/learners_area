@@ -3282,6 +3282,8 @@ const uz: Dictionary = {
     },
   },
   fullListeningHub: {
+    checkpointRecovered: "Boshqa oynada yangilangan testning oxirgi saqlangan holati tiklandi. Yuborilmagan ishingiz nusxasi shu qurilmada saqlandi.",
+    downloadUnsentWork: "Yuborilmagan ishni yuklab olish",
     research: {
       matching: "Matching mashqi", completion: "Form va Note Completion", map: "Map / Plan mashqi", retry: "Xato savollarni qayta ishlash", yourLocation: "Siz tanlagan joy", examLocked: "Mashqlarga kirishdan oldin joriy imtihonni yakunlang.", weakEmpty: "Oxirgi yakunlangan testda xato savollar yo'q. Avval testni bajaring yoki barcha savollarni takrorlang.", prediction: "Tinglashdan oldin javobni taxmin qiling", previous: "Oldingi savol", next: "Keyingi savol", finish: "Bajarilgan mashqni saqlash",
 
