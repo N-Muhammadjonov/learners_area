@@ -1,0 +1,15 @@
+{
+  "unit": {
+    "PASS": 378,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "targetedNewOriginalSource": {
+    "PASS": 21,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "fullSourceManifest": 64,
+  "chromiumManifest": 499,
+  "fullRegressionAuthority": "fresh independent extraction external report; no root499/full64 pass claimed"
+}

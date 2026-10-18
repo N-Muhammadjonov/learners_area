@@ -1,0 +1,9 @@
+{
+  "sha256": "9d5a17bd44ac2ad8e0cbdb6ae2d557025f6cfd04fec0831fc82a4df92a94d59c",
+  "bytes": 39802549,
+  "sourceFiles": 836,
+  "manifestFiles": 2,
+  "sourceCommit": "bd06a885d077e2af407a3776e96e9e9d4968a0b6",
+  "freshExtraction": "node_modules/v14-independent-source",
+  "crcAndEverySourceHash": "PASS"
+}

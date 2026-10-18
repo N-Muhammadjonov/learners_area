@@ -1,0 +1,35 @@
+{
+  "scope": "Disposable extraction after independent results preserved externally",
+  "restoredEvidenceOnly": [
+    "docs/evidence/v14/assets-css.json",
+    "docs/evidence/v14/original-behavior-v14.json"
+  ],
+  "removedExtraEvidenceAfterVerifiedCopy": [
+    "docs/evidence/v14/browser-output.txt",
+    "docs/evidence/v14/browser-regression.json",
+    "docs/evidence/v14/browser-v10-output.txt",
+    "docs/evidence/v14/browser-v10-regression.json",
+    "docs/evidence/v14/browser-v11-output.txt",
+    "docs/evidence/v14/browser-v11-regression.json",
+    "docs/evidence/v14/browser-v12-output.txt",
+    "docs/evidence/v14/browser-v12-regression.json",
+    "docs/evidence/v14/browser-v2-output.txt",
+    "docs/evidence/v14/browser-v2-regression.json",
+    "docs/evidence/v14/browser-v3-output.txt",
+    "docs/evidence/v14/browser-v3-regression.json",
+    "docs/evidence/v14/browser-v4-output.txt",
+    "docs/evidence/v14/browser-v4-regression.json",
+    "docs/evidence/v14/browser-v5-output.txt",
+    "docs/evidence/v14/browser-v5-regression.json",
+    "docs/evidence/v14/browser-v6-output.txt",
+    "docs/evidence/v14/browser-v6-regression.json",
+    "docs/evidence/v14/browser-v7-output.txt",
+    "docs/evidence/v14/browser-v7-regression.json",
+    "docs/evidence/v14/browser-v8-output.txt",
+    "docs/evidence/v14/browser-v8-regression.json",
+    "docs/evidence/v14/browser-v9-output.txt",
+    "docs/evidence/v14/browser-v9-regression.json"
+  ],
+  "sourceCodeDifferences": 0,
+  "sourceFilesVerified": 836
+}

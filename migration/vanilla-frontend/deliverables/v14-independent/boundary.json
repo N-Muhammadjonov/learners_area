@@ -1,0 +1,164 @@
+{
+  "status": "PASS",
+  "baseline": "d6ed38b9d01d62d8addd8b656a41451e9842d5f4",
+  "allChangesInsideImplementation": true,
+  "changedPaths": [
+    "migration/vanilla-frontend/README.md",
+    "migration/vanilla-frontend/SHA256SUMS",
+    "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V14.md",
+    "migration/vanilla-frontend/docs/CHECKPOINT_V14.md",
+    "migration/vanilla-frontend/docs/COMPONENT_LEDGER_V14.md",
+    "migration/vanilla-frontend/docs/FILE_MANIFEST.md",
+    "migration/vanilla-frontend/docs/GPT_WORK_HANDOFF.md",
+    "migration/vanilla-frontend/docs/GPT_WORK_HANDOFF_V13.md",
+    "migration/vanilla-frontend/docs/ROUTE_LEDGER_V14.md",
+    "migration/vanilla-frontend/docs/SOURCE_STATE_INVENTORY_V14.md",
+    "migration/vanilla-frontend/docs/component-ledger-v14.json",
+    "migration/vanilla-frontend/docs/evidence/v14/assets-css.json",
+    "migration/vanilla-frontend/docs/evidence/v14/build.txt",
+    "migration/vanilla-frontend/docs/evidence/v14/development-findings.txt",
+    "migration/vanilla-frontend/docs/evidence/v14/initial-source-failure.json",
+    "migration/vanilla-frontend/docs/evidence/v14/initial-source-failure.txt",
+    "migration/vanilla-frontend/docs/evidence/v14/original-behavior-v14.json",
+    "migration/vanilla-frontend/docs/evidence/v14/root-execution.json",
+    "migration/vanilla-frontend/docs/evidence/v14/targeted-source-18-pass.json",
+    "migration/vanilla-frontend/docs/evidence/v14/targeted-source-18-pass.txt",
+    "migration/vanilla-frontend/docs/evidence/v14/targeted-source-20-pass.json",
+    "migration/vanilla-frontend/docs/evidence/v14/targeted-source-20-pass.txt",
+    "migration/vanilla-frontend/docs/evidence/v14/targeted-source-21-pass.txt",
+    "migration/vanilla-frontend/docs/evidence/v14/unit.txt",
+    "migration/vanilla-frontend/docs/original-activities-v14.json",
+    "migration/vanilla-frontend/docs/route-ledger-v14.json",
+    "migration/vanilla-frontend/modules/listening/authored-progressive.js",
+    "migration/vanilla-frontend/modules/listening/authored.js",
+    "migration/vanilla-frontend/modules/listening/checkpoint-notice-v14.js",
+    "migration/vanilla-frontend/modules/listening/checkpoint-v14.js",
+    "migration/vanilla-frontend/modules/listening/original-policy-v11.js",
+    "migration/vanilla-frontend/package.json",
+    "migration/vanilla-frontend/scripts/assets-css-v14.mjs",
+    "migration/vanilla-frontend/scripts/package.py",
+    "migration/vanilla-frontend/scripts/regression-v14.mjs",
+    "migration/vanilla-frontend/tests/browser-original-source-v11.mjs",
+    "migration/vanilla-frontend/tests/listening-v14.test.mjs",
+    "migration/vanilla-frontend/tests/original-exam-v14-journeys.mjs"
+  ],
+  "protectedOriginalSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "sourceBackendDatabaseCloudStaffMainProductionChanges": "NONE",
+  "route-ledgerSourceEntriesUnchanged": true,
+  "route-ledgerSummary": {
+    "baseline": "9a7d9fc5a93608078644d61cd9f9850c05c4ddc8",
+    "previousCheckpoint": "d6ed38b9d01d62d8addd8b656a41451e9842d5f4",
+    "pageFiles": 115,
+    "classificationCounts": {
+      "CANONICAL_PAGE_CANDIDATE": 107,
+      "PROTECTED_REDIRECT_ONLY": 5,
+      "CONDITIONAL_CANONICAL_AND_LEGACY_REDIRECT": 1,
+      "QUERY_DEPENDENT_LEGACY_REDIRECT": 1,
+      "RETIRED_REDIRECT": 1
+    },
+    "activeCanonicalDenominator": "UNDETERMINED \u2014 108 inventory candidates are not confirmed active product pages",
+    "partialPageCandidates": 15,
+    "fullyConvertedAcceptedPages": 0,
+    "fullyParityVerifiedPages": 0,
+    "notStartedPageRecords": 71,
+    "componentFiles": 206,
+    "partialComponentFiles": 17,
+    "fullyAcceptedComponents": 0,
+    "codeCheckpoint": "V14 exact V13 continuation; external V14_VALIDATION.txt is execution authority",
+    "status": "PARTIAL",
+    "notStartedComponentFiles": 127,
+    "codeCompleteRedirectOnlyRecords": 6,
+    "retiredRecords": 1,
+    "metrics": {
+      "implementation": "UNDETERMINED weighted product implementation; inventory22/108 routes and62/206 components is not product acceptance",
+      "functionalSecurity": "UNDETERMINED aggregate denominator; executable fixture counts separate",
+      "visualIntegration": "0 accepted original-rendered/live/production cases; denominator UNDETERMINED"
+    },
+    "sourceBuild": true,
+    "unit": {
+      "pass": 378,
+      "fail": 0,
+      "skip": 0,
+      "preservedV13": 363,
+      "newV14": 15
+    },
+    "browser": {
+      "manifest": 499,
+      "preservedV13": 499,
+      "newV14": 0,
+      "proof": "fresh independent executed summary required",
+      "originalSource": {
+        "manifest": 64,
+        "preservedV13": 43,
+        "newV14": 21,
+        "scope": "actual read-only HTML; isolated controlled APIs/media; comprehensive0/9 and live0/9"
+      }
+    },
+    "v3NewPageImplementations": 0,
+    "canonicalCandidates": 108,
+    "frontendCodeCompleteCanonicalCandidates": 22,
+    "frontendCodeCompleteComponents": 62,
+    "v4NewPageImplementations": 0,
+    "completedModule": "V12 Retry leaf retained; V14 Full IELTS recovery/error/submission transport and source state improved, still PARTIAL",
+    "componentAccounting": "62complete+17partial+127notstarted=206",
+    "routeAccounting": "22canonicalcomplete+15partial+71notstarted+6redirects+1retired=115",
+    "v5NewPageImplementations": 1,
+    "reservedStaffCanonicalRoutes": 35,
+    "listeningCanonicalStatusCounts": {
+      "CODE COMPLETE": 9,
+      "IN PROGRESS": 6,
+      "NOT STARTED": 1
+    },
+    "listeningComponentStatusCounts": {
+      "CODE COMPLETE": 9,
+      "IN PROGRESS": 10,
+      "NOT STARTED": 5
+    },
+    "v11Promotions": 0,
+    "v11RecomputedCounts": {
+      "IN PROGRESS": 15,
+      "CODE COMPLETE": 22,
+      "NOT STARTED": 71
+    },
+    "v12Promotions": 0,
+    "originalActivityFrontendCodeClosures": [
+      "retry"
+    ],
+    "comprehensiveOriginalActivityClosures": 0,
+    "v12RecomputedCounts": {
+      "IN PROGRESS": 15,
+      "CODE COMPLETE": 22,
+      "NOT STARTED": 71
+    },
+    "v13Promotions": 0,
+    "v13RecomputedCounts": {
+      "IN PROGRESS": 15,
+      "CODE COMPLETE": 22,
+      "NOT STARTED": 71
+    },
+    "v14Promotions": 0,
+    "v14RecomputedCounts": {
+      "IN PROGRESS": 15,
+      "CODE COMPLETE": 22,
+      "NOT STARTED": 71
+    }
+  },
+  "component-ledgerSourceEntriesUnchanged": true,
+  "component-ledgerSummary": {
+    "total": 206,
+    "complete": 62,
+    "partial": 17,
+    "notStarted": 127,
+    "listening": {
+      "CODE COMPLETE": 9,
+      "IN PROGRESS": 10,
+      "NOT STARTED": 5
+    },
+    "acceptance": "FRONTEND/FIXTURE only; shared all-caller and staff exclusions explicit",
+    "previousCheckpoint": "d6ed38b9d01d62d8addd8b656a41451e9842d5f4",
+    "v11Promotions": 0,
+    "v12Promotions": 0,
+    "v13Promotions": 0,
+    "v14Promotions": 0
+  }
+}

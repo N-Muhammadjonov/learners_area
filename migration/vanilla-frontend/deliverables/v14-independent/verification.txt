@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "baseline": "d6ed38b9d01d62d8addd8b656a41451e9842d5f4",
+  "sourcePackageCommit": "bd06a885d077e2af407a3776e96e9e9d4968a0b6",
+  "archive": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V14.zip",
+  "sha256": "9d5a17bd44ac2ad8e0cbdb6ae2d557025f6cfd04fec0831fc82a4df92a94d59c",
+  "bytes": 39802549,
+  "sourceFiles": 836,
+  "manifestFiles": 2,
+  "freshNpmCi": "PASS --ignore-scripts",
+  "independentBuild": "PASS without original source tree",
+  "unit": {
+    "PASS": 378,
+    "FAIL": 0,
+    "SKIP": 0,
+    "preservedV13": 363,
+    "newV14": 15
+  },
+  "chromium": {
+    "PASS": 499,
+    "FAIL": 0,
+    "SKIP": 0,
+    "preservedV13": 499,
+    "execution": "single strict unfiltered full runner"
+  },
+  "actualOriginalSource": {
+    "PASS": 64,
+    "FAIL": 0,
+    "SKIP": 0,
+    "preservedV13": 43,
+    "newV14": 21,
+    "scope": "actual authorized read-only source and adaptation; isolated API/encoded-media fixtures, NOT recording/live alignment"
+  },
+  "assets": 25,
+  "sourceCssSha256": "b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2",
+  "compiledCssSha256": "6321b6deffba5088fa187b0cd2f07b2895b5d3a53d5472c5f083f4aef8108042",
+  "byteIdenticalRepacks": 2,
+  "runtimeVulnerabilities": 0,
+  "developmentVulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 5,
+    "critical": 0,
+    "total": 5
+  },
+  "activityFrontend": {
+    "COMPLETE": 1,
+    "PARTIAL": 8,
+    "scope": "V12 Retry preserved, Full remains PARTIAL, Review V14 NOT started"
+  },
+  "comprehensiveOriginalClosures": 0,
+  "liveOriginalClosures": 0,
+  "routes": {
+    "COMPLETE": 22,
+    "PARTIAL": 15,
+    "NOT_STARTED": 71
+  },
+  "components": {
+    "COMPLETE": 62,
+    "PARTIAL": 17,
+    "NOT_STARTED": 127
+  },
+  "listeningRoutes": {
+    "COMPLETE": 9,
+    "PARTIAL": 6,
+    "NOT_STARTED": 1
+  },
+  "listeningComponents": {
+    "COMPLETE": 9,
+    "PARTIAL": 10,
+    "NOT_STARTED": 5
+  },
+  "implementationMetric": "UNDETERMINED weighted product denominator; source counts above",
+  "functionalSecurityMetric": "UNDETERMINED product coverage; bounded fixture ratios above",
+  "visualLiveMetric": "UNDETERMINED product denominator; matched-original rendered0/live0",
+  "universalMedia": "PARTIAL; V13 engine preserved, Blob fallback NOT progressive",
+  "reading": "NOT STARTED",
+  "staffRoutesReserved": 35,
+  "backendDatabaseCloudMainStaffProductionChanges": "NONE",
+  "initialFailures": "Initial18 new-source7PASS11FAIL retained:9 retries used unallowlisted new op; fixed integration to existing token-bound storage retryOnly, no allowlist/CSP weakening. Two access tests tried entering intentionally removed403/404 frame; assert no-frame/no-score. Existing baseline assertions unchanged;18/20/21 targeted passes are separate snapshots. Fresh independent outcome separate."
+}
