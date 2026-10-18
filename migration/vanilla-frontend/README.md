@@ -1,3 +1,7 @@
+# V13 continuation — Listening PARTIAL
+
+Full IELTS own navigation/deadline/keyboard recovery and parent exam dictionary lock added to the existing V12 runtime. Full activity remains PARTIAL; Review & Revision V13 pass not started. Read docs/CHECKPOINT_V13.md and docs/GPT_WORK_HANDOFF.md. Final exact execution/archive/Git evidence is in deliverables/V13_VALIDATION.txt.
+
 # ACTIVE CHECKPOINT V12 — PARTIAL
 
 Exact continuation of verified V11. Read docs/CHECKPOINT_V12.md and the five V12

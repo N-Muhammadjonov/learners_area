@@ -1,0 +1,1263 @@
+{
+  "summary": {
+    "total": 206,
+    "complete": 62,
+    "partial": 17,
+    "notStarted": 127,
+    "listening": {
+      "CODE COMPLETE": 9,
+      "IN PROGRESS": 10,
+      "NOT STARTED": 5
+    },
+    "acceptance": "FRONTEND/FIXTURE only; shared all-caller and staff exclusions explicit",
+    "previousCheckpoint": "041e02c353d86320053ea54232bb58620f5818f8",
+    "v11Promotions": 0,
+    "v13Promotions": 0
+  },
+  "components": [
+    {
+      "source": "src/components/admin/AdmissionQueue.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/ContentWorkspace.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/GrammarImport.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewExerciseForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewListeningQuestionForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewPassageForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewPromptForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewQuestionForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewTestForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewTopicForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/NewVideoLessonForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/PeopleTable.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/PublicationControl.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/ReadingImport.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/RetentionBankPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/RetentionMeasurementEditor.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/RoleSelect.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/StudentResults.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admin/writing/WritingContentForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/admission/AccessRequestForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/audio/LocalReflectionRecorder.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/auth/AuthShell.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/auth/LoginForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/auth/RegisterForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/auth/ResetConfirmForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/auth/ResetRequestForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/auth/TelegramButton.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/auth/TelegramIntentLogin.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/brand/BrandLogo.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/brand/DesktopIntro.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/coach/AssignmentBoard.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/coach/EvaluationView.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/coach/ManualTranscriptForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/courses/DirectMediaPlayer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/courses/LessonWorkspace.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/courses/TedStudyPractice.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/courses/VideoLessonStudio.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/courses/VideoVocabulary.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/diagnostics/PerformanceDiagnostics.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/grammar/GrammarQuiz.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/grammar/PracticeActivities.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/grammar/ProductionAnswer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/grammar/TopicMasteryCard.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/import/ListeningTryout.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/import/ReadingTryout.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/interaction/AccessChangeListener.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/GlobalControlDiagnostics.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/IdleShellPrefetch.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/InstantInteractionProvider.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/InstantLink.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/InstantWorkspaceOutlet.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/InteractionPrimitives.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/PrivateResourceScope.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/RegionFailureNotice.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/RegionRetryButton.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/RouteEntryLoading.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/SectionEntryFrame.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/interaction/TestFocusEntry.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/lessons/LessonAuthoringDesk.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/listening/AuthoredListeningFrame.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "Native source-derived candidate/subset; no full component acceptance; V11 canonical exam ACK, UI recovery, server retry feedback and supported MP3 progressive range; original9/universal media/all-callers remain incomplete."
+    },
+    {
+      "source": "src/components/listening/FullExamStart.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V7 reviewed source renderer/native consumer or pure renderer tests; module dependency/visual/live closure incomplete. No completion credit."
+    },
+    {
+      "source": "src/components/listening/FullListeningActivity.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V8 source presentation plus complete native canonical controller/composition, validation/server API/error/retry/lifecycle and workflow evidence. FRONTEND/FIXTURE only; no visual/live acceptance."
+    },
+    {
+      "source": "src/components/listening/FullListeningLibrary.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Only source Admin caller; reserved parallel staff scope. No invented learner integration, no V10 implementation."
+    },
+    {
+      "source": "src/components/listening/FullListeningStudy.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V8 source presentation plus complete native canonical controller/composition, validation/server API/error/retry/lifecycle and workflow evidence. FRONTEND/FIXTURE only; no visual/live acceptance."
+    },
+    {
+      "source": "src/components/listening/LessonQuizBlock.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V10 source-native presentation plus complete native quiz owner, all source typed blocks, server-only verdict/correct-only key, errors/retry/cancel. Unit and learner browser verification; no visual/live acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/listening/ListeningAnalysis.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V8 source presentation plus complete native canonical controller/composition, validation/server API/error/retry/lifecycle and workflow evidence. FRONTEND/FIXTURE only; no visual/live acceptance."
+    },
+    {
+      "source": "src/components/listening/ListeningExam.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V8 real private-media legacy/learner-material consumer; external provider/all caller state coverage remains. Not a whole component closure."
+    },
+    {
+      "source": "src/components/listening/ListeningImport.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/listening/ListeningLegacyImport.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/listening/ListeningLessonBody.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V10 source-native presentation plus complete native quiz owner, all source typed blocks, server-only verdict/correct-only key, errors/retry/cancel. Unit and learner browser verification; no visual/live acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/listening/ListeningMap.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V7 reviewed source renderer/native consumer or pure renderer tests; module dependency/visual/live closure incomplete. No completion credit."
+    },
+    {
+      "source": "src/components/listening/ListeningPractice.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V7 reviewed source renderer/native consumer or pure renderer tests; module dependency/visual/live closure incomplete. No completion credit."
+    },
+    {
+      "source": "src/components/listening/ListeningSectionHeading.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V3 native source-derived navigation/transition/region subset. No full component acceptance."
+    },
+    {
+      "source": "src/components/listening/ListeningSequenceLocked.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "Native source-derived candidate/subset; no full component acceptance"
+    },
+    {
+      "source": "src/components/listening/ListeningSpeedPractice.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V8 source presentation plus complete native canonical controller/composition, validation/server API/error/retry/lifecycle and workflow evidence. FRONTEND/FIXTURE only; no visual/live acceptance."
+    },
+    {
+      "source": "src/components/listening/ListeningTestActions.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Only source Admin caller; reserved parallel staff scope. No invented learner integration, no V10 implementation."
+    },
+    {
+      "source": "src/components/listening/McqMastery.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "Native source-derived candidate/subset; no full component acceptance"
+    },
+    {
+      "source": "src/components/listening/NativeListeningExam.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V7 reviewed source renderer/native consumer or pure renderer tests; module dependency/visual/live closure incomplete. No completion credit."
+    },
+    {
+      "source": "src/components/listening/SectionListeningActivity.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V9 complete native General section composition/retake integrated into both section and own attempt entry routes; API-only grades, scoped state, failures/retry/cancellation/lifecycle and unit/browser workflows. FRONTEND/FIXTURE only."
+    },
+    {
+      "source": "src/components/listening/SectionRetakeButton.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V9 complete native General section composition/retake integrated into both section and own attempt entry routes; API-only grades, scoped state, failures/retry/cancellation/lifecycle and unit/browser workflows. FRONTEND/FIXTURE only."
+    },
+    {
+      "source": "src/components/listening/SpeedTrainer.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V8 source presentation plus complete native canonical controller/composition, validation/server API/error/retry/lifecycle and workflow evidence. FRONTEND/FIXTURE only; no visual/live acceptance."
+    },
+    {
+      "source": "src/components/listening/StartTestButton.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V9 shared native start/retake owner implemented and unit-tested; full learner library source caller not integrated, no whole component closure."
+    },
+    {
+      "source": "src/components/listening/audio-probe.ts",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/live-classes/ClassStatusControls.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/live-classes/JoinButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/live-classes/NewLiveClassForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/navigation/ModuleNavigation.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V3 native source-derived navigation/transition/region subset. No full component acceptance."
+    },
+    {
+      "source": "src/components/navigation/ModuleSectionNav.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V3 native source-derived navigation/transition/region subset. No full component acceptance."
+    },
+    {
+      "source": "src/components/notes/LessonNotesPanel.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V10 complete Listening private-note consumer: serialized latest writes, 900ms debounce, focus/selection retention, clear/reload/retry/exit/revocation. Other course/Reading/Grammar consumers not integrated; shared closure withheld."
+    },
+    {
+      "source": "src/components/onboarding/OnboardingForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/owner/AiControlPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/owner/OwnershipTransferForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/owner/RetentionRunner.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/profile/ProfileNameForm.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/profile/ProfilePhoto.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/progress/MockBandPanel.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V6 source mock overview/band chart, native details interaction and earned-band summary; frontend only, not grading/runner/live acceptance."
+    },
+    {
+      "source": "src/components/progress/MockProgressOverview.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V6 source mock overview/band chart, native details interaction and earned-band summary; frontend only, not grading/runner/live acceptance."
+    },
+    {
+      "source": "src/components/progress/ProgressTrends.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/GeneralReadingSession.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/GeneralReadingSets.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadAloud.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingAnalysis.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingEvidence.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingExam.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingFilters.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingHighlights.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingLearningLibrary.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/ReadingPassageCard.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/RetentionCheck.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/RetentionHistory.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/RetentionResultStandalone.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/RetentionSession.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/RetentionWorkspace.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/reading/StartPassageButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/resources/OwnerMaterialBlocks.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/resources/ResourceBlocks.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V8 real private-media legacy/learner-material consumer; external provider/all caller state coverage remains. Not a whole component closure."
+    },
+    {
+      "source": "src/components/resources/ResourceComposer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/shell/BrandBlock.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/Breadcrumbs.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/shell/FocusToggle.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/shell/GlobalSearch.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/shell/LinkPending.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/LocaleSwitcher.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/LogoutButton.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/MobileNav.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/ModuleContextHeading.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance.",
+      "frontendCodeComplete": true
+    },
+    {
+      "source": "src/components/shell/NotificationBell.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/NotificationRead.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/ProfileMenu.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/ShellUtilities.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/Sidebar.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/SidebarNav.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/ThemeToggle.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/shell/Topbar.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/speaking/AiExaminerSession.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/BlockComposer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/BlockRenderer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/EditMaterialForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/LivePartnerClient.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/LocalAnswerRecorder.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/ManagedMaterialCard.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/MaterialPlayer.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V9 explicit public/private source classification, strict URL/provider validation, native playback/error/retry/retention/disposal and provider external fallback. CSP unchanged: actual external provider playback and all source callers incomplete."
+    },
+    {
+      "source": "src/components/speaking/MicrophoneTest.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "Native source-derived candidate/subset; no full component acceptance"
+    },
+    {
+      "source": "src/components/speaking/NewMaterialForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/PracticeStudio.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/PrimaryFileField.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/QuestionRecorder.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/SpeakingPromptComposer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/StudySupportPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/speaking/useBlockDrafts.ts",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/support/ReportProblem.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/support/ResolveReportButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/teacher/NewAssignmentForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/teacher/TeacherFeedbackForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/ui/BackLink.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/Badge.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/Button.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/Card.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/EmptyState.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/Input.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/ModuleEmoji.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/ProgressBar.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/ui/StudyRichEditor.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/ui/icons.tsx",
+      "status": "CODE COMPLETE",
+      "acceptedComplete": false,
+      "notes": "V5 frontend CODE COMPLETE / FIXTURE VERIFIED only. SOURCE_STATE_INVENTORY_V5.md and evidence/v5/phase1-source-audit.json. No visual/live/product acceptance."
+    },
+    {
+      "source": "src/components/video/VideoLessonCard.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/video/VideoThumbnail.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/ClickableText.tsx",
+      "status": "IN PROGRESS",
+      "acceptedComplete": false,
+      "notes": "V9 General element-boundary selection/highlight/recovery/removal and canonical manual vocabulary save completed on existing V8 source controller; broader caller gate remains partial, not visual/live acceptance."
+    },
+    {
+      "source": "src/components/vocabulary/DictionaryFolderDialog.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/DictionaryPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/DictionaryRecentSearches.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/OwnerDictionary.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabBoardPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabGamesPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabRevisionPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabStudio.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabUsePanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/VocabWordsPanel.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/vocabulary/types.ts",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/AddVocabQuick.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/Editor.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/FeedbackView.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/StartPromptButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/TypingTrainer.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/activation/ActivationLab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/activation/WritingActivationTab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/exam/ExamGradeButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/exam/ExamRunner.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/exam/StartExamButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/exam/WritingExamHome.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/stealing/PatternPractice.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/stealing/StartStealingButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/stealing/StealingFlow.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/stealing/WritingLanguageStealingTab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/topic/SaveButtons.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/topic/WritingTopicVocabularyTab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/translation/TranslationResultView.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/translation/TranslationRunner.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/translation/TranslationStartForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/translation/WritingTranslationTab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/GradeForm.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/GradeRetryButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/LessonCompleteButton.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/NotMigrated.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/WritingContentTabs.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/WritingGradeTab.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    },
+    {
+      "source": "src/components/writing/workspace/WritingNav.tsx",
+      "status": "NOT STARTED",
+      "acceptedComplete": false,
+      "notes": "Not implemented. Icons in one file count as ONE source file, not many components."
+    }
+  ]
+}
