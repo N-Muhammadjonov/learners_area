@@ -11,7 +11,7 @@ permissions:
 jobs:
   unit-regression:
     name: unit-regression (${{ matrix.shard }}/6)
-    runs-on: ubuntu-24.04
+    runs-on: learners-area-ci-arm64
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -41,7 +41,7 @@ jobs:
         run: node --no-wasm-code-gc --no-wasm-tier-up --conditions=react-server --import tsx --test --test-concurrency=2 --test-shard=${{ matrix.shard }}/6 --test-timeout=300000 tests/*.test.ts
   auth-release:
     needs: unit-regression
-    runs-on: ubuntu-24.04
+    runs-on: learners-area-ci-arm64
     timeout-minutes: 60
     services:
       postgres:
@@ -79,7 +79,7 @@ jobs:
           TEST_DATABASE_URL: postgresql://postgres:fixture-only@127.0.0.1:5432/learners_telegram_ci
         run: node --import tsx scripts/verify-media-integration-http.mjs
   telegram-bot:
-    runs-on: ubuntu-24.04
+    runs-on: learners-area-ci-arm64
     timeout-minutes: 30
     defaults:
       run:
