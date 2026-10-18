@@ -5,7 +5,7 @@ const statuses=['active','pending','suspended','rejected'];
 export function accountResult(value,kind){
  if(!object(value)||value.ok===false||value.success===false||value.error!=null)throw new ApiError(502,'invalid_response');
  if(kind==='login'){
-  if(typeof value.onboarded!=='boolean'||value.accountStatus!==undefined&&!statuses.includes(value.accountStatus))throw new ApiError(502,'invalid_response');
+  if(value.ok!==true&&value.success!==true||typeof value.onboarded!=='boolean'||!statuses.includes(value.accountStatus))throw new ApiError(502,'invalid_response');
  }else if(value.ok!==true)throw new ApiError(502,'invalid_response');
  return value;
 }

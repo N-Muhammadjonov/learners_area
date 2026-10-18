@@ -51,3 +51,17 @@ fs.writeFileSync(path.join(base,'js/generated/module-section-nav.js'),"// Review
 const heading=read('src/components/listening/ListeningSectionHeading.tsx'),headingFn=find(heading,'ListeningSectionHeading');
 const sectionConstants=ast(heading).statements.find(n=>ts.isVariableStatement(n)&&n.getText().startsWith('const SECTIONS')).getText(),headingStatements=headingFn.body.statements.filter(n=>!(ts.isVariableStatement(n)&&n.getText().startsWith('const pathname ='))).map(n=>n.getText()).join('\n');
 fs.writeFileSync(path.join(base,'js/generated/listening-section-heading.js'),"// Reviewed source heading selection and markup.\nimport {h,fragment} from '../native.js';\n"+compile(`${sectionConstants}\nexport function render({titles,pathname}){${headingStatements}}`));
+
+// Source shell identity/parent links. Native DOM, no navigation hooks at runtime.
+const crumbsFile='src/components/shell/Breadcrumbs.tsx',crumbsFn=find(read(crumbsFile),'Breadcrumbs');
+const crumbsBody=crumbsFn.body.statements.filter(n=>!(ts.isVariableStatement(n)&&n.getText().startsWith('const pathname ='))).map(n=>n.getText()).join('\n');
+fs.writeFileSync(path.join(base,'js/generated/breadcrumbs.js'),"// Reviewed source Breadcrumbs expression and parent semantics.\nimport {h,fragment,Link} from '../native.js';\nimport {breadcrumbsFor,parentFor} from './nav-routes.js';\nimport {IconBack,IconChevronRight} from './icons.js';\n"+compile(`export function render({dict,pathname}){${crumbsBody}}`));
+const headingFile='src/components/shell/ModuleContextHeading.tsx',contextFn=find(read(headingFile),'ModuleContextHeading');
+const contextBody=contextFn.body.statements.filter(n=>!(ts.isVariableStatement(n)&&n.getText().startsWith('const pathname ='))).map(n=>n.getText()).join('\n');
+fs.writeFileSync(path.join(base,'js/generated/module-context-heading.js'),"// Reviewed source module identity and Management parent links.\nimport {h,fragment,Link} from '../native.js';\nimport {parentFor} from './nav-routes.js';\nimport {IconBack} from './icons.js';\nimport {render as renderCrumbs} from './breadcrumbs.js';\n"+compile(`export function render({dict,pathname}){const Breadcrumbs=p=>renderCrumbs({...p,pathname});${contextBody}}`));
+
+// Exact approved search skeleton and zero-result presentation (no live data).
+const searchSource=read('src/components/shell/GlobalSearch.tsx'),searchAst=ast(searchSource),searchParts={};
+function searchWalk(n){if(ts.isBinaryExpression(n)&&n.operatorToken.kind===ts.SyntaxKind.AmpersandAmpersandToken){const left=n.left.getText().replace(/\s/g,'');if(left==='state==="loading"')searchParts.loading=n.right.getText();if(left==='state==="ready"&&hits.length===0')searchParts.empty=n.right.getText();}ts.forEachChild(n,searchWalk);}searchWalk(searchAst);
+if(!searchParts.loading||!searchParts.empty)throw Error('Reviewed search state expression not found');
+fs.writeFileSync(path.join(base,'js/generated/search-states.js'),"// Reviewed source GlobalSearch loading/empty render expressions.\nimport {h,fragment} from '../native.js';\n"+compile(Object.entries(searchParts).map(([name,expr])=>`export function ${name}({dict}){return ${expr};}`).join('\n')));
