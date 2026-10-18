@@ -1,0 +1,146 @@
+
+> learners-area-vanilla-migration-candidate@0.1.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: safe redirect preserves path/query/fragment
+ok 1 - safe redirect preserves path/query/fragment
+  ---
+  duration_ms: 1.381729
+  type: 'test'
+  ...
+# Subtest: safe redirect rejects external, encoded, backslash and malformed targets
+ok 2 - safe redirect rejects external, encoded, backslash and malformed targets
+  ---
+  duration_ms: 0.282462
+  type: 'test'
+  ...
+# Subtest: patterns distinguish nested static/dynamic routes
+ok 3 - patterns distinguish nested static/dynamic routes
+  ---
+  duration_ms: 0.437551
+  type: 'test'
+  ...
+# Subtest: API mutations send only JSON with same-origin cookies and no-store
+ok 4 - API mutations send only JSON with same-origin cookies and no-store
+  ---
+  duration_ms: 15.91991
+  type: 'test'
+  ...
+# Subtest: API rejects foreign paths
+ok 5 - API rejects foreign paths
+  ---
+  duration_ms: 1.044754
+  type: 'test'
+  ...
+# Subtest: API distinguishes server 401 errors
+ok 6 - API distinguishes server 401 errors
+  ---
+  duration_ms: 1.109557
+  type: 'test'
+  ...
+# Subtest: API rejects HTML fallback instead of treating it as success
+ok 7 - API rejects HTML fallback instead of treating it as success
+  ---
+  duration_ms: 0.763701
+  type: 'test'
+  ...
+# Subtest: identical concurrent GET requests deduplicate without persistent cache
+ok 8 - identical concurrent GET requests deduplicate without persistent cache
+  ---
+  duration_ms: 1.615402
+  type: 'test'
+  ...
+# Subtest: cancelling one GET subscriber does not abort another
+ok 9 - cancelling one GET subscriber does not abort another
+  ---
+  duration_ms: 1.257982
+  type: 'test'
+  ...
+# Subtest: last GET subscriber cancellation aborts transport
+ok 10 - last GET subscriber cancellation aborts transport
+  ---
+  duration_ms: 0.596234
+  type: 'test'
+  ...
+# Subtest: mutation failures are not automatically retried
+ok 11 - mutation failures are not automatically retried
+  ---
+  duration_ms: 0.697215
+  type: 'test'
+  ...
+# Subtest: router handles direct dynamic links and query/hash
+ok 12 - router handles direct dynamic links and query/hash
+  ---
+  duration_ms: 69.178908
+  type: 'test'
+  ...
+# Subtest: router navigation cleans old views and aborts lifecycle
+ok 13 - router navigation cleans old views and aborts lifecycle
+  ---
+  duration_ms: 11.33263
+  type: 'test'
+  ...
+# Subtest: router back and forward restore matching route
+ok 14 - router back and forward restore matching route
+  ---
+  duration_ms: 72.106993
+  type: 'test'
+  ...
+# Subtest: stale lazy route cannot overwrite newer navigation
+ok 15 - stale lazy route cannot overwrite newer navigation
+  ---
+  duration_ms: 9.353298
+  type: 'test'
+  ...
+# Subtest: DOM rendering treats untrusted strings as text
+ok 16 - DOM rendering treats untrusted strings as text
+  ---
+  duration_ms: 8.971798
+  type: 'test'
+  ...
+# Subtest: two dictionaries retain the same key shape
+ok 17 - two dictionaries retain the same key shape
+  ---
+  duration_ms: 16.320908
+  type: 'test'
+  ...
+# Subtest: brand uses original images rather than initials or emoji replacements
+ok 18 - brand uses original images rather than initials or emoji replacements
+  ---
+  duration_ms: 12.902139
+  type: 'test'
+  ...
+# Subtest: recovery form includes real labelled required email/password inputs
+ok 19 - recovery form includes real labelled required email/password inputs
+  ---
+  duration_ms: 31.352526
+  type: 'test'
+  ...
+# Subtest: inventory accounts for every page and never marks unavailable routes converted
+ok 20 - inventory accounts for every page and never marks unavailable routes converted
+  ---
+  duration_ms: 6.125029
+  type: 'test'
+  ...
+# Subtest: runtime has no React/Next imports or JSX entrypoints
+ok 21 - runtime has no React/Next imports or JSX entrypoints
+  ---
+  duration_ms: 2.915583
+  type: 'test'
+  ...
+# Subtest: legacy alias preserves query/hash and does not restore retired Shadowing
+ok 22 - legacy alias preserves query/hash and does not restore retired Shadowing
+  ---
+  duration_ms: 2.755954
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 654.755434

@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-18T05:05:27.276Z",
+  "conditions": "Local HTTP, Chromium 133 headless, 390x844 touch. 10 visits to not-found followed by SPA link to landing. CSS animations NOT complete at DOM readiness. No backend, throttling or original baseline. Not an application-shell or module benchmark.",
+  "samplesMs": [
+    100.19999999995343,
+    524.2999999999302,
+    542.2000000000698,
+    110.89999999990687,
+    381.5,
+    154.80000000004657,
+    277.19999999995343,
+    108.90000000002328,
+    226.29999999993015,
+    155.40000000002328
+  ],
+  "medianMs": 226.29999999993015,
+  "metrics": {
+    "navigation": [
+      {
+        "duration": 83.79999999993015,
+        "transferSize": 907,
+        "domContentLoaded": 82.29999999993015
+      }
+    ],
+    "resources": [
+      {
+        "name": "/css/global.css",
+        "transferSize": 120662,
+        "duration": 3.300000000046566
+      },
+      {
+        "name": "/js/main.js",
+        "transferSize": 1072,
+        "duration": 2.6000000000931323
+      },
+      {
+        "name": "/js/router.js",
+        "transferSize": 2735,
+        "duration": 2
+      },
+      {
+        "name": "/js/preferences.js",
+        "transferSize": 966,
+        "duration": 1.599999999976717
+      },
+      {
+        "name": "/js/dom.js",
+        "transferSize": 1020,
+        "duration": 1.400000000023283
+      },
+      {
+        "name": "/js/routes.js",
+        "transferSize": 9747,
+        "duration": 2.400000000023283
+      },
+      {
+        "name": "/js/navigation.js",
+        "transferSize": 1279,
+        "duration": 2.800000000046566
+      },
+      {
+        "name": "/js/safe-next.js",
+        "transferSize": 1802,
+        "duration": 2.099999999976717
+      },
+      {
+        "name": "/js/api-client.js",
+        "transferSize": 2801,
+        "duration": 2
+      },
+      {
+        "name": "/js/private-modules.js",
+        "transferSize": 5613,
+        "duration": 4.300000000046566
+      },
+      {
+        "name": "/modules/not-found.js",
+        "transferSize": 1028,
+        "duration": 2.099999999976717
+      },
+      {
+        "name": "/js/i18n/uz.js",
+        "transferSize": 194724,
+        "duration": 2.900000000023283
+      },
+      {
+        "name": "/modules/landing.js",
+        "transferSize": 4884,
+        "duration": 1.6999999999534339
+      },
+      {
+        "name": "/js/components/brand.js",
+        "transferSize": 1054,
+        "duration": 1.400000000023283
+      },
+      {
+        "name": "/js/components/marks.js",
+        "transferSize": 2784,
+        "duration": 1.1999999999534339
+      },
+      {
+        "name": "/js/session.js",
+        "transferSize": 892,
+        "duration": 1
+      },
+      {
+        "name": "/brand/derived/owner-neon-day-96.png",
+        "transferSize": 15691,
+        "duration": 1.400000000023283
+      },
+      {
+        "name": "/brand/derived/owner-v11-night-96.png",
+        "transferSize": 16194,
+        "duration": 1.6000000000931323
+      }
+    ]
+  }
+}
