@@ -24,6 +24,11 @@ if(fs.existsSync(path.join(root,'src/app/globals.css'))){
  for(const m of emoji.matchAll(/^  (\w+): \(\s*<>\s*([\s\S]*?)\s*<\/>,?\s*\),/gm))marks[m[1]]=m[2].replaceAll('className=','class=').replaceAll(/\s+\n\s*/g,' ');
  fs.writeFileSync(path.join(base,'js/components/marks.js'),'// Original ModuleEmoji SVG geometry; trusted source only.\nexport default '+JSON.stringify(marks,null,2)+';\n');
 }
+execFileSync(process.execPath,[path.join(base,'scripts/convert-ui.mjs')],{cwd:base,stdio:'inherit'});
+execFileSync(process.execPath,[path.join(base,'scripts/convert-views.mjs')],{cwd:base,stdio:'inherit'});
+execFileSync(process.execPath,[path.join(base,'scripts/convert-dashboard.mjs')],{cwd:base,stdio:'inherit'});
+execFileSync(process.execPath,[path.join(base,'scripts/convert-interactions.mjs')],{cwd:base,stdio:'inherit'});
+execFileSync(process.execPath,[path.join(base,'scripts/convert-auth.mjs')],{cwd:base,stdio:'inherit'});
 const config=path.join(base,'tailwind.config.mjs');
 if(!fs.existsSync(path.join(base,'tailwind.source.mjs')))throw Error('Missing extracted Tailwind config');
 fs.writeFileSync(config,`import source from './tailwind.source.mjs';\nexport default {...source, content: ['./index.html','./js/**/*.js','./modules/**/*.js','./css/source.css']};\n`);

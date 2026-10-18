@@ -1,5 +1,6 @@
+import reviewed from './generated/view-registry.js';
 // Source-discovered routes. Unavailable does NOT mean converted.
-export default [
+const routes = [
  {pattern:"/app/admin/reading/retention/staged",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/listening/lessons/author",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/admin/content/workspace",load:()=>import('../modules/unavailable.js')},
@@ -16,7 +17,7 @@ export default [
  {pattern:"/app/listening/academic",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/owner/integrations",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/speaking/shadowing",load:()=>import('../modules/unavailable.js')},
- {pattern:"/reset-password/confirm",load:()=>import('../modules/unavailable.js')},
+ {pattern:"/reset-password/confirm",load:()=>import('../modules/auth/public.js')},
  {pattern:"/app/listening/general",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/listening/history",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/listening/lessons",load:()=>import('../modules/unavailable.js')},
@@ -59,7 +60,7 @@ export default [
  {pattern:"/app/speaking/ai",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/management",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/vocabulary",load:()=>import('../modules/unavailable.js')},
- {pattern:"/reset-password",load:()=>import('../modules/unavailable.js')},
+ {pattern:"/reset-password",load:()=>import('../modules/auth/public.js')},
  {pattern:"/app/listening",load:()=>import('../modules/unavailable.js')},
  {pattern:"/auth/recovery",load:()=>import('../modules/recovery.js')},
  {pattern:"/app/progress",load:()=>import('../modules/unavailable.js')},
@@ -70,13 +71,13 @@ export default [
  {pattern:"/app/reports",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/support",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/writing",load:()=>import('../modules/unavailable.js')},
- {pattern:"/onboarding",load:()=>import('../modules/unavailable.js')},
+ {pattern:"/onboarding",load:()=>import('../modules/auth/account.js')},
  {pattern:"/app/coach",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/mocks",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/owner",load:()=>import('../modules/unavailable.js')},
- {pattern:"/register",load:()=>import('../modules/unavailable.js')},
- {pattern:"/pending",load:()=>import('../modules/unavailable.js')},
- {pattern:"/login",load:()=>import('../modules/unavailable.js')},
+ {pattern:"/register",load:()=>import('../modules/auth/public.js')},
+ {pattern:"/pending",load:()=>import('../modules/auth/account.js')},
+ {pattern:"/login",load:()=>import('../modules/auth/public.js')},
  {pattern:"/app",load:()=>import('../modules/unavailable.js')},
  {pattern:"/",load:()=>import('../modules/landing.js')},
  {pattern:"/app/reading/retention/results/:attemptId",load:()=>import('../modules/unavailable.js')},
@@ -116,3 +117,5 @@ export default [
  {pattern:"/app/admin/materials/:type/:id",load:()=>import('../modules/unavailable.js')},
  {pattern:"/app/admin/writing/:kind/:id",load:()=>import('../modules/unavailable.js')},
 ];
+
+export default routes.map(route=>{if(['/app','/app/mocks'].includes(route.pattern))return {...route,protected:true,load:()=>import('../modules/dashboard.js')};if(route.pattern==='/app/listening/mcq/day/:day')return {...route,protected:true,load:()=>import('../modules/listening/mcq-day.js')};if(route.pattern==='/app/listening/tests/:id')return {...route,protected:true,layout:'focus',load:()=>import('../modules/listening/hub.js')};const view=reviewed.find(v=>v.path===route.pattern);if(view)return {...route,protected:true,load:()=>import('../modules/shared/route-view.js')};if(['/onboarding','/pending'].includes(route.pattern))return {...route,protected:true};return route;});
