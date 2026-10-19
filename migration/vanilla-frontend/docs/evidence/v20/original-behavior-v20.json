@@ -1,0 +1,1098 @@
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 264,
+    "FAIL": 6,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "Real original exam input/flag/notes/autosave/reload/resume/cancel; score awaits canonical server ACK",
+      "status": "PASS"
+    },
+    {
+      "name": "Real MCQ prediction redraw/reload and Choose TWO A-E selection/reload use learner-only saved UI",
+      "status": "PASS"
+    },
+    {
+      "name": "Real review/script/map/completion/vocabulary/retry source controls remain distinct",
+      "status": "PASS"
+    },
+    {
+      "name": "Real exam malformed canonical ACK fails closed; manual save retry recovers",
+      "status": "PASS"
+    },
+    {
+      "name": "Real exam foreign canonical ACK fails closed; manual save retry recovers",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review storage same no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review storage attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review storage exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review focus same no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review focus attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review focus exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review pageshow same no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review pageshow attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review pageshow exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review visibility same no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review visibility attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review visibility exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review learners-area:authority-hint same no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review learners-area:authority-hint attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review learners-area:authority-hint exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority 401 never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority 403 never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority 404 never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority 409 never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority 429 never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority 503 never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority malformed never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority foreign-session never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority unavailable never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 actual other tab retake without any A write invalidates standing transcript and owned audio",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual closed tab failed Review discovered/adopted without replay; explicit retry ACK retains exact original",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual two-tab held A P1 / successful B P2 preserves independent journals and late ACK ownership",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('#checkReviewPart')\n"
+    },
+    {
+      "name": "V19 two browser tabs competing to adopt one source produce only one owned copy and zero POSTs",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery changed-answer fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery other-attempt fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery active-exam fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery completed fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery unavailable fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery malformed fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery missing fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery foreign-session fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery expired-session fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held recovery progress part cannot release stale answers or submit",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('[data-rpart=\"2\"]')\n    - locator resolved to <button role=\"tab\" class=\"btn \" tabindex=\"-1\" data-rpart=\"2\" aria-selected=\"false\" aria-controls=\"reviewHost\">Part 2</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <section class=\"relative w-full\" data-authored-listening=\"\" data-activity-active=\"true\">…</section> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <section class=\"relative w-full\" data-authored-listening=\"\" data-activity-active=\"true\">…</section> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    13 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <section class=\"relative w-full\" data-authored-listening=\"\" data-activity-active=\"true\">…</section> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n"
+    },
+    {
+      "name": "V19 held recovery progress activity cannot release stale answers or submit",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('#activity-review [data-back]')\n    - locator resolved to <button data-back=\"\" class=\"back-btn\">← Activities</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <section class=\"relative w-full\" data-authored-listening=\"\" data-activity-active=\"true\">…</section> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <section class=\"relative w-full\" data-authored-listening=\"\" data-activity-active=\"true\">…</section> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    13 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <section class=\"relative w-full\" data-authored-listening=\"\" data-activity-active=\"true\">…</section> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n"
+    },
+    {
+      "name": "V19 held recovery progress route cannot release stale answers or submit",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held recovery progress reload cannot release stale answers or submit",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held recovery progress retake cannot release stale answers or submit",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held recovery progress expiry cannot release stale answers or submit",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 multiple/malformed/foreign records are scoped hints; no answers or automatic POST",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 other tab storage event invalidates authorized saved-answer details without granting/replaying",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 1440 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 1440 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 1440 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 1440 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 768 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 768 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 768 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 768 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 390 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 390 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 390 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 390 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual two-tab held Review reload never clears foreign/stale original or duplicates submission",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual two-tab held Review close never clears foreign/stale original or duplicates submission",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual two-tab held Review retake never clears foreign/stale original or duplicates submission",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual two-tab held Review new-submitted-attempt never clears foreign/stale original or duplicates submission",
+      "status": "FAIL",
+      "error": "locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('[data-review-save-retry]') to be visible\n"
+    },
+    {
+      "name": "V19 actual two-tab held Review authloss never clears foreign/stale original or duplicates submission",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original authored route never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original authored reload never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original authored expiry never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original state route never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original state reload never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original state expiry never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 pending current-context work blocks adoption without overwriting either exact record",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('[data-review-adopt]')\n"
+    },
+    {
+      "name": "V19 legacy missing canonical attempt is visibly isolated; no title/storage-name recovery guesses",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held direct #review URL waits for canonical hydration then opens the original activity without replay",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 browser without Web Locks visibly refuses adoption; original bytes remain and no POST",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held typed ACK cannot delete same-body replacement-attempt pending bytes or paint confirmation",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 explicit next bounded batch reaches later retained records without automatic exposure or replay",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 pending question focus cannot steal focus after rapid notes Escape",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 unavailable Review response is not acknowledged as authorized completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 invalid new selection cancels older term before lexical authorization",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 cross-DOM original word retains exact identity before lexical authorization",
+      "status": "FAIL",
+      "error": "locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('[data-word-unresolved]') to be visible\n"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review loading missing canonical feedback never hydrates or reveals",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review loading duplicate canonical feedback never hydrates or reveals",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review loading malformed canonical feedback never hydrates or reveals",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review loading foreign-course canonical feedback never hydrates or reveals",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 active exam forged review and Review course RPCs are denied before network",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 active exam forged script and Review course RPCs are denied before network",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 active exam forged vocab and Review course RPCs are denied before network",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 401 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 403 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 404 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 409 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 429 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 503 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress malformed fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress foreign fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 held Review progress part invalidates old ACK and retains intent",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 held Review progress activity invalidates old ACK and retains intent",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 held Review progress route invalidates old ACK and retains intent",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 held Review progress reload invalidates old ACK and retains intent",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 existing SSE revokes held Review progress and owned media",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 existing SSE revokes held Review lookup and owned media",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 before progress canonical attempt change never acknowledges foreign work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 after progress canonical attempt change never acknowledges foreign work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 conflicting old intent can be explicitly retained without replay or silent erasure",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 externally changed same-context journal is not hidden by cached memory or cleared by late ACK",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 quota storage warns and retains owned memory across explicit remount",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 disabled storage warns and retains owned memory across explicit remount",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review media 403 fails visibly and cleans up before explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review media 404 fails visibly and cleans up before explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review media 503 fails visibly and cleans up before explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review media decoder fails visibly and cleans up before explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review selected text mouse uses server gate; Escape restores selection and focus",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review selected text keyboard uses server gate; Escape restores selection and focus",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review authorized lexical popup bounds 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review outside click dismisses authorized popup; subsequent selection stays independently owned",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review held lexical authorization cannot paint after part switch",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review lexical server denial is not a locally unlocked mode",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review durable reload retry reconciles own server state before explicit mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review durable reload confirmed reconciles own server state before explicit mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 Review durable reload conflict reconciles own server state before explicit mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 server-approved native legacy lexical presentation is preserved after preflight",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 native lexical mode cannot bypass another-tab server exam lock",
+      "status": "PASS"
+    },
+    {
+      "name": "V17 active examination rejects forged Review lookup before dictionary requests",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review Check keeps the same trainer and playback position; part switch and reentry own cleanup",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review held progress coalesces duplicate clicks and retains both parts without stale UI",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review queued part receives the active write failure and retries the merged own work",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review route exit fences a held potentially committed progress response",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review malformed material fails visibly before rendering keys and recovers original data",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review exact evidence highlights original text; unmatched evidence is never fabricated",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 401 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 403 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 404 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 409 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 429 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 503 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress network is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress malformed is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress timeout is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 1440 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 1440 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 1440 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 1440 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original autoplay rejection exposes keyboard-operable source retry and pending state",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 native Chromium fullscreen success exits before submitted results",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 same-context two-tab writes serialize in browser; newer server answer conflicts and own draft retained",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 overlapping two-tab held edit and submit use real Web Locks; both recovery drafts remain distinct",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held in_progress and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held checkpoint and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held submitted and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held exited and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held media and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held retry and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 encoded native playback position reload, resume and disposal stay parent owned",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 encoded early end enters final review only once without invented duration",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded decoder fault is bounded and cleanup is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded forbidden fault is bounded and cleanup is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded metadata fault is bounded and cleanup is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded recovery capability 401 stops old transport; authority or explicit retry owns next generation",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded recovery capability 503 stops old transport; authority or explicit retry owns next generation",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 resource authority loss fences a held already-committed checkpoint ACK without claiming rollback",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 repeated SPA Back/Forward and rapid mounts leave no owned audio or browser mutex",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 malformed ancillary flags is rejected before source hydration",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 malformed ancillary answers is rejected before source hydration",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 fresh closed-attempt reload retake preserves predecessor identity before its new start",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Review all parts retain own revisions across redraw/reload; tabs, original checked evidence and retry remain source owned",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 401 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 403 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 404 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 409 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 429 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 503 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS network preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS malformed preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS duplicate preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS foreign preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS open preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS timeout preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 unacknowledged start plus submit reload replays start before close",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 unavailable local storage warns, keeps own input and reloads confirmed server draft",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 submitted answers freeze during delayed feedback and restore canonical own answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 delayed autosave coalesces edits; obsolete ACK cannot overwrite latest answer",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 pending submission reload replays own outbox once; no client score",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 server-closed own attempt reconciles active exam without local grading",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 pending exit blocks retake; canonical ACK permits a new identity and clean draft",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 route exit during delayed submission suppresses stale UI; Back/Forward recovers own result",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 source full-length clock and authorized four-part/forty-window mapping arguments",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS final-review resume preserves deadline, position and silent audio; expired resume auto-submits",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS late timer callback carries elapsed listening time into final review",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS dictionary RPC denied while active and while canonical submission is pending",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS notes/options keyboard containment and question focus survives repeated navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry 403 preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry 404 preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry 503 preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry invalid preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry network preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry timeout preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry empty/all-correct source states and authorized correct feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry question change pauses real encoded shared audio, retains source clip controls",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry401 expires session without answer release",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry rapid inner navigation cancels transport; paired known answer locks and restores own choice",
+      "status": "PASS"
+    }
+  ]
+}

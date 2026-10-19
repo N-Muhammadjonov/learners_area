@@ -9,9 +9,9 @@
     "test": "node --test tests/*.test.mjs",
     "inventory": "node scripts/inventory.mjs",
     "package": "python3 scripts/package.py",
-    "test:browser": "node scripts/regression-v19.mjs",
+    "test:browser": "node scripts/regression-v20.mjs",
     "test:original-source": "node tests/browser-original-source-v11.mjs",
-    "check:assets": "node scripts/assets-css-v19.mjs",
+    "check:assets": "node scripts/assets-css-v20.mjs",
     "test:original-source:v12": "V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
     "test:original-source:v13": "V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
     "test:original-source:v14": "V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
@@ -19,7 +19,9 @@
     "test:original-source:v16": "V16_SOURCE=1 V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
     "test:original-source:v17": "V17_SOURCE=1 V16_SOURCE=1 V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
     "test:original-source:v18": "V18_SOURCE=1 V17_SOURCE=1 V16_SOURCE=1 V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
-    "test:original-source:v19": "V19_SOURCE=1 V18_SOURCE=1 V17_SOURCE=1 V16_SOURCE=1 V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs"
+    "test:original-source:v19": "V19_SOURCE=1 V18_SOURCE=1 V17_SOURCE=1 V16_SOURCE=1 V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
+    "test:original-source:v20": "V20_SOURCE=1 V19_SOURCE=1 V18_SOURCE=1 V17_SOURCE=1 V16_SOURCE=1 V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
+    "check:content": "python3 scripts/content-preservation-v20.py --output docs/evidence/v20/content-preservation.json"
   },
   "devDependencies": {
     "@sparticuz/chromium": "133.0.0",

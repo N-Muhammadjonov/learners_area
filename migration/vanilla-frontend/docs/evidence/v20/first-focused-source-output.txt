@@ -1,0 +1,166 @@
+FAIL V20 standing Review storage same no pending writer: conceal first, validate bounded metadata only AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+4 !== 2
+
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:12:734
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:10:142)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V20 standing Review focus same no pending writer: conceal first, validate bounded metadata only AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+4 !== 2
+
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:12:734
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:10:142)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V20 standing Review pageshow same no pending writer: conceal first, validate bounded metadata only AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+4 !== 2
+
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:12:734
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:10:142)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V20 standing Review visibility same no pending writer: conceal first, validate bounded metadata only AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+4 !== 2
+
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:12:734
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:10:142)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V20 standing Review learners-area:authority-hint same no pending writer: conceal first, validate bounded metadata only AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+4 !== 2
+
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:12:734
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:10:142)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V20 continuous authority 401 never resumes protected Review or fabricates completion locator.textContent: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('[data-review-authority]')
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:16:274
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v20-journeys.mjs:14:91)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 19,
+    "FAIL": 6,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V20 standing Review storage same no pending writer: conceal first, validate bounded metadata only",
+      "status": "FAIL",
+      "error": "Expected values to be strictly equal:\n\n4 !== 2\n"
+    },
+    {
+      "name": "V20 standing Review storage attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review storage exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review focus same no pending writer: conceal first, validate bounded metadata only",
+      "status": "FAIL",
+      "error": "Expected values to be strictly equal:\n\n4 !== 2\n"
+    },
+    {
+      "name": "V20 standing Review focus attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review focus exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review pageshow same no pending writer: conceal first, validate bounded metadata only",
+      "status": "FAIL",
+      "error": "Expected values to be strictly equal:\n\n4 !== 2\n"
+    },
+    {
+      "name": "V20 standing Review pageshow attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review pageshow exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review visibility same no pending writer: conceal first, validate bounded metadata only",
+      "status": "FAIL",
+      "error": "Expected values to be strictly equal:\n\n4 !== 2\n"
+    },
+    {
+      "name": "V20 standing Review visibility attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review visibility exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review learners-area:authority-hint same no pending writer: conceal first, validate bounded metadata only",
+      "status": "FAIL",
+      "error": "Expected values to be strictly equal:\n\n4 !== 2\n"
+    },
+    {
+      "name": "V20 standing Review learners-area:authority-hint attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review learners-area:authority-hint exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority 401 never resumes protected Review or fabricates completion",
+      "status": "FAIL",
+      "error": "locator.textContent: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('[data-review-authority]')\n"
+    },
+    {
+      "name": "V20 continuous authority 403 never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority 404 never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority 409 never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority 429 never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority 503 never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority malformed never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority foreign-session never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 continuous authority unavailable never resumes protected Review or fabricates completion",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 actual other tab retake without any A write invalidates standing transcript and owned audio",
+      "status": "PASS"
+    }
+  ]
+}

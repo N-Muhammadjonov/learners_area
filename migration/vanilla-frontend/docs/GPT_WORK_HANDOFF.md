@@ -1,3 +1,9 @@
+# V20 handoff — latest continuation
+
+V20 is an honest resumable PARTIAL checkpoint, not Review completion. See CHECKPOINT_V20.md and matching V20 source/adapter/route/component ledgers. Standing native Review now conceals and pauses on authority hints, performs bounded metadata-only fresh validation, resumes the same frame only for unchanged session/canonical submitted attempt/availability, otherwise disposes stale scope while keeping pending own work. No protected material reconstructed or bundled. Full/Retry remain COMPLETE; Script not advanced; Reading gated. Navigation, broader held lexical/material/media/lifecycle, matched visual/live gates remain open. Direct authored vocabulary exam-policy and Owner registration/publication remain separate authorized backend GPT Work; no backend/cloud edits here. Final exact archive and execution authority: deliverables/V20_VERIFICATION.json. Educational preservation report is mandatory.
+
+## Earlier V19 handoff (preserved)
+
 # Latest handoff — V19 resumable PARTIAL (supersedes V18 status only)
 
 Exact continuation febad852119ea4fbfdffd850f9899df45447b0bf, same Arena branch.
