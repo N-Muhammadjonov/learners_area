@@ -14,11 +14,11 @@ import {beginPublish,advancePublish,rollback} from '../src/lib/dictionary/publis
 import {sql} from 'drizzle-orm';
 
 test('hybrid import, private transport, exact-sense saves, resumability, owner publish and rollback preserve progress',async()=>{
- const d=await createTestDatabase(),objects=new Map<string,Buffer>();let gets=0,failPut=false;
+ const d=await createTestDatabase(),objects=new Map<string,Buffer>();let gets=0;let failKey:string|null=null;
  const server=createServer(async(req,res)=>{try{
   const key=decodeURIComponent((req.url??'').split('?')[0]!).replace(/^\/qa\//,'');
   if(req.method==='GET'){gets++;const b=objects.get(key);if(!b){res.writeHead(404);res.end();return;}res.writeHead(200,{'Content-Length':b.length});res.end(b);}
-  else if(req.method==='PUT'){if(failPut){res.writeHead(503);res.end();return;}if(objects.has(key)&&req.headers['if-none-match']==='*'){res.writeHead(412);res.end();return;}const chunks=[];for await(const chunk of req)chunks.push(chunk);objects.set(key,Buffer.concat(chunks));res.writeHead(200);res.end();}
+  else if(req.method==='PUT'){if(key===failKey){res.writeHead(503);res.end();return;}if(objects.has(key)&&req.headers['if-none-match']==='*'){res.writeHead(412);res.end();return;}const chunks=[];for await(const chunk of req)chunks.push(chunk);objects.set(key,Buffer.concat(chunks));res.writeHead(200);res.end();}
   else if(req.method==='DELETE'){objects.delete(key);res.writeHead(204);res.end();}else{res.writeHead(405);res.end();}
  }catch{res.writeHead(500);res.end();}});
  server.listen(0,'127.0.0.1');await once(server,'listening');
@@ -71,11 +71,18 @@ test('hybrid import, private transport, exact-sense saves, resumability, owner p
   assert.deepEqual(await d.query('select * from user_vocabulary where user_id=$1',[student]),savedBefore);
   await rollback(owner);assert.equal((await activeRelease(d.db)).active_release_id,release);
   assert.deepEqual(await d.query('select * from user_vocabulary where user_id=$1',[student]),savedBefore);
-  const interrupted='rel-v1-333333333333333333333333',retry=structuredClone(phrase);retry.release_id=interrupted;
-  failPut=true;await assert.rejects(()=>importHybrid([retry],transport,d.db,owner));failPut=false;
+  const interrupted='rel-v1-333333333333333333333333',retry=[structuredClone(bank),structuredClone(phrase)];for(const e of retry)e.release_id=interrupted;
+  const prefixes=retry.map(e=>e.lexeme_id.slice(0,2)).sort();assert.notEqual(prefixes[0],prefixes[1]);
+  failKey=`dictionary/releases/${interrupted}/shards/${prefixes[1]}.json.gz`;
+  await assert.rejects(()=>importHybrid(retry,transport,d.db,owner));failKey=null;
+  assert.equal((await d.query<{n:number}>('select count(*)::int n from dictionary_entries where release_id=$1',[interrupted]))[0]!.n,1,'first shard transaction committed before interruption');
+  const location=(await d.query<{location:string}>('select ctid::text location from dictionary_entries where release_id=$1',[interrupted]))[0]!.location;
+  const termLocations=await d.query('select ctid::text location,term from dictionary_search_terms where release_id=$1 order by term',[interrupted]);
   assert.equal((await activeRelease(d.db)).active_release_id,release);
-  await importHybrid([retry],transport,d.db,owner);
-  assert.equal((await releaseManifest(interrupted,d.db)).lexemes,1);
+  await importHybrid(retry,transport,d.db,owner);
+  assert.equal((await d.query<{location:string}>('select ctid::text location from dictionary_entries where release_id=$1 and storage_shard=$2',[interrupted,prefixes[0]]))[0]!.location,location,'resume does not rewrite unchanged compact entries');
+  const afterTerms=await d.query<{location:string;term:string}>('select ctid::text location,term from dictionary_search_terms where release_id=$1 order by term',[interrupted]);assert.ok(termLocations.every(x=>afterTerms.some(y=>y.location===x.location&&y.term===x.term)),'resume does not rewrite unchanged search rows');
+  assert.equal((await releaseManifest(interrupted,d.db)).lexemes,2);
   const missing=[...objects.keys()].find(k=>k.includes(interrupted)&&k.includes('/shards/'))!,backup=objects.get(missing)!;objects.delete(missing);
   const current=await rows<{manifest_sha:string}>(sql`select manifest_sha from dictionary_releases where id=${interrupted}`,d.db);
   await assert.rejects(()=>activateHybridRelease({ownerId:owner,release:interrupted,manifestSha:current[0]!.manifest_sha,expectedBase:release},transport,d.db));

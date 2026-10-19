@@ -115,7 +115,7 @@ export async function writeTerms(entries: Entry[], conn: Conn = db) {
   );
   if (!terms.length) return;
   await conn.execute(
-    sql`insert into dictionary_search_terms select * from jsonb_to_recordset(${JSON.stringify(terms)}::jsonb) as x(release_id text,lexeme_id uuid,direction text,term text,rank integer) on conflict(release_id,lexeme_id,direction,term) do update set rank=least(dictionary_search_terms.rank,excluded.rank)`,
+    sql`insert into dictionary_search_terms select * from jsonb_to_recordset(${JSON.stringify(terms)}::jsonb) as x(release_id text,lexeme_id uuid,direction text,term text,rank integer) on conflict(release_id,lexeme_id,direction,term) do update set rank=least(dictionary_search_terms.rank,excluded.rank) where dictionary_search_terms.rank>excluded.rank`,
   );
 }
 export async function searchDictionary(
