@@ -135,6 +135,21 @@ matched rendered visual comparison and live integrations remain UNVERIFIED.
 privateR2 registration and supervised Reading imports deferred. Owner approval remains
 required before production replacement. No deployment/domain repointing performed.
 
+LATE REMOTE-MAIN ADVANCE — READ-ONLY DELIVERY CHECK
+After exact-ZIP validation, remote main was observed at
+cd96165f3bf43c78668b6db8f7a92283223383bd, beyond task-pinned d893196.
+Read-only fetched/diff-inspected PR49/50/51 (36 changed paths): Reading white CD
+split-pane focus workspace at unchanged public URLs; General passage cards and
+question-type metadata; phraseAware longest exact authored occurrence targeting;
+footer/analysis-scroll containment; Start optional shell provider/router fallback.
+These are additional FUTURE Reading/shared-style parity gaps, not migrated here.
+All17 originally pinned core contract files hash-identical at this newer main,
+including Listening authored/state/progress/lexical policy and vocabulary APIs.
+No merge/rebase/import/source/backend edit. Deployed production revision UNVERIFIED.
+Reading remains NOT STARTED. Packaged reconciliation pins d893196; this outside-ZIP
+addendum/machine observation records the subsequent remote-source advance, not live
+acceptance or a claim that newer Reading UI was executed in this migration.
+
 THREE SEPARATE METRICS
 Implementation progress percent: UNDETERMINED.
 Functional/security acceptance percent: UNDETERMINED.

@@ -3447,6 +3447,148 @@
       "separateFromPreserved499": true
     }
   },
+  "latestRemoteMainObservation": {
+    "pinnedReference": "d893196410b325bda6aa55ab6b65567f776c50ce",
+    "observedRemoteMain": "cd96165f3bf43c78668b6db8f7a92283223383bd",
+    "readOnlyFetch": true,
+    "mergeOrImport": false,
+    "deploymentStatus": "UNVERIFIED; remote branch is not proof of deployment",
+    "commits": [
+      "cd96165 Merge pull request #51 from N-Muhammadjonov/fix/reading-focus-start-navigation-20261019",
+      "5500815 Allow Reading Start outside the ordinary shell provider",
+      "04a0bed Merge pull request #50 from N-Muhammadjonov/fix/reading-focus-height-20261019",
+      "42b4fbb Keep Reading footer contained and long analysis scrollable",
+      "17e4938 Merge pull request #49 from N-Muhammadjonov/fix/reading-cd-workspace-20261019",
+      "8adf95f Align Reading authoring and branding checks with the new workspace",
+      "41b887a Give Reading practice a white CD workspace and phrase-aware lookup"
+    ],
+    "changedPaths": [
+      "M\t.github/workflows/auth-release.yml",
+      "A\tdocs/READING-CD-WORKSPACE.md",
+      "R088\tsrc/app/app/(shell)/reading/academic/[setId]/page.tsx\tsrc/app/app/(focus)/reading/academic/[setId]/page.tsx",
+      "R096\tsrc/app/app/(shell)/reading/attempts/[id]/page.tsx\tsrc/app/app/(focus)/reading/attempts/[id]/page.tsx",
+      "R096\tsrc/app/app/(shell)/reading/general/[setId]/page.tsx\tsrc/app/app/(focus)/reading/general/[setId]/page.tsx",
+      "A\tsrc/app/app/(focus)/reading/layout.tsx",
+      "A\tsrc/app/app/(focus)/reading/reading-workspace.css",
+      "M\tsrc/app/app/(shell)/reading/academic/page.tsx",
+      "M\tsrc/app/app/(shell)/reading/general/page.tsx",
+      "M\tsrc/app/app/(shell)/reading/layout.tsx",
+      "M\tsrc/app/app/(shell)/reading/lessons/page.tsx",
+      "M\tsrc/app/app/(shell)/reading/question-types/page.tsx",
+      "M\tsrc/app/app/(shell)/reading/retention/page.tsx",
+      "M\tsrc/app/globals.css",
+      "M\tsrc/components/reading/GeneralReadingSession.tsx",
+      "M\tsrc/components/reading/ReadingExam.tsx",
+      "M\tsrc/components/reading/ReadingLearningLibrary.tsx",
+      "M\tsrc/components/reading/ReadingPassageCard.tsx",
+      "A\tsrc/components/reading/ReadingSectionHeading.tsx",
+      "A\tsrc/components/reading/ReadingWorkspace.tsx",
+      "M\tsrc/components/reading/StartPassageButton.tsx",
+      "M\tsrc/components/vocabulary/ClickableText.tsx",
+      "M\tsrc/lib/data/reading-library.ts",
+      "M\tsrc/lib/i18n/en.ts",
+      "M\tsrc/lib/i18n/uz.ts",
+      "A\tsrc/lib/services/lexical/phrase-target.ts",
+      "M\ttests/back-link.test.ts",
+      "M\ttests/reading-105-catalogue.test.ts",
+      "A\ttests/reading-cd-workspace.test.ts",
+      "M\ttests/reading-management-import.test.ts",
+      "A\ttests/reading-phrase-target.test.ts",
+      "M\ttests/reading-tab-swap.test.ts",
+      "M\ttests/reading-v4-lessons.test.ts",
+      "M\ttests/reading-v4-routes.test.ts",
+      "M\ttests/ui/reading-mode-separation.test.tsx",
+      "A\ttests/ui/reading-start-focus.test.tsx"
+    ],
+    "unchangedCoreContracts": [
+      {
+        "path": "src/app/api/listening/full/[id]/authored/route.ts",
+        "sha256": "c66fe8cbe9e9532cd67dfde5ccfe9ab804dd44ba1cf2331a1ef889c17429e127",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/app/api/listening/full/[id]/authored-state/route.ts",
+        "sha256": "b2a84743973550b7efc9a939142c518e9e4ae5f4ef7a8a0d9a4b813d714e60e0",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/app/api/listening/full/[id]/progress/route.ts",
+        "sha256": "69eb0f1f7a70642392a955a7858a5dfa0ff0b1e5579ab15db476aba1b5d5e9a4",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/lib/data/listening-original-state.ts",
+        "sha256": "44bf006df0ee22aefc4fcde8cc9e477049188017218d1c26632a7ca09278184f",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/lib/listening/course-progress.ts",
+        "sha256": "d30b7cdab3b151e4e0098f2312bbd2c986982bd0877d016983df1ec516903605",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/lib/listening/lexical-policy.ts",
+        "sha256": "07952e816468e9eee1bc299ea70c550f972114b0964f52420d57aafb6c8e8e5b",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/app/api/vocabulary/meaning/route.ts",
+        "sha256": "cd67a61456afb3ff5a8eb5ca5fc6f42f89417abaa34190042c032a17afff0d62",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/app/api/vocabulary/lookup/route.ts",
+        "sha256": "4ed5504686077b7df10085d760e280c74e7a3974c432f83395604b284121c2dc",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/lib/services/lexical/listening-occurrences.ts",
+        "sha256": "d524040c710955a90e7e7d907e3dd2008ec47e48a2b3722d0464ce8c6fc59fb0",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/lib/data/listening-mcq.ts",
+        "sha256": "bcbff7dde92956e3cb3757e8f92f7b278d7a8663e1244e3e2b83151b3d5f08f9",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/lib/reading/question-model.ts",
+        "sha256": "9a62906cdb560a360094068c993c7d649b02c53b9717e62bf6c1d1f3aaf34454",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/lib/reading/academic-selection.ts",
+        "sha256": "fc823ee010f5c07e66a57ac644f002d29b714eab7c30c8c5344c12fed8059791",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/lib/data/reading-assessments.ts",
+        "sha256": "fff1ef775392cdf1ea0896d4f11d0b3b63b27c5f6cae230b58cac297341318d0",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "scripts/lib/reading-105-catalogue.ts",
+        "sha256": "d8d160188b6a3a91989d38668abc070fd3046542b2b47eb9ddf0189f14c63f98",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "scripts/lib/reading-105-law.ts",
+        "sha256": "62bd1f846ccd72d88a44e34341b8ef2fc87a6f45eb5c58704e85ac0205df603b",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/lib/data/retention-bank.ts",
+        "sha256": "6a70536657c631c06ac55053e8ec0adc33b22451124bed1dac526a50dea5b7bb",
+        "unchangedFromPinnedMain": true
+      },
+      {
+        "path": "src/lib/data/retention-attempts.ts",
+        "sha256": "792d392f9b57b7d1c273d2a8f10820264bac933f5020e525aa8cca7798c27a4a",
+        "unchangedFromPinnedMain": true
+      }
+    ],
+    "readingDelta": "PR49 white split-pane CD focus workspace, unchanged public URLs, General per-passage catalogue/question-type metadata and phrase-aware longest exact authored occurrence selection; PR50 footer/analysis-scroll containment; PR51 Start uses optional ordinary-shell interaction provider with router fallback in focus layout. General Check, autosave and Academic lexical isolation remain in source; NOT exercised in migration or claimed accepted. Shared CSS exclusions and i18n/ClickableText changes are future parity gaps. Reading remains NOT STARTED; no content import/API/dependency changes from this observation."
+  },
   "serverBoundaryObservation": "Read-only main authored?vocabulary=1 route has account/sequence authorization but no explicit lexical-exam policy call in that route. Native consumer preflight repaired; frontend fixture tests do not certify direct-server endpoint policy. No live probe/backend change performed.",
   "initialV17Candidate": {
     "archive": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17.zip",
