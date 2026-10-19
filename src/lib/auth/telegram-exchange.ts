@@ -26,7 +26,11 @@ function clipName(value: string | null | undefined) {
  * issue a session. The intent row is locked so two exchanges of the same
  * confirmation cannot both create an account. Login never inserts a user.
  */
-export async function prepareIntentExchange(intentId: string, browserNonce: string): Promise<ExchangeResult> {
+export async function prepareIntentExchange(
+  intentId: string,
+  browserNonce: string,
+  registrationGender?: "male" | "female",
+): Promise<ExchangeResult> {
   const nonceHash = hashToken(browserNonce);
   // The website registration path must enforce the SAME admission prerequisites
   // as the bot's /apply API; otherwise applicants could bypass the channel gate.
@@ -79,12 +83,25 @@ export async function prepareIntentExchange(intentId: string, browserNonce: stri
     }
 
     const [existing] = await tx.select().from(users).where(eq(users.telegramId, intent.telegramUserId)).limit(1);
-    if (existing) return { ok: true as const, user: existing, outcome: "existing" as const, displayName: intent.displayName };
+    if (existing) {
+      // A confirmed register intent may supply a missing preference, but must
+      // never overwrite an existing choice or touch an active/suspended account.
+      const eligible = registrationGender && existing.gender === null &&
+        (existing.accountStatus === "pending" || existing.accountStatus === "rejected");
+      const user = eligible
+        ? (await tx.update(users)
+          .set({ gender: registrationGender })
+          .where(and(eq(users.id, existing.id), isNull(users.gender)))
+          .returning())[0] ?? existing
+        : existing;
+      return { ok: true as const, user, outcome: "existing" as const, displayName: intent.displayName };
+    }
     const [created] = await tx
       .insert(users)
       .values({
         telegramId: intent.telegramUserId,
         name: clipName(intent.displayName),
+        gender: registrationGender ?? null,
         role: "student",
         accountStatus: "pending",
         locale: intent.languageCode === "en" ? "en" : "uz",
