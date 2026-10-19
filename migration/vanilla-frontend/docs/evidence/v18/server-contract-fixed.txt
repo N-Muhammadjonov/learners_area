@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: V18 Review progress rejects foreign identity envelope instead of acknowledging it
+ok 1 - V18 Review progress rejects foreign identity envelope instead of acknowledging it
+  ---
+  duration_ms: 0.859397
+  type: 'test'
+  ...
+# Subtest: V18 Review progress rejects inconsistent completion flags
+ok 2 - V18 Review progress rejects inconsistent completion flags
+  ---
+  duration_ms: 0.173237
+  type: 'test'
+  ...
+# Subtest: V18 persisted intent cannot carry protected feedback or credential fields
+ok 3 - V18 persisted intent cannot carry protected feedback or credential fields
+  ---
+  duration_ms: 0.23517
+  type: 'test'
+  ...
+# Subtest: V18 journal ACK explicitly reports stale conflict and does not remove newer work
+ok 4 - V18 journal ACK explicitly reports stale conflict and does not remove newer work
+  ---
+  duration_ms: 0.441259
+  type: 'test'
+  ...
+# Subtest: V18 explicit archive retains unresolved own bytes before freeing current attempt
+ok 5 - V18 explicit archive retains unresolved own bytes before freeing current attempt
+  ---
+  duration_ms: 0.784058
+  type: 'test'
+  ...
+# Subtest: V18 archival never silently replaces an older retained record
+ok 6 - V18 archival never silently replaces an older retained record
+  ---
+  duration_ms: 0.416573
+  type: 'test'
+  ...
+# Subtest: V18 changed pending snapshot cannot be archived by an obsolete confirmation
+ok 7 - V18 changed pending snapshot cannot be archived by an obsolete confirmation
+  ---
+  duration_ms: 0.15442
+  type: 'test'
+  ...
+# Subtest: V18 disposed scoped writer releases its shared abort listener
+ok 8 - V18 disposed scoped writer releases its shared abort listener
+  ---
+  duration_ms: 0.312636
+  type: 'test'
+  ...
+# Subtest: V18 cannot archive absent work or create an invalid retained record
+ok 9 - V18 cannot archive absent work or create an invalid retained record
+  ---
+  duration_ms: 0.275184
+  type: 'test'
+  ...
+# Subtest: V18 foreign course checkpoint cannot hydrate another course even when expected own key is missing
+ok 10 - V18 foreign course checkpoint cannot hydrate another course even when expected own key is missing
+  ---
+  duration_ms: 0.482664
+  type: 'test'
+  ...
+# Subtest: V18 foreign exam-key fence preserves legitimate same-course practice and session-note keys
+ok 11 - V18 foreign exam-key fence preserves legitimate same-course practice and session-note keys
+  ---
+  duration_ms: 0.846311
+  type: 'test'
+  ...
+# Subtest: V18 current server unavailable zero-unit activity may be complete without granting overall completion
+ok 12 - V18 current server unavailable zero-unit activity may be complete without granting overall completion
+  ---
+  duration_ms: 0.126959
+  type: 'test'
+  ...
+# Subtest: V18 contradictory global completion cannot override a known partial Review
+ok 13 - V18 contradictory global completion cannot override a known partial Review
+  ---
+  duration_ms: 0.088411
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 53.309372

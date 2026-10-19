@@ -10,8 +10,8 @@ Latest remote main observed cd96165; read-only, no production-deployment asserti
 - Review progress transport now fresh-reads canonical submitted own attempt BEFORE
   POST and AFTER response, rejecting changed/active attempts before accepting an ACK.
   This is NOT atomic cross-device CAS. A rejected late response may have committed.
-- Original Review part/activity view changes dispose only its owned CheckpointWriter
-  generation, aborting/invalidating held progress while keeping the pending journal.
+- Original Review part/activity view changes invalidate the visible UI epoch while preserving the SAME single-flight writer
+  and pending journal. Route/reload/session disposal aborts the owned transport.
   Reentry does NOT replay. New explicit Check/recovery uses the existing serializer.
 - Disposed writer removes its shared abort listener; repeated part changes do not
   accumulate retired writer listeners. Existing exam barriers/coalescing unchanged.
@@ -34,8 +34,8 @@ Latest remote main observed cd96165; read-only, no production-deployment asserti
   Source CSS unchanged; compiled CSS adds only pre-wrap/overflow-wrap utilities.
 
 ## Executed targeted scope / historical evidence
-11 additional units (454 total expected),45 additional actual-source journeys
-(194 full expected =149 preserved +45). These are counts, NOT a completion gate.
+13 additional units (456 total expected),47 additional actual-source journeys
+(196 full expected =149 preserved +47). These are counts, NOT a completion gate.
 New cases: eight progress failures/malformed/foreign envelopes; four held operation
 exits; SSE progress/lookup revocation+media cleanup; before/after foreign attempts;
 old intent retention; external same-context journal changes; quota/disabled storage;
@@ -95,3 +95,28 @@ PR48–51/Retention differences remain separate integration gaps; no data import
 Owner workflow deferred: one HTML -> validate -> extract audio -> private R2 ->
 register material/original activities/transcript mappings -> preview -> explicit Owner
 publish. Reading imports Owner-supervised with AI assistance. No backend/cloud work.
+
+## First independent candidate NON-DELIVERY / additional actual repairs
+Initial sealed V18 (1f3da8c...e64eebb), ca1c053, retained byte-for-byte outside
+checkout +Git history; not delivery. Chromium first suite26PASS1FAIL then wrapper
+stopped; source191PASS3FAIL (all194 executed). Full raw evidence retained here.
+Two preserved V16 tests caught overlapping requests from part-scope writer disposal.
+Repair: keep ONE writer/single-flight/coalescing/error/manual-retry, use UI epoch to
+ignore old ACK after a view change (retaining pending bytes); only outer disposal
+aborts. Both ORIGINAL held/queued-failure assertions pass unchanged. New unavailable
+Review response rejects authorization rather than acknowledging success.
+A deterministic rapid notes/Escape probe reproduced question-focus timer stealing
+focus. Opening a modal now cancels obsolete question-focus timers; no exam engine
+rewrite. New probe +preserved V13 keyboard containment pass unchanged.
+Read-only actual courseStatus confirms unavailable zero-unit activities can be
+complete OR incomplete depending on exam work. Validator now respects that contract,
+rejects contradictory global completion over known partial Review;2 added units
+failed before then pass. This is not narrowing server permissions from client counts.
+Original smoke locale test could read the already-English label while preference
+refresh still owned the form. Wait before click response +old form detachment; all
+existing login/locale assertions retained. Playwright waitForFunction(handle) hit CSP;
+replaced with element hidden/detached wait, no CSP weakening. Smoke27/27 pass.
+Historical generated evidence overwritten by direct focused tools was independently
+copied/hashed outside checkout, then ONLY historical evidence bytes restored exactly
+from current HEAD. No older source/engine restored. Active V18 evidence is separate.
+Final exact-ZIP rerun, not earlier targeted proof, remains required/delivery authority.

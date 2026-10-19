@@ -1,0 +1,7 @@
+{
+  "archive": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V18.zip",
+  "sha256": "1f3da8c1b13c392969575fb5bc588a80b66a6af8b447c462651d03763e64eebb",
+  "bytes": 40313757,
+  "seal": "ca1c053c56498bcde90d80ca2513dd41b073f66e",
+  "status": "NON-DELIVERY first candidate; full preserved Chromium first suite26PASS1FAIL then stopped; original191PASS3FAIL. Retained externally byte-verified and in Git history, raw failures inside final package."
+}

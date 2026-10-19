@@ -16,7 +16,7 @@
       "id": "review",
       "name": "Review & Revision",
       "frontend": "PARTIAL",
-      "fixture": "V18 additive45 actual-source cases; fresh final full194 expected; external exact-ZIP proof authoritative",
+      "fixture": "V18 additive47 actual-source cases +preserved149 =196 expected; full exact-ZIP final report authoritative; no frontend promotion",
       "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
       "live": "UNVERIFIED",
       "remaining": "Closed-tab cross-context discovery/adoption, dedicated held-load/evidence/transcript and real two-tab Review retake/backforward acceptance; complete focus/lifecycle gate. No promotion; see CHECKPOINT_V18."
