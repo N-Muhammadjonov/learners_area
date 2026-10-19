@@ -1,3 +1,4 @@
+import {validateExamValues} from './exam-validation-v15.js';
 import {originalCheckpoint} from './original-policy-v11.js';
 /** Single-flight checkpoint transport, not an exam engine. One latest own snapshot.
  * No automatic mutation retries: cancellation cannot undo a committed server write. */
@@ -25,8 +26,8 @@ export function checkpointMessage(error,locale='en'){
 }
 
 /** A submit/exit ACK must confirm that transition, not merely return an open draft. */
-export function checkpointAck(values,key,snapshot){const own=JSON.parse(snapshot[key]||'{}'),canonical=originalCheckpoint(values,key,own.attemptKey),returned=JSON.parse(canonical[key]||'{}');if(['submitted','exited'].includes(own.attemptStatus)&&returned.attemptStatus!==own.attemptStatus)throw Object.assign(Error('Unconfirmed attempt transition'),{status:409});return canonical;}
+export function checkpointAck(values,key,snapshot){validateExamValues(snapshot,key);const own=JSON.parse(snapshot[key]||'{}'),canonical=originalCheckpoint(values,key,own.attemptKey),returned=JSON.parse(canonical[key]||'{}');if(['submitted','exited'].includes(own.attemptStatus)&&returned.attemptStatus!==own.attemptStatus)throw Object.assign(Error('Unconfirmed attempt transition'),{status:409});return canonical;}
 
 /** Replaying a new local attempt may require its missed start ACK first. A changed
  * authoritative identity is a conflict, NEVER permission to overwrite that attempt. */
-export function checkpointReplay(serverValues,draft,key,intent){const own=JSON.parse(draft[key]||'{}'),server=JSON.parse(serverValues[key]||'{}');if(!own.attemptKey||own.attemptKey===server.attemptKey)return null;if(intent?.attemptKey!==own.attemptKey||(intent.previousKey??null)!==(server.attemptKey??null)||server.attemptStatus==='in_progress')throw Object.assign(Error('Authoritative attempt changed'),{status:409});if(own.attemptStatus==='in_progress')return null;return {...draft,[key]:JSON.stringify({...own,attemptStatus:'in_progress',submitted:false,lastResults:[]})};}
+export function checkpointReplay(serverValues,draft,key,intent){validateExamValues(serverValues,key);validateExamValues(draft,key);const own=JSON.parse(draft[key]||'{}'),server=JSON.parse(serverValues[key]||'{}');if(!own.attemptKey||own.attemptKey===server.attemptKey)return null;if(intent?.attemptKey!==own.attemptKey||(intent.previousKey??null)!==(server.attemptKey??null)||server.attemptStatus==='in_progress')throw Object.assign(Error('Authoritative attempt changed'),{status:409});if(own.attemptStatus==='in_progress')return null;return {...draft,[key]:JSON.stringify({...own,attemptStatus:'in_progress',submitted:false,lastResults:[]})};}

@@ -1,0 +1,132 @@
+# V15 route ledger — Listening PARTIAL
+
+Counts RECOMPUTED from the preserved source-entry statuses: **22 COMPLETE /15 PARTIAL /71 NOT STARTED**,108 canonical inventory candidates;6 redirects and1 retired separately. Listening **9/6/1 of16**;35 staff canonical routes remain reserved (23 Admin,6 Owner,6 Teacher). V15 introduces no full-route promotions: coherent fixes inside partial authored/media consumers do not close their entire source contracts. Reading not started. No live/visual/product acceptance. Machine authority: route-ledger-v15.json.
+
+| Route | Frontend status |
+|---|---|
+| `/app/listening/attempts/:id` | IN PROGRESS |
+| `/app/listening/attempts/:id/revision` | IN PROGRESS |
+| `/app/listening/tests/:id/:activity` | IN PROGRESS |
+| `/app/listening/tests/:id/mcq` | CODE COMPLETE |
+| `/app/listening/tests/:id` | IN PROGRESS |
+| `/app/listening/tests/:id/study` | CODE COMPLETE |
+| `/app/admin/admissions` | NOT STARTED |
+| `/app/admin/content` | IN PROGRESS |
+| `/app/admin/content/workspace` | NOT STARTED |
+| `/app/admin/grammar/:id` | NOT STARTED |
+| `/app/admin/grammar` | NOT STARTED |
+| `/app/admin/listening/:id` | NOT STARTED |
+| `/app/admin/listening/import` | NOT STARTED |
+| `/app/admin/listening` | NOT STARTED |
+| `/app/admin/materials/:type/:id` | NOT STARTED |
+| `/app/admin/materials/:type` | NOT STARTED |
+| `/app/admin/materials` | IN PROGRESS |
+| `/app/admin/people/:id` | NOT STARTED |
+| `/app/admin/people` | NOT STARTED |
+| `/app/admin/reading/:id` | NOT STARTED |
+| `/app/admin/reading/import` | NOT STARTED |
+| `/app/admin/reading` | NOT STARTED |
+| `/app/admin/reading/retention` | NOT STARTED |
+| `/app/admin/reading/retention/staged` | NOT STARTED |
+| `/app/admin/roster` | NOT STARTED |
+| `/app/admin/users` | CODE COMPLETE |
+| `/app/admin/video-lessons` | NOT STARTED |
+| `/app/admin/writing-prompts` | CODE COMPLETE |
+| `/app/admin/writing/:kind/:id` | NOT STARTED |
+| `/app/admin/writing/:kind/new` | NOT STARTED |
+| `/app/admin/writing` | NOT STARTED |
+| `/app/assignments` | NOT STARTED |
+| `/app/coach` | NOT STARTED |
+| `/app/courses/ielts/lessons/:lessonId` | NOT STARTED |
+| `/app/courses/ielts` | NOT STARTED |
+| `/app/grammar/:topicId` | NOT STARTED |
+| `/app/grammar/lessons/:lessonId` | NOT STARTED |
+| `/app/grammar/lessons/author` | NOT STARTED |
+| `/app/grammar/lessons` | IN PROGRESS |
+| `/app/grammar` | NOT STARTED |
+| `/app/listening/academic/:testId` | CODE COMPLETE |
+| `/app/listening/academic` | CODE COMPLETE |
+| `/app/listening/general/:sectionId` | CODE COMPLETE |
+| `/app/listening/general` | CODE COMPLETE |
+| `/app/listening/history` | CODE COMPLETE |
+| `/app/listening/import` | CODE COMPLETE |
+| `/app/listening/lessons/:lessonId` | CODE COMPLETE |
+| `/app/listening/lessons/author` | NOT STARTED |
+| `/app/listening/lessons` | CODE COMPLETE |
+| `/app/listening/mcq/day/:day` | IN PROGRESS |
+| `/app/listening/mcq` | IN PROGRESS |
+| `/app/listening` | CODE COMPLETE |
+| `/app/live-classes` | NOT STARTED |
+| `/app/management` | IN PROGRESS |
+| `/app/mocks` | CODE COMPLETE |
+| `/app/notifications` | CODE COMPLETE |
+| `/app/owner/audit` | IN PROGRESS |
+| `/app/owner/dictionary` | NOT STARTED |
+| `/app/owner/integrations` | NOT STARTED |
+| `/app/owner` | NOT STARTED |
+| `/app/owner/retention` | NOT STARTED |
+| `/app/owner/transfer` | NOT STARTED |
+| `/app` | CODE COMPLETE |
+| `/app/profile` | CODE COMPLETE |
+| `/app/progress` | NOT STARTED |
+| `/app/reading/academic/:setId` | NOT STARTED |
+| `/app/reading/academic` | IN PROGRESS |
+| `/app/reading/attempts/:id` | NOT STARTED |
+| `/app/reading/general/:setId` | NOT STARTED |
+| `/app/reading/general` | NOT STARTED |
+| `/app/reading/history` | IN PROGRESS |
+| `/app/reading/lessons/:lessonId` | NOT STARTED |
+| `/app/reading/lessons/author` | NOT STARTED |
+| `/app/reading/lessons` | IN PROGRESS |
+| `/app/reading` | CODE COMPLETE |
+| `/app/reading/question-types` | NOT STARTED |
+| `/app/reading/retention` | NOT STARTED |
+| `/app/reading/retention/results/:attemptId` | NOT STARTED |
+| `/app/reports` | CODE COMPLETE |
+| `/app/speaking/ai` | NOT STARTED |
+| `/app/speaking/history` | NOT STARTED |
+| `/app/speaking/lessons` | NOT STARTED |
+| `/app/speaking/live-partner` | NOT STARTED |
+| `/app/speaking` | IN PROGRESS |
+| `/app/speaking/practice` | NOT STARTED |
+| `/app/speaking/shadowing` | RETIRED-N/A |
+| `/app/support` | NOT STARTED |
+| `/app/teacher/live-classes/:id` | NOT STARTED |
+| `/app/teacher/live-classes` | NOT STARTED |
+| `/app/teacher/speaking` | NOT STARTED |
+| `/app/teacher/students/:id` | NOT STARTED |
+| `/app/teacher/students` | NOT STARTED |
+| `/app/teacher/support` | NOT STARTED |
+| `/app/video-lessons/:id` | NOT STARTED |
+| `/app/video-lessons` | NOT STARTED |
+| `/app/vocabulary/games/:gameId` | NOT STARTED |
+| `/app/vocabulary/games` | NOT STARTED |
+| `/app/vocabulary` | NOT STARTED |
+| `/app/vocabulary/review` | CODE COMPLETE |
+| `/app/writing/exam/:id` | NOT STARTED |
+| `/app/writing/grade/:id` | NOT STARTED |
+| `/app/writing/history` | NOT STARTED |
+| `/app/writing/language-stealing/:id` | NOT STARTED |
+| `/app/writing/lessons/:id` | NOT STARTED |
+| `/app/writing` | NOT STARTED |
+| `/app/writing/submissions/:id` | NOT STARTED |
+| `/app/writing/translation/:id` | NOT STARTED |
+| `/auth/recovery` | CODE COMPLETE |
+| `/login` | CODE COMPLETE |
+| `/onboarding` | CODE COMPLETE |
+| `/` | CODE COMPLETE |
+| `/pending` | CODE COMPLETE |
+| `/register` | CODE COMPLETE |
+| `/reset-password/confirm` | CODE COMPLETE |
+| `/reset-password` | CODE COMPLETE |
+
+
+V12 exact V11 continuation. Retry input/feedback/recovery leaf closure does not close the whole authored frame/hub, shared all-caller consumers, exam/revision, standalone MCQ or staff author desk. No route/component entry status changed. See CHECKPOINT_V12.md and independent delivery proof.
+
+## V13 delta (entry evidence above is preserved historical V12 evidence)
+
+No route/component promotions in V13 either. Full IELTS own navigation/deadline/focus recovery and parent exam dictionary lock added; activity remains PARTIAL. Original source-entry paths and accepted V12 evidence are retained verbatim, not renamed to nonexistent V13 modules. See CHECKPOINT_V13 and updated machine ledger; Review V13 pass NOT started.
+
+## V15 delta
+
+No route/component promotions. Full IELTS checkpoint transport is single-flight, coalesced with a start-transition barrier, explicit retry, status-specific errors and revoked-access cleanup. Own canonical state syncs to source storage; submitted inputs freeze; interrupted starts and quota-unavailable recovery handled. Full remains PARTIAL pending wider client lifecycle checks. Review V15 NOT started. Earlier entry objects/evidence remain historical and are not renamed.

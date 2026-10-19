@@ -1,55 +1,68 @@
-# Exact V14 continuation — no restart
+# Exact V15 continuation — preserve current work, no restart
 
-Branch arena/96836bcf-learners-area ONLY. Baseline V13
- d6ed38b9d01d62d8addd8b656a41451e9842d5f4 was clean and local=remote. No reset,
-stash, clean, branch switch or stale reconciliation. Work migration/vanilla-frontend
-ONLY; V1–V13 archives byte-preserved. Original source/staff/backend/cloud read-only.
+ONLY arena/96836bcf-learners-area. DeliveredV14 baseline
+78f930c5a147e571ea4e80465c3a1921bb7ec0b4. Read CHECKPOINT_V15,
+SOURCE_STATE_INVENTORY_V15, ADAPTER_CONTRACTS_V15, route/component ledgers and
+original-activities-v15.json. Final commit/tree/ZIP/independent verification authority
+is deliverables/V15_VALIDATION.txt (outside archive to avoid recursive checksums).
+Every implementation change stays migration/vanilla-frontend. Original source,
+backend/DB/cloud/main/staff35/production are read-only. V1–V14 archives immutable.
+Refreshed stale359 files independently preserved OUTSIDE repo before ordinary
+same-branch fast-forward; preservation manifest/copies/extraction/moved-originals
+remain /home/user/learners-area-v15-preservation. Never reset/stash/clean/rebase/
+switch/discard newer files. Stop divergence; verify external byte preservation.
 
-Read five V14 docs, original-activities-v14.json, route/component-ledger-v14.json,
-external V14_VALIDATION.txt and v14-independent/summary.json. Previous handoff exact
-copy GPT_WORK_HANDOFF_V13.md. Final external report, not anticipated counts here,
-is execution/archive authority. Manifests378unit/499Chromium/64opt-in source.
+## State and exact next task
 
-NEXT continue FULL IELTS, still PARTIAL. Do not repeat completed audits or rebuild
-accepted engine/timer/media/Retry. V14 checkpoint-v14.js is ONLY single-flight
-transport: latest own snapshot + required start barrier, explicit retry, typed ACK,
-failed latch/stale filtering, edit-undo handling. Do not coalesce away a new
-in_progress before submit. Own :start predecessor hint permits missed-start replay
-only after authoritative GET unchanged; changed active nonce409, no overwrite.
-Canonical source storage hydration is silent. checkpoint-notice-v14.js freezes
-closed controls, restores canonical own answers, reconciles server-close and governs
-manual retry using existing token-bound storage retryOnly (NOT a new unallowlisted
-op). Authored.js errors localized,403/404 frame+media removed, own outbox retained;
-scoped <=3-record memory fallback warns local quota, clears on outer route abort.
-Memory-only/unconfirmed drafts cannot survive reload; do not promise impossible
-storage durability or server-write rollback/idempotency.
+Full IELTS supported FRONTEND CODE COMPLETE after actual-source Full gate closure.
+Separate original comprehensive PARTIAL/live UNVERIFIED. Backend has no atomic
+CAS/revision ordering: real optional browser Web Locks + fresh GET semantic conflict
+check are NOT cross-device/noncooperating guarantees. No new endpoint or fake lock.
+Cancellation cannot undo a server commit. Snapshot read-confirmation is conditional
+and canonical40-row rules remain. Do not rewrite V14 writer/barrier/coalescing/manual
+retry/typed ACK/stale suppression/undo/replay/closed freeze/memory/revocation cleanup.
+Per-tab three-record recovery prevents one tab clearing another's own draft; legacy
+copy failure retains bytes and falls back to memory. Context ID/name never auth.
 
-Initial18 source cases7PASS11FAIL: custom retry op rejected by unchanged allowlist
-(9 retries), and two test locators tried to enter correctly removed403/404 frame.
-Fixed integration to existing storage protocol and no-frame/no-score proof. Raw
-failure retained, baseline assertions unchanged. Targeted18/20 pass snapshots are
-separate from final21/full64 independent results. Owner original read-only source
-path required for opt-in tests; protected corpus/recordings/transcript/keys NEVER ZIP.
+IMMEDIATELY AFTER Full gate closure Review was started, coherently, same engine.
+Review PARTIAL. New original-review-v15.js decorates existing controls:4part tabs,
+keyboard focus, labels; own revision answers participate in conflict stamps and
+retained409 details. First actual-source all-part/reload/checked/retry/evidence
+journey PASS. Existing source self-study check is NOT a new grader and is NOT
+server-authoritative course completion. FINISH Review's complete authorized feedback/
+transcript/clip/revision/reload/error/pending/retry/authority/responsive/keyboard/
+lifecycle sweep and mode-specific contracts before advancing. Never fabricate a
+review /practice kind: actual backend kinds are matching/completion/retry/map;
+original Review course work uses existing /progress. Preserve server authority;
+no browser exam grader/answer release/CSP weakening. Then Script→MCQ→actual Map→
+Choose TWO→Completion→Vocabulary, one complete supported activity at a time.
+Retry COMPLETE supported leaf retained. Frontend2/9 complete,7partial; comprehensive
+original0/9/live0/9. Reading remains gated, staff author NOTSTARTED/staff-only.
 
-Open independently executable Full gate: repeated rapid-route/reentry/cross-tab/
-SSE-revocation during held start/close, encoded Full-exam audio-error/early-end/
-position permutations, highlight/fullscreen and complete accessibility/lifecycle
-sweep. Then complete Review coherently; no V14 Review implementation/pass. Then
-Script/MCQ/actualMap/ChooseTWO/Completion/Vocabulary. Retry frontend closure retained.
-Frontend1/9 supported complete,8partial; comprehensive original0/9/live0/9.
-Do not call Full complete merely because new failure subset passes. Actual recording
-alignment/provider/device/backend are separately UNVERIFIED, not client gate proof.
+## Proof and cautions
 
-Universal media PARTIAL: retain256KiB Range/8MiBLRU/two reads/deadlines/quota+decoder
-recovery/cleanup/audio-after-paint; Blob fallback NOT progressive. Early duration/
-indexed seek/proactive decoded/Blob bounds/long sessions/all callers/Safari/hardware
-open. Sandbox allow-scripts ONLY, CSP unchanged; never privateURL/key/credential to
-child. No client grading/localStorage sessions/fake meanings/new student permissions.
+V15 inventory402 units/499 Chromium/97 actual-original-source journeys/25assets.
+Only external final validation confirms executed extracted-ZIP results. All first
+failures retained: native first UUID stamp, responsive nav, fullscreen scroll/lazy
+modal reachability, non-Range encoded seek fixture, CSP test poll, foundation30ms
+history assumption. Assertions were not weakened; history waits actual DOM commits.
+Native Chromium fullscreen now succeeds; hardware/Safari/production unverified.
+Numeric highlight offsets memory-only, no protected text cached. Mobile source
+fullscreen intentionally hidden, not forcibly exposed. Parent media capability
+401 auth invalidation and403/404 teardown; late recover/play cannot revive disposed
+scope. Native encoded Range silence is NOT the private recording or alignment.
+Generic256KiB/8MiBLRU/two reads retained; Blob NOTprogressive. Universal media PARTIAL.
+Sandbox allow-scripts ONLY; no allow-same-origin/privateURL/key/token to child.
 
-Global22/15/71 routes and62/17/127 components; Listening9/6/1 routes,9/10/5 components.
-35staffroutes reserved23Admin/6Owner/6Teacher, author stays staff-only NOTSTARTED;
-manual reconciliation latest architecture, never olderV4 overwrite. Reading gated.
-Owner singleHTML→validate/extract→privateR2→register/maps→preview→explicitpublish and
-Owner-supervised AI Reading import deferred. No backend/DB/cloud/main/production.
-Commit/push SAME branch, verify clean local=remote, fresh exact ZIP extraction/npmci/
-build/alltests/assets/CSS/two byte-identical repacks/SHA; no merge/deploy.
+Global routes22/15/71 of108; components62/17/127 of206. Listening9/6/1 routes of16,
+9/10/5 components of24. Activity leaf completion does not close shared components.
+Source/assets/CSS exact is NOT matched rendered parity. Runtime audit0/dev5high0critical.
+Weighted/whole-functional-security/rendered-visual-live aggregate UNDETERMINED;
+bounded inventory and test ratios reported separately.1–100ms target, not guarantee.
+
+Future GPT Work stays deferred: Owner oneHTML→validate/extract audio→privateR2→
+register original activities/transcripts/mappings→preview→explicitpublish; supervised
+Reading AI import later. No backend/cloud implementation, no learner CRUD/publishing.
+Owner approval before production replacement. Commit/push same branch only; verify
+clean/localremote equality, fresh exact ZIP/npmci/build/all suites/assets/CSS/two
+identical repacks/real SHA. Never merge or deploy automatically.

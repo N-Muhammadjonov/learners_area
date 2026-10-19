@@ -1,0 +1,140 @@
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 32,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V15 original tools/rapid question focus 1440 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 1440 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 1440 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 1440 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original autoplay rejection exposes keyboard-operable source retry and pending state",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 native Chromium fullscreen success exits before submitted results",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 same-context two-tab writes serialize in browser; newer server answer conflicts and own draft retained",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 overlapping two-tab held edit and submit use real Web Locks; both recovery drafts remain distinct",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held in_progress and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held checkpoint and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held submitted and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held exited and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held media and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held retry and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 encoded native playback position reload, resume and disposal stay parent owned",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 encoded early end enters final review only once without invented duration",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded decoder fault is bounded and cleanup is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded forbidden fault is bounded and cleanup is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded metadata fault is bounded and cleanup is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded recovery capability 401 stops old transport; authority or explicit retry owns next generation",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded recovery capability 503 stops old transport; authority or explicit retry owns next generation",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 repeated SPA Back/Forward and rapid mounts leave no owned audio or browser mutex",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 malformed ancillary flags is rejected before source hydration",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 malformed ancillary answers is rejected before source hydration",
+      "status": "PASS"
+    }
+  ]
+}

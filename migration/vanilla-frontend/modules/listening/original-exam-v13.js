@@ -51,9 +51,10 @@ export function originalExamWorkflow() {return `(()=>{
  addEventListener('la-checkpoint',event=>{let v;try{v=JSON.parse(event.detail?.[STORAGE_KEY]||'{}');}catch{return;}
  if(v.attemptKey===identity()&&['submitted','exited'].includes(v.attemptStatus)&&v.lastResults?.length===40)awaiting=false;
  });
- const oldFocus=focusQuestion;focusQuestion=function(q){oldFocus(q);setTimeout(()=>{
+ let focusVersion=0;const focusTimers=new Set(),schedule=window.setTimeout.bind(window);
+ const oldFocus=focusQuestion;focusQuestion=function(q){const version=++focusVersion;const guarded=(fn,ms,...args)=>{const timer=schedule(()=>{focusTimers.delete(timer);if(!disposed&&version===focusVersion)fn(...args);},ms);focusTimers.add(timer);return timer;};const original=window.setTimeout;window.setTimeout=guarded;try{oldFocus(q);}finally{window.setTimeout=original;}guarded(()=>{
  if(disposed||!state.examStarted||state.currentQ!==q||document.querySelector('#noteModal:not(.hidden),#globalModal:not(.hidden)'))return;
- const host=$('#examQuestionHost'),control=host.querySelector('#q'+q+',input[name="q'+q+'"]:checked')||host.querySelector('input[name="q'+q+'"]')||host.querySelector('[data-q="'+q+'"],[data-qnum="'+q+'"]');
+ restoreExamInputs();updateNav();const host=$('#examQuestionHost'),control=host.querySelector('#q'+q+',input[name="q'+q+'"]:checked')||host.querySelector('input[name="q'+q+'"]')||host.querySelector('[data-q="'+q+'"],[data-qnum="'+q+'"]');
  if(control){if(!control.matches('input,select,textarea,button'))control.tabIndex=-1;control.focus({preventScroll:true});}
  },50);};
  const decorate=()=>{
@@ -74,16 +75,16 @@ export function originalExamWorkflow() {return `(()=>{
  // Retain source dialogs, with keyboard containment and focus restoration.
  const visibleModal=()=>['noteModal','globalModal'].map(id=>document.getElementById(id)).find(node=>node&&!node.classList.contains('hidden'));
  const oldModal=showModal;showModal=function(html){returnFocus=document.activeElement;oldModal(html);const modal=document.getElementById('globalModal');modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-label',modal.querySelector('h2')?.textContent||'Options');modal.querySelector('button,input,textarea,select')?.focus();};
- const oldClose=closeModal;closeModal=function(){oldClose();if(returnFocus?.isConnected)returnFocus.focus();};
- document.addEventListener('click',event=>{if(event.target.closest?.('#notesBtn')){returnFocus=event.target.closest('button');const modal=document.getElementById('noteModal');modal?.setAttribute('role','dialog');modal?.setAttribute('aria-modal','true');modal?.setAttribute('aria-label','Question notes');}if(event.target.closest?.('#closeNotesBtn,#doneNotesBtn'))queueMicrotask(()=>{if(returnFocus?.isConnected)returnFocus.focus();});},true);
+ const oldClose=closeModal;closeModal=function(){oldClose();if(!disposed&&returnFocus?.isConnected)returnFocus.focus();};
+ document.addEventListener('click',event=>{if(event.target.closest?.('#notesBtn')){returnFocus=event.target.closest('button');const modal=document.getElementById('noteModal');modal?.setAttribute('role','dialog');modal?.setAttribute('aria-modal','true');modal?.setAttribute('aria-label','Question notes');}if(event.target.closest?.('#closeNotesBtn,#doneNotesBtn'))queueMicrotask(()=>{if(!disposed&&returnFocus?.isConnected)returnFocus.focus();});},true);
  document.addEventListener('keydown',event=>{
  const modal=visibleModal();if(!modal)return;
- if(event.key==='Escape'){event.preventDefault();if(modal.id==='noteModal'){closeNotes();if(returnFocus?.isConnected)returnFocus.focus();}else closeModal();return;}
+ if(event.key==='Escape'){event.preventDefault();if(modal.id==='noteModal'){closeNotes();if(!disposed&&returnFocus?.isConnected)returnFocus.focus();}else closeModal();return;}
  if(event.key!=='Tab')return;
  const controls=Array.from(modal.querySelectorAll('button,input,textarea,select,[tabindex="0"]')).filter(node=>!node.disabled&&!node.hidden);
  if(!controls.length)return;const first=controls[0],last=controls.at(-1);
  if(event.shiftKey&&(document.activeElement===first||!modal.contains(document.activeElement))){event.preventDefault();last.focus();}
  else if(!event.shiftKey&&(document.activeElement===last||!modal.contains(document.activeElement))){event.preventDefault();first.focus();}
  });
- addEventListener('pagehide',()=>{remember();disposed=true;clearInterval(state.examTimer);audio()?.pause();});
+ addEventListener('pagehide',()=>{remember();disposed=true;focusVersion++;for(const timer of focusTimers)clearTimeout(timer);focusTimers.clear();clearInterval(state.examTimer);audio()?.pause();});
  });})();`;}

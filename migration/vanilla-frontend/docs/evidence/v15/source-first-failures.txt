@@ -1,0 +1,224 @@
+FAIL V15 original tools/rapid question focus 768 en day locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('[data-part="2"]')
+    - locator resolved to <button data-part="2" class="part-button">Part 2</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - element is outside of the viewport
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - element is outside of the viewport
+    - retrying click action
+      - waiting 100ms
+    15 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - element is outside of the viewport
+     - retrying click action
+       - waiting 500ms
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:12:136
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:10:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V15 original tools/rapid question focus 768 en night locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('[data-part="2"]')
+    - locator resolved to <button data-part="2" class="part-button">Part 2</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - element is outside of the viewport
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - element is outside of the viewport
+    - retrying click action
+      - waiting 100ms
+    15 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - element is outside of the viewport
+     - retrying click action
+       - waiting 500ms
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:12:136
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:10:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V15 original tools/rapid question focus 768 uz day locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('[data-part="2"]')
+    - locator resolved to <button data-part="2" class="part-button">Part 2</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - element is outside of the viewport
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - element is outside of the viewport
+    - retrying click action
+      - waiting 100ms
+    15 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - element is outside of the viewport
+     - retrying click action
+       - waiting 500ms
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:12:136
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:10:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V15 original tools/rapid question focus 768 uz night locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('[data-part="2"]')
+    - locator resolved to <button data-part="2" class="part-button">Part 2</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - element is outside of the viewport
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - element is outside of the viewport
+    - retrying click action
+      - waiting 100ms
+    15 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - element is outside of the viewport
+     - retrying click action
+       - waiting 500ms
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:12:136
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:10:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V15 original tools/rapid question focus 390 en day locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#fullscreenBtn')
+    - locator resolved to <button class="exam-icon" id="fullscreenBtn" title="Fullscreen" aria-pressed="false" aria-label="Fullscreen">⛶</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    15 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:14:36
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:10:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V15 original tools/rapid question focus 390 en night locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#fullscreenBtn')
+    - locator resolved to <button class="exam-icon" id="fullscreenBtn" title="Fullscreen" aria-pressed="false" aria-label="Fullscreen">⛶</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    15 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:14:36
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:10:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V15 original tools/rapid question focus 390 uz day locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#fullscreenBtn')
+    - locator resolved to <button class="exam-icon" id="fullscreenBtn" title="Fullscreen" aria-pressed="false" aria-label="Fullscreen">⛶</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    15 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:14:36
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:10:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V15 original tools/rapid question focus 390 uz night locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#fullscreenBtn')
+    - locator resolved to <button class="exam-icon" id="fullscreenBtn" title="Fullscreen" aria-pressed="false" aria-label="Fullscreen">⛶</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    15 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:14:36
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:10:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+FAIL V15 same-context two-tab writes serialize in browser; newer server answer conflicts and own draft retained page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"
+    at saved (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:7:33)
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:17:201
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:17:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+Warning: Detected unsettled top-level await at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57
+if(process.env.V15_SOURCE)await (await import('./original-exam-v15-journeys.mjs')).run({check,originalFixture,target,open,submitted,key,fixtureSession,mp3});
+                          ^
+
+
+

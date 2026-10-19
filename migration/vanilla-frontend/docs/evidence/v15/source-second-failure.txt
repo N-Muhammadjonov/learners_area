@@ -1,0 +1,14 @@
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"
+    at saved (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:7:33)
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:19:15
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-exam-v15-journeys.mjs:17:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27 {
+  name: 'TimeoutError'
+}
+
+Node.js v22.22.3
