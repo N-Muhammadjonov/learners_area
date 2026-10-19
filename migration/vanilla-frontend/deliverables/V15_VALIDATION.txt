@@ -1,0 +1,1087 @@
+ARENA V15 — FINAL EXACT-ZIP VALIDATION — 2026-10-19
+
+DELIVERY: PASS for the executed supported frontend gates below.
+OVERALL MIGRATION: PARTIAL. No merge, deploy, production replacement or staff work.
+Branch: arena/96836bcf-learners-area
+Exact continuation baseline: 78f930c5a147e571ea4e80465c3a1921bb7ec0b4
+
+Full IELTS: FRONTEND CODE COMPLETE, scoped to source-defined supported client
+functionality. No known unresolved ordinary Full client defect in these gates.
+Retry: supported frontend leaf COMPLETE. Review & Revision: PARTIAL; a coherent
+all-four-part tabs/labels/own-revision/check/retry/evidence/reload slice is implemented.
+Next: finish Review; then Script → MCQ → Map → Choose TWO → Completion → Vocabulary.
+Reading NOT STARTED; do not bypass the genuine Listening gate. Staff work separate.
+Frontend activities: 2 COMPLETE / 7 PARTIAL of9. Comprehensive ORIGINAL and LIVE
+closures: 0/9 each. Actual-source DOM plus fixtures is NOT comprehensive original
+material/provider/policy acceptance. Other activities were not falsely promoted.
+
+FRESH FINAL ZIP EXECUTION
+npm ci --ignore-scripts: PASS; build: PASS.
+Units:405 PASS /0 FAIL /0 SKIP (378 preserved +27 added).
+Chromium:499 PASS /0 FAIL /0 SKIP /0 BLOCKED (all preserved suites).
+Read-only actual-original-source:99 PASS /0 FAIL /0 SKIP
+(64 preserved +34 Full gates +1 Review slice).
+Executed matrix includes1440x900,768x1024,390x844; EN/UZ; day/night.
+25 assets exact; source CSS exact; compiled CSS deterministic. These hashes do NOT
+establish matched rendered visual parity. Fresh runtime audit0 vulnerabilities;
+installation still reports5 high development-toolchain findings,0 critical.
+Two independent scratch repacks are byte-identical to the delivered ZIP.
+The immutable package source is not altered to incorporate its own final hashes.
+Fresh test-produced evidence was copied and hash-verified BEFORE restoring only
+scratch package evidence for repacking. Repository source was never restored.
+Final raw outputs/checksums are preserved externally in /home/user/v15-final-proof;
+this portable report embeds the complete source-run output and browser totals.
+
+RETAINED FAILURES, NOT ERASED
+First candidate:96 PASS/1 FAIL source run: Retry's response waiter was installed
+late. Listener now precedes Q1 click and additionally checks current1/own answer1.
+An intermediate duplicate waiter binding syntax error was fixed and retained.
+Fresh closed-retake probe failed on the old build: closed predecessor metadata
+must NEVER acquire the new UUID. Stamping now applies only to in_progress state.
+Next independent run:97 PASS/1 FAIL: a checkpoint ACK erased a resource Retry.
+Separate error lifetimes now preserve Retry until actual media play or remount.
+Strengthened probe waits for an explicit own-answer ACK before clicking Retry.
+A terminal-resource-loss probe then reproduced a late-ACK error erasure; the
+existing writer is now disposed on terminal authority loss. The test intentionally
+commits before holding its response: cancellation is NOT server rollback.
+Initial probe-helper error and old-build failures/positive repaired probes remain
+in docs/evidence/v15/independent-first, independent-second, independent-third.
+Interrupted prior candidate runs are NOT counted as final successful validation.
+The final99/499/405 counts above come from this exact ZIP's fresh executions.
+
+SCOPE / AUTHORITY / MEDIA / VISUAL LIMITS
+Server auth/ownership/status/grading/publication remain authoritative; no browser
+grader, fake identity, new backend endpoint, production CAS or server lock added.
+Same-origin cooperating Web Locks plus authoritative GET/preflight are supported;
+noncooperating/cross-device updates can still race in GET→PUT without backend CAS.
+Do not claim atomic latest-writer protection. Pending own data is retained on
+conflict; canceled/failed/possibly-already-committed writes remain distinguished.
+Opaque sandbox remains allow-scripts ONLY; no allow-same-origin/CSP weakening.
+No protected original HTML/answer corpus/recording bundled. Graded exam dictionary
+remains denied. Source file read-only, SHA verified below;1645.061s +120s source clock.
+Real encoded synthetic media tests are not private recording/alignment acceptance.
+Generic256KiB Range/8MiB LRU/two transports retained; Blob fallback NOT progressive.
+Universal provider/codec/Safari/hardware/autoplay/live signed-expiry acceptance is
+UNVERIFIED/PARTIAL, not simulated into completion. Live API/security/policy and
+production acceptance are UNVERIFIED; proposed /api/frontend adapters NOT deployed.
+Source/CSS identity is verified; matched rendered visual comparison UNVERIFIED.
+1–100ms remains a target, not a universal latency guarantee. Aggregate migration,
+functional, security and performance scores remain UNDETERMINED where denominators
+or actual acceptance evidence are absent. Owner approval required for replacement.
+No original app/src/public/content/services/backend/DB/cloud/staff changes; all
+changed Git paths migration/vanilla-frontend only. All14 V1–V14 ZIPs are byte/hash
+identical to the exact V14 baseline; preservation359 archive is unchanged.
+
+OBJECTIVE PROGRESS (ratios, NOT a weighted overall score)
+1. Frontend Listening activity leaves:2/9 COMPLETE =22.22%;7 PARTIAL.
+2. Global routes:22/108 COMPLETE =20.37%;15 PARTIAL;71 NOT STARTED.
+3. Global components:62/206 COMPLETE =30.10%;17 PARTIAL;127 NOT STARTED.
+Listening routes:9 COMPLETE/6 PARTIAL/1 NOT STARTED of16.
+Listening components:9 COMPLETE/10 PARTIAL/5 NOT STARTED of24.
+No global route/shared component promotion from an activity-level client gate.
+35 staff routes remain reserved; this branch does not claim the parallel staff work.
+
+IMMUTABLE SOURCE / PACKAGE SEAL AND EXACT HASHES
+{
+  "status": "PASS",
+  "archive": {
+    "name": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V15.zip",
+    "sha256": "c4a15e614ad9556be21bc1d0ab7b28d9cf62d51966a21a9fd7322c3235ef1b9f",
+    "bytes": 39982906,
+    "sourceMembers": 918,
+    "generatedManifestMembers": 2
+  },
+  "freshInstall": "npm ci --ignore-scripts PASS",
+  "build": "PASS",
+  "units": {
+    "PASS": 405,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "chromium": {
+    "PASS": 499,
+    "FAIL": 0,
+    "SKIP": 0,
+    "BLOCKED": 0
+  },
+  "originalSource": {
+    "PASS": 99,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "originalSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "assets": 25,
+  "sourceCssSha256": "b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2",
+  "compiledCssSha256": "6321b6deffba5088fa187b0cd2f07b2895b5d3a53d5472c5f083f4aef8108042",
+  "repacks": [
+    {
+      "status": "PASS",
+      "sha256": "c4a15e614ad9556be21bc1d0ab7b28d9cf62d51966a21a9fd7322c3235ef1b9f",
+      "bytes": 39982906
+    },
+    {
+      "status": "PASS",
+      "sha256": "c4a15e614ad9556be21bc1d0ab7b28d9cf62d51966a21a9fd7322c3235ef1b9f",
+      "bytes": 39982906
+    }
+  ],
+  "sourceCommit": "ccebf85b7d4242e5c4655b94fd63e9c8bc4be1ce",
+  "sourceTree": "c5bbadd34e144fe3ae0851dfd65bed23836b2f70",
+  "packageCommit": "e7c0397fabe1367b80b1c28f8b2c0a66809b7c78",
+  "packageTree": "cb09d0212197310e23104c305809f1524eea4d29",
+  "limitations": [
+    "isolated fixtures not production authority acceptance",
+    "synthetic encoded silence not private recording/alignment",
+    "Chromium not Safari or hardware",
+    "source/CSS identity not rendered visual parity",
+    "no backend CAS: cross-device/noncooperating GET-to-PUT race unresolved",
+    "Review PARTIAL; later ordered activities not advanced",
+    "runtime audit0; dev5high/0critical"
+  ]
+}
+
+HISTORICAL ARCHIVES RECHECKED AGAINST V14 GIT BLOBS
+[
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V10.zip",
+    "sha256": "64fa1cdac41632502a8a2df903189b3d2d48d44e331fd4fc1c0c9fb37deeb469",
+    "bytes": 39321269
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V11.zip",
+    "sha256": "0f6f383141af5c5eca6456fd8fa415aa0fc994a9a0e2c19ea9288096c365209b",
+    "bytes": 39565556
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V12.zip",
+    "sha256": "342c195cd12ae982900145e1f1365da07f015e8a4679e8bc57fc5770ca9a7a60",
+    "bytes": 39640079
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V13.zip",
+    "sha256": "4975eb9b664f951fc514aa4ba18b89ed61b7f33cb60165f9eb9228f9d80440c4",
+    "bytes": 39728642
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V14.zip",
+    "sha256": "9d5a17bd44ac2ad8e0cbdb6ae2d557025f6cfd04fec0831fc82a4df92a94d59c",
+    "bytes": 39802549
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip",
+    "sha256": "7de4a25577bcaa517e3b04f712e2de438c4a8108307f8e4394213acf2a3fc48a",
+    "bytes": 10081990
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V3.zip",
+    "sha256": "5525c8482e9125c27d7edeaecf25df56f114671e78565ba32dd64495b0aade1d",
+    "bytes": 13955188
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V4.zip",
+    "sha256": "6d65080db5cebcf93c913c040e5d5eafcb1680e0c7a8e568339f7d00de530739",
+    "bytes": 19262129
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V5.zip",
+    "sha256": "2197b05740e006a6e5d0c8d82c84c0d814ed5fad35f97e98ea5a2b644cddc279",
+    "bytes": 25352797
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V6.zip",
+    "sha256": "ce1fe2dad1ceafddc0c7200d8c454a500b7f444deaa33b95d6c8bced094e05f6",
+    "bytes": 31442883
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V7.zip",
+    "sha256": "2b4c218deb6447190f83e52211650648fe872b2d42ac275a2db6947b19958209",
+    "bytes": 31535066
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V8.zip",
+    "sha256": "2e8147f7104ca3afc921cb104e97853d303a5521c862977dab0769f82781b3bf",
+    "bytes": 32058063
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V9.zip",
+    "sha256": "691d6a1a9a53a41470339fee3594fa2e0aaaf12abfe6c3d7199156bf6ca5a05d",
+    "bytes": 35424785
+  },
+  {
+    "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_PARTIAL.zip",
+    "sha256": "26066105e78eed7d2436782bd2e4fcf18430fbd32b736ccd6217d799b5b3f6bb",
+    "bytes": 9392890
+  }
+]
+
+FRESH EXECUTED EVIDENCE FILE SHA256
+41c7dbb06931ab5194ed0e6b6c649f8b711fb3b2043cc095225398833c58ddc1  install.txt
+08ccbebad0b63229a6d249a1725109c01f4e030411482ad7f5acddf40dc471e4  build.txt
+d7226832b16da27e83920a95c75a54049c9c60f4082fd2e39877a7b4029a7b23  units.txt
+61eb9bd8ba389413671b0bd36aca4f3bacb7adbb1a9444b794182ec3e2f4d23c  assets-css.txt
+2262413279484bfa1c7ecea249e88c0114a28ab2b92133a4dad337ef4fd69506  chromium.txt
+a8266c903ec5e11bf7355d7c7af61804bd41c2a2b576f8e29e6f30aae51e8662  original-source.txt
+6556a26686353a160dba5f08b6f4d7a1a88ac69b0c78d9085368f8d75478a1d6  audit-runtime.json
+62e7749c35f9a2ee3aa73d2a274c68fbd47518000d3612779372a1c1974f1944  repack-1.txt
+62e7749c35f9a2ee3aa73d2a274c68fbd47518000d3612779372a1c1974f1944  repack-2.txt
+afa27731eafdaec995fe1968e77c281b167d97695767d796b193242e3434af10  preserved-test-output.json
+cf2df22270840c8c0450ffae73334e4b4cd3f311f29bf57e9d7e8b1145a248ab  summary.json
+
+FRESH CHROMIUM OUTPUT
+
+> learners-area-vanilla-migration-candidate@0.1.0 test:browser
+> node scripts/regression-v15.mjs
+
+browser { PASS: 27, FAIL: 0, SKIP: 0, BLOCKED: 0 }
+browser-v2 { PASS: 14, FAIL: 0 }
+browser-v3 { PASS: 49, FAIL: 0 }
+browser-v4 { PASS: 72, FAIL: 0, SKIP: 0 }
+browser-v5 { PASS: 52, FAIL: 0, SKIP: 0 }
+browser-v6 { PASS: 77, FAIL: 0, SKIP: 0 }
+browser-v7 { PASS: 26, FAIL: 0, SKIP: 0 }
+browser-v8 { PASS: 79, FAIL: 0, SKIP: 0 }
+browser-v9 { PASS: 29, FAIL: 0, SKIP: 0 }
+browser-v10 { PASS: 53, FAIL: 0, SKIP: 0 }
+browser-v11 { PASS: 18, FAIL: 0, SKIP: 0 }
+browser-v12 { PASS: 3, FAIL: 0, SKIP: 0 }
+
+FRESH UNIT TOTALS
+  ...
+1..405
+# tests 405
+# suites 0
+# pass 405
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 39155.111704
+
+FRESH ACTUAL ORIGINAL-SOURCE OUTPUT
+
+> learners-area-vanilla-migration-candidate@0.1.0 test:original-source:v15
+> V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs
+
+PASS Real original exam input/flag/notes/autosave/reload/resume/cancel; score awaits canonical server ACK
+PASS Real MCQ prediction redraw/reload and Choose TWO A-E selection/reload use learner-only saved UI
+PASS Real review/script/map/completion/vocabulary/retry source controls remain distinct
+PASS Real exam malformed canonical ACK fails closed; manual save retry recovers
+PASS Real exam foreign canonical ACK fails closed; manual save retry recovers
+PASS V15 original tools/rapid question focus 1440 en day
+PASS V15 original tools/rapid question focus 1440 en night
+PASS V15 original tools/rapid question focus 1440 uz day
+PASS V15 original tools/rapid question focus 1440 uz night
+PASS V15 original tools/rapid question focus 768 en day
+PASS V15 original tools/rapid question focus 768 en night
+PASS V15 original tools/rapid question focus 768 uz day
+PASS V15 original tools/rapid question focus 768 uz night
+PASS V15 original tools/rapid question focus 390 en day
+PASS V15 original tools/rapid question focus 390 en night
+PASS V15 original tools/rapid question focus 390 uz day
+PASS V15 original tools/rapid question focus 390 uz night
+PASS V15 original autoplay rejection exposes keyboard-operable source retry and pending state
+PASS V15 native Chromium fullscreen success exits before submitted results
+PASS V15 same-context two-tab writes serialize in browser; newer server answer conflicts and own draft retained
+PASS V15 overlapping two-tab held edit and submit use real Web Locks; both recovery drafts remain distinct
+PASS V15 existing authority SSE revokes held in_progress and suppresses late success
+PASS V15 existing authority SSE revokes held checkpoint and suppresses late success
+PASS V15 existing authority SSE revokes held submitted and suppresses late success
+PASS V15 existing authority SSE revokes held exited and suppresses late success
+PASS V15 existing authority SSE revokes held media and suppresses late success
+PASS V15 existing authority SSE revokes held retry and suppresses late success
+PASS V15 encoded native playback position reload, resume and disposal stay parent owned
+PASS V15 encoded early end enters final review only once without invented duration
+PASS V15 Full encoded decoder fault is bounded and cleanup is visible
+PASS V15 Full encoded forbidden fault is bounded and cleanup is visible
+PASS V15 Full encoded metadata fault is bounded and cleanup is visible
+PASS V15 Full encoded recovery capability 401 stops old transport; authority or explicit retry owns next generation
+PASS V15 Full encoded recovery capability 503 stops old transport; authority or explicit retry owns next generation
+PASS V15 resource authority loss fences a held already-committed checkpoint ACK without claiming rollback
+PASS V15 repeated SPA Back/Forward and rapid mounts leave no owned audio or browser mutex
+PASS V15 malformed ancillary flags is rejected before source hydration
+PASS V15 malformed ancillary answers is rejected before source hydration
+PASS V15 fresh closed-attempt reload retake preserves predecessor identity before its new start
+PASS V15 Review all parts retain own revisions across redraw/reload; tabs, original checked evidence and retry remain source owned
+PASS V14 Full IELTS 401 preserves own draft, fails closed, single-flight explicit retry
+PASS V14 Full IELTS 403 preserves own draft, fails closed, single-flight explicit retry
+PASS V14 Full IELTS 404 preserves own draft, fails closed, single-flight explicit retry
+PASS V14 Full IELTS 409 preserves own draft, fails closed, single-flight explicit retry
+PASS V14 Full IELTS 429 preserves own draft, fails closed, single-flight explicit retry
+PASS V14 Full IELTS 503 preserves own draft, fails closed, single-flight explicit retry
+PASS V14 Full IELTS network preserves own draft, fails closed, single-flight explicit retry
+PASS V14 Full IELTS malformed preserves own draft, fails closed, single-flight explicit retry
+PASS V14 Full IELTS duplicate preserves own draft, fails closed, single-flight explicit retry
+PASS V14 Full IELTS foreign preserves own draft, fails closed, single-flight explicit retry
+PASS V14 Full IELTS open preserves own draft, fails closed, single-flight explicit retry
+PASS V14 Full IELTS timeout preserves own draft, fails closed, single-flight explicit retry
+PASS V14 unacknowledged start plus submit reload replays start before close
+PASS V14 unavailable local storage warns, keeps own input and reloads confirmed server draft
+PASS V14 submitted answers freeze during delayed feedback and restore canonical own answers
+PASS V14 delayed autosave coalesces edits; obsolete ACK cannot overwrite latest answer
+PASS V14 pending submission reload replays own outbox once; no client score
+PASS V14 server-closed own attempt reconciles active exam without local grading
+PASS V14 pending exit blocks retake; canonical ACK permits a new identity and clean draft
+PASS V14 route exit during delayed submission suppresses stale UI; Back/Forward recovers own result
+PASS V14 source full-length clock and authorized four-part/forty-window mapping arguments
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 en day
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 en night
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 uz day
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 uz night
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 en day
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 en night
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 uz day
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 uz night
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 en day
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 en night
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 uz day
+PASS V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 uz night
+PASS V13 Full IELTS final-review resume preserves deadline, position and silent audio; expired resume auto-submits
+PASS V13 Full IELTS late timer callback carries elapsed listening time into final review
+PASS V13 Full IELTS dictionary RPC denied while active and while canonical submission is pending
+PASS V13 Full IELTS notes/options keyboard containment and question focus survives repeated navigation
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/en/day
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/en/night
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/uz/day
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/uz/night
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/en/day
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/en/night
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/uz/day
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/uz/night
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/en/day
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/en/night
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/uz/day
+PASS V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/uz/night
+PASS V12 retry 403 preserves draft, with explicit retry; old verdict cannot leak
+PASS V12 retry 404 preserves draft, with explicit retry; old verdict cannot leak
+PASS V12 retry 503 preserves draft, with explicit retry; old verdict cannot leak
+PASS V12 retry invalid preserves draft, with explicit retry; old verdict cannot leak
+PASS V12 retry network preserves draft, with explicit retry; old verdict cannot leak
+PASS V12 retry timeout preserves draft, with explicit retry; old verdict cannot leak
+PASS V12 retry empty/all-correct source states and authorized correct feedback
+PASS V12 retry question change pauses real encoded shared audio, retains source clip controls
+PASS V12 retry401 expires session without answer release
+PASS V12 retry rapid inner navigation cancels transport; paired known answer locks and restores own choice
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 99,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "Real original exam input/flag/notes/autosave/reload/resume/cancel; score awaits canonical server ACK",
+      "status": "PASS"
+    },
+    {
+      "name": "Real MCQ prediction redraw/reload and Choose TWO A-E selection/reload use learner-only saved UI",
+      "status": "PASS"
+    },
+    {
+      "name": "Real review/script/map/completion/vocabulary/retry source controls remain distinct",
+      "status": "PASS"
+    },
+    {
+      "name": "Real exam malformed canonical ACK fails closed; manual save retry recovers",
+      "status": "PASS"
+    },
+    {
+      "name": "Real exam foreign canonical ACK fails closed; manual save retry recovers",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 1440 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 1440 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 1440 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 1440 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 768 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original tools/rapid question focus 390 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 original autoplay rejection exposes keyboard-operable source retry and pending state",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 native Chromium fullscreen success exits before submitted results",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 same-context two-tab writes serialize in browser; newer server answer conflicts and own draft retained",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 overlapping two-tab held edit and submit use real Web Locks; both recovery drafts remain distinct",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held in_progress and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held checkpoint and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held submitted and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held exited and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held media and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 existing authority SSE revokes held retry and suppresses late success",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 encoded native playback position reload, resume and disposal stay parent owned",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 encoded early end enters final review only once without invented duration",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded decoder fault is bounded and cleanup is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded forbidden fault is bounded and cleanup is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded metadata fault is bounded and cleanup is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded recovery capability 401 stops old transport; authority or explicit retry owns next generation",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Full encoded recovery capability 503 stops old transport; authority or explicit retry owns next generation",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 resource authority loss fences a held already-committed checkpoint ACK without claiming rollback",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 repeated SPA Back/Forward and rapid mounts leave no owned audio or browser mutex",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 malformed ancillary flags is rejected before source hydration",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 malformed ancillary answers is rejected before source hydration",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 fresh closed-attempt reload retake preserves predecessor identity before its new start",
+      "status": "PASS"
+    },
+    {
+      "name": "V15 Review all parts retain own revisions across redraw/reload; tabs, original checked evidence and retry remain source owned",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 401 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 403 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 404 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 409 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 429 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS 503 preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS network preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS malformed preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS duplicate preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS foreign preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS open preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 Full IELTS timeout preserves own draft, fails closed, single-flight explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 unacknowledged start plus submit reload replays start before close",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 unavailable local storage warns, keeps own input and reloads confirmed server draft",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 submitted answers freeze during delayed feedback and restore canonical own answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 delayed autosave coalesces edits; obsolete ACK cannot overwrite latest answer",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 pending submission reload replays own outbox once; no client score",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 server-closed own attempt reconciles active exam without local grading",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 pending exit blocks retake; canonical ACK permits a new identity and clean draft",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 route exit during delayed submission suppresses stale UI; Back/Forward recovers own result",
+      "status": "PASS"
+    },
+    {
+      "name": "V14 source full-length clock and authorized four-part/forty-window mapping arguments",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 1440 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 768 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS all40/native types/flags/notes/navigation/reload 390 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS final-review resume preserves deadline, position and silent audio; expired resume auto-submits",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS late timer callback carries elapsed listening time into final review",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS dictionary RPC denied while active and while canonical submission is pending",
+      "status": "PASS"
+    },
+    {
+      "name": "V13 Full IELTS notes/options keyboard containment and question focus survives repeated navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry all40 source questions; keyboard/audio mapping/progress/reentry 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry 403 preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry 404 preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry 503 preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry invalid preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry network preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry timeout preserves draft, with explicit retry; old verdict cannot leak",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry empty/all-correct source states and authorized correct feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry question change pauses real encoded shared audio, retains source clip controls",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry401 expires session without answer release",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 retry rapid inner navigation cancels transport; paired known answer locks and restores own choice",
+      "status": "PASS"
+    }
+  ]
+}
+
+EXECUTED EVIDENCE HASH INDEX (preserved before scratch restore)
+[
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/assets-css.json",
+    "sha256": "9b605a69c733e350545a7ca537681781f6c4e98fa7c0210e3563e1ca7b6cc845"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-output.txt",
+    "sha256": "5a6f731a218d1031716edb855c14f90eeb133a0dd47f48acb35386e6e63c73c8"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-regression.json",
+    "sha256": "5a6f731a218d1031716edb855c14f90eeb133a0dd47f48acb35386e6e63c73c8"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-v2-output.txt",
+    "sha256": "21dbc094a64888690e1e1c4a89780ed405bace1cdc3bd898ddfa661993300f2f"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-v2-regression.json",
+    "sha256": "21dbc094a64888690e1e1c4a89780ed405bace1cdc3bd898ddfa661993300f2f"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-v3-output.txt",
+    "sha256": "5179cc7381dcbc426148101db46d520ed0d2bbbd77bb155c6707a703a90fc9d6"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-v3-regression.json",
+    "sha256": "5179cc7381dcbc426148101db46d520ed0d2bbbd77bb155c6707a703a90fc9d6"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-v4-output.txt",
+    "sha256": "75f7a7b07d156afd0ee07b6041f39d930b2a6d87b95df740fda9cc17eebc0973"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-v4-regression.json",
+    "sha256": "75f7a7b07d156afd0ee07b6041f39d930b2a6d87b95df740fda9cc17eebc0973"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-v5-output.txt",
+    "sha256": "51c09fe35135d5eb0284ffcbd5da0d62f9b76fdd537b32f6b9ff266a8d7c1e5f"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-v5-regression.json",
+    "sha256": "51c09fe35135d5eb0284ffcbd5da0d62f9b76fdd537b32f6b9ff266a8d7c1e5f"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-v6-output.txt",
+    "sha256": "16d27a56fc58120fd70447e6759e473f22c9a0b5165ad75da891425ea142e786"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/browser-v6-regression.json",
+    "sha256": "16d27a56fc58120fd70447e6759e473f22c9a0b5165ad75da891425ea142e786"
+  },
+  {
+    "path": "/home/user/v15-final-proof/executed-evidence/docs/evidence/v15/original-behavior-v15.json",
+    "sha256": "ccca310673d64ffef8e5f1b5d254ff1c36ecb4f0f2b2a90311c9ebc547e98516"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/assets-css.json",
+    "sha256": "72f95b475f078fe28b5bfb657ac0b64f18fa09558a8bcf3832f85d5b31e02e92"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/autoplay-output.txt",
+    "sha256": "0af552f8650301d4314fb3f07dc34758a27297184376c00f4fc06b5a8d4b448b"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-output.txt",
+    "sha256": "4adf96ea335bfba32501afbd009f51964609f24bb657ce277f98f186fd5a0e63"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-regression.json",
+    "sha256": "4adf96ea335bfba32501afbd009f51964609f24bb657ce277f98f186fd5a0e63"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v10-output.txt",
+    "sha256": "d6307dc37c31e05f549ea07cb6979fe3faec9f396e3a360b1f4665cf60a79cd6"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v10-regression.json",
+    "sha256": "d6307dc37c31e05f549ea07cb6979fe3faec9f396e3a360b1f4665cf60a79cd6"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v11-output.txt",
+    "sha256": "6fa960b719eec9420cf43aa27602ff42aee42d6f52d2590e17d0e0c7ffa85d31"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v11-regression.json",
+    "sha256": "6fa960b719eec9420cf43aa27602ff42aee42d6f52d2590e17d0e0c7ffa85d31"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v12-output.txt",
+    "sha256": "35a56583ce37cdd194832e69ad06772a5c7c3b178b5f70cbb9d86d044e574bc0"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v12-regression.json",
+    "sha256": "35a56583ce37cdd194832e69ad06772a5c7c3b178b5f70cbb9d86d044e574bc0"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v2-output.txt",
+    "sha256": "776de76161f07112950584c692aeef6e79efc26627cb45f96ae32c4854538b33"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v2-regression.json",
+    "sha256": "776de76161f07112950584c692aeef6e79efc26627cb45f96ae32c4854538b33"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v3-output.txt",
+    "sha256": "ebde0ff8d3b1d4eaa644af76e1ebda6d645d1f31a216f050fc4dfad2ed3b0dce"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v3-regression.json",
+    "sha256": "ebde0ff8d3b1d4eaa644af76e1ebda6d645d1f31a216f050fc4dfad2ed3b0dce"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v4-output.txt",
+    "sha256": "a4acbf801d525b0a4493757e092278b5a4636bb720b69965d654db3b5ae0b4d4"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v4-regression.json",
+    "sha256": "a4acbf801d525b0a4493757e092278b5a4636bb720b69965d654db3b5ae0b4d4"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v5-output.txt",
+    "sha256": "41f6c752574d353d6599c057964dde67e1cf4d4086f381297543b47e07d831a7"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v5-regression.json",
+    "sha256": "41f6c752574d353d6599c057964dde67e1cf4d4086f381297543b47e07d831a7"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v6-output.txt",
+    "sha256": "fe933ae75e3cef0d1f6608735c1418354d2f53cb8e2ca0b2c0f0d9021c3dcdb3"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v6-regression.json",
+    "sha256": "fe933ae75e3cef0d1f6608735c1418354d2f53cb8e2ca0b2c0f0d9021c3dcdb3"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v7-output.txt",
+    "sha256": "675c4e09f62c37424b24ea560e35b9f5735a2634dce0818da805af6abac13554"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v7-regression.json",
+    "sha256": "6f77701648a0b76c8ca874b2604f1346cbc29c03dcd0a838abdc6e298e349598"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v8-output.txt",
+    "sha256": "4d029724c66e5bb705665358b1dfa1c861a010ff9877b5662de33ab0e90cd0db"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v8-regression.json",
+    "sha256": "e7a8f89a2f11430e8ddcd2a91b69db2edbfa7a6910c2e6f94b872b1451a7c70a"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v9-output.txt",
+    "sha256": "adc718adce6c45118ef728b0a68de99151e0d7060ee8b557ba31ed425fe7057f"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/browser-v9-regression.json",
+    "sha256": "adc718adce6c45118ef728b0a68de99151e0d7060ee8b557ba31ed425fe7057f"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/development-audit.json",
+    "sha256": "4e7db950fb9729deb238410b1632829985b2cb1a6dbcd37a30ba7ed1e55cc9d5"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/diagnostic-first-failure.txt",
+    "sha256": "31caf23303193283750176f7c260223b46dad9ddc7ab717e4508743699c44b91"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/diagnostic-repaired.json",
+    "sha256": "e3affd6a1986d602abb012c9a570e7632b5684bdcfe077f3ebc62c7b42188611"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/full-frontend-32-output.txt",
+    "sha256": "367e87c4d7dfa89f598b422cef5b4b43d51c8a7c3e10a42f6d750ec6f950bcc6"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/full-frontend-32-pass.json",
+    "sha256": "7fa28b38102770942e5b07a8ce2b7a5444f3d2dad952617394b87ece66cac3c8"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/historical-archives.json",
+    "sha256": "5df1722b2ddf3a76d5639653832881cf5056299a4746a51ba2883c6f94b4cb06"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-first/causal-retry-repaired.txt",
+    "sha256": "5bcc7a0b1e0d2066fe42f81c1b713a05db7fd32fcd4b503be4b742f75a676ca8"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-first/causal-retry-syntax-first-error.txt",
+    "sha256": "1403562837e8243207bac9c0cea203387c345e19c281caff912ea08decfc80ee"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-first/fresh-retake-after.txt",
+    "sha256": "9ddce1bfbecf0ab63093cede1f2b0080bc3c12e205c05e181e29a209c7f4ea76"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-first/fresh-retake-before.txt",
+    "sha256": "aed7271bdcdcfc75dbd40397ed0abc1468a296304918fa2144a05393a4218c89"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-first/original-behavior-v15.json",
+    "sha256": "4102cb4043f0de513ad0280a54b4468494d0108d72c9634a47f061bdf9535a81"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-first/original-source.txt",
+    "sha256": "30dc57c7b7ea0120babe2777fd00086e978a615fe20b941d771b405f7da9e2ee"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-second/media-retry-after.txt",
+    "sha256": "d0a5b57853dbcccb411a22ec77ccf7780bcdf34ea565ec2fc8c6628ce90314bf"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-second/media-retry-before.txt",
+    "sha256": "b24b856b546e970fdd59b89ccdd52464f66c5d5d529fd9139c6af16ae322b5de"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-second/original-behavior-v15.json",
+    "sha256": "694d5c4b113635b47e8983e2af19cfcf5e54db21686fb395d0dee6442d6e7ece"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-second/original-source.txt",
+    "sha256": "ca86298fd8154344a007f8fe7daccebf44a01063b7db4228e75bc516f521df5d"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-third/probe-first-error.txt",
+    "sha256": "4a785baf304b37219c1cf503b9a08df0c7783339cde32b08eacefd6c4e165416"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-third/terminal-after.txt",
+    "sha256": "fb099eec17ae791c870acd0ccbe430f92b30c764d554137d66e11755d884fefe"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/independent-third/terminal-before.txt",
+    "sha256": "74a3a5bc790bd2a361dab71c966f19b6c378a3013c03322d1a6fcb9c239dd76a"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/native-fullscreen-first-failure.txt",
+    "sha256": "769a572acb08221249a0c4fecde71c3c5163770a1a34fde957ad215418c6b492"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/native-fullscreen-repaired.txt",
+    "sha256": "f7a2302d50b8385e0f7c049e6c9a78f6aa39040251aed9c744b569782b3bc814"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/native-fullscreen-second-failure.txt",
+    "sha256": "8b081280f47a600c892edd893b244861663855343e0d5f113a43acafaaec02e8"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/native-fullscreen-third-failure.txt",
+    "sha256": "8b081280f47a600c892edd893b244861663855343e0d5f113a43acafaaec02e8"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/original-behavior-v15.json",
+    "sha256": "129fd23358ee692a9148054fc548d803c3aa9e3a5b0f73d41385a6e755372709"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/original-full-93-output.txt",
+    "sha256": "5e7c16c91aee57909d897e98f10bf30bad3732d21345cf7838950e8e55647338"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/original-full-93-pass.json",
+    "sha256": "e9f07bc984a4f01f14206253f0b909f0deb008d55467d93884a9b6b8e573bc3f"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/overlap-output.txt",
+    "sha256": "ead5b05bb96dfc61f20ced095d195816fef6efb56cbe7b1bb36b75cf971b0484"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/preserved-chromium-output.txt",
+    "sha256": "2262413279484bfa1c7ecea249e88c0114a28ab2b92133a4dad337ef4fd69506"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/renewal-output.txt",
+    "sha256": "edc0396cd7c2bccee1dc52178647faf4b9ef8799f5d3e9af3a84dcec3577b5b1"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/review-first-output.txt",
+    "sha256": "013479cd4fab69c599d4856294e2ee024faa2cbc729702e49538cd6ef710cd5c"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/runtime-audit.json",
+    "sha256": "6556a26686353a160dba5f08b6f4d7a1a88ac69b0c78d9085368f8d75478a1d6"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/source-first-failures.txt",
+    "sha256": "27c066f15a8221fc54437f58a90117dc73351243a066b0ca7538149277f92a6f"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/source-second-failure.txt",
+    "sha256": "fc4d354b40ee7ecb4e0449864b57ccd1c7de0f1bc6bc4a9490d4b4ae8a9ae5ef"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/source-third-23pass-3fail.json",
+    "sha256": "178a97ebde089542cd2c80ecc16a8099df1d8c3fa6e081be7c5aeb15cd186d32"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/source-third-output.txt",
+    "sha256": "4be24cd42b1df779c89e726e4513011a4c890e62bfcd4d5476e554b6d3c4e040"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/unit-first-failure.txt",
+    "sha256": "dce361401467ed1f2390db6d4f03bc5a28668cfa43090a4d174a8f258173a947"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/unit-output.txt",
+    "sha256": "3ab061ab41a82981ac13b9fb41385f56252bb62f931b561943ec7aa91a32cce2"
+  },
+  {
+    "path": "/home/user/learners_area/migration/vanilla-frontend/docs/evidence/v15/unit-second-failure.txt",
+    "sha256": "17543bb0bc47c315292c6b6bff92863ea7f9a786fa680f5294ac5989ec8505d5"
+  }
+]
