@@ -4,6 +4,11 @@ Baseline V15 final8f498ce914bfa7b30866ce592e00379a701bda88. Current source/packa
 refs and executed evidence: deliverables/V16_VALIDATION.txt. Read CHECKPOINT_V16,
 SOURCE_STATE_INVENTORY_V16, ADAPTER_CONTRACTS_V16, V16 ledgers and activity JSON first.
 
+Preserved-regression repairs: transcript navigation is outside original clip controls;
+OwnedMediaController waits for queued/native seek settlement before first play, with
+cancellation/version/timeout protection and no-seek fast path retaining18 listeners.
+First independent124/2 and repaired probes are retained; final report owns acceptance.
+
 Implemented Review source-only transcript/evidence navigation and material guards;
 Check preserves active same-part trainer/time/rate; switching/reentry own cleanup.
 Parent reuses CheckpointWriter for typed single-flight merged Review /progress work,

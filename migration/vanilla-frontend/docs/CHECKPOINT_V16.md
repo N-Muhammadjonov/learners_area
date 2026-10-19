@@ -44,7 +44,7 @@ Do not mistake passing focused slices for complete Review. Script NOT advanced.
 Full IELTS and Retry retain V15 supported CODE COMPLETE; frontend2/9,7partial;
 comprehensive original0/9, live0/9. Reading NOT STARTED. Staff35 untouched.
 
-Expected inventory425 units,499 Chromium,126 actual-source journeys (99 preserved
+Expected inventory428 units,499 Chromium,126 actual-source journeys (99 preserved
 +27 V16). Expected counts are NOT execution proof: deliverables/V16_VALIDATION.txt
 records independent final ZIP install/build/actual counts/assets/CSS/two repacks/SHA.
 Initial failures retained: CSP disallowed waitForFunction eval (fixed harness uses
@@ -64,3 +64,13 @@ Metrics remain objective inventories:22/15/71 routes of108;62/17/127 components 
 Listening9/6/1 routes of16 and9/10/5 components of24. No fabricated weighted overall,
 functional/security or visual/live percentage; aggregates UNDETERMINED.1–100ms target
 is not a latency guarantee. Owner approval needed before production replacement.
+
+First extracted ZIP source run124PASS/2FAIL retained in evidence/v16/independent-first.
+Transcript navigation controls now sit outside original evidence-clip controls,
+preserving the exact40 original playWindow argument assertions. The encoded native
+resume probe exposed a queued-seek/first-playing race: OwnedMediaController now
+waits for the previous seek and native seek completion before play, with version,
+abort and timeout guards. Original media engine is not rewritten. Initial extra
+temporary-listener accounting failure is retained; the no-seek fast path preserves
+the existing exact18-listener assertion without weakening it. Both repaired source
+probes passed. Final fresh archive full-suite counts, not these probes, govern delivery.
