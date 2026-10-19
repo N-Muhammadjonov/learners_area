@@ -36,11 +36,15 @@ export function TelegramIntentLogin({
   configured,
   botUsername,
   purpose,
+  registrationGender,
+  onGenderRequired,
 }: {
   dict: Dictionary;
   configured: boolean;
   botUsername?: string;
   purpose: IntentPurpose;
+  registrationGender?: "male" | "female" | "";
+  onGenderRequired?: () => void;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -72,6 +76,11 @@ export function TelegramIntentLogin({
   }
 
   async function start() {
+    if (purpose === "register" && !registrationGender) {
+      onGenderRequired?.();
+      setError(dict.auth.errorGenderRequired);
+      return;
+    }
     setError("");
     setWaiting(true);
     stop.current?.abort();
@@ -112,7 +121,11 @@ export function TelegramIntentLogin({
       if (status.data.status !== "confirmed") continue;
 
       const exchanged = await requestJson<ExchangeResponse>("/api/auth/telegram/intent/exchange", {
-        body: { intentId: created.data.intentId, browserNonce: created.data.browserNonce },
+        body: {
+          intentId: created.data.intentId,
+          browserNonce: created.data.browserNonce,
+          ...(purpose === "register" ? { gender: registrationGender } : {}),
+        },
         signal: controller.signal,
       });
       if (!exchanged.ok) {

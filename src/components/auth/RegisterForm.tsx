@@ -70,22 +70,13 @@ export function RegisterForm({
   }
 
   const telegram = telegramIntentEnabled ? (
-    <TelegramIntentLogin dict={dict} configured={telegramConfigured} botUsername={telegramBotUsername} purpose="register" />
+    <TelegramIntentLogin dict={dict} configured={telegramConfigured} botUsername={telegramBotUsername} purpose="register" registrationGender={gender} onGenderRequired={() => { setGenderError(true); firstGender.current?.focus(); }} />
   ) : (
     <TelegramButton label={dict.auth.continueWithTelegram} unavailableLabel={dict.auth.telegramUnavailable}
       configured={telegramConfigured} botUsername={telegramBotUsername} nonce={nonce} />
   );
 
-  if (!passwordEnabled) return (
-    telegram
-  );
-
-  return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <div>
-        <Label htmlFor="name">{dict.auth.name}</Label>
-        <Input id="name" required value={name} onChange={(e) => setName(e.target.value)} />
-      </div>
+  const genderField = (
       <fieldset>
         <legend id="gender-label" className="mb-1.5 text-sm font-medium text-ink-700">{dict.auth.chooseGender}</legend>
         <div className="gender-segments" role="radiogroup" aria-labelledby="gender-label" aria-required="true" aria-invalid={genderError} aria-describedby={genderError ? "gender-error" : undefined}>
@@ -113,6 +104,22 @@ export function RegisterForm({
         </div>
         {genderError && <p id="gender-error" role="alert" className="mt-1 text-xs text-band-bad">{dict.auth.errorGenderRequired}</p>}
       </fieldset>
+  );
+
+  if (!passwordEnabled) return (
+    <div className="flex flex-col gap-4">
+      {telegramIntentEnabled && genderField}
+      {telegram}
+    </div>
+  );
+
+  return (
+    <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      <div>
+        <Label htmlFor="name">{dict.auth.name}</Label>
+        <Input id="name" required value={name} onChange={(e) => setName(e.target.value)} />
+      </div>
+      {genderField}
       <div>
         <Label htmlFor="email">{dict.auth.email}</Label>
         <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
