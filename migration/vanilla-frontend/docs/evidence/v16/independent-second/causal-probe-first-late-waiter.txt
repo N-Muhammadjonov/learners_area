@@ -1,0 +1,70 @@
+authored focus is opaque, shell-free, hub-first before checkpoint/media read page.waitForResponse: Timeout 30000ms exceeded while waiting for event "response"
+{
+  "date": "2026-10-19T06:44:37.625Z",
+  "browser": "Chromium 133",
+  "integration": "ISOLATED SYNTHETIC FIXTURES ONLY, not live acceptance",
+  "visualBaselineComparisons": 0,
+  "results": [
+    {
+      "name": "public login source fields/provider link and honest transport failure",
+      "status": "PASS"
+    },
+    {
+      "name": "registration required segmented gender and actual request body",
+      "status": "PASS"
+    },
+    {
+      "name": "reset without token cannot submit; failed request never reports sent",
+      "status": "PASS"
+    },
+    {
+      "name": "15 source-native views render fixture DTOs without browser exceptions",
+      "status": "PASS"
+    },
+    {
+      "name": "persistent shell identity and independent sidebar/main scrolling across back",
+      "status": "PASS"
+    },
+    {
+      "name": "keyboard search excludes unsafe destinations and navigates native route",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile drawer traps focus and Escape restores scrolling with no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "source utility focus is reversible with Escape",
+      "status": "PASS"
+    },
+    {
+      "name": "MCQ Day8/q pagination and server-revealed Choose TWO supports A–E",
+      "status": "PASS"
+    },
+    {
+      "name": "authored focus is opaque, shell-free, hub-first before checkpoint/media read",
+      "status": "FAIL",
+      "error": "page.waitForResponse: Timeout 30000ms exceeded while waiting for event \"response\""
+    },
+    {
+      "name": "access event revocation clears private shell before redirect; no role bypass",
+      "status": "PASS"
+    },
+    {
+      "name": "malformed session fails closed before any view DTO request",
+      "status": "PASS"
+    },
+    {
+      "name": "fixture shell navigation diagnostic, no original/production performance claim",
+      "status": "PASS"
+    },
+    {
+      "name": "real disconnected preview returns 503, never fixture DTOs",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 13,
+    "FAIL": 1
+  }
+}

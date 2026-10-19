@@ -74,3 +74,12 @@ abort and timeout guards. Original media engine is not rewritten. Initial extra
 temporary-listener accounting failure is retained; the no-seek fast path preserves
 the existing exact18-listener assertion without weakening it. Both repaired source
 probes passed. Final fresh archive full-suite counts, not these probes, govern delivery.
+
+Second extracted ZIP source suite126PASS/0FAIL/0SKIP. General regression stopped
+at browser-v2 hub/checkpoint500ms assumption (40PASS/1FAIL, remaining458 not run).
+Raw failure retained in independent-second. Fixture now holds checkpoint response
+until capability preparation and records causal sequence, preserving strict before
+ordering while additionally requiring the existing hub-painted message before
+capability. Response waiter is registered before navigation, not afterward; the
+first late-waiter harness failure is retained. No product start barrier, CSP, media
+engine or assertions were weakened. The repaired14-case suite passes.
