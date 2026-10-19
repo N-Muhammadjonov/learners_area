@@ -1,0 +1,16 @@
+V20 independently extracted exact ZIP verification
+Archive: LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V20.zip
+Bytes: 41268378
+SHA256: 3cb171c34081db0780a3c8eee92759ace5a0f92f0d00f75364883e0f7e85c0c0
+Source commit: 04ec24571881eba59d8047738d4c5cae156c98cd
+Seal commit: fae2f8b1fe3a4087280fbf905a8f2ee9a374872b
+PASS fresh extraction/CRC/npm ci/build/all1130 source Git members
+PASS units499 (485 preserved +14 new), Chromium499, actual-source270 (245 preserved +25 new), separate timing14; all0FAIL0SKIP
+PASS assets25/sourceCSS/compiledCSS/two byte-identical repacks
+PASS educational preservation: all2104 original tracked outside-migration files,24 historical ZIPs, no new content-like reconstruction
+Review PARTIAL; Full/Retry COMPLETE; Script not advanced; Reading gated
+Navigation/held-material/lexical/media/accessibility/lifecycle broad gates remain PARTIAL/OPEN
+Visual/live UNVERIFIED; performance target NOT ESTABLISHED; three overall product percentages UNDETERMINED
+Performance median 106.6ms range 16.1–243.2ms; 4/10 within1–100; synthetic only
+Generated manifest retains historical V19 heading; exact entries/hashes are V20 (documented cosmetic limitation).
+Final report-only commit follows source/seal; see branch HEAD. No deployment.
