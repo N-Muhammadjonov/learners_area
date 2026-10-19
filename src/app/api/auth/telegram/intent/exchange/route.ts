@@ -18,11 +18,15 @@ export async function POST(req: NextRequest) {
     const body = await req.json().catch(() => null);
     const intentId = body && typeof body === "object" ? (body as { intentId?: unknown }).intentId : null;
     const browserNonce = body && typeof body === "object" ? (body as { browserNonce?: unknown }).browserNonce : null;
+    const gender = body && typeof body === "object" ? (body as { gender?: unknown }).gender : undefined;
+    if (gender !== undefined && gender !== "male" && gender !== "female") {
+      return NextResponse.json({ error: "invalid_input" }, { status: 400 });
+    }
     if (typeof intentId !== "string" || typeof browserNonce !== "string" || !isUuid(intentId)) {
       return NextResponse.json({ error: "invalid_input" }, { status: 400 });
     }
 
-    const prepared = await prepareIntentExchange(intentId, browserNonce);
+    const prepared = await prepareIntentExchange(intentId, browserNonce, gender);
     if (!prepared.ok) {
       const status = prepared.error === "no_linked_account" ? 404 :
         ["phone_required", "not_subscribed"].includes(prepared.error) ? 403 :
