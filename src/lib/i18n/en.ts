@@ -1,5 +1,6 @@
 const en = {
   globalDictionary: {
+    capacityExceeded: "There is not enough database space for a new release. Your drafts are saved. Check database capacity before publishing.",
     duplicateWord: "This word and part of speech already exist. Add a meaning to the existing word.",
     duplicateSense: "This meaning already exists.",
     lexemes: "Published words",

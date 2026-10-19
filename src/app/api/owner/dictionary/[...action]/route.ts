@@ -9,6 +9,7 @@ import {
   pinnedRelease,
   searchDictionary,
   entryById,
+  entriesByIds,
   saveDraft,
   activeRelease,
 } from "@/lib/dictionary/store";
@@ -148,7 +149,7 @@ async function mutateDraft(
       if (parsed?.success) {
         const changes = parsed.data;
         const original = changes.operation === "add_lexeme"
-          ? (await rows<{payload: import("@/lib/dictionary/model").Entry}>(sql`select payload from dictionary_entries where release_id=${active.active_release_id} and lemma_norm=${normalizeSearch(changes.lemma)}`,tx)).map(row=>row.payload)
+          ? [...(await entriesByIds((await rows<{lexeme_id:string}>(sql`select lexeme_id from dictionary_entries where release_id=${active.active_release_id} and lemma_norm=${normalizeSearch(changes.lemma)}`,tx)).map(row=>row.lexeme_id),active.active_release_id,tx)).values()]
           : [await entryById(changes.lexemeId,active.active_release_id,tx)].filter((entry): entry is import("@/lib/dictionary/model").Entry => Boolean(entry));
         applyDraft(original, changes, active.active_release_id);
       }

@@ -157,7 +157,7 @@ export function OwnerDictionary({ dict }: { dict: Dictionary }) {
       setEdit(null);
       await refresh();
     } catch (e) {
-      setError(e instanceof Error && e.message === "duplicate_lexeme" ? t.duplicateWord : e instanceof Error && e.message === "duplicate_sense" ? t.duplicateSense : t.unavailable);
+      setError(e instanceof Error && e.message === "dictionary_capacity_exceeded" ? t.capacityExceeded : e instanceof Error && e.message === "duplicate_lexeme" ? t.duplicateWord : e instanceof Error && e.message === "duplicate_sense" ? t.duplicateSense : t.unavailable);
     } finally {
       setBusy(false);
     }
@@ -181,7 +181,7 @@ export function OwnerDictionary({ dict }: { dict: Dictionary }) {
         throw Error(current.error || t.unavailable);
       await refresh();
     } catch (e) {
-      setError(e instanceof Error && e.message === "duplicate_lexeme" ? t.duplicateWord : e instanceof Error && e.message === "duplicate_sense" ? t.duplicateSense : t.unavailable);
+      setError(e instanceof Error && e.message === "dictionary_capacity_exceeded" ? t.capacityExceeded : e instanceof Error && e.message === "duplicate_lexeme" ? t.duplicateWord : e instanceof Error && e.message === "duplicate_sense" ? t.duplicateSense : t.unavailable);
     } finally {
       setBusy(false);
     }

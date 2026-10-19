@@ -2,6 +2,7 @@ import type { Dictionary } from "./en";
 
 const uz: Dictionary = {
   globalDictionary: {
+    capacityExceeded: "Yangi nashr uchun bazada joy yetarli emas. Qoralamalaringiz saqlangan. Nashr qilishdan oldin baza sig‘imini tekshiring.",
     duplicateWord: "Bu so'z va so'z turkumi mavjud. Mavjud so'zga yangi ma'no qo'shing.",
     duplicateSense: "Bu ma'no mavjud.",
     lexemes: "Nashr qilingan so'zlar",
