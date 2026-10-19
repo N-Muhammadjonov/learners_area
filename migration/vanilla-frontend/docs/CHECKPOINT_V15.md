@@ -54,7 +54,7 @@ production replacement; no merge/deploy.
 ## Sequential activity outcome
 
 Full IELTS supported FRONTEND CODE COMPLETE after preserved source journeys and
-all32 new Full gate cases passed; original/live acceptance remains separate. Then,
+all33 new Full gate cases passed; original/live acceptance remains separate. Then,
 immediately, Review received a coherent first slice in the SAME original renderer:
 all4 parts, own revision redraw/reload/checked/retry, existing authorized evidence,
 keyboard-roving tabs, labels and own revision conflict protection. No verdict logic,
@@ -85,3 +85,9 @@ Q1, so under concurrent load the400ms save could already finish. Its waiter now
 starts BEFORE that action and additionally requires the saved currentQ1 + own answer;
 all prior input/reload/40-question assertions remain. No production Retry change.
 Final external validation, not that first attempt, is delivery acceptance authority.
+
+A new fresh-closed-retake source probe reproduced an integration edge in the UUID
+stamp: the preceding closed canonical record must NEVER be relabeled with a new
+attempt identity during its metadata write. Normalization now applies only to
+in_progress snapshots. Old-build failure and repaired actual-source pass retained;
+no V14 writer/barrier replacement. Review save waits are also bound before Check.

@@ -7,7 +7,7 @@
       "id": "exam",
       "name": "Full IELTS Test",
       "frontend": "CODE COMPLETE",
-      "fixture": "VERIFIED supported client gates: preserved64 actual-source journeys plus32 V15 Full cases; independent exact-ZIP report is delivery authority.",
+      "fixture": "VERIFIED supported client gates: preserved64 actual-source journeys plus33 V15 Full cases; independent exact-ZIP report is delivery authority.",
       "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
       "live": "UNVERIFIED",
       "remaining": "No known ordinary supported Full frontend defect. Backend cross-device/noncooperating GET-to-PUT atomic ordering unresolved; real recording/provider/Safari/hardware/live acceptance separate UNVERIFIED."

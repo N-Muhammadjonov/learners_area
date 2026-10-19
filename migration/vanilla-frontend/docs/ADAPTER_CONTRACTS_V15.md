@@ -11,7 +11,7 @@ remain. Added ancillary native shape checks: bounded string records/answers,
 UUID/status, unique numeric flags and review parts, finite position, typed unique
 result rows with no extra answer-key fields; closed records still require the
 existing exact canonical40 rows. Contradictory explicit status fields fail closed.
-Source native saves attach their already-active own UUID to the transport snapshot:
+Source native in_progress saves attach their already-active own UUID to the transport snapshot:
 the synchronous first setItem otherwise briefly lacks the wrapper's second stamp.
 No authority is inferred from this identifier.
 
@@ -57,3 +57,7 @@ course /progress4000-character bound (exam answers remain existing500). Existing
 original Review renderer/self-study controls and authorized evidence are reused;
 no new verdict function or /practice kind is invented. This first slice is PARTIAL,
 not comprehensive Review or server grading/production acceptance.
+
+Closed canonical predecessor records are NEVER relabeled with the next attempt UUID;
+a fresh reload→retake source case enforces missing-start rejection and proves the
+proper new in_progress predecessor before any close. No new grading logic.

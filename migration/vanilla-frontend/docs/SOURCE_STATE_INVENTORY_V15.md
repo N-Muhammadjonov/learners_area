@@ -34,8 +34,8 @@ Native Range-encoded silence position/early end/decoder/held metadata/403/renewa
 503/manual retry and6 authoritative SSE held-operation cases are bounded fixtures,
 NOT real recording, long-run physical heap, Safari/hardware/provider acceptance.
 
-V15 test inventory:402 units (378 preserved +24 added);499 preserved Chromium;
-97 original-source cases (64 preserved +32 Full +1 Review). Expected counts are not
+V15 test inventory:403 units (378 preserved +25 added);499 preserved Chromium;
+98 original-source cases (64 preserved +33 Full +1 Review). Expected counts are not
 execution proof: final independent extracted ZIP authority is external
 `deliverables/V15_VALIDATION.txt`. Initial failures and implementation-phase outputs
 are retained in evidence/v15. Foundation history assertion semantics unchanged;
@@ -67,3 +67,9 @@ Q1, so under concurrent load the400ms save could already finish. Its waiter now
 starts BEFORE that action and additionally requires the saved currentQ1 + own answer;
 all prior input/reload/40-question assertions remain. No production Retry change.
 Final external validation, not that first attempt, is delivery acceptance authority.
+
+A new fresh-closed-retake source probe reproduced an integration edge in the UUID
+stamp: the preceding closed canonical record must NEVER be relabeled with a new
+attempt identity during its metadata write. Normalization now applies only to
+in_progress snapshots. Old-build failure and repaired actual-source pass retained;
+no V14 writer/barrier replacement. Review save waits are also bound before Check.

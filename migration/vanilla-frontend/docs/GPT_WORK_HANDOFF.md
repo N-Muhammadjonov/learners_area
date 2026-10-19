@@ -41,7 +41,7 @@ original0/9/live0/9. Reading remains gated, staff author NOTSTARTED/staff-only.
 
 ## Proof and cautions
 
-V15 inventory402 units/499 Chromium/97 actual-original-source journeys/25assets.
+V15 inventory403 units/499 Chromium/98 actual-original-source journeys/25assets.
 Only external final validation confirms executed extracted-ZIP results. All first
 failures retained: native first UUID stamp, responsive nav, fullscreen scroll/lazy
 modal reachability, non-Range encoded seek fixture, CSP test poll, foundation30ms
@@ -73,3 +73,9 @@ Q1, so under concurrent load the400ms save could already finish. Its waiter now
 starts BEFORE that action and additionally requires the saved currentQ1 + own answer;
 all prior input/reload/40-question assertions remain. No production Retry change.
 Final external validation, not that first attempt, is delivery acceptance authority.
+
+A new fresh-closed-retake source probe reproduced an integration edge in the UUID
+stamp: the preceding closed canonical record must NEVER be relabeled with a new
+attempt identity during its metadata write. Normalization now applies only to
+in_progress snapshots. Old-build failure and repaired actual-source pass retained;
+no V14 writer/barrier replacement. Review save waits are also bound before Check.
