@@ -65,3 +65,13 @@ so no existing ZIP is overwritten. New final exact-ZIP counts govern acceptance.
 Final added coverage: native forged legacy mode denial BEFORE enrichment and preserved
 server-approved legacy lexical presentation after preflight.22-case focused security
 run +separate approved-legacy probe PASS; final full source inventory149=126+23.
+
+Final archive correction: the second V17_VERIFIED.zip is also retained UNCHANGED as
+non-delivery candidate.443 units/499 Chromium PASS; source148PASS/1FAIL (all149 run).
+V13 dictionary-after-submission fixture lacked the now-required meaning permission
+endpoint. Added serverSubmitted-gated unresolved/403 response; ORIGINAL metadata-read
+assertions unchanged, new permissionReads0 while active/pending and1 after canonical
+ACK added. Targeted preserved journey PASS. No product-code change in this repair.
+Full failure JSON/output +repaired output are in evidence/v17/second-candidate.
+Final delivery filename is LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17_FINAL_VERIFIED.zip;
+final independent validation remains authoritative. Neither earlier ZIP is overwritten.

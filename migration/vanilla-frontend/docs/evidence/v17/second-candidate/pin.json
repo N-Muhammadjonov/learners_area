@@ -1,0 +1,6 @@
+{
+  "archive": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17_VERIFIED.zip",
+  "sha256": "8c281cd0c93b3d691b54a9ca30bb2368af5ab0d2b28ccddb25a792b44cbf7669",
+  "seal": "485d6572068d6a2136d469a1a04067ad25616466",
+  "status": "UNCHANGED non-delivery candidate;443unit/499Chromium PASS, source148PASS1FAIL from missing meaning permission fixture; repaired assertion-preserving mock only."
+}
