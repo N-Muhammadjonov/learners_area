@@ -1,0 +1,214 @@
+LEARNERS AREA V17 — FINAL INDEPENDENT VALIDATION ADDENDUM
+VERIFIED PARTIAL CHECKPOINT — NOT REVIEW COMPLETION OR PRODUCTION ACCEPTANCE
+
+This post-seal record is outside the ZIP to avoid self-referential checksums.
+It supersedes provisional counts in packaged docs. Review remains PARTIAL;
+Script PARTIAL/not advanced; Reading NOT STARTED. No merge/deploy authorized.
+
+ARCHIVE
+LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17_FINAL_VERIFIED.zip
+Bytes: 40230303
+SHA-256: da255c7c47aac05a5624c97483454817f755c6acc57f50546560dbecf4c7389d
+990 source +2 generated manifest members.
+Source commit: 41cec2544afc66c622a1110548e8e394c9ed3bee
+Source tree: e4f0bae12b627f11a55cea1e38b9f72a53560afc
+Seal commit: 80090c1a69dcc4268cd51b4697afae678dccfe16
+Seal tree: 740aa8b3bfeb25e2cbf1808dcc39e59e2d2c47fd
+Delivery-report commit follows seal; final local/remote SHA supplied in delivery.
+Branch: arena/96836bcf-learners-area.
+
+EXACT-ZIP EXECUTED GATES
+Fresh independent extraction/all member hashes: PASS.
+npm ci --ignore-scripts: PASS. Build: PASS. Applicable Node syntax checks: PASS.
+Units443 PASS /0 FAIL /0 SKIP (428 preserved +15 new).
+Preserved Chromium499 PASS /0 FAIL /0 SKIP /0 BLOCKED.
+Original-source149 PASS /0 FAIL /0 SKIP (126 preserved +23 new).
+Browser suites run sequentially: preserved Chromium then full original source.
+Additional nonconflicting14-case V2/performance probe PASS; NOT added to499.
+25 assets PASS; source CSS identity/deterministic compiled CSS PASS.
+Two independent byte-identical repacks +package verify PASS.
+Runtime audit0; build-tool audit5 high/0 critical; no upgrades performed.
+Machine proof includes full raw execution logs, per-suite reports/hashes, source
+cases and historical ZIP pins. PASS describes these executed fixture gates only.
+
+Source CSS: b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2
+Compiled CSS: 6321b6deffba5088fa187b0cd2f07b2895b5d3a53d5472c5f083f4aef8108042
+Original read-only HTML: f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e
+V1–V16 all16 historical ZIPs: Git byte pins +size/SHA checks PASS, unchanged.
+The earlier V17.zip candidate remains unchanged; it is NOT the delivery archive.
+
+EXACT CONTINUATION / NEW IMPLEMENTATION / REPAIRS
+V16 Full+Retry supported frontend complete, native checkpoint/media architecture,
+Review transcript/evidence/trainer/typed retry work preserved. No engine restart.
+Initial local9a7d9fc +359 untracked files differed from remote. All359 externally
+ZIP/manifests/extraction/byte verified before verified blockers moved and SAME
+BRANCH fast-forward to exact V16a141869. Preservation remains outside repository.
+No reset/rebase/stash/clean/switch/discard/force push. Main was never merged.
+
+New selected-text Review action supports mouse/Ctrl+Enter, normalized spelling,
+original selection identity, opt-in shared popup Escape/outside dismissal/focus,
+responsive12 viewport×locale×theme bounds, stale-request version/abort ownership.
+Spelling-only server contract returns unresolved when no exact occurrence exists:
+no dictionary meaning, sense or occurrence is invented from a matching spelling.
+ALL native lexical modes now require existing server spelling permission BEFORE
+enrichment. Active own exams are blocked before dictionary requests; another-tab
+server exam lock cannot be bypassed with mode=vocab. Existing approved canonical
+legacy presentation is preserved AFTER permission. No Dictionary backend changes.
+
+Pending Review intent is durable within supported owned browser storage before
+existing CheckpointWriter send. Binds user/test/tab/canonical attempt; legacy
+identity hashes canonical exam evidence, never session credentials. New checked
+parts merge unconfirmed own work; old ACK cannot clear latest record. Reload does
+NOT auto-POST. Explicit recovery fresh-reads canonical own attempt/revisions and
+server progress. Foreign/new/open attempts or changed own revisions conflict and
+retain bytes. Complete server Review acknowledges goal without replay; partial
+counts do not identify unit receipts, so explicit retry uses existing server
+idempotent unit-union. No fabricated success, exactly-once/CAS/abort-rollback claim.
+JSON bound covers40×4000 server-legal characters including six-byte escapes.
+Unavailable storage warns +owned memory fallback; no secret/token storage.
+
+Real main-contract repair: progress includes exam activity; validator now accepts
+and validates that existing server field. No grader/API/backend/media/writer rewrite.
+Original Review checking remains self-study, not server exam grading/completion.
+
+FAILURE RETENTION
+First focused8PASS/1FAIL exposed live DOM Range auto-retargeting after part change;
+fixed by tracking the original selected node; repaired9 and expanded21 passes kept.
+Initial V17 candidate passed442/499/147, but a subsequent extra native legacy-mode
+probe FAILED1 by requesting enrichment without the new server preflight. This was
+NOT hidden by the earlier green suites. Raw failure +initial full proof retained.
+Native mode gate repaired; focused22 +approved legacy probe passed. Final443/499/149
+above is from the separately named fresh delivery ZIP, not the earlier candidate.
+Packaged evidence/v17 and machine proof preserve these distinctions.
+
+SECOND CANDIDATE / FINAL ARCHIVE SELECTION
+The second V17_VERIFIED.zip remains unchanged, non-delivery.443 units and499
+Chromium passed; source148PASS/1FAIL (all149 executed). Its preserved V13 post-submit
+dictionary fixture did not implement the newly required server meaning permission
+endpoint, so the metadata-response waiter timed out. The fixture now returns403
+until its canonical submission commit and unresolved only after that commit.
+Existing0/1 metadata-read assertions are unchanged; new permissionReads0 active/
+pending and1 after canonical ACK strengthen them. Targeted preserved journey passed.
+Full failed output/results and repaired probe remain in second-candidate evidence.
+The ONLY delivery archive is the FINAL_VERIFIED filename at the top of this record.
+Both earlier V17 candidate archives and all V1–V16 archives are preserved unchanged.
+
+REMAINING ORDINARY REVIEW WORK — DO NOT ADVANCE SCRIPT
+Review remains PARTIAL. Comprehensive Review-specific held authority/SSE/reentry/
+foreign feedback/media/error contracts and all legacy/storage/cross-context recovery
+acceptance still need closure. Retained conflicting old-attempt intent requires
+explicit reconciliation; no automatic abandoned-intent overwrite. These are ordinary
+frontend requirements, NOT unavailable-production-credential gates. No unresolved
+frontend work is promoted to code complete. Script and later activities not expanded
+in parallel; Reading remains NOT STARTED until authorized Listening gate closes.
+
+SECURITY / PRODUCTION-MAIN OBSERVATIONS
+Read-only main d893196410b325bda6aa55ab6b65567f776c50ce; initial divergence65 ahead/64
+behind after shallow-history deepening. No main merge or production connection.
+Main has31 additional Tests2–32 catalogue definitions, heterogeneous activity counts,
+sequence/unlock and published-membership rules. Canonical /app/listening/tests;
+legacy /academic redirects there; /app/listening redirects to lessons. Broader current
+catalogue/nav/test mapping migration is still an explicit gap, not recreated here.
+PR44 stale-checkpoint server conflicts complement, not replace, existing client
+recovery; noncooperating same-attempt cross-device revision CAS remains unresolved.
+PR45/46 owner MCQ days/question recordings: not reimported or migrated in parallel;
+actual published day availability must be read from server, not assumed30/Day8 cap.
+Reading PR48 source restoration supersedes old incomplete-law assumption: checksum-
+pinned864-word restoration,105 source passages/33 tests, Academic40 selection and
+original sentence/YES-NO types/live exam key protection inspected. No claim that105
+are currently published; database not queried. No Reading implementation/imports.
+Retention permanent deletion preserves historical attempts, distinct from archive;
+A2–C2 V4 contextual alternatives source inspected, no active/count/data claims.
+
+The authored?vocabulary=1 route in read-only main has account/sequence checks but
+no explicit lexical-exam policy call in that route. Native consumer preflight is
+repaired here; frontend fixtures do NOT certify direct-server endpoint authorization.
+This source observation needs the independent backend authority workstream's review,
+not a fake frontend/live PASS. No unauthorized live probe/backend change performed.
+
+Opaque sandbox allow-scripts ONLY; no allow-same-origin/CSP weakening/credentials/
+private URLs or keys in child.256KiB Range/8MiB LRU/two transports/MSE cleanup retained.
+Blob fallback is NOT progressive. Synthetic silence is NOT private recording alignment.
+Chromium is NOT Safari/hardware/provider acceptance. Production accounts/R2/auth,
+matched rendered visual comparison and live integrations remain UNVERIFIED.
+35 staff routes/Dictionary/DB/cloud/Railway/Telegram/main untouched. Owner upload/
+privateR2 registration and supervised Reading imports deferred. Owner approval remains
+required before production replacement. No deployment/domain repointing performed.
+
+THREE SEPARATE METRICS
+Implementation progress percent: UNDETERMINED.
+Functional/security acceptance percent: UNDETERMINED.
+Visual/live integration acceptance percent: UNDETERMINED.
+No accepted common denominator or fabricated weighted aggregate. Activity counts:
+2/9 frontend complete,7/9 partial; comprehensive original0/9; live0/9. Full+Retry
+supported code complete; Review partial; Script partial/not advanced. Preserved
+migration inventory routes22 complete/15 partial/71 not started of108; components
+62/17/127 of206. Listening routes9/6/1 of16; components9/10/5 of24. These are distinct
+legacy inventory denominators, not a new whole-main acceptance census.
+
+PERFORMANCE DIAGNOSTIC — NOT A PRODUCTION GUARANTEE
+10 warm synthetic shell navigation samples, local Chromium133 HTTP, no throttling,
+reading/grammar fixture routes to data-ready+one frame. Median 110.15ms;
+min 53.20ms; max 203.90ms. Raw samples/conditions in machine proof.
+Owner1–100ms target was NOT consistently achieved:4/10 samples within target.
+Not a guarantee, nor real backend/private media timing or original-baseline comparison.
+
+DELIVERED DOCUMENTS / CHANGED FILES
+Inside ZIP: CHECKPOINT_V17, SOURCE_STATE_INVENTORY_V17, ADAPTER_CONTRACTS_V17,
+ROUTE_LEDGER_V17, COMPONENT_LEDGER_V17, active GPT_WORK_HANDOFF, production-main
+reconciliation and machine route/component/activity inventories. Final addendum
+outside ZIP: V17_VALIDATION.txt and V17_VERIFICATION.json (full executed proof).
+Changed paths from exact V16 baseline:
+ - migration/vanilla-frontend/SHA256SUMS
+ - migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17.zip
+ - migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17.zip.sha256
+ - migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17_FINAL_VERIFIED.zip
+ - migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17_FINAL_VERIFIED.zip.sha256
+ - migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17_VERIFIED.zip
+ - migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17_VERIFIED.zip.sha256
+ - migration/vanilla-frontend/deliverables/V17_VALIDATION.txt
+ - migration/vanilla-frontend/deliverables/V17_VERIFICATION.json
+ - migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V17.md
+ - migration/vanilla-frontend/docs/CHECKPOINT_V17.md
+ - migration/vanilla-frontend/docs/COMPONENT_LEDGER_V17.md
+ - migration/vanilla-frontend/docs/FILE_MANIFEST.md
+ - migration/vanilla-frontend/docs/GPT_WORK_HANDOFF.md
+ - migration/vanilla-frontend/docs/PRODUCTION_RECONCILIATION_V17.md
+ - migration/vanilla-frontend/docs/ROUTE_LEDGER_V17.md
+ - migration/vanilla-frontend/docs/SOURCE_STATE_INVENTORY_V17.md
+ - migration/vanilla-frontend/docs/component-ledger-v17.json
+ - migration/vanilla-frontend/docs/evidence/v17/assets-css.json
+ - migration/vanilla-frontend/docs/evidence/v17/focused-21pass.txt
+ - migration/vanilla-frontend/docs/evidence/v17/focused-22-security-pass.txt
+ - migration/vanilla-frontend/docs/evidence/v17/historical-archives.json
+ - migration/vanilla-frontend/docs/evidence/v17/initial-candidate-independent.json
+ - migration/vanilla-frontend/docs/evidence/v17/initial-candidate-pin.json
+ - migration/vanilla-frontend/docs/evidence/v17/initial-focused.json
+ - migration/vanilla-frontend/docs/evidence/v17/initial-focused.txt
+ - migration/vanilla-frontend/docs/evidence/v17/legacy-approved-pass.txt
+ - migration/vanilla-frontend/docs/evidence/v17/main-inspection.json
+ - migration/vanilla-frontend/docs/evidence/v17/mode-bypass-before.json
+ - migration/vanilla-frontend/docs/evidence/v17/mode-bypass-before.txt
+ - migration/vanilla-frontend/docs/evidence/v17/original-behavior-v17.json
+ - migration/vanilla-frontend/docs/evidence/v17/repaired-9pass.txt
+ - migration/vanilla-frontend/docs/evidence/v17/second-candidate/chromium-output.txt
+ - migration/vanilla-frontend/docs/evidence/v17/second-candidate/permission-fixture-repaired.txt
+ - migration/vanilla-frontend/docs/evidence/v17/second-candidate/pin.json
+ - migration/vanilla-frontend/docs/evidence/v17/second-candidate/source-output.txt
+ - migration/vanilla-frontend/docs/evidence/v17/second-candidate/source-results.json
+ - migration/vanilla-frontend/docs/evidence/v17/unit-output.txt
+ - migration/vanilla-frontend/docs/original-activities-v17.json
+ - migration/vanilla-frontend/docs/route-ledger-v17.json
+ - migration/vanilla-frontend/modules/listening/authored.js
+ - migration/vanilla-frontend/modules/listening/review-lexical-v17.js
+ - migration/vanilla-frontend/modules/listening/review-recovery-v17.js
+ - migration/vanilla-frontend/modules/listening/review-v16.js
+ - migration/vanilla-frontend/modules/vocabulary/word-popover.js
+ - migration/vanilla-frontend/package.json
+ - migration/vanilla-frontend/scripts/assets-css-v17.mjs
+ - migration/vanilla-frontend/scripts/package.py
+ - migration/vanilla-frontend/scripts/regression-v17.mjs
+ - migration/vanilla-frontend/tests/browser-original-source-v11.mjs
+ - migration/vanilla-frontend/tests/listening-v17.test.mjs
+ - migration/vanilla-frontend/tests/original-exam-v13-journeys.mjs
+ - migration/vanilla-frontend/tests/original-review-v17-journeys.mjs
