@@ -14,6 +14,7 @@ import { assessmentScope } from "@/lib/data/reading-assessments";
 import { readingAttemptExpired } from "@/lib/reading/timer";
 import { academicOnlyClause, generalMembership } from "@/lib/data/general-reading";
 import { academicInstructionNumbers } from "@/lib/reading/academic-selection";
+import { readingQuestionDescriptor, readingQuestionType, readingStorageType } from "@/lib/reading/question-model";
 
 export async function listActivePassages() {
   // A draft, a not-yet-due schedule and an archive are all invisible here; the
@@ -76,7 +77,12 @@ export async function getPassageWithQuestions(passageId: string, executor: typeo
     executor.select({ id: lexicalOccurrences.id, startChar: lexicalOccurrences.startChar, endChar: lexicalOccurrences.endChar, surfaceForm: lexicalOccurrences.surfaceForm }).from(lexicalOccurrences).where(eq(lexicalOccurrences.passageId, passageId)),
   ]);
 
-  return { passage, questions, groups, paragraphs, occurrences };
+  const projected=questions.map(q=>{
+    const descriptor=readingQuestionDescriptor(q);
+    return descriptor && descriptor.id!==readingQuestionType(q.typeCode??q.type)?.id
+      ? {...q,type:readingStorageType(descriptor.id),typeCode:descriptor.id} : q;
+  });
+  return { passage, questions:projected, groups, paragraphs, occurrences };
 }
 
 export async function getAttemptDetail(attemptId: string, userId: string, executor: typeof db = db) {

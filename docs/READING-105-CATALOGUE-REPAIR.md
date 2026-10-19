@@ -78,3 +78,14 @@ capture, repeated Start, contiguous display numbering, cross-user denial, reject
 extra-question drafts, later source additions, grading exactly 40 and an identical
 submitted review. Law restoration tests retain its paragraph/question/occurrence
 UUIDs, fail closed on a previously used draft and verify idempotent restoration.
+
+A full canonical-key audit of the actual production backup found 82 pre-existing
+source compatibility failures: 77 `SEN` sentence-completion questions had no
+Reading registry alias, and five legacy `TFNG` questions explicitly authored
+YES/NO/NOT GIVEN choices. Add the Reading-only `SEN` alias and honor explicit
+ternary choices in grading, student control projection and type-index queries.
+No stored source type, prompt or key is rewritten, and Listening is unaffected.
+The regression grades all 1,406 original source keys, rejects a deliberately wrong
+answer to each, and verifies real SQL type filters, YES/NO controls and Check.
+The corrected production-backup audit accepts all 1,406 keys, including all 1,320
+selected questions across the 33 Academic tests.
