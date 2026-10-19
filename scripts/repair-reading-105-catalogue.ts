@@ -6,8 +6,9 @@ import { resolve } from "node:path";
 import pg from "pg";
 import { postgresConnectionOptions } from "../src/db/postgres-connection";
 import { reading105Catalogue, repairReading105Catalogue } from "./lib/reading-105-catalogue";
+import { restoredLawCatalogue } from "./lib/reading-105-law";
 
-const groups = reading105Catalogue(resolve("data/import-sources/learnersarea_reading_105.zip"));
+const groups = restoredLawCatalogue(reading105Catalogue(resolve("data/import-sources/learnersarea_reading_105.zip")),resolve("data/import-sources/reading-105-law-restored.json"));
 const args = process.argv.slice(2);
 if (!args.length || args[0] === "--plan") {
   console.log(JSON.stringify({ sourceOnly: true, passages: groups.flatMap(g => g.passages).length, groups: groups.length, held: groups.flatMap(g => g.passages.filter(p => p.held).map(p => p.externalId)), groupsWith41Questions: groups.filter(g => g.passages.reduce((n, p) => n + p.questionCount, 0) === 41).map(g => g.title) }, null, 2));
@@ -18,6 +19,7 @@ if (!args.length || args[0] === "--plan") {
   const client = new pg.Client({ ...postgresConnectionOptions(e.DATABASE_URL), connectionTimeoutMillis: 8000, query_timeout: 30000 });
   await client.connect();
   try {
+    if (args[0] === "--apply" && !(await client.query("select relrowsecurity from pg_class where oid=to_regclass('public.reading_assessment_questions')")).rows[0]?.relrowsecurity) throw Error("reading105_private_selection_migration_required");
     const result = await repairReading105Catalogue(client, e.OWNER_ID, groups, args[0] === "--apply");
     console.log(JSON.stringify({ revision: e.RAILWAY_GIT_COMMIT_SHA, ...result }, null, 2));
   } finally { await client.end(); }

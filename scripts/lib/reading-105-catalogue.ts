@@ -1,6 +1,8 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { unzipSync, strFromU8 } from "fflate";
+import { restoreLawPassage, type LawRestoration } from "./reading-105-law";
+import { ACADEMIC_105_OMISSIONS } from "../../src/lib/reading/academic-selection";
 
 export const READING_105_SHA256 = "d736cd4bada0f55309a498116e0e408dd64306ad22779d3ba306a20d01529dd6";
 const HELD = "t29-p2-the-importance-of-law";
@@ -18,6 +20,7 @@ type Bundle = {
 export type CataloguePassage = {
   externalId: string; title: string; testNo: number | null; passageNo: number;
   questionCount: number; wordCount: number; bodyText: string; bodySha256: string; held: boolean;
+  previousBodySha256?: string; restoration?: LawRestoration;
 };
 export type CatalogueGroup = { sourceRef: string; title: string; passages: CataloguePassage[] };
 
@@ -77,9 +80,12 @@ export async function repairReading105Catalogue(connection: CatalogueConnection,
     // Validate ALL originals, including the held draft, before creating any catalogue row.
     for (const source of groups.flatMap(g => g.passages)) {
       const row = byExternal.get(source.externalId)!;
-      if (!row || row.title !== source.title || row.test_no !== source.testNo || row.passage_no !== source.passageNo || row.source_word_count !== source.wordCount || row.question_count !== source.questionCount || digest(row.body_text) !== source.bodySha256) throw Error(`reading105_identity_mismatch:${source.externalId}`);
-      if (source.held ? row.publication_state !== "draft" : row.publication_state !== "published") throw Error(`reading105_publication_mismatch:${source.externalId}`);
+      const originalDraft = source.restoration && digest(row.body_text) === source.previousBodySha256 && row.publication_state === "draft";
+      if (!row || row.title !== source.title || row.test_no !== source.testNo || row.passage_no !== source.passageNo || row.source_word_count !== source.wordCount || row.question_count !== source.questionCount || (!originalDraft && digest(row.body_text) !== source.bodySha256)) throw Error(`reading105_identity_mismatch:${source.externalId}`);
+      if (!originalDraft && (source.held ? row.publication_state !== "draft" : row.publication_state !== "published")) throw Error(`reading105_publication_mismatch:${source.externalId}`);
     }
+    let restoredLaw = false;
+    for (const passage of groups.flatMap(g => g.passages)) if (passage.restoration) restoredLaw = await restoreLawPassage(connection,byExternal.get(passage.externalId)!.id,passage.restoration);
     let createdSets = 0, linked = 0;
     const held: string[] = [];
     const sets: { id: string; sourceRef: string; linked: number; questions: number; academic: boolean }[] = [];
@@ -111,11 +117,14 @@ export async function repairReading105Catalogue(connection: CatalogueConnection,
       const members = (await connection.query<{ passage_id: string }>("select passage_id from general_reading_passages where set_id=$1::uuid", [setId])).rows;
       if (members.length !== allowed.length || members.some(m => !allowed.some(p => byExternal.get(p.externalId)!.id === m.passage_id))) throw Error(`reading105_unexpected_set_membership:${group.sourceRef}`);
       const questions = allowed.reduce((n, p) => n + p.questionCount, 0);
-      sets.push({ id: setId, sourceRef: group.sourceRef, linked: members.length, questions, academic: members.length === 3 && questions === 40 });
+      const reviewed=ACADEMIC_105_OMISSIONS.some(o=>o.sourceRef===group.sourceRef&&allowed.some(p=>p.externalId===o.externalId&&p.questionCount>=o.questionNo));
+      sets.push({ id: setId, sourceRef: group.sourceRef, linked: members.length, questions, academic: members.length === 3 && (questions === 40 || (questions===41&&reviewed)) });
     }
-    const result = { applied: apply, sourceSha256: READING_105_SHA256, createdSets, linked, totalSets: sets.length, totalLinked: sets.reduce((n, s) => n + s.linked, 0), academicSets: sets.filter(s => s.academic).length, held, sets };
-    if (result.totalLinked !== 104 || result.academicSets !== 28) throw Error("reading105_result_shape_mismatch");
-    if (apply && (createdSets || linked)) await connection.query("insert into audit_log(actor_user_id,action,metadata) values($1::uuid,'reading105.catalogue_repair',$2::jsonb)", [ownerId, JSON.stringify(result)]);
+    const result = { applied: apply, sourceSha256: READING_105_SHA256, restoredLaw, createdSets, linked, totalSets: sets.length, totalLinked: sets.reduce((n, s) => n + s.linked, 0), academicSets: sets.filter(s => s.academic).length, held, sets };
+    const expectedLinked=groups.flatMap(g=>g.passages).filter(p=>!p.held).length;
+    const expectedAcademic=groups.filter(g=>g.passages.length===3&&g.passages.every(p=>!p.held)&&(g.passages.reduce((n,p)=>n+p.questionCount,0)===40||ACADEMIC_105_OMISSIONS.some(o=>o.sourceRef===g.sourceRef))).length;
+    if (result.totalLinked !== expectedLinked || result.academicSets !== expectedAcademic) throw Error("reading105_result_shape_mismatch");
+    if (apply && (restoredLaw || createdSets || linked)) await connection.query("insert into audit_log(actor_user_id,action,metadata) values($1::uuid,'reading105.catalogue_repair',$2::jsonb)", [ownerId, JSON.stringify(result)]);
     await connection.query(apply ? "commit" : "rollback");
     return result;
   } catch (error) {

@@ -13,6 +13,7 @@ import { isLive, liveWhere } from "@/lib/services/cms/publication";
 import { assessmentScope } from "@/lib/data/reading-assessments";
 import { readingAttemptExpired } from "@/lib/reading/timer";
 import { academicOnlyClause, generalMembership } from "@/lib/data/general-reading";
+import { academicInstructionNumbers } from "@/lib/reading/academic-selection";
 
 export async function listActivePassages() {
   // A draft, a not-yet-due schedule and an archive are all invisible here; the
@@ -90,17 +91,25 @@ export async function getAttemptDetail(attemptId: string, userId: string, execut
     executor.query.readingAnswers.findMany({ where: eq(readingAnswers.attemptId, attemptId) }),
   ]);
   if (sections.some((section) => !section)) return null;
-  const data = sections.filter((section): section is NonNullable<typeof section> => Boolean(section));
+  const data = sections.filter((section): section is NonNullable<typeof section> => Boolean(section)).map(section=>({
+    ...section, questions: scope.questionIds ? section.questions.filter(q=>scope.questionIds!.includes(q.id)).sort((a,b)=>scope.questionIds!.indexOf(a.id)-scope.questionIds!.indexOf(b.id)) : section.questions,
+  }));
+  if (scope.questionIds && data.reduce((n,s)=>n+s.questions.length,0)!==40) return null;
   let offset = 0;
   const numbered = data.map((section) => {
     const numbers = new Map(section.questions.map((question, index) => [question.questionNo ?? question.order, offset + index + 1]));
     const questions = section.questions.map((question, index) => ({ ...question, sourceQuestionNo: question.questionNo, order: offset + index + 1, questionNo: scope.title ? offset + index + 1 : question.questionNo }));
-    const groups = section.groups.map((group) => ({ ...group,
-      fromQuestionNo: scope.title ? numbers.get(group.fromQuestionNo ?? -1) ?? group.fromQuestionNo : group.fromQuestionNo,
-      toQuestionNo: scope.title ? numbers.get(group.toQuestionNo ?? -1) ?? group.toQuestionNo : group.toQuestionNo,
-    }));
+    const groups = section.groups.filter(group=>!scope.title||questions.some(q=>q.groupId===group.id)).map((group) => {
+      if (!scope.title) return group;
+      const members=questions.filter(q=>q.groupId===group.id);
+      const from=members[0]?.questionNo ?? numbers.get(group.fromQuestionNo ?? -1) ?? group.fromQuestionNo;
+      const to=members.at(-1)?.questionNo ?? numbers.get(group.toQuestionNo ?? -1) ?? group.toQuestionNo;
+      return { ...group,displayTitle:null,fromQuestionNo:from,toQuestionNo:to,
+        instructionsText:from&&to ? academicInstructionNumbers(group.instructionsText,from,to) : group.instructionsText };
+    });
+    const passage=scope.title ? {...section.passage,instructions:academicInstructionNumbers(section.passage.instructions,offset+1,offset+questions.length)} : section.passage;
     offset += questions.length;
-    return { ...section, questions, groups };
+    return { ...section, passage, questions, groups };
   });
   const first = numbered[0]!;
   return {
@@ -174,8 +183,9 @@ export async function saveDraftAnswers(
     // a client that sends somebody else's question id changes nothing. Collapse
     // forged duplicate ids too, since the table deliberately stores no score key.
     const questions = await tx.query.readingQuestions.findMany({
-      where: inArray(readingQuestions.passageId, scope.passageIds),
+      where: and(inArray(readingQuestions.passageId, scope.passageIds),scope.questionIds ? inArray(readingQuestions.id,scope.questionIds) : undefined),
     });
+    if (scope.questionIds && questions.length !== 40) return {saved:0,reason:"not_found" as const};
     const allowed = new Set(questions.map((question) => question.id));
     const rowsByQuestion = new Map<string, string>();
     for (const entry of entries) {

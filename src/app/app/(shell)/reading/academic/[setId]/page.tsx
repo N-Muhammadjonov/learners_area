@@ -5,6 +5,8 @@ import { isUuid } from "@/lib/validation/ids";
 import { generalSetDetail } from "@/lib/data/general-reading";
 import { BackLink } from "@/components/ui/BackLink";
 import { StartPassageButton } from "@/components/reading/StartPassageButton";
+import { academicQuestionSelection } from "@/lib/reading/academic-selection";
+import { academicQuestionSelectionReady } from "@/lib/data/reading-assessments";
 
 export default async function AcademicSetPage({ params }: { params: Promise<{ setId: string }> }) {
   const { setId } = await params;
@@ -13,7 +15,9 @@ export default async function AcademicSetPage({ params }: { params: Promise<{ se
   if (!user) return null;
   const dict = getDictionary(await getLocale());
   const detail = await generalSetDetail(setId, user.role);
-  if (!detail || detail.passages.reduce((n,p)=>n+p.questions.length,0) !== 40 || detail.passages.length !== 3 || detail.passages.some((p, i) => p.passageNo !== i + 1 || p.questions.length === 0)) notFound();
+  if (!detail || detail.passages.length !== 3 || detail.passages.some((p, i) => p.passageNo !== i + 1 || p.questions.length === 0)) notFound();
+  const allQuestions=detail.passages.flatMap(p=>p.questions.map(q=>({...q,externalId:p.passage.externalId})));
+  if (!academicQuestionSelection(detail.set.sourceRef,allQuestions) || (allQuestions.length!==40 && !(await academicQuestionSelectionReady()))) notFound();
   return <div className="mx-auto flex max-w-[960px] flex-col gap-6" data-academic-reading-start>
     <BackLink fallbackHref="/app/reading/academic" label={dict.common.back} />
     <h1 className="page-title">{detail.set.title}</h1>

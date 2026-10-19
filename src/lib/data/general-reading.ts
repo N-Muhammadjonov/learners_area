@@ -7,7 +7,7 @@ import { gradeReadingQuestion } from "@/lib/reading/question-model";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
 import { getPassageWithQuestions } from "@/lib/data/reading";
-import { activeAcademicAttemptForPassages } from "@/lib/data/reading-assessments";
+import { activeAcademicAttemptForPassages, academicQuestionCountClause } from "@/lib/data/reading-assessments";
 
 /*
  * General Reading = LEARNING (develop reading). IELTS Academic = ASSESSMENT
@@ -52,7 +52,7 @@ export async function listGeneralSets(userId: string, options: { page?: number; 
   const formal = options.academic ? sql`(select count(*) from general_reading_passages g where g.set_id=${generalReadingSets.id})=3
     and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and g.passage_no not in (1,2,3))
     and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and not exists (select 1 from reading_questions q where q.passage_id=g.passage_id))
-    and (select count(*) from reading_questions q join general_reading_passages g on g.passage_id=q.passage_id where g.set_id=${generalReadingSets.id})=40` : undefined;
+    and ${academicQuestionCountClause(generalReadingSets.id,generalReadingSets.sourceRef)}` : undefined;
   const sets = await executor.select().from(generalReadingSets)
     .where(and(liveWhere({ publicationState: generalReadingSets.publicationState, publishAt: generalReadingSets.publishAt }), validPassages, formal))
     .orderBy(sql`(select min(p.test_no) from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id}) asc nulls last`, sql`(select min(p.external_id) from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id}) asc nulls last`, asc(generalReadingSets.createdAt), asc(generalReadingSets.id))

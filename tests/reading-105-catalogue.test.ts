@@ -31,13 +31,13 @@ test("Reading 105 real SQL repair links original IDs once, atomically rejects co
     // The repair never reads/regrades/rewrites a question's text or answer.
     for (const p of groups.flatMap(g => g.passages)) {
       const [row] = await env.query<{id:string}>("insert into reading_passages(external_id,title,test_no,passage_no,source_word_count,body_text,publication_state) values($1,$2,$3,$4,$5,$6,$7) returning id", [p.externalId,p.title,p.testNo,p.passageNo,p.wordCount,p.bodyText,p.held ? 'draft' : 'published']);
-      await env.query("insert into reading_questions(passage_id,\"order\",type,question_text,correct_answer,explanation) select $1::uuid,n,'short_answer','Fixture question','fixture answer','Fixture explanation' from generate_series(1,$2::int) n", [row!.id,p.questionCount]);
+      await env.query("insert into reading_questions(passage_id,\"order\",question_no,type,question_text,correct_answer,explanation) select $1::uuid,n,n,'short_answer','Fixture question','fixture answer','Fixture explanation' from generate_series(1,$2::int) n", [row!.id,p.questionCount]);
     }
     const snapshot = async () => env.query("select count(*)::int n,md5(string_agg(row_to_json(p)::text,'' order by id)) digest from reading_passages p union all select count(*)::int,md5(string_agg(row_to_json(q)::text,'' order by id)) from reading_questions q");
     const before = await snapshot();
     await assert.rejects(repairReading105Catalogue(connection,user!.id,groups,true), /active_owner_required/);
     const preview = await repairReading105Catalogue(connection,owner!.id,groups,false);
-    assert.equal(preview.createdSets,39); assert.equal(preview.linked,104); assert.equal(preview.academicSets,28);
+    assert.equal(preview.createdSets,39); assert.equal(preview.linked,104); assert.equal(preview.academicSets,32);
     assert.equal((await env.query<{n:number}>("select count(*)::int n from general_reading_sets"))[0]!.n,0,"dry run rolls back every relation");
     const result = await repairReading105Catalogue(connection,owner!.id,groups,true);
     assert.equal(result.totalLinked,104); assert.equal(result.held.length,1);
@@ -49,10 +49,11 @@ test("Reading 105 real SQL repair links original IDs once, atomically rejects co
     const a1=await listGeneralSets(user!.id,{academic:true},env.db);
     const a2=await listGeneralSets(user!.id,{academic:true,page:2},env.db);
     const academic=[...a1.slice(0,24),...a2];
-    assert.equal(academic.length,28);
+    assert.equal(academic.length,32);
     assert.deepEqual(academic.slice(0,3).map(s=>s.title),['Reading Test 1','Reading Test 2','Reading Test 3']);
     assert.equal(academic.at(-1)!.title,'Reading Test 33');
-    for(const no of [8,12,29,30,31]) assert.ok(!academic.some(s=>s.title===`Reading Test ${no}`));
+    assert.ok(!academic.some(s=>s.title==='Reading Test 29'));
+    for(const no of [8,12,30,31]) assert.ok(academic.some(s=>s.title===`Reading Test ${no}`));
     const pages=await Promise.all([1,2,3,4,5].map(page=>listLearningLibrary(user!.id,{page},env.db)));
     assert.ok(pages.every(p=>p.total===104&&p.pageCount===5));
     const all=pages.flatMap(p=>p.items);
@@ -65,7 +66,7 @@ test("Reading 105 real SQL repair links original IDs once, atomically rejects co
     assert.equal(partial.linked,2,"draft child does not make two valid General passages inaccessible");
     assert.equal(await startAcademicSet(user!.id,partial.id,env.db),null);
     const oversized=result.sets.find(s=>s.sourceRef==='reading105:test:08')!;
-    assert.equal(await startAcademicSet(user!.id,oversized.id,env.db),null,"never grade a 41-question source as a 40-question exam");
+    assert.ok(await startAcademicSet(user!.id,oversized.id,env.db),"the reviewed 40-question selection can start without deleting the 41-question General original");
     assert.ok(await startAcademicSet(user!.id,academic[0]!.id,env.db));
 
     // A conflict at the end must roll back relations inserted earlier in this run.

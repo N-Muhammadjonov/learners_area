@@ -1,7 +1,8 @@
 import { activateReadingSchedules } from "@/lib/services/reading/schedules";
 import "server-only";
 import { publishedVersionForTarget } from "@/lib/content/attempt-binding";
-import { eq, sql, inArray } from "drizzle-orm";
+import { eq, sql, inArray, type SQLWrapper } from "drizzle-orm";
+import { academicQuestionSelection, ACADEMIC_105_OMISSIONS } from "@/lib/reading/academic-selection";
 import { db } from "@/db/client";
 import {
   generalReadingSets,
@@ -12,6 +13,15 @@ import {
 import { isLive } from "@/lib/services/cms/publication";
 
 type Conn = Pick<typeof db, "execute">;
+export async function academicQuestionSelectionReady(conn: Conn = db) {
+  return (await conn.execute<{ready:boolean}>(sql`select to_regclass('public.reading_assessment_questions') is not null as ready`)).rows[0]?.ready === true;
+}
+/** The same 40-question eligibility rule used by catalogue, detail and Start. */
+export function academicQuestionCountClause(setId: SQLWrapper, sourceRef: SQLWrapper) {
+  const count=sql`(select count(*) from reading_questions q join general_reading_passages g on g.passage_id=q.passage_id where g.set_id=${setId})`;
+  const reviewed=sql.join(ACADEMIC_105_OMISSIONS.map(row=>sql`(${sourceRef}=${row.sourceRef} and exists(select 1 from reading_questions q join reading_passages p on p.id=q.passage_id join general_reading_passages g on g.passage_id=p.id where g.set_id=${setId} and p.external_id=${row.externalId} and q.question_no=${row.questionNo}))`),sql` or `);
+  return sql`(${count}=40 or (to_regclass('public.reading_assessment_questions') is not null and ${count}=41 and (${reviewed})))`;
+}
 /** General learning must not reveal a checked key for an overlapping live exam. */
 export async function activeAcademicAttemptForPassages(userId: string, passageIds: string[], executor: Conn = db) {
   if (!passageIds.length) return null;
@@ -37,6 +47,7 @@ export async function assessmentScope(
       passageIds: [fallbackPassage],
       durationMinutes: null,
       title: null,
+      questionIds: null as string[] | null,
     };
   const result = await conn.execute<{
     passage_id: string;
@@ -50,12 +61,16 @@ export async function assessmentScope(
       passageIds: [fallbackPassage],
       durationMinutes: null,
       title: null,
+      questionIds: null as string[] | null,
     };
   if (result.rows.length !== 3) throw Error("invalid_assessment_membership");
+  const selected = await academicQuestionSelectionReady(conn) ? (await conn.execute<{question_id:string}>(sql`select question_id from reading_assessment_questions where attempt_id=${attemptId}::uuid order by position`)).rows.map(row=>row.question_id) : [];
+  if (selected.length && selected.length !== 40) throw Error("invalid_assessment_question_membership");
   return {
     passageIds: result.rows.map((p) => p.passage_id),
     durationMinutes: result.rows[0]!.duration_minutes,
     title: result.rows[0]!.title,
+    questionIds: selected.length ? selected : null,
   };
 }
 export async function startAcademicSet(userId: string, setId: string, executor: typeof db = db) {
@@ -74,8 +89,11 @@ export async function startAcademicSet(userId: string, setId: string, executor: 
       slots.rows.some((p, i) => p.passage_no !== i + 1)
     )
       return null;
-    const questions = await tx.select({id:readingQuestions.id,passageId:readingQuestions.passageId}).from(readingQuestions).where(inArray(readingQuestions.passageId,slots.rows.map(s=>s.passage_id)));
-    if(questions.length !== 40 || slots.rows.some(slot=>!questions.some(q=>q.passageId===slot.passage_id))) return null;
+    const allQuestions = await tx.select({id:readingQuestions.id,passageId:readingQuestions.passageId,order:readingQuestions.order,questionNo:readingQuestions.questionNo,externalId:readingPassages.externalId}).from(readingQuestions).innerJoin(readingPassages,eq(readingPassages.id,readingQuestions.passageId)).where(inArray(readingQuestions.passageId,slots.rows.map(s=>s.passage_id)));
+    const ready = await academicQuestionSelectionReady(tx);
+    if (allQuestions.length !== 40 && !ready) return null;
+    const questions = academicQuestionSelection(set.sourceRef,allQuestions)?.sort((a,b)=>slots.rows.findIndex(s=>s.passage_id===a.passageId)-slots.rows.findIndex(s=>s.passage_id===b.passageId)||a.order-b.order);
+    if(!questions || slots.rows.some(slot=>!questions.some(q=>q.passageId===slot.passage_id))) return null;
     for (const slot of slots.rows) {
       const passage = await tx.query.readingPassages.findFirst({
         where: eq(readingPassages.id, slot.passage_id),
@@ -98,6 +116,7 @@ export async function startAcademicSet(userId: string, setId: string, executor: 
       await tx.execute(
         sql`insert into reading_assessment_passages(attempt_id,passage_id,passage_no) values(${attempt!.id}::uuid,${slot.passage_id}::uuid,${slot.passage_no})`,
       );
+    if (ready) await tx.execute(sql`insert into reading_assessment_questions(attempt_id,question_id,position) values ${sql.join(questions.map((q,i)=>sql`(${attempt!.id}::uuid,${q.id}::uuid,${i+1})`),sql`,`)}`);
     return attempt!.id;
   });
 }
