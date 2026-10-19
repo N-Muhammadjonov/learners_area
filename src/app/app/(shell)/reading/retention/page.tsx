@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import Link from "next/link";
 import { db } from "@/db/client";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -109,7 +108,6 @@ export default async function ReadingRetentionPage() {
       <header className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h1 className="page-title">{t.title}</h1>
-          <Link href="/app/reading" className="btn-secondary">{dict.readingHub.title}</Link>
         </div>
         <p className="page-subtitle">{t.subtitle}</p>
         <p className="body-text">{t.intro}</p>

@@ -62,6 +62,8 @@ export type ReadingLibraryFilter = {
 export type ReadingPassageCard = {
   id: string;
   setId?: string;
+  questionTypes?: string[];
+  difficultyLevel?: string;
   title: string;
   testNo: number | null;
   passageNo: number | null;
@@ -347,7 +349,7 @@ export async function listLearningLibrary(userId: string, filter: ReadingLibrary
   const [countRow]=(await executor.execute<{total:number}>(sql`select count(*)::int total ${from}`)).rows;
   const total=countRow?.total??0, pageCount=Math.max(1,Math.ceil(total/READING_PAGE_SIZE));
   const page=Math.min(pageCount,Math.max(1,Math.floor(filter.page??1)));
-  const result=await executor.execute<{id:string;title:string;test_no:number|null;passage_no:number;topic_code:string|null;suggested_minutes:number;set_id:string;question_count:number;score:number|null;checked_at:string|null;started:boolean}>(sql`select p.id,p.title,p.test_no,g.passage_no,p.topic_code,p.suggested_minutes,g.set_id,(select count(*)::int from reading_questions q where q.passage_id=p.id) question_count,r.score,r.checked_at,r.passage_id is not null as started ${from} order by p.test_no asc nulls last,case when p.test_no is null then p.external_id end asc nulls last,s.created_at,s.id,g.passage_no,p.id limit ${READING_PAGE_SIZE} offset ${(page-1)*READING_PAGE_SIZE}`);
-  const items=result.rows.map(row=>({id:row.id,title:row.title,testNo:row.test_no,passageNo:row.passage_no,topicCode:row.topic_code,suggestedMinutes:row.suggested_minutes,questionCount:row.question_count,status:row.checked_at?'completed' as const:row.started?'in_progress' as const:'not_started' as const,lastScore:row.checked_at?row.score:null,lastAttemptId:null,setId:row.set_id}));
+  const result=await executor.execute<{id:string;title:string;test_no:number|null;passage_no:number;topic_code:string|null;suggested_minutes:number;set_id:string;question_count:number;question_types:string[];difficulty_level:string;score:number|null;checked_at:string|null;started:boolean}>(sql`select p.id,p.title,p.test_no,g.passage_no,p.topic_code,p.suggested_minutes,g.set_id,p.difficulty_level,(select array_agg(distinct ${readingCanonicalTypeSql()}) from reading_questions q where q.passage_id=p.id) question_types,(select count(*)::int from reading_questions q where q.passage_id=p.id) question_count,r.score,r.checked_at,r.passage_id is not null as started ${from} order by p.test_no asc nulls last,case when p.test_no is null then p.external_id end asc nulls last,s.created_at,s.id,g.passage_no,p.id limit ${READING_PAGE_SIZE} offset ${(page-1)*READING_PAGE_SIZE}`);
+  const items=result.rows.map(row=>({id:row.id,title:row.title,testNo:row.test_no,passageNo:row.passage_no,topicCode:row.topic_code,suggestedMinutes:row.suggested_minutes,questionCount:row.question_count,status:row.checked_at?'completed' as const:row.started?'in_progress' as const:'not_started' as const,lastScore:row.checked_at?row.score:null,lastAttemptId:null,setId:row.set_id,questionTypes:(row.question_types??[]).filter(Boolean),difficultyLevel:row.difficulty_level}));
   return {items,total,page,pageCount};
 }

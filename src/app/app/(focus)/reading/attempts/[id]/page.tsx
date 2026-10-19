@@ -1,6 +1,5 @@
 import { questionTypeLabel } from "@/lib/reading-labels";
 import { publicReadingConstraint, readingQuestionType } from "@/lib/reading/question-model";
-import { BackLink } from "@/components/ui/BackLink";
 import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -38,8 +37,7 @@ export default async function ReadingAttemptPage({ params, searchParams }: { par
       : null;
 
   return (
-    <div className="mx-auto max-w-[1440px]">
-      <BackLink fallbackHref="/app/reading/history" label={dict.common.back} />
+    <div className="reading-attempt-route">
       {query.type && questions.some(q=>readingQuestionType(q.typeCode??q.type)?.id===query.type) && <p className="body-text" data-requested-reading-type={query.type}>{dict.readingV4.requestedType}: {questionTypeLabel(query.type,locale)}. {dict.readingV4.wholePassage}</p>}
       {attempt.status === "in_progress" ? (
         // ACADEMIC_EXAM: no occurrence/sense data is sent to the active passage.

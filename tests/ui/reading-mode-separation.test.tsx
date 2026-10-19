@@ -60,6 +60,26 @@ const examProps = {
   questions: [], groups: [], paragraphs: [], savedAnswers: {}, startedAt: new Date().toISOString(), suggestedMinutes: 20, materials: [material],
 };
 
+test("General phrase: either word opens the full authored phrase and never its nested word sense", async () => {
+  const net=recordFetch();
+  const text="food poisoning";
+  try { await mount(React.createElement(ClickableText,{dict:en,text,sourceType:"reading",sourceId:"passage",phraseAware:true,occurrences:[{id:"word",startChar:0,endChar:4,surfaceForm:"food"},{id:"phrase",startChar:0,endChar:14,surfaceForm:text}]}),async()=>{
+    await act(async()=>{document.querySelector("[data-word=food]")!.dispatchEvent(new dom.window.MouseEvent("click",{bubbles:true,detail:0}));});
+    assert.equal(document.querySelector("[role=dialog]")?.getAttribute("aria-label"),text);
+    assert.ok(net.urls.some(url=>url.includes("occurrenceId=phrase")));
+    assert.ok(!net.urls.some(url=>url.includes("occurrenceId=word")));
+  }); } finally {net.restore();}
+});
+
+test("General phrase: find you out never displays the checked definition of the isolated word find", async () => {
+  const net=recordFetch();
+  try { await mount(React.createElement(ClickableText,{dict:en,text:"find you out",sourceType:"reading",sourceId:"passage",phraseAware:true,occurrences:[{id:"find-only",startChar:0,endChar:4,surfaceForm:"find"}]}),async()=>{
+    await act(async()=>{document.querySelector("[data-word=find]")!.dispatchEvent(new dom.window.MouseEvent("click",{bubbles:true,detail:0}));});
+    assert.equal(document.querySelector("[role=dialog]")?.getAttribute("aria-label"),"find you out");
+    assert.ok(!net.urls.some(url=>url.includes("/lookup")||url.includes("/search")),"no guessed spelling/single-word meaning");
+  }); } finally {net.restore();}
+});
+
 test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word target, popup, Add to Vocabulary, hint text or lookup request", async () => {
   const net = recordFetch();
   try {
@@ -107,7 +127,7 @@ test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word targe
 test("ACADEMIC_EXAM: exam component cannot receive lexical data (no occurrences prop, no ClickableText import)", () => {
   const source = readFileSync("src/components/reading/ReadingExam.tsx", "utf8");
   for (const banned of ["ClickableText", "occurrenceSpans", "OccurrenceSpan", "occurrences", "wordSaveHint"]) assert.equal(source.includes(banned), false, banned);
-  const page = readFileSync("src/app/app/(shell)/reading/attempts/[id]/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(focus)/reading/attempts/[id]/page.tsx", "utf8");
   const examJsx = page.slice(page.indexOf("<ReadingExam"), page.indexOf("/>", page.indexOf("questions={questions.map")));
   assert.equal(examJsx.includes("occurrences"), false, "the page does not send occurrences to the exam");
 });

@@ -5,6 +5,7 @@ import { Fragment, useEffect, useId, useLayoutEffect, useMemo, useRef, useState 
 import { createPortal } from "react-dom";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
+import { phraseTarget } from "@/lib/services/lexical/phrase-target";
 import type { Dictionary } from "@/lib/i18n/en";
 
 /** Shared, selectable learning text with one keyboard stop per text region. */
@@ -17,6 +18,8 @@ export function ClickableText(props: {
   inline?: boolean;
   occurrences?: OccurrenceSpan[];
   catalogueLookup?: boolean;
+  /** General Reading: an authored phrase wins over its individual words. */
+  phraseAware?: boolean;
   /**
    * False where the Listening mode forbids lexical help (src/lib/listening/lexical-policy.ts):
    * no word targets, lookup or vocabulary styling. Highlighting is independently opt-in.
@@ -44,7 +47,7 @@ export function ClickableText(props: {
   return <LexicalText key={JSON.stringify([props.sourceType, props.sourceId, props.text])} {...props} />;
 }
 
-function LexicalText({ dict, text, sourceType, sourceId, className = "", inline = false, occurrences = [], catalogueLookup = false, lexicalAssistance = true, highlights = [], onHighlightRange, onRemoveHighlight }: Parameters<typeof ClickableText>[0]) {
+function LexicalText({ dict, text, sourceType, sourceId, className = "", inline = false, occurrences = [], catalogueLookup = false, phraseAware = false, lexicalAssistance = true, highlights = [], onHighlightRange, onRemoveHighlight }: Parameters<typeof ClickableText>[0]) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [active, setActive] = useState<number | null>(null);
   const [cursor, setCursor] = useState<number | null>(null);
@@ -95,7 +98,8 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
     highlights.find((highlight) => start < highlight.end && end > highlight.start) ?? null;
   const selected = active === null ? null : tokens[active]!;
   const contextualHits = selected ? occurrences.filter((row) => row.startChar <= selected.start && row.endChar >= selected.end) : [];
-  const occurrence = contextualHits.length === 1 ? contextualHits[0] : undefined;
+  const phrase = phraseAware && selected ? phraseTarget(text,selected,occurrences) : undefined;
+  const occurrence = phrase ? phrase.occurrence : contextualHits.length === 1 ? contextualHits[0] : undefined;
 
   function captureSelection() {
     // A selection the learner made INSIDE this text is a highlight candidate. The
@@ -267,7 +271,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
         </span>
       )}
       {lexicalAssistance && active !== null && anchor && <WordPopover key={`${sourceType}:${sourceId}:${active}:${occurrence?.id ?? ""}`}
-        anchor={anchor} dict={dict} word={occurrence?.surfaceForm ?? tokens[active]!.clean} sourceType={sourceType} sourceId={sourceId} occurrenceId={occurrence?.id} catalogueLookup={catalogueLookup}
+        anchor={anchor} dict={dict} word={phrase?.word ?? occurrence?.surfaceForm ?? tokens[active]!.clean} sourceType={sourceType} sourceId={sourceId} occurrenceId={occurrence?.id} catalogueLookup={catalogueLookup}
         onClose={() => close(true)} />}
     </Region>
   );
