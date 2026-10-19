@@ -1,0 +1,103 @@
+PASS V21 direct authorized Review part/question 1 canonical hydration, exact question focus and reload
+PASS V21 direct authorized Review part/question 2 canonical hydration, exact question focus and reload
+PASS V21 direct authorized Review part/question 3 canonical hydration, exact question focus and reload
+PASS V21 direct authorized Review part/question 4 canonical hydration, exact question focus and reload
+FAIL V21 real part/question Back Forward rapid history preserve one frame, no material refetch or mutation locator.count: Failed to find frame for selector "iframe >> internal:control=enter-frame >> #activity-review.active"
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:50:122)
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-review-v21-journeys.mjs:13:37
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v21-journeys.mjs:11:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+PASS V21 held metadata hash navigation coalesces latest part and cannot display old question or restart route writer
+PASS V21 held existing authored DTO latest-part is fenced before protected Review publication
+PASS V21 held existing authored DTO route is fenced before protected Review publication
+PASS V21 held existing authored DTO expiry is fenced before protected Review publication
+PASS V21 direct Review fresh canonical 403 never opens private part
+PASS V21 direct Review fresh canonical 404 never opens private part
+PASS V21 held original lexical permission part never paints or saves across new location
+PASS V21 held original lexical permission history never paints or saves across new location
+PASS V21 held original lexical permission route never paints or saves across new location
+PASS V21 Review navigation measured original-source entry/parts/history/reentry with one authorized material read
+PASS V21 malformed Review location is explicit, never guesses part or attempt, and retains valid pending route
+PASS V21 supported session refresh disposes old iframe and restores authorized Review URL part instead of obsolete hub
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 16,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V21 direct authorized Review part/question 1 canonical hydration, exact question focus and reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 direct authorized Review part/question 2 canonical hydration, exact question focus and reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 direct authorized Review part/question 3 canonical hydration, exact question focus and reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 direct authorized Review part/question 4 canonical hydration, exact question focus and reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 real part/question Back Forward rapid history preserve one frame, no material refetch or mutation",
+      "status": "FAIL",
+      "error": "locator.count: Failed to find frame for selector \"iframe >> internal:control=enter-frame >> #activity-review.active\""
+    },
+    {
+      "name": "V21 held metadata hash navigation coalesces latest part and cannot display old question or restart route writer",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held existing authored DTO latest-part is fenced before protected Review publication",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held existing authored DTO route is fenced before protected Review publication",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held existing authored DTO expiry is fenced before protected Review publication",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 direct Review fresh canonical 403 never opens private part",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 direct Review fresh canonical 404 never opens private part",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held original lexical permission part never paints or saves across new location",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held original lexical permission history never paints or saves across new location",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held original lexical permission route never paints or saves across new location",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 Review navigation measured original-source entry/parts/history/reentry with one authorized material read",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 malformed Review location is explicit, never guesses part or attempt, and retains valid pending route",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 supported session refresh disposes old iframe and restores authorized Review URL part instead of obsolete hub",
+      "status": "PASS"
+    }
+  ]
+}

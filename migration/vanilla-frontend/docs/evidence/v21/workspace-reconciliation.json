@@ -1,0 +1,9 @@
+{
+  "initialHead": "9a7d9fc5a93608078644d61cd9f9850c05c4ddc8",
+  "remoteBaseline": "ed2b12c62cd64d704f0515d055b171d616bebfc9",
+  "untrackedFiles": 359,
+  "preservedCopies": 2,
+  "externalPath": "/home/user/v21-stale-preservation",
+  "sha256Verified": true,
+  "method": "same-branch ff-only after ancestry and preservation checks; no destructive commands"
+}

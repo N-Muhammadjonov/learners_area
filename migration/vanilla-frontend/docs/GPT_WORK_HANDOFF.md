@@ -1,3 +1,9 @@
+# V21 latest handoff — Review PARTIAL, Script NOT ADVANCED
+
+Continue V21 from exact final source/ZIP verification in deliverables/V21_VERIFICATION.json. Real new Review part/question URLs and same-document Back/Forward/hash navigation reuse the existing V20 authority barrier and existing source controls; no material/writer engine replacement. Applied→focus handshake, safe invalid URLs, latest intent coalescing, per-frame load fencing and owned RAF/timer cleanup implemented. No educational content changes/imports. Supported API DTO and lexical holds tested; broad media/pending-writer/retake/lifecycle/accessibility/catalogue and visual/live gates remain OPEN. Next: finish those Review frontend gaps, not Script/Reading. Direct vocabulary endpoint exam-policy and canonical occurrence security remain authorized separate GPT Work; no backend edits. Preserve explicit adoption→separate Retry, exact bytes, no auto replay/foreign deletion, all historical archives and source.
+
+## Preserved V20 handoff/history
+
 # V20 handoff — latest continuation
 
 V20 is an honest resumable PARTIAL checkpoint, not Review completion. See CHECKPOINT_V20.md and matching V20 source/adapter/route/component ledgers. Standing native Review now conceals and pauses on authority hints, performs bounded metadata-only fresh validation, resumes the same frame only for unchanged session/canonical submitted attempt/availability, otherwise disposes stale scope while keeping pending own work. No protected material reconstructed or bundled. Full/Retry remain COMPLETE; Script not advanced; Reading gated. Navigation, broader held lexical/material/media/lifecycle, matched visual/live gates remain open. Direct authored vocabulary exam-policy and Owner registration/publication remain separate authorized backend GPT Work; no backend/cloud edits here. Final exact archive and execution authority: deliverables/V20_VERIFICATION.json. Educational preservation report is mandatory.
