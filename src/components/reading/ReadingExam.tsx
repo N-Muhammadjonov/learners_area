@@ -401,7 +401,7 @@ export function ReadingExam({
   const first = visibleQuestions[0]?.questionNo ?? 1;
   const last = visibleQuestions.at(-1)?.questionNo ?? first;
   return <div className="reading-session" data-reading-practice data-attempt={attemptId}>
-    <ReadingWorkspace title={passageTitle} pane={pane} setPane={setPane} labels={dict.readingWorkspace}
+    <ReadingWorkspace brand={dict.marketing.title} title={passageTitle} pane={pane} setPane={setPane} labels={dict.readingWorkspace}
       tools={<><span className="reading-timer" data-practice-timer><span className="sr-only">{t.timerLabel}</span><span className="font-mono tabular-nums" data-time-remaining={remainingSeconds}>{now === null ? "--:--" : formatDuration(remainingSeconds * 1000)}</span></span><SaveBadge dict={dict} state={saveState} savedAt={savedAt} onRetry={() => void save()} /></>}
       passage={<><h2 className="reading-pane-heading">{dict.readingWorkspace.passageHeading.replace("{n}", String(activePart + 1))}</h2><p className="reading-part-instruction">{dict.readingWorkspace.questionRange.replace("{from}", String(first)).replace("{to}", String(last))}</p><h3 className="reading-passage-title">{shownTitle}</h3>
         <div className="reading-passage-text" data-passage-body>

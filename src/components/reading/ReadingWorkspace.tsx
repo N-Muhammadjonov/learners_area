@@ -4,8 +4,8 @@ import { useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 /** Viewport-owned practice chrome. Content, answers and permissions stay in the
  * existing Academic/General controllers; neither pane can scroll the app shell. */
-export function ReadingWorkspace({ title, tools, passage, questions, navigation, action, pane, setPane, labels }: {
-  title: string; tools?: ReactNode; passage: ReactNode; questions: ReactNode;
+export function ReadingWorkspace({ brand, title, tools, passage, questions, navigation, action, pane, setPane, labels }: {
+  brand: string; title: string; tools?: ReactNode; passage: ReactNode; questions: ReactNode;
   navigation: ReactNode; action: ReactNode; pane: "passage" | "questions";
   setPane: (pane: "passage" | "questions") => void;
   labels: { passage: string; questions: string; resize: string; smaller: string; larger: string };
@@ -16,7 +16,7 @@ export function ReadingWorkspace({ title, tools, passage, questions, navigation,
   const constrain = (n: number) => Math.max(35, Math.min(70, n));
   return <div className="reading-workspace" data-reading-workspace style={{ "--reading-split": `${split}%`, "--reading-font-size": `${fontSize}px` } as CSSProperties}>
     <header className="reading-workspace-header">
-      <div className="reading-workspace-identity"><span className="reading-workspace-brand">Learners Area</span><h1>{title}</h1></div>
+      <div className="reading-workspace-identity"><span className="reading-workspace-brand">{brand}</span><h1>{title}</h1></div>
       <div className="reading-workspace-tools">{tools}<div className="reading-font-controls">
         <button type="button" aria-label={labels.smaller} disabled={fontSize <= 14} onClick={() => setFontSize(n => Math.max(14, n - 1))}>A−</button>
         <button type="button" aria-label={labels.larger} disabled={fontSize >= 22} onClick={() => setFontSize(n => Math.min(22, n + 1))}>A+</button>
