@@ -1,0 +1,220 @@
+
+> learners-area-vanilla-migration-candidate@0.1.0 test:original-source:v21
+> V21_SOURCE=1 V20_SOURCE=1 V19_SOURCE=1 V18_SOURCE=1 V17_SOURCE=1 V16_SOURCE=1 V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs
+
+PASS V16 Review four-part authenticated feedback/transcript/navigation 1440/en/day
+FAIL V16 Review four-part authenticated feedback/transcript/navigation 1440/en/night locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#hub:not([aria-busy]) [data-open=review]')
+    - locator resolved to <button data-open="review" class="activity-card">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    12 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+    at open (/home/user/v21-final-independent/extracted/tests/browser-original-source-v11.mjs:50:373)
+    at async file:///home/user/v21-final-independent/extracted/tests/original-review-v16-journeys.mjs:5:22
+    at async check (/home/user/v21-final-independent/extracted/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/v21-final-independent/extracted/tests/original-review-v16-journeys.mjs:4:130)
+    at async file:///home/user/v21-final-independent/extracted/tests/browser-original-source-v11.mjs:62:27
+PASS V16 Review four-part authenticated feedback/transcript/navigation 1440/uz/day
+PASS V16 Review four-part authenticated feedback/transcript/navigation 1440/uz/night
+PASS V16 Review four-part authenticated feedback/transcript/navigation 768/en/day
+PASS V16 Review four-part authenticated feedback/transcript/navigation 768/en/night
+PASS V16 Review four-part authenticated feedback/transcript/navigation 768/uz/day
+FAIL V16 Review four-part authenticated feedback/transcript/navigation 768/uz/night locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#hub:not([aria-busy]) [data-open=review]')
+    - locator resolved to <button data-open="review" class="activity-card">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    13 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+    at open (/home/user/v21-final-independent/extracted/tests/browser-original-source-v11.mjs:50:373)
+    at async file:///home/user/v21-final-independent/extracted/tests/original-review-v16-journeys.mjs:5:22
+    at async check (/home/user/v21-final-independent/extracted/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/v21-final-independent/extracted/tests/original-review-v16-journeys.mjs:4:130)
+    at async file:///home/user/v21-final-independent/extracted/tests/browser-original-source-v11.mjs:62:27
+FAIL V16 Review four-part authenticated feedback/transcript/navigation 390/en/day locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#hub:not([aria-busy]) [data-open=review]')
+    - locator resolved to <button data-open="review" class="activity-card">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    14 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+    at open (/home/user/v21-final-independent/extracted/tests/browser-original-source-v11.mjs:50:373)
+    at async file:///home/user/v21-final-independent/extracted/tests/original-review-v16-journeys.mjs:5:22
+    at async check (/home/user/v21-final-independent/extracted/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/v21-final-independent/extracted/tests/original-review-v16-journeys.mjs:4:130)
+    at async file:///home/user/v21-final-independent/extracted/tests/browser-original-source-v11.mjs:62:27
+PASS V16 Review four-part authenticated feedback/transcript/navigation 390/en/night
+PASS V16 Review four-part authenticated feedback/transcript/navigation 390/uz/day
+PASS V16 Review four-part authenticated feedback/transcript/navigation 390/uz/night
+PASS V16 Review Check keeps the same trainer and playback position; part switch and reentry own cleanup
+PASS V16 Review held progress coalesces duplicate clicks and retains both parts without stale UI
+PASS V16 Review queued part receives the active write failure and retries the merged own work
+PASS V16 Review route exit fences a held potentially committed progress response
+PASS V16 Review malformed material fails visibly before rendering keys and recovers original data
+PASS V16 Review exact evidence highlights original text; unmatched evidence is never fabricated
+PASS V16 Review progress 401 is not self-study success; explicit safe retry/authority
+PASS V16 Review progress 403 is not self-study success; explicit safe retry/authority
+PASS V16 Review progress 404 is not self-study success; explicit safe retry/authority
+PASS V16 Review progress 409 is not self-study success; explicit safe retry/authority
+PASS V16 Review progress 429 is not self-study success; explicit safe retry/authority
+PASS V16 Review progress 503 is not self-study success; explicit safe retry/authority
+PASS V16 Review progress network is not self-study success; explicit safe retry/authority
+PASS V16 Review progress malformed is not self-study success; explicit safe retry/authority
+PASS V16 Review progress timeout is not self-study success; explicit safe retry/authority
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 24,
+    "FAIL": 3,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/en/night",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('#hub:not([aria-busy]) [data-open=review]')\n    - locator resolved to <button data-open=\"review\" class=\"activity-card\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    12 × waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/uz/night",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('#hub:not([aria-busy]) [data-open=review]')\n    - locator resolved to <button data-open=\"review\" class=\"activity-card\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    13 × waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/en/day",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('#hub:not([aria-busy]) [data-open=review]')\n    - locator resolved to <button data-open=\"review\" class=\"activity-card\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not visible\n    - retrying click action\n      - waiting 100ms\n    14 × waiting for element to be visible, enabled and stable\n       - element is not visible\n     - retrying click action\n       - waiting 500ms\n"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review Check keeps the same trainer and playback position; part switch and reentry own cleanup",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review held progress coalesces duplicate clicks and retains both parts without stale UI",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review queued part receives the active write failure and retries the merged own work",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review route exit fences a held potentially committed progress response",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review malformed material fails visibly before rendering keys and recovers original data",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review exact evidence highlights original text; unmatched evidence is never fabricated",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 401 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 403 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 404 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 409 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 429 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 503 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress network is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress malformed is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress timeout is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    }
+  ]
+}
