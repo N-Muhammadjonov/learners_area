@@ -1,0 +1,103 @@
+{
+  "arenaBaseline": "a14186913557c56e10a15e5bb43a3dcb8dfa0105",
+  "mainReference": "d893196410b325bda6aa55ab6b65567f776c50ce",
+  "divergence": {
+    "arenaAhead": 65,
+    "arenaBehind": 64
+  },
+  "readOnlyContractFiles": [
+    {
+      "path": "src/app/api/listening/full/[id]/authored/route.ts",
+      "bytes": 2638,
+      "sha256": "c66fe8cbe9e9532cd67dfde5ccfe9ab804dd44ba1cf2331a1ef889c17429e127"
+    },
+    {
+      "path": "src/app/api/listening/full/[id]/authored-state/route.ts",
+      "bytes": 3603,
+      "sha256": "b2a84743973550b7efc9a939142c518e9e4ae5f4ef7a8a0d9a4b813d714e60e0"
+    },
+    {
+      "path": "src/app/api/listening/full/[id]/progress/route.ts",
+      "bytes": 2879,
+      "sha256": "69eb0f1f7a70642392a955a7858a5dfa0ff0b1e5579ab15db476aba1b5d5e9a4"
+    },
+    {
+      "path": "src/lib/data/listening-original-state.ts",
+      "bytes": 6833,
+      "sha256": "44bf006df0ee22aefc4fcde8cc9e477049188017218d1c26632a7ca09278184f"
+    },
+    {
+      "path": "src/lib/listening/course-progress.ts",
+      "bytes": 3766,
+      "sha256": "d30b7cdab3b151e4e0098f2312bbd2c986982bd0877d016983df1ec516903605"
+    },
+    {
+      "path": "src/lib/listening/lexical-policy.ts",
+      "bytes": 3117,
+      "sha256": "07952e816468e9eee1bc299ea70c550f972114b0964f52420d57aafb6c8e8e5b"
+    },
+    {
+      "path": "src/app/api/vocabulary/meaning/route.ts",
+      "bytes": 2133,
+      "sha256": "cd67a61456afb3ff5a8eb5ca5fc6f42f89417abaa34190042c032a17afff0d62"
+    },
+    {
+      "path": "src/app/api/vocabulary/lookup/route.ts",
+      "bytes": 2453,
+      "sha256": "4ed5504686077b7df10085d760e280c74e7a3974c432f83395604b284121c2dc"
+    },
+    {
+      "path": "src/lib/services/lexical/listening-occurrences.ts",
+      "bytes": 14997,
+      "sha256": "d524040c710955a90e7e7d907e3dd2008ec47e48a2b3722d0464ce8c6fc59fb0"
+    },
+    {
+      "path": "src/lib/data/listening-mcq.ts",
+      "bytes": 11197,
+      "sha256": "bcbff7dde92956e3cb3757e8f92f7b278d7a8663e1244e3e2b83151b3d5f08f9"
+    },
+    {
+      "path": "src/lib/reading/question-model.ts",
+      "bytes": 4585,
+      "sha256": "9a62906cdb560a360094068c993c7d649b02c53b9717e62bf6c1d1f3aaf34454"
+    },
+    {
+      "path": "src/lib/reading/academic-selection.ts",
+      "bytes": 1662,
+      "sha256": "fc823ee010f5c07e66a57ac644f002d29b714eab7c30c8c5344c12fed8059791"
+    },
+    {
+      "path": "src/lib/data/reading-assessments.ts",
+      "bytes": 7064,
+      "sha256": "fff1ef775392cdf1ea0896d4f11d0b3b63b27c5f6cae230b58cac297341318d0"
+    },
+    {
+      "path": "scripts/lib/reading-105-catalogue.ts",
+      "bytes": 10638,
+      "sha256": "d8d160188b6a3a91989d38668abc070fd3046542b2b47eb9ddf0189f14c63f98"
+    },
+    {
+      "path": "scripts/lib/reading-105-law.ts",
+      "bytes": 6976,
+      "sha256": "62bd1f846ccd72d88a44e34341b8ef2fc87a6f45eb5c58704e85ac0205df603b"
+    },
+    {
+      "path": "src/lib/data/retention-bank.ts",
+      "bytes": 26639,
+      "sha256": "6a70536657c631c06ac55053e8ec0adc33b22451124bed1dac526a50dea5b7bb"
+    },
+    {
+      "path": "src/lib/data/retention-attempts.ts",
+      "bytes": 33655,
+      "sha256": "792d392f9b57b7d1c273d2a8f10820264bac933f5020e525aa8cca7798c27a4a"
+    }
+  ],
+  "runtimeDatabaseQueried": false,
+  "productionConnected": false,
+  "notes": [
+    "V16_VALIDATION.txt is absent; immutable V16_VALIDATION.md and V16_VERIFICATION.json are actual delivery authority.",
+    "Main history was shallow; deepened read-only before65/64 comparison.",
+    "Original course status includes exam; narrow Review DTO whitelist compatibility repair required.",
+    "Main law source restoration supersedes historical incomplete-law assumption; no current publication count inferred."
+  ]
+}

@@ -13,7 +13,7 @@ export function reviewMaterial(data,part){
 export function reviewProgress(value){
  const object=v=>v&&typeof v==='object'&&!Array.isArray(v),count=v=>Number.isSafeInteger(v)&&v>=0;
  if(!object(value)||!object(value.activities)||!object(value.activities.review)||!count(value.completed)||!count(value.total)||value.completed>value.total||typeof value.complete!=='boolean'||value.complete!==(value.total>0&&value.completed===value.total))throw Error('Invalid Review progress');
- for(const [key,v]of Object.entries(value.activities)){if(!['review','script','mcq','matching','map','multi','completion','vocab','retry'].includes(key)||!object(v)||!count(v.done)||!count(v.total)||v.done>v.total||typeof v.complete!=='boolean'||typeof v.available!=='boolean'||v.complete&&v.done!==v.total)throw Error('Invalid Review progress');}
+ for(const [key,v]of Object.entries(value.activities)){if(!['exam','review','script','mcq','matching','map','multi','completion','vocab','retry'].includes(key)||!object(v)||!count(v.done)||!count(v.total)||v.done>v.total||typeof v.complete!=='boolean'||typeof v.available!=='boolean'||v.complete&&v.done!==v.total)throw Error('Invalid Review progress');}
  return value;
 }
 /** Wrap original renderer/trainer; checking stays the original self-study function. */

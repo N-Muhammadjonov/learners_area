@@ -1,3 +1,18 @@
+# V17 current continuation — Review PARTIAL
+
+Read CHECKPOINT_V17, SOURCE_STATE_INVENTORY_V17, ADAPTER_CONTRACTS_V17,
+PRODUCTION_RECONCILIATION_V17, V17 ledgers/activity inventory and final
+`deliverables/V17_VALIDATION.txt` +machine proof. V16 is preserved unchanged.
+Same fixed branch. Original/main/backend/cloud/Dictionary/staff are read-only.
+Continue current Review code, not a restart. New lexical bridge reuses existing
+server spelling permission +unresolved popup; never fabricate an occurrence/sense.
+Durable course journal wraps existing writer, explicit recovery with fresh own
+attempt/revision checks; no automatic replay/CAS/rollback/exactly-once claim.
+Full+Retry preserved. Review remains PARTIAL; comprehensive ordinary frontend
+matrix still required before Script. Reading remains NOT STARTED. Main65/64
+divergence and canonical catalogue/new-source gaps documented; no automatic merge.
+Historical V16 detailed handoff follows intact.
+
 # V16 continuation — Review remains PARTIAL, do not restart
 
 Baseline V15 final8f498ce914bfa7b30866ce592e00379a701bda88. Current source/package/final
