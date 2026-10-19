@@ -3,11 +3,12 @@ import { publicReadingConstraint, readingQuestionType } from "@/lib/reading/ques
 import { questionType } from "@/lib/content/question-types";
 import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { isUuid } from "@/lib/validation/ids";
 import { generalProgress, generalSetDetail, restoredGeneralCheck } from "@/lib/data/general-reading";
+import { activeAcademicAttemptForPassages } from "@/lib/data/reading-assessments";
 import { GeneralReadingSession, type GeneralPassage } from "@/components/reading/GeneralReadingSession";
 
 /**
@@ -66,6 +67,8 @@ export default async function GeneralReadingSetPage({ params, searchParams }: {
   }
 
   const chosen = mode === "full" ? detail.passages : detail.passages.filter((p) => p.passageNo === mode);
+  const activeExam = await activeAcademicAttemptForPassages(user.id, chosen.map(p => p.passage.id));
+  if (activeExam) redirect(`/app/reading/attempts/${activeExam}`);
   const progress = await generalProgress(user.id, setId);
   const passages: GeneralPassage[] = chosen.map((p) => ({
     passageNo: p.passageNo,

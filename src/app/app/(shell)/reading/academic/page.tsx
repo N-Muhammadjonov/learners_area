@@ -19,7 +19,7 @@ async function AcademicReadingResults({ setsPromise, page, dict }: { setsPromise
     <Link className="link-inline" href="/app/reading">{dict.common.back}</Link>
     <h1 className="page-title">{dict.readingV4.products.academic.title}</h1>
     <p className="body-text">{dict.readingHub.academicExamHint}</p>
-    {!sets.length && <p className="body-text">{dict.generalReading.empty}</p>}
+    {!sets.length && <p className="body-text">{dict.readingHub.academicEmpty}</p>}
     <div className="grid gap-4 sm:grid-cols-2">{sets.slice(0,24).map(set => <article className="card flex flex-col gap-3 p-5" key={set.id} data-academic-set={set.id}>
       <h2 className="card-title">{set.title}</h2>
       <ol>{set.passages.map(p => <li key={p.passageNo}>{dict.generalReading.passageN.replace("{n}", String(p.passageNo))}: {p.title}</li>)}</ol>

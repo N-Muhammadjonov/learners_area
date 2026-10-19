@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createTestDatabase } from "./support/pglite";
 import { saveContentDraft, publishContentVersion } from "../src/lib/content/authoring";
-import { startAcademicSet } from "../src/lib/data/reading-assessments";
+import { startAcademicSet, activeAcademicAttemptForPassages } from "../src/lib/data/reading-assessments";
+import { saveGeneralProgress } from "../src/lib/data/general-reading";
 import { getAttemptDetail } from "../src/lib/data/reading";
 import { submitReadingAttempt } from "../src/lib/services/reading/submit";
 import { resolveOccurrence, readingSourceAccess } from "../src/lib/services/lexical/context";
@@ -106,6 +107,15 @@ test("SEC-12 an older submitted attempt cannot unlock an overlapping active exam
     assert.equal(scope.sections.length, 3);
     assert.equal(scope.attempt.status, "in_progress");
 
+    const [other] = await env.query<{id:string}>("insert into users(name) values('Other student') returning id");
+    for (const slot of passages) {
+      const input={userId:a!.id,role:'student' as const,passageId:slot.passage_id,answers:{},check:true};
+      assert.equal(await activeAcademicAttemptForPassages(a!.id,[slot.passage_id],env.db),active);
+      assert.equal(await saveGeneralProgress(input,env.db),null,`General Check cannot leak the key for active passage ${slot.passage_no}`);
+      assert.equal(await saveGeneralProgress({...input,check:false},env.db),null,'a learning autosave cannot bypass the seal');
+      assert.ok((await saveGeneralProgress({...input,userId:other!.id},env.db))?.result,'another learner is not locked by this user’s exam');
+    }
+
     // Every route into the Dictionary must now be sealed, at every position.
     for (const occurrence of occurrences) {
       assert.equal(
@@ -139,6 +149,8 @@ test("SEC-12 an older submitted attempt cannot unlock an overlapping active exam
     for (const occurrence of occurrences) {
       assert.equal((await resolveOccurrence(user, "reading", active!, occurrence.id, env.db))?.status, "unresolved", "own submitted review is authorized again");
       assert.equal(await readingSourceAccess(user, occurrence.passageId, env.db), "allowed");
+      assert.equal(await activeAcademicAttemptForPassages(a!.id,[occurrence.passageId],env.db),null);
+      assert.ok((await saveGeneralProgress({userId:a!.id,role:'student',passageId:occurrence.passageId,answers:{},check:true},env.db))?.result,'General Check opens after submission');
     }
   } finally {
     await env.close();

@@ -14,7 +14,12 @@ export function readingCanonicalTypeSql() {
     const descriptor = questionType(code, "reading") ?? resolveQuestionType(code, "reading");
     return sql`when ${code.toLowerCase()} then ${descriptor!.id}`;
   });
-  return sql`case lower(coalesce(q.type_code, q.type::text)) ${sql.join(cases, sql` `)} else null end`;
+  const ternary=types.filter(t=>t.answerModel.kind==='ternary').flatMap(t=>[t.id,...t.importShapes]);
+  const authored=sql`(select array_agg(distinct upper(regexp_replace(v,'[[:space:]]+','_','g')) order by upper(regexp_replace(v,'[[:space:]]+','_','g'))) from jsonb_array_elements_text(case when jsonb_typeof(q.answer_constraint->'allowed_values')='array' then q.answer_constraint->'allowed_values' else '[]'::jsonb end) v)`;
+  const isTernary=sql`lower(coalesce(q.type_code,q.type::text)) in (${sql.join(ternary.map(code=>sql`${code.toLowerCase()}`),sql`,`)})`;
+  return sql`case when ${isTernary} and ${authored}=array['NO','NOT_GIVEN','YES'] then 'yes_no_not_given'
+    when ${isTernary} and ${authored}=array['FALSE','NOT_GIVEN','TRUE'] then 'true_false_not_given'
+    else case lower(coalesce(q.type_code, q.type::text)) ${sql.join(cases, sql` `)} else null end end`;
 }
 const live = sql`p.publication_state = 'published' or (p.publication_state = 'scheduled' and p.publish_at <= now())`;
 const accessible = sql`(${live}) and not exists (

@@ -355,7 +355,7 @@ const READING_TYPES: QuestionTypeDescriptor[] = [
     label: "Sentence completion",
     answerModel: { kind: "text", wordLimit: 3 },
     grading: "text_word_limit",
-    importShapes: ["SC", "sentence_completion"],
+    importShapes: ["SC", "SEN", "sentence_completion"],
     group: false,
     accessibility: "labelled_text_input",
     review: "answer_evidence_and_stimulus",

@@ -238,6 +238,7 @@ const uz: Dictionary = {
   },
   readingHub: {
     academicExamHint: "Uchta passage · 60 daqiqa · bitta imtihon. Academic Reading'da lug'at va vocabulary yordami ishlamaydi.",
+    academicEmpty: "Hozircha to'liq 40 savollik Academic Reading testlari e'lon qilinmagan.",
     title: "Reading",
     subtitle: "Academic va General reading, savol turi bo'yicha mashq va Retention rejimi.",
     subtitleAcademic: "Academic Reading: matnma-matn ishlanadigan yo'naltirilgan o'qish to'plamlari, natijangiz saqlanadi.",
