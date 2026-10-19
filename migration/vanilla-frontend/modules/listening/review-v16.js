@@ -12,19 +12,22 @@ export function reviewMaterial(data,part){
 }
 export function reviewProgress(value){
  const object=v=>v&&typeof v==='object'&&!Array.isArray(v),count=v=>Number.isSafeInteger(v)&&v>=0;
- if(!object(value)||!object(value.activities)||!object(value.activities.review)||!count(value.completed)||!count(value.total)||value.completed>value.total||typeof value.complete!=='boolean'||value.complete!==(value.total>0&&value.completed===value.total))throw Error('Invalid Review progress');
- for(const [key,v]of Object.entries(value.activities)){if(!['exam','review','script','mcq','matching','map','multi','completion','vocab','retry'].includes(key)||!object(v)||!count(v.done)||!count(v.total)||v.done>v.total||typeof v.complete!=='boolean'||typeof v.available!=='boolean'||v.complete&&v.done!==v.total)throw Error('Invalid Review progress');}
+ if(!object(value)||Object.keys(value).some(k=>!['activities','completed','total','complete'].includes(k))||!object(value.activities)||!object(value.activities.review)||!count(value.completed)||!count(value.total)||value.completed>value.total||typeof value.complete!=='boolean'||value.complete!==(value.total>0&&value.completed===value.total))throw Error('Invalid Review progress');
+ for(const [key,v]of Object.entries(value.activities)){if(!['exam','review','script','mcq','matching','map','multi','completion','vocab','retry'].includes(key)||!object(v)||!count(v.done)||!count(v.total)||v.done>v.total||typeof v.complete!=='boolean'||typeof v.available!=='boolean'||v.complete!==(v.total>0&&v.done===v.total))throw Error('Invalid Review progress');}
  return value;
 }
 /** Wrap original renderer/trainer; checking stays the original self-study function. */
 export function originalReviewV16(token){return `(()=>{document.addEventListener('DOMContentLoaded',()=>{
  if(typeof renderReview!=='function'||typeof DATA==='undefined')return;
  const material=${reviewMaterial.toString()},locate=${evidenceRange.toString()},token=${JSON.stringify(token)};
- let disposed=false,paintedPart=null,rendering=false;
+ let disposed=false,paintedPart=null,rendering=false,lastView='';
+ const reportView=()=>{const reviewActive=active(),part=reviewActive?reviewPart:null,key=reviewActive+':'+part;if(lastView===key)return;lastView=key;parent.postMessage({channel:'learners-area-authored-v1',token,op:'view',hub:document.getElementById('hub')?.style.display!=='none',reviewActive,reviewPart:part},'*');};
+ const viewObserver=new MutationObserver(reportView);viewObserver.observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','style']});
+
  const audio=()=>document.getElementById('sharedAudio'),active=()=>document.getElementById('activity-review')?.classList.contains('active');
  const node=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n;};
  const train=renderTrainer;renderTrainer=function(el,start,end){if(el?.id==='reviewAudio'&&paintedPart===reviewPart&&trainerCtl&&trainer?.start===start&&trainer?.end===end&&el.querySelector('[data-aplay]'))return;return train(el,start,end);};
- const original=renderReview;renderReview=function(){if(disposed)return;let data;try{data=material(DATA,reviewPart);}catch(error){stopAllAudio();for(const tab of document.querySelectorAll('[data-rpart]')){const selected=Number(tab.dataset.rpart)===reviewPart;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;tab.classList.toggle('active',selected);}const host=document.getElementById('reviewHost');host.replaceChildren();const p=node('p',error.message);p.setAttribute('role','alert');const retry=node('button','Retry Review');retry.className='btn';retry.onclick=()=>renderReview();host.append(p,retry);return;}
+ const original=renderReview;renderReview=function(){if(disposed)return;reportView();let data;try{data=material(DATA,reviewPart);}catch(error){stopAllAudio();for(const tab of document.querySelectorAll('[data-rpart]')){const selected=Number(tab.dataset.rpart)===reviewPart;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;tab.classList.toggle('active',selected);}const host=document.getElementById('reviewHost');host.replaceChildren();const p=node('p',error.message);p.setAttribute('role','alert');const retry=node('button','Retry Review');retry.className='btn';retry.onclick=()=>renderReview();host.append(p,retry);return;}
  rendering=true;try{original();paintedPart=reviewPart;}finally{rendering=false;}
  // Source clip buttons are replaced on Check/Retry; never retain a detached clip.
  if(activeClip?.button&&!activeClip.button.isConnected){audio().pause();stopActiveClip();}
@@ -40,5 +43,5 @@ export function originalReviewV16(token){return `(()=>{document.addEventListener
  const progress=event=>{const d=event.data;if(event.source!==parent||d?.token!==token||d.channel!=='learners-area-review-progress'||!active()||d.part!==reviewPart||disposed)return;const status=document.querySelector('[data-review-progress]');if(!status)return;status.replaceChildren(document.createTextNode(d.phase==='saved'?'Server confirmed course progress. Self-study results are not exam grades.':d.phase==='saving'?'Saving course work. Waiting for server confirmation.':'Course save not confirmed. Own revisions are retained.'));
  if(d.phase==='error'){status.setAttribute('role','alert');const retry=node('button','Retry saving Review');retry.type='button';retry.className='btn';retry.dataset.reviewSaveRetry='';retry.onclick=()=>{const answers={};for(let q=(reviewPart-1)*10+1;q<=reviewPart*10;q++)if(state.reviewAnswers[q]?.trim())answers[q]=state.reviewAnswers[q];parent.postMessage({channel:'learners-area-authored-v1',token,op:'course',activity:'review',answers,manualRetry:true},'*');};status.append(retry);}else status.setAttribute('role','status');};
  addEventListener('message',progress);
- addEventListener('pagehide',()=>{disposed=true;removeEventListener('message',progress);});
+ addEventListener('pagehide',()=>{disposed=true;viewObserver.disconnect();removeEventListener('message',progress);});
  });})();`;}

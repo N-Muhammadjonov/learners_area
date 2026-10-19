@@ -1,0 +1,192 @@
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 45,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V18 invalid new selection cancels older term before lexical authorization",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 cross-DOM original word retains exact identity before lexical authorization",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 keyboard recovery and retained-answer bounds 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review loading missing canonical feedback never hydrates or reveals",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review loading duplicate canonical feedback never hydrates or reveals",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review loading malformed canonical feedback never hydrates or reveals",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review loading foreign-course canonical feedback never hydrates or reveals",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 active exam forged review and Review course RPCs are denied before network",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 active exam forged script and Review course RPCs are denied before network",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 active exam forged vocab and Review course RPCs are denied before network",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 401 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 403 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 404 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 409 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 429 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress 503 fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress malformed fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review progress foreign fails closed and retains own pending work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 held Review progress part invalidates old ACK and retains intent",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 held Review progress activity invalidates old ACK and retains intent",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 held Review progress route invalidates old ACK and retains intent",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 held Review progress reload invalidates old ACK and retains intent",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 existing SSE revokes held Review progress and owned media",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 existing SSE revokes held Review lookup and owned media",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 before progress canonical attempt change never acknowledges foreign work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 after progress canonical attempt change never acknowledges foreign work",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 conflicting old intent can be explicitly retained without replay or silent erasure",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 externally changed same-context journal is not hidden by cached memory or cleared by late ACK",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 quota storage warns and retains owned memory across explicit remount",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 disabled storage warns and retains owned memory across explicit remount",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review media 403 fails visibly and cleans up before explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review media 404 fails visibly and cleans up before explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review media 503 fails visibly and cleans up before explicit retry",
+      "status": "PASS"
+    },
+    {
+      "name": "V18 Review media decoder fails visibly and cleans up before explicit retry",
+      "status": "PASS"
+    }
+  ]
+}

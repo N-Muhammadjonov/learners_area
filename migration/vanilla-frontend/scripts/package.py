@@ -7,7 +7,7 @@ import zipfile
 BASE = pathlib.Path(__file__).resolve().parents[1]
 EXCLUDED = {'node_modules', 'build', '.git', 'deliverables', '__pycache__'}
 GENERATED = {'docs/FILE_MANIFEST.md', 'SHA256SUMS'}
-ARCHIVE = BASE / 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17_FINAL_VERIFIED.zip'
+ARCHIVE = BASE / 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V18.zip'
 def digest(data):
     return hashlib.sha256(data).hexdigest()
 def files():

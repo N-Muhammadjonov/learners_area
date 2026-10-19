@@ -3,7 +3,7 @@ import {originalCheckpoint} from './original-policy-v11.js';
 /** Single-flight checkpoint transport, not an exam engine. One latest own snapshot.
  * No automatic mutation retries: cancellation cannot undo a committed server write. */
 export class CheckpointWriter {
- constructor({send,ack,status=()=>{},describe=()=>({}),signal}){Object.assign(this,{send,ack,status,describe});this.latest=null;this.active=null;this.saved=null;this.closed=false;this.blocked=false;this.failed=false;this.barrier=null;signal?.addEventListener('abort',()=>this.dispose(),{once:true});if(signal?.aborted)this.dispose();}
+ constructor({send,ack,status=()=>{},describe=()=>({}),signal}){Object.assign(this,{send,ack,status,describe});this.latest=null;this.active=null;this.saved=null;this.closed=false;this.blocked=false;this.failed=false;this.barrier=null;this.signal=signal;this.onAbort=()=>this.dispose();signal?.addEventListener('abort',this.onAbort,{once:true});if(signal?.aborted)this.dispose();}
  stage(values){if(this.closed)return null;const fingerprint=JSON.stringify(values);if(this.latest?.fingerprint===fingerprint)return this.latest;const before=this.latest,from=before&&this.describe(before.values),to=this.describe(values);if(before!==this.active?.entry&&from?.status==='in_progress'&&['submitted','exited'].includes(to.status)&&from.key===to.key)this.barrier=before;return this.latest={fingerprint,values:JSON.parse(fingerprint),requested:false};}
  save(values){const entry=this.stage(values);if(!entry||this.blocked)return;if(this.failed){this.status({phase:'error',error:this.lastError,blocked:false});return;}if(this.saved===entry.fingerprint&&!this.active&&!this.barrier){this.status({phase:'saved'});return;}entry.requested=true;this.drain();}
  retry(){if(this.closed||this.blocked||this.active||!this.latest)return;this.failed=false;this.save(this.latest.values);}
@@ -14,7 +14,7 @@ export class CheckpointWriter {
  }catch(error){if(this.closed||controller.signal.aborted)return;this.blocked=[401,403,404].includes(error.status);const from=this.describe(entry.values),to=this.latest&&this.describe(this.latest.values);if(from.status==='in_progress'&&from.key===to?.key&&['submitted','exited'].includes(to.status))this.barrier=entry;this.saved=null;this.lastError=error;this.failed=true;entry.requested=false;this.status({phase:'error',error,blocked:this.blocked});}
  finally{if(this.active?.controller===controller)this.active=null;if(!this.closed&&!this.blocked&&(this.barrier||this.latest!==entry))this.drain();}
  }
- dispose(){this.closed=true;this.active?.controller.abort();this.active=null;this.latest=null;this.barrier=null;}
+ dispose(){this.signal?.removeEventListener('abort',this.onAbort);this.closed=true;this.active?.controller.abort();this.active=null;this.latest=null;this.barrier=null;}
 }
 export function checkpointMessage(error,locale='en'){
  const uz=locale.startsWith('uz'),status=error?.status;

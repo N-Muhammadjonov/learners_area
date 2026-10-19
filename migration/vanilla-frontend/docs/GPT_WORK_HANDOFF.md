@@ -1,3 +1,13 @@
+# V18 active continuation — Review PARTIAL, Script NOT advanced
+
+Read CHECKPOINT_V18, V18 source/contracts/ledgers/activity inventory and the final
+outside-ZIP V18_VERIFICATION.json/V18_VALIDATION.txt. Resume existing controllers.
+Critical next ordinary gate: closed-tab cross-context pending-work discovery/adoption
+without auto replay; full held-load/evidence/transcript and real two-tab Review
+retake/backforward/focus acceptance. Do not promote from counts. All V17 final code
+and three V17 candidates preserved, FINAL_VERIFIED only is accepted V17 baseline.
+No Dictionary/backend/staff/Reading work. Owner pipeline remains deferred below.
+
 # V17 current continuation — Review PARTIAL
 
 Read CHECKPOINT_V17, SOURCE_STATE_INVENTORY_V17, ADAPTER_CONTRACTS_V17,

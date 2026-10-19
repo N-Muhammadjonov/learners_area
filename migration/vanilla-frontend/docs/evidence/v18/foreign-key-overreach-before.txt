@@ -1,0 +1,33 @@
+V18 recovery diagnostic [
+  'Attempt conflict. Your draft is retained; recheck the attempt before retrying.'
+] [
+  'la-authored-listening:isolated-fixture-user:00000000-0000-4000-8000-000000000001:6185e666-2b4b-4937-8f8e-e0fce9d41aea:start',
+  'la-authored-listening:isolated-fixture-user:00000000-0000-4000-8000-000000000001:6185e666-2b4b-4937-8f8e-e0fce9d41aea',
+  'la-authored-listening:isolated-fixture-user:00000000-0000-4000-8000-000000000001:6185e666-2b4b-4937-8f8e-e0fce9d41aea:pending',
+  'la-authored-listening:isolated-fixture-user:00000000-0000-4000-8000-000000000001:6185e666-2b4b-4937-8f8e-e0fce9d41aea:review-v17'
+]
+FAIL V18 conflicting old intent can be explicitly retained without replay or silent erasure locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('[data-review-recovery]') to be visible
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-review-v18-journeys.mjs:17:822
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v18-journeys.mjs:17:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:57:27
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 0,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V18 conflicting old intent can be explicitly retained without replay or silent erasure",
+      "status": "FAIL",
+      "error": "locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('[data-review-recovery]') to be visible\n"
+    }
+  ]
+}
