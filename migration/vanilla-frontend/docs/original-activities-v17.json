@@ -16,7 +16,7 @@
       "id": "review",
       "name": "Review & Revision",
       "frontend": "PARTIAL",
-      "fixture": "V17 additive21 focused cases +preserved126; final exact-ZIP execution report authoritative.",
+      "fixture": "V17 additive23 source cases +preserved126; final exact-ZIP execution report authoritative; initial candidate and security failure retained.",
       "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
       "live": "UNVERIFIED",
       "remaining": "Comprehensive Review-specific authority/SSE/reentry/foreign feedback/media/error and all legacy/storage/cross-context recovery acceptance. No ordinary frontend gap assigned to production credentials."

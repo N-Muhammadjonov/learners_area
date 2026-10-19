@@ -3,93 +3,13 @@
   "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
   "comprehensiveClosures": 0,
   "counts": {
-    "PASS": 21,
+    "PASS": 1,
     "FAIL": 0,
     "SKIP": 0
   },
   "results": [
     {
-      "name": "V17 Review selected text mouse uses server gate; Escape restores selection and focus",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review selected text keyboard uses server gate; Escape restores selection and focus",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 1440/en/day",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 1440/en/night",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 1440/uz/day",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 1440/uz/night",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 768/en/day",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 768/en/night",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 768/uz/day",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 768/uz/night",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 390/en/day",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 390/en/night",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 390/uz/day",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review authorized lexical popup bounds 390/uz/night",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review outside click dismisses authorized popup; subsequent selection stays independently owned",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review held lexical authorization cannot paint after part switch",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review lexical server denial is not a locally unlocked mode",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review durable reload retry reconciles own server state before explicit mutation",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review durable reload confirmed reconciles own server state before explicit mutation",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 Review durable reload conflict reconciles own server state before explicit mutation",
-      "status": "PASS"
-    },
-    {
-      "name": "V17 active examination rejects forged Review lookup before dictionary requests",
+      "name": "V17 server-approved native legacy lexical presentation is preserved after preflight",
       "status": "PASS"
     }
   ]

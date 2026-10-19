@@ -7,7 +7,7 @@ export function reviewIntent(value){
 }
 export class ReviewJournal {
  constructor(storage,key,user,test){Object.assign(this,{storage,key,user,test});}
- read(){const raw=this.storage.getItem(this.key);if(!raw)return null;if(raw.length>180000)throw conflict();const v=reviewIntent(JSON.parse(raw));if(v.user!==this.user||v.test!==this.test)throw conflict();return v;}
+ read(){const raw=this.storage.getItem(this.key);if(!raw)return null;if(raw.length>1000000)throw conflict();const v=reviewIntent(JSON.parse(raw));if(v.user!==this.user||v.test!==this.test)throw conflict();return v;}
  stage(body,attempt){const old=this.read();if(old&&old.attempt!==attempt)throw conflict();const v=reviewIntent({version:1,user:this.user,test:this.test,attempt,body:{...body,answers:{...old?.body.answers,...body.answers}}});this.storage.setItem(this.key,JSON.stringify(v));return v;}
  ack(body){const current=this.read();if(current&&JSON.stringify(current.body)===JSON.stringify(body))this.storage.removeItem(this.key);}
 }

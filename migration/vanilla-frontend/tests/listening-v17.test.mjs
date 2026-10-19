@@ -21,3 +21,5 @@ test('New checked part after reload merges prior unconfirmed own work instead of
 
 import {reviewProgress} from '../modules/listening/review-v16.js';
 test('Existing server course contract includes exam status alongside Review, never a client course grant',()=>{const p={completed:1,total:9,complete:false,activities:{exam:{done:1,total:1,complete:true,available:true},review:{done:1,total:40,complete:false,available:true}}};assert.equal(reviewProgress(p),p);assert.throws(()=>reviewProgress({...p,activities:{...p.activities,exam:{...p.activities.exam,done:2}}}));});
+
+test('Journal bound covers all40 server-legal4000-character answers including JSON escapes',()=>{const s=storage(),j=new ReviewJournal(s,'k','own','test'),answers=Object.fromEntries(Array.from({length:40},(_,i)=>[i+1,'\u0000'.repeat(3999)+'x']));j.stage({part:4,answers},'attempt');assert.deepEqual(j.read().body.answers,answers);});
