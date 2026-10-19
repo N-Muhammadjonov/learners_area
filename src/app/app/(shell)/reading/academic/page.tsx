@@ -16,8 +16,6 @@ export default async function AcademicReadingPage({ searchParams }: { searchPara
 async function AcademicReadingResults({ setsPromise, page, dict }: { setsPromise: ReturnType<typeof listGeneralSets>; page: number; dict: ReturnType<typeof getDictionary> }) {
   const sets = await setsPromise;
   return <div className="mx-auto flex max-w-5xl flex-col gap-5" data-route-usable="reading-academic">
-    <Link className="link-inline" href="/app/reading">{dict.common.back}</Link>
-    <h1 className="page-title">{dict.readingV4.products.academic.title}</h1>
     <p className="body-text">{dict.readingHub.academicExamHint}</p>
     {!sets.length && <p className="body-text">{dict.readingHub.academicEmpty}</p>}
     <div className="grid gap-4 sm:grid-cols-2">{sets.slice(0,24).map(set => <article className="card flex flex-col gap-3 p-5" key={set.id} data-academic-set={set.id}>

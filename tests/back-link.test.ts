@@ -36,8 +36,8 @@ test("B3 the Management Listening import uses BackLink to /admin/listening; the 
 
 test("B4 nested learner and management pages use the shared BackLink (no hand-rolled ← links)", () => {
   const nested = [
-    "listening/history", "reading/history", "reading/attempts/[id]",
-    "reading/general", "reading/general/[setId]", "reading/retention/results/[attemptId]", "writing/history",
+    "listening/history", "reading/history",
+    "reading/retention/results/[attemptId]", "writing/history",
     "writing/submissions/[id]", "grammar/[topicId]", "video-lessons/[id]", "courses/ielts/lessons/[lessonId]",
     "admin/grammar/[id]", "admin/listening/[id]", "admin/listening/import", "admin/reading/[id]", "admin/reading/import",
     "admin/reading/retention", "admin/materials/[type]", "admin/materials/[type]/[id]", "teacher/students/[id]",
@@ -53,7 +53,7 @@ test("B4 nested learner and management pages use the shared BackLink (no hand-ro
   // exist, which is exactly what stopped being true: `listening/attempts/[id]` and
   // `listening/tests/[id]` moved into `(focus)` and the stale `(app)` paths made this test
   // pass on a name instead of on a shape.
-  for (const r of ["listening/attempts/[id]", "listening/tests/[id]"]) {
+  for (const r of ["listening/attempts/[id]", "listening/tests/[id]", "reading/attempts/[id]", "reading/general/[setId]", "reading/academic/[setId]"]) {
     const src = readFileSync(`src/app/app/(focus)/${r}/page.tsx`, "utf8");
     assert.doesNotMatch(src, /<BackLink/, `${r} is a focus surface: no ordinary chrome`);
     assert.doesNotMatch(src, />\s*←/, `${r} must not hand-roll a ← link either`);

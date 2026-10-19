@@ -875,6 +875,11 @@ const en = {
    * The practice screen. Its own block because these strings describe one
    * workspace — the split view, the timer, autosave — and nothing else uses them.
    */
+  readingWorkspace: {
+    passage: "Passage", questions: "Questions", resize: "Resize passage and question panes",
+    smaller: "Smaller text", larger: "Larger text", passageHeading: "READING PASSAGE {n}",
+    questionRange: "Questions {from}–{to}", review: "Review", library: "Passage library",
+  },
   readingPractice: {
     passageTab: "Passage",
     questionsTab: "Questions",

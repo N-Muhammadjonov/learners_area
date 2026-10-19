@@ -1,7 +1,7 @@
 "use client";
 
 import { ReadingEvidence } from "@/components/reading/ReadingEvidence";
-import Link from "next/link";
+import { ReadingWorkspace, focusReadingQuestion } from "@/components/reading/ReadingWorkspace";
 import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { useEffect, useRef, useState } from "react";
 import { ReadingHighlightedText, useReadingHighlights } from "@/components/reading/ReadingHighlights";
@@ -46,6 +46,8 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
   useFocusEntry(`general-reading:${setId}:${mode}`);
   const t = dict.generalReading;
   const highlightsFor=useReadingHighlights(`${userId}:${setId}`);
+  const [pane,setPane]=useState<"passage"|"questions">("passage");
+  const [pendingQuestion,setPendingQuestion]=useState<string|null>(null);
   const [active, setActive] = useState(passages[0]?.passageNo ?? 1);
   const [answers, setAnswers] = useState<Record<string, Record<string, string>>>(() =>
     Object.fromEntries(passages.map((p) => [p.passageId, initialProgress[p.passageId]?.answers ?? {}])));
@@ -61,6 +63,8 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
   const queues=useRef<Record<string,Promise<void>>>({});
   useEffect(() => () => Object.values(timers.current).forEach(clearTimeout), []);
 
+  useEffect(() => { document.getElementById("reading-passage-pane")?.scrollTo?.({top:0}); },[active]);
+  useEffect(() => { if(pendingQuestion){focusReadingQuestion(pendingQuestion);setPendingQuestion(null);} },[active,pendingQuestion]);
   const passage = passages.find((p) => p.passageNo === active) ?? passages[0];
   if (!passage) return null;
 
@@ -101,101 +105,40 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
   const initial = initialProgress[passage.passageId];
   const shownScore = check ? { score: check.score, total: check.total } : initial?.checked && !revisions.current[passage.passageId] ? { score: initial.score, total: initial.total } : null;
 
-  return (
-    <div className="mx-auto flex max-w-[1440px] flex-col gap-5" data-general-reading data-general-mode={mode}>
-      <header className="flex flex-col gap-2">
-        <Link href="/app/reading/general" prefetch={false} className="link-inline w-fit text-sm">{t.back}</Link>
-        <h1 className="section-title">{setTitle}</h1>
-        <p className="body-text text-sm" data-learning-note>{t.learningNote}</p>
-        <Link href={`/app/reading/general/${setId}`} prefetch={false} className="link-inline w-fit text-xs">{t.changeMode}</Link>
-      </header>
-
-      {mode === "full" && passages.length > 1 && (
-        <nav className="flex flex-wrap gap-2" aria-label={t.full} data-general-passage-tabs>
-          {passages.map((p) => (
-            <button key={p.passageNo} type="button" aria-pressed={p.passageNo === active}
-              className={p.passageNo === active ? "btn-primary" : "btn-secondary"} onClick={() => setActive(p.passageNo)} data-general-passage-tab={p.passageNo}>
-              {t.passageN.replace("{n}", String(p.passageNo))}
-            </button>
-          ))}
-        </nav>
-      )}
-
-      <div className="grid gap-5 lg:grid-cols-2" key={passage.passageId} data-general-passage={passage.passageNo}>
-        <section className="card flex flex-col gap-3 p-5">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 pb-3">
-            <h2 className="font-display text-base text-ink-900">
-              <span className="mr-2 text-ink-500">{t.passageN.replace("{n}", String(passage.passageNo))}</span>{passage.title}
-            </h2>
-            <ReadAloud dict={dict} text={`${passage.title}. ${passage.body}`} />
-          </div>
-          <div className="flex flex-col gap-4 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2" data-passage-body>
-            {passage.paragraphs.length > 0 ? passage.paragraphs.map((paragraph) => (
-              <div key={paragraph.id} className="flex gap-3">
-                {paragraph.label ? <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-paper-sunken text-xs font-semibold text-ink-700">{paragraph.label}</span> : null}
-                <ReadingHighlightedText {...highlightsFor(paragraph.id,paragraph.text)} dict={dict} text={paragraph.text} occurrences={occurrenceSpans(passage.body, paragraph.text, passage.occurrences)}
-                  sourceType="reading" sourceId={passage.passageId} lexicalAssistance
-                  className={`academic-text text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`} />
-              </div>
-            )) : (
-              <ReadingHighlightedText {...highlightsFor(passage.passageId,passage.body)} dict={dict} text={passage.body} occurrences={occurrenceSpans(passage.body, passage.body, passage.occurrences)}
-                sourceType="reading" sourceId={passage.passageId} lexicalAssistance className="academic-text text-sm leading-relaxed text-ink-700" />
-            )}
-          </div>
-        </section>
-
-        <section className="card flex flex-col gap-4 p-5" data-general-questions>
-          <div className="flex items-center justify-between gap-2">
-            <h2 className="card-title">{t.questions}</h2>
-            <span className="text-xs text-ink-500" role="status" aria-live="polite" data-general-save-state={status[passage.passageId] ?? "idle"}>
-              {status[passage.passageId] === "saving" ? t.saving : status[passage.passageId] === "saved" ? t.saved : ""}
-            </span>
-          </div>
-          {passage.questions.length === 0 && <p className="body-text text-sm">{t.noQuestions}</p>}
-          <div className="flex flex-col gap-4">
-            {(passage.groups??[]).map(group=><section key={group.id} className="flex flex-col gap-3">
-              <GroupHeading dict={dict} group={group}/>
-              <GroupQuestions dict={dict} group={group} questions={passage.questions.filter(q=>q.groupId===group.id).map(examQuestion)}
-                answers={answers[passage.passageId]??{}} onChange={(id,value)=>setAnswer(passage.passageId,id,value)}/>
-            </section>)}
-            {passage.questions.filter(q=>!q.groupId || !passage.groups?.some(g=>g.id===q.groupId)).map(q=><QuestionCard key={q.id} dict={dict} question={examQuestion(q)} group={null}
-              inputId={`answer-${q.id}`} value={answers[passage.passageId]?.[q.id]??""} onChange={value=>setAnswer(passage.passageId,q.id,value)}/>)}
-          </div>
-          <ol className="flex flex-col gap-4">
-            {passage.questions.map((question) => {
-              const row = check?.rows.find((r) => r.questionId === question.id);
-              return (
-                <li key={question.id} className="flex flex-col gap-2" data-general-question={question.id}>
-                  {row && (
-                    <div className={`rounded-sm p-2 text-xs ${row.isCorrect ? "bg-signal-50 text-ink-900" : "bg-paper-sunken text-ink-700"}`} data-general-result={row.isCorrect ? "correct" : "incorrect"}>
-                      <p>{row.isCorrect ? "✓" : "✗"} {t.correctAnswer.replace("{answer}", row.correctAnswer)}</p>
-                      {Boolean(row.acceptedAnswers?.length) && <p data-general-accepted>{dict.readingPractice.acceptedAnswers}: {row.acceptedAnswers!.join(" / ")}</p>}
-                      {/* Evidence is answer support, rendered as plain text: it never becomes a vocabulary target or selects a sense. */}
-                      {row.evidenceQuote ? <p className="mt-1 italic" data-general-evidence>{t.evidence} {row.evidenceQuote}</p> : <p data-general-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
-                      {row.evidenceQuote && <ReadingEvidence dict={dict} body={passage.body} title={passage.title} quote={row.evidenceQuote} />}
-                      {row.explanation ? <p className="mt-1" data-general-explanation>{dict.reading.explanation}: {row.explanation}</p> : <p data-general-explanation-missing>{dict.readingV4.explanationMissing}</p>}
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-          {passage.questions.length > 0 && (
-            <div className="flex flex-wrap items-center gap-3">
-              <button type="button" className="btn-primary" disabled={status[passage.passageId] === "checking"}
-                onClick={() => { clearTimeout(timers.current[passage.passageId]); void persist(passage.passageId, answers[passage.passageId] ?? {}, true); }} data-general-check>
-                {status[passage.passageId] === "checking" ? t.checking : t.check}
-              </button>
-              {shownScore && shownScore.total !== null && (
-                <span className="text-sm text-ink-700" data-general-score>{t.score.replace("{score}", String(shownScore.score ?? 0)).replace("{total}", String(shownScore.total))}</span>
-              )}
-            </div>
-          )}
-          {errors[passage.passageId] && <p role="alert" className="text-sm text-ink-900">{errors[passage.passageId]}</p>}
-        </section>
-      </div>
-    </div>
-  );
+  const currentAnswers=answers[passage.passageId]??{};
+  const first=passage.questions[0]?.questionNo??1,last=passage.questions.at(-1)?.questionNo??first;
+  return <div className="reading-session" data-general-reading data-general-mode={mode} data-general-passage={passage.passageNo}>
+    <ReadingWorkspace brand={dict.marketing.title} title={setTitle} pane={pane} setPane={setPane} labels={dict.readingWorkspace}
+      tools={<><ReadAloud dict={dict} text={`${passage.title}. ${passage.body}`} /><span role="status" aria-live="polite" data-general-save-state={status[passage.passageId]??"idle"}>{status[passage.passageId]==="saving"?t.saving:status[passage.passageId]==="saved"?t.saved:""}</span></>}
+      passage={<><h2 className="reading-pane-heading">{dict.readingWorkspace.passageHeading.replace("{n}",String(passage.passageNo))}</h2><p className="reading-part-instruction">{dict.readingWorkspace.questionRange.replace("{from}",String(first)).replace("{to}",String(last))}</p><h3 className="reading-passage-title">{passage.title}</h3>
+        <div className="reading-passage-text" data-passage-body>
+          {passage.paragraphs.length ? passage.paragraphs.map(paragraph=><div key={paragraph.id} className="reading-paragraph">
+            {paragraph.label&&<strong className="reading-paragraph-label">{paragraph.label}</strong>}
+            <ReadingHighlightedText {...highlightsFor(paragraph.id,paragraph.text)} dict={dict} text={paragraph.text} occurrences={occurrenceSpans(passage.body,paragraph.text,passage.occurrences)} sourceType="reading" sourceId={passage.passageId} lexicalAssistance phraseAware className={`academic-text ${paragraph.isFootnote?"italic":""}`} />
+          </div>):<ReadingHighlightedText {...highlightsFor(passage.passageId,passage.body)} dict={dict} text={passage.body} occurrences={occurrenceSpans(passage.body,passage.body,passage.occurrences)} sourceType="reading" sourceId={passage.passageId} lexicalAssistance phraseAware className="academic-text"/>}
+        </div></>}
+      questions={<div data-general-questions><h2 className="reading-pane-heading">{dict.readingWorkspace.questionRange.replace("{from}",String(first)).replace("{to}",String(last))}</h2>
+        {!passage.questions.length&&<p>{t.noQuestions}</p>}
+        <div className="reading-question-blocks">
+          {(passage.groups??[]).map(group=><section key={group.id} className="reading-question-group"><GroupHeading dict={dict} group={group}/><GroupQuestions dict={dict} group={group} questions={passage.questions.filter(q=>q.groupId===group.id).map(examQuestion)} answers={currentAnswers} onChange={(id,value)=>setAnswer(passage.passageId,id,value)}/></section>)}
+          {passage.questions.filter(q=>!q.groupId||!passage.groups?.some(g=>g.id===q.groupId)).map(q=><QuestionCard key={q.id} dict={dict} question={examQuestion(q)} group={null} inputId={`answer-${q.id}`} value={currentAnswers[q.id]??""} onChange={value=>setAnswer(passage.passageId,q.id,value)}/>)}
+        </div>
+        <ol className="reading-feedback">{check?.rows.map(row=><li key={row.questionId} data-general-question={row.questionId}><div data-general-result={row.isCorrect?"correct":"incorrect"}>
+          <p>{row.isCorrect?"✓":"✗"} {t.correctAnswer.replace("{answer}",row.correctAnswer)}</p>
+          {!!row.acceptedAnswers?.length&&<p data-general-accepted>{dict.readingPractice.acceptedAnswers}: {row.acceptedAnswers.join(" / ")}</p>}
+          {row.evidenceQuote?<p data-general-evidence>{t.evidence} {row.evidenceQuote}</p>:<p data-general-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
+          {row.evidenceQuote&&<ReadingEvidence dict={dict} body={passage.body} title={passage.title} quote={row.evidenceQuote}/>}
+          {row.explanation?<p data-general-explanation>{dict.reading.explanation}: {row.explanation}</p>:<p data-general-explanation-missing>{dict.readingV4.explanationMissing}</p>}
+        </div></li>)}</ol>
+        {errors[passage.passageId]&&<p role="alert" className="reading-error">{errors[passage.passageId]}</p>}
+      </div>}
+      navigation={<div className="reading-part-navigation" data-general-passage-tabs>{passages.map(p=><div key={p.passageNo} className="reading-part-navigation">
+        <button type="button" className="reading-part-button" aria-pressed={p.passageNo===active} data-general-passage-tab={p.passageNo} onClick={()=>setActive(p.passageNo)}>{t.passageN.replace("{n}",String(p.passageNo))}</button>
+        {p.passageNo===active&&<div className="reading-question-numbers">{p.questions.map(q=><button key={q.id} type="button" data-reading-question-nav={q.id} data-answered={!!currentAnswers[q.id]?.trim()} aria-label={`${dict.reading.yourAnswer} ${q.questionNo??q.order}`} onClick={()=>{setPane("questions");setPendingQuestion(q.id);}}>{q.questionNo??q.order}</button>)}</div>}
+      </div>)}</div>}
+      action={<>{shownScore&&shownScore.total!==null&&<span data-general-score>{t.score.replace("{score}",String(shownScore.score??0)).replace("{total}",String(shownScore.total))}</span>}{passage.questions.length>0&&<button type="button" className="btn-primary" disabled={status[passage.passageId]==="checking"} onClick={()=>{clearTimeout(timers.current[passage.passageId]);void persist(passage.passageId,currentAnswers,true);}} data-general-check>{status[passage.passageId]==="checking"?t.checking:t.check}</button>}</>}
+    />
+  </div>;
 }
 
 function examQuestion(q:GeneralQuestion):ExamQuestion {

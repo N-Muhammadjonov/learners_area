@@ -1,14 +1,14 @@
 "use client";
 import { ReadingHighlightedText, useReadingHighlights } from "@/components/reading/ReadingHighlights";
+import { ReadingWorkspace, focusReadingQuestion } from "@/components/reading/ReadingWorkspace";
 
-import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
 import { Button } from "@/components/ui/Button";
 import { readingQuestionType, readingOption } from "@/lib/reading/question-model";
 import { useFocusEntry } from "@/lib/interaction/focus-entry";
-import { IconBack, IconCheck, IconTarget } from "@/components/ui/icons";
+import { IconCheck } from "@/components/ui/icons";
 import {
   buildSharedStimulus,
   isSharedStimulusRow,
@@ -151,7 +151,6 @@ export function ReadingExam({
   attemptId,
   passageTitle,
   passageBody,
-  passageMeta,
   questions,
   groups,
   paragraphs,
@@ -180,6 +179,7 @@ export function ReadingExam({
   parts?: { title: string; body: string; paragraphs: ExamParagraph[]; questionIds: string[]; groupIds: string[] }[];
 }) {
   const [activePart, setActivePart] = useState(0);
+  const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
   const selectedPart = parts[activePart];
   const visibleQuestions = useMemo(() => selectedPart ? questions.filter(q => selectedPart.questionIds.includes(q.id)) : questions, [questions, selectedPart]);
   const visibleGroups = useMemo(() => selectedPart ? groups.filter(group => selectedPart.groupIds.includes(group.id)) : groups, [groups, selectedPart]);
@@ -328,6 +328,13 @@ export function ReadingExam({
     return () => clearInterval(interval);
   }, [startedAt]);
 
+  useEffect(() => {
+    document.getElementById("reading-passage-pane")?.scrollTo?.({ top: 0 });
+  }, [activePart]);
+  useEffect(() => {
+    if (pendingQuestion) { focusReadingQuestion(pendingQuestion); setPendingQuestion(null); }
+  }, [activePart, pendingQuestion]);
+
   const answered = useMemo(() => questions.filter((q) => (answers[q.id] ?? "").trim() !== "").length, [questions, answers]);
 
   const groupById = useMemo(() => new Map(groups.map((group) => [group.id, group])), [groups]);
@@ -390,186 +397,34 @@ export function ReadingExam({
   }
 
   const questionCount = questions.length;
-
-  return (
-    <div className="flex flex-col gap-4" data-reading-practice data-attempt={attemptId}>
-      {/*
-        One workspace header on every viewport: the timer and the save state are
-        the two things a student checks mid-task, so they stay together and stay
-        visible — including in Focus mode, which only hides the shell.
-      */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-[16px] border border-ink-100 bg-paper-raised px-4 py-2.5">
-        <div className="min-w-0 flex-1">
-          <h1 className="truncate font-display text-lg text-ink-900">{passageTitle}</h1>
-          <p className="text-xs text-ink-300">
-            {passageMeta ? `${passageMeta} · ` : ""}
-            {dict.reading.questions}: {questionCount}
-          </p>
-        </div>
-        <span className="flex items-center gap-2 text-sm text-ink-700" data-practice-timer>
-          <span className="text-ink-300">{t.timerLabel}</span>
-          <span className="font-mono tabular-nums" data-time-remaining={remainingSeconds}>
-            {now === null ? "--:--" : formatDuration(remainingSeconds * 1000)}
-          </span>
-        </span>
-        <SaveBadge dict={dict} state={saveState} savedAt={savedAt} onRetry={() => void save()} />
-        <Link href="/app/reading" className="btn-secondary" data-practice-exit>
-          <IconBack className="text-[18px]" />
-          {t.exit}
-        </Link>
-      </div>
-
-      {/* Mobile keeps one pane at a time; the tabs are real buttons, 44px tall. */}
-      <div className="flex gap-2 lg:hidden" role="tablist" aria-label={dict.reading.practiceTitle}>
-        {(
-          [
-            { key: "passage", label: t.passageTab },
-            { key: "questions", label: t.questionsTab },
-          ] as const
-        ).map((tab) => (
-          <button
-            key={tab.key}
-            type="button"
-            role="tab"
-            aria-selected={pane === tab.key}
-            data-practice-tab={tab.key}
-            onClick={() => setPane(tab.key)}
-            className={
-              pane === tab.key
-                ? "min-h-[44px] flex-1 rounded-sm border border-signal-600 bg-signal-600 px-3 text-sm font-medium text-white"
-                : "min-h-[44px] flex-1 rounded-sm border border-ink-100 bg-paper-raised px-3 text-sm text-ink-700"
-            }
-          >
-            {tab.label}
-            {tab.key === "questions" && (
-              <span className="ml-2 text-xs opacity-80">{t.answered.replace("{answered}", String(answered)).replace("{total}", String(questionCount))}</span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {parts.length > 1 && <nav className="flex flex-wrap gap-2" aria-label={dict.readingHub.tabAcademic} data-academic-parts>
-        {parts.map((part, index) => <button key={part.title + index} type="button" aria-pressed={activePart === index}
-          className={activePart === index ? "btn-primary" : "btn-secondary"} onClick={() => setActivePart(index)}>
-          {dict.generalReading.passageN.replace("{n}", String(index + 1))}
-        </button>)}
-      </nav>}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[58fr_42fr]">
-        <section
-          className={`card flex-col gap-3 p-5 lg:flex ${pane === "passage" ? "flex" : "hidden"}`}
-          aria-label={t.passageTab}
-          data-practice-pane="passage"
-        >
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 pb-3">
-            <h2 className="font-display text-base text-ink-900">{shownTitle}</h2>
-
-          </div>
-
-          <div className="flex flex-col gap-4 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2" data-passage-body>
-            {shownParagraphs.length > 0 ? (
-              shownParagraphs.map((paragraph) => (
-                <div key={paragraph.id} className="flex gap-3" data-paragraph={paragraph.label ?? "none"}>
-                  {/* A letter only when the passage really labels that paragraph —
-                      numbering an unlabelled paragraph would invent a reference the
-                      questions cannot use. */}
-                  {paragraph.label ? (
-                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-paper-sunken text-xs font-semibold text-ink-700">
-                      {paragraph.label}
-                    </span>
-                  ) : (
-                    <span className="w-7 shrink-0" aria-hidden />
-                  )}
-                  <div data-exam-passage-text><ReadingHighlightedText dict={dict} sourceType="reading" sourceId={attemptId} lexicalAssistance={false} {...highlightsFor(paragraph.id,paragraph.text)}
-                    text={paragraph.text}
-                    className={`academic-text text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`}
-                  /></div>
-                </div>
-              ))
-            ) : (
-              // A passage that was stored as one block of text still renders.
-              <div data-exam-passage-text><ReadingHighlightedText dict={dict} sourceType="reading" sourceId={attemptId} lexicalAssistance={false} {...highlightsFor(`part:${activePart}`,shownBody)} text={shownBody} className="academic-text text-sm leading-relaxed text-ink-700" /></div>
-            )}
-          </div>
-
-
-        </section>
-
-        <section
-          className={`flex-col gap-4 lg:flex ${pane === "questions" ? "flex" : "hidden"}`}
-          aria-label={t.questionsTab}
-          data-practice-pane="questions"
-        >
-          <div className="flex items-center justify-between gap-2 lg:hidden">
-            <span className="text-xs text-ink-500">
-              {t.answered.replace("{answered}", String(answered)).replace("{total}", String(questionCount))}
-            </span>
-            <button
-              type="button"
-              className="flex min-h-[44px] items-center gap-1.5 text-sm text-ink-700"
-              onClick={() => setPane("passage")}
-            >
-              <IconTarget className="text-[18px]" />
-              {t.passageTab}
-            </button>
-          </div>
-
-          {timeExpired && (
-            <p className="rounded-[12px] border border-band-warn/40 bg-band-warn/10 px-3 py-2 text-sm text-ink-700" role="status" data-attempt-expired>
-              {t.timeExpired}
-            </p>
-          )}
-          <div className="flex flex-col gap-3 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2">
-            <fieldset disabled={timeExpired} className="flex min-w-0 flex-col gap-3 border-0 p-0">
-            {orderedGroups.blocks.map(({ group, questions: groupQuestions }) => (
-              <div key={group.id} className="flex flex-col gap-3" data-question-group={group.position}>
-                <GroupHeading dict={dict} group={group} />
-                <GroupQuestions
-                  dict={dict}
-                  group={group}
-                  questions={groupQuestions}
-                  answers={answers}
-                  onChange={setAnswer}
-                />
-              </div>
-            ))}
-
-            {orderedGroups.orphan.length > 0 && (
-              <div className="flex flex-col gap-3" data-question-group="ungrouped">
-                {orderedGroups.orphan.map((question) => (
-                  <QuestionCard
-                    key={question.id}
-                    dict={dict}
-                    question={question}
-                    group={null}
-                    value={answers[question.id] ?? ""}
-                    onChange={(value) => setAnswer(question.id, value)}
-                    inputId={`answer-${question.id}`}
-                  />
-                ))}
-              </div>
-            )}
-            </fieldset>
-          </div>
-
-          <div className="flex flex-col gap-2 rounded-[16px] border border-ink-100 bg-paper-raised p-4">
-            <div className="flex items-center justify-between text-sm text-ink-700">
-              <span>{t.answered.replace("{answered}", String(answered)).replace("{total}", String(questionCount))}</span>
-              {saveState === "error" && <span className="text-band-bad">{t.unsavedWarning}</span>}
-            </div>
-            <p className="text-xs text-ink-300">{t.submitHint}</p>
-            {error && (
-              <p className="text-sm text-band-bad" role="alert">
-                {error}
-              </p>
-            )}
-            <Button onClick={() => void onSubmit()} disabled={submitting || saveState === "locked"} data-submit-attempt>
-              {submitting ? dict.common.loading : dict.reading.submit}
-            </Button>
-          </div>
-        </section>
-      </div>
-    </div>
-  );
+  const navigationParts = parts.length ? parts : [{ title: passageTitle, questionIds: questions.map(q => q.id) }];
+  const first = visibleQuestions[0]?.questionNo ?? 1;
+  const last = visibleQuestions.at(-1)?.questionNo ?? first;
+  return <div className="reading-session" data-reading-practice data-attempt={attemptId}>
+    <ReadingWorkspace brand={dict.marketing.title} title={passageTitle} pane={pane} setPane={setPane} labels={dict.readingWorkspace}
+      tools={<><span className="reading-timer" data-practice-timer><span className="sr-only">{t.timerLabel}</span><span className="font-mono tabular-nums" data-time-remaining={remainingSeconds}>{now === null ? "--:--" : formatDuration(remainingSeconds * 1000)}</span></span><SaveBadge dict={dict} state={saveState} savedAt={savedAt} onRetry={() => void save()} /></>}
+      passage={<><h2 className="reading-pane-heading">{dict.readingWorkspace.passageHeading.replace("{n}", String(activePart + 1))}</h2><p className="reading-part-instruction">{dict.readingWorkspace.questionRange.replace("{from}", String(first)).replace("{to}", String(last))}</p><h3 className="reading-passage-title">{shownTitle}</h3>
+        <div className="reading-passage-text" data-passage-body>
+          {shownParagraphs.length > 0 ? shownParagraphs.map(paragraph => <div key={paragraph.id} className="reading-paragraph" data-paragraph={paragraph.label ?? "none"}>
+            {paragraph.label && <strong className="reading-paragraph-label">{paragraph.label}</strong>}
+            <div data-exam-passage-text><ReadingHighlightedText dict={dict} sourceType="reading" sourceId={attemptId} lexicalAssistance={false} {...highlightsFor(paragraph.id,paragraph.text)} text={paragraph.text} className={`academic-text ${paragraph.isFootnote ? "italic" : ""}`} /></div>
+          </div>) : <div data-exam-passage-text><ReadingHighlightedText dict={dict} sourceType="reading" sourceId={attemptId} lexicalAssistance={false} {...highlightsFor(`part:${activePart}`,shownBody)} text={shownBody} className="academic-text" /></div>}
+        </div></>}
+      questions={<><h2 className="reading-pane-heading">{dict.readingWorkspace.questionRange.replace("{from}", String(first)).replace("{to}", String(last))}</h2>
+        {timeExpired && <p role="status" data-attempt-expired>{t.timeExpired}</p>}
+        <fieldset disabled={timeExpired} className="reading-question-blocks">
+          {orderedGroups.blocks.map(({group,questions:groupQuestions}) => <div key={group.id} className="reading-question-group" data-question-group={group.position}><GroupHeading dict={dict} group={group}/><GroupQuestions dict={dict} group={group} questions={groupQuestions} answers={answers} onChange={setAnswer}/></div>)}
+          {orderedGroups.orphan.map(question => <QuestionCard key={question.id} dict={dict} question={question} group={null} value={answers[question.id] ?? ""} onChange={value => setAnswer(question.id,value)} inputId={`answer-${question.id}`}/>)}
+        </fieldset>
+        {error && <p role="alert" className="reading-error">{error}</p>}
+      </>}
+      navigation={navigationParts.map((part,index) => <div key={index} className="reading-part-navigation" data-academic-parts>
+        <button type="button" className="reading-part-button" aria-pressed={activePart === index} onClick={() => setActivePart(index)}>{dict.generalReading.passageN.replace("{n}",String(index+1))}</button>
+        {activePart === index ? <div className="reading-question-numbers">{questions.filter(q => part.questionIds.includes(q.id)).map(q => <button key={q.id} type="button" data-reading-question-nav={q.id} data-answered={!!answers[q.id]?.trim()} aria-label={`${dict.reading.yourAnswer} ${q.questionNo ?? q.order}`} onClick={() => {setActivePart(index);setPane("questions");setPendingQuestion(q.id);}}>{q.questionNo ?? q.order}</button>)}</div> : <span className="reading-part-count">{questions.filter(q => part.questionIds.includes(q.id) && answers[q.id]?.trim()).length} / {part.questionIds.length}</span>}
+      </div>)}
+      action={<><span className="reading-answered" aria-live="polite">{t.answered.replace("{answered}",String(answered)).replace("{total}",String(questionCount))}</span><Button onClick={() => void onSubmit()} disabled={submitting || saveState === "locked"} data-submit-attempt>{submitting ? dict.common.loading : dict.reading.submit}</Button></>}
+    />
+  </div>;
 }
 
 /** "Saved 14:32" / "Saving…" / a retry when the write failed. */
@@ -776,10 +631,10 @@ function StimulusCard({
                   autoComplete="off"
                   spellCheck={false}
                   data-answer-input={question.id}
-                  className={`input mx-1 inline-block w-auto min-w-[7ch] max-w-[16rem] px-2 py-1 align-baseline ${
+                  className={`input mx-1 inline-block w-auto min-w-[15ch] max-w-[16rem] px-2 py-1 align-baseline ${
                     value.trim() ? "border-signal-600/40" : ""
                   }`}
-                  style={{ width: `${Math.min(24, Math.max(8, value.length + 3))}ch` }}
+                  style={{ width: `${Math.min(24, Math.max(16, value.length + 3))}ch` }}
                 />
               </span>
             );
@@ -814,7 +669,7 @@ export function QuestionCard({
   const choices = question.options && question.options.length > 0 ? question.options : (group?.sharedChoices ?? []);
   const showFullChoices = !isTernary && !isMulti && !isText && choices.length > 0 && !lettersOnly(choices);
   const showLetterChips = !isTernary && !isMulti && !isText && choices.length > 0 && lettersOnly(choices);
-  const hint = constraintLabel(constraint, dict);
+  const hint = /(?:ONE|TWO|THREE|FOUR|[1-9])\s+WORDS?/i.test(group?.instructionsText??"") ? null : constraintLabel(constraint, dict);
   const number = question.questionNo ?? question.order;
 
   /**
@@ -855,8 +710,8 @@ export function QuestionCard({
                       autoComplete="off"
                       spellCheck={false}
                       data-answer-input={question.id}
-                      className="input mx-1 inline-block w-auto min-w-[7ch] max-w-[16rem] px-2 py-1 align-baseline"
-                      style={{ width: `${Math.min(24, Math.max(8, value.length + 3))}ch` }}
+                      className="input mx-1 inline-block w-auto min-w-[15ch] max-w-[16rem] px-2 py-1 align-baseline"
+                      style={{ width: `${Math.min(24, Math.max(16, value.length + 3))}ch` }}
                     />
                   )}
                 </span>

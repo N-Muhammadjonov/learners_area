@@ -25,8 +25,6 @@ export default async function ReadingTypesPage({ searchParams }: { searchParams:
   // One extra row is fetched to know whether a next page exists; it is never rendered.
   const hasNextPage = rows.length > READING_TYPE_PAGE_SIZE;
   return <div className="flex flex-col gap-5" data-route-usable="reading-question-types">
-    <Link className="link-inline" href="/app/reading">{dict.common.back}</Link>
-    <h1 className="page-title">{t.selectType}</h1>
     <nav className="flex flex-wrap gap-2" aria-label={t.selectType}>{types.map(type => <Link className="btn-secondary" aria-current={type.id === selected?.id ? "page" : undefined} key={type.id} href={`/app/reading/question-types?type=${type.id}`} data-reading-type={type.id}>{questionTypeLabel(type.id,locale)} ({type.count})</Link>)}</nav>
     {!types.length && <p className="body-text">{dict.readingHub.typesEmpty}</p>}
     {selected && <><h2 className="section-title">{questionTypeLabel(selected.id,locale)}</h2>

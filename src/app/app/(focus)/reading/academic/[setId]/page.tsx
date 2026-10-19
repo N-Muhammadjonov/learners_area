@@ -3,7 +3,6 @@ import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { isUuid } from "@/lib/validation/ids";
 import { generalSetDetail } from "@/lib/data/general-reading";
-import { BackLink } from "@/components/ui/BackLink";
 import { StartPassageButton } from "@/components/reading/StartPassageButton";
 import { academicQuestionSelection } from "@/lib/reading/academic-selection";
 import { academicQuestionSelectionReady } from "@/lib/data/reading-assessments";
@@ -18,8 +17,7 @@ export default async function AcademicSetPage({ params }: { params: Promise<{ se
   if (!detail || detail.passages.length !== 3 || detail.passages.some((p, i) => p.passageNo !== i + 1 || p.questions.length === 0)) notFound();
   const allQuestions=detail.passages.flatMap(p=>p.questions.map(q=>({...q,externalId:p.passage.externalId})));
   if (!academicQuestionSelection(detail.set.sourceRef,allQuestions) || (allQuestions.length!==40 && !(await academicQuestionSelectionReady()))) notFound();
-  return <div className="mx-auto flex max-w-[960px] flex-col gap-6" data-academic-reading-start>
-    <BackLink fallbackHref="/app/reading/academic" label={dict.common.back} />
+  return <div className="reading-exam-intro" data-academic-reading-start>
     <h1 className="page-title">{detail.set.title}</h1>
     <p className="body-text">{dict.readingHub.academicExamHint}</p>
     <ol className="grid gap-3">{detail.passages.map(section => <li key={section.passageNo} className="card p-4">

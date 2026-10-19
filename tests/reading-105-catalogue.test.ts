@@ -86,7 +86,7 @@ test("Reading 105 real SQL repair links original IDs once, atomically rejects co
 });
 
 test("General detail checks the live exam seal before restoring any checked answer keys", () => {
-  const page=readFileSync("src/app/app/(shell)/reading/general/[setId]/page.tsx","utf8");
+  const page=readFileSync("src/app/app/(focus)/reading/general/[setId]/page.tsx","utf8");
   assert.ok(page.indexOf('if (activeExam) redirect') < page.indexOf('const progress = await generalProgress'));
   assert.ok(page.indexOf('if (activeExam) redirect') < page.indexOf('restoredGeneralCheck(row'));
 });

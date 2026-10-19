@@ -877,6 +877,11 @@ const uz: Dictionary = {
    * Mashq ekrani. Alohida blok, chunki bu matnlar faqat bitta ish maydonini
    * tasvirlaydi — bo'lingan ko'rinish, taymer, avtomatik saqlash.
    */
+  readingWorkspace: {
+    passage: "Matn", questions: "Savollar", resize: "Matn va savollar kengligini o'zgartirish",
+    smaller: "Matnni kichraytirish", larger: "Matnni kattalashtirish", passageHeading: "READING PASSAGE {n}",
+    questionRange: "Savollar {from}–{to}", review: "Qayta ko'rish", library: "Passage kutubxonasi",
+  },
   readingPractice: {
     passageTab: "Matn",
     questionsTab: "Savollar",

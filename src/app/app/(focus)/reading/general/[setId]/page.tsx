@@ -1,7 +1,6 @@
 import { questionTypeLabel } from "@/lib/reading-labels";
 import { publicReadingConstraint, readingQuestionType } from "@/lib/reading/question-model";
 import { questionType } from "@/lib/content/question-types";
-import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -36,9 +35,8 @@ export default async function GeneralReadingSetPage({ params, searchParams }: {
 
   if (!mode) {
     return (
-      <div className="mx-auto flex max-w-[960px] flex-col gap-6" data-general-reading-choose>
+      <div className="reading-exam-intro" data-general-reading-choose>
         <header className="flex flex-col gap-2">
-          <BackLink fallbackHref="/app/reading/general" label={t.back} />
           <h1 className="section-title">{detail.set.title}</h1>
           {detail.set.description && <p className="body-text">{detail.set.description}</p>}
           <p className="body-text text-sm">{t.choose}</p>
