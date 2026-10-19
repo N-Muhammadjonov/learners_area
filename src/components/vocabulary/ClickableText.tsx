@@ -47,7 +47,7 @@ export function ClickableText(props: {
   return <LexicalText key={JSON.stringify([props.sourceType, props.sourceId, props.text])} {...props} />;
 }
 
-function LexicalText({ dict, text, sourceType, sourceId, className = "", inline = false, occurrences = [], catalogueLookup = false, phraseAware = false, lexicalAssistance = true, highlights = [], onHighlightRange, onRemoveHighlight }: Parameters<typeof ClickableText>[0]) {
+function LexicalText({ dict, text, sourceType, sourceId, className = "", inline = false, occurrences = [], catalogueLookup = false, phraseAware = ["reading", "listening", "retention"].includes(sourceType), lexicalAssistance = true, highlights = [], onHighlightRange, onRemoveHighlight }: Parameters<typeof ClickableText>[0]) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [active, setActive] = useState<number | null>(null);
   const [cursor, setCursor] = useState<number | null>(null);
@@ -55,6 +55,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
   const gesture = useRef<{ x: number; y: number; started: number; cancelled: boolean } | null>(null);
   const tokens = useMemo(() => tokenise(text), [text]);
   const words = useMemo(() => tokens.flatMap((token, index) => token.isWord ? [index] : []), [tokens]);
+  const doubleClickLookup = ["reading", "listening", "retention"].includes(sourceType);
   const pendingClick = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (pendingClick.current) clearTimeout(pendingClick.current); }, []);
   const hintId = useId();
@@ -141,7 +142,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
   const Region = inline ? "span" : "div";
   return (
     <Region className={className}>
-      {lexicalAssistance && <span id={hintId} className="sr-only">{dict.vocabulary.textLookupHint}</span>}
+      {lexicalAssistance && <span id={hintId} className="sr-only">{doubleClickLookup ? dict.vocabulary.textLookupDoubleHint : dict.vocabulary.textLookupHint}</span>}
       <Region
         ref={node => { wrapperRef.current = node; }}
         className="relative whitespace-pre-line outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-600"
@@ -164,7 +165,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
         onPointerCancel={() => { if (gesture.current) gesture.current.cancelled = true; }}
         onContextMenu={() => { if (gesture.current) gesture.current.cancelled = true; }}
         onClick={(event) => {
-          if (!lexicalAssistance) return;
+          if (!lexicalAssistance || (doubleClickLookup && event.detail !== 0)) return;
           const start = gesture.current;
           gesture.current = null;
           if (event.detail > 1 || (start && (start.cancelled || Date.now() - start.started >= 500))) return;
@@ -179,6 +180,15 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
             else pendingClick.current = setTimeout(() => {
               if (window.getSelection()?.isCollapsed) open(index);
             }, 240);
+          }
+        }}
+        onDoubleClick={(event) => {
+          if (!lexicalAssistance || !doubleClickLookup || event.button !== 0 || gesture.current?.cancelled) return;
+          const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-token]") : null;
+          if (target && wrapperRef.current?.contains(target)) {
+            if (pendingClick.current) clearTimeout(pendingClick.current);
+            setSelection(null);
+            open(Number(target.dataset.token));
           }
         }}
         onMouseUp={captureSelection}
@@ -360,7 +370,7 @@ export function WordPopover({
     // A Listening or Reading word without a server-proven occurrence has no knowable
     // sense. No spelling lookup is made at all: the learner sees "Meaning not checked
     // yet" and may only save their own meaning. (Other sources keep the library search.)
-    const spellingOnlyContextual = (sourceType === "listening" || sourceType === "reading") && !occurrenceId;
+    const spellingOnlyContextual = ["listening", "reading", "retention"].includes(sourceType) && !occurrenceId;
     void (async () => {
       if (spellingOnlyContextual) {
         const folderResult = await requestJson<{ folders: { id: string; name: string }[] }>("/api/vocabulary/folders", { method: "GET", signal: controller.signal });
@@ -480,7 +490,7 @@ export function WordPopover({
           <label className="text-xs text-ink-500">
             {t.games.set.folder}
             <select className="input mt-1" value={folderId} onChange={(event) => setFolderId(event.target.value)}>
-              <option value="">{sourceType === "listening" ? "Listening" : sourceType === "reading" ? "Reading" : t.folders.unassigned}</option>
+              <option value="">{sourceType === "listening" ? "Listening" : sourceType === "reading" ? "Reading" : sourceType === "retention" ? "Retention" : t.folders.unassigned}</option>
               {folders.map((folder) => <option key={folder.id} value={folder.id}>{folder.name}</option>)}
             </select>
           </label>

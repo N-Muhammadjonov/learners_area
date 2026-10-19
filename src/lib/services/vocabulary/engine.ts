@@ -361,8 +361,8 @@ export async function addVocabularyBatch(input: {
     }
 
     let destinationFolderId = input.folderId ?? null;
-    if (!destinationFolderId && (input.sourceType === "listening" || input.sourceType === "reading")) {
-      const name = input.sourceType === "listening" ? "Listening" : "Reading";
+    if (!destinationFolderId && ["listening", "reading", "retention"].includes(input.sourceType ?? "")) {
+      const name = input.sourceType === "listening" ? "Listening" : input.sourceType === "retention" ? "Retention" : "Reading";
       const [created] = await tx.insert(vocabFolders).values({ userId: input.userId, name })
         .onConflictDoNothing({ target: [vocabFolders.userId, vocabFolders.name] }).returning({ id: vocabFolders.id });
       const existing = created ?? await tx.query.vocabFolders.findFirst({ where: and(eq(vocabFolders.userId, input.userId), eq(vocabFolders.name, name)) });

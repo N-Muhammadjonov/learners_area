@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
   const sourceType = req.nextUrl.searchParams.get("sourceType") ?? "reading";
   const sourceId = req.nextUrl.searchParams.get("sourceId") ?? "";
   const occurrenceId = req.nextUrl.searchParams.get("occurrenceId") ?? "";
-  if (!["reading", "listening"].includes(sourceType) || !isUuid(sourceId) || !isUuid(occurrenceId)) {
+  if (!["reading", "listening", "retention"].includes(sourceType) || !isUuid(sourceId) || !isUuid(occurrenceId)) {
     return NextResponse.json({ error: "invalid_input" }, { status: 400, headers });
   }
   const result = await resolveOccurrence(user, sourceType, sourceId, occurrenceId);

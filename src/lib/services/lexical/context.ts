@@ -20,7 +20,8 @@ export type VocabularySourceSnapshot = {
   surfaceForm: string;
   sentenceText: string;
   /* 0029 — revisit data. Optional: snapshots written before 0029 lack them. */
-  sourceType?: "reading" | "listening" | "video";
+  sourceType?: "reading" | "listening" | "video" | "retention";
+  retentionAttemptId?: string | null;
   videoLessonId?: string | null;
   /** Reading: the learner's own attempt the word was met in (revisit target). */
   attemptId?: string | null;
@@ -39,6 +40,7 @@ export type VocabularySourceSnapshot = {
 /** Where "go back to this source" leads; null when no learner-reachable page exists. */
 export function sourceRevisitHref(snapshot: Partial<VocabularySourceSnapshot> | null | undefined): string | null {
   if (!snapshot) return null;
+  if (snapshot.sourceType === "retention" && snapshot.retentionAttemptId) return "/app/reading/retention";
   if (snapshot.sourceType === "video" && snapshot.videoLessonId) return `/app/video-lessons/${snapshot.videoLessonId}`;
   if (snapshot.sourceType === "listening" && snapshot.listeningTestId) {
     const section = snapshot.sectionNumber && snapshot.sectionNumber >= 1 && snapshot.sectionNumber <= 4 ? `?section=${snapshot.sectionNumber}` : "";
@@ -219,6 +221,7 @@ async function unresolvedReadingOccurrence(userId: string, sourceId: string, occ
 
 /** One entry point for every source type that has occurrences. */
 export async function resolveOccurrence(user: { id: string; role: Role }, sourceType: string, sourceId: string, occurrenceId: string, executor:typeof db=db): Promise<OccurrenceResolution | null> {
+  if (sourceType === "retention") return (await import("./retention-occurrences")).resolveRetentionOccurrence(user, sourceId, occurrenceId, executor);
   if (sourceType === "listening") return resolveListeningOccurrence(user, sourceId, occurrenceId);
   if (sourceType === "reading") {
     const staff = isStaff(user.role);

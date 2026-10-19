@@ -1,0 +1,376 @@
+# source|surface|part of speech|contextual English meaning|Uzbek meaning
+A2-001|bus stop|noun phrase|a place where a bus stops to collect passengers|avtobus bekati
+A2-001|missed|verb|failed to catch the bus before it left|avtobusga ulgurmay qoldi
+A2-001|lent|verb|gave something to someone to use and return later|vaqtincha foydalanishga berdi
+A2-001|half past eight|fixed expression|eight thirty|soat sakkiz yarim
+A2-001|looking worried|verb phrase|appearing anxious about something|xavotirlangan holda ko‘rinayotgan
+A2-002|class trip|noun phrase|an organised visit made by a school class|sinf bilan uyushtirilgan sayohat
+A2-002|beside|preposition|next to something|yonida
+A2-002|bus station|noun phrase|a place where buses arrive and leave|avtobuslar qatnovi bekati
+A2-002|shared|verb|gave part of something to another person|bo‘lishdi
+A2-002|the night before|fixed expression|on the evening before the planned day|oldingi kuni kechqurun
+A2-003|scratching|noun|a sound made by claws rubbing against a surface|tirnoqlarning tirnalish tovushi
+A2-003|wardrobe|noun|a tall cupboard for clothes|kiyim javoni
+A2-003|switched off|phrasal verb|stopped an electrical device from operating|o‘chirib qo‘yishdi
+A2-003|picked it up|phrasal verb|lifted the animal from where it was|uni qo‘liga oldi
+A2-003|going to bed|verb phrase|getting ready to sleep|uxlashga yotish
+A2-004|spilled|verb|accidentally let liquid fall out of its container|to‘kib yuborgan
+A2-004|slippery|adjective|easy to slide on and difficult to walk on safely|sirpanchiq
+A2-004|puddle|noun|a small pool of water on a surface|kichik suv ko‘lmakchasi
+A2-004|garden path|noun phrase|a walkway through a garden|bog‘dagi yo‘lak
+A2-004|keep the kitchen window shut|verb phrase|leave the kitchen window closed|oshxona derazasini yopiq tutish
+A2-005|recipe book|noun phrase|a book with instructions for preparing food|taom retseptlari kitobi
+A2-005|suitcase|noun|a case used for carrying clothes when travelling|chamadon
+A2-005|read the soup recipe aloud|verb phrase|said the soup instructions so another person could hear|sho‘rva retseptini ovoz chiqarib o‘qidi
+A2-005|onions|noun|round vegetables with layers and a strong taste|piyozlar
+A2-005|kitchen shelf|noun phrase|a flat board in the kitchen used for storing things|oshxonadagi tokcha
+A2-006|kite|noun|a light object flown in the wind on a string|varrak
+A2-006|string|noun|a thin cord used to hold the kite|varrak ipi
+A2-006|ran after|phrasal verb|ran in an effort to catch something moving away|ortidan yugurishdi
+A2-006|handed it back|phrasal verb|returned it by giving it to its owner|uni egasiga qaytarib berdi
+A2-006|flight|noun|a period when the kite is flying in the air|varrakning havoda uchishi
+A2-007|return date|noun phrase|the day by which a borrowed book must be given back|kitobni qaytarish sanasi
+A2-007|reminder|noun|a message that helps someone remember a responsibility|eslatma
+A2-007|cover|noun|the outer part that protects a book|kitob muqovasi
+A2-007|on time|fixed expression|by the agreed or required time|belgilangan vaqtda
+A2-007|calendar|noun|a record showing the days and dates of the year|taqvim
+A2-008|sleeve|noun|the part of a garment that covers an arm|yeng
+A2-008|spare|adjective|extra and available to use when needed|zaxiradagi
+A2-008|back row|noun phrase|the line of people standing behind the other lines|orqa qator
+A2-008|next to|preposition|immediately beside someone or something|yonida
+A2-008|came back|phrasal verb|were returned after being produced|tayyorlanib qaytib keldi
+A2-009|heavy rain|noun phrase|rain that falls in large amounts|kuchli yomg‘ir
+A2-009|put it on|phrasal verb|dressed herself in the raincoat|uni kiyib oldi
+A2-009|cross the street|verb phrase|go from one side of the street to the other|ko‘chani kesib o‘tmoq
+A2-009|sunset|noun|the time when the sun goes below the horizon|quyosh botishi
+A2-009|hung|verb|placed something on a support so that it could dry|ilib qo‘ydi
+A2-010|instead of|preposition|in place of something else|o‘rniga
+A2-010|recipe|noun|instructions for preparing a particular food|taom tayyorlash retsepti
+A2-010|baking tin|noun phrase|a metal container used for baking a cake|tort pishirish qolipi
+A2-010|rose|verb|became higher as the cake mixture expanded|ko‘tarildi
+A2-010|flavour|noun|the particular taste of a food|ta’m
+A2-011|identical|adjective|exactly the same in appearance|bir xil ko‘rinishdagi
+A2-011|at once|fixed expression|immediately|darhol
+A2-011|information desk|noun phrase|a counter where staff give travel information|ma’lumotlar peshtaxtasi
+A2-011|apart from|preposition|except for|bundan tashqari
+A2-011|mix-up|noun|a mistake caused by confusing two things|adashtirib yuborish
+A2-012|flowerpots|noun|containers used for growing flowers|gul tuvaklari
+A2-012|balcony|noun|a raised outdoor platform attached to a building|balkon
+A2-012|knocked over|phrasal verb|hit something so that it fell over|urib ag‘darib yubordi
+A2-012|soil|noun|the earth in which plants grow|tuproq
+A2-012|edge|noun|the outer boundary of a surface|chet
+A2-013|fuel|noun|a substance burned to power a vehicle|yoqilg‘i
+A2-013|roadside|noun|the area beside a road|yo‘l cheti
+A2-013|container|noun|an object used to hold or carry something|idish
+A2-013|filled the tank|verb phrase|put fuel into the car's fuel container|mashina bakiga yoqilg‘i quyishdi
+A2-013|managed to|verb phrase|succeeded in doing something despite a difficulty|qiyinchilikka qaramay uddaladi
+A2-014|fountain|noun|a structure from which water flows or sprays|favvora
+A2-014|follow the path|verb phrase|walk along the route shown|ko‘rsatilgan yo‘ldan yurmoq
+A2-014|walked past|verb phrase|walked by something and continued beyond it|yonidan o‘tib ketishdi
+A2-014|street musician|noun phrase|a person who plays music in a public street|ko‘chada musiqa chaluvchi
+A2-014|put the map back|verb phrase|returned the map to its original place|xaritani joyiga qaytarib qo‘ydi
+A2-015|pen|noun|an enclosed area used for keeping farm animals|hayvon saqlanadigan qo‘ra
+A2-015|stepped aside|verb phrase|moved to one side to make space|chetga chiqishdi
+A2-015|a handful of|fixed expression|an amount that can be held in one hand|bir hovuch
+A2-015|slowed down|phrasal verb|began moving less quickly|sekinlashdi
+A2-015|stay away from|verb phrase|keep a safe distance from something|yaqin bormaslik
+B1-001|special screening|noun phrase|a film showing arranged for a particular occasion or audience|maxsus kino namoyishi
+B1-001|hearing difficulties|noun phrase|problems hearing sounds clearly|eshitishdagi qiyinchiliklar
+B1-001|subtitles|noun|written words on screen showing what people say|subtitrlar
+B1-001|steep|adjective|rising at a sharp angle|tik
+B1-001|side door|noun phrase|an entrance at the side of a building|yon tomondagi eshik
+B1-002|mixed up|phrasal verb|confused with one another and sent incorrectly|bir-biriga adashtirilgan
+B1-002|refund|noun|money returned to a customer|qaytarib beriladigan pul
+B1-002|replacement delivery|noun phrase|delivery of the correct item in place of the wrong one|noto‘g‘ri mahsulot o‘rniga to‘g‘risini yetkazish
+B1-002|on its way|fixed expression|travelling towards its destination|yo‘lga chiqqan
+B1-002|tracking information|noun phrase|details showing where a parcel is during delivery|jo‘natma harakatini kuzatish ma’lumotlari
+B1-003|find out|phrasal verb|discover the true explanation|aniqlab bilib olmoq
+B1-003|telescope|noun|an instrument used to see distant objects in the sky|teleskop
+B1-003|pointed out|phrasal verb|drew people's attention to a fact|ta’kidlab ko‘rsatdi
+B1-003|unfamiliar|adjective|not previously known or recognised|notanish
+B1-003|record|verb|write down information so it can be kept|qayd etmoq
+B1-004|on their behalf|fixed expression|as their representative or in their place|ularning nomidan
+B1-004|water shutdown|noun phrase|a temporary stopping of the water supply|suv ta’minotining vaqtincha to‘xtatilishi
+B1-004|matched|verb|had the same intended meaning as something else|ma’nosi mos keldi
+B1-004|confirm|verb|check that information is correct|to‘g‘riligini tasdiqlamoq
+B1-004|beforehand|adverb|before the event or situation happens|oldindan
+B1-005|savoury|adjective|having a salty or spicy taste rather than a sweet one|shirin bo‘lmagan, tuzli yoki ziravorli
+B1-005|lentil soup|noun phrase|soup made with lentils|yasmiq sho‘rvasi
+B1-005|adjusted|verb|changed slightly to obtain the desired taste|me’yorini moslashtirdi
+B1-005|serving portions|noun phrase|amounts of food given to each person|bir kishiga tortiladigan ovqat miqdorlari
+B1-005|wrote it down|phrasal verb|recorded the advice in writing|uni yozib oldi
+B1-006|harbour|noun|a sheltered area of water where boats stay|bandargoh
+B1-006|crossing|noun|a journey across water by ferry|paromda suvdan o‘tish qatnovi
+B1-006|pier|noun|a structure extending into water where passengers board boats|kemaga chiqiladigan ko‘priksimon inshoot
+B1-006|inconvenient|adjective|causing difficulty or changing someone's plans|noqulaylik tug‘diradigan
+B1-006|reasonable|adjective|sensible and justified in the circumstances|asosli va oqilona
+B1-007|loaf|noun|a whole shaped piece of bread|bir dona butun non
+B1-007|digit|noun|one written number from zero to nine|raqam
+B1-007|receipt|noun|a document showing that money has been paid|to‘lov cheki
+B1-007|refund|noun|money returned after a customer was charged too much|ortiqcha olingan pulning qaytarilishi
+B1-007|as a backup|fixed expression|as an extra option in case the main one fails|ehtiyot chorasi sifatida
+B1-008|rehearsed|verb|practised a performance before presenting it to an audience|repetitsiya qilishgan
+B1-008|leading actor|noun phrase|the performer with the main part in a play|bosh rol ijrochisi
+B1-008|lost his voice|fixed expression|became unable to speak normally|ovozi chiqmay qoldi
+B1-008|lead role|noun phrase|the main part in a performance|bosh rol
+B1-008|paying attention|verb phrase|concentrating carefully on what is happening|diqqat bilan kuzatish
+B1-009|account|noun|a spoken description of a past event|voqea haqidagi hikoya
+B1-009|paving stones|noun phrase|flat stones forming the surface of a public square or path|yo‘lakka yotqizilgan toshlar
+B1-009|stood|verb|was located in a particular place|joylashgan edi
+B1-009|donated|verb|gave something for public use without payment|bepul hadya qildi
+B1-009|written source|noun phrase|a document providing evidence or information|yozma manba
+B1-010|single-use|adjective|intended to be used once and then thrown away|bir martalik
+B1-010|tap water|noun phrase|water supplied through a tap|jo‘mrakdan keladigan suv
+B1-010|caretaker|noun|a person who looks after a school building|maktab binosining xo‘jalik xodimi
+B1-010|thoroughly|adverb|completely and carefully|yaxshilab
+B1-010|reusable|adjective|able to be used many times|qayta-qayta ishlatiladigan
+B1-011|trail signs|noun phrase|markers showing the walking route|piyoda yo‘li ko‘rsatkichlari
+B1-011|taking a risk|verb phrase|doing something that may be dangerous|tavakkal qilish
+B1-011|stream|noun|a small natural flow of water|soy
+B1-011|animal tracks|noun phrase|marks left on the ground by animals' feet|hayvon oyoq izlari
+B1-011|turn back|phrasal verb|return in the direction from which one came|ortga qaytmoq
+B1-012|intern|noun|a person gaining practical experience through a temporary work placement|amaliyotchi
+B1-012|permanently|adverb|for good rather than for a short period|butunlay
+B1-012|news break|noun phrase|a short scheduled period for reporting news|qisqa yangiliklar efiri
+B1-012|unconfirmed claim|noun phrase|a statement whose truth has not been checked|tasdiqlanmagan da’vo
+B1-012|kept a record|verb phrase|preserved written details of what happened|qaydlarni saqlab qo‘ydi
+B1-013|faded|adjective|no longer clear because the colour or ink has weakened|rangi o‘chgan
+B1-013|place the journey in time|verb phrase|determine when the journey happened|sayohat qachon bo‘lganini aniqlamoq
+B1-013|brief descriptions|noun phrase|short written explanations|qisqa tavsiflar
+B1-013|preserve|verb|keep something safe and unchanged for the future|saqlab qolmoq
+B1-013|confident guess|noun phrase|an uncertain assumption stated as though it were certain|ishonch bilan aytilgan taxmin
+B1-014|swarm|noun|a large group of bees moving together|asalari to‘dasi
+B1-014|hive|noun|a container or home where bees live|asalari uyasi
+B1-014|guarding|verb|protecting something against danger|qo‘riqlayotgan
+B1-014|felt relieved|verb phrase|felt less worried after a problem was resolved|ko‘ngli xotirjam bo‘ldi
+B1-014|untouched|adjective|not disturbed or altered|tegmasdan o‘z holicha qoldirilgan
+B1-015|hands|noun|the moving pointers on a clock|soat millari
+B1-015|worn|adjective|damaged by long use|eskirib yeyilgan
+B1-015|reliable|adjective|able to be trusted to give correct information|ishonchli
+B1-015|checked the time against|verb phrase|compared a clock's time with another time source|vaqtni boshqa manba bilan solishtirib tekshirdi
+B1-015|keep checking|verb phrase|continue checking regularly|muntazam tekshirib turmoq
+B2-001|prohibited|adjective|not permitted by the rules|taqiqlangan
+B2-001|dunes|noun|hills of sand near the beach|qum tepalari
+B2-001|taking care|verb phrase|making a deliberate effort to avoid a problem|ehtiyotkorlik bilan ish tutib
+B2-001|comprehension|noun|understanding the meaning of a message|mazmunni tushunish
+B2-001|prominent|adjective|easy to see or notice|yaqqol ko‘zga tashlanadigan
+B2-002|assembly instructions|noun phrase|directions for putting the furniture parts together|mebel qismlarini yig‘ish yo‘riqnomasi
+B2-002|attribute|verb|regard something as the result of a particular cause|muayyan sababga bog‘lamoq
+B2-002|customer mix|noun phrase|the different types of customers buying the products|xaridorlar tarkibi
+B2-002|representative|adjective|accurately showing what the product is really like|mahsulotning asl ko‘rinishini to‘g‘ri aks ettiradigan
+B2-002|gap between expectation and reality|noun phrase|the difference between what customers expect and what they receive|kutilgan narsa bilan haqiqiy holat o‘rtasidagi tafovut
+B2-003|amount due|noun phrase|the sum of money that must be paid|to‘lanishi kerak bo‘lgan summa
+B2-003|consumption|noun|the amount of electricity used|elektr energiyasi sarfi
+B2-003|tariff|noun|the rate charged for electricity|elektr energiyasi tarifi
+B2-003|disputed amount|noun phrase|a payment sum whose correctness is being challenged|to‘g‘riligi yuzasidan e’tiroz bildirilgan summa
+B2-003|written confirmation|noun phrase|a document confirming an agreement or correction|yozma tasdiq
+B2-004|speak up|phrasal verb|express a concern so that others can hear it|fikr yoki muammoni ochiq aytmoq
+B2-004|ensemble|noun|a group of musicians performing together|birgalikda ijro etuvchi musiqachilar jamoasi
+B2-004|consensus|noun|agreement shared by the members of a group|umumiy kelishuv
+B2-004|visual cues|noun phrase|signals that performers can see|ko‘z bilan ko‘riladigan ishoralar
+B2-004|on its own|fixed expression|without being combined with another approach|o‘z holicha, boshqa usulsiz
+B2-005|misleading|adjective|likely to make people form an incorrect belief|chalg‘ituvchi
+B2-005|drew attention to|verb phrase|made people notice something|e’tiborni jalb qildi
+B2-005|authenticity|noun|the quality of being genuine rather than falsely presented|haqiqiylik
+B2-005|alarming|adjective|causing worry or fear|xavotir uyg‘otadigan
+B2-005|forwarded|verb|sent a received message on to other people|boshqalarga qayta yuborilgan
+B2-006|captions|noun|short texts explaining a graph or image|grafik ostidagi izohlar
+B2-006|plausible|adjective|appearing reasonable or possible|haqiqatga yaqin ko‘rinadigan
+B2-006|misconduct|noun|dishonest or improper professional behaviour|kasbiy qoidabuzarlik
+B2-006|fabricated measurements|noun phrase|measurement results that were invented rather than observed|to‘qib chiqarilgan o‘lchov natijalari
+B2-006|raw data|noun phrase|original information before processing or analysis|ishlov berilmagan dastlabki ma’lumotlar
+B2-007|at short notice|fixed expression|with very little time to prepare|juda qisqa muddat ichida
+B2-007|landmarks|noun|recognisable places used to identify locations|yo‘l topishda mo‘ljal bo‘ladigan joylar
+B2-007|boarding|noun|the process of getting onto a bus|avtobusga chiqish
+B2-007|diversion|noun|a temporary change from the usual route|vaqtincha aylanma yo‘l
+B2-007|resume|verb|start following a previous routine again|avvalgi odatga qaytmoq
+B2-008|curator|noun|a specialist responsible for a museum collection|muzey kolleksiyasi mutaxassisi
+B2-008|conclusive|adjective|providing enough evidence for a definite conclusion|qat’iy xulosa chiqarishga yetarli
+B2-008|vessel|noun|a container used for holding a substance|idish
+B2-008|overlooked|verb|failed to notice or consider|e’tibordan chetda qoldirgan
+B2-008|open to revision|adjective phrase|able to be changed when new evidence appears|yangi dalillar asosida qayta ko‘rib chiqilishi mumkin bo‘lgan
+B2-009|discrepancy|noun|a difference between records that should agree|mos kelishi kerak bo‘lgan ma’lumotlar o‘rtasidagi tafovut
+B2-009|in distress|fixed expression|feeling very worried or upset|qattiq xavotirda
+B2-009|flag|verb|mark information as needing someone's attention|tekshirish zarurligini belgilamoq
+B2-009|recipient|noun|a person who receives a message|xabarni qabul qiluvchi
+B2-009|distinct outcomes|noun phrase|separate results that must not be treated as the same|bir-biridan farqli natijalar
+B2-010|upstream|adverb|against the direction in which a river flows|oqimga qarshi
+B2-010|riverbed|noun|the ground at the bottom of a river|daryo tubi
+B2-010|bias|noun|a systematic distortion in what a method detects|o‘lchash usulidan kelib chiqadigan tizimli og‘ish
+B2-010|footage|noun|recorded moving images|videotasvirlar
+B2-010|caveat|noun|a warning explaining a limit on a claim|xulosaning cheklovini bildiruvchi izoh
+B2-011|discarded|verb|thrown away as no longer needed|tashlab yuborilgan
+B2-011|batches|noun|amounts of food prepared together at one time|bir yo‘la tayyorlanadigan ovqat miqdorlari
+B2-011|without compromising|verb phrase|without reducing the required standard of|talab etilgan darajasini pasaytirmasdan
+B2-011|sold out|phrasal verb|had no portions left available to buy|sotilib tugagan
+B2-011|conclusive evidence|noun phrase|evidence strong enough to support a definite conclusion|qat’iy xulosaga yetarli dalil
+B2-012|constant availability|noun phrase|being reachable for work at all times|ish bo‘yicha doimo aloqada bo‘lish
+B2-012|shared hours|noun phrase|working hours agreed on by all team members|jamoa kelishgan umumiy ish vaqti
+B2-012|out of habit|fixed expression|because it has become a regular automatic behaviour|odat bo‘lib qolgani uchun
+B2-012|model|verb|demonstrate the desired behaviour through one's own actions|o‘z xatti-harakati bilan namuna ko‘rsatmoq
+B2-012|commitment|noun|dedication to one's work or responsibilities|ishga mas’uliyat bilan yondashish
+B2-013|calibration|noun|adjustment of a measuring device so it gives correct readings|o‘lchov moslamasini to‘g‘ri ko‘rsatishga sozlash
+B2-013|supervised trials|noun phrase|test runs carried out under qualified observation|mutaxassis nazoratidagi sinovlar
+B2-013|reassuring|adjective|making people feel less worried|xotirjamlik beruvchi
+B2-013|safety-critical|adjective|directly important to preventing danger|xavfsizlik uchun hal qiluvchi ahamiyatga ega
+B2-013|trigger|verb|cause an inspection to be started|tekshiruv boshlanishiga sabab bo‘lmoq
+B2-014|undeveloped film|noun phrase|photographic film not yet chemically processed to reveal its images|tasvirlari hali chiqarilmagan fotoplyonka
+B2-014|passed along|phrasal verb|transmitted a message from one person to another|xabarni yetkazib berdi
+B2-014|negatives|noun|original photographic images on processed film|fotoplyonkadagi asl negativ tasvirlar
+B2-014|handover|noun|the act of formally giving something to another person|topshirish jarayoni
+B2-014|portfolio|noun|a collection of examples of someone's professional work|kasbiy ishlar to‘plami
+B2-015|mobility aids|noun phrase|equipment that helps people move around|harakatlanishga yordam beruvchi moslamalar
+B2-015|accessibility|noun|the ability of different people to use a place safely and easily|turli odamlar uchun joydan bemalol foydalanish imkoniyati
+B2-015|follow-up inspection|noun phrase|a later check to see whether an arrangement still works|keyingi nazorat tekshiruvi
+B2-015|vegetation|noun|plants growing in an area|o‘simlik qoplami
+B2-015|conflicting preferences|noun phrase|different wishes that cannot all be satisfied in the same way|bir-biriga zid afzalliklar
+C1-001|false positives|noun phrase|warnings identifying ordinary samples as problematic when they are not|aslida muammo bo‘lmagan namunalarni xato xavfli deb belgilashlar
+C1-001|alert threshold|noun phrase|the level at which the system starts giving a warning|tizim ogohlantirish berishni boshlaydigan chegara
+C1-001|divert attention from|verb phrase|draw attention away from something important|muhim narsadan e’tiborni chalg‘itmoq
+C1-001|override|verb|set aside a system's recommendation using human judgement|tizim qarorini inson qarori bilan bekor qilmoq
+C1-001|infallible|adjective|incapable of making mistakes|hech qachon xato qilmaydigan
+C1-002|freight shunting|noun phrase|moving goods wagons around to organise trains|yuk vagonlarini joylashtirish uchun manevr qilish
+C1-002|peak noise|noun phrase|the highest brief level of sound|shovqinning eng yuqori qisqa cho‘qqisi
+C1-002|overstated|verb|described as greater or more important than it really was|bo‘rttirib ko‘rsatilgan
+C1-002|reframed|verb|presented an issue through a different way of understanding it|masalani boshqacha nuqtayi nazardan qo‘ydi
+C1-002|disruptive|adjective|causing disturbance to normal life|tinch hayotga xalaqit beradigan
+C1-003|bystanders|noun|people present at an event without actively participating|voqea joyidagi ishtirok etmagan kuzatuvchilar
+C1-003|informed consent|noun phrase|permission given with an understanding of the relevant risks and uses|xavf va foydalanish shartlarini tushunib berilgan rozilik
+C1-003|feasibility|noun|the practical possibility of doing something|amalga oshirish imkoniyati
+C1-003|redaction|noun|the concealment of sensitive details before access is given|maxfiy tafsilotlarni berkitish
+C1-003|unconditional|adjective|not subject to limits or requirements|hech qanday shartsiz
+C1-004|anecdotal|adjective|based on individual informal reports rather than systematic evidence|alohida shaxsiy hikoyalarga asoslangan
+C1-004|cost-per-visit|noun phrase|the expense of running a service divided by its number of visits|har bir tashrifga to‘g‘ri keladigan xarajat
+C1-004|indivisible|adjective|treated as unable to be separated into smaller parts|bo‘linmas deb qaralgan
+C1-004|propagation room|noun phrase|a room used for growing new plants from seeds or cuttings|o‘simliklarni ko‘paytirish xonasi
+C1-004|substitute|noun|something used in place of another thing|o‘rnini bosuvchi vosita
+C1-005|re-identification risk|noun phrase|the possibility of recognising a person in supposedly anonymous data|shaxsi yashirilgan ma’lumotdan odamni qayta aniqlash xavfi
+C1-005|aggregate results|noun phrase|results combined across multiple people rather than individual records|bir necha kishining ma’lumotlari umumlashtirilgan natijalar
+C1-005|frictionless openness|noun phrase|unrestricted data access presented as requiring no extra effort or controls|hech qanday to‘siq va nazoratsiz ochiqlik
+C1-005|informal assurances|noun phrase|reassuring statements without a documented formal basis|rasmiy hujjatsiz berilgan ishontirishlar
+C1-005|discretion|noun|the ability to make decisions using professional judgement|vakolat doirasida mustaqil qaror qilish
+C1-006|presumed|adjective|assumed to be true without complete proof|to‘liq dalilsiz taxmin qilingan
+C1-006|hypothetical|adjective|proposed as a possibility rather than established as fact|taxminiy
+C1-006|interventions|noun|deliberate treatments or changes made to conserve the object|buyumni saqlash uchun qilingan ishlov va o‘zgartirishlar
+C1-006|ambiguous|adjective|allowing more than one interpretation|bir necha xil talqin qilinishi mumkin bo‘lgan
+C1-006|stabilisation|noun|work preventing an object's condition from deteriorating further|buyumning yanada yemirilishini to‘xtatish ishlari
+C1-007|premiums|noun|regular amounts paid for insurance protection|sug‘urta badallari
+C1-007|cover|noun|the financial protection provided by an insurance policy|sug‘urta himoyasi
+C1-007|subsidy eligibility|noun phrase|meeting the requirements for receiving financial assistance|subsidiya olish talablariga moslik
+C1-007|stand in for|phrasal verb|be used as a substitute for something else|boshqa narsaning o‘rnida ishlatilmoq
+C1-007|flood exposure|noun phrase|the extent to which a property is subject to flooding|mulkning suv toshqini xavfiga duchorlik darajasi
+C1-008|social obligation|noun phrase|a duty expected of someone within their community|jamiyatdagi ijtimoiy majburiyat
+C1-008|distort|verb|give an inaccurate representation of something|mazmunni buzib ko‘rsatmoq
+C1-008|conceivable|adjective|possible to imagine|tasavvur qilish mumkin bo‘lgan
+C1-008|disputed meanings|noun phrase|interpretations whose correctness is contested|to‘g‘riligi bahsli bo‘lgan ma’nolar
+C1-008|restraint|noun|careful limitation of one's actions or conclusions|ehtiyotkorlik bilan o‘zini tiyish
+C1-009|headline metric|noun phrase|the main numerical measure highlighted in a report|hisobotda asosiy qilib ko‘rsatilgan ko‘rsatkich
+C1-009|on the grounds that|fixed expression|for the stated reason that|degan asos bilan
+C1-009|sustained employment|noun phrase|work that continues over a substantial period|barqaror davom etadigan bandlik
+C1-009|dictate|verb|determine or control how something is done|qanday bo‘lishini belgilab bermoq
+C1-009|durability|noun|the ability of an outcome to last over time|natijaning uzoq davom etishi
+C1-010|isolated anecdotes|noun phrase|individual reports not yet shown to represent a wider pattern|umumiy holatni hali isbotlamaydigan alohida hikoyalar
+C1-010|resolution|noun|the level of spatial detail represented by the weather model|modeldagi hududiy tafsilot darajasi
+C1-010|rain gauges|noun phrase|instruments used to measure the amount of rainfall|yog‘in miqdorini o‘lchaydigan asboblar
+C1-010|irreversible|adjective|unable to be undone once carried out|ortga qaytarib bo‘lmaydigan
+C1-010|candid|adjective|honest and open about limitations|cheklovlarni yashirmaydigan ochiq
+C1-011|financially unviable|adjective phrase|unable to work as a sustainable financial project|moliyaviy jihatdan amalga oshirib bo‘lmaydigan
+C1-011|below-market rents|noun phrase|rental prices lower than usual market rates|bozor narxidan past ijara haqlari
+C1-011|displacement|noun|residents being forced to leave their neighbourhood|aholining yashab turgan joyidan siqib chiqarilishi
+C1-011|in the abstract|fixed expression|as a general idea without considering concrete details|aniq tafsilotlarsiz umumiy nazariy tarzda
+C1-011|goodwill|noun|a voluntary willingness to act fairly or helpfully|ixtiyoriy xayrixohlik
+C1-012|outsourced|adjective|carried out by an external contractor rather than the company itself|tashqi pudratchiga topshirilgan
+C1-012|footprint|noun|the overall environmental impact measured through emissions|umumiy emissiya izi
+C1-012|intensity|noun|emissions per unit of activity rather than total emissions|har bir faoliyat birligiga to‘g‘ri keladigan emissiya
+C1-012|reconciliation table|noun phrase|a table showing how separate figures combine into the reported total|alohida raqamlar yakuniy jami bilan qanday moslashishini ko‘rsatuvchi jadval
+C1-012|double counting|noun phrase|including the same contribution more than once in a total|bir miqdorni ikki marta hisoblash
+C1-013|rubric|noun|a structured set of criteria for assessing performance|baholash mezonlari tizimi
+C1-013|well-founded|adjective|supported by good reasons or evidence|puxta asoslangan
+C1-013|diverged|verb|became different from one another|bir-biridan farq qildi
+C1-013|at length|fixed expression|for a long time or in great detail|uzoq va batafsil
+C1-013|idiomatic|adjective|using expressions in a natural way typical of native speakers|tilga xos tabiiy iboralar bilan aytilgan
+C1-014|near misses|noun phrase|incidents that almost caused an accident|sal qolsa baxtsiz hodisaga olib keladigan vaziyatlar
+C1-014|solely|adverb|only and without considering other things|faqatgina
+C1-014|blemish|noun|a flaw that harms an otherwise good public image|yaxshi taassurotga putur yetkazuvchi nuqson
+C1-014|in isolation|fixed expression|without considering surrounding conditions|boshqa omillardan ajratib
+C1-014|hazards|noun|conditions that could cause harm|xavf tug‘diruvchi holatlar
+C1-015|natural regeneration|noun phrase|the recovery of a woodland through its own ecological processes|o‘rmonning tabiiy qayta tiklanishi
+C1-015|saplings|noun|young trees|yosh daraxt ko‘chatlari
+C1-015|invasive plants|noun phrase|plants that spread and threaten the local ecosystem|tez tarqalib mahalliy ekotizimga zarar yetkazadigan o‘simliklar
+C1-015|resilient|adjective|able to recover after disturbance or damage|zarardan keyin qayta tiklana oladigan
+C1-015|browsing animals|noun phrase|animals that feed on leaves and young shoots|barg va yosh novdalarni yeb oziqlanadigan hayvonlar
+C2-001|counterfactual explanations|noun phrase|accounts of how changed circumstances could have produced a different decision|sharoitlar boshqacha bo‘lganda qaror qanday o‘zgarishini tushuntiruvchi izohlar
+C2-001|beyond their control|fixed expression|not something they can change through their own actions|ularning ixtiyoriga bog‘liq bo‘lmagan
+C2-001|contest|verb|formally challenge the validity or fairness of something|to‘g‘riligi yoki adolatliligi yuzasidan e’tiroz bildirmoq
+C2-001|clerical mistakes|noun phrase|errors made in recording or processing administrative information|ma’lumotni qayd etishdagi texnik xatolar
+C2-001|Accountability|noun|responsibility to explain decisions and be answerable for them|qarorlar uchun izoh va javob berish majburiyati
+C2-002|fidelity|noun|the degree to which a model accurately represents reality|modelning haqiqiy holatga moslik darajasi
+C2-002|unwarranted confidence|noun phrase|certainty greater than the evidence justifies|dalillar oqlamaydigan ortiqcha ishonch
+C2-002|trajectory|noun|a predicted course of change over time|vaqt davomida o‘zgarishning bashorat qilingan yo‘nalishi
+C2-002|contingent|adjective|dependent on conditions that may change|o‘zgarishi mumkin bo‘lgan shartlarga bog‘liq
+C2-002|insufficient|adjective|not enough for the stated purpose|yetarli bo‘lmagan
+C2-003|elicited by leading questions|verb phrase|produced in response to questions suggesting a particular answer|javobni yo‘naltirib beruvchi savollar ta’sirida olingan
+C2-003|mutual aid|noun phrase|help people give one another|o‘zaro yordam
+C2-003|annotate|verb|add explanatory comments without changing the original account|asl matnni o‘zgartirmay izoh qo‘shmoq
+C2-003|smoothed away|phrasal verb|made to seem absent by removing inconvenient differences|ziddiyatlar silliqlab yashirilgan
+C2-003|evidentiary status|noun phrase|the nature and strength of something as a source of evidence|ma’lumotning dalil sifatidagi xususiyati va kuchi
+C2-004|veto rights|noun phrase|powers to refuse approval and stop a proposed use|taklif qilingan foydalanishni rad etib to‘xtatish huquqlari
+C2-004|scrutinise|verb|examine something closely and critically|sinchiklab tekshirmoq
+C2-004|symbolic|adjective|appearing to provide representation without meaningful practical power|amalda yetarli ta’sir bermaydigan ramziy
+C2-004|bargaining power|noun phrase|the ability to influence the terms of a negotiation|muzokara shartlariga ta’sir o‘tkazish kuchi
+C2-004|create an avenue|verb phrase|provide a practical way to raise a concern or act|murojaat qilish uchun yo‘l ochmoq
+C2-005|tacit expertise|noun phrase|practical knowledge learned through experience rather than fully stated instructions|tajriba orqali o‘zlashtiriladigan, to‘liq yozib ifodalanmagan mahorat
+C2-005|reproducibility|noun|the ability to obtain a research result again using its materials and methods|material va usullardan foydalanib ilmiy natijani qayta hosil qilish imkoniyati
+C2-005|apprenticeship|noun|practical training under an experienced worker|tajribali mutaxassis yonida amaliy o‘rganish
+C2-005|scrutiny|noun|close and critical examination|sinchkov tekshiruv
+C2-005|suppressing|verb|preventing an unfavourable finding from being made known|noqulay natijani oshkor etmay yashirish
+C2-006|managed retreat|noun phrase|planned movement of people and assets away from areas at growing coastal risk|xavf ortayotgan qirg‘oq hududlaridan rejalashtirilgan ko‘chish
+C2-006|accrued|verb|were gained or accumulated by particular people or places|muayyan tomonlarga to‘plandi
+C2-006|discount rates|noun phrase|rates used to reduce the present value assigned to future costs or benefits|kelajak xarajat va foydasini bugungi qiymatga keltirish stavkalari
+C2-006|voluntary buyouts|noun phrase|purchases of properties from owners who choose to sell|mulkdor roziligi bilan mulkni sotib olishlar
+C2-006|compulsory acquisition|noun phrase|taking property through legal authority without requiring a voluntary sale|mulkni qonuniy vakolat asosida majburiy olib qo‘yish
+C2-007|commercial viability|noun phrase|the ability of a product to operate sustainably as a business|mahsulotning biznes sifatida barqaror ishlay olish imkoniyati
+C2-007|attrition|noun|the loss of participants who leave a trial before it ends|sinov tugamasdan ishtirokchilarning chiqib ketishi
+C2-007|unearned endorsement|noun phrase|an appearance of approval that has not been justified by evidence|dalil bilan asoslanmagan ma’qullash taassuroti
+C2-007|disparities|noun|unequal differences between groups|guruhlar o‘rtasidagi tengsizliklar
+C2-007|pooled|adjective|combined into a shared fund|umumiy jamg‘armaga birlashtirilgan
+C2-008|blanket embargo|noun phrase|a complete restriction applied to all the material|barcha materialga birdek qo‘yilgan to‘liq taqiq
+C2-008|inadvertently|adverb|without intending to do so|beixtiyor, bilmasdan
+C2-008|unilateral|adjective|exercised by one party without the agreement of others|bir tomonlama
+C2-008|masquerading as|verb phrase|appearing to be something it is not|aslida bo‘lmasa ham o‘shandek ko‘rinish
+C2-008|indefinitely|adverb|for an unspecified and potentially unlimited time|muddati belgilanmagan tarzda
+C2-009|granular|adjective|showing very fine individual-level details|juda mayda tafsilotlargacha ko‘rsatilgan
+C2-009|dispatched|verb|sent out towards a destination without necessarily having arrived|manzilga jo‘natilgan, lekin hali yetgani tasdiqlanmagan
+C2-009|confirmed receipt|noun phrase|verified arrival and acceptance of the supplies|yuk yetib kelib qabul qilingani tasdig‘i
+C2-009|denominators|noun|the totals used as the base of performance percentages|foizlarni hisoblashda asos bo‘ladigan jami miqdorlar
+C2-009|procurement|noun|the process of obtaining goods or services for an organisation|tashkilot uchun tovar va xizmatlarni xarid qilish jarayoni
+C2-010|custodians|noun|people entrusted with protecting a cultural tradition|madaniy an’anani asrab-avaylash mas’uliyati yuklangan kishilar
+C2-010|repurposing|noun|using existing material for a different purpose|materialni boshqa maqsadga moslab ishlatish
+C2-010|tiered protocol|noun phrase|a set of rules assigning different levels of permission to different uses|foydalanish turlariga qarab turlicha ruxsat belgilovchi qoidalar
+C2-010|dissenting views|noun phrase|opinions disagreeing with the majority decision|ko‘pchilik qaroriga qo‘shilmaydigan fikrlar
+C2-010|one-off checkbox|noun phrase|a single formal approval step treated as permanently sufficient|bir martalik belgi qo‘yish bilan tugaydi deb qaralgan rasmiy rozilik
+C2-011|negligible|adjective|so small as to have little practical importance|ahamiyatsiz darajada kichik
+C2-011|proportional precautions|noun phrase|protective actions matched to the available evidence and possible harm|dalil va ehtimoliy zararga mutanosib ehtiyot choralari
+C2-011|chronology|noun|an ordered record of events or changes over time|voqealarning vaqt bo‘yicha ketma-ket qaydi
+C2-011|epistemic humility|noun phrase|recognising and acknowledging the limits of what one knows|o‘z bilimining chegaralarini tan olish
+C2-011|casting doubt on|verb phrase|making people question the reliability of something|ishonchliligiga shubha uyg‘otish
+C2-012|let alone|fixed expression|used to show that a stronger claim is even less justified|u yoqda tursin
+C2-012|linked shocks|noun phrase|major changes that affect connected variables together|o‘zaro bog‘liq ko‘rsatkichlarga birgalikda ta’sir qiluvchi keskin o‘zgarishlar
+C2-012|inherently contingent|adjective phrase|dependent by nature on conditions that may change|tabiatan o‘zgaruvchan shart-sharoitlarga bog‘liq
+C2-012|sensitivity analysis|noun phrase|examining how results change when assumptions are changed|taxminlar o‘zgarganda natijalar qanday o‘zgarishini tahlil qilish
+C2-012|normative questions|noun phrase|questions about what ought to be fair or acceptable rather than what is merely predicted|nima adolatli yoki maqbul bo‘lishi kerakligi haqidagi savollar
+C2-013|provided that|fixed expression|on the condition that|sharti bilan
+C2-013|salient|adjective|especially noticeable or important|eng ko‘zga tashlanadigan yoki muhim
+C2-013|legal fidelity|noun phrase|accurate preservation of a judgement's legal meaning and conditions|sud qarorining huquqiy ma’nosi va shartlarini aniq saqlash
+C2-013|unrepresented litigant|noun phrase|a person involved in a court case without legal representation|sud ishida advokatsiz qatnashayotgan shaxs
+C2-013|false implication|noun phrase|an incorrect conclusion indirectly suggested by the wording|matndan bilvosita kelib chiqadigan noto‘g‘ri xulosa
+C2-014|indispensable|adjective|essential and not reasonably replaceable|o‘rnini bosib bo‘lmaydigan darajada zarur
+C2-014|infeasible|adjective|not possible to carry out with the available resources or constraints|mavjud resurs va cheklovlar bilan bajarib bo‘lmaydigan
+C2-014|trade-offs|noun|situations requiring one benefit to be weighed against another cost or benefit|bir foyda uchun boshqa jihatdan yon berishni talab qiladigan murosalar
+C2-014|contingency|noun|a possible event that would change what is needed|vaziyatni o‘zgartirishi mumkin bo‘lgan ehtimoliy hodisa
+C2-014|deliberation|noun|careful discussion before making a public decision|qaror oldidan puxta muhokama
+C2-015|feedback loop|noun phrase|a cycle in which recommendations increase borrowing and that borrowing reinforces the recommendations|tavsiyalar olinadigan kitoblarni ko‘paytirib, bu esa o‘sha tavsiyalarni yana kuchaytiradigan aylana
+C2-015|underrepresented|adjective|shown less often than would fairly reflect the available materials|yetarlicha namoyish etilmagan
+C2-015|patrons|noun|people who use a library's services|kutubxona foydalanuvchilari
+C2-015|discoverability|noun|how easily readers can find material they did not already know|hali tanish bo‘lmagan materialni topish osonligi
+C2-015|prescribing|verb|imposing a fixed idea of what people should value or choose|qanday tanlov to‘g‘ri ekanini qat’iy belgilab qo‘yish

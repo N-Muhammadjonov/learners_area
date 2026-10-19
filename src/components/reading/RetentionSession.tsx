@@ -1,4 +1,5 @@
 "use client";
+import { ClickableText } from "@/components/vocabulary/ClickableText";
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -360,7 +361,7 @@ function ReadingPhase({
       </div>
       <p className="body-text">{dict.retentionMemory.readingHint}</p>
       {seconds > 0 ? (
-        <article className="academic-text panel whitespace-pre-line text-[1.05rem] leading-8 text-ink-800" data-retention-source>{payload.bodyText}</article>
+        <article className="academic-text panel whitespace-pre-line text-[1.05rem] leading-8 text-ink-800" data-retention-source><ClickableText dict={dict} text={payload.bodyText} sourceType="retention" sourceId={payload.attemptId} occurrences={payload.occurrences ?? []} phraseAware /></article>
       ) : (
         <p className="panel" role="status" data-retention-phase-pending>{dict.common.loading}</p>
       )}
