@@ -54,7 +54,7 @@ production replacement; no merge/deploy.
 ## Sequential activity outcome
 
 Full IELTS supported FRONTEND CODE COMPLETE after preserved source journeys and
-all33 new Full gate cases passed; original/live acceptance remains separate. Then,
+all34 new Full gate cases passed; original/live acceptance remains separate. Then,
 immediately, Review received a coherent first slice in the SAME original renderer:
 all4 parts, own revision redraw/reload/checked/retry, existing authorized evidence,
 keyboard-roving tabs, labels and own revision conflict protection. No verdict logic,
@@ -99,3 +99,10 @@ lifetimes are now separate; only actual media play clears a resource failure, wh
 checkpoint ACKs clear checkpoint errors only. Strengthened source probe passes with
 manual Retry, preserved own answer, disposed old transport and a fresh playable
 generation. Raw second-run failure and before/after probes are retained.
+
+Terminal resource403/404 authority loss now also disposes the existing checkpoint
+writer: a late held response cannot erase the access failure after frame teardown.
+A source probe actually commits an own snapshot before holding its response, then
+revokes resource access; the old build erased Retry, the repaired build fences the
+ACK, retains the error and stops media. The simulated server commit still exists:
+client cancellation is NOT rollback. Existing writer engine is unchanged.

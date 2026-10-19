@@ -35,7 +35,7 @@ Native Range-encoded silence position/early end/decoder/held metadata/403/renewa
 NOT real recording, long-run physical heap, Safari/hardware/provider acceptance.
 
 V15 test inventory:405 units (378 preserved +27 added);499 preserved Chromium;
-98 original-source cases (64 preserved +33 Full +1 Review). Expected counts are not
+99 original-source cases (64 preserved +34 Full +1 Review). Expected counts are not
 execution proof: final independent extracted ZIP authority is external
 `deliverables/V15_VALIDATION.txt`. Initial failures and implementation-phase outputs
 are retained in evidence/v15. Foundation history assertion semantics unchanged;
@@ -81,3 +81,10 @@ lifetimes are now separate; only actual media play clears a resource failure, wh
 checkpoint ACKs clear checkpoint errors only. Strengthened source probe passes with
 manual Retry, preserved own answer, disposed old transport and a fresh playable
 generation. Raw second-run failure and before/after probes are retained.
+
+Terminal resource403/404 authority loss now also disposes the existing checkpoint
+writer: a late held response cannot erase the access failure after frame teardown.
+A source probe actually commits an own snapshot before holding its response, then
+revokes resource access; the old build erased Retry, the repaired build fences the
+ACK, retains the error and stops media. The simulated server commit still exists:
+client cancellation is NOT rollback. Existing writer engine is unchanged.

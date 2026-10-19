@@ -41,7 +41,7 @@ original0/9/live0/9. Reading remains gated, staff author NOTSTARTED/staff-only.
 
 ## Proof and cautions
 
-V15 inventory405 units/499 Chromium/98 actual-original-source journeys/25assets.
+V15 inventory405 units/499 Chromium/99 actual-original-source journeys/25assets.
 Only external final validation confirms executed extracted-ZIP results. All first
 failures retained: native first UUID stamp, responsive nav, fullscreen scroll/lazy
 modal reachability, non-Range encoded seek fixture, CSP test poll, foundation30ms
@@ -87,3 +87,10 @@ lifetimes are now separate; only actual media play clears a resource failure, wh
 checkpoint ACKs clear checkpoint errors only. Strengthened source probe passes with
 manual Retry, preserved own answer, disposed old transport and a fresh playable
 generation. Raw second-run failure and before/after probes are retained.
+
+Terminal resource403/404 authority loss now also disposes the existing checkpoint
+writer: a late held response cannot erase the access failure after frame teardown.
+A source probe actually commits an own snapshot before holding its response, then
+revokes resource access; the old build erased Retry, the repaired build fences the
+ACK, retains the error and stops media. The simulated server commit still exists:
+client cancellation is NOT rollback. Existing writer engine is unchanged.

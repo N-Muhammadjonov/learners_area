@@ -1,0 +1,17 @@
+PASS V15 resource authority loss fences a held already-committed checkpoint ACK without claiming rollback
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 1,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V15 resource authority loss fences a held already-committed checkpoint ACK without claiming rollback",
+      "status": "PASS"
+    }
+  ]
+}

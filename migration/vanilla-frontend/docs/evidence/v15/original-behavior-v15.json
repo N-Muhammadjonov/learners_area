@@ -9,7 +9,7 @@
   },
   "results": [
     {
-      "name": "V15 Full encoded recovery capability 503 stops old transport; authority or explicit retry owns next generation",
+      "name": "V15 resource authority loss fences a held already-committed checkpoint ACK without claiming rollback",
       "status": "PASS"
     }
   ]
