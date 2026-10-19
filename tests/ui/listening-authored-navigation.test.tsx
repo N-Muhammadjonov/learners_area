@@ -176,6 +176,10 @@ test('a stale offline outbox hydrates the newer saved attempt, keeps an exportab
   assert.deepEqual(JSON.parse(localStorage.getItem(archives[0]!)!).drafts,[offline]);
   assert.deepEqual(JSON.parse(child!.window.localStorage.getItem(storageKey)!),JSON.parse(canonical[storageKey]));
   assert.equal(document.querySelector('[data-checkpoint-recovered] button')!.textContent,en.fullListeningHub.downloadUnsentWork);
+  await act(async()=>document.querySelector<HTMLButtonElement>('[data-checkpoint-recovered] button:last-child')!.click());
+  assert.equal(document.querySelector<HTMLDetailsElement>('[data-checkpoint-archive]')!.open,false);
+  assert.ok(!document.querySelector('[data-checkpoint-archive]')!.textContent!.includes(en.fullListeningHub.checkpointRecovered));
+  assert.equal(Object.keys(localStorage).filter(key=>key.startsWith(stateKey+':conflict:')).length,1,'dismissal preserves archived work');
   const d=child!.window.document;
   await act(async()=>{d.querySelector<HTMLButtonElement>('[data-open="script"]')!.click();await new Promise(resolve=>setTimeout(resolve,500));});
   assert.ok(writes.length>=2,'a practice update saves after conflict recovery');

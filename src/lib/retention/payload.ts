@@ -1,4 +1,5 @@
 import "server-only";
+import { retentionOccurrenceSpans } from "@/lib/services/lexical/retention-occurrences";
 import { countWords } from "@/lib/retention/word-count";
 import { RetentionError } from "@/lib/retention/errors";
 import { resolvePhase } from "@/lib/retention/phase";
@@ -102,6 +103,7 @@ export async function buildAttemptPayload(
       serverNow,
       wordCount: source.wordCount,
       bodyText: source.bodyText,
+      occurrences: attempt.retentionTextVersionId ? await retentionOccurrenceSpans(connection, attempt.retentionTextVersionId) : [],
     };
     return payload;
   }

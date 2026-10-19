@@ -1332,11 +1332,12 @@ export const lexicalOccurrences = pgTable(
     id: uuid("id").defaultRandom().primaryKey(),
     /** The exact SENSE. Null only while `resolution_status` is not "resolved" (DB CHECK). */
     lexemeId: uuid("lexeme_id").references(() => lexemes.id, { onDelete: "cascade" }),
-    /** reading | listening | video — exactly one matching source column is set (DB CHECK). */
+    /** reading | listening | video | retention — exactly one matching source column is set (DB CHECK). */
     sourceType: varchar("source_type", { length: 16 }).notNull().default("reading"),
     passageId: uuid("passage_id").references(() => readingPassages.id, { onDelete: "cascade" }),
     listeningTestId: uuid("listening_test_id").references(() => listeningTests.id, { onDelete: "cascade" }),
     videoLessonId: uuid("video_lesson_id").references((): AnyPgColumn => videoLessons.id, { onDelete: "cascade" }),
+    retentionTextVersionId: uuid("retention_text_version_id").references((): AnyPgColumn => retentionTextVersions.id, { onDelete: "cascade" }),
     /** Listening section (1–4); offsets are then relative to that section's transcript. */
     sectionNumber: smallint("section_number"),
     /** Audio time of the span when the source has word timing; null = not available, never estimated. */
@@ -1369,6 +1370,7 @@ export const lexicalOccurrences = pgTable(
     listeningOffsetIdx: uniqueIndex("lexical_occurrences_listening_offset_idx")
       .on(table.listeningTestId, table.sectionNumber, table.segmentKey, table.startChar, table.endChar)
       .where(sql`listening_test_id IS NOT NULL`),
+    retentionOffsetIdx: uniqueIndex("lexical_occurrences_retention_offset_idx").on(table.retentionTextVersionId, table.startChar, table.endChar).where(sql`retention_text_version_id IS NOT NULL`),
     unitIdx: index("lexical_occurrences_unit_idx").on(table.lexicalUnitId),
   })
 );

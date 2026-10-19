@@ -43,7 +43,10 @@ export function ingestReadingPassageOccurrences(tx: Tx, passageId: string, body:
 export function ingestVideoOccurrences(tx: Tx, videoLessonId: string, body: string, vocabulary: AuthoredVocabulary[]) {
   return ingestTextOccurrences(tx, {sourceType: "video", videoLessonId}, body, vocabulary, "video_authoring", videoLessonId);
 }
-async function ingestTextOccurrences(tx: Tx, source: {sourceType: "reading"; passageId: string} | {sourceType: "video"; videoLessonId: string}, body: string, vocabulary: AuthoredVocabulary[], provenance: string, sourceId: string) {
+export function ingestRetentionOccurrences(tx: Tx, retentionTextVersionId: string, body: string, vocabulary: AuthoredVocabulary[]) {
+  return ingestTextOccurrences(tx, {sourceType: "retention", retentionTextVersionId}, body, vocabulary, "retention_ai_draft", retentionTextVersionId);
+}
+async function ingestTextOccurrences(tx: Tx, source: {sourceType: "reading"; passageId: string} | {sourceType: "video"; videoLessonId: string} | {sourceType: "retention"; retentionTextVersionId: string}, body: string, vocabulary: AuthoredVocabulary[], provenance: string, sourceId: string) {
   const senses = new Map<string, { lexemeId: string; unitId: string; example: string }>();
   const candidates: SpanCandidate[] = [];
   let skippedFunctionWords = 0;
