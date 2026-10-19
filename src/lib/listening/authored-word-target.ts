@@ -8,7 +8,12 @@ import type { VocabularySessionItem } from "@/lib/services/lexical/listening-occ
 export function authoredWordTarget(word: string, context: unknown, start: unknown, end: unknown, vocabulary: VocabularySessionItem[]): {word: string; occurrence?: OccurrenceSpan; knownIndex?: number} {
   if(typeof context!=="string"||typeof start!=="number"||typeof end!=="number"||context.slice(start,end)!==word) return {word};
   const rows=vocabulary.flatMap((entry,index)=>{
-    const forms=new Set([entry.term,...formsOf(entry.term,entry.partOfSpeech).map(row=>row.form)]);
+    const verbal=/^(make|give|take|get|set|put|keep|come|go|bring|look|turn|pick|find)\b/i.test(entry.term);
+    const initial=[entry.term,...formsOf(entry.term,verbal ? "verb phrase" : entry.partOfSpeech).map(row=>row.form)];
+    const forms=new Set(initial.flatMap(form=>{
+      const possessive=/\byour\b/i.test(form)?['my','your','his','her','our','their'].map(p=>form.replace(/\byour\b/gi,p)):[form];
+      return possessive.flatMap(value=>/\bsomeone\b/i.test(value)?['me','you','him','her','us','them','someone'].map(p=>value.replace(/\bsomeone\b/gi,p)):[value]);
+    }));
     return [...forms].flatMap(form=>{
       const pattern=new RegExp(`(?<![A-Za-z])${form.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?![A-Za-z])`,"gi");
       return [...context.matchAll(pattern)].map(match=>({id:String(index),surfaceForm:match[0],startChar:match.index!,endChar:match.index!+match[0].length}));

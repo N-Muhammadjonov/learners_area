@@ -15,8 +15,8 @@ document.addEventListener('dblclick',e=>{
  if(node.parentElement?.closest('button,input,textarea,select,a,[contenteditable="true"]'))return;
  const text=node.textContent||'',at=caret.startOffset;
  let l=at,r=at;
- while(l>0&&/[a-zA-Z'’-]/.test(text[l-1]))l--;
- while(r<text.length&&/[a-zA-Z'’-]/.test(text[r]))r++;
+ while(l>0&&/[a-zA-Z'\u2018\u2019\u02bb\u02bc-]/.test(text[l-1]))l--;
+ while(r<text.length&&/[a-zA-Z'\u2018\u2019\u02bb\u02bc-]/.test(text[r]))r++;
  const word=text.slice(l,r);if(!/[a-zA-Z]/.test(word))return;
  const painted=document.createRange();painted.setStart(node,l);painted.setEnd(node,r);
  if(!Array.from(painted.getClientRects()).some(b=>e.clientX>=b.left&&e.clientX<=b.right&&e.clientY>=b.top&&e.clientY<=b.bottom))return;

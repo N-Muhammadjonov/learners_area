@@ -31,5 +31,10 @@ test('authored multiword expressions outrank a member word without guessing a se
   assert.equal(authoredWordTarget('out','We find out answers.',8,11,[entry]).knownIndex,0);
   assert.equal(authoredWordTarget('out','We find out answers. They find out secrets.',31,34,[entry]).knownIndex,undefined,'an example elsewhere in the same block does not license a different occurrence');
   assert.equal(authoredWordTarget('find','We find you out.',3,7,[]).word,'find you out');
+  const idiom={term:'make up your mind',partOfSpeech:'idiom',example:'I make up my mind.'} as VocabularySessionItem;
+  assert.equal(authoredWordTarget('mind',idiom.example,13,17,[idiom]).word,'make up my mind');
+  assert.equal(authoredWordTarget('mind',idiom.example,13,17,[idiom]).knownIndex,0);
+  const lift={term:'give someone a lift',partOfSpeech:'collocation',example:'You could give me a lift.'} as VocabularySessionItem;
+  assert.equal(authoredWordTarget('lift',lift.example,20,24,[lift]).word,'give me a lift');
   assert.deepEqual(authoredWordTarget('find','different context',3,7,[entry]),{word:'find'});
 });
