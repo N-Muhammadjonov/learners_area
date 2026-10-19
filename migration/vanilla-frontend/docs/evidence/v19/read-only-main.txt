@@ -1,0 +1,82 @@
+commit 51dc6e37d7865138a9bb555e0e549fa08b1dde8c
+Merge: a98aabe 7a7efae
+Author:     N-Muhammadjonov <n.muhammadjonov.2007@gmail.com>
+AuthorDate: Mon Oct 19 15:59:13 2026 +0500
+Commit:     GitHub <noreply@github.com>
+CommitDate: Mon Oct 19 15:59:13 2026 +0500
+
+    Merge pull request #53 from N-Muhammadjonov/fix/retention-vocabulary-journal-tests-20261019
+    
+    Allow additive Retention vocabulary in migration lineage checks
+
+ tests/content-migration-journal.test.ts | 26 ++++++++++++++++++++------
+ 1 file changed, 20 insertions(+), 6 deletions(-)
+diff --git a/tests/content-migration-journal.test.ts b/tests/content-migration-journal.test.ts
+index 5cf5a63..b86c44f 100644
+--- a/tests/content-migration-journal.test.ts
++++ b/tests/content-migration-journal.test.ts
+@@ -21,7 +21,7 @@
+ // migration must take a fresh, larger `when`.
+ import test from "node:test";
+ import assert from "node:assert/strict";
+-import { readFileSync, existsSync } from "node:fs";
++import { readFileSync, existsSync, readdirSync } from "node:fs";
+ 
+ const journal = JSON.parse(readFileSync("drizzle/meta/_journal.json", "utf8")) as {
+   entries: { idx: number; version: string; when: number; tag: string; breakpoints: boolean }[];
+@@ -39,8 +39,10 @@ function planned(appliedCount: number): { apply: string[]; skip: string[] } {
+   return { apply, skip };
+ }
+ 
+-test("J1 the journal is well-formed: 63 entries, idx equals position, unique tags, strictly increasing when", () => {
+-  assert.equal(journal.entries.length, 63, "0000…0062, including immutable Academic question selections");
++test("J1 the journal matches every SQL file: idx equals position, unique tags, strictly increasing when", () => {
++  const files=readdirSync("drizzle").filter(name=>name.endsWith(".sql")).sort();
++  assert.ok(journal.entries.length>=64,"the accepted lineage includes Retention vocabulary");
++  assert.deepEqual(journal.entries.map(entry=>`${entry.tag}.sql`),files,"each append has exactly one journal entry and SQL file");
+   journal.entries.forEach((entry, index) => {
+     assert.equal(entry.idx, index, `${entry.tag}: idx must equal its position in the journal`);
+     assert.equal(entry.version, "7");
+@@ -60,7 +62,7 @@ test("J2 the collision is resolved exactly once, and the migration that keeps 00
+ 
+   assert.equal(journal.entries[40]!.tag, "0040_content_imports");
+   assert.equal(journal.entries[48]!.tag, "0048_typing_trainer");
+-  assert.equal(journal.entries.filter((e) => e.breakpoints).length, 63);
++  assert.equal(journal.entries.filter((e) => e.breakpoints).length, journal.entries.length);
+ 
+   // The kept entry keeps its ORIGINAL `when` — that value is recorded in every database
+   // that applied it, so changing it would make the migrator re-apply (or skip) it.
+@@ -106,7 +108,7 @@ test("J4 the two source lines' own states stay safe under the merged journal", (
+   assert.equal(after0039.apply[0], "0040_content_imports", "the next step after 0039 is the import ledger");
+   // 0040…0052 — the MCQ programme's relation (0052) is additive on top of the accepted line and
+   // never rewrites an earlier migration.
+-  assert.equal(after0039.apply.length, 23, "0040…0062 are pending");
++  assert.equal(after0039.apply.length, journal.entries.length-40, "the entire appended tail after 0039 is pending");
+ 
+   const after0047 = planned(48);
+   assert.deepEqual(after0047.apply.slice(0, 5), ["0048_typing_trainer", "0049_lesson_notes", "0050_lesson_learning_area", "0051_listening_question_revision", "0052_listening_mcq_program_days"], "the accepted schema needs the typing trainer, the private notes table, the lesson learning area, the Listening question-set revision column, then the MCQ programme's day relation");
+@@ -202,7 +204,7 @@ test("Retention permanent deletion appends as 0061 after auth revocation", () =>
+ test("Academic question selections append privately at 0062 without changing prior content or attempts", () => {
+   assert.equal(journal.entries[62]!.tag,"0062_reading_assessment_questions");
+   assert.ok(journal.entries[62]!.when>journal.entries[61]!.when);
+-  assert.deepEqual(planned(62).apply,["0062_reading_assessment_questions"]);
++  assert.equal(planned(62).apply[0],"0062_reading_assessment_questions");
+   const sql=readFileSync("drizzle/0062_reading_assessment_questions.sql","utf8");
+   assert.match(sql,/PRIMARY KEY\(attempt_id,position\)/);
+   assert.match(sql,/UNIQUE\(attempt_id,question_id\)/);
+@@ -210,3 +212,15 @@ test("Academic question selections append privately at 0062 without changing pri
+   assert.match(sql,/ENABLE ROW LEVEL SECURITY/);
+   assert.doesNotMatch(sql,/\b(?:UPDATE|DELETE FROM|DROP TABLE)\b/i);
+ });
++
++// Contextual Retention vocabulary is appended; every previous ordinal stays pinned.
++test("Retention vocabulary appends at 0063 without rewriting sources or results", () => {
++  assert.equal(journal.entries[63]!.tag,"0063_retention_vocabulary");
++  assert.ok(journal.entries[63]!.when>journal.entries[62]!.when);
++  assert.equal(planned(63).apply[0],"0063_retention_vocabulary");
++  const sql=readFileSync("drizzle/0063_retention_vocabulary.sql","utf8");
++  assert.match(sql,/ADD COLUMN retention_text_version_id uuid REFERENCES retention_text_versions/);
++  assert.match(sql,/lexical_occurrences_retention_offset_idx/);
++  assert.match(sql,/source_type = 'retention'/);
++  assert.doesNotMatch(sql,/\b(?:UPDATE|DELETE FROM|DROP TABLE)\b/i);
++});

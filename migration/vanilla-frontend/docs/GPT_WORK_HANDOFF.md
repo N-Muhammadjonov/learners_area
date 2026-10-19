@@ -1,3 +1,36 @@
+# Latest handoff — V19 resumable PARTIAL (supersedes V18 status only)
+
+Exact continuation febad852119ea4fbfdffd850f9899df45447b0bf, same Arena branch.
+Read CHECKPOINT_V19, SOURCE_STATE_INVENTORY_V19, ADAPTER_CONTRACTS_V19,
+ROUTE_LEDGER_V19, COMPONENT_LEDGER_V19, original-activities-v19.json and final
+external deliverables/V19_VERIFICATION.json before continuing. Accepted final ZIP/SHA
+and final committed local=remote proof are in the final report; archives immutable.
+
+Bounded same-user/test closed-tab discovery and explicit fresh-authorized adoption
+are implemented within the existing journal/writer. Adoption does not send; Retry
+is separate. Never delete a foreign-context original. Transfer SHA/status is an
+untrusted hint, not authorization/completion/partial-unit authority. Source bytes,
+existing retained slot and quota-failure copies stay intact. Without browser Web
+Locks copy is refused. Storage events only invalidate/rebuild hints. Session schema,
+canonical attempt, own revisions and server progress are freshly validated.
+
+Finish remaining ordinary Review direct URL/part/history/exit and held material/
+lexical/media/complete focus+lifecycle gates; do NOT begin Script before Review
+closure. Then Script→MCQ→Map→Choose TWO→Completion→Vocabulary; Reading gated.
+Full/Retry code complete unchanged; Review/frontend original PARTIAL/live UNVERIFIED.
+No plan-only handoff should relabel tested subsets as whole closure.
+
+Separate GPT Work owns direct authored?vocabulary=1 server exam-policy acceptance
+(current/other-tab exam, held/revoked/direct lookup-save, authorized Review), exact
+legacy source/attempt normalization and deferred Owner single-HTML/private-R2/publish.
+No backend probes/changes/deployment/Dictionary/staff/data publication in this branch.
+Read-only main51dc6e3 is PR53 journal-test extension, not merged/deployed migration.
+No exactly-once, universal CAS, abort rollback, cross-device/codec/Safari/live claim.
+Three whole-product percentages UNDETERMINED without objective denominator.
+
+---
+## Preserved prior handoff (historical; V19 section above is current)
+
 # V18 active continuation — Review PARTIAL, Script NOT advanced
 
 Read CHECKPOINT_V18, V18 source/contracts/ledgers/activity inventory and the final

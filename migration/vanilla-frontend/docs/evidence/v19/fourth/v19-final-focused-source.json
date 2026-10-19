@@ -1,0 +1,201 @@
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 46,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V19 actual closed tab failed Review discovered/adopted without replay; explicit retry ACK retains exact original",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual two-tab held A P1 / successful B P2 preserves independent journals and late ACK ownership",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 two browser tabs competing to adopt one source produce only one owned copy and zero POSTs",
+      "status": "FAIL",
+      "error": "page.waitForFunction: EvalError: Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: \"script-src 'self'\".\n\n    at eval (<anonymous>)\n    at predicate (eval at evaluate (:234:30), <anonymous>:11:37)\n    at next (eval at evaluate (:234:30), <anonymous>:32:31)"
+    },
+    {
+      "name": "V19 discovery changed-answer fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery other-attempt fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery active-exam fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery completed fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery unavailable fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery malformed fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery missing fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery foreign-session fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 discovery expired-session fresh authority never replays/overwrites/reveals foreign answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held recovery progress part cannot release stale answers or submit",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held recovery progress activity cannot release stale answers or submit",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held recovery progress route cannot release stale answers or submit",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held recovery progress reload cannot release stale answers or submit",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held recovery progress retake cannot release stale answers or submit",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held recovery progress expiry cannot release stale answers or submit",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 multiple/malformed/foreign records are scoped hints; no answers or automatic POST",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 other tab storage event invalidates authorized saved-answer details without granting/replaying",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 1440 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 1440 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 1440 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 1440 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 768 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 768 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 768 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 768 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 390 en day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 390 en night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 390 uz day",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 recovery keyboard responsive 390 uz night",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual two-tab held Review reload never clears foreign/stale original or duplicates submission",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual two-tab held Review close never clears foreign/stale original or duplicates submission",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual two-tab held Review retake never clears foreign/stale original or duplicates submission",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual two-tab held Review new-submitted-attempt never clears foreign/stale original or duplicates submission",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 actual two-tab held Review authloss never clears foreign/stale original or duplicates submission",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original authored route never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original authored reload never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original authored expiry never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original state route never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original state reload never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held original state expiry never releases Review evidence/transcript under obsolete loading scope",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 pending current-context work blocks adoption without overwriting either exact record",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 legacy missing canonical attempt is visibly isolated; no title/storage-name recovery guesses",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 held direct #review URL waits for canonical hydration then opens the original activity without replay",
+      "status": "PASS"
+    },
+    {
+      "name": "V19 browser without Web Locks visibly refuses adoption; original bytes remain and no POST",
+      "status": "PASS"
+    }
+  ]
+}

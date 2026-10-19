@@ -1,3 +1,24 @@
+# Active checkpoint V19 — Review PARTIAL; exact V18 continuation
+
+Read docs/CHECKPOINT_V19.md and docs/GPT_WORK_HANDOFF.md. Bounded cross-context
+recovery uses fresh server authority, explicit copy without sending, then separate
+Retry through the existing writer. Foreign originals are never erased. Review is
+NOT complete; Script not advanced; Reading gated. No backend/production changes.
+Final delivery evidence is outside the source ZIP in deliverables/V19_VERIFICATION.json
+and V19_VALIDATION.txt; historical sections below are preserved, not current statuses.
+
+`npm ci --ignore-scripts && npm run build && npm test`;
+`PORT=4173 npm run preview`; `npm run test:browser` (499 preserved cases);
+`ORIGINAL_SOURCE_ROOT=/read-only/original-checkout npm run test:original-source:v19`;
+`npm run check:assets`; `python3 scripts/package.py` / `--verify`.
+Browser suites run sequentially. Preview APIs intentionally return503, never fake
+identity or live account data. 485 unit/245 original-source cases are expected;
+only final executed receipts establish PASS. Separate14 timing cases are not added
+to499. No protected original HTML/curriculum/recording in the standalone ZIP.
+
+---
+## Preserved historical README below
+
 # V14 continuation — Full IELTS PARTIAL
 
 Single-flight checkpoint recovery/errors, start barriers/replay, canonical source synchronization, submitted-control freeze and storage-unavailable warnings added to the preserved V13 exam. No Review pass started. See docs/CHECKPOINT_V14.md and external deliverables/V14_VALIDATION.txt for exact results.

@@ -1,0 +1,148 @@
+TAP version 13
+# Subtest: V19 exact context keys only; no prefix/test/title/retained/legacy guesses
+ok 1 - V19 exact context keys only; no prefix/test/title/retained/legacy guesses
+  ---
+  duration_ms: 0.944258
+  type: 'test'
+  ...
+# Subtest: V19 discovery reads no foreign-user/test/exam/retained values
+ok 2 - V19 discovery reads no foreign-user/test/exam/retained values
+  ---
+  duration_ms: 0.597805
+  type: 'test'
+  ...
+# Subtest: V19 discovery bounds enumeration and reports truncation
+ok 3 - V19 discovery bounds enumeration and reports truncation
+  ---
+  duration_ms: 2.869552
+  type: 'test'
+  ...
+# Subtest: V19 discovery bounds scoped records independently of total keys
+ok 4 - V19 discovery bounds scoped records independently of total keys
+  ---
+  duration_ms: 0.368704
+  type: 'test'
+  ...
+# Subtest: V19 malformed record isolated without answer exposure or mutation
+ok 5 - V19 malformed record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.2827
+  type: 'test'
+  ...
+# Subtest: V19 foreign record isolated without answer exposure or mutation
+ok 6 - V19 foreign record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.152208
+  type: 'test'
+  ...
+# Subtest: V19 extra record isolated without answer exposure or mutation
+ok 7 - V19 extra record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.162784
+  type: 'test'
+  ...
+# Subtest: V19 huge record isolated without answer exposure or mutation
+ok 8 - V19 huge record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.090321
+  type: 'test'
+  ...
+# Subtest: V19 explicit copy preserves exact original whitespace bytes; no transport or source deletion
+ok 9 - V19 explicit copy preserves exact original whitespace bytes; no transport or source deletion
+  ---
+  duration_ms: 9.246701
+  type: 'test'
+  ...
+# Subtest: V19 current-context work cannot be overwritten or merged
+ok 10 - V19 current-context work cannot be overwritten or merged
+  ---
+  duration_ms: 0.799002
+  type: 'test'
+  ...
+# Subtest: V19 current dirty memory fallback prevents adoption despite empty native slot
+ok 11 - V19 current dirty memory fallback prevents adoption despite empty native slot
+  ---
+  duration_ms: 0.298775
+  type: 'test'
+  ...
+# Subtest: V19 changed source bytes cannot adopt stale snapshot
+ok 12 - V19 changed source bytes cannot adopt stale snapshot
+  ---
+  duration_ms: 0.191431
+  type: 'test'
+  ...
+# Subtest: V19 cooperating second context cannot copy an active transfer
+ok 13 - V19 cooperating second context cannot copy an active transfer
+  ---
+  duration_ms: 1.296458
+  type: 'test'
+  ...
+# Subtest: V19 typed own ACK marks hint only; foreign source original never removed
+ok 14 - V19 typed own ACK marks hint only; foreign source original never removed
+  ---
+  duration_ms: 1.292817
+  type: 'test'
+  ...
+# Subtest: V19 answer mismatch never marks stale copy confirmation
+ok 15 - V19 answer mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 0.95732
+  type: 'test'
+  ...
+# Subtest: V19 attempt mismatch never marks stale copy confirmation
+ok 16 - V19 attempt mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 0.869194
+  type: 'test'
+  ...
+# Subtest: V19 source mismatch never marks stale copy confirmation
+ok 17 - V19 source mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 1.112853
+  type: 'test'
+  ...
+# Subtest: V19 target mismatch never marks stale copy confirmation
+ok 18 - V19 target mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 1.501463
+  type: 'test'
+  ...
+# Subtest: V19 quota failure at hint retains source bytes and any successful pending copy
+ok 19 - V19 quota failure at hint retains source bytes and any successful pending copy
+  ---
+  duration_ms: 0.713163
+  type: 'test'
+  ...
+# Subtest: V19 quota failure at copy retains source bytes and any successful pending copy
+ok 20 - V19 quota failure at copy retains source bytes and any successful pending copy
+  ---
+  duration_ms: 0.592992
+  type: 'test'
+  ...
+# Subtest: V19 quota failure at provenance retains source bytes and any successful pending copy
+ok 21 - V19 quota failure at provenance retains source bytes and any successful pending copy
+  ---
+  duration_ms: 1.70197
+  type: 'test'
+  ...
+# Subtest: V19 retained conflict slot remains byte-for-byte untouched on adoption
+ok 22 - V19 retained conflict slot remains byte-for-byte untouched on adoption
+  ---
+  duration_ms: 0.552635
+  type: 'test'
+  ...
+# Subtest: V19 malformed transfer hints fail closed, not authorization
+ok 23 - V19 malformed transfer hints fail closed, not authorization
+  ---
+  duration_ms: 0.211262
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 75.534839

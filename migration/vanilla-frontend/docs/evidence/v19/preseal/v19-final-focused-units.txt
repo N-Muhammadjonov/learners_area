@@ -1,0 +1,184 @@
+TAP version 13
+# Subtest: V19 exact context keys only; no prefix/test/title/retained/legacy guesses
+ok 1 - V19 exact context keys only; no prefix/test/title/retained/legacy guesses
+  ---
+  duration_ms: 1.042717
+  type: 'test'
+  ...
+# Subtest: V19 discovery reads no foreign-user/test/exam/retained values
+ok 2 - V19 discovery reads no foreign-user/test/exam/retained values
+  ---
+  duration_ms: 0.660143
+  type: 'test'
+  ...
+# Subtest: V19 discovery bounds enumeration and reports truncation
+ok 3 - V19 discovery bounds enumeration and reports truncation
+  ---
+  duration_ms: 1.461962
+  type: 'test'
+  ...
+# Subtest: V19 discovery bounds scoped records independently of total keys
+ok 4 - V19 discovery bounds scoped records independently of total keys
+  ---
+  duration_ms: 0.439296
+  type: 'test'
+  ...
+# Subtest: V19 malformed record isolated without answer exposure or mutation
+ok 5 - V19 malformed record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.190158
+  type: 'test'
+  ...
+# Subtest: V19 foreign record isolated without answer exposure or mutation
+ok 6 - V19 foreign record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.126198
+  type: 'test'
+  ...
+# Subtest: V19 extra record isolated without answer exposure or mutation
+ok 7 - V19 extra record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.308817
+  type: 'test'
+  ...
+# Subtest: V19 huge record isolated without answer exposure or mutation
+ok 8 - V19 huge record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.102327
+  type: 'test'
+  ...
+# Subtest: V19 explicit copy preserves exact original whitespace bytes; no transport or source deletion
+ok 9 - V19 explicit copy preserves exact original whitespace bytes; no transport or source deletion
+  ---
+  duration_ms: 7.804714
+  type: 'test'
+  ...
+# Subtest: V19 current-context work cannot be overwritten or merged
+ok 10 - V19 current-context work cannot be overwritten or merged
+  ---
+  duration_ms: 0.761304
+  type: 'test'
+  ...
+# Subtest: V19 current dirty memory fallback prevents adoption despite empty native slot
+ok 11 - V19 current dirty memory fallback prevents adoption despite empty native slot
+  ---
+  duration_ms: 0.344571
+  type: 'test'
+  ...
+# Subtest: V19 changed source bytes cannot adopt stale snapshot
+ok 12 - V19 changed source bytes cannot adopt stale snapshot
+  ---
+  duration_ms: 0.171989
+  type: 'test'
+  ...
+# Subtest: V19 cooperating second context cannot copy an active transfer
+ok 13 - V19 cooperating second context cannot copy an active transfer
+  ---
+  duration_ms: 1.345466
+  type: 'test'
+  ...
+# Subtest: V19 typed own ACK marks hint only; foreign source original never removed
+ok 14 - V19 typed own ACK marks hint only; foreign source original never removed
+  ---
+  duration_ms: 1.081084
+  type: 'test'
+  ...
+# Subtest: V19 answer mismatch never marks stale copy confirmation
+ok 15 - V19 answer mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 0.799681
+  type: 'test'
+  ...
+# Subtest: V19 attempt mismatch never marks stale copy confirmation
+ok 16 - V19 attempt mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 1.246978
+  type: 'test'
+  ...
+# Subtest: V19 source mismatch never marks stale copy confirmation
+ok 17 - V19 source mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 1.069486
+  type: 'test'
+  ...
+# Subtest: V19 target mismatch never marks stale copy confirmation
+ok 18 - V19 target mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 1.001118
+  type: 'test'
+  ...
+# Subtest: V19 quota failure at hint retains source bytes and any successful pending copy
+ok 19 - V19 quota failure at hint retains source bytes and any successful pending copy
+  ---
+  duration_ms: 0.637226
+  type: 'test'
+  ...
+# Subtest: V19 quota failure at copy retains source bytes and any successful pending copy
+ok 20 - V19 quota failure at copy retains source bytes and any successful pending copy
+  ---
+  duration_ms: 0.522389
+  type: 'test'
+  ...
+# Subtest: V19 quota failure at provenance retains source bytes and any successful pending copy
+ok 21 - V19 quota failure at provenance retains source bytes and any successful pending copy
+  ---
+  duration_ms: 0.690047
+  type: 'test'
+  ...
+# Subtest: V19 retained conflict slot remains byte-for-byte untouched on adoption
+ok 22 - V19 retained conflict slot remains byte-for-byte untouched on adoption
+  ---
+  duration_ms: 0.524144
+  type: 'test'
+  ...
+# Subtest: V19 malformed transfer hints fail closed, not authorization
+ok 23 - V19 malformed transfer hints fail closed, not authorization
+  ---
+  duration_ms: 0.273238
+  type: 'test'
+  ...
+# Subtest: V19 original activity entry cannot bypass the held canonical hydration gate
+ok 24 - V19 original activity entry cannot bypass the held canonical hydration gate
+  ---
+  duration_ms: 38.145241
+  type: 'test'
+  ...
+# Subtest: V19 legitimate hash activity defers until hydration; changed hash and retired scope never open stale work
+ok 25 - V19 legitimate hash activity defers until hydration; changed hash and retired scope never open stale work
+  ---
+  duration_ms: 28.719586
+  type: 'test'
+  ...
+# Subtest: V19 total parsed/retained character budget isolates excess records without rewriting padded original bytes
+ok 26 - V19 total parsed/retained character budget isolates excess records without rewriting padded original bytes
+  ---
+  duration_ms: 0.982003
+  type: 'test'
+  ...
+# Subtest: V19 disposed view/session fence runs after asynchronous digests and before any recovery copy writes
+ok 27 - V19 disposed view/session fence runs after asynchronous digests and before any recovery copy writes
+  ---
+  duration_ms: 1.146344
+  type: 'test'
+  ...
+# Subtest: V19 exact pending raw snapshot prevents same-body stale ACK deleting a replacement attempt or edited bytes
+ok 28 - V19 exact pending raw snapshot prevents same-body stale ACK deleting a replacement attempt or edited bytes
+  ---
+  duration_ms: 0.265537
+  type: 'test'
+  ...
+# Subtest: V19 bounded explicit pagination reaches later own records; options cannot lift privacy/read limits
+ok 29 - V19 bounded explicit pagination reaches later own records; options cannot lift privacy/read limits
+  ---
+  duration_ms: 2.096174
+  type: 'test'
+  ...
+1..29
+# tests 29
+# suites 0
+# pass 29
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 368.437149
