@@ -24,8 +24,9 @@ export async function run({check,originalFixture,target,open,submitted,key}){
    }
    assert.equal(done.size,40);assert.equal(requests,40-groups.reduce((n,g)=>n+g.length-1,0));
    assert(state.requests.some(r=>r.path.endsWith('/progress')&&r.body.activity==='retry'));
+   const saved=page.waitForResponse(r=>r.url().endsWith('/authored-state')&&r.request().method()==='PUT'&&JSON.parse(r.request().postDataJSON()['la-original-retry-v12']||'{}').current===1&&JSON.parse(r.request().postDataJSON()['la-original-retry-v12']||'{}').answers?.['1']==='own question 1');saved.catch(()=>{});
    await f.locator('[data-retryq="1"]').click();assert.equal(await f.locator('#retryInput').inputValue(),'own question 1');
-   await page.waitForResponse(r=>r.url().endsWith('/authored-state')&&r.request().method()==='PUT');
+   await saved;
    await page.reload();await open(page,'retry');await f.locator('#retryInput').waitFor();assert.equal(await f.locator('#retryInput').inputValue(),'own question 1');
    assert.equal(await page.locator('iframe').getAttribute('sandbox'),'allow-scripts');
    const saved=await f.locator('#retryHost').evaluate(()=>localStorage.getItem('la-original-retry-v12'));assert(!saved.includes('Authorized synthetic'));

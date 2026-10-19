@@ -60,3 +60,10 @@ UNDETERMINED (bounded executed test ratios in external validation, not the unkno
 entire behavior denominator); (3) rendered visual/live acceptance UNDETERMINED
 (no matched rendered/source or production acceptance; Listening live0/9).
 Performance1–100ms target only. Production replacement requires owner approval.
+
+Independent first ZIP source run96PASS/1FAIL retained in evidence/v15/independent-first.
+The preserved V12 retry matrix installed its response waiter AFTER clicking/re-reading
+Q1, so under concurrent load the400ms save could already finish. Its waiter now
+starts BEFORE that action and additionally requires the saved currentQ1 + own answer;
+all prior input/reload/40-question assertions remain. No production Retry change.
+Final external validation, not that first attempt, is delivery acceptance authority.
