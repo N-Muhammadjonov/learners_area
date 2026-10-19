@@ -91,3 +91,11 @@ stamp: the preceding closed canonical record must NEVER be relabeled with a new
 attempt identity during its metadata write. Normalization now applies only to
 in_progress snapshots. Old-build failure and repaired actual-source pass retained;
 no V14 writer/barrier replacement. Review save waits are also bound before Check.
+
+The next independent98-source run retained97PASS/1FAIL: an unrelated checkpoint
+ACK removed the resource-failure Retry button. The old-build deterministic probe
+confirmed disappearance after an explicit own-answer ACK. Resource/checkpoint error
+lifetimes are now separate; only actual media play clears a resource failure, while
+checkpoint ACKs clear checkpoint errors only. Strengthened source probe passes with
+manual Retry, preserved own answer, disposed old transport and a fresh playable
+generation. Raw second-run failure and before/after probes are retained.
