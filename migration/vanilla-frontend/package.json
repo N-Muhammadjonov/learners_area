@@ -9,13 +9,14 @@
     "test": "node --test tests/*.test.mjs",
     "inventory": "node scripts/inventory.mjs",
     "package": "python3 scripts/package.py",
-    "test:browser": "node scripts/regression-v15.mjs",
+    "test:browser": "node scripts/regression-v16.mjs",
     "test:original-source": "node tests/browser-original-source-v11.mjs",
-    "check:assets": "node scripts/assets-css-v15.mjs",
+    "check:assets": "node scripts/assets-css-v16.mjs",
     "test:original-source:v12": "V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
     "test:original-source:v13": "V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
     "test:original-source:v14": "V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
-    "test:original-source:v15": "V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs"
+    "test:original-source:v15": "V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
+    "test:original-source:v16": "V16_SOURCE=1 V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "133.0.0",

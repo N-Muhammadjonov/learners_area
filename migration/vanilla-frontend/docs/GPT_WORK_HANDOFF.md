@@ -1,3 +1,31 @@
+# V16 continuation — Review remains PARTIAL, do not restart
+
+Baseline V15 final8f498ce914bfa7b30866ce592e00379a701bda88. Current source/package/final
+refs and executed evidence: deliverables/V16_VALIDATION.txt. Read CHECKPOINT_V16,
+SOURCE_STATE_INVENTORY_V16, ADAPTER_CONTRACTS_V16, V16 ledgers and activity JSON first.
+
+Implemented Review source-only transcript/evidence navigation and material guards;
+Check preserves active same-part trainer/time/rate; switching/reentry own cleanup.
+Parent reuses CheckpointWriter for typed single-flight merged Review /progress work,
+manual retry, newest queued-part errors and scoped late-response suppression. No
+Review /practice kind; original checking stays self-study, server status completion.
+
+REMAINING ordinary Review gate: authorized lexical selected-word/popup/keyboard/focus
+lifecycle; durable pending course-work recovery/reconciliation across reload; complete
+Review-specific held authority/SSE/media/foreign feedback/reentry matrix. Session-only
+course intent is NOT a durable outbox. Native confirmed revisions/checked reload path
+is preserved. Keep Review PARTIAL. Do NOT begin Script until genuine Review closure.
+Then Script→MCQ→Map→Choose TWO→Completion→Vocabulary sequentially. Full/Retry complete
+retained;2/9 frontend complete,7partial; original/live0/9. Counts unchanged. Reading gated.
+
+Never modify concurrent GPT Work Dictionary Next.js/PostgreSQL/privateR2 architecture,
+APIs/migrations/imports/buckets. Never staff35/backend/cloud/main/production changes.
+Owner single-HTML upload/extract/privateR2/register/maps/preview/explicitpublish task
+and Owner-supervised Reading imports stay deferred. Preserve V1–V16 archives. Same
+fixed branch only, no reset/rebase/stash/clean/branch switch/discard/force push.
+
+Prior V15 detailed constraints and historical failures follow, retained for continuity.
+
 # Exact V15 continuation — preserve current work, no restart
 
 ONLY arena/96836bcf-learners-area. DeliveredV14 baseline

@@ -1,0 +1,98 @@
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 19,
+    "FAIL": 2,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review Check keeps the same trainer and playback position; part switch and reentry own cleanup",
+      "status": "FAIL",
+      "error": "page.waitForFunction: EvalError: Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: \"script-src 'self'\".\n\n    at eval (<anonymous>)\n    at predicate (eval at evaluate (:234:30), <anonymous>:11:37)\n    at next (eval at evaluate (:234:30), <anonymous>:32:31)"
+    },
+    {
+      "name": "V16 Review progress 401 is not self-study success; explicit safe retry/authority",
+      "status": "FAIL",
+      "error": "locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('[data-authored-retry]') to be visible\n"
+    },
+    {
+      "name": "V16 Review progress 403 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 404 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 409 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 429 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress 503 is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress network is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    },
+    {
+      "name": "V16 Review progress malformed is not self-study success; explicit safe retry/authority",
+      "status": "PASS"
+    }
+  ]
+}
