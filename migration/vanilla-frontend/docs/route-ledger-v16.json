@@ -1,7 +1,7 @@
 {
   "summary": {
     "baseline": "9a7d9fc5a93608078644d61cd9f9850c05c4ddc8",
-    "previousCheckpoint": "78f930c5a147e571ea4e80465c3a1921bb7ec0b4",
+    "previousCheckpoint": "8f498ce914bfa7b30866ce592e00379a701bda88",
     "pageFiles": 115,
     "classificationCounts": {
       "CANONICAL_PAGE_CANDIDATE": 107,
@@ -95,7 +95,8 @@
       "IN PROGRESS": 15,
       "CODE COMPLETE": 22,
       "NOT STARTED": 71
-    }
+    },
+    "v16Scope": "Review PARTIAL; no route/component promotion; Script gated; full V15 continuation"
   },
   "routes": [
     {

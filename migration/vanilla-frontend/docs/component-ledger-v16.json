@@ -10,11 +10,12 @@
       "NOT STARTED": 5
     },
     "acceptance": "FRONTEND/FIXTURE only; shared all-caller and staff exclusions explicit",
-    "previousCheckpoint": "78f930c5a147e571ea4e80465c3a1921bb7ec0b4",
+    "previousCheckpoint": "8f498ce914bfa7b30866ce592e00379a701bda88",
     "v11Promotions": 0,
     "v12Promotions": 0,
     "v13Promotions": 0,
-    "v14Promotions": 0
+    "v14Promotions": 0,
+    "v16Scope": "Review PARTIAL; no route/component promotion; Script gated; full V15 continuation"
   },
   "components": [
     {
