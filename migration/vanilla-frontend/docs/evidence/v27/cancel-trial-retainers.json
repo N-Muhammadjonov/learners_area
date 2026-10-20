@@ -1,0 +1,233 @@
+{
+  "snapshotName": "heap-1.heapsnapshot",
+  "snapshotSHA256": "62d2101bb2dae2e38e4123f3300fe6974f13850ebd5ce64f3d9085389c975559",
+  "snapshotBytes": 6021251,
+  "nodeFields": [
+    "type",
+    "name",
+    "id",
+    "self_size",
+    "edge_count",
+    "detachedness"
+  ],
+  "detachedDOMTargets": 135,
+  "shortestStrongPathCategories": {
+    "otherStrongPath": 13,
+    "CSSAnimation": 122
+  },
+  "examples": {
+    "otherStrongPath": {
+      "targetId": 28093,
+      "targetName": "<p role=\"status\" data-report-download-status=\"\" class=\"text-sm text-ink-500\">",
+      "retainingPath": [
+        {
+          "id": 94711,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "hidden",
+          "edgeName": "7"
+        },
+        {
+          "id": 28087,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 43530,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43974,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43972,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44728,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43546,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 4346,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 28105,
+          "type": "native",
+          "name": "<form method=\"get\" action=\"/api/reports\" class=\"flex flex-col gap-4\" data-reporter-form=\"true\">",
+          "edgeType": "element",
+          "edgeName": "15"
+        },
+        {
+          "id": 28129,
+          "type": "native",
+          "name": "<select name=\"lang\" class=\"input\" value=\"en\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 38,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 26,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 10654,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 23282,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 43810,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "11"
+        },
+        {
+          "id": 12654,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 12646,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 13744,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 48346,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "186"
+        }
+      ]
+    },
+    "CSSAnimation": {
+      "targetId": 28249,
+      "targetName": "<section class=\"mx-auto flex w-full max-w-6xl flex-col gap-4\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" aria-busy=\"true\" data-entry-frame=\"true\" data-section-entry-frame=\"mocks\" data-private-loading-boundary=\"true\">",
+      "retainingPath": [
+        {
+          "id": 4918,
+          "type": "native",
+          "name": "<div aria-hidden=\"true\" data-entry-region=\"mocks\" data-async-loading=\"entry-mocks\" class=\"flex flex-col gap-3\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 29831,
+          "type": "native",
+          "name": "<span class=\"block animate-pulse rounded-xl bg-ink-50 h-24\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 29839,
+          "type": "native",
+          "name": "CSSAnimation",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 12634,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "32"
+        },
+        {
+          "id": 4864,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29655,
+          "type": "native",
+          "name": "HTMLDocument",
+          "edgeType": "element",
+          "edgeName": "38"
+        },
+        {
+          "id": 28083,
+          "type": "object",
+          "name": "Window / http://127.0.0.1:4183",
+          "edgeType": "property",
+          "edgeName": "<symbol Window#DocumentCachedAccessor>"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "extension"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Shortest strong incoming paths, not dominator or exclusive-ownership analysis.",
+    "No weak edges traversed; no path within30 edges is not proof of unreachability.",
+    "Snapshot protocol may affect scheduling; counters before/after capture are separate evidence."
+  ]
+}

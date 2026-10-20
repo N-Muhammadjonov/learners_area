@@ -1,0 +1,58 @@
+[
+  {
+    "experiment": "baseline",
+    "file": "heap-0.heapsnapshot",
+    "bytes": 6360572,
+    "sha256": "50446cc01855703da8efe9cd4407da3c788953692a7eefc567f5200b87620dfb",
+    "retainedOutsideGit": "/home/user/v27-work/baseline/heap-0.heapsnapshot"
+  },
+  {
+    "experiment": "baseline",
+    "file": "heap-1.heapsnapshot",
+    "bytes": 5767852,
+    "sha256": "05f5bae28bd3333d70b275b90884ea3edd72409be7b818ec4509b7e28a406f9a",
+    "retainedOutsideGit": "/home/user/v27-work/baseline/heap-1.heapsnapshot"
+  },
+  {
+    "experiment": "baseline",
+    "file": "heap-2.heapsnapshot",
+    "bytes": 5807885,
+    "sha256": "8d6c9a11296060a08d10f37feca012ef73b3ed9be1e08dd284e61b9afe612cf1",
+    "retainedOutsideGit": "/home/user/v27-work/baseline/heap-2.heapsnapshot"
+  },
+  {
+    "experiment": "baseline",
+    "file": "heap-3.heapsnapshot",
+    "bytes": 5856885,
+    "sha256": "572b2f5302068cfcc141d5ceff0be48aa747b71f5ddcae2b1a1cace4e78d011a",
+    "retainedOutsideGit": "/home/user/v27-work/baseline/heap-3.heapsnapshot"
+  },
+  {
+    "experiment": "candidate",
+    "file": "heap-0.heapsnapshot",
+    "bytes": 5868254,
+    "sha256": "112df621de60e4bfc3d717c6af9cd0c37896e37df097cd7b03d458b1f7555a3a",
+    "retainedOutsideGit": "/home/user/v27-work/candidate/heap-0.heapsnapshot"
+  },
+  {
+    "experiment": "candidate",
+    "file": "heap-1.heapsnapshot",
+    "bytes": 6021251,
+    "sha256": "62d2101bb2dae2e38e4123f3300fe6974f13850ebd5ce64f3d9085389c975559",
+    "retainedOutsideGit": "/home/user/v27-work/candidate/heap-1.heapsnapshot"
+  },
+  {
+    "experiment": "candidate",
+    "file": "heap-2.heapsnapshot",
+    "bytes": 5859123,
+    "sha256": "65c608a6ae6434bf81c8aa09a04f1b1f287174f24cb893860d3502f38b06d392",
+    "retainedOutsideGit": "/home/user/v27-work/candidate/heap-2.heapsnapshot"
+  },
+  {
+    "experiment": "candidate",
+    "file": "heap-3.heapsnapshot",
+    "bytes": 5924408,
+    "sha256": "667800d9160ddf53419ed270c4955cef65fa27ccad8057e042cf5f216d065d62",
+    "retainedOutsideGit": "/home/user/v27-work/candidate/heap-3.heapsnapshot"
+  }
+]

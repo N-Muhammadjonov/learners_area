@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-20T19:16:28.572Z",
+  "scope": "authorized synthetic fixtures only; no live acceptance",
+  "results": [
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "FAIL",
+      "error": "The expression evaluated to a falsy value:\n\n  assert(after.nodes<=before.nodes+50)\n"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 3,
+    "FAIL": 1,
+    "SKIP": 0
+  }
+}

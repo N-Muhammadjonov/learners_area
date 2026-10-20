@@ -1,0 +1,137 @@
+{
+  "conditions": "Chromium fixture 1440x900 EN/day, warm code, local transport, 30 switches; wall time includes Playwright locator overhead; not pixel paint/backend/media benchmark",
+  "before": {
+    "documents": 2,
+    "nodes": 522,
+    "jsEventListeners": 139
+  },
+  "after": {
+    "documents": 2,
+    "nodes": 561,
+    "jsEventListeners": 139
+  },
+  "samples": [
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 30
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 35
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 38
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 47
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 45
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 21
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 35
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 37
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 22
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 44
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 36
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 20
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 39
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 25
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 20
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 30
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 26
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 19
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 35
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 45
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 45
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 47
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 23
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 22
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 67
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 74
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 50
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 47
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 36
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 21
+    }
+  ],
+  "leakFreedomProven": false,
+  "liveBackend": false
+}

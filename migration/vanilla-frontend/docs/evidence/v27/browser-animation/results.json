@@ -1,0 +1,305 @@
+{
+  "browser": "133.0.6943.0",
+  "results": [
+    {
+      "mode": "plain",
+      "run": 0,
+      "created": 0,
+      "before": {
+        "documents": 1,
+        "nodes": 10,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    },
+    {
+      "mode": "plain",
+      "run": 1,
+      "created": 0,
+      "before": {
+        "documents": 1,
+        "nodes": 10,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    },
+    {
+      "mode": "plain",
+      "run": 2,
+      "created": 0,
+      "before": {
+        "documents": 1,
+        "nodes": 10,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    },
+    {
+      "mode": "plain",
+      "run": 3,
+      "created": 0,
+      "before": {
+        "documents": 1,
+        "nodes": 10,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    },
+    {
+      "mode": "animated",
+      "run": 0,
+      "created": 200,
+      "before": {
+        "documents": 1,
+        "nodes": 10,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 447,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    },
+    {
+      "mode": "animated",
+      "run": 1,
+      "created": 200,
+      "before": {
+        "documents": 1,
+        "nodes": 10,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 450,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    },
+    {
+      "mode": "animated",
+      "run": 2,
+      "created": 200,
+      "before": {
+        "documents": 1,
+        "nodes": 10,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    },
+    {
+      "mode": "animated",
+      "run": 3,
+      "created": 200,
+      "before": {
+        "documents": 1,
+        "nodes": 10,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    },
+    {
+      "mode": "cancelled",
+      "run": 0,
+      "created": 200,
+      "before": {
+        "documents": 1,
+        "nodes": 10,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 447,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    },
+    {
+      "mode": "cancelled",
+      "run": 1,
+      "created": 200,
+      "before": {
+        "documents": 1,
+        "nodes": 10,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 447,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    },
+    {
+      "mode": "cancelled",
+      "run": 2,
+      "created": 200,
+      "before": {
+        "documents": 1,
+        "nodes": 10,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    },
+    {
+      "mode": "cancelled",
+      "run": 3,
+      "created": 200,
+      "before": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "immediate": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame1": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      },
+      "frame2": {
+        "documents": 1,
+        "nodes": 7,
+        "jsEventListeners": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+FAIL Phase2 repeated real content navigation retains shell and bounded DOM/listeners AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(after.nodes<=before.nodes+50)
+
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/phase2-heap-v27.mjs:45:3335
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/phase2-heap-v27.mjs:19:152)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/phase2-heap-v27.mjs:45:1
+{
+  "date": "2026-10-20T19:13:49.845Z",
+  "scope": "authorized synthetic fixtures only; no live acceptance",
+  "results": [
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "FAIL",
+      "error": "The expression evaluated to a falsy value:\n\n  assert(after.nodes<=before.nodes+50)\n"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 3,
+    "FAIL": 1,
+    "SKIP": 0
+  }
+}

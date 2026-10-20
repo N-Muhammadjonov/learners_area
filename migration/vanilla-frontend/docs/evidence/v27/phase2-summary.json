@@ -1,0 +1,499 @@
+{
+  "unchangedV26": {
+    "runs": 4,
+    "counts": {
+      "PASS": 3,
+      "FAIL": 1,
+      "SKIP": 0
+    },
+    "before": [
+      {
+        "documents": 2,
+        "nodes": 630,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 491,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 630,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 491,
+        "jsEventListeners": 139
+      }
+    ],
+    "immediate": [
+      {
+        "documents": 2,
+        "nodes": 999,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 472,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 630,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 514,
+        "jsEventListeners": 139
+      }
+    ],
+    "afterSnapshot": [
+      {
+        "documents": 2,
+        "nodes": 999,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 472,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 630,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 514,
+        "jsEventListeners": 139
+      }
+    ],
+    "lastSettled": [
+      {
+        "documents": 2,
+        "nodes": 468,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 468,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 468,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 468,
+        "jsEventListeners": 139
+      }
+    ]
+  },
+  "rejectedCancelOnly": {
+    "runs": 4,
+    "counts": {
+      "PASS": 3,
+      "FAIL": 1,
+      "SKIP": 0
+    },
+    "before": [
+      {
+        "documents": 2,
+        "nodes": 523,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 522,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 523,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 522,
+        "jsEventListeners": 139
+      }
+    ],
+    "immediate": [
+      {
+        "documents": 2,
+        "nodes": 522,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 630,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 507,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 561,
+        "jsEventListeners": 139
+      }
+    ],
+    "afterSnapshot": [
+      {
+        "documents": 2,
+        "nodes": 522,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 630,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 507,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 561,
+        "jsEventListeners": 139
+      }
+    ],
+    "lastSettled": [
+      {
+        "documents": 2,
+        "nodes": 468,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 468,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 468,
+        "jsEventListeners": 139
+      },
+      {
+        "documents": 2,
+        "nodes": 468,
+        "jsEventListeners": 139
+      }
+    ]
+  },
+  "browserOnly": {
+    "browser": "133.0.6943.0",
+    "results": [
+      {
+        "mode": "plain",
+        "run": 0,
+        "created": 0,
+        "before": {
+          "documents": 1,
+          "nodes": 10,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      },
+      {
+        "mode": "plain",
+        "run": 1,
+        "created": 0,
+        "before": {
+          "documents": 1,
+          "nodes": 10,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      },
+      {
+        "mode": "plain",
+        "run": 2,
+        "created": 0,
+        "before": {
+          "documents": 1,
+          "nodes": 10,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      },
+      {
+        "mode": "plain",
+        "run": 3,
+        "created": 0,
+        "before": {
+          "documents": 1,
+          "nodes": 10,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      },
+      {
+        "mode": "animated",
+        "run": 0,
+        "created": 200,
+        "before": {
+          "documents": 1,
+          "nodes": 10,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 447,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      },
+      {
+        "mode": "animated",
+        "run": 1,
+        "created": 200,
+        "before": {
+          "documents": 1,
+          "nodes": 10,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 450,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      },
+      {
+        "mode": "animated",
+        "run": 2,
+        "created": 200,
+        "before": {
+          "documents": 1,
+          "nodes": 10,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      },
+      {
+        "mode": "animated",
+        "run": 3,
+        "created": 200,
+        "before": {
+          "documents": 1,
+          "nodes": 10,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      },
+      {
+        "mode": "cancelled",
+        "run": 0,
+        "created": 200,
+        "before": {
+          "documents": 1,
+          "nodes": 10,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 447,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      },
+      {
+        "mode": "cancelled",
+        "run": 1,
+        "created": 200,
+        "before": {
+          "documents": 1,
+          "nodes": 10,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 447,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      },
+      {
+        "mode": "cancelled",
+        "run": 2,
+        "created": 200,
+        "before": {
+          "documents": 1,
+          "nodes": 10,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      },
+      {
+        "mode": "cancelled",
+        "run": 3,
+        "created": 200,
+        "before": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "immediate": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame1": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        },
+        "frame2": {
+          "documents": 1,
+          "nodes": 7,
+          "jsEventListeners": 0
+        }
+      }
+    ]
+  }
+}

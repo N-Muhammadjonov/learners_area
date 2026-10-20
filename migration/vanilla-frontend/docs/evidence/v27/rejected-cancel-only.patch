@@ -1,0 +1,111 @@
+diff --git a/migration/vanilla-frontend/js/workspace.js b/migration/vanilla-frontend/js/workspace.js
+index 6649336..c313a1d 100644
+--- a/migration/vanilla-frontend/js/workspace.js
++++ b/migration/vanilla-frontend/js/workspace.js
+@@ -1,3 +1,4 @@
++import {replaceOwnedChildren} from './retire-dom.js';
+ import {SectionEntryFrame} from './generated/SectionEntryFrame.js';
+ import {sectionEntryFrames} from './generated/section-entry.js';
+ import {workspaceKey} from './generated/interaction-navigation.js';
+@@ -16,7 +17,7 @@ export function createWorkspace(root){let pendingScroll,lastPresentation,announc
+  function closeAuthority(){authorityController?.abort();authorityController=null;authorityKey=null;release?.();release=null;}
+  function invalidate(){session=null;}
+  async function prepare(context){const {url,signal}=context,{locale}=readPreferences(),dict=await dictionary(locale);
+-  if(signal.aborted)return {};if(!shell&&!root.childNodes.length){const routeKey=workspaceKey(url.pathname),frames=sectionEntryFrames(dict);root.replaceChildren(SectionEntryFrame({routeKey,frame:frames[routeKey]??frames.other,privateBoundary:true}));}
++  if(signal.aborted)return {};if(!shell&&!root.childNodes.length){const routeKey=workspaceKey(url.pathname),frames=sectionEntryFrames(dict);replaceOwnedChildren(root,SectionEntryFrame({routeKey,frame:frames[routeKey]??frames.other,privateBoundary:true}));}
+   if(!session||session.expiresAt*1000<=Date.now())try{session=await sessionPresentation(signal);}catch(e){if(e.status===401)return {redirect:'/login'};throw e;}
+   if(signal.aborted)return {};
+   const resolved=session,presentation=resolved.user.id+':'+resolved.user.role+':'+resolved.user.accountStatus;if(lastPresentation&&lastPresentation!==presentation){if(context.state)for(const k of Object.keys(context.state))delete context.state[k];privateScope.clear('authority-change');session=resolved;}lastPresentation=presentation;document.documentElement.lang=locale;
+@@ -29,18 +30,18 @@ export function createWorkspace(root){let pendingScroll,lastPresentation,announc
+  }
+  function ensureAuthority(context){const current=context.session;if(!current)return;const next=current.user.id+':'+current.user.role+':'+current.user.accountStatus+':'+current.expiresAt;
+   if(authorityKey===next)return;closeAuthority();authorityController=new AbortController();authorityKey=next;const persistent={...context,signal:authorityController.signal,scope:privateScope,refresh:()=>{invalidate();return context.refresh();}};
+-  release=privateScope.own(()=>{session=null;api.clear();scroll.clear();closeShell();closeAuthority();root.replaceChildren();});watchAuthority(current,persistent);
++  release=privateScope.own(()=>{session=null;api.clear();scroll.clear();closeShell();closeAuthority();replaceOwnedChildren(root);});watchAuthority(current,persistent);
+  }
+  function commit(staging,context){const {url}=context,protectedRoute=!!context.session;const ordinary=protectedRoute&&url.pathname.startsWith('/app')&&context.route?.layout!=='focus';
+-  if(!protectedRoute){closeShell();closeAuthority();session=null;privateScope.setScope(null);scroll.clear();root.replaceChildren(...staging.childNodes);return;}
++  if(!protectedRoute){closeShell();closeAuthority();session=null;privateScope.setScope(null);scroll.clear();replaceOwnedChildren(root,...staging.childNodes);return;}
+   ensureAuthority(context);if(context.session.diagnostics)void enableDiagnostics(context.signal);
+-  if(!ordinary){closeShell();root.replaceChildren(...staging.childNodes);return;}
++  if(!ordinary){closeShell();replaceOwnedChildren(root,...staging.childNodes);return;}
+   const nextKey=context.session.user.id+':'+context.session.user.role+':'+context.locale;
+   const priorScroll=pendingScroll??shell?.main.scrollTop??0;pendingScroll=undefined;shell?.end(true);
+   if(shell&&locationKey)scroll.set(locationKey,priorScroll);while(scroll.size>40)scroll.delete(scroll.keys().next().value);
+-  if(!shell||nextKey!==key){const sidebarScroll=shell?.sidebar.scrollTop??0,focusIntent=shell?.preferenceFocus?.(),restoreLocaleFocus=!!shell?.host.contains(document.activeElement)&&document.activeElement.matches('[data-locale-switcher] button[lang]')||focusIntent?.locale===context.locale&&focusIntent?.path===url.pathname+url.search;closeShell();shellController=new AbortController();shell=createShell({...context,signal:shellController.signal,refresh:()=>{invalidate();return context.refresh();}});key=nextKey;root.replaceChildren(shell.host);shell.sidebar.scrollTop=sidebarScroll;if(restoreLocaleFocus)shell.host.querySelector('button[lang="'+context.locale+'"]')?.focus({preventScroll:true});}else shell.update(url,context.session.user,context.state);
+-  shell.outlet.replaceChildren(moduleLayout(context,[...staging.childNodes]));locationKey=(context.historyKey??'')+url.pathname+url.search;const saved=context.preserveScroll?priorScroll:scroll.get(locationKey)??0;const target=shell.main;shell.main.scrollTop=saved;if(saved>0&&target.scrollTop<saved){const observer=new MutationObserver(()=>{if(!context.signal.aborted&&shell?.main===target&&target.scrollHeight-target.clientHeight>=saved){target.scrollTop=saved;observer.disconnect();clearTimeout(timer);}}),timer=setTimeout(()=>observer.disconnect(),5000);observer.observe(shell.outlet,{childList:true,subtree:true});context.signal.addEventListener('abort',()=>{observer.disconnect();clearTimeout(timer);},{once:true});}
++  if(!shell||nextKey!==key){const sidebarScroll=shell?.sidebar.scrollTop??0,focusIntent=shell?.preferenceFocus?.(),restoreLocaleFocus=!!shell?.host.contains(document.activeElement)&&document.activeElement.matches('[data-locale-switcher] button[lang]')||focusIntent?.locale===context.locale&&focusIntent?.path===url.pathname+url.search;closeShell();shellController=new AbortController();shell=createShell({...context,signal:shellController.signal,refresh:()=>{invalidate();return context.refresh();}});key=nextKey;replaceOwnedChildren(root,shell.host);shell.sidebar.scrollTop=sidebarScroll;if(restoreLocaleFocus)shell.host.querySelector('button[lang="'+context.locale+'"]')?.focus({preventScroll:true});}else shell.update(url,context.session.user,context.state);
++  replaceOwnedChildren(shell.outlet,moduleLayout(context,[...staging.childNodes]));locationKey=(context.historyKey??'')+url.pathname+url.search;const saved=context.preserveScroll?priorScroll:scroll.get(locationKey)??0;const target=shell.main;shell.main.scrollTop=saved;if(saved>0&&target.scrollTop<saved){const observer=new MutationObserver(()=>{if(!context.signal.aborted&&shell?.main===target&&target.scrollHeight-target.clientHeight>=saved){target.scrollTop=saved;observer.disconnect();clearTimeout(timer);}}),timer=setTimeout(()=>observer.disconnect(),5000);observer.observe(shell.outlet,{childList:true,subtree:true});context.signal.addEventListener('abort',()=>{observer.disconnect();clearTimeout(timer);},{once:true});}
+  }
+- function begin(url,signal,source){if(!shell)return;if(!url.pathname.startsWith('/app')){closeShell();closeAuthority();session=null;privateScope.setScope(null);api.clear();scroll.clear();root.replaceChildren();return;}pendingScroll??=shell.main.scrollTop;if(locationKey)scroll.set(locationKey,pendingScroll);shell.begin(url,signal,source);}
++ function begin(url,signal,source){if(!shell)return;if(!url.pathname.startsWith('/app')){closeShell();closeAuthority();session=null;privateScope.setScope(null);api.clear();scroll.clear();replaceOwnedChildren(root);return;}pendingScroll??=shell.main.scrollTop;if(locationKey)scroll.set(locationKey,pendingScroll);shell.begin(url,signal,source);}
+  return {prepare,commit,begin,destroy(){closeShell();closeAuthority();session=null;privateScope.setScope(null);api.clear();},invalidate};
+ }
+diff --git a/migration/vanilla-frontend/modules/dashboard.js b/migration/vanilla-frontend/modules/dashboard.js
+index 40f1d58..6407942 100644
+--- a/migration/vanilla-frontend/modules/dashboard.js
++++ b/migration/vanilla-frontend/modules/dashboard.js
+@@ -1,3 +1,4 @@
++import {replaceOwnedChildren} from '../js/retire-dom.js';
+ import {el} from '../js/dom.js';
+ import {viewData,requireFields} from '../js/adapters/frontend.js';
+ import {dashboardDTO,openLessonsDTO,mockDTO} from '../js/adapters/dashboard.js';
+@@ -13,8 +14,8 @@ export async function mount(context){
+  const validators={dashboard:dashboardDTO,openLessons:openLessonsDTO,mock:mockDTO},fields={dashboard:'dashboard',openLessons:'openLessonsResult',mock:'mock'};
+  function paint(key){const slot=slots[key],state=states[key];if(!slot||!state||signal.aborted)return;
+   slot.setAttribute('aria-busy',String(state.pending));if(state.pending)return;
+-  if(state.error){const notice=RegionFailureNotice({region:key==='openLessons'?'dashboard-open-lessons':key==='dashboard'?'dashboard-summary':'mock-overview',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:()=>load(key)});slot.replaceChildren(notice,...(key==='dashboard'&&slots.openLessons?[slots.openLessons]:[]));return;}
+-  slot.replaceChildren(renderers[key]());
++  if(state.error){const notice=RegionFailureNotice({region:key==='openLessons'?'dashboard-open-lessons':key==='dashboard'?'dashboard-summary':'mock-overview',message:dict.errors.unknown,retryLabel:dict.errorPage.retry,refresh:()=>load(key)});replaceOwnedChildren(slot,notice,...(key==='dashboard'&&slots.openLessons?[slots.openLessons]:[]));return;}
++  replaceOwnedChildren(slot,renderers[key]());
+  }
+  async function load(key){if(signal.aborted||states[key]?.pending)return;states[key]={pending:true};paint(key);
+   try{const data=await viewData(url.pathname+url.search,signal,key);if(signal.aborted)return;requireFields(data,[fields[key]]);
+diff --git a/migration/vanilla-frontend/modules/reports.js b/migration/vanilla-frontend/modules/reports.js
+index 2615fcd..7fa2935 100644
+--- a/migration/vanilla-frontend/modules/reports.js
++++ b/migration/vanilla-frontend/modules/reports.js
+@@ -1,3 +1,4 @@
++import {replaceOwnedChildren} from '../js/retire-dom.js';
+ import {restoreWhenAttached,fieldSelection} from '../js/focus-restore.js';
+ import {el,listen} from '../js/dom.js';
+ import {viewData} from '../js/adapters/frontend.js';
+@@ -9,9 +10,9 @@ export async function mount(context){
+  const host=el('div',{'data-reports-native':''});root.append(host);let loading=false,download=null,objectUrl=null,revokeTimer;
+  function revoke(){clearTimeout(revokeTimer);if(objectUrl){URL.revokeObjectURL(objectUrl);objectUrl=null;}}
+  signal.addEventListener('abort',()=>{download?.abort();revoke();},{once:true});
+- async function load(){if(signal.aborted||loading)return;loading=true;host.setAttribute('aria-busy','true');host.replaceChildren(el('div',{role:'status','data-reports-loading':'',class:'h-32 animate-pulse rounded-xl bg-ink-50','aria-label':dict.common.loading}));
++ async function load(){if(signal.aborted||loading)return;loading=true;host.setAttribute('aria-busy','true');replaceOwnedChildren(host,el('div',{role:'status','data-reports-loading':'',class:'h-32 animate-pulse rounded-xl bg-ink-50','aria-label':dict.common.loading}));
+   try{const dto=reporterDTO(await viewData(url.pathname+url.search,signal),role,query);if(signal.aborted)return;
+-   const errorCode=url.searchParams.get('error'),node=render({dict,locale,role,query,...dto,errorText:Object.hasOwn(t.errors,errorCode)?t.errors[errorCode]:null});host.replaceChildren(node);
++   const errorCode=url.searchParams.get('error'),node=render({dict,locale,role,query,...dto,errorText:Object.hasOwn(t.errors,errorCode)?t.errors[errorCode]:null});replaceOwnedChildren(host,node);
+    const state=context.state??{},draft=state.reportDraft?.role===role?state.reportDraft.values:null;
+    const search=node.querySelector('[data-reporter-student-search]');if(search){const input=search.querySelector('[name=q]');if(typeof state.reportSearchDraft==='string')input.value=state.reportSearchDraft;listen(input,'input',()=>state.reportSearchDraft=input.value,signal);}
+    if(search)listen(search,'submit',e=>{e.preventDefault();const q=new FormData(search).get('q').trim().slice(0,60);void context.navigate('/app/reports'+(q?'?'+new URLSearchParams({q}):''));},signal);
+@@ -28,7 +29,7 @@ export async function mount(context){
+     }catch(err){if(!flight.aborted){error.textContent=Object.hasOwn(t.errors,err.code)?t.errors[err.code]:t.errors.generation_failed;form.append(error);}}
+     finally{busy=false;download=null;cancel.remove();status.remove();if(!signal.aborted){button.disabled=false;form.removeAttribute('aria-busy');if(document.activeElement===document.body)button.focus({preventScroll:true});}}
+    },signal);
+-  }catch{if(!signal.aborted)host.replaceChildren(RegionFailureNotice({region:'reports',message:dict.auth.errorServer,retryLabel:dict.common.retry,refresh:load}));}
++  }catch{if(!signal.aborted)replaceOwnedChildren(host,RegionFailureNotice({region:'reports',message:dict.auth.errorServer,retryLabel:dict.common.retry,refresh:load}));}
+   finally{loading=false;if(!signal.aborted)host.setAttribute('aria-busy','false');}
+  }
+  void load();
+diff --git a/migration/vanilla-frontend/modules/shell/transition.js b/migration/vanilla-frontend/modules/shell/transition.js
+index 59a5444..f70d708 100644
+--- a/migration/vanilla-frontend/modules/shell/transition.js
++++ b/migration/vanilla-frontend/modules/shell/transition.js
+@@ -1,3 +1,4 @@
++import {retireAnimations} from '../../js/retire-dom.js';
+ import {el} from '../../js/dom.js';
+ import {SectionEntryFrame} from '../../js/generated/SectionEntryFrame.js';
+ import {sectionEntryFrames} from '../../js/generated/section-entry.js';
+@@ -6,7 +7,7 @@ import {workspaceKey} from '../../js/generated/interaction-navigation.js';
+  * It never stands in for ready content, a successful API or a converted page. */
+ export function workspaceTransition({dict,signal,refresh}){
+  const content=el('div',{'data-workspace-content':''}),outgoing=el('div',{'data-outgoing-workspace':''},content),node=el('div',{class:'workspace-transition','aria-busy':'false','data-workspace-transition':''},outgoing),frames=sectionEntryFrames(dict);let frame,notice,timer,activeSignal,abort;
+- function end(){clearTimeout(timer);activeSignal?.removeEventListener('abort',abort);activeSignal=null;frame?.remove();notice?.remove();frame=notice=null;outgoing.hidden=false;content.inert=false;node.setAttribute('aria-busy','false');}
++ function end(){clearTimeout(timer);activeSignal?.removeEventListener('abort',abort);activeSignal=null;retireAnimations(frame);retireAnimations(notice);frame?.remove();notice?.remove();frame=notice=null;outgoing.hidden=false;content.inert=false;node.setAttribute('aria-busy','false');}
+  function begin(url,flight){end();activeSignal=flight;abort=end;flight.addEventListener('abort',abort,{once:true});if(flight.aborted)return;outgoing.hidden=true;content.inert=true;node.setAttribute('aria-busy','true');const routeKey=workspaceKey(url.pathname);frame=SectionEntryFrame({routeKey,frame:frames[routeKey]??frames.other,privateBoundary:true});node.append(frame);
+   timer=setTimeout(()=>{if(flight.aborted)return;const retry=el('button',{type:'button',class:'btn-secondary'},dict.errorPage.retry);retry.addEventListener('click',()=>{if(!flight.aborted)void refresh();});notice=el('div',{class:'workspace-transition__notice',role:'status','aria-live':'polite','data-workspace-loading':'','data-navigation-pending':''},el('span',{class:'workspace-transition__pulse','aria-hidden':'true'}),el('span',{},dict.errors.unknown),retry);node.append(notice);},15000);
+  }

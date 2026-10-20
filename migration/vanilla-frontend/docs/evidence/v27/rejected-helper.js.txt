@@ -1,0 +1,15 @@
+/** Retire only animations whose targets leave an owned subtree. Detached CSS
+ * animations otherwise remain reachable from DocumentTimeline until its next
+ * animation update. Never cancel an incoming/retained subtree or a live host.
+ * No timers, observers, forced frames, GC, or global DOM interception. */
+export function retireAnimations(node,retained=[]){
+ for(const animation of node?.getAnimations?.({subtree:true})??[]){
+  const target=animation.effect?.target;
+  if(target&&retained.some(next=>next===target||next?.contains?.(target)))continue;
+  animation.cancel();
+ }
+}
+export function replaceOwnedChildren(host,...children){
+ for(const child of host.children)retireAnimations(child,children);
+ host.replaceChildren(...children);
+}
