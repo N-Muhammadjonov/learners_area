@@ -48,10 +48,15 @@ async function main(){
   const correctionBytes=readFileSync(join(prepared,'course-corrections.json'));if(bytesHash(correctionBytes)!==plan.courseCorrectionsSha||plan.courseCorrectionsSha!==approval.courseCorrectionsSha)throw Error('reviewed_course_corrections_mismatch');
   const occurrenceBytes=readFileSync(new URL('../../content/dictionary/occurrence-corrections.json',import.meta.url));if(bytesHash(occurrenceBytes)!==approval.occurrenceCorrectionsSha)throw Error('reviewed_occurrence_corrections_mismatch');
   await db.transaction(async tx=>{await applyCourseCorrections(JSON.parse(correctionBytes.toString()),tx);await applyOccurrenceCorrections(JSON.parse(occurrenceBytes.toString()),tx);});
-  for(const d of search.objects){const body=readFileSync(join(prepared,'search',d.name+'.json.gz'));if(bytesHash(body)!==d.sha256)throw Error('prepared_index_checksum_mismatch');await objects.putImmutable(indexKey(plan.release,d.name),body);}
-  // Freeze the approved prepared bytes first; a runtime compressor mismatch
-  // then fails the immutable-object check instead of silently changing the plan.
-  for(const d of plan.shards){const body=readFileSync(join(prepared,'shards',d.shard+'.json.gz'));if(bytesHash(body)!==d.sha256)throw Error('prepared_shard_checksum_mismatch');await objects.putImmutable(shardKey(plan.release,d.shard),body);}
+  // Upload bounded batches of the exact approved bytes. Every object still
+  // passes its prepared SHA check and the immutable transport's read-back SHA.
+  // Eight small objects keep memory/request concurrency bounded on Free.
+  const uploads=[...search.objects.map(d=>({file:join(prepared,'search',d.name+'.json.gz'),key:indexKey(plan.release,d.name),sha:d.sha256})),
+    ...plan.shards.map((d:{shard:string;sha256:string})=>({file:join(prepared,'shards',d.shard+'.json.gz'),key:shardKey(plan.release,d.shard),sha:d.sha256}))];
+  for(let at=0;at<uploads.length;at+=8){
+    await Promise.all(uploads.slice(at,at+8).map(async d=>{const body=readFileSync(d.file);if(bytesHash(body)!==d.sha)throw Error('prepared_object_checksum_mismatch');await objects.putImmutable(d.key,body);}));
+    console.log(JSON.stringify({uploaded:Math.min(at+8,uploads.length),objects:uploads.length}));
+  }
   const result=await importHybridGroups((async function*(){for(const d of plan.shards){const body=readFileSync(join(prepared,'shards',d.shard+'.json.gz'));yield [...decodeShard(plan.release,d,body).values()];}})(),plan.expected,objects,db,approval.ownerId,search);
   console.log(JSON.stringify({staged:true,activeChanged:false,release:plan.release,manifestSha:sha(stableJson(result.manifest))}));
  }else if(action==='activate'){
