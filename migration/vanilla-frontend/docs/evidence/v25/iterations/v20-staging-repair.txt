@@ -1,0 +1,72 @@
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 15,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V20 standing Review storage same no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review storage attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review storage exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review focus same no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review focus attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review focus exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review pageshow same no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review pageshow attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review pageshow exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review visibility same no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review visibility attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review visibility exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review learners-area:authority-hint same no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review learners-area:authority-hint attempt no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    },
+    {
+      "name": "V20 standing Review learners-area:authority-hint exam no pending writer: conceal first, validate bounded metadata only",
+      "status": "PASS"
+    }
+  ]
+}
