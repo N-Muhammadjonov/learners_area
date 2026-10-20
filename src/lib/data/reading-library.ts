@@ -1,4 +1,5 @@
 import { activateReadingSchedules } from "@/lib/services/reading/schedules";
+import { notDeleted } from "@/lib/content/deletion-filter";
 import { readingCanonicalTypeSql } from "@/lib/data/reading-type-index";
 import { readingQuestionType } from "@/lib/reading/question-model";
 import { and, asc, count, desc, eq, ilike, inArray, sql } from "drizzle-orm";
@@ -339,7 +340,7 @@ export async function readingHubCounts(userId: string) {
  * but read per-passage learning progress and always link into the General session. */
 export async function listLearningLibrary(userId: string, filter: ReadingLibraryFilter = {}, executor: typeof db = db) {
   await activateReadingSchedules(executor);
-  const clauses = [sql`(p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now()))`,sql`(s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now()))`];
+  const clauses = [notDeleted(sql`p.id`),notDeleted(sql`s.id`),sql`(p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now()))`,sql`(s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now()))`];
   const number = {passage1:1,passage2:2,passage3:3}[filter.status ?? ""];
   if(number)clauses.push(sql`g.passage_no=${number}`);
   if(text(filter.query))clauses.push(sql`p.title ilike ${`%${text(filter.query)!.replace(/[%_\\]/g,m=>"\\"+m)}%`}`);
