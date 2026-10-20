@@ -52,7 +52,7 @@ export async function AuthShell({
           data-auth-brand
         >
           <BrandBlock
-            size={prominentBrand ? 56 : 44}
+            size={prominentBrand ? 60 : 44}
             className="justify-center"
             nameSuffix={
               <span className="ml-1.5 inline-flex align-middle" aria-hidden="true">
