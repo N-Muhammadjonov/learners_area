@@ -1,0 +1,149 @@
+{
+  "archives": [
+    {
+      "path": "data/import-sources/learnersarea_reading_105.zip",
+      "bytes": 2897149,
+      "sha256": "d736cd4bada0f55309a498116e0e408dd64306ad22779d3ba306a20d01529dd6"
+    },
+    {
+      "path": "docs/owner-references/2026-10-03/manual-check-round-2/source-assets/booster.zip",
+      "bytes": 1808107,
+      "sha256": "b666a20b004a824cc287ff7af7aa9989d96b62c7d64ba638e0e67c2a3a19010b"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V10.zip",
+      "bytes": 39321269,
+      "sha256": "64fa1cdac41632502a8a2df903189b3d2d48d44e331fd4fc1c0c9fb37deeb469"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V11.zip",
+      "bytes": 39565556,
+      "sha256": "0f6f383141af5c5eca6456fd8fa415aa0fc994a9a0e2c19ea9288096c365209b"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V12.zip",
+      "bytes": 39640079,
+      "sha256": "342c195cd12ae982900145e1f1365da07f015e8a4679e8bc57fc5770ca9a7a60"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V13.zip",
+      "bytes": 39728642,
+      "sha256": "4975eb9b664f951fc514aa4ba18b89ed61b7f33cb60165f9eb9228f9d80440c4"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V14.zip",
+      "bytes": 39802549,
+      "sha256": "9d5a17bd44ac2ad8e0cbdb6ae2d557025f6cfd04fec0831fc82a4df92a94d59c"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V15.zip",
+      "bytes": 39982906,
+      "sha256": "c4a15e614ad9556be21bc1d0ab7b28d9cf62d51966a21a9fd7322c3235ef1b9f"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V16.zip",
+      "bytes": 40106910,
+      "sha256": "5bfaa2b173340b83e5f674858c80872ba4e3d2d827639c994209ccf12b5c2d0b"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17.zip",
+      "bytes": 40172446,
+      "sha256": "f810e804efd18977b83a94038e6b83ba27ac40a54dcb42ee3e625ab4d6adc0a5"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17_FINAL_VERIFIED.zip",
+      "bytes": 40230303,
+      "sha256": "da255c7c47aac05a5624c97483454817f755c6acc57f50546560dbecf4c7389d"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V17_VERIFIED.zip",
+      "bytes": 40220212,
+      "sha256": "8c281cd0c93b3d691b54a9ca30bb2368af5ab0d2b28ccddb25a792b44cbf7669"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V18.zip",
+      "bytes": 40338126,
+      "sha256": "0d39557329c86971a90608dc8bf68af15d21d84189a61356ec8ba9b6fc913e7f"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V19.zip",
+      "bytes": 40460121,
+      "sha256": "e078ad508a0fd916461012875ec62dda2f89baddc87671fedbe1e1853328be6e"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip",
+      "bytes": 10081990,
+      "sha256": "7de4a25577bcaa517e3b04f712e2de438c4a8108307f8e4394213acf2a3fc48a"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V20.zip",
+      "bytes": 41268378,
+      "sha256": "3cb171c34081db0780a3c8eee92759ace5a0f92f0d00f75364883e0f7e85c0c0"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V3.zip",
+      "bytes": 13955188,
+      "sha256": "5525c8482e9125c27d7edeaecf25df56f114671e78565ba32dd64495b0aade1d"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V4.zip",
+      "bytes": 19262129,
+      "sha256": "6d65080db5cebcf93c913c040e5d5eafcb1680e0c7a8e568339f7d00de530739"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V5.zip",
+      "bytes": 25352797,
+      "sha256": "2197b05740e006a6e5d0c8d82c84c0d814ed5fad35f97e98ea5a2b644cddc279"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V6.zip",
+      "bytes": 31442883,
+      "sha256": "ce1fe2dad1ceafddc0c7200d8c454a500b7f444deaa33b95d6c8bced094e05f6"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V7.zip",
+      "bytes": 31535066,
+      "sha256": "2b4c218deb6447190f83e52211650648fe872b2d42ac275a2db6947b19958209"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V8.zip",
+      "bytes": 32058063,
+      "sha256": "2e8147f7104ca3afc921cb104e97853d303a5521c862977dab0769f82781b3bf"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V9.zip",
+      "bytes": 35424785,
+      "sha256": "691d6a1a9a53a41470339fee3594fa2e0aaaf12abfe6c3d7199156bf6ca5a05d"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_PARTIAL.zip",
+      "bytes": 9392890,
+      "sha256": "26066105e78eed7d2436782bd2e4fcf18430fbd32b736ccd6217d799b5b3f6bb"
+    },
+    {
+      "path": "reference/listening/test-11/Listening_Test_11_ARENA_REFERENCE.zip",
+      "bytes": 2284,
+      "sha256": "d951165448f269074cb870df40b54da7cb28abbda388a1b32bb0c0b5253a2bce"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V21.zip",
+      "bytes": 41516373,
+      "sha256": "f0bcd3b74cd3b2d80e9c9c33fcbd787b46038e81aa3d4e9b69e800b77345d2b7"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V22.zip",
+      "bytes": 41734734,
+      "sha256": "f9675a99fb8bce3298d007e65c89770d16c2836fcfe2b40edddd7d0c0fa8922d"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V23.zip",
+      "bytes": 41826416,
+      "sha256": "3b89d404ded8110819808f9cc82fd7352f9332d689703bd931131c6da93d2948"
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V24.zip",
+      "bytes": 42319769,
+      "sha256": "372bee6537941e8384766edcd5e4be07109b32f0f572c1db5e753bf8c7873ac7"
+    }
+  ]
+}

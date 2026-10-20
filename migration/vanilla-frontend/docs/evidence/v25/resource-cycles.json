@@ -1,0 +1,96 @@
+{
+  "scope": "Six bounded Chromium fixture cycles; parent URL/observer/authority listener/owned audio/route DOM counters. Not heap, browser-native timer or universal hardware leak proof.",
+  "baseline": {
+    "urls": 0,
+    "observers": 1,
+    "listeners": {
+      "storage": 2,
+      "pageshow": 1,
+      "visibilitychange": 2
+    },
+    "audioCount": 1,
+    "audioReleased": true,
+    "frames": 0,
+    "dialogs": 0
+  },
+  "samples": [
+    {
+      "urls": 0,
+      "observers": 1,
+      "listeners": {
+        "storage": 2,
+        "pageshow": 1,
+        "visibilitychange": 2
+      },
+      "audioCount": 3,
+      "audioReleased": true,
+      "frames": 0,
+      "dialogs": 0
+    },
+    {
+      "urls": 0,
+      "observers": 1,
+      "listeners": {
+        "storage": 2,
+        "pageshow": 1,
+        "visibilitychange": 2
+      },
+      "audioCount": 4,
+      "audioReleased": true,
+      "frames": 0,
+      "dialogs": 0
+    },
+    {
+      "urls": 0,
+      "observers": 1,
+      "listeners": {
+        "storage": 2,
+        "pageshow": 1,
+        "visibilitychange": 2
+      },
+      "audioCount": 6,
+      "audioReleased": true,
+      "frames": 0,
+      "dialogs": 0
+    },
+    {
+      "urls": 0,
+      "observers": 1,
+      "listeners": {
+        "storage": 2,
+        "pageshow": 1,
+        "visibilitychange": 2
+      },
+      "audioCount": 7,
+      "audioReleased": true,
+      "frames": 0,
+      "dialogs": 0
+    },
+    {
+      "urls": 0,
+      "observers": 1,
+      "listeners": {
+        "storage": 2,
+        "pageshow": 1,
+        "visibilitychange": 2
+      },
+      "audioCount": 9,
+      "audioReleased": true,
+      "frames": 0,
+      "dialogs": 0
+    },
+    {
+      "urls": 0,
+      "observers": 1,
+      "listeners": {
+        "storage": 2,
+        "pageshow": 1,
+        "visibilitychange": 2
+      },
+      "audioCount": 10,
+      "audioReleased": true,
+      "frames": 0,
+      "dialogs": 0
+    }
+  ]
+}

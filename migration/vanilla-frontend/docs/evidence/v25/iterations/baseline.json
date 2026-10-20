@@ -1,0 +1,67 @@
+{
+  "sourceCommit": "ce2504d2f41d48f4e561c4c4e91571f59d354f7e",
+  "sealCommit": "478d9f7f1cba04ce8c044c2a1361f6f6b297bfe8",
+  "archive": {
+    "name": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V24.zip",
+    "bytes": 42319769,
+    "sha256": "372bee6537941e8384766edcd5e4be07109b32f0f572c1db5e753bf8c7873ac7"
+  },
+  "units": {
+    "PASS": 527,
+    "FAIL": 0,
+    "SKIP": 0,
+    "preserved": 521,
+    "new": 6
+  },
+  "chromium": {
+    "PASS": 499,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "originalSource": {
+    "PASS": 372,
+    "FAIL": 0,
+    "SKIP": 0,
+    "preserved": 346,
+    "new": 26
+  },
+  "inventory": {
+    "globalRoutes": {
+      "complete": 22,
+      "partial": 15,
+      "notStarted": 71,
+      "total": 108
+    },
+    "globalComponents": {
+      "complete": 62,
+      "partial": 17,
+      "notStarted": 127,
+      "total": 206
+    },
+    "listeningRoutes": {
+      "complete": 9,
+      "partial": 6,
+      "notStarted": 1,
+      "total": 16
+    },
+    "listeningComponents": {
+      "complete": 9,
+      "partial": 10,
+      "notStarted": 5,
+      "total": 24
+    },
+    "reservedStaffRoutes": 35,
+    "note": "preserved migration inventory; not whole-current-main parity census; no promotion"
+  },
+  "activityStatus": {
+    "full": "FRONTEND CODE COMPLETE retained",
+    "retry": "FRONTEND CODE COMPLETE retained",
+    "review": "PARTIAL",
+    "script": "NOT ADVANCED",
+    "reading": "GATED",
+    "frontendComplete": 2,
+    "total": 9,
+    "comprehensiveOriginal": 0,
+    "authorizedLive": 0
+  }
+}

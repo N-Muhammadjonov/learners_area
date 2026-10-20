@@ -1,0 +1,751 @@
+{
+  "matchedOriginalVisualAcceptance": "UNVERIFIED",
+  "reason": "No equivalent authorized rendered Next/React reference is available in this checkout/session. Read-only HTML and migrated screenshots are not matched-original full application proof.",
+  "scope": "Migrated actual-source geometry/keyboard/overflow across12 viewport/locale/theme combinations; no CSS or original source edits.",
+  "geometry": [
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "en",
+      "theme": "day",
+      "overflow": false,
+      "scrollY": 5246,
+      "viewport": [
+        1440,
+        900
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 188,
+            "y": -4898.1875,
+            "width": 1064,
+            "height": 5728.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 188,
+            "y": -4991.1875,
+            "width": 1064,
+            "height": 79
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 1073.03125,
+            "y": -4727.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 188,
+            "y": 811.1875,
+            "width": 1064,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "en",
+      "theme": "night",
+      "overflow": false,
+      "scrollY": 5246,
+      "viewport": [
+        1440,
+        900
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 188,
+            "y": -4898.1875,
+            "width": 1064,
+            "height": 5728.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 188,
+            "y": -4991.1875,
+            "width": 1064,
+            "height": 79
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 1073.03125,
+            "y": -4727.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 188,
+            "y": 811.1875,
+            "width": 1064,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "uz",
+      "theme": "day",
+      "overflow": false,
+      "scrollY": 5246,
+      "viewport": [
+        1440,
+        900
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 188,
+            "y": -4898.1875,
+            "width": 1064,
+            "height": 5728.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 188,
+            "y": -4991.1875,
+            "width": 1064,
+            "height": 79
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 1073.03125,
+            "y": -4727.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 188,
+            "y": 811.1875,
+            "width": 1064,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "locale": "uz",
+      "theme": "night",
+      "overflow": false,
+      "scrollY": 5246,
+      "viewport": [
+        1440,
+        900
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 188,
+            "y": -4898.1875,
+            "width": 1064,
+            "height": 5728.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 188,
+            "y": -4991.1875,
+            "width": 1064,
+            "height": 79
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 1073.03125,
+            "y": -4727.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 188,
+            "y": 811.1875,
+            "width": 1064,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "locale": "en",
+      "theme": "day",
+      "overflow": false,
+      "scrollY": 5975,
+      "viewport": [
+        768,
+        1024
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 18,
+            "y": -5580.1875,
+            "width": 732,
+            "height": 6534.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 18,
+            "y": -5720.1875,
+            "width": 732,
+            "height": 126
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 571.03125,
+            "y": -5409.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 18,
+            "y": 935.1875,
+            "width": 732,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "locale": "en",
+      "theme": "night",
+      "overflow": false,
+      "scrollY": 5975,
+      "viewport": [
+        768,
+        1024
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 18,
+            "y": -5580.1875,
+            "width": 732,
+            "height": 6534.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 18,
+            "y": -5720.1875,
+            "width": 732,
+            "height": 126
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 571.03125,
+            "y": -5409.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 18,
+            "y": 935.1875,
+            "width": 732,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "locale": "uz",
+      "theme": "day",
+      "overflow": false,
+      "scrollY": 5975,
+      "viewport": [
+        768,
+        1024
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 18,
+            "y": -5580.1875,
+            "width": 732,
+            "height": 6534.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 18,
+            "y": -5720.1875,
+            "width": 732,
+            "height": 126
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 571.03125,
+            "y": -5409.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 18,
+            "y": 935.1875,
+            "width": 732,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "locale": "uz",
+      "theme": "night",
+      "overflow": false,
+      "scrollY": 5975,
+      "viewport": [
+        768,
+        1024
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 18,
+            "y": -5580.1875,
+            "width": 732,
+            "height": 6534.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 18,
+            "y": -5720.1875,
+            "width": 732,
+            "height": 126
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 571.03125,
+            "y": -5409.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 18,
+            "y": 935.1875,
+            "width": 732,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "theme": "day",
+      "overflow": false,
+      "scrollY": 9410,
+      "viewport": [
+        390,
+        844
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 18,
+            "y": -8930.1875,
+            "width": 354,
+            "height": 9704.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 18,
+            "y": -9098.1875,
+            "width": 354,
+            "height": 154
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 37,
+            "y": -8595.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 18,
+            "y": 755.1875,
+            "width": 354,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "en",
+      "theme": "night",
+      "overflow": false,
+      "scrollY": 9410,
+      "viewport": [
+        390,
+        844
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 18,
+            "y": -8930.1875,
+            "width": 354,
+            "height": 9704.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 18,
+            "y": -9098.1875,
+            "width": 354,
+            "height": 154
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 37,
+            "y": -8595.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 18,
+            "y": 755.1875,
+            "width": 354,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "uz",
+      "theme": "day",
+      "overflow": false,
+      "scrollY": 9410,
+      "viewport": [
+        390,
+        844
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 18,
+            "y": -8930.1875,
+            "width": 354,
+            "height": 9704.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 18,
+            "y": -9098.1875,
+            "width": 354,
+            "height": 154
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 37,
+            "y": -8595.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 18,
+            "y": 755.1875,
+            "width": 354,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "locale": "uz",
+      "theme": "night",
+      "overflow": false,
+      "scrollY": 9410,
+      "viewport": [
+        390,
+        844
+      ],
+      "nodes": [
+        {
+          "selector": "#reviewHost",
+          "rect": {
+            "x": 18,
+            "y": -8930.1875,
+            "width": 354,
+            "height": 9704.375
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        },
+        {
+          "selector": "#reviewAudio",
+          "rect": {
+            "x": 18,
+            "y": -9098.1875,
+            "width": 354,
+            "height": 154
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "14px"
+        },
+        {
+          "selector": "#retryReviewPart",
+          "rect": {
+            "x": 37,
+            "y": -8595.1875,
+            "width": 159.96875,
+            "height": 39
+          },
+          "font": "800 16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "9px"
+        },
+        {
+          "selector": "[data-review-transcript]",
+          "rect": {
+            "x": 18,
+            "y": 755.1875,
+            "width": 354,
+            "height": 19
+          },
+          "font": "16px Sora, Inter, Arial, sans-serif",
+          "fontFamily": "Sora, Inter, Arial, sans-serif",
+          "borderRadius": "0px"
+        }
+      ]
+    }
+  ]
+}

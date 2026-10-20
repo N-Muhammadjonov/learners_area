@@ -1,0 +1,123 @@
+PASS V25 fresh pre-reveal check held authority same without focus/storage hint
+PASS V25 fresh pre-reveal check held authority replaced without focus/storage hint
+PASS V25 fresh pre-reveal retry held authority same without focus/storage hint
+PASS V25 fresh pre-reveal retry held authority replaced without focus/storage hint
+FAIL V25 fresh pre-reveal evidence held authority same without focus/storage hint locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('[data-review-transcript] mark') to be visible
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-review-v25-journeys.mjs:9:1978
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v25-journeys.mjs:9:82)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:60:27
+PASS V25 fresh pre-reveal evidence held authority replaced without focus/storage hint
+PASS V25 fresh pre-reveal transcript held authority same without focus/storage hint
+PASS V25 fresh pre-reveal transcript held authority replaced without focus/storage hint
+FAIL V25 Check rejects fresh expired authority before original feedback locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe') to be detached
+    2 × locator resolved to hidden <iframe inert="" title="Listening" allow="fullscreen" sandbox="allow-scripts" referrerpolicy="no-referrer" src="/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox" class="h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0"></iframe>
+    19 × locator resolved to visible <iframe title="Listening" allow="fullscreen" sandbox="allow-scripts" referrerpolicy="no-referrer" src="/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox" class="h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0"></iframe>
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-review-v25-journeys.mjs:10:974
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v25-journeys.mjs:10:61)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:60:27
+PASS V25 Check rejects fresh revoked authority before original feedback
+PASS V25 Check rejects fresh unavailable authority before original feedback
+PASS V25 rapid repeated check coalesces one source action and fresh validation
+PASS V25 rapid repeated retry coalesces one source action and fresh validation
+PASS V25 source replacement while Check validation held cancels old action and late denial
+PASS V25 history replacement while Check validation held cancels old action and late denial
+FAIL V25 pending valid writer survives transient action authorization; uncertain failure never auto-replays locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('[data-review-transcript] mark') to be visible
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-review-v25-journeys.mjs:13:950
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v25-journeys.mjs:13:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:60:27
+PASS V25 unhinted another-tab retake during held POST cannot reveal evidence or clear original bytes
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 14,
+    "FAIL": 3,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V25 fresh pre-reveal check held authority same without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal check held authority replaced without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal retry held authority same without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal retry held authority replaced without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal evidence held authority same without focus/storage hint",
+      "status": "FAIL",
+      "error": "locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('[data-review-transcript] mark') to be visible\n"
+    },
+    {
+      "name": "V25 fresh pre-reveal evidence held authority replaced without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal transcript held authority same without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal transcript held authority replaced without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 Check rejects fresh expired authority before original feedback",
+      "status": "FAIL",
+      "error": "locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe') to be detached\n    2 × locator resolved to hidden <iframe inert=\"\" title=\"Listening\" allow=\"fullscreen\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\"></iframe>\n    19 × locator resolved to visible <iframe title=\"Listening\" allow=\"fullscreen\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\"></iframe>\n"
+    },
+    {
+      "name": "V25 Check rejects fresh revoked authority before original feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 Check rejects fresh unavailable authority before original feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 rapid repeated check coalesces one source action and fresh validation",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 rapid repeated retry coalesces one source action and fresh validation",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 source replacement while Check validation held cancels old action and late denial",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 history replacement while Check validation held cancels old action and late denial",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 pending valid writer survives transient action authorization; uncertain failure never auto-replays",
+      "status": "FAIL",
+      "error": "locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('[data-review-transcript] mark') to be visible\n"
+    },
+    {
+      "name": "V25 unhinted another-tab retake during held POST cannot reveal evidence or clear original bytes",
+      "status": "PASS"
+    }
+  ]
+}
