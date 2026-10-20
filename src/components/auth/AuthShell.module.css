@@ -62,11 +62,5 @@
   50% { transform: rotate(-3.5deg); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .loginBrand,
-  .loginBrand :global(.brand-mark),
-  .loginBrand :global(.brand-name) {
-    animation: none;
-    transform: none;
-  }
-}
+/* The /login brand continues floating even when system reduced motion is enabled.
+   The generic brandMotion accessibility rule still applies to other auth pages. */
