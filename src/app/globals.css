@@ -2392,3 +2392,16 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
     max-width: 100%;
   }
 }
+
+
+/* Touch welcome is always navy even when the outer app theme is Day.
+   Override the Day shell's dark brand text only on this welcome lock-up. */
+.la-welcome [data-landing-brand-link] [data-sidebar-brand] {
+  --ink-900: 243 238 229;
+  color: #f3eee5;
+  text-shadow: none;
+}
+.la-welcome [data-landing-brand-link] .brand-name {
+  color: #f3eee5;
+  text-shadow: none;
+}
