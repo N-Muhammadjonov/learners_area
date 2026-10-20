@@ -55,7 +55,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/CHECKPOINT_V20.md | 6475 | 7ae307b60af1d44ca67b9e394ebeb3c0ceeaf8320ae30c7e874621d66a3c3943 |
 | docs/CHECKPOINT_V21.md | 7490 | 190c82b51d78cb154e068d924ad79c0ff3887e55722cdca3b9def5309af23ce3 |
 | docs/CHECKPOINT_V22.md | 9134 | c16808ee12af4e42703879c80d128c8f9dbf1809b240bc2cbe22a80e969db996 |
-| docs/CHECKPOINT_V23.md | 7750 | 767ff1883f510a82055276541507cca8ff59d9cec58321874525f4d8c3166c64 |
+| docs/CHECKPOINT_V23.md | 8845 | 158da0d993844de504a619ba0b7d9fd751cfe342254868ca267ec9bcd8d5af53 |
 | docs/CHECKPOINT_V3.md | 13801 | c9288101aa89999705ae10fe36ab056f239aa2f79a5c5a0ea85bc4b674814852 |
 | docs/CHECKPOINT_V4.md | 5876 | e7680dabba10a881c476e157ce4bd0dcb23b5db3ede858ad66c87400924776e5 |
 | docs/CHECKPOINT_V5.md | 8033 | b86a0069be0ef98f8a20aa00e98b7d9da092cc7112a692874ba0c7ed509f7bc5 |
@@ -86,7 +86,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/COMPONENT_MIGRATION_MATRIX.md | 15429 | 61ef8e51ef54962b83a000897594a376ce1472a4b7ef7cf0cf9ace980a52df8c |
 | docs/DELIVERY_STATUS.md | 5326 | 2bb23faf2192e2866d3b9cb7449efa6a3cb13b9d9344c845cf94638753c0b719 |
 | docs/FUNCTIONAL_PARITY_REPORT.md | 5924 | f7693f9cc7a02742374b5b6df492428a941eee8ad9f1c78c122296999773fbcf |
-| docs/GPT_WORK_HANDOFF.md | 16347 | 342514ce7ba239f9ed1e2f14c3582b9ec2ac79c6c776559a3bc0358af7c52831 |
+| docs/GPT_WORK_HANDOFF.md | 17442 | 38177d57ee08e72aa26f5ae8d016d9e268c315b49342421ab920978d18dde9ba |
 | docs/GPT_WORK_HANDOFF_V12.md | 57593 | 2ddb3e9a97096a91e945034ff6bb1d44def20713864768ecc6f57b187c95211a |
 | docs/GPT_WORK_HANDOFF_V13.md | 3082 | d306f974dce539e88d383c63ebbcf79b6e04bbfc697a25d5d55301ced1e14cbf |
 | docs/GPT_WORK_HANDOFF_V14.md | 3885 | 307d9b25adc969ee6b65f95e3c2cff6af63c4ee600a15fb3607667960b7c96ce |
@@ -606,6 +606,9 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/evidence/v23/assets-css.json | 4210 | 5248aee56111f29ca5397ddf3051e10c6affdb95ac0083dc41497a54e8ff6e40 |
 | docs/evidence/v23/baseline.json | 1145 | f5dea52ed304aa8329a2cb44ef67fb6b07f153d85e0b8c13a9b79ca7fc18d903 |
 | docs/evidence/v23/historical-archives.json | 6106 | 29bfd0e7eda907b272289cb9df78297539c5e741d95587204c1afb098dc72678 |
+| docs/evidence/v23/iterations/failed-exact-source.json | 47000 | c5127526e49cd0545e770b410bd1a6308029b0893e4531094a4791574ce9651e |
+| docs/evidence/v23/iterations/failed-exact-source.txt | 82960 | 29a43566502a0886f3d078c5f5679269531428693cca9e2e9cf858e06e01102a |
+| docs/evidence/v23/iterations/first-exact-candidate.json | 823 | 8ce0c37239d9a22bbae691771838dfa6cafd7adb9d3d7a5dfc4eed93ae24b958 |
 | docs/evidence/v23/iterations/history3.txt | 544 | 2a012cf20c65e7b6761975b7413b6f13641dd4fea19e063356258b9580338e27 |
 | docs/evidence/v23/iterations/retake2.txt | 568 | aa1f78eeaae3e69f2592e8c10d4bbf62f2ac4a9f970bc59d4e19671358ba3462 |
 | docs/evidence/v23/iterations/setup-note.txt | 1456 | 72c78cb6144ca5d1036a3f1503910bba5418674900089f94d580b8462146c2e4 |
@@ -615,6 +618,13 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/evidence/v23/iterations/stale3.txt | 538 | 8c73b1893e5554b61c2e730012ecc2e572b05cf9fb322990466802aa35df3e8e |
 | docs/evidence/v23/iterations/units-focused1.txt | 4118 | f8df9a15c706ef4390273ce2d80e95ac38287b0a32914e44f6d9025806387baf |
 | docs/evidence/v23/iterations/units4.txt | 147122 | c0f8d07b66dbe53b8e0ee790c61ed66b80ebba729381eaf8298a2dbd5a497ee2 |
+| docs/evidence/v23/iterations/v15-staging-final-repair.json | 491 | 11da3d1f46498c326f9355d416dfec2b3e572457bbb7cd67aee3b04a56892a9f |
+| docs/evidence/v23/iterations/v15-staging-final-repair.txt | 622 | 013479cd4fab69c599d4856294e2ee024faa2cbc729702e49538cd6ef710cd5c |
+| docs/evidence/v23/iterations/v15-staging-repair-first-failure.json | 571 | 4c28011a30455f195cdea9a608705cac3aa9fcbc2075d0acd9e3473621e1be70 |
+| docs/evidence/v23/iterations/v15-staging-repair-first-failure.txt | 1462 | cc9fdc7a99c57a2d257931bc9404b14104820a54f36d49ebddbdb4fab661f144 |
+| docs/evidence/v23/iterations/v16-staging-full-repair.json | 3967 | a86929b76abc0dcb9797f60da0371a991c7d2b185096c66263b3cd1d90e4f8c1 |
+| docs/evidence/v23/iterations/v16-staging-full-repair.txt | 6325 | 58bf0b64c7ad5fe24e48aacba3b89ef18970d9ada46800995250556dfd99978a |
+| docs/evidence/v23/iterations/v16-staging-setup-error.txt | 754 | 1d92560ee1f3ab532b2a9b3958f3336975fb8e0d6ba62870680ea0821a9613bf |
 | docs/evidence/v23/original-behavior-v23.json | 9651 | 831de09dec9adbc362243b7c870a6dbdf905a98302ed59f9bf2f15cb7521b1fa |
 | docs/evidence/v23/original-focused-v11.json | 4796 | 9254fdbbb2c7d10c4f2dd012c413ab433d1a8371881eb8a1aeda571007b344ec |
 | docs/evidence/v23/review-performance.json | 591 | 47309df2c5acdd75582e63f6160c7ad4f6342442b87ba31c540eeaf08d655920 |
@@ -1228,9 +1238,9 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | tests/notifications-v3.test.mjs | 5272 | 3e5ba2d479cb876e06c364b1616059ea159a96c381dee8970d80be23dbf55d41 |
 | tests/original-exam-v13-journeys.mjs | 10191 | 400f47232fc6c10f3baefa573dbfecb28253230f5018c5088bf68fd9e1f5b72d |
 | tests/original-exam-v14-journeys.mjs | 14766 | d68ec64d38946b4841794aaed9380d71c52f0d7cfbb9dac8eb469b5366f7b278 |
-| tests/original-exam-v15-journeys.mjs | 27022 | b9e3b6f9906d35c3acb22736f7a85ff57ad85d681d0a8eb84d7b19fbc94d1dc0 |
+| tests/original-exam-v15-journeys.mjs | 27752 | a1d7bd8f8905086b1deb6b9b158dfcc829f4b057df4f7d57b218384951ec2fb4 |
 | tests/original-retry-v12-journeys.mjs | 10722 | 179b9fec23275f20156bfb09cb6bd854a82ca192aac2b80b8c4fe473cec596cb |
-| tests/original-review-v16-journeys.mjs | 13034 | 68d9fe40c004836f2ff026e8ae76f3b34855b773d385bdd33b4ed3e6637e92b9 |
+| tests/original-review-v16-journeys.mjs | 13910 | ca5d1c02414d7458087d0078825f7d812de9d8c9d0e752442f5c987db27f0721 |
 | tests/original-review-v17-journeys.mjs | 11331 | eb7e5de1e3a0f301ea788e6ebe8e2f07f198f919a3ca1a83407a372830962c5e |
 | tests/original-review-v18-journeys.mjs | 20231 | 40e49c5fc2592e276e728636c44856c9b7a1096326e771df0f5d400c06cb9973 |
 | tests/original-review-v19-journeys.mjs | 25809 | b69a1c7e3a55b37dfe15b1cecbd5323fd49e62f9ffc71663db722ddb47f187c2 |
