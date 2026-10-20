@@ -19,11 +19,14 @@ export async function AuthShell({
   subtitle,
   children,
   footer,
+  prominentBrand = false,
 }: {
   title: string;
   subtitle?: string;
   children: React.ReactNode;
   footer?: React.ReactNode;
+  /** Enlarge and animate the brand on /login only. */
+  prominentBrand?: boolean;
 }) {
   const locale = await getLocale();
   const dict = getDictionary(locale);
@@ -45,11 +48,11 @@ export async function AuthShell({
           target="_blank"
           rel="noopener noreferrer"
           aria-label={dict.shell.telegramBrand}
-          className={`mx-auto mb-6 flex w-fit max-w-full items-center justify-center rounded-sm px-2 py-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-600 ${styles.brandMotion}`}
+          className={`mx-auto mb-6 flex w-fit max-w-full items-center justify-center rounded-sm px-2 py-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-600 ${styles.brandMotion} ${prominentBrand ? styles.loginBrand : ""}`}
           data-auth-brand
         >
           <BrandBlock
-            size={44}
+            size={prominentBrand ? 60 : 44}
             className="justify-center"
             nameSuffix={
               <span className="ml-1.5 inline-flex align-middle" aria-hidden="true">
