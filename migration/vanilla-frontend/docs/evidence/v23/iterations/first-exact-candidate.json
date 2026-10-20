@@ -1,0 +1,18 @@
+{
+  "sourceCommit": "3bbcd148798ddb66934a96d2b67b934b41369290",
+  "sealCommit": "82457613ed85746b97249851983d6c78c6dff067",
+  "archive": {
+    "name": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V23.zip",
+    "bytes": 41801747,
+    "sha256": "9f5cea5915b7fdd6c245d9b104cad17f4da2edfd416a094c5cd133f851c72edb"
+  },
+  "sourceGitMembers": 1236,
+  "generatedSealGitMembers": 2,
+  "CRC": "PASS",
+  "counts": {
+    "PASS": 333,
+    "FAIL": 13,
+    "SKIP": 0
+  },
+  "reason": "Preserved legacy V16/V15 journeys inspected old input type or synchronously asserted selection/focus before the new authority grant. Repaired with condition-driven body non-inert + authority/navigation notice detached after all native part/End/Home/question actions. Every original assertion/case retained. Full rerun required for new source archive."
+}
