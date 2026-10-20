@@ -1,0 +1,25 @@
+FAIL V26 native authorized vocabulary modal confines focus and restores background on dismissal locator.evaluate: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('[data-shell-main]')
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-review-v26-journeys.mjs:14:231
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v26-journeys.mjs:3:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:60:27
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 0,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V26 native authorized vocabulary modal confines focus and restores background on dismissal",
+      "status": "FAIL",
+      "error": "locator.evaluate: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('[data-shell-main]')\n"
+    }
+  ]
+}

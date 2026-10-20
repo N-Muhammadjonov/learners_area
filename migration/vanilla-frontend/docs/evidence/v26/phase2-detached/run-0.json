@@ -1,0 +1,339 @@
+{
+  "before": {
+    "documents": 2,
+    "nodes": 495,
+    "jsEventListeners": 152
+  },
+  "after": {
+    "documents": 2,
+    "nodes": 499,
+    "jsEventListeners": 152
+  },
+  "connected": {
+    "nodes": 278,
+    "frames": 0,
+    "dialogs": 0,
+    "loading": 0,
+    "focus": "MAIN"
+  },
+  "detached": [
+    {
+      "name": "DIV",
+      "attributes": [
+        "data-global-search-dialog",
+        "",
+        "class",
+        "absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full",
+        "data-search-state",
+        "idle"
+      ],
+      "childNodeCount": 2,
+      "retainedCount": 4
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "role",
+        "menu",
+        "data-profile-menu",
+        "",
+        "class",
+        "absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised",
+        "style",
+        "z-index: var(--z-dropdown);"
+      ],
+      "childNodeCount": 2,
+      "retainedCount": 29
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "alert"
+      ],
+      "childNodeCount": 1,
+      "retainedCount": 2
+    },
+    {
+      "name": "SPAN",
+      "attributes": [
+        "role",
+        "status",
+        "class",
+        "sr-only"
+      ],
+      "childNodeCount": 1,
+      "retainedCount": 2
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "role",
+        "status",
+        "data-reports-loading",
+        "",
+        "class",
+        "h-32 animate-pulse rounded-xl bg-ink-50",
+        "aria-label",
+        "Loading…"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "aria-hidden",
+        "true",
+        "class",
+        "flex flex-col gap-6",
+        "data-async-loading",
+        "dashboard"
+      ],
+      "childNodeCount": 4,
+      "retainedCount": 18
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "aria-hidden",
+        "true",
+        "class",
+        "flex flex-col gap-6",
+        "data-async-loading",
+        "dashboard"
+      ],
+      "childNodeCount": 4,
+      "retainedCount": 18
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "aria-hidden",
+        "true",
+        "class",
+        "h-40 animate-pulse rounded-xl bg-ink-50",
+        "data-async-loading",
+        "dashboard-open-lessons"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 2
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "aria-hidden",
+        "true",
+        "class",
+        "flex flex-col gap-4",
+        "data-async-loading",
+        "mocks"
+      ],
+      "childNodeCount": 2,
+      "retainedCount": 6
+    },
+    {
+      "name": "DIV",
+      "attributes": [],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "role",
+        "status",
+        "data-reports-loading",
+        "",
+        "class",
+        "h-32 animate-pulse rounded-xl bg-ink-50",
+        "aria-label",
+        "Loading…"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 2
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "alert",
+        "data-report-download-error",
+        "",
+        "class",
+        "text-sm text-band-bad"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "status",
+        "data-report-download-status",
+        "",
+        "class",
+        "text-sm text-ink-500"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    }
+  ],
+  "stages": [
+    {
+      "name": "original-immediate",
+      "counts": {
+        "documents": 2,
+        "nodes": 499,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-0",
+      "counts": {
+        "documents": 2,
+        "nodes": 496,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-1",
+      "counts": {
+        "documents": 2,
+        "nodes": 496,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-2",
+      "counts": {
+        "documents": 2,
+        "nodes": 496,
+        "jsEventListeners": 152
+      }
+    }
+  ],
+  "samples": [
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 97
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 96
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 41
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 65
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 34
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 44
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 33
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 31
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 46
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 38
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 69
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 26
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 59
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 38
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 32
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 98
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 54
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 27
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 76
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 43
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 49
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 44
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 47
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 33
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 55
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 62
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 52
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 102
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 47
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 47
+    }
+  ]
+}

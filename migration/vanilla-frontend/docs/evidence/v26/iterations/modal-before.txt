@@ -1,0 +1,25 @@
+FAIL V26 native authorized vocabulary modal confines focus and restores background on dismissal AssertionError [ERR_ASSERTION]: iframe must not receive focus behind an active modal
+
+false !== true
+
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v26-journeys.mjs:12:11
+    at runNextTicks (node:internal/process/task_queues:64:5)
+    at process.processImmediate (node:internal/timers:452:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17)
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v26-journeys.mjs:3:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:60:27
+node:fs:2430
+    return binding.writeFileUtf8(
+                   ^
+
+Error: ENOENT: no such file or directory, open '/home/user/learners_area/migration/vanilla-frontend/docs/evidence/docs/evidence/v26/'
+    at Object.writeFileSync (node:fs:2430:20)
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:76:333 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/home/user/learners_area/migration/vanilla-frontend/docs/evidence/docs/evidence/v26/'
+}
+
+Node.js v22.22.3

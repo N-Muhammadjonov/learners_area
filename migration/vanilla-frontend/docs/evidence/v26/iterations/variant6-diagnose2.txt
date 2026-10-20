@@ -1,0 +1,34 @@
+VARIANT_STAGE 6 1 {
+  active: 'activity-review',
+  part: 1,
+  render: 'function',
+  tabs: 0,
+  html: 3,
+  button: false
+}
+VARIANT_ERRORS 6 []
+FAIL V26 actual catalogue source 6 four-part Check transcript Retry and keyboard navigation locator.getAttribute: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('[data-rpart="1"]')
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-review-v26-journeys.mjs:23:471
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v26-journeys.mjs:17:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:60:27
+{
+  "sourceSha256": "c298a95609fb99a813883774fc9dd7c758c57eb66b8c3654916d17d4b646fa99",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 0,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V26 actual catalogue source 6 four-part Check transcript Retry and keyboard navigation",
+      "status": "FAIL",
+      "error": "locator.getAttribute: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('[data-rpart=\"1\"]')\n"
+    }
+  ]
+}

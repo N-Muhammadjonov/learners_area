@@ -1,0 +1,272 @@
+{
+  "before": {
+    "documents": 2,
+    "nodes": 472,
+    "jsEventListeners": 152
+  },
+  "after": {
+    "documents": 2,
+    "nodes": 519,
+    "jsEventListeners": 152
+  },
+  "connected": {
+    "nodes": 278,
+    "frames": 0,
+    "dialogs": 0,
+    "loading": 0,
+    "focus": "MAIN"
+  },
+  "detached": [
+    {
+      "name": "DIV",
+      "attributes": [
+        "data-global-search-dialog",
+        "",
+        "class",
+        "absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full",
+        "data-search-state",
+        "idle"
+      ],
+      "childNodeCount": 2,
+      "retainedCount": 4
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "role",
+        "menu",
+        "data-profile-menu",
+        "",
+        "class",
+        "absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised",
+        "style",
+        "z-index: var(--z-dropdown);"
+      ],
+      "childNodeCount": 2,
+      "retainedCount": 29
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "alert"
+      ],
+      "childNodeCount": 1,
+      "retainedCount": 2
+    },
+    {
+      "name": "SPAN",
+      "attributes": [
+        "role",
+        "status",
+        "class",
+        "sr-only"
+      ],
+      "childNodeCount": 1,
+      "retainedCount": 2
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "alert",
+        "data-report-download-error",
+        "",
+        "class",
+        "text-sm text-band-bad"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "status",
+        "data-report-download-status",
+        "",
+        "class",
+        "text-sm text-ink-500"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    },
+    {
+      "name": "DIV",
+      "attributes": [],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "role",
+        "status",
+        "data-reports-loading",
+        "",
+        "class",
+        "h-32 animate-pulse rounded-xl bg-ink-50",
+        "aria-label",
+        "Loading…"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 2
+    }
+  ],
+  "stages": [
+    {
+      "name": "original-immediate",
+      "counts": {
+        "documents": 2,
+        "nodes": 519,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-0",
+      "counts": {
+        "documents": 2,
+        "nodes": 473,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-1",
+      "counts": {
+        "documents": 2,
+        "nodes": 473,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-2",
+      "counts": {
+        "documents": 2,
+        "nodes": 473,
+        "jsEventListeners": 152
+      }
+    }
+  ],
+  "samples": [
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 60
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 23
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 30
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 46
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 39
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 32
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 105
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 84
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 85
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 51
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 36
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 35
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 103
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 70
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 43
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 41
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 30
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 31
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 99
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 30
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 32
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 38
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 82
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 47
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 56
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 29
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 48
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 91
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 29
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 29
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "sourceSha256": "a4036579f4b00a0f353c4c9aa42ba07483d4ccdee2eb430551716498cf4aa3c6",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 0,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V26 actual catalogue source 12 four-part Check transcript Retry and keyboard navigation",
+      "status": "FAIL",
+      "error": "locator.getAttribute: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('[data-rpart=\"1\"]')\n"
+    }
+  ]
+}

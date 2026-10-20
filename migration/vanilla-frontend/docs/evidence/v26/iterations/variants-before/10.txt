@@ -1,0 +1,25 @@
+{
+  "sourceSha256": "38797ab42302cc40e408955524344586ceb90985abab338f479090e1c45e3513",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 0,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V26 actual catalogue source 10 four-part Check transcript Retry and keyboard navigation",
+      "status": "FAIL",
+      "error": "locator.getAttribute: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('[data-rpart=\"1\"]')\n"
+    }
+  ]
+}
+FAIL V26 actual catalogue source 10 four-part Check transcript Retry and keyboard navigation locator.getAttribute: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('[data-rpart="1"]')
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-review-v26-journeys.mjs:23:61
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v26-journeys.mjs:17:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:60:27

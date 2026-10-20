@@ -1,0 +1,50 @@
+VARIANT_STAGE 25 1 {
+  active: 'activity-review',
+  part: 1,
+  render: 'function',
+  tabs: 4,
+  html: 5,
+  button: false
+}
+VARIANT_STAGE 25 2 {
+  active: 'activity-review',
+  part: 2,
+  render: 'function',
+  tabs: 4,
+  html: 6,
+  button: false
+}
+VARIANT_STAGE 25 3 {
+  active: 'activity-review',
+  part: 3,
+  render: 'function',
+  tabs: 4,
+  html: 3,
+  button: false
+}
+VARIANT_ERRORS 25 []
+{
+  "sourceSha256": "e9d2a20743f53aa65752021116e84398783a916e45c53e875ad53f00c4b6e9c6",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 0,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V26 actual catalogue source 25 four-part Check transcript Retry and keyboard navigation",
+      "status": "FAIL",
+      "error": "The expression evaluated to a falsy value:\n\n  assert(await f.locator('.review-card').count()>0)\n"
+    }
+  ]
+}
+FAIL V26 actual catalogue source 25 four-part Check transcript Retry and keyboard navigation AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(await f.locator('.review-card').count()>0)
+
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v26-journeys.mjs:24:5
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (file:///home/user/learners_area/migration/vanilla-frontend/tests/original-review-v26-journeys.mjs:17:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:60:27

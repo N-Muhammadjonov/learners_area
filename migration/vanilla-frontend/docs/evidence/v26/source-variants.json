@@ -1,0 +1,594 @@
+{
+  "scope": "Actual repository source catalogue; isolated server DTO fixtures, NOT authorized live catalogue acceptance. No private media downloaded.",
+  "variants": [
+    {
+      "number": 1,
+      "sourcePath": "content/listening/academic/test-01/source.html",
+      "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+      "storageKey": "la_listening_test_1_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Sentence Completion": 17,
+        "Map Labelling": 3,
+        "MCQ": 4,
+        "Choose TWO / Multiple Answer": 6,
+        "Note Completion": 10
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 2,
+      "sourcePath": "content/listening/academic/test-02/source.html",
+      "sourceSha256": "c04f5518e08217ef006941a7ad8f3d73d6846c905064b66181617ced0370938a",
+      "storageKey": "la_listening_test_2_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "source-specific": 40
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 3,
+      "sourcePath": "content/listening/academic/test-03/source.html",
+      "sourceSha256": "0b2b7c13ba649c4a93f162a088b5777eb9132958dcc4f9b3785eb85fd99e4fe4",
+      "storageKey": "la_listening_test_3_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Note Completion": 20,
+        "MCQ": 10,
+        "Matching": 10
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 4,
+      "sourcePath": "content/listening/academic/test-04/source.html",
+      "sourceSha256": "97ea2d28a4be660de3c7030d14e7a3cdc9d725465ff286614372846715a54fb2",
+      "storageKey": "la_listening_test_4_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "source-specific": 40
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 5,
+      "sourcePath": "content/listening/academic/test-05/source.html",
+      "sourceSha256": "0f10a5afa2cbecd126b2ef50f2794870ebcd9bb892ad592211301030ed9be2a2",
+      "storageKey": "la_listening_test_5_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Note Completion": 14,
+        "MCQ": 10,
+        "Choose TWO / Multiple Answer": 4,
+        "Matching": 6,
+        "Diagram Completion": 6
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 6,
+      "sourcePath": "content/listening/academic/test-06/source.html",
+      "sourceSha256": "c298a95609fb99a813883774fc9dd7c758c57eb66b8c3654916d17d4b646fa99",
+      "storageKey": "la_listening_test_6_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Note Completion": 25,
+        "MCQ": 5,
+        "Matching": 4,
+        "Choose TWO / Multiple Answer": 6
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 7,
+      "sourcePath": "content/listening/academic/test-07/source.html",
+      "sourceSha256": "5b8c78d20c085ded81a5459d7600affe144d940033fa39f0056a0b8947dc5ef8",
+      "storageKey": "la_listening_test_7_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Note Completion": 27,
+        "Choose THREE / Multiple Answer": 3,
+        "MCQ": 6,
+        "Matching": 4
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 8,
+      "sourcePath": "content/listening/academic/test-08/source.html",
+      "sourceSha256": "a2de37be316d4bb8cf4e0fe821b01d7feae5046c771f158e36fd1554acb9285e",
+      "storageKey": "la_listening_test_8_v2",
+      "mediaParts": 4,
+      "questionTypes": {
+        "Note Completion": 20,
+        "MCQ": 9,
+        "Matching": 9,
+        "Choose TWO / Multiple Answer": 2
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 9,
+      "sourcePath": "content/listening/academic/test-09/source.html",
+      "sourceSha256": "5430120c71c6f56e5a43f52bda01dcf7191c548fad610208479f4332611bcde7",
+      "storageKey": "la_listening_test_9_v2",
+      "mediaParts": 2,
+      "questionTypes": {
+        "Completion": 19,
+        "Matching": 5,
+        "Map Labelling": 5,
+        "Choose THREE / Multiple Answer": 3,
+        "MCQ": 3,
+        "Classification": 5
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 10,
+      "sourcePath": "content/listening/academic/test-10/source.html",
+      "sourceSha256": "38797ab42302cc40e408955524344586ceb90985abab338f479090e1c45e3513",
+      "storageKey": "la_listening_test_10_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 6,
+        "Choose TWO / Multiple Answer": 2,
+        "Classification": 6,
+        "Matching": 6
+      },
+      "runtimeProbe": {
+        "PASS": 0,
+        "FAIL": 1,
+        "SKIP": 0
+      },
+      "status": "UNAVAILABLE/FAILED source mapping; raw failure retained"
+    },
+    {
+      "number": 11,
+      "sourcePath": "content/listening/academic/test-11/source.html",
+      "sourceSha256": "262a8ffa5b63da3fa5bfdc85eca8d902872352ebd08b0f50b323748a443a6279",
+      "storageKey": "la_listening_test_11_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 20,
+        "Map / Plan": 4,
+        "MCQ": 11,
+        "Matching": 5
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 12,
+      "sourcePath": "content/listening/academic/test-12/source.html",
+      "sourceSha256": "a4036579f4b00a0f353c4c9aa42ba07483d4ccdee2eb430551716498cf4aa3c6",
+      "storageKey": "la_listening_test_12_v2",
+      "mediaParts": 2,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 10,
+        "Map / Plan": 5,
+        "Matching": 5
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 13,
+      "sourcePath": "content/listening/academic/test-13/source.html",
+      "sourceSha256": "7883197b6c97c3713c16ed592c3b02b783cafc414acc66b7d0caaf0999d57775",
+      "storageKey": "la_listening_test_13_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 10,
+        "Matching": 10
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 14,
+      "sourcePath": "content/listening/academic/test-14/source.html",
+      "sourceSha256": "2a000869e15fd0263f7b2d8b800bc86ef8d32c010eb213d71ca7efd65602238a",
+      "storageKey": "la_listening_test_14_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 17,
+        "Matching": 11,
+        "MCQ": 12
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 15,
+      "sourcePath": "content/listening/academic/test-15/source.html",
+      "sourceSha256": "9315a281f3873fbd03ebc10e18963b5f917886fc6b95684b5af6c731966bd043",
+      "storageKey": "la_listening_test_15_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 22,
+        "Matching": 13,
+        "MCQ": 4,
+        "Choose TWO": 1
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 16,
+      "sourcePath": "content/listening/academic/test-16/source.html",
+      "sourceSha256": "095272e41bd3978f4ab261138fe20ae2ac09c4b45203451481871acc789cd5a0",
+      "storageKey": "la_listening_test_16_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 30,
+        "MCQ": 5,
+        "Matching": 5
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 17,
+      "sourcePath": "content/listening/academic/test-17/source.html",
+      "sourceSha256": "c270d98b2df78af416bbb6041201100684c3216a9bbd23a10e3332ccb729d862",
+      "storageKey": "la_listening_test_17_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 12,
+        "Multi-select": 4,
+        "Matching": 4
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 18,
+      "sourcePath": "content/listening/academic/test-18/source.html",
+      "sourceSha256": "f4f0376598cf17ab3e869f9000124220eb735fb72ef09181b0c7483b68f8ff20",
+      "storageKey": "la_listening_test_18_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 20,
+        "Matching": 11,
+        "MCQ": 9
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 19,
+      "sourcePath": "content/listening/academic/test-19/source.html",
+      "sourceSha256": "f0a92cbebdb65689fc28e30575a056aba782070fa1bce179b5fa1c385d6cc8ae",
+      "storageKey": "la_listening_test_19_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 24,
+        "Matching": 6,
+        "MCQ": 10
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 20,
+      "sourcePath": "content/listening/academic/test-20/source.html",
+      "sourceSha256": "9051ecdc81accd9b3ce609ecc51f44213a0e580243b0c4569cbd51cff61c42e6",
+      "storageKey": "la_listening_test_20_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 23,
+        "Matching": 7,
+        "MCQ": 10
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 21,
+      "sourcePath": "content/listening/academic/test-21/source.html",
+      "sourceSha256": "ec1ce79c4e255f1680788c27eaf2d5b03a2f1570bd70f05de9e9da06a0b01bfb",
+      "storageKey": "la_listening_test_21_v2",
+      "mediaParts": 2,
+      "questionTypes": {
+        "Completion": 27,
+        "Matching": 9,
+        "MCQ": 4
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey after optional-presentation compatibility fix"
+    },
+    {
+      "number": 22,
+      "sourcePath": "content/listening/academic/test-22/source.html",
+      "sourceSha256": "21dec0e92634d106f188b7b50fffa636abb0aba8116932ea1a8dcaab187eb767",
+      "storageKey": "la_listening_test_22_v2",
+      "mediaParts": 2,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 5,
+        "Matching": 15
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 23,
+      "sourcePath": "content/listening/academic/test-23/source.html",
+      "sourceSha256": "02d173c5f2fba009b6fdb796461c1d324aefdef3ad83190af2f087a89a96b0f5",
+      "storageKey": "la_listening_test_23_v2",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 20,
+        "Matching": 11,
+        "MCQ": 9
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 24,
+      "sourcePath": "content/listening/academic/test-24/source.html",
+      "sourceSha256": "3adef839434777aef42bb0586f95ff08810ebc9074a606aef7e3a07f234565f0",
+      "storageKey": "la_listening_test_24_v3",
+      "mediaParts": 2,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 10,
+        "Matching": 10
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 25,
+      "sourcePath": "content/listening/academic/test-25/source.html",
+      "sourceSha256": "e9d2a20743f53aa65752021116e84398783a916e45c53e875ad53f00c4b6e9c6",
+      "storageKey": "la_listening_test_25_v3",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 11,
+        "Matching": 9
+      },
+      "runtimeProbe": {
+        "PASS": 0,
+        "FAIL": 1,
+        "SKIP": 0
+      },
+      "status": "UNAVAILABLE/FAILED source mapping; raw failure retained"
+    },
+    {
+      "number": 26,
+      "sourcePath": "content/listening/academic/test-26/source.html",
+      "sourceSha256": "f09abe17cf735c14a951dcec745709a65af0fc8a139d115deeff6c6900043e40",
+      "storageKey": "la_listening_test_26_v3",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 11,
+        "Matching": 9
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 27,
+      "sourcePath": "content/listening/academic/test-27/source.html",
+      "sourceSha256": "6909b32af2060e54c3cf61bcda3539e8ae4321595e4edb32479317373d51d8c4",
+      "storageKey": "la_listening_test_27_v3",
+      "mediaParts": 1,
+      "questionTypes": {
+        "MCQ": 18,
+        "Completion": 18,
+        "Matching": 4
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 28,
+      "sourcePath": "content/listening/academic/test-28/source.html",
+      "sourceSha256": "4c8494a264e341d907f43692abe2f22525816fba40770c750a6fdc131dc9b8ed",
+      "storageKey": "la_listening_test_28_v3",
+      "mediaParts": 1,
+      "questionTypes": {
+        "Completion": 20,
+        "Matching": 12,
+        "MCQ": 8
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 29,
+      "sourcePath": "content/listening/academic/test-29/source.html",
+      "sourceSha256": "9f7eb424006a02a8bed7145bd452279ee3f9e1122769324501c4ef3d8a08c7ae",
+      "storageKey": "la_listening_test_29_v3",
+      "mediaParts": 2,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 4,
+        "Matching": 12,
+        "Multi-select": 4
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 30,
+      "sourcePath": "content/listening/academic/test-30/source.html",
+      "sourceSha256": "15bf18698a812f87c300c5b1065851c668087352cac1d901053ca14584ac6198",
+      "storageKey": "la_listening_test_30_v3",
+      "mediaParts": 2,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 8,
+        "Matching": 12
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 31,
+      "sourcePath": "content/listening/academic/test-31/source.html",
+      "sourceSha256": "88fd0094550916e9dacc680de4a39515567ad23714de4cbafe6d10b4c32ff9bc",
+      "storageKey": "la_listening_test_31_v3",
+      "mediaParts": 2,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 10,
+        "Matching": 10
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    },
+    {
+      "number": 32,
+      "sourcePath": "content/listening/academic/test-32/source.html",
+      "sourceSha256": "599ec426fea46691f254cb215bb80413082a3fa6c74498209f865ee4379605c6",
+      "storageKey": "la_listening_test_32_v3",
+      "mediaParts": 2,
+      "questionTypes": {
+        "Completion": 20,
+        "MCQ": 10,
+        "Matching": 10
+      },
+      "runtimeProbe": {
+        "PASS": 1,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "status": "PASS isolated four-part journey"
+    }
+  ]
+}

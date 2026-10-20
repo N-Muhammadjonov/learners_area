@@ -1,0 +1,285 @@
+{
+  "before": {
+    "documents": 2,
+    "nodes": 473,
+    "jsEventListeners": 152
+  },
+  "after": {
+    "documents": 2,
+    "nodes": 499,
+    "jsEventListeners": 152
+  },
+  "connected": {
+    "nodes": 278,
+    "frames": 0,
+    "dialogs": 0,
+    "loading": 0,
+    "focus": "MAIN"
+  },
+  "detached": [
+    {
+      "name": "DIV",
+      "attributes": [
+        "role",
+        "menu",
+        "data-profile-menu",
+        "",
+        "class",
+        "absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised",
+        "style",
+        "z-index: var(--z-dropdown);"
+      ],
+      "childNodeCount": 2,
+      "retainedCount": 29
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "data-global-search-dialog",
+        "",
+        "class",
+        "absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full",
+        "data-search-state",
+        "idle"
+      ],
+      "childNodeCount": 2,
+      "retainedCount": 4
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "alert"
+      ],
+      "childNodeCount": 1,
+      "retainedCount": 2
+    },
+    {
+      "name": "SPAN",
+      "attributes": [
+        "role",
+        "status",
+        "class",
+        "sr-only"
+      ],
+      "childNodeCount": 1,
+      "retainedCount": 2
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "alert",
+        "data-report-download-error",
+        "",
+        "class",
+        "text-sm text-band-bad"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "status",
+        "data-report-download-status",
+        "",
+        "class",
+        "text-sm text-ink-500"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "role",
+        "status",
+        "data-reports-loading",
+        "",
+        "class",
+        "h-32 animate-pulse rounded-xl bg-ink-50",
+        "aria-label",
+        "Loading…"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 2
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "aria-hidden",
+        "true",
+        "class",
+        "flex flex-col gap-4",
+        "data-async-loading",
+        "mocks"
+      ],
+      "childNodeCount": 2,
+      "retainedCount": 6
+    },
+    {
+      "name": "DIV",
+      "attributes": [],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    }
+  ],
+  "stages": [
+    {
+      "name": "original-immediate",
+      "counts": {
+        "documents": 2,
+        "nodes": 499,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-0",
+      "counts": {
+        "documents": 2,
+        "nodes": 476,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-1",
+      "counts": {
+        "documents": 2,
+        "nodes": 476,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-2",
+      "counts": {
+        "documents": 2,
+        "nodes": 476,
+        "jsEventListeners": 152
+      }
+    }
+  ],
+  "samples": [
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 62
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 49
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 39
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 110
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 76
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 27
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 105
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 54
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 30
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 44
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 33
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 27
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 32
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 26
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 27
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 50
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 52
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 23
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 105
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 31
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 23
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 46
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 54
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 17
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 72
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 69
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 25
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 61
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 31
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 19
+    }
+  ]
+}

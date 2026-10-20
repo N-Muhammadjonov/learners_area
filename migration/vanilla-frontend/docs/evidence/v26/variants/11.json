@@ -1,0 +1,16 @@
+{
+  "sourceSha256": "262a8ffa5b63da3fa5bfdc85eca8d902872352ebd08b0f50b323748a443a6279",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 1,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V26 actual catalogue source 11 four-part Check transcript Retry and keyboard navigation",
+      "status": "PASS"
+    }
+  ]
+}

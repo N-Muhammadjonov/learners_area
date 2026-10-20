@@ -1,0 +1,326 @@
+{
+  "sourceNumber": 10,
+  "scope": "Read-only existing data.json numerical mapping audit; no source/key/transcript edits or inferred replacement timings",
+  "violations": [
+    {
+      "question": 1,
+      "part": 1,
+      "start": 0,
+      "end": 0,
+      "partStart": 0.0,
+      "partEnd": 439.054127
+    },
+    {
+      "question": 2,
+      "part": 1,
+      "start": 0,
+      "end": 0,
+      "partStart": 0.0,
+      "partEnd": 439.054127
+    },
+    {
+      "question": 3,
+      "part": 1,
+      "start": 0,
+      "end": 0,
+      "partStart": 0.0,
+      "partEnd": 439.054127
+    },
+    {
+      "question": 4,
+      "part": 1,
+      "start": 0,
+      "end": 0,
+      "partStart": 0.0,
+      "partEnd": 439.054127
+    },
+    {
+      "question": 5,
+      "part": 1,
+      "start": 0,
+      "end": 0,
+      "partStart": 0.0,
+      "partEnd": 439.054127
+    },
+    {
+      "question": 6,
+      "part": 1,
+      "start": 0,
+      "end": 0,
+      "partStart": 0.0,
+      "partEnd": 439.054127
+    },
+    {
+      "question": 7,
+      "part": 1,
+      "start": 0,
+      "end": 0,
+      "partStart": 0.0,
+      "partEnd": 439.054127
+    },
+    {
+      "question": 8,
+      "part": 1,
+      "start": 0,
+      "end": 0,
+      "partStart": 0.0,
+      "partEnd": 439.054127
+    },
+    {
+      "question": 9,
+      "part": 1,
+      "start": 0,
+      "end": 0,
+      "partStart": 0.0,
+      "partEnd": 439.054127
+    },
+    {
+      "question": 10,
+      "part": 1,
+      "start": 0,
+      "end": 0,
+      "partStart": 0.0,
+      "partEnd": 439.054127
+    },
+    {
+      "question": 11,
+      "part": 2,
+      "start": 0,
+      "end": 0,
+      "partStart": 439.054127,
+      "partEnd": 871.525397
+    },
+    {
+      "question": 12,
+      "part": 2,
+      "start": 0,
+      "end": 0,
+      "partStart": 439.054127,
+      "partEnd": 871.525397
+    },
+    {
+      "question": 13,
+      "part": 2,
+      "start": 0,
+      "end": 0,
+      "partStart": 439.054127,
+      "partEnd": 871.525397
+    },
+    {
+      "question": 14,
+      "part": 2,
+      "start": 0,
+      "end": 0,
+      "partStart": 439.054127,
+      "partEnd": 871.525397
+    },
+    {
+      "question": 15,
+      "part": 2,
+      "start": 0,
+      "end": 0,
+      "partStart": 439.054127,
+      "partEnd": 871.525397
+    },
+    {
+      "question": 16,
+      "part": 2,
+      "start": 0,
+      "end": 0,
+      "partStart": 439.054127,
+      "partEnd": 871.525397
+    },
+    {
+      "question": 17,
+      "part": 2,
+      "start": 0,
+      "end": 0,
+      "partStart": 439.054127,
+      "partEnd": 871.525397
+    },
+    {
+      "question": 18,
+      "part": 2,
+      "start": 0,
+      "end": 0,
+      "partStart": 439.054127,
+      "partEnd": 871.525397
+    },
+    {
+      "question": 19,
+      "part": 2,
+      "start": 0,
+      "end": 0,
+      "partStart": 439.054127,
+      "partEnd": 871.525397
+    },
+    {
+      "question": 20,
+      "part": 2,
+      "start": 0,
+      "end": 0,
+      "partStart": 439.054127,
+      "partEnd": 871.525397
+    },
+    {
+      "question": 21,
+      "part": 3,
+      "start": 0,
+      "end": 0,
+      "partStart": 871.525397,
+      "partEnd": 1336.440748
+    },
+    {
+      "question": 22,
+      "part": 3,
+      "start": 0,
+      "end": 0,
+      "partStart": 871.525397,
+      "partEnd": 1336.440748
+    },
+    {
+      "question": 23,
+      "part": 3,
+      "start": 0,
+      "end": 0,
+      "partStart": 871.525397,
+      "partEnd": 1336.440748
+    },
+    {
+      "question": 24,
+      "part": 3,
+      "start": 0,
+      "end": 0,
+      "partStart": 871.525397,
+      "partEnd": 1336.440748
+    },
+    {
+      "question": 25,
+      "part": 3,
+      "start": 0,
+      "end": 0,
+      "partStart": 871.525397,
+      "partEnd": 1336.440748
+    },
+    {
+      "question": 26,
+      "part": 3,
+      "start": 0,
+      "end": 0,
+      "partStart": 871.525397,
+      "partEnd": 1336.440748
+    },
+    {
+      "question": 27,
+      "part": 3,
+      "start": 0,
+      "end": 0,
+      "partStart": 871.525397,
+      "partEnd": 1336.440748
+    },
+    {
+      "question": 28,
+      "part": 3,
+      "start": 0,
+      "end": 0,
+      "partStart": 871.525397,
+      "partEnd": 1336.440748
+    },
+    {
+      "question": 29,
+      "part": 3,
+      "start": 0,
+      "end": 0,
+      "partStart": 871.525397,
+      "partEnd": 1336.440748
+    },
+    {
+      "question": 30,
+      "part": 3,
+      "start": 0,
+      "end": 0,
+      "partStart": 871.525397,
+      "partEnd": 1336.440748
+    },
+    {
+      "question": 31,
+      "part": 4,
+      "start": 0,
+      "end": 0,
+      "partStart": 1336.440748,
+      "partEnd": 1677.733265
+    },
+    {
+      "question": 32,
+      "part": 4,
+      "start": 0,
+      "end": 0,
+      "partStart": 1336.440748,
+      "partEnd": 1677.733265
+    },
+    {
+      "question": 33,
+      "part": 4,
+      "start": 0,
+      "end": 0,
+      "partStart": 1336.440748,
+      "partEnd": 1677.733265
+    },
+    {
+      "question": 34,
+      "part": 4,
+      "start": 0,
+      "end": 0,
+      "partStart": 1336.440748,
+      "partEnd": 1677.733265
+    },
+    {
+      "question": 35,
+      "part": 4,
+      "start": 0,
+      "end": 0,
+      "partStart": 1336.440748,
+      "partEnd": 1677.733265
+    },
+    {
+      "question": 36,
+      "part": 4,
+      "start": 0,
+      "end": 0,
+      "partStart": 1336.440748,
+      "partEnd": 1677.733265
+    },
+    {
+      "question": 37,
+      "part": 4,
+      "start": 0,
+      "end": 0,
+      "partStart": 1336.440748,
+      "partEnd": 1677.733265
+    },
+    {
+      "question": 38,
+      "part": 4,
+      "start": 0,
+      "end": 0,
+      "partStart": 1336.440748,
+      "partEnd": 1677.733265
+    },
+    {
+      "question": 39,
+      "part": 4,
+      "start": 0,
+      "end": 0,
+      "partStart": 1336.440748,
+      "partEnd": 1677.733265
+    },
+    {
+      "question": 40,
+      "part": 4,
+      "start": 0,
+      "end": 0,
+      "partStart": 1336.440748,
+      "partEnd": 1677.733265
+    }
+  ]
+}

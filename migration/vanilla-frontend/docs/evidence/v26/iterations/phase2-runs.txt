@@ -1,0 +1,51 @@
+FAIL Phase2 repeated real content navigation retains shell and bounded DOM/listeners AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(after.nodes<=before.nodes+50)
+
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/phase2-diagnostic-v26.mjs:53:2604
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/phase2-diagnostic-v26.mjs:18:119)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/phase2-diagnostic-v26.mjs:53:1
+{
+  "date": "2026-10-20T15:45:46.922Z",
+  "scope": "authorized synthetic fixtures only; no live acceptance",
+  "results": [
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "FAIL",
+      "error": "The expression evaluated to a falsy value:\n\n  assert(after.nodes<=before.nodes+50)\n"
+    }
+  ],
+  "counts": {
+    "PASS": 7,
+    "FAIL": 1,
+    "SKIP": 0
+  }
+}

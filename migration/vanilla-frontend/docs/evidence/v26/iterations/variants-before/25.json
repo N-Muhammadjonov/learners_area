@@ -1,0 +1,17 @@
+{
+  "sourceSha256": "e9d2a20743f53aa65752021116e84398783a916e45c53e875ad53f00c4b6e9c6",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 0,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V26 actual catalogue source 25 four-part Check transcript Retry and keyboard navigation",
+      "status": "FAIL",
+      "error": "The expression evaluated to a falsy value:\n\n  assert(await f.locator('.review-card').count()>0)\n"
+    }
+  ]
+}

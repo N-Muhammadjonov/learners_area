@@ -1,0 +1,49 @@
+VARIANT_STAGE 17 1 {
+  active: 'activity-review',
+  part: 1,
+  render: 'function',
+  tabs: 4,
+  html: 5,
+  button: false
+}
+VARIANT_STAGE 17 2 {
+  active: 'activity-review',
+  part: 2,
+  render: 'function',
+  tabs: 4,
+  html: 5,
+  button: false
+}
+VARIANT_STAGE 17 3 {
+  active: 'activity-review',
+  part: 3,
+  render: 'function',
+  tabs: 4,
+  html: 5,
+  button: false
+}
+VARIANT_STAGE 17 4 {
+  active: 'activity-review',
+  part: 4,
+  render: 'function',
+  tabs: 4,
+  html: 5,
+  button: false
+}
+VARIANT_ERRORS 17 []
+{
+  "sourceSha256": "c270d98b2df78af416bbb6041201100684c3216a9bbd23a10e3332ccb729d862",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 1,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V26 actual catalogue source 17 four-part Check transcript Retry and keyboard navigation",
+      "status": "PASS"
+    }
+  ]
+}

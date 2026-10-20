@@ -1,0 +1,295 @@
+{
+  "before": {
+    "documents": 2,
+    "nodes": 472,
+    "jsEventListeners": 152
+  },
+  "after": {
+    "documents": 2,
+    "nodes": 480,
+    "jsEventListeners": 152
+  },
+  "connected": {
+    "nodes": 278,
+    "frames": 0,
+    "dialogs": 0,
+    "loading": 0,
+    "focus": "MAIN"
+  },
+  "detached": [
+    {
+      "name": "DIV",
+      "attributes": [
+        "role",
+        "menu",
+        "data-profile-menu",
+        "",
+        "class",
+        "absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised",
+        "style",
+        "z-index: var(--z-dropdown);"
+      ],
+      "childNodeCount": 2,
+      "retainedCount": 29
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "alert"
+      ],
+      "childNodeCount": 1,
+      "retainedCount": 2
+    },
+    {
+      "name": "SPAN",
+      "attributes": [
+        "role",
+        "status",
+        "class",
+        "sr-only"
+      ],
+      "childNodeCount": 1,
+      "retainedCount": 2
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "data-global-search-dialog",
+        "",
+        "class",
+        "absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full",
+        "data-search-state",
+        "idle"
+      ],
+      "childNodeCount": 2,
+      "retainedCount": 4
+    },
+    {
+      "name": "SECTION",
+      "attributes": [
+        "class",
+        "mx-auto flex w-full max-w-6xl flex-col gap-4",
+        "role",
+        "status",
+        "aria-live",
+        "polite",
+        "aria-atomic",
+        "true",
+        "aria-busy",
+        "true",
+        "data-entry-frame",
+        "true",
+        "data-section-entry-frame",
+        "other",
+        "data-private-loading-boundary",
+        "true"
+      ],
+      "childNodeCount": 2,
+      "retainedCount": 13
+    },
+    {
+      "name": "DIV",
+      "attributes": [],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    },
+    {
+      "name": "DIV",
+      "attributes": [
+        "role",
+        "status",
+        "data-reports-loading",
+        "",
+        "class",
+        "h-32 animate-pulse rounded-xl bg-ink-50",
+        "aria-label",
+        "Loading…"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "alert",
+        "data-report-download-error",
+        "",
+        "class",
+        "text-sm text-band-bad"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    },
+    {
+      "name": "P",
+      "attributes": [
+        "role",
+        "status",
+        "data-report-download-status",
+        "",
+        "class",
+        "text-sm text-ink-500"
+      ],
+      "childNodeCount": 0,
+      "retainedCount": 1
+    }
+  ],
+  "stages": [
+    {
+      "name": "original-immediate",
+      "counts": {
+        "documents": 2,
+        "nodes": 480,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-0",
+      "counts": {
+        "documents": 2,
+        "nodes": 480,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-1",
+      "counts": {
+        "documents": 2,
+        "nodes": 480,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-2",
+      "counts": {
+        "documents": 2,
+        "nodes": 480,
+        "jsEventListeners": 152
+      }
+    }
+  ],
+  "samples": [
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 69
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 55
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 53
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 97
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 88
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 84
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 33
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 41
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 55
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 38
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 52
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 17
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 60
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 20
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 46
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 57
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 20
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 30
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 33
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 59
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 53
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 102
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 103
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 50
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 50
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 35
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 42
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 97
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 90
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 41
+    }
+  ]
+}

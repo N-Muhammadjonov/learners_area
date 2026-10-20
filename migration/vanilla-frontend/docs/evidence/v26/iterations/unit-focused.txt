@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: Review modal owns temporary background isolation and restores pre-existing inert attributes
+ok 1 - Review modal owns temporary background isolation and restores pre-existing inert attributes
+  ---
+  duration_ms: 193.035827
+  type: 'test'
+  ...
+# Subtest: Review modal abort removes focus confinement synchronously with lexical scope
+ok 2 - Review modal abort removes focus confinement synchronously with lexical scope
+  ---
+  duration_ms: 16.839848
+  type: 'test'
+  ...
+# Subtest: Review modal cannot capture an already-aborted or detached scope
+ok 3 - Review modal cannot capture an already-aborted or detached scope
+  ---
+  duration_ms: 11.893826
+  type: 'test'
+  ...
+# Subtest: Repeated Review modal lifecycles balance owned focus listeners without timer callbacks
+ok 4 - Repeated Review modal lifecycles balance owned focus listeners without timer callbacks
+  ---
+  duration_ms: 13.287807
+  type: 'test'
+  ...
+# Subtest: Review accepts empty authored alternative lists without changing original answers or malformed-entry rejection
+ok 5 - Review accepts empty authored alternative lists without changing original answers or malformed-entry rejection
+  ---
+  duration_ms: 0.78422
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1123.299028

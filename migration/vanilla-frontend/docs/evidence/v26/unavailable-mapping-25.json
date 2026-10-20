@@ -1,0 +1,22 @@
+{
+  "sourceNumber": 25,
+  "scope": "Read-only existing data.json numerical mapping audit; no source/key/transcript edits or inferred replacement timings",
+  "violations": [
+    {
+      "question": 30,
+      "part": 3,
+      "start": 1205,
+      "end": 1236,
+      "partStart": 886.613,
+      "partEnd": 1235.879
+    },
+    {
+      "question": 40,
+      "part": 4,
+      "start": 1510,
+      "end": 1525,
+      "partStart": 1329.645,
+      "partEnd": 1524.01
+    }
+  ]
+}
