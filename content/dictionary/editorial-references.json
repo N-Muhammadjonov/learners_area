@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "checked_at": "2026-10-20",
+  "policy": "Reference facts checked; definitions and Uzbek translations are original editorial paraphrases. No claim of licensed dictionary content or human-reviewed Uzbek.",
+  "references": [
+    {
+      "term": "make up your mind",
+      "definition_en": "to decide what you will do after thinking about the choices",
+      "translation_uz": "bir qarorga kelmoq",
+      "url": "https://dictionary.cambridge.org/dictionary/english/make-up-mind"
+    },
+    {
+      "term": "give someone a lift",
+      "definition_en": "to take a person somewhere as a passenger in your car",
+      "translation_uz": "kimnidir mashinada olib borib qo‘ymoq",
+      "url": "https://dictionary.cambridge.org/us/dictionary/english/give-a-lift"
+    },
+    {
+      "term": "take part in",
+      "definition_en": "to join others in doing an activity",
+      "translation_uz": "ishtirok etmoq",
+      "url": "https://dictionary.cambridge.org/dictionary/english/take-part-in"
+    },
+    {
+      "term": "find out",
+      "definition_en": "to learn information that you did not know before",
+      "translation_uz": "bilib olmoq; aniqlamoq",
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/find-out"
+    },
+    {
+      "term": "bus stop",
+      "definition_en": "a designated place where buses collect and drop off passengers",
+      "translation_uz": "avtobus bekati",
+      "url": "https://dictionary.cambridge.org/us/dictionary/english/bus-stop"
+    },
+    {
+      "term": "government",
+      "part_of_speech": "noun",
+      "definition_en": "The people responsible for running a country or state.",
+      "translation_uz": "hukumat",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/government"
+    },
+    {
+      "term": "resilient",
+      "part_of_speech": "adjective",
+      "definition_en": "Able to recover or remain effective after difficulty.",
+      "translation_uz": "bardoshli; tez tiklana oladigan",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/resilient"
+    }
+  ]
+}

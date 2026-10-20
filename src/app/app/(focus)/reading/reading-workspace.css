@@ -1,5 +1,5 @@
 /* Deliberately scoped: catalogues retain the Learners Area wallpaper/theme. */
-body:has([data-reading-full-focus]), .reading-focus {
+.reading-focus {
   color-scheme: light;
   --paper: 255 255 255; --paper-raised: 255 255 255; --paper-sunken: 246 248 250;
   --ink-950: 15 23 42; --ink-900: 15 23 42; --ink-700: 30 41 59;
@@ -84,3 +84,7 @@ body:has([data-reading-full-focus]), .reading-focus {
   .reading-workspace-action { flex-direction: column; align-items: flex-end; gap: 4px; max-width: 42%; }
   .reading-workspace-action :is(.btn-primary,button[data-submit-attempt]) { padding: 8px 10px; }
 }
+
+.reading-focus mark[data-highlight-id] { background: #ffeb59; color: #111; border-radius: 0; padding: 0; box-shadow: none; }
+.reading-focus ::selection { background: #ffeb59; color: #111; }
+.reading-elapsed { font-variant-numeric: tabular-nums; font-size: 16px; color: #334155; white-space: nowrap; }

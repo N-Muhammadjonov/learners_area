@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import {finishWorkerIndex} from '@/lib/dictionary/publish-worker-index';
+import { after, NextRequest, NextResponse } from "next/server";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { requireOwner } from "@/lib/auth/current-user";
@@ -9,6 +10,7 @@ import {
   pinnedRelease,
   searchDictionary,
   entryById,
+  entriesByIds,
   saveDraft,
   activeRelease,
 } from "@/lib/dictionary/store";
@@ -16,6 +18,7 @@ import { applyDraft, draftSchema, normalizeSearch } from "@/lib/dictionary/model
 import {
   beginPublish,
   advancePublish,
+  retryWorkerIndex,
   rollback,
 } from "@/lib/dictionary/publish";
 import { apiError, privateHeaders } from "@/lib/dictionary/api";
@@ -99,7 +102,10 @@ export async function POST(req: NextRequest, { params }: Context) {
       action[0] === "publish" &&
       isUuid(action[1]!)
     )
-      data = { job: await advancePublish(owner.id, action[1]!) };
+      {const job=await advancePublish(owner.id,action[1]!);data={job};if(job.phase==='worker_index')after(()=>finishWorkerIndex(owner.id,job.id));}
+    else if(action.length===3&&action[0]==="publish"&&isUuid(action[1]!)&&action[2]==="retry"){
+      const job=await retryWorkerIndex(owner.id,action[1]!);data={job};after(()=>finishWorkerIndex(owner.id,job.id));
+    }
     else if (action.length === 1 && action[0] === "rollback")
       data = await rollback(owner.id);
     else return NextResponse.json({ error: "not_found" }, { status: 404 });
@@ -148,7 +154,7 @@ async function mutateDraft(
       if (parsed?.success) {
         const changes = parsed.data;
         const original = changes.operation === "add_lexeme"
-          ? (await rows<{payload: import("@/lib/dictionary/model").Entry}>(sql`select payload from dictionary_entries where release_id=${active.active_release_id} and lemma_norm=${normalizeSearch(changes.lemma)}`,tx)).map(row=>row.payload)
+          ? [...(await entriesByIds((await rows<{lexeme_id:string}>(sql`select lexeme_id from dictionary_entries where release_id=${active.active_release_id} and lemma_norm=${normalizeSearch(changes.lemma)}`,tx)).map(row=>row.lexeme_id),active.active_release_id,tx)).values()]
           : [await entryById(changes.lexemeId,active.active_release_id,tx)].filter((entry): entry is import("@/lib/dictionary/model").Entry => Boolean(entry));
         applyDraft(original, changes, active.active_release_id);
       }

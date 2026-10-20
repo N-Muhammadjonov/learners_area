@@ -1,0 +1,39 @@
+{
+  "complete": true,
+  "environment": "actual local Next development HTTP + native PostgreSQL + local workerd/native Miniflare R2; not production performance",
+  "realProductionAccountsUsed": false,
+  "release": "rel-v1-e7fa84dde5eec2f502957489",
+  "normalStudent": true,
+  "browserExactContextSaved": true,
+  "duplicateAndSrsUnchanged": true,
+  "originalVocabularyPreserved": 13,
+  "anonymousDenied": true,
+  "ownerDenied": true,
+  "crossOriginDenied": true,
+  "suspendedSessionDeniedOnNextRequest": true,
+  "revokedAuthEpochDeniedOnNextRequest": true,
+  "staleReleaseDenied": true,
+  "searchWarm": [
+    {
+      "query": "bank",
+      "direction": "EN",
+      "n": 10,
+      "p50": 41.638958,
+      "p95": 109.19537500000024
+    },
+    {
+      "query": "shishmoq",
+      "direction": "UZ",
+      "n": 10,
+      "p50": 42.32524999999987,
+      "p95": 60.82208300000002
+    }
+  ],
+  "entryWarm": {
+    "n": 10,
+    "p50": 49.9037500000004,
+    "p95": 125.28758300000027
+  },
+  "cleanupVerified": true,
+  "authEpochNotDecreased": true
+}

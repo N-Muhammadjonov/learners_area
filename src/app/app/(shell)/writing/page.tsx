@@ -10,10 +10,9 @@ import { WritingTranslationTab } from "@/components/writing/translation/WritingT
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 import { WritingActivationTab } from "@/components/writing/activation/WritingActivationTab";
 import { WritingLanguageStealingTab } from "@/components/writing/stealing/WritingLanguageStealingTab";
-import { WritingNav } from "@/components/writing/workspace/WritingNav";
 import { WritingGradeTab } from "@/components/writing/workspace/WritingGradeTab";
 import { WritingLessonsTab, WritingContentTab } from "@/components/writing/workspace/WritingContentTabs";
-import { parseWritingTab, WRITING_TABS, type WritingTab } from "@/lib/writing/tabs";
+import { parseWritingTab, type WritingTab } from "@/lib/writing/tabs";
 
 async function WritingTypingRegion({ typingPromise, dict }: {
   typingPromise: Promise<
@@ -79,12 +78,9 @@ export default async function WritingPage({ searchParams }: { searchParams: Prom
   if (!user) return null;
   const dict = getDictionary(locale);
   const tab: WritingTab = parseWritingTab(sp.tab);
-  const labels = Object.fromEntries(WRITING_TABS.map((k) => [k, dict.writingWorkspace.tabs[k]])) as Record<WritingTab, string>;
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-5" data-route-usable="writing" data-writing-active-tab={tab}>
-      <h1 className="font-display text-2xl text-ink-900">{labels[tab]}</h1>
-      <WritingNav active={tab} labels={labels} label={dict.writingWorkspace.tabsLabel} />
       <div role="tabpanel" id="writing-panel" aria-labelledby={`writing-tab-${tab}`} className="motion-tab-panel" key={tab}>
         {tab === "grade" ? (
           <WritingGradeTab dict={dict} userId={user.id} view={sp.view === "essays" ? "essays" : "new"} locale={locale} />

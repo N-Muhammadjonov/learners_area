@@ -7,7 +7,7 @@ import { gradeReadingQuestion } from "@/lib/reading/question-model";
 import { isLive, liveWhere } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
 import { getPassageWithQuestions } from "@/lib/data/reading";
-import { activeAcademicAttemptForPassages, academicQuestionCountClause } from "@/lib/data/reading-assessments";
+import { academicQuestionCountClause } from "@/lib/data/reading-assessments";
 
 /*
  * General Reading = LEARNING (develop reading). IELTS Academic = ASSESSMENT
@@ -45,7 +45,7 @@ export async function academicOnlyClause() {
   return sql`not exists (select 1 from general_reading_passages g where g.passage_id = ${readingPassages.id})`;
 }
 
-export async function listGeneralSets(userId: string, options: { page?: number; academic?: boolean } = {}, executor: typeof db = db) {
+export async function listGeneralSets(userId: string, options: { page?: number; academic?: boolean; all?: boolean } = {}, executor: typeof db = db) {
   if (!(await generalReadingSchemaReady(executor))) return [];
   await activateReadingSchedules(executor);
   const validPassages = sql`not exists (select 1 from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id} and not (p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now())))`;
@@ -53,10 +53,10 @@ export async function listGeneralSets(userId: string, options: { page?: number; 
     and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and g.passage_no not in (1,2,3))
     and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and not exists (select 1 from reading_questions q where q.passage_id=g.passage_id))
     and ${academicQuestionCountClause(generalReadingSets.id,generalReadingSets.sourceRef)}` : undefined;
-  const sets = await executor.select().from(generalReadingSets)
+  const catalogue = executor.select().from(generalReadingSets)
     .where(and(liveWhere({ publicationState: generalReadingSets.publicationState, publishAt: generalReadingSets.publishAt }), validPassages, formal))
-    .orderBy(sql`(select min(p.test_no) from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id}) asc nulls last`, sql`(select min(p.external_id) from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id}) asc nulls last`, asc(generalReadingSets.createdAt), asc(generalReadingSets.id))
-    .limit(25).offset((Math.max(1, Math.min(10000, Math.floor(options.page ?? 1) || 1)) - 1) * 24);
+    .orderBy(sql`(select min(p.test_no) from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id}) asc nulls last`, sql`(select min(p.external_id) from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id}) asc nulls last`, asc(generalReadingSets.createdAt), asc(generalReadingSets.id));
+  const sets = await (options.all ? catalogue : catalogue.limit(25).offset((Math.max(1, Math.min(10000, Math.floor(options.page ?? 1) || 1)) - 1) * 24));
   if (!sets.length) return [];
   const ids = sets.map((set) => set.id);
   const [slots, progress, academicResult] = await Promise.all([
@@ -144,14 +144,12 @@ export function restoredGeneralCheck(
 
 /**
  * Save (and optionally check) one passage of a General Reading set for one learner.
- * Progress is per passage, so Passage-only and Full Reading share the same rows:
- * a passage solved alone is already done when the learner later opens Full Reading.
+ * Progress is per passage, independent of Academic attempts over the same text.
  * Only question ids of THIS passage are accepted; grading uses the Academic grader.
  */
 export async function saveGeneralProgress(input: { userId: string; role: Role; passageId: string; answers: Record<string, string>; check: boolean }, executor: typeof db = db) {
   const membership = await generalMembership(input.passageId, executor);
   if (!membership || (!isLive(membership.set) && !isStaff(input.role))) return null;
-  if (await activeAcademicAttemptForPassages(input.userId, [input.passageId], executor)) return null;
   const passage = await executor.query.readingPassages.findFirst({ where: eq(readingPassages.id,input.passageId) });
   if (!passage || (!isLive(passage) && !isStaff(input.role))) return null;
   const questions = await executor.query.readingQuestions.findMany({ where: eq(readingQuestions.passageId, input.passageId) });

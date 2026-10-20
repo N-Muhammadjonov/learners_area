@@ -1,5 +1,6 @@
 const en = {
   globalDictionary: {
+    capacityExceeded: "There is not enough database space for a new release. Your drafts are saved. Check database capacity before publishing.",
     duplicateWord: "This word and part of speech already exist. Add a meaning to the existing word.",
     duplicateSense: "This meaning already exists.",
     lexemes: "Published words",
@@ -27,6 +28,9 @@ const en = {
     moreExamples: "More examples",
     collocations: "Collocations",
     synonyms: "Synonyms",
+    noSynonyms: "No synonyms found.",
+    noCollocations: "No word combinations found.",
+    pronunciationUnavailable: "Pronunciation is not available in this browser.",
     relations: "Related words",
     attribution: "Sources and attribution",
     forms: "Word forms",
@@ -876,6 +880,7 @@ const en = {
    * workspace — the split view, the timer, autosave — and nothing else uses them.
    */
   readingWorkspace: {
+    elapsed: "Time spent",
     passage: "Passage", questions: "Questions", resize: "Resize passage and question panes",
     smaller: "Smaller text", larger: "Larger text", passageHeading: "READING PASSAGE {n}",
     questionRange: "Questions {from}–{to}", review: "Review", library: "Passage library",
@@ -1372,7 +1377,7 @@ const en = {
     meaningUncheckedHint: "This word's meaning in this text has not been checked. You can save it with your own meaning.",
     lexicalTypeLabel: { word: "word", noun_phrase: "noun phrase", verb_phrase: "verb phrase", collocation: "collocation", phrasal_verb: "phrasal verb", idiom: "idiom", fixed_expression: "fixed expression", compound: "compound", technical_term: "technical term", phrase: "phrase" },
     textLookup: 'Look up words in this text',
-    textLookupDoubleHint: 'Double-click a word or phrase to look it up. Keyboard: choose a word with the arrow keys, then press Enter. Escape closes the popup.',
+    textLookupDoubleHint: 'Double-click a word or phrase, or hold it for 3 seconds, to look it up. Keyboard: choose a word with the arrow keys, then press Enter. Escape closes the popup.',
     textLookupHint: 'Click a word to look it up, or select text to copy it. Keyboard: use Left and Right to choose a word, Home or End to move to the first or last word, and Enter to look it up. Escape closes the popup.',
     title: "Vocabulary",
     addWord: "Add a word",

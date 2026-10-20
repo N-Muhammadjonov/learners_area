@@ -1,0 +1,188 @@
+{
+  "status": {
+    "code": "implemented",
+    "qa": "isolated native PostgreSQL and local S3 verified",
+    "production": "not deployed; owner changeset approval required",
+    "liveR2": "read-only inventory only; no Dictionary objects published"
+  },
+  "source": {
+    "commit": "64af9c187dee17f2e12eee9b1a4587ab675caa47",
+    "gzipSha256": "5224b974f8bfc11213e265841087156c262cc0f5db78f489a5cab0997a0113b7",
+    "rawSha256": "81fd356d099b85b2b363141237345857c8acc9568810d65a70cd8746a80e6ca5",
+    "counts": {
+      "lexemes": 62376,
+      "senses": 105488,
+      "examples": 81099,
+      "synonyms": 151756,
+      "cefr": 101260
+    }
+  },
+  "planSha": "268a15f0a320b34b1d0e766ce253e7fcab440c6d32ed21e80c7510e326ed9bfa",
+  "prepared": {
+    "prepared": true,
+    "planSha256": "268a15f0a320b34b1d0e766ce253e7fcab440c6d32ed21e80c7510e326ed9bfa",
+    "counts": {
+      "lexemes": 62376,
+      "senses": 105488,
+      "examples": 81099,
+      "synonyms": 151756,
+      "cefr": 101260
+    },
+    "shards": 256,
+    "compressedBytes": 35800056,
+    "maxShardRawBytes": 957512
+  },
+  "qa": {
+    "fullImportVerified": true,
+    "nativePostgresVerified": true,
+    "existingVocabularyPreserved": 13,
+    "transport": "isolated local S3 HTTP fixture; NOT Cloudflare live",
+    "dictionaryBytes": 393388032,
+    "searchMeasurements": [
+      {
+        "query": "bank",
+        "direction": "EN",
+        "p50": 1.5592500000057044,
+        "p95": 24.77912500000093,
+        "results": 20
+      },
+      {
+        "query": "ban",
+        "direction": "EN",
+        "p50": 1.8304589999897871,
+        "p95": 15.65470899999491,
+        "results": 20
+      },
+      {
+        "query": "ran",
+        "direction": "EN",
+        "p50": 1.385374999998021,
+        "p95": 22.55683400000271,
+        "results": 20
+      },
+      {
+        "query": "find out",
+        "direction": "EN",
+        "p50": 0.9247920000052545,
+        "p95": 2.789959000001545,
+        "results": 1
+      },
+      {
+        "query": "shishmoq",
+        "direction": "UZ",
+        "p50": 1.3881669999973383,
+        "p95": 6.132165999995777,
+        "results": 15
+      },
+      {
+        "query": "shish",
+        "direction": "UZ",
+        "p50": 1.6384589999943273,
+        "p95": 32.705000000001746,
+        "results": 20
+      }
+    ],
+    "coldEntryMs": 57.890125000005355,
+    "warmConcurrent20Ms": 69.63774999999441,
+    "sizes": [
+      {
+        "relname": "dictionary_channels",
+        "bytes": "32768",
+        "indexes": "16384"
+      },
+      {
+        "relname": "dictionary_drafts",
+        "bytes": "16384",
+        "indexes": "8192"
+      },
+      {
+        "relname": "dictionary_entries",
+        "bytes": "52666368",
+        "indexes": "19021824"
+      },
+      {
+        "relname": "dictionary_owner_events",
+        "bytes": "32768",
+        "indexes": "16384"
+      },
+      {
+        "relname": "dictionary_publish_jobs",
+        "bytes": "24576",
+        "indexes": "16384"
+      },
+      {
+        "relname": "dictionary_r2_shards",
+        "bytes": "155648",
+        "indexes": "32768"
+      },
+      {
+        "relname": "dictionary_recent_searches",
+        "bytes": "24576",
+        "indexes": "16384"
+      },
+      {
+        "relname": "dictionary_releases",
+        "bytes": "114688",
+        "indexes": "16384"
+      },
+      {
+        "relname": "dictionary_search_terms",
+        "bytes": "340271104",
+        "indexes": "218628096"
+      },
+      {
+        "relname": "dictionary_sense_mappings",
+        "bytes": "49152",
+        "indexes": "32768"
+      }
+    ],
+    "elapsedMs": 115079.015042,
+    "dictionaryPayloadsInPostgres": {
+      "n": 0
+    }
+  },
+  "backup": {
+    "restoreVerified": true,
+    "scope": "application public schema and data; excludes Supabase platform roles/auth/storage",
+    "createdAt": "2026-10-19T15:02:58.709Z",
+    "restoredAt": "2026-10-19T15:10:27.636Z",
+    "revision": "51dc6e37d7865138a9bb555e0e549fa08b1dde8c",
+    "backupSha256": "bdba6caea9b0a84b059c2a48f886968739f7de2eb085db977687357a19a7b144",
+    "compressedBytes": 3786197,
+    "tables": 138,
+    "rows": 23808,
+    "foreignKeysVerified": 220,
+    "allTableFingerprintsMatch": true,
+    "personalVocabulary": 13
+  },
+  "productionBefore": {
+    "readOnly": true,
+    "at": "2026-10-19T14:13:22.678Z",
+    "revision": "51dc6e37d7865138a9bb555e0e549fa08b1dde8c",
+    "dbBytes": {
+      "bytes": "32484499"
+    },
+    "counts": {
+      "entries": 0,
+      "terms": 0,
+      "mappings": 0,
+      "saved_words": 13
+    },
+    "r2": {
+      "bucket": "learners-area",
+      "objects": 197,
+      "bytes": 573157076,
+      "dictionaryObjects": 0,
+      "dictionaryBytes": 0
+    }
+  },
+  "plan": "Free, confirmed by owner",
+  "checks": {
+    "coreTestsPassed": 33,
+    "dictionaryRetentionUiPassed": 18,
+    "typecheck": "passed",
+    "lint": "passed",
+    "build": "passed",
+    "postChangeMappingAndOwnerPublication": "passed"
+  }
+}

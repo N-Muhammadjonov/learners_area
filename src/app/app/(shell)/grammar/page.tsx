@@ -24,7 +24,6 @@ async function GrammarTopics({ userId, dict, area }: {
       )}
       <div className="flex flex-col gap-3" data-grammar-topics data-async-content="grammar-topics">
         <section key={area} className="space-y-3" data-grammar-skill={area}>
-        <h2 className="font-display text-xl">{area === "writing" ? dict.grammar.forWriting : dict.grammar.forSpeaking}</h2>
         {selectedRows.map(({ topic, totalExercises, mastery }) => (
           <Link key={topic.id} href={`/app/grammar/${topic.id}`}>
             <Card className="hover:border-signal-400" data-topic-row={topic.id}>

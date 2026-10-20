@@ -269,19 +269,25 @@ export async function listLibrary(
  * already knows it, and asking twice was one of the round trips that made the
  * page slow.
  */
-export async function listLibraryFacets(learning = false) {
-  await activateReadingSchedules();
+export async function listLibraryFacets(learning = false, executor: typeof db = db) {
+  await activateReadingSchedules(executor);
   return timed("reading.facets", async () => {
     const live = learning ? and(liveWhere({publicationState:readingPassages.publicationState,publishAt:readingPassages.publishAt}),sql`exists(select 1 from general_reading_passages g join general_reading_sets s on s.id=g.set_id where g.passage_id=${readingPassages.id} and (s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now())))`) : await liveClause();
 
+    // General uses the same canonical types as its cards and type-filter query.
+    // Count passages once even when a type appears in multiple question groups.
     const [topics, types] = await Promise.all([
-      db
+      executor
         .select({ topicCode: readingPassages.topicCode, value: count() })
         .from(readingPassages)
         .where(and(live, sql`${readingPassages.topicCode} is not null`))
         .groupBy(readingPassages.topicCode)
         .orderBy(desc(count())),
-      db
+      learning ? executor.execute<{typeCode:string|null;value:number}>(sql`
+        select ${readingCanonicalTypeSql()} as "typeCode", count(distinct ${readingPassages.id})::int as value
+        from ${readingQuestions} q join ${readingPassages} on ${readingPassages.id}=q.passage_id
+        where ${live} group by 1 order by count(distinct ${readingPassages.id}) desc
+      `).then(result=>result.rows) : executor
         .select({ typeCode: readingQuestions.typeCode, value: count() })
         .from(readingQuestions)
         .innerJoin(readingPassages, eq(readingPassages.id, readingQuestions.passageId))

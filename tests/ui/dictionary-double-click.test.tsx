@@ -29,3 +29,26 @@ for(const sourceType of ['reading','listening','retention'])test(`${sourceType}:
     assert.equal(saved?.body?.occurrenceId,'phrase-id');assert.equal(saved?.body?.sourceType,sourceType);
   }finally{await act(async()=>root.unmount());globalThis.fetch=oldFetch;}
 });
+
+test('a stationary 3-second word hold opens the phrase; release, movement, cancel and blank space never do',async(t)=>{
+  const root=createRoot(document.getElementById('root')!),oldFetch=globalThis.fetch;
+  t.mock.timers.enable({apis:['setTimeout']});
+  const requests:string[]=[];
+  globalThis.fetch=async input=>{requests.push(String(input));return Response.json(String(input).includes('folders')?{folders:[]}:{status:'resolved',contextual:{definitionEn:'discover information',translationUz:'bilib olmoq'}});};
+  const pointer=(target:Element,type:string,x=10)=>target.dispatchEvent(new dom.window.MouseEvent(type,{bubbles:true,button:0,clientX:x,clientY:10,relatedTarget:document.body}));
+  try{
+    await act(async()=>root.render(<ClickableText dict={en} text="We find out answers." sourceType="reading" sourceId="hold-source" occurrences={[{id:'hold-phrase',startChar:3,endChar:11,surfaceForm:'find out'}]}/>));
+    const word=document.querySelector('[data-word="out"]')!,region=document.querySelector('[data-clickable-text]')!;
+    for(const ending of ['pointerup','pointercancel','pointerout','pointermove']){
+      await act(async()=>{pointer(word,'pointerdown');pointer(word,ending,30);t.mock.timers.tick(3001);});
+      assert.equal(requests.length,0,ending);
+    }
+    await act(async()=>{pointer(region,'pointerdown');t.mock.timers.tick(3001);pointer(region,'pointerup');});
+    assert.equal(requests.length,0,'blank area');
+    await act(async()=>{pointer(word,'pointerdown');t.mock.timers.tick(2999);});
+    assert.equal(requests.length,0,'not before three seconds');
+    await act(async()=>{t.mock.timers.tick(1);});
+    assert.equal(document.querySelector('[role="dialog"]')?.getAttribute('aria-label'),'find out');
+    assert.ok(requests.some(url=>url.includes('occurrenceId=hold-phrase')));
+  }finally{await act(async()=>root.unmount());t.mock.timers.reset();globalThis.fetch=oldFetch;}
+});

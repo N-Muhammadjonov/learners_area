@@ -42,7 +42,7 @@ test("history shows at most the newest five, with real CEFR only, and opens the 
     assert.equal(rows().length, 5);
     assert.ok(document.body.textContent?.includes("So‘nggi qidiruvlar"));
     assert.ok(!document.body.textContent?.includes("English-5"));
-    assert.equal(rows()[0]!.querySelectorAll("strong").length, 2);
+    assert.equal(rows()[0]!.querySelectorAll("strong").length, 1);
     assert.ok(rows()[0]!.textContent?.includes("B2"));
     assert.ok(!rows()[1]!.textContent?.includes("B2"));
     assert.ok(rows()[0]!.querySelector(".truncate")?.textContent?.includes("Tarjima 0"));

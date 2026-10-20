@@ -217,7 +217,7 @@ test("vocabulary mutations invalidate only vocabulary resources, never a global 
 });
 
 test("Retention links never prefetch and the hub reads run concurrently without allocation", () => {
-  assert.match(read("src/components/navigation/ModuleNavigation.tsx"), /href: `\/app\/reading\/\$\{key\}`/);
+  assert.match(read("src/lib/nav/module-sections.ts"), /href: `\/app\/reading\/\$\{key\}`/);
   assert.match(read("src/components/navigation/ModuleSectionNav.tsx"), /<InstantLink key=\{link.key\} href=\{href\} scroll=\{false\} intentPrefetch/,
     "tabs stay real, authorized links with no eager viewport fetch");
   assert.match(read("src/components/interaction/InstantLink.tsx"), /prefetch=\{prefetch \?\? false\}/,

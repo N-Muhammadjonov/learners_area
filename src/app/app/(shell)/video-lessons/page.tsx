@@ -7,6 +7,7 @@ import { isOpen, type LessonState } from "@/lib/services/lessons/state";
 import { Card } from "@/components/ui/Card";
 import { VideoLessonCard } from "@/components/video/VideoLessonCard";
 import { timed } from "@/lib/observability/timing";
+import { ModuleHeaderContent } from "@/components/shell/ModuleHeaderContent";
 
 export const dynamic = "force-dynamic";
 
@@ -22,10 +23,14 @@ async function VideoLessonsContent({ user, dict }: {
   const openable = all.filter((row) => isOpen(row.state as LessonState));
 
   const grid = "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4";
+  const header = <ModuleHeaderContent><nav aria-label={t.title} className="flex min-w-0 gap-1 overflow-x-auto border-b border-ink-100" data-video-header-sections>
+    {standalone.length > 0 && <a className="flex min-h-11 shrink-0 items-center px-3 text-sm" href="#video-standalone">{t.standaloneHeading}</a>}
+    {(openable.length > 0 || !standalone.length) && <a className="flex min-h-11 shrink-0 items-center px-3 text-sm" href="#video-course">{t.courseHeading}</a>}
+  </nav></ModuleHeaderContent>;
 
   const standaloneList = standalone.length > 0 ? (
-    <section className="flex flex-col gap-3" data-video-standalone-list>
-      <h2 className="font-display text-lg text-ink-900">{t.standaloneHeading}</h2>
+    <section id="video-standalone" className="flex flex-col gap-3" data-video-standalone-list>
+      <h2 className="sr-only">{t.standaloneHeading}</h2>
       <ul className={grid} data-video-library-grid>
         {standalone.map((row) => (
           <VideoLessonCard
@@ -45,7 +50,7 @@ async function VideoLessonsContent({ user, dict }: {
     </section>
   ) : null;
 
-  if (openable.length === 0 && standaloneList) return <div className="flex flex-col gap-4" data-async-content="video-lessons">{standaloneList}</div>;
+  if (openable.length === 0 && standaloneList) return <div className="flex flex-col gap-4" data-async-content="video-lessons">{header}{standaloneList}</div>;
 
   const courseList = openable.length === 0 ? (
     <Card>
@@ -73,13 +78,14 @@ async function VideoLessonsContent({ user, dict }: {
 
   return standaloneList ? (
     <div className="flex flex-col gap-4">
+      {header}
       {standaloneList}
-      <section className="flex flex-col gap-3">
-        <h2 className="font-display text-lg text-ink-900">{t.courseHeading}</h2>
+      <section id="video-course" className="flex flex-col gap-3">
+        <h2 className="sr-only">{t.courseHeading}</h2>
         {courseList}
       </section>
     </div>
-  ) : courseList;
+  ) : <>{header}<section id="video-course" aria-label={t.courseHeading}>{courseList}</section></>;
 }
 
 function VideoLessonsSkeleton() {

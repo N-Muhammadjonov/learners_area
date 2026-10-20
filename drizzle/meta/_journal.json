@@ -449,6 +449,20 @@
       "when": 1792400000000,
       "tag": "0063_retention_vocabulary",
       "breakpoints": true
+    },
+    {
+      "idx": 64,
+      "version": "7",
+      "when": 1792450000000,
+      "tag": "0064_dictionary_r2",
+      "breakpoints": true
+    },
+    {
+      "idx": 65,
+      "version": "7",
+      "when": 1792460000000,
+      "tag": "0065_dictionary_worker_index",
+      "breakpoints": true
     }
   ]
 }

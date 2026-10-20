@@ -1,4 +1,4 @@
-import { Fragment, Suspense } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 import { getDictionary } from "@/lib/i18n";
 import { listLearningLibrary, listLibraryFacets } from "@/lib/data/reading-library";
@@ -123,10 +123,7 @@ function LearningLibraryCards({
         />
       ) : (
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {library.items.map((passage,index) => <Fragment key={passage.id}>
-            {(index===0||library.items[index-1]?.testNo!==passage.testNo)&&<h3 className="col-span-full mt-3 flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-ink-700" data-reading-library-group><span>{passage.testNo ? `Test ${passage.testNo}` : dict.readingHub.library}</span><span className="h-px flex-1 bg-ink-100"/></h3>}
-            <ReadingPassageCard passage={passage} dict={dict} lang={lang}/>
-          </Fragment>)}
+          {library.items.map(passage => <ReadingPassageCard key={passage.id} passage={passage} dict={dict} lang={lang}/>)}
         </div>
       )}
 

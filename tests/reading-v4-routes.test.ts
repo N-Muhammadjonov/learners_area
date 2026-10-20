@@ -3,18 +3,19 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { READING_DESTINATIONS, readingLegacyDestination } from "../src/lib/reading/destinations";
 const read = (path: string) => readFileSync(path, "utf8");
-test("READ-HUB five canonical products, History secondary, no mixed catalogue", () => {
-  assert.deepEqual(READING_DESTINATIONS, ["lessons", "academic", "general", "question-types", "retention"]);
+test("READ-HUB four canonical sections, History secondary, no mixed catalogue", () => {
+  assert.deepEqual(READING_DESTINATIONS, ["lessons", "academic", "general", "retention"]);
   const page = read("src/app/app/(shell)/reading/page.tsx");
-  assert.match(read("src/app/app/(shell)/reading/layout.tsx"), /<ModuleNavigation module="reading"/);
-  assert.match(read("src/components/navigation/ModuleNavigation.tsx"), /READING_DESTINATIONS.map/);
+  assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
+  assert.doesNotMatch(read("src/app/app/(shell)/reading/layout.tsx"), /<ModuleNavigation/);
+  assert.match(read("src/lib/nav/module-sections.ts"), /READING_DESTINATIONS.map/);
   assert.match(page, /redirect\(target \?\? "\/app\/reading\/lessons"\)/, "module root opens Lessons");
   const lessons = read("src/app/app/(shell)/reading/lessons/page.tsx");
   assert.doesNotMatch(lessons, /data-reading-history-entry|href="\/app\/reading\/lessons\/author"/, "Owner requested no History/author actions on Lessons");
   assert.doesNotMatch(page, /listLibrary|listGeneralSets|General Training|readingHubCounts/);
 });
 test("READ-HUB old tabs canonicalize without interpreting the obsolete General Training tab as practice", () => {
-  for (const [tab, target] of Object.entries({academic:"academic",practice:"academic","general-reading":"general",types:"question-types",retention:"retention"})) {
+  for (const [tab, target] of Object.entries({academic:"academic",practice:"academic","general-reading":"general",types:"general",retention:"retention"})) {
     assert.equal(readingLegacyDestination({ tab }), `/app/reading/${target}`);
   }
   assert.equal(readingLegacyDestination({tab:"general"}), "/app/reading");

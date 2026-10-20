@@ -2,10 +2,8 @@
 
 import { ReadingEvidence } from "@/components/reading/ReadingEvidence";
 import { ReadingWorkspace, focusReadingQuestion } from "@/components/reading/ReadingWorkspace";
-import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { useEffect, useRef, useState } from "react";
 import { ReadingHighlightedText, useReadingHighlights } from "@/components/reading/ReadingHighlights";
-import { ReadAloud } from "@/components/reading/ReadAloud";
 import { GroupHeading, GroupQuestions, QuestionCard, type ExamGroup, type ExamQuestion } from "@/components/reading/ReadingExam";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import { occurrenceSpans, type OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
@@ -13,8 +11,8 @@ import type { Dictionary } from "@/lib/i18n/en";
 
 /*
  * General Reading — LEARNING mode (develop reading). Vocabulary help is on from the
- * first second, in every passage and in Full Reading: there is no attempt, no lock
- * and no timer deciding permissions. The text uses the SAME ClickableText → occurrence
+ * first second, for one passage: there is no Academic attempt or lock
+ * and elapsed study time never decides permissions. The text uses the SAME ClickableText → occurrence
  * → canonical sense → popup → save path as every other contextual source; the
  * server re-derives the mode from the passage's persisted classification.
  */
@@ -33,27 +31,29 @@ export type GeneralPassage = {
 export type GeneralProgressView = { answers: Record<string, string>; score: number | null; total: number | null; checked: boolean; result?:CheckRow[]|null };
 type CheckRow = { questionId: string; isCorrect: boolean; correctAnswer: string; acceptedAnswers?:string[]; evidenceQuote: string | null; explanation: string | null };
 
-export function GeneralReadingSession({ dict, setId, setTitle, passages, initialProgress, mode, userId }: {
+export function GeneralReadingSession({ dict, setId, passages, initialProgress, mode, userId }: {
   dict: Dictionary;
   userId: string;
   setId: string;
   setTitle: string;
   passages: GeneralPassage[];
   initialProgress: Record<string, GeneralProgressView>;
-  /** "full" = all passages in one session; otherwise the single chosen passage number. */
+  /** Legacy "full" links fall back to the first passage; every session studies one only. */
   mode: "full" | 1 | 2 | 3;
 }) {
-  useFocusEntry(`general-reading:${setId}:${mode}`);
+  const studyPassages = passages.filter(p => p.passageNo === (mode === "full" ? passages[0]?.passageNo : mode)).slice(0,1);
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => { const started=Date.now();setElapsed(0);const timer=setInterval(()=>setElapsed(Math.floor((Date.now()-started)/1000)),1000);return()=>clearInterval(timer); },[setId,mode]);
   const t = dict.generalReading;
   const highlightsFor=useReadingHighlights(`${userId}:${setId}`);
   const [pane,setPane]=useState<"passage"|"questions">("passage");
   const [pendingQuestion,setPendingQuestion]=useState<string|null>(null);
-  const [active, setActive] = useState(passages[0]?.passageNo ?? 1);
+  const active = studyPassages[0]?.passageNo ?? 1;
   const [answers, setAnswers] = useState<Record<string, Record<string, string>>>(() =>
-    Object.fromEntries(passages.map((p) => [p.passageId, initialProgress[p.passageId]?.answers ?? {}])));
+    Object.fromEntries(studyPassages.map((p) => [p.passageId, initialProgress[p.passageId]?.answers ?? {}])));
   const [status, setStatus] = useState<Record<string, "idle" | "saving" | "saved" | "error" | "checking">>({});
   const [checks, setChecks] = useState<Record<string, { rows: CheckRow[]; score: number | null; total: number | null }>>(() =>
-    Object.fromEntries(passages.flatMap(p => {
+    Object.fromEntries(studyPassages.flatMap(p => {
       const saved = initialProgress[p.passageId];
       return saved?.checked && saved.result ? [[p.passageId, { rows:saved.result, score:saved.score, total:saved.total }]] : [];
     })));
@@ -65,7 +65,7 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
 
   useEffect(() => { document.getElementById("reading-passage-pane")?.scrollTo?.({top:0}); },[active]);
   useEffect(() => { if(pendingQuestion){focusReadingQuestion(pendingQuestion);setPendingQuestion(null);} },[active,pendingQuestion]);
-  const passage = passages.find((p) => p.passageNo === active) ?? passages[0];
+  const passage = studyPassages.find((p) => p.passageNo === active) ?? studyPassages[0];
   if (!passage) return null;
 
   async function persist(passageId: string, nextAnswers: Record<string, string>, check: boolean) {
@@ -108,8 +108,8 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
   const currentAnswers=answers[passage.passageId]??{};
   const first=passage.questions[0]?.questionNo??1,last=passage.questions.at(-1)?.questionNo??first;
   return <div className="reading-session" data-general-reading data-general-mode={mode} data-general-passage={passage.passageNo}>
-    <ReadingWorkspace brand={dict.marketing.title} title={setTitle} pane={pane} setPane={setPane} labels={dict.readingWorkspace}
-      tools={<><ReadAloud dict={dict} text={`${passage.title}. ${passage.body}`} /><span role="status" aria-live="polite" data-general-save-state={status[passage.passageId]??"idle"}>{status[passage.passageId]==="saving"?t.saving:status[passage.passageId]==="saved"?t.saved:""}</span></>}
+    <ReadingWorkspace brand={dict.marketing.title} title={passage.title} pane={pane} setPane={setPane} labels={dict.readingWorkspace}
+      tools={<><output className="reading-elapsed" data-general-elapsed aria-label={dict.readingWorkspace.elapsed}>{`${String(Math.floor(elapsed/60)).padStart(2,"0")}:${String(elapsed%60).padStart(2,"0")}`}</output><span role="status" aria-live="polite" data-general-save-state={status[passage.passageId]??"idle"}>{status[passage.passageId]==="saving"?t.saving:status[passage.passageId]==="saved"?t.saved:""}</span></>}
       passage={<><h2 className="reading-pane-heading">{dict.readingWorkspace.passageHeading.replace("{n}",String(passage.passageNo))}</h2><p className="reading-part-instruction">{dict.readingWorkspace.questionRange.replace("{from}",String(first)).replace("{to}",String(last))}</p><h3 className="reading-passage-title">{passage.title}</h3>
         <div className="reading-passage-text" data-passage-body>
           {passage.paragraphs.length ? passage.paragraphs.map(paragraph=><div key={paragraph.id} className="reading-paragraph">
@@ -132,8 +132,8 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
         </div></li>)}</ol>
         {errors[passage.passageId]&&<p role="alert" className="reading-error">{errors[passage.passageId]}</p>}
       </div>}
-      navigation={<div className="reading-part-navigation" data-general-passage-tabs>{passages.map(p=><div key={p.passageNo} className="reading-part-navigation">
-        <button type="button" className="reading-part-button" aria-pressed={p.passageNo===active} data-general-passage-tab={p.passageNo} onClick={()=>setActive(p.passageNo)}>{t.passageN.replace("{n}",String(p.passageNo))}</button>
+      navigation={<div className="reading-part-navigation" data-general-passage-tabs>{studyPassages.map(p=><div key={p.passageNo} className="reading-part-navigation">
+        <button type="button" className="reading-part-button" aria-pressed={p.passageNo===active} data-general-passage-tab={p.passageNo}>{t.passageN.replace("{n}",String(p.passageNo))}</button>
         {p.passageNo===active&&<div className="reading-question-numbers">{p.questions.map(q=><button key={q.id} type="button" data-reading-question-nav={q.id} data-answered={!!currentAnswers[q.id]?.trim()} aria-label={`${dict.reading.yourAnswer} ${q.questionNo??q.order}`} onClick={()=>{setPane("questions");setPendingQuestion(q.id);}}>{q.questionNo??q.order}</button>)}</div>}
       </div>)}</div>}
       action={<>{shownScore&&shownScore.total!==null&&<span data-general-score>{t.score.replace("{score}",String(shownScore.score??0)).replace("{total}",String(shownScore.total))}</span>}{passage.questions.length>0&&<button type="button" className="btn-primary" disabled={status[passage.passageId]==="checking"} onClick={()=>{clearTimeout(timers.current[passage.passageId]);void persist(passage.passageId,currentAnswers,true);}} data-general-check>{status[passage.passageId]==="checking"?t.checking:t.check}</button>}</>}

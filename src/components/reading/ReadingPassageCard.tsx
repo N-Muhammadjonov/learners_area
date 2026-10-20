@@ -25,12 +25,7 @@ export function ReadingPassageCard({
   dict: Dictionary;
   lang: "uz" | "en";
 }) {
-  const position =
-    passage.passageNo && passage.testNo
-      ? `Test ${passage.testNo} · Passage ${passage.passageNo}`
-      : passage.passageNo
-        ? `Passage ${passage.passageNo}`
-        : null;
+  const position = passage.passageNo ? `Passage ${passage.passageNo}` : null;
 
   const statusLabel =
     passage.status === "completed"

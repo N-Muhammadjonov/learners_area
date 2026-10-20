@@ -246,7 +246,8 @@ test("contextual same-spelling words fetch and save their own occurrence identit
     await click('[data-token="2"]');
     assert.ok(popupText().includes('The edge of a river'));
     assert.equal(popupText().includes('A financial institution'), false);
-    assert.ok(popupText().includes(en.vocabulary.contextUnverified));
+    assert.equal(popupText().includes(en.vocabulary.contextUnverified), false);
+    assert.ok(document.querySelector('[data-word-popover] hr.dictionary-translation-divider'));
     assert.equal(document.querySelectorAll('[data-word-popover] input').length, 0);
     await fill('[data-word-popover] select', 'own-folder');
     await click('[data-word-save]');

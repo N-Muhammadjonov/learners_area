@@ -1,0 +1,9 @@
+{
+  "name": "learnersarea-dictionary",
+  "main": "index.ts",
+  "compatibility_date": "2026-10-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "r2_buckets": [{"binding": "DICTIONARY_BUCKET", "bucket_name": "learners-area"}],
+  "observability": {"enabled": true, "logs": {"enabled": true, "invocation_logs": false}}
+}

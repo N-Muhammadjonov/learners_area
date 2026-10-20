@@ -184,7 +184,8 @@ test("Listening and Video entry reads are server-authorized, published, and limi
   assert.match(listeningLessonsPage, /requireActiveUser\(\)/, "destination remains server-authorized");
   assert.match(listeningLessonsPage, /data-route-usable="listening-lessons"/);
   assert.match(listeningLessonsPage, /listLessonLibrary\(\{ area: "listening" \}\)/, "the destination only reads classified lessons");
-  assert.match(read("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation module="listening"/);
+  assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
+  assert.doesNotMatch(read("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation/);
   assert.doesNotMatch(listeningPage, /from ["']@\/lib\/data\//, "a doorway has no catalogue request to fail");
   for (const [route, reader] of [["tests", "academicListeningCards"], ["general", "generalListeningCards"]]) {
     const page = read(`src/app/app/(shell)/listening/${route}/page.tsx`);

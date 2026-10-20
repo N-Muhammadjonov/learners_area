@@ -1,7 +1,7 @@
 "use client";
 
 import { privateResources } from "@/lib/client/private-resource";
-import { Fragment, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useId, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
@@ -57,7 +57,12 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
   const words = useMemo(() => tokens.flatMap((token, index) => token.isWord ? [index] : []), [tokens]);
   const doubleClickLookup = ["reading", "listening", "retention"].includes(sourceType);
   const pendingClick = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => () => { if (pendingClick.current) clearTimeout(pendingClick.current); }, []);
+  const pendingHold = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelHold = () => { if (pendingHold.current) clearTimeout(pendingHold.current); pendingHold.current = null; };
+  useEffect(() => () => {
+    if (pendingClick.current) clearTimeout(pendingClick.current);
+    if (pendingHold.current) clearTimeout(pendingHold.current);
+  }, []);
   const hintId = useId();
   const cursorId = useId();
   const close = (restoreFocus = false) => {
@@ -155,15 +160,33 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
         aria-describedby={lexicalAssistance ? hintId : undefined}
         onPointerDown={(event) => {
           if (pendingClick.current) clearTimeout(pendingClick.current);
+          cancelHold();
           setActive(null);
           gesture.current = { x: event.clientX, y: event.clientY, started: Date.now(), cancelled: event.button !== 0 };
+          const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-token]") : null;
+          if (lexicalAssistance && doubleClickLookup && event.button === 0 && target && wrapperRef.current?.contains(target)) {
+            const index = Number(target.dataset.token);
+            pendingHold.current = setTimeout(() => {
+              pendingHold.current = null;
+              if (gesture.current?.cancelled) return;
+              setSelection(null);
+              window.getSelection()?.removeAllRanges();
+              open(index);
+            }, 3000);
+          }
         }}
         onPointerMove={(event) => {
           const start = gesture.current;
-          if (start && Math.hypot(event.clientX - start.x, event.clientY - start.y) > 8) start.cancelled = true;
+          if (start && Math.hypot(event.clientX - start.x, event.clientY - start.y) > 8) { start.cancelled = true; cancelHold(); }
         }}
-        onPointerCancel={() => { if (gesture.current) gesture.current.cancelled = true; }}
-        onContextMenu={() => { if (gesture.current) gesture.current.cancelled = true; }}
+        onPointerUp={cancelHold}
+        onPointerLeave={cancelHold}
+        onPointerCancel={() => { cancelHold(); if (gesture.current) gesture.current.cancelled = true; }}
+        onContextMenu={(event) => {
+          // A touch word hold belongs to the lookup gesture, not the native menu.
+          // Right clicks and empty space keep their normal browser behaviour.
+          if (pendingHold.current && !gesture.current?.cancelled) event.preventDefault();
+        }}
         onClick={(event) => {
           if (!lexicalAssistance || (doubleClickLookup && event.detail !== 0)) return;
           const start = gesture.current;
@@ -183,6 +206,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
           }
         }}
         onDoubleClick={(event) => {
+          cancelHold();
           if (!lexicalAssistance || !doubleClickLookup || event.button !== 0 || gesture.current?.cancelled) return;
           const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-token]") : null;
           if (target && wrapperRef.current?.contains(target)) {
@@ -221,7 +245,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
           const body = pieces
             ? pieces.map((piece, pieceIndex) =>
                 piece.highlightId ? (
-                  <mark key={pieceIndex} data-highlight-id={piece.highlightId} className="rounded-sm bg-signal-100 text-ink-900">
+                  <mark key={pieceIndex} data-highlight-id={piece.highlightId} className="learner-highlight" style={{backgroundColor:"#ffeb59",color:"#111",borderRadius:0,padding:0}}>
                     {piece.value}
                   </mark>
                 ) : (
@@ -322,45 +346,9 @@ export function WordPopover({
   const [folderId, setFolderId] = useState("");
   const [lookupVersion, setLookupVersion] = useState(0);
   const popupRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState<{ left: number; top: number } | null>(null);
-
-  useLayoutEffect(() => {
-    const popup = popupRef.current;
-    if (!popup) return;
-    const place = () => {
-      const rect = anchor.getBoundingClientRect();
-      const width = document.documentElement.clientWidth;
-      const height = window.innerHeight;
-      const box = popup.getBoundingClientRect();
-      const textBounds = anchor.closest("[data-clickable-text]")?.getBoundingClientRect();
-      // Keep the popup inside its text column when it fits there, so a Reading
-      // lookup does not unnecessarily cover the adjacent answer controls.
-      const rightEdge = textBounds && textBounds.width >= box.width
-        ? Math.min(width - 8, textBounds.right) : width - 8;
-      const below = rect.bottom + 6;
-      const above = rect.top - box.height - 6;
-      const top = above >= 8 ? above : below;
-      setPosition({
-        left: Math.max(8, Math.min(rect.left, rightEdge - box.width)),
-        top: Math.max(8, Math.min(top, height - box.height - 8)),
-      });
-    };
-    place();
-    const observer = new ResizeObserver(place);
-    observer.observe(popup);
-    window.addEventListener("resize", place);
-    window.addEventListener("scroll", place, true);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", place);
-      window.removeEventListener("scroll", place, true);
-    };
-  }, [anchor]);
-
-  const positioned = position !== null;
   useEffect(() => {
-    if (positioned) popupRef.current?.focus({ preventScroll: true });
-  }, [positioned]);
+    popupRef.current?.focus({ preventScroll: true });
+  }, [anchor]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -436,8 +424,7 @@ export function WordPopover({
       role="dialog"
       aria-label={word}
       data-word-popover
-      style={{ left: position?.left ?? 0, top: position?.top ?? 0, visibility: position ? "visible" : "hidden", maxHeight: "calc(100dvh - 16px)" }}
-      className="fixed z-50 w-[min(20rem,calc(100vw-16px))] overflow-y-auto whitespace-normal rounded-md border border-ink-100 bg-paper-raised p-3 shadow-raised"
+      className="dictionary-context-panel fixed w-[min(20rem,calc(100vw-24px))] overflow-y-auto whitespace-normal rounded-md border border-ink-100 bg-paper-raised p-3 shadow-raised"
     >
       <div className="flex items-start justify-between gap-2">
         <span className="font-display text-lg text-ink-900">{word}</span>
@@ -456,7 +443,7 @@ export function WordPopover({
       {!loading && known && (
         <div className="mt-2 flex flex-col gap-1 text-xs">
           <p className="text-ink-700">{known.definitionEn}</p>
-          {known.translationUz && <p className="text-ink-500">{known.translationUz}</p>}
+          {known.translationUz && <><hr className="dictionary-translation-divider" /><p className="text-ink-500">{known.translationUz}</p></>}
           <p className="text-ink-300">
             {t.tab.words} · {t.mastery[known.mastery as keyof typeof t.mastery] ?? known.mastery}
           </p>
@@ -475,8 +462,7 @@ export function WordPopover({
               {contextual.ipa && <span className="ml-1 font-mono" data-word-ipa>/{contextual.ipa}/</span>}
             </p>}
             <p>{contextual.definitionEn}</p>
-            {contextual.translationUz && <p>{contextual.translationUz}</p>}
-            <p className="mt-1 text-xs text-ink-500">{catalogueLookup ? contextual.sourceLabel : contextual.verificationStatus === "verified" ? t.contextVerified : t.contextUnverified}</p>
+            {contextual.translationUz && <><hr className="dictionary-translation-divider" /><p>{contextual.translationUz}</p></>}
           </div> : <>
           <label className="text-xs text-ink-500">
             {t.add.definition}

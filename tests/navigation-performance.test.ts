@@ -142,7 +142,8 @@ test("Listening doorway has no catalogue read; Speaking streams its material cat
   assert.match(listening, /requireActiveUser\(\)/, "module door enforces active identity");
   assert.match(listening, /redirect\("\/app\/listening\/lessons"\)/);
   assert.match(read("src/app/app/(shell)/listening/lessons/page.tsx"), /data-route-usable="listening-lessons"/);
-  assert.match(read("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation module="listening"/);
+  assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
+  assert.doesNotMatch(read("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation/);
   assert.doesNotMatch(listening, /from ["']@\/lib\/data\//, "doorway must not wait on a content catalogue");
   const speaking = read("src/app/app/(shell)/speaking/lessons/page.tsx");
   assert.match(speaking, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\)\]\)/);

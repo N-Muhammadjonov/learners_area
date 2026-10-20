@@ -20,7 +20,7 @@ test("READ-GENERAL Check alone returns authored evidence/explanation; draft pass
   assert.deepEqual(other!.progress.answers,{});
   assert.equal(other!.result,null);
   const [legacy]=await env.query<{id:string}>("insert into reading_attempts(user_id,passage_id) values($1,$2) returning id",[u!.id,p!.id]);
-  assert.equal(await saveGeneralProgress({...input,check:true},env.db),null,'a pre-catalogue standalone live attempt is sealed too');
+  assert.ok((await saveGeneralProgress({...input,check:true},env.db))?.result,'General remains independent of a standalone Academic attempt');
   await env.query("update reading_attempts set status='completed' where id=$1",[legacy!.id]);
   assert.ok((await saveGeneralProgress({...input,check:true},env.db))?.result,'its completed review can Check again');
   await env.query("update reading_passages set publication_state='draft' where id=$1",[p!.id]);
