@@ -16,6 +16,7 @@ export default async function LoginPage() {
   const dict = getDictionary(await getLocale());
   return (
     <AuthShell
+      prominentBrand
       title={dict.auth.loginTitle}
       subtitle={policy.telegramOnly ? dict.auth.continueWithTelegram : dict.auth.loginSubtitle}
       footer={
