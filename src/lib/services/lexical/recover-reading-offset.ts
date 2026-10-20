@@ -5,7 +5,7 @@ const allStarts = (text: string, part: string) => {
   for (let at = text.indexOf(part); at >= 0; at = text.indexOf(part, at + 1)) found.push(at);
   return found;
 };
-const wordChar = /[\p{L}\p{N}'’ʼʻ-]/u;
+const wordChar = /[\p{L}\p{N}'\u2019\u02bc\u02bb-]/u;
 const wholeSurface = (text:string,start:number,end:number) => (!start || !wordChar.test(text[start-1]!)) && (end===text.length || !wordChar.test(text[end]!));
 
 /** Recover a legacy paragraph-relative span only from its unchanged authored
