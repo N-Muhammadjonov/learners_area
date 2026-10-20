@@ -264,10 +264,10 @@ export function ListeningImport({ dict }: { dict: Dictionary }) {
       <p>{t.intro}</p>
 
       <div className="flex flex-wrap gap-2">
-        <a className="btn-secondary" href="/api/admin/content/template?module=listening&contentType=full_test&kind=template">
+        <a download className="btn-secondary" href="/api/admin/content/template?module=listening&contentType=full_test&kind=template">
           {t.downloadTemplate}
         </a>
-        <a className="btn-secondary" href="/api/admin/content/template?module=listening&contentType=full_test&kind=example">
+        <a download className="btn-secondary" href="/api/admin/content/template?module=listening&contentType=full_test&kind=example">
           {t.downloadExample}
         </a>
       </div>

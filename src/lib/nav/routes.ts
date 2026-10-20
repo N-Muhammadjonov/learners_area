@@ -97,6 +97,7 @@ const ENTRIES: Entry[] = [
   // button, and a reader who opens it from a link has no way up.
   { prefix: "/app/admin/materials", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admin.materialsTitle, href: "/app/admin/materials" }] },
   { prefix: "/app/admin/roster", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.reporter.roster.title, href: "/app/admin/roster" }] },
+  { prefix: "/app/admin/statistics", build: (d) => [{label:d.nav.management,href:"/app/management"},{label:d.nav.statistics,href:"/app/admin/statistics"}] },
   { prefix: "/app/admin/people", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.nav.adminUsers, href: "/app/admin/people" }] },
   { prefix: "/app/admin/admissions", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admission.title, href: "/app/admin/admissions" }] },
   { prefix: "/app/admin/content", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.nav.contentLibrary, href: "/app/admin/content" }] },

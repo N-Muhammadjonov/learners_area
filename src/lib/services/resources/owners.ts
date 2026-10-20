@@ -1,4 +1,5 @@
-import { asc, count, desc, eq } from "drizzle-orm";
+import { notDeleted } from "@/lib/content/deletion-filter";
+import { and, asc, count, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
   assignments,
@@ -51,7 +52,7 @@ export async function countResourceOwners(type: ResourceOwnerType): Promise<numb
   const tables = { reading: readingPassages, listening: listeningTests, writing: writingPrompts,
     speaking: speakingMaterials, lesson: lessons, grammar: grammarTopics,
     assignment: assignments, live_class: liveClasses };
-  const [row] = await db.select({ total: count() }).from(tables[type]);
+  const [row] = await db.select({ total: count() }).from(tables[type]).where(notDeleted(tables[type].id));
   return Number(row?.total ?? 0);
 }
 
@@ -81,25 +82,25 @@ export async function loadResourceOwner(
 ): Promise<OwnerFacts | null> {
   switch (type) {
     case "reading": {
-      const row = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, id) });
+      const row = await db.query.readingPassages.findFirst({ where: and(eq(readingPassages.id, id),notDeleted(readingPassages.id)) });
       return row
         ? { id, studentVisible: isLive(row), label: "reading_passage", title: titleOf(row.title, "Reading") }
         : null;
     }
     case "listening": {
-      const row = await db.query.listeningTests.findFirst({ where: eq(listeningTests.id, id) });
+      const row = await db.query.listeningTests.findFirst({ where: and(eq(listeningTests.id, id),notDeleted(listeningTests.id)) });
       return row
         ? { id, studentVisible: isLive(row), creatorId: row.createdByUserId, label: "listening_test", title: titleOf(row.title, "Listening") }
         : null;
     }
     case "writing": {
-      const row = await db.query.writingPrompts.findFirst({ where: eq(writingPrompts.id, id) });
+      const row = await db.query.writingPrompts.findFirst({ where: and(eq(writingPrompts.id, id),notDeleted(writingPrompts.id)) });
       return row
         ? { id, studentVisible: isLive(row), label: "writing_prompt", title: titleOf(row.prompt, "Writing") }
         : null;
     }
     case "speaking": {
-      const row = await db.query.speakingMaterials.findFirst({ where: eq(speakingMaterials.id, id) });
+      const row = await db.query.speakingMaterials.findFirst({ where: and(eq(speakingMaterials.id, id),notDeleted(speakingMaterials.id)) });
       return row
         ? {
             id,
@@ -180,6 +181,7 @@ export async function listResourceOwners(
             publishAt: readingPassages.publishAt,
           })
           .from(readingPassages)
+          .where(notDeleted(readingPassages.id))
           .orderBy(desc(readingPassages.createdAt))
       ).map((row) => ({
         ...shape,
@@ -197,6 +199,7 @@ export async function listResourceOwners(
             publishAt: listeningTests.publishAt,
           })
           .from(listeningTests)
+          .where(notDeleted(listeningTests.id))
           .orderBy(desc(listeningTests.createdAt))
       ).map((row) => ({
         ...shape,
@@ -214,6 +217,7 @@ export async function listResourceOwners(
             publishAt: writingPrompts.publishAt,
           })
           .from(writingPrompts)
+          .where(notDeleted(writingPrompts.id))
           .orderBy(desc(writingPrompts.createdAt))
       ).map((row) => ({
         ...shape,
@@ -232,6 +236,7 @@ export async function listResourceOwners(
             isActive: speakingMaterials.isActive,
           })
           .from(speakingMaterials)
+          .where(notDeleted(speakingMaterials.id))
           .orderBy(desc(speakingMaterials.createdAt))
       ).map((row) => ({
         ...shape,

@@ -147,13 +147,21 @@ export function restoredGeneralCheck(
  * Progress is per passage, independent of Academic attempts over the same text.
  * Only question ids of THIS passage are accepted; grading uses the Academic grader.
  */
-export async function saveGeneralProgress(input: { userId: string; role: Role; passageId: string; answers: Record<string, string>; check: boolean }, executor: typeof db = db) {
+export async function saveGeneralProgress(input: { userId: string; role: Role; passageId: string; answers: Record<string, string>; check: boolean; start?: boolean }, executor: typeof db = db) {
   const membership = await generalMembership(input.passageId, executor);
   if (!membership || (!isLive(membership.set) && !isStaff(input.role))) return null;
   const passage = await executor.query.readingPassages.findFirst({ where: eq(readingPassages.id,input.passageId) });
   if (!passage || (!isLive(passage) && !isStaff(input.role))) return null;
   const questions = await executor.query.readingQuestions.findMany({ where: eq(readingQuestions.passageId, input.passageId) });
   const allowed = new Set(questions.map((question) => question.id));
+  if (input.start) {
+    // Opening a passage marks it started, but can never clear saved answers or
+    // turn a completed Check into a draft (including simultaneous tabs).
+    await executor.insert(generalReadingProgress).values({userId:input.userId,setId:membership.setId,passageId:input.passageId,answers:{}})
+      .onConflictDoNothing({target:[generalReadingProgress.userId,generalReadingProgress.passageId]});
+    const progress=await executor.query.generalReadingProgress.findFirst({where:and(eq(generalReadingProgress.userId,input.userId),eq(generalReadingProgress.passageId,input.passageId))});
+    return {progress:progress!,result:null};
+  }
   const answers = Object.fromEntries(Object.entries(input.answers).filter(([id, value]) => allowed.has(id) && typeof value === "string").map(([id, value]) => [id, value.slice(0, 500)]));
   let result: GeneralCheckRow[] | null = null;
   let score: number | null = null;

@@ -78,7 +78,7 @@ const uz: Dictionary = {
     deleteRecording: "Yozuvni o'chirish",
     "topicUploadHelp": "Barcha savollar va materiallari bitta topic sifatida birga saqlanadi.",
     "archived": "Arxivlangan",
-    "confirmArchive": "Nashrdan olib tashlash",
+    "confirmArchive": "Topicni o‘chirish",
     "archiveHelp": "Shu topicdagi barcha savollar Practice va Partnerdan olib tashlansinmi? Ularni shu yerdan qayta tiklashingiz mumkin.",
     "removeTopic": "Topicni olib tashlash",
     "newTopic": "Yangi topic",
@@ -334,6 +334,11 @@ const uz: Dictionary = {
     auditBody: "Xavfsizlik va boshqaruv jurnali.",
   },
 
+  managementStats: {
+    title:"Statistika", results:"Barcha mashqlar natijalari", history:"Natijalar tarixi", started:"Boshlangan", completed:"Tugallangan", learners:"O'quvchilar", accuracy:"O'rtacha aniqlik", band:"O'rtacha band", rate:"Tugallanish", activity:"So'nggi 14 kun", levels:"Retention darajalari", average:"O'rtacha", best:"Eng yaxshi", empty:"Hali qayd etilgan natija yo'q.", date:"Sana", result:"Natija", state:"Holat", ongoing:"Jarayonda", all:"Barchasi", retention:"Retention natijalari", scope:"Faqat saqlangan haqiqiy natijalar. Band va foiz alohida hisoblanadi.", top:"Eng faol 100 ta o'quvchi", notGraded:"Baholanmagan", source:"Mashq", tracking:"Telegram username bot bilan keyingi aloqada yangilanadi.",
+    modules:{reading:"Reading",listening:"Listening",writing:"Writing",speaking:"Speaking",retention:"Retention",vocabulary:"Lug'at",grammar:"Grammatika",video:"TED / PODCAST",lessons:"Darslar",assignments:"Topshiriqlar",mocks:"Mock testlar"},
+    activities:{patternPractice:"Birikma mashqi",games:"O'yinlar",revision:"Takrorlash",activation:"Activation Lab",academic:"Academic test",general:"General passage",activities:"Listening mashqlari",mcq:"MCQ mastery",essays:"Yozma ish",typing:"Typing",translation:"Tarjima",patterns:"Til birikmalari",speaking:"Speaking",retention:"Retention",grammar:"Grammatika",video:"TED / PODCAST",words:"Saqlangan so'z",practice:"Vocabulary mashqi",lessons:"Dars",assignments:"Topshiriq",mocks:"Mock test"},
+  },
   studentResults: {
     title: "Mock natijalari",
     taken: "Topshirilgan mocklar",
@@ -451,6 +456,7 @@ const uz: Dictionary = {
     bottom: "Yordam",
     management: "Boshqaruv",
     backToLearning: "O'qishga qaytish",
+    statistics: "Statistika",
     people: "Odamlar",
     teaching: "Darslar",
     content: "Kontent",
@@ -2097,6 +2103,7 @@ const uz: Dictionary = {
     noAdmins: "Hozircha administrator hisobi yo'q.",
   },
   people: {
+    activity: "So'nggi faollik", visitTime: "So'nggi tashrif", totalTime: "Jami faol vaqt", notTracked: "Hali qayd etilmagan", presenceNote: "Online: oxirgi 90 soniyadagi faol oyna. Vaqt hisoblagich yoqilganidan boshlab yig'iladi.",
     title: "Odamlar",
     subtitle: "Rollar, kirish holati va to'xtatishlar. Har bir o'zgarish auditga yoziladi.",
     name: "Ism",
@@ -2117,7 +2124,7 @@ const uz: Dictionary = {
     confirmStatusTitle: "Hisob holati o'zgarishini tasdiqlang",
     confirmStatusBody: "Bu hisobning shaxsiy materiallarga kirishini o'zgartiradi. Server vakolatingizni yana tekshiradi.",
     searchLabel: "Odamlarni qidirish",
-    searchPlaceholder: "Ism yoki email",
+    searchPlaceholder: "Ism, @username yoki telefon raqami",
     searchAction: "Qidirish",
     clearFilters: "Filtrlarni tozalash",
     allRoles: "Barcha rollar",
@@ -2209,6 +2216,7 @@ const uz: Dictionary = {
     assignmentInstructions: "Talaba ko'radigan ko'rsatmalar",
   },
   admin: {
+    materialDeletion: { confirm: "Material o‘chirilsinmi? U materiallar va kurs ro‘yxatidan olib tashlanadi. O‘quvchilarning avvalgi natijalari saqlanadi.", failed: "Materialni o‘chirib bo‘lmadi. Qayta urinib ko‘ring." },
     usersTitle: "Foydalanuvchilar",
     changeRole: "Rolni o'zgartirish",
     promptsTitle: "Writing mavzulari",
@@ -2523,6 +2531,7 @@ const uz: Dictionary = {
       unauthenticated: "Davom etish uchun qaytadan kiring.",
     },
     admin: {
+    materialDeletion: { confirm: "Material o‘chirilsinmi? U materiallar va kurs ro‘yxatidan olib tashlanadi. O‘quvchilarning avvalgi natijalari saqlanadi.", failed: "Materialni o‘chirib bo‘lmadi. Qayta urinib ko‘ring." },
       title: "Retention",
       subtitle: "Xotira banki: har daraja uchun 15 ta matn — maqsad, chegara emas.",
       backToReading: "Reading",

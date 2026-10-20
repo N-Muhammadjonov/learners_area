@@ -1,7 +1,7 @@
 "use client";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -14,13 +14,14 @@ import { ConfirmAction, ConfirmSelect } from "@/components/interaction/Interacti
 import { apiErrorMessage } from "@/lib/api-error-message";
 
 function peoplePageHref(
-  filters: { q: string; role?: Role; status?: AccountStatus },
+  filters: { q: string; role?: Role; status?: AccountStatus; online?:boolean },
   page: number,
 ): string {
   const params = new URLSearchParams();
   if (filters.q) params.set("q", filters.q);
   if (filters.role) params.set("role", filters.role);
   if (filters.status) params.set("status", filters.status);
+  if (filters.online) params.set("online","1");
   if (page > 1) params.set("page", String(page));
   const query = params.toString();
   return query ? `/app/admin/people?${query}` : "/app/admin/people";
@@ -42,6 +43,7 @@ export function PeopleTable({
   pageSize,
   total,
   totalPages,
+  onlineCount=0,
   actorId,
   actorRole,
   grantableRoles,
@@ -49,11 +51,12 @@ export function PeopleTable({
   dict: Dictionary;
   locale: Locale;
   people: PersonRow[];
-  filters: { q: string; role?: Role; status?: AccountStatus };
+  filters: { q: string; role?: Role; status?: AccountStatus; online?:boolean };
   page: number;
   pageSize: number;
   total: number;
   totalPages: number;
+  onlineCount?:number;
   actorId: string;
   actorRole: Role;
   grantableRoles: Role[];
@@ -62,6 +65,14 @@ export function PeopleTable({
 
   const t = dict.people;
   const router = useRouter();
+  useEffect(()=>{const timer=setInterval(()=>{if(document.visibilityState==="visible")router.refresh();},30_000);return()=>clearInterval(timer);},[router]);
+  const visibleIds=people.map(p=>p.id).join(",");
+  useEffect(()=>{
+    if(!visibleIds)return;
+    const controller=new AbortController();
+    const refresh=async()=>{if(document.visibilityState!=="visible")return;try{const response=await fetch("/api/admin/people/refresh-telegram",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids:visibleIds.split(",")}),signal:controller.signal,cache:"no-store"});if(response.ok&&(await response.json()).changed)router.refresh();}catch{/* bot updates remain the fallback */}};
+    void refresh();const timer=setInterval(()=>void refresh(),60_000);return()=>{controller.abort();clearInterval(timer);};
+  },[visibleIds,router]);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pendingStatusId, setPendingStatusId] = useState<string | null>(null);
@@ -125,7 +136,9 @@ export function PeopleTable({
     <div className="flex flex-col gap-3">
       {error && <p className="text-xs text-band-bad">{error}</p>}
 
+      <div className="flex flex-wrap items-center gap-3"><Link href={peoplePageHref({...filters,status:undefined,online:!filters.online},1)} className={filters.online?"btn-primary":"btn-secondary"} data-people-online aria-current={filters.online?"page":undefined}>Online · {onlineCount}</Link><span className="text-xs">{t.presenceNote}</span></div>
       <form action="/app/admin/people" method="get" className="panel flex flex-wrap items-end gap-3" data-people-search-form>
+        {filters.online&&<input type="hidden" name="online" value="1"/>}
         <div className="min-w-[min(100%,16rem)] flex-1">
           <Label htmlFor="people-search">{t.searchLabel}</Label>
           <input
@@ -172,7 +185,7 @@ export function PeopleTable({
               <th className="py-2 pr-3">{t.name}</th>
               <th className="py-2 pr-3">{t.role}</th>
               <th className="py-2 pr-3">{t.status}</th>
-              <th className="py-2 pr-3">{t.created}</th>
+              <th className="py-2 pr-3">{t.activity}</th>
               <th className="py-2">{t.actions}</th>
             </tr>
           </thead>
@@ -192,12 +205,13 @@ export function PeopleTable({
                 data-person-status={person.accountStatus}
               >
                 <td className="py-2 pr-3">
-                  {person.role === "student" ? <Link href={`/app/admin/people/${person.id}`} className="font-medium text-signal-600 underline underline-offset-4">{person.name}</Link> : <span className="font-medium text-ink-900">{person.name}</span>}
+                  <Link href={`/app/admin/people/${person.id}`} className="font-medium" data-people-name>{person.name}</Link>
                   {person.id === actorId && (
                     <span className="ml-2 badge bg-signal-100 text-signal-700">{t.you}</span>
                   )}
                   <span className="block text-xs text-ink-300">
-                    {person.email ?? (person.telegramLinked ? "Telegram" : "—")}
+                    {person.username?`@${person.username}`:person.email??"—"}
+                    {person.phoneNumber&&<span className="block" dir="ltr">{person.phoneNumber}</span>}
                   </span>
                 </td>
                 <td className="py-2 pr-3">
@@ -219,7 +233,7 @@ export function PeopleTable({
                   )}
                 </td>
                 <td className="py-2 pr-3 text-xs text-ink-500">
-                  {person.createdAt.toISOString().slice(0, 10)}
+                  <Presence person={person} dict={dict} locale={locale}/>
                 </td>
                 <td className="py-2">
                   <StatusControl
@@ -253,13 +267,14 @@ export function PeopleTable({
           >
             <div>
               <p className="text-sm font-medium text-ink-900">
-                {person.role === "student" ? <Link href={`/app/admin/people/${person.id}`} className="text-signal-600 underline underline-offset-4">{person.name}</Link> : person.name}
+                <Link href={`/app/admin/people/${person.id}`} data-people-name>{person.name}</Link>
                 {person.id === actorId && (
                   <span className="ml-2 badge bg-signal-100 text-signal-700">{t.you}</span>
                 )}
               </p>
               <p className="text-xs text-ink-300">
-                {person.email ?? (person.telegramLinked ? "Telegram" : "—")}
+                {person.username?`@${person.username}`:person.email??"—"}
+                    {person.phoneNumber&&<span className="block" dir="ltr">{person.phoneNumber}</span>}
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -275,6 +290,7 @@ export function PeopleTable({
               />
               <StatusBadge status={person.accountStatus} locale={locale} />
             </div>
+            <Presence person={person} dict={dict} locale={locale}/>
             <StatusControl
               person={person}
               actorId={actorId}
@@ -451,4 +467,10 @@ function StatusControl({
       {t.suspend}
     </button>
   );
+}
+
+function Presence({person,dict,locale}:{person:PersonRow;dict:Dictionary;locale:Locale}) {
+  const duration=(seconds:number|null|undefined)=>seconds==null?"—":`${Math.floor(seconds/3600)}${locale==="uz"?" soat":"h"} ${Math.floor(seconds%3600/60)}${locale==="uz"?" daq.":"m"}`;
+  const at=person.seenAt?new Date(person.seenAt):null;
+  return <div data-person-presence className="space-y-1 text-xs"><p>{person.online?"● Online":at?at.toLocaleString(locale==="uz"?"uz-UZ":"en-GB",{timeZone:"Asia/Tashkent",dateStyle:"short",timeStyle:"short"}):dict.people.notTracked}</p><p>{dict.people.visitTime}: {duration(person.visitSeconds)}</p><p>{dict.people.totalTime}: {duration(person.totalSeconds)}</p></div>;
 }

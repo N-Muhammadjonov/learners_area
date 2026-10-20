@@ -45,16 +45,12 @@ test("owner's real Test 1 converts to 4-part 40-question native Listening data w
   }
 });
 
-test("admin DELETE genuinely removes unused Listening tests; never destroys attempt or MCQ history", () => {
-  const api = read("src/app/api/admin/listening/tests/[id]/route.ts");
-  const admin = read("src/lib/data/full-listening.ts");
-  assert.match(api, /await requireAdministrator\(\)/);
-  assert.match(api, /eq\(listeningAttempts\.testId, id\)/);
-  assert.match(api, /eq\(listeningActivityRuns\.testId, id\)/);
-  assert.match(api, /eq\(listeningMcqSessions\.testId, id\)/);
-  assert.match(api, /has_learner_history/);
-  assert.match(api, /await tx\.delete\(listeningTests\)/);
-  assert.match(admin, /where\(management \? sql`true` : liveWhere\(listeningTests\)\)/);
+test("admin deletion removes Listening from management without cascading learner history", () => {
+  const api=read("src/app/api/admin/listening/tests/[id]/route.ts");
+  assert.match(api,/await requireAdministrator\(\)/);
+  assert.match(api,/deleteMaterial\(actorOf\(admin\),"listening",id\)/);
+  assert.doesNotMatch(api,/tx\.delete\(listening(Attempts|ActivityRuns|McqSessions)\)/);
+  assert.match(read("src/lib/data/full-listening.ts"),/notDeleted\(listeningTests.id\)/);
 });
 
 test("main, authenticated and login Learners Area wordmarks open the requested Telegram channel", () => {

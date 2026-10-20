@@ -3,6 +3,7 @@
 import { ReadingEvidence } from "@/components/reading/ReadingEvidence";
 import { ReadingWorkspace, focusReadingQuestion } from "@/components/reading/ReadingWorkspace";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ReadingHighlightedText, useReadingHighlights } from "@/components/reading/ReadingHighlights";
 import { GroupHeading, GroupQuestions, QuestionCard, type ExamGroup, type ExamQuestion } from "@/components/reading/ReadingExam";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
@@ -42,6 +43,16 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
   mode: "full" | 1 | 2 | 3;
 }) {
   const studyPassages = passages.filter(p => p.passageNo === (mode === "full" ? passages[0]?.passageNo : mode)).slice(0,1);
+  const router=useRouter();
+  const openedPassageId=studyPassages[0]?.passageId;
+  const hasSavedProgress=!!openedPassageId&&Object.hasOwn(initialProgress,openedPassageId);
+  useEffect(()=>{
+    if(!openedPassageId||hasSavedProgress)return;
+    let current=true;
+    void requestJson("/api/reading/general/progress",{method:"POST",body:{passageId:openedPassageId,answers:{},check:false,start:true}})
+      .then(result=>{if(current&&result.ok)router.refresh();});
+    return()=>{current=false;};
+  },[openedPassageId,hasSavedProgress,router]);
   const [elapsed, setElapsed] = useState(0);
   useEffect(() => { const started=Date.now();setElapsed(0);const timer=setInterval(()=>setElapsed(Math.floor((Date.now()-started)/1000)),1000);return()=>clearInterval(timer); },[setId,mode]);
   const t = dict.generalReading;
@@ -61,7 +72,19 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
   const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   const revisions=useRef<Record<string,number>>({});
   const queues=useRef<Record<string,Promise<void>>>({});
-  useEffect(() => () => Object.values(timers.current).forEach(clearTimeout), []);
+  const pendingAnswers=useRef<Record<string,Record<string,string>>>({});
+  useEffect(() => {
+    const flush=()=>{
+      Object.values(timers.current).forEach(clearTimeout);
+      for(const [passageId,draft] of Object.entries(pendingAnswers.current)) {
+        delete pendingAnswers.current[passageId];
+        void fetch("/api/reading/general/progress",{method:"POST",headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({passageId,answers:draft,check:false}),keepalive:true}).catch(()=>{});
+      }
+    };
+    window.addEventListener("pagehide",flush);
+    return()=>{window.removeEventListener("pagehide",flush);flush();};
+  },[]);
 
   useEffect(() => { document.getElementById("reading-passage-pane")?.scrollTo?.({top:0}); },[active]);
   useEffect(() => { if(pendingQuestion){focusReadingQuestion(pendingQuestion);setPendingQuestion(null);} },[active,pendingQuestion]);
@@ -69,6 +92,8 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
   if (!passage) return null;
 
   async function persist(passageId: string, nextAnswers: Record<string, string>, check: boolean) {
+    clearTimeout(timers.current[passageId]);
+    delete pendingAnswers.current[passageId];
     const revision=revisions.current[passageId]??0;
     const previous=queues.current[passageId]??Promise.resolve();
     let release!:()=>void;
@@ -88,6 +113,7 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
     setErrors((e) => ({ ...e, [passageId]: null }));
     setStatus((s) => ({ ...s, [passageId]: "saved" }));
     if (check && result.data.result) setChecks((c) => ({ ...c, [passageId]: { rows: result.data.result!, score: result.data.score, total: result.data.total } }));
+    if(check)router.refresh();
     } finally {release();}
   }
 
@@ -96,6 +122,7 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
     setChecks(c=>{const next={...c};delete next[passageId];return next;});
     const next = { ...(answers[passageId] ?? {}), [questionId]: value };
     setAnswers((a) => ({ ...a, [passageId]: next }));
+    pendingAnswers.current[passageId]=next;
     clearTimeout(timers.current[passageId]);
     // Debounced autosave per passage: progress of each passage is independent.
     timers.current[passageId] = setTimeout(() => void persist(passageId, next, false), 700);

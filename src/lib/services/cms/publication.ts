@@ -1,4 +1,5 @@
-import { and, eq, lte, or, type AnyColumn, type SQL } from "drizzle-orm";
+import { notDeleted } from "@/lib/content/deletion-filter";
+import { and, eq, lte, or, getTableColumns, type AnyColumn, type SQL } from "drizzle-orm";
 
 /**
  * Publication state — the ONE place that decides whether authored content is
@@ -113,8 +114,8 @@ export function liveWhere(
   columns: { publicationState: AnyColumn; publishAt: AnyColumn },
   now: Date = new Date(),
 ): SQL {
-  return or(
+  return and(notDeleted(getTableColumns(columns.publicationState.table).id!), or(
     eq(columns.publicationState, "published"),
     and(eq(columns.publicationState, "scheduled"), lte(columns.publishAt, now)),
-  ) as SQL;
+  )) as SQL;
 }

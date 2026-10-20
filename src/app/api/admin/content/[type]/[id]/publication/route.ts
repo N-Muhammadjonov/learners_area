@@ -1,3 +1,4 @@
+import { materialDeleted } from "@/lib/content/delete-material";
 import { listeningSchemaReady } from "@/lib/data/listening-schema-ready";
 import { listeningPackages } from "@/db/schema";
 import { publicationBlockers, publicationIssues } from "@/lib/listening/package";
@@ -123,6 +124,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ typ
   const contentType = CONTENT_TYPES[type as ContentType];
   if (!contentType && !WRITING_TYPES[type]) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
+  if (await materialDeleted(id)) return NextResponse.json({error:"not_found"},{status:404});
   const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "invalid_input" }, { status: 400 });

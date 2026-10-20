@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdministrator, requireActiveUser } from "@/lib/auth/current-user";
+import { actorOf, requireAdministrator, requireActiveUser } from "@/lib/auth/current-user";
 import { speakingTopicDraft, speakingTopicIdentity } from "@/lib/speaking/topic-draft";
 import { manageSpeakingTopic, SpeakingTopicConflict } from "@/lib/speaking/manage-topic";
 export async function POST(req: NextRequest) {
@@ -15,6 +15,8 @@ export async function DELETE(req: NextRequest) {
   if (!await requireAdministrator()) return NextResponse.json({error:"forbidden"},{status:403});
   const parsed = speakingTopicIdentity.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({error:"invalid_input"},{status:400});
-  try { await manageSpeakingTopic({archive:parsed.data}); return NextResponse.json({ok:true}); }
+  const administrator=await requireAdministrator();
+  if(!administrator)return NextResponse.json({error:"forbidden"},{status:403});
+  try { await manageSpeakingTopic({archive:parsed.data,actor:actorOf(administrator)}); return NextResponse.json({ok:true}); }
   catch (e) { if (e instanceof SpeakingTopicConflict) return NextResponse.json({error:"topic_conflict"},{status:409}); throw e; }
 }

@@ -1,3 +1,4 @@
+import { DeleteMaterialButton } from "@/components/admin/DeleteMaterialButton";
 import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -54,6 +55,7 @@ export default async function AdminMaterialsEditorPage({
         <p className="body-text mt-2">{dict.admin.materialsHint}</p>
       </div>
 
+      {["reading","listening","writing","speaking"].includes(type)&&<DeleteMaterialButton type={type} id={id} dict={dict} backTo={`/app/admin/materials/${type}`} />}
       <ResourceComposer dict={dict} ownerType={type} ownerId={id} initial={blocks} />
     </div>
   );

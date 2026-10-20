@@ -18,7 +18,7 @@ import { isUuid } from "@/lib/validation/ids";
 import { liveWhere } from "@/lib/services/cms/publication";
 import { activationOverview } from "@/lib/services/writing/activation";
 
-export default async function StudentDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function StudentDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams:Promise<{module?:string;page?:string}> }) {
   const { id } = await params;
   const user = await requireStaff();
   if (!user) redirect("/app");
@@ -70,7 +70,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
         />
       </div>
 
-      <StudentResults studentId={id} dict={dict} />
+      <StudentResults studentId={id} dict={dict} filter={await searchParams} baseHref={`/app/teacher/students/${id}`} />
 
       {/* Mentor visibility (§43/W5): read-only Activation Lab summary from the student's stored check events. */}
       <Card className="flex flex-col gap-2" data-teacher-activation>

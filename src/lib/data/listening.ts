@@ -1,3 +1,4 @@
+import { notDeleted } from "@/lib/content/deletion-filter";
 import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
@@ -265,5 +266,5 @@ async function legacyListeningQuery(userId:string,management:boolean,database:ty
   collection:collectionTabSql({testId,payload:sql`null::jsonb`,payloadIsNull:sql`true`,inProgramme:inProgrammeSql(sql`(select t.program_ref from listening_tests t where t.id=${testId})`)}),
   questions:sql<number>`(select count(*)::int from listening_questions q where q.test_id=${testId})`,
   legacy:sql<boolean>`true`,
- }).from(listeningTests).where(and(management?sql`${listeningTests.publicationState} <> 'archived'`:liveWhere(listeningTests),ready?sql`not exists(select 1 from listening_packages p where p.test_id=${testId})`:undefined)).orderBy(asc(listeningTests.createdAt),asc(listeningTests.id)).limit(LEGACY_LISTENING_PAGE_SIZE+1).offset((page-1)*LEGACY_LISTENING_PAGE_SIZE);
+ }).from(listeningTests).where(and(notDeleted(listeningTests.id),management?sql`${listeningTests.publicationState} <> 'archived'`:liveWhere(listeningTests),ready?sql`not exists(select 1 from listening_packages p where p.test_id=${testId})`:undefined)).orderBy(asc(listeningTests.createdAt),asc(listeningTests.id)).limit(LEGACY_LISTENING_PAGE_SIZE+1).offset((page-1)*LEGACY_LISTENING_PAGE_SIZE);
 }

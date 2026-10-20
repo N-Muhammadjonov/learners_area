@@ -57,9 +57,6 @@ export default async function ListeningMcqPage({
           {days.map((card) => (
             <section key={card.testId} className="card flex flex-col gap-3 p-5" data-listening-mcq-card={card.day}>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="chip" data-listening-mcq-card-day>
-                  {t.dayLabel.replace("{n}", String(card.day))}
-                </span>
                 <span className="text-xs text-ink-300" data-listening-mcq-card-questions>
                   {t.questions.replace("{n}", String(card.questionCount))}
                 </span>

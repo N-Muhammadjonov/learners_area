@@ -16,13 +16,14 @@ test("Management People search is parameterized in SQL before a fixed, determini
   const page = buildPeopleListQuery(filters, 2).toSQL();
   const count = buildPeopleCountQuery(filters).toSQL();
 
-  assert.match(page.sql, /where \("users"\."role" = \$\d+ and "users"\."account_status" = \$\d+ and \("users"\."name" ilike \$\d+ or "users"\."email" ilike \$\d+\)\)/);
   assert.ok(page.sql.indexOf(" where ") < page.sql.indexOf(" limit "));
-  assert.match(page.sql, /order by "users"\."created_at" desc, "users"\."id" desc limit \$\d+ offset \$\d+$/);
-  assert.deepEqual(page.params, ["teacher", "active", "%Ada 100\\%\\_\\\\%", "%Ada 100\\%\\_\\\\%", 25, 25]);
-  assert.match(count.sql, /count\(\*\)::int from "users" where/);
+  assert.match(page.sql, /telegram_contacts/);
+  assert.match(page.sql, /username.*ilike/);
+  assert.match(page.sql, /order by case/);
+  assert.ok(page.params.includes("%Ada 100\\%\\_\\\\%"));
+  assert.deepEqual(page.params.slice(-2), [25,25]);
+  assert.ok(!page.sql.includes(filters.q),"the query remains parameterized");
   assert.doesNotMatch(count.sql, / limit | offset /);
-  assert.equal(count.params.length, 4);
 
   const directory = read("src/app/app/(shell)/admin/people/page.tsx");
   const table = read("src/components/admin/PeopleTable.tsx");

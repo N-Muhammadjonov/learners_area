@@ -13,6 +13,7 @@ const schema = z.object({
   passageId: z.string().uuid(),
   answers: z.record(z.string().uuid(), z.string().max(500)).refine((value) => Object.keys(value).length <= 60),
   check: z.boolean().default(false),
+  start: z.boolean().optional(),
 });
 
 export async function POST(req: NextRequest) {

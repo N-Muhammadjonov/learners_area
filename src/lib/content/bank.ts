@@ -1,3 +1,4 @@
+import { notDeleted } from "@/lib/content/deletion-filter";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { moduleDescriptor, PUBLICATION_STATES, type PublicationState } from "@/lib/content/taxonomy";
@@ -112,7 +113,7 @@ export async function searchContentBank(
   const limit = Math.min(Math.max(filter.limit ?? DEFAULT_LIMIT, 1), MAX_LIMIT);
   const offset = Math.max(filter.offset ?? 0, 0);
 
-  const where: ReturnType<typeof sql>[] = [sql`true`];
+  const where: ReturnType<typeof sql>[] = [notDeleted(sql`cv.id`)];
   if (filter.module) where.push(sql`cv.module = ${filter.module}`);
   if (filter.contentType) where.push(sql`cv.content_type = ${filter.contentType}`);
   if (filter.track) where.push(sql`cv.track = ${filter.track}`);
