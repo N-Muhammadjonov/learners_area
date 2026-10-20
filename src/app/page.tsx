@@ -45,8 +45,10 @@ export default async function Home() {
     <DesktopIntro destination={destination}>
     <div
       data-theme="night"
-      className="la-welcome flex min-h-dvh flex-col bg-paper text-ink-900"
+      className="la-welcome flex min-h-dvh flex-col text-ink-900"
       style={{
+        backgroundColor: "#0a1a39",
+        colorScheme: "dark",
         paddingLeft: "env(safe-area-inset-left)",
         paddingRight: "env(safe-area-inset-right)",
       }}

@@ -50,6 +50,7 @@ export async function AuthShell({
           aria-label={dict.shell.telegramBrand}
           className={`mx-auto mb-6 flex w-fit max-w-full items-center justify-center rounded-sm px-2 py-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-600 ${styles.brandMotion} ${prominentBrand ? styles.loginBrand : ""}`}
           data-auth-brand
+          data-login-brand={prominentBrand ? "" : undefined}
         >
           <BrandBlock
             size={prominentBrand ? 60 : 44}
