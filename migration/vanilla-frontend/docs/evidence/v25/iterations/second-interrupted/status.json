@@ -1,0 +1,8 @@
+{
+  "interrupted": true,
+  "fullSuiteCompleted": false,
+  "observedPASS": 260,
+  "observedFAIL": 143,
+  "reason": "Deliberately stopped to preserve original playing trainer after all authorized non-clip actions, not Check only. No full-source/Chromium PASS claim.",
+  "interruptionArtifact": "Last explicit pre-stop log check showed257PASS/noFAIL. SIGTERM/browser shutdown produced143 subsequent target/page/context/browser-closed errors in raw partial output. These are interruption artifacts, not a completed regression result; no full PASS claimed."
+}

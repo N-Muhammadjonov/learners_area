@@ -1,0 +1,12 @@
+{
+  "sourceCommit": "3230f6018084c5d5277b113e7861dc4d09ea74c9",
+  "sealCommit": "f5ee0921073028c6cbd8b6e05820b5bda67ffbb7",
+  "archive": {
+    "name": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V25.zip",
+    "bytes": 44164585,
+    "sha256": "30f1874ca47c3c7108af8780dbc1deea54bf9b64e46a84eb59425e965c6fede4"
+  },
+  "sourceGitMembers": 1382,
+  "generatedSealGitMembers": 2,
+  "CRC": "PASS"
+}

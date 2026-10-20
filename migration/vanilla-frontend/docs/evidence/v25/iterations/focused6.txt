@@ -1,0 +1,172 @@
+PASS V25 fresh pre-reveal check held authority same without focus/storage hint
+PASS V25 fresh pre-reveal check held authority replaced without focus/storage hint
+PASS V25 fresh pre-reveal retry held authority same without focus/storage hint
+PASS V25 fresh pre-reveal retry held authority replaced without focus/storage hint
+PASS V25 fresh pre-reveal evidence held authority same without focus/storage hint
+PASS V25 fresh pre-reveal evidence held authority replaced without focus/storage hint
+PASS V25 fresh pre-reveal transcript held authority same without focus/storage hint
+PASS V25 fresh pre-reveal transcript held authority replaced without focus/storage hint
+PASS V25 Check rejects fresh expired authority before original feedback
+PASS V25 Check rejects fresh revoked authority before original feedback
+PASS V25 Check rejects fresh unavailable authority before original feedback
+PASS V25 rapid repeated check coalesces one source action and fresh validation
+PASS V25 rapid repeated retry coalesces one source action and fresh validation
+PASS V25 source replacement while Check validation held cancels old action and late denial
+PASS V25 history replacement while Check validation held cancels old action and late denial
+PASS V25 pending valid writer survives transient action authorization; uncertain failure never auto-replays
+PASS V25 unhinted another-tab retake during held POST cannot reveal evidence or clear original bytes
+PASS V25 transient metadata failure conceals Review without aborting an existing valid POST
+PASS V25 valid non-clip protected actions preserve playing trainer identity and denied attempt never resumes it
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 1440/en/day
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 1440/en/night
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 1440/uz/day
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 1440/uz/night
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 768/en/day
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 768/en/night
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 768/uz/day
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 768/uz/night
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 390/en/day
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 390/en/night
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 390/uz/day
+PASS V25 original controls long-response Check Retry transcript keyboard geometry 390/uz/night
+PASS V25 six repeated enter Check transcript Retry source exit cycles release route resources
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 32,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V25 fresh pre-reveal check held authority same without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal check held authority replaced without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal retry held authority same without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal retry held authority replaced without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal evidence held authority same without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal evidence held authority replaced without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal transcript held authority same without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 fresh pre-reveal transcript held authority replaced without focus/storage hint",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 Check rejects fresh expired authority before original feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 Check rejects fresh revoked authority before original feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 Check rejects fresh unavailable authority before original feedback",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 rapid repeated check coalesces one source action and fresh validation",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 rapid repeated retry coalesces one source action and fresh validation",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 source replacement while Check validation held cancels old action and late denial",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 history replacement while Check validation held cancels old action and late denial",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 pending valid writer survives transient action authorization; uncertain failure never auto-replays",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 unhinted another-tab retake during held POST cannot reveal evidence or clear original bytes",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 transient metadata failure conceals Review without aborting an existing valid POST",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 valid non-clip protected actions preserve playing trainer identity and denied attempt never resumes it",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 original controls long-response Check Retry transcript keyboard geometry 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V25 six repeated enter Check transcript Retry source exit cycles release route resources",
+      "status": "PASS"
+    }
+  ]
+}
