@@ -3,9 +3,11 @@ import {resource} from '../../../js/adapters/listening-v7.js';
  * Replaying evicted, previously delivered byte ranges is permitted; arbitrary
  * not-yet-delivered offsets still are NOT a random-seek protocol. */
 export class RangeMedia {
- constructor(items,emit,{fetch:read=globalThis.fetch.bind(globalThis),signal,onError=()=>{},onUnauthorized=()=>{},chunkSize=262144,maxCacheBytes=8*1024*1024,readTimeout=15000}={}){
+ constructor(items,emit,{fetch:read=globalThis.fetch.bind(globalThis),signal,onError=()=>{},onUnauthorized=()=>{},chunkSize=262144,maxCacheBytes=8*1024*1024,readTimeout=15000,cached}={}){
   if(!items.every(i=>resource(i.url))||!Number.isSafeInteger(chunkSize)||chunkSize<1||chunkSize>262144||!Number.isSafeInteger(maxCacheBytes)||maxCacheBytes<chunkSize||!Number.isFinite(readTimeout)||readTimeout<=0)throw Error('Invalid resource');
   Object.assign(this,{items,emit,read,onError,onUnauthorized,chunkSize,maxCacheBytes,readTimeout});this.abort=new AbortController();this.signal=AbortSignal.any([this.abort.signal,...(signal?[signal]:[])]);this.states=new Map();this.lru=new Map();this.cacheBytes=0;this.reading=0;this.waiters=[];
+  if(cached&&JSON.stringify(cached.items)===JSON.stringify(items))for(const {meta,packet} of cached.entries){let state=this.states.get(packet.id);if(!state){state={...meta,cache:new Map(),pending:new Map()};this.states.set(packet.id,state);}this.remember(state,packet);}
+
  }
  async slot(signal){
   if(signal.aborted)throw signal.reason;
@@ -51,5 +53,6 @@ export class RangeMedia {
   })();s.pending.set(offset,work);return work;
  }
  prepare(){if(this.items[0])void this.pull(this.items[0].id);}
+ cachedRanges(){return {items:this.items,entries:[...this.lru.values()].map(({s,packet})=>({meta:{offset:s.offset,highWater:s.highWater,total:s.total,mime:s.mime,etag:s.etag},packet}))};}
  dispose(){this.abort.abort();this.states.clear();this.lru.clear();this.cacheBytes=0;}
 }
