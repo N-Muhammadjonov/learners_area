@@ -60,7 +60,7 @@ test("Writing, Speaking, Video and Vocabulary show section identity without repe
   assert.match(video, /<VideoLessonsContent/);
   const vocabulary = read("src/components/vocabulary/VocabStudio.tsx");
   assert.doesNotMatch(vocabulary, /<h1/, "Vocabulary section identity moved into the blue fixed header at the owner's request");
-  assert.match(read("src/components/shell/ModuleContextHeading.tsx"), /<ModuleHeaderTitle dict=\{dict\}/);
+  assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderTitle dict=\{dict\}/);
   assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
   assert.doesNotMatch(vocabulary, /<h1[^>]*>\{t.title\}/);
 });

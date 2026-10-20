@@ -14,7 +14,7 @@ const { createRoot } = await import("react-dom/client");
 const { RouterContext } = await import("next/dist/shared/lib/router-context.shared-runtime");
 const { AppRouterContext } = await import("next/dist/shared/lib/app-router-context.shared-runtime");
 const { PathnameContext, SearchParamsContext } = await import("next/dist/shared/lib/hooks-client-context.shared-runtime");
-const { ModuleHeaderNavigation } = await import("../../src/components/shell/ModuleHeaderSections");
+const { ModuleHeaderNavigation, ModuleHeaderTitle } = await import("../../src/components/shell/ModuleHeaderSections");
 const { ModuleContextHeading } = await import("../../src/components/shell/ModuleContextHeading");
 const dict = (await import("../../src/lib/i18n/en")).default;
 
@@ -24,7 +24,8 @@ function element(path: string, query: string, push: (url: string) => void) {
     React.createElement(PathnameContext.Provider, { value: path },
       React.createElement(SearchParamsContext.Provider, { value: new URLSearchParams(query) },
         React.createElement("header", { "data-shell-topbar": true },
-          React.createElement(ModuleContextHeading, { dict }),
+          React.createElement("div", {"data-module-header-controls":true}, React.createElement(ModuleContextHeading, { dict })),
+          React.createElement(ModuleHeaderTitle, { dict }),
           React.createElement(ModuleHeaderNavigation, { dict }))))));
 }
 
@@ -95,8 +96,8 @@ test("Reading, Listening, Grammar and all Writing tools keep section identity an
       ["/app/reading/lessons","",dict.readingV4.products.lessons.title],
       ["/app/reading/academic","",dict.readingV4.products.academic.title],
       ["/app/reading/general","",dict.generalReading.title],
-      ["/app/reading/question-types","",dict.readingV4.products["question-types"].title],
       ["/app/reading/retention","",dict.readingV4.products.retention.title],
+      ["/app/video-lessons","",dict.videoLessons.standaloneHeading],
       ["/app/listening/tests","",dict.listening.academic.title],
       ["/app/grammar/lessons","",dict.grammar.lessonsTitle],
       ["/app/grammar","tab=writing",dict.grammar.forWriting],
@@ -105,7 +106,13 @@ test("Reading, Listening, Grammar and all Writing tools keep section identity an
     ]) {
       await act(async()=>root.render(element(path!,query!,()=>{})));
       assert.equal(document.querySelector('[data-shell-topbar] h1')?.textContent,title,path+"?"+query);
-      assert.ok(document.querySelector('[data-shell-topbar] [data-module-header-navigation]'));
+      assert.ok(document.querySelector('[data-shell-topbar] h1')?.classList.contains('text-2xl'), "section title uses the large Listening scale");
+      assert.equal(document.querySelector("[data-module-header-controls] h1"),null,"large title has its own row below the menu/module controls");
+      if(path!=="/app/video-lessons") assert.ok(document.querySelector('[data-shell-topbar] [data-module-header-navigation]'));
+      if(path!.startsWith("/app/reading/")) {
+        assert.equal(document.querySelectorAll('[data-module-header-navigation="reading"] a').length,4);
+        assert.equal(document.querySelector('a[href="/app/reading/question-types"]'),null);
+      }
       if(path==="/app/writing") assert.equal(document.querySelector('[role="tab"][aria-selected="true"]')?.textContent,title);
     }
   } finally {await act(async()=>root.unmount());}

@@ -74,9 +74,12 @@
     "uiImages": [
       "dictionary-blue-header-20261020.png",
       "dictionary-context-corner-20261020.png",
-      "reading-blue-header-20261020.png"
+      "reading-blue-header-20261020.png",
+      "reading-general-type-filter-20261020.png",
+      "reading-header-phone-20261020.png"
     ],
-    "contextReceipt": "dictionary-context-native-20261020.json"
+    "contextReceipt": "dictionary-context-native-20261020.json",
+    "generalReadingHeaderReceipt": "reading-general-filter-header-20261020.json"
   },
   "occurrenceCorrectionsSha": "058c85984e1c7381b0ee51d185771fab9e35e416fee93159d7b87d7075d9bd88",
   "courseOffsetRecovery": {
@@ -84,5 +87,11 @@
     "passages": 104,
     "ambiguousOrAbsentSourceSpansUnchanged": 102,
     "changesSenseOrLearnerData": false
-  }
+  },
+  "learnerUiChanges": [
+    "four Reading sections; question-type practice inside General Reading",
+    "canonical type facets count distinct published passages",
+    "large section headings below module label; mobile/tablet shares day/night row; desktop keeps full title row; Speaking excluded",
+    "topic/type dropdowns layer above passage cards"
+  ]
 }

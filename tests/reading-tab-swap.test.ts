@@ -10,8 +10,8 @@ const read=(file:string)=>readFileSync(file,"utf8");
 const root=read("src/app/app/(shell)/reading/page.tsx");
 const general=read("src/app/app/(shell)/reading/general/page.tsx");
 const library=read("src/components/reading/ReadingLearningLibrary.tsx");
-test("R1 V4 replaces mixed tabs with exactly five products; History is secondary",()=>{
- assert.deepEqual(READING_DESTINATIONS,["lessons","academic","general","question-types","retention"]);
+test("R1 V4 replaces mixed tabs with exactly four sections; History is secondary",()=>{
+ assert.deepEqual(READING_DESTINATIONS,["lessons","academic","general","retention"]);
  assert.match(read("src/lib/nav/module-sections.ts"),/READING_DESTINATIONS.map/);
  assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
   assert.doesNotMatch(read("src/app/app/(shell)/reading/layout.tsx"), /<ModuleNavigation/);
@@ -31,7 +31,7 @@ test("R3 Academic discovers genuine formal sets, not standalone passages or lear
  assert.match(academic,/academic: true/);assert.match(academic,/data-academic-set/);
  assert.doesNotMatch(academic,/ReadingFiltersRegion|listLibrary|StartPassageButton/);
 });
-test("R4 both locales name all five products distinctly",()=>{
+test("R4 both locales name all four sections distinctly",()=>{
  for(const d of [en,uz]){
   assert.equal(d.readingV4.products.academic.title,"Academic Reading");
   assert.equal(d.readingV4.products.general.title,"General Reading");
@@ -44,6 +44,11 @@ test("R5 actual old semantics remain compatible, including raw-type filter bookm
  assert.equal(readingLegacyDestination({tab:"general"}),"/app/reading");
  assert.equal(readingLegacyDestination({q:"climate",type:"MH",page:"2"}),"/app/reading/general?q=climate&type=MH&page=2");
  assert.equal(readingLegacyDestination({}),null);
+ assert.equal(readingLegacyDestination({tab:"types",type:"MH",topic:"science",status:"passage2",q:"climate",page:"2"}),"/app/reading/general?q=climate&topic=science&type=MH&status=passage2&page=2");
+ const retired=read("src/app/app/(shell)/reading/question-types/page.tsx");
+ assert.match(retired,/redirect\(readingLegacyDestination/);
+ assert.match(retired,/requireActiveUser/);
+ assert.doesNotMatch(retired,/readingTypeFacets|readingTypePassages|<nav/);
 });
 test("R6 filters/pagination/reset stay on General without a redundant tab round trip",()=>{
  const filters=read("src/components/reading/ReadingFilters.tsx");

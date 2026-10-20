@@ -104,7 +104,7 @@ export function ReadingFilters({
     hrefWith(key === "topic" ? { topic: value } : { type: value });
 
   return (
-    <div className="panel flex flex-col gap-4" data-reading-filters aria-busy={pending} onClickCapture={(event) => {
+    <div className="panel relative z-20 flex flex-col gap-4" data-reading-filters aria-busy={pending} onClickCapture={(event) => {
       const link = (event.target as HTMLElement).closest("a");
       if (link && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
         clearTimeout(timer.current);
@@ -113,116 +113,39 @@ export function ReadingFilters({
         setQuery(draft.current);
       }
     }}>
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-        <form
-          className="flex w-full flex-col gap-1.5 lg:max-w-sm"
-          onSubmit={(event) => { event.preventDefault(); search(query, true); }}
-          role="search"
-        >
-          <label className="flex flex-col gap-1.5">
-            <span className="field-label">{dict.readingHub.library}</span>
-            <input
-              className="input h-[var(--control-h)]"
-              type="search"
-              name="q"
-              value={query}
-              data-reading-search
-              placeholder={dict.readingHub.searchPlaceholder}
-              onChange={(event) => search(event.target.value)}
-            />
-          </label>
-          <div className="flex items-center gap-2">
-            <Link
-              href={hrefWith({ query: query.trim() })}
-              className="btn-secondary h-[var(--control-h-sm)]"
-              data-reading-search-submit
-              replace
-            >
-              {dict.shell.search}
-            </Link>
-            {query.trim() !== "" && (
-              <button type="button" className="btn-ghost h-[var(--control-h-sm)]" onClick={() => search("", true)} data-reading-search-clear>
-                {dict.shell.clear}
-              </button>
-            )}
-          </div>
-        </form>
-
-        <span role="status" className="sr-only">{pending ? dict.common.loading : ""}</span>
-        <div className="flex flex-wrap items-start gap-3">
-          <div className="flex flex-col gap-1.5">
-            <span className="field-label">{dict.readingHub.filterTopic}</span>
-            <details
-              ref={(element) => { dropdowns.current[0] = element; }}
-              className="dropdown"
-              data-reading-filter="topic"
-              onClick={(event) => closeDropdownAfterSelection(event.currentTarget, event.target)}
-            >
-              <summary className="input flex h-[var(--control-h)] cursor-pointer items-center justify-between gap-2">
-                <span>{topics.find((item) => item.code === current.topic)?.label ?? dict.readingHub.filterTopicAll}</span>
-                <span aria-hidden className="text-ink-300">▾</span>
-              </summary>
-              <ul className="dropdown-menu" role="listbox">
-                <li>
-                  <Link href={hrefWith({ topic: "" })} className="dropdown-item" replace data-reading-topic-option="">
-                    {dict.readingHub.filterTopicAll}
-                  </Link>
-                </li>
-                {topics.map((item) => (
-                  <li key={item.code}>
-                    <Link
-                      href={optionHref("topic", item.code)}
-                      className={item.code === current.topic ? "dropdown-item dropdown-item-active" : "dropdown-item"}
-                      replace
-                      data-reading-topic-option={item.code}
-                      aria-current={item.code === current.topic ? "true" : undefined}
-                    >
-                      {item.label}
-                      <span className="dropdown-count">{item.count}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <span className="field-label">{dict.readingHub.filterType}</span>
-            <details
-              ref={(element) => { dropdowns.current[1] = element; }}
-              className="dropdown"
-              data-reading-filter="type"
-              onClick={(event) => closeDropdownAfterSelection(event.currentTarget, event.target)}
-            >
-              <summary className="input flex h-[var(--control-h)] cursor-pointer items-center justify-between gap-2">
-                <span>{types.find((item) => item.code === current.type)?.label ?? dict.readingHub.filterTypeAll}</span>
-                <span aria-hidden className="text-ink-300">▾</span>
-              </summary>
-              <ul className="dropdown-menu dropdown-menu-wide" role="listbox">
-                <li>
-                  <Link href={hrefWith({ type: "" })} className="dropdown-item" replace data-reading-type-option="">
-                    {dict.readingHub.filterTypeAll}
-                  </Link>
-                </li>
-                {types.map((item) => (
-                  <li key={item.code}>
-                    <Link
-                      href={optionHref("type", item.code)}
-                      className={item.code === current.type ? "dropdown-item dropdown-item-active" : "dropdown-item"}
-                      replace
-                      data-reading-type-option={item.code}
-                      aria-current={item.code === current.type ? "true" : undefined}
-                    >
-                      {item.label}
-                      <span className="dropdown-count">{item.count}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          </div>
+      <form
+        className="flex w-full flex-col gap-1.5"
+        onSubmit={(event) => { event.preventDefault(); search(query, true); }}
+        role="search"
+      >
+        <label className="flex flex-col gap-1.5">
+          <span className="field-label">{dict.readingHub.library}</span>
+          <input
+            className="input h-[var(--control-h)]"
+            type="search"
+            name="q"
+            value={query}
+            data-reading-search
+            placeholder={dict.readingHub.searchPlaceholder}
+            onChange={(event) => search(event.target.value)}
+          />
+        </label>
+        <div className="flex items-center gap-2">
+          <Link
+            href={hrefWith({ query: query.trim() })}
+            className="btn-secondary h-[var(--control-h-sm)]"
+            data-reading-search-submit
+            replace
+          >
+            {dict.shell.search}
+          </Link>
+          {query.trim() !== "" && (
+            <button type="button" className="btn-ghost h-[var(--control-h-sm)]" onClick={() => search("", true)} data-reading-search-clear>
+              {dict.shell.clear}
+            </button>
+          )}
         </div>
-      </div>
+      </form>
 
       <div className="flex flex-wrap items-center gap-2">
         <span className="field-label mr-1">{dict.readingHub.filterStatus}</span>
@@ -250,6 +173,82 @@ export function ReadingFilters({
           </Link>
         )}
       </div>
+
+      <span role="status" className="sr-only">{pending ? dict.common.loading : ""}</span>
+      <div className="flex flex-wrap items-start gap-3">
+        <div className="flex w-full flex-col gap-1.5 sm:w-auto">
+          <span className="field-label">{dict.readingHub.filterTopic}</span>
+          <details
+            ref={(element) => { dropdowns.current[0] = element; }}
+            className="dropdown w-full sm:w-auto"
+            data-reading-filter="topic"
+            onClick={(event) => closeDropdownAfterSelection(event.currentTarget, event.target)}
+          >
+            <summary className="input flex min-h-[var(--control-h)] cursor-pointer items-center justify-between gap-2">
+              <span>{topics.find((item) => item.code === current.topic)?.label ?? dict.readingHub.filterTopicAll}</span>
+              <span aria-hidden className="text-ink-300">▾</span>
+            </summary>
+            <ul className="dropdown-menu" role="listbox">
+              <li>
+                <Link href={hrefWith({ topic: "" })} className="dropdown-item" replace data-reading-topic-option="">
+                  {dict.readingHub.filterTopicAll}
+                </Link>
+              </li>
+              {topics.map((item) => (
+                <li key={item.code}>
+                  <Link
+                    href={optionHref("topic", item.code)}
+                    className={item.code === current.topic ? "dropdown-item dropdown-item-active" : "dropdown-item"}
+                    replace
+                    data-reading-topic-option={item.code}
+                    aria-current={item.code === current.topic ? "true" : undefined}
+                  >
+                    {item.label}
+                    <span className="dropdown-count">{item.count}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </div>
+
+        <div className="flex w-full flex-col gap-1.5 sm:w-auto">
+          <span className="field-label">{dict.readingHub.filterType}</span>
+          <details
+            ref={(element) => { dropdowns.current[1] = element; }}
+            className="dropdown w-full sm:w-auto"
+            data-reading-filter="type"
+            onClick={(event) => closeDropdownAfterSelection(event.currentTarget, event.target)}
+          >
+            <summary className="input flex min-h-[var(--control-h)] cursor-pointer items-center justify-between gap-2">
+              <span>{types.find((item) => item.code === current.type)?.label ?? dict.readingHub.filterTypeAll}</span>
+              <span aria-hidden className="text-ink-300">▾</span>
+            </summary>
+            <ul className="dropdown-menu dropdown-menu-wide" role="listbox">
+              <li>
+                <Link href={hrefWith({ type: "" })} className="dropdown-item" replace data-reading-type-option="">
+                  {dict.readingHub.filterTypeAll}
+                </Link>
+              </li>
+              {types.map((item) => (
+                <li key={item.code}>
+                  <Link
+                    href={optionHref("type", item.code)}
+                    className={item.code === current.type ? "dropdown-item dropdown-item-active" : "dropdown-item"}
+                    replace
+                    data-reading-type-option={item.code}
+                    aria-current={item.code === current.type ? "true" : undefined}
+                  >
+                    {item.label}
+                    <span className="dropdown-count">{item.count}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </div>
+      </div>
+
     </div>
   );
 }

@@ -20,7 +20,7 @@
   "merged": false,
   "newArchitectureDeployed": false,
   "nativeDictionaryBytes": 40648704,
-  "ci": "new UI commit pending; earlier head had five passing regression shards and one outdated encoding-result fixture, now corrected",
+  "ci": "latest follow-up commit must finish remote CI; local receipts do not establish production acceptance",
   "uiRefresh": "Vocabulary/Reading/Listening/Grammar/Writing/TED sections inside the blue header; own blue Dictionary and top-right context panels",
   "currentUiTargetedCore": {
     "uniqueCases": 98,
@@ -37,5 +37,6 @@
     "retentionUnresolvedSpans": 55,
     "allWordsContextuallyLinked": false,
     "independentHumanSemanticReviewClaimed": false
-  }
+  },
+  "readingHeaderDelta": "four Reading sections; canonical General filters; large responsive section heading below module label (Speaking excluded); dropdown layer and mobile clipping fixed; see reading-general-filter-header-20261020.json"
 }

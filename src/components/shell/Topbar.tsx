@@ -9,7 +9,7 @@ import { GlobalSearch } from "./GlobalSearch";
 import { ProfileMenu } from "./ProfileMenu";
 import type { Role } from "@/lib/auth/roles";
 import { Suspense } from "react";
-import { ModuleHeaderNavigation } from "./ModuleHeaderSections";
+import { ModuleHeaderNavigation, ModuleHeaderTitle } from "./ModuleHeaderSections";
 
 /**
  * The topbar.
@@ -54,9 +54,9 @@ export function Topbar({
   return (
     <header
       data-shell-topbar
-      className="relative z-50 shrink-0 border-b border-ink-100 bg-paper-raised"
+      className="relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-x-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:block lg:px-0 lg:py-0"
     >
-      <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0" style={{ minHeight: "var(--shell-topbar-h)" }}>
+      <div data-module-header-controls className="contents lg:flex lg:min-w-0 lg:items-center lg:gap-3 lg:px-5" style={{ minHeight: "var(--shell-topbar-h)" }}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         {/* The only way into the drawer on a phone; the brand artwork itself
             lives inside it. See MobileNav. */}
@@ -68,7 +68,7 @@ export function Topbar({
         <GlobalSearch dict={dict} />
       </div>
 
-      <div className="col-span-3 row-start-2 flex shrink-0 items-center justify-end gap-2 lg:order-none">
+      <div data-header-theme-controls className="col-span-2 col-start-2 row-start-2 flex shrink-0 items-center justify-end gap-2 lg:order-none">
         <ThemeToggle nightLabel={dict.theme.night} dayLabel={dict.theme.day} currentLabel={dict.theme.toggle} errorLabel={dict.common.error} />
         <LocaleSwitcher locale={locale} dict={dict} />
       </div>
@@ -77,8 +77,9 @@ export function Topbar({
         <ProfileMenu key={userId} userId={userId} initialPhotoPresent={photoPresent} dict={dict} userName={userName} userEmail={userEmail ?? null} role={role} />
       </div>
       </div>
+      <Suspense fallback={null}><ModuleHeaderTitle dict={dict} /></Suspense>
       <Suspense fallback={null}><ModuleHeaderNavigation dict={dict} /></Suspense>
-      <div id="module-header-extra" className="min-w-0 px-3 md:px-5" />
+      <div id="module-header-extra" className="col-span-full -mx-3 min-w-0 px-3 md:-mx-5 md:px-5 lg:mx-0" />
     </header>
   );
 }

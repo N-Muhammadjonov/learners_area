@@ -30,6 +30,7 @@ export function moduleSectionLinks(dict: Dictionary, module: HeaderModule): Modu
 export function headerSection(path: string, tab: string | null, dict: Dictionary) {
   const activeModule = headerModule(path);
   if (!activeModule) return null;
+  if (activeModule === "video-lessons") return {module: activeModule, key: "library", title: dict.videoLessons.standaloneHeading, index: path === "/app/video-lessons"};
   if (activeModule === "vocabulary") {
     const key = vocabularySection(path, tab);
     return key ? {module: activeModule, key, title: dict.vocabulary.tab[key], index: path === "/app/vocabulary" || path === "/app/vocabulary/games"} : null;

@@ -2344,3 +2344,15 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .dictionary-context-panel :is(p,span,strong,label,select,button,input) { color: inherit !important; }
 .dictionary-context-panel :is(button,input,select) { background: rgba(12, 51, 98, .9); border-color: rgba(58, 172, 232, .5); }
 .dictionary-translation-divider { width: 100%; margin-block: 10px; border: 0; border-top: 1px solid rgba(141, 218, 255, .6); }
+
+/* Topic menus open from their left edge; small-screen menus fill the field. */
+[data-reading-filter="topic"] .dropdown-menu { left: 0; right: auto; }
+@media (max-width: 639px) {
+  [data-reading-filters] .dropdown-menu {
+    left: 0;
+    right: auto;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+}
