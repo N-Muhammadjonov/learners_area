@@ -152,6 +152,7 @@ export function PeopleTable({
             className="input w-full"
           />
         </div>
+        <button type="submit" className="btn-primary">{t.searchAction}</button>
         <div className="min-w-[9rem] flex-1 sm:flex-none">
           <Label htmlFor="people-role">{t.role}</Label>
           <select id="people-role" name="role" className="input w-full" defaultValue={filters.role ?? ""}>
@@ -168,7 +169,7 @@ export function PeopleTable({
             ))}
           </select>
         </div>
-        <button type="submit" className="btn-primary">{t.searchAction}</button>
+
         <Link href="/app/admin/people" className="btn-secondary">{t.clearFilters}</Link>
       </form>
 
@@ -472,5 +473,5 @@ function StatusControl({
 function Presence({person,dict,locale}:{person:PersonRow;dict:Dictionary;locale:Locale}) {
   const duration=(seconds:number|null|undefined)=>seconds==null?"—":`${Math.floor(seconds/3600)}${locale==="uz"?" soat":"h"} ${Math.floor(seconds%3600/60)}${locale==="uz"?" daq.":"m"}`;
   const at=person.seenAt?new Date(person.seenAt):null;
-  return <div data-person-presence className="space-y-1 text-xs"><p>{person.online?"● Online":at?at.toLocaleString(locale==="uz"?"uz-UZ":"en-GB",{timeZone:"Asia/Tashkent",dateStyle:"short",timeStyle:"short"}):dict.people.notTracked}</p><p>{dict.people.visitTime}: {duration(person.visitSeconds)}</p><p>{dict.people.totalTime}: {duration(person.totalSeconds)}</p></div>;
+  return <div data-person-presence className="space-y-1 text-xs"><p>{person.online?"● Online":at?at.toLocaleString(locale==="uz"?"uz-UZ":"en-GB",{timeZone:"Asia/Tashkent",dateStyle:"short",timeStyle:"short"}):dict.people.notTracked}</p><>{!person.online&&<><p>{dict.people.visitTime}: {duration(person.visitSeconds)}</p><p>{dict.people.totalTime}: {duration(person.totalSeconds)}</p></>}</></div>;
 }

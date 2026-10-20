@@ -1,7 +1,7 @@
 import "server-only";
 import { sql, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
-export const RESULT_MODULES=['reading','listening','writing','speaking','retention','vocabulary','grammar','video','lessons','assignments','mocks'] as const;
+export const RESULT_MODULES=['reading','listening','writing','speaking','retention','vocabulary','grammar','video','lessons','mocks'] as const;
 export type ResultModule=typeof RESULT_MODULES[number];
 export const resultModule=(value?:string)=>RESULT_MODULES.find(m=>m===value);
 /** Fixed internal source inventory. Grades stay in their original units; drafts
@@ -30,7 +30,6 @@ export function learningResultsSql(userId?:string):SQL {
   source('writing','activation',"(select * from activity_events where type='WRITING_ACTIVATION_CHECK') a",'a.created_at',"a.payload->>'verdict' in ('correct','needs_revision')", "case when jsonb_typeof(a.payload->'activationScore')='number' then (a.payload->>'activationScore')::float8 end",'100'),
   source('writing','lessons',"(select lesson_id as id,user_id,completed_at from writing_lesson_progress) a",'a.completed_at','true'),
   source('lessons','lessons','lesson_progress a join lessons p on p.id=a.lesson_id','a.updated_at',"a.state='completed'",'null','null','percent','p.title'),
-  source('assignments','assignments','assignment_responses a','a.updated_at',"length(trim(a.content))>0"),
   source('mocks','mocks','mock_attempts a','coalesce(a.finished_at,a.started_at)','a.finished_at is not null','a.estimated_band','9','band'),
  ],sql` union all `);
 }

@@ -6,7 +6,7 @@ import pytest
 import pytest_asyncio
 from unittest.mock import AsyncMock, patch, MagicMock
 from aiogram.types import Message, User, Chat, CallbackQuery, InlineKeyboardMarkup
-from handlers.admission import admission_router, cmd_apply, cmd_pending, handle_decision
+from handlers.admission import admission_router, cmd_apply, cmd_pending, handle_decision, registration_name
 
 OWNER_ACCESS = {"isPrimaryOwner": True, "permissions": ["ADMISSIONS"], "active": True}
 ADMISSIONS_ACCESS = {"isPrimaryOwner": False, "permissions": ["ADMISSIONS"], "active": True}
@@ -47,14 +47,18 @@ def make_callback(user_id: int = 12345, data: str = "decide_approve_req123") -> 
 class TestApply:
     @pytest.mark.asyncio
     async def test_apply_new_user(self):
-        """New unlinked user requests access → PENDING."""
+        """Ask for an explicit name before creating an application."""
         msg = make_message()
+        state = MagicMock(set_state=AsyncMock(), clear=AsyncMock())
         with patch("handlers.admission.api_client") as mock_api:
             mock_api.create_access_request = AsyncMock(return_value="req-abc")
-            await cmd_apply(msg, db_user=None)
-        msg.answer.assert_called_once()
-        text = msg.answer.call_args[0][0]
-        assert "qabul qilindi" in text.lower() or "✅" in text
+            await cmd_apply(msg, state=state, db_user=None)
+            mock_api.create_access_request.assert_not_called()
+            assert "familiya" in msg.answer.call_args[0][0].lower()
+            entered = make_message(text="Chosen Firstname Lastname")
+            await registration_name(entered, state)
+            assert mock_api.create_access_request.call_args.args[1] == "Chosen Firstname Lastname"
+            state.clear.assert_awaited_once()
 
     @pytest.mark.asyncio
     async def test_apply_already_active(self):
@@ -90,17 +94,18 @@ class TestApply:
         msg = make_message()
         with patch("handlers.admission.api_client") as mock_api:
             mock_api.create_access_request = AsyncMock(side_effect=Exception("timeout"))
-            await cmd_apply(msg, db_user=None)
+            msg.text = "Chosen Firstname Lastname"
+            await registration_name(msg, MagicMock(clear=AsyncMock()))
         text = msg.answer.call_args[0][0]
         assert "xatolik" in text.lower() or "❌" in text
 
     @pytest.mark.asyncio
     async def test_apply_uses_numeric_telegram_id(self):
         """Admission request uses numeric Telegram ID, not username."""
-        msg = make_message(user_id=99887766)
+        msg = make_message(user_id=99887766, text="Chosen Full Name")
         with patch("handlers.admission.api_client") as mock_api:
             mock_api.create_access_request = AsyncMock(return_value="req-xyz")
-            await cmd_apply(msg, db_user=None)
+            await registration_name(msg, MagicMock(clear=AsyncMock()))
         call_args = mock_api.create_access_request.call_args
         assert call_args[0][0] == "99887766"  # numeric, stringified
 
@@ -286,10 +291,10 @@ class TestNoFakeEmail:
     @pytest.mark.asyncio
     async def test_apply_payload_has_no_email(self):
         """create_access_request payload must NOT contain a fake email."""
-        msg = make_message(user_id=111222333)
+        msg = make_message(user_id=111222333, text="Chosen Full Name")
         with patch("handlers.admission.api_client") as mock_api:
             mock_api.create_access_request = AsyncMock(return_value="r1")
-            await cmd_apply(msg, db_user=None)
+            await registration_name(msg, MagicMock(clear=AsyncMock()))
         call_args = mock_api.create_access_request.call_args
         # The method signature is (telegram_user_id, name, message)
         # There is no email argument at all.

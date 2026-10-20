@@ -1,3 +1,4 @@
+import {checkRequestOrigin} from "@/lib/http/request-origin";
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { createLoginIntent } from "@/lib/auth/telegram-intent";
@@ -6,6 +7,7 @@ import { clientKey, enforce, RULES } from "@/lib/http/rate-limit";
 import { resolveIntentPurpose } from "@/lib/telegram/intent-purpose";
 
 export async function POST(req: NextRequest) {
+  if(!checkRequestOrigin(req).allowed)return NextResponse.json({error:"invalid_origin"},{status:403});
   if (!telegramIntentAuthEnabled()) {
     return NextResponse.json({ error: "telegram_not_configured" }, { status: 400 });
   }
@@ -22,6 +24,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: decision.error }, { status });
   }
 
+  if(decision.purpose === "replace" && current?.role!=="student")return NextResponse.json({error:"change_not_available"},{status:403});
   const intent = await createLoginIntent({
     purpose: decision.purpose,
     userId: decision.bindUser ? current?.id : null,

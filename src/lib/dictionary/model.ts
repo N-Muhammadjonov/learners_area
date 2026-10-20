@@ -324,3 +324,6 @@ export function applyDraft(
 }
 
 export function entryContentHash(entry:Entry){const {release_id:release,...content}=entry;void release;return sha(stableJson(content));}
+
+/** English sense identity for verified presentation links; Uzbek edits do not change it. */
+export const senseMeaningHash=(entry:Pick<Entry,"display_lemma"|"part_of_speech">,sense:Pick<Sense,"definition_en">)=>sha(stableJson({lemma:entry.display_lemma,pos:entry.part_of_speech,definition:sense.definition_en}));

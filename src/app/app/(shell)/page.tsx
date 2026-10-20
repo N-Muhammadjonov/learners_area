@@ -262,7 +262,7 @@ export default async function DashboardPage() {
         <h1 className="font-display text-2xl text-ink-900">
           {dict.dashboard.greeting}, {user.name.split(" ")[0]}
         </h1>
-        <p className="text-sm text-ink-500">{dict.nav.course} · IELTS</p>
+        <p className="text-sm text-ink-500">IELTS</p>
       </div>
       <Suspense fallback={<DashboardSkeleton />}><MockProgressOverview userId={user.id} locale={locale} dashboard /></Suspense>
       <Suspense fallback={<DashboardSkeleton />}>

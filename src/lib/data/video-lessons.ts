@@ -392,7 +392,7 @@ async function recomputeState(videoLessonId: string, userId: string, options: { 
   const watchedEnough = durationKnown ? reachedThreshold : videoLesson.lessonId === null
     ? (progress.completedAt != null || (options.trustedEnd === true && progress.watchedSeconds > 0))
     : Boolean(progress.responseText || progress.summaryText);
-  const completed = questions.length > 0 ? allCorrect : watchedEnough;
+  const completed = videoLesson.lessonId !== null && questions.length > 0 ? allCorrect : watchedEnough;
   const started =
     progress.watchedSeconds > 0 ||
     Object.keys(answers).length > 0 ||

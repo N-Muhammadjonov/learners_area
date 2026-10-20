@@ -244,9 +244,9 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-4" data-vocabulary-workspace>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-sm text-ink-500">{tab === "dictionary" ? dict.globalDictionary.description : t.search.hint}</p>
+          <p className="text-sm text-ink-500">{tab === "dictionary" ? dict.globalDictionary.description : tab === "board" ? t.board.hint : t.search.hint}</p>
         </div>
-        {tab !== "dictionary" && <VocabSearch dict={dict} onOpenWord={() => openTab("words")} />}
+        {tab !== "dictionary" && tab !== "board" && <VocabSearch dict={dict} onOpenWord={() => openTab("words")} />}
       </div>
 
       <div
@@ -257,7 +257,7 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
         data-vocabulary-panel={tab}
       >
       {tab === "dictionary" && <DictionaryPanel dict={dict} />}
-      <div className={tab === "dictionary" ? "hidden" : "grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]"}>
+      <div className={tab === "dictionary" ? "hidden" : tab === "board" ? "grid gap-4" : "grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]"}>
         <div className="flex min-w-0 flex-col gap-4">
           {tab === "words" && (
             <>
@@ -311,13 +311,13 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
           {tab === "board" && <VocabBoardPanel dict={dict} compact />}
         </div>
 
-        <aside className="flex flex-col gap-4 lg:sticky lg:top-4 lg:self-start">
-          {tab !== "board" && <VocabBoardPanel dict={dict} />}
+        {tab !== "board" && <aside className="flex flex-col gap-4 lg:sticky lg:top-4 lg:self-start">
+          <VocabBoardPanel dict={dict} />
           <div className="card p-4">
             <h2 className="text-sm font-medium text-ink-900">{t.games.casualNote}</h2>
             <p className="mt-2 text-xs text-ink-500">{t.games.hint}</p>
           </div>
-        </aside>
+        </aside>}
       </div>
       </div>
     </div>

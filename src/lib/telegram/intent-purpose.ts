@@ -4,7 +4,7 @@
  * A later request cannot change the purpose stored on the intent.
  */
 
-export const INTENT_PURPOSES = ["login", "register", "link"] as const;
+export const INTENT_PURPOSES = ["login", "register", "link", "replace"] as const;
 export type IntentPurpose = (typeof INTENT_PURPOSES)[number];
 
 export function isIntentPurpose(value: unknown): value is IntentPurpose {
@@ -24,9 +24,9 @@ export function resolveIntentPurpose(requested: unknown, hasSession: boolean): P
   if (requested != null && requested !== "" && !isIntentPurpose(requested)) {
     return { ok: false, error: "invalid_purpose" };
   }
-  if (purpose === "link" && !hasSession) return { ok: false, error: "sign_in_required" };
+  if ((purpose === "link"||purpose==='replace') && !hasSession) return { ok: false, error: "sign_in_required" };
   if (purpose === "register" && hasSession) return { ok: false, error: "already_signed_in" };
-  return { ok: true, purpose, bindUser: purpose === "link" };
+  return { ok: true, purpose, bindUser: purpose === "link"||purpose==='replace' };
 }
 
 export type ExchangeOutcome =

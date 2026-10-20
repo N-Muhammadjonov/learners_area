@@ -24,7 +24,7 @@ export async function createLoginIntent(input: { purpose: IntentPurpose; userId?
     .values({
       tokenHash: hashToken(token),
       browserNonceHash: hashToken(browserNonce),
-      userId: input.purpose === "link" ? input.userId ?? null : null,
+      userId: input.purpose === "link"||input.purpose==='replace' ? input.userId ?? null : null,
       purpose: input.purpose,
       expiresAt,
     })

@@ -1123,7 +1123,7 @@
 .game-frame--compact .race-feedback-slot { height: 7.5rem; min-height: 0; overflow-y: auto; scrollbar-width: thin; }
 .game-frame--compact .race-feedback { padding: .5rem .7rem; border-width: 1px; }
 .game-frame--compact .race-feedback p { overflow-wrap: anywhere; }
-.game-frame--compact [data-race-answer-boxes] { gap: .5rem; }
+.game-frame--compact [data-race-answer-boxes] { column-gap: 1.5rem; row-gap: .75rem; }
 .game-frame--compact [data-race-input] { min-height: 44px; }
 .retention-hub-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(16rem, 1fr); gap: 1.25rem; align-items: start; }
 .retention-level-options { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .6rem; }
@@ -2424,3 +2424,29 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   color: #f3eee5;
   text-shadow: none;
 }
+
+/* Blue study surfaces own their text tokens in both Day and Night. */
+[data-theme] .flashcard-queue-item {
+  background: #0b2347; color: #f3eee5; border-color: #416a96;
+}
+[data-theme] .flashcard-queue-item.is-current { background: #123563; border-color: #e7c764; }
+[data-theme] .flashcard-queue-item :is(p,span) { color: #f3eee5; }
+[data-theme] :is([data-management-statistics],[data-learning-summary],[data-result-history]) :is(.chip,a.card) {
+  background: #0b2347; color: #f3eee5; border-color: #416a96;
+}
+[data-theme] :is([data-management-statistics],[data-result-history]) .chip-active { background: #205891; color: #fff; border-color: #8ddaff; }
+[data-theme] .race-answer-box--correct { border-color: #4ade80; background: #16a34a; color: #fff; }
+[data-theme] .race-feedback--correct { border-color: #4ade80; background: #103c30; }
+[data-theme] .race-feedback--correct .race-feedback__title { color: #86efac; }
+.revision-flip-scene { perspective: 1400px; }
+.revision-flip-card { position: relative; display: grid; min-height: 260px; transform-style: preserve-3d; transition: transform .52s cubic-bezier(.2,.7,.2,1); }
+.revision-flip-card[data-flipped="true"] { transform: rotateY(180deg); }
+.revision-flip-face { grid-area: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .75rem; padding: 1.5rem; background: #0b2347; color: #f3eee5; border: 1px solid #416a96; border-radius: 20px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.revision-flip-back { transform: rotateY(180deg); }
+.revision-flip-face :is(p,span) { color: inherit; }
+.video-transcript-dialog { width: min(800px,calc(100vw - 24px)); max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; border: 1px solid #416a96; border-radius: 20px; padding: 24px; background: #0b2347 !important; color: #f3eee5; }
+.video-transcript-dialog::backdrop { background: #00102dbb; }
+.video-transcript-dialog :is(h2,p,span,div) { color: inherit; }
+.dictionary-folder-dialog { color-scheme: dark; }
+.dictionary-folder-dialog select { background: #0b2347 !important; color: #f3eee5 !important; min-height: 48px; }
+.dictionary-folder-dialog option { background: #0b2347; color: #f3eee5; }

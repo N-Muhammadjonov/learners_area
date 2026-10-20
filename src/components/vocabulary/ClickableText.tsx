@@ -500,7 +500,7 @@ export function WordPopover({
         </p>
       )}
     </div>,
-    document.body,
+    anchor.closest("dialog") ?? document.body,
   );
 }
 

@@ -26,6 +26,8 @@ export function RegisterForm({
 }) {
   const router = useRouter();
   const [name, setName] = useState("");
+  const [firstName,setFirstName]=useState(''),[lastName,setLastName]=useState('');
+  const nameRef=useRef<HTMLInputElement>(null);
   const [gender, setGender] = useState<"" | "male" | "female">("");
   const [genderError, setGenderError] = useState(false);
   const firstGender = useRef<HTMLInputElement>(null);
@@ -70,7 +72,7 @@ export function RegisterForm({
   }
 
   const telegram = telegramIntentEnabled ? (
-    <TelegramIntentLogin dict={dict} configured={telegramConfigured} botUsername={telegramBotUsername} purpose="register" registrationGender={gender} onGenderRequired={() => { setGenderError(true); firstGender.current?.focus(); }} />
+    <TelegramIntentLogin dict={dict} configured={telegramConfigured} botUsername={telegramBotUsername} purpose="register" registrationGender={gender} registrationName={passwordEnabled?name:`${firstName.trim()} ${lastName.trim()}`} onNameRequired={()=>nameRef.current?.focus()} onGenderRequired={() => { setGenderError(true); firstGender.current?.focus(); }} />
   ) : (
     <TelegramButton label={dict.auth.continueWithTelegram} unavailableLabel={dict.auth.telegramUnavailable}
       configured={telegramConfigured} botUsername={telegramBotUsername} nonce={nonce} />
@@ -108,6 +110,8 @@ export function RegisterForm({
 
   if (!passwordEnabled) return (
     <div className="flex flex-col gap-4">
+      <div><Label htmlFor="first-name">{dict.profile.firstName}</Label><Input ref={nameRef} id="first-name" autoComplete="given-name" value={firstName} required maxLength={100} onChange={e=>setFirstName(e.target.value)}/></div>
+      <div><Label htmlFor="last-name">{dict.profile.lastName}</Label><Input id="last-name" autoComplete="family-name" value={lastName} required maxLength={99} onChange={e=>setLastName(e.target.value)}/></div>
       {telegramIntentEnabled && genderField}
       {telegram}
     </div>
@@ -117,7 +121,7 @@ export function RegisterForm({
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <div>
         <Label htmlFor="name">{dict.auth.name}</Label>
-        <Input id="name" required value={name} onChange={(e) => setName(e.target.value)} />
+        <Input ref={nameRef} id="name" autoComplete="name" required value={name} onChange={(e) => setName(e.target.value)} />
       </div>
       {genderField}
       <div>

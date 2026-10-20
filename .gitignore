@@ -46,3 +46,6 @@ coverage/
 .mypy_cache/
 .ruff_cache/
 .pytest_cache/
+
+# isolated browser QA build output
+.next-study-qa/

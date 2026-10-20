@@ -1,5 +1,5 @@
 import "server-only";
-import { and, eq, isNull, or } from "drizzle-orm";
+import { and, eq, isNull, or, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { telegramContacts, telegramLoginIntents, users } from "@/db/schema";
 import { hashToken } from "@/lib/auth/telegram-intent";
@@ -9,17 +9,13 @@ import type { ExchangeOutcome } from "@/lib/telegram/intent-purpose";
 import { isTelegramUserId } from "@/lib/telegram/ids";
 import { checkRequiredSubscriptions } from "@/lib/telegram/required-channels";
 import { telegramApplicationGatesEnabled } from "@/lib/telegram/access-gates";
+import {registrationFullNameSchema} from '@/lib/validation/auth';
 
 type UserRow = typeof users.$inferSelect;
 
 export type ExchangeResult =
-  | { ok: false; error: "intent_not_confirmed" | "expired" | "already_consumed" | "no_linked_account" | "conflict" | "missing_user" | "phone_required" | "not_subscribed" | "membership_unavailable" }
+  | { ok: false; error: "intent_not_confirmed" | "expired" | "already_consumed" | "no_linked_account" | "conflict" | "missing_user" | "phone_required" | "not_subscribed" | "membership_unavailable" | "full_name_required" | "change_not_available" }
   | { ok: true; user: UserRow; outcome: ExchangeOutcome };
-
-function clipName(value: string | null | undefined) {
-  const name = (value ?? "").trim().slice(0, 200);
-  return name || "Telegram";
-}
 
 /**
  * Apply the server-owned purpose. Does not consume the intent and does not
@@ -30,6 +26,8 @@ export async function prepareIntentExchange(
   intentId: string,
   browserNonce: string,
   registrationGender?: "male" | "female",
+  registrationName?:string,
+  actor?:{id:string;authVersion:number},
 ): Promise<ExchangeResult> {
   const nonceHash = hashToken(browserNonce);
   // The website registration path must enforce the SAME admission prerequisites
@@ -67,15 +65,16 @@ export async function prepareIntentExchange(
     }
     if (intent.expiresAt.getTime() <= Date.now()) return { ok: false as const, error: "expired" as const };
 
-    const purpose = intent.purpose === "register" || intent.purpose === "link" ? intent.purpose : "login";
+    const purpose = intent.purpose === "register" || intent.purpose === "link" || intent.purpose==='replace' ? intent.purpose : "login";
     if (purpose === "login") {
       const [user] = await tx.select().from(users).where(eq(users.telegramId, intent.telegramUserId)).limit(1);
       if (!user) return { ok: false as const, error: "no_linked_account" as const };
       return { ok: true as const, user, outcome: "session" as const };
     }
-    if (purpose === "link") {
+    if (purpose === "link"||purpose==='replace') {
       if (!intent.userId) return { ok: false as const, error: "missing_user" as const };
-      const linked = await linkForIntent(tx, intent.userId, intent.telegramUserId);
+      if(!actor||actor.id!==intent.userId)return {ok:false as const,error:'missing_user' as const};
+      const linked = purpose==='replace'?await replaceTelegramForIntent(tx,intent.userId,intent.telegramUserId,actor):await linkForIntent(tx, intent.userId, intent.telegramUserId);
       if (!linked.ok) return { ok: false as const, error: linked.error };
       const [user] = await tx.select().from(users).where(eq(users.id, intent.userId)).limit(1);
       if (!user) return { ok: false as const, error: "missing_user" as const };
@@ -84,23 +83,21 @@ export async function prepareIntentExchange(
 
     const [existing] = await tx.select().from(users).where(eq(users.telegramId, intent.telegramUserId)).limit(1);
     if (existing) {
-      // A confirmed register intent may supply a missing preference, but must
-      // never overwrite an existing choice or touch an active/suspended account.
-      const eligible = registrationGender && existing.gender === null &&
-        (existing.accountStatus === "pending" || existing.accountStatus === "rejected");
-      const user = eligible
-        ? (await tx.update(users)
-          .set({ gender: registrationGender })
-          .where(and(eq(users.id, existing.id), isNull(users.gender)))
-          .returning())[0] ?? existing
-        : existing;
+      // A pending applicant may finish their own registration name. An active
+      // account's chosen name is never replaced by a Telegram profile name.
+      const supplied=registrationFullNameSchema.safeParse(registrationName);
+      const registering=(existing.accountStatus==='pending'||existing.accountStatus==='rejected')&&!existing.onboardingCompletedAt;
+      const patch={...(registrationGender&&existing.gender===null&&registering?{gender:registrationGender}:{}),...(supplied.success&&registering?{name:supplied.data}:{})};
+      const user=Object.keys(patch).length?(await tx.update(users).set(patch).where(and(eq(users.id,existing.id),or(eq(users.accountStatus,'pending'),eq(users.accountStatus,'rejected')))).returning())[0]??existing:existing;
       return { ok: true as const, user, outcome: "existing" as const, displayName: intent.displayName };
     }
+    const fullName=registrationFullNameSchema.safeParse(registrationName);
+    if(!fullName.success)return {ok:false as const,error:'full_name_required' as const};
     const [created] = await tx
       .insert(users)
       .values({
         telegramId: intent.telegramUserId,
-        name: clipName(intent.displayName),
+        name: fullName.data,
         gender: registrationGender ?? null,
         role: "student",
         accountStatus: "pending",
@@ -161,4 +158,24 @@ async function finishRegister(user: UserRow): Promise<ExchangeResult> {
   });
   const fresh = (await db.query.users.findFirst({ where: eq(users.id, user.id) })) ?? user;
   return { ok: true, user: fresh, outcome: wasRejected ? "reopened" : "pending" };
+}
+
+/** Change only the verified Telegram binding of the same student UUID.
+ * Learning history, admission and roles are never merged or reassigned. */
+export async function replaceTelegramForIntent(tx:Parameters<Parameters<typeof db.transaction>[0]>[0],userId:string,telegramUserId:string,actor:{id:string;authVersion:number}){
+ const [target]=await tx.select().from(users).where(eq(users.id,userId)).for('update').limit(1);
+ if(!target||actor.id!==userId||target.authVersion!==actor.authVersion||target.accountStatus!=='active')return {ok:false as const,error:'missing_user' as const};
+ // Staff bot authority has its own verified handover process.
+ if(target.role!=='student')return {ok:false as const,error:'change_not_available' as const};
+ const [taken]=await tx.select({id:users.id}).from(users).where(eq(users.telegramId,telegramUserId)).limit(1);
+ if(taken&&taken.id!==userId)return {ok:false as const,error:'conflict' as const};
+ const [contact]=await tx.select().from(telegramContacts).where(eq(telegramContacts.telegramUserId,telegramUserId)).for('update').limit(1);
+ if(!contact?.phoneVerifiedAt||!contact.phoneNumber)return {ok:false as const,error:'phone_required' as const};
+ if(contact.linkedUserId&&contact.linkedUserId!==userId)return {ok:false as const,error:'conflict' as const};
+ if(target.telegramId===telegramUserId)return {ok:true as const};
+ if(target.telegramId)await tx.update(telegramContacts).set({linkedUserId:null,updatedAt:new Date()}).where(and(eq(telegramContacts.telegramUserId,target.telegramId),eq(telegramContacts.linkedUserId,userId)));
+ await tx.update(users).set({telegramId:telegramUserId,authVersion:sql`${users.authVersion}+1`}).where(eq(users.id,userId));
+ await tx.update(telegramContacts).set({linkedUserId:userId,updatedAt:new Date()}).where(eq(telegramContacts.telegramUserId,telegramUserId));
+ await recordAudit({actorUserId:userId,action:'telegram.linked',targetType:'user',targetId:userId,metadata:{source:'telegram_verified_replacement',previousTelegramId:target.telegramId,telegramUserId,resultsPreserved:true}},tx);
+ return {ok:true as const};
 }

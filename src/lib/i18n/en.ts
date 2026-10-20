@@ -550,7 +550,7 @@ const en = {
     courseHeading: "From your roadmap",
     title: "TED / PODCAST",
     intro:
-      "A short talk, then the lesson around it: predict before you watch, answer the centre's own questions, and write what you took from it. Published standalone talks open here. Videos linked to a roadmap lesson follow that lesson's access.",
+      "Watch or listen, open the transcript and teacher’s notes, learn vocabulary, then write or record your own summary.",
     none: "No video lesson is open right now.",
     open: "Open the lesson",
     minutes: "{n} min",
@@ -588,7 +588,7 @@ const en = {
       gap: "Script gap fill",
       opinion: "Your opinion",
       summary: "Summary",
-      notes: "Notes",
+      notes: "Teacher’s notes",
     },
     providerNote:
       "This video plays in YouTube's own embedded player. YouTube's controls, branding and captions menu are shown as YouTube provides them; Learners Area does not cover or alter them.",
@@ -621,7 +621,7 @@ const en = {
   },
   videoLessonAdmin: {
     vocabulary: "Authored vocabulary (optional)",
-    vocabularyHelp: "One per line: word || POS || English meaning || Uzbek || exact sentence from your transcript or notes.",
+    vocabularyHelp: "One per line: word || POS || English meaning || Uzbek || optional example. Words may be outside the transcript.",
     vocabularyContextRequired: "Every vocabulary example must occur in the authored transcript or notes.",
     sourceAuthored: "Authored", sourceLicensed: "Licensed", sourcePermitted: "Permitted",
 
@@ -634,7 +634,7 @@ const en = {
     transcriptDetectedPlain: "Plain transcript: {n} paragraph(s).",
     transcriptDetectedTimed: "Timed transcript: {n} line(s).",
     openStandalone: "Open",
-    notes: "Notes (optional)",
+    notes: "Teacher’s notes (optional)",
     notesHelp: "Study notes the learner can reveal on the lesson page. Leave empty and no notes control appears.",
     notesPresent: "added",
     notesAbsent: "none",
@@ -672,7 +672,7 @@ const en = {
     subtitle: "Six questions so your dashboard and plan make sense from day one.",
     preferredLanguage: "Preferred language",
     currentLevel: "Current English level",
-    currentBand: "Current IELTS band (if known)",
+    currentBand: "Most recent IELTS band (if you have taken the exam)",
     targetBand: "Target IELTS band",
     examDate: "Planned exam date",
     dailyStudyMinutes: "Daily study time (minutes)",
@@ -2149,9 +2149,10 @@ const en = {
     nextPage: "Next",
   },
   profile: {
+    studyTitle:"Study profile", saveStudy:"Save study profile", studySaved:"Study profile saved.", day:"Day", month:"Month", year:"Year", telegramAccount:"Linked Telegram account", telegramChange:"Change Telegram account", telegramChangeHint:"Verify the new account with the bot. Your results stay with this Learners Area account.", telegramStaffChange:"Management Telegram identities use the separate verified account handover flow.", firstName:"First name", lastName:"Last name", fullNameRequired:"Enter your first and last name.",
     photo: {"title": "Profile photograph", "upload": "Upload photograph", "remove": "Remove photograph", "saved": "Profile photograph saved.", "failed": "The photograph could not be saved. Choose a smaller image and retry."},
     title: "Your profile",
-    subtitle: "Change only the name shown across your Learners Area account.",
+    subtitle: "Manage your name, study profile and linked account.",
     displayName: "Display name",
     saveName: "Save name",
     editName: "Edit name",

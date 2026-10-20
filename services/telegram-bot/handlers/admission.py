@@ -1,5 +1,7 @@
 from aiogram import F, Router
 from aiogram.filters import Command
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from copy_format import admission_text
@@ -18,29 +20,43 @@ def _lang(event: Message | CallbackQuery, db_user: dict | None) -> str:
     return "en" if (code or "").startswith("en") else "uz"
 
 
+class RegistrationName(StatesGroup):
+    waiting = State()
+
+
+async def begin_apply(message: Message, state: FSMContext | None, db_user: dict | None = None, lang: str | None = None):
+    lang = lang or _lang(message, db_user)
+    status = (db_user or {}).get("accountStatus")
+    if status in {"active", "pending", "suspended"}:
+        await message.answer(t(lang, "apply_" + status))
+        return
+    if state is not None:
+        await state.set_state(RegistrationName.waiting)
+    await message.answer(t(lang, "full_name_prompt"))
+
+
 @admission_router.message(Command("apply"))
-async def cmd_apply(message: Message, db_user: dict | None = None):
+async def cmd_apply(message: Message, state: FSMContext | None = None, db_user: dict | None = None):
+    await begin_apply(message, state, db_user)
+
+
+@admission_router.message(RegistrationName.waiting, F.text & ~F.text.startswith("/"))
+async def registration_name(message: Message, state: FSMContext, db_user: dict | None = None, backend_error: bool = False):
     lang = _lang(message, db_user)
-    if db_user:
-        status = db_user.get("accountStatus")
-        if status == "active":
-            await message.answer(t(lang, "apply_active"))
-            return
-        if status == "pending":
-            await message.answer(t(lang, "apply_pending"))
-            return
-        if status == "suspended":
-            await message.answer(t(lang, "apply_suspended"))
-            return
+    name = " ".join((message.text or "").split())
+    if len(name) > 200 or len(name.split()) < 2:
+        await message.answer(t(lang, "full_name_prompt"))
+        return
+    if backend_error:
+        await message.answer(t(lang, "temporary_error"))
+        return
     try:
         raw = await api_client.create_access_request(
-            str(message.from_user.id),
-            message.from_user.full_name,
-            "Telegram orqali ariza",
-            username=message.from_user.username,
-            chatId=str(message.chat.id),
+            str(message.from_user.id), name, "Telegram orqali ariza",
+            username=message.from_user.username, chatId=str(message.chat.id),
             languageCode=message.from_user.language_code,
         )
+        await state.clear()
         await message.answer(admission_text(lang, raw))
     except Exception:
         await message.answer(t(lang, "error"))

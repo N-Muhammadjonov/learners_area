@@ -2,6 +2,7 @@
 
 STRINGS = {
     "uz": {
+        "full_name_prompt": "Ism va familiyangizni yozing. Saytda shu nom ko‘rinadi. Bekor qilish: /cancel",
         "welcome_linked": "Xush kelibsiz, {name}. Hisobingiz ulangan.",
         "share_phone": "📱 Telefon raqamingizni ulashing. Faqat o'zingizning Telegram kontaktingizni qabul qilamiz.",
         "share_phone_button": "📱 Telefon raqamni yuborish",
@@ -121,6 +122,7 @@ STRINGS = {
         "owner_already": "Bu amal allaqachon bajarilgan.",
     },
     "en": {
+        "full_name_prompt": "Enter your first and last name. This name will appear on the site. Cancel: /cancel",
         "welcome_linked": "Welcome, {name}. Your account is linked.",
         "share_phone": "📱 Please share your own Telegram account contact using the button below.",
         "share_phone_button": "📱 Share my phone number",
