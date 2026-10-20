@@ -3,7 +3,7 @@
   "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
   "comprehensiveClosures": 0,
   "counts": {
-    "PASS": 24,
+    "PASS": 26,
     "FAIL": 0,
     "SKIP": 0
   },
@@ -102,6 +102,14 @@
     },
     {
       "name": "V24 authorized lexical modal keyboard lifecycle 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 active old-epoch 200 settlement re-enables explicit recovery Retry without replay",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 active old-epoch 503 settlement re-enables explicit recovery Retry without replay",
       "status": "PASS"
     }
   ]
