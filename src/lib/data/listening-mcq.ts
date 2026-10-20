@@ -1,3 +1,4 @@
+import { notDeleted } from "@/lib/content/deletion-filter";
 import "server-only";
 import {sequentialLocks} from "@/lib/listening/course-progress";
 import { and, asc, count, eq, inArray, sql, type SQL } from "drizzle-orm";
@@ -118,14 +119,14 @@ export async function mcqProgramDays(
         publishAt: listeningTests.publishAt,
       })
       .from(listeningTests)
-      .where(visibleWhere)
+      .where(and(notDeleted(listeningTests.id), visibleWhere))
       // The AUTHORED day order: the stored ordinal, ascending. Not created_at, not a title.
       .orderBy(asc(listeningTests.programOrdinal))
       ,
     // How many days are really published — the headline number, counted in SQL so it can never be
     // an artefact of what this page happened to read or of a draft a member of staff previewed.
-    database.select({ total: count() }).from(listeningTests).where(and(programMembership(), live) as SQL),
-    database.select({ total: count() }).from(listeningTests).where(visibleWhere),
+    database.select({ total: count() }).from(listeningTests).where(and(programMembership(), notDeleted(listeningTests.id), live) as SQL),
+    database.select({ total: count() }).from(listeningTests).where(and(notDeleted(listeningTests.id), visibleWhere)),
   ]);
 
   const hasNextPage = false;
@@ -251,7 +252,7 @@ export async function mcqDayFor(
     })
     .from(listeningTests)
     .leftJoin(listeningPackages, eq(listeningPackages.testId, listeningTests.id))
-    .where(and(programMembership(), eq(listeningTests.programOrdinal, ordinal)))
+    .where(and(notDeleted(listeningTests.id),programMembership(), eq(listeningTests.programOrdinal, ordinal)))
     .limit(1);
   if (!row || row.day === null) return null;
 

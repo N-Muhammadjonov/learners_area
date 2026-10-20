@@ -1,3 +1,4 @@
+import { notDeleted } from "@/lib/content/deletion-filter";
 import "server-only";
 import { listeningSchemaReady } from "./listening-schema-ready";
 import { and, desc, eq, inArray, isNotNull, isNull, sql } from "drizzle-orm";
@@ -117,7 +118,7 @@ export async function fullListeningCards(userId: string, page = 1, management = 
     })
     .from(listeningPackages)
     .innerJoin(listeningTests, eq(listeningTests.id, listeningPackages.testId))
-    .where(management ? sql`true` : liveWhere(listeningTests))
+    .where(and(notDeleted(listeningTests.id),management ? sql`true` : liveWhere(listeningTests)))
     .orderBy(desc(listeningTests.createdAt))
     .limit(101)
     .offset((page - 1) * 100);

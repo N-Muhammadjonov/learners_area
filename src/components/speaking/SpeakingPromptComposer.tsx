@@ -63,7 +63,7 @@ export function SpeakingPromptComposer({ dict, prompts }: { dict: Dictionary; pr
       const res = await request("/api/speaking/topics", {method:archive ? "DELETE" : "POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
       if (!res) return;
       const data = await res.json(); if (!res.ok) {setStatus(res.status === 409 ? t.topicConflict : t.invalid); return;}
-      if (archive) {reset();setStatus(t.topicArchived);} else {
+      if (archive) {reset();setStatus(dict.common.delete);} else {
         const saved: Prompt[] = data.prompts;
         if (!saved[0] || saved[0].part === "general") throw new Error("Invalid response");
         const drafts = saved.map(q => ({id:q.id,promptText:q.promptText,cueCard:q.cueCard ?? "",followUps:q.followUps,studySupport:studySupportSchema.parse(q.studySupport)}));
@@ -90,7 +90,7 @@ export function SpeakingPromptComposer({ dict, prompts }: { dict: Dictionary; pr
       <button type="submit" className="btn-primary" disabled={pending}>{pending ? dict.common.saving : original ? t.publishChanges : t.publish}</button>
       <button type="button" className="btn-secondary ml-2" disabled={pending} onClick={reset}>{t.newTopic}</button>
       {original && <button type="button" className="btn-secondary ml-2" disabled={pending} onClick={() => setArchiveConfirm(true)}>{t.removeTopic}</button>}
-      {archiveConfirm && <div role="alert" className="space-y-2"><p>{t.archiveHelp}</p><button type="button" className="btn-secondary" disabled={pending} onClick={() => void save(true)}>{t.confirmArchive}</button><button type="button" className="btn-secondary ml-2" onClick={() => setArchiveConfirm(false)}>{t.cancel}</button></div>}
+      {archiveConfirm && <div role="alert" className="space-y-2"><p>{dict.admin.materialDeletion.confirm}</p><button type="button" className="btn-secondary" disabled={pending} onClick={() => void save(true)}>{t.confirmArchive}</button><button type="button" className="btn-secondary ml-2" onClick={() => setArchiveConfirm(false)}>{t.cancel}</button></div>}
       {status && <p role="status">{status}</p>}
     </form>}
     <details><summary>{t.editExisting} ({groups.length})</summary><div className="space-y-3 pt-3"><div className="flex flex-wrap gap-2" aria-label={t.part}>{[1,2,3].map(n => <button key={n} type="button" className={browsePart === `part${n}` ? "btn-primary" : "btn-secondary"} aria-pressed={browsePart === `part${n}`} onClick={() => setBrowsePart(`part${n}`)}>PART {n}</button>)}</div><label className="block">{t.topic} / {t.question}<input type="search" className="input" value={topicSearch} onChange={e => setTopicSearch(e.target.value)} /></label><ul className="grid max-h-96 gap-2 overflow-auto sm:grid-cols-2">{visibleGroups.map(rows => <li key={rows[0]!.id}><button type="button" disabled={pending} className="btn-secondary w-full text-left" onClick={() => load(rows)}>{rows[0]!.part} · {rows[0]!.topic} · {rows.filter(q => q.publicationState !== "archived").length} {t.questions}{rows.every(q => q.publicationState === "archived") ? ` · ${t.archived}` : ""}</button></li>)}</ul><p role="status" className="text-sm text-ink-500">{visibleGroups.length} {t.topic}</p></div></details>

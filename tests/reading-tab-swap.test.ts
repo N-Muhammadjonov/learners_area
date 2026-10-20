@@ -19,12 +19,12 @@ test("R1 V4 replaces mixed tabs with exactly four sections; History is secondary
  assert.doesNotMatch(read("src/app/app/(shell)/reading/lessons/page.tsx"),/data-reading-history-entry/);
  assert.doesNotMatch(root,/tabGeneral|General Training|listLibrary|listGeneralSets/);
 });
-test("R2 General retains URL-backed, independently streamed bounded learning library",()=>{
+test("R2 General retains URL-backed, independently streamed single-page learning library",()=>{
  assert.match(general,/<ReadingLearningLibrary/);
  assert.match(library,/captureRegion\(listLearningLibrary\(userId,\s*filter\)\)/);
  assert.match(library,/captureRegion\(listLibraryFacets\(true\)\)/);
  assert.match(library,/ReadingFiltersRegion/);assert.match(library,/data-reading-page-next/);
- assert.match(read("src/lib/data/reading-library.ts"),/limit \$\{READING_PAGE_SIZE\} offset/);
+ assert.doesNotMatch(read("src/lib/data/reading-library.ts").split("export async function listLearningLibrary")[1]!,/limit \$\{READING_PAGE_SIZE\} offset/);
 });
 test("R3 Academic discovers genuine formal sets, not standalone passages or learning library",()=>{
  const academic=read("src/app/app/(shell)/reading/academic/page.tsx");

@@ -76,7 +76,7 @@ const en = {
     deleteRecording: "Delete recording",
     "topicUploadHelp": "All questions and their materials are saved together as one topic.",
     "archived": "Archived",
-    "confirmArchive": "Remove from publication",
+    "confirmArchive": "Delete topic",
     "archiveHelp": "Remove all questions in this topic from Practice and Partner? They remain available here to restore.",
     "removeTopic": "Remove topic",
     "newTopic": "New topic",
@@ -2229,6 +2229,7 @@ const en = {
     assignmentInstructions: "Instructions the student sees",
   },
   admin: {
+    materialDeletion: { confirm: "Delete this material? It will disappear from materials and the course. Existing learner results will remain.", failed: "Could not delete the material. Try again." },
     usersTitle: "Users",
     changeRole: "Change role",
     promptsTitle: "Writing prompts",
@@ -2550,6 +2551,7 @@ const en = {
       unauthenticated: "Sign in again to continue.",
     },
     admin: {
+    materialDeletion: { confirm: "Delete this material? It will disappear from materials and the course. Existing learner results will remain.", failed: "Could not delete the material. Try again." },
       title: "Retention",
       subtitle: "The memory bank: 15 texts per level is the target, not a limit.",
       backToReading: "Reading",

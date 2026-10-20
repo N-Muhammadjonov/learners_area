@@ -118,7 +118,9 @@ test("answers autosave for the chosen passage and Check shows learning results w
       await act(async () => radio.click());
       await tick(800);
       // API path, not a page URL: the endpoint is /api/reading/general/progress.
-      const save = n.calls.find((c) => c.url.includes("/api/reading/general/progress"))!;
+      const start = n.calls.find((c) => (c.body as {start?:boolean})?.start);
+      assert.deepEqual(start?.body,{passageId:pid(1),answers:{},check:false,start:true});
+      const save = n.calls.find((c) => c.url.includes("/api/reading/general/progress") && !(c.body as {start?:boolean})?.start)!;
       assert.deepEqual(save.body, { passageId: pid(1), answers: { q1a: "true" }, check: false });
       await act(async () => (document.querySelector("input[name='answer-q1b'][value='A shop']") as HTMLInputElement).click());
       await act(async () => (document.querySelector("[data-general-check]") as HTMLButtonElement).click());

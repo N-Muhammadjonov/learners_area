@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 const read = (file: string) => readFileSync(new URL(`../${file}`, import.meta.url), "utf8");
 
 test("Listening section identity and tabs belong to the blue fixed header", () => {
-  assert.match(read("src/components/shell/ModuleContextHeading.tsx"), /<ModuleHeaderTitle dict=\{dict\}/);
+  assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderTitle dict=\{dict\}/);
   assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
   assert.doesNotMatch(read("src/app/app/(shell)/listening/layout.tsx"), /<ListeningSectionHeading|<ModuleNavigation/);
   const sections = read("src/lib/nav/module-sections.ts");

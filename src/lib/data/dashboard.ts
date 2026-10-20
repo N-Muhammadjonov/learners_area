@@ -28,7 +28,7 @@ async function computeStreak(userId: string): Promise<number> {
   const days = await db
     .selectDistinct({ day: sql<string>`to_char((${activityEvents.createdAt} at time zone ${STREAK_ZONE})::date, 'YYYY-MM-DD')` })
     .from(activityEvents)
-    .where(and(eq(activityEvents.userId, userId),ne(activityEvents.type,"SITE_PRESENCE")));
+    .where(and(eq(activityEvents.userId, userId),ne(activityEvents.type,"SITE_PRESENCE"),ne(activityEvents.type,"CONTENT_DELETED")));
   return streakFromDays(days.map((d) => d.day), tashkentDayKey(new Date()));
 }
 

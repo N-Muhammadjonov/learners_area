@@ -1,3 +1,4 @@
+import { notDeleted } from "@/lib/content/deletion-filter";
 import { touchMeaningfulActivity } from "@/lib/services/activity";
 import { and, asc, desc, eq, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -97,7 +98,7 @@ export async function listAllVideoLessons(creatorId?: string) {
     .select({ videoLesson: videoLessons, lesson: lessons })
     .from(videoLessons)
     .leftJoin(lessons, eq(lessons.id, videoLessons.lessonId))
-    .where(creatorId ? eq(videoLessons.createdByUserId, creatorId) : undefined)
+    .where(and(notDeleted(videoLessons.id), creatorId ? eq(videoLessons.createdByUserId, creatorId) : undefined))
     .orderBy(desc(videoLessons.createdAt));
 }
 

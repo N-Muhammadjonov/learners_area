@@ -78,7 +78,7 @@ const uz: Dictionary = {
     deleteRecording: "Yozuvni o'chirish",
     "topicUploadHelp": "Barcha savollar va materiallari bitta topic sifatida birga saqlanadi.",
     "archived": "Arxivlangan",
-    "confirmArchive": "Nashrdan olib tashlash",
+    "confirmArchive": "Topicni o‘chirish",
     "archiveHelp": "Shu topicdagi barcha savollar Practice va Partnerdan olib tashlansinmi? Ularni shu yerdan qayta tiklashingiz mumkin.",
     "removeTopic": "Topicni olib tashlash",
     "newTopic": "Yangi topic",
@@ -2216,6 +2216,7 @@ const uz: Dictionary = {
     assignmentInstructions: "Talaba ko'radigan ko'rsatmalar",
   },
   admin: {
+    materialDeletion: { confirm: "Material o‘chirilsinmi? U materiallar va kurs ro‘yxatidan olib tashlanadi. O‘quvchilarning avvalgi natijalari saqlanadi.", failed: "Materialni o‘chirib bo‘lmadi. Qayta urinib ko‘ring." },
     usersTitle: "Foydalanuvchilar",
     changeRole: "Rolni o'zgartirish",
     promptsTitle: "Writing mavzulari",
@@ -2530,6 +2531,7 @@ const uz: Dictionary = {
       unauthenticated: "Davom etish uchun qaytadan kiring.",
     },
     admin: {
+    materialDeletion: { confirm: "Material o‘chirilsinmi? U materiallar va kurs ro‘yxatidan olib tashlanadi. O‘quvchilarning avvalgi natijalari saqlanadi.", failed: "Materialni o‘chirib bo‘lmadi. Qayta urinib ko‘ring." },
       title: "Retention",
       subtitle: "Xotira banki: har daraja uchun 15 ta matn — maqsad, chegara emas.",
       backToReading: "Reading",

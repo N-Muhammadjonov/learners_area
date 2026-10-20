@@ -1,3 +1,4 @@
+import { deleteMaterial } from "@/lib/content/delete-material";
 import { isUuid } from "@/lib/validation/ids";
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
@@ -245,17 +246,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
-  const blocks = await db.query.materialBlocks.findMany({ where: eq(materialBlocks.materialId, id) });
-  const keysToDelete = [material.primaryObjectKey, ...blocks.map((b) => b.objectKey)].filter(
-    (k): k is string => Boolean(k)
-  );
-
-  await db.delete(speakingMaterials).where(eq(speakingMaterials.id, id));
-
-  const storage = getStorageService();
-  await Promise.all(
-    keysToDelete.map((key) => storage.delete(key).catch((err) => console.warn(`Failed to delete storage object ${key}:`, err)))
-  );
-
-  return NextResponse.json({ ok: true });
+  const action=await deleteMaterial(user,"speaking",id);
+  return NextResponse.json(action==="deleted"?{ok:true,resultsPreserved:true}:{error:action},{status:action==="forbidden"?403:action==="not_found"?404:200});
 }

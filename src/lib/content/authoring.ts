@@ -1,3 +1,4 @@
+import { notDeleted } from "@/lib/content/deletion-filter";
 import { and, desc, eq, ne } from "drizzle-orm";
 import { db } from "@/db/client";
 import { contentVersions } from "@/db/schema";
@@ -135,7 +136,7 @@ export async function saveContentDraft(tx: ImportTransaction & VersionWriter, in
     };
 
   if (input.versionId) {
-    const [existing] = await tx.select().from(contentVersions).where(eq(contentVersions.id, input.versionId)).limit(1);
+    const [existing] = await tx.select().from(contentVersions).where(and(eq(contentVersions.id, input.versionId),notDeleted(contentVersions.id))).limit(1);
     if (!existing) return { ok: false, issues: [{ code: "version_not_found", message: "Unknown content version." }] };
     if (existing.status === "published" || existing.status === "archived")
       return {
@@ -257,7 +258,7 @@ export async function publishContentVersion(
   // visibility, and a caller that never authored a draft must not be told the
   // capability is missing just because registration had not happened yet.
   registerModuleAuthors();
-  const [row] = await tx.select().from(contentVersions).where(eq(contentVersions.id, request.versionId)).limit(1);
+  const [row] = await tx.select().from(contentVersions).where(and(eq(contentVersions.id, request.versionId),notDeleted(contentVersions.id))).limit(1);
   if (!row) return { ok: false, issues: [{ code: "version_not_found", message: "Unknown content version." }] };
   const version = row as unknown as VersionRecord;
   const current = version.publicationState;
@@ -413,6 +414,7 @@ export async function versionsOf(
         eq(contentVersions.module, module),
         eq(contentVersions.contentType, contentType),
         eq(contentVersions.sourceRef, sourceRef),
+        notDeleted(contentVersions.id),
       ),
     )
     .orderBy(desc(contentVersions.versionNo));
@@ -424,7 +426,7 @@ export async function listContentItems(
   filter: { module?: string; contentType?: string } = {},
   executor: { select: typeof db.select } = db,
 ): Promise<{ key: string; module: string; contentType: string; sourceRef: string; versions: number; state: PublicationState; title: string }[]> {
-  const rows = (await executor.select().from(contentVersions).orderBy(desc(contentVersions.versionNo))) as unknown as VersionRecord[];
+  const rows = (await executor.select().from(contentVersions).where(notDeleted(contentVersions.id)).orderBy(desc(contentVersions.versionNo))) as unknown as VersionRecord[];
   const byKey = new Map<
     string,
     { key: string; module: string; contentType: string; sourceRef: string; versions: number; state: PublicationState; title: string }

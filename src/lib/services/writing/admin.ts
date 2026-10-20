@@ -1,3 +1,4 @@
+import { notDeleted } from "@/lib/content/deletion-filter";
 import "server-only";
 import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -30,7 +31,7 @@ export async function writingAdminCounts(database: Database = db): Promise<Recor
   const out = {} as Record<WritingAdminKind, StateCounts>;
   for (const kind of Object.keys(TABLE) as WritingAdminKind[]) {
     const t = TABLE[kind];
-    const rows = await database.select({ state: t.publicationState, n: sql<number>`count(*)::int` }).from(t).groupBy(t.publicationState);
+    const rows = await database.select({ state: t.publicationState, n: sql<number>`count(*)::int` }).from(t).where(notDeleted(t.id)).groupBy(t.publicationState);
     const c: StateCounts = { draft: 0, scheduled: 0, published: 0, archived: 0, total: 0 };
     for (const r of rows) { c[r.state as PublicationState] = Number(r.n); c.total += Number(r.n); }
     out[kind] = c;
@@ -43,17 +44,17 @@ export type AdminRow = { id: string; title: string; subtitle: string; publicatio
 export async function listWritingContent(kind: WritingAdminKind, database: Database = db): Promise<AdminRow[]> {
   const iso = (d: Date | null) => (d ? d.toISOString() : null);
   switch (kind) {
-    case "lesson": return (await database.select().from(writingLessons).orderBy(asc(writingLessons.position), asc(writingLessons.title)))
+    case "lesson": return (await database.select().from(writingLessons).where(notDeleted(writingLessons.id)).orderBy(asc(writingLessons.position), asc(writingLessons.title)))
       .map((r) => ({ id: r.id, title: r.title, subtitle: r.category, publicationState: r.publicationState, publishAt: iso(r.publishAt) }));
-    case "prompt": return (await database.select().from(writingPrompts).orderBy(desc(writingPrompts.createdAt)))
+    case "prompt": return (await database.select().from(writingPrompts).where(notDeleted(writingPrompts.id)).orderBy(desc(writingPrompts.createdAt)))
       .map((r) => ({ id: r.id, title: r.prompt.slice(0, 140), subtitle: `${r.taskType === "task1" ? "Task 1" : "Task 2"} · ${r.category} · ${r.targetWordCount}`, publicationState: r.publicationState, publishAt: iso(r.publishAt) }));
     case "translation": {
-      const rows = await database.select({ s: writingTranslationSets, n: sql<number>`(select count(*)::int from writing_translation_sentences x where x.set_id = writing_translation_sets.id)` }).from(writingTranslationSets).orderBy(asc(writingTranslationSets.title));
+      const rows = await database.select({ s: writingTranslationSets, n: sql<number>`(select count(*)::int from writing_translation_sentences x where x.set_id = writing_translation_sets.id)` }).from(writingTranslationSets).where(notDeleted(writingTranslationSets.id)).orderBy(asc(writingTranslationSets.title));
       return rows.map(({ s, n }) => ({ id: s.id, title: s.title, subtitle: `${s.topic} · ${s.questionType} · Band ${s.targetBand} · ${n}`, publicationState: s.publicationState, publishAt: iso(s.publishAt) }));
     }
-    case "model-text": return (await database.select().from(writingModelTexts).orderBy(asc(writingModelTexts.title)))
+    case "model-text": return (await database.select().from(writingModelTexts).where(notDeleted(writingModelTexts.id)).orderBy(asc(writingModelTexts.title)))
       .map((r) => ({ id: r.id, title: r.title, subtitle: `${r.taskType === "task1" ? "Task 1" : "Task 2"} · ${r.topic} · Band ${Number(r.targetBand)} · ${r.wordCount}`, publicationState: r.publicationState, publishAt: iso(r.publishAt) }));
-    case "pattern": return (await database.select().from(writingLanguagePatterns).orderBy(asc(writingLanguagePatterns.function), asc(writingLanguagePatterns.pattern)))
+    case "pattern": return (await database.select().from(writingLanguagePatterns).where(notDeleted(writingLanguagePatterns.id)).orderBy(asc(writingLanguagePatterns.function), asc(writingLanguagePatterns.pattern)))
       .map((r) => ({ id: r.id, title: r.pattern, subtitle: `${r.function} · ${r.taskType === "task1" ? "Task 1" : "Task 2"}${r.topic ? ` · ${r.topic}` : ""}${r.targetBand ? ` · Band ${r.targetBand}` : ""}`, publicationState: r.publicationState, publishAt: iso(r.publishAt) }));
   }
 }
@@ -61,7 +62,7 @@ export async function listWritingContent(kind: WritingAdminKind, database: Datab
 /** The editable values of one row, shaped exactly like the kind's input schema. */
 export async function getWritingContent(kind: WritingAdminKind, id: string, database: Database = db): Promise<(Record<string, unknown> & { publicationState: PublicationState; publishAt: string | null }) | null> {
   const t = TABLE[kind];
-  const [r] = await database.select().from(t).where(eq(t.id, id));
+  const [r] = await database.select().from(t).where(and(eq(t.id, id), notDeleted(t.id)));
   if (!r) return null;
   const base = { publicationState: r.publicationState, publishAt: r.publishAt ? r.publishAt.toISOString() : null };
   switch (kind) {
@@ -106,7 +107,7 @@ export async function saveWritingContent(kind: WritingAdminKind, id: string | nu
   if (issues.length) return { ok: false, issues };
   const t = TABLE[kind];
   if (id) {
-    const [exists] = await database.select({ id: t.id }).from(t).where(eq(t.id, id));
+    const [exists] = await database.select({ id: t.id }).from(t).where(and(eq(t.id, id), notDeleted(t.id)));
     if (!exists) return { ok: false, issues: ["not_found"] };
   }
   const now = new Date();
@@ -204,7 +205,7 @@ export async function changeWritingPublication(kind: WritingAdminKind, id: strin
   const problem = publicationProblem(state, publishAt);
   if (problem) return { ok: false, status: 400, error: problem };
   const t = TABLE[kind];
-  const [row] = await database.select({ publicationState: t.publicationState, publishAt: t.publishAt }).from(t).where(eq(t.id, id));
+  const [row] = await database.select({ publicationState: t.publicationState, publishAt: t.publishAt }).from(t).where(and(eq(t.id, id), notDeleted(t.id)));
   if (!row) return { ok: false, status: 404, error: "not_found" };
   const from = isPublicationState(row.publicationState) ? row.publicationState : "published";
   if (from === state) return { ok: true, state, publishAt: row.publishAt?.toISOString() ?? null, changed: false };
@@ -213,7 +214,7 @@ export async function changeWritingPublication(kind: WritingAdminKind, id: strin
     const issues = await writingPublicationIssues(kind, id, database);
     if (issues.length) return { ok: false, status: 409, error: "not_ready", issues };
   }
-  await database.update(t).set({ publicationState: state, publishAt } as never).where(eq(t.id, id));
+  await database.update(t).set({ publicationState: state, publishAt } as never).where(and(eq(t.id, id), notDeleted(t.id)));
   await recordAudit({
     actorUserId, action: "content.updated", targetType: kind === "prompt" ? "writing_prompt" : `writing_${kind.replace("-", "_")}`, targetId: id,
     metadata: { from, to: state, publishAt: publishAt ? publishAt.toISOString() : null, live: isLive({ publicationState: state, publishAt }) },

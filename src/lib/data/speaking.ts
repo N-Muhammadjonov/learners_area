@@ -1,3 +1,4 @@
+import { notDeleted } from "@/lib/content/deletion-filter";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
 import { timed } from "@/lib/observability/timing";
@@ -64,12 +65,12 @@ export async function listAllForManagement() {
     .select({ material: speakingMaterials, authorName: users.name })
     .from(speakingMaterials)
     .innerJoin(users, eq(speakingMaterials.createdByUserId, users.id))
-    .orderBy(desc(speakingMaterials.createdAt));
+    .where(notDeleted(speakingMaterials.id)).orderBy(desc(speakingMaterials.createdAt));
   return withBlocks(rows);
 }
 
 export async function getMaterialWithBlocks(id: string) {
-  const material = await db.query.speakingMaterials.findFirst({ where: eq(speakingMaterials.id, id) });
+  const material = await db.query.speakingMaterials.findFirst({ where: and(eq(speakingMaterials.id, id),notDeleted(speakingMaterials.id)) });
   if (!material) return null;
   const blocks = await db.query.materialBlocks.findMany({
     where: eq(materialBlocks.materialId, id),

@@ -55,8 +55,8 @@ test("Reading 105 real SQL repair links original IDs once, atomically rejects co
     assert.ok(!academic.some(s=>s.title==='Reading Test 29'));
     for(const no of [8,12,30,31]) assert.ok(academic.some(s=>s.title===`Reading Test ${no}`));
     const pages=await Promise.all([1,2,3,4,5].map(page=>listLearningLibrary(user!.id,{page},env.db)));
-    assert.ok(pages.every(p=>p.total===104&&p.pageCount===5));
-    const all=pages.flatMap(p=>p.items);
+    assert.ok(pages.every(p=>p.total===104&&p.pageCount===1&&p.page===1&&p.items.length===104));
+    const all=pages[0]!.items;
     assert.equal(new Set(all.map(p=>p.id)).size,104);
     assert.deepEqual(all.slice(0,4).map(p=>[p.testNo,p.passageNo]),[[1,1],[1,2],[1,3],[2,1]]);
     assert.equal(all.at(-1)!.title,'Child’s Play in Medieval England');
