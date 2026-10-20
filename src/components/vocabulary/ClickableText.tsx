@@ -57,7 +57,12 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
   const words = useMemo(() => tokens.flatMap((token, index) => token.isWord ? [index] : []), [tokens]);
   const doubleClickLookup = ["reading", "listening", "retention"].includes(sourceType);
   const pendingClick = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => () => { if (pendingClick.current) clearTimeout(pendingClick.current); }, []);
+  const pendingHold = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelHold = () => { if (pendingHold.current) clearTimeout(pendingHold.current); pendingHold.current = null; };
+  useEffect(() => () => {
+    if (pendingClick.current) clearTimeout(pendingClick.current);
+    if (pendingHold.current) clearTimeout(pendingHold.current);
+  }, []);
   const hintId = useId();
   const cursorId = useId();
   const close = (restoreFocus = false) => {
@@ -155,15 +160,33 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
         aria-describedby={lexicalAssistance ? hintId : undefined}
         onPointerDown={(event) => {
           if (pendingClick.current) clearTimeout(pendingClick.current);
+          cancelHold();
           setActive(null);
           gesture.current = { x: event.clientX, y: event.clientY, started: Date.now(), cancelled: event.button !== 0 };
+          const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-token]") : null;
+          if (lexicalAssistance && doubleClickLookup && event.button === 0 && target && wrapperRef.current?.contains(target)) {
+            const index = Number(target.dataset.token);
+            pendingHold.current = setTimeout(() => {
+              pendingHold.current = null;
+              if (gesture.current?.cancelled) return;
+              setSelection(null);
+              window.getSelection()?.removeAllRanges();
+              open(index);
+            }, 3000);
+          }
         }}
         onPointerMove={(event) => {
           const start = gesture.current;
-          if (start && Math.hypot(event.clientX - start.x, event.clientY - start.y) > 8) start.cancelled = true;
+          if (start && Math.hypot(event.clientX - start.x, event.clientY - start.y) > 8) { start.cancelled = true; cancelHold(); }
         }}
-        onPointerCancel={() => { if (gesture.current) gesture.current.cancelled = true; }}
-        onContextMenu={() => { if (gesture.current) gesture.current.cancelled = true; }}
+        onPointerUp={cancelHold}
+        onPointerLeave={cancelHold}
+        onPointerCancel={() => { cancelHold(); if (gesture.current) gesture.current.cancelled = true; }}
+        onContextMenu={(event) => {
+          // A touch word hold belongs to the lookup gesture, not the native menu.
+          // Right clicks and empty space keep their normal browser behaviour.
+          if (pendingHold.current && !gesture.current?.cancelled) event.preventDefault();
+        }}
         onClick={(event) => {
           if (!lexicalAssistance || (doubleClickLookup && event.detail !== 0)) return;
           const start = gesture.current;
@@ -183,6 +206,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
           }
         }}
         onDoubleClick={(event) => {
+          cancelHold();
           if (!lexicalAssistance || !doubleClickLookup || event.button !== 0 || gesture.current?.cancelled) return;
           const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-token]") : null;
           if (target && wrapperRef.current?.contains(target)) {
@@ -221,7 +245,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
           const body = pieces
             ? pieces.map((piece, pieceIndex) =>
                 piece.highlightId ? (
-                  <mark key={pieceIndex} data-highlight-id={piece.highlightId} className="rounded-sm bg-signal-100 text-ink-900">
+                  <mark key={pieceIndex} data-highlight-id={piece.highlightId} className="learner-highlight" style={{backgroundColor:"#ffeb59",color:"#111",borderRadius:0,padding:0}}>
                     {piece.value}
                   </mark>
                 ) : (

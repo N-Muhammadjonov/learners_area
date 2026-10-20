@@ -38,12 +38,7 @@ test('R-V4-09/11/23 own submitted review resolves all three real passage occurre
   assert.equal(await readingSourceAccess(user,id!,env.db),'locked','old completed review cannot unlock a new active exam over the same rows');
   for(const occurrence of occurrences){
    assert.equal((await resolveOccurrence(user,'reading',id!,occurrence.id,env.db))?.status,'locked');
-   // SEC-12: while a formal assessment over these exact rows is OPEN, the passage-id
-   // route is sealed too. The same canonical rows carry both products (0030 pins every
-   // membership row to 'general_practice'), so "ask for it as General learning" would
-   // otherwise be a bypass — including through an older submitted attempt. General
-   // learning is unaffected whenever no formal assessment of that passage is open.
-   assert.equal((await resolveOccurrence(user,'reading',occurrence.passage_id,occurrence.id,env.db))?.status,'locked','an open formal assessment seals its passages by passage id as well');
+   assert.equal((await resolveOccurrence(user,'reading',occurrence.passage_id,occurrence.id,env.db))?.status,'resolved','published General stays independent from an overlapping Academic exam');
   }
   assert.equal((await submitReadingAttempt(repeat!,a!.id,[],env.db)).ok,true);
   await env.query("update reading_passages set publication_state='archived' where id=any($1::uuid[])",[set.passages.map(p=>p.passageId)]);

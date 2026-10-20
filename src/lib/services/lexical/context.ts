@@ -148,14 +148,14 @@ export async function readingLexicalAccess(user: { id: string; role: Role }, sou
     return {mode:(ownedAttempt.status==='in_progress'||!member ? 'ACADEMIC_EXAM':'ACADEMIC_REVIEW') as ReadingMode,
       state:{submitted:member && ownedAttempt.status==='completed',examInProgress:active.rows[0]?.active===true,staff:isStaff(user.role)},general:null};
   }
-  // Exam integrity before product classification. An Academic formal assessment is
-  // built from the SAME canonical passage rows a General set may use (0030 pins
-  // every membership row to 'general_practice'), and an attempt row stores only its
-  // FIRST passage — positions two and three exist solely in reading_assessment_passages.
-  // So a learner sitting an open three-passage assessment could otherwise ask for the
-  // same passage by its PASSAGE id and be served meanings as "General learning",
-  // including through an older submitted attempt of that passage. Only a formal
-  // assessment seals: a standalone passage attempt and General learning do not.
+  // General is an independent learning product even while an Academic attempt uses
+  // the same text (owner approved 2026-10-20). Attempt-id access above stays sealed.
+  const general = await generalMembership(passageId,executor);
+  if (general) {
+    const state: ReadingExamState = { submitted: false, examInProgress: false, staff: isStaff(user.role) };
+    return { mode: (isLive(general.set) || state.staff ? "GENERAL_READING" : "ACADEMIC_EXAM") as ReadingMode, state, general };
+  }
+  // Non-General bare passages retain the formal assessment seal at every position.
   const sealed = await executor.execute<{sealed:boolean}>(sql`select exists(
     select 1 from reading_attempts a
     join reading_assessment_passages m on m.attempt_id=a.id
@@ -163,13 +163,6 @@ export async function readingLexicalAccess(user: { id: string; role: Role }, sou
   if (sealed.rows[0]?.sealed === true)
     return { mode: "ACADEMIC_EXAM" as ReadingMode, state: { submitted: false, examInProgress: true, staff: isStaff(user.role) }, general: null };
 
-  // The mode comes from persisted classification only (0030), never from the request.
-  const general = await generalMembership(passageId,executor);
-  if (general) {
-    const state: ReadingExamState = { submitted: false, examInProgress: false, staff: isStaff(user.role) };
-    // A withdrawn set is not a learning source for students.
-    return { mode: (isLive(general.set) || state.staff ? "GENERAL_READING" : "ACADEMIC_EXAM") as ReadingMode, state, general };
-  }
   const attempts = await executor.select({ id: readingAttempts.id, status: readingAttempts.status }).from(readingAttempts)
     .where(and(eq(readingAttempts.userId, user.id), eq(readingAttempts.passageId, passageId)));
   const own = attempts.find((attempt) => attempt.id === sourceId);

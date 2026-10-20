@@ -28,5 +28,10 @@ test("READ-ACADEMIC real SQL gates complete published three-passage sets before 
     assert.equal(a.length,1); assert.equal(a[0]!.id,complete.id); assert.equal(a[0]!.assessmentStatus,'in_progress');
     assert.equal((await listGeneralSets(other!.id,{academic:true},env.db))[0]!.assessmentStatus,'not_started');
     assert.equal((await listGeneralSets(user!.id,{},env.db)).length,25,"General has a 24 + 1 page bound too");
+    for(let i=0;i<32;i++) await create(`Complete ${i}`,3);
+    const all=await listGeneralSets(user!.id,{academic:true,all:true},env.db);
+    assert.equal(all.length,33,"Academic renders every complete set on one page");
+    assert.equal(new Set(all.map(s=>s.id)).size,33);
+    assert.equal((await listGeneralSets(user!.id,{academic:true},env.db)).length,25,"the default reader remains bounded");
   } finally { await env.close(); }
 });

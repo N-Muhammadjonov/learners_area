@@ -38,5 +38,16 @@
     "allWordsContextuallyLinked": false,
     "independentHumanSemanticReviewClaimed": false
   },
-  "readingHeaderDelta": "four Reading sections; canonical General filters; large responsive section heading below module label (Speaking excluded); dropdown layer and mobile clipping fixed; see reading-general-filter-header-20261020.json"
+  "readingHeaderDelta": "four Reading sections; canonical General filters; large responsive section heading below module label (Speaking excluded); dropdown layer and mobile clipping fixed; see reading-general-filter-header-20261020.json",
+  "currentReadingPractice": {
+    "receipt": "reading-practice-20261020.json",
+    "uniqueUiCases": 16,
+    "databaseAndRouteCases": 12,
+    "failuresRemaining": 0,
+    "build": "passed",
+    "wholeRepositoryLint": "passed",
+    "ownerApprovedGeneralIndependence": true,
+    "productionChanged": false
+  },
+  "reviewPlanSha": "a5986e2127155b55716638b3510868c57ea286ebf6f5268e5df7b7eda2b68142"
 }

@@ -76,10 +76,16 @@
       "dictionary-context-corner-20261020.png",
       "reading-blue-header-20261020.png",
       "reading-general-type-filter-20261020.png",
-      "reading-header-phone-20261020.png"
+      "reading-header-phone-20261020.png",
+      "reading-mcq-four-columns-20261020.png",
+      "reading-single-dictionary-20261020.png",
+      "reading-yellow-highlight-20261020.png",
+      "reading-return-blue-menu-20261020.png",
+      "reading-practice-mobile-menu-20261020.png"
     ],
     "contextReceipt": "dictionary-context-native-20261020.json",
-    "generalReadingHeaderReceipt": "reading-general-filter-header-20261020.json"
+    "generalReadingHeaderReceipt": "reading-general-filter-header-20261020.json",
+    "readingPracticeReceipt": "reading-practice-20261020.json"
   },
   "occurrenceCorrectionsSha": "058c85984e1c7381b0ee51d185771fab9e35e416fee93159d7b87d7075d9bd88",
   "courseOffsetRecovery": {
@@ -92,6 +98,23 @@
     "four Reading sections; question-type practice inside General Reading",
     "canonical type facets count distinct published passages",
     "large section headings below module label; mobile/tablet shares day/night row; desktop keeps full title row; Speaking excluded",
-    "topic/type dropdowns layer above passage cards"
-  ]
+    "topic/type dropdowns layer above passage cards",
+    "MCQ cards fit available width; four columns verified at 1440px",
+    "all 33 complete Academic tests on one page; no Academic pagination",
+    "flat General passage library without Test group headings",
+    "one unlimited General passage per session with elapsed-time stopwatch, editable autosaved answers and independent Check",
+    "double-click or stationary three-second word hold opens top-right phrase-aware Dictionary; release, movement, cancel and empty space do not",
+    "yellow square-ended highlight covers spaces; Reading white theme variables stay local and blue shell palette survives Back"
+  ],
+  "generalIndependencePolicy": {
+    "ownerApprovedOn": "2026-10-20",
+    "response": "ha ruxsat beraman",
+    "scope": "published General learning remains available alongside active Academic over the same text; Academic attempt-id access stays restricted"
+  },
+  "productionCheckpoint": {
+    "observedOn": "2026-10-20",
+    "revision": "fed2ad766130a18ff2dca1d8639404dc51887285",
+    "PR54Merged": false,
+    "refreshRequiredBeforeMutation": true
+  }
 }

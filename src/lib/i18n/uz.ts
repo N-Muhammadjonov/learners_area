@@ -882,6 +882,7 @@ const uz: Dictionary = {
    * tasvirlaydi — bo'lingan ko'rinish, taymer, avtomatik saqlash.
    */
   readingWorkspace: {
+    elapsed: "Sarflangan vaqt",
     passage: "Matn", questions: "Savollar", resize: "Matn va savollar kengligini o'zgartirish",
     smaller: "Matnni kichraytirish", larger: "Matnni kattalashtirish", passageHeading: "READING PASSAGE {n}",
     questionRange: "Savollar {from}–{to}", review: "Qayta ko'rish", library: "Passage kutubxonasi",
@@ -1360,7 +1361,7 @@ const uz: Dictionary = {
     meaningUncheckedHint: "Bu so'zning ushbu matndagi ma'nosi hali tekshirilmagan. Uni o'zingiz yozgan ma'no bilan saqlashingiz mumkin.",
     lexicalTypeLabel: { word: "so'z", noun_phrase: "ot birikmasi", verb_phrase: "fe'l birikmasi", collocation: "kollokatsiya", phrasal_verb: "frazali fe'l", idiom: "idioma", fixed_expression: "turg'un ibora", compound: "qo'shma so'z", technical_term: "atama", phrase: "ibora" },
     textLookup: "Matndagi so'z ma'nosini ko'rish",
-    textLookupDoubleHint: "Lug'atni ochish uchun so'z yoki iboraga ikki marta bosing. Klaviatura: strelkalar bilan tanlang, Enter bilan oching. Escape oynani yopadi.",
+    textLookupDoubleHint: "Lug'atni ochish uchun so'z yoki iboraga ikki marta bosing yoki 3 soniya bosib turing. Klaviatura: strelkalar bilan tanlang, Enter bilan oching. Escape oynani yopadi.",
     textLookupHint: "So'z ma'nosini ko'rish uchun uni bosing; nusxalash uchun matnni belgilang. Klaviatura: chap va o'ng strelka bilan so'z tanlang, Home yoki End bilan boshiga yoki oxiriga o'ting, Enter bilan ma'nosini oching. Escape oynani yopadi.",
     title: "Lug'at",
     addWord: "So'z qo'shish",

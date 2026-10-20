@@ -44,7 +44,7 @@ export default async function ListeningMcqPage({
   });
 
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-mcq">
+    <div className="flex w-full min-w-0 flex-col gap-6" data-route-usable="listening-mcq">
       {days.length === 0 ? (
         <section className="card space-y-2 p-6" data-listening-mcq-empty>
           <h2 className="font-display text-lg text-ink-900">{t.emptyTitle}</h2>
@@ -53,7 +53,7 @@ export default async function ListeningMcqPage({
           {staff && <p className="text-sm text-ink-300" data-listening-mcq-staff-hint>{t.staffHint}</p>}
         </section>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2" data-listening-mcq-grid>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,14rem),1fr))] gap-4" data-listening-mcq-grid>
           {days.map((card) => (
             <section key={card.testId} className="card flex flex-col gap-3 p-5" data-listening-mcq-card={card.day}>
               <div className="flex flex-wrap items-center gap-2">

@@ -6,9 +6,9 @@ import uz from "../../src/lib/i18n/uz";
 
 /*
  * General Reading (learning mode) — real interaction in the rendered session:
- * vocabulary is ON from the first second, in single-passage AND Full Reading,
+ * vocabulary is ON from the first second for the selected passage,
  * clicks resolve BY OCCURRENCE ID against the passage id, answers autosave per
- * passage and "Check answers" shows learning results. No timer anywhere.
+ * passage and "Check answers" shows learning results. The stopwatch never locks answers.
  */
 const dom = new JSDOM('<html><body><div id="root"></div></body></html>', { url: "http://localhost/reading/general/x" });
 for (const k of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "HTMLSelectElement", "HTMLTextAreaElement", "HTMLAnchorElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent", "localStorage", "sessionStorage", "getComputedStyle"] as const)
@@ -72,7 +72,7 @@ async function openWord(region: HTMLElement) {
   await tick();
 }
 
-test("General single passage: vocabulary is ON immediately — click resolves by occurrence id with the passage id, Add to Vocabulary shown, no timer", async () => {
+test("General single passage: vocabulary is ON immediately — click resolves by occurrence id with the passage id, Add to Vocabulary shown, elapsed time counts up", async () => {
   const n = net();
   try {
     await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages: [passages[0]!], initialProgress: {}, mode: 1 }), async () => {
@@ -86,32 +86,29 @@ test("General single passage: vocabulary is ON immediately — click resolves by
       assert.ok(!/mode=|general/i.test(lookup), "the client never claims a mode");
       assert.ok(document.querySelector("[data-word-save]"));
       for (const timer of ["[data-exam-timer]", "[data-timer]", "[role=timer]"]) assert.equal(document.querySelector(timer), null, timer);
-      assert.ok(document.querySelector("[data-read-aloud]"), "Read Aloud remains");
+      assert.equal(document.querySelector("[data-read-aloud]"),null);
+      assert.equal(document.querySelector("[data-general-elapsed]")?.textContent,"00:00");
+      await tick(1100);
+      assert.equal(document.querySelector("[data-general-elapsed]")?.textContent,"00:01");
     });
   } finally { n.restore(); }
 });
 
-test("Full Reading: all three passages reachable by tabs and vocabulary stays ON in each (P3 resolves with P3's passage id)", async () => {
+test("each selected General passage has its own vocabulary source and no sibling passage tabs", async () => {
   const n = net();
   try {
-    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: "full" }), async () => {
-      const tabs = Array.from(document.querySelectorAll("[data-general-passage-tab]")) as HTMLButtonElement[];
-      assert.deepEqual(tabs.map((t) => t.textContent), ["Passage 1", "Passage 2", "Passage 3"].map((s) => en.generalReading.passageN.replace("{n}", s.slice(-1))));
-      for (const no of [2, 3]) {
-        await act(async () => tabs[no - 1]!.click());
-        assert.equal(tabs[no - 1]!.getAttribute("aria-pressed"), "true");
-        const region = document.querySelector(`[data-general-passage='${no}'] [data-clickable-text]`) as HTMLElement;
-        assert.ok(region, `vocabulary on in passage ${no}`);
-        await openWord(region);
-        const last = n.calls.filter((c) => c.url.includes("/api/vocabulary/lookup")).at(-1)!.url;
-        assert.ok(last.includes(`occurrenceId=occ-${no}`) && last.includes(`sourceId=${pid(no)}`), last);
-        await act(async () => { document.activeElement!.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Escape", bubbles: true })); });
-      }
+    for (const no of [1,2,3] as const) await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: no }), async () => {
+      const tabs = Array.from(document.querySelectorAll("[data-general-passage-tab]"));
+      assert.deepEqual(tabs.map(t=>t.getAttribute("data-general-passage-tab")),[String(no)]);
+      const region=document.querySelector(`[data-general-passage='${no}'] [data-clickable-text]`) as HTMLElement;
+      await openWord(region);
+      const last=n.calls.filter(c=>c.url.includes("/api/vocabulary/lookup")).at(-1)!.url;
+      assert.ok(last.includes(`occurrenceId=occ-${no}`) && last.includes(`sourceId=${pid(no)}`),last);
     });
-  } finally { n.restore(); }
+  } finally {n.restore();}
 });
 
-test("answers autosave per passage, Check shows learning results with evidence; Full mode keeps each passage's answers", async () => {
+test("answers autosave for the chosen passage and Check shows learning results with evidence", async () => {
   const n = net();
   try {
     await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: { [pid(3)]: { answers: { q3a: "false" }, score: null, total: null, checked: false } }, mode: "full" }), async () => {
@@ -135,12 +132,9 @@ test("answers autosave per passage, Check shows learning results with evidence; 
       assert.equal(document.querySelector("[data-general-evidence]")?.textContent?.includes("The bank approved the loan."), true);
       assert.equal(document.querySelector("[data-general-evidence] [data-clickable-text]"), null, "evidence is not a vocabulary target");
       assert.ok(document.querySelector("[data-general-score]")?.textContent?.includes("1"));
-      // Switch to P3: its restored answer is intact; back to P1 keeps P1's answers.
-      const tabs = Array.from(document.querySelectorAll("[data-general-passage-tab]")) as HTMLButtonElement[];
-      await act(async () => tabs[2]!.click());
-      assert.equal((document.querySelector("[data-question='q3a'] [data-answer-option='false']") as HTMLElement).getAttribute("aria-checked"), "true");
-      await act(async () => tabs[0]!.click());
       assert.equal((document.querySelector("[data-question='q1a'] [data-answer-option='true']") as HTMLElement).getAttribute("aria-checked"), "true");
+      assert.equal(document.querySelector("[data-question='q3a']"),null);
+
     });
   } finally { n.restore(); }
 });
@@ -155,7 +149,8 @@ test("learner-facing text shows no internal ids or enum names (en + uz Latin)", 
   }
   await mount(React.createElement(GeneralReadingSets, { dict: en, sets: [{ id: SET, title: "Set one", description: null, level: "B1", passages: [{ passageNo: 1, title: "A" }, { passageNo: 2, title: "B" }, { passageNo: 3, title: "C" }], started: 0, checked: 0 }] }), async () => {
     const hrefs = Array.from(document.querySelectorAll("a")).map((a) => a.getAttribute("href"));
-    for (const p of ["1", "2", "3", "full"]) assert.ok(hrefs.includes(`/app/reading/general/${SET}?passage=${p}`), p);
+    for (const p of ["1", "2", "3"]) assert.ok(hrefs.includes(`/app/reading/general/${SET}?passage=${p}`), p);
+    assert.equal(hrefs.some(href=>href?.includes("passage=full")),false);
   });
 });
 
