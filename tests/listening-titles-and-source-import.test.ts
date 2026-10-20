@@ -4,19 +4,15 @@ import { readFileSync } from "node:fs";
 
 const read = (file: string) => readFileSync(new URL(`../${file}`, import.meta.url), "utf8");
 
-test("Listening active section name is ABOVE tabs, not repeated below tabs", () => {
-  const layout = read("src/app/app/(shell)/listening/layout.tsx");
-  const heading = read("src/components/listening/ListeningSectionHeading.tsx");
-  assert.ok(layout.indexOf("<ListeningSectionHeading") < layout.indexOf("<ModuleNavigation"), 
-    "section heading must render before the shared section tabs");
+test("Listening section identity and tabs belong to the blue fixed header", () => {
+  assert.match(read("src/components/shell/ModuleContextHeading.tsx"), /<ModuleHeaderTitle dict=\{dict\}/);
+  assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
+  assert.doesNotMatch(read("src/app/app/(shell)/listening/layout.tsx"), /<ListeningSectionHeading|<ModuleNavigation/);
+  const sections = read("src/lib/nav/module-sections.ts");
+  for (const section of ["lessons", "tests", "mcq"]) assert.ok(sections.includes(`/app/listening/${section}`));
   for (const section of ["lessons", "tests", "general", "mcq"]) {
-    assert.match(heading, new RegExp(`"/app/listening/${section}"`));
-    const page = read(`src/app/app/(shell)/listening/${section}/page.tsx`);
-    assert.doesNotMatch(page, /<h1 className="font-display text-2xl text-ink-900">\{t.title\}<\/h1>/,
-      "no duplicate section heading below tabs");
+    assert.doesNotMatch(read(`src/app/app/(shell)/listening/${section}/page.tsx`), /<h1 className="font-display text-2xl text-ink-900">\{t.title\}<\/h1>/);
   }
-  assert.match(heading, /if \(!key\) return null/,
-    "test details and lessons still show their own authored headings");
 });
 
 test("Listening Tests keeps four cards across wide laptops on one scrolling catalogue", () => {

@@ -42,10 +42,11 @@ const HUB = "src/app/app/(shell)/listening/page.tsx";
 
 test("F1 the hub opens the owner's three visible destinations — and lists no content of its own", () => {
   const hub = code(HUB);
-  const navigation = code("src/components/navigation/ModuleNavigation.tsx");
+  const navigation = code("src/lib/nav/module-sections.ts");
   const routes = [...navigation.matchAll(/href: "(\/app\/listening\/[a-z]+)"/g)].map(match => match[1]);
   assert.deepEqual(routes, ["/app/listening/lessons", "/app/listening/tests", "/app/listening/mcq"]);
-  assert.match(code("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation module="listening"/);
+  assert.match(code("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
+  assert.doesNotMatch(code("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation/);
   for (const product of ["lessons", "academic", "mcqProgram"])
     assert.ok(navigation.includes(`dict.listening.${product}.title`));
   const links = code("src/components/navigation/ModuleSectionNav.tsx");

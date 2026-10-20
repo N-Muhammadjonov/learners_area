@@ -12,7 +12,9 @@ test("Academic, General and resumed attempts own a protected focus route with no
   assert.match(read("src/app/app/(focus)/layout.tsx"),/getCurrentUser/);
 });
 test("section headers live above tabs and redundant catalogue actions are absent",()=>{
-  const layout=read("src/app/app/(shell)/reading/layout.tsx");assert.ok(layout.indexOf("<ReadingSectionHeading")<layout.indexOf("<ModuleNavigation"));
+  const layout=read("src/app/app/(shell)/reading/layout.tsx");assert.doesNotMatch(layout,/<ReadingSectionHeading|<ModuleNavigation/);
+  assert.match(read("src/components/shell/Topbar.tsx"),/<ModuleHeaderNavigation dict=\{dict\}/);
+  assert.doesNotMatch(read("src/components/reading/GeneralReadingSession.tsx"),/ReadAloud/);
   for(const page of ["lessons","academic","general","question-types"])assert.doesNotMatch(read(`src/app/app/(shell)/reading/${page}/page.tsx`),/<BackLink|dict.common.back|<h1/);
   assert.doesNotMatch(read("src/app/app/(shell)/reading/lessons/page.tsx"),/data-reading-history-entry|lessons\/author/);
   assert.doesNotMatch(read("src/app/app/(shell)/reading/retention/page.tsx"),/href="\/app\/reading"/);

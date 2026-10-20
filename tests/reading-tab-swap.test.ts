@@ -12,8 +12,9 @@ const general=read("src/app/app/(shell)/reading/general/page.tsx");
 const library=read("src/components/reading/ReadingLearningLibrary.tsx");
 test("R1 V4 replaces mixed tabs with exactly five products; History is secondary",()=>{
  assert.deepEqual(READING_DESTINATIONS,["lessons","academic","general","question-types","retention"]);
- assert.match(read("src/components/navigation/ModuleNavigation.tsx"),/READING_DESTINATIONS.map/);
- assert.match(read("src/app/app/(shell)/reading/layout.tsx"),/<ModuleNavigation module="reading"/);
+ assert.match(read("src/lib/nav/module-sections.ts"),/READING_DESTINATIONS.map/);
+ assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
+  assert.doesNotMatch(read("src/app/app/(shell)/reading/layout.tsx"), /<ModuleNavigation/);
  assert.match(root,/redirect\(target \?\? "\/app\/reading\/lessons"\)/);
  assert.doesNotMatch(read("src/app/app/(shell)/reading/lessons/page.tsx"),/data-reading-history-entry/);
  assert.doesNotMatch(root,/tabGeneral|General Training|listLibrary|listGeneralSets/);

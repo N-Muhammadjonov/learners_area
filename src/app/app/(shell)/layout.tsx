@@ -30,7 +30,7 @@ import { sectionEntryFrames } from "@/lib/interaction/section-entry";
  *   html/body            h-dvh, overflow hidden
  *   ├─ aside (sidebar)   h-full, overflow-y auto   ← its own scrollbar
  *   └─ column            min-h-0, flex-1
- *      ├─ header         fixed height (--shell-topbar-h)
+ *      ├─ header         pinned controls, plus module links where requested
  *      └─ main           min-h-0, flex-1, overflow-y auto  ← its own scrollbar
  *
  * This is the fix for the defect the owner reported: the shell used to be

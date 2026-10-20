@@ -8,6 +8,8 @@ import { ModuleContextHeading } from "./ModuleContextHeading";
 import { GlobalSearch } from "./GlobalSearch";
 import { ProfileMenu } from "./ProfileMenu";
 import type { Role } from "@/lib/auth/roles";
+import { Suspense } from "react";
+import { ModuleHeaderNavigation } from "./ModuleHeaderSections";
 
 /**
  * The topbar.
@@ -23,9 +25,10 @@ import type { Role } from "@/lib/auth/roles";
  *      options as words, the profile control shows a name, and the one icon-only
  *      button on small screens (search) carries an `aria-label` and opens a
  *      visible field.
- *   2. **It never scrolls away.** The topbar is a fixed-height row inside the
+ *   2. **It never scrolls away.** The topbar is a pinned header inside the
  *      main column, and only the content below it scrolls — so the utilities are
  *      reachable from the bottom of a long passage without a trip back up.
+ *      Module section titles and links share this blue header.
  *
  * Focus mode is deliberately NOT here: it belongs next to the work it affects,
  * so it lives in the floating utility stack (ShellUtilities). A control that
@@ -51,9 +54,9 @@ export function Topbar({
   return (
     <header
       data-shell-topbar
-      className="relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0"
-      style={{ minHeight: "var(--shell-topbar-h)" }}
+      className="relative z-50 shrink-0 border-b border-ink-100 bg-paper-raised"
     >
+      <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0" style={{ minHeight: "var(--shell-topbar-h)" }}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
         {/* The only way into the drawer on a phone; the brand artwork itself
             lives inside it. See MobileNav. */}
@@ -73,6 +76,9 @@ export function Topbar({
         <NotificationBell label={dict.notifications.title} loadingLabel={dict.common.loading} />
         <ProfileMenu key={userId} userId={userId} initialPhotoPresent={photoPresent} dict={dict} userName={userName} userEmail={userEmail ?? null} role={role} />
       </div>
+      </div>
+      <Suspense fallback={null}><ModuleHeaderNavigation dict={dict} /></Suspense>
+      <div id="module-header-extra" className="min-w-0 px-3 md:px-5" />
     </header>
   );
 }

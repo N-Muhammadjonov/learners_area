@@ -5,7 +5,6 @@ import { ReadingWorkspace, focusReadingQuestion } from "@/components/reading/Rea
 import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { useEffect, useRef, useState } from "react";
 import { ReadingHighlightedText, useReadingHighlights } from "@/components/reading/ReadingHighlights";
-import { ReadAloud } from "@/components/reading/ReadAloud";
 import { GroupHeading, GroupQuestions, QuestionCard, type ExamGroup, type ExamQuestion } from "@/components/reading/ReadingExam";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import { occurrenceSpans, type OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
@@ -109,7 +108,7 @@ export function GeneralReadingSession({ dict, setId, setTitle, passages, initial
   const first=passage.questions[0]?.questionNo??1,last=passage.questions.at(-1)?.questionNo??first;
   return <div className="reading-session" data-general-reading data-general-mode={mode} data-general-passage={passage.passageNo}>
     <ReadingWorkspace brand={dict.marketing.title} title={setTitle} pane={pane} setPane={setPane} labels={dict.readingWorkspace}
-      tools={<><ReadAloud dict={dict} text={`${passage.title}. ${passage.body}`} /><span role="status" aria-live="polite" data-general-save-state={status[passage.passageId]??"idle"}>{status[passage.passageId]==="saving"?t.saving:status[passage.passageId]==="saved"?t.saved:""}</span></>}
+      tools={<span role="status" aria-live="polite" data-general-save-state={status[passage.passageId]??"idle"}>{status[passage.passageId]==="saving"?t.saving:status[passage.passageId]==="saved"?t.saved:""}</span>}
       passage={<><h2 className="reading-pane-heading">{dict.readingWorkspace.passageHeading.replace("{n}",String(passage.passageNo))}</h2><p className="reading-part-instruction">{dict.readingWorkspace.questionRange.replace("{from}",String(first)).replace("{to}",String(last))}</p><h3 className="reading-passage-title">{passage.title}</h3>
         <div className="reading-passage-text" data-passage-body>
           {passage.paragraphs.length ? passage.paragraphs.map(paragraph=><div key={paragraph.id} className="reading-paragraph">

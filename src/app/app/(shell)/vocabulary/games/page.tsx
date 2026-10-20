@@ -14,7 +14,7 @@ export default async function VocabularyGamesPage({ searchParams }: { searchPara
   const locale = await getLocale();
   const dict = getDictionary(locale);
   return <div data-route-usable="vocabulary-games">
-    <Suspense fallback={<div role="status" data-async-loading="vocabulary-games"><h1 className="page-title">{dict.vocabulary.tab.games}</h1><p>{dict.common.loading}</p></div>}>
+    <Suspense fallback={<div role="status" data-async-loading="vocabulary-games"><p>{dict.common.loading}</p></div>}>
       <GamesContent query={query} userId={user.id} locale={locale} dict={dict} />
     </Suspense>
   </div>;

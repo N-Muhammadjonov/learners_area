@@ -54,18 +54,35 @@
     "migrate 0065",
     "deploy dedicated Worker and matching signing secret",
     "deploy compatible Next app",
-    "stage prepared immutable objects and exact 256 context corrections",
+    "stage prepared immutable objects and exact 256 meaning corrections and 3404 proven Reading offset repairs",
     "activate new release",
     "after acceptance retire unused legacy PostgreSQL index"
   ],
   "notYetAccepted": [
     "production Free CPU telemetry",
     "regional end-to-end latency",
-    "full lexical coverage of 2167 remaining token forms"
+    "full lexical coverage of 2167 remaining token forms",
+    "102 ambiguous Reading spans",
+    "881 unresolved authored Listening/Retention spans",
+    "independent semantic review of every Reading meaning"
   ],
   "qa": {
     "nativeReceipt": "dictionary-worker-native-20261020.json",
     "httpReceipt": "dictionary-worker-http-20261020.json",
-    "nativeDictionaryBytes": 40648704
+    "nativeDictionaryBytes": 40648704,
+    "uiReceipt": "dictionary-ui-20261020.json",
+    "uiImages": [
+      "dictionary-blue-header-20261020.png",
+      "dictionary-context-corner-20261020.png",
+      "reading-blue-header-20261020.png"
+    ],
+    "contextReceipt": "dictionary-context-native-20261020.json"
+  },
+  "occurrenceCorrectionsSha": "058c85984e1c7381b0ee51d185771fab9e35e416fee93159d7b87d7075d9bd88",
+  "courseOffsetRecovery": {
+    "readingOccurrences": 3404,
+    "passages": 104,
+    "ambiguousOrAbsentSourceSpansUnchanged": 102,
+    "changesSenseOrLearnerData": false
   }
 }

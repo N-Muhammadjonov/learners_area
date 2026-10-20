@@ -1,4 +1,5 @@
 import {applyCourseCorrections} from '../../src/lib/dictionary/course-corrections';
+import {applyOccurrenceCorrections} from '../../src/lib/dictionary/occurrence-corrections';
 import {readFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {sql} from 'drizzle-orm';
@@ -16,7 +17,7 @@ import {importHybridGroups} from './hybrid-import';
 /** No implicit deploy/activate. The approval document is a separate frozen,
  * reviewed changeset, not an old import plan or a CLI confirmation shortcut. */
 const digest=z.string().regex(/^[a-f0-9]{64}$/),releaseId=z.string().regex(releasePattern);
-const approvalSchema=z.object({architecture:z.literal('r2-worker-v3'),preparedPlanSha:digest,release:releaseId,migrationSha:digest,courseCorrectionsSha:digest,ownerId:z.string().uuid(),expectedBase:releaseId.nullable(),databaseLimitBytes:z.number().int().positive().max(500_000_000),retire:z.object({release:releaseId,manifestSha:digest}).optional()});
+const approvalSchema=z.object({architecture:z.literal('r2-worker-v3'),preparedPlanSha:digest,release:releaseId,migrationSha:digest,courseCorrectionsSha:digest,occurrenceCorrectionsSha:digest,ownerId:z.string().uuid(),expectedBase:releaseId.nullable(),databaseLimitBytes:z.number().int().positive().max(500_000_000),retire:z.object({release:releaseId,manifestSha:digest}).optional()});
 async function main(){
  const [action,prepared,approvalFile]=process.argv.slice(2);
  if(!action||!prepared||!approvalFile||!['inspect','migrate','stage','activate','rollback','retire'].includes(action))throw Error('Usage: worker-release.ts inspect|migrate|stage|activate|rollback|retire PREPARED REVIEWED-APPROVAL.json');
@@ -44,7 +45,9 @@ async function main(){
  if(action==='stage'){
   const [storage]=await rows<{bytes:string}>(sql`select pg_database_size(current_database())::text bytes`),[present]=await rows(sql`select 1 from dictionary_releases where id=${plan.release}`);
   if(!present&&Number(storage?.bytes)+qa.dictionaryBytes+25_000_000>approval.databaseLimitBytes)throw Error('dictionary_capacity_exceeded');
-  const correctionBytes=readFileSync(join(prepared,'course-corrections.json'));if(bytesHash(correctionBytes)!==plan.courseCorrectionsSha||plan.courseCorrectionsSha!==approval.courseCorrectionsSha)throw Error('reviewed_course_corrections_mismatch');await applyCourseCorrections(JSON.parse(correctionBytes.toString()));
+  const correctionBytes=readFileSync(join(prepared,'course-corrections.json'));if(bytesHash(correctionBytes)!==plan.courseCorrectionsSha||plan.courseCorrectionsSha!==approval.courseCorrectionsSha)throw Error('reviewed_course_corrections_mismatch');
+  const occurrenceBytes=readFileSync(new URL('../../content/dictionary/occurrence-corrections.json',import.meta.url));if(bytesHash(occurrenceBytes)!==approval.occurrenceCorrectionsSha)throw Error('reviewed_occurrence_corrections_mismatch');
+  await db.transaction(async tx=>{await applyCourseCorrections(JSON.parse(correctionBytes.toString()),tx);await applyOccurrenceCorrections(JSON.parse(occurrenceBytes.toString()),tx);});
   for(const d of search.objects){const body=readFileSync(join(prepared,'search',d.name+'.json.gz'));if(bytesHash(body)!==d.sha256)throw Error('prepared_index_checksum_mismatch');await objects.putImmutable(indexKey(plan.release,d.name),body);}
   // Freeze the approved prepared bytes first; a runtime compressor mismatch
   // then fails the immutable-object check instead of silently changing the plan.

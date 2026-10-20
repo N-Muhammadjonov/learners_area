@@ -16,7 +16,6 @@ export default async function GrammarLessonsPage({ searchParams }: { searchParam
 async function GrammarLibraryResults({ libraryPromise, page, dict }: { libraryPromise: ReturnType<typeof listLessonLibrary>; page: number; dict: ReturnType<typeof getDictionary> }) {
   const library = await libraryPromise;
   return <div className="mx-auto flex max-w-5xl flex-col gap-5" data-route-usable="grammar-lessons">
-    <h1 className="page-title">{dict.grammar.lessonsTitle}</h1>
     <div className="grid gap-4 sm:grid-cols-2">{library.rows.map(lesson => <article className="card p-5" key={lesson.id} data-grammar-lesson={lesson.id}>
       <h2 className="card-title">{lesson.title}</h2>{lesson.summary && <p className="body-text">{lesson.summary}</p>}
       <Link className="btn-primary" href={`/app/grammar/lessons/${lesson.id}`}>{dict.listening.hub.open}</Link>

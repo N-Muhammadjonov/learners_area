@@ -1,7 +1,7 @@
 "use client";
 
 import { privateResources } from "@/lib/client/private-resource";
-import { Fragment, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useId, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
@@ -322,45 +322,9 @@ export function WordPopover({
   const [folderId, setFolderId] = useState("");
   const [lookupVersion, setLookupVersion] = useState(0);
   const popupRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState<{ left: number; top: number } | null>(null);
-
-  useLayoutEffect(() => {
-    const popup = popupRef.current;
-    if (!popup) return;
-    const place = () => {
-      const rect = anchor.getBoundingClientRect();
-      const width = document.documentElement.clientWidth;
-      const height = window.innerHeight;
-      const box = popup.getBoundingClientRect();
-      const textBounds = anchor.closest("[data-clickable-text]")?.getBoundingClientRect();
-      // Keep the popup inside its text column when it fits there, so a Reading
-      // lookup does not unnecessarily cover the adjacent answer controls.
-      const rightEdge = textBounds && textBounds.width >= box.width
-        ? Math.min(width - 8, textBounds.right) : width - 8;
-      const below = rect.bottom + 6;
-      const above = rect.top - box.height - 6;
-      const top = above >= 8 ? above : below;
-      setPosition({
-        left: Math.max(8, Math.min(rect.left, rightEdge - box.width)),
-        top: Math.max(8, Math.min(top, height - box.height - 8)),
-      });
-    };
-    place();
-    const observer = new ResizeObserver(place);
-    observer.observe(popup);
-    window.addEventListener("resize", place);
-    window.addEventListener("scroll", place, true);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", place);
-      window.removeEventListener("scroll", place, true);
-    };
-  }, [anchor]);
-
-  const positioned = position !== null;
   useEffect(() => {
-    if (positioned) popupRef.current?.focus({ preventScroll: true });
-  }, [positioned]);
+    popupRef.current?.focus({ preventScroll: true });
+  }, [anchor]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -436,8 +400,7 @@ export function WordPopover({
       role="dialog"
       aria-label={word}
       data-word-popover
-      style={{ left: position?.left ?? 0, top: position?.top ?? 0, visibility: position ? "visible" : "hidden", maxHeight: "calc(100dvh - 16px)" }}
-      className="fixed z-50 w-[min(20rem,calc(100vw-16px))] overflow-y-auto whitespace-normal rounded-md border border-ink-100 bg-paper-raised p-3 shadow-raised"
+      className="dictionary-context-panel fixed w-[min(20rem,calc(100vw-24px))] overflow-y-auto whitespace-normal rounded-md border border-ink-100 bg-paper-raised p-3 shadow-raised"
     >
       <div className="flex items-start justify-between gap-2">
         <span className="font-display text-lg text-ink-900">{word}</span>
@@ -456,7 +419,7 @@ export function WordPopover({
       {!loading && known && (
         <div className="mt-2 flex flex-col gap-1 text-xs">
           <p className="text-ink-700">{known.definitionEn}</p>
-          {known.translationUz && <p className="text-ink-500">{known.translationUz}</p>}
+          {known.translationUz && <><hr className="dictionary-translation-divider" /><p className="text-ink-500">{known.translationUz}</p></>}
           <p className="text-ink-300">
             {t.tab.words} · {t.mastery[known.mastery as keyof typeof t.mastery] ?? known.mastery}
           </p>
@@ -475,8 +438,7 @@ export function WordPopover({
               {contextual.ipa && <span className="ml-1 font-mono" data-word-ipa>/{contextual.ipa}/</span>}
             </p>}
             <p>{contextual.definitionEn}</p>
-            {contextual.translationUz && <p>{contextual.translationUz}</p>}
-            <p className="mt-1 text-xs text-ink-500">{catalogueLookup ? contextual.sourceLabel : contextual.verificationStatus === "verified" ? t.contextVerified : t.contextUnverified}</p>
+            {contextual.translationUz && <><hr className="dictionary-translation-divider" /><p>{contextual.translationUz}</p></>}
           </div> : <>
           <label className="text-xs text-ink-500">
             {t.add.definition}

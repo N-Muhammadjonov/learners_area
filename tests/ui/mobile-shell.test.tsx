@@ -152,7 +152,7 @@ test("Module root routes redirect to Lessons while query-specific Grammar and le
   const reading = readFileSync(new URL("../../src/app/app/(shell)/reading/page.tsx", import.meta.url), "utf8");
   const listening = readFileSync(new URL("../../src/app/app/(shell)/listening/page.tsx", import.meta.url), "utf8");
   const grammar = readFileSync(new URL("../../src/app/app/(shell)/grammar/page.tsx", import.meta.url), "utf8");
-  const grammarTabs = readFileSync(new URL("../../src/components/navigation/ModuleNavigation.tsx", import.meta.url), "utf8");
+  const grammarTabs = readFileSync(new URL("../../src/lib/nav/module-sections.ts", import.meta.url), "utf8");
   assert.match(reading, /redirect\(target \?\? "\/app\/reading\/lessons"\)/);
   assert.match(reading, /readingLegacyDestination/);
   assert.match(listening, /redirect\("\/app\/listening\/lessons"\)/);

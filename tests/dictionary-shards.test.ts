@@ -5,8 +5,8 @@ import {encodeShard,decodeShard,shardKey,bytesHash} from '../src/lib/dictionary/
 import {DictionaryShardCache} from '../src/lib/dictionary/shard-cache';
 export const fixture=(n:string,release='rel-v1-111111111111111111111111'):Entry=>applyDraft([],{operation:'add_lexeme',lemma:n,partOfSpeech:'n',lexicalType:'word',definitionEn:'A test-only meaning for '+n,translationUz:'sinov '+n,definitionUz:'Sinov ma’nosi',examples:[]},release);
 test('deterministic compressed shards reject corruption, wrong IDs and foreign release',()=>{
- const e=fixture('bank'),{body,descriptor}=encodeShard(e.release_id,[e]);
- assert.deepEqual(encodeShard(e.release_id,[e]),{body,descriptor});assert.deepEqual(decodeShard(e.release_id,descriptor,body).get(e.lexeme_id),e);
+ const e=fixture('bank'),encoded=encodeShard(e.release_id,[e]),{body,descriptor}=encoded;
+ assert.deepEqual(encodeShard(e.release_id,[e]),encoded);assert.deepEqual(decodeShard(e.release_id,descriptor,body).get(e.lexeme_id),e);
  assert.throws(()=>decodeShard(e.release_id,descriptor,Buffer.from('broken')),/checksum/);
  assert.throws(()=>decodeShard('rel-v1-222222222222222222222222',descriptor,body),/identity/);
  assert.throws(()=>encodeShard(e.release_id,[e,e]),/identity/);

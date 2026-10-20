@@ -6,6 +6,8 @@ import type { Dictionary } from "@/lib/i18n/en";
 import { parentFor } from "@/lib/nav/routes";
 import { IconBack } from "@/components/ui/icons";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { Suspense } from "react";
+import { ModuleHeaderTitle } from "./ModuleHeaderSections";
 
 /**
  * The module identity lives ONLY in the fixed topbar, left of global search.
@@ -49,6 +51,7 @@ export function ModuleContextHeading({ dict }: { dict: Dictionary }) {
           <IconBack className="text-[17px]" />
         </Link>
       )}
+      <div className="flex min-w-0 flex-col gap-0.5">
       <span
         data-module-context-heading={activeModule.key}
         aria-current="location"
@@ -56,6 +59,8 @@ export function ModuleContextHeading({ dict }: { dict: Dictionary }) {
       >
         {activeModule.label}
       </span>
+      <Suspense fallback={null}><ModuleHeaderTitle dict={dict} /></Suspense>
+      </div>
     </div>
   );
 }
