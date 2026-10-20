@@ -53,7 +53,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/CHECKPOINT_V2.md | 10934 | 0074e95ed429c13803f320a4cc8d81f3bb68373860b5c6906670a6b1aa5ae3ce |
 | docs/CHECKPOINT_V20.md | 6475 | 7ae307b60af1d44ca67b9e394ebeb3c0ceeaf8320ae30c7e874621d66a3c3943 |
 | docs/CHECKPOINT_V21.md | 7490 | 190c82b51d78cb154e068d924ad79c0ff3887e55722cdca3b9def5309af23ce3 |
-| docs/CHECKPOINT_V22.md | 7123 | f24c68de77bd1d09bd9593cfd4efb66f8e26edad89fe852fedb6abc3a5fd18a8 |
+| docs/CHECKPOINT_V22.md | 8305 | e28014e9df9a45a17873937de08e1c1c6ab64bb7ebf98cfb86dd793ac7ebf7c7 |
 | docs/CHECKPOINT_V3.md | 13801 | c9288101aa89999705ae10fe36ab056f239aa2f79a5c5a0ea85bc4b674814852 |
 | docs/CHECKPOINT_V4.md | 5876 | e7680dabba10a881c476e157ce4bd0dcb23b5db3ede858ad66c87400924776e5 |
 | docs/CHECKPOINT_V5.md | 8033 | b86a0069be0ef98f8a20aa00e98b7d9da092cc7112a692874ba0c7ed509f7bc5 |
@@ -587,7 +587,9 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/evidence/v22/iterations/first-source.json | 3435 | d86d798067a4c50149b6063ec0784243177404a849bdd2b9007cf85459d909db |
 | docs/evidence/v22/iterations/first-source.txt | 5796 | e62a3b661a66fee9f0c66bcbb03fc1860e0de149c71d440cada9500e4e87e7fa |
 | docs/evidence/v22/iterations/media-confirm.txt | 788 | 543c3d20332bbda3b591202947ec645778c2ccb9446a503e9a76f5095155f957 |
-| docs/evidence/v22/original-behavior-v22.json | 5688 | fc53be4e3535543a20d77c6ddbeee931ec12d2762dd3f82033e4373c73227950 |
+| docs/evidence/v22/iterations/v22-frame-confirm.txt | 628 | 7e8c508744829bf84ddc53ccee607cd6022d97e7d22bd54d881e79e34a680baa |
+| docs/evidence/v22/iterations/v22-progress-confirm.txt | 734 | 8332200e25871a596a93eb705a8d6f83bfcdc944fe91e1a7ac284be718d67918 |
+| docs/evidence/v22/original-behavior-v22.json | 571 | 72236432115d459ac792b020d1a534f88b829b5551b93d9be7658b3576a9e797 |
 | docs/evidence/v22/review-performance.json | 591 | 98753cdba3e801df9e3eb6f1f6d845d99f740461bff81b51b5aaafc88a1f4173 |
 | docs/evidence/v3/README.md | 2555 | 2d7fb9abdb1611605bcd6ee9e49ec0442b5d5997221da49849c33d9513db7b99 |
 | docs/evidence/v3/browser-v3-output.txt | 6525 | 4bd06c7bcdc15c0bc25ee450d62a255898a25ca251f9f12fa3edd2181a495f81 |
@@ -1007,7 +1009,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | modules/legacy-redirect.js | 665 | 21827010c8027114504e1f32eb8e1fd2f3feee0ded80e7f158d561bcf8c03c8f |
 | modules/listening/authored-errors-v15.js | 310 | 278ea4f4e1a89e155976a19c8b206e47a7e694413cce067c4679a4df687e0c12 |
 | modules/listening/authored-progressive.js | 2084 | 8fa30ec359cde13fb47a74de5ae60148b3f92272608b94f77f98fe41c856e958 |
-| modules/listening/authored.js | 61409 | 4675c27f699c78aafafc2ee6a6e83405fe15043aa90d334e996192a717e2f2fe |
+| modules/listening/authored.js | 61500 | 523faf14b8fa8a6e0f36fc7d61e550bc6ff571bbc95c4337525c51a86f76cf1d |
 | modules/listening/catalogue-v10.js | 1497 | 713a8810e5a3edf50d031da8e9390620ec8e071a840716bdf754ccb80fbb152f |
 | modules/listening/catalogue-v9.js | 3040 | 0ef5eb98376668d2b98f2ab6313da802f5477b6464accfd2a1639bd561d5f536 |
 | modules/listening/checkpoint-notice-v14.js | 2107 | a2dedb96d3ba6473613b5b361974e7300d6dcc9e85e97c1899b5e5291104ce4c |
@@ -1198,11 +1200,11 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | tests/original-retry-v12-journeys.mjs | 10722 | 179b9fec23275f20156bfb09cb6bd854a82ca192aac2b80b8c4fe473cec596cb |
 | tests/original-review-v16-journeys.mjs | 13034 | 68d9fe40c004836f2ff026e8ae76f3b34855b773d385bdd33b4ed3e6637e92b9 |
 | tests/original-review-v17-journeys.mjs | 11331 | eb7e5de1e3a0f301ea788e6ebe8e2f07f198f919a3ca1a83407a372830962c5e |
-| tests/original-review-v18-journeys.mjs | 20201 | e01c5f62795d88b8b4ed8e7c23991c193d744fa1a104ef8a7e4f2bf85704c861 |
+| tests/original-review-v18-journeys.mjs | 20231 | 40e49c5fc2592e276e728636c44856c9b7a1096326e771df0f5d400c06cb9973 |
 | tests/original-review-v19-journeys.mjs | 25809 | b69a1c7e3a55b37dfe15b1cecbd5323fd49e62f9ffc71663db722ddb47f187c2 |
 | tests/original-review-v20-journeys.mjs | 6597 | 6ac91a6c51454a2ec987c34682f852050f5596f7c771a69f5a12013f87b9a72b |
 | tests/original-review-v21-journeys.mjs | 12944 | 49db7d58fb1e683657838b88561c517203848fbd63fbfe22bf4a504d8ad8ab69 |
-| tests/original-review-v22-journeys.mjs | 11279 | c4a3d3c4343895aafda8665eefdaa325a05bedc6e64c949dabd0159056081396 |
+| tests/original-review-v22-journeys.mjs | 13030 | d9d982153ddf61c40774f1df671b4c787fc8bd7816968fd10f9806054c1b8477 |
 | tests/phase1-v5.test.mjs | 25948 | 79b613e741f1cb9796c392177f63656b28610265aee9d1e4dcb983f5ad09fecd |
 | tests/phase2-v6.test.mjs | 9135 | efd9a6f0cb97b36b317f1b6cc614fca7e1c95e18281e35970d5cd34606d4b71d |
 | tests/shell-v4.test.mjs | 5361 | 87878c49e510b812c5577b981878478659700f7b27c02144dbcd6595ef6f7748 |
