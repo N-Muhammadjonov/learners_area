@@ -332,6 +332,11 @@ const en = {
     auditBody: "The security and administration journal.",
   },
 
+  managementStats: {
+    title:"Statistics", results:"All learning results", history:"Result history", started:"Started", completed:"Completed", learners:"Learners", accuracy:"Average accuracy", band:"Average band", rate:"Completion", activity:"Last 14 days", levels:"Retention levels", average:"Average", best:"Best", empty:"No recorded results yet.", date:"Date", result:"Result", state:"Status", ongoing:"In progress", all:"All", retention:"Retention results", scope:"Persisted results only. Bands and percentages are calculated separately.", top:"100 most active learners", notGraded:"Not graded", source:"Activity", tracking:"Telegram usernames refresh on the next interaction with the bot.",
+    modules:{reading:"Reading",listening:"Listening",writing:"Writing",speaking:"Speaking",retention:"Retention",vocabulary:"Vocabulary",grammar:"Grammar",video:"TED / PODCAST",lessons:"Lessons",assignments:"Assignments",mocks:"Mock tests"},
+    activities:{patternPractice:"Pattern practice",games:"Games",revision:"Revision",activation:"Activation Lab",academic:"Academic test",general:"General passage",activities:"Listening activities",mcq:"MCQ mastery",essays:"Essay",typing:"Typing",translation:"Translation",patterns:"Language patterns",speaking:"Speaking",retention:"Retention",grammar:"Grammar",video:"TED / PODCAST",words:"Saved word",practice:"Vocabulary practice",lessons:"Lesson",assignments:"Assignment",mocks:"Mock test"},
+  },
   studentResults: {
     title: "Mock results",
     taken: "Mocks taken",
@@ -449,6 +454,7 @@ const en = {
     bottom: "Help",
     management: "Management",
     backToLearning: "Back to learning",
+    statistics: "Statistics",
     people: "People",
     teaching: "Teaching",
     content: "Content",
@@ -2109,6 +2115,7 @@ const en = {
     noAdmins: "No administrator accounts yet.",
   },
   people: {
+    activity: "Last activity", visitTime: "Last visit", totalTime: "Total active time", notTracked: "Not recorded yet", presenceNote: "Online: active tab within 90 seconds. Time is recorded from tracking activation onward.",
     title: "People",
     subtitle: "Roles, admission state and suspensions. Every change is audited.",
     name: "Name",
@@ -2129,7 +2136,7 @@ const en = {
     confirmStatusTitle: "Confirm account status change",
     confirmStatusBody: "This changes private access for the account. The server will still verify your authority.",
     searchLabel: "Search people",
-    searchPlaceholder: "Name or email",
+    searchPlaceholder: "Name, @username or phone number",
     searchAction: "Search",
     clearFilters: "Clear filters",
     allRoles: "All roles",

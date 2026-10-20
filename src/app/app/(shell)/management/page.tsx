@@ -63,6 +63,7 @@ export default async function ManagementPage() {
 
   if (admin || owner) {
     areas.push(
+      {href:"/app/admin/statistics",title:dict.nav.statistics,body:dict.managementStats.scope,icon:<IconAudit/>},
       {
         href: "/app/admin/people",
         title: dict.nav.adminUsers,

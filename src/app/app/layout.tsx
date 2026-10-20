@@ -1,3 +1,4 @@
+import { PresenceHeartbeat } from "@/components/interaction/PresenceHeartbeat";
 import { performanceDiagnosticsEnabled } from "@/lib/config/site";
 import { redirect } from "next/navigation";
 import { getCurrentUser, getCurrentSessionAuthority } from "@/lib/auth/current-user";
@@ -49,6 +50,7 @@ export default async function AppNamespaceLayout({ children }: { children: React
     <>
       {/* Private client read cache is bound to the DB-verified user id only. */}
       <PrivateResourceScope scope={user.id} />
+      <PresenceHeartbeat userId={user.id} />
       {/* A single owner-triggered event stream when direct PostgreSQL LISTEN is configured. */}
       <AccessChangeListener enabled={Boolean(accessEventsConnectionString())} role={user.role} expiresAt={authority?.expiresAt} />
       {children}

@@ -44,7 +44,8 @@ export default async function AdminPeoplePage({
     role: isRole(rawRole) ? rawRole : undefined,
     status: isAccountStatus(rawStatus) ? rawStatus : undefined,
     page: pageNumber(params.page),
-  });
+    online: first(params.online)==="1",
+  },undefined,actor.role==="owner");
   const dict = getDictionary(locale);
   return <Suspense fallback={<div role="status" aria-busy="true" aria-label={dict.common.loading} data-async-loading="management-people" className="h-40 animate-pulse rounded-xl bg-ink-50" />}>
     <PeopleResults directoryPromise={directoryPromise} actor={actor} dict={dict} locale={locale} />
@@ -58,7 +59,7 @@ async function PeopleResults({ directoryPromise, actor, dict, locale }: {
 }) {
   const directory = await directoryPromise;
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-4">
+    <div className="flex w-full min-w-0 flex-col gap-4">
       <div>
         <h1 className="font-display text-2xl text-ink-900">{dict.people.title}</h1>
         <p className="text-sm text-ink-500">{dict.people.subtitle}</p>
@@ -71,6 +72,7 @@ async function PeopleResults({ directoryPromise, actor, dict, locale }: {
         page={directory.page}
         pageSize={directory.pageSize}
         total={directory.total}
+        onlineCount={directory.onlineCount}
         totalPages={directory.totalPages}
         actorId={actor.id}
         actorRole={actor.role}

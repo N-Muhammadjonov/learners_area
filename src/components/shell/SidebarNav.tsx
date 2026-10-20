@@ -119,6 +119,7 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
   if (role === "admin" || role === "owner") {
     managementItems.push(
       { href: "/app/admin/people", label: nav.people, icon: <IconPeople /> },
+      { href: "/app/admin/statistics", label: nav.statistics, icon: <IconProgress /> },
       { href: "/app/admin/admissions", label: nav.admissions, icon: <IconAdmissions /> }
     );
   }
