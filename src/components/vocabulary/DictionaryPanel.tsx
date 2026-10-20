@@ -50,12 +50,14 @@ export function DictionaryPanel({
   const [active, setActive] = useState(-1);
   const [retry, setRetry] = useState(0);
   const request = useRef(0);
+  const entryCacheKeys=useRef<string[]>([]);
   const mounted = useRef(true);
   const base = owner ? "/api/owner/dictionary" : "/api/dictionary";
   useEffect(() => {
     mounted.current = true;
     return () => {
       mounted.current = false;
+      for(const key of entryCacheKeys.current)privateResources.invalidate(key);
     };
   }, []);
   const read = useCallback(
@@ -119,7 +121,7 @@ export function DictionaryPanel({
         .finally(() => {
           if (stamp === request.current) setLoading(false);
         });
-    }, 220);
+    }, 150);
     return () => {
       clearTimeout(timer);
       abort.abort();
@@ -136,10 +138,16 @@ export function DictionaryPanel({
     setError("");
     try {
       const pin = release ? `?release_id=${encodeURIComponent(release)}` : "";
+      const cached=release?privateResources.peek<Entry>(`dictionary:entry:${base}:${release}:${hit.lexeme_id}`):null;
+      if(cached&&cached.ageMs<300000){setEntry(cached.data);setSaved([]);}
       const result = await read<{ entry: Entry; saved?: string[] }>(
         `${base}/entries/${hit.lexeme_id}${pin}`,
       );
       if (stamp !== request.current || !mounted.current) return;
+      const resource=`dictionary:entry:${base}:${result.entry.release_id}:${hit.lexeme_id}`;
+      privateResources.set(resource,result.entry);
+      entryCacheKeys.current=entryCacheKeys.current.filter(key=>key!==resource);entryCacheKeys.current.push(resource);
+      while(entryCacheKeys.current.length>8)privateResources.invalidate(entryCacheKeys.current.shift()!);
       setEntry(result.entry);
       setRelease(result.entry.release_id);
       setSaved(result.saved ?? []);
@@ -167,7 +175,7 @@ export function DictionaryPanel({
         }
       }
     } catch {
-      if (stamp === request.current && mounted.current) setError(t.unavailable);
+      if (stamp === request.current && mounted.current) {setEntry(null);setError(t.unavailable);}
     } finally {
       if (stamp === request.current && mounted.current) setLoading(false);
     }
@@ -498,6 +506,7 @@ export function DictionaryPanel({
                       className="space-y-4 px-4 pb-5 sm:px-5 lg:grid lg:grid-cols-[minmax(0,1fr)_220px] lg:gap-6 lg:space-y-0"
                     >
                       <div className="max-w-[70ch] space-y-4">
+                        {sense.editorial && sense.editorial.translation_status!=="human_reviewed" && <p className="text-sm text-ink-500">{dict.vocabulary.contextUnverified}</p>}
                         <div>
                           <h4 className="mb-1 text-sm font-semibold">
                             {t.english}
@@ -514,6 +523,7 @@ export function DictionaryPanel({
                             {sense.definition_uz}
                           </p>
                         </div>
+                        {!!sense.editorial?.reference_urls.length && <div className="flex flex-wrap gap-2 text-xs">{sense.editorial.reference_urls.map(url=><a key={url} href={url} target="_blank" rel="noreferrer" className="underline">{new URL(url).hostname.replace(/^www\./,"")}</a>)}</div>}
                         {sense.examples.length > 0 && (
                           <div>
                             <h4 className="mb-2 text-sm font-semibold">

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import { sql } from "drizzle-orm";
 import { db } from "../../src/db/client";
-import { entrySchema, entryTerms, sha, stableJson, type Entry } from "../../src/lib/dictionary/model";
+import { entrySchema, entryTerms, normalizeSearch, sha, stableJson, type Entry } from "../../src/lib/dictionary/model";
 import { bytesHash, shardId } from "../../src/lib/dictionary/shards";
 import { writeShard, publishManifest } from "../../src/lib/dictionary/offload";
 import { contentHash, releaseManifest, rows, writeTerms } from "../../src/lib/dictionary/store";
@@ -35,7 +35,7 @@ export function verifiedSource(file:string, attributionFile:string) {
 type ImportDb=Pick<typeof db,"execute"|"transaction">;
 /** No channel activation here. Complete per-shard transactions make retry idempotent. */
 export type ExpectedImport = {release:string;lexemes:number;senses:number;examples:number;entryInventorySha:string;senseSetSha:string;exampleSetSha:string;searchTerms:number};
-export async function importHybridGroups(groups:AsyncIterable<Entry[]>,expected:ExpectedImport,objects:DictionaryObjects,conn:ImportDb,owner:string|null=null) {
+export async function importHybridGroups(groups:AsyncIterable<Entry[]>,expected:ExpectedImport,objects:DictionaryObjects,conn:ImportDb,owner:string|null=null,workerIndex?:import('../../src/lib/dictionary/worker-gateway').WorkerIndexManifest) {
   const release=expected.release;
   const [existing]=await rows<{state:string;manifest:unknown;manifest_sha:string}>(sql`select state,manifest,manifest_sha from dictionary_releases where id=${release}`,conn);
   const assertExpected=(manifest:Awaited<ReturnType<typeof releaseManifest>>) => {
@@ -47,7 +47,8 @@ export async function importHybridGroups(groups:AsyncIterable<Entry[]>,expected:
     return {release,alreadyValidated:true,manifest:actual};
   }
   if(existing?.state==='failed')throw Error("failed_release_requires_cleanup");
-  await conn.execute(sql`insert into dictionary_releases(id,state,created_by) values(${release},'building',${owner}::uuid) on conflict do nothing`);
+  await conn.execute(sql`insert into dictionary_releases(id,state,created_by,delivery) values(${release},'building',${owner}::uuid,${workerIndex?'r2-worker-v1':'legacy'}) on conflict do nothing`);
+  if(workerIndex)await conn.execute(sql`insert into dictionary_search_indexes(release_id,descriptor) values(${release},${JSON.stringify(workerIndex)}::jsonb) on conflict do nothing`);
   const app=await rows<{id:string;term:string;part_of_speech:string|null;definition_en:string;lexical_unit_id:string|null}>(sql`select id,term,part_of_speech,definition_en,lexical_unit_id from lexemes order by id limit 10001`,conn);
   if(app.length>10000)throw Error("existing_lexicon_mapping_review_required");
   const keyOf=(term:string,pos:string|null,meaning:string)=>senseKeyOf({term,partOfSpeech:pos?dictionaryPos(pos):null,meaning});
@@ -62,10 +63,10 @@ export async function importHybridGroups(groups:AsyncIterable<Entry[]>,expected:
     if(state?.state!=='building')throw Error("release_not_building");
     for(const e of group)for(const sense of e.senses){
       const key=keyOf(e.display_lemma,e.part_of_speech,sense.definition_en),sameId=byAppId.get(sense.sense_id);
-      if(sameId){if(keyOf(sameId.term,sameId.part_of_speech,sameId.definition_en)!==key)throw Error("canonical_identity_conflict");direct.set(sameId.id,sense.sense_id);}
+      if(sameId){const sameUntypedIdentity=sameId.part_of_speech===null&&normalizeSearch(sameId.term)===normalizeSearch(e.display_lemma)&&normalizeSearch(sameId.definition_en)===normalizeSearch(sense.definition_en);if(keyOf(sameId.term,sameId.part_of_speech,sameId.definition_en)!==key&&!sameUntypedIdentity)throw Error("canonical_identity_conflict");direct.set(sameId.id,sense.sense_id);}
       if(byAppKey.has(key)){const set=candidates.get(key)??new Set<string>();set.add(sense.sense_id);candidates.set(key,set);}
     }
-    await writeShard(group,objects,tx);await writeTerms(group,tx);
+    await writeShard(group,objects,tx,!workerIndex);if(!workerIndex)await writeTerms(group,tx);
   });
   const manifest=await releaseManifest(release,conn);assertExpected(manifest);
   await publishManifest(release,manifest,objects);

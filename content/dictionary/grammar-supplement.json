@@ -1,0 +1,1294 @@
+{
+  "version": 1,
+  "policy": "Original concise grammar explanations; primary-source English facts checked. Uzbek translations are AI editorial drafts, not human-reviewed. Separate grammatical senses have separate stable keys.",
+  "entries": [
+    {
+      "term": "I",
+      "key": "subject",
+      "part_of_speech": "pronoun",
+      "definition_en": "The speaker, as a subject.",
+      "translation_uz": "men",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "me",
+      "key": "object",
+      "part_of_speech": "pronoun",
+      "definition_en": "The speaker, as an object.",
+      "translation_uz": "meni; menga",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "you",
+      "key": "person",
+      "part_of_speech": "pronoun",
+      "definition_en": "The listener or people addressed.",
+      "translation_uz": "sen; siz",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "he",
+      "key": "subject",
+      "part_of_speech": "pronoun",
+      "definition_en": "A male person already identified.",
+      "translation_uz": "u (erkak)",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "him",
+      "key": "object",
+      "part_of_speech": "pronoun",
+      "definition_en": "A male person, as an object.",
+      "translation_uz": "uni; unga (erkak)",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "she",
+      "key": "subject",
+      "part_of_speech": "pronoun",
+      "definition_en": "A female person already identified.",
+      "translation_uz": "u (ayol)",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "her",
+      "key": "object",
+      "part_of_speech": "pronoun",
+      "definition_en": "A female person, as an object.",
+      "translation_uz": "uni; unga (ayol)",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "it",
+      "key": "referent",
+      "part_of_speech": "pronoun",
+      "definition_en": "A thing or animal already identified.",
+      "translation_uz": "u (narsa yoki hayvon)",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "we",
+      "key": "subject",
+      "part_of_speech": "pronoun",
+      "definition_en": "The speaker and others.",
+      "translation_uz": "biz",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "us",
+      "key": "object",
+      "part_of_speech": "pronoun",
+      "definition_en": "The speaker and others, as an object.",
+      "translation_uz": "bizni; bizga",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "they",
+      "key": "plural",
+      "part_of_speech": "pronoun",
+      "definition_en": "People or things already identified.",
+      "translation_uz": "ular",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "them",
+      "key": "object",
+      "part_of_speech": "pronoun",
+      "definition_en": "People or things, as an object.",
+      "translation_uz": "ularni; ularga",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "they",
+      "key": "singular",
+      "part_of_speech": "pronoun",
+      "definition_en": "A person whose gender is unspecified.",
+      "translation_uz": "u (jinsi ko‘rsatilmagan shaxs)",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-personal-i-me-you-him-it-they-"
+    },
+    {
+      "term": "my",
+      "key": "possession",
+      "part_of_speech": "determiner",
+      "definition_en": "Belonging to the speaker.",
+      "translation_uz": "mening",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-possessive-my-mine-your-yours-etc"
+    },
+    {
+      "term": "your",
+      "key": "possession",
+      "part_of_speech": "determiner",
+      "definition_en": "Belonging to the listener.",
+      "translation_uz": "sening; sizning",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-possessive-my-mine-your-yours-etc"
+    },
+    {
+      "term": "his",
+      "key": "possession",
+      "part_of_speech": "determiner",
+      "definition_en": "Belonging to a male person.",
+      "translation_uz": "uning (erkak)",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-possessive-my-mine-your-yours-etc"
+    },
+    {
+      "term": "her",
+      "key": "possession",
+      "part_of_speech": "determiner",
+      "definition_en": "Belonging to a female person.",
+      "translation_uz": "uning (ayol)",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-possessive-my-mine-your-yours-etc"
+    },
+    {
+      "term": "its",
+      "key": "possession",
+      "part_of_speech": "determiner",
+      "definition_en": "Belonging to an identified thing.",
+      "translation_uz": "uning (narsa yoki hayvon)",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-possessive-my-mine-your-yours-etc"
+    },
+    {
+      "term": "our",
+      "key": "possession",
+      "part_of_speech": "determiner",
+      "definition_en": "Belonging to the speaker and others.",
+      "translation_uz": "bizning",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-possessive-my-mine-your-yours-etc"
+    },
+    {
+      "term": "their",
+      "key": "possession",
+      "part_of_speech": "determiner",
+      "definition_en": "Belonging to people or things mentioned.",
+      "translation_uz": "ularning",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/pronouns-possessive-my-mine-your-yours-etc"
+    },
+    {
+      "term": "the",
+      "key": "definite",
+      "part_of_speech": "determiner",
+      "definition_en": "Marks a noun as specific or already known.",
+      "translation_uz": "aniq yoki avval aytilgan narsa; alohida tarjima qilinmasligi mumkin",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/the"
+    },
+    {
+      "term": "a",
+      "key": "indefinite",
+      "part_of_speech": "determiner",
+      "definition_en": "Introduces an unspecified singular countable noun before a consonant sound.",
+      "translation_uz": "bir; qandaydir",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/the"
+    },
+    {
+      "term": "an",
+      "key": "indefinite",
+      "part_of_speech": "determiner",
+      "definition_en": "Introduces an unspecified singular countable noun before a vowel sound.",
+      "translation_uz": "bir; qandaydir",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/the"
+    },
+    {
+      "term": "this",
+      "key": "near",
+      "part_of_speech": "determiner",
+      "definition_en": "Identifies one nearby thing or a current matter.",
+      "translation_uz": "bu; shu",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/determiners-the-my-some-this"
+    },
+    {
+      "term": "that",
+      "key": "distant",
+      "part_of_speech": "determiner",
+      "definition_en": "Identifies one more distant thing or a previously mentioned matter.",
+      "translation_uz": "o‘sha; ana u",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/determiners-the-my-some-this"
+    },
+    {
+      "term": "these",
+      "key": "near-plural",
+      "part_of_speech": "determiner",
+      "definition_en": "Identifies nearby things; the plural of this.",
+      "translation_uz": "bular; shular",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/determiners-the-my-some-this"
+    },
+    {
+      "term": "those",
+      "key": "distant-plural",
+      "part_of_speech": "determiner",
+      "definition_en": "Identifies more distant things; the plural of that.",
+      "translation_uz": "o‘shalar; ana ular",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/determiners-the-my-some-this"
+    },
+    {
+      "term": "and",
+      "key": "addition",
+      "part_of_speech": "conjunction",
+      "definition_en": "Connects additional items or ideas.",
+      "translation_uz": "va; hamda",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/conjunctions-subordinating"
+    },
+    {
+      "term": "or",
+      "key": "alternative",
+      "part_of_speech": "conjunction",
+      "definition_en": "Connects alternatives or choices.",
+      "translation_uz": "yoki",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/conjunctions-subordinating"
+    },
+    {
+      "term": "but",
+      "key": "contrast",
+      "part_of_speech": "conjunction",
+      "definition_en": "Connects ideas that contrast.",
+      "translation_uz": "lekin; ammo",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/conjunctions-subordinating"
+    },
+    {
+      "term": "because",
+      "key": "reason",
+      "part_of_speech": "conjunction",
+      "definition_en": "Introduces the reason for something.",
+      "translation_uz": "chunki; ... sababli",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/conjunctions-subordinating"
+    },
+    {
+      "term": "if",
+      "key": "condition",
+      "part_of_speech": "conjunction",
+      "definition_en": "Introduces a condition for another event.",
+      "translation_uz": "agar",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/conjunctions-subordinating"
+    },
+    {
+      "term": "when",
+      "key": "time",
+      "part_of_speech": "conjunction",
+      "definition_en": "Introduces the time of an event.",
+      "translation_uz": "...-ganda; ... vaqtida",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/conjunctions-subordinating"
+    },
+    {
+      "term": "while",
+      "key": "simultaneous",
+      "part_of_speech": "conjunction",
+      "definition_en": "Introduces an event happening at the same time.",
+      "translation_uz": "... paytida; ...-ayotganda",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/conjunctions-subordinating"
+    },
+    {
+      "term": "although",
+      "key": "contrast",
+      "part_of_speech": "conjunction",
+      "definition_en": "Introduces a fact that contrasts with another.",
+      "translation_uz": "... bo‘lsa-da; garchi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/conjunctions-subordinating"
+    },
+    {
+      "term": "that",
+      "key": "reported-clause",
+      "part_of_speech": "conjunction",
+      "definition_en": "Introduces a reported statement or thought.",
+      "translation_uz": "...-ligini; ... deb",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/conjunctions-subordinating"
+    },
+    {
+      "term": "I'm",
+      "key": "short-form",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of I am.",
+      "translation_uz": "men ...man",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "I'll",
+      "key": "short-form",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of I will.",
+      "translation_uz": "men ...aman (kelasi zamon yoki niyat)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "we're",
+      "key": "short-form",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of we are.",
+      "translation_uz": "biz ...miz",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "they're",
+      "key": "short-form",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of they are.",
+      "translation_uz": "ular ...",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "don't",
+      "key": "short-form",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of do not.",
+      "translation_uz": "... qilmayman; ... qilma (egaga bog‘liq)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "doesn't",
+      "key": "short-form",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of does not.",
+      "translation_uz": "... qilmaydi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "didn't",
+      "key": "short-form",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of did not.",
+      "translation_uz": "... qilmadi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "can't",
+      "key": "short-form",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of cannot.",
+      "translation_uz": "... qila olmaydi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "won't",
+      "key": "short-form",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of will not.",
+      "translation_uz": "... qilmaydi (kelajak yoki rad etish)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "couldn't",
+      "key": "short-form",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of could not.",
+      "translation_uz": "... qila olmadi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "shouldn't",
+      "key": "short-form",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of should not.",
+      "translation_uz": "... qilmaslik kerak",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "it's",
+      "key": "it-is",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of it is.",
+      "translation_uz": "u ...; bu ...",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "it's",
+      "key": "it-has",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of it has before a past participle.",
+      "translation_uz": "u ... qilgan (tugallangan zamon)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "she's",
+      "key": "she-is",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of she is.",
+      "translation_uz": "u ... (ayol)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "she's",
+      "key": "she-has",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "A short form of she has before a past participle.",
+      "translation_uz": "u ... qilgan (ayol; tugallangan zamon)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "to",
+      "key": "destination",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks a destination or recipient.",
+      "translation_uz": "-ga; tomon; kimga yo‘naltirilganini bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/to"
+    },
+    {
+      "term": "to",
+      "key": "endpoint",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks the ending point of a range.",
+      "translation_uz": "-gacha (oraliqning oxiri)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/to"
+    },
+    {
+      "term": "to",
+      "key": "infinitive",
+      "part_of_speech": "particle",
+      "definition_en": "Introduces an infinitive verb.",
+      "translation_uz": "-moq; fe’lning infinitiv shakli oldida keladi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/to"
+    },
+    {
+      "term": "of",
+      "key": "association",
+      "part_of_speech": "preposition",
+      "definition_en": "Links something with its owner or source.",
+      "translation_uz": "-ning; biror narsaga mansublik yoki manbani bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/of"
+    },
+    {
+      "term": "of",
+      "key": "part",
+      "part_of_speech": "preposition",
+      "definition_en": "Links a part or quantity to its whole.",
+      "translation_uz": "-dan; butunning qismi yoki miqdorini bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/of"
+    },
+    {
+      "term": "of",
+      "key": "material",
+      "part_of_speech": "preposition",
+      "definition_en": "Links an object with its material or contents.",
+      "translation_uz": "-dan; tarkibi yoki materialini bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/of"
+    },
+    {
+      "term": "for",
+      "key": "purpose",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks a purpose or intended recipient.",
+      "translation_uz": "uchun (maqsad yoki oluvchi)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/for"
+    },
+    {
+      "term": "for",
+      "key": "duration",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks the length of a time period.",
+      "translation_uz": "davomida; muddat davomiyligini bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/for"
+    },
+    {
+      "term": "with",
+      "key": "together",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks an accompanying person or thing.",
+      "translation_uz": "bilan; birga",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/with"
+    },
+    {
+      "term": "with",
+      "key": "instrument",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks the instrument used for an action.",
+      "translation_uz": "yordamida; vositasida",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/with"
+    },
+    {
+      "term": "with",
+      "key": "having",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks a feature that someone or something has.",
+      "translation_uz": "-li; ...ga ega bo‘lgan",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/with"
+    },
+    {
+      "term": "from",
+      "key": "origin",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks an origin or starting point.",
+      "translation_uz": "-dan (manba yoki boshlanish nuqtasi)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/from"
+    },
+    {
+      "term": "from",
+      "key": "material",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks the material used to make something.",
+      "translation_uz": "-dan (tayyorlangan material)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/from"
+    },
+    {
+      "term": "during",
+      "key": "within-period",
+      "part_of_speech": "preposition",
+      "definition_en": "Places an event within a named period.",
+      "translation_uz": "paytida; davomida (belgilangan vaqt ichida)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/during"
+    },
+    {
+      "term": "without",
+      "key": "absence",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks the absence of something or an action.",
+      "translation_uz": "-siz; ...masdan; biror narsa yoki harakatsiz",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/without"
+    },
+    {
+      "term": "into",
+      "key": "inside",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks movement towards the inside.",
+      "translation_uz": "ichiga",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/into"
+    },
+    {
+      "term": "into",
+      "key": "change",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks the resulting state of a change.",
+      "translation_uz": "...ga aylanishini bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/into"
+    },
+    {
+      "term": "which",
+      "key": "choice",
+      "part_of_speech": "pronoun",
+      "definition_en": "Asks for a choice from identified possibilities.",
+      "translation_uz": "qaysi biri",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/which"
+    },
+    {
+      "term": "which",
+      "key": "relative",
+      "part_of_speech": "pronoun",
+      "definition_en": "Refers back to a thing in a relative clause.",
+      "translation_uz": "...ki; avval aytilgan narsa haqida izoh kiritadi",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/which"
+    },
+    {
+      "term": "which",
+      "key": "choice",
+      "part_of_speech": "determiner",
+      "definition_en": "Specifies a choice before a noun.",
+      "translation_uz": "qaysi (ot oldidan)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/questions-interrogative-"
+    },
+    {
+      "term": "what",
+      "key": "information",
+      "part_of_speech": "pronoun",
+      "definition_en": "Asks for information about a thing.",
+      "translation_uz": "nima",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/questions-interrogative-"
+    },
+    {
+      "term": "what",
+      "key": "relative",
+      "part_of_speech": "pronoun",
+      "definition_en": "Refers to the thing that is described.",
+      "translation_uz": "...gan narsa; nima ...sa",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/questions-interrogative-"
+    },
+    {
+      "term": "what",
+      "key": "information",
+      "part_of_speech": "determiner",
+      "definition_en": "Asks which kind or item before a noun.",
+      "translation_uz": "qanday; qaysi (ot oldidan)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/questions-interrogative-"
+    },
+    {
+      "term": "whose",
+      "key": "owner",
+      "part_of_speech": "determiner",
+      "definition_en": "Asks who owns something before a noun.",
+      "translation_uz": "kimning (ot oldidan)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/questions-interrogative-"
+    },
+    {
+      "term": "whose",
+      "key": "owner",
+      "part_of_speech": "pronoun",
+      "definition_en": "Asks who something belongs to.",
+      "translation_uz": "kimniki",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/questions-interrogative-"
+    },
+    {
+      "term": "where",
+      "key": "place-question",
+      "part_of_speech": "adverb",
+      "definition_en": "Asks about a place.",
+      "translation_uz": "qayerda; qayerga",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/where"
+    },
+    {
+      "term": "where",
+      "key": "place-clause",
+      "part_of_speech": "conjunction",
+      "definition_en": "Introduces the place or situation in question.",
+      "translation_uz": "...gan joyda; ...gan vaziyatda",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/where"
+    },
+    {
+      "term": "how",
+      "key": "method",
+      "part_of_speech": "adverb",
+      "definition_en": "Asks about a method or manner.",
+      "translation_uz": "qanday; qay tarzda",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/how"
+    },
+    {
+      "term": "how",
+      "key": "degree",
+      "part_of_speech": "adverb",
+      "definition_en": "Asks about a degree or amount.",
+      "translation_uz": "qanchalik; qancha",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/how"
+    },
+    {
+      "term": "could",
+      "key": "possibility",
+      "part_of_speech": "modal verb",
+      "definition_en": "Presents something as possible.",
+      "translation_uz": "mumkin; ehtimol",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/could%3A"
+    },
+    {
+      "term": "could",
+      "key": "past-ability",
+      "part_of_speech": "modal verb",
+      "definition_en": "Expresses general ability in the past.",
+      "translation_uz": "...a olardi; ilgari qodir edi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/could%3A"
+    },
+    {
+      "term": "could",
+      "key": "request",
+      "part_of_speech": "modal verb",
+      "definition_en": "Makes a polite request or asks permission.",
+      "translation_uz": "...a olasizmi; mumkinmi (muloyim so‘rov)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/could%3A"
+    },
+    {
+      "term": "would",
+      "key": "imagined",
+      "part_of_speech": "modal verb",
+      "definition_en": "Describes a result in an imagined situation.",
+      "translation_uz": "...gan bo‘lardi (faraziy vaziyatda)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/would"
+    },
+    {
+      "term": "would",
+      "key": "past-habit",
+      "part_of_speech": "modal verb",
+      "definition_en": "Describes repeated actions in the past.",
+      "translation_uz": "...ar edi; odatda shunday qilardi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/would"
+    },
+    {
+      "term": "would",
+      "key": "polite",
+      "part_of_speech": "modal verb",
+      "definition_en": "Makes a request less direct.",
+      "translation_uz": "...ardingizmi; ...sangiz (muloyim iltimos)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/would"
+    },
+    {
+      "term": "should",
+      "key": "advice",
+      "part_of_speech": "modal verb",
+      "definition_en": "Expresses advice or a desirable action.",
+      "translation_uz": "...ishi kerak; ...gani ma’qul (maslahat)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/Should"
+    },
+    {
+      "term": "should",
+      "key": "expectation",
+      "part_of_speech": "modal verb",
+      "definition_en": "Expresses an expected or likely outcome.",
+      "translation_uz": "...ishi kutiladi; ehtimol ...adi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/Should"
+    },
+    {
+      "term": "than",
+      "key": "comparison",
+      "part_of_speech": "conjunction",
+      "definition_en": "Introduces the other side of a comparison.",
+      "translation_uz": "...ga qaraganda; ...dan ko‘ra",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/comparison-adjectives-bigger-biggest-more-and-most"
+    },
+    {
+      "term": "whether",
+      "key": "alternatives",
+      "part_of_speech": "conjunction",
+      "definition_en": "Introduces an unresolved yes-or-no choice.",
+      "translation_uz": "...mi yoki yo‘qmi; ...yoki ...ligini",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/indirect-questions"
+    },
+    {
+      "term": "until",
+      "key": "endpoint",
+      "part_of_speech": "conjunction",
+      "definition_en": "Continues a situation up to a stated time.",
+      "translation_uz": "...guncha; ...gacha",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/as-soon-as"
+    },
+    {
+      "term": "since",
+      "key": "starting-time",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks the earlier time when something began.",
+      "translation_uz": "...dan beri",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/since?q=since"
+    },
+    {
+      "term": "since",
+      "key": "starting-event",
+      "part_of_speech": "conjunction",
+      "definition_en": "Marks the event from which time is counted.",
+      "translation_uz": "...ganidan beri",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/since?q=since"
+    },
+    {
+      "term": "since",
+      "key": "reason",
+      "part_of_speech": "conjunction",
+      "definition_en": "Introduces the reason for a statement.",
+      "translation_uz": "chunki; ...gani uchun",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/since?q=since"
+    },
+    {
+      "term": "something",
+      "key": "indefinite",
+      "part_of_speech": "pronoun",
+      "definition_en": "An unspecified thing.",
+      "translation_uz": "nimadir; biror narsa",
+      "reference_url": "https://dictionary.cambridge.org/uk/grammar/british-grammar/pronouns-indefinite"
+    },
+    {
+      "term": "anything",
+      "key": "indefinite",
+      "part_of_speech": "pronoun",
+      "definition_en": "Any thing, without specifying which.",
+      "translation_uz": "biror narsa; har qanday narsa; inkor gapda: hech narsa",
+      "reference_url": "https://dictionary.cambridge.org/uk/grammar/british-grammar/pronouns-indefinite"
+    },
+    {
+      "term": "everyone",
+      "key": "indefinite",
+      "part_of_speech": "pronoun",
+      "definition_en": "All the people in the relevant group.",
+      "translation_uz": "hamma; har bir kishi",
+      "reference_url": "https://dictionary.cambridge.org/uk/grammar/british-grammar/pronouns-indefinite"
+    },
+    {
+      "term": "somebody",
+      "key": "indefinite",
+      "part_of_speech": "pronoun",
+      "definition_en": "An unspecified person.",
+      "translation_uz": "kimdir",
+      "reference_url": "https://dictionary.cambridge.org/uk/grammar/british-grammar/pronouns-indefinite"
+    },
+    {
+      "term": "anybody",
+      "key": "indefinite",
+      "part_of_speech": "pronoun",
+      "definition_en": "Any person, without specifying who.",
+      "translation_uz": "kimdir; istalgan kishi; inkor gapda: hech kim",
+      "reference_url": "https://dictionary.cambridge.org/uk/grammar/british-grammar/pronouns-indefinite"
+    },
+    {
+      "term": "others",
+      "key": "additional",
+      "part_of_speech": "pronoun",
+      "definition_en": "Additional or different people or things.",
+      "translation_uz": "boshqalar; boshqa narsalar",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/other-others-the-other-or-another"
+    },
+    {
+      "term": "itself",
+      "key": "reflexive",
+      "part_of_speech": "pronoun",
+      "definition_en": "Refers back to the same subject.",
+      "translation_uz": "o‘zi; o‘zini (narsa yoki hayvon)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/reflexive"
+    },
+    {
+      "term": "themselves",
+      "key": "reflexive",
+      "part_of_speech": "pronoun",
+      "definition_en": "Refers back to the same subject.",
+      "translation_uz": "o‘zlari; o‘zlarini",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/reflexive"
+    },
+    {
+      "term": "myself",
+      "key": "reflexive",
+      "part_of_speech": "pronoun",
+      "definition_en": "Refers back to the same subject.",
+      "translation_uz": "o‘zim; o‘zimni",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/reflexive"
+    },
+    {
+      "term": "yourself",
+      "key": "reflexive",
+      "part_of_speech": "pronoun",
+      "definition_en": "Refers back to the same subject.",
+      "translation_uz": "o‘zingiz; o‘zingizni",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/reflexive"
+    },
+    {
+      "term": "ourselves",
+      "key": "reflexive",
+      "part_of_speech": "pronoun",
+      "definition_en": "Refers back to the same subject.",
+      "translation_uz": "o‘zimiz; o‘zimizni",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/reflexive"
+    },
+    {
+      "term": "among",
+      "key": "group",
+      "part_of_speech": "preposition",
+      "definition_en": "Places something within a group or collection.",
+      "translation_uz": "orasida; ichida (guruh yoki to‘plamda)",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/between-or-among"
+    },
+    {
+      "term": "onto",
+      "key": "surface",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks movement to a position on a surface.",
+      "translation_uz": "ustiga (harakat yo‘nalishi)",
+      "reference_url": "https://dictionary.cambridge.org/uk/grammar/british-grammar/on-onto"
+    },
+    {
+      "term": "against",
+      "key": "opposition",
+      "part_of_speech": "preposition",
+      "definition_en": "Marks opposition to someone or something.",
+      "translation_uz": "qarshi",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/against"
+    },
+    {
+      "term": "per",
+      "key": "rate",
+      "part_of_speech": "preposition",
+      "definition_en": "Expresses an amount for each unit.",
+      "translation_uz": "har bir ... uchun; ...ga (nisbat yoki narx)",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/per"
+    },
+    {
+      "term": "else",
+      "key": "additional",
+      "part_of_speech": "adverb",
+      "definition_en": "Adds another or different alternative.",
+      "translation_uz": "yana; boshqa",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/else"
+    },
+    {
+      "term": "I've",
+      "key": "short-have",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “I have”.",
+      "translation_uz": "men: tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "I'd",
+      "key": "short-would",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “I would”.",
+      "translation_uz": "men: faraz, muloyim so‘rov yoki o‘tmish odati",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    },
+    {
+      "term": "I'd",
+      "key": "short-had",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “I had”.",
+      "translation_uz": "men: oldingi tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "you're",
+      "key": "short-are",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “you are”.",
+      "translation_uz": "siz: hozirgi holatni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "you've",
+      "key": "short-have",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “you have”.",
+      "translation_uz": "siz: tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "you'll",
+      "key": "short-will",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “you will”.",
+      "translation_uz": "siz: kelajak, qaror yoki tayyorlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/future-will-and-shall"
+    },
+    {
+      "term": "you'd",
+      "key": "short-would",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “you would”.",
+      "translation_uz": "siz: faraz, muloyim so‘rov yoki o‘tmish odati",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    },
+    {
+      "term": "you'd",
+      "key": "short-had",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “you had”.",
+      "translation_uz": "siz: oldingi tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "he'll",
+      "key": "short-will",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “he will”.",
+      "translation_uz": "u (erkak): kelajak, qaror yoki tayyorlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/future-will-and-shall"
+    },
+    {
+      "term": "he'd",
+      "key": "short-would",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “he would”.",
+      "translation_uz": "u (erkak): faraz, muloyim so‘rov yoki o‘tmish odati",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    },
+    {
+      "term": "he'd",
+      "key": "short-had",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “he had”.",
+      "translation_uz": "u (erkak): oldingi tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "she'll",
+      "key": "short-will",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “she will”.",
+      "translation_uz": "u (ayol): kelajak, qaror yoki tayyorlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/future-will-and-shall"
+    },
+    {
+      "term": "she'd",
+      "key": "short-would",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “she would”.",
+      "translation_uz": "u (ayol): faraz, muloyim so‘rov yoki o‘tmish odati",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    },
+    {
+      "term": "she'd",
+      "key": "short-had",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “she had”.",
+      "translation_uz": "u (ayol): oldingi tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "it'll",
+      "key": "short-will",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “it will”.",
+      "translation_uz": "u (narsa): kelajak, qaror yoki tayyorlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/future-will-and-shall"
+    },
+    {
+      "term": "it'd",
+      "key": "short-would",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “it would”.",
+      "translation_uz": "u (narsa): faraz, muloyim so‘rov yoki o‘tmish odati",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    },
+    {
+      "term": "it'd",
+      "key": "short-had",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “it had”.",
+      "translation_uz": "u (narsa): oldingi tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "we've",
+      "key": "short-have",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “we have”.",
+      "translation_uz": "biz: tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "we'll",
+      "key": "short-will",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “we will”.",
+      "translation_uz": "biz: kelajak, qaror yoki tayyorlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/future-will-and-shall"
+    },
+    {
+      "term": "we'd",
+      "key": "short-would",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “we would”.",
+      "translation_uz": "biz: faraz, muloyim so‘rov yoki o‘tmish odati",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    },
+    {
+      "term": "we'd",
+      "key": "short-had",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “we had”.",
+      "translation_uz": "biz: oldingi tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "they've",
+      "key": "short-have",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “they have”.",
+      "translation_uz": "ular: tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "they'll",
+      "key": "short-will",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “they will”.",
+      "translation_uz": "ular: kelajak, qaror yoki tayyorlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/future-will-and-shall"
+    },
+    {
+      "term": "they'd",
+      "key": "short-would",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “they would”.",
+      "translation_uz": "ular: faraz, muloyim so‘rov yoki o‘tmish odati",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    },
+    {
+      "term": "they'd",
+      "key": "short-had",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “they had”.",
+      "translation_uz": "ular: oldingi tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "that'll",
+      "key": "short-will",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “that will”.",
+      "translation_uz": "o‘sha: kelajak, qaror yoki tayyorlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/future-will-and-shall"
+    },
+    {
+      "term": "that'd",
+      "key": "short-would",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “that would”.",
+      "translation_uz": "o‘sha: faraz, muloyim so‘rov yoki o‘tmish odati",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    },
+    {
+      "term": "that'd",
+      "key": "short-had",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “that had”.",
+      "translation_uz": "o‘sha: oldingi tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "what'll",
+      "key": "short-will",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “what will”.",
+      "translation_uz": "nima: kelajak, qaror yoki tayyorlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/future-will-and-shall"
+    },
+    {
+      "term": "what'd",
+      "key": "short-would",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “what would”.",
+      "translation_uz": "nima: faraz, muloyim so‘rov yoki o‘tmish odati",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    },
+    {
+      "term": "what'd",
+      "key": "short-had",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “what had”.",
+      "translation_uz": "nima: oldingi tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "there'll",
+      "key": "short-will",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “there will”.",
+      "translation_uz": "u yerda: kelajak, qaror yoki tayyorlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/future-will-and-shall"
+    },
+    {
+      "term": "there'd",
+      "key": "short-would",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “there would”.",
+      "translation_uz": "u yerda: faraz, muloyim so‘rov yoki o‘tmish odati",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    },
+    {
+      "term": "there'd",
+      "key": "short-had",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “there had”.",
+      "translation_uz": "u yerda: oldingi tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "he's",
+      "key": "he-is",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “he is”.",
+      "translation_uz": "u (erkak): hozirgi holat yoki mavjudlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "he's",
+      "key": "he-has",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “he has”.",
+      "translation_uz": "u (erkak): tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "that's",
+      "key": "that-is",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “that is”.",
+      "translation_uz": "o‘sha: hozirgi holat yoki mavjudlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "that's",
+      "key": "that-has",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “that has”.",
+      "translation_uz": "o‘sha: tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "what's",
+      "key": "what-is",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “what is”.",
+      "translation_uz": "nima: hozirgi holat yoki mavjudlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "what's",
+      "key": "what-has",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “what has”.",
+      "translation_uz": "nima: tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "there's",
+      "key": "there-is",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “there is”.",
+      "translation_uz": "u yerda: hozirgi holat yoki mavjudlikni bildiradi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "there's",
+      "key": "there-has",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “there has”.",
+      "translation_uz": "u yerda: tugallangan zamon yordamchi fe’li",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/have?q=have-got-to"
+    },
+    {
+      "term": "isn't",
+      "key": "negative",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “is not”.",
+      "translation_uz": "emas (birlikdagi hozirgi holat)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "aren't",
+      "key": "negative",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “are not”.",
+      "translation_uz": "emas (you, we, they bilan)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "wasn't",
+      "key": "negative",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “was not”.",
+      "translation_uz": "emas edi (birlik)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "weren't",
+      "key": "negative",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “were not”.",
+      "translation_uz": "emas edi (ko‘plik yoki you bilan)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "hasn't",
+      "key": "negative",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “has not”.",
+      "translation_uz": "...magan (has bilan keladigan tugallangan zamon)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "haven't",
+      "key": "negative",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “have not”.",
+      "translation_uz": "...magan (have bilan keladigan tugallangan zamon)",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "hadn't",
+      "key": "negative",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “had not”.",
+      "translation_uz": "...magan edi",
+      "reference_url": "https://dictionary.cambridge.org/grammar/british-grammar/contractions"
+    },
+    {
+      "term": "wouldn't",
+      "key": "negative",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “would not”.",
+      "translation_uz": "...mas edi; ...magan bo‘lardi",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    },
+    {
+      "term": "mustn't",
+      "key": "negative",
+      "part_of_speech": "fixed_expression",
+      "definition_en": "Short form of “must not”.",
+      "translation_uz": "...ish mumkin emas (taqiq)",
+      "reference_url": "https://dictionary.cambridge.org/us/grammar/british-grammar/modality-"
+    }
+  ]
+}

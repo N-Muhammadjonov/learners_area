@@ -42,6 +42,12 @@ export const senseSchema = z
     examples: z
       .array(z.object({ example_id: id, text_en: text, text_uz: uz }).strict())
       .max(100),
+    editorial: z.object({
+      status:z.enum(['owner_supplied','source_checked','human_reviewed','ai_draft']),
+      translation_status:z.enum(['owner_supplied','human_reviewed','ai_draft']),
+      reference_urls:z.array(z.string().url().max(1000)).max(10),
+      provenance:z.string().min(1).max(120),
+    }).strict().optional(),
     sense_order: z.number().int().nonnegative().optional(),
     register: z.string().max(120).optional(),
     usage_label: z.string().max(120).optional(),
@@ -316,3 +322,5 @@ export function applyDraft(
   }
   return entrySchema.parse(e);
 }
+
+export function entryContentHash(entry:Entry){const {release_id:release,...content}=entry;void release;return sha(stableJson(content));}

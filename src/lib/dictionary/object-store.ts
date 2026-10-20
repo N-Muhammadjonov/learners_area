@@ -7,7 +7,7 @@ export interface DictionaryObjects {
   putImmutable(key: string, body: Buffer): Promise<void>;
   delete(key: string): Promise<void>;
 }
-const safeKey = (key: string) => /^dictionary\/releases\/rel-v1-[a-f0-9]{24}\/(manifest\.json|shards\/[a-f0-9]{2}\.json\.gz)$/.test(key);
+const safeKey = (key: string) => /^dictionary\/releases\/rel-v1-[a-f0-9]{24}\/(manifest\.json|shards\/[a-f0-9]{2}\.json\.gz|search\/(directory|part-[a-f0-9]{24})\.json\.gz)$/.test(key);
 /** Backend-only transport. No signed URLs or arbitrary caller-provided paths. */
 export function dictionaryObjects(): DictionaryObjects {
   if (process.env.STORAGE_PROVIDER !== "r2") throw Error("dictionary_r2_required");

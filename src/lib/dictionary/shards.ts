@@ -1,7 +1,8 @@
+import {Buffer} from 'node:buffer';
 import { createHash } from "node:crypto";
 import { gzipSync, gunzipSync } from "node:zlib";
 import { z } from "zod";
-import { entrySchema, normalizeSearch, stableJson, type Entry } from "./model";
+import { entrySchema, entryContentHash, normalizeSearch, stableJson, type Entry } from "./model";
 
 export const MAX_SHARD_COMPRESSED = 2 * 1024 * 1024;
 export const MAX_SHARD_RAW = 8 * 1024 * 1024;
@@ -25,10 +26,11 @@ export const shardDescriptorSchema = z.object({
   raw_sha256: z.string().regex(/^[a-f0-9]{64}$/),
   compressed_bytes: z.number().int().positive().max(MAX_SHARD_COMPRESSED),
   raw_bytes: z.number().int().positive().max(MAX_SHARD_RAW),
+  format:z.literal('entry-jsonl-gzip-v1').optional(),
   entries: z.number().int().positive().max(2000),
 }).strict();
 export type ShardDescriptor = z.infer<typeof shardDescriptorSchema>;
-export function encodeShard(release: string, entries: Entry[]) {
+export function encodeShard(release: string, entries: Entry[],packed=false) {
   if (!entries.length) throw Error("empty_dictionary_shard");
   const shard = shardId(entries[0]!.lexeme_id);
   const seen = new Set<string>();
@@ -37,17 +39,18 @@ export function encodeShard(release: string, entries: Entry[]) {
     if (entry.release_id !== release || shardId(entry.lexeme_id) !== shard || seen.has(entry.lexeme_id)) throw Error("dictionary_shard_identity_mismatch");
     seen.add(entry.lexeme_id);
   }
-  const raw = Buffer.from(stableJson(entries.toSorted((a,b) => a.lexeme_id.localeCompare(b.lexeme_id))));
-  const body = gzipSync(raw, { level: 9 });
-  const descriptor = shardDescriptorSchema.parse({shard, sha256:bytesHash(body), raw_sha256:bytesHash(raw), compressed_bytes:body.length, raw_bytes:raw.length, entries:entries.length});
-  return {body, descriptor};
+  const ordered=entries.toSorted((a,b)=>a.lexeme_id.localeCompare(b.lexeme_id)),ranges=new Map<string,EntryRange>();let raw:Buffer,body:Buffer;
+  if(packed){const raws:Buffer[]=[],parts:Buffer[]=[];let offset=0;for(const e of ordered){const bytes=Buffer.from(stableJson(e)+'\n'),part=gzipSync(bytes,{level:9});ranges.set(e.lexeme_id,{offset,length:part.length,raw_bytes:bytes.length});offset+=part.length;raws.push(bytes);parts.push(part);}raw=Buffer.concat(raws);body=Buffer.concat(parts);}
+  else{raw=Buffer.from(stableJson(ordered));body=gzipSync(raw,{level:9});}
+  const descriptor=shardDescriptorSchema.parse({shard,sha256:bytesHash(body),raw_sha256:bytesHash(raw),compressed_bytes:body.length,raw_bytes:raw.length,entries:entries.length,...(packed?{format:'entry-jsonl-gzip-v1'}:{})});
+  return {body,descriptor,ranges};
 }
 export function decodeShard(release: string, descriptor: ShardDescriptor, body: Buffer) {
   shardDescriptorSchema.parse(descriptor);
   if (body.length !== descriptor.compressed_bytes || bytesHash(body) !== descriptor.sha256) throw Error("dictionary_shard_checksum_mismatch");
   const raw = gunzipSync(body, { maxOutputLength: MAX_SHARD_RAW });
   if (raw.length !== descriptor.raw_bytes || bytesHash(raw) !== descriptor.raw_sha256) throw Error("dictionary_shard_checksum_mismatch");
-  const entries = z.array(entrySchema).max(2000).parse(JSON.parse(raw.toString("utf8")));
+  const entries = z.array(entrySchema).max(2000).parse(descriptor.format==='entry-jsonl-gzip-v1'?raw.toString("utf8").trimEnd().split("\n").map(line=>JSON.parse(line)):JSON.parse(raw.toString("utf8")));
   const map = new Map(entries.map(entry => [entry.lexeme_id, entry]));
   if (entries.length !== descriptor.entries || map.size !== entries.length || entries.some(e => e.release_id !== release || shardId(e.lexeme_id) !== descriptor.shard)) throw Error("dictionary_shard_identity_mismatch");
   return map;
@@ -58,3 +61,9 @@ export const previewOf = (entry: Entry) => ({
   translation_uz: entry.senses[0]?.translations.map(t=>t.text).join(", ")??"",
   uz_terms:[...new Map(entry.senses.flatMap(s=>s.translations.map(t=>[normalizeSearch(t.text),{text:t.text,norm:normalizeSearch(t.text)}] as const))).values()],
 });
+
+export const entryRangeSchema=z.object({offset:z.number().int().nonnegative(),length:z.number().int().positive().max(MAX_SHARD_COMPRESSED),raw_bytes:z.number().int().positive().max(MAX_SHARD_RAW)}).strict();
+export type EntryRange=z.infer<typeof entryRangeSchema>;
+export function decodeEntryRange(release:string,id:string,range:EntryRange,body:Buffer,contentSha:string){
+ entryRangeSchema.parse(range);if(body.length!==range.length)throw Error('dictionary_entry_checksum_mismatch');const raw=gunzipSync(body,{maxOutputLength:range.raw_bytes});if(raw.length!==range.raw_bytes)throw Error('dictionary_entry_checksum_mismatch');const entry=entrySchema.parse(JSON.parse(raw.toString('utf8')));if(entry.release_id!==release||entry.lexeme_id!==id||entryContentHash(entry)!==contentSha)throw Error('dictionary_entry_checksum_mismatch');return entry;
+}

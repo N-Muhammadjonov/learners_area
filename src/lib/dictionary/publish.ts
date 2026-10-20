@@ -58,9 +58,11 @@ export async function beginPublish(owner: string) {
     if (drafts.length > 100) throw Error("draft_batch_limit");
     if (drafts.some((d) => d.base_release_id !== channel.active_release_id))
       throw Error("stale_draft");
+    const [baseDelivery]=await rows<{delivery:string}>(sql`select delivery from dictionary_releases where id=${channel.active_release_id}`,tx);
+    const worker=baseDelivery?.delivery==='r2-worker-v1';
     const [capacity]=await rows<{bytes:string;entries:string;terms:string;releases:number}>(sql`select pg_database_size(current_database())::text bytes,pg_total_relation_size('dictionary_entries')::text entries,pg_total_relation_size('dictionary_search_terms')::text terms,(select count(*)::int from dictionary_releases where state='validated') releases`,tx);
     const quota=Number(process.env.DICTIONARY_DATABASE_LIMIT_BYTES??(process.env.NODE_ENV==="production"?500_000_000:Number.MAX_SAFE_INTEGER));
-    const reserve=capacity?(Number(capacity.entries)+Number(capacity.terms))/Math.max(1,capacity.releases):0;
+    const reserve=capacity?(Number(capacity.entries)+(worker?0:Number(capacity.terms)))/Math.max(1,capacity.releases):0;
     if(!Number.isFinite(quota)||quota<1||!capacity||Number(capacity.bytes)+reserve+25_000_000>quota)throw Error("dictionary_capacity_exceeded");
     const candidate = `rel-v1-${sha(stableJson({ base: channel.active_release_id, drafts: drafts.map((d) => ({ id: d.id, changes: d.changes })) })).slice(0, 24)}`;
     const exists = await rows(
@@ -69,7 +71,7 @@ export async function beginPublish(owner: string) {
     );
     if (exists.length) throw Error("candidate_already_exists");
     await tx.execute(
-      sql`insert into dictionary_releases(id,base_release_id,state,created_by) values(${candidate},${channel.active_release_id},'building',${owner}::uuid)`,
+      sql`insert into dictionary_releases(id,base_release_id,state,created_by,delivery) values(${candidate},${channel.active_release_id},'building',${owner}::uuid,${worker?'r2-worker-v1':'legacy'})`,
     );
     const [job] = await rows<Job>(
       sql`insert into dictionary_publish_jobs(owner_user_id,base_release_id,candidate_release_id,draft_ids,phase) values(${owner}::uuid,${channel.active_release_id},${candidate},${uuidArray(drafts.map((d) => d.id))},'copy') returning *`,
@@ -97,6 +99,9 @@ export async function advancePublish(owner: string, jobId: string) {
       if (channel.active_release_id !== job.base_release_id)
         throw Error("release_mismatch");
       const candidate = job.candidate_release_id;
+      const [delivery]=await rows<{delivery:string}>(sql`select delivery from dictionary_releases where id=${candidate}`,tx);
+      const worker=delivery?.delivery==='r2-worker-v1';
+      if(job.phase==='worker_index')return job;
       let next = job.phase,
         cursor = job.cursor_id;
       if (job.phase === "copy") {
@@ -105,7 +110,7 @@ export async function advancePublish(owner: string, jobId: string) {
           tx,
         );
         if (batch.length) {
-          await tx.execute(sql`insert into dictionary_entries(release_id,lexeme_id,lemma_norm,part_of_speech,lexical_type,payload,content_sha,storage_shard,storage_release,search_preview,sense_ids,example_ids) select ${candidate},lexeme_id,lemma_norm,part_of_speech,lexical_type,case when payload is null then null else jsonb_set(payload,'{release_id}',to_jsonb(${candidate}::text)) end,content_sha,storage_shard,storage_release,search_preview,sense_ids,example_ids from dictionary_entries where release_id=${job.base_release_id} and lexeme_id=any(${uuidArray(batch.map(x=>x.lexeme_id))}) on conflict do nothing`);
+          await tx.execute(sql`insert into dictionary_entries(release_id,lexeme_id,lemma_norm,part_of_speech,lexical_type,payload,content_sha,is_custom,storage_offset,storage_length,storage_raw_bytes,storage_shard,storage_release,search_preview,sense_ids,example_ids) select ${candidate},lexeme_id,lemma_norm,part_of_speech,lexical_type,case when payload is null then null else jsonb_set(payload,'{release_id}',to_jsonb(${candidate}::text)) end,content_sha,is_custom,storage_offset,storage_length,storage_raw_bytes,storage_shard,storage_release,search_preview,sense_ids,example_ids from dictionary_entries where release_id=${job.base_release_id} and lexeme_id=any(${uuidArray(batch.map(x=>x.lexeme_id))}) on conflict do nothing`);
           cursor = batch.at(-1)!.lexeme_id;
         } else {
           next = "apply";
@@ -118,6 +123,7 @@ export async function advancePublish(owner: string, jobId: string) {
         );
         if (drafts.length !== job.draft_ids.length)
           throw Error("draft_set_changed");
+        const edits=new Map<string,Entry>();
         for (const d of drafts) {
           const change = draftSchema.parse(d.changes);
           const existing =
@@ -128,13 +134,21 @@ export async function advancePublish(owner: string, jobId: string) {
                 )
               : [{ lexeme_id:change.lexemeId }];
           const e = applyDraft(
-            [...(await entriesByIds(existing.map(x=>x.lexeme_id),candidate,tx)).values()],
+            [...[...(await entriesByIds(existing.map(x=>x.lexeme_id),candidate,tx)).values()].map(e=>edits.get(e.lexeme_id)??e),...(change.operation==="add_lexeme"?[...edits.values()].filter(e=>!existing.some(x=>x.lexeme_id===e.lexeme_id)&&normalizeSearch(e.display_lemma)===normalizeSearch(change.lemma)):[])],
             change,
             candidate,
           );
-          await writeEntries([e], tx);
+          if(worker)edits.set(e.lexeme_id,e);else await writeEntries([e], tx);
         }
-        next = "index";
+        if(worker){
+          for(const prefix of new Set([...edits.keys()].map(id=>id.slice(0,2)))){
+            const ids=await rows<{lexeme_id:string}>(sql`select lexeme_id from dictionary_entries where release_id=${candidate} and left(lexeme_id::text,2)=${prefix} order by lexeme_id`,tx);
+            const group=await entriesByIds(ids.map(x=>x.lexeme_id),candidate,tx);
+            for(const [id,e] of edits)if(id.startsWith(prefix))group.set(id,e);
+            await writeShard([...group.values()],dictionaryObjects(),tx,false);
+          }
+        }
+        next = worker?"validate":"index";
         cursor = null;
       } else if (job.phase === "index") {
         const batch = await rows<{ lexeme_id: string }>(
@@ -199,7 +213,7 @@ export async function advancePublish(owner: string, jobId: string) {
               .map(key)
               .sort();
             const expected = entryTerms(entry).map(key).sort();
-            if (stableJson(actual) !== stableJson(expected))
+            if (!worker && stableJson(actual) !== stableJson(expected))
               throw Error("index_validation_failed");
             const original = originals.get(row.lexeme_id);
             if (original) {
@@ -242,8 +256,8 @@ export async function advancePublish(owner: string, jobId: string) {
         if(first) {
           const shard=first.lexeme_id.slice(0,2);
           const batch=await rows<{lexeme_id:string}>(sql`select lexeme_id from dictionary_entries where release_id=${candidate} and left(lexeme_id::text,2)=${shard} order by lexeme_id`,tx);
-          await writeShard([...(await entriesByIds(batch.map(x=>x.lexeme_id),candidate,tx)).values()],dictionaryObjects(),tx);
-        } else {
+          await writeShard([...(await entriesByIds(batch.map(x=>x.lexeme_id),candidate,tx)).values()],dictionaryObjects(),tx,!worker);
+        } else if(worker){next="worker_index";cursor=null;} else {
           const manifest=await releaseManifest(candidate,tx);
           await publishManifest(candidate,manifest,dictionaryObjects());
           await tx.execute(sql`update dictionary_releases set state='validated',manifest=${JSON.stringify(manifest)}::jsonb,manifest_sha=${sha(stableJson(manifest))},validated_at=now() where id=${candidate} and state='building'`);
@@ -339,4 +353,16 @@ export async function rollback(owner: string) {
       previous: channel.active_release_id,
     };
   });
+}
+
+/** A failed index build can be explicitly retried on the same immutable job. */
+export async function retryWorkerIndex(owner:string,jobId:string){
+ return db.transaction(async tx=>{
+  await tx.execute(lock);
+  const channel=await activeRelease(tx);
+  const [job]=await rows<Job>(sql`select j.* from dictionary_publish_jobs j join dictionary_releases r on r.id=j.candidate_release_id where j.id=${jobId}::uuid and j.owner_user_id=${owner}::uuid and j.phase='failed' and j.error='dictionary_index_build_failed' and r.state='building' and r.delivery='r2-worker-v1' for update of j`,tx);
+  if(!job)throw Error('job_not_found');if(job.base_release_id!==channel.active_release_id)throw Error('release_mismatch');
+  if((await rows(sql`select 1 from dictionary_publish_jobs where phase not in ('complete','failed')`,tx)).length)throw Error('publish_already_running');
+  const [updated]=await rows<Job>(sql`update dictionary_publish_jobs set phase='worker_index',error=null,worker_lease_token=null,worker_lease_until=null,updated_at=now() where id=${jobId}::uuid returning *`,tx);return updated!;
+ });
 }

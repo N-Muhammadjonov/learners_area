@@ -1,0 +1,24 @@
+{
+  "release": "rel-v1-e7fa84dde5eec2f502957489",
+  "preparedPlanSha": "50976eba64c78af16aeb64b9bda43b526877825d161f2f98f8f0809e4e73d7a1",
+  "sourcePreservation": "passed all original identities and content",
+  "uiSimulation": {
+    "passed": 18,
+    "failed": 0
+  },
+  "typecheck": "passed",
+  "lint": "passed",
+  "nextBuild": "passed",
+  "targeted": {
+    "corePassed": 9,
+    "serverIntegrationPassed": 4,
+    "blocked": 0
+  },
+  "currentNativeFullQa": "passed",
+  "browserHttpQa": "passed on loopback with fictional student: exact contextual search/detail/save, duplicate and SRS unchanged, EN/UZ HTTP, anonymous/owner/cross-origin/suspension/epoch/stale-release denial",
+  "productionWorkerCpuAndLatency": "pending explicit deployment approval",
+  "merged": false,
+  "newArchitectureDeployed": false,
+  "nativeDictionaryBytes": 40648704,
+  "ci": "awaiting commit and CI"
+}

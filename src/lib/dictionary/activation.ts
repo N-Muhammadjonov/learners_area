@@ -4,10 +4,13 @@ import { db } from "@/db/client";
 import { rows } from "./store";
 import { bytesHash, decodeShard, manifestKey, shardDescriptorSchema, shardKey } from "./shards";
 import { sha, stableJson } from "./model";
+import {workerIndexManifestSchema} from './worker-gateway';
+import {decodeIndex,directorySchema,indexBundleSchema,branchPageSchema,indexKey} from './search-index';
+import {z} from 'zod';
 import type { DictionaryObjects } from "./object-store";
 
 export async function verifyReleaseObjects(release:string, manifest:unknown, objects:DictionaryObjects) {
-  const value=manifest as {storage?:{shards:unknown[]}};
+  const value=manifest as {storage?:{shards:unknown[];search?:unknown}};
   if(!value.storage?.shards.length)throw Error("dictionary_storage_manifest_missing");
   const raw=await objects.read(manifestKey(release),2*1024*1024);
   if(bytesHash(raw)!==sha(stableJson(manifest)))throw Error("manifest_validation_failed");
@@ -15,6 +18,13 @@ export async function verifyReleaseObjects(release:string, manifest:unknown, obj
     const d=shardDescriptorSchema.parse(descriptor);
     decodeShard(release,d,await objects.read(shardKey(release,d.shard),d.compressed_bytes));
   }
+  if(value.storage.search){
+    const index=workerIndexManifestSchema.parse(value.storage.search);
+    const seen=new Set<string>();let directory:z.infer<typeof directorySchema>|null=null;
+    for(const d of index.objects){if(seen.has(d.name))throw Error('index_validation_failed');seen.add(d.name);const raw=decodeIndex(d,await objects.read(indexKey(release,d.name),d.compressed_bytes));const decoded=d.name==='directory'?directorySchema.parse(raw):z.union([directorySchema,indexBundleSchema,branchPageSchema]).parse(raw);if(decoded.release_id!==release)throw Error('index_validation_failed');if(d.name==='directory')directory=decoded as z.infer<typeof directorySchema>;}
+    if(!directory||index.directory.name!=='directory'||!index.objects.some(d=>stableJson(d)===stableJson(index.directory))||[...directory.objects,...Object.values(index.routes??{})].some(d=>!index.objects.some(object=>stableJson(object)===stableJson(d))))throw Error('index_validation_failed');
+  }
+
 }
 
 /** Explicit release command only; importing never calls this. Network verification
@@ -53,12 +63,15 @@ export async function cleanupFailedRelease(release:string,objects:DictionaryObje
     await tx.execute(sql`update dictionary_releases set state='failed' where id=${release}`);
   });
   for(let at=0;at<256;at+=4)await Promise.all(Array.from({length:4},(_,i)=>objects.delete(shardKey(release,(at+i).toString(16).padStart(2,'0')))));
+  const [index]=await rows<{descriptor:unknown}>(sql`select descriptor from dictionary_search_indexes where release_id=${release}`,conn);
+  if(index)for(const d of workerIndexManifestSchema.parse(index.descriptor).objects)await objects.delete(indexKey(release,d.name));
   await objects.delete(manifestKey(release));
   return conn.transaction(async tx=>{
     await tx.execute(sql`select pg_advisory_xact_lock(387384)`);await assertUnreferenced(tx);
     await tx.execute(sql`delete from dictionary_search_terms where release_id=${release}`);
     await tx.execute(sql`delete from dictionary_entries where release_id=${release}`);
     await tx.execute(sql`delete from dictionary_r2_shards where release_id=${release}`);
+    await tx.execute(sql`delete from dictionary_search_indexes where release_id=${release}`);
     await tx.execute(sql`delete from dictionary_releases where id=${release}`);
     return {cleaned:release};
   });

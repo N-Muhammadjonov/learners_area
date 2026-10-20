@@ -1,0 +1,4369 @@
+{
+  "version": 1,
+  "policy": "Context-derived replacements for empty/generic course glossaries. Stable app sense IDs are retained. English fact checks are linked only where actually checked. Uzbek translations are AI editorial drafts; no human review is claimed. Application requires a separately approved, guarded production changeset.",
+  "corrections": [
+    {
+      "id": "67660ea3-e519-4a31-a92d-0a8a6d3eaf80",
+      "term": "just about everything here",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:80867dde97ab43533d185d44ce252bfbe0e69a0e8508976a0e671a0dd7827add",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "almost all the things in this place",
+        "translation_uz": "deyarli bu yerdagi hamma narsa"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0e4dc761-726b-4a63-9ed1-fc2db67d3643",
+      "term": "getting a bit out of hand",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:16653be3129fce19587dee1f0c0db2b0fa930bcc06bf786ab3f083c4f60b0c6b",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "becoming somewhat difficult to control",
+        "translation_uz": "biroz nazoratdan chiqib ketmoq"
+      },
+      "status": "source_checked",
+      "provenance": "course_context_editorial",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/out-of-hand"
+    },
+    {
+      "id": "fdc4516b-269e-4cf8-a1cd-241208532ea2",
+      "term": "come in handy",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:54189ad3c7a69f0c475eb8a15ff72e3c3a7360f1783b15bacb7ff15a23b7f33f",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to be useful when something is needed",
+        "translation_uz": "kerak paytda asqatmoq"
+      },
+      "status": "source_checked",
+      "provenance": "course_context_editorial",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/come-in-handy?topic=useful-or-advantageous"
+    },
+    {
+      "id": "932dd377-04a7-480c-8ddc-5301e28843cc",
+      "term": "stackable plastic garden chairs",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f685888045961a9fc79ccfe5c2ca9629b4727135254f26824db90642c46c3840",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "plastic outdoor chairs designed to be placed one on top of another",
+        "translation_uz": "ustma-ust taxlanadigan plastik bog‘ stullari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "cc6d9d5e-30a4-4813-8f70-faa2418bda43",
+      "term": "pick up after 5 p.m. on Friday",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:7e7f0f2386d7b968d918baa54e48f2ede632655ebd8142a5e3cbc16625aa892e",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to collect the hired items later than five o'clock on Friday",
+        "translation_uz": "juma kuni soat beshdan keyin olib ketmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "35d84e60-8dab-4076-a314-a6575a77f87c",
+      "term": "take out breakage insurance",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:cedc1a05a5b66858d3d2e2b858766307d46a146572ef97174d4a89172a0a460c",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to buy cover against the cost of accidentally breaking hired items",
+        "translation_uz": "ijaradagi buyumlar sinishidan sug‘urta qildirmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "cc54ef67-5d9c-46d5-bc05-f39e19558db4",
+      "term": "replacement cost",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a81a0b77c640f1af389fbd02a2dfe6aeb95583badbfa54b1f02cbf938448c4da",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the amount needed to replace a damaged or lost item",
+        "translation_uz": "buyumni almashtirish uchun ketadigan xarajat"
+      },
+      "status": "source_checked",
+      "provenance": "course_context_editorial",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/replacement-value"
+    },
+    {
+      "id": "6ccd5e36-7e29-4703-a1b8-4f7b759f359e",
+      "term": "emergency contact number",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:6a3753cb5eee9fd3f429d5725205ee9af593252b3d33863eb1789dded1fcb2e2",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a telephone number used to reach someone in an urgent situation",
+        "translation_uz": "favqulodda vaziyatda bog‘lanish raqami"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "b59cedae-b92a-4d1b-95c8-ce9da727f8fc",
+      "term": "makes a feast for the cockroaches",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:52c58460087f77b3b48264b82abeddc3d58ee7dcc0bc28bc719602376d70d3e4",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "provides a large supply of food for cockroaches",
+        "translation_uz": "suvaraklar uchun mo‘l ozuqa bo‘ladi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "aa860c6f-481b-42ac-88ef-c1e243e2dc1f",
+      "term": "a very nasty poisonous bite",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:0c6c7f436daa07778e4706dedf04b44007a0790ae43ff1202e9c55ca1dd75cdf",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a dangerous bite that delivers poison",
+        "translation_uz": "juda xavfli zaharli tishlash"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "a0757867-ee3f-4639-a1b8-8c816e21275a",
+      "term": "clustered high up against the walls",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:b76f253be78acb45a44336b5831ba7d4810431abbcb15281f69f47ade33d8848",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "gathered in groups near the upper parts of the walls",
+        "translation_uz": "devorlarning yuqori qismida to‘planib qolgan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "24a6dd2d-a8c7-4dd7-a311-49b01737a388",
+      "term": "a massive flock",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:dbc847fd250c97fe38d84d68855bbb90dd86f568ab3dbb8b7ee8f1ae8651c6ef",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a very large group of birds together",
+        "translation_uz": "juda katta qushlar galasi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0b12d5e3-ce26-465e-bd5f-90ddf9f9dfa9",
+      "term": "economic value",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:b76020730109617340a45d47f14466f409b30462a82132eefc1aa2e9d6e092bc",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the financial usefulness or worth of something",
+        "translation_uz": "iqtisodiy qiymat; pul keltirish imkoniyati"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "4a17f195-65c1-4e00-9bd1-363139f01fd9",
+      "term": "the main ingredient in bird's nest soup",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:4f044c7cf4fd5b1c4c6fd4926a18033f8cd89c673702e511974443e9a6ecffdc",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the principal substance used to make bird's nest soup",
+        "translation_uz": "qush uyasidan tayyorlanadigan sho‘rvaning asosiy masallig‘i"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "1bac6c00-7dbd-4285-8643-c35d5d4b393c",
+      "term": "stay together with others",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:7a34e8e3806620f8679944de1037ad5d6a6cb1aa79fbcfd02920432ad5e0c196",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to remain close to the other members of a group",
+        "translation_uz": "guruhdagi boshqalar bilan birga yurmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c67c4dd9-f486-402c-8ebd-e4e2dedb37d1",
+      "term": "follow the marked trails",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:21c40bff11929e0d821f5d95ed63ebf3bc7539bb39c1b0980ebc2a64f8148c12",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to walk along the routes identified by signs",
+        "translation_uz": "belgilangan so‘qmoqlar bo‘ylab yurmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "88aef16c-464e-42ae-8907-2231f0dcd405",
+      "term": "incredibly difficult to believe",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:3aed744e7384aa7b96888446cb0d6cee23d429abe737fa2cae27b025cf6d07e2",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "so surprising that accepting it as true is very hard",
+        "translation_uz": "ishonish nihoyatda qiyin"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "2c611020-ba98-4900-bc1a-8c9199d04693",
+      "term": "a wide range of renowned scientists",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:6df732a8ab4b6d1a4d23bf32a808e8804bbfff2f898677bfc44bc7335db8faa7",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "many different scientists who are widely respected",
+        "translation_uz": "ko‘plab turli taniqli olimlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d384451c-e302-43e5-842c-48f58e78a1ec",
+      "term": "order it within two weeks",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:83e4f03379811df1b9c53aae97453d9b7a3f9fb6d7445838ac477de7ebe58d40",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to place an order before two weeks have passed",
+        "translation_uz": "ikki hafta ichida buyurtma bermoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c8e1177a-eb2b-413c-92d1-48b22c0c7498",
+      "term": "environmentally friendly bulbs",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:5127fccbf76d6cbe80b3c83c87128e730110f0add24a0c82898b923e359eefa4",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "light bulbs designed to cause less environmental harm",
+        "translation_uz": "atrof-muhitga kamroq zarar yetkazadigan lampochkalar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "5bc97110-229e-4ab6-a5ea-556590a09810",
+      "term": "on par with electricity",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:da54390385eb047ba6851e2f6ab494726754bd8c32312bbcd6ee9d78dd074a43",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "equal to the price of ordinary electricity",
+        "translation_uz": "oddiy elektr energiyasi narxi bilan teng darajada"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "6d3dbced-63bc-45bc-abbb-2207567d3177",
+      "term": "widely accepted anyway",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:9640bc33bd62b2ff29471812d403fe7caa1541dc5ddcb97b9afea78f23788f39",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "accepted by many people despite the stated objection",
+        "translation_uz": "shunga qaramay keng qabul qilingan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "45a5f9e0-4c8c-4097-80f1-98ba56ed516c",
+      "term": "lack proof",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:8eb70d1191a8984fdcbfd6c6c0e5303412b9291dfc1ed4166e74c9733dbd7515",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to have insufficient evidence to establish that a claim is true",
+        "translation_uz": "yetarli dalilga ega bo‘lmaslik"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d8b753b2-8f4c-427b-b115-be454ab04f67",
+      "term": "freely roaming animals",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:7215f8e1495888e5ab3c7e319695f6498f2ba1b933939cbd0678211788b71183",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "animals that can move about without being confined",
+        "translation_uz": "erkin kezib yuradigan hayvonlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "e31fba6f-39aa-4d14-b4e2-a87d860d4d8f",
+      "term": "an earlier evolutionary state",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:238127a50fd884712e46debe04d00d57387d800b089793bcd1bcdf8000538631",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a form or condition that existed earlier in evolutionary history",
+        "translation_uz": "evolyutsiyaning oldingi bosqichidagi holat"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c0a0cfe9-d2c5-4e9e-aed1-ca49bf6d0815",
+      "term": "widely refuted by modern scientists",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:41adcc099814edd9b694a658d6418479c14d1413591e6d66a3e0b7897537b084",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "rejected as incorrect by many present-day scientists",
+        "translation_uz": "hozirgi ko‘plab olimlar tomonidan rad etilgan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "2b0d65b8-ff64-4247-aae4-59e9116c3d4b",
+      "term": "continuous adaptation to their environments",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d326c71488144254cc4b9817a9d05572601eeced8943218541fe37ab32206826",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "ongoing changes that help organisms suit their surroundings",
+        "translation_uz": "atrof-muhitga uzluksiz moslashish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "be71da56-76d3-42a0-bffe-bf8130ee264e",
+      "term": "the scientific basis",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:0248fb87013b7dc5129d7bfbeff1e6442ea9b009ef6bb0ba86c101755a9f0756",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the scientific principles or evidence supporting an idea",
+        "translation_uz": "ilmiy asos"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "24d31707-9254-43f9-9ea2-3bf1cb85abf4",
+      "term": "irreversible changes",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:7b03839077d8c2f8dcc59274898a3148fc9fdb142db9bc57a98a9601b50304f9",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "changes that cannot be undone or returned to the original state",
+        "translation_uz": "ortga qaytarib bo‘lmaydigan o‘zgarishlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0be77dae-49e2-4c06-bc9c-cfcb11f2fe29",
+      "term": "a chronological record",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:4049473ad552d443240cc7c19e70fe358b1c338e3209a69cae49d923f2de5b84",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "an account arranged in the order in which events happened",
+        "translation_uz": "voqealar vaqt tartibida qayd etilgan ma’lumot"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "a28cbb77-11c4-44ef-a819-65420f44f20b",
+      "term": "environmental changes drive the development",
+      "part_of_speech": "clause",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:080adede05cf379698ebbe3e8eb916f7269097833d64b43f655046f12dac59b4",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "changes in surroundings cause new adaptations to develop",
+        "translation_uz": "atrof-muhitdagi o‘zgarishlar yangi moslashuvlarni yuzaga keltiradi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0a964e46-cdfb-4da1-b0c5-3b5432d1c56b",
+      "term": "put to a vote",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:6b7ab4eeedab8b68b4abee35ff54f5abd0a7b63ddffae9b08d7e705ba22cd989",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to ask a group to decide a matter by voting",
+        "translation_uz": "ovoz berishga qo‘ymoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c70c230a-6d9c-4945-bdeb-f3d5bd4ddd58",
+      "term": "a couple of miles past the Palace Pier",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a526e7992f5aebc548f4d98724e2a2e1045bd3e0c124aa9173c8975e3314a299",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "about two miles farther along than Palace Pier",
+        "translation_uz": "Palace Pier’dan taxminan ikki mil narida"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "634af135-0b69-4fa0-8b04-0ef2069e478b",
+      "term": "arrange a meeting place",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:15dadbe22618aed0212dd4ed816c131ddd1839a5c93aca6c476ef95e3551160c",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to agree where the participants will meet",
+        "translation_uz": "uchrashuv joyini kelishib olmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "77e21559-57a1-4bb4-98af-023594918119",
+      "term": "raise thirty-five pounds",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a2a306c9759207cff28a6f8f891eb84c06b5ca0e92865b5e9349dee6317707b1",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to collect thirty-five pounds, usually for a cause",
+        "translation_uz": "o‘ttiz besh funt mablag‘ yig‘moq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "ee98a46d-270e-4620-a9fb-204547966690",
+      "term": "entered into a free prize draw",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:2e35abaac703a0686f06f30f2e45a2a92e956c441d0dea34bdea03ef3053b5eb",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "included in a chance-based competition without an entry fee",
+        "translation_uz": "bepul sovrinli qur’aga kiritilgan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "da9b382e-43ea-4174-ae7a-603a492d1e5b",
+      "term": "a crew of twenty people",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:bb28d2e595c2fcb6c91b3f88afb63bdd969d67ca5eee2a1fd5e78bc0cac1b86a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a team of twenty people operating a boat or doing shared work",
+        "translation_uz": "yigirma kishilik ekipaj"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "1f58a2f6-3b94-4077-8450-7fb089133a97",
+      "term": "parents' permission",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:74e248165bb4e7264061f8b9235daccd2dc0acc186473058fa02e5d218fd70ea",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "approval given by a child's parents",
+        "translation_uz": "ota-onaning ruxsati"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "df9b0d38-878b-4b39-8998-3649b5342019",
+      "term": "wears a life jacket",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a6e3170532b79860a7cb62c056fe7f95da42e8c7f680e4b83292d568d8b85d69",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "has on a flotation garment that helps prevent drowning",
+        "translation_uz": "qutqaruv nimchasini kiyib olgan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "a5271e4f-9cbe-44d7-b8f5-f53a6b34b0a8",
+      "term": "bring some spare clothes",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:adc11a39154533e59b6a5694f9e8a2e8cc493655cd46c52b59d2ea375096346a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to bring extra clothing to change into",
+        "translation_uz": "almashtirish uchun qo‘shimcha kiyim olib kelmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "8580ec75-389d-4622-aaa3-73aee34074b4",
+      "term": "fully qualified",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:9eede08db068b0b470e4af182fe0722a1738cb1411ef7c37a9704788dc84a1a5",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "having all the required training and qualifications",
+        "translation_uz": "to‘liq malakaga ega"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "3585eb6c-7f8f-46a0-b99d-46c27c26c9cd",
+      "term": "appraised every six months",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d33eb7d69b9fdebeae10c35bd6b4735ae05f4b8e766fc74f6e8c0838c999a46f",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "formally assessed once in each six-month period",
+        "translation_uz": "har olti oyda baholanadigan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "3e94a2b7-48ce-470a-8b4b-bea75984f768",
+      "term": "interactive classroom",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:739bdf5d9b8788ab059be212e2c06bf3df6950539e49d5e5bcb1df14a02f3a68",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a classroom in which learners actively take part and respond",
+        "translation_uz": "o‘quvchilar faol ishtirok etadigan sinf"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "2cdaca5a-5f62-4f3e-a049-364261f00010",
+      "term": "be in direct contact",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:3158fc6bb0fa3869c69ef39b4527c9a586c43fb7d59d404a604755a23c8291c9",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to communicate with someone without an intermediary",
+        "translation_uz": "bevosita aloqada bo‘lmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "ea29ed10-b176-4833-a910-a07d7a415635",
+      "term": "industry-recognised qualification",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d4e2596e91faa9fb021a83deb44e2ceef24d09053ec1076b58d64a1e6e618305",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a qualification accepted as relevant by employers in the field",
+        "translation_uz": "soha ish beruvchilari tan oladigan malaka"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "3b9d6125-0b0a-4bd5-afbc-030686622017",
+      "term": "search engine optimisation",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:6e6b7c9c8d06d48395df9c6e3841705af2adbbee639ce0bbc968a51b02cf22f4",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "improving a website so search engines can find and rank it more effectively",
+        "translation_uz": "saytning qidiruv tizimlarida topilishini yaxshilash"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "962f6c61-2f2f-4da1-992a-123811043330",
+      "term": "store cupboard ingredients",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:fa89fa0153e84b3246836d1f1dec5a15d643b95195b152bc5d69ea32d1d429b2",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "basic food ingredients kept at home for regular use",
+        "translation_uz": "uyda zaxira sifatida saqlanadigan asosiy masalliqlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "515e1e68-c254-4487-aab0-8af9762ad55f",
+      "term": "practical exercises supported by discussion and examples",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:913e8175610880f8fe320dca6b269aba055400d65530b8f9edffcf6e8bc7eb87",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "hands-on tasks accompanied by discussion and illustrative cases",
+        "translation_uz": "muhokama va misollar bilan mustahkamlangan amaliy mashqlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "721ad073-7be8-4a03-923c-ab3449bca7b1",
+      "term": "school-based research",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:04e37b11974beff10896b7c0847ae5565e8ec5d3eca73d58830b8d978995f0c7",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "research carried out within a school setting",
+        "translation_uz": "maktab sharoitida olib boriladigan tadqiqot"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "082a6c47-16f5-4979-934a-b204c6dc888b",
+      "term": "significant gender differences",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:dcda5226e073e7a13b668fa56bd28e5385ae4b0956d0f1da77d5faa81044cb80",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "important or statistically meaningful differences between genders",
+        "translation_uz": "jinslar o‘rtasidagi muhim yoki statistik ahamiyatli farqlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "30279d8a-b0a4-455c-b6cb-3104ad404816",
+      "term": "unexpected insights",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:98155db412828867593a7551c0a3b2643675a1906920f8df34c52c79bcc17c3c",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "useful new understandings that had not been anticipated",
+        "translation_uz": "kutilmagan yangi tushunchalar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "ed2a7ad7-54e8-4e1e-9428-5ba5c41ab7f0",
+      "term": "allow lessons to go their own ways",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:257572defc93fda7c0076bd78e11ad4e6100283f3424bce9e7b34d1b7f8457f8",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to let lessons develop flexibly rather than follow a rigid plan",
+        "translation_uz": "darslarning qat’iy rejasiz, moslashuvchan davom etishiga imkon bermoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "803c6b32-ad57-49f1-89b7-5f94bd9ef651",
+      "term": "small-scale research",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:df3a9585410a4b409707c8b2c6ec73cd74d361f8573322293f05f1148754184a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "research involving a limited number of people or a narrow scope",
+        "translation_uz": "kichik ko‘lamli tadqiqot"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c59cf027-7753-4ee9-89a6-4d6c57939d9a",
+      "term": "high-quality recorder",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f13c0730ac4fec7a2878d6817670ba51c857b772710c0e89b56a4a8d2c03df1a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a recording device that produces a clear and reliable recording",
+        "translation_uz": "yuqori sifatli yozuv qurilmasi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "100b3128-93b5-418a-a1b1-6d709e461410",
+      "term": "different agendas",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:dfa57ef8783d6b67a85392e683836d57d9a87d2e98d0ff3451de235f14c189e9",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "different priorities, intentions or aims",
+        "translation_uz": "turlicha maqsad va ustuvorliklar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "12ee96c2-d553-4dff-95ab-17b8319dfd09",
+      "term": "contribute to my research aims",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:9f0d8fda648f30f1b58e208de4ed2c960630cf202d0097ad060dbd7bda646a12",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to help achieve the objectives of my research",
+        "translation_uz": "tadqiqot maqsadlarimga hissa qo‘shmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "532ed9b3-a9ca-4ed6-ae28-bf74b11c81be",
+      "term": "deeper insight into the possible needs",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:e7ca7df8b92e13f6657b35accc71f4f6415a7b4e3730312afb4a055227de4bf1",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a more thorough understanding of what may be needed",
+        "translation_uz": "ehtimoliy ehtiyojlarni chuqurroq tushunish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0230aef5-6c93-49af-b859-d6dc25478ec6",
+      "term": "check and recheck the contents",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:2925243ed22ddf57da0a261ebe79cb0bf350f145c94adc22f88e7263ab0ef354",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to inspect what is included and then inspect it again",
+        "translation_uz": "ichidagilarni qayta-qayta tekshirmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "b3a4179c-3ee7-46ea-b0a1-f1a469cc609e",
+      "term": "paid in advance",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:088dc7bb7993ba38b1b4b95b7679f79a6e9233b556fabf264c805d29cc69a854",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "paid before a service is received or an event takes place",
+        "translation_uz": "oldindan to‘langan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "e325fa9a-9e87-4bb7-881a-4717fbf4ece4",
+      "term": "standard way of exchanging information",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:1c528325853b6e868f25abeefaa1a48e23eb43a96084127000b62776755de0c1",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a generally established method for sharing information",
+        "translation_uz": "ma’lumot almashishning odatiy usuli"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "070c3cc1-d4b1-41dc-aa73-1a68b862d70f",
+      "term": "portable computer tablet",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:9c066497b2452a97466fb5b9f6e78fa3b3d0ed5e4d594e52de128ff3bdba8a09",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a small portable computer operated mainly through a touchscreen",
+        "translation_uz": "ko‘tarib yuriladigan planshet kompyuter"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "39ebe370-d700-4e56-ac7b-dbb0844d733c",
+      "term": "completely open-minded",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:bc6f26ffe4e2064a1a1745d20d6cda0637d7ce924c7f35c5a63fe0ce165b3162",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "willing to consider different ideas without prejudging them",
+        "translation_uz": "har xil fikrlarni oldindan hukm qilmay ko‘rib chiqishga ochiq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "dd350527-305c-4d12-a3d9-2c13884df2d0",
+      "term": "first-hand observation",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f92823e5535fa17d53c8def114cfef64c234536d1fc7ab8be39f037e09771782",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "directly watching events oneself rather than relying on reports",
+        "translation_uz": "bevosita o‘zi kuzatish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "3a4e2943-13ff-471a-950d-5452f640c381",
+      "term": "identify a pattern of some sort",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:47f925e21f213d2ab1acef0268e79b1282416daf8d486fc809330388ae51c447",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to notice a recurring arrangement or regularity",
+        "translation_uz": "biror qonuniyatni aniqlamoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "7ad17723-7058-487d-8cc8-d5138c64e38e",
+      "term": "a bit more information",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:b7d56fd9180154d7d12cc94851ab14f6067ecae120dd02701fde6935341ac8d4",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a small additional amount of information",
+        "translation_uz": "biroz qo‘shimcha ma’lumot"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c2713b09-a230-4256-85f5-275b60baf8bc",
+      "term": "qualified nurse",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:0fd56641b212dc13c9bcdea5854867433cbca02b86d1e4ecdb72cf61c938907a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a nurse who has completed the required professional training",
+        "translation_uz": "malakali hamshira"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0ba55905-e2dd-4dad-bd9b-456f14b6ecef",
+      "term": "preferred location",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:b853b405024a2b9579fa91bbedbc4446cced921ef2d651720004c113cf24751f",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the place that someone would most like to choose",
+        "translation_uz": "afzal ko‘rilgan joy"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "ea4f8be7-5457-494b-bb1f-c8c4a6b2a9ed",
+      "term": "not too far from a station",
+      "part_of_speech": "prepositional phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:ced833181f8420d3e2be7a65c83a73f0ae4c4b00fe09e9e26570b6004d561a6b",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "located reasonably close to a railway station",
+        "translation_uz": "bekatdan uncha uzoq bo‘lmagan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c9de818f-20a7-4d75-b88c-96486c1e818b",
+      "term": "quite active",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:e084bc324c11778f26ef19aa709f2712574843c92b14f3b4d40e8aa2ee40e33a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "fairly energetic or involved in regular activity",
+        "translation_uz": "ancha faol"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "9245f3e3-b46a-47b6-a0b7-0c0c3a81b724",
+      "term": "stick with that",
+      "part_of_speech": "phrasal verb",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:e126aff59c27dbddfb9fb80713e80698caba62419437ea6560996c19223e243a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to continue with the choice already made",
+        "translation_uz": "o‘sha tanlovda qolmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "2cb63c56-c88b-47d7-bfb6-babf20c01fa3",
+      "term": "a guest room",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d1f59faf5172ba5969fab8a11a997be5f3e4b0d18a6fcecdf00e63defc31eb26",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a bedroom kept for visitors",
+        "translation_uz": "mehmonlar uchun yotoqxona"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "96256958-5af8-4f81-8c9e-382fd9d933e6",
+      "term": "comes down to budget",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:994d657135c4e8ae1693d4354033389ae4e5e0a5eb4a7c12907f55ea989f5d7d",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "is ultimately determined by the amount of money available",
+        "translation_uz": "oxir-oqibat mavjud mablag‘ga bog‘liq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c4128543-0334-4782-b35a-fc9d9c9e584f",
+      "term": "taken on quite a few new employees",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:78143a1122ff34a269a36de2f7e49d126fc93bc0a57ed5ff2b86702b15923d79",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "employed a considerable number of additional workers",
+        "translation_uz": "ancha yangi xodimni ishga olgan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c7f951fa-2a42-4cdb-9bc8-8e1647a665c2",
+      "term": "the greatest advantage",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:ff926ed75f369e2baca6e9e547811e94567a7cc55bcc3ccf5f33a0eefbc22e5b",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the most important benefit",
+        "translation_uz": "eng katta afzallik"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "ac1fc4fd-acae-4c9c-b512-2a926792df96",
+      "term": "set a date for the move",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:862c1b65353ddcdf733d47e330003070d0d5ec9a15bf8849ed522f24391e12c0",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to agree the day when a relocation will happen",
+        "translation_uz": "ko‘chish sanasini belgilamoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "e0448c97-652a-43ed-a6a9-efa21f0f4ee2",
+      "term": "quite a bit of information",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:59294731a76c4389f28e3e9d70df5ea91836ba8ba25bb0d37da2e4be73e98428",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a fairly large amount of information",
+        "translation_uz": "anchagina ma’lumot"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "01c15c81-5910-4983-9202-00112d249175",
+      "term": "documents containing confidential information",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:34467329d83376b631fad87dfeb91ee624ecdad3df0eeff80510496b624c0f4e",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "papers holding information that must not be publicly disclosed",
+        "translation_uz": "maxfiy ma’lumotlar yozilgan hujjatlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "4c045bc2-e729-41ed-8f97-c32c40d87586",
+      "term": "go through your filing cabinets",
+      "part_of_speech": "phrasal verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:3b40d71302ccb55954bc97a341896b2e6d5edc13433718a2dbebd35c22a716f8",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to examine the documents stored in filing cabinets",
+        "translation_uz": "hujjat javonlarini ko‘zdan kechirmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0cf27fe2-a4ea-48c2-a8b2-67db96f1ac8c",
+      "term": "keep your back straight",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d99a4904c7e52d38facd7d6b48352de6f1bfaf48119001daa4631ae696ef96d4",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to maintain an upright back position",
+        "translation_uz": "belni tik tutmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "9c5654cf-964c-4479-b216-844b36755950",
+      "term": "drink one or two litres of water a day",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:ea164c3c969b2e70f444ee16334ef4babcfddb9e665361422ba495342da02783",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to consume between one and two litres of water each day",
+        "translation_uz": "kuniga bir yoki ikki litr suv ichmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "9e80311b-f68f-4da6-b11b-24f6b5ce4b24",
+      "term": "connection with social advancement",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:e440987c121bde326246e64050f0ab2e55bc6718a65894f1ea48c9aa56e204d1",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a relationship with moving to a higher social position",
+        "translation_uz": "ijtimoiy mavqe ko‘tarilishi bilan bog‘liqlik"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "4ad0c551-9a7b-40e8-ab0b-71af735fa63e",
+      "term": "a comprehensive talk",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:48cce7d34cc25189b83a0ecca28ce36b14d4b1c604ffc5c02dc49ba97f504fd2",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a talk covering the subject thoroughly",
+        "translation_uz": "mavzuni keng qamrab olgan ma’ruza"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "29c7d2c4-35a7-41c6-80c8-3fb0a55d71e3",
+      "term": "the topic is too broad",
+      "part_of_speech": "clause",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:de6eb4909b63a23b05ff80f4fd2cc09ef78a9d9c4b7597aa99df248741000405",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the subject covers too many areas to treat adequately",
+        "translation_uz": "mavzu haddan tashqari keng"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "9490918e-4fcc-4cdc-bce0-aec4e71b9048",
+      "term": "narrow the range",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:366a5fd3a2f51df9e2e4966352360f1075031f5ccfd772ea6aad52dc54893efa",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to reduce the number or scope of things considered",
+        "translation_uz": "ko‘rib chiqiladigan doirani toraytirmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "dcdca293-c23c-4d07-95bc-d3693edc688d",
+      "term": "traditional media",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:b5fb7c4fe89136e76525884c7ecb948738fc14a94d69cd74dd019b0ba6ddd7f5",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "established forms of communication such as newspapers, television and radio",
+        "translation_uz": "an’anaviy ommaviy axborot vositalari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "31f99154-0b66-4f4a-885b-d327da21e1f3",
+      "term": "simple and elegant",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:e4f756b59aa982e3bf8e34bf3374bca8c22323e3f86b34bb1fa805125a468f54",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "uncomplicated and pleasingly well designed",
+        "translation_uz": "sodda va nafis"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d91f6393-2ae0-4cd4-a7d8-421ef2758c07",
+      "term": "come up with an introduction",
+      "part_of_speech": "phrasal verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f5978a9147be8de05269025dddb4bad7f1e907e9652988f192ca425b4be636a0",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to think of a suitable opening for a presentation",
+        "translation_uz": "taqdimot uchun kirish qismini o‘ylab topmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "86e876cb-fa9f-4c6a-b3f0-3ff84ba14ca7",
+      "term": "text handouts",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f95a472749893ddfc40743097a93142b85ace54e5e238ebd090972b3ec3d9306",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "printed text sheets distributed to an audience",
+        "translation_uz": "tarqatiladigan matnli materiallar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "2ce1a8aa-957e-4111-b7c4-825b5d3f437d",
+      "term": "represent speech",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:43595874649c5eb29b215ad86928db911e7b71849b4dcb8784a8576432fa7434",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to show spoken language through written or visual symbols",
+        "translation_uz": "nutqni belgilar orqali ifodalamoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0b0128bd-672e-4e84-a783-3da7055b6ed3",
+      "term": "common commercial use",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:7f8a5f4b40111a7d1d5932f645f1d358c1960684b540d184f4adea5bb90fbb64",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "regular use in business or trade",
+        "translation_uz": "tijoratda keng qo‘llanish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "48944a2b-f152-4bb6-a9bd-f6981037a67b",
+      "term": "a wealth of knowledge",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d9c2d880ad33528667ad7154ffcddf569d9d8a5b9ea0a2f69b2531d3ebc56798",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a very large amount of useful knowledge",
+        "translation_uz": "juda boy bilim zaxirasi"
+      },
+      "status": "source_checked",
+      "provenance": "course_context_editorial",
+      "reference_url": "https://dictionary.cambridge.org/us/example/english/wealth-of-knowledge"
+    },
+    {
+      "id": "4064fadd-7685-49d3-9375-039f4500d79d",
+      "term": "phonetic values",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:8ae291d8f61a1acd39a045fae36d906decf009c9c60fc93a7f20afd48da27644",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the speech sounds represented by written signs",
+        "translation_uz": "yozuv belgilarining tovush qiymatlari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "9aa21faa-6fe2-45fd-829b-e167f5f59bf8",
+      "term": "raise human awareness",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:496e3bd2a25245f6829fb73c44934047ee4de5a678538d90b0ce42f2e8e1bff2",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to help people become more conscious of an issue",
+        "translation_uz": "odamlarning xabardorligini oshirmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d43cdd39-8852-4285-be44-52e678952116",
+      "term": "natural habitats",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:98b3f18b2a0de0002f54c012f67e481f19d25c91b10ba025f0c2cc7da964f2ad",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the places where species normally live in the wild",
+        "translation_uz": "tabiiy yashash muhitlari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "be6c42ac-5e89-4555-a839-d9c784a1fc18",
+      "term": "effective branding",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:4c5d89ca1174db0ea890e82516e4d3dc24c982643bdc4952d06ecc0bdbc182d7",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "successful creation of a recognisable identity for a product or organisation",
+        "translation_uz": "samarali brend yaratish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "267bb583-2951-413b-b54d-ba0794af0ec6",
+      "term": "fundamental role",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:258934c27a11f927827cff6ff6594cc953bf13689a9f9b93dc9663ae13a7fb3b",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "an essential or basic function",
+        "translation_uz": "asosiy, hal qiluvchi vazifa"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "e0d28ff2-2cb4-4a7b-a514-6c9124bf6be8",
+      "term": "match your details against our database",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:328496a210bef32c356d14b5236206314bf82a1803e27833f9c907e9a500c563",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to compare your personal details with records in our database",
+        "translation_uz": "ma’lumotlaringizni bazamizdagi yozuvlar bilan solishtirmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "131678a6-c198-439a-84c6-4cdcfb96fe0b",
+      "term": "stop off whenever I want",
+      "part_of_speech": "phrasal verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:beee7c6d6810ab2dce233e45b2b22dcdcb622cf91402ad95891c19ac60c5b8eb",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to make a short visit during a journey whenever I choose",
+        "translation_uz": "istagan paytim yo‘lda qisqa to‘xtab o‘tmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "f190e5dd-006c-4a38-87df-809d9621a446",
+      "term": "quite competitive",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:51b8cd3fcb6cdf5535bae4b8484b5388115797e6137253838979930abfacd6c9",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "fairly strong in competing with other people or businesses",
+        "translation_uz": "ancha raqobatbardosh"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "43dc42f2-c1e6-4800-a9ee-ffbdada2c7d7",
+      "term": "earn quite good money",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:bcf5537108202e7c44b6cee814cb825e94deb0eeeb9cc487e3cd6f018ce1df04",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to receive a fairly good income",
+        "translation_uz": "anchagina yaxshi daromad topmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c171742e-7789-40cd-aa43-b1a4b12b60f1",
+      "term": "unlimited rail travel",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:900861ef16f6a2137fa541d84e2d36f5f90eccc72b787f155cc39efc7b071415",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "travel by train without a fixed limit on the number of journeys",
+        "translation_uz": "qatnov soni cheklanmagan poyezd safari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "4aa46753-16f3-4ec7-8bb2-f9d9c91d5ddd",
+      "term": "fill up fast",
+      "part_of_speech": "phrasal verb",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:006729e78509d3ad7516f5f61422380268db9466b909af423e043982af561d52",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to reach full capacity quickly",
+        "translation_uz": "tezda to‘lib qolmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "068e1160-b660-44a5-a0bc-e226fc182bd5",
+      "term": "make any arrangements",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:7a911369bfae02787236de575af4f1febbd365b407d1936c50da7f73db4c4311",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to organise anything that needs to be planned",
+        "translation_uz": "biror zarur tashkiliy ishni amalga oshirmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d25fd441-2fd8-49b7-97ad-923bce2435ac",
+      "term": "lug your computer around",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:649edebfc5cde9209b69f90895c4d26c9707aeeff01c81795870b517601b7169",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to carry a computer from place to place with effort",
+        "translation_uz": "kompyuterni ko‘tarib yurmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "52f1d4c4-ff74-476a-a4ab-5081965d5950",
+      "term": "main seating area",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:8ee44adbc99633a6cdedbacb20d0545f9eb353a418d492fc23a6698a08237ed2",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the principal space where people can sit",
+        "translation_uz": "asosiy o‘tirish joyi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "39d92339-9b0f-44b2-b2e8-2ae5aec938f4",
+      "term": "under no pressure to buy",
+      "part_of_speech": "prepositional phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:6514e545f86c638ef3f605d678ee3f34720d06b0c04190e05b24b7a48e0079f0",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "not being pushed or expected to make a purchase",
+        "translation_uz": "sotib olishga hech qanday majburiyat sezmasdan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "48b841c9-f007-461f-9c11-562c97972b01",
+      "term": "search through our entire catalogue",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:669f9688f705cdae4feb64d221ac81dc9abdc0a692df8db0bd3ef6b5930bfce7",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to look for items throughout all our listed products",
+        "translation_uz": "butun mahsulotlar katalogimizdan qidirmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c0df71d3-5c6c-49b9-b9af-a4abdac215a1",
+      "term": "the comfort of their own home",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a85d41bd2e78661191262a138fd8dd62c0761c6986194813ba24d84c81443f48",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the familiar and convenient surroundings of their own home",
+        "translation_uz": "o‘z uyining qulay muhiti"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "597f8300-051c-4a2e-a284-204adb737b72",
+      "term": "draw people in",
+      "part_of_speech": "phrasal verb",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:91a2bc3d18860cf668808cde8917ca11d4742284c57a4125a71f22037d4a5542",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to attract people and encourage them to enter",
+        "translation_uz": "odamlarni jalb qilmoq; kirishga undamoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "88629864-f704-42bf-babf-32f2d5f0d5db",
+      "term": "qualified nursery staff",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:5470b84a1c8a7591249778a762dc081d9f149ff2d9811ec73851d7a52a457927",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "workers trained to care for young children",
+        "translation_uz": "maktabgacha yoshdagi bolalar bilan ishlashga tayyorlangan xodimlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "9dce400f-06c4-4898-a0f8-5d614c098f74",
+      "term": "well-known author",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a673c76c30ebccb86028192973c4da37d2b9d790fd34d695595677d50b12c59d",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "an author recognised by many people",
+        "translation_uz": "taniqli muallif"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "915dc292-18c4-413e-93fc-9d6045acc707",
+      "term": "earn your living as a professional poet",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f2845112443220710f79a71da250ededb7d6cd2c7c9bee7a15b9b44384e09a56",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to support yourself financially by writing poetry professionally",
+        "translation_uz": "professional she’r yozib tirikchilik qilmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "592b843e-99a7-4b66-ba38-4a8528ccab35",
+      "term": "the Americans actually pioneered the idea",
+      "part_of_speech": "clause",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:c2f90c82ed104e1dcd373095613c34962510a6ca884f8a6cbede0353567a8e18",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "Americans were among the first to develop or use that idea",
+        "translation_uz": "bu g‘oyani ilk joriy etganlar amerikaliklar bo‘lgan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "72f61950-d24d-49cd-a2b7-f95b80c7cbd7",
+      "term": "classic business theory",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:c5695972e8a34600d1a8568d86e62f1b56c85084cb8388a4c61b0054647f3f06",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "an established and influential explanation of how businesses work",
+        "translation_uz": "klassik biznes nazariyasi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "73baa5e6-d3ba-4651-a107-1396d52cc969",
+      "term": "standardising parts",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:fd0084a9ed5e2ed18b18077049b68a71f24750cf2da553c65c2923dd2d44e78e",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "making components according to common specifications",
+        "translation_uz": "qismlarni yagona standartga keltirish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "bedda5fc-2955-49a0-8dfc-723769ba4f62",
+      "term": "service industries like tourism or healthcare",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f8dad929e9f4c93d863f31d401229838f00bd5b134f14eb3f850d95f31200db1",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "business sectors that provide services, for example tourism and healthcare",
+        "translation_uz": "turizm yoki sog‘liqni saqlash kabi xizmat ko‘rsatish sohalari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "64337b5f-2489-4ef2-9745-31b61d69f910",
+      "term": "technical aspects of the presentation",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:ea0a60c1510aca190a1141fc3776b5af7cccf49596488443c80b5d9f9bb2acbb",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the specialised details or equipment-related parts of a presentation",
+        "translation_uz": "taqdimotning texnik jihatlari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "502587a8-f4a2-4f32-a0eb-0f3d2551ea0c",
+      "term": "clear and concise",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:40171cf6794cc12b1dc0c74314770de21912851c916618b014b46d2e736203ce",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "easy to understand and expressed without unnecessary words",
+        "translation_uz": "aniq va lo‘nda"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d2d6c0b2-464b-466d-b22e-c74296955a36",
+      "term": "put things in everyday English",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:24171e594e605e03361da4df6613c70bf66b04af087a213fd500df00da66a214",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to explain something using ordinary, accessible English",
+        "translation_uz": "oddiy, tushunarli ingliz tilida ifodalamoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "6d3436bb-d547-4bc6-aa07-486215d13fd7",
+      "term": "use gestures",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:3e95397275c440da02043baf1e356f2c1b6ebac9f71234f1cc593a0339732f74",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to communicate or support speech with body movements",
+        "translation_uz": "imo-ishoralardan foydalanmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "044ae55c-d47f-4025-8cb5-0e0a5d690081",
+      "term": "complex neurodevelopmental condition",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:4102fc637f314cad6d0c949804a8a2629004a6b860b1690dc75cb39d78b74707",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a complicated condition involving the development and functioning of the nervous system",
+        "translation_uz": "asab tizimining rivojlanishi bilan bog‘liq murakkab holat"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "1b88ef78-60e5-4f34-b36e-212f7b29ef4a",
+      "term": "numerical concepts",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:506e59c3e40479ca2ce2abfe3bd1fb39254f0cb134135c2431e5d51ec47b825e",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "ideas concerning numbers and quantities",
+        "translation_uz": "son va miqdorga oid tushunchalar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "eb0318dd-7df7-4658-b556-43a35d10afcf",
+      "term": "everyday practical examples",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:3872500113d39750162d84b98d20baa67428be9c458bded56d502a90d6488d36",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "examples taken from ordinary activities to explain how something works",
+        "translation_uz": "kundalik hayotdan olingan amaliy misollar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "b56690c3-ff39-46c3-89ed-b2ba78e5d591",
+      "term": "real-life scenarios",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f07b035bb001a9254407628e32dfd859d2e72fbfda79bcdf81b1705c6500aa3b",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "situations resembling what happens outside a classroom or theory",
+        "translation_uz": "haqiqiy hayotdagi vaziyatlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "2ca8c661-67c1-4635-bf35-f995b3bc9ccd",
+      "term": "positive reinforcement",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:e073a7f9c0f494f60310a146b530ee6ad9fd5b4faee2b178dcb686e82bccaa41",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "encouragement or rewards used to make a desired behaviour more likely",
+        "translation_uz": "ijobiy xatti-harakatni rag‘bat bilan mustahkamlash"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "ce1a246b-35a7-47eb-b817-877dfaefb853",
+      "term": "educated guesses",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:825da9d3f3f39dffc595af23a3c04cb908a47516b49ecbe989e84f96e9b049a3",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "estimates based on some knowledge rather than pure chance",
+        "translation_uz": "mavjud bilimga asoslangan taxminlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "a0974431-8ceb-421a-8d68-57f0f4e902d2",
+      "term": "targeted interventions",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:b73accd90761297cfb77d6d2884e5d8fb2001a40f5b3fbf7ccfd4163c13f4231",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "specific measures designed to address identified needs",
+        "translation_uz": "aniqlangan ehtiyojlarga qaratilgan maxsus choralar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "6e074ddd-b2e0-4065-ae3c-6d798f0d9f27",
+      "term": "supportive environment",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:8dfe36cfc9d209ec91597d0f44cef5a7eb4fb1478ac60760247425962cc65f70",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "surroundings that provide help, encouragement and understanding",
+        "translation_uz": "qo‘llab-quvvatlovchi muhit"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c5b831a9-d8f9-4ed0-bede-058819f7c73a",
+      "term": "monthly prize draw",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:00625883f0126863e175cd779c79b0af1d8c1c27b382271defc7228141fd1a78",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a chance-based competition held once each month",
+        "translation_uz": "oylik sovrinli qur’a"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "00d53e53-accf-4b35-8538-e744f7890456",
+      "term": "wide range of people",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f36ee22f57d713ca7c454b85d997b132f2921cf0b1cbe096615b33565633c1a4",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "people from many different groups",
+        "translation_uz": "turli toifadagi ko‘plab odamlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "62cf5359-a0ae-4074-8f92-ae13037fc375",
+      "term": "serious shopping",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d559618b65b267406ced0cbd300be1afb0a3e3ec9ff6a56de06a0d3cf69c4884",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a substantial amount of purposeful shopping",
+        "translation_uz": "katta miqdorda, jiddiy xarid qilish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "741aa359-d36b-4896-a5b1-6ac10188efdf",
+      "term": "a couple of times a month",
+      "part_of_speech": "frequency phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:5c071c76764d69708fa6bdc3e6b30695609c42ed19aa5407542fcd8a0246a228",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "approximately twice in each month",
+        "translation_uz": "oyiga taxminan ikki marta"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "79fa758b-999d-42f5-b3b7-5c7aa0f0e7cf",
+      "term": "hustle and bustle",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a12e1bb5e6ed7b52972b9d84a26bd58bc68d28195576c98545ef0ac97d940420",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "busy, noisy activity involving many people",
+        "translation_uz": "gavjumlik va shovqin-suron"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "eebc5c5f-1781-4214-a183-cfe678a4543f",
+      "term": "speed cameras",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:941c7105df54d060e5ce85380f4c5a0201da5ab0c195c6f8b157b08fb4c77b6c",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "cameras used to record vehicles exceeding a speed limit",
+        "translation_uz": "tezlikni qayd etuvchi kameralar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d76fff5b-5af1-4cee-81be-5171396492cf",
+      "term": "hire more drivers",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:ae4a0f601f9f9220d65c0db3b5892a37c5ca7ec2b3f87243da92852ba6b84a6e",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to employ additional people to drive vehicles",
+        "translation_uz": "qo‘shimcha haydovchilarni ishga olmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "347d8316-7e53-49b7-ab26-6998ea81945d",
+      "term": "bigger variety of different shops",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 1 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:b91a7bea303293c6611bdcd7a15416919c3fb73d686917c76bab7d1ee5558d46",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a wider choice of different retail stores",
+        "translation_uz": "turli do‘konlarning yanada keng tanlovi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "b20ea4dd-f647-4b2d-840b-3883b8a63c1a",
+      "term": "granted permission",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:621316d5aeafe78544f0ad800a486a583baf8c40214cae1f2eb640fb78d35ee7",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "officially allowed to do something",
+        "translation_uz": "ruxsat berilgan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "1374b32c-03ad-4400-9719-51a4a80ae99a",
+      "term": "state-of-the-art college",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d6fd1f43f50d1be6cb16088c8294505fd4491559f3a7186582700727217adb00",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a college with very modern facilities and technology",
+        "translation_uz": "eng zamonaviy jihozlangan kollej"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "95d592c5-668a-4131-af9b-6d9602744fd2",
+      "term": "day-to-day running",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:bca023566661e89a76bec20dd1787a6ed6116daaa5ff6410ea3a61cad9d2fa06",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the routine management and operation of an organisation",
+        "translation_uz": "kundalik boshqaruv va faoliyatni yuritish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0036e70a-ca13-4fd8-8ec7-ed3ec88f3da6",
+      "term": "media relations",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:95111ff38654b5b0451e319b1e55290a2800142e5fcc97184eb854567cc3494d",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the management of communication with journalists and news organisations",
+        "translation_uz": "OAV bilan aloqalar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "74b7583f-f024-4f4a-b98e-628ea96b4bf3",
+      "term": "maintains a high profile",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:182f3b4d03fff712515864cea15577062558a322aa835346fb08a4100344f622",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "continues to attract considerable public attention",
+        "translation_uz": "jamoatchilik e’tiborida bo‘lib turadi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "b916b4a5-6fa7-4f50-8384-3a69611aae73",
+      "term": "most dynamic people",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:576ef7a092206f10e26222f2330b16bf3e93d4d886a5afe03aa4eb235500e07c",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "people who are especially energetic and ready to act",
+        "translation_uz": "eng tashabbuskor va serharakat odamlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "56c411bf-596e-4640-b623-13acdd069796",
+      "term": "projects in the pipeline",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:ddcbd557801e0e485308ad1b68331acb66b0f6ae1e67b2358158f664326e9cf6",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "projects being developed or planned for the future",
+        "translation_uz": "ishlab chiqilayotgan yoki rejalashtirilayotgan loyihalar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "5088a77a-e56d-4338-a033-56356a3f6e9b",
+      "term": "first come first served basis",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from the Part 2 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a16c797690a742a10a9ab308270bf1855dcf92fc757adec27d519f76cb693377",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a system where earlier arrivals or requests get priority",
+        "translation_uz": "kim oldin kelsa, avval o‘shanga xizmat ko‘rsatish tartibi"
+      },
+      "status": "source_checked",
+      "provenance": "course_context_editorial",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/first-come-first-served"
+    },
+    {
+      "id": "6913350d-2e80-4caa-9cf4-7ae11b2d5250",
+      "term": "day-to-day challenges",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:8fe51ec92f3103134d1f82e3febb6bb323951a6eb0e530deb3e88a7a273d1c90",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "difficulties encountered in ordinary daily activity",
+        "translation_uz": "kundalik qiyinchiliklar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "215bc076-46aa-45ad-8d66-b278ba7b61f4",
+      "term": "culture shock",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:296b17e2415b9443e86edae9131a51502cb87c910c5c0f6894a013de8055a526",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "discomfort caused by experiencing unfamiliar cultural practices",
+        "translation_uz": "begona madaniyatga moslashishdagi qiyinchilik"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d4fb32f1-c5d6-4e25-936c-c68d4c4d3c06",
+      "term": "pretty steep learning curve",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:1c66b53a7d7b96225ab744caa469fa1328099397c587897abc01d3fad34a7e48",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a demanding period in which many new skills must be learned quickly",
+        "translation_uz": "juda qisqa vaqtda ko‘p narsani o‘rganishni talab qiladigan davr"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "2cc0d15d-7c71-4739-b6b9-615d21b962b7",
+      "term": "getting more involved in campus activities",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:757ccf35322e5d29654cf4005172944f7343680bbc16dea1b5011a8e2fff878a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to participate more actively in university life",
+        "translation_uz": "universitet hayotidagi tadbirlarda faolroq ishtirok etmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "a31304c8-53d0-4883-a9b0-430ce3219ac1",
+      "term": "educational environment",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:ac54dd9cfa13a51fbdec58121dee00c01c954cdf1fac621a4f45d253f70143f8",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the surroundings and conditions in which learning takes place",
+        "translation_uz": "ta’lim muhiti"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "25e482b2-639f-4697-af37-e064dc5f8a36",
+      "term": "applying theory to practice",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:1477e089dc45e8783b5286be151a133a72c87f395ec74d39c2421b01019c7945",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "using theoretical knowledge in real situations",
+        "translation_uz": "nazariyani amalda qo‘llash"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "1acaa922-f4d1-43db-b1de-25c19db00bfa",
+      "term": "study materials",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:e92b9fdd7375a062b31a8f0a5bda88a1dec6e740812ac1631f8a2e64e2317282",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "resources used to help someone learn",
+        "translation_uz": "o‘quv materiallari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "4e546d4f-f3a3-48b3-ab7c-afc067c65645",
+      "term": "get the most out of being there",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from the Part 3 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:39532f26edc13f1d91202500a0c795df55d8c4ec829e6e558f1fefa4cbeb36ef",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to gain as much benefit as possible from the experience",
+        "translation_uz": "u yerda bo‘lishdan imkon qadar ko‘p foyda olmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "376da52e-c81e-436a-b5e3-d61724b769de",
+      "term": "influential on management training courses",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:36ef86a0a161d2069d2707e9dd7814475be3b2befaab6452b5b98447f6d27a71",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "having a strong effect on courses that teach management",
+        "translation_uz": "boshqaruv bo‘yicha o‘quv kurslariga kuchli ta’sir ko‘rsatuvchi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "5f9b7116-d414-4b64-88f3-91132578982a",
+      "term": "increased job satisfaction",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:ec0793e50b934d114ac9068db858488f72d33c7d671a215f088a6a427d78bbb6",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a greater sense of contentment with one's work",
+        "translation_uz": "ishdan qoniqishning ortishi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "960d3e4b-45d1-4b34-9c1c-09dbe628f492",
+      "term": "independent of each other",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:6249c93450f0de84977ad2eb152fb5c2455f4e0340fa8d22a36710b5b80ebda5",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "not dependent on or controlled by one another",
+        "translation_uz": "bir-biriga bog‘liq bo‘lmagan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "3ede2282-ae0c-4655-9273-4dd9a11816c8",
+      "term": "company policy and administration",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:ad7b58eccff141b910541830e015f53dca967391e15347a6933f4a5825e8c4cd",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "an organisation's rules and the way it is managed",
+        "translation_uz": "kompaniya siyosati va boshqaruvi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "cc924382-60fa-46d1-b6b5-de23199769ba",
+      "term": "key hygiene factors",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:18e2e4ef96732e2fcebc31dd5a575444183a97476761eda86d3c4fb5e408fc65",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "work conditions that help prevent dissatisfaction in Herzberg's theory",
+        "translation_uz": "Gertsberg nazariyasida norozilikning oldini oluvchi asosiy ish sharoitlari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "816d7e0b-8bad-4c1a-b3b5-400edfd12b98",
+      "term": "four possible combinations",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:49d1ea7e4e0070dd172eeed426ccbea5c8eb7579ba85cd02728d627e3e06c8ed",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "four distinct ways in which the elements may occur together",
+        "translation_uz": "to‘rtta mumkin bo‘lgan birikma"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "b558f9c3-9212-4bc4-b8c8-27976d2955be",
+      "term": "job security",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:37ac81119b4aeb43d33b27b147209dcac59864ceb14666174dc8789412e30f49",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "confidence that one's employment is likely to continue",
+        "translation_uz": "ish o‘rnining barqarorligi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "7ea48b59-550d-47a7-8ac6-52f0a4c2b9d2",
+      "term": "challenging and rewarding tasks",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from the Part 4 transcript.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:11e9d204b6494be570282a19497ba4a2405cb7141b039744ee3854543deccde7",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "tasks that require effort and give a feeling of achievement",
+        "translation_uz": "qiyin, ammo qoniqish keltiradigan vazifalar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "4670da33-5c43-404d-842b-051c5ec8d1d5",
+      "term": "relocating to the United States",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f8980a47d704f79ea48deb62a372895a5a12ec4148c3d3079befc4aee5335813",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "moving to live or work in the United States",
+        "translation_uz": "AQShga yashash yoki ishlash uchun ko‘chish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "647b1ef9-0d95-4c82-925d-8ee0c86a4a41",
+      "term": "having a hard time",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:9c12422213f2a0dd8300311f3cdb7e29d0639967172fdcf56b16a114d2b27bd5",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "experiencing difficulty or distress",
+        "translation_uz": "qiynalayotgan; og‘ir davrni boshdan kechirayotgan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "012950a0-39d9-4347-a382-36fbf76fb5ff",
+      "term": "temporarily",
+      "part_of_speech": "adverb",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:56ad353e3ad6d35d518002ff74a06096fb3f23aab39a42c0105749ec0ff037dd",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "for a limited period rather than permanently",
+        "translation_uz": "vaqtincha"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "86b55a1c-6672-4237-af31-71a20b6a71e4",
+      "term": "after-packing clean-up",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:63e4a62a6844bf29c604d32c25334176ec2b94bca3ae88f77c733920c249b6ba",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "cleaning the place after items have been packed",
+        "translation_uz": "buyumlar qadoqlangandan keyingi tozalash"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "43e93126-8ae3-444d-b672-388a1bdeba37",
+      "term": "basic prices",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d912f3b261e2a11c4213ef2d9e097a31661c6cc9ec7cda2332d02b1c9e941199",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the starting charges before extra services are added",
+        "translation_uz": "asosiy xizmat narxlari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "9835bdcd-4ece-4305-8a3f-dea3d723acd8",
+      "term": "put my furniture in storage",
+      "part_of_speech": "verb phrase",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:cd846a0c454afaf088524c833009d0a6734e359e687ae79879ebf4c29c1a5706",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to place my furniture in a storage facility",
+        "translation_uz": "mebellarimni saqlash omboriga topshirmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "547ab47e-1abc-4bbd-b111-772f2867f424",
+      "term": "emergency pack",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:5f070e80e456c450a4a656bf3431a1098263c0aafde117ff9dd4b6d915441cb5",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a separately accessible box of items needed immediately after moving",
+        "translation_uz": "ko‘chgach darhol kerak bo‘ladigan buyumlar qutisi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "7a67096f-ab72-43c4-9906-2cd03ff5e36c",
+      "term": "personal package",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:32d9eedc6cea4b636a160c69e5c136662d7af6f65d68b34f128bd78800c4f839",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a separate package containing the customer's immediately needed personal belongings",
+        "translation_uz": "shaxsiy zarur buyumlar solingan alohida o‘ram"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "6c425491-9ec3-4451-b3f0-c5aeabf3194c",
+      "term": "computer-assisted education",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f31c589e8d725407edb3095366a294e23ccb95d7a877479b5496361f46f94ae4",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "teaching or learning supported by computers",
+        "translation_uz": "kompyuter yordamidagi ta’lim"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "cc47e7ff-d634-4deb-b060-4b0d75c0d0e8",
+      "term": "presentation of papers",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f5a1a753ca4933b5d1bd564cb5e519f4a67a5dfbb46a9e8c05c3eb44a7db39ff",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the delivery of research reports at a conference",
+        "translation_uz": "anjumanda ilmiy ma’ruzalar qilish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "a341cf1b-1117-4f87-bd41-87e087a04326",
+      "term": "light refreshments",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:7a5ae62c986194c3aaa6623b521b416f14cfd71db73e7f8d834ad69b45e5aa89",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "small portions of food and drinks",
+        "translation_uz": "yengil yegulik va ichimliklar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "eb4ccdc8-8579-4bce-87bf-f49c27eff07f",
+      "term": "one o'clock sharp",
+      "part_of_speech": "time expression",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:566d09215be9c51c026e9ed963b8d61ed56b3e5c248baa3e643b180412eca5df",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "at exactly one o'clock",
+        "translation_uz": "roppa-rosa soat birda"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "6d96de9b-6599-4358-8de3-873fdbc98211",
+      "term": "presentation of further papers",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d1f682d24f8e4ee67d15d07835bf68cb45295bd5c7c6aa343c8b64e2895951c6",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the delivery of additional conference reports",
+        "translation_uz": "qo‘shimcha ilmiy ma’ruzalar taqdimoti"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "fcb9d322-1c57-495f-b8ee-80d6d96a23a1",
+      "term": "closing remarks",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:989e5b197c165961699d03b66b1bc555effbb1dbb3decadc45bdcf3f5a530b3c",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "final comments that bring an event or speech to an end",
+        "translation_uz": "yakuniy so‘zlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d5929616-8229-4646-8068-a3de18476a1e",
+      "term": "informal reception",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:89bc7eff9063da0226388a81ea3abf57450d9a905df8977b23f6980b6589cebd",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a relaxed social gathering where guests are welcomed",
+        "translation_uz": "norasmiy qabul yoki uchrashuv"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "e80d5517-bbd6-41ba-bee7-b399d9b00f91",
+      "term": "advance ticket",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d93992e9ce80230d4d4a730a4fb9eb2ec5aabe25f261e12598d809c27e20324a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a ticket bought before the date of travel or an event",
+        "translation_uz": "oldindan olingan chipta"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "8ed55527-efa1-493c-8865-0f566748028f",
+      "term": "proficiency exam",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:8dd2925e8f7dbace54db3b3a751758e479436cf32bcf1b8438976d0a05c52bce",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a test that measures someone's level of skill or language ability",
+        "translation_uz": "malaka yoki til darajasini baholovchi imtihon"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "4863a8fc-c76c-469b-8c68-644032be91e8",
+      "term": "well-rounded individuals",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:c90fd3b86d696ac647c5f5301ecd4dfed3ff6c1ba5d363bb710683660263f963",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "people whose skills, knowledge and interests are broadly developed",
+        "translation_uz": "har tomonlama rivojlangan shaxslar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "ce48abb1-b753-4d50-ae21-9305267a774f",
+      "term": "flexible schedule",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:e992b1b8c12d011eb7fa75e526ca8bd9c4d4205f9247da1721af822f357e00dd",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a timetable that can be adjusted to different needs",
+        "translation_uz": "moslashuvchan jadval"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "98cfa084-4b39-4958-b4c6-6706eca0c6da",
+      "term": "instructor's permission",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:66379a28f9f1ebf7a6e5aa6d0d787d8bd2c51c2172dcd9499c526aef7772802c",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "approval from the person teaching the course",
+        "translation_uz": "o‘qituvchining ruxsati"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "047056e5-2fc1-4e62-9a9f-6db7897b6207",
+      "term": "experimental facilities",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:67244553fafef7ecfada5df18828dbb5154dd13015ac7f39b17978970d077d7a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "equipment and spaces used to carry out experiments",
+        "translation_uz": "tajriba o‘tkazish uchun jihoz va joylar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "831a8764-9fd5-41f0-9a56-adc4b370bf7d",
+      "term": "fastest growing subject",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a15b2a8ecccee2e82fccd4cb6a8b325da32f6519d9da72f1316bb47cfbb14496",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the field of study whose popularity or participation is increasing most quickly",
+        "translation_uz": "eng tez rivojlanayotgan o‘quv yo‘nalishi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "75ae3170-9803-485c-bcb6-4c7be0afb930",
+      "term": "compulsory courses",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f47f39c7f10ee659d578f48e2938ffd77ddcef65fad8f477a546450a267e7956",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "courses that students are required to take",
+        "translation_uz": "majburiy fanlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "609b2ddb-0183-4759-b381-8f1f1c6da55e",
+      "term": "textbook allowance",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:7750f5aa9e48e5f6e00eb6e5508a474f2633f6297998936015f7b73b2ed21622",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "money allocated to help pay for textbooks",
+        "translation_uz": "darslik xarajatlari uchun ajratiladigan mablag‘"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "34154cda-5052-44c4-aec2-32046683e9fb",
+      "term": "mixed blessings",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:cc521d63ff3f061e0fa9a8345fc6511bf8fac7c690f5234185da5137eb2f3f7e",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "things that offer benefits together with drawbacks",
+        "translation_uz": "yaxshi va yomon tomonlari birga keladigan holatlar"
+      },
+      "status": "source_checked",
+      "provenance": "course_context_editorial",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/mixed-blessing"
+    },
+    {
+      "id": "63689b1f-1f29-4203-bbc2-6bc3f6985861",
+      "term": "properly seasoned",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:066a7ed350a0c1fa25f71814f843f214764f1e4be1f73ab234105de07dce84f4",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "dried sufficiently to make timber suitable for use",
+        "translation_uz": "foydalanishga yaroqli darajada quritilgan yog‘och"
+      },
+      "status": "source_checked",
+      "provenance": "course_context_editorial",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/seasoned"
+    },
+    {
+      "id": "de5f0de2-da75-4a3e-a698-c9f30d33a38e",
+      "term": "personal taste",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:5e0d376b025a360aca8dccfa9ee4a737db30b50ee9ef21b6a4cc34a706f9cbe3",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "an individual's own preferences and sense of what is pleasing",
+        "translation_uz": "shaxsiy did"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "6f04b415-6ef0-4679-a4df-884b8977226a",
+      "term": "exorbitantly expensive",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:8070da2f4b9eec2ae745a86e1d82bbb01d8302b2910dbb762a48d533d0d40abb",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "priced at an unreasonably high level",
+        "translation_uz": "haddan tashqari qimmat"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "cb18d036-64d8-4a53-ae7c-4d77b802c848",
+      "term": "grain patterns",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:080f83e4eb0169559c774c01894303d41c1ba0ed8ad8b3a8eb5605453c3920c2",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the visible arrangements of fibres and lines in wood",
+        "translation_uz": "yog‘och tolalari hosil qilgan naqshlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "3dd57123-352e-4a1a-ae87-c9324a9dcbba",
+      "term": "mathematical formula",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:3709336fc9a8d7eb4f4b2e2c65ef8cdb9fefb1de7c2f9fe3b29269dc0aaadb30",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a rule expressed using mathematical symbols and operations",
+        "translation_uz": "matematik formula"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d5d613a7-fe63-41c5-a4f2-0bece499ef9b",
+      "term": "degree of reflection",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:c22ee806c900c1712dfaea7b80ba8de9fc8ed158f5746aa9a2d492242ad65afb",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the amount of incoming light that a surface reflects",
+        "translation_uz": "sirtga tushgan yorug‘likning qaytarilish darajasi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "2c581c4c-0914-4ddb-95f8-0dbef3c68cef",
+      "term": "black velvet",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:6b2b7fc606bb08477a21c8ba9bd6788178ebee2ad7f9dde6235b19a81d30b6a8",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a black fabric with a soft, closely piled surface",
+        "translation_uz": "qora duxoba"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "5b66fc11-e5f2-43c3-8c61-eba46a680789",
+      "term": "make up my mind",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:964dbe80c179362dd342383cdf356cfce8f64add288b2e584b6075c99ba65def",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to decide what I will do",
+        "translation_uz": "bir qarorga kelmoq"
+      },
+      "status": "source_checked",
+      "provenance": "course_context_editorial",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/make-up-mind"
+    },
+    {
+      "id": "0ec15bcb-eacb-4481-8e49-b8522b45e05b",
+      "term": "quite clear about the rent",
+      "part_of_speech": "lexical chunk",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:27520d4809520b27f18647970ad2b088f1f4cc5e8c3924e1064f29eda6b84c3e",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "understanding the amount or conditions of the rental payment",
+        "translation_uz": "ijara haqi va shartlarini aniq tushungan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "67f92f63-3f44-4044-8f9d-7bc4ee3bebee",
+      "term": "plenty of room",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:b4810453f07591eae390edb3e8ceb720574dbd38454ff1361a80c3acf55a8243",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a large amount of available space",
+        "translation_uz": "bo‘sh joyning ko‘pligi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "b7d29e15-c0f8-4477-8aa6-5c0067ab043a",
+      "term": "zoned no parking",
+      "part_of_speech": "fixed phrase",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:2ebf8663b7a88d59f90dd8b581439449bebd4e2c045883e98db993cdd56e14c5",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "officially designated as an area where parking is not allowed",
+        "translation_uz": "to‘xtab turish taqiqlangan hudud sifatida belgilangan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d93be080-d6bb-4275-8b1b-c139cfe48fe9",
+      "term": "hard to hear over the television",
+      "part_of_speech": "lexical chunk",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:33c12b7c636a6dbd4f2964b40fa7446f1cf6611513efaf0d3f8dd0ef336c3d74",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "difficult to hear because the television is loud",
+        "translation_uz": "televizor ovozi sababli eshitish qiyin"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "6058d908-ea46-47ca-89ff-6084e4341839",
+      "term": "keen sports fan",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:59311ff672998e32c3ffcc1dab24c583976a376737af0b6dced8f6881604c24f",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "someone who is very interested in following sports",
+        "translation_uz": "sportga juda qiziqadigan ishqiboz"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0cc26972-456b-40fe-8b1e-6a781121bee5",
+      "term": "share the petrol",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:ca75afdd06be1a070af2c9ba73324c0c60e84f82b40d824520b15ddb29ea69a3",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to divide the cost of petrol between the people travelling",
+        "translation_uz": "benzin xarajatini bo‘lishmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "865c4574-f4a1-45f6-abc6-f61b68b7cecd",
+      "term": "new rent period",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:24c2854a4655242290d89ef66aee0440afe958b8242dd0eb57b27753126e1101",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the next interval covered by a rental payment",
+        "translation_uz": "yangi ijara davri"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "be12abe2-2613-4be3-820b-e4b86497d66d",
+      "term": "take the register",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:b38f0cd548431f19c1c3a3f5abd43691f23e4a2516f4d4239486a7f59b259726",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to check and record which students are present",
+        "translation_uz": "davomatni tekshirmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "f64f0036-bdda-4d01-93a5-c6ab87288395",
+      "term": "packed lunch",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:76ca87fb1dd2a89e75ddd8ab8292e02d1cca51dcad54e0def091a8cd4ce47c27",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a meal prepared and carried to eat away from home",
+        "translation_uz": "uydan olib kelingan tushlik"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "f6d6616b-2230-41fc-aedc-c9921f739c4c",
+      "term": "two breaks of 15 minutes",
+      "part_of_speech": "lexical chunk",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:7bda70bf8d4449487c2b360d0f63418d323cf0816555f8961e1c767878c491e3",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "two rest periods, each lasting fifteen minutes",
+        "translation_uz": "har biri o‘n besh daqiqalik ikkita tanaffus"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "76300611-10a7-439e-aed4-bf11d8e29a9c",
+      "term": "rather than continuing with lessons",
+      "part_of_speech": "contrast chunk",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:111ed54ef32e69f1f5795d761dc73af6c5f4278ce5ae8627b3f44d8c4d6d1f4f",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "instead of carrying on with the lessons",
+        "translation_uz": "darslarni davom ettirish o‘rniga"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "b9bbd238-9fc0-4c49-b95a-e01e7eb80280",
+      "term": "produce a poster",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:e444a5547fb9f8ea445de60fa4b5a1c9e0d8f54d3b3d4a238f316085417f8a0a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to create a large printed or written notice",
+        "translation_uz": "plakat tayyorlamoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "ba87d402-7e09-4271-98d2-90bf233849e3",
+      "term": "keep a close eye",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a1d35f1e82eb4491cae279d2d8da82570a96162da966d7bdb6ca1de9d9060f6f",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to watch someone or something carefully",
+        "translation_uz": "diqqat bilan kuzatib turmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "9df0220c-762e-4e81-a994-f72ebd2a9c86",
+      "term": "set up clubs",
+      "part_of_speech": "phrasal verb",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:09ba33b2772052b0b153fe8611bdc0e5a3390457bd7c5ceda75dac4a9f56a459",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to establish clubs for shared activities",
+        "translation_uz": "to‘garaklar tashkil qilmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "3b2a41af-8b04-48ae-8a8b-c7e9feae1211",
+      "term": "turned into a gym",
+      "part_of_speech": "phrasal chunk",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:6b8046bcf640b352ee550b4edb3bbcfa473855d3fafdfb055f0a6db0a3b95118",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "converted into a room for exercise or sport",
+        "translation_uz": "sport zaliga aylantirilgan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "71eac578-450e-4dfb-88bb-556bb32cd105",
+      "term": "using scientific techniques to solve crimes",
+      "part_of_speech": "academic chunk",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:5f95c714a6bbdad9bfacf94eadcb665b5baba27bbc3ceae9247c2aa81b9c2d10",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "applying scientific methods to investigate criminal acts",
+        "translation_uz": "jinoyatlarni aniqlashda ilmiy usullardan foydalanish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "58c99b06-7c82-4d64-bc3e-f5a7a84a79b3",
+      "term": "analysing documents to find out who wrote them",
+      "part_of_speech": "academic chunk",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:1b8ec5dc41352235d3fada6a379a811ea11fb27d61351c60a023fde07d88fb39",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "examining written material to identify its author",
+        "translation_uz": "hujjatlarni kim yozganini aniqlash uchun tahlil qilish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "7f0d3dbb-7f37-44b7-9550-0cf51b49abb3",
+      "term": "very unclear",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:107a5d490c7c894b9dccf218da91ab1b0b6284ffd19d084675a82e46ec78b0cb",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "difficult to understand or distinguish",
+        "translation_uz": "juda noaniq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "04d32e7e-672f-4769-8b2e-68f8e4b73cb9",
+      "term": "usual self-doubt",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:7f052aaaa9ac171e32064eee444f4c3afd2123e144d73738a09e26649a1d0e23",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the familiar uncertainty about one's own abilities",
+        "translation_uz": "odatiy o‘ziga ishonchsizlik"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d2bf2e4b-a518-4b67-95aa-0a61f563dba9",
+      "term": "background reading",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:d856ace902567befde27459856b04cde5063552af12e11d76174435017285637",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "reading done to understand the context of a subject",
+        "translation_uz": "mavzuga tayyorlanish uchun qo‘shimcha mutolaa"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "7876cf8f-f2d5-4017-860a-8a81fe63feb1",
+      "term": "technical side of things",
+      "part_of_speech": "lexical chunk",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a0ed2a9cef74d449f570cf242b3ea263123948dc7996cbc87ad95ccc3e0febe0",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the practical or specialist details of a task",
+        "translation_uz": "ishning texnik tomoni"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "47753473-55b4-4d87-a8d5-ae5f172008d7",
+      "term": "fitting in the writing up",
+      "part_of_speech": "academic chunk",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:df6052d13ea5b6f6f6f07e3812e321857f38564449744fb63600d2b25eb84a0a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "finding enough time to prepare the written report",
+        "translation_uz": "hisobot yozishga ham vaqt ajratish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "329d78f1-8da8-4672-ae93-ce1af502a4d3",
+      "term": "split the writing between us",
+      "part_of_speech": "lexical chunk",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:919106c32fe131ea22b8ad159c4da42d38561ee7c5e71061cde231b7e62eca66",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to divide responsibility for writing between us",
+        "translation_uz": "yozish ishini o‘zaro bo‘lishmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "6514a123-e533-4a1e-9f77-02aa986b4328",
+      "term": "conserve the resources",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:cf60f84bb62b858d56f5fb3eb11ceb86ff9e365bd56b12869fa9beabc0c92ca2",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to use resources carefully so that they last longer",
+        "translation_uz": "resurslarni tejab asramoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c800d0c5-c547-47db-8443-3a4ef7b7873c",
+      "term": "stressful in environmental terms",
+      "part_of_speech": "academic chunk",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:7e77a7994843e03b09abfcc4c6e7ae2eb8cdab64884d0e13bdda6431ba8cfdf7",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "difficult for organisms because of harsh environmental conditions",
+        "translation_uz": "og‘ir atrof-muhit sharoitlari tufayli organizm uchun qiyin"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "ac8e55f1-6955-4872-abc4-737d15bfaf7d",
+      "term": "amount of competition",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:306e1dee3004b789e38a99eed967b6ad11f6873a75434959fe0db03f52c02efd",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the extent to which organisms or people compete",
+        "translation_uz": "raqobat darajasi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "da6956a2-56a2-455f-84f2-63a59f2ca35e",
+      "term": "changes in temperature",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:319e484be3a703348d98a25e6f85a4d898288bd297f03fc6865e45e894a378b3",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "variations in how hot or cold something is",
+        "translation_uz": "harorat o‘zgarishlari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "267d532d-377f-4ad4-b5d1-84a4b51dd4a1",
+      "term": "reduction in their metabolism",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:76ea36e45e343fb8c01533c8d18fab5ce290caafbc68bc176cdfccb66ecbcd18",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a lowering of the rate of the body's chemical processes",
+        "translation_uz": "moddalar almashinuvi tezligining pasayishi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "b2b04418-1b61-4044-93de-a230e12516fb",
+      "term": "cocoon of slime",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:45aced64a60da986f516f4618b2bfae8e272ab84b9ad4aa35e99788346612512",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a protective covering formed from a slimy substance",
+        "translation_uz": "shilimshiq moddadan hosil qilingan himoya qobig‘i"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "206e3c2d-0c3a-44fc-95da-616491199361",
+      "term": "minimising evaporation",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:21d3ddd246b20cc453d85e234403f1e7b3f55e519f3eb8fde6b2c385efeba647",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "reducing the loss of liquid by its becoming vapour",
+        "translation_uz": "bug‘lanishni imkon qadar kamaytirish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "97f926e4-9f2e-4269-bc97-ddb5c69df0f0",
+      "term": "turning off their internal thermostats",
+      "part_of_speech": "technical chunk",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:48dcfd156e1b40d171c24e74c3cf67f154005d0a38088bed7fb804e1a2a4e31a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "reducing normal body-temperature regulation during hibernation",
+        "translation_uz": "qishki uyqu paytida tana haroratini odatdagidek boshqarishni susaytirish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0e02f4b8-2510-4433-98a2-d6953c1bffe6",
+      "term": "a bit more challenging",
+      "part_of_speech": "lexical chunk",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:dffa0fdaec88470be19124978b771aabaf71a411cc62d949dd327a201fbd31d9",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "somewhat more difficult or demanding",
+        "translation_uz": "biroz qiyinroq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "eae2dbe8-3d3d-48dd-a0fc-b803171f0875",
+      "term": "electrical components",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:77c7be703de8b51413956c84921c4bdee3dba8f0e032a9129fa963eef7047f06",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the separate parts used in electrical equipment",
+        "translation_uz": "elektr qurilmasining qismlari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "42b9d488-9726-401c-a186-330291fc70c6",
+      "term": "quite sophisticated",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:59bc085ca23448880abb07efae017f577b6888438fa04b588b7beac569e4ca7b",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "fairly advanced or complex in design",
+        "translation_uz": "ancha murakkab va takomillashgan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "6ed6f8b4-42cf-49d2-8067-bef7ff4a281b",
+      "term": "just up his street",
+      "part_of_speech": "idiom",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:8804468a6c8b19d35fc4124d284be495eff6707ad45d0fb362f330c146b747a8",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "very well suited to his interests or abilities",
+        "translation_uz": "uning qiziqishi yoki qobiliyatiga juda mos"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "d323bf1c-86b6-46c0-85e2-4fc614486d0e",
+      "term": "just the thing",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:effc0b1ea4aa2990c872105c47a5883de71b2cb6f20f8ed417fa127917fbf643",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "exactly suitable for what is needed",
+        "translation_uz": "aynan kerakli narsa"
+      },
+      "status": "source_checked",
+      "provenance": "course_context_editorial",
+      "reference_url": "https://dictionary.cambridge.org/us/dictionary/english/just-the-thing?topic=suitable-and-acceptable"
+    },
+    {
+      "id": "3be9127b-acb0-4493-bc1c-e617e3ddce73",
+      "term": "in its favour",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:1ad475af3f19b82a112d4823c2157cc0c19b27a1a6913de547d06fd2a84eb636",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "an aspect that gives it an advantage",
+        "translation_uz": "unga afzallik beradigan jihat"
+      },
+      "status": "source_checked",
+      "provenance": "course_context_editorial",
+      "reference_url": "https://dictionary.cambridge.org/dictionary/english/favour?topic=helping-and-co-operating"
+    },
+    {
+      "id": "cfa956f0-d597-4ac4-8783-fc0d8ef670e4",
+      "term": "individual chocolates",
+      "part_of_speech": "noun phrase",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:701d6aa704f1c7c58df7a457947e079583a758240c3ca58a412d37eecd2f637b",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "separately made or wrapped pieces of chocolate",
+        "translation_uz": "alohida shokolad donalari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "ea5a47a9-bce2-499c-abfd-f127b635b54f",
+      "term": "special offer",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 1.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:0bba71939f25a1d90ee94847f05839c97297f573fd35d6c0ec367e1671f9921d",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a temporary deal giving a buyer an extra benefit",
+        "translation_uz": "maxsus chegirma yoki foydali taklif"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "56654814-c08f-4fae-8fb2-33bd98100036",
+      "term": "well-rounded trip",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:91e37f651128aae7210af8a91e972b536606e300ea007d2b948314f08584f044",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a trip offering a varied and balanced set of experiences",
+        "translation_uz": "turli tajribalarni qamrab olgan safar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "73df9cbc-2693-4cbb-b4b3-7b91d00b15dc",
+      "term": "wide range of subjects",
+      "part_of_speech": "lexical chunk",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:56f7386f436965dbf0f99a901c84bd62c1485866c305c0bc5bd50244a2de960a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "many different fields or topics",
+        "translation_uz": "turli mavzular yoki fanlarning keng doirasi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "97366d65-6a56-442e-a039-5b5e843465a1",
+      "term": "well worth a visit",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:64a544a836e2160a3c002efbcfd280270687dca99fba847366bfc58f4ce4745a",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "deserving the time and effort of going there",
+        "translation_uz": "borib ko‘rishga arziydigan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c8224c63-2408-465b-b8e0-904c9eca33ea",
+      "term": "official guided tours",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:29c4d0bbbf4950a320f92d0d800c82dbd69100f78cb936be9ecc6e22d950995f",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "formal tours led by an authorised guide",
+        "translation_uz": "rasmiy gid boshchiligidagi sayohatlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "2a808131-443f-4b4c-b2f3-5e6ad88a13de",
+      "term": "state-of-the-art galleries",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:3f452cc9ffc0448a9396323f3ecb84893ffb5e84b95fa5faf52cd368af2e97b6",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "exhibition spaces equipped with very modern facilities",
+        "translation_uz": "eng zamonaviy jihozlangan ko‘rgazma zallari"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "b2f6a2b5-fa22-40e6-9624-d6fa101c892e",
+      "term": "round-trip bus service",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:f5a4323edc5614b653b169480e9b7c851392ae2f14662ee458935ae72d0b1b5d",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a bus service covering both the outward and return journeys",
+        "translation_uz": "borish va qaytishni qamrab olgan avtobus xizmati"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "1c854333-17bf-4121-aafd-8359e3b5aadc",
+      "term": "upscale stores",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 2.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:9af3dff888fcb71826edac06e13a096855ccab4ac3b5c74b3a65000825c49fc9",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "shops selling higher-priced or luxury goods",
+        "translation_uz": "qimmat va yuqori toifadagi do‘konlar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "9db27929-9096-4d84-bc5c-1f0827f9e29c",
+      "term": "big investment in terms of time",
+      "part_of_speech": "lexical chunk",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a3e0457e502f9a52b537ab4efcb2ebbe3a694323972d9a0c3b9b349f1d6ca598",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a commitment requiring a large amount of time",
+        "translation_uz": "katta vaqt sarflashni talab qiladigan ish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0c0d7c06-df4d-4c88-82e3-b3eea564cbe8",
+      "term": "makes no difference whatsoever",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:9b75cf45fdbac4070358645a945add70c6855543ca18ce07845ae1f70933b535",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "has absolutely no effect on the result or choice",
+        "translation_uz": "umuman hech qanday farq qilmaydi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "94293ea2-bead-4558-941f-0ed2e9bc5d25",
+      "term": "make up a list",
+      "part_of_speech": "phrasal verb",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a7ae049ed5f00823f624aef88854bb5ef9afc61f5e47983f1a6587562be5afe3",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to prepare a written series of items or names",
+        "translation_uz": "ro‘yxat tuzmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "dc8ec0e9-5f1f-4dee-9099-f1df41abd1fb",
+      "term": "presenting your resume",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:e3baf286d2fdce052ba449ca251ce6018bbbf6eaf4488ab3e5c9509a6421c660",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "showing or submitting a summary of your education and work experience",
+        "translation_uz": "rezyumeni taqdim etish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "2c1f94b4-47c4-4913-9bfc-200d4dce9d64",
+      "term": "highly unlikely",
+      "part_of_speech": "adjective phrase",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:b8f14898d8c14a256e389fc07c5b7037e0fcd3d035d2c358bc2aae2343373903",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "very improbable",
+        "translation_uz": "ehtimoli juda kam"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "0d66858e-e58c-459b-865d-741d1b8852d7",
+      "term": "put it into practice",
+      "part_of_speech": "fixed expression",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:a2b7f4f1b99e085b68b4f26419d228d67e3246e49878a2df7877f36f650e4073",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to use an idea or method in a real situation",
+        "translation_uz": "amalda qo‘llamoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "c858584d-c878-440a-96da-aae9f3cc32a5",
+      "term": "financial situation",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:ef53c310f58892652278979cf46e73032a9acc3d71db3a2798c03653f7793d51",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the state of someone's income, spending, debts and available money",
+        "translation_uz": "moliyaviy ahvol"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "e4d844a4-a5ec-44b1-8c93-04d7c95935a6",
+      "term": "brief outline",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 3.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:861d516d863d27eb77a3b2fa119e5bd5f0885b8cd83da929b1793f2327b1c1a3",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a short summary of the main points",
+        "translation_uz": "qisqacha umumiy mazmun"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "3c7d7629-55ff-48a4-958a-1264e6e876d3",
+      "term": "implications for studying effectively",
+      "part_of_speech": "academic phrase",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:58030c4bcba5209c81fafdd3901543c25ec57f13e40724cdbfce29801ea515f9",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the consequences or lessons for how to study successfully",
+        "translation_uz": "samarali o‘qish uchun kelib chiqadigan xulosalar"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "3a393958-e558-460d-80d7-53794fd8e50e",
+      "term": "remains constant throughout our life",
+      "part_of_speech": "lexical chunk",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:2561b0894b879b2ddcab5111b04daf30a708190c3ad6546f7d97d9118b1ded42",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "does not change over the whole of our life",
+        "translation_uz": "butun hayotimiz davomida o‘zgarmay qoladi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "4349c81e-25a8-49ce-8d38-4f479c13bf03",
+      "term": "genetic origin of intelligence",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:e6ad3e28081002441ca99ff3fb1ce21c83dee34d0733264035a8365362275c86",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the idea that intelligence partly arises from inherited biological factors",
+        "translation_uz": "intellektning irsiy omillarga bog‘liq kelib chiqishi"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "825a2321-a3db-41ea-9618-decf950b8cfd",
+      "term": "abstract reasoning ability",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:32ba235238bf89bb3d30b81bce5d54018a9d749060d8f251e0cb2d77dc42dc7c",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "the capacity to reason about ideas rather than concrete objects",
+        "translation_uz": "mavhum fikrlash qobiliyati"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "1f1049d0-c734-493b-bdb4-3c944a90bc8a",
+      "term": "significant improvement",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:322543c848e902da0f3d4ef995181ff2b898983b82676c6ac2fb969be7a17a56",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "an improvement large enough to matter or be detected",
+        "translation_uz": "muhim darajadagi yaxshilanish"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "9387192f-27f2-43c4-b45c-254329d758ea",
+      "term": "multiple intelligences",
+      "part_of_speech": "academic term",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:5fd40ea729e29790e75290a7f5e8208a5b65f2217a65e7f733d8dbb146bcf79e",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "a theory proposing several partly distinct kinds of intellectual ability",
+        "translation_uz": "intellektning bir nechta turli qobiliyat turlaridan iboratligi haqidagi nazariya"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "8451ff28-faa5-445a-b7b6-96dd642fc93e",
+      "term": "partially independent of each other",
+      "part_of_speech": "academic phrase",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:2159aca36d73e26989be71951315ee4cb0c5160011c3bad085a5c9bfb2487023",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "not completely dependent on one another",
+        "translation_uz": "bir-biriga qisman bog‘liq bo‘lmagan"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "506994fb-39ff-43c3-ab8e-76d38bf177f6",
+      "term": "operate in isolation",
+      "part_of_speech": "collocation",
+      "before": {
+        "definition_en": "An important expression from Part 4.",
+        "translation_uz": "Kontekst orqali o‘rganiladigan ibora",
+        "sense_key": "v2:1af6c84d2afa3c4cdd4f2a51d9e5a6678707f2fd83ec9e12383f9181c45f97e1",
+        "verification_status": "unverified"
+      },
+      "after": {
+        "definition_en": "to function separately without interaction with other parts",
+        "translation_uz": "boshqa qismlardan ajralgan holda faoliyat ko‘rsatmoq"
+      },
+      "status": "ai_draft",
+      "provenance": "course_context_editorial"
+    },
+    {
+      "id": "45aa4de2-ebf2-4fd4-8347-0d4432bd56f8",
+      "term": "resilient",
+      "part_of_speech": null,
+      "before": {
+        "definition_en": "able to recover quickly- bardoshli",
+        "translation_uz": null,
+        "sense_key": "resilient|able to recover quickly- bardoshli",
+        "verification_status": null
+      },
+      "after": {
+        "definition_en": "able to remain useful or recover despite difficulty and change",
+        "translation_uz": "bardoshli; qiyinchilikka moslasha oladigan"
+      },
+      "status": "source_checked",
+      "provenance": "course_context_editorial",
+      "reference_url": "https://www.oxfordlearnersdictionaries.com/definition/english/resilient"
+    }
+  ]
+}

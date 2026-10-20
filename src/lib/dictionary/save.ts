@@ -38,7 +38,7 @@ export async function saveDictionarySense(
       tx,
     );
     await tx.execute(
-      sql`insert into lexemes(id,term,part_of_speech,definition_en,translation_uz,example_sentence,sense_key,provenance,verification_status,lexical_unit_id) values(${senseId}::uuid,${entry.display_lemma},${pos},${sense.definition_en},${sense.translations[0]!.text},${sense.examples[0]?.text_en ?? null},${"dictionary:" + senseId},'dictionary_release','verified',${unit!.id}::uuid)`,
+      sql`insert into lexemes(id,term,part_of_speech,definition_en,translation_uz,example_sentence,sense_key,provenance,verification_status,lexical_unit_id) values(${senseId}::uuid,${entry.display_lemma},${pos},${sense.definition_en},${sense.translations[0]!.text},${sense.examples[0]?.text_en ?? null},${"dictionary:" + senseId},'dictionary_release',${sense.editorial&&sense.editorial.translation_status!=='human_reviewed'?'unverified':'verified'},${unit!.id}::uuid)`,
     );
     await tx.execute(
       sql`insert into dictionary_sense_mappings(sense_id,app_sense_id,app_unit_id,mapping_method) values(${senseId}::uuid,${senseId}::uuid,${unit!.id}::uuid,'new_canonical')`,

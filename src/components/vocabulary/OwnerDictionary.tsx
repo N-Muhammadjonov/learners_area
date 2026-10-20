@@ -168,7 +168,7 @@ export function OwnerDictionary({ dict }: { dict: Dictionary }) {
     setError("");
     try {
       let current = resume
-        ? job
+        ? (job?.phase==="failed"?(await api<{job:Job}>("publish/"+job.id+"/retry","POST")).job:job)
         : (await api<{ job: Job }>("publish", "POST")).job;
       if (!current) throw Error(t.unavailable);
       setJob(current);
@@ -176,6 +176,7 @@ export function OwnerDictionary({ dict }: { dict: Dictionary }) {
         current = (await api<{ job: Job }>("publish/" + current.id, "POST"))
           .job;
         setJob(current);
+        if(current.phase==="worker_index")await new Promise(resolve=>setTimeout(resolve,2000));
       }
       if (current.phase === "failed")
         throw Error(current.error || t.unavailable);
@@ -446,7 +447,7 @@ export function OwnerDictionary({ dict }: { dict: Dictionary }) {
         >
           {t.publish}
         </button>
-        {job && !["complete", "failed"].includes(job.phase) && (
+        {job && (!["complete", "failed"].includes(job.phase)||job.error==="dictionary_index_build_failed") && (
           <button type="button"
             className="btn-secondary"
             disabled={busy}
