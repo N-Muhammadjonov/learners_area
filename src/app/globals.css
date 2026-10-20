@@ -194,6 +194,38 @@
       animation-duration: 0.001ms !important;
       transition-duration: 0.001ms !important;
     }
+
+    /* Owner-requested continuously visible motion, scoped to the touch welcome
+       and /login brand. Other routes continue to respect reduced motion.
+       Scoped !important is necessary because this base-layer wildcard is
+       itself !important. */
+    [data-touch-welcome] .la-welcome-brand-link,
+    [data-touch-welcome] .la-welcome-brand-link .brand-mark {
+      animation-duration: 2.65s !important;
+    }
+    [data-touch-welcome] .la-welcome-chip {
+      animation-duration: 2.45s !important;
+    }
+    [data-touch-welcome] .la-welcome-heading,
+    [data-touch-welcome] .la-welcome-cta {
+      animation-duration: .5s !important;
+    }
+    [data-touch-welcome] .la-welcome-text {
+      animation-duration: 2.4s !important;
+    }
+    [data-touch-welcome] .la-welcome-ring-one {
+      animation-duration: 22s !important;
+    }
+    [data-touch-welcome] .la-welcome-ring-two {
+      animation-duration: 28s !important;
+    }
+    [data-touch-welcome] .la-welcome-aurora {
+      animation-duration: 16s !important;
+    }
+    [data-auth-shell] [data-login-brand],
+    [data-auth-shell] [data-login-brand] .brand-mark {
+      animation-duration: 2.8s !important;
+    }
   }
 }
 
@@ -1135,7 +1167,6 @@
 @keyframes la-welcome-mark-rock { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-4deg); } }
 @keyframes la-welcome-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 420px) { .la-welcome-orbit { gap: .55rem; } .la-welcome-orbit .module-emoji { width: 1.9rem; height: 1.9rem; } }
-@media (prefers-reduced-motion: reduce) { .la-welcome-chip, .la-welcome-heading, .la-welcome-cta, .la-welcome-brand-link, .la-welcome-brand-link .brand-mark { animation: none; transform: none; } }
 
 .race-answer-box { font-family: var(--font-technical), ui-monospace, monospace; font-variant-numeric: tabular-nums; }
 
@@ -1163,7 +1194,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .listening-library-card { border-radius: 1.4rem; border-color: rgb(var(--ink-100)); transition: border-color .2s, transform .2s; }
 .listening-library-card:hover { border-color: rgb(var(--gold) / .6); transform: translateY(-2px); }
 .listening-library-badge { width: 100%; border-radius: 999px; padding: .45rem .8rem; font-weight: 700; background: rgb(var(--gold) / .12); }
-@media (prefers-reduced-motion: reduce) { .la-welcome-ring, .la-welcome-aurora { animation: none; } .la-welcome-cta:hover, .listening-library-card:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .la-welcome-cta:hover, .listening-library-card:hover { transform: none; } }
 
 /* Collection navigation and real mock overview, using the existing theme. */
 .listening-collection-tabs { display:flex; gap:1rem; overflow-x:auto; border-bottom:1px solid rgb(var(--ink-100)); }
@@ -1175,7 +1206,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .la-welcome-text { animation:la-text-rise 2.4s ease-in-out infinite; }
 .la-welcome-text-second { animation-delay:.16s; }
 @keyframes la-text-rise { 0%,100% { transform:translateY(0); } 45% { transform:translateY(-5px); } }
-@media (prefers-reduced-motion:reduce) { .la-welcome-text { animation:none; } }
+
 
 /* Motion system (§9): selective, transform/opacity only, never on reading,
    writing, question text, long forms or tables. Durations follow the owner's
