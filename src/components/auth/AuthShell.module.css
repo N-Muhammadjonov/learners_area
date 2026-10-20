@@ -41,7 +41,7 @@
    The logo remains the approved asset; other auth screens keep their sizes. */
 .loginBrand {
   transform-origin: center;
-  animation: authLoginFloat 2.8s ease-in-out infinite;
+  animation: authLoginFloat 3.85s ease-in-out infinite;
 }
 .loginBrand :global(.brand-name) {
   font-size: clamp(1.5rem, 5.6vw, 2rem);
@@ -50,7 +50,7 @@
   animation: none;
 }
 .loginBrand :global(.brand-mark) {
-  animation: authLoginMarkTilt 2.8s ease-in-out infinite;
+  animation: authLoginMarkTilt 3.85s ease-in-out infinite;
 }
 
 @keyframes authLoginFloat {
