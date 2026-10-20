@@ -15,6 +15,7 @@ import { readingAttemptExpired } from "@/lib/reading/timer";
 import { academicOnlyClause, generalMembership } from "@/lib/data/general-reading";
 import { academicInstructionNumbers } from "@/lib/reading/academic-selection";
 import { readingQuestionDescriptor, readingQuestionType, readingStorageType } from "@/lib/reading/question-model";
+import { notDeleted } from "@/lib/content/deletion-filter";
 
 export async function listActivePassages() {
   // A draft, a not-yet-due schedule and an archive are all invisible here; the
@@ -39,7 +40,7 @@ export async function listActivePassages() {
  * worked on it.
  */
 export async function getStartablePassage(passageId: string) {
-  const passage = await db.query.readingPassages.findFirst({ where: eq(readingPassages.id, passageId) });
+  const passage = await db.query.readingPassages.findFirst({ where: and(eq(readingPassages.id, passageId),notDeleted(readingPassages.id)) });
   if (!passage || !isLive(passage)) return null;
   // A General Reading passage is learning material: it never becomes an Academic
   // exam attempt (and so can never be locked by, or unlock, exam state).

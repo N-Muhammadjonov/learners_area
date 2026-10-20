@@ -12,6 +12,9 @@ test('Delete removes material, not learner history; ownership and transaction ro
  const e=await createTestDatabase();try{
  const [owner,teacher,learner]=await e.query<{id:string}>("insert into users(name,role,account_status) values('Owner','owner','active'),('Teacher','teacher','active'),('Learner','student','active') returning id");
  const [reading]=await e.query<{id:string}>("insert into reading_passages(title,body_text) values('Reading source','Source text') returning id");
+ const [second]=await e.query<{id:string}>("insert into reading_passages(title,body_text) values('Second source','Source text') returning id");
+ const [set]=await e.query<{id:string}>("insert into general_reading_sets(title) values('Reading material') returning id");
+ await e.query('insert into general_reading_passages(set_id,passage_id,passage_no) values($1,$2,1),($1,$3,2)',[set!.id,reading!.id,second!.id]);
  const [attempt]=await e.query<{id:string}>("insert into reading_attempts(user_id,passage_id,status,score) values($1,$2,'completed',7) returning id",[learner!.id,reading!.id]);
  const [video]=await e.query<{id:string}>("insert into video_lessons(title,video_id,created_by_user_id) values('Video source','01234567890',$1) returning id",[owner!.id]);
  await e.query("insert into video_lesson_progress(user_id,video_lesson_id) values($1,$2)",[learner!.id,video!.id]);
@@ -29,11 +32,22 @@ test('Delete removes material, not learner history; ownership and transaction ro
    assert.equal(await materialDeleted(id,e.db),true);
  }
  assert.deepEqual(await e.query("select (select jsonb_agg(to_jsonb(r) order by id) from reading_attempts r) reading,(select jsonb_agg(to_jsonb(r) order by id) from listening_attempts r) listening,(select jsonb_agg(to_jsonb(r) order by id) from video_lesson_progress r) video"),before);
- assert.equal((await e.db.select().from(readingPassages).where(notDeleted(readingPassages.id))).length,0);
+ assert.equal((await e.db.select().from(readingPassages).where(notDeleted(readingPassages.id))).length,1);
  assert.equal((await e.db.query.videoLessons.findMany({where:liveWhere(videoLessons)})).length,0,'relational alias resolves the real id column');
  assert.equal((await e.query<{status:string}>('select status from reading_attempts where id=$1',[attempt!.id]))[0]!.status,'completed');
  await e.db.transaction(tx=>deleteMaterialIn(tx,{id:owner!.id,role:'owner'},'reading',reading!.id));
  assert.equal((await e.query<{n:number}>("select count(*)::int n from activity_events where type='CONTENT_DELETED'"))[0]!.n,5,'deleting twice is idempotent');
+ await e.query("update reading_passages set publication_state='published' where id=$1",[reading!.id]);
+ assert.equal((await listLearningLibrary(learner!.id,{},e.db)).items.some(p=>p.id===reading!.id),false,'stale publication cannot resurrect a deleted passage');
+ assert.equal(await saveGeneralProgress({userId:learner!.id,role:'owner',passageId:reading!.id,answers:{},check:false,start:true},e.db),null);
+ assert.equal(await e.db.transaction(tx=>deleteMaterialIn(tx,{id:owner!.id,role:'owner'},'reading-set',set!.id)),'deleted');
+ assert.equal(await materialDeleted(second!.id,e.db),true);
+ await e.query("update general_reading_sets set publication_state='published' where id=$1",[set!.id]);
+ await e.query("update reading_passages set publication_state='published' where id=$1",[second!.id]);
+ assert.equal((await listLearningLibrary(learner!.id,{},e.db)).items.length,0);
+ assert.equal(await saveGeneralProgress({userId:learner!.id,role:'student',passageId:second!.id,answers:{},check:false,start:true},e.db),null);
+ assert.deepEqual(await e.query("select (select jsonb_agg(to_jsonb(r) order by id) from reading_attempts r) reading,(select jsonb_agg(to_jsonb(r) order by id) from listening_attempts r) listening,(select jsonb_agg(to_jsonb(r) order by id) from video_lesson_progress r) video"),before);
+ assert.equal((await e.query<{n:number}>("select count(*)::int n from reading_passages"))[0]!.n,2,'history source rows survive');
  }finally{await e.close();}
 });
 

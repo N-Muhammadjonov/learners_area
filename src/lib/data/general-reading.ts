@@ -8,6 +8,7 @@ import { isLive, liveWhere } from "@/lib/services/cms/publication";
 import { isStaff, type Role } from "@/lib/auth/roles";
 import { getPassageWithQuestions } from "@/lib/data/reading";
 import { academicQuestionCountClause } from "@/lib/data/reading-assessments";
+import { notDeleted } from "@/lib/content/deletion-filter";
 
 /*
  * General Reading = LEARNING (develop reading). IELTS Academic = ASSESSMENT
@@ -35,7 +36,7 @@ export async function generalMembership(passageId: string, executor: typeof db =
   if (!(await generalReadingSchemaReady(executor))) return null;
   const [row] = await executor.select({ setId: generalReadingPassages.setId, passageNo: generalReadingPassages.passageNo, readingMode: generalReadingPassages.readingMode, set: generalReadingSets })
     .from(generalReadingPassages).innerJoin(generalReadingSets, eq(generalReadingSets.id, generalReadingPassages.setId))
-    .where(eq(generalReadingPassages.passageId, passageId));
+    .where(and(eq(generalReadingPassages.passageId, passageId),notDeleted(generalReadingSets.id)));
   return row && row.readingMode === "general_practice" ? row : null;
 }
 
@@ -48,7 +49,7 @@ export async function academicOnlyClause() {
 export async function listGeneralSets(userId: string, options: { page?: number; academic?: boolean; all?: boolean } = {}, executor: typeof db = db) {
   if (!(await generalReadingSchemaReady(executor))) return [];
   await activateReadingSchedules(executor);
-  const validPassages = sql`not exists (select 1 from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id} and not (p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now())))`;
+  const validPassages = sql`not exists (select 1 from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id} and (not (${notDeleted(sql`p.id`)}) or not (p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now()))))`;
   const formal = options.academic ? sql`(select count(*) from general_reading_passages g where g.set_id=${generalReadingSets.id})=3
     and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and g.passage_no not in (1,2,3))
     and not exists (select 1 from general_reading_passages g where g.set_id=${generalReadingSets.id} and not exists (select 1 from reading_questions q where q.passage_id=g.passage_id))
@@ -84,9 +85,9 @@ export async function listGeneralSets(userId: string, options: { page?: number; 
 export async function generalSetDetail(setId: string, role: Role) {
   await activateReadingSchedules();
   if (!(await generalReadingSchemaReady())) return null;
-  const set = await db.query.generalReadingSets.findFirst({ where: eq(generalReadingSets.id, setId) });
+  const set = await db.query.generalReadingSets.findFirst({ where: and(eq(generalReadingSets.id, setId),notDeleted(generalReadingSets.id)) });
   if (!set || (!isLive(set) && !isStaff(role))) return null;
-  const slots = await db.select().from(generalReadingPassages).where(eq(generalReadingPassages.setId, setId)).orderBy(asc(generalReadingPassages.passageNo));
+  const slots = await db.select().from(generalReadingPassages).where(and(eq(generalReadingPassages.setId, setId),notDeleted(generalReadingPassages.passageId))).orderBy(asc(generalReadingPassages.passageNo));
   // Each passage owns independent read-only queries. Preserve slot order and
   // the same publication checks while sharing the existing bounded DB pool.
   const loaded = await Promise.all(slots.map(async (slot) => {
@@ -150,7 +151,7 @@ export function restoredGeneralCheck(
 export async function saveGeneralProgress(input: { userId: string; role: Role; passageId: string; answers: Record<string, string>; check: boolean; start?: boolean }, executor: typeof db = db) {
   const membership = await generalMembership(input.passageId, executor);
   if (!membership || (!isLive(membership.set) && !isStaff(input.role))) return null;
-  const passage = await executor.query.readingPassages.findFirst({ where: eq(readingPassages.id,input.passageId) });
+  const passage = await executor.query.readingPassages.findFirst({ where: and(eq(readingPassages.id,input.passageId),notDeleted(readingPassages.id)) });
   if (!passage || (!isLive(passage) && !isStaff(input.role))) return null;
   const questions = await executor.query.readingQuestions.findMany({ where: eq(readingQuestions.passageId, input.passageId) });
   const allowed = new Set(questions.map((question) => question.id));

@@ -3,7 +3,7 @@ import { gunzipSync } from "node:zlib";
 import { sql } from "drizzle-orm";
 import { db } from "../../src/db/client";
 import { entrySchema, entryTerms, normalizeSearch, sha, stableJson, type Entry } from "../../src/lib/dictionary/model";
-import { bytesHash, shardId } from "../../src/lib/dictionary/shards";
+import { bytesHash, shardId, type ShardDescriptor } from "../../src/lib/dictionary/shards";
 import { writeShard, publishManifest } from "../../src/lib/dictionary/offload";
 import { contentHash, releaseManifest, rows, writeTerms } from "../../src/lib/dictionary/store";
 import {senseKeyOf} from "../../src/lib/services/vocabulary/dedupe";
@@ -35,7 +35,7 @@ export function verifiedSource(file:string, attributionFile:string) {
 type ImportDb=Pick<typeof db,"execute"|"transaction">;
 /** No channel activation here. Complete per-shard transactions make retry idempotent. */
 export type ExpectedImport = {release:string;lexemes:number;senses:number;examples:number;entryInventorySha:string;senseSetSha:string;exampleSetSha:string;searchTerms:number};
-export async function importHybridGroups(groups:AsyncIterable<Entry[]>,expected:ExpectedImport,objects:DictionaryObjects,conn:ImportDb,owner:string|null=null,workerIndex?:import('../../src/lib/dictionary/worker-gateway').WorkerIndexManifest) {
+export async function importHybridGroups(groups:AsyncIterable<Entry[]>,expected:ExpectedImport,objects:DictionaryObjects,conn:ImportDb,owner:string|null=null,workerIndex?:import('../../src/lib/dictionary/worker-gateway').WorkerIndexManifest,prepared?:(entries:Entry[])=>{body:Buffer;descriptor:ShardDescriptor}) {
   const release=expected.release;
   const [existing]=await rows<{state:string;manifest:unknown;manifest_sha:string}>(sql`select state,manifest,manifest_sha from dictionary_releases where id=${release}`,conn);
   const assertExpected=(manifest:Awaited<ReturnType<typeof releaseManifest>>) => {
@@ -66,7 +66,7 @@ export async function importHybridGroups(groups:AsyncIterable<Entry[]>,expected:
       if(sameId){const sameUntypedIdentity=sameId.part_of_speech===null&&normalizeSearch(sameId.term)===normalizeSearch(e.display_lemma)&&normalizeSearch(sameId.definition_en)===normalizeSearch(sense.definition_en);if(keyOf(sameId.term,sameId.part_of_speech,sameId.definition_en)!==key&&!sameUntypedIdentity)throw Error("canonical_identity_conflict");direct.set(sameId.id,sense.sense_id);}
       if(byAppKey.has(key)){const set=candidates.get(key)??new Set<string>();set.add(sense.sense_id);candidates.set(key,set);}
     }
-    await writeShard(group,objects,tx,!workerIndex);if(!workerIndex)await writeTerms(group,tx);
+    await writeShard(group,objects,tx,!workerIndex,prepared?.(group));if(!workerIndex)await writeTerms(group,tx);
   });
   const manifest=await releaseManifest(release,conn);assertExpected(manifest);
   await publishManifest(release,manifest,objects);

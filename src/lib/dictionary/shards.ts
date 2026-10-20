@@ -1,6 +1,6 @@
 import {Buffer} from 'node:buffer';
 import { createHash } from "node:crypto";
-import { gzipSync, gunzipSync } from "node:zlib";
+import { gzipSync, gunzipSync, inflateRawSync } from "node:zlib";
 import { z } from "zod";
 import { entrySchema, entryContentHash, normalizeSearch, stableJson, type Entry } from "./model";
 
@@ -54,6 +54,25 @@ export function decodeShard(release: string, descriptor: ShardDescriptor, body: 
   const map = new Map(entries.map(entry => [entry.lexeme_id, entry]));
   if (entries.length !== descriptor.entries || map.size !== entries.length || entries.some(e => e.release_id !== release || shardId(e.lexeme_id) !== descriptor.shard)) throw Error("dictionary_shard_identity_mismatch");
   return map;
+}
+/** Keep the approved compressed bytes across operating systems/zlib versions.
+ * Recompression can change the gzip header and offsets of immutable objects. */
+export function preparedShard(release:string, entries:Entry[], descriptor:ShardDescriptor, body:Buffer) {
+  const decoded=decodeShard(release,descriptor,body);
+  if(stableJson([...decoded.values()].toSorted((a,b)=>a.lexeme_id.localeCompare(b.lexeme_id)))!==stableJson(entries.toSorted((a,b)=>a.lexeme_id.localeCompare(b.lexeme_id))))throw Error('prepared_shard_entries_mismatch');
+  const ranges=new Map<string,EntryRange>();
+  if(descriptor.format==='entry-jsonl-gzip-v1'){
+    let offset=0;
+    for(const entry of decoded.values()){
+      if(body.subarray(offset,offset+4).toString('hex')!=='1f8b0800')throw Error('prepared_shard_gzip_header');
+      const inflated=inflateRawSync(body.subarray(offset+10),{info:true,maxOutputLength:MAX_SHARD_RAW}) as unknown as {buffer:Buffer;engine:{bytesWritten:number}};
+      const length=18+inflated.engine.bytesWritten,raw=Buffer.from(stableJson(entry)+'\n');
+      if(!inflated.buffer.equals(raw)||offset+length>body.length)throw Error('prepared_shard_range_mismatch');
+      ranges.set(entry.lexeme_id,{offset,length,raw_bytes:raw.length});offset+=length;
+    }
+    if(offset!==body.length)throw Error('prepared_shard_range_mismatch');
+  }
+  return {body,descriptor,ranges};
 }
 export const previewOf = (entry: Entry) => ({
   display_lemma: entry.display_lemma,

@@ -1,9 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {applyDraft,type Entry} from '../src/lib/dictionary/model';
-import {encodeShard,decodeShard,shardKey,bytesHash} from '../src/lib/dictionary/shards';
+import {gzipSync} from 'node:zlib';
+import {applyDraft,stableJson,type Entry} from '../src/lib/dictionary/model';
+import {encodeShard,decodeShard,preparedShard,decodeEntryRange,shardKey,bytesHash} from '../src/lib/dictionary/shards';
+import {entryContentHash} from '../src/lib/dictionary/model';
 import {DictionaryShardCache} from '../src/lib/dictionary/shard-cache';
 export const fixture=(n:string,release='rel-v1-111111111111111111111111'):Entry=>applyDraft([],{operation:'add_lexeme',lemma:n,partOfSpeech:'n',lexicalType:'word',definitionEn:'A test-only meaning for '+n,translationUz:'sinov '+n,definitionUz:'Sinov ma’nosi',examples:[]},release);
+test('prepared packed shards retain foreign gzip bytes and derive exact ranges without recompression',()=>{
+ const entries=[fixture('one'),fixture('two')].map((e,i)=>({...e,lexeme_id:`aa000000-0000-4000-8000-${String(i).padStart(12,'0')}`}));
+ const raw=Buffer.from(entries.map(e=>stableJson(e)+'\n').join(''));
+ const body=Buffer.concat(entries.map(e=>{const b=gzipSync(stableJson(e)+'\n',{level:1});b[9]=19;return b;}));
+ const descriptor={shard:'aa',sha256:bytesHash(body),raw_sha256:bytesHash(raw),compressed_bytes:body.length,raw_bytes:raw.length,entries:2,format:'entry-jsonl-gzip-v1' as const};
+ const prepared=preparedShard(entries[0]!.release_id,entries,descriptor,body);
+ assert.equal(prepared.body,body);assert.notDeepEqual(body,encodeShard(entries[0]!.release_id,entries,true).body);
+ for(const entry of entries){const range=prepared.ranges.get(entry.lexeme_id)!;assert.deepEqual(decodeEntryRange(entry.release_id,entry.lexeme_id,range,body.subarray(range.offset,range.offset+range.length),entryContentHash(entry)),entry);}
+ assert.throws(()=>preparedShard(entries[0]!.release_id,[{...entries[0]!,display_lemma:'changed'},entries[1]!],descriptor,body),/entries_mismatch/);
+});
 test('deterministic compressed shards reject corruption, wrong IDs and foreign release',()=>{
  const e=fixture('bank'),encoded=encodeShard(e.release_id,[e]),{body,descriptor}=encoded;
  assert.deepEqual(encodeShard(e.release_id,[e]),encoded);assert.deepEqual(decodeShard(e.release_id,descriptor,body).get(e.lexeme_id),e);

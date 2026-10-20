@@ -2,16 +2,16 @@ import "server-only";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { contentHash, rows } from "./store";
-import { encodeShard, manifestKey, previewOf } from "./shards";
+import { encodeShard, preparedShard, manifestKey, previewOf, type ShardDescriptor } from "./shards";
 import { stableJson, type Entry } from "./model";
 import type { DictionaryObjects } from "./object-store";
 type Conn = Pick<typeof db,"execute">;
 
 /** Caller owns a bounded DB transaction. R2 writes are conditional and verified first.
  * An interrupted transaction leaves only an unreferenced immutable object; retry is safe. */
-export async function writeShard(entries:Entry[], objects:DictionaryObjects, conn:Conn,keepPreview=true) {
+export async function writeShard(entries:Entry[], objects:DictionaryObjects, conn:Conn,keepPreview=true,prepared?:{body:Buffer;descriptor:ShardDescriptor}) {
   const release=entries[0]!.release_id;
-  const {body,descriptor,ranges}=encodeShard(release,entries,!keepPreview);
+  const {body,descriptor,ranges}=prepared?preparedShard(release,entries,prepared.descriptor,prepared.body):encodeShard(release,entries,!keepPreview);
   const {shardKey}=await import("./shards");
   await objects.putImmutable(shardKey(release,descriptor.shard),body);
   const values=entries.map(e=>({release_id:release,lexeme_id:e.lexeme_id,lemma_norm:e.normalized_search_form,part_of_speech:e.part_of_speech,lexical_type:e.lexical_type,content_sha:contentHash(e),is_custom:e.attribution.some(a=>a.source_name==="Learners Area"),storage_offset:ranges.get(e.lexeme_id)?.offset??null,storage_length:ranges.get(e.lexeme_id)?.length??null,storage_raw_bytes:ranges.get(e.lexeme_id)?.raw_bytes??null,storage_shard:descriptor.shard,storage_release:release,search_preview:keepPreview?previewOf(e):null,sense_ids:e.senses.map(s=>s.sense_id),example_ids:e.senses.flatMap(s=>s.examples.map(x=>x.example_id))}));

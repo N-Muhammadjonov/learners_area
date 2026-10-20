@@ -16,6 +16,7 @@ import {activateHybridRelease,cleanupFailedRelease} from '../src/lib/dictionary/
 import {saveDictionarySense} from '../src/lib/dictionary/save';
 import {beginPublish,advancePublish,rollback} from '../src/lib/dictionary/publish';
 import {sql} from 'drizzle-orm';
+import {encodeShard,bytesHash,shardKey} from '../src/lib/dictionary/shards';
 
 test('Worker-index owner publication, exact saves and rollback retain zero PostgreSQL terms and payload copies',async()=>{
  execFileSync(process.execPath,['scripts/build-dictionary-worker.mjs'],{stdio:'pipe'});
@@ -49,7 +50,9 @@ test('Worker-index owner publication, exact saves and rollback retain zero Postg
   await assert.rejects(()=>activeRelease(d.db),/dictionary_unavailable/);
   const built=buildSearchIndex([bank,phrase],release),workerIndex:import('../src/lib/dictionary/worker-gateway').WorkerIndexManifest={version:INDEX_VERSION,directory:built.descriptor,objects:[built.descriptor,...built.directory.objects],logicalTerms:expectedImport([bank,phrase]).searchTerms};
   for(const [name,body] of built.objects)await transport.putImmutable(indexKey(release,name),body);
-  const imported=await importHybridGroups((async function*(){yield [bank];yield [phrase];})(),expectedImport([bank,phrase]),transport,d.db,owner,workerIndex);
+  const approved=new Map([bank,phrase].map(entry=>{const packed=encodeShard(release,[entry],true);packed.body[9]=19;packed.descriptor.sha256=bytesHash(packed.body);return [entry.lexeme_id,packed] as const;}));
+  for(const packed of approved.values())await transport.putImmutable(shardKey(release,packed.descriptor.shard),packed.body);
+  const imported=await importHybridGroups((async function*(){yield [bank];yield [phrase];})(),expectedImport([bank,phrase]),transport,d.db,owner,workerIndex,entries=>approved.get(entries[0]!.lexeme_id)!);
   const fingerprint=sha(stableJson(imported.manifest));
   await assert.rejects(()=>activateHybridRelease({ownerId:student,release,manifestSha:fingerprint,expectedBase:null},transport,d.db),/active_owner/);
   await assert.rejects(()=>activateHybridRelease({ownerId:owner,release,manifestSha:'invalid',expectedBase:null},transport,d.db),/manifest/);

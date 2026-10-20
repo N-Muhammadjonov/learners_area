@@ -6,7 +6,7 @@ import {sql} from 'drizzle-orm';
 import {db} from '../../src/db/client';
 import {sha,stableJson} from '../../src/lib/dictionary/model';
 import {z} from 'zod';
-import {bytesHash,shardKey,decodeShard,releasePattern} from '../../src/lib/dictionary/shards';
+import {bytesHash,shardKey,decodeShard,releasePattern,type ShardDescriptor} from '../../src/lib/dictionary/shards';
 import {indexKey} from '../../src/lib/dictionary/search-index';
 import {workerIndexManifestSchema} from '../../src/lib/dictionary/worker-gateway';
 import {dictionaryObjects} from '../../src/lib/dictionary/object-store';
@@ -57,7 +57,11 @@ async function main(){
     await Promise.all(uploads.slice(at,at+8).map(async d=>{const body=readFileSync(d.file);if(bytesHash(body)!==d.sha)throw Error('prepared_object_checksum_mismatch');await objects.putImmutable(d.key,body);}));
     console.log(JSON.stringify({uploaded:Math.min(at+8,uploads.length),objects:uploads.length}));
   }
-  const result=await importHybridGroups((async function*(){for(const d of plan.shards){const body=readFileSync(join(prepared,'shards',d.shard+'.json.gz'));yield [...decodeShard(plan.release,d,body).values()];}})(),plan.expected,objects,db,approval.ownerId,search);
+  const result=await importHybridGroups((async function*(){for(const d of plan.shards){const body=readFileSync(join(prepared,'shards',d.shard+'.json.gz'));yield [...decodeShard(plan.release,d,body).values()];}})(),plan.expected,objects,db,approval.ownerId,search,entries=>{
+    const descriptor=(plan.shards as ShardDescriptor[]).find(d=>d.shard===entries[0]!.lexeme_id.slice(0,2));
+    if(!descriptor)throw Error('prepared_shard_missing');
+    return {descriptor,body:readFileSync(join(prepared,'shards',descriptor.shard+'.json.gz'))};
+  });
   console.log(JSON.stringify({staged:true,activeChanged:false,release:plan.release,manifestSha:sha(stableJson(result.manifest))}));
  }else if(action==='activate'){
   const manifest=await releaseManifest(plan.release);console.log(JSON.stringify(await activateHybridRelease({ownerId:approval.ownerId,release:plan.release,manifestSha:sha(stableJson(manifest)),expectedBase:approval.expectedBase},objects)));

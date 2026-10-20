@@ -1,7 +1,7 @@
 import "server-only";
 import { eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { contentVersions, listeningTests, readingPassages, speakingMaterials,
+import { contentVersions, generalReadingSets, generalReadingPassages, listeningTests, readingPassages, speakingMaterials,
   speakingPrompts, videoLessons, writingLessons, writingPrompts, writingTranslationSets,
   writingModelTexts, writingLanguagePatterns } from "@/db/schema";
 import { canManageContent, type Actor } from "@/lib/auth/ownership";
@@ -9,7 +9,7 @@ import { isStaff } from "@/lib/auth/roles";
 import { recordAudit } from "@/lib/data/audit";
 import { notDeleted } from "./deletion-filter";
 
-const tables = { reading: readingPassages, listening: listeningTests, writing: writingPrompts,
+const tables = { reading: readingPassages, "reading-set": generalReadingSets, listening: listeningTests, writing: writingPrompts,
   speaking: speakingMaterials, "speaking-prompt": speakingPrompts, video: videoLessons,
   "writing-lesson": writingLessons, "writing-translation": writingTranslationSets,
   "writing-model-text": writingModelTexts, "writing-pattern": writingLanguagePatterns };
@@ -27,6 +27,11 @@ export async function deleteMaterialIn(tx: Executor, actor: Actor, type: Deletab
   if (!row) return "not_found" as const;
   const creator = "createdByUserId" in row ? row.createdByUserId : null;
   if (typeof creator === "string" && !canManageContent(actor, creator)) return "forbidden" as const;
+  if (type === "reading-set") {
+    const members=await tx.select({id:generalReadingPassages.passageId}).from(generalReadingPassages)
+      .where(eq(generalReadingPassages.setId,id)).orderBy(generalReadingPassages.passageId);
+    for (const member of members) await deleteMaterialIn(tx,actor,"reading",member.id);
+  }
   // This tombstone is not a learning event and never changes learner activity.
   await tx.execute(sql`insert into activity_events(id,user_id,type,payload)
     values(md5('deleted-content:' || ${id})::uuid,${actorId}::uuid,'CONTENT_DELETED',
