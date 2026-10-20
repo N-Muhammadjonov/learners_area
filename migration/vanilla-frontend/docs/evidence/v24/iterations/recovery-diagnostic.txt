@@ -1,0 +1,32 @@
+V24 recovery replacement diagnostic {
+  hash: '#review/part/1',
+  authority: 'Rechecking Review access. Protected interactions and audio are paused.',
+  navigation: undefined,
+  retry: false
+} { active: undefined, hubBusy: null, inert: false }
+FAIL V24 disposed recovery Check cannot reject replacement UI on late failure locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#activity-review.active') to be visible
+
+    at ready (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v24-journeys.mjs:5:95)
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-review-v24-journeys.mjs:26:1166
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v24-journeys.mjs:26:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:60:27
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 0,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V24 disposed recovery Check cannot reject replacement UI on late failure",
+      "status": "FAIL",
+      "error": "locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('#activity-review.active') to be visible\n"
+    }
+  ]
+}

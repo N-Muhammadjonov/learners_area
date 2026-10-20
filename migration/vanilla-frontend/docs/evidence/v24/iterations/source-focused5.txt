@@ -1,0 +1,132 @@
+PASS V24 source replacement owns new frame and fences held idle
+PASS V24 source replacement owns new frame and fences held metadata
+PASS V24 source replacement owns new frame and fences held post
+PASS V24 source replacement owns new frame and fences held lexical
+PASS V24 source replacement owns new frame and fences held media
+PASS V24 source replacement owns new frame and fences held recovery
+PASS V24 aggregate completed goal retains exact uncertain bytes until separate explicit write ACK
+PASS V24 repeated source reentry preserves native parts, own revisions and bounded single frame
+PASS V24 canonical retake during post never grants old scope or clears owned bytes
+PASS V24 canonical retake during metadata never grants old scope or clears owned bytes
+PASS V24 canonical retake during replacement never grants old scope or clears owned bytes
+PASS V24 disposed recovery Check cannot reject replacement UI on late failure
+PASS V24 authorized lexical modal keyboard lifecycle 1440/en/day
+PASS V24 authorized lexical modal keyboard lifecycle 1440/en/night
+PASS V24 authorized lexical modal keyboard lifecycle 1440/uz/day
+PASS V24 authorized lexical modal keyboard lifecycle 1440/uz/night
+PASS V24 authorized lexical modal keyboard lifecycle 768/en/day
+PASS V24 authorized lexical modal keyboard lifecycle 768/en/night
+PASS V24 authorized lexical modal keyboard lifecycle 768/uz/day
+PASS V24 authorized lexical modal keyboard lifecycle 768/uz/night
+PASS V24 authorized lexical modal keyboard lifecycle 390/en/day
+PASS V24 authorized lexical modal keyboard lifecycle 390/en/night
+PASS V24 authorized lexical modal keyboard lifecycle 390/uz/day
+PASS V24 authorized lexical modal keyboard lifecycle 390/uz/night
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 24,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V24 source replacement owns new frame and fences held idle",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 source replacement owns new frame and fences held metadata",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 source replacement owns new frame and fences held post",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 source replacement owns new frame and fences held lexical",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 source replacement owns new frame and fences held media",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 source replacement owns new frame and fences held recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 aggregate completed goal retains exact uncertain bytes until separate explicit write ACK",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 repeated source reentry preserves native parts, own revisions and bounded single frame",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 canonical retake during post never grants old scope or clears owned bytes",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 canonical retake during metadata never grants old scope or clears owned bytes",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 canonical retake during replacement never grants old scope or clears owned bytes",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 disposed recovery Check cannot reject replacement UI on late failure",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V24 authorized lexical modal keyboard lifecycle 390/uz/night",
+      "status": "PASS"
+    }
+  ]
+}

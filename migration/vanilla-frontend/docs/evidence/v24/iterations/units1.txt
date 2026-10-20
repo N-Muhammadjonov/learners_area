@@ -1,0 +1,3370 @@
+
+> learners-area-vanilla-migration-candidate@0.1.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: confirmation source class/title/description, trigger expansion and initial focus
+ok 1 - confirmation source class/title/description, trigger expansion and initial focus
+  ---
+  duration_ms: 56.41657
+  type: 'test'
+  ...
+# Subtest: confirmation cancel does not mutate and restores trigger focus
+ok 2 - confirmation cancel does not mutate and restores trigger focus
+  ---
+  duration_ms: 8.837351
+  type: 'test'
+  ...
+# Subtest: confirmation pending blocks Escape/double-submit then closes on confirmed success
+ok 3 - confirmation pending blocks Escape/double-submit then closes on confirmed success
+  ---
+  duration_ms: 13.009179
+  type: 'test'
+  ...
+# Subtest: destructive failure stays open, redacts raw errors and supports deliberate retry
+ok 4 - destructive failure stays open, redacts raw errors and supports deliberate retry
+  ---
+  duration_ms: 15.098558
+  type: 'test'
+  ...
+# Subtest: aborting pending modal removes top layer without stealing newer focus
+ok 5 - aborting pending modal removes top layer without stealing newer focus
+  ---
+  duration_ms: 10.281346
+  type: 'test'
+  ...
+# Subtest: idle modal Escape permits a second ordinary open
+ok 6 - idle modal Escape permits a second ordinary open
+  ---
+  duration_ms: 6.859324
+  type: 'test'
+  ...
+# Subtest: void region refresh never falls through to hard reload
+ok 7 - void region refresh never falls through to hard reload
+  ---
+  duration_ms: 13.451664
+  type: 'test'
+  ...
+# Subtest: region retry coalesces pending clicks and recovers after refresh rejection
+ok 8 - region retry coalesces pending clicks and recovers after refresh rejection
+  ---
+  duration_ms: 8.330937
+  type: 'test'
+  ...
+# Subtest: region retry without callback explicitly reloads once
+ok 9 - region retry without callback explicitly reloads once
+  ---
+  duration_ms: 10.368652
+  type: 'test'
+  ...
+# Subtest: API malformed/null JSON safely classified ({, 200)
+ok 10 - API malformed/null JSON safely classified ({, 200)
+  ---
+  duration_ms: 23.491285
+  type: 'test'
+  ...
+# Subtest: API malformed/null JSON safely classified (null, 503)
+ok 11 - API malformed/null JSON safely classified (null, 503)
+  ---
+  duration_ms: 0.58622
+  type: 'test'
+  ...
+# Subtest: API malformed/null JSON safely classified ([object Object], 400)
+ok 12 - API malformed/null JSON safely classified ([object Object], 400)
+  ---
+  duration_ms: 0.621062
+  type: 'test'
+  ...
+# Subtest: failure prioritizes rate-limit, maps parse to server and rejects prototype lookups
+ok 13 - failure prioritizes rate-limit, maps parse to server and rejects prototype lookups
+  ---
+  duration_ms: 0.230511
+  type: 'test'
+  ...
+# Subtest: unchanged pending applicant stays in waiting room on reconciliation
+ok 14 - unchanged pending applicant stays in waiting room on reconciliation
+  ---
+  duration_ms: 7.484763
+  type: 'test'
+  ...
+# Subtest: pending→active refreshes authoritative presentation, never locally grants access
+ok 15 - pending→active refreshes authoritative presentation, never locally grants access
+  ---
+  duration_ms: 4.830902
+  type: 'test'
+  ...
+# Subtest: pending→rejected refreshes authoritative presentation, never locally grants access
+ok 16 - pending→rejected refreshes authoritative presentation, never locally grants access
+  ---
+  duration_ms: 4.007538
+  type: 'test'
+  ...
+# Subtest: pending→suspended refreshes authoritative presentation, never locally grants access
+ok 17 - pending→suspended refreshes authoritative presentation, never locally grants access
+  ---
+  duration_ms: 3.671441
+  type: 'test'
+  ...
+# Subtest: active→suspended clears private scope and replaces login
+ok 18 - active→suspended clears private scope and replaces login
+  ---
+  duration_ms: 3.926117
+  type: 'test'
+  ...
+# Subtest: already expired authority leaves no online/pageshow listeners
+ok 19 - already expired authority leaves no online/pageshow listeners
+  ---
+  duration_ms: 9.929645
+  type: 'test'
+  ...
+# Subtest: preaborted watcher cannot reconcile/connect
+ok 20 - preaborted watcher cannot reconcile/connect
+  ---
+  duration_ms: 3.532837
+  type: 'test'
+  ...
+# Subtest: profile keyboard menu supports arrows/End/Escape without opening security dialog
+ok 21 - profile keyboard menu supports arrows/End/Escape without opening security dialog
+  ---
+  duration_ms: 12.956732
+  type: 'test'
+  ...
+# Subtest: onboarding eight source fields/defaults and numeric constraint validation
+ok 22 - onboarding eight source fields/defaults and numeric constraint validation
+  ---
+  duration_ms: 15.906534
+  type: 'test'
+  ...
+# Subtest: waiting pending, open=false: eligible form + actual logout modal
+ok 23 - waiting pending, open=false: eligible form + actual logout modal
+  ---
+  duration_ms: 16.21784
+  type: 'test'
+  ...
+# Subtest: waiting rejected, open=false: eligible form + actual logout modal
+ok 24 - waiting rejected, open=false: eligible form + actual logout modal
+  ---
+  duration_ms: 7.52858
+  type: 'test'
+  ...
+# Subtest: waiting suspended, open=false: eligible form + actual logout modal
+ok 25 - waiting suspended, open=false: eligible form + actual logout modal
+  ---
+  duration_ms: 7.650556
+  type: 'test'
+  ...
+# Subtest: waiting pending, open=true: eligible form + actual logout modal
+ok 26 - waiting pending, open=true: eligible form + actual logout modal
+  ---
+  duration_ms: 8.421389
+  type: 'test'
+  ...
+# Subtest: queued old native close event cannot dismiss a newly reopened modal
+ok 27 - queued old native close event cannot dismiss a newly reopened modal
+  ---
+  duration_ms: 13.959382
+  type: 'test'
+  ...
+# Subtest: history-key scaffolding does not carry identity in navigation
+ok 28 - history-key scaffolding does not carry identity in navigation
+  ---
+  duration_ms: 8.003241
+  type: 'test'
+  ...
+# Subtest: failed mount aborts its work; error view owns a fresh signal and can recover/back-navigate
+ok 29 - failed mount aborts its work; error view owns a fresh signal and can recover/back-navigate
+  ---
+  duration_ms: 4.606833
+  type: 'test'
+  ...
+# Subtest: mouse focus handoff inside profile menu cannot close it while activeElement is temporarily BODY
+ok 30 - mouse focus handoff inside profile menu cannot close it while activeElement is temporarily BODY
+  ---
+  duration_ms: 7.076246
+  type: 'test'
+  ...
+# Subtest: auth pending/error preserve field, provider and submit node identity and focused input selection
+ok 31 - auth pending/error preserve field, provider and submit node identity and focused input selection
+  ---
+  duration_ms: 69.030857
+  type: 'test'
+  ...
+# Subtest: refresh reuses only current-route draft; real navigation wipes secrets and never serializes them
+ok 32 - refresh reuses only current-route draft; real navigation wipes secrets and never serializes them
+  ---
+  duration_ms: 19.588877
+  type: 'test'
+  ...
+# Subtest: aborted request never navigates or paints later failure/success and clears old DOM credentials
+ok 33 - aborted request never navigates or paints later failure/success and clears old DOM credentials
+  ---
+  duration_ms: 15.76942
+  type: 'test'
+  ...
+# Subtest: missing reset token cannot submit even via dispatched submit
+ok 34 - missing reset token cannot submit even via dispatched submit
+  ---
+  duration_ms: 18.021334
+  type: 'test'
+  ...
+# Subtest: reset success survives preference refresh, but untrusted dev URL never becomes a link
+ok 35 - reset success survives preference refresh, but untrusted dev URL never becomes a link
+  ---
+  duration_ms: 18.649372
+  type: 'test'
+  ...
+# Subtest: malformed login result fails closed null
+ok 36 - malformed login result fails closed null
+  ---
+  duration_ms: 0.688666
+  type: 'test'
+  ...
+# Subtest: malformed login result fails closed []
+ok 37 - malformed login result fails closed []
+  ---
+  duration_ms: 0.176709
+  type: 'test'
+  ...
+# Subtest: malformed login result fails closed {}
+ok 38 - malformed login result fails closed {}
+  ---
+  duration_ms: 0.116515
+  type: 'test'
+  ...
+# Subtest: malformed login result fails closed "bad"
+ok 39 - malformed login result fails closed "bad"
+  ---
+  duration_ms: 0.165359
+  type: 'test'
+  ...
+# Subtest: malformed login result fails closed {"ok":false}
+ok 40 - malformed login result fails closed {"ok":false}
+  ---
+  duration_ms: 0.235762
+  type: 'test'
+  ...
+# Subtest: malformed login result fails closed {"error":"driver secret"}
+ok 41 - malformed login result fails closed {"error":"driver secret"}
+  ---
+  duration_ms: 0.147336
+  type: 'test'
+  ...
+# Subtest: malformed login result fails closed {"onboarded":"true"}
+ok 42 - malformed login result fails closed {"onboarded":"true"}
+  ---
+  duration_ms: 0.089269
+  type: 'test'
+  ...
+# Subtest: malformed login result fails closed {"onboarded":true,"accountStatus":"unknown"}
+ok 43 - malformed login result fails closed {"onboarded":true,"accountStatus":"unknown"}
+  ---
+  duration_ms: 0.135657
+  type: 'test'
+  ...
+# Subtest: malformed login result fails closed {"onboarded":true,"accountStatus":"active"}
+ok 44 - malformed login result fails closed {"onboarded":true,"accountStatus":"active"}
+  ---
+  duration_ms: 0.154641
+  type: 'test'
+  ...
+# Subtest: malformed login result fails closed {"ok":true,"onboarded":true}
+ok 45 - malformed login result fails closed {"ok":true,"onboarded":true}
+  ---
+  duration_ms: 0.16135
+  type: 'test'
+  ...
+# Subtest: precise existing acknowledgement and pending-view shapes reject malformed success
+ok 46 - precise existing acknowledgement and pending-view shapes reject malformed success
+  ---
+  duration_ms: 0.200389
+  type: 'test'
+  ...
+# Subtest: pending source status pending and sent state survive refresh
+ok 47 - pending source status pending and sent state survive refresh
+  ---
+  duration_ms: 12.415045
+  type: 'test'
+  ...
+# Subtest: pending source status rejected and sent state survive refresh
+ok 48 - pending source status rejected and sent state survive refresh
+  ---
+  duration_ms: 7.84413
+  type: 'test'
+  ...
+# Subtest: pending source status suspended and sent state survive refresh
+ok 49 - pending source status suspended and sent state survive refresh
+  ---
+  duration_ms: 6.865259
+  type: 'test'
+  ...
+# Subtest: Telegram local deadline stops after bounded polling and leaves a deliberate retry
+ok 50 - Telegram local deadline stops after bounded polling and leaves a deliberate retry
+  ---
+  duration_ms: 13.699817
+  type: 'test'
+  ...
+# Subtest: source diagnostic projection cannot contain credentials, URLs or driver text
+ok 51 - source diagnostic projection cannot contain credentials, URLs or driver text
+  ---
+  duration_ms: 0.954855
+  type: 'test'
+  ...
+# Subtest: locale refresh barrier waits for one acknowledgement and abort releases its waiter
+ok 52 - locale refresh barrier waits for one acknowledgement and abort releases its waiter
+  ---
+  duration_ms: 6.034134
+  type: 'test'
+  ...
+# Subtest: Telegram cancel is available while create is pending; late create cannot open or exchange
+ok 53 - Telegram cancel is available while create is pending; late create cannot open or exchange
+  ---
+  duration_ms: 12.350711
+  type: 'test'
+  ...
+# Subtest: Telegram source outcome login/signed_in uses authoritative destination and bound nonce only
+ok 54 - Telegram source outcome login/signed_in uses authoritative destination and bound nonce only
+  ---
+  duration_ms: 12.020644
+  type: 'test'
+  ...
+# Subtest: Telegram source outcome login/signed_in uses authoritative destination and bound nonce only
+ok 55 - Telegram source outcome login/signed_in uses authoritative destination and bound nonce only
+  ---
+  duration_ms: 6.001682
+  type: 'test'
+  ...
+# Subtest: Telegram source outcome login/suspended uses authoritative destination and bound nonce only
+ok 56 - Telegram source outcome login/suspended uses authoritative destination and bound nonce only
+  ---
+  duration_ms: 5.91339
+  type: 'test'
+  ...
+# Subtest: Telegram source outcome register/pending uses authoritative destination and bound nonce only
+ok 57 - Telegram source outcome register/pending uses authoritative destination and bound nonce only
+  ---
+  duration_ms: 5.643519
+  type: 'test'
+  ...
+# Subtest: Telegram source outcome register/reopened uses authoritative destination and bound nonce only
+ok 58 - Telegram source outcome register/reopened uses authoritative destination and bound nonce only
+  ---
+  duration_ms: 5.677387
+  type: 'test'
+  ...
+# Subtest: Telegram source outcome register/already_pending uses authoritative destination and bound nonce only
+ok 59 - Telegram source outcome register/already_pending uses authoritative destination and bound nonce only
+  ---
+  duration_ms: 6.799441
+  type: 'test'
+  ...
+# Subtest: Telegram source outcome register/already_active uses authoritative destination and bound nonce only
+ok 60 - Telegram source outcome register/already_active uses authoritative destination and bound nonce only
+  ---
+  duration_ms: 16.367023
+  type: 'test'
+  ...
+# Subtest: Telegram source outcome link/linked uses authoritative destination and bound nonce only
+ok 61 - Telegram source outcome link/linked uses authoritative destination and bound nonce only
+  ---
+  duration_ms: 5.192339
+  type: 'test'
+  ...
+# Subtest: legacy Telegram register uses original label, script placement and abort teardown
+ok 62 - legacy Telegram register uses original label, script placement and abort teardown
+  ---
+  duration_ms: 4.192375
+  type: 'test'
+  ...
+# Subtest: development reset URL is limited to same-origin confirmation with token
+ok 63 - development reset URL is limited to same-origin confirmation with token
+  ---
+  duration_ms: 0.551508
+  type: 'test'
+  ...
+# Subtest: native props.children survive wrapper components; no React tree
+ok 64 - native props.children survive wrapper components; no React tree
+  ---
+  duration_ms: 50.553364
+  type: 'test'
+  ...
+# Subtest: native form values, checked boolean and select initial values are properties
+ok 65 - native form values, checked boolean and select initial values are properties
+  ---
+  duration_ms: 12.516604
+  type: 'test'
+  ...
+# Subtest: native SVG text uses namespace, source style dimensions get CSS px
+ok 66 - native SVG text uses namespace, source style dimensions get CSS px
+  ---
+  duration_ms: 10.823905
+  type: 'test'
+  ...
+# Subtest: native rejects executable URL and arbitrary HTML input
+ok 67 - native rejects executable URL and arbitrary HTML input
+  ---
+  duration_ms: 7.473091
+  type: 'test'
+  ...
+# Subtest: session adapter refuses existing auth-state as identity, invalid role or status
+ok 68 - session adapter refuses existing auth-state as identity, invalid role or status
+  ---
+  duration_ms: 0.912511
+  type: 'test'
+  ...
+# Subtest: public adapter refuses contradictory or undeclared policy; no invented fallback
+ok 69 - public adapter refuses contradictory or undeclared policy; no invented fallback
+  ---
+  duration_ms: 0.60212
+  type: 'test'
+  ...
+# Subtest: private scope is identity isolated, bounded, expiring; retention cache exclusion switch
+ok 70 - private scope is identity isolated, bounded, expiring; retention cache exclusion switch
+  ---
+  duration_ms: 0.475385
+  type: 'test'
+  ...
+# Subtest: private authority teardown disposes resources exactly once
+ok 71 - private authority teardown disposes resources exactly once
+  ---
+  duration_ms: 0.235871
+  type: 'test'
+  ...
+# Subtest: route metadata gates implemented routes only; exact focus split not inferred for unknowns
+ok 72 - route metadata gates implemented routes only; exact focus split not inferred for unknowns
+  ---
+  duration_ms: 0.491105
+  type: 'test'
+  ...
+# Subtest: source-native listening-lessons: actual dictionary and truthful empty fixture render
+ok 73 - source-native listening-lessons: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 16.543788
+  type: 'test'
+  ...
+# Subtest: source-native reading-lessons: actual dictionary and truthful empty fixture render
+ok 74 - source-native reading-lessons: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 6.182889
+  type: 'test'
+  ...
+# Subtest: source-native grammar-lessons: actual dictionary and truthful empty fixture render
+ok 75 - source-native grammar-lessons: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 5.258221
+  type: 'test'
+  ...
+# Subtest: source-native listening-academic: actual dictionary and truthful empty fixture render
+ok 76 - source-native listening-academic: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 5.622806
+  type: 'test'
+  ...
+# Subtest: source-native listening-general: actual dictionary and truthful empty fixture render
+ok 77 - source-native listening-general: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 8.552012
+  type: 'test'
+  ...
+# Subtest: source-native listening-mcq: actual dictionary and truthful empty fixture render
+ok 78 - source-native listening-mcq: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 6.323811
+  type: 'test'
+  ...
+# Subtest: source-native listening-history: actual dictionary and truthful empty fixture render
+ok 79 - source-native listening-history: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 6.254856
+  type: 'test'
+  ...
+# Subtest: source-native reading-history: actual dictionary and truthful empty fixture render
+ok 80 - source-native reading-history: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 6.068963
+  type: 'test'
+  ...
+# Subtest: source-native reading-academic: actual dictionary and truthful empty fixture render
+ok 81 - source-native reading-academic: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 5.965757
+  type: 'test'
+  ...
+# Subtest: source-native management: actual dictionary and truthful empty fixture render
+ok 82 - source-native management: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 23.95793
+  type: 'test'
+  ...
+# Subtest: source-native speaking: actual dictionary and truthful empty fixture render
+ok 83 - source-native speaking: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 7.716926
+  type: 'test'
+  ...
+# Subtest: source-native notifications: actual dictionary and truthful empty fixture render
+ok 84 - source-native notifications: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 4.744638
+  type: 'test'
+  ...
+# Subtest: source-native owner-audit: actual dictionary and truthful empty fixture render
+ok 85 - source-native owner-audit: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 4.440932
+  type: 'test'
+  ...
+# Subtest: source-native admin-content: actual dictionary and truthful empty fixture render
+ok 86 - source-native admin-content: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 9.340385
+  type: 'test'
+  ...
+# Subtest: source-native admin-materials: actual dictionary and truthful empty fixture render
+ok 87 - source-native admin-materials: actual dictionary and truthful empty fixture render
+  ---
+  duration_ms: 4.52095
+  type: 'test'
+  ...
+# Subtest: management roles never show owner links to teacher; source icons and cards present
+ok 88 - management roles never show owner links to teacher; source icons and cards present
+  ---
+  duration_ms: 16.865001
+  type: 'test'
+  ...
+# Subtest: MCQ active position preserves Day 8/deep q positions, no fixed day maximum
+ok 89 - MCQ active position preserves Day 8/deep q positions, no fixed day maximum
+  ---
+  duration_ms: 0.187109
+  type: 'test'
+  ...
+# Subtest: opaque authored sandbox denies same-origin, all network, top navigation and forms
+ok 90 - opaque authored sandbox denies same-origin, all network, top navigation and forms
+  ---
+  duration_ms: 0.248866
+  type: 'test'
+  ...
+# Subtest: sandbox messages require exact frame, channel and unpredictable token
+ok 91 - sandbox messages require exact frame, channel and unpredictable token
+  ---
+  duration_ms: 0.181124
+  type: 'test'
+  ...
+# Subtest: authority coalesces event checks and revokes on 401 without refreshing privileges locally
+ok 92 - authority coalesces event checks and revokes on 401 without refreshing privileges locally
+  ---
+  duration_ms: 18.352412
+  type: 'test'
+  ...
+# Subtest: dashboard source success view renders real fixture summary without inventing band 9.0
+ok 93 - dashboard source success view renders real fixture summary without inventing band 9.0
+  ---
+  duration_ms: 14.996116
+  type: 'test'
+  ...
+# Subtest: listening hub uses adapter registry cards and summary counts, never a fabricated fixed grid
+ok 94 - listening hub uses adapter registry cards and summary counts, never a fabricated fixed grid
+  ---
+  duration_ms: 6.559173
+  type: 'test'
+  ...
+# Subtest: canonical Listening and default Grammar open lessons; explicit Grammar tabs remain conditional real URLs
+ok 95 - canonical Listening and default Grammar open lessons; explicit Grammar tabs remain conditional real URLs
+  ---
+  duration_ms: 1.215508
+  type: 'test'
+  ...
+# Subtest: Reading legacy queries resolve to real products and obsolete General never revives a product
+ok 96 - Reading legacy queries resolve to real products and obsolete General never revives a product
+  ---
+  duration_ms: 0.628429
+  type: 'test'
+  ...
+# Subtest: protected legacy destinations retain role-aware source redirects without reviving old screens
+ok 97 - protected legacy destinations retain role-aware source redirects without reviving old screens
+  ---
+  duration_ms: 0.454535
+  type: 'test'
+  ...
+# Subtest: any private API 401 event immediately revokes scoped authority and closes listener
+ok 98 - any private API 401 event immediately revokes scoped authority and closes listener
+  ---
+  duration_ms: 3.944992
+  type: 'test'
+  ...
+# Subtest: repeated original ModuleEmoji artwork creates fresh SVG geometry, never consumes shared fragments
+ok 99 - repeated original ModuleEmoji artwork creates fresh SVG geometry, never consumes shared fragments
+  ---
+  duration_ms: 5.140883
+  type: 'test'
+  ...
+# Subtest: dashboard valid empty/unavailable distinctions are retained, not invented zeroes
+ok 100 - dashboard valid empty/unavailable distinctions are retained, not invented zeroes
+  ---
+  duration_ms: 2.62907
+  type: 'test'
+  ...
+# Subtest: nullable source target/feedback estimates remain valid and display dash, not a fake score
+ok 101 - nullable source target/feedback estimates remain valid and display dash, not a fake score
+  ---
+  duration_ms: 70.162685
+  type: 'test'
+  ...
+# Subtest: malformed dashboard consumer field rejected: d=>d.skillCounts.reading=undefined
+ok 102 - malformed dashboard consumer field rejected: d=>d.skillCounts.reading=undefined
+  ---
+  duration_ms: 0.926114
+  type: 'test'
+  ...
+# Subtest: malformed dashboard consumer field rejected: d=>d.skillCounts.reading=-1
+ok 103 - malformed dashboard consumer field rejected: d=>d.skillCounts.reading=-1
+  ---
+  duration_ms: 0.546591
+  type: 'test'
+  ...
+# Subtest: malformed dashboard consumer field rejected: d=>d.streak=Infinity
+ok 104 - malformed dashboard consumer field rejected: d=>d.streak=Infinity
+  ---
+  duration_ms: 0.896822
+  type: 'test'
+  ...
+# Subtest: malformed dashboard consumer field rejected: d=>d.openAssignments={}
+ok 105 - malformed dashboard consumer field rejected: d=>d.openAssignments={}
+  ---
+  duration_ms: 0.691149
+  type: 'test'
+  ...
+# Subtest: malformed dashboard consumer field rejected: d=>d.lastActivity={module:'reading',href:'//evil.invalid',at:'2026-10-18T00:00:00Z'}
+ok 106 - malformed dashboard consumer field rejected: d=>d.lastActivity={module:'reading',href:'//evil.invalid',at:'2026-10-18T00:00:00Z'}
+  ---
+  duration_ms: 0.279297
+  type: 'test'
+  ...
+# Subtest: malformed dashboard consumer field rejected: d=>d.nextLiveClass={id:'x',title:'x',scheduledAt:'invalid'}
+ok 107 - malformed dashboard consumer field rejected: d=>d.nextLiveClass={id:'x',title:'x',scheduledAt:'invalid'}
+  ---
+  duration_ms: 0.412128
+  type: 'test'
+  ...
+# Subtest: malformed dashboard consumer field rejected: d=>d.latestEvaluation={overallEstimate:10,weaknesses:[],checkedByName:'Fixture'}
+ok 108 - malformed dashboard consumer field rejected: d=>d.latestEvaluation={overallEstimate:10,weaknesses:[],checkedByName:'Fixture'}
+  ---
+  duration_ms: 0.415335
+  type: 'test'
+  ...
+# Subtest: assigned source lessons are accepted; unavailable != empty, locked/scheduled are not fabricated as open
+ok 109 - assigned source lessons are accepted; unavailable != empty, locked/scheduled are not fabricated as open
+  ---
+  duration_ms: 1.370251
+  type: 'test'
+  ...
+# Subtest: mock dates hydrate on a copy and original owned outcomes are never recomputed
+ok 110 - mock dates hydrate on a copy and original owned outcomes are never recomputed
+  ---
+  duration_ms: 0.729884
+  type: 'test'
+  ...
+# Subtest: mock unknown/malformed fields do not become empty/successful attempts
+ok 111 - mock unknown/malformed fields do not become empty/successful attempts
+  ---
+  duration_ms: 0.278911
+  type: 'test'
+  ...
+# Subtest: all source dashboard slots initially load independently without reading absent DTOs
+ok 112 - all source dashboard slots initially load independently without reading absent DTOs
+  ---
+  duration_ms: 13.584108
+  type: 'test'
+  ...
+# Subtest: three reads start concurrently and stale responses after abort cannot replace newer-route DOM
+ok 113 - three reads start concurrently and stale responses after abort cannot replace newer-route DOM
+  ---
+  duration_ms: 20.194632
+  type: 'test'
+  ...
+# Subtest: safe redirect preserves path/query/fragment
+ok 114 - safe redirect preserves path/query/fragment
+  ---
+  duration_ms: 1.142659
+  type: 'test'
+  ...
+# Subtest: safe redirect rejects external, encoded, backslash and malformed targets
+ok 115 - safe redirect rejects external, encoded, backslash and malformed targets
+  ---
+  duration_ms: 0.283177
+  type: 'test'
+  ...
+# Subtest: patterns distinguish nested static/dynamic routes
+ok 116 - patterns distinguish nested static/dynamic routes
+  ---
+  duration_ms: 0.33762
+  type: 'test'
+  ...
+# Subtest: API mutations send only JSON with same-origin cookies and no-store
+ok 117 - API mutations send only JSON with same-origin cookies and no-store
+  ---
+  duration_ms: 12.776262
+  type: 'test'
+  ...
+# Subtest: API rejects foreign paths
+ok 118 - API rejects foreign paths
+  ---
+  duration_ms: 0.85534
+  type: 'test'
+  ...
+# Subtest: API distinguishes server 401 errors
+ok 119 - API distinguishes server 401 errors
+  ---
+  duration_ms: 0.978422
+  type: 'test'
+  ...
+# Subtest: API rejects HTML fallback instead of treating it as success
+ok 120 - API rejects HTML fallback instead of treating it as success
+  ---
+  duration_ms: 0.534644
+  type: 'test'
+  ...
+# Subtest: identical concurrent GET requests deduplicate without persistent cache
+ok 121 - identical concurrent GET requests deduplicate without persistent cache
+  ---
+  duration_ms: 1.20597
+  type: 'test'
+  ...
+# Subtest: cancelling one GET subscriber does not abort another
+ok 122 - cancelling one GET subscriber does not abort another
+  ---
+  duration_ms: 1.243144
+  type: 'test'
+  ...
+# Subtest: last GET subscriber cancellation aborts transport
+ok 123 - last GET subscriber cancellation aborts transport
+  ---
+  duration_ms: 0.738587
+  type: 'test'
+  ...
+# Subtest: mutation failures are not automatically retried
+ok 124 - mutation failures are not automatically retried
+  ---
+  duration_ms: 0.734118
+  type: 'test'
+  ...
+# Subtest: router handles direct dynamic links and query/hash
+ok 125 - router handles direct dynamic links and query/hash
+  ---
+  duration_ms: 59.138181
+  type: 'test'
+  ...
+# Subtest: router navigation cleans old views and aborts lifecycle
+ok 126 - router navigation cleans old views and aborts lifecycle
+  ---
+  duration_ms: 11.576247
+  type: 'test'
+  ...
+# Subtest: router back and forward restore matching route
+ok 127 - router back and forward restore matching route
+  ---
+  duration_ms: 29.572432
+  type: 'test'
+  ...
+# Subtest: stale lazy route cannot overwrite newer navigation
+ok 128 - stale lazy route cannot overwrite newer navigation
+  ---
+  duration_ms: 5.886662
+  type: 'test'
+  ...
+# Subtest: DOM rendering treats untrusted strings as text
+ok 129 - DOM rendering treats untrusted strings as text
+  ---
+  duration_ms: 6.375907
+  type: 'test'
+  ...
+# Subtest: two dictionaries retain the same key shape
+ok 130 - two dictionaries retain the same key shape
+  ---
+  duration_ms: 14.689021
+  type: 'test'
+  ...
+# Subtest: brand uses original images rather than initials or emoji replacements
+ok 131 - brand uses original images rather than initials or emoji replacements
+  ---
+  duration_ms: 10.152187
+  type: 'test'
+  ...
+# Subtest: recovery form includes real labelled required email/password inputs
+ok 132 - recovery form includes real labelled required email/password inputs
+  ---
+  duration_ms: 25.068463
+  type: 'test'
+  ...
+# Subtest: inventory accounts for every page and never marks unavailable routes converted
+ok 133 - inventory accounts for every page and never marks unavailable routes converted
+  ---
+  duration_ms: 5.640418
+  type: 'test'
+  ...
+# Subtest: runtime has no React/Next imports or JSX entrypoints
+ok 134 - runtime has no React/Next imports or JSX entrypoints
+  ---
+  duration_ms: 4.427841
+  type: 'test'
+  ...
+# Subtest: legacy alias preserves query/hash and does not restore retired Shadowing
+ok 135 - legacy alias preserves query/hash and does not restore retired Shadowing
+  ---
+  duration_ms: 2.505596
+  type: 'test'
+  ...
+# Subtest: Academic catalogue exact source order, nullable scores and no payload projection
+ok 136 - Academic catalogue exact source order, nullable scores and no payload projection
+  ---
+  duration_ms: 2.72316
+  type: 'test'
+  ...
+# Subtest: Academic detail registry paths and all earned scores remain server-owned
+ok 137 - Academic detail registry paths and all earned scores remain server-owned
+  ---
+  duration_ms: 0.699864
+  type: 'test'
+  ...
+# Subtest: History ownership fail-closed, no raw test content, no invented ungraded zero
+ok 138 - History ownership fail-closed, no raw test content, no invented ungraded zero
+  ---
+  duration_ms: 0.499242
+  type: 'test'
+  ...
+# Subtest: Hub exact source paths/order, type identity and metadata reject protected payloads
+ok 139 - Hub exact source paths/order, type identity and metadata reject protected payloads
+  ---
+  duration_ms: 0.634668
+  type: 'test'
+  ...
+# Subtest: source catalogue/history network failure retry and persistent URL /app/listening/academic
+ok 140 - source catalogue/history network failure retry and persistent URL /app/listening/academic
+  ---
+  duration_ms: 75.79901
+  type: 'test'
+  ...
+# Subtest: source catalogue/history network failure retry and persistent URL /app/listening/history
+ok 141 - source catalogue/history network failure retry and persistent URL /app/listening/history
+  ---
+  duration_ms: 12.594488
+  type: 'test'
+  ...
+# Subtest: History empty source state renders canonical call to catalogue, no fake pagination
+ok 142 - History empty source state renders canonical call to catalogue, no fake pagination
+  ---
+  duration_ms: 15.367228
+  type: 'test'
+  ...
+# Subtest: Hub invalid identity gets not-found before requesting any private projection
+ok 143 - Hub invalid identity gets not-found before requesting any private projection
+  ---
+  duration_ms: 16.778089
+  type: 'test'
+  ...
+# Subtest: Hub lock/not-found/retry native states locked
+ok 144 - Hub lock/not-found/retry native states locked
+  ---
+  duration_ms: 7.937023
+  type: 'test'
+  ...
+# Subtest: Hub lock/not-found/retry native states 404
+ok 145 - Hub lock/not-found/retry native states 404
+  ---
+  duration_ms: 8.177665
+  type: 'test'
+  ...
+# Subtest: Hub lock/not-found/retry native states failure
+ok 146 - Hub lock/not-found/retry native states failure
+  ---
+  duration_ms: 9.672456
+  type: 'test'
+  ...
+# Subtest: Cancelled catalogue and hub ignore delayed projection
+ok 147 - Cancelled catalogue and hub ignore delayed projection
+  ---
+  duration_ms: 15.746156
+  type: 'test'
+  ...
+# Subtest: Lesson source blocks reject wrong area/foreign identity, leaked keys, private reference payload and unsafe URLs
+ok 148 - Lesson source blocks reject wrong area/foreign identity, leaked keys, private reference payload and unsafe URLs
+  ---
+  duration_ms: 0.995672
+  type: 'test'
+  ...
+# Subtest: Lesson quiz keeps own answer on failure, releases only server verdict and rejects premature key
+ok 149 - Lesson quiz keeps own answer on failure, releases only server verdict and rejects premature key
+  ---
+  duration_ms: 14.895248
+  type: 'test'
+  ...
+# Subtest: Lesson detail text stays plain and quiz native; source tabs derived from URL, not role
+ok 150 - Lesson detail text stays plain and quiz native; source tabs derived from URL, not role
+  ---
+  duration_ms: 15.311541
+  type: 'test'
+  ...
+# Subtest: Lesson notes serializes/coalesces newest text and late ACK cannot mark newer text saved
+ok 151 - Lesson notes serializes/coalesces newest text and late ACK cannot mark newer text saved
+  ---
+  duration_ms: 13.290316
+  type: 'test'
+  ...
+# Subtest: Lesson notes empty clear, exit keepalive, server failure retry and overlong refusal
+ok 152 - Lesson notes empty clear, exit keepalive, server failure retry and overlong refusal
+  ---
+  duration_ms: 13.323239
+  type: 'test'
+  ...
+# Subtest: Lesson notes revoked authority never flushes private text into a new session
+ok 153 - Lesson notes revoked authority never flushes private text into a new session
+  ---
+  duration_ms: 7.85927
+  type: 'test'
+  ...
+# Subtest: All authored documents signal painted readiness without same-origin or network privileges
+ok 154 - All authored documents signal painted readiness without same-origin or network privileges
+  ---
+  duration_ms: 0.48068
+  type: 'test'
+  ...
+# Subtest: All source lesson typed blocks render in order without embedding referenced payload
+ok 155 - All source lesson typed blocks render in order without embedding referenced payload
+  ---
+  duration_ms: 22.403156
+  type: 'test'
+  ...
+# Subtest: credentialed contiguous Range reads cache/coalesce and reject arbitrary offsets
+ok 156 - credentialed contiguous Range reads cache/coalesce and reject arbitrary offsets
+  ---
+  duration_ms: 16.097726
+  type: 'test'
+  ...
+# Subtest: reject malformed Range offset
+ok 157 - reject malformed Range offset
+  ---
+  duration_ms: 0.885808
+  type: 'test'
+  ...
+# Subtest: reject malformed Range truncated
+ok 158 - reject malformed Range truncated
+  ---
+  duration_ms: 0.985788
+  type: 'test'
+  ...
+# Subtest: reject malformed Range mime
+ok 159 - reject malformed Range mime
+  ---
+  duration_ms: 0.496373
+  type: 'test'
+  ...
+# Subtest: reject malformed Range ignored
+ok 160 - reject malformed Range ignored
+  ---
+  duration_ms: 0.477039
+  type: 'test'
+  ...
+# Subtest: reject malformed Range etag
+ok 161 - reject malformed Range etag
+  ---
+  duration_ms: 0.836186
+  type: 'test'
+  ...
+# Subtest: Range status 401 rejects bytes and observes revocation/retry policy
+ok 162 - Range status 401 rejects bytes and observes revocation/retry policy
+  ---
+  duration_ms: 0.525947
+  type: 'test'
+  ...
+# Subtest: Range status 403 rejects bytes and observes revocation/retry policy
+ok 163 - Range status 403 rejects bytes and observes revocation/retry policy
+  ---
+  duration_ms: 0.674463
+  type: 'test'
+  ...
+# Subtest: Range status 404 rejects bytes and observes revocation/retry policy
+ok 164 - Range status 404 rejects bytes and observes revocation/retry policy
+  ---
+  duration_ms: 0.544812
+  type: 'test'
+  ...
+# Subtest: Range status 503 rejects bytes and observes revocation/retry policy
+ok 165 - Range status 503 rejects bytes and observes revocation/retry policy
+  ---
+  duration_ms: 0.526109
+  type: 'test'
+  ...
+# Subtest: browser default fetch keeps Window receiver
+ok 166 - browser default fetch keeps Window receiver
+  ---
+  duration_ms: 0.689356
+  type: 'test'
+  ...
+# Subtest: owned audio removes 18 listeners and bounds hung play
+ok 167 - owned audio removes 18 listeners and bounds hung play
+  ---
+  duration_ms: 10.661905
+  type: 'test'
+  ...
+# Subtest: canonical result validates exact own 40-row verdict; malformed/foreign stays unacknowledged
+ok 168 - canonical result validates exact own 40-row verdict; malformed/foreign stays unacknowledged
+  ---
+  duration_ms: 0.87296
+  type: 'test'
+  ...
+# Subtest: original exam never calls client grader or reveals score before canonical own ACK
+ok 169 - original exam never calls client grader or reveals score before canonical own ACK
+  ---
+  duration_ms: 57.978388
+  type: 'test'
+  ...
+# Subtest: retry uses A-E genuine two-choice set, individual server numbers and sender/token checked verdict
+ok 170 - retry uses A-E genuine two-choice set, individual server numbers and sender/token checked verdict
+  ---
+  duration_ms: 19.199056
+  type: 'test'
+  ...
+# Subtest: oversized 206 stream is cancelled before caching
+ok 171 - oversized 206 stream is cancelled before caching
+  ---
+  duration_ms: 1.104173
+  type: 'test'
+  ...
+# Subtest: disposal aborts pending Range and cannot post bytes into next generation
+ok 172 - disposal aborts pending Range and cannot post bytes into next generation
+  ---
+  duration_ms: 0.398262
+  type: 'test'
+  ...
+# Subtest: one correct paired retry letter is locked; only missed number sent
+ok 173 - one correct paired retry letter is locked; only missed number sent
+  ---
+  duration_ms: 16.550026
+  type: 'test'
+  ...
+# Subtest: 64MiB synthetic session obeys aggregate256KiB LRU and re-fetches evicted first chunk
+ok 174 - 64MiB synthetic session obeys aggregate256KiB LRU and re-fetches evicted first chunk
+  ---
+  duration_ms: 299.871074
+  type: 'test'
+  ...
+# Subtest: ETag continuity is checked even after all chunks for an identity are evicted
+ok 175 - ETag continuity is checked even after all chunks for an identity are evicted
+  ---
+  duration_ms: 1.244779
+  type: 'test'
+  ...
+# Subtest: global pool allows two Range reads, queued identities abort without issuing a fetch
+ok 176 - global pool allows two Range reads, queued identities abort without issuing a fetch
+  ---
+  duration_ms: 0.610392
+  type: 'test'
+  ...
+# Subtest: hung response body is canceled on explicit read deadline, without caching partial bytes
+ok 177 - hung response body is canceled on explicit read deadline, without caching partial bytes
+  ---
+  duration_ms: 20.740529
+  type: 'test'
+  ...
+# Subtest: retry empty validation/Enter/busy duplicate guard; only canonical reply releases key
+ok 178 - retry empty validation/Enter/busy duplicate guard; only canonical reply releases key
+  ---
+  duration_ms: 76.977015
+  type: 'test'
+  ...
+# Subtest: retry draft returns on rerender, never stores verdict/key; attempt change clears it
+ok 179 - retry draft returns on rerender, never stores verdict/key; attempt change clears it
+  ---
+  duration_ms: 28.964635
+  type: 'test'
+  ...
+# Subtest: retry failure preserves own input, visible retry reuses exact answers; foreign/stale reply ignored
+ok 180 - retry failure preserves own input, visible retry reuses exact answers; foreign/stale reply ignored
+  ---
+  duration_ms: 14.500009
+  type: 'test'
+  ...
+# Subtest: inner Back cancels pending reply, reentry cannot display old feedback
+ok 181 - inner Back cancels pending reply, reentry cannot display old feedback
+  ---
+  duration_ms: 14.106172
+  type: 'test'
+  ...
+# Subtest: editing a failed retry invalidates old retry action instead of sending hidden stale text
+ok 182 - editing a failed retry invalidates old retry action instead of sending hidden stale text
+  ---
+  duration_ms: 14.615497
+  type: 'test'
+  ...
+# Subtest: retry question replacement stops owned audio, not merely its end-window listener
+ok 183 - retry question replacement stops owned audio, not merely its end-window listener
+  ---
+  duration_ms: 20.388899
+  type: 'test'
+  ...
+# Subtest: exam own draft strictly bounds question/deadline and rejects another attempt
+ok 184 - exam own draft strictly bounds question/deadline and rejects another attempt
+  ---
+  duration_ms: 1.262195
+  type: 'test'
+  ...
+# Subtest: in-progress checkpoint cannot acknowledge a foreign attempt identity
+ok 185 - in-progress checkpoint cannot acknowledge a foreign attempt identity
+  ---
+  duration_ms: 0.607141
+  type: 'test'
+  ...
+# Subtest: throttled listening tick carries elapsed excess into final-review deadline
+ok 186 - throttled listening tick carries elapsed excess into final-review deadline
+  ---
+  duration_ms: 69.715206
+  type: 'test'
+  ...
+# Subtest: final review reload restores deadline/question and never starts private recording
+ok 187 - final review reload restores deadline/question and never starts private recording
+  ---
+  duration_ms: 18.944438
+  type: 'test'
+  ...
+# Subtest: expired final review submits once on resume instead of granting another two minutes
+ok 188 - expired final review submits once on resume instead of granting another two minutes
+  ---
+  duration_ms: 13.374395
+  type: 'test'
+  ...
+# Subtest: foreign own UI draft does not change another attempt position or phase
+ok 189 - foreign own UI draft does not change another attempt position or phase
+  ---
+  duration_ms: 10.802819
+  type: 'test'
+  ...
+# Subtest: pending exit blocks retake until matching canonical server acknowledgement
+ok 190 - pending exit blocks retake until matching canonical server acknowledgement
+  ---
+  duration_ms: 23.975421
+  type: 'test'
+  ...
+# Subtest: own exam storage contains only identity/navigation/deadline, no result or source material
+ok 191 - own exam storage contains only identity/navigation/deadline, no result or source material
+  ---
+  duration_ms: 14.556722
+  type: 'test'
+  ...
+# Subtest: navigation focuses native question and labels current/answered state
+ok 192 - navigation focuses native question and labels current/answered state
+  ---
+  duration_ms: 86.626932
+  type: 'test'
+  ...
+# Subtest: dialog Tab/Shift-Tab containment, Escape cancel and focus return retain source modal
+ok 193 - dialog Tab/Shift-Tab containment, Escape cancel and focus return retain source modal
+  ---
+  duration_ms: 21.263497
+  type: 'test'
+  ...
+# Subtest: notes Done restores focus; source notes remain ephemeral rather than checkpoint material
+ok 194 - notes Done restores focus; source notes remain ephemeral rather than checkpoint material
+  ---
+  duration_ms: 14.766931
+  type: 'test'
+  ...
+# Subtest: page exit stops timer/audio and ignores delayed audio-start continuation
+ok 195 - page exit stops timer/audio and ignores delayed audio-start continuation
+  ---
+  duration_ms: 9.555963
+  type: 'test'
+  ...
+# Subtest: single active checkpoint, coalesced newest queued draft; stale ACK cannot mutate UI
+ok 196 - single active checkpoint, coalesced newest queued draft; stale ACK cannot mutate UI
+  ---
+  duration_ms: 6.117427
+  type: 'test'
+  ...
+# Subtest: repeated identical save while active and after success does not duplicate transport
+ok 197 - repeated identical save while active and after success does not duplicate transport
+  ---
+  duration_ms: 2.146621
+  type: 'test'
+  ...
+# Subtest: latest dirty-only snapshot invalidates stale ACK but waits for source debounce
+ok 198 - latest dirty-only snapshot invalidates stale ACK but waits for source debounce
+  ---
+  duration_ms: 1.028311
+  type: 'test'
+  ...
+# Subtest: checkpoint 401: retained latest own draft, no automatic mutation retry, explicit safe retry
+ok 199 - checkpoint 401: retained latest own draft, no automatic mutation retry, explicit safe retry
+  ---
+  duration_ms: 0.975972
+  type: 'test'
+  ...
+# Subtest: checkpoint 403: retained latest own draft, no automatic mutation retry, explicit safe retry
+ok 200 - checkpoint 403: retained latest own draft, no automatic mutation retry, explicit safe retry
+  ---
+  duration_ms: 0.950565
+  type: 'test'
+  ...
+# Subtest: checkpoint 404: retained latest own draft, no automatic mutation retry, explicit safe retry
+ok 201 - checkpoint 404: retained latest own draft, no automatic mutation retry, explicit safe retry
+  ---
+  duration_ms: 0.519561
+  type: 'test'
+  ...
+# Subtest: checkpoint 409: retained latest own draft, no automatic mutation retry, explicit safe retry
+ok 202 - checkpoint 409: retained latest own draft, no automatic mutation retry, explicit safe retry
+  ---
+  duration_ms: 1.210767
+  type: 'test'
+  ...
+# Subtest: checkpoint 429: retained latest own draft, no automatic mutation retry, explicit safe retry
+ok 203 - checkpoint 429: retained latest own draft, no automatic mutation retry, explicit safe retry
+  ---
+  duration_ms: 0.844788
+  type: 'test'
+  ...
+# Subtest: checkpoint 503: retained latest own draft, no automatic mutation retry, explicit safe retry
+ok 204 - checkpoint 503: retained latest own draft, no automatic mutation retry, explicit safe retry
+  ---
+  duration_ms: 1.105605
+  type: 'test'
+  ...
+# Subtest: route/session disposal aborts transport and suppresses late ACK/error/status
+ok 205 - route/session disposal aborts transport and suppresses late ACK/error/status
+  ---
+  duration_ms: 1.149821
+  type: 'test'
+  ...
+# Subtest: malformed/duplicate/foreign/invalid-status canonical feedback stays closed
+ok 206 - malformed/duplicate/foreign/invalid-status canonical feedback stays closed
+  ---
+  duration_ms: 0.935085
+  type: 'test'
+  ...
+# Subtest: EN/UZ status errors are specific, no untrusted server text rendered
+ok 207 - EN/UZ status errors are specific, no untrusted server text rendered
+  ---
+  duration_ms: 0.295068
+  type: 'test'
+  ...
+# Subtest: submission/exit cannot be acknowledged by an open draft or different closed transition
+ok 208 - submission/exit cannot be acknowledged by an open draft or different closed transition
+  ---
+  duration_ms: 0.344651
+  type: 'test'
+  ...
+# Subtest: queued start barrier is not coalesced away by immediate submit
+ok 209 - queued start barrier is not coalesced away by immediate submit
+  ---
+  duration_ms: 2.24371
+  type: 'test'
+  ...
+# Subtest: missed start replay needs matching local intent and unchanged authoritative identity
+ok 210 - missed start replay needs matching local intent and unchanged authoritative identity
+  ---
+  duration_ms: 0.315669
+  type: 'test'
+  ...
+# Subtest: original checkpoint shape accepts source fields and empty fresh state, never infers auth
+ok 211 - original checkpoint shape accepts source fields and empty fresh state, never infers auth
+  ---
+  duration_ms: 2.495416
+  type: 'test'
+  ...
+# Subtest: reject malformed attemptKey
+ok 212 - reject malformed attemptKey
+  ---
+  duration_ms: 0.315165
+  type: 'test'
+  ...
+# Subtest: reject malformed attemptStatus
+ok 213 - reject malformed attemptStatus
+  ---
+  duration_ms: 0.098882
+  type: 'test'
+  ...
+# Subtest: reject malformed answers
+ok 214 - reject malformed answers
+  ---
+  duration_ms: 0.088608
+  type: 'test'
+  ...
+# Subtest: reject malformed flags
+ok 215 - reject malformed flags
+  ---
+  duration_ms: 0.155024
+  type: 'test'
+  ...
+# Subtest: reject malformed reviewChecked
+ok 216 - reject malformed reviewChecked
+  ---
+  duration_ms: 0.100376
+  type: 'test'
+  ...
+# Subtest: reject malformed audioPosition
+ok 217 - reject malformed audioPosition
+  ---
+  duration_ms: 0.084017
+  type: 'test'
+  ...
+# Subtest: reject malformed submitted
+ok 218 - reject malformed submitted
+  ---
+  duration_ms: 0.143677
+  type: 'test'
+  ...
+# Subtest: reject malformed lastResults
+ok 219 - reject malformed lastResults
+  ---
+  duration_ms: 0.288936
+  type: 'test'
+  ...
+# Subtest: reject own answer keys/length/types, duplicate flags/results and unexpected result key fields
+ok 220 - reject own answer keys/length/types, duplicate flags/results and unexpected result key fields
+  ---
+  duration_ms: 0.592397
+  type: 'test'
+  ...
+# Subtest: reject oversized envelopes and non-string records
+ok 221 - reject oversized envelopes and non-string records
+  ---
+  duration_ms: 0.187464
+  type: 'test'
+  ...
+# Subtest: server baseline ignores field ordering but detects new answer/status/flags/identity
+ok 222 - server baseline ignores field ordering but detects new answer/status/flags/identity
+  ---
+  duration_ms: 0.380101
+  type: 'test'
+  ...
+# Subtest: an already committed exact own desired body is read-confirmed, not resent
+ok 223 - an already committed exact own desired body is read-confirmed, not resent
+  ---
+  duration_ms: 0.088158
+  type: 'test'
+  ...
+# Subtest: legacy unversioned outbox cannot silently overwrite divergent same-attempt server answers
+ok 224 - legacy unversioned outbox cannot silently overwrite divergent same-attempt server answers
+  ---
+  duration_ms: 0.149928
+  type: 'test'
+  ...
+# Subtest: browser lock is real optional mutual exclusion; abort signal forwarded; absence only read-before-write gate
+ok 225 - browser lock is real optional mutual exclusion; abort signal forwarded; absence only read-before-write gate
+  ---
+  duration_ms: 0.180251
+  type: 'test'
+  ...
+# Subtest: tab recovery namespace survives reload, separates contexts and warns on storage failure
+ok 226 - tab recovery namespace survives reload, separates contexts and warns on storage failure
+  ---
+  duration_ms: 0.70414
+  type: 'test'
+  ...
+# Subtest: legacy recovery migration verifies all three durable copies before removal
+ok 227 - legacy recovery migration verifies all three durable copies before removal
+  ---
+  duration_ms: 0.214868
+  type: 'test'
+  ...
+# Subtest: failed migration retains all old bytes and never replaces active new recovery
+ok 228 - failed migration retains all old bytes and never replaces active new recovery
+  ---
+  duration_ms: 0.104827
+  type: 'test'
+  ...
+# Subtest: cloned session storage with a new browsing-context name receives a distinct recovery namespace
+ok 229 - cloned session storage with a new browsing-context name receives a distinct recovery namespace
+  ---
+  duration_ms: 0.084377
+  type: 'test'
+  ...
+# Subtest: native synchronous source saves carry the active UUID even before the wrapped second setItem
+ok 230 - native synchronous source saves carry the active UUID even before the wrapped second setItem
+  ---
+  duration_ms: 42.446383
+  type: 'test'
+  ...
+# Subtest: contradictory open/closed ancillary state fails closed without a verdict release
+ok 231 - contradictory open/closed ancillary state fails closed without a verdict release
+  ---
+  duration_ms: 0.382042
+  type: 'test'
+  ...
+# Subtest: own revision answers/checked parts also participate in conflict detection, not audio/navigation metadata
+ok 232 - own revision answers/checked parts also participate in conflict detection, not audio/navigation metadata
+  ---
+  duration_ms: 0.323383
+  type: 'test'
+  ...
+# Subtest: revision strings use existing course progress4000 contract, not the exam500 constraint
+ok 233 - revision strings use existing course progress4000 contract, not the exam500 constraint
+  ---
+  duration_ms: 0.224669
+  type: 'test'
+  ...
+# Subtest: partial legacy copy falls back to complete own memory entries and is retryable
+ok 234 - partial legacy copy falls back to complete own memory entries and is retryable
+  ---
+  duration_ms: 0.195408
+  type: 'test'
+  ...
+# Subtest: a retake metadata write never relabels the preceding closed canonical attempt with the new UUID
+ok 235 - a retake metadata write never relabels the preceding closed canonical attempt with the new UUID
+  ---
+  duration_ms: 9.53459
+  type: 'test'
+  ...
+# Subtest: a checkpoint ACK never erases an unresolved resource retry
+ok 236 - a checkpoint ACK never erases an unresolved resource retry
+  ---
+  duration_ms: 0.145944
+  type: 'test'
+  ...
+# Subtest: successful media recovery never erases a pending checkpoint failure
+ok 237 - successful media recovery never erases a pending checkpoint failure
+  ---
+  duration_ms: 0.075919
+  type: 'test'
+  ...
+# Subtest: unique verbatim evidence uses original offsets, never paraphrase generation
+ok 238 - unique verbatim evidence uses original offsets, never paraphrase generation
+  ---
+  duration_ms: 1.602102
+  type: 'test'
+  ...
+# Subtest: source material retains exact transcript and authored bounds
+ok 239 - source material retains exact transcript and authored bounds
+  ---
+  duration_ms: 0.658393
+  type: 'test'
+  ...
+# Subtest: fail closed: missing transcript
+ok 240 - fail closed: missing transcript
+  ---
+  duration_ms: 0.276981
+  type: 'test'
+  ...
+# Subtest: fail closed: foreign row
+ok 241 - fail closed: foreign row
+  ---
+  duration_ms: 0.194867
+  type: 'test'
+  ...
+# Subtest: fail closed: foreign part
+ok 242 - fail closed: foreign part
+  ---
+  duration_ms: 0.139118
+  type: 'test'
+  ...
+# Subtest: fail closed: missing evidence
+ok 243 - fail closed: missing evidence
+  ---
+  duration_ms: 0.150438
+  type: 'test'
+  ...
+# Subtest: fail closed: reversed clip
+ok 244 - fail closed: reversed clip
+  ---
+  duration_ms: 0.166713
+  type: 'test'
+  ...
+# Subtest: fail closed: foreign clip
+ok 245 - fail closed: foreign clip
+  ---
+  duration_ms: 0.132417
+  type: 'test'
+  ...
+# Subtest: fail closed: nonfinite bounds
+ok 246 - fail closed: nonfinite bounds
+  ---
+  duration_ms: 0.293891
+  type: 'test'
+  ...
+# Subtest: only typed server course status is accepted, no local completion inference
+ok 247 - only typed server course status is accepted, no local completion inference
+  ---
+  duration_ms: 0.512957
+  type: 'test'
+  ...
+# Subtest: reject course missing Review
+ok 248 - reject course missing Review
+  ---
+  duration_ms: 0.200324
+  type: 'test'
+  ...
+# Subtest: reject course array feedback
+ok 249 - reject course array feedback
+  ---
+  duration_ms: 1.118912
+  type: 'test'
+  ...
+# Subtest: reject course false counts
+ok 250 - reject course false counts
+  ---
+  duration_ms: 0.199512
+  type: 'test'
+  ...
+# Subtest: reject course string completion
+ok 251 - reject course string completion
+  ---
+  duration_ms: 0.115106
+  type: 'test'
+  ...
+# Subtest: reject course unknown identity
+ok 252 - reject course unknown identity
+  ---
+  duration_ms: 0.100494
+  type: 'test'
+  ...
+# Subtest: injected Review code parses without material or answer corpus
+ok 253 - injected Review code parses without material or answer corpus
+  ---
+  duration_ms: 0.544961
+  type: 'test'
+  ...
+# Subtest: reject missing key
+ok 254 - reject missing key
+  ---
+  duration_ms: 0.271362
+  type: 'test'
+  ...
+# Subtest: reject wrong alternatives
+ok 255 - reject wrong alternatives
+  ---
+  duration_ms: 0.18767
+  type: 'test'
+  ...
+# Subtest: reject nonstring key
+ok 256 - reject nonstring key
+  ---
+  duration_ms: 0.156399
+  type: 'test'
+  ...
+# Subtest: aggregate completion cannot contradict authoritative course counts
+ok 257 - aggregate completion cannot contradict authoritative course counts
+  ---
+  duration_ms: 0.095852
+  type: 'test'
+  ...
+# Subtest: native play barrier waits through metadata until pending seek has settled
+ok 258 - native play barrier waits through metadata until pending seek has settled
+  ---
+  duration_ms: 0.554961
+  type: 'test'
+  ...
+# Subtest: seek barrier cancellation rejects and removes every temporary audio listener
+ok 259 - seek barrier cancellation rejects and removes every temporary audio listener
+  ---
+  duration_ms: 0.618693
+  type: 'test'
+  ...
+# Subtest: no-seek native play is not blocked and decoder errors do not pretend success
+ok 260 - no-seek native play is not blocked and decoder errors do not pretend success
+  ---
+  duration_ms: 0.156441
+  type: 'test'
+  ...
+# Subtest: Review lexical spelling normalization retains identity, not an invented sense
+ok 261 - Review lexical spelling normalization retains identity, not an invented sense
+  ---
+  duration_ms: 3.993673
+  type: 'test'
+  ...
+# Subtest: Review lookup rejects HTML, digits, punctuation-only and over-bound text
+ok 262 - Review lookup rejects HTML, digits, punctuation-only and over-bound text
+  ---
+  duration_ms: 0.212599
+  type: 'test'
+  ...
+# Subtest: Review journal survives a new storage owner instance without credentials
+ok 263 - Review journal survives a new storage owner instance without credentials
+  ---
+  duration_ms: 0.93664
+  type: 'test'
+  ...
+# Subtest: Review journal rejects foreign account and test records without deleting bytes
+ok 264 - Review journal rejects foreign account and test records without deleting bytes
+  ---
+  duration_ms: 0.302543
+  type: 'test'
+  ...
+# Subtest: Review intent rejects invalid question identities and oversized/empty answers
+ok 265 - Review intent rejects invalid question identities and oversized/empty answers
+  ---
+  duration_ms: 0.289501
+  type: 'test'
+  ...
+# Subtest: Review journal never lets an abandoned attempt overwrite an unconfirmed intent
+ok 266 - Review journal never lets an abandoned attempt overwrite an unconfirmed intent
+  ---
+  duration_ms: 0.522476
+  type: 'test'
+  ...
+# Subtest: An obsolete ACK cannot clear a newer pending Review snapshot
+ok 267 - An obsolete ACK cannot clear a newer pending Review snapshot
+  ---
+  duration_ms: 0.288126
+  type: 'test'
+  ...
+# Subtest: Review replay requires exact canonical own revision and attempt identity
+ok 268 - Review replay requires exact canonical own revision and attempt identity
+  ---
+  duration_ms: 0.428619
+  type: 'test'
+  ...
+# Subtest: Partial counts never prove which units committed or fabricate success
+ok 269 - Partial counts never prove which units committed or fabricate success
+  ---
+  duration_ms: 0.287841
+  type: 'test'
+  ...
+# Subtest: Unavailable server activity cannot be unlocked by a local mode
+ok 270 - Unavailable server activity cannot be unlocked by a local mode
+  ---
+  duration_ms: 0.369194
+  type: 'test'
+  ...
+# Subtest: Malformed persisted bytes are retained rather than silently cleared
+ok 271 - Malformed persisted bytes are retained rather than silently cleared
+  ---
+  duration_ms: 0.177221
+  type: 'test'
+  ...
+# Subtest: Legacy submitted identity is stable across Review edits but changes with exam evidence
+ok 272 - Legacy submitted identity is stable across Review edits but changes with exam evidence
+  ---
+  duration_ms: 11.263005
+  type: 'test'
+  ...
+# Subtest: New checked part after reload merges prior unconfirmed own work instead of losing it
+ok 273 - New checked part after reload merges prior unconfirmed own work instead of losing it
+  ---
+  duration_ms: 0.270257
+  type: 'test'
+  ...
+# Subtest: Existing server course contract includes exam status alongside Review, never a client course grant
+ok 274 - Existing server course contract includes exam status alongside Review, never a client course grant
+  ---
+  duration_ms: 0.258777
+  type: 'test'
+  ...
+# Subtest: Journal bound covers all40 server-legal4000-character answers including JSON escapes
+ok 275 - Journal bound covers all40 server-legal4000-character answers including JSON escapes
+  ---
+  duration_ms: 10.556729
+  type: 'test'
+  ...
+# Subtest: V18 Review progress rejects foreign identity envelope instead of acknowledging it
+ok 276 - V18 Review progress rejects foreign identity envelope instead of acknowledging it
+  ---
+  duration_ms: 1.03609
+  type: 'test'
+  ...
+# Subtest: V18 Review progress rejects inconsistent completion flags
+ok 277 - V18 Review progress rejects inconsistent completion flags
+  ---
+  duration_ms: 0.212018
+  type: 'test'
+  ...
+# Subtest: V18 persisted intent cannot carry protected feedback or credential fields
+ok 278 - V18 persisted intent cannot carry protected feedback or credential fields
+  ---
+  duration_ms: 0.373965
+  type: 'test'
+  ...
+# Subtest: V18 journal ACK explicitly reports stale conflict and does not remove newer work
+ok 279 - V18 journal ACK explicitly reports stale conflict and does not remove newer work
+  ---
+  duration_ms: 0.562197
+  type: 'test'
+  ...
+# Subtest: V18 explicit archive retains unresolved own bytes before freeing current attempt
+ok 280 - V18 explicit archive retains unresolved own bytes before freeing current attempt
+  ---
+  duration_ms: 0.905996
+  type: 'test'
+  ...
+# Subtest: V18 archival never silently replaces an older retained record
+ok 281 - V18 archival never silently replaces an older retained record
+  ---
+  duration_ms: 0.444166
+  type: 'test'
+  ...
+# Subtest: V18 changed pending snapshot cannot be archived by an obsolete confirmation
+ok 282 - V18 changed pending snapshot cannot be archived by an obsolete confirmation
+  ---
+  duration_ms: 0.2526
+  type: 'test'
+  ...
+# Subtest: V18 disposed scoped writer releases its shared abort listener
+ok 283 - V18 disposed scoped writer releases its shared abort listener
+  ---
+  duration_ms: 0.424194
+  type: 'test'
+  ...
+# Subtest: V18 cannot archive absent work or create an invalid retained record
+ok 284 - V18 cannot archive absent work or create an invalid retained record
+  ---
+  duration_ms: 0.261649
+  type: 'test'
+  ...
+# Subtest: V18 foreign course checkpoint cannot hydrate another course even when expected own key is missing
+ok 285 - V18 foreign course checkpoint cannot hydrate another course even when expected own key is missing
+  ---
+  duration_ms: 0.645198
+  type: 'test'
+  ...
+# Subtest: V18 foreign exam-key fence preserves legitimate same-course practice and session-note keys
+ok 286 - V18 foreign exam-key fence preserves legitimate same-course practice and session-note keys
+  ---
+  duration_ms: 0.252466
+  type: 'test'
+  ...
+# Subtest: V18 current server unavailable zero-unit activity may be complete without granting overall completion
+ok 287 - V18 current server unavailable zero-unit activity may be complete without granting overall completion
+  ---
+  duration_ms: 0.178522
+  type: 'test'
+  ...
+# Subtest: V18 contradictory global completion cannot override a known partial Review
+ok 288 - V18 contradictory global completion cannot override a known partial Review
+  ---
+  duration_ms: 0.205823
+  type: 'test'
+  ...
+# Subtest: V19 exact context keys only; no prefix/test/title/retained/legacy guesses
+ok 289 - V19 exact context keys only; no prefix/test/title/retained/legacy guesses
+  ---
+  duration_ms: 1.695923
+  type: 'test'
+  ...
+# Subtest: V19 discovery reads no foreign-user/test/exam/retained values
+ok 290 - V19 discovery reads no foreign-user/test/exam/retained values
+  ---
+  duration_ms: 1.024984
+  type: 'test'
+  ...
+# Subtest: V19 discovery bounds enumeration and reports truncation
+ok 291 - V19 discovery bounds enumeration and reports truncation
+  ---
+  duration_ms: 2.454218
+  type: 'test'
+  ...
+# Subtest: V19 discovery bounds scoped records independently of total keys
+ok 292 - V19 discovery bounds scoped records independently of total keys
+  ---
+  duration_ms: 0.64183
+  type: 'test'
+  ...
+# Subtest: V19 malformed record isolated without answer exposure or mutation
+ok 293 - V19 malformed record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.399672
+  type: 'test'
+  ...
+# Subtest: V19 foreign record isolated without answer exposure or mutation
+ok 294 - V19 foreign record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.266663
+  type: 'test'
+  ...
+# Subtest: V19 extra record isolated without answer exposure or mutation
+ok 295 - V19 extra record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.274339
+  type: 'test'
+  ...
+# Subtest: V19 huge record isolated without answer exposure or mutation
+ok 296 - V19 huge record isolated without answer exposure or mutation
+  ---
+  duration_ms: 0.196113
+  type: 'test'
+  ...
+# Subtest: V19 explicit copy preserves exact original whitespace bytes; no transport or source deletion
+ok 297 - V19 explicit copy preserves exact original whitespace bytes; no transport or source deletion
+  ---
+  duration_ms: 14.992702
+  type: 'test'
+  ...
+# Subtest: V19 current-context work cannot be overwritten or merged
+ok 298 - V19 current-context work cannot be overwritten or merged
+  ---
+  duration_ms: 1.154332
+  type: 'test'
+  ...
+# Subtest: V19 current dirty memory fallback prevents adoption despite empty native slot
+ok 299 - V19 current dirty memory fallback prevents adoption despite empty native slot
+  ---
+  duration_ms: 0.469142
+  type: 'test'
+  ...
+# Subtest: V19 changed source bytes cannot adopt stale snapshot
+ok 300 - V19 changed source bytes cannot adopt stale snapshot
+  ---
+  duration_ms: 0.283859
+  type: 'test'
+  ...
+# Subtest: V19 cooperating second context cannot copy an active transfer
+ok 301 - V19 cooperating second context cannot copy an active transfer
+  ---
+  duration_ms: 2.368907
+  type: 'test'
+  ...
+# Subtest: V19 typed own ACK marks hint only; foreign source original never removed
+ok 302 - V19 typed own ACK marks hint only; foreign source original never removed
+  ---
+  duration_ms: 1.518615
+  type: 'test'
+  ...
+# Subtest: V19 answer mismatch never marks stale copy confirmation
+ok 303 - V19 answer mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 1.264214
+  type: 'test'
+  ...
+# Subtest: V19 attempt mismatch never marks stale copy confirmation
+ok 304 - V19 attempt mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 1.045169
+  type: 'test'
+  ...
+# Subtest: V19 source mismatch never marks stale copy confirmation
+ok 305 - V19 source mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 1.259297
+  type: 'test'
+  ...
+# Subtest: V19 target mismatch never marks stale copy confirmation
+ok 306 - V19 target mismatch never marks stale copy confirmation
+  ---
+  duration_ms: 0.8308
+  type: 'test'
+  ...
+# Subtest: V19 quota failure at hint retains source bytes and any successful pending copy
+ok 307 - V19 quota failure at hint retains source bytes and any successful pending copy
+  ---
+  duration_ms: 1.020035
+  type: 'test'
+  ...
+# Subtest: V19 quota failure at copy retains source bytes and any successful pending copy
+ok 308 - V19 quota failure at copy retains source bytes and any successful pending copy
+  ---
+  duration_ms: 0.815497
+  type: 'test'
+  ...
+# Subtest: V19 quota failure at provenance retains source bytes and any successful pending copy
+ok 309 - V19 quota failure at provenance retains source bytes and any successful pending copy
+  ---
+  duration_ms: 0.889626
+  type: 'test'
+  ...
+# Subtest: V19 retained conflict slot remains byte-for-byte untouched on adoption
+ok 310 - V19 retained conflict slot remains byte-for-byte untouched on adoption
+  ---
+  duration_ms: 0.780784
+  type: 'test'
+  ...
+# Subtest: V19 malformed transfer hints fail closed, not authorization
+ok 311 - V19 malformed transfer hints fail closed, not authorization
+  ---
+  duration_ms: 0.387403
+  type: 'test'
+  ...
+# Subtest: V19 original activity entry cannot bypass the held canonical hydration gate
+ok 312 - V19 original activity entry cannot bypass the held canonical hydration gate
+  ---
+  duration_ms: 65.593662
+  type: 'test'
+  ...
+# Subtest: V19 legitimate hash activity defers until hydration; changed hash and retired scope never open stale work
+ok 313 - V19 legitimate hash activity defers until hydration; changed hash and retired scope never open stale work
+  ---
+  duration_ms: 50.61089
+  type: 'test'
+  ...
+# Subtest: V19 total parsed/retained character budget isolates excess records without rewriting padded original bytes
+ok 314 - V19 total parsed/retained character budget isolates excess records without rewriting padded original bytes
+  ---
+  duration_ms: 1.465296
+  type: 'test'
+  ...
+# Subtest: V19 disposed view/session fence runs after asynchronous digests and before any recovery copy writes
+ok 315 - V19 disposed view/session fence runs after asynchronous digests and before any recovery copy writes
+  ---
+  duration_ms: 2.423561
+  type: 'test'
+  ...
+# Subtest: V19 exact pending raw snapshot prevents same-body stale ACK deleting a replacement attempt or edited bytes
+ok 316 - V19 exact pending raw snapshot prevents same-body stale ACK deleting a replacement attempt or edited bytes
+  ---
+  duration_ms: 0.286669
+  type: 'test'
+  ...
+# Subtest: V19 bounded explicit pagination reaches later own records; options cannot lift privacy/read limits
+ok 317 - V19 bounded explicit pagination reaches later own records; options cannot lift privacy/read limits
+  ---
+  duration_ms: 0.31898
+  type: 'test'
+  ...
+# Subtest: V20 idle barrier performs zero polling or reads
+ok 318 - V20 idle barrier performs zero polling or reads
+  ---
+  duration_ms: 2.984447
+  type: 'test'
+  ...
+# Subtest: V20 hint conceals synchronously before fresh read and only validated read resumes
+ok 319 - V20 hint conceals synchronously before fresh read and only validated read resumes
+  ---
+  duration_ms: 0.562583
+  type: 'test'
+  ...
+# Subtest: V20 authority 401 fails closed with no automatic retry/grant
+ok 320 - V20 authority 401 fails closed with no automatic retry/grant
+  ---
+  duration_ms: 0.31872
+  type: 'test'
+  ...
+# Subtest: V20 authority 403 fails closed with no automatic retry/grant
+ok 321 - V20 authority 403 fails closed with no automatic retry/grant
+  ---
+  duration_ms: 0.172812
+  type: 'test'
+  ...
+# Subtest: V20 authority 404 fails closed with no automatic retry/grant
+ok 322 - V20 authority 404 fails closed with no automatic retry/grant
+  ---
+  duration_ms: 0.419585
+  type: 'test'
+  ...
+# Subtest: V20 authority 409 fails closed with no automatic retry/grant
+ok 323 - V20 authority 409 fails closed with no automatic retry/grant
+  ---
+  duration_ms: 0.272386
+  type: 'test'
+  ...
+# Subtest: V20 authority 429 fails closed with no automatic retry/grant
+ok 324 - V20 authority 429 fails closed with no automatic retry/grant
+  ---
+  duration_ms: 0.172132
+  type: 'test'
+  ...
+# Subtest: V20 authority 503 fails closed with no automatic retry/grant
+ok 325 - V20 authority 503 fails closed with no automatic retry/grant
+  ---
+  duration_ms: 0.208752
+  type: 'test'
+  ...
+# Subtest: V20 authority 502 fails closed with no automatic retry/grant
+ok 326 - V20 authority 502 fails closed with no automatic retry/grant
+  ---
+  duration_ms: 0.296682
+  type: 'test'
+  ...
+# Subtest: V20 overlapping hints coalesce into at most one follow-up and never accept stale response
+ok 327 - V20 overlapping hints coalesce into at most one follow-up and never accept stale response
+  ---
+  duration_ms: 0.594517
+  type: 'test'
+  ...
+# Subtest: V20 continuous churn is capped at two reads then explicit retry, not a polling loop
+ok 328 - V20 continuous churn is capped at two reads then explicit retry, not a polling loop
+  ---
+  duration_ms: 11.927543
+  type: 'test'
+  ...
+# Subtest: V20 disposal fences held read, releases waiting writers and suppresses late accept/reject
+ok 329 - V20 disposal fences held read, releases waiting writers and suppresses late accept/reject
+  ---
+  duration_ms: 0.522789
+  type: 'test'
+  ...
+# Subtest: V20 ineligible exam/non-native views have no authority reads or suspension
+ok 330 - V20 ineligible exam/non-native views have no authority reads or suspension
+  ---
+  duration_ms: 0.209056
+  type: 'test'
+  ...
+# Subtest: V20 native focus return during accepted resume cannot reenter or replace the waiting writer promise
+ok 331 - V20 native focus return during accepted resume cannot reenter or replace the waiting writer promise
+  ---
+  duration_ms: 0.264399
+  type: 'test'
+  ...
+# Subtest: V21 Review location round-trip for original part 1
+ok 332 - V21 Review location round-trip for original part 1
+  ---
+  duration_ms: 1.692301
+  type: 'test'
+  ...
+# Subtest: V21 Review location round-trip for original part 2
+ok 333 - V21 Review location round-trip for original part 2
+  ---
+  duration_ms: 0.285575
+  type: 'test'
+  ...
+# Subtest: V21 Review location round-trip for original part 3
+ok 334 - V21 Review location round-trip for original part 3
+  ---
+  duration_ms: 0.101449
+  type: 'test'
+  ...
+# Subtest: V21 Review location round-trip for original part 4
+ok 335 - V21 Review location round-trip for original part 4
+  ---
+  duration_ms: 0.097246
+  type: 'test'
+  ...
+# Subtest: V21 invalid location rejected without guessing identity \#review/part/0
+ok 336 - V21 invalid location rejected without guessing identity \#review/part/0
+  ---
+  duration_ms: 0.221073
+  type: 'test'
+  ...
+# Subtest: V21 invalid location rejected without guessing identity \#review/part/5
+ok 337 - V21 invalid location rejected without guessing identity \#review/part/5
+  ---
+  duration_ms: 0.10079
+  type: 'test'
+  ...
+# Subtest: V21 invalid location rejected without guessing identity \#review/part/1/question/11
+ok 338 - V21 invalid location rejected without guessing identity \#review/part/1/question/11
+  ---
+  duration_ms: 0.086562
+  type: 'test'
+  ...
+# Subtest: V21 invalid location rejected without guessing identity \#review/part/4/question/41
+ok 339 - V21 invalid location rejected without guessing identity \#review/part/4/question/41
+  ---
+  duration_ms: 0.071399
+  type: 'test'
+  ...
+# Subtest: V21 invalid location rejected without guessing identity \#exam/part/1
+ok 340 - V21 invalid location rejected without guessing identity \#exam/part/1
+  ---
+  duration_ms: 0.293026
+  type: 'test'
+  ...
+# Subtest: V21 invalid location rejected without guessing identity \#review/part/1?attempt=foreign
+ok 341 - V21 invalid location rejected without guessing identity \#review/part/1?attempt=foreign
+  ---
+  duration_ms: 0.296737
+  type: 'test'
+  ...
+# Subtest: V21 invalid location rejected without guessing identity \#review/part/2/question/011
+ok 342 - V21 invalid location rejected without guessing identity \#review/part/2/question/011
+  ---
+  duration_ms: 0.207505
+  type: 'test'
+  ...
+# Subtest: V21 legacy source hashes and hub retained; unknown activities rejected
+ok 343 - V21 legacy source hashes and hub retained; unknown activities rejected
+  ---
+  duration_ms: 0.330505
+  type: 'test'
+  ...
+# Subtest: V21 same-document history preserves route signal; real route changes still dispose
+ok 344 - V21 same-document history preserves route signal; real route changes still dispose
+  ---
+  duration_ms: 400.560067
+  type: 'test'
+  ...
+# Subtest: V22 native entry wrapper defers original Review render until parent navigation grant
+ok 345 - V22 native entry wrapper defers original Review render until parent navigation grant
+  ---
+  duration_ms: 72.823097
+  type: 'test'
+  ...
+# Subtest: V22 pause cancels a genuinely pending seek-before-play without late timeout/error/listeners
+ok 346 - V22 pause cancels a genuinely pending seek-before-play without late timeout/error/listeners
+  ---
+  duration_ms: 5.305274
+  type: 'test'
+  ...
+# Subtest: V22 dispose cancels a genuinely pending seek-before-play without late timeout/error/listeners
+ok 347 - V22 dispose cancels a genuinely pending seek-before-play without late timeout/error/listeners
+  ---
+  duration_ms: 1.297765
+  type: 'test'
+  ...
+# Error: Uncaught [TypeError: target?.scrollIntoView is not a function]
+#     at reportException (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at EventTargetImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at EventTargetImpl.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+#     at dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+#     at TestContext.<anonymous> (file:///home/user/learners_area/migration/vanilla-frontend/tests/listening-v23.test.mjs:9:307)
+#     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) TypeError: target?.scrollIntoView is not a function
+#     at focus (eval at <anonymous> (file:///home/user/learners_area/migration/vanilla-frontend/tests/listening-v23.test.mjs:6:862), <anonymous>:7:895)
+#     at receive (eval at <anonymous> (file:///home/user/learners_area/migration/vanilla-frontend/tests/listening-v23.test.mjs:6:862), <anonymous>:7:984)
+#     at callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at EventTargetImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at EventTargetImpl.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+#     at dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+#     at TestContext.<anonymous> (file:///home/user/learners_area/migration/vanilla-frontend/tests/listening-v23.test.mjs:9:307)
+#     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+# Subtest: V23 native part intent prevents original mutation until current grant
+ok 348 - V23 native part intent prevents original mutation until current grant
+  ---
+  duration_ms: 72.666015
+  type: 'test'
+  ...
+# Subtest: V23 native question intent prevents original mutation until current grant
+ok 349 - V23 native question intent prevents original mutation until current grant
+  ---
+  duration_ms: 14.200311
+  type: 'test'
+  ...
+# Subtest: V23 native rapid intent prevents original mutation until current grant
+ok 350 - V23 native rapid intent prevents original mutation until current grant
+  ---
+  duration_ms: 14.252668
+  type: 'test'
+  ...
+# Subtest: V23 disposed lexical bridge removes handlers and cannot emit a late lookup or close
+ok 351 - V23 disposed lexical bridge removes handlers and cannot emit a late lookup or close
+  ---
+  duration_ms: 11.127298
+  type: 'test'
+  ...
+# Subtest: V23 disposed media bridge rejects pending and future play without late event or transport
+ok 352 - V23 disposed media bridge rejects pending and future play without late event or transport
+  ---
+  duration_ms: 9.103314
+  type: 'test'
+  ...
+# Subtest: V23 same-part question authorization pauses audio without destroying its existing trainer
+ok 353 - V23 same-part question authorization pauses audio without destroying its existing trainer
+  ---
+  duration_ms: 13.607185
+  type: 'test'
+  ...
+# Subtest: V24 replacement supersedes old resolve without granting or rejecting new document
+ok 354 - V24 replacement supersedes old resolve without granting or rejecting new document
+  ---
+  duration_ms: 4.10374
+  type: 'test'
+  ...
+# Subtest: V24 replacement supersedes old reject without granting or rejecting new document
+ok 355 - V24 replacement supersedes old reject without granting or rejecting new document
+  ---
+  duration_ms: 0.905717
+  type: 'test'
+  ...
+# Subtest: V24 supersede does not revive disposed authority controller
+ok 356 - V24 supersede does not revive disposed authority controller
+  ---
+  duration_ms: 0.196822
+  type: 'test'
+  ...
+# Subtest: exam projection excludes answer keys, malformed membership, external media and unsafe map
+ok 357 - exam projection excludes answer keys, malformed membership, external media and unsafe map
+  ---
+  duration_ms: 2.87762
+  type: 'test'
+  ...
+# Subtest: exam A-E multi selection remains native set; notes/audio survive UI updates and abort cleans media
+ok 358 - exam A-E multi selection remains native set; notes/audio survive UI updates and abort cleans media
+  ---
+  duration_ms: 93.562953
+  type: 'test'
+  ...
+# Subtest: server-confirmed submit clears only own attempt; failure preserves recovery and retries
+ok 359 - server-confirmed submit clears only own attempt; failure preserves recovery and retries
+  ---
+  duration_ms: 35.05666
+  type: 'test'
+  ...
+# Subtest: practice is server-graded, completion body uses authored question numbers, audio stable
+ok 360 - practice is server-graded, completion body uses authored question numbers, audio stable
+  ---
+  duration_ms: 26.610241
+  type: 'test'
+  ...
+# Subtest: start is single-flight; valid server-owned attempt id required before navigation
+ok 361 - start is single-flight; valid server-owned attempt id required before navigation
+  ---
+  duration_ms: 20.640458
+  type: 'test'
+  ...
+# Subtest: source analysis keeps four verdicts distinct without invented score/evidence
+ok 362 - source analysis keeps four verdicts distinct without invented score/evidence
+  ---
+  duration_ms: 7.835784
+  type: 'test'
+  ...
+# Subtest: authored source course-work envelope review
+ok 363 - authored source course-work envelope review
+  ---
+  duration_ms: 0.347782
+  type: 'test'
+  ...
+# Subtest: authored source course-work envelope script
+ok 364 - authored source course-work envelope script
+  ---
+  duration_ms: 0.175099
+  type: 'test'
+  ...
+# Subtest: authored source course-work envelope mcq
+ok 365 - authored source course-work envelope mcq
+  ---
+  duration_ms: 0.309719
+  type: 'test'
+  ...
+# Subtest: authored source course-work envelope matching
+ok 366 - authored source course-work envelope matching
+  ---
+  duration_ms: 0.286247
+  type: 'test'
+  ...
+# Subtest: authored source course-work envelope map
+ok 367 - authored source course-work envelope map
+  ---
+  duration_ms: 0.115758
+  type: 'test'
+  ...
+# Subtest: authored source course-work envelope multi
+ok 368 - authored source course-work envelope multi
+  ---
+  duration_ms: 0.094887
+  type: 'test'
+  ...
+# Subtest: authored source course-work envelope completion
+ok 369 - authored source course-work envelope completion
+  ---
+  duration_ms: 0.08283
+  type: 'test'
+  ...
+# Subtest: authored source course-work envelope vocab
+ok 370 - authored source course-work envelope vocab
+  ---
+  duration_ms: 0.083729
+  type: 'test'
+  ...
+# Subtest: authored source course-work envelope retry
+ok 371 - authored source course-work envelope retry
+  ---
+  duration_ms: 0.186913
+  type: 'test'
+  ...
+# Subtest: authored transport rejects malformed runtime, state, foreign resource URLs and unknown registry activity
+ok 372 - authored transport rejects malformed runtime, state, foreign resource URLs and unknown registry activity
+  ---
+  duration_ms: 0.589964
+  type: 'test'
+  ...
+# Subtest: complete activity source states and server-only save 2/false
+ok 373 - complete activity source states and server-only save 2/false
+  ---
+  duration_ms: 106.066965
+  type: 'test'
+  ...
+# Subtest: complete activity source states and server-only save 2/true
+ok 374 - complete activity source states and server-only save 2/true
+  ---
+  duration_ms: 36.230106
+  type: 'test'
+  ...
+# Subtest: complete activity source states and server-only save 3/false
+ok 375 - complete activity source states and server-only save 3/false
+  ---
+  duration_ms: 41.845238
+  type: 'test'
+  ...
+# Subtest: complete activity source states and server-only save 3/true
+ok 376 - complete activity source states and server-only save 3/true
+  ---
+  duration_ms: 21.703554
+  type: 'test'
+  ...
+# Subtest: complete activity source states and server-only save 4/false
+ok 377 - complete activity source states and server-only save 4/false
+  ---
+  duration_ms: 26.392766
+  type: 'test'
+  ...
+# Subtest: complete activity source states and server-only save 4/true
+ok 378 - complete activity source states and server-only save 4/true
+  ---
+  duration_ms: 45.492197
+  type: 'test'
+  ...
+# Subtest: complete activity source states and server-only save 5/false
+ok 379 - complete activity source states and server-only save 5/false
+  ---
+  duration_ms: 19.269302
+  type: 'test'
+  ...
+# Subtest: vocabulary folder failure/retry/save uses canonical sense and duplicate-click guard
+ok 380 - vocabulary folder failure/retry/save uses canonical sense and duplicate-click guard
+  ---
+  duration_ms: 33.637955
+  type: 'test'
+  ...
+# Subtest: failed activity save retains scoped draft; newer edit while saving is not cleared by stale ACK
+ok 381 - failed activity save retains scoped draft; newer edit while saving is not cleared by stale ACK
+  ---
+  duration_ms: 19.391672
+  type: 'test'
+  ...
+# Subtest: study checks release only server results; reload draft and same audio retained
+ok 382 - study checks release only server results; reload draft and same audio retained
+  ---
+  duration_ms: 17.054755
+  type: 'test'
+  ...
+# Subtest: lexical permission fail-closed and contextual keyboard lookup carry occurrence only
+ok 383 - lexical permission fail-closed and contextual keyboard lookup carry occurrence only
+  ---
+  duration_ms: 18.439265
+  type: 'test'
+  ...
+# Subtest: activity and study DTO reject cross-mode data, premature answers, malformed ACK and foreign question results
+ok 384 - activity and study DTO reject cross-mode data, premature answers, malformed ACK and foreign question results
+  ---
+  duration_ms: 0.777935
+  type: 'test'
+  ...
+# Subtest: legacy confirm submit snapshots native answers, handles errors and 409 refresh, restricted materials have no lookup
+ok 385 - legacy confirm submit snapshots native answers, handles errors and 409 refresh, restricted materials have no lookup
+  ---
+  duration_ms: 15.993546
+  type: 'test'
+  ...
+# Subtest: submitted own analysis distinguishes ungraded and exposes authorized transcript, section never gets Academic revision link
+ok 386 - submitted own analysis distinguishes ungraded and exposes authorized transcript, section never gets Academic revision link
+  ---
+  duration_ms: 7.759581
+  type: 'test'
+  ...
+# Subtest: revision speed gates, native rate, transcript, error and media disposal
+ok 387 - revision speed gates, native rate, transcript, error and media disposal
+  ---
+  duration_ms: 16.063015
+  type: 'test'
+  ...
+# Subtest: speed practice preserves answer/rate through retry, sends server-only score and retains original audio
+ok 388 - speed practice preserves answer/rate through retry, sends server-only score and retains original audio
+  ---
+  duration_ms: 24.357796
+  type: 'test'
+  ...
+# Subtest: B route DTOs reject premature grading, unsubmitted revision, unsafe materials and malformed MCQ stages
+ok 389 - B route DTOs reject premature grading, unsubmitted revision, unsafe materials and malformed MCQ stages
+  ---
+  duration_ms: 0.55816
+  type: 'test'
+  ...
+# Subtest: material audio retains one element across edits and is released on exam disposal
+ok 390 - material audio retains one element across edits and is released on exam disposal
+  ---
+  duration_ms: 6.879107
+  type: 'test'
+  ...
+# Subtest: unlinked vocabulary preserves server-projected meaning and folder cancel defeats stale folder completion
+ok 391 - unlinked vocabulary preserves server-projected meaning and folder cancel defeats stale folder completion
+  ---
+  duration_ms: 15.575533
+  type: 'test'
+  ...
+# Subtest: activity retry resets a previously saved initial answer durably within this own session
+ok 392 - activity retry resets a previously saved initial answer durably within this own session
+  ---
+  duration_ms: 11.671215
+  type: 'test'
+  ...
+# Subtest: late activity and folder transport completion cannot restore aborted private content
+ok 393 - late activity and folder transport completion cannot restore aborted private content
+  ---
+  duration_ms: 15.233571
+  type: 'test'
+  ...
+# Subtest: ambiguous occurrence spans never guess a contextual sense and plain highlights retain original offsets
+ok 394 - ambiguous occurrence spans never guess a contextual sense and plain highlights retain original offsets
+  ---
+  duration_ms: 11.009954
+  type: 'test'
+  ...
+# Subtest: study exact section deep link and speed selection initialize to actual media state
+ok 395 - study exact section deep link and speed selection initialize to actual media state
+  ---
+  duration_ms: 6.655949
+  type: 'test'
+  ...
+# Subtest: review embedded MCQ retains its real child and audio when review answer state redraws
+ok 396 - review embedded MCQ retains its real child and audio when review answer state redraws
+  ---
+  duration_ms: 22.447756
+  type: 'test'
+  ...
+# Subtest: study error and malformed response retain answers for a deliberate retry; foreign draft is not restored
+ok 397 - study error and malformed response retain answers for a deliberate retry; foreign draft is not restored
+  ---
+  duration_ms: 39.37119
+  type: 'test'
+  ...
+# Subtest: media source classification null/audio
+ok 398 - media source classification null/audio
+  ---
+  duration_ms: 1.384971
+  type: 'test'
+  ...
+# Subtest: media source classification /api/resources/private.mp3/audio
+ok 399 - media source classification /api/resources/private.mp3/audio
+  ---
+  duration_ms: 0.299006
+  type: 'test'
+  ...
+# Subtest: media source classification /api/resources/private.mp4/file
+ok 400 - media source classification /api/resources/private.mp4/file
+  ---
+  duration_ms: 0.264173
+  type: 'test'
+  ...
+# Subtest: media source classification /api/resources/private.pdf/file
+ok 401 - media source classification /api/resources/private.pdf/file
+  ---
+  duration_ms: 0.312864
+  type: 'test'
+  ...
+# Subtest: media source classification https://youtu.be/abcDEF12345/video
+ok 402 - media source classification https://youtu.be/abcDEF12345/video
+  ---
+  duration_ms: 0.446186
+  type: 'test'
+  ...
+# Subtest: media source classification https://www.youtube.com/watch?v=abcDEF12345/link
+ok 403 - media source classification https://www.youtube.com/watch?v=abcDEF12345/link
+  ---
+  duration_ms: 0.433916
+  type: 'test'
+  ...
+# Subtest: media source classification https://youtube.com.evil.invalid/watch?v=abcDEF12345/link
+ok 404 - media source classification https://youtube.com.evil.invalid/watch?v=abcDEF12345/link
+  ---
+  duration_ms: 0.282693
+  type: 'test'
+  ...
+# Subtest: media source classification https://public.invalid/sound.mp3/audio
+ok 405 - media source classification https://public.invalid/sound.mp3/audio
+  ---
+  duration_ms: 0.160397
+  type: 'test'
+  ...
+# Subtest: media source classification https://public.invalid/movie.ogg/video
+ok 406 - media source classification https://public.invalid/movie.ogg/video
+  ---
+  duration_ms: 0.291971
+  type: 'test'
+  ...
+# Subtest: media source classification https://public.invalid/material/link
+ok 407 - media source classification https://public.invalid/material/link
+  ---
+  duration_ms: 0.316566
+  type: 'test'
+  ...
+# Subtest: public classification fails closed on credentials, signed storage, private traversal and missing permission
+ok 408 - public classification fails closed on credentials, signed storage, private traversal and missing permission
+  ---
+  duration_ms: 0.605278
+  type: 'test'
+  ...
+# Subtest: legacy keeps source player through answer redraw, error retry and abort clears video
+ok 409 - legacy keeps source player through answer redraw, error retry and abort clears video
+  ---
+  duration_ms: 64.038851
+  type: 'test'
+  ...
+# Subtest: public YouTube stays opaque and has honest external fallback; abort removes iframe
+ok 410 - public YouTube stays opaque and has honest external fallback; abort removes iframe
+  ---
+  duration_ms: 23.516247
+  type: 'test'
+  ...
+# Subtest: General strict discriminator rejects cross-owner identities, leaked exam keys and malformed result
+ok 411 - General strict discriminator rejects cross-owner identities, leaked exam keys and malformed result
+  ---
+  duration_ms: 0.971337
+  type: 'test'
+  ...
+# Subtest: General catalogue exact score/null/identity validation
+ok 412 - General catalogue exact score/null/identity validation
+  ---
+  duration_ms: 0.396941
+  type: 'test'
+  ...
+# Subtest: Academic registry path is exact including original keyword fallback and nullable latest
+ok 413 - Academic registry path is exact including original keyword fallback and nullable latest
+  ---
+  duration_ms: 0.279958
+  type: 'test'
+  ...
+# Subtest: General uses all section questions, no Academic navigation, plain restricted text when lexical policy false
+ok 414 - General uses all section questions, no Academic navigation, plain restricted text when lexical policy false
+  ---
+  duration_ms: 10.851065
+  type: 'test'
+  ...
+# Subtest: General lexical identity and highlights survive answer redraw and audio node retention
+ok 415 - General lexical identity and highlights survive answer redraw and audio node retention
+  ---
+  duration_ms: 20.737005
+  type: 'test'
+  ...
+# Subtest: General recovery restores only own highlight keys, malformed ranges ignored
+ok 416 - General recovery restores only own highlight keys, malformed ranges ignored
+  ---
+  duration_ms: 8.126883
+  type: 'test'
+  ...
+# Subtest: General notes, scoped cleanup, retry and server submit body reuse existing engine
+ok 417 - General notes, scoped cleanup, retry and server submit body reuse existing engine
+  ---
+  duration_ms: 40.170087
+  type: 'test'
+  ...
+# Subtest: start/retake single-flight rejects malformed ACK, retries and consumes own identity false
+ok 418 - start/retake single-flight rejects malformed ACK, retries and consumes own identity false
+  ---
+  duration_ms: 11.157667
+  type: 'test'
+  ...
+# Subtest: start/retake single-flight rejects malformed ACK, retries and consumes own identity true
+ok 419 - start/retake single-flight rejects malformed ACK, retries and consumes own identity true
+  ---
+  duration_ms: 16.256562
+  type: 'test'
+  ...
+# Subtest: start aborted in flight does not navigate or refresh
+ok 420 - start aborted in flight does not navigate or refresh
+  ---
+  duration_ms: 14.480989
+  type: 'test'
+  ...
+# Subtest: General result ungraded remains distinct and offers retake/catalogue, never Academic revision
+ok 421 - General result ungraded remains distinct and offers retake/catalogue, never Academic revision
+  ---
+  duration_ms: 6.756322
+  type: 'test'
+  ...
+# Subtest: revision populated map/keywords/vocabulary and empty variants; YouTube speed unsupported
+ok 422 - revision populated map/keywords/vocabulary and empty variants; YouTube speed unsupported
+  ---
+  duration_ms: 19.266049
+  type: 'test'
+  ...
+# Subtest: General section map is shown with all single-section questions, independent of Academic Part2 tab
+ok 423 - General section map is shown with all single-section questions, independent of Academic Part2 tab
+  ---
+  duration_ms: 8.021866
+  type: 'test'
+  ...
+# Subtest: server outcomes/choices accepted without client grading; exact question/session binding enforced
+ok 424 - server outcomes/choices accepted without client grading; exact question/session binding enforced
+  ---
+  duration_ms: 1.192232
+  type: 'test'
+  ...
+# Subtest: pre-reveal options and pre-choice grading/explanations are refused rather than displayed
+ok 425 - pre-reveal options and pre-choice grading/explanations are refused rather than displayed
+  ---
+  duration_ms: 0.334383
+  type: 'test'
+  ...
+# Subtest: empty arrays/foreign/duplicate choices cannot advance; A and E are real string choices, no cap
+ok 426 - empty arrays/foreign/duplicate choices cannot advance; A and E are real string choices, no cap
+  ---
+  duration_ms: 0.371996
+  type: 'test'
+  ...
+# Subtest: notes/reasoning source minima and field-less reveal retain their distinct validation
+ok 427 - notes/reasoning source minima and field-less reveal retain their distinct validation
+  ---
+  duration_ms: 0.221048
+  type: 'test'
+  ...
+# Subtest: Day contract validates ordinal/role/progress; does not impose a maximum day count
+ok 428 - Day contract validates ordinal/role/progress; does not impose a maximum day count
+  ---
+  duration_ms: 0.716733
+  type: 'test'
+  ...
+# Subtest: initial drill POST failure is visible, redacted and retryable before any question opens
+ok 429 - initial drill POST failure is visible, redacted and retryable before any question opens
+  ---
+  duration_ms: 70.370962
+  type: 'test'
+  ...
+# Subtest: native multi-select preserves nodes/focus, deselect-all disables submit and retry retains draft
+ok 430 - native multi-select preserves nodes/focus, deselect-all disables submit and retry retains draft
+  ---
+  duration_ms: 32.768816
+  type: 'test'
+  ...
+# Subtest: stale drill response after abort cannot refill old private DOM
+ok 431 - stale drill response after abort cannot refill old private DOM
+  ---
+  duration_ms: 9.424748
+  type: 'test'
+  ...
+# Subtest: source truthful empty question state is present, no drill buttons or fabricated questions
+ok 432 - source truthful empty question state is present, no drill buttons or fabricated questions
+  ---
+  duration_ms: 6.094423
+  type: 'test'
+  ...
+# Error: Uncaught [TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.]
+#     at reportException (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+#     at HTMLAnchorElementImpl.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/nodes/HTMLOrSVGElement-impl.js:71:14)
+#     at HTMLAnchorElement.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/HTMLElement.js:128:34)
+#     at TestContext.<anonymous> (file:///home/user/learners_area/migration/vanilla-frontend/tests/module-layout-v3.test.mjs:6:264)
+#     at Test.runInAsyncScope (node:async_hooks:214:14)
+#     at Test.run (node:internal/test_runner/test:1047:25) TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.
+#     at exports.convert (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/Event.js:22:9)
+#     at HTMLAnchorElement.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:236:24)
+#     at hint (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:23:45)
+#     at prepare (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:24:111)
+#     at HTMLAnchorElement.onFocus (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:26:146)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+# Error: Uncaught [TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.]
+#     at reportException (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+#     at HTMLAnchorElementImpl.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/nodes/HTMLOrSVGElement-impl.js:57:16)
+#     at HTMLAnchorElement.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/HTMLElement.js:128:34)
+#     at HTMLAnchorElement.onKeyDown (file:///home/user/learners_area/migration/vanilla-frontend/js/generated/module-section-nav.js:30:37)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25) TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.
+#     at exports.convert (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/Event.js:22:9)
+#     at HTMLAnchorElement.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:236:24)
+#     at hint (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:23:45)
+#     at cancel (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:25:44)
+#     at HTMLAnchorElement.onBlur (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:26:175)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+# Error: Uncaught [TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.]
+#     at reportException (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+#     at HTMLAnchorElementImpl.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/nodes/HTMLOrSVGElement-impl.js:71:14)
+#     at HTMLAnchorElement.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/HTMLElement.js:128:34)
+#     at HTMLAnchorElement.onKeyDown (file:///home/user/learners_area/migration/vanilla-frontend/js/generated/module-section-nav.js:30:37)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25) TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.
+#     at exports.convert (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/Event.js:22:9)
+#     at HTMLAnchorElement.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:236:24)
+#     at hint (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:23:45)
+#     at prepare (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:24:111)
+#     at HTMLAnchorElement.onFocus (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:26:146)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+# Error: Uncaught [TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.]
+#     at reportException (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+#     at HTMLAnchorElementImpl.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/nodes/HTMLOrSVGElement-impl.js:57:16)
+#     at HTMLAnchorElement.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/HTMLElement.js:128:34)
+#     at HTMLAnchorElement.onKeyDown (file:///home/user/learners_area/migration/vanilla-frontend/js/generated/module-section-nav.js:30:37)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25) TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.
+#     at exports.convert (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/Event.js:22:9)
+#     at HTMLAnchorElement.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:236:24)
+#     at hint (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:23:45)
+#     at cancel (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:25:44)
+#     at HTMLAnchorElement.onBlur (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:26:175)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+# Error: Uncaught [TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.]
+#     at reportException (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+#     at HTMLAnchorElementImpl.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/nodes/HTMLOrSVGElement-impl.js:71:14)
+#     at HTMLAnchorElement.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/HTMLElement.js:128:34)
+#     at HTMLAnchorElement.onKeyDown (file:///home/user/learners_area/migration/vanilla-frontend/js/generated/module-section-nav.js:30:37)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25) TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.
+#     at exports.convert (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/Event.js:22:9)
+#     at HTMLAnchorElement.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:236:24)
+#     at hint (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:23:45)
+#     at prepare (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:24:111)
+#     at HTMLAnchorElement.onFocus (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:26:146)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+# Error: Uncaught [TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.]
+#     at reportException (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+#     at HTMLAnchorElementImpl.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/nodes/HTMLOrSVGElement-impl.js:57:16)
+#     at HTMLAnchorElement.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/HTMLElement.js:128:34)
+#     at HTMLAnchorElement.onKeyDown (file:///home/user/learners_area/migration/vanilla-frontend/js/generated/module-section-nav.js:30:37)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25) TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.
+#     at exports.convert (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/Event.js:22:9)
+#     at HTMLAnchorElement.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:236:24)
+#     at hint (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:23:45)
+#     at cancel (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:25:44)
+#     at HTMLAnchorElement.onBlur (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:26:175)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+# Error: Uncaught [TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.]
+#     at reportException (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+#     at HTMLAnchorElementImpl.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/nodes/HTMLOrSVGElement-impl.js:71:14)
+#     at HTMLAnchorElement.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/HTMLElement.js:128:34)
+#     at HTMLAnchorElement.onKeyDown (file:///home/user/learners_area/migration/vanilla-frontend/js/generated/module-section-nav.js:30:37)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25) TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.
+#     at exports.convert (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/Event.js:22:9)
+#     at HTMLAnchorElement.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:236:24)
+#     at hint (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:23:45)
+#     at prepare (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:24:111)
+#     at HTMLAnchorElement.onFocus (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:26:146)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+# Error: Uncaught [TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.]
+#     at reportException (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+#     at HTMLAnchorElementImpl.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/nodes/HTMLOrSVGElement-impl.js:57:16)
+#     at HTMLAnchorElement.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/HTMLElement.js:128:34)
+#     at HTMLAnchorElement.onKeyDown (file:///home/user/learners_area/migration/vanilla-frontend/js/generated/module-section-nav.js:30:37)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25) TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.
+#     at exports.convert (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/Event.js:22:9)
+#     at HTMLAnchorElement.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:236:24)
+#     at hint (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:23:45)
+#     at cancel (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:25:44)
+#     at HTMLAnchorElement.onBlur (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:26:175)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+# Error: Uncaught [TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.]
+#     at reportException (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+#     at HTMLAnchorElementImpl.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/nodes/HTMLOrSVGElement-impl.js:71:14)
+#     at HTMLAnchorElement.focus (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/HTMLElement.js:128:34)
+#     at HTMLAnchorElement.onKeyDown (file:///home/user/learners_area/migration/vanilla-frontend/js/generated/module-section-nav.js:30:37)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25) TypeError: Failed to execute 'dispatchEvent' on 'EventTarget': parameter 1 is not of type 'Event'.
+#     at exports.convert (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/Event.js:22:9)
+#     at HTMLAnchorElement.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:236:24)
+#     at hint (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:23:45)
+#     at prepare (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:24:111)
+#     at HTMLAnchorElement.onFocus (file:///home/user/learners_area/migration/vanilla-frontend/js/native.js:26:146)
+#     at HTMLAnchorElement.callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLAnchorElementImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at exports.fireFocusEventWithTargetAdjustment (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/focusing.js:103:10)
+# Subtest: Listening source title above three real links, with no invented General tab
+ok 433 - Listening source title above three real links, with no invented General tab
+  ---
+  duration_ms: 54.531736
+  type: 'test'
+  ...
+# Subtest: nested MCQ has active programme link, no duplicate section heading
+ok 434 - nested MCQ has active programme link, no duplicate section heading
+  ---
+  duration_ms: 8.123102
+  type: 'test'
+  ...
+# Subtest: Reading five destinations keep native links; arrow/Home/End change focus only
+ok 435 - Reading five destinations keep native links; arrow/Home/End change focus only
+  ---
+  duration_ms: 15.115136
+  type: 'test'
+  ...
+# Subtest: ordinary section click requests source scroll=false; modified click remains native
+ok 436 - ordinary section click requests source scroll=false; modified click remains native
+  ---
+  duration_ms: 8.782811
+  type: 'test'
+  ...
+# Subtest: source query-driven links preserve unrelated params and real Grammar tabs
+ok 437 - source query-driven links preserve unrelated params and real Grammar tabs
+  ---
+  duration_ms: 10.028864
+  type: 'test'
+  ...
+# Subtest: source Reading attempt hides product navigation, focus surface remains separate
+ok 438 - source Reading attempt hides product navigation, focus surface remains separate
+  ---
+  duration_ms: 4.133481
+  type: 'test'
+  ...
+# Subtest: prewarm is code-only and deduplicated by original source budget, with no private-data transport
+ok 439 - prewarm is code-only and deduplicated by original source budget, with no private-data transport
+  ---
+  duration_ms: 51.770144
+  type: 'test'
+  ...
+# Subtest: never prewarm time-sensitive/private/arbitrary target /app/reading/retention
+ok 440 - never prewarm time-sensitive/private/arbitrary target /app/reading/retention
+  ---
+  duration_ms: 8.011804
+  type: 'test'
+  ...
+# Subtest: never prewarm time-sensitive/private/arbitrary target /app/listening/tests/secret
+ok 441 - never prewarm time-sensitive/private/arbitrary target /app/listening/tests/secret
+  ---
+  duration_ms: 6.639812
+  type: 'test'
+  ...
+# Subtest: never prewarm time-sensitive/private/arbitrary target /app/listening/mcq/day/8
+ok 442 - never prewarm time-sensitive/private/arbitrary target /app/listening/mcq/day/8
+  ---
+  duration_ms: 5.59943
+  type: 'test'
+  ...
+# Subtest: never prewarm time-sensitive/private/arbitrary target /app/owner
+ok 443 - never prewarm time-sensitive/private/arbitrary target /app/owner
+  ---
+  duration_ms: 10.149693
+  type: 'test'
+  ...
+# Subtest: never prewarm time-sensitive/private/arbitrary target /app/teacher/students
+ok 444 - never prewarm time-sensitive/private/arbitrary target /app/teacher/students
+  ---
+  duration_ms: 4.799162
+  type: 'test'
+  ...
+# Subtest: never prewarm time-sensitive/private/arbitrary target /app/reading/lessons?q=private
+ok 445 - never prewarm time-sensitive/private/arbitrary target /app/reading/lessons?q=private
+  ---
+  duration_ms: 4.752924
+  type: 'test'
+  ...
+# Subtest: never prewarm time-sensitive/private/arbitrary target /app/listening/lessons\#fragment
+ok 446 - never prewarm time-sensitive/private/arbitrary target /app/listening/lessons\#fragment
+  ---
+  duration_ms: 4.54612
+  type: 'test'
+  ...
+# Subtest: never prewarm time-sensitive/private/arbitrary target https://evil.invalid/app/listening/lessons
+ok 447 - never prewarm time-sensitive/private/arbitrary target https://evil.invalid/app/listening/lessons
+  ---
+  duration_ms: 8.491138
+  type: 'test'
+  ...
+# Subtest: prewarm respects connection constraints {"onLine":false}
+ok 448 - prewarm respects connection constraints {"onLine":false}
+  ---
+  duration_ms: 6.25006
+  type: 'test'
+  ...
+# Subtest: prewarm respects connection constraints {"onLine":true,"connection":{"saveData":true}}
+ok 449 - prewarm respects connection constraints {"onLine":true,"connection":{"saveData":true}}
+  ---
+  duration_ms: 4.55861
+  type: 'test'
+  ...
+# Subtest: prewarm respects connection constraints {"onLine":true,"connection":{"effectiveType":"2g"}}
+ok 450 - prewarm respects connection constraints {"onLine":true,"connection":{"effectiveType":"2g"}}
+  ---
+  duration_ms: 3.728676
+  type: 'test'
+  ...
+# Subtest: aborting shell prevents further optional imports and input intents
+ok 451 - aborting shell prevents further optional imports and input intents
+  ---
+  duration_ms: 4.974995
+  type: 'test'
+  ...
+# Subtest: source transition frame hides/inerts outgoing private content, retains subtree until commit and cancels cleanly
+ok 452 - source transition frame hides/inerts outgoing private content, retains subtree until commit and cancels cleanly
+  ---
+  duration_ms: 21.600486
+  type: 'test'
+  ...
+# Subtest: notification DTO checks dates, row uniqueness and safe href before any observer/control is created
+ok 453 - notification DTO checks dates, row uniqueness and safe href before any observer/control is created
+  ---
+  duration_ms: 0.934488
+  type: 'test'
+  ...
+# Subtest: pre-aborted prewarmer creates no timers or root listeners
+ok 454 - pre-aborted prewarmer creates no timers or root listeners
+  ---
+  duration_ms: 4.655233
+  type: 'test'
+  ...
+# Subtest: less than half-visible and foreign staged rows are not automatically acknowledged
+ok 455 - less than half-visible and foreign staged rows are not automatically acknowledged
+  ---
+  duration_ms: 760.070379
+  type: 'test'
+  ...
+# Subtest: hidden document cannot auto-ack; becoming visible reobserves outstanding rows
+ok 456 - hidden document cannot auto-ack; becoming visible reobserves outstanding rows
+  ---
+  duration_ms: 718.994168
+  type: 'test'
+  ...
+# Subtest: manual all-read waits behind automatic acknowledgement; server counts publish in mutation order
+ok 457 - manual all-read waits behind automatic acknowledgement; server counts publish in mutation order
+  ---
+  duration_ms: 367.693261
+  type: 'test'
+  ...
+# Subtest: failed auto-ack remains honest, no optimistic count; deliberate mark-all retries once
+ok 458 - failed auto-ack remains honest, no optimistic count; deliberate mark-all retries once
+  ---
+  duration_ms: 363.923531
+  type: 'test'
+  ...
+# Subtest: abort disconnects observation and late mutation cannot publish to another identity
+ok 459 - abort disconnects observation and late mutation cannot publish to another identity
+  ---
+  duration_ms: 364.276973
+  type: 'test'
+  ...
+# Subtest: malformed unread count is not a successful badge update
+ok 460 - malformed unread count is not a successful badge update
+  ---
+  duration_ms: 13.034111
+  type: 'test'
+  ...
+# Subtest: profile projection fails closed rather than inventing provider configuration
+ok 461 - profile projection fails closed rather than inventing provider configuration
+  ---
+  duration_ms: 41.894165
+  type: 'test'
+  ...
+# Subtest: profile name error keeps input/selection; ack refreshes only after server name
+ok 462 - profile name error keeps input/selection; ack refreshes only after server name
+  ---
+  duration_ms: 38.045148
+  type: 'test'
+  ...
+# Subtest: cancelled name flight cannot overwrite or unlock newer editor
+ok 463 - cancelled name flight cannot overwrite or unlock newer editor
+  ---
+  duration_ms: 14.094942
+  type: 'test'
+  ...
+# Subtest: name editor honors real constraints, unchanged disable and query-driven initial opening
+ok 464 - name editor honors real constraints, unchanged disable and query-driven initial opening
+  ---
+  duration_ms: 13.916978
+  type: 'test'
+  ...
+# Subtest: image conversion rejects invalid/oversized files without creating URL
+ok 465 - image conversion rejects invalid/oversized files without creating URL
+  ---
+  duration_ms: 5.635107
+  type: 'test'
+  ...
+# Subtest: abort while bitmap decode is pending rejects immediately and closes any late bitmap once
+ok 466 - abort while bitmap decode is pending rejects immediately and closes any late bitmap once
+  ---
+  duration_ms: 5.946589
+  type: 'test'
+  ...
+# Subtest: multipart transport leaves boundary to browser and keeps existing JSON transport
+ok 467 - multipart transport leaves boundary to browser and keeps existing JSON transport
+  ---
+  duration_ms: 13.070924
+  type: 'test'
+  ...
+# Subtest: source LinkPending waits60ms and abort cancels all visible feedback
+ok 468 - source LinkPending waits60ms and abort cancels all visible feedback
+  ---
+  duration_ms: 80.349082
+  type: 'test'
+  ...
+# Subtest: cancel before60ms cannot flash a pending indicator
+ok 469 - cancel before60ms cannot flash a pending indicator
+  ---
+  duration_ms: 81.622802
+  type: 'test'
+  ...
+# Subtest: focus launcher/toggle keep focus; typing Escape does not exit focus; same pathname query preserves state
+ok 470 - focus launcher/toggle keep focus; typing Escape does not exit focus; same pathname query preserves state
+  ---
+  duration_ms: 29.599117
+  type: 'test'
+  ...
+# Subtest: focus entry dismissal persists within path, future committed path can consume early announcement
+ok 471 - focus entry dismissal persists within path, future committed path can consume early announcement
+  ---
+  duration_ms: 14.312991
+  type: 'test'
+  ...
+# Subtest: diagnostic flags are typed and absent bootstrap fails with a typed adapter error
+ok 472 - diagnostic flags are typed and absent bootstrap fails with a typed adapter error
+  ---
+  duration_ms: 4.968632
+  type: 'test'
+  ...
+# Subtest: native shared inputs preserve direct children, source textarea classes, variants and native constraints
+ok 473 - native shared inputs preserve direct children, source textarea classes, variants and native constraints
+  ---
+  duration_ms: 5.522383
+  type: 'test'
+  ...
+# Subtest: brand renders source 1x/2x day/night marks, optional tagline and source sizes without substitutions
+ok 474 - brand renders source 1x/2x day/night marks, optional tagline and source sizes without substitutions
+  ---
+  duration_ms: 6.77095
+  type: 'test'
+  ...
+# Subtest: focus producer before shell subscription replays once and respects subsequent dismissal and route abort
+ok 475 - focus producer before shell subscription replays once and respects subsequent dismissal and route abort
+  ---
+  duration_ms: 11.362928
+  type: 'test'
+  ...
+# Subtest: InstantLink opt-in, source90ms hover/leave, zero-ms pointer/touch and abort perform code imports only
+ok 476 - InstantLink opt-in, source90ms hover/leave, zero-ms pointer/touch and abort perform code imports only
+  ---
+  duration_ms: 9.026044
+  type: 'test'
+  ...
+# Subtest: prevented link callback and detached/blurred intent cannot launch optional imports
+ok 477 - prevented link callback and detached/blurred intent cannot launch optional imports
+  ---
+  duration_ms: 5.190549
+  type: 'test'
+  ...
+# Subtest: same-document/deduplicated session hints cannot grant roles or persist identity
+ok 478 - same-document/deduplicated session hints cannot grant roles or persist identity
+  ---
+  duration_ms: 3.577762
+  type: 'test'
+  ...
+# Subtest: theme/locale persistence rejects malformed acknowledgements and mismatched echoes
+ok 479 - theme/locale persistence rejects malformed acknowledgements and mismatched echoes
+  ---
+  duration_ms: 3.692871
+  type: 'test'
+  ...
+# Subtest: notification badge rejects malformed server success, aborts on lifetime end and tolerates denied channels
+ok 480 - notification badge rejects malformed server success, aborts on lifetime end and tolerates denied channels
+  ---
+  duration_ms: 16.841477
+  type: 'test'
+  ...
+# Subtest: support report malformed acknowledgement retains draft rather than claiming sent; explicit retry succeeds
+ok 481 - support report malformed acknowledgement retains draft rather than claiming sent; explicit retry succeeds
+  ---
+  duration_ms: 14.718701
+  type: 'test'
+  ...
+# Subtest: ConfirmSelect cancel retains authoritative value and restores select focus
+ok 482 - ConfirmSelect cancel retains authoritative value and restores select focus
+  ---
+  duration_ms: 7.572953
+  type: 'test'
+  ...
+# Subtest: ConfirmSelect pending blocks duplicate/escape and acknowledges only successful callback
+ok 483 - ConfirmSelect pending blocks duplicate/escape and acknowledges only successful callback
+  ---
+  duration_ms: 6.4804
+  type: 'test'
+  ...
+# (node:1996) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: ConfirmSelect safe failure retries, authoritative update and aborted late result cannot apply stale value
+ok 484 - ConfirmSelect safe failure retries, authoritative update and aborted late result cannot apply stale value
+  ---
+  duration_ms: 14.370362
+  type: 'test'
+  ...
+# Subtest: native async action owns same-tick pending, failure propagation, result, measurements and abort guard
+ok 485 - native async action owns same-tick pending, failure propagation, result, measurements and abort guard
+  ---
+  duration_ms: 3.699751
+  type: 'test'
+  ...
+# Subtest: AsyncActionButton pending/disabled and every original icon/notification UI use native source geometry
+ok 486 - AsyncActionButton pending/disabled and every original icon/notification UI use native source geometry
+  ---
+  duration_ms: 22.32932
+  type: 'test'
+  ...
+# Subtest: opt-in source action diagnostics record awaited outcomes without values, and dispose cancels pending frames/late completion
+ok 487 - opt-in source action diagnostics record awaited outcomes without values, and dispose cancels pending frames/late completion
+  ---
+  duration_ms: 3.91089
+  type: 'test'
+  ...
+# Subtest: source15-second stalled workspace retry is real, hides old private content and cleans up on cancel
+ok 488 - source15-second stalled workspace retry is real, hides old private content and cleans up on cancel
+  ---
+  duration_ms: 6.697524
+  type: 'test'
+  ...
+# Subtest: refresh focus/selection waits for real attachment and aborted destinations never steal newer focus
+ok 489 - refresh focus/selection waits for real attachment and aborted destinations never steal newer focus
+  ---
+  duration_ms: 7.457836
+  type: 'test'
+  ...
+# Subtest: private provider diagnostics capture input/select changes with no values and remove their listener
+ok 490 - private provider diagnostics capture input/select changes with no values and remove their listener
+  ---
+  duration_ms: 12.528378
+  type: 'test'
+  ...
+# Subtest: report presentation is source-scoped and malformed projection fails closed: student
+ok 491 - report presentation is source-scoped and malformed projection fails closed: student
+  ---
+  duration_ms: 1.381607
+  type: 'test'
+  ...
+# Subtest: report presentation is source-scoped and malformed projection fails closed: teacher
+ok 492 - report presentation is source-scoped and malformed projection fails closed: teacher
+  ---
+  duration_ms: 0.307321
+  type: 'test'
+  ...
+# Subtest: report presentation is source-scoped and malformed projection fails closed: admin
+ok 493 - report presentation is source-scoped and malformed projection fails closed: admin
+  ---
+  duration_ms: 0.205664
+  type: 'test'
+  ...
+# Subtest: report presentation is source-scoped and malformed projection fails closed: owner
+ok 494 - report presentation is source-scoped and malformed projection fails closed: owner
+  ---
+  duration_ms: 0.21353
+  type: 'test'
+  ...
+# Subtest: custom calendar rejects invalid_date
+ok 495 - custom calendar rejects invalid_date
+  ---
+  duration_ms: 106.924719
+  type: 'test'
+  ...
+# Subtest: custom calendar rejects range_reversed
+ok 496 - custom calendar rejects range_reversed
+  ---
+  duration_ms: 0.50743
+  type: 'test'
+  ...
+# Subtest: custom calendar rejects range_too_long
+ok 497 - custom calendar rejects range_too_long
+  ---
+  duration_ms: 3.024191
+  type: 'test'
+  ...
+# Subtest: custom calendar rejects range_in_future
+ok 498 - custom calendar rejects range_in_future
+  ---
+  duration_ms: 0.313411
+  type: 'test'
+  ...
+# Subtest: student cannot submit another subject and teacher cannot leave own projected roster
+ok 499 - student cannot submit another subject and teacher cannot leave own projected roster
+  ---
+  duration_ms: 1.64382
+  type: 'test'
+  ...
+# Subtest: existing binary report MIME/attachment and own same-origin transport json
+ok 500 - existing binary report MIME/attachment and own same-origin transport json
+  ---
+  duration_ms: 14.204149
+  type: 'test'
+  ...
+# Subtest: existing binary report MIME/attachment and own same-origin transport csv
+ok 501 - existing binary report MIME/attachment and own same-origin transport csv
+  ---
+  duration_ms: 1.078034
+  type: 'test'
+  ...
+# Subtest: existing binary report MIME/attachment and own same-origin transport xlsx
+ok 502 - existing binary report MIME/attachment and own same-origin transport xlsx
+  ---
+  duration_ms: 0.905275
+  type: 'test'
+  ...
+# Subtest: existing binary report MIME/attachment and own same-origin transport docx
+ok 503 - existing binary report MIME/attachment and own same-origin transport docx
+  ---
+  duration_ms: 0.956912
+  type: 'test'
+  ...
+# Subtest: existing binary report MIME/attachment and own same-origin transport pdf
+ok 504 - existing binary report MIME/attachment and own same-origin transport pdf
+  ---
+  duration_ms: 1.134002
+  type: 'test'
+  ...
+# Subtest: existing binary report MIME/attachment and own same-origin transport zip
+ok 505 - existing binary report MIME/attachment and own same-origin transport zip
+  ---
+  duration_ms: 1.033332
+  type: 'test'
+  ...
+# Subtest: download failure, unsafe filename, MIME spoof, empty response, unauthorized and cancellation are not success
+ok 506 - download failure, unsafe filename, MIME spoof, empty response, unauthorized and cancellation are not success
+  ---
+  duration_ms: 2.897129
+  type: 'test'
+  ...
+# Subtest: lessons render before delayed/failed summary and remain the same node across summary retry
+ok 507 - lessons render before delayed/failed summary and remain the same node across summary retry
+  ---
+  duration_ms: 82.712728
+  type: 'test'
+  ...
+# Subtest: unknown activity, availability enum, dangerous lesson IDs and answer/snapshot payloads fail closed
+ok 508 - unknown activity, availability enum, dangerous lesson IDs and answer/snapshot payloads fail closed
+  ---
+  duration_ms: 0.630819
+  type: 'test'
+  ...
+# Subtest: source mock presentation only uses completed full earned bands; removed tests do not inflate catalogue completion
+ok 509 - source mock presentation only uses completed full earned bands; removed tests do not inflate catalogue completion
+  ---
+  duration_ms: 0.223195
+  type: 'test'
+  ...
+# Subtest: noncustom period ignores stale custom dates: on_demand
+ok 510 - noncustom period ignores stale custom dates: on_demand
+  ---
+  duration_ms: 0.540717
+  type: 'test'
+  ...
+# Subtest: noncustom period ignores stale custom dates: weekly
+ok 511 - noncustom period ignores stale custom dates: weekly
+  ---
+  duration_ms: 0.431431
+  type: 'test'
+  ...
+# Subtest: noncustom period ignores stale custom dates: monthly
+ok 512 - noncustom period ignores stale custom dates: monthly
+  ---
+  duration_ms: 0.352661
+  type: 'test'
+  ...
+# Subtest: noncustom period ignores stale custom dates: yearly
+ok 513 - noncustom period ignores stale custom dates: yearly
+  ---
+  duration_ms: 0.452388
+  type: 'test'
+  ...
+# Subtest: mock empty/missing scores and all independent unavailable notices preserve original non-runner UI
+ok 514 - mock empty/missing scores and all independent unavailable notices preserve original non-runner UI
+  ---
+  duration_ms: 13.560085
+  type: 'test'
+  ...
+# Subtest: full and compact source mock chart preserve earned scale, last12 points and native table disclosure
+ok 515 - full and compact source mock chart preserve earned scale, last12 points and native table disclosure
+  ---
+  duration_ms: 26.117738
+  type: 'test'
+  ...
+# Subtest: search source hint, three loading rows, zero-results hint, shortcut and close focus
+ok 516 - search source hint, three loading rows, zero-results hint, shortcut and close focus
+  ---
+  duration_ms: 385.196127
+  type: 'test'
+  ...
+# Subtest: search hover/arrows preserve result nodes, active descendant and Enter destination
+ok 517 - search hover/arrows preserve result nodes, active descendant and Enter destination
+  ---
+  duration_ms: 324.65575
+  type: 'test'
+  ...
+# Subtest: malformed search is an error, not fake zero results, and stale transport cannot restore private text
+ok 518 - malformed search is an error, not fake zero results, and stale transport cannot restore private text
+  ---
+  duration_ms: 635.93779
+  type: 'test'
+  ...
+# Subtest: abort clears pending search, visible private hits and global shortcut listener
+ok 519 - abort clears pending search, visible private hits and global shortcut listener
+  ---
+  duration_ms: 321.485688
+  type: 'test'
+  ...
+# Subtest: source Management direct link has real parent and nonmodule uses source breadcrumbs
+ok 520 - source Management direct link has real parent and nonmodule uses source breadcrumbs
+  ---
+  duration_ms: 12.74844
+  type: 'test'
+  ...
+# Subtest: stale avatar error cannot remove the current newer photo
+ok 521 - stale avatar error cannot remove the current newer photo
+  ---
+  duration_ms: 10.749272
+  type: 'test'
+  ...
+# Subtest: fresh role clears old resources/cache while retaining authoritative resolved presentation
+ok 522 - fresh role clears old resources/cache while retaining authoritative resolved presentation
+  ---
+  duration_ms: 64.97818
+  type: 'test'
+  ...
+# Subtest: fresh accountStatus clears old resources/cache while retaining authoritative resolved presentation
+ok 523 - fresh accountStatus clears old resources/cache while retaining authoritative resolved presentation
+  ---
+  duration_ms: 15.94866
+  type: 'test'
+  ...
+# Subtest: explicit post-mutation invalidation re-reads session/preferences without needlessly clearing unchanged identity
+ok 524 - explicit post-mutation invalidation re-reads session/preferences without needlessly clearing unchanged identity
+  ---
+  duration_ms: 11.460473
+  type: 'test'
+  ...
+1..524
+# tests 524
+# suites 0
+# pass 524
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 19126.103632

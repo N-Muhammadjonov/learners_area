@@ -1,0 +1,59 @@
+{
+  "sourceCommit": "88ae399b2fd6c4fd09d219429361c478aeea75c1",
+  "sealCommit": "7a23944764261f509877ef0e312557d251b56bb4",
+  "archive": {
+    "name": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V23.zip",
+    "bytes": 41826416,
+    "sha256": "3b89d404ded8110819808f9cc82fd7352f9332d689703bd931131c6da93d2948"
+  },
+  "reviewGates": {
+    "nativePrepaint": "Implemented: capture native part/question controls before source mutation, token/source/monotonic intent and existing location grammar; existing authority barrier5metadata GETs, latest same-scope coalescing, applied\u2192verified focus. No ordinary iframe reconstruction or material read. Actual held/good/changed/denied/expired/rapid source journeys PASS.",
+    "staleView": "Entire old-sequence or unfinished unsequenced view callback fenced; late report cannot clear current Review eligibility or change navigation. Actual stale-focus\u2192revocation fixture PASS. Parent planned Review also remains validation-eligible, never an authority grant.",
+    "canonical": "Server-ACK attempt changes fence/reset old answer accumulator/writer, retain journal; actual A Review\u2192B retake\u2192results-modal Review\u2192B Part2 body contains no A Q1. Broader source-replacement/canonical/recovery/lifecycle combinations remain PARTIAL. No previous-attempt API invented.",
+    "writers": "Ordinary navigation never disposes valid route writers. Preserved exact pending bytes, scoped explicit adoption/Retry/Web Locks conditional cooperation; new simulated server commitment + response loss/reload/409/repeated explicit Retry PASS, no automatic replay. Stale view ACK conservatively retains original intent. No exactly-once/CAS/cross-device/abort-rollback/aggregate question-receipt claim.",
+    "lexical": "Selection-owned enrichment/folders/save requests and callbacks; no stale popup, stale save/error/current DOM change after native transition. Existing opaque bridge removes handlers/observer/selection references. No fabricated sense or occurrence IDs. Direct authored?vocabulary=1 backend policy independently GPT Work UNVERIFIED.",
+    "media": "Same existing engine and256KiB Range/8MiB LRU/two transports/MSE quota/Blob fallback. Same-part transitions pause/cancel clip/speech without destroying trainer. Actual playing\u2192held native part/question plus question replay PASS. Source pagehide cancels pending timers/rejects future play/removes state listener; no late play. Wider all-transport/repeated lifecycle matrix and hardware/recording acceptance remain OPEN.",
+    "accessibility": "12 actual-source viewport/language/theme journeys include keyboard forward/reverse/Arrow/Home/End, question focus, cross-part hash and Back/Forward, overflow; synthetic touch390px. Full recovery/modal/scroll/long-response repeated-lifecycle closure remains PARTIAL. No broad ordinary-frontend-completion promotion.",
+    "originalVisualLive": "Actual read-only test01 source under isolated contracts is not comprehensive catalogue or matched-original authorized application comparison. Matched-original rendering/catalogue validation remain open acceptance work, not solely a backend blocker. Safari/hardware/real recordings/live NOT ACCEPTED.",
+    "performance": "20 sequential samples/condition, equivalent V22/V23 hash workloads and the existing five-GET authority protocol. Total instrumented fetches5\u20137 include all observed traffic, not an isolated metadata counter; no samples removed. Fresh immutable V22 reference checked; no concurrent suites. Browser intent\u2192focus and loading separate from fetch/JS+DOM/focus/harness/next-frame. NOT pixel-paint/production/whole-product1\u2013100ms proof."
+  },
+  "inventory": {
+    "globalRoutes": {
+      "complete": 22,
+      "partial": 15,
+      "notStarted": 71,
+      "total": 108
+    },
+    "globalComponents": {
+      "complete": 62,
+      "partial": 17,
+      "notStarted": 127,
+      "total": 206
+    },
+    "listeningRoutes": {
+      "complete": 9,
+      "partial": 6,
+      "notStarted": 1,
+      "total": 16
+    },
+    "listeningComponents": {
+      "complete": 9,
+      "partial": 10,
+      "notStarted": 5,
+      "total": 24
+    },
+    "reservedStaffRoutes": 35,
+    "note": "preserved migration inventory; not whole-current-main parity census; no promotion"
+  },
+  "activityStatus": {
+    "full": "FRONTEND CODE COMPLETE retained",
+    "retry": "FRONTEND CODE COMPLETE retained",
+    "review": "PARTIAL",
+    "script": "NOT ADVANCED",
+    "reading": "GATED",
+    "frontendComplete": 2,
+    "total": 9,
+    "comprehensiveOriginal": 0,
+    "authorizedLive": 0
+  }
+}
