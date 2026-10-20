@@ -1,0 +1,37 @@
+# V22 — pre-paint native Review authorization; overall PARTIAL
+
+Accepted baseline28e577eaa00d5c0395c5fee515caa2c310fadc79, packaged30b9d43782a048f72da81dd21d7d9f9cd4d2c564, ZIPf0bcd3b74cd3b2d80e9c9c33fcbd787b46038e81aa3d4e9b69e800b77345d2b7. Same Arena branch. This sandbox initially held9a7d9fc plus359 untracked migration files; twice SHA-preserved externally before ancestry-proven same-branch fast-forward. No reset/clean/discard/rebase or production/backend/staff/content edits.
+
+## Real frontend changes first
+- review-navigation-v21.js: guard the existing native openActivity at DOM readiness. Hub/result-modal/non-Review→Review requests inert the body and stop existing audio, then send a token/source/monotonic-intent-bound request. They do NOT call the original Review renderer. Existing initial Hub checkpoint-busy guard is retained. Authorized parent navigation uses the existing original controls, not a replacement engine. Wrapper/listener/observer/RAF cleanup is owned by pagehide.
+- authored.js: receive native intents only from the current frame/token; no attempt identifier is accepted from child/browser/history. Reuse the EXISTING V20 ReviewAuthorityBarrier for current session twice, canonical submitted own attempt twice and typed availability. Existing V21 sequence/applied/focus protocol grants the render. Prevent transient accept→unhide before pending location application. Same-route intent/history does NOT dispose route writers. Real authority rejection retains pending bytes and uses existing fail-closed disposal/Retry.
+- media/shared-v11.js: pause cancels seek-before-play waits immediately, releases temporary listeners and timers, fences late work and avoids spurious timeout-triggered error/retry. Dispose retains all18 native listener cleanup. No new media controller/transport/cache. Native prepare,256KiB Range,8MiB LRU,two transports,MSE/fallback remain unchanged.
+- Navigation focus/scroll occur only at the visible focus grant, removing redundant hidden/inert focus/scroll/layout work. Native and history return-to-Hub restore the existing Review button focus.
+
+## Separate acceptance categories
+1. Frontend implementation: Review PARTIAL. Native pre-paint entry path implemented; broad previous-attempt/retake/uncertain-write/held-response/media/a11y lifecycle permutations not all closed.
+2. Fixture verification: exact final results live in deliverables/V22_VERIFICATION.json; expected515units/499Chromium/313actual-source/14separate timing. Never infer passes from expected counts or focused runs.
+3. Comprehensive original-source acceptance: NOT ACCEPTED (0/9). Actual read-only test01 source under authorized API fixtures is not comprehensive catalogue or matched-original acceptance.
+4. Authorized live integration: NOT ACCEPTED (0/9). Preview APIs intentionally503, no user account or production endpoint probes.
+Full/Retry remain frontend complete. Script NOT ADVANCED. Reading GATED. No ledger promotion from case counts.
+
+## Targeted verification and limitations
+New native pre-paint cases hold real metadata GETs and assert zero Review cards/transcript, inert body and hidden/inert parent frame before release. Changed active/submitted attempts,401/403/404,expired session and unavailable availability fail closed. Sequence/publication cases model existing available=false, not invented policy fields or independent backend certification. Twelve viewport/language/theme keyboard reentry cases plus pending progress Back/Forward byte retention and two actual held-media initialization/exit/reentry cases.
+515units preserves all512;313source preserves all288 and adds25. All earlier named tests/assertions remain. Initial native cases23PASS; expanded25case run24PASS1FAIL exposed Playwright waitForFunction eval blocked by existing CSP, repaired using condition-driven page.evaluate/RAF; CSP NOT weakened. Media confirmation2PASS. Exact extraction results supersede these focused counts.
+
+No previous-attempt selection API is invented. Unsupported URLs continue to reject explicitly. Direct authored?vocabulary=1 exam-policy remains independently UNVERIFIED external GPT Work, not certified by these frontend fixtures. No exactly-once/CAS/cross-device/abort-rollback claims; aggregate progress is not an own-question receipt.
+
+## Performance
+Controlled V21/V22 comparison uses identical actual-source same-frame hash workloads, Chromium133,1440x900 EN/day,20 sequential samples per0/40ms metadata-API delay. Browser intent→focus is separate from harness wall, fetch headers waiting, loading feedback, renderer JS+DOM writes, next-frame opportunity, focus handshake, initial iframe and audio metadata timestamps. No concurrent suites during comparison. Injected API delay is a test workload only, not a production artificial delay. Timing can identify costs but does not provide pure JS versus layout attribution or pixel-paint proof. Raw samples in evidence/v22; final independent repeat outside ZIP. Do not assume the older212.5ms shell diagnostic proves production regression.1–100ms target remains unverified.
+
+## Preservation and inventory
+2104 original tracked outside files and26 historical archives pinned. No educational HTML/transcripts/audio/keys/IDs/publication imports or reconstructions. sandbox allow-scripts ONLY; CSP unchanged.25assets/source+compiledCSS must pass.
+Global routes22/15/71of108,components62/17/127of206; Listening routes9/6/1of16,components9/10/5of24;35staff reserved. Workflow frontend2/9,original comprehensive0/9,live0/9. Three product percentages UNDETERMINED.
+
+## V23
+Continue Review, NOT Script: close native post-retake/reentry plus pending-writer/uncertain-commit/reload/Retry matrix against current canonical authority; held DTO/lexical/media scope changes; finish full keyboard/modal/recovery/scroll/cleanup cycles. No guessed previous-attempt API. Resolve independently executable frontend gaps before any completeness promotion; keep visual/catalogue/backend policy/Safari/real recording/live gates separate.
+
+## Measured bottleneck and narrow repair
+Initial controlled comparison: V21 zero-delay median browser intent→focus248.95ms versus V22-before-optimization259.45ms; focus handshake221.85/233.5ms dominated, synchronous renderer1.3/2.5ms and fetch waiting20.6/22.4ms did not. At40ms/request, API waiting~219ms dominated. The child RAF after parent unhide was unnecessarily delaying a focus that was already grant-authorized. Focus now attempts immediately, verifies actual activeElement and falls back to ONE owned RAF retry if needed; no false focus ACK. The local navigation deadline remains failure containment, not authority. Post-optimization independent samples must substantiate any responsiveness claim; before-optimization raw evidence retained.
+
+Controlled optimized pre-seal medians: browser intent→focus28.85ms (0ms API),234.6ms (40ms/API); handshake1.7/5.5ms; loading feedback0.9ms. Harness wall322.5/318ms and next-frame opportunities280.85/76.95ms show why focus ACK is NOT pixel-paint or whole-product1–100ms acceptance. No broad production speed claim. Raw20-sample distributions retained.

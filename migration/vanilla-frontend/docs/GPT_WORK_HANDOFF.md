@@ -1,3 +1,9 @@
+# Latest — V22 Review pre-paint increment, PARTIAL
+
+See CHECKPOINT_V22.md and final deliverables/V22_VERIFICATION.json for exact source/archive pins and executed results. Native Hub→Review now requests parent authorization BEFORE rendering; existing V20 barrier/V21 navigation and route-owned writers reused. Queued media pause cleanup and Hub focus restored. Full/Retry complete; Review PARTIAL; Script NOT ADVANCED; Reading GATED. Next V23 closes pending-writer/canonical retake/reentry and held-resource/a11y lifecycle gates, not replacement educational content. Direct vocabulary backend security remains separate GPT Work UNVERIFIED; no deployment.
+
+## Preserved earlier handoff history
+
 # V21 latest handoff — Review PARTIAL, Script NOT ADVANCED
 
 Continue V21 from exact final source/ZIP verification in deliverables/V21_VERIFICATION.json. Real new Review part/question URLs and same-document Back/Forward/hash navigation reuse the existing V20 authority barrier and existing source controls; no material/writer engine replacement. Applied→focus handshake, safe invalid URLs, latest intent coalescing, per-frame load fencing and owned RAF/timer cleanup implemented. No educational content changes/imports. Supported API DTO and lexical holds tested; broad media/pending-writer/retake/lifecycle/accessibility/catalogue and visual/live gates remain OPEN. Next: finish those Review frontend gaps, not Script/Reading. Direct vocabulary endpoint exam-policy and canonical occurrence security remain authorized separate GPT Work; no backend edits. Preserve explicit adoption→separate Retry, exact bytes, no auto replay/foreign deletion, all historical archives and source.

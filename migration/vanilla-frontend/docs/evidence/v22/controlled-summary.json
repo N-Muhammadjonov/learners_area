@@ -1,0 +1,86 @@
+{
+  "controlled-0": {
+    "browserIntentToFocusMs": {
+      "n": 20,
+      "median": 28.850000000034925,
+      "p95NearestRank": 40.800000000046566
+    },
+    "apiWaitingMs": {
+      "n": 20,
+      "median": 14.849999999976717,
+      "p95NearestRank": 28.600000000093132
+    },
+    "apiCount": {
+      "n": 20,
+      "median": 5.0,
+      "p95NearestRank": 7
+    },
+    "loadingFeedbackMs": {
+      "n": 20,
+      "median": 0.9000000000232831,
+      "p95NearestRank": 3.800000000046566
+    },
+    "focusHandshakeMs": {
+      "n": 20,
+      "median": 1.7000000000116415,
+      "p95NearestRank": 8.300000000046566
+    },
+    "syncJsDomMs": {
+      "n": 20,
+      "median": 2.4500000000116415,
+      "p95NearestRank": 3.300000000046566
+    },
+    "nextFrameMs": {
+      "n": 20,
+      "median": 280.8500000000349,
+      "p95NearestRank": 312
+    },
+    "harnessWallMs": {
+      "n": 20,
+      "median": 322.5,
+      "p95NearestRank": 357
+    }
+  },
+  "controlled-40": {
+    "browserIntentToFocusMs": {
+      "n": 20,
+      "median": 234.59999999997672,
+      "p95NearestRank": 240.40000000002328
+    },
+    "apiWaitingMs": {
+      "n": 20,
+      "median": 218.45000000001164,
+      "p95NearestRank": 225.5
+    },
+    "apiCount": {
+      "n": 20,
+      "median": 5.0,
+      "p95NearestRank": 5
+    },
+    "loadingFeedbackMs": {
+      "n": 20,
+      "median": 0.9000000000232831,
+      "p95NearestRank": 2.199999999953434
+    },
+    "focusHandshakeMs": {
+      "n": 20,
+      "median": 5.5,
+      "p95NearestRank": 10
+    },
+    "syncJsDomMs": {
+      "n": 20,
+      "median": 2.299999999930151,
+      "p95NearestRank": 3.300000000046566
+    },
+    "nextFrameMs": {
+      "n": 20,
+      "median": 76.94999999995343,
+      "p95NearestRank": 113.40000000002328
+    },
+    "harnessWallMs": {
+      "n": 20,
+      "median": 318.0,
+      "p95NearestRank": 372
+    }
+  }
+}

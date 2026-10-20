@@ -1,0 +1,213 @@
+{
+  "method": "20 sequential equivalent same-frame hash navigations; Chromium133 local HTTP 1440x900 EN/day; no concurrent suites; injected metadata-only API delay 40ms/request. Browser intent-to-focus excludes Playwright actionability; harness wall includes automation. Renderer time combines JS and synchronous DOM writes; nextFrame is a rendering opportunity, not pixel-paint proof. Cold iframe and audio metadata timestamps are relative to navigation, not live recordings.",
+  "delay": 40,
+  "cold": {
+    "iframe": 401.0999999999767,
+    "hub": 750.5999999999767,
+    "hydrated": 752.9000000000233,
+    "audioLoad": 760.5,
+    "audioMetadata": 870.8000000000466
+  },
+  "samples": [
+    {
+      "browserIntentToFocusMs": 254,
+      "apiWaitingMs": 219.19999999983702,
+      "apiCount": 5,
+      "loadingFeedbackMs": 1.2000000000698492,
+      "focusHandshakeMs": 16.29999999993015,
+      "syncJsDomMs": 1.7000000000698492,
+      "nextFrameMs": 25.699999999953434,
+      "harnessWallMs": 494
+    },
+    {
+      "browserIntentToFocusMs": 328.20000000006985,
+      "apiWaitingMs": 218.70000000006985,
+      "apiCount": 5,
+      "loadingFeedbackMs": 1.3000000000465661,
+      "focusHandshakeMs": 101,
+      "syncJsDomMs": 1.1999999999534339,
+      "nextFrameMs": 102.40000000002328,
+      "harnessWallMs": 380
+    },
+    {
+      "browserIntentToFocusMs": 411.5999999999767,
+      "apiWaitingMs": 217.69999999983702,
+      "apiCount": 5,
+      "loadingFeedbackMs": 1,
+      "focusHandshakeMs": 182.59999999997672,
+      "syncJsDomMs": 1.1999999999534339,
+      "nextFrameMs": 186.40000000002328,
+      "harnessWallMs": 648
+    },
+    {
+      "browserIntentToFocusMs": 424.9000000000233,
+      "apiWaitingMs": 220.60000000020955,
+      "apiCount": 6,
+      "loadingFeedbackMs": 0.9000000000232831,
+      "focusHandshakeMs": 197.5,
+      "syncJsDomMs": 1.099999999976717,
+      "nextFrameMs": 199.60000000009313,
+      "harnessWallMs": 443
+    },
+    {
+      "browserIntentToFocusMs": 246.79999999993015,
+      "apiWaitingMs": 213,
+      "apiCount": 5,
+      "loadingFeedbackMs": 2.400000000023283,
+      "focusHandshakeMs": 20.29999999993015,
+      "syncJsDomMs": 1.6000000000931323,
+      "nextFrameMs": 24.899999999906868,
+      "harnessWallMs": 430
+    },
+    {
+      "browserIntentToFocusMs": 336.89999999990687,
+      "apiWaitingMs": 235.40000000002328,
+      "apiCount": 5,
+      "loadingFeedbackMs": 1.2999999999301508,
+      "focusHandshakeMs": 80.59999999997672,
+      "syncJsDomMs": 1.2000000000698492,
+      "nextFrameMs": 92.69999999995343,
+      "harnessWallMs": 636
+    },
+    {
+      "browserIntentToFocusMs": 259.79999999993015,
+      "apiWaitingMs": 218.59999999997672,
+      "apiCount": 5,
+      "loadingFeedbackMs": 0.8999999999068677,
+      "focusHandshakeMs": 27.5,
+      "syncJsDomMs": 1.2000000000698492,
+      "nextFrameMs": 33.40000000002328,
+      "harnessWallMs": 573
+    },
+    {
+      "browserIntentToFocusMs": 266.29999999993015,
+      "apiWaitingMs": 219.40000000002328,
+      "apiCount": 5,
+      "loadingFeedbackMs": 1,
+      "focusHandshakeMs": 33.89999999990687,
+      "syncJsDomMs": 1.1999999999534339,
+      "nextFrameMs": 36,
+      "harnessWallMs": 575
+    },
+    {
+      "browserIntentToFocusMs": 245.70000000006985,
+      "apiWaitingMs": 217.30000000004657,
+      "apiCount": 5,
+      "loadingFeedbackMs": 1,
+      "focusHandshakeMs": 19.900000000023283,
+      "syncJsDomMs": 1.3000000000465661,
+      "nextFrameMs": 21.199999999953434,
+      "harnessWallMs": 557
+    },
+    {
+      "browserIntentToFocusMs": 256.60000000009313,
+      "apiWaitingMs": 219.30000000004657,
+      "apiCount": 5,
+      "loadingFeedbackMs": 1,
+      "focusHandshakeMs": 29,
+      "syncJsDomMs": 1,
+      "nextFrameMs": 31,
+      "harnessWallMs": 563
+    },
+    {
+      "browserIntentToFocusMs": 257.0999999999767,
+      "apiWaitingMs": 217.80000000004657,
+      "apiCount": 5,
+      "loadingFeedbackMs": 0.9000000000232831,
+      "focusHandshakeMs": 25.79999999993015,
+      "syncJsDomMs": 1.7000000000698492,
+      "nextFrameMs": 30.099999999976717,
+      "harnessWallMs": 560
+    },
+    {
+      "browserIntentToFocusMs": 254.69999999995343,
+      "apiWaitingMs": 217.30000000004657,
+      "apiCount": 5,
+      "loadingFeedbackMs": 0.6999999999534339,
+      "focusHandshakeMs": 29.900000000023283,
+      "syncJsDomMs": 1,
+      "nextFrameMs": 31.5,
+      "harnessWallMs": 555
+    },
+    {
+      "browserIntentToFocusMs": 290.30000000004657,
+      "apiWaitingMs": 239.79999999993015,
+      "apiCount": 5,
+      "loadingFeedbackMs": 0.9000000000232831,
+      "focusHandshakeMs": 41.699999999953434,
+      "syncJsDomMs": 1.599999999976717,
+      "nextFrameMs": 42.90000000002328,
+      "harnessWallMs": 597
+    },
+    {
+      "browserIntentToFocusMs": 259.9000000000233,
+      "apiWaitingMs": 219.5,
+      "apiCount": 5,
+      "loadingFeedbackMs": 0.9000000000232831,
+      "focusHandshakeMs": 32.699999999953434,
+      "syncJsDomMs": 1.099999999976717,
+      "nextFrameMs": 33.70000000006985,
+      "harnessWallMs": 564
+    },
+    {
+      "browserIntentToFocusMs": 257.20000000006985,
+      "apiWaitingMs": 216.30000000016298,
+      "apiCount": 5,
+      "loadingFeedbackMs": 0.9000000000232831,
+      "focusHandshakeMs": 31.099999999976717,
+      "syncJsDomMs": 1.099999999976717,
+      "nextFrameMs": 32.300000000046566,
+      "harnessWallMs": 577
+    },
+    {
+      "browserIntentToFocusMs": 264,
+      "apiWaitingMs": 220.69999999995343,
+      "apiCount": 5,
+      "loadingFeedbackMs": 0.9000000000232831,
+      "focusHandshakeMs": 36.09999999997672,
+      "syncJsDomMs": 1,
+      "nextFrameMs": 37.29999999993015,
+      "harnessWallMs": 574
+    },
+    {
+      "browserIntentToFocusMs": 251.69999999995343,
+      "apiWaitingMs": 218.4000000001397,
+      "apiCount": 5,
+      "loadingFeedbackMs": 1.900000000023283,
+      "focusHandshakeMs": 23.199999999953434,
+      "syncJsDomMs": 2.099999999976717,
+      "nextFrameMs": 25.199999999953434,
+      "harnessWallMs": 550
+    },
+    {
+      "browserIntentToFocusMs": 255.39999999990687,
+      "apiWaitingMs": 215.80000000004657,
+      "apiCount": 5,
+      "loadingFeedbackMs": 0.7999999999301508,
+      "focusHandshakeMs": 32.199999999953434,
+      "syncJsDomMs": 1,
+      "nextFrameMs": 33.199999999953434,
+      "harnessWallMs": 554
+    },
+    {
+      "browserIntentToFocusMs": 256,
+      "apiWaitingMs": 217.69999999995343,
+      "apiCount": 5,
+      "loadingFeedbackMs": 1.400000000023283,
+      "focusHandshakeMs": 30.5,
+      "syncJsDomMs": 1.1999999999534339,
+      "nextFrameMs": 31.599999999976717,
+      "harnessWallMs": 552
+    },
+    {
+      "browserIntentToFocusMs": 253.5,
+      "apiWaitingMs": 216.69999999995343,
+      "apiCount": 5,
+      "loadingFeedbackMs": 0.9000000000232831,
+      "focusHandshakeMs": 28.300000000046566,
+      "syncJsDomMs": 1.1000000000931323,
+      "nextFrameMs": 29.899999999906868,
+      "harnessWallMs": 548
+    }
+  ]
+}

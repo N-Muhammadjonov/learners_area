@@ -1,0 +1,227 @@
+PASS V22 native Hub prepaint fresh authority same
+PASS V22 native Hub prepaint fresh authority retake
+PASS V22 native Hub prepaint fresh authority replacement
+PASS V22 native Hub prepaint fresh authority 401
+PASS V22 native Hub prepaint fresh authority 403
+PASS V22 native Hub prepaint fresh authority 404
+PASS V22 native Hub prepaint fresh authority unavailable
+PASS V22 native Hub prepaint fresh authority sequence
+PASS V22 native Hub prepaint fresh authority publication
+PASS V22 native Hub prepaint fresh authority session
+PASS V22 native keyboard reentry focus/overflow 1440/en/day
+PASS V22 native keyboard reentry focus/overflow 1440/en/night
+PASS V22 native keyboard reentry focus/overflow 1440/uz/day
+PASS V22 native keyboard reentry focus/overflow 1440/uz/night
+PASS V22 native keyboard reentry focus/overflow 768/en/day
+PASS V22 native keyboard reentry focus/overflow 768/en/night
+PASS V22 native keyboard reentry focus/overflow 768/uz/day
+PASS V22 native keyboard reentry focus/overflow 768/uz/night
+PASS V22 native keyboard reentry focus/overflow 390/en/day
+PASS V22 native keyboard reentry focus/overflow 390/en/night
+PASS V22 native keyboard reentry focus/overflow 390/uz/day
+PASS V22 native keyboard reentry focus/overflow 390/uz/night
+PASS V22 pending progress Back/Forward/reentry preserves single writer and exact journal until ACK
+PASS V22 real held audio initialization hub cancels queued playback without late resurrection
+PASS V22 real held audio initialization route cancels queued playback without late resurrection
+PASS V21 direct authorized Review part/question 1 canonical hydration, exact question focus and reload
+PASS V21 direct authorized Review part/question 2 canonical hydration, exact question focus and reload
+PASS V21 direct authorized Review part/question 3 canonical hydration, exact question focus and reload
+PASS V21 direct authorized Review part/question 4 canonical hydration, exact question focus and reload
+PASS V21 real part/question Back Forward rapid history preserve one frame, no material refetch or mutation
+PASS V21 held metadata hash navigation coalesces latest part and cannot display old question or restart route writer
+PASS V21 held existing authored DTO latest-part is fenced before protected Review publication
+PASS V21 held existing authored DTO route is fenced before protected Review publication
+PASS V21 held existing authored DTO expiry is fenced before protected Review publication
+PASS V21 direct Review fresh canonical 403 never opens private part
+PASS V21 direct Review fresh canonical 404 never opens private part
+PASS V21 held original lexical permission part never paints or saves across new location
+PASS V21 held original lexical permission history never paints or saves across new location
+PASS V21 held original lexical permission route never paints or saves across new location
+PASS V21 Review navigation measured original-source entry/parts/history/reentry with one authorized material read
+PASS V21 malformed Review location is explicit, never guesses part or attempt, and retains valid pending route
+PASS V21 supported session refresh disposes old iframe and restores authorized Review URL part instead of obsolete hub
+PASS V21 expired local focus acknowledgment never resurrects UI; explicit Retry creates freshly authorized frame
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 43,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V22 native Hub prepaint fresh authority same",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native Hub prepaint fresh authority retake",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native Hub prepaint fresh authority replacement",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native Hub prepaint fresh authority 401",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native Hub prepaint fresh authority 403",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native Hub prepaint fresh authority 404",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native Hub prepaint fresh authority unavailable",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native Hub prepaint fresh authority sequence",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native Hub prepaint fresh authority publication",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native Hub prepaint fresh authority session",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 native keyboard reentry focus/overflow 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 pending progress Back/Forward/reentry preserves single writer and exact journal until ACK",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 real held audio initialization hub cancels queued playback without late resurrection",
+      "status": "PASS"
+    },
+    {
+      "name": "V22 real held audio initialization route cancels queued playback without late resurrection",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 direct authorized Review part/question 1 canonical hydration, exact question focus and reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 direct authorized Review part/question 2 canonical hydration, exact question focus and reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 direct authorized Review part/question 3 canonical hydration, exact question focus and reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 direct authorized Review part/question 4 canonical hydration, exact question focus and reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 real part/question Back Forward rapid history preserve one frame, no material refetch or mutation",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held metadata hash navigation coalesces latest part and cannot display old question or restart route writer",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held existing authored DTO latest-part is fenced before protected Review publication",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held existing authored DTO route is fenced before protected Review publication",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held existing authored DTO expiry is fenced before protected Review publication",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 direct Review fresh canonical 403 never opens private part",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 direct Review fresh canonical 404 never opens private part",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held original lexical permission part never paints or saves across new location",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held original lexical permission history never paints or saves across new location",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 held original lexical permission route never paints or saves across new location",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 Review navigation measured original-source entry/parts/history/reentry with one authorized material read",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 malformed Review location is explicit, never guesses part or attempt, and retains valid pending route",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 supported session refresh disposes old iframe and restores authorized Review URL part instead of obsolete hub",
+      "status": "PASS"
+    },
+    {
+      "name": "V21 expired local focus acknowledgment never resurrects UI; explicit Retry creates freshly authorized frame",
+      "status": "PASS"
+    }
+  ]
+}
