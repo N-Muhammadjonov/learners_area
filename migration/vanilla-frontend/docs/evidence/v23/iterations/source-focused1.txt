@@ -1,0 +1,178 @@
+PASS V23 native in-Review held prepaint same
+PASS V23 native in-Review held prepaint rapid
+PASS V23 native in-Review held prepaint question
+PASS V23 native in-Review held prepaint retake
+PASS V23 native in-Review held prepaint replacement
+PASS V23 native in-Review held prepaint 403
+PASS V23 native in-Review held prepaint 404
+PASS V23 native in-Review held prepaint unavailable
+PASS V23 native in-Review held prepaint session
+PASS V23 native authorized keyboard parts/questions/history 1440/en/day
+PASS V23 native authorized keyboard parts/questions/history 1440/en/night
+PASS V23 native authorized keyboard parts/questions/history 1440/uz/day
+PASS V23 native authorized keyboard parts/questions/history 1440/uz/night
+PASS V23 native authorized keyboard parts/questions/history 768/en/day
+PASS V23 native authorized keyboard parts/questions/history 768/en/night
+PASS V23 native authorized keyboard parts/questions/history 768/uz/day
+PASS V23 native authorized keyboard parts/questions/history 768/uz/night
+PASS V23 native authorized keyboard parts/questions/history 390/en/day
+PASS V23 native authorized keyboard parts/questions/history 390/en/night
+PASS V23 native authorized keyboard parts/questions/history 390/uz/day
+PASS V23 native authorized keyboard parts/questions/history 390/uz/night
+PASS V23 held lexical response cannot repaint after native part
+PASS V23 held lexical response cannot repaint after native question
+PASS V23 held lexical response cannot repaint after native route
+PASS V23 committed response lost reload and repeated explicit Retry retain bytes with single writer
+FAIL V23 server acknowledged retake clears old canonical Review accumulator without copying old answers locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#activity-exam [data-back]')
+    - locator resolved to <button data-back="" class="back-btn">← Activities</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="modal" role="dialog" id="globalModal" aria-modal="true" aria-label="Test Results">…</div> intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="modal" role="dialog" id="globalModal" aria-modal="true" aria-label="Test Results">…</div> intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    12 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div class="modal" role="dialog" id="globalModal" aria-modal="true" aria-label="Test Results">…</div> intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-review-v23-journeys.mjs:16:1085
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-review-v23-journeys.mjs:16:2)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:60:27
+PASS V23 playing audio is stopped before held native part destination renders
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 26,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V23 native in-Review held prepaint same",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native in-Review held prepaint rapid",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native in-Review held prepaint question",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native in-Review held prepaint retake",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native in-Review held prepaint replacement",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native in-Review held prepaint 403",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native in-Review held prepaint 404",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native in-Review held prepaint unavailable",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native in-Review held prepaint session",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 native authorized keyboard parts/questions/history 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 held lexical response cannot repaint after native part",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 held lexical response cannot repaint after native question",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 held lexical response cannot repaint after native route",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 committed response lost reload and repeated explicit Retry retain bytes with single writer",
+      "status": "PASS"
+    },
+    {
+      "name": "V23 server acknowledged retake clears old canonical Review accumulator without copying old answers",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('#activity-exam [data-back]')\n    - locator resolved to <button data-back=\"\" class=\"back-btn\">← Activities</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div class=\"modal\" role=\"dialog\" id=\"globalModal\" aria-modal=\"true\" aria-label=\"Test Results\">…</div> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div class=\"modal\" role=\"dialog\" id=\"globalModal\" aria-modal=\"true\" aria-label=\"Test Results\">…</div> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    12 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div class=\"modal\" role=\"dialog\" id=\"globalModal\" aria-modal=\"true\" aria-label=\"Test Results\">…</div> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n"
+    },
+    {
+      "name": "V23 playing audio is stopped before held native part destination renders",
+      "status": "PASS"
+    }
+  ]
+}

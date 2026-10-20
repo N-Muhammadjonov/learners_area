@@ -1,0 +1,61 @@
+TAP version 13
+# Error: Uncaught [TypeError: target?.scrollIntoView is not a function]
+#     at reportException (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at EventTargetImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at EventTargetImpl.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+#     at dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+#     at TestContext.<anonymous> (file:///home/user/learners_area/migration/vanilla-frontend/tests/listening-v23.test.mjs:9:307)
+#     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) TypeError: target?.scrollIntoView is not a function
+#     at focus (eval at <anonymous> (file:///home/user/learners_area/migration/vanilla-frontend/tests/listening-v23.test.mjs:6:862), <anonymous>:7:895)
+#     at receive (eval at <anonymous> (file:///home/user/learners_area/migration/vanilla-frontend/tests/listening-v23.test.mjs:6:862), <anonymous>:7:984)
+#     at callTheUserObjectsOperation (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at EventTargetImpl._dispatch (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at EventTargetImpl.dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+#     at dispatchEvent (/home/user/learners_area/migration/vanilla-frontend/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+#     at TestContext.<anonymous> (file:///home/user/learners_area/migration/vanilla-frontend/tests/listening-v23.test.mjs:9:307)
+#     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+# Subtest: V23 native part intent prevents original mutation until current grant
+ok 1 - V23 native part intent prevents original mutation until current grant
+  ---
+  duration_ms: 68.939458
+  type: 'test'
+  ...
+# Subtest: V23 native question intent prevents original mutation until current grant
+ok 2 - V23 native question intent prevents original mutation until current grant
+  ---
+  duration_ms: 14.336981
+  type: 'test'
+  ...
+# Subtest: V23 native rapid intent prevents original mutation until current grant
+ok 3 - V23 native rapid intent prevents original mutation until current grant
+  ---
+  duration_ms: 11.272016
+  type: 'test'
+  ...
+# Subtest: V23 disposed lexical bridge removes handlers and cannot emit a late lookup or close
+ok 4 - V23 disposed lexical bridge removes handlers and cannot emit a late lookup or close
+  ---
+  duration_ms: 10.881407
+  type: 'test'
+  ...
+# Subtest: V23 disposed media bridge rejects pending and future play without late event or transport
+ok 5 - V23 disposed media bridge rejects pending and future play without late event or transport
+  ---
+  duration_ms: 8.89482
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 500.115813

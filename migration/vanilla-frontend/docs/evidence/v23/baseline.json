@@ -1,0 +1,47 @@
+{
+  "branch": "arena/96836bcf-learners-area",
+  "localHead": "8a1c63758f81e986b0a8bed9092bfbb11a7ce265",
+  "remoteHead": "8a1c63758f81e986b0a8bed9092bfbb11a7ce265",
+  "workingTree": "CLEAN before changes",
+  "archive": {
+    "name": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V22.zip",
+    "bytes": 41734734,
+    "sha256": "f9675a99fb8bce3298d007e65c89770d16c2836fcfe2b40edddd7d0c0fa8922d"
+  },
+  "source": "05e32779c1ff4f7b279f41eab510b4173726a20a",
+  "outsideMigrationFiles": 2104,
+  "historicalArchiveCountBeforeV23": 27,
+  "baselinePreservationReportSha256": "b534621ed81bcf412faf6ad370d7a660c5760d37af6a4e9fe266617281734339",
+  "baselineUnits": {
+    "PASS": 515,
+    "FAIL": 0,
+    "SKIP": 0,
+    "preserved": 512,
+    "new": 3
+  },
+  "baselineChromium": {
+    "PASS": 499,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "baselineActualSource": {
+    "PASS": 314,
+    "FAIL": 0,
+    "SKIP": 0,
+    "preserved": 288,
+    "new": 26
+  },
+  "baselineTiming": {
+    "PASS": 14,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "baselineBenchmarks": {
+    "PASS": 4,
+    "FAIL": 0,
+    "SKIP": 0,
+    "V21Control": 2,
+    "V22Final": 2,
+    "notAddedTo314": true
+  }
+}

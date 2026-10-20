@@ -1,3 +1,9 @@
+# Latest — V23 native in-Review pre-paint, Review PARTIAL
+
+Continue from final V23_VERIFICATION.json source/seal/report pins and CHECKPOINT_V23.md. Native part/question intents are now captured BEFORE source mutation and granted via existing metadata barrier; same-scope intents coalesce. Whole stale view callbacks fenced. Server-ACK canonical changes reset old Review accumulator, retaining journal bytes. Legacy lexical/dialog/network and opaque media/lexical listeners now owned/cancelled; same-part navigation does not destroy trainer controls. Ordinary navigation retains route writers. Full/Retry COMPLETE; Review PARTIAL; Script NOT ADVANCED; Reading GATED. V24 closes broader canonical/uncertain-write/recovery/source-replacement/modal/scroll/repeated lifecycle matrix, not replacement content. Direct vocabulary backend policy remains independent GPT Work UNVERIFIED. No main merge/deploy/backend/staff/content changes.
+
+## Preserved V22 and earlier handoff
+
 # Latest — V22 Review pre-paint increment, PARTIAL
 
 See CHECKPOINT_V22.md and final deliverables/V22_VERIFICATION.json for exact source/archive pins and executed results. Native Hub→Review now requests parent authorization BEFORE rendering; existing V20 barrier/V21 navigation and route-owned writers reused. Queued media pause cleanup and Hub focus restored. Full/Retry complete; Review PARTIAL; Script NOT ADVANCED; Reading GATED. Next V23 closes pending-writer/canonical retake/reentry and held-resource/a11y lifecycle gates, not replacement educational content. Direct vocabulary backend security remains separate GPT Work UNVERIFIED; no deployment.
