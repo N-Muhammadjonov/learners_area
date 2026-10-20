@@ -59,7 +59,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/CHECKPOINT_V22.md | 9134 | c16808ee12af4e42703879c80d128c8f9dbf1809b240bc2cbe22a80e969db996 |
 | docs/CHECKPOINT_V23.md | 8845 | 158da0d993844de504a619ba0b7d9fd751cfe342254868ca267ec9bcd8d5af53 |
 | docs/CHECKPOINT_V24.md | 9754 | c8b3e5cf4f9d2c5d420b9d860d7b2cf7693cfecfdfa68ba377406d91b589de5c |
-| docs/CHECKPOINT_V25.md | 7744 | e5624cf271853d75d5ab1bf19a2dd5ef2e014f7bd09aeebe51e9ff156880e1c7 |
+| docs/CHECKPOINT_V25.md | 8779 | a6efa5534ccdd9da81bd4f53296fffe656b6ea36b01f5e0c83ac7b6981ec20c7 |
 | docs/CHECKPOINT_V3.md | 13801 | c9288101aa89999705ae10fe36ab056f239aa2f79a5c5a0ea85bc4b674814852 |
 | docs/CHECKPOINT_V4.md | 5876 | e7680dabba10a881c476e157ce4bd0dcb23b5db3ede858ad66c87400924776e5 |
 | docs/CHECKPOINT_V5.md | 8033 | b86a0069be0ef98f8a20aa00e98b7d9da092cc7112a692874ba0c7ed509f7bc5 |
@@ -92,7 +92,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/COMPONENT_MIGRATION_MATRIX.md | 15429 | 61ef8e51ef54962b83a000897594a376ce1472a4b7ef7cf0cf9ace980a52df8c |
 | docs/DELIVERY_STATUS.md | 5326 | 2bb23faf2192e2866d3b9cb7449efa6a3cb13b9d9344c845cf94638753c0b719 |
 | docs/FUNCTIONAL_PARITY_REPORT.md | 5924 | f7693f9cc7a02742374b5b6df492428a941eee8ad9f1c78c122296999773fbcf |
-| docs/GPT_WORK_HANDOFF.md | 31451 | dfa32dfebb2a399d4befd5607dc7ec170dbbba457ac14e23fa4edade149ae06f |
+| docs/GPT_WORK_HANDOFF.md | 32486 | 40daefcca58dbabd80317ad0fa779758ddc797eba36920e40b7d7c89b8d7be31 |
 | docs/GPT_WORK_HANDOFF_V12.md | 57593 | 2ddb3e9a97096a91e945034ff6bb1d44def20713864768ecc6f57b187c95211a |
 | docs/GPT_WORK_HANDOFF_V13.md | 3082 | d306f974dce539e88d383c63ebbcf79b6e04bbfc697a25d5d55301ced1e14cbf |
 | docs/GPT_WORK_HANDOFF_V14.md | 3885 | 307d9b25adc969ee6b65f95e3c2cff6af63c4ee600a15fb3607667960b7c96ce |
@@ -704,6 +704,12 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/evidence/v25/iterations/build5.txt | 653 | bb72a03c324580a9c51c415dcc57feb51bb222d6853543bc31edca39bf4ac3c3 |
 | docs/evidence/v25/iterations/canonical1.json | 571 | 72236432115d459ac792b020d1a534f88b829b5551b93d9be7658b3576a9e797 |
 | docs/evidence/v25/iterations/canonical1.txt | 571 | 72236432115d459ac792b020d1a534f88b829b5551b93d9be7658b3576a9e797 |
+| docs/evidence/v25/iterations/first-exact/assets.txt | 357 | 8118b6fb0e78fc8cbaaefba654cc63a48208b4191e26b04959a4e30545cf943a |
+| docs/evidence/v25/iterations/first-exact/content-preservation.json | 468462 | 20ad86b65ede275bfcd3bd618349b39f6cb6fcac2b2190f874ed732ba614a67d |
+| docs/evidence/v25/iterations/first-exact/initial.json | 391 | 116b3ae471c70adb45c46b764bf22fd5123870e2739af0aef19e66bfd6ed4054 |
+| docs/evidence/v25/iterations/first-exact/original-source.json | 53098 | d036025ced4e2fd18042cb1c302f77b4697b22f61536df0fe20f055392ea8138 |
+| docs/evidence/v25/iterations/first-exact/original-source.txt | 89017 | b2daf27407766d1f552aeba2b7c03ba8835f870879c794bfd441620b28c31213 |
+| docs/evidence/v25/iterations/first-exact/units.txt | 146221 | cf09340eddd5b7fdeaf7da66c853410687de972a6a47e45613e1f2be140f10ee |
 | docs/evidence/v25/iterations/focused1.json | 3657 | 62da63d722ee23f6729322bcc6252f004c8a1abf6baf948bc83b335b94fa09ac |
 | docs/evidence/v25/iterations/focused1.txt | 7478 | 68c032af665c2912ccdb806cc58c6e109bc4e8d66fcb2d64286171f929a71b60 |
 | docs/evidence/v25/iterations/focused2.json | 2563 | c50e551c039ae488205393a87d4f41503ec0b0b7c52b6cbd44a93fd695299df2 |
@@ -723,10 +729,13 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | docs/evidence/v25/iterations/units-focused1.txt | 827 | 5beadc2b8ef4ba2be90239654f1777e38559302b482d722e7fedc40ca422785f |
 | docs/evidence/v25/iterations/units-focused2.txt | 826 | e9a10d6640f314d059390515abe3ac2670630c63afa6cdb8f078041a1a45dd2a |
 | docs/evidence/v25/iterations/units1.txt | 149141 | b498aee94d5d77cd2bc5aa888bb43184cd5988b27a4da0504b54340d275b9e84 |
+| docs/evidence/v25/iterations/units2.txt | 149117 | f3be54d98faedae25eadb65c57236c884d6988069459a307aca0e5c74cda3de0 |
 | docs/evidence/v25/iterations/v16-first.json | 4957 | ccc1c668b2ecde87081ebdcdba58850c05f31817591203c91641169b4dc913d0 |
 | docs/evidence/v25/iterations/v16-first.txt | 15591 | 6a7a1b6071f05d756a1c16c94ea4aead75bc67e4e252bc789641d9bc8328f391 |
 | docs/evidence/v25/iterations/v16-repaired.json | 3967 | a86929b76abc0dcb9797f60da0371a991c7d2b185096c66263b3cd1d90e4f8c1 |
 | docs/evidence/v25/iterations/v16-repaired.txt | 6325 | 58bf0b64c7ad5fe24e48aacba3b89ef18970d9ada46800995250556dfd99978a |
+| docs/evidence/v25/iterations/v20-staging-repair.json | 2662 | 7946719455e17b8196c6fb90d003dd4f4525cd5c844e2bb1ef2d711591794c16 |
+| docs/evidence/v25/iterations/v20-staging-repair.txt | 2662 | 7946719455e17b8196c6fb90d003dd4f4525cd5c844e2bb1ef2d711591794c16 |
 | docs/evidence/v25/original-behavior-v25.json | 4553 | 1e759c7ea4dc9e02c407050427fefc5312745897a71f3bdc777c84b9b108bb21 |
 | docs/evidence/v25/resource-cycles.json | 1925 | 6433699da0950f38f317b016b65d0a79121a453941b92e781e9b5a3607b8a278 |
 | docs/evidence/v25/review-1440-en-day.png | 140238 | ddb91fc292f988dca7be400f3de402a4d583ab691e7a1d01142c6aea03968a91 |
@@ -1368,7 +1377,7 @@ are excluded. The ZIP has fixed member ordering, timestamps and permissions.
 | tests/original-review-v17-journeys.mjs | 11331 | eb7e5de1e3a0f301ea788e6ebe8e2f07f198f919a3ca1a83407a372830962c5e |
 | tests/original-review-v18-journeys.mjs | 20291 | c3319efe62fbf7f66d8922adab0a14cc6b933baf42609cce7629861d6a98ddac |
 | tests/original-review-v19-journeys.mjs | 25809 | b69a1c7e3a55b37dfe15b1cecbd5323fd49e62f9ffc71663db722ddb47f187c2 |
-| tests/original-review-v20-journeys.mjs | 6597 | 6ac91a6c51454a2ec987c34682f852050f5596f7c771a69f5a12013f87b9a72b |
+| tests/original-review-v20-journeys.mjs | 6855 | bbbca71df8dc663a2cc483ac2731522b152352a4a2705059126f8aae997d78b3 |
 | tests/original-review-v21-journeys.mjs | 13104 | 46bc21ed165c8d1424245a40a821fd0059c37d2cd0e584fbff412f0ff8f000fc |
 | tests/original-review-v22-journeys.mjs | 13225 | cd2f438e646eb528e46265a59036ce9261b4f7932e22d48381df8ca4d5a3cde2 |
 | tests/original-review-v23-journeys.mjs | 16816 | cc12f2417a961dd153568b7570b23e9e198a416ab6450832ae92a94ef47ab73c |
