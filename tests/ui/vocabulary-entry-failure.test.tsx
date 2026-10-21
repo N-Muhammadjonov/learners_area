@@ -315,13 +315,14 @@ test("an empty standing is healthy; a failed standing retries without repeating 
     const url = String(input);
     requests.push(url);
     calls += 1;
-    if (url.includes("view=standing")) return json({ ok: true, points: 0, rank: 0, streak: 0, top: [] });
-    return fail ? json({ ok: false }, 503) : json({ ok: true, points: 0, rank: 0, streak: 0, top: [], awards: [] });
+    if (url.includes("view=standing")) return json({ ok: true, points: 0, rank: 18, name: "Own Learner Name", level: "B2", streak: 0, top: [] });
+    return fail ? json({ ok: false }, 503) : json({ ok: true, points: 0, rank: 18, name: "Own Learner Name", level: "B2", streak: 0, top: [], awards: [] });
   }) as typeof fetch;
   try {
     await withRoot(withRouter(React.createElement(VocabBoardPanel, { dict: en })), async () => {
       await act(async () => new Promise((resolve) => setTimeout(resolve, 0)));
       assert.ok(query("[data-board-empty]"));
+      assert.match(query("[data-board-own-standing]").textContent??"",/Own Learner Name.*B2.*#18/);
       assert.ok(query<HTMLElement>("[data-leaderboard]"));
       fail = true;
       await act(async () => window.dispatchEvent(new Event("vocab:ledger-changed")));
@@ -334,6 +335,7 @@ test("an empty standing is healthy; a failed standing retries without repeating 
       assert.match(requests.at(-1)!, /view=standing/);
       assert.equal(document.querySelector('[data-vocabulary-region-error="leaderboard"]'), null);
       assert.ok(query("[data-board-empty]"));
+      assert.match(query("[data-board-own-standing]").textContent??"",/Own Learner Name.*B2.*#18/);
     });
   } finally {
     globalThis.fetch = originalFetch;

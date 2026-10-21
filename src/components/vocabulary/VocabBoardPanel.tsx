@@ -46,6 +46,8 @@ export function VocabBoardPanel({
         rank: payload.rank ?? 0,
         streak: payload.streak ?? 0,
         top: payload.top ?? [],
+        name: payload.name,
+        level: payload.level,
       });
       setAwards(payload.awards ?? []);
       setAwardsUnavailable(payload.awardsUnavailable === true);
@@ -68,6 +70,8 @@ export function VocabBoardPanel({
         rank: payload.rank ?? 0,
         streak: payload.streak ?? 0,
         top: payload.top ?? [],
+        name: payload.name,
+        level: payload.level,
       });
       setStatus("ready");
     } catch {
