@@ -6,7 +6,7 @@ Status: **INCOMPLETE — do not merge or activate as a completed dictionary.**
 
 The current production Reading body fingerprint matches the existing 105-passage local source. All 75 Retention version bodies and all 32 non-programme Listening transcript bodies also match their current production fingerprints. These are content-only identity checks; no learner table was exported or changed. Production main remains `bfd169ffff97c948c916c0549734339bcc57ba85` at this checkpoint.
 
-The 212 requested material identities are present. Listening Test 8 contains an explicit missing-transcript notice in all four sections; Listening Test 10 contains four empty sections. Thus 30 Listening tests currently have genuine transcripts. Original local owner-provided audio was recovered for the missing two. ASR drafts were produced separately and have **not** been published, treated as verified, or substituted for source text. Names, numbers, homophones and boundary repetitions still require audio review.
+The 212 requested material identities are present. Listening Test 8 contains an explicit missing-transcript notice in all four sections; Listening Test 10 contains four empty sections. Thus 30 Listening tests currently have genuine transcripts. Original local owner-provided audio was recovered for the missing two. ASR drafts were produced separately and have **not** been published, treated as verified, or substituted for source text. A second small.en recognition pass covers all five original audio files. Names, numbers, homophones and boundary repetitions still require source/audio review. The web copy of the music conversation repeats the suspicious “music shopper” wording and is not independent confirmation; no matching Cambridge edition has been identified. A completed third medium.en pass on the short ambiguous excerpts still yields “music shopper” and a phonetic “Silver Low”. It remains a draft rather than a direct-listening certificate. “Genre” is an editorial inference, not verified wording.
 
 ## Verified inventory
 
@@ -34,7 +34,7 @@ An inventory check does not establish contextual correctness. The full-text/cont
 
 ## Additional bounded review and validation
 
-Five Retention texts were read in full. The first has 51 explicitly selected sense spans covering 43 distinct meanings; the other four have not yet received per-word annotation. Names and grammatical senses that cannot be matched honestly remain in a separate queue. In the first text, `school` as an institution and the period of lessons in `after school` use different sense IDs. This partial ledger is not full contextual coverage.
+65 Retention texts and the first Reading passage were read in full. The first Retention text has 51 explicitly selected sense spans covering 43 distinct meanings; the other read texts have not yet received per-word annotation. Names and grammatical senses that cannot be matched honestly remain in a separate queue. In the first text, `school` as an institution and the period of lessons in `after school` use different sense IDs. This partial ledger is not full contextual coverage.
 
 The general `bus` meaning no longer lists `double-decker`, `charabanc` or `jitney` as unrestricted synonyms. The narrower definitions were checked against the dictionary publishers; each exclusion is limited to the reviewed head/meaning and retains its source and reason. Canonical source senses remain present.
 
@@ -42,7 +42,15 @@ Exact-sense dictionary saves now carry that meaning’s phrases into flashcard m
 
 The local isolated browser showed the authored `malnourished` definition, its three collocations and its matching English–Uzbek usage example. A single outside click dismissed the popover, native selection and highlight toolbar. The popup rectangle was at x=2228, y=12, width=320 within a 2560×1440 viewport, with dark-blue background and light text. Native screenshots only captured the left 1836 pixels, so the screenshot does not establish full visual acceptance of the right-hand popup. No real account was impersonated or changed.
 
-At this checkpoint, 19 targeted server/integration tests and 28 UI checks passed; ESLint and the production build passed. This is local validation, not GitHub CI or production acceptance.
+The previous checkpoint passed 19 targeted server/integration tests and 28 UI checks. The current search and Reading regression run passed 23 tests, with one real-PostgreSQL concurrency test skipped because its isolated QA target was not enabled. The dictionary/popover UI run passed 30 checks. TypeScript, ESLint and the production build passed. These overlapping runs must not be added together as a count of unique tests. This is local validation, not production acceptance.
+
+## Global search candidate
+
+The header search now queries the published content catalogue and full active dictionary as well as real module/section navigation. Results include General passage titles, Academic set titles, Listening tests, Writing questions, Speaking questions/materials, grammar, lessons and TED/Podcast titles. Private vocabulary and assignments remain scoped to the requesting account. Locked Academic passage names, answer keys, source bodies and learner submissions are not searched or returned.
+
+Canonical General results carry their set and passage number. Dictionary results carry the exact entry identity and lookup language. A published Writing question has a read-only preview; an explicit button starts a submission. Speaking materials have stable anchors. A search-provider outage is shown as a recoverable failure/partial result, not a successful empty response. Closing the result list no longer reopens it through restored input focus.
+
+In a disposable local browser with a fictional account, a General passage result opened its correct single-passage study route and Back returned to the catalogue. A dictionary result opened the exact `predict` entry and displayed its authored sense with pronunciation, usage pair and per-sense relation sections. The production build includes the new Writing question route. This search candidate is not deployed or merged at this checkpoint.
 
 ## Completion gate
 

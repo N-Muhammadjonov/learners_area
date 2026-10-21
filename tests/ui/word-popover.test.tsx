@@ -275,10 +275,7 @@ test("double-click does not focus a popup before native word selection", async (
   } finally { t.mock.timers.reset(); }
 });
 
-test('Listening spelling-only lookup shows "Meaning not checked yet" and saves only the learner\'s own meaning', async () => {
- // Contract (mode separation): a Listening word with no server-proven occurrence has
- // no knowable sense, so the client makes NO meaning/spelling request at all — it
- // shows the unresolved state directly. Only folders are loaded for an own-meaning save.
+test('Listening without a bound occurrence checks the authorised dictionary, then allows an own meaning when empty', async () => {
  let saved: Record<string, unknown> | undefined;
  const lookups: string[] = [];
  await page(async (url, options) => {
@@ -289,13 +286,14 @@ test('Listening spelling-only lookup shows "Meaning not checked yet" and saves o
  }, async () => {
   await click('[data-word="decades"]');
   assert.ok(document.querySelector('[data-word-unresolved]'));
-  assert.ok(popupText().includes(en.vocabulary.meaningUnchecked));
+  assert.ok(popupText().includes(en.vocabulary.dictionaryMissing));
   await fill('[data-word-popover] input', 'Periods of ten years');
   await click('[data-word-save]');
   assert.equal(saved?.sourceType,'listening'); assert.equal(saved?.sourceId,'qa-listening');
   assert.equal(saved?.occurrenceId,undefined);
   assert.deepEqual((saved?.items as {definitionEn?: string}[])[0]?.definitionEn,'Periods of ten years');
-  assert.deepEqual(lookups, [], 'no spelling-based meaning or library request');
+  assert.equal(lookups.length,1);
+  assert.ok(lookups[0]!.includes('/meaning?sourceType=listening&sourceId=qa-listening&q=decades'));
  }, {sourceType:'listening',sourceId:'qa-listening',catalogueLookup:true});
 });
 test('Listening unknown meaning remains editable rather than inventing a translation', async () => {
@@ -343,7 +341,7 @@ test('An occurrence the server marks unresolved shows the unchecked state, no me
     await click('[data-token="4"]');
     const status = query('[data-word-unresolved]');
     assert.equal(status.getAttribute('role'), 'status', 'screen readers hear the unchecked state');
-    assert.ok(status.textContent!.includes(en.vocabulary.meaningUnchecked));
+    assert.ok(status.textContent!.includes(en.vocabulary.dictionaryMissing));
     assert.equal(popupText().includes('financial'), false);
     await fill('[data-word-popover] input', 'Land beside a river');
     await click('[data-word-save]');
@@ -395,14 +393,14 @@ test('Listening popup is a labelled dialog that takes focus, closes on Escape an
   }, listeningSpans);
 });
 
-test('Reading word without an occurrence: no spelling search, "Meaning not checked yet", own meaning only', async () => {
+test('Reading without an occurrence uses dictionary choices, never another saved word as a contextual guess', async () => {
   const lookups: string[] = [];
   let saved: Record<string, unknown> | undefined;
   await page(async (url, options) => {
     if (options.method === 'POST') { saved = JSON.parse(String(options.body)); return json({ ok: true }); }
     if (url.includes('folders')) return folderReply();
     lookups.push(url);
-    return json({ results: [{ id: 'x', term: 'decades', definitionEn: 'SPELLING GUESS', translationUz: 'X', mastery: 'new' }] });
+    return json({status:'dictionary',releaseId:'qa-release',choices:[]});
   }, async () => {
     await click('[data-word="decades"]');
     assert.ok(document.querySelector('[data-word-unresolved]'));
@@ -410,6 +408,7 @@ test('Reading word without an occurrence: no spelling search, "Meaning not check
     await fill('[data-word-popover] input', 'Periods of ten years');
     await click('[data-word-save]');
     assert.equal(saved?.occurrenceId, undefined);
-    assert.deepEqual(lookups, [], 'no /search or /meaning request for a Reading spelling');
+    assert.equal(lookups.length,1);
+    assert.ok(lookups[0]!.includes('/meaning?sourceType=reading&sourceId=qa-attempt&q=decades'));
   }, { sourceType: 'reading', sourceId: 'qa-attempt' });
 });

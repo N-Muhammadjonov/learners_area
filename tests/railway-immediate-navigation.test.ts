@@ -36,7 +36,7 @@ test("reading, listening, grammar and vocabulary defer catalogue DB reads behind
   for (const [path, method, boundary] of [
     ["src/app/app/(shell)/listening/tests/page.tsx", "academicListeningCards", "listening-academic-catalogue"],
     ["src/app/app/(shell)/listening/general/page.tsx", "generalListeningCards", "listening-general-catalogue"],
-    ["src/app/app/(shell)/reading/academic/page.tsx", "listGeneralSets", "reading-academic-sets"],
+    ["src/app/app/(shell)/reading/academic/page.tsx", "academicSetCatalogue", "reading-academic-sets"],
     ["src/app/app/(shell)/grammar/lessons/page.tsx", "listLessonLibrary", "grammar-lessons-library"],
     ["src/app/app/(shell)/vocabulary/page.tsx", "listTopicPackSummariesForLearner", "vocabulary-topic-packs"],
   ] as const) {
