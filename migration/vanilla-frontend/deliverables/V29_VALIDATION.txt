@@ -1,0 +1,30 @@
+V29 —403 repaired; NEW V16 exact-source failure; FIXTURE PARTIAL/FAILED; Review PARTIAL
+A. Branch arena/96836bcf-learners-area. Implementation 1f3f652d10aff4f6b46fa75171ab0c7d941bd19d; source a3143fea20722b85116b9f18e9bd9eaf36857610; seal 7b7738027d9fce87390d4c338f1891e8b3bd4014. Final report-only HEAD resolves via Git path log, not recursive self-hash.
+B.403 root: legacy results observer raced source50ms initial #exam navigation. Original openActivity closes the modal. Controlled callback ordering reproduces visible authorized0/40 then hidden; no lost server grant or grading change. Historical V28 lacks full callback timeline; deterministic defect/repair evidence is separate.
+C. Actual harness repair: wait for native #activity-exam.active before original results action after403/404 Retry; original visible score assertion/value/two PUT/draft/singleflight/8000ms timeout unchanged. No CSS/runtime authorization change.
+D. Historical V28 full417PASS1FAIL retained byte-for-byte, never relabelled. Focused repaired403 PASS; first full418PASS before resource investigation, all raw chronology retained.
+E. Independent exact-source: {'PASS': 417, 'FAIL': 1, 'SKIP': 0}. No retry-until-PASS.
+F. Native heap delta10 iframe+70 Attr nodes=80 over5 additional cycles. Connected DOM291 constant. Scoped15 pointer hit-test handles release12 iframe+84 Attr nodes:444->348 allocated,291 connected/184 listeners unchanged. Console clears did NOT release them. Installed Playwright1.51.1 frame-element ownership, not website leak fix; scope not universal.
+G. Current original strict Phase2 case: PASS; +50nodes/+5listeners/original immediate timing unchanged. Preserved V28 fixed4PASS; both historical3PASS1FAIL remain failed. Stability gate OPEN, no cancellation/motion/budget/runtimeGC change.
+H. Sandbox allow-scripts only, SOP unchanged, context/Network/Media raw events retained. Normal CDP does not certify all opaque/OOPIF/MSE/decoder/GPU allocations. No private audio bytes. Legitimate timers/controllers and Playwright observer not deleted from application.
+I. Review PARTIAL; actual harness implementation repair delivered, remaining native/Phase2 acceptance OPEN.
+J. Full/Retry FRONTEND CODE COMPLETE retained; mandatory fixture verification PARTIAL/FAILED, comprehensive-original still UNVERIFIED0/9.
+K. Script NOT ADVANCED; Reading GATED.
+L.15 mixed journey proofs preserved; no extra extension rerun beyond required full suite.
+M.30 valid-source proofs preserved, no source-variant extension rerun.
+N. Tests10/25 external authoritative correction only; Test10 forty unavailable/invalid; Test25Q30 end1236>1235.879/Q40 end1525>1524.01. No clamp/guess/content/audio edit.
+O. Global routes22/15/71 of108; components62/17/127 of206, Staff35 reserved.
+P. Listening routes9/6/1 of16; components9/10/5 of24; frontend workflows2/9, comprehensive original0/9, authorized live0/9. No invented percentage.
+Q. Exact fresh npmci/build, units {'tests': 540, 'pass': 540, 'fail': 0, 'cancelled': 0, 'skipped': 0}, Chromium {'PASS': 499, 'FAIL': 0, 'SKIP': 0}, source {'PASS': 417, 'FAIL': 1, 'SKIP': 0}, timing {'PASS': 14, 'FAIL': 0}, controls4PASS. Baseline540/499/418/14/4 names/assertion strength preserved. Separate scoped resource/ordering commands retained. Runtime audit0; all5high dev findings retained, not hidden case failures.
+R. Equivalent serial20 warm samples per condition, Chromium133 fixture intent-to-focus; not production pixel paint. Historical V28 zero22.35/31.70 and40ms228.60/233.20 median/P95 preserved. No causal speedup from small samples.
+  V28-0: n=20 median=28.05 P95=33.60ms.
+  V28-40: n=20 median=229.20 P95=235.90ms.
+  V29-0: n=20 median=26.40 P95=36.70ms.
+  V29-40: n=20 median=229.50 P95=239.90ms.
+S.2104 originals/33 historical archives/1243 historical evidence files preserved;25 assets/source+compiledCSS byte identity. Original fonts/layout/icons/colors/motion/materials/backend/API/DB/cloud/IDs/publication unchanged. Matched12-condition original rendering UNVERIFIED.
+T. LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V29.zip: 45977248 bytes; SHA256 638edc56ae85150ca7995f4dd7cf3da186d0611277841234229b761441e4ff80. CRC/memberSHA/safe unique complete source set/Git byte identity/freshci/build/fulltests/two byte-identical deterministic repacks PASS, subject to explicit case results above. Member counts in JSON authoritative.
+U. NEW OPEN REGRESSION: V16 Review four-part authenticated feedback/transcript/navigation1440/uz/day timed out8000ms awaiting authored-state PUT response matching reviewChecked part. Exact417PASS1FAIL is NOT accepted. Causal frontend-vs-harness verdict not established; no unchanged retry. No further ordinary application defect independently established in measured scopes.403 known harness race repaired; measured16-node slope attributed, not universal leak freedom. Historical13 raw target identities unavailable; no invented reconstruction.
+V. Comprehensive original/matched visual/authorized live/direct authored vocabulary backend exam-policy/Safari/hardware/real recordings UNVERIFIED. Content10/25 external only. No merge/main/deploy/production probe.
+W. V30 FIRST: diagnose new V16 Review1440/uz/day with bounded native Review/part->input->Check->progress ACK->CheckpointWriter PUT->reviewChecked predicate->response->exact own ACK timeline. Preserve417/1, timeout8000ms and original assertions; distinguish missing application write from harness observation before repair. Then one justified focused verification/full suite; no unchanged retry-until-PASS. Only afterwards remaining Review Phase2/native/opaque/media/inspection-sensitive acceptance. No reopened403/16-node or animation research without concrete regression. Historical13 IDs need original heap;15/30 preserved;10/25 external. No V30 started.
+
+REPORT SCOPE: Tests ran from independent extraction; candidate4173 served working build, all236 files SHA-identical to fresh exact build (JSON contains hashes). V28 reference4178 separately extracted/fresh built. Sealed generator succeeded; report-only supplements name new failure and matched-build proof, no source/raw failure changed.
