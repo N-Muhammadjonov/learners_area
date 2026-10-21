@@ -1,0 +1,17 @@
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 0,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V16 Review four-part authenticated feedback/transcript/navigation 1440/uz/day",
+      "status": "FAIL",
+      "error": "page.waitForFunction: EvalError: Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: \"script-src 'self'\".\n\n    at eval (<anonymous>)\n    at predicate (eval at evaluate (:234:30), <anonymous>:11:37)\n    at next (eval at evaluate (:234:30), <anonymous>:32:31)"
+    }
+  ]
+}

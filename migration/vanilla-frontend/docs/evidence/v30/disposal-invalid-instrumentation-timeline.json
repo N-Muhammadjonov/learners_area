@@ -1,0 +1,37 @@
+{
+  "scope": "Test-only instrumentation; null means not observed; no raw answers/tokens/material/audio",
+  "rows": [
+    {
+      "sequence": 1,
+      "monotonicMs": 228.02752999999996,
+      "owner": "test-observer",
+      "sourceToken": null,
+      "part": null,
+      "canonicalAttempt": null,
+      "uiEpoch": null,
+      "navigationEpoch": null,
+      "requestId": 1,
+      "status": null,
+      "cancellationCause": null,
+      "event": "network:request",
+      "path": "/api/frontend/session",
+      "method": "GET"
+    },
+    {
+      "sequence": 2,
+      "monotonicMs": 234.6073419999999,
+      "owner": "test-observer",
+      "sourceToken": null,
+      "part": null,
+      "canonicalAttempt": null,
+      "uiEpoch": null,
+      "navigationEpoch": null,
+      "requestId": 1,
+      "status": 200,
+      "cancellationCause": null,
+      "event": "network:response",
+      "path": "/api/frontend/session",
+      "method": "GET"
+    }
+  ]
+}

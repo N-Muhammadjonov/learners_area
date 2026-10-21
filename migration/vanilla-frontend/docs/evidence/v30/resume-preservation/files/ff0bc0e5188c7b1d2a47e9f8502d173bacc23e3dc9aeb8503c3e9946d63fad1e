@@ -1,0 +1,37 @@
+{
+  "status": "PARTIAL",
+  "archive": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V3.zip",
+  "sha256": "5525c8482e9125c27d7edeaecf25df56f114671e78565ba32dd64495b0aade1d",
+  "deterministicTwoBuilds": true,
+  "independentExtraction": "node_modules/checkpoint-v3-independent (disposable, excluded from Git/package)",
+  "freshNpmCiIgnoreScripts": true,
+  "noOriginalSrcAtBuildLookup": true,
+  "build": "PASS",
+  "unit": {
+    "PASS": 142,
+    "FAIL": 0
+  },
+  "browser": {
+    "foundation": {
+      "PASS": 27,
+      "FAIL": 0,
+      "SKIP": 0,
+      "BLOCKED": 0
+    },
+    "v2": {
+      "PASS": 14,
+      "FAIL": 0
+    },
+    "v3": {
+      "PASS": 49,
+      "FAIL": 0
+    }
+  },
+  "sourceChecksumMembers": 257,
+  "manifestMembers": 2,
+  "assetsAndFonts": 25,
+  "originalComparisons": 0,
+  "liveAccepted": 0,
+  "safariVerified": false,
+  "hardwareMicrophoneVerified": false
+}

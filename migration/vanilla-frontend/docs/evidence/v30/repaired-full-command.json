@@ -1,0 +1,8 @@
+{
+  "exit": 0,
+  "args": [
+    "node",
+    "tests/browser-original-source-v11.mjs"
+  ],
+  "purpose": "Required full source afterV16 storage-ACK fence repair and BEFORE resource investigation"
+}

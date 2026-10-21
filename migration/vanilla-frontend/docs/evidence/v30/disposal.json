@@ -1,0 +1,37 @@
+{
+  "scope": "New dirty-flush guard source-disposal regression; not universal opaque/native/decoder release",
+  "pendingCheckedPartRetained": true,
+  "putsBeforeExit": 2,
+  "putsAfterExit": 2,
+  "sourceFrame": "A756ECC7851EDB60065D17C3B4686998",
+  "eventsAfterExit": [
+    {
+      "event": "frameDetached",
+      "frameId": "A756ECC7851EDB60065D17C3B4686998",
+      "reason": "remove"
+    },
+    {
+      "event": "executionContextDestroyed",
+      "id": 5
+    },
+    {
+      "event": "executionContextDestroyed",
+      "id": 6
+    }
+  ],
+  "events": [
+    {
+      "event": "frameDetached",
+      "frameId": "A756ECC7851EDB60065D17C3B4686998",
+      "reason": "remove"
+    },
+    {
+      "event": "executionContextDestroyed",
+      "id": 5
+    },
+    {
+      "event": "executionContextDestroyed",
+      "id": 6
+    }
+  ]
+}

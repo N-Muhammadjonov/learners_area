@@ -1,3 +1,17 @@
+# Latest — V30 V16 existing storage-ACK owner repaired; Review PARTIAL
+
+Read CHECKPOINT_V30, V30_V16_ROOT_CAUSE/PLAN, V30_TIMELINE_STAGES, SOURCE_STATE_INVENTORY_V30, ADAPTER_CONTRACTS_V30 and final V30_VALIDATION/V30_VERIFICATION. Final reports authoritative over preseal pending statements. V29417/1 and V28403 failure remain failures.
+
+Native-order counterexample: older valid checkpoint delivery overwrites newly checked Review storage and cancels its debounce; response predicate was installed before Check, legitimate progress ACK separate. Existing paintedBridge now compares exact current child bytes against original acknowledged snapshot in internal checkpoint message. Newer bytes/timers survive; backend DTOs, writer/journal/authority,8000ms/original PUT predicate/UI assertions unchanged. No extra call/replay/forced state. Invalid instrumentation and CSP probes retained, not causal evidence. Historical untraced ordering unknown.
+
+Focused ordinary+controlled original1440/uz/day PASS,27 V16 neighbors PASS,4 unit checks PASS; complete first-source and exact-ZIP results reported separately. Preserve accepted403 Exam-active guard, Playwright inspector ownership,15 mixed/30 source proofs. Do not repeat completed blank-page/animation/inspector studies without concrete new question. New dirty-debounce source-disposal check is bounded ownership regression, not universal decoder/GPU proof.
+
+V31 continuation ONLY: follow final exact verification's remaining failures first if any; otherwise remaining Review original Phase2/native/opaque/hardware acceptance with a specific new question and objective closure criterion, no speculative cleanup or acceptance promotion. Historical13 IDs require original heap. Test10/25 corrections external. Full/Retry frontend complete; Review PARTIAL; Script NOT ADVANCED; Reading GATED. Comprehensive-original/matched visuals/live/Safari/hardware/original recordings/vocabulary backend exam policy UNVERIFIED. No V31 begun, merge or deployment.
+
+V30 chronology update: first full after V16 repair417/1 exposed NEW V14 pending-submission reload score-hidden observation race. That branch (not accepted403 branch) now waits native Exam activity before original results. Focused/control PASS; second justified full418PASS0FAIL0SKIP before resource work. New dirty-state disposal regression PASS; own pending bytes and source frame/context terminals recorded, no further PUT after exit. Invalid resource instrumentation/redirect-expectation probes retained separately. Final exact-ZIP run remains authoritative, not inferred from preseal418.
+
+## Historical handoff preserved
+
 # Latest — V29 —403 native-navigation observer repaired; Review PARTIAL
 
 Read CHECKPOINT_V29, V29_403_ROOT_CAUSE, V29_RESOURCE_OWNERSHIP/PLAN, SOURCE_STATE_INVENTORY_V29, ADAPTER_CONTRACTS_V29 and final V29_VERIFICATION.json/V29_VALIDATION.txt. Final reports override any preseal pending outcomes. Preserve exact V28417/1; do not relabel it PASS. The recovery observer now waits native Exam activity before original results action; focused and pre-resource whole418 suite passed, final exact run reported separately. Original8000ms/score visibility/value/two-PUT assertions remain.
