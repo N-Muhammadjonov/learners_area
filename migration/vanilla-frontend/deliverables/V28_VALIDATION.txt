@@ -1,0 +1,31 @@
+V28 — exact sealed fixture verification; Review PARTIAL / Phase2 OPEN
+A. Branch arena/96836bcf-learners-area. Implementation f8836e6aad48ce38fa533e323e3f2cf9e9bc0322; source b3329faa5ac36f54e7c7f38fc90641832aa678a3; seal 782be49d885a2fa7bf1c766a368dcc2d2c04f571. Report commit self-resolves via Git path log; final response records final HEAD.
+B. Diagnostic/harness/evidence implementation only; runtime application byte-identical to accepted V27, no claimed new runtime leak repair.
+C. Fixed strict Phase2 four original runs4PASS/0FAIL; original +50/+5/immediate timing unchanged. Historical3PASS/1FAIL twice remains failed. Full regression original case independently retained, see raw Chromium reports. Gate OPEN.
+D. Native transient retention is not permanent app leakage; paths are not exclusive dominators. Inspected/control immediate shell-disposal native counts differ285/173. No native runtime workaround.
+E. Historical13 original heap targets cannot be individually recovered from absent raw heap. Fresh four heaps37 non-animation targets each exhaustively enumerated; one historical status path structurally corresponds, not identity proof.
+F. Parent SOP denied opaque child access, contentDocument null; sandbox allow-scripts only. Normal frame/context events retained; not universal OOPIF/native release proof.
+G. Four parent controllers: current route/shell/authority/notification refresh; shell exit leaves public route controller. Live timers authority expiry/module prewarm clear on shell exit; observed MO Playwright-owned. No intentional owners deleted.
+H. Preseal13 Range response terminals12 aborted/1 finished; native Media events partial. Two held-body tests prove existing slots/read cancellation, not decoder/GPU memory. Sampled initial/peak/settled and16node/cycle growth retained in resource report; no flat/universal safety claim.
+I. Review PARTIAL. Original Phase2 stability OPEN, native/opaque/measurement interference acceptance unfinished.
+J. Accepted15 mixed journeys preserved, not extension-rerun.
+K. Accepted30 valid-source proofs preserved, not extension-rerun. Full source suite mandatory below.
+L. Test10/25 external authoritative content/media correction only; original mappings/audio unmodified.
+M. Full/Retry FRONTEND CODE COMPLETE implementation retained. This does NOT accept the failing full-source verification.
+N. Script NOT ADVANCED; Reading GATED.
+O. Routes22/15/71, components62/17/127; Listening routes9/6/1/components9/10/5; Staff35 reserved; frontend workflows2/9. No new completion credit.
+P. Exact fresh npmci/build; units {'tests': 540, 'pass': 540, 'fail': 0, 'cancelled': 0, 'skipped': 0}; Chromium {'PASS': 499, 'FAIL': 0, 'SKIP': 0}; source {'PASS': 417, 'FAIL': 1, 'SKIP': 0}; timing {'PASS': 14, 'FAIL': 0}; four benchmark control case outcomes in JSON.538 prior unit/499 browser/418 source names/assertion sources preserved;2 added body units. Failures are not rerun or hidden. All command statuses/raw outputs in JSON; audit-all separate.
+Q. Controlled V27/V28 sequential20 samples per delay, raw and full limits in JSON. Fixture browser intent-to-focus, not production pixel-paint or whole-product speed. Historical V27 zero25.50/31.90 and40ms230.60/243.80 median/P95 preserved.
+  V27-0: n=20, median=25.05, P95=37.00ms.
+  V27-40: n=20, median=224.30, P95=231.80ms.
+  V28-0: n=20, median=22.35, P95=31.70ms.
+  V28-40: n=20, median=228.60, P95=233.20ms.
+R. CSS/fonts/assets/motion/layout/material/backend byte preservation, not matched original pixel proof.25 assets/source+compiled CSS unchanged; sandbox/CSP unchanged. No endpoints/live probes/production edits.
+S. LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V28.zip: 45626789bytes, SHA256 7b699a65be4f4876d3754b851b9775a24fff23fb118b1ffd02d577ba00f4851f. CRC/safe unique member hashes/all Git byte identity/freshci/build/full tests/two byte-identical repacks. 2104 originals/32 old archives/1149 historical evidence files preserved. Source/seal/report distinct.
+T. UNATTRIBUTED REGRESSION: V14 Full IELTS403 recovery score-box remained hidden and timed out8000ms. Exact full-source417PASS1FAIL remains FAILED/NOT ACCEPTED; application versus legacy private-showResults harness cause not established. No retry or weakened assertion. No new independently demonstrated application lifecycle defect repaired or hidden. Remaining demonstrable observation:16 allocated nodes/cycle in bounded resource probe and native/inspector-sensitive detached counts, owner not established; remain open rather than inventing defect/fix.
+U. Comprehensive original, matched12-condition visual, authorized live/backend vocabulary exam policy, Safari/hardware/original recordings UNVERIFIED; frontend fixture tests are not those acceptances.
+V. V29 continuation ONLY: FIRST attribute the V14 Full IELTS403 recovery visibility failure with bounded native-flow diagnostics, preserve417/1 and fix only a demonstrated cause. Then pursue precise remaining native/opaque/inspection-sensitive owners and16node/cycle growth; historical13 only with original heap. Preserve15/30 proofs and failures; predefine bounded tests for concrete question, fix only demonstrated app defect. No V29 started, main merge or deployment.
+
+Report-only correction: initial packaged reporting helper omitted handling absent zero-SKIP fields and raised KeyError. Corrected external V28_REPORT_GENERATOR.py ran successfully; raw traceback and correction SHA in JSON. No sealed ZIP/application/assertion bytes changed.
+Native transport scope: observed13 Range responses are native Audio bytes=0-/bytes=163840- requests, event peak1/outstanding final0 in preseal run, NOT a256KiB trusted RangeMedia chunk stream. Held-body unit scope is separate. MSE quota/fallback regressions pass; universal MSE/decoder/GPU lifetime remains UNVERIFIED.
+Acceptance: diagnostic implementation delivered; fixture verification PARTIAL/FAILED, Phase2 OPEN; comprehensive original/matched visual/live/hardware separate UNVERIFIED. All failures retained.
