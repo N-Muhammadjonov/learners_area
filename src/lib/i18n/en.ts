@@ -223,6 +223,7 @@ const en = {
     notFound: "This General Reading set is not available.",
   },
   readingV4: {
+    unstatedEvidence: 'The passage does not state this detail. Review the complete passage: a related sentence alone cannot prove Not Given.',
     evidenceMissing: "No evidence was supplied by the author.",
     explanationMissing: "No explanation was supplied by the author.",
     review: "Review",
@@ -239,6 +240,7 @@ const en = {
     },
   },
   readingHub: {
+    lockedHint: 'Complete the previous Academic Reading test to unlock this test.',
     academicExamHint: "Three passages · 60 minutes · one exam. Dictionary and vocabulary assistance are unavailable in Academic Reading.",
     academicEmpty: "No complete 40-question Academic Reading tests have been published yet.",
     title: "Reading",
@@ -1377,6 +1379,9 @@ const en = {
     wordsFromTestHint: "Save the words you had to guess — they come back in your revision queue.",
   },
   vocabulary: {
+    dictionaryChoice: 'Choose the meaning used in this text.',
+    dictionaryMissing: 'This word is not in the dictionary yet.',
+
     contextVerified: "Verified source meaning",
     contextUnverified: "Source meaning - not editorially verified",
     meaningUnchecked: "Meaning not checked yet",

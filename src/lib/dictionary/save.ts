@@ -24,14 +24,20 @@ export async function saveDictionarySense(
     const entry = await entryById(lexemeId, releaseId, tx);
     const sense = entry?.senses.find((s) => s.sense_id === senseId);
     if (!entry || !sense) throw Error("sense_not_found");
-    const example=dictionaryPresentation(entry).senses[senseId]?.examples[0]?.text_en??null;
+    const study=dictionaryPresentation(entry).senses[senseId];
+    const example=study?.examples[0]?.text_en??null;
+    const collocations=study?.collocations.map(phrase=>phrase.text).join(" · ")||null;
     const [mapped] = await rows<{ app_sense_id: string }>(
       sql`select app_sense_id from dictionary_sense_mappings where sense_id=${senseId}::uuid`,
       tx,
     );
     if (mapped) {
       const current=await tx.query.lexemes.findFirst({where:eq(lexemes.id,mapped.app_sense_id)});
-      if(current?.exampleSentence&&!exampleUsesEntry(entry,current.exampleSentence))await tx.update(lexemes).set({exampleSentence:example}).where(eq(lexemes.id,mapped.app_sense_id));
+      if(current){
+        const patch={...(!current.exampleSentence||!exampleUsesEntry(entry,current.exampleSentence)?{exampleSentence:example}:{}),
+          ...(!current.collocations?.trim()&&collocations?{collocations}:{})};
+        if(Object.keys(patch).length)await tx.update(lexemes).set(patch).where(eq(lexemes.id,mapped.app_sense_id));
+      }
       return mapped.app_sense_id;
     }
     const pos =
@@ -45,7 +51,7 @@ export async function saveDictionarySense(
       tx,
     );
     await tx.execute(
-      sql`insert into lexemes(id,term,part_of_speech,definition_en,translation_uz,example_sentence,sense_key,provenance,verification_status,lexical_unit_id) values(${senseId}::uuid,${entry.display_lemma},${pos},${sense.definition_en},${sense.translations[0]!.text},${example},${"dictionary:" + senseId},'dictionary_release',${sense.editorial&&sense.editorial.translation_status!=='human_reviewed'?'unverified':'verified'},${unit!.id}::uuid)`,
+      sql`insert into lexemes(id,term,part_of_speech,definition_en,translation_uz,example_sentence,collocations,sense_key,provenance,verification_status,lexical_unit_id) values(${senseId}::uuid,${entry.display_lemma},${pos},${sense.definition_en},${sense.translations[0]!.text},${example},${collocations},${"dictionary:" + senseId},'dictionary_release',${sense.editorial&&sense.editorial.translation_status!=='human_reviewed'?'unverified':'verified'},${unit!.id}::uuid)`,
     );
     await tx.execute(
       sql`insert into dictionary_sense_mappings(sense_id,app_sense_id,app_unit_id,mapping_method) values(${senseId}::uuid,${senseId}::uuid,${unit!.id}::uuid,'new_canonical')`,

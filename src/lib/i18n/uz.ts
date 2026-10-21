@@ -225,6 +225,7 @@ const uz: Dictionary = {
     notFound: "Bu General Reading to'plami mavjud emas.",
   },
   readingV4: {
+    unstatedEvidence: "Matnda bu tafsilot aytilmagan. Butun passageni tekshiring: alohida o'xshash jumla Not Given javobini isbotlamaydi.",
     evidenceMissing: "Muallif dalil keltirmagan.",
     explanationMissing: "Muallif izoh keltirmagan.",
     review: "Natijani ko'rish",
@@ -241,6 +242,7 @@ const uz: Dictionary = {
     },
   },
   readingHub: {
+    lockedHint: 'Bu testni ochish uchun oldingi Academic Reading testini tugating.',
     academicExamHint: "Uchta passage · 60 daqiqa · bitta imtihon. Academic Reading'da lug'at va vocabulary yordami ishlamaydi.",
     academicEmpty: "Hozircha to'liq 40 savollik Academic Reading testlari e'lon qilinmagan.",
     title: "Reading",
@@ -1361,6 +1363,9 @@ const uz: Dictionary = {
     wordsFromTestHint: "Taxmin qilgan so'zlaringizni saqlang — ular takrorlash navbatiga qaytadi.",
   },
   vocabulary: {
+    dictionaryChoice: "Matnda ishlatilgan ma'noni tanlang.",
+    dictionaryMissing: "Bu so'z hozircha lug'atda yo'q.",
+
     contextVerified: "Tekshirilgan manba ma'nosi",
     contextUnverified: "Manbadagi ma'no - muharrir tekshiruvidan o'tmagan",
     meaningUnchecked: "Ma'nosi hali tekshirilmagan",

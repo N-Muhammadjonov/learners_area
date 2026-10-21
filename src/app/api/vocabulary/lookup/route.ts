@@ -4,6 +4,7 @@ import { requireActiveUser } from "@/lib/auth/current-user";
 import { lexicalDetailFor, resolveOccurrence } from "@/lib/services/lexical/context";
 import { isUuid } from "@/lib/validation/ids";
 import { db } from "@/db/client";
+import { matchingContextMeaning, textDictionaryMeanings } from "@/lib/dictionary/text-meanings";
 import { userVocabulary } from "@/db/schema";
 
 const headers = { "Cache-Control": "private, no-store" };
@@ -31,9 +32,16 @@ export async function GET(req: NextRequest) {
   const known = await db.query.userVocabulary.findFirst({ where: and(eq(userVocabulary.userId, user.id), eq(userVocabulary.lexemeId, result.lexeme.id)), columns: { id: true, mastery: true } });
   const { term, definitionEn, translationUz, partOfSpeech, provenance, verificationStatus } = result.lexeme;
   const lexical = await lexicalDetailFor(result.lexeme);
+  let study;
+  try {
+    const catalogue = await textDictionaryMeanings(term);
+    study = matchingContextMeaning(catalogue.choices,result.lexeme)?.study;
+  } catch {
+    // The optional catalogue cannot replace or suppress the authored meaning.
+  }
   return NextResponse.json({
     status: "resolved", occurrenceId, senseId: result.lexeme.id,
-    contextual: { term, definitionEn, translationUz, partOfSpeech, provenance, verificationStatus, lexicalType: lexical?.lexicalType ?? null, ipa: lexical?.ipa ?? null },
+    contextual: { term, definitionEn, translationUz, partOfSpeech, provenance, verificationStatus, lexicalType: lexical?.lexicalType ?? null, ipa: lexical?.ipa ?? null, ...(study ? {study} : {}) },
     known: known ?? null,
   }, { headers });
 }

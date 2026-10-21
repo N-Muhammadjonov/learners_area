@@ -1,4 +1,5 @@
 "use client";
+import { isUnstatedAnswer } from "@/lib/reading/unstated";
 import { ReadingEvidence } from "@/components/reading/ReadingEvidence";
 
 import { questionTypeLabel } from "@/lib/reading-labels";
@@ -219,15 +220,13 @@ export function ReadingAnalysis({
               <div className="mt-1 text-xs italic text-ink-300" data-evidence={q.id}>
                 {dict.reading.evidence}:
                 {attemptId ? <ClickableText lexicalAssistance={false} dict={dict} text={q.evidenceQuote} occurrences={occurrenceSpans(passageBody ?? "", q.evidenceQuote, occurrences)} sourceType="reading" sourceId={attemptId} /> : q.evidenceQuote}
-                {/* 82 of the source's questions have no locatable evidence line; saying
-                    so is honest, inventing one would not be. */}
                 {q.evidenceType === "missing_source" && (
                   <span className="ml-1 not-italic">({dict.readingPractice.evidenceMissing})</span>
                 )}
               </div>
             )}
-            {q.evidenceQuote && evidencePassage && <ReadingEvidence dict={dict} body={evidencePassage.body} title={evidencePassage.title} quote={q.evidenceQuote} />}
-            {!q.evidenceQuote && <p className="text-xs text-ink-500" data-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
+            {(q.evidenceQuote || isUnstatedAnswer(q.correctAnswer)) && evidencePassage && <ReadingEvidence dict={dict} body={evidencePassage.body} title={evidencePassage.title} quote={q.evidenceQuote??""} unstated={isUnstatedAnswer(q.correctAnswer)} />}
+            {!q.evidenceQuote && !isUnstatedAnswer(q.correctAnswer) && <p className="text-xs text-ink-500" data-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
             {q.explanation && (
               <div className="mt-1 text-xs text-ink-500">
                 <span className="text-ink-300">{dict.reading.explanation}: </span>

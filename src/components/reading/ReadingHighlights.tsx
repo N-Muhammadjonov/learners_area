@@ -28,10 +28,6 @@ export function useReadingHighlights(scope: string) {
 export function ReadingHighlightedText(props:Parameters<typeof ClickableText>[0]) {
   return <div className="min-w-0 flex-1">
     <ClickableText {...props}/>
-    {!!props.highlights?.length && <ul className="mt-2 flex flex-wrap gap-2" aria-label={props.dict.listening.general.clearHighlight}>
-      {props.highlights.map((row,index)=><li key={row.id}><button type="button" className="link-inline text-xs" data-reading-remove-highlight={row.id}
-        onClick={()=>props.onRemoveHighlight?.(row.id)}>{props.dict.listening.general.clearHighlight} {index+1}</button></li>)}
-    </ul>}
   </div>;
 }
 

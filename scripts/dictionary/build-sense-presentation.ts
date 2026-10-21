@@ -6,7 +6,7 @@ import {entryContentHash,senseMeaningHash,normalizeSearch,projectId,stableJson,t
 import {dictionaryPos} from '../../src/lib/dictionary/labels';
 import {exampleUsesEntry,usageNorm} from '../../src/lib/dictionary/example-match';
 import type {RelatedMeaning,StoredPresentation} from '../../src/lib/dictionary/presentation-types';
-export type Curation={examples:{lemma:string;definition:string;text_en:string;text_uz:string;reference:string;note:string}[];collocations:{lemma:string;definition:string;phrases:string[]}[]};
+export type Curation={examples:{lemma:string;definition:string;text_en:string;text_uz:string;reference:string;note:string}[];collocations:{lemma:string;definition:string;phrases:string[]}[];excludedSynonyms?:{lemma:string;definition:string;term:string;reason:string;reference:string}[]};
 const gloss=(value:string)=>normalizeSearch(value);
 const includes=(phrase:string,word:string)=>(' '+usageNorm(phrase)+' ').includes(' '+usageNorm(word)+' ');
 const distinct=(items:RelatedMeaning[])=>[...new Map(items.map(x=>[usageNorm(x.text),x])).values()].sort((a,b)=>a.text.localeCompare(b.text,'en'));
@@ -20,7 +20,8 @@ export function buildPresentations(entries:Entry[],curation:Curation){
   const words=usageNorm(entry.display_lemma).split(' '),candidates=(terms.get(words[0]!)??[]).filter(p=>p.lexeme_id!==entry.lexeme_id&&usageNorm(p.display_lemma)!==usageNorm(entry.display_lemma)&&usageNorm(p.display_lemma).includes(' ')&&includes(p.display_lemma,entry.display_lemma));
   for(const sense of entry.senses){stats.senses++;stats.sourceExamples+=sense.examples.length;
    const members=groups.get(dictionaryPos(entry.part_of_speech)+':'+gloss(sense.definition_en))??[];
-   const synonyms=distinct(members.filter(m=>m.entry.lexeme_id!==entry.lexeme_id&&usageNorm(m.entry.display_lemma)!==usageNorm(entry.display_lemma)).map(m=>({text:m.entry.display_lemma,lexemeId:m.entry.lexeme_id,senseId:m.sense.sense_id})));
+   const excluded=new Set((curation.excludedSynonyms??[]).filter(row=>usageNorm(row.lemma)===usageNorm(entry.display_lemma)&&gloss(row.definition)===gloss(sense.definition_en)).map(row=>usageNorm(row.term)));
+   const synonyms=distinct(members.filter(m=>m.entry.lexeme_id!==entry.lexeme_id&&usageNorm(m.entry.display_lemma)!==usageNorm(entry.display_lemma)&&!excluded.has(usageNorm(m.entry.display_lemma))).map(m=>({text:m.entry.display_lemma,lexemeId:m.entry.lexeme_id,senseId:m.sense.sense_id})));
    const phrases:RelatedMeaning[]=synonyms.filter(m=>m.text.includes(' ')&&includes(m.text,entry.display_lemma));
    for(const phrase of candidates){
     const reverse=phrase.relations.find(r=>r.target_lexeme_id===entry.lexeme_id&&r.target_sense_id===sense.sense_id&&['hypernym','hyponym','synonym','similar'].includes(r.relation_type));
@@ -48,6 +49,7 @@ if(process.argv[1]?.endsWith('build-sense-presentation.ts')){
  const curationBytes=readFileSync('content/dictionary/sense-curated.json'),curation=JSON.parse(curationBytes.toString()) as Curation,{result,stats}=buildPresentations(entries,curation);
  if(stats.senses!==plan.expected.senses||stats.sourceExamples!==plan.expected.examples)throw Error('full_source_required');
  for(const row of [...curation.examples,...curation.collocations])if(!entries.some(e=>usageNorm(e.display_lemma)===usageNorm(row.lemma)&&e.senses.some(s=>gloss(s.definition_en)===gloss(row.definition))))throw Error('curated_sense_missing:'+row.lemma);
+ for(const row of curation.excludedSynonyms??[])if(!row.reason.trim()||!/^https:\/\//.test(row.reference)||!entries.some(e=>usageNorm(e.display_lemma)===usageNorm(row.lemma)&&e.senses.some(s=>gloss(s.definition_en)===gloss(row.definition)))||!entries.some(e=>usageNorm(e.display_lemma)===usageNorm(row.term)&&e.senses.some(s=>gloss(s.definition_en)===gloss(row.definition))))throw Error('invalid_synonym_exclusion:'+row.lemma+':'+row.term);
  mkdirSync(out,{recursive:true});const descriptors:Record<string,{sha256:string;bytes:number;entries:number}>={};
  for(const descriptor of plan.shards){const shard=Object.fromEntries([...result].filter(([id])=>id.startsWith(descriptor.shard))),body=gzipSync(stableJson(shard),{level:9});writeFileSync(join(out,descriptor.shard+'.json.gz'),body);descriptors[descriptor.shard]={sha256:bytesHash(body),bytes:body.length,entries:Object.keys(shard).length};}
  const report={version:1,sourceRelease:plan.release,preparedPlanSha:bytesHash(planBytes),curationSha:bytesHash(curationBytes),stats,shards:descriptors};

@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "status": "prepared_not_applied",
+  "revisions": [
+    {
+      "revision": "reading-source-corrections-20261021-v1",
+      "passageId": "97a38d78-0fa8-47f6-91f7-8dde225c4ef3",
+      "bodySha256": "976b3c2a0016355839147414078b1a902d615115618faa37c3012560ec9a59d3",
+      "corrections": [
+        {
+          "questionId": "26110b9e-3d85-4f8a-93eb-b2c024ba2bc9",
+          "before": {
+            "text": "the fundamental aims of mapmaking remain unchanged.",
+            "answer": "G"
+          },
+          "after": {
+            "text": "There is a commercial use of the telegram.",
+            "answer": "G",
+            "evidence": "first electric telegraph used publicly and commercially in England",
+            "explanation": "Paragraph G describes Wheatstone and Cooke taking the electric telegraph into public and commercial use in England. That is the commercial application requested here."
+          },
+          "referenceUrl": "https://ieltsquangtri.com/sir-francis-ronalds-and-telegraph/"
+        },
+        {
+          "questionId": "45db0579-e95d-4a15-9cda-eb866393226a",
+          "before": {
+            "text": "the possibilities of satellite mapping are infinite.",
+            "answer": "A"
+          },
+          "after": {
+            "text": "There is a contributory influence on Ronalds from a fellow he got to know.",
+            "answer": "A",
+            "evidence": "Under the influence of Jean Andre de Luc (1727-1817), whose acquaintance he made in 1814, he began to devote himself to practical electricity.",
+            "explanation": "Paragraph A names Jean Andre de Luc as the acquaintance whose influence led Ronalds to work on practical electricity."
+          },
+          "referenceUrl": "https://ieltsquangtri.com/sir-francis-ronalds-and-telegraph/"
+        },
+        {
+          "questionId": "e7f1ada1-45bd-44b8-9fdd-1d83a1c207db",
+          "before": {
+            "text": "There is a commercial use of the telegram.",
+            "answer": "G"
+          },
+          "after": {
+            "text": "Ronalds’s proposal was rejected as the preceding reference to another application.",
+            "answer": "E",
+            "evidence": "Telegraphs of any kind are now wholly unnecessary; and no other than the one now in use will be adopted.",
+            "explanation": "Paragraph E places Ronalds’s rejected proposal beside Wedgwood’s earlier rejected proposal. The Admiralty preferred the semaphore system already in use."
+          },
+          "referenceUrl": "https://ieltsquangtri.com/sir-francis-ronalds-and-telegraph/"
+        },
+        {
+          "questionId": "11a81d0c-e141-4ea3-8ded-2f72718176a0",
+          "before": {
+            "text": "There is a contributory influence on Ronalds from a fellow he got to know.",
+            "answer": "A"
+          },
+          "after": {
+            "text": "There existed a drawback of Ronalds’s telegram.",
+            "answer": "D",
+            "evidence": "The only defect in his invention was the comparative slowness with which a succession of symbols could be transmitted.",
+            "explanation": "Paragraph D explicitly identifies the defect: transmitting a succession of symbols was comparatively slow. A defect is the drawback requested in the question."
+          },
+          "referenceUrl": "https://www.ieltsxpress.com/sir-francis-ronalds-and-telegraph-ielts-reading/"
+        },
+        {
+          "questionId": "d4e91924-0ccd-4994-836e-961b2247d0ff",
+          "before": {
+            "text": "Ronalds’s proposal was rejected as the preceding reference to another application.",
+            "answer": "E"
+          },
+          "after": {
+            "text": "Ronalds’s contribution in telegraphic investigations was recognised by authority.",
+            "answer": "I",
+            "evidence": "Ronalds lived long enough to see his prophecies come to fruition and to receive belated official recognition:",
+            "explanation": "Paragraph I reports official recognition of Ronalds’s telegraph investigations, including his knighthood in 1870."
+          },
+          "referenceUrl": "https://www.ieltsxpress.com/sir-francis-ronalds-and-telegraph-ielts-reading/"
+        }
+      ]
+    },
+    {
+      "revision": "reading-source-corrections-20261021-v1",
+      "passageId": "1ea0f13f-1e08-49cc-87be-560889abb723",
+      "bodySha256": "3552b177c173e2ea90b77e8a99ff7027294e54af0bea194224222459e07bac8f",
+      "corrections": [
+        {
+          "questionId": "665acdf6-c2d5-4fac-b6ed-0f4fe7855afb",
+          "before": {
+            "text": "Agriculture is considered a primary cause of global warming today.",
+            "answer": "false"
+          },
+          "after": {
+            "text": "Agriculture is considered a primary cause of global warming today.",
+            "answer": "not_given",
+            "evidence": null,
+            "explanation": "The passage links early farming to ancient increases in greenhouse gases and modern warming to human activities generally. It does not rank agriculture as a primary cause of global warming today. Neither confirmation nor contradiction of that ranking is stated, so the answer is NOT GIVEN."
+          },
+          "referenceUrl": "https://ieltssongngu.com/ielts/ielts-reading/de-thi-that/the-climate-changers/"
+        }
+      ]
+    }
+  ]
+}

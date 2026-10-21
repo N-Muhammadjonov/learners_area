@@ -1,0 +1,235 @@
+{
+  "version": 1,
+  "status": "ai_editorial_draft_not_published",
+  "sourceArchiveSha256": "8832b8fa26a14c0ba8c99bb1ef8db6f9e122a6d9193b65ca9e0ef572580fee7e",
+  "sourceUrl": "https://en-word.net/downloads/english-wordnet-2025-plus-json.zip",
+  "sourceLicense": "CC-BY-4.0",
+  "translationsAndExamples": "Original AI editorial drafts. Source English meanings and aliases must match their exact OEWN synset. This file does not assign contextual meanings.",
+  "entries": [
+    {
+      "lemma": "cartographer",
+      "pos": "n",
+      "synsetId": "09917667-n",
+      "translationUz": "xarita tuzuvchi mutaxassis",
+      "exampleEn": "Cartographers compare old maps with satellite images.",
+      "exampleUz": "Kartograflar eski xaritalarni sun’iy yo‘ldosh tasvirlari bilan solishtiradi.",
+      "collocations": [
+        "a professional cartographer",
+        "a skilled cartographer"
+      ]
+    },
+    {
+      "lemma": "map maker",
+      "pos": "n",
+      "synsetId": "09917667-n",
+      "translationUz": "xarita tuzuvchi",
+      "exampleEn": "She works as a map maker.",
+      "exampleUz": "U xarita tuzuvchi bo‘lib ishlaydi.",
+      "collocations": [
+        "a professional map maker"
+      ]
+    },
+    {
+      "lemma": "dyscalculia",
+      "pos": "n",
+      "synsetId": "14122921-n",
+      "translationUz": "matematik hisoblashni o‘rganish qobiliyatining buzilishi",
+      "exampleEn": "Children with dyscalculia may find arithmetic difficult.",
+      "exampleUz": "Diskalkuliyasi bo‘lgan bolalar arifmetikani o‘rganishda qiynalishi mumkin.",
+      "collocations": [
+        "developmental dyscalculia",
+        "children with dyscalculia"
+      ]
+    },
+    {
+      "lemma": "reflectance",
+      "pos": "n",
+      "synsetId": "13610022-n",
+      "translationUz": "yuzadan qaytgan nurlanish ulushi; aks ettirish koeffitsiyenti",
+      "exampleEn": "The researchers measured the reflectance of the surface.",
+      "exampleUz": "Tadqiqotchilar yuzadan qaytgan nurlanish ulushini o‘lchadi.",
+      "collocations": [
+        "surface reflectance",
+        "spectral reflectance",
+        "measure reflectance"
+      ]
+    },
+    {
+      "lemma": "reflectivity",
+      "pos": "n",
+      "synsetId": "13610022-n",
+      "translationUz": "yuzaning nurlanishni qaytarish koeffitsiyenti",
+      "exampleEn": "Painting the surface changed its reflectivity.",
+      "exampleUz": "Yuzani bo‘yash uning nurlanishni qaytarish koeffitsiyentini o‘zgartirdi.",
+      "collocations": [
+        "surface reflectivity",
+        "high reflectivity"
+      ],
+      "targetLexemeId": "570d5bdd-9a34-5179-8043-991a99fb9609",
+      "expectedEntrySha": "76b993fdb285c98f3c2c18f5115476786a79b0238ac7722c31c4144455c69551"
+    },
+    {
+      "lemma": "coefficient of reflection",
+      "pos": "n",
+      "synsetId": "13610022-n",
+      "translationUz": "aks ettirish koeffitsiyenti",
+      "exampleEn": "The coefficient of reflection was measured in the laboratory.",
+      "exampleUz": "Aks ettirish koeffitsiyenti laboratoriyada o‘lchandi.",
+      "collocations": [
+        "measure the coefficient of reflection"
+      ]
+    },
+    {
+      "lemma": "reflection factor",
+      "pos": "n",
+      "synsetId": "13610022-n",
+      "translationUz": "aks ettirish koeffitsiyenti",
+      "exampleEn": "They calculated the reflection factor for the mirror.",
+      "exampleUz": "Ular ko‘zguning aks ettirish koeffitsiyentini hisoblab chiqdi.",
+      "collocations": [
+        "calculate the reflection factor"
+      ]
+    },
+    {
+      "lemma": "radiocarbon",
+      "pos": "n",
+      "synsetId": "14658034-n",
+      "translationUz": "uglerodning radioaktiv izotopi",
+      "exampleEn": "Radiocarbon helps scientists date ancient objects.",
+      "exampleUz": "Radiouglerod olimlarga qadimiy buyumlarning yoshini aniqlashda yordam beradi.",
+      "collocations": [
+        "radiocarbon dating",
+        "radiocarbon analysis"
+      ]
+    },
+    {
+      "lemma": "carbon 14",
+      "pos": "n",
+      "synsetId": "14658034-n",
+      "translationUz": "uglerod-14; uglerodning radioaktiv izotopi",
+      "exampleEn": "The carbon 14 in the sample was measured.",
+      "exampleUz": "Namunadagi uglerod-14 miqdori o‘lchandi.",
+      "collocations": [
+        "carbon 14 dating",
+        "carbon 14 content"
+      ]
+    },
+    {
+      "lemma": "preschooler",
+      "pos": "n",
+      "synsetId": "10485626-n",
+      "translationUz": "maktabgacha ta’lim muassasasiga qatnaydigan bola",
+      "exampleEn": "Each preschooler made a paper flower.",
+      "exampleUz": "Maktabgacha ta’lim guruhidagi har bir bola qog‘ozdan gul yasadi.",
+      "collocations": [
+        "a young preschooler",
+        "a group of preschoolers"
+      ]
+    },
+    {
+      "lemma": "kindergartner",
+      "pos": "n",
+      "synsetId": "10485626-n",
+      "translationUz": "bog‘chaga yoki maktabga tayyorlov sinfiga qatnaydigan bola",
+      "exampleEn": "The kindergartner drew a picture.",
+      "exampleUz": "Bog‘chadagi bola rasm chizdi.",
+      "collocations": [
+        "a class of kindergartners"
+      ]
+    },
+    {
+      "lemma": "kindergartener",
+      "pos": "n",
+      "synsetId": "10485626-n",
+      "translationUz": "bog‘chaga yoki maktabga tayyorlov sinfiga qatnaydigan bola",
+      "exampleEn": "The kindergartener showed us her drawing.",
+      "exampleUz": "Bog‘chadagi qiz bizga chizgan rasmini ko‘rsatdi.",
+      "collocations": [
+        "a class of kindergarteners"
+      ]
+    },
+    {
+      "lemma": "optional",
+      "pos": "a",
+      "synsetId": "00850938-a",
+      "translationUz": "ixtiyoriy; majburiy bo‘lmagan",
+      "exampleEn": "Art is an optional subject at this school.",
+      "exampleUz": "Bu maktabda tasviriy san’at ixtiyoriy fan hisoblanadi.",
+      "collocations": [
+        "an optional subject",
+        "an optional course",
+        "entirely optional"
+      ]
+    },
+    {
+      "lemma": "skink",
+      "pos": "n",
+      "synsetId": "01686774-n",
+      "translationUz": "yaltiroq tangachali kaltakesak turi",
+      "exampleEn": "The skink hid under a rock.",
+      "exampleUz": "Kaltakesak tosh tagiga yashirindi.",
+      "collocations": [
+        "a small skink",
+        "skink species"
+      ]
+    },
+    {
+      "lemma": "scincid",
+      "pos": "n",
+      "synsetId": "01686774-n",
+      "translationUz": "Scincidae oilasiga mansub kaltakesak",
+      "exampleEn": "The researchers photographed a scincid.",
+      "exampleUz": "Tadqiqotchilar Scincidae oilasiga mansub kaltakesakni suratga oldi.",
+      "collocations": [
+        "a scincid lizard"
+      ]
+    },
+    {
+      "lemma": "scincid lizard",
+      "pos": "n",
+      "synsetId": "01686774-n",
+      "translationUz": "Scincidae oilasiga mansub kaltakesak",
+      "exampleEn": "A scincid lizard crossed the path.",
+      "exampleUz": "Scincidae oilasiga mansub kaltakesak so‘qmoqdan o‘tdi.",
+      "collocations": [
+        "scincid lizard species"
+      ]
+    },
+    {
+      "lemma": "guanaco",
+      "pos": "n",
+      "synsetId": "02440804-n",
+      "translationUz": "guanako; Janubiy Amerikada yashaydigan yovvoyi lama",
+      "exampleEn": "A guanaco was grazing on the hillside.",
+      "exampleUz": "Tog‘ yonbag‘rida guanako o‘tlab yurardi.",
+      "collocations": [
+        "a herd of guanacos",
+        "a wild guanaco"
+      ]
+    },
+    {
+      "lemma": "Lama guanicoe",
+      "pos": "n",
+      "synsetId": "02440804-n",
+      "translationUz": "guanako hayvonining ilmiy nomi",
+      "exampleEn": "The researchers photographed Lama guanicoe in the wild.",
+      "exampleUz": "Tadqiqotchilar guanakoni tabiiy yashash muhitida suratga oldi.",
+      "collocations": [
+        "Lama guanicoe populations"
+      ]
+    },
+    {
+      "lemma": "defensible",
+      "pos": "a",
+      "synsetId": "02536035-s",
+      "translationUz": "asoslab himoya qilish yoki oqlash mumkin bo‘lgan",
+      "exampleEn": "Her conclusion is defensible on the available evidence.",
+      "exampleUz": "Uning xulosasini mavjud dalillar asosida himoya qilish mumkin.",
+      "collocations": [
+        "a defensible argument",
+        "a defensible position",
+        "a defensible conclusion"
+      ]
+    }
+  ]
+}

@@ -11,6 +11,8 @@ import {
   readingQuestions,
 } from "@/db/schema";
 import { isLive } from "@/lib/services/cms/publication";
+import { academicSetAccess } from "@/lib/data/general-reading";
+import { users } from "@/db/schema";
 
 type Conn = Pick<typeof db, "execute">;
 export async function academicQuestionSelectionReady(conn: Conn = db) {
@@ -79,6 +81,8 @@ export async function startAcademicSet(userId: string, setId: string, executor: 
     await tx.execute(
       sql`select pg_advisory_xact_lock(hashtext(${userId + ":" + setId}))`,
     );
+    const user = await tx.query.users.findFirst({where:eq(users.id,userId),columns:{id:true,role:true}});
+    if (!user || !(await academicSetAccess(user,setId,tx))) return null;
     const [set] = await tx.select().from(generalReadingSets).where(eq(generalReadingSets.id,setId)).limit(1).for("share");
     if (!set || !isLive(set)) return null;
     const slots = await tx.execute<{ passage_id: string; passage_no: number }>(

@@ -1,5 +1,6 @@
 "use client";
 
+import { isUnstatedAnswer } from "@/lib/reading/unstated";
 import { ReadingEvidence } from "@/components/reading/ReadingEvidence";
 import { ReadingWorkspace, focusReadingQuestion } from "@/components/reading/ReadingWorkspace";
 import { useEffect, useRef, useState } from "react";
@@ -69,9 +70,11 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
       return saved?.checked && saved.result ? [[p.passageId, { rows:saved.result, score:saved.score, total:saved.total }]] : [];
     })));
   const [errors, setErrors] = useState<Record<string, string | null>>({});
+  const [leaving, setLeaving] = useState(false);
   const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   const revisions=useRef<Record<string,number>>({});
   const queues=useRef<Record<string,Promise<void>>>({});
+  const lastSaveOk=useRef<Record<string,boolean>>({});
   const pendingAnswers=useRef<Record<string,Record<string,string>>>({});
   useEffect(() => {
     const flush=()=>{
@@ -104,17 +107,34 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
     const result = await requestJson<{ ok: boolean; score: number | null; total: number | null; result: CheckRow[] | null }>("/api/reading/general/progress", {
       method: "POST", body: { passageId, answers: nextAnswers, check },
     });
-    if(revision!==(revisions.current[passageId]??0)) return;
+    if(revision!==(revisions.current[passageId]??0)) return false;
     if (!result.ok) {
+      lastSaveOk.current[passageId]=false;
       setStatus((s) => ({ ...s, [passageId]: "error" }));
       setErrors((e) => ({ ...e, [passageId]: failureMessage(result, dict.auth) || t.saveFailed }));
-      return;
+      return false;
     }
     setErrors((e) => ({ ...e, [passageId]: null }));
+    lastSaveOk.current[passageId]=true;
     setStatus((s) => ({ ...s, [passageId]: "saved" }));
     if (check && result.data.result) setChecks((c) => ({ ...c, [passageId]: { rows: result.data.result!, score: result.data.score, total: result.data.total } }));
     if(check)router.refresh();
+    return true;
     } finally {release();}
+  }
+
+  async function leave() {
+    if (!passage || leaving) return;
+    setLeaving(true);
+    clearTimeout(timers.current[passage.passageId]);
+    await queues.current[passage.passageId];
+    // Leaving saves a draft; it never checks answers or releases the key.
+    const draft = pendingAnswers.current[passage.passageId];
+    if ((draft || lastSaveOk.current[passage.passageId]===false) && !(await persist(passage.passageId, draft ?? answers[passage.passageId] ?? {}, false))) {
+      setLeaving(false);
+      return;
+    }
+    router.push("/app/reading/general");
   }
 
   function setAnswer(passageId: string, questionId: string, value: string) {
@@ -136,7 +156,7 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
   const first=passage.questions[0]?.questionNo??1,last=passage.questions.at(-1)?.questionNo??first;
   return <div className="reading-session" data-general-reading data-general-mode={mode} data-general-passage={passage.passageNo}>
     <ReadingWorkspace brand={dict.marketing.title} title={passage.title} pane={pane} setPane={setPane} labels={dict.readingWorkspace}
-      tools={<><output className="reading-elapsed" data-general-elapsed aria-label={dict.readingWorkspace.elapsed}>{`${String(Math.floor(elapsed/60)).padStart(2,"0")}:${String(elapsed%60).padStart(2,"0")}`}</output><span role="status" aria-live="polite" data-general-save-state={status[passage.passageId]??"idle"}>{status[passage.passageId]==="saving"?t.saving:status[passage.passageId]==="saved"?t.saved:""}</span></>}
+      tools={<><button type="button" className="reading-back" data-general-back disabled={leaving} aria-label={t.back} onClick={()=>void leave()}>← {dict.common.back}</button><output className="reading-elapsed" data-general-elapsed aria-label={dict.readingWorkspace.elapsed}>{`${String(Math.floor(elapsed/60)).padStart(2,"0")}:${String(elapsed%60).padStart(2,"0")}`}</output><span role="status" aria-live="polite" data-general-save-state={status[passage.passageId]??"idle"}>{status[passage.passageId]==="saving"?t.saving:status[passage.passageId]==="saved"?t.saved:""}</span></>}
       passage={<><h2 className="reading-pane-heading">{dict.readingWorkspace.passageHeading.replace("{n}",String(passage.passageNo))}</h2><p className="reading-part-instruction">{dict.readingWorkspace.questionRange.replace("{from}",String(first)).replace("{to}",String(last))}</p><h3 className="reading-passage-title">{passage.title}</h3>
         <div className="reading-passage-text" data-passage-body>
           {passage.paragraphs.length ? passage.paragraphs.map(paragraph=><div key={paragraph.id} className="reading-paragraph">
@@ -146,15 +166,15 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
         </div></>}
       questions={<div data-general-questions><h2 className="reading-pane-heading">{dict.readingWorkspace.questionRange.replace("{from}",String(first)).replace("{to}",String(last))}</h2>
         {!passage.questions.length&&<p>{t.noQuestions}</p>}
-        <div className="reading-question-blocks">
+        <fieldset className="reading-question-blocks" disabled={leaving}>
           {(passage.groups??[]).map(group=><section key={group.id} className="reading-question-group"><GroupHeading dict={dict} group={group}/><GroupQuestions dict={dict} group={group} questions={passage.questions.filter(q=>q.groupId===group.id).map(examQuestion)} answers={currentAnswers} onChange={(id,value)=>setAnswer(passage.passageId,id,value)}/></section>)}
           {passage.questions.filter(q=>!q.groupId||!passage.groups?.some(g=>g.id===q.groupId)).map(q=><QuestionCard key={q.id} dict={dict} question={examQuestion(q)} group={null} inputId={`answer-${q.id}`} value={currentAnswers[q.id]??""} onChange={value=>setAnswer(passage.passageId,q.id,value)}/>)}
-        </div>
+        </fieldset>
         <ol className="reading-feedback">{check?.rows.map(row=><li key={row.questionId} data-general-question={row.questionId}><div data-general-result={row.isCorrect?"correct":"incorrect"}>
           <p>{row.isCorrect?"✓":"✗"} {t.correctAnswer.replace("{answer}",row.correctAnswer)}</p>
           {!!row.acceptedAnswers?.length&&<p data-general-accepted>{dict.readingPractice.acceptedAnswers}: {row.acceptedAnswers.join(" / ")}</p>}
-          {row.evidenceQuote?<p data-general-evidence>{t.evidence} {row.evidenceQuote}</p>:<p data-general-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
-          {row.evidenceQuote&&<ReadingEvidence dict={dict} body={passage.body} title={passage.title} quote={row.evidenceQuote}/>}
+          {row.evidenceQuote?<p data-general-evidence>{t.evidence} {row.evidenceQuote}</p>:isUnstatedAnswer(row.correctAnswer)?null:<p data-general-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
+          {(row.evidenceQuote||isUnstatedAnswer(row.correctAnswer))&&<ReadingEvidence dict={dict} body={passage.body} title={passage.title} quote={row.evidenceQuote??""} unstated={isUnstatedAnswer(row.correctAnswer)}/>}
           {row.explanation?<p data-general-explanation>{dict.reading.explanation}: {row.explanation}</p>:<p data-general-explanation-missing>{dict.readingV4.explanationMissing}</p>}
         </div></li>)}</ol>
         {errors[passage.passageId]&&<p role="alert" className="reading-error">{errors[passage.passageId]}</p>}
@@ -163,7 +183,7 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
         <button type="button" className="reading-part-button" aria-pressed={p.passageNo===active} data-general-passage-tab={p.passageNo}>{t.passageN.replace("{n}",String(p.passageNo))}</button>
         {p.passageNo===active&&<div className="reading-question-numbers">{p.questions.map(q=><button key={q.id} type="button" data-reading-question-nav={q.id} data-answered={!!currentAnswers[q.id]?.trim()} aria-label={`${dict.reading.yourAnswer} ${q.questionNo??q.order}`} onClick={()=>{setPane("questions");setPendingQuestion(q.id);}}>{q.questionNo??q.order}</button>)}</div>}
       </div>)}</div>}
-      action={<>{shownScore&&shownScore.total!==null&&<span data-general-score>{t.score.replace("{score}",String(shownScore.score??0)).replace("{total}",String(shownScore.total))}</span>}{passage.questions.length>0&&<button type="button" className="btn-primary" disabled={status[passage.passageId]==="checking"} onClick={()=>{clearTimeout(timers.current[passage.passageId]);void persist(passage.passageId,currentAnswers,true);}} data-general-check>{status[passage.passageId]==="checking"?t.checking:t.check}</button>}</>}
+      action={<>{shownScore&&shownScore.total!==null&&<span data-general-score>{t.score.replace("{score}",String(shownScore.score??0)).replace("{total}",String(shownScore.total))}</span>}{passage.questions.length>0&&<button type="button" className="btn-primary" disabled={leaving||status[passage.passageId]==="checking"} onClick={()=>{clearTimeout(timers.current[passage.passageId]);void persist(passage.passageId,currentAnswers,true);}} data-general-check>{status[passage.passageId]==="checking"?t.checking:t.check}</button>}</>}
     />
   </div>;
 }

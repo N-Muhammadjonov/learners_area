@@ -33,6 +33,15 @@ test('unrelated shared examples are suppressed; regular/irregular and split phra
  const {result}=buildPresentations([entry],{examples:[],collocations:[]});assert.deepEqual(result.get(entry.lexeme_id)!.senses[entry.senses[0]!.sense_id]!.exampleIds,[]);
 });
 
+test('a source grouping can be corrected without deleting its canonical senses or suppressing another meaning',()=>{
+ const bus=word('bus','A passenger vehicle'),double=word('double-decker','A passenger vehicle'),omnibus=word('omnibus','A passenger vehicle');
+ const before=JSON.stringify([bus,double,omnibus]);
+ const {result}=buildPresentations([bus,double,omnibus],{examples:[],collocations:[],excludedSynonyms:[{lemma:'bus',definition:'A passenger vehicle',term:'double-decker',reason:'A two-level bus is a specific subtype, not an unrestricted synonym.',reference:'https://dictionary.cambridge.org/dictionary/english/double-decker'}]});
+ assert.deepEqual(result.get(bus.lexeme_id)!.senses[bus.senses[0]!.sense_id]!.synonyms.map(row=>row.text),['omnibus']);
+ assert.ok(result.get(omnibus.lexeme_id)!.senses[omnibus.senses[0]!.sense_id]!.synonyms.some(row=>row.text==='double-decker'),'the exclusion is scoped to the reviewed head and meaning');
+ assert.equal(JSON.stringify([bus,double,omnibus]),before,'canonical source content and all identities stay unchanged');
+});
+
 test('the shipped presentation audit covers all 64,616 entries and 109,487 senses with valid relation targets',()=>{
  const base='content/dictionary/presentation/',manifest=JSON.parse(readFileSync(base+'manifest.json','utf8'));
  const entries=new Set<string>(),senses=new Map<string,string>(),links:{lexemeId?:string;senseId?:string}[]=[];let sourceSenses=0;

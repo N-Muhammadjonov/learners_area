@@ -52,3 +52,62 @@ test('a stationary 3-second word hold opens the phrase; release, movement, cance
     assert.ok(requests.some(url=>url.includes('occurrenceId=hold-phrase')));
   }finally{await act(async()=>root.unmount());t.mock.timers.reset();globalThis.fetch=oldFetch;}
 });
+
+test('unlinked content words open full dictionary choices and save only the chosen canonical sense',async()=>{
+ const root=createRoot(document.getElementById('root')!),oldFetch=globalThis.fetch,calls:{url:string;body?:Record<string,unknown>}[]=[];
+ const choices=[{lexemeId:'financial-entry',senseId:'finance',term:'bank',partOfSpeech:'noun',definitionEn:'a financial institution',translationUz:'bank',ipa:null},{lexemeId:'river-entry',senseId:'river',term:'bank',partOfSpeech:'noun',definitionEn:'the land beside a river',translationUz:"daryo qirg'og'i",ipa:null}];
+ globalThis.fetch=async(input,init)=>{const url=String(input);calls.push({url,body:init?.body?JSON.parse(String(init.body)):undefined});return Response.json(url.includes('folders')?{folders:[]}:url.includes('/save')?{ok:true}:{status:'dictionary',releaseId:'release',choices});};
+ try{
+  await act(async()=>root.render(<ClickableText dict={en} text="The bank borders the river." sourceType="reading" sourceId="source"/>));
+  await act(async()=>document.querySelector('[data-word="bank"]')!.dispatchEvent(new dom.window.MouseEvent('dblclick',{bubbles:true,detail:2})));
+  assert.ok(calls.some(c=>c.url.includes('/meaning?sourceType=reading')));
+  assert.equal(document.querySelectorAll('[data-dictionary-choices] input').length,2);
+  const save=document.querySelector<HTMLButtonElement>('[data-word-save]')!;assert.equal(save.disabled,true,'no first-hit sense is silently selected');
+  await act(async()=>document.querySelectorAll<HTMLInputElement>('[data-dictionary-choices] input')[1]!.click());
+  await act(async()=>save.click());
+  assert.equal(calls.find(c=>c.url.includes('/save'))?.body?.senseId,'river');
+  assert.ok(!calls.some(c=>c.body?.occurrenceId),'dictionary choice does not forge a reviewed occurrence');
+  await act(async()=>document.body.dispatchEvent(new dom.window.MouseEvent('pointerdown',{bubbles:true})));
+  assert.equal(document.querySelector('[role="dialog"]'),null);assert.equal(document.querySelector('[data-lookup-active]'),null);
+ }finally{await act(async()=>root.unmount());globalThis.fetch=oldFetch;}
+});
+
+test('an authored lookup that is locked never falls through to dictionary choices',async()=>{
+ const root=createRoot(document.getElementById('root')!),oldFetch=globalThis.fetch,calls:string[]=[];
+ globalThis.fetch=async input=>{const url=String(input);calls.push(url);return url.includes('folders')?Response.json({folders:[]}):Response.json({error:'lexical_assistance_locked'},{status:403});};
+ try{
+  await act(async()=>root.render(<ClickableText dict={en} text="The bank lends money." sourceType="reading" sourceId="source" occurrences={[{id:'occ',startChar:4,endChar:8,surfaceForm:'bank'}]}/>));
+  await act(async()=>document.querySelector('[data-word="bank"]')!.dispatchEvent(new dom.window.MouseEvent('dblclick',{bubbles:true,detail:2})));
+  assert.ok(!calls.some(c=>c.includes('/meaning')));assert.equal(document.querySelector('[data-dictionary-choices]'),null);
+ }finally{await act(async()=>root.unmount());globalThis.fetch=oldFetch;}
+});
+
+
+test('contextual study material stays visible for saved words and belongs to the selected exact meaning',async()=>{
+ const root=createRoot(document.getElementById('root')!),oldFetch=globalThis.fetch;
+ const study={synonyms:[{text:'forecast',lexemeId:'forecast-entry',senseId:'forecast-sense'}],collocations:[{text:'accurately predict'}],examples:[{example_id:'example',text_en:'We can predict the weather.',text_uz:'Ob-havoni oldindan ayta olamiz.'}]};
+ globalThis.fetch=async input=>Response.json(String(input).includes('folders')?{folders:[]}:{status:'resolved',contextual:{definitionEn:'tell in advance',translationUz:'oldindan aytmoq',study},known:{id:'saved',mastery:'new'}});
+ try{
+  await act(async()=>root.render(<ClickableText dict={en} text="We predict the weather." sourceType="reading" sourceId="source" occurrences={[{id:'occ',startChar:3,endChar:10,surfaceForm:'predict'}]}/>));
+  await act(async()=>document.querySelector('[data-word="predict"]')!.dispatchEvent(new dom.window.MouseEvent('dblclick',{bubbles:true,detail:2})));
+  assert.match(document.querySelector('[data-word-synonyms]')!.textContent!,/forecast/);
+  assert.match(document.querySelector('[data-word-collocations]')!.textContent!,/accurately predict/);
+  assert.match(document.querySelector('[data-word-examples]')!.textContent!,/We can predict the weather/);
+  assert.equal(document.querySelector('[data-related-sense]')!.getAttribute('data-related-sense'),'forecast-sense');
+ }finally{await act(async()=>root.unmount());globalThis.fetch=oldFetch;}
+});
+
+test('dictionary study material changes with the chosen sense, without reusing another sense’s collocations',async()=>{
+ const root=createRoot(document.getElementById('root')!),oldFetch=globalThis.fetch;
+ globalThis.fetch=async input=>Response.json(String(input).includes('folders')?{folders:[]}:{status:'dictionary',releaseId:'release',choices:[{lexemeId:'bank',senseId:'finance',term:'bank',partOfSpeech:'noun',definitionEn:'A financial institution',translationUz:'bank',ipa:null,study:{synonyms:[],collocations:[{text:'bank loan'}],examples:[]}},{lexemeId:'bank',senseId:'river',term:'bank',partOfSpeech:'noun',definitionEn:'Land beside a river',translationUz:'qirg‘oq',ipa:null,study:{synonyms:[],collocations:[{text:'river bank'}],examples:[]}}]});
+ try{
+  await act(async()=>root.render(<ClickableText dict={en} text="The bank is near." sourceType="reading" sourceId="source"/>));
+  await act(async()=>document.querySelector('[data-word="bank"]')!.dispatchEvent(new dom.window.MouseEvent('dblclick',{bubbles:true,detail:2})));
+  assert.equal(document.querySelector('[data-word-study]'),null);
+  await act(async()=>document.querySelectorAll<HTMLInputElement>('input[type="radio"]')[0]!.click());
+  assert.match(document.querySelector('[data-word-study]')!.textContent!,/bank loan/);
+  await act(async()=>document.querySelectorAll<HTMLInputElement>('input[type="radio"]')[1]!.click());
+  assert.match(document.querySelector('[data-word-study]')!.textContent!,/river bank/);
+  assert.ok(!document.querySelector('[data-word-study]')!.textContent!.includes('bank loan'));
+ }finally{await act(async()=>root.unmount());globalThis.fetch=oldFetch;}
+});

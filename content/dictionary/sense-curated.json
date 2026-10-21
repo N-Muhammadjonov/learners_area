@@ -1,12 +1,1351 @@
 {
-  "version":1,
-  "examples":[
-    {"lemma":"prefigure","definition":"indicate, as with a sign or an omen","text_en":"Dark clouds prefigure a storm.","text_uz":"Qora bulutlar bo‘ron yaqinlashayotganidan darak beradi.","reference":"https://dictionary.cambridge.org/dictionary/english/prefigure","note":"Original Learners Area sentence, checked against the forecasting sense."}
+  "version": 1,
+  "examples": [
+    {
+      "lemma": "prefigure",
+      "definition": "indicate, as with a sign or an omen",
+      "text_en": "Dark clouds prefigure a storm.",
+      "text_uz": "Qora bulutlar bo‘ron yaqinlashayotganidan darak beradi.",
+      "reference": "https://dictionary.cambridge.org/dictionary/english/prefigure",
+      "note": "Original Learners Area sentence, checked against the forecasting sense."
+    },
+    {
+      "lemma": "predict",
+      "definition": "make a prediction about; tell in advance",
+      "text_en": "Scientists cannot predict the exact date of an earthquake.",
+      "text_uz": "Olimlar zilzilaning aniq sanasini oldindan ayta olmaydi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "predict",
+      "definition": "indicate, as with a sign or an omen",
+      "text_en": "Dark clouds predict rain.",
+      "text_uz": "Qora bulutlar yomg‘ir yog‘ishidan darak beradi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "prefigure",
+      "definition": "imagine or consider beforehand",
+      "text_en": "The architect prefigured the completed building in her mind.",
+      "text_uz": "Me’mor qurib bitkazilgan binoni oldindan ko‘z oldiga keltirdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "malnourished",
+      "definition": "not receiving enough food or nutrients to remain healthy",
+      "text_en": "The charity provides meals for malnourished children.",
+      "text_uz": "Xayriya tashkiloti yetarli oziqlanmagan bolalarni ovqat bilan ta’minlaydi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "airtight",
+      "definition": "not allowing air or gas to pass in or out",
+      "text_en": "Keep the flour in an airtight container.",
+      "text_uz": "Unni havo o‘tkazmaydigan idishda saqlang.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "airtight",
+      "definition": "sealed so that air cannot enter or escape",
+      "text_en": "Check that the jar is airtight before storing the food.",
+      "text_uz": "Ovqatni saqlashdan oldin bankaning havo o‘tkazmasligini tekshiring.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "airtight",
+      "definition": "having no weak points",
+      "text_en": "The detective needed an airtight case before making an arrest.",
+      "text_uz": "Tergovchi hibsga olishdan oldin kamchiliksiz, puxta asoslangan ish tayyorlashi kerak edi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "hygiene",
+      "definition": "practices that keep people or places clean and reduce disease",
+      "text_en": "Good hygiene reduces the spread of infection.",
+      "text_uz": "Tozalik qoidalariga rioya qilish infeksiya tarqalishini kamaytiradi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "hygiene",
+      "definition": "a condition promoting sanitary practices",
+      "text_en": "Poor hygiene in the kitchen increased the risk of infection.",
+      "text_uz": "Oshxonadagi tozalikning yomonligi infeksiya xavfini oshirdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "palatability",
+      "definition": "the quality of being pleasant or acceptable to taste",
+      "text_en": "The chef added a little salt to improve the palatability of the soup.",
+      "text_uz": "Oshpaz sho‘rva ta’mini yaxshilash uchun biroz tuz qo‘shdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "palatability",
+      "definition": "the property of being acceptable to the mouth",
+      "text_en": "Long storage can reduce the palatability of canned food.",
+      "text_uz": "Uzoq saqlash konservalangan ovqatning ta’mini yomonlashtirishi mumkin.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "nutrient",
+      "definition": "a substance that provides nourishment needed for growth and health",
+      "text_en": "Iron is an essential nutrient.",
+      "text_uz": "Temir organizm uchun zarur oziq moddasidir.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "nutrient",
+      "definition": "any substance that can be metabolized by an animal to give energy and build tissue",
+      "text_en": "Food supplies the nutrients that animals need for growth.",
+      "text_uz": "Ozuqa hayvonlarning o‘sishi uchun zarur oziq moddalarini yetkazib beradi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "preserve",
+      "definition": "prevent (food) from rotting",
+      "text_en": "We preserve fruit by drying it.",
+      "text_uz": "Mevalarni quritib, buzilishdan saqlaymiz.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "preserve",
+      "definition": "keep something safe and unchanged for the future",
+      "text_en": "The museum works to preserve local traditions.",
+      "text_uz": "Muzey mahalliy an’analarni kelajak uchun saqlab qolishga harakat qiladi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "botulism",
+      "definition": "a serious illness caused by botulinum toxin, often linked to improperly preserved food",
+      "text_en": "Improperly preserved food can cause botulism.",
+      "text_uz": "Noto‘g‘ri konservalangan oziq-ovqat botulizmga sabab bo‘lishi mumkin.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "aseptic",
+      "definition": "free of or using methods to keep free of pathological microorganisms",
+      "text_en": "The milk is packed under aseptic conditions.",
+      "text_uz": "Sut kasallik qo‘zg‘atuvchi mikroorganizmlardan xoli sharoitda qadoqlanadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "retention",
+      "definition": "the power of retaining and recalling past experience",
+      "text_en": "Regular revision improves retention of new words.",
+      "text_uz": "Muntazam takrorlash yangi so‘zlarni eslab qolishni yaxshilaydi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "retention",
+      "definition": "the act of retaining something",
+      "text_en": "Better working conditions can improve employee retention.",
+      "text_uz": "Yaxshiroq ish sharoitlari xodimlarni ishda saqlab qolishga yordam berishi mumkin.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "retention",
+      "definition": "the power of retaining liquid",
+      "text_en": "Adding compost improves water retention in the soil.",
+      "text_uz": "Kompost qo‘shish tuproqning suvni saqlash xususiyatini yaxshilaydi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "seasoned",
+      "definition": "aged or processed",
+      "text_en": "The carpenter used seasoned timber for the furniture.",
+      "text_uz": "Duradgor mebel uchun yaxshilab quritilgan yog‘och ishlatdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "seasoned",
+      "definition": "rendered competent through trial and experience",
+      "text_en": "A seasoned journalist knows how to check a source.",
+      "text_uz": "Tajribali jurnalist manbani qanday tekshirishni biladi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "reflection",
+      "definition": "the phenomenon of a propagating wave (light or sound) being thrown back from a surface",
+      "text_en": "We measured the reflection of light from the mirror.",
+      "text_uz": "Yorug‘likning oynadan qaytishini o‘lchadik.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "reflection",
+      "definition": "a calm, lengthy, intent consideration",
+      "text_en": "After careful reflection, she decided to accept the offer.",
+      "text_uz": "U yaxshilab o‘ylab ko‘rgach, taklifni qabul qilishga qaror qildi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "resilient",
+      "definition": "elastic; rebounds readily",
+      "text_en": "The resilient material returned to its original shape.",
+      "text_uz": "Elastik material o‘zining dastlabki shakliga qaytdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "resilient",
+      "definition": "able to remain useful or recover despite difficulty and change",
+      "text_en": "The pencil has proved resilient despite the growth of digital technology.",
+      "text_uz": "Raqamli texnologiyalar rivojlanganiga qaramay, qalam o‘z ahamiyatini yo‘qotmadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "estimate",
+      "definition": "judge tentatively or form an estimate of (quantities or time)",
+      "text_en": "We estimate that the repairs will take two weeks.",
+      "text_uz": "Ta’mirlash ishlari ikki hafta davom etadi, deb taxmin qilyapmiz.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "estimate",
+      "definition": "a statement indicating the likely cost of some job",
+      "text_en": "The builder gave us an estimate for the repairs.",
+      "text_uz": "Quruvchi ta’mirlashning taxminiy narxini aytdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "archery",
+      "definition": "the sport of shooting arrows with a bow",
+      "text_en": "She practises archery every weekend.",
+      "text_uz": "U har dam olish kuni kamondan o‘q otish bilan shug‘ullanadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "archery",
+      "definition": "the sport or skill of shooting arrows with a bow",
+      "text_en": "The camp offers lessons in archery.",
+      "text_uz": "Oromgohda kamondan o‘q otish darslari o‘tiladi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "rotate",
+      "definition": "turn on or around an axis or a center",
+      "text_en": "The Earth rotates on its axis.",
+      "text_uz": "Yer o‘z o‘qi atrofida aylanadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "rotate",
+      "definition": "cause to turn on an axis or center",
+      "text_en": "Rotate the handle clockwise to close the valve.",
+      "text_uz": "Klapan yopilishi uchun tutqichni soat mili yo‘nalishida aylantiring.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "rotate",
+      "definition": "plant or grow in a fixed cyclic order of succession",
+      "text_en": "Farmers rotate crops to maintain soil quality.",
+      "text_uz": "Dehqonlar tuproq sifatini saqlash uchun ekinlarni almashlab ekadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "outcome",
+      "definition": "something that results",
+      "text_en": "We are waiting for the outcome of the investigation.",
+      "text_uz": "Tekshiruv natijasini kutyapmiz.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "salinity",
+      "definition": "the concentration of dissolved salts in water or soil",
+      "text_en": "High salinity can reduce crop yields.",
+      "text_uz": "Tuz miqdorining yuqoriligi ekin hosildorligini kamaytirishi mumkin.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "salinity",
+      "definition": "the relative proportion of salt in a solution",
+      "text_en": "The researchers measured the salinity of the seawater.",
+      "text_uz": "Tadqiqotchilar dengiz suvidagi tuz miqdorini o‘lchadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "soil",
+      "definition": "material in the top layer of the surface of the earth in which plants can grow (especially with reference to its quality or use)",
+      "text_en": "These vegetables grow well in sandy soil.",
+      "text_uz": "Bu sabzavotlar qumli tuproqda yaxshi o‘sadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "soil",
+      "definition": "the earth in which plants grow",
+      "text_en": "Keep the soil moist while the seeds are growing.",
+      "text_uz": "Urug‘lar unib chiqayotgan paytda tuproqni nam saqlang.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "earthquake",
+      "definition": "shaking and vibration at the surface of the earth resulting from underground movement along a fault plane or from volcanic activity",
+      "text_en": "The earthquake damaged several buildings.",
+      "text_uz": "Zilzila bir nechta binoga zarar yetkazdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "vocabulary",
+      "definition": "a language user's knowledge of words",
+      "text_en": "Reading widely can expand your vocabulary.",
+      "text_uz": "Ko‘p va turli mavzularda o‘qish so‘z boyligingizni oshirishi mumkin.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence for the exact stored sense. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "alarm",
+      "definition": "a clock that wakes a sleeper at some preset time",
+      "text_en": "My alarm rings at six every morning.",
+      "text_uz": "Budilnigim har kuni ertalab soat oltida jiringlaydi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "battery",
+      "definition": "a device that produces electricity; may have several primary or secondary cells arranged in parallel or series",
+      "text_en": "The clock needs a new battery.",
+      "text_uz": "Soatga yangi batareya kerak.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "bicycle",
+      "definition": "a wheeled vehicle that has two wheels and is moved by foot pedals",
+      "text_en": "She borrowed a bicycle to get to school.",
+      "text_uz": "U maktabga borish uchun velosipedni vaqtincha oldi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "bus",
+      "definition": "a vehicle carrying many passengers; used for public transport",
+      "text_en": "We caught the last bus home.",
+      "text_uz": "Biz uyga ketadigan oxirgi avtobusga ulgurdik.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "carefully",
+      "definition": "as if with kid gloves; with caution or prudence or tact",
+      "text_en": "Ride carefully on this busy road.",
+      "text_uz": "Bu gavjum yo‘lda ehtiyotkorlik bilan yuring.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "check",
+      "definition": "examine so as to determine accuracy, quality, or condition",
+      "text_en": "He checked the clock for damage.",
+      "text_uz": "U soatda shikast bor-yo‘qligini tekshirdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "clock",
+      "definition": "a timepiece that shows the time of day",
+      "text_en": "The clock on the wall is ten minutes slow.",
+      "text_uz": "Devordagi soat o‘n daqiqa orqada.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "empty",
+      "definition": "holding or containing nothing",
+      "text_en": "The road was empty when she left home.",
+      "text_uz": "U uydan chiqqanida yo‘lda hech kim yo‘q edi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "evening",
+      "definition": "the latter part of the day (the period of decreasing daylight from late afternoon until nightfall)",
+      "text_en": "We returned home in the evening.",
+      "text_uz": "Biz uyga kechqurun qaytdik.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "first",
+      "definition": "preceding all others in time or space or degree",
+      "text_en": "This is her first lesson at the new school.",
+      "text_uz": "Bu uning yangi maktabdagi birinchi darsi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "gate",
+      "definition": "a movable barrier in a fence or wall",
+      "text_en": "He waited beside the school gate.",
+      "text_uz": "U maktab darvozasi yonida kutdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "help",
+      "definition": "give help or assistance; be of service",
+      "text_en": "Could you help me fix my bicycle?",
+      "text_uz": "Velosipedimni tuzatishga yordam bera olasizmi?",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "late",
+      "definition": "after the expected or usual time; delayed",
+      "text_en": "She was late for school because the bus broke down.",
+      "text_uz": "Avtobus buzilib qolgani uchun u maktabga kechikdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "lend",
+      "definition": "give temporarily; let have for a limited time",
+      "text_en": "Could you lend me your bicycle?",
+      "text_uz": "Velosipedingizni vaqtincha berib tura olasizmi?",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "lesson",
+      "definition": "a unit of instruction",
+      "text_en": "Our maths lesson starts at half past eight.",
+      "text_uz": "Matematika darsimiz sakkiz yarimda boshlanadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "look",
+      "definition": "to physically appear a certain way to another individual or group",
+      "text_en": "He looked worried when the bus did not arrive.",
+      "text_uz": "Avtobus kelmaganida u xavotirlangandek ko‘rindi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "maths",
+      "definition": "a science (or group of related sciences) dealing with the logic of quantity and shape and arrangement",
+      "text_en": "She enjoys maths more than history.",
+      "text_uz": "U matematikani tarixdan ko‘ra ko‘proq yoqtiradi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "miss",
+      "definition": "fail to attend an event or activity",
+      "text_en": "She did not want to miss her first lesson.",
+      "text_uz": "U birinchi darsini o‘tkazib yuborishni istamadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "missed",
+      "definition": "failed to catch the bus before it left",
+      "text_en": "Sara missed the bus because she left home late.",
+      "text_uz": "Sara uydan kech chiqqani uchun avtobusga ulgurmadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "new",
+      "definition": "unaffected by use or exposure",
+      "text_en": "I need a new battery for this clock.",
+      "text_uz": "Bu soat uchun menga yangi batareya kerak.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "offer",
+      "definition": "agree freely",
+      "text_en": "She offered to carry my bags.",
+      "text_uz": "U sumkalarimni ko‘tarib berishni taklif qildi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "put",
+      "definition": "put into a certain place or abstract location",
+      "text_en": "Put the new battery in the clock.",
+      "text_uz": "Yangi batareyani soatga qo‘ying.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "run",
+      "definition": "move fast by using one's feet, with one foot off the ground at any given time",
+      "text_en": "She ran to the bus stop.",
+      "text_uz": "U avtobus bekatiga yugurdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "return",
+      "definition": "give back",
+      "text_en": "Please return the bicycle tomorrow.",
+      "text_uz": "Iltimos, velosipedni ertaga qaytarib bering.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "ring",
+      "definition": "sound loudly and sonorously",
+      "text_en": "The alarm rang at seven.",
+      "text_uz": "Budilnik soat yettida jiringladi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "road",
+      "definition": "an open way (generally public) for travel or transportation",
+      "text_en": "The road to the village was quiet.",
+      "text_uz": "Qishloqqa olib boradigan yo‘lda qatnov kam edi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "ride",
+      "definition": "sit on and control a vehicle",
+      "text_en": "She rode her bicycle carefully.",
+      "text_uz": "U velosipedini ehtiyotkorlik bilan mindi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "see",
+      "definition": "perceive by sight or have the power to perceive by sight",
+      "text_en": "I saw a bicycle outside the shop.",
+      "text_uz": "Men do‘kon tashqarisida velosipedni ko‘rdim.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "school",
+      "definition": "an educational institution",
+      "text_en": "Their children attend the local school.",
+      "text_uz": "Ularning bolalari mahalliy maktabda o‘qiydi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "shopkeeper",
+      "definition": "a merchant who owns or manages a shop",
+      "text_en": "The shopkeeper helped her choose a battery.",
+      "text_uz": "Do‘kondor unga batareya tanlashda yordam berdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "start",
+      "definition": "have a beginning, in a temporal, spatial, or evaluative sense",
+      "text_en": "The lesson starts at eight.",
+      "text_uz": "Dars soat sakkizda boshlanadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "stop",
+      "definition": "a spot where something halts or pauses",
+      "text_en": "The next stop is outside the library.",
+      "text_uz": "Keyingi bekat kutubxona oldida.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "street",
+      "definition": "a thoroughfare (usually including sidewalks) that is lined with buildings",
+      "text_en": "She lives in a quiet street near the school.",
+      "text_uz": "U maktab yaqinidagi tinch ko‘chada yashaydi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "thank",
+      "definition": "express gratitude or show appreciation to",
+      "text_en": "She thanked the shopkeeper for his help.",
+      "text_uz": "U do‘kondorga yordami uchun rahmat aytdi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "think",
+      "definition": "expect, believe, or suppose",
+      "text_en": "I think the first lesson starts at eight.",
+      "text_uz": "Menimcha, birinchi dars soat sakkizda boshlanadi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "time",
+      "definition": "an instance or single occasion for some event",
+      "text_en": "This is my first time riding a bicycle.",
+      "text_uz": "Velosipedni birinchi marta minyapman.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    },
+    {
+      "lemma": "worried",
+      "definition": "mentally upset over possible misfortune or danger etc",
+      "text_en": "She was worried about being late.",
+      "text_uz": "U kechikishidan xavotirda edi.",
+      "reference": "https://en-word.net/",
+      "note": "Original Learners Area usage sentence, selected after reading the Sara Retention story and checking this exact canonical meaning. AI editorial draft; not independent human review."
+    }
   ],
-  "collocations":[
-    {"lemma":"predict","definition":"make a prediction about; tell in advance","phrases":["accurately predict","reliably predict","predict the outcome","predict future trends","predict heavy rain"]},
-    {"lemma":"prefigure","definition":"indicate, as with a sign or an omen","phrases":["prefigure later developments","prefigure future events"]},
-    {"lemma":"bank","definition":"a financial institution that accepts deposits and channels the money into lending activities","phrases":["open a bank account","close a bank account","a bank loan","a bank statement","a bank transfer"]},
-    {"lemma":"bank","definition":"sloping land (especially the slope beside a body of water)","phrases":["a river bank","a steep bank","the opposite bank"]}
+  "collocations": [
+    {
+      "lemma": "predict",
+      "definition": "make a prediction about; tell in advance",
+      "phrases": [
+        "accurately predict",
+        "reliably predict",
+        "predict the outcome",
+        "predict future trends",
+        "predict heavy rain"
+      ]
+    },
+    {
+      "lemma": "prefigure",
+      "definition": "indicate, as with a sign or an omen",
+      "phrases": [
+        "prefigure later developments",
+        "prefigure future events"
+      ]
+    },
+    {
+      "lemma": "bank",
+      "definition": "a financial institution that accepts deposits and channels the money into lending activities",
+      "phrases": [
+        "open a bank account",
+        "close a bank account",
+        "a bank loan",
+        "a bank statement",
+        "a bank transfer"
+      ]
+    },
+    {
+      "lemma": "bank",
+      "definition": "sloping land (especially the slope beside a body of water)",
+      "phrases": [
+        "a river bank",
+        "a steep bank",
+        "the opposite bank"
+      ]
+    },
+    {
+      "lemma": "predict",
+      "definition": "indicate, as with a sign or an omen",
+      "phrases": [
+        "predict rain",
+        "predict a change"
+      ]
+    },
+    {
+      "lemma": "prefigure",
+      "definition": "imagine or consider beforehand",
+      "phrases": [
+        "prefigure the final design",
+        "prefigure a future world"
+      ]
+    },
+    {
+      "lemma": "malnourished",
+      "definition": "not receiving enough food or nutrients to remain healthy",
+      "phrases": [
+        "malnourished children",
+        "severely malnourished",
+        "become malnourished"
+      ]
+    },
+    {
+      "lemma": "airtight",
+      "definition": "not allowing air or gas to pass in or out",
+      "phrases": [
+        "an airtight container",
+        "an airtight seal",
+        "airtight packaging"
+      ]
+    },
+    {
+      "lemma": "airtight",
+      "definition": "sealed so that air cannot enter or escape",
+      "phrases": [
+        "an airtight jar",
+        "an airtight lid"
+      ]
+    },
+    {
+      "lemma": "airtight",
+      "definition": "having no weak points",
+      "phrases": [
+        "an airtight alibi",
+        "an airtight case",
+        "an airtight argument"
+      ]
+    },
+    {
+      "lemma": "hygiene",
+      "definition": "practices that keep people or places clean and reduce disease",
+      "phrases": [
+        "personal hygiene",
+        "food hygiene",
+        "hygiene standards"
+      ]
+    },
+    {
+      "lemma": "hygiene",
+      "definition": "a condition promoting sanitary practices",
+      "phrases": [
+        "poor hygiene",
+        "good hygiene"
+      ]
+    },
+    {
+      "lemma": "palatability",
+      "definition": "the quality of being pleasant or acceptable to taste",
+      "phrases": [
+        "improve palatability",
+        "food palatability"
+      ]
+    },
+    {
+      "lemma": "palatability",
+      "definition": "the property of being acceptable to the mouth",
+      "phrases": [
+        "the palatability of food",
+        "reduce palatability"
+      ]
+    },
+    {
+      "lemma": "nutrient",
+      "definition": "a substance that provides nourishment needed for growth and health",
+      "phrases": [
+        "an essential nutrient",
+        "nutrient intake",
+        "nutrient deficiency"
+      ]
+    },
+    {
+      "lemma": "nutrient",
+      "definition": "any substance that can be metabolized by an animal to give energy and build tissue",
+      "phrases": [
+        "essential nutrients",
+        "absorb nutrients",
+        "nutrient absorption"
+      ]
+    },
+    {
+      "lemma": "preserve",
+      "definition": "prevent (food) from rotting",
+      "phrases": [
+        "preserve food",
+        "preserve fruit",
+        "preserve in salt"
+      ]
+    },
+    {
+      "lemma": "preserve",
+      "definition": "keep something safe and unchanged for the future",
+      "phrases": [
+        "preserve traditions",
+        "preserve a heritage",
+        "preserve for the future"
+      ]
+    },
+    {
+      "lemma": "botulism",
+      "definition": "a serious illness caused by botulinum toxin, often linked to improperly preserved food",
+      "phrases": [
+        "foodborne botulism",
+        "a case of botulism"
+      ]
+    },
+    {
+      "lemma": "aseptic",
+      "definition": "free of or using methods to keep free of pathological microorganisms",
+      "phrases": [
+        "aseptic processing",
+        "aseptic conditions",
+        "aseptic packaging"
+      ]
+    },
+    {
+      "lemma": "retention",
+      "definition": "the power of retaining and recalling past experience",
+      "phrases": [
+        "memory retention",
+        "improve retention",
+        "retention of information"
+      ]
+    },
+    {
+      "lemma": "retention",
+      "definition": "the act of retaining something",
+      "phrases": [
+        "employee retention",
+        "staff retention",
+        "customer retention"
+      ]
+    },
+    {
+      "lemma": "retention",
+      "definition": "the power of retaining liquid",
+      "phrases": [
+        "water retention",
+        "moisture retention",
+        "fluid retention"
+      ]
+    },
+    {
+      "lemma": "seasoned",
+      "definition": "aged or processed",
+      "phrases": [
+        "seasoned timber",
+        "seasoned wood",
+        "well-seasoned lumber"
+      ]
+    },
+    {
+      "lemma": "seasoned",
+      "definition": "rendered competent through trial and experience",
+      "phrases": [
+        "a seasoned professional",
+        "a seasoned traveller",
+        "a seasoned journalist"
+      ]
+    },
+    {
+      "lemma": "reflection",
+      "definition": "the phenomenon of a propagating wave (light or sound) being thrown back from a surface",
+      "phrases": [
+        "reflection of light",
+        "reflection of sound",
+        "specular reflection"
+      ]
+    },
+    {
+      "lemma": "reflection",
+      "definition": "a calm, lengthy, intent consideration",
+      "phrases": [
+        "careful reflection",
+        "deep reflection",
+        "on reflection"
+      ]
+    },
+    {
+      "lemma": "resilient",
+      "definition": "elastic; rebounds readily",
+      "phrases": [
+        "a resilient material",
+        "resilient rubber"
+      ]
+    },
+    {
+      "lemma": "resilient",
+      "definition": "able to remain useful or recover despite difficulty and change",
+      "phrases": [
+        "a resilient industry",
+        "remain resilient",
+        "a resilient business"
+      ]
+    },
+    {
+      "lemma": "estimate",
+      "definition": "judge tentatively or form an estimate of (quantities or time)",
+      "phrases": [
+        "roughly estimate",
+        "estimate the cost",
+        "estimate how long"
+      ]
+    },
+    {
+      "lemma": "estimate",
+      "definition": "a statement indicating the likely cost of some job",
+      "phrases": [
+        "a cost estimate",
+        "a written estimate",
+        "provide an estimate"
+      ]
+    },
+    {
+      "lemma": "archery",
+      "definition": "the sport of shooting arrows with a bow",
+      "phrases": [
+        "an archery competition",
+        "an archery club",
+        "practise archery"
+      ]
+    },
+    {
+      "lemma": "archery",
+      "definition": "the sport or skill of shooting arrows with a bow",
+      "phrases": [
+        "archery lessons",
+        "an archery target"
+      ]
+    },
+    {
+      "lemma": "rotate",
+      "definition": "turn on or around an axis or a center",
+      "phrases": [
+        "rotate on an axis",
+        "rotate clockwise",
+        "rotate slowly"
+      ]
+    },
+    {
+      "lemma": "rotate",
+      "definition": "cause to turn on an axis or center",
+      "phrases": [
+        "rotate a handle",
+        "rotate clockwise",
+        "rotate an image"
+      ]
+    },
+    {
+      "lemma": "rotate",
+      "definition": "plant or grow in a fixed cyclic order of succession",
+      "phrases": [
+        "rotate crops",
+        "rotate wheat with beans"
+      ]
+    },
+    {
+      "lemma": "outcome",
+      "definition": "something that results",
+      "phrases": [
+        "the final outcome",
+        "a positive outcome",
+        "predict the outcome"
+      ]
+    },
+    {
+      "lemma": "salinity",
+      "definition": "the concentration of dissolved salts in water or soil",
+      "phrases": [
+        "soil salinity",
+        "water salinity",
+        "high salinity"
+      ]
+    },
+    {
+      "lemma": "salinity",
+      "definition": "the relative proportion of salt in a solution",
+      "phrases": [
+        "seawater salinity",
+        "measure salinity",
+        "low salinity"
+      ]
+    },
+    {
+      "lemma": "soil",
+      "definition": "material in the top layer of the surface of the earth in which plants can grow (especially with reference to its quality or use)",
+      "phrases": [
+        "fertile soil",
+        "sandy soil",
+        "soil quality"
+      ]
+    },
+    {
+      "lemma": "soil",
+      "definition": "the earth in which plants grow",
+      "phrases": [
+        "moist soil",
+        "dry soil",
+        "soil erosion"
+      ]
+    },
+    {
+      "lemma": "earthquake",
+      "definition": "shaking and vibration at the surface of the earth resulting from underground movement along a fault plane or from volcanic activity",
+      "phrases": [
+        "a powerful earthquake",
+        "an earthquake strikes",
+        "earthquake damage"
+      ]
+    },
+    {
+      "lemma": "vocabulary",
+      "definition": "a language user's knowledge of words",
+      "phrases": [
+        "expand your vocabulary",
+        "a rich vocabulary",
+        "an extensive vocabulary"
+      ]
+    },
+    {
+      "lemma": "alarm",
+      "definition": "a clock that wakes a sleeper at some preset time",
+      "phrases": [
+        "set an alarm",
+        "the alarm rings"
+      ]
+    },
+    {
+      "lemma": "battery",
+      "definition": "a device that produces electricity; may have several primary or secondary cells arranged in parallel or series",
+      "phrases": [
+        "a new battery",
+        "replace the battery",
+        "a rechargeable battery"
+      ]
+    },
+    {
+      "lemma": "bicycle",
+      "definition": "a wheeled vehicle that has two wheels and is moved by foot pedals",
+      "phrases": [
+        "ride a bicycle",
+        "borrow a bicycle"
+      ]
+    },
+    {
+      "lemma": "bus",
+      "definition": "a vehicle carrying many passengers; used for public transport",
+      "phrases": [
+        "catch a bus",
+        "miss the bus",
+        "the last bus"
+      ]
+    },
+    {
+      "lemma": "carefully",
+      "definition": "as if with kid gloves; with caution or prudence or tact",
+      "phrases": [
+        "drive carefully",
+        "handle carefully"
+      ]
+    },
+    {
+      "lemma": "check",
+      "definition": "examine so as to determine accuracy, quality, or condition",
+      "phrases": [
+        "check the condition",
+        "check for damage"
+      ]
+    },
+    {
+      "lemma": "clock",
+      "definition": "a timepiece that shows the time of day",
+      "phrases": [
+        "a wall clock",
+        "set the clock",
+        "the clock strikes eight"
+      ]
+    },
+    {
+      "lemma": "empty",
+      "definition": "holding or containing nothing",
+      "phrases": [
+        "an empty room",
+        "an empty road",
+        "an empty container"
+      ]
+    },
+    {
+      "lemma": "evening",
+      "definition": "the latter part of the day (the period of decreasing daylight from late afternoon until nightfall)",
+      "phrases": [
+        "in the evening",
+        "early evening",
+        "a quiet evening"
+      ]
+    },
+    {
+      "lemma": "first",
+      "definition": "preceding all others in time or space or degree",
+      "phrases": [
+        "the first lesson",
+        "the first time",
+        "the first day"
+      ]
+    },
+    {
+      "lemma": "gate",
+      "definition": "a movable barrier in a fence or wall",
+      "phrases": [
+        "the school gate",
+        "open the gate",
+        "a locked gate"
+      ]
+    },
+    {
+      "lemma": "help",
+      "definition": "give help or assistance; be of service",
+      "phrases": [
+        "help someone with a task",
+        "offer to help"
+      ]
+    },
+    {
+      "lemma": "late",
+      "definition": "after the expected or usual time; delayed",
+      "phrases": [
+        "late for school",
+        "late for work",
+        "ten minutes late"
+      ]
+    },
+    {
+      "lemma": "lend",
+      "definition": "give temporarily; let have for a limited time",
+      "phrases": [
+        "lend someone a bicycle",
+        "lend a book to a friend"
+      ]
+    },
+    {
+      "lemma": "lesson",
+      "definition": "a unit of instruction",
+      "phrases": [
+        "a maths lesson",
+        "attend a lesson",
+        "a private lesson"
+      ]
+    },
+    {
+      "lemma": "look",
+      "definition": "to physically appear a certain way to another individual or group",
+      "phrases": [
+        "look worried",
+        "look tired",
+        "look happy"
+      ]
+    },
+    {
+      "lemma": "maths",
+      "definition": "a science (or group of related sciences) dealing with the logic of quantity and shape and arrangement",
+      "phrases": [
+        "a maths lesson",
+        "study maths",
+        "a maths problem"
+      ]
+    },
+    {
+      "lemma": "miss",
+      "definition": "fail to attend an event or activity",
+      "phrases": [
+        "miss a lesson",
+        "miss a meeting",
+        "miss a class"
+      ]
+    },
+    {
+      "lemma": "missed",
+      "definition": "failed to catch the bus before it left",
+      "phrases": [
+        "missed the bus",
+        "missed the last bus"
+      ]
+    },
+    {
+      "lemma": "new",
+      "definition": "unaffected by use or exposure",
+      "phrases": [
+        "a new battery",
+        "brand new",
+        "a new pair of shoes"
+      ]
+    },
+    {
+      "lemma": "offer",
+      "definition": "agree freely",
+      "phrases": [
+        "offer to help",
+        "offer to carry something"
+      ]
+    },
+    {
+      "lemma": "put",
+      "definition": "put into a certain place or abstract location",
+      "phrases": [
+        "put something on the table",
+        "put something in a bag"
+      ]
+    },
+    {
+      "lemma": "run",
+      "definition": "move fast by using one's feet, with one foot off the ground at any given time",
+      "phrases": [
+        "run to school",
+        "run quickly",
+        "run a mile"
+      ]
+    },
+    {
+      "lemma": "return",
+      "definition": "give back",
+      "phrases": [
+        "return a borrowed book",
+        "return something to its owner"
+      ]
+    },
+    {
+      "lemma": "ring",
+      "definition": "sound loudly and sonorously",
+      "phrases": [
+        "the alarm rings",
+        "the telephone rings",
+        "ring loudly"
+      ]
+    },
+    {
+      "lemma": "road",
+      "definition": "an open way (generally public) for travel or transportation",
+      "phrases": [
+        "cross the road",
+        "a busy road",
+        "a narrow road"
+      ]
+    },
+    {
+      "lemma": "ride",
+      "definition": "sit on and control a vehicle",
+      "phrases": [
+        "ride a bicycle",
+        "ride a motorbike"
+      ]
+    },
+    {
+      "lemma": "see",
+      "definition": "perceive by sight or have the power to perceive by sight",
+      "phrases": [
+        "see someone clearly",
+        "see something in the distance"
+      ]
+    },
+    {
+      "lemma": "school",
+      "definition": "an educational institution",
+      "phrases": [
+        "attend school",
+        "a local school",
+        "a primary school"
+      ]
+    },
+    {
+      "lemma": "shopkeeper",
+      "definition": "a merchant who owns or manages a shop",
+      "phrases": [
+        "a local shopkeeper",
+        "a friendly shopkeeper"
+      ]
+    },
+    {
+      "lemma": "start",
+      "definition": "have a beginning, in a temporal, spatial, or evaluative sense",
+      "phrases": [
+        "the lesson starts",
+        "the meeting starts"
+      ]
+    },
+    {
+      "lemma": "stop",
+      "definition": "a spot where something halts or pauses",
+      "phrases": [
+        "a bus stop",
+        "the next stop",
+        "a request stop"
+      ]
+    },
+    {
+      "lemma": "street",
+      "definition": "a thoroughfare (usually including sidewalks) that is lined with buildings",
+      "phrases": [
+        "a quiet street",
+        "cross the street",
+        "a narrow street"
+      ]
+    },
+    {
+      "lemma": "thank",
+      "definition": "express gratitude or show appreciation to",
+      "phrases": [
+        "thank someone for their help",
+        "thank someone warmly"
+      ]
+    },
+    {
+      "lemma": "think",
+      "definition": "expect, believe, or suppose",
+      "phrases": [
+        "think that something will happen",
+        "think someone is right"
+      ]
+    },
+    {
+      "lemma": "time",
+      "definition": "an instance or single occasion for some event",
+      "phrases": [
+        "the first time",
+        "every time",
+        "one time"
+      ]
+    },
+    {
+      "lemma": "worried",
+      "definition": "mentally upset over possible misfortune or danger etc",
+      "phrases": [
+        "worried about something",
+        "look worried",
+        "deeply worried"
+      ]
+    }
+  ],
+  "excludedSynonyms": [
+    {
+      "lemma": "bus",
+      "definition": "a vehicle carrying many passengers; used for public transport",
+      "term": "double-decker",
+      "reason": "Specifies a bus with two passenger levels. A general bus is not necessarily this subtype.",
+      "reference": "https://dictionary.cambridge.org/dictionary/english/double-decker"
+    },
+    {
+      "lemma": "bus",
+      "definition": "a vehicle carrying many passengers; used for public transport",
+      "term": "charabanc",
+      "reason": "Specifies a sightseeing coach. The purpose of a general bus is not restricted to sightseeing.",
+      "reference": "https://www.merriam-webster.com/dictionary/charabanc"
+    },
+    {
+      "lemma": "bus",
+      "definition": "a vehicle carrying many passengers; used for public transport",
+      "term": "jitney",
+      "reason": "Specifies a small flexible-route public-service vehicle in this vehicle sense; other jitney meanings are not buses. Do not present it as an unrestricted replacement for a general bus.",
+      "reference": "https://www.merriam-webster.com/dictionary/jitney"
+    }
   ]
 }

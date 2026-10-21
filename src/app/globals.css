@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Native selection is temporary; only saved learner marks remain yellow. */
+.lexical-text-region ::selection, .lexical-text-region::selection { background: #bae6fd; color: #0c3050; }
+.lexical-text-region [data-lookup-active="true"] { background: #bae6fd; color: #0c3050; border-radius: 2px; }
+
 /* ===================================================================}
 
    Design tokens — the ONLY place a colour is written down
