@@ -1,0 +1,1498 @@
+{
+  "scope": "Normal CDP parent-realm exposed node properties; no sandbox bypass; temporary remote objects released.",
+  "rows": [
+    {
+      "heapId": 29811,
+      "name": "<div>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 29813,
+      "name": "<div data-reports-native=\"\" aria-busy=\"false\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30249,
+      "name": "<span class=\"module-emoji \" aria-hidden=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30251,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30253,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30255,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30257,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30261,
+      "name": "<a href=\"/app/vocabulary\" data-sidebar-link=\"/app/vocabulary\" data-nav-active-prefix=\"/app/vocabulary\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30275,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30277,
+      "name": "<ul class=\"flex flex-col gap-0.5\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30279,
+      "name": "<div class=\"flex flex-col gap-1\" data-sidebar-group=\"modules\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30281,
+      "name": "<p class=\"sidebar-group\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30283,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30291,
+      "name": "<span class=\"module-emoji \" aria-hidden=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30293,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30295,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30297,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30299,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30303,
+      "name": "<a href=\"/app/progress\" data-sidebar-link=\"/app/progress\" data-nav-active-prefix=\"/app/progress\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30317,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30327,
+      "name": "<span class=\"module-emoji \" aria-hidden=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30329,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30331,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30333,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30335,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30339,
+      "name": "<a href=\"/app/mocks\" data-sidebar-link=\"/app/mocks\" data-nav-active-prefix=\"/app/mocks\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30353,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30355,
+      "name": "<ul class=\"flex flex-col gap-0.5\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30357,
+      "name": "<div class=\"flex flex-col gap-1\" data-sidebar-group=\"progress\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30359,
+      "name": "<div class=\"flex flex-col gap-6 pb-4\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30367,
+      "name": "<p class=\"sidebar-group\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30369,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30371,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30373,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30375,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30377,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30381,
+      "name": "<a href=\"/support\" data-sidebar-link=\"/support\" data-nav-active-prefix=\"/support\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30395,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30397,
+      "name": "<ul class=\"flex flex-col gap-0.5\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30399,
+      "name": "<div class=\"flex flex-col gap-1\" data-sidebar-group=\"support\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30401,
+      "name": "<p class=\"sidebar-account\" title=\"fixture@example.invalid\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30403,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30405,
+      "name": "<div class=\"mt-auto flex flex-col gap-3 border-t border-ink-100 pt-4\" data-sidebar-group=\"support\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30407,
+      "name": "<nav class=\"flex h-full flex-col\" aria-label=\"Learning sections\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30603,
+      "name": "<p role=\"alert\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30605,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30607,
+      "name": "<button type=\"button\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30609,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30611,
+      "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30613,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30615,
+      "name": "<h2 id=\"native-confirm-1-title\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30617,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30619,
+      "name": "<p id=\"native-confirm-1-description\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30621,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30623,
+      "name": "<div class=\"interaction-confirm-dialog__actions\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30625,
+      "name": "<span data-native-confirm=\"\" style=\"display: contents;\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30655,
+      "name": "<header class=\"col-span-3 row-start-2 flex shrink-0 items-center justify-end gap-2 lg:order-none\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30657,
+      "name": "<div role=\"group\" aria-label=\"Colour theme\" data-theme-toggle=\"day\" class=\"flex items-center gap-1\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30659,
+      "name": "<span role=\"alert\" class=\"text-xs text-band-bad\" hidden=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30667,
+      "name": "<button type=\"button\" data-theme-option=\"day\" aria-label=\"Day mode\" title=\"Day mode\" class=\"theme-btn theme-btn-active\" aria-pressed=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30675,
+      "name": "<button type=\"button\" data-theme-option=\"night\" aria-label=\"Night mode\" title=\"Night mode\" class=\"theme-btn\" aria-pressed=\"false\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30679,
+      "name": "<div data-locale-switcher=\"\" class=\"flex flex-col items-start gap-1\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30681,
+      "name": "<div role=\"group\" aria-label=\"Language\" class=\"flex overflow-hidden rounded-sm border border-ink-100 text-xs font-medium\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30683,
+      "name": "<span role=\"alert\" class=\"text-xs text-band-bad\" hidden=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30685,
+      "name": "<span role=\"status\" class=\"sr-only\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30687,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30689,
+      "name": "<button type=\"button\" lang=\"uz\" aria-label=\"O'zbekcha\" aria-pressed=\"false\" class=\"px-2.5 py-1 uppercase bg-paper-raised text-ink-500 hover:bg-paper-sunken\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30691,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30695,
+      "name": "<button type=\"button\" lang=\"en\" aria-label=\"English\" aria-pressed=\"true\" class=\"px-2.5 py-1 uppercase bg-signal-600 text-signal-contrast\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30697,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30701,
+      "name": "<div class=\"flex min-w-0 flex-1 items-center gap-2\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30703,
+      "name": "<div class=\"flex min-w-0 shrink-0 justify-center lg:flex-[0_1_420px]\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30711,
+      "name": "<a href=\"/app/notifications\" class=\"relative flex shrink-0 items-center justify-center rounded-[10px] border border-ink-100 text-ink-500 hover:bg-paper-sunken hover:text-ink-900\" aria-label=\"Notifications (0)\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30715,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30719,
+      "name": "<span class=\"absolute bottom-0 right-0 rounded-full bg-paper-raised\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30733,
+      "name": "<div class=\"col-start-3 row-start-1 flex shrink-0 items-center gap-1.5 md:gap-2\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30735,
+      "name": "<main id=\"main-content\" tabindex=\"-1\" data-shell-main=\"\" class=\"min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-paper\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30737,
+      "name": "<div class=\"mx-auto w-full\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30741,
+      "name": "<div data-workspace-content=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30743,
+      "name": "<div data-outgoing-workspace=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30745,
+      "name": "<div class=\"workspace-transition\" aria-busy=\"false\" data-workspace-transition=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30749,
+      "name": "<div>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30763,
+      "name": "<body>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30869,
+      "name": "<p class=\"sidebar-group\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30871,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30885,
+      "name": "<span class=\"module-emoji \" aria-hidden=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30887,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30889,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30891,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30893,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30897,
+      "name": "<a href=\"/app\" data-sidebar-link=\"/app\" data-nav-active-prefix=\"/app\" data-nav-exact=\"true\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30915,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30925,
+      "name": "<span class=\"module-emoji \" aria-hidden=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30927,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30929,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30931,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30933,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30937,
+      "name": "<a href=\"/app/live-classes\" data-sidebar-link=\"/app/live-classes\" data-nav-active-prefix=\"/app/live-classes\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30951,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30963,
+      "name": "<span class=\"module-emoji \" aria-hidden=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30965,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30967,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30969,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30971,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30975,
+      "name": "<a href=\"/app/assignments\" data-sidebar-link=\"/app/assignments\" data-nav-active-prefix=\"/app/assignments\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30989,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30995,
+      "name": "<ul class=\"flex flex-col gap-0.5\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30997,
+      "name": "<div class=\"flex flex-col gap-1\" data-sidebar-group=\"main\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 30999,
+      "name": "<p class=\"sidebar-group\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31001,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31003,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31005,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31007,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31009,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31013,
+      "name": "<a href=\"/app/listening/lessons\" data-sidebar-link=\"/app/listening/lessons\" data-nav-active-prefix=\"/app/listening\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31027,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31037,
+      "name": "<span class=\"module-emoji \" aria-hidden=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31039,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31041,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31043,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31045,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31049,
+      "name": "<a href=\"/app/video-lessons\" data-sidebar-link=\"/app/video-lessons\" data-nav-active-prefix=\"/app/video-lessons\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31063,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31065,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31067,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31069,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31071,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31075,
+      "name": "<a href=\"/app/reading/lessons\" data-sidebar-link=\"/app/reading/lessons\" data-nav-active-prefix=\"/app/reading\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31089,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31097,
+      "name": "<span class=\"module-emoji \" aria-hidden=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31099,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31101,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31103,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31105,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31109,
+      "name": "<a href=\"/app/writing\" data-sidebar-link=\"/app/writing\" data-nav-active-prefix=\"/app/writing\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31123,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31133,
+      "name": "<span class=\"module-emoji \" aria-hidden=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31135,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31137,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31139,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31141,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31145,
+      "name": "<a href=\"/app/speaking\" data-sidebar-link=\"/app/speaking\" data-nav-active-prefix=\"/app/speaking\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31159,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31161,
+      "name": "<span aria-hidden=\"true\" class=\"sidebar-link-icon\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31163,
+      "name": "<span class=\"sidebar-link-label\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31165,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31167,
+      "name": "<span data-link-pending-slot=\"\" data-pending-label=\"Loading…\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31171,
+      "name": "<a href=\"/app/grammar/lessons\" data-sidebar-link=\"/app/grammar/lessons\" data-nav-active-prefix=\"/app/grammar\" data-nav-exact=\"false\" class=\"sidebar-link\" data-instant-navigation=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31185,
+      "name": "<li>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31253,
+      "name": "<p role=\"status\" data-report-download-status=\"\" class=\"text-sm text-ink-500\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31255,
+      "name": "<p role=\"alert\" data-report-download-error=\"\" class=\"text-sm text-band-bad\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31257,
+      "name": "<div class=\"flex flex-col gap-4\" data-reporter=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31259,
+      "name": "<div class=\"card p-5 p-4\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31261,
+      "name": "<form method=\"get\" action=\"/api/reports\" class=\"flex flex-col gap-4\" data-reporter-form=\"true\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31263,
+      "name": "<div>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31265,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31273,
+      "name": "<button type=\"submit\" class=\"btn-primary\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31275,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31277,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31279,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31281,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31283,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31285,
+      "name": "<p class=\"text-xs text-ink-500\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31287,
+      "name": "<div class=\"grid gap-3 sm:grid-cols-2\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31291,
+      "name": "<label class=\"flex flex-col gap-1 text-sm\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31293,
+      "name": "<select name=\"lang\" class=\"input\" value=\"en\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31295,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31297,
+      "name": "<option value=\"en\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31299,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31309,
+      "name": "<option value=\"uz\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31317,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31335,
+      "name": "<span class=\"font-semibold text-ink-700\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31337,
+      "name": "<label class=\"flex flex-col gap-1 text-sm\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31339,
+      "name": "<select name=\"format\" class=\"input\" value=\"pdf\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31341,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31343,
+      "name": "<option value=\"zip\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31345,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31347,
+      "name": "<option value=\"pdf\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31351,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31353,
+      "name": "<option value=\"docx\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31355,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31357,
+      "name": "<option value=\"xlsx\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31363,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31365,
+      "name": "<option value=\"csv\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31395,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31397,
+      "name": "<option value=\"json\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31403,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31405,
+      "name": "<span class=\"font-semibold text-ink-700\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31411,
+      "name": "<div class=\"grid gap-3 sm:grid-cols-2\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31413,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31421,
+      "name": "<p class=\"text-xs text-ink-500 sm:col-span-2\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31423,
+      "name": "<label class=\"flex flex-col gap-1 text-sm\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31425,
+      "name": "<input type=\"date\" name=\"to\" class=\"input\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31471,
+      "name": "<div data-shell=\"\" class=\"flex h-dvh overflow-hidden bg-paper\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31473,
+      "name": "<aside data-shell-sidebar=\"\" data-sidebar-scroll=\"\" class=\"hidden h-full shrink-0 flex-col overflow-y-auto border-r border-ink-100 bg-paper-raised px-3 py-5 md:flex\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31481,
+      "name": "<div class=\"flex min-h-0 flex-1 flex-col\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31487,
+      "name": "<img src=\"/brand/derived/owner-neon-day-96.png\" srcset=\"/brand/derived/owner-neon-day-96.png 1x, /brand/derived/owner-neon-day-192.png 2x\" width=\"48\" height=\"48\" alt=\"\" aria-hidden=\"true\" decoding=\"async\" fetchpriority=\"high\" class=\"brand-asset-light\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31489,
+      "name": "<img src=\"/brand/derived/owner-v11-night-96.png\" srcset=\"/brand/derived/owner-v11-night-96.png 1x, /brand/derived/owner-v11-night-192.png 2x\" width=\"48\" height=\"36\" alt=\"\" aria-hidden=\"true\" decoding=\"async\" fetchpriority=\"high\" class=\"brand-asset-dark\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31491,
+      "name": "<span class=\"brand-mark\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31495,
+      "name": "<span class=\"brand-name\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31497,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31499,
+      "name": "<span class=\"brand-tagline\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31501,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31503,
+      "name": "<span class=\"flex min-w-0 flex-col\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31505,
+      "name": "<span data-sidebar-brand=\"\" class=\"flex items-center gap-3 px-1\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31511,
+      "name": "<a href=\"https://t.me/learners_area\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Open Learners Area Telegram channel\" class=\"block rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal-600\" data-sidebar-brand-link=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31513,
+      "name": "<div class=\"flex h-full flex-col gap-6\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31515,
+      "name": "<div class=\"flex min-h-0 min-w-0 flex-1 flex-col\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31517,
+      "name": "<header data-shell-topbar=\"\" class=\"relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31521,
+      "name": "<div class=\"contents\" data-shell-heading-host=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31527,
+      "name": "<button type=\"button\" data-mobile-nav-toggle=\"\" aria-label=\"Menu\" aria-expanded=\"false\" aria-controls=\"mobile-nav-drawer\" class=\"shell-icon-btn md:hidden\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31547,
+      "name": "<div class=\"relative min-w-0 lg:w-full lg:max-w-[420px]\" data-global-search=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31559,
+      "name": "<button type=\"button\" data-global-search-trigger=\"\" aria-label=\"Open search\" class=\"flex items-center justify-center rounded-[10px] border border-ink-100 text-ink-500 lg:hidden\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31567,
+      "name": "<input placeholder=\"Search Learners Area…\" aria-label=\"Search\" role=\"combobox\" aria-autocomplete=\"list\" aria-expanded=\"false\" class=\"min-w-0 flex-1 bg-transparent text-[0.9375rem] text-ink-900 outline-none placeholder:text-ink-300\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31573,
+      "name": "<button type=\"button\" aria-label=\"Clear\" hidden=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31579,
+      "name": "<button type=\"button\" aria-label=\"Close search\" hidden=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31587,
+      "name": "<span class=\"flex w-16 shrink-0 items-center justify-end gap-2\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31589,
+      "name": "<div class=\"hidden h-11 items-center gap-2.5 rounded-[10px] border border-ink-100 bg-paper-sunken px-3 lg:static lg:flex lg:w-full\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31591,
+      "name": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31593,
+      "name": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31595,
+      "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31597,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31599,
+      "name": "<kbd class=\"shrink-0 rounded border border-ink-100 px-1.5 py-0.5 text-[0.6875rem] text-ink-300\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31601,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31625,
+      "name": "<div class=\"relative\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31627,
+      "name": "<span class=\"flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-signal-100 text-[0.875rem] font-semibold text-signal-700\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31629,
+      "name": "<span class=\"hidden max-w-[9rem] truncate text-[0.875rem] font-medium lg:inline\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31631,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31637,
+      "name": "<button type=\"button\" data-profile-menu-trigger=\"\" aria-label=\"Profile: Isolated fixture\" aria-haspopup=\"menu\" aria-expanded=\"false\" class=\"flex h-11 items-center gap-2 rounded-[10px] border border-ink-100 pl-1 pr-2 text-ink-500 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31639,
+      "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\" style=\"z-index: var(--z-dropdown);\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31643,
+      "name": "<div class=\"p-1.5\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31649,
+      "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31651,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31653,
+      "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31655,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31657,
+      "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31659,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31661,
+      "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31663,
+      "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31665,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31675,
+      "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31677,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31681,
+      "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31683,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31689,
+      "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31697,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31699,
+      "name": "<span class=\"font-semibold text-ink-700\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31713,
+      "name": "HTMLDocument",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 117713,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "SPAN",
+        "parentName": "SPAN"
+      }
+    },
+    {
+      "heapId": 117715,
+      "name": "<span role=\"status\" class=\"sr-only\">",
+      "exposed": {
+        "nodeName": "SPAN",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "SPAN"
+      }
+    },
+    {
+      "heapId": 117791,
+      "name": "<div>",
+      "exposed": {
+        "nodeName": "DIV",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV"
+      }
+    },
+    {
+      "heapId": 31779,
+      "name": "<label class=\"flex flex-col gap-1 text-sm\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31781,
+      "name": "<input type=\"date\" name=\"from\" class=\"input\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31783,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31785,
+      "name": "<span class=\"font-semibold text-ink-700\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31787,
+      "name": "<label class=\"flex flex-col gap-1 text-sm\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31789,
+      "name": "<select name=\"period\" class=\"input\" value=\"monthly\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31791,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31793,
+      "name": "<option value=\"custom\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31795,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31797,
+      "name": "<option value=\"yearly\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31799,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31801,
+      "name": "<option value=\"monthly\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31803,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31805,
+      "name": "<option value=\"weekly\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31807,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31825,
+      "name": "<div id=\"root\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31843,
+      "name": "<option value=\"on_demand\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31845,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31847,
+      "name": "<span class=\"font-semibold text-ink-700\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31849,
+      "name": "<fieldset class=\"flex flex-col gap-2\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31851,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31857,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31859,
+      "name": "<label class=\"flex items-center gap-2 text-sm\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31861,
+      "name": "<input type=\"radio\" name=\"scope\" value=\"student\" checked=\"\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31863,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31865,
+      "name": "<legend class=\"text-sm font-semibold text-ink-700\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31867,
+      "name": "<input type=\"hidden\" name=\"ui\" value=\"1\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31869,
+      "name": "<div>",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31871,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31873,
+      "name": "<p class=\"text-sm text-ink-500\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31883,
+      "name": "Text",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31885,
+      "name": "<h1 class=\"font-display text-2xl text-ink-900\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 31909,
+      "name": "<html lang=\"en\" data-theme=\"day\" data-focus=\"off\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    },
+    {
+      "heapId": 117951,
+      "name": "<a href=\"/login\">",
+      "unavailable": "cdpSession.send: Protocol error (HeapProfiler.getObjectByHeapObjectId): Object is not available"
+    }
+  ],
+  "native": {
+    "detachedNodes": [
+      {
+        "treeNode": {
+          "nodeId": 41,
+          "backendNodeId": 53,
+          "nodeType": 1,
+          "nodeName": "SPAN",
+          "localName": "span",
+          "nodeValue": "",
+          "childNodeCount": 1,
+          "children": [
+            {
+              "nodeId": 42,
+              "parentId": 41,
+              "backendNodeId": 54,
+              "nodeType": 3,
+              "nodeName": "#text",
+              "localName": "",
+              "nodeValue": "Loading…"
+            }
+          ],
+          "attributes": [
+            "role",
+            "status",
+            "class",
+            "sr-only"
+          ]
+        },
+        "retainedNodeIds": [
+          53,
+          54
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 43,
+          "backendNodeId": 55,
+          "nodeType": 1,
+          "nodeName": "DIV",
+          "localName": "div",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": []
+        },
+        "retainedNodeIds": [
+          55
+        ]
+      }
+    ]
+  }
+}

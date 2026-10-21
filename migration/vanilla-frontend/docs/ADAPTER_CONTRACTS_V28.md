@@ -1,0 +1,5 @@
+# Adapter contracts V28
+
+V27/V26 contracts unchanged. No runtime/controller/media/API/ID/publication changes. Existing ReviewAuthorityBarrier, source bridge, CheckpointWriter, ReviewJournal, lexical/media controllers retained. UI epoch differs from route writer lifetime and canonical identity. Fresh bounded authoritative validation remains required; URL/history/storage/hints never grant permission. Exact own byte ACK, singleflight, pending-byte retention, explicit Retry/Adopt, canonical/foreign isolation and source fences unchanged. No uncertain auto-replay/unconfirmed delete/false progress or aggregate ACK. No exactly-once/CAS/rollback/cross-device-lock guarantee.
+
+Sandbox allow-scripts only, existing CSP,256KiB Range/8MiB LRU/max2 transports, MSE recovery/Blob fallback unchanged. Body/Network/Media diagnostic claims have distinct scope; see V28_RESOURCE_OWNERSHIP.md. Authored vocabulary backend exam policy remains external GPT Work UNVERIFIED; no new endpoint or live probe. Test10/25 existing numerical timing handoff unchanged and external only.

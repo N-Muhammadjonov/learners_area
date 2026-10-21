@@ -1,0 +1,181 @@
+{
+  "before": {
+    "documents": 2,
+    "nodes": 510,
+    "jsEventListeners": 152
+  },
+  "after": {
+    "documents": 2,
+    "nodes": 541,
+    "jsEventListeners": 152
+  },
+  "afterSnapshot": {
+    "documents": 2,
+    "nodes": 472,
+    "jsEventListeners": 152
+  },
+  "connected": {
+    "nodes": 278,
+    "frames": 0,
+    "dialogs": 0,
+    "loading": 0,
+    "focus": "MAIN"
+  },
+  "detached": null,
+  "stages": [
+    {
+      "name": "original-immediate",
+      "counts": {
+        "documents": 2,
+        "nodes": 541,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-0",
+      "counts": {
+        "documents": 2,
+        "nodes": 472,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-1",
+      "counts": {
+        "documents": 2,
+        "nodes": 472,
+        "jsEventListeners": 152
+      }
+    },
+    {
+      "name": "frame-and-GC-2",
+      "counts": {
+        "documents": 2,
+        "nodes": 472,
+        "jsEventListeners": 152
+      }
+    }
+  ],
+  "samples": [
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 33
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 81
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 29
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 41
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 36
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 23
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 34
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 19
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 36
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 35
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 46
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 36
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 34
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 38
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 20
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 45
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 59
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 30
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 54
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 37
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 22
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 58
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 55
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 39
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 52
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 72
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 26
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 51
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 30
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 12
+    }
+  ]
+}

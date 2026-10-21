@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-21T04:35:39.225Z",
+  "scope": "authorized synthetic fixtures only; no live acceptance",
+  "results": [
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 4,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

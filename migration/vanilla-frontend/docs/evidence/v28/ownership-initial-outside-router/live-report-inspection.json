@@ -1,0 +1,1089 @@
+{
+  "scope": "Normal CDP parent-realm exposed node properties; no sandbox bypass; temporary remote objects released.",
+  "rows": [
+    {
+      "heapId": 29811,
+      "name": "<div>",
+      "exposed": {
+        "nodeName": "DIV",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV"
+      }
+    },
+    {
+      "heapId": 30603,
+      "name": "<p role=\"alert\">",
+      "exposed": {
+        "nodeName": "P",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "P"
+      }
+    },
+    {
+      "heapId": 30605,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "P",
+        "parentName": "P"
+      }
+    },
+    {
+      "heapId": 30607,
+      "name": "<button type=\"button\">",
+      "exposed": {
+        "nodeName": "BUTTON",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 30609,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "BUTTON"
+      }
+    },
+    {
+      "heapId": 30611,
+      "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+      "exposed": {
+        "nodeName": "BUTTON",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 30613,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "BUTTON"
+      }
+    },
+    {
+      "heapId": 30615,
+      "name": "<h2 id=\"native-confirm-1-title\">",
+      "exposed": {
+        "nodeName": "H2",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIALOG"
+      }
+    },
+    {
+      "heapId": 30617,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "H2"
+      }
+    },
+    {
+      "heapId": 30619,
+      "name": "<p id=\"native-confirm-1-description\">",
+      "exposed": {
+        "nodeName": "P",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIALOG"
+      }
+    },
+    {
+      "heapId": 30621,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "P"
+      }
+    },
+    {
+      "heapId": 30623,
+      "name": "<div class=\"interaction-confirm-dialog__actions\">",
+      "exposed": {
+        "nodeName": "DIV",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIALOG"
+      }
+    },
+    {
+      "heapId": 30625,
+      "name": "<span data-native-confirm=\"\">",
+      "exposed": {
+        "nodeName": "SPAN",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 30685,
+      "name": "<span role=\"status\" class=\"sr-only\">",
+      "exposed": {
+        "nodeName": "SPAN",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "SPAN"
+      }
+    },
+    {
+      "heapId": 30687,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "SPAN",
+        "parentName": "SPAN"
+      }
+    },
+    {
+      "heapId": 31253,
+      "name": "<p role=\"status\" data-report-download-status=\"\" class=\"text-sm text-ink-500\">",
+      "exposed": {
+        "nodeName": "P",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "P"
+      }
+    },
+    {
+      "heapId": 31255,
+      "name": "<p role=\"alert\" data-report-download-error=\"\" class=\"text-sm text-band-bad\">",
+      "exposed": {
+        "nodeName": "P",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "P"
+      }
+    },
+    {
+      "heapId": 31591,
+      "name": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+      "exposed": {
+        "nodeName": "DIV",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV"
+      }
+    },
+    {
+      "heapId": 31593,
+      "name": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+      "exposed": {
+        "nodeName": "DIV",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 31595,
+      "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+      "exposed": {
+        "nodeName": "DIV",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 31597,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 31639,
+      "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+      "exposed": {
+        "nodeName": "DIV",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV"
+      }
+    },
+    {
+      "heapId": 31643,
+      "name": "<div class=\"p-1.5\">",
+      "exposed": {
+        "nodeName": "DIV",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 31649,
+      "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+      "exposed": {
+        "nodeName": "P",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 31651,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "P"
+      }
+    },
+    {
+      "heapId": 31653,
+      "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+      "exposed": {
+        "nodeName": "P",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 31655,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "P"
+      }
+    },
+    {
+      "heapId": 31657,
+      "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+      "exposed": {
+        "nodeName": "P",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 31659,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "P"
+      }
+    },
+    {
+      "heapId": 31661,
+      "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+      "exposed": {
+        "nodeName": "DIV",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 31663,
+      "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+      "exposed": {
+        "nodeName": "A",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 31665,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "A"
+      }
+    },
+    {
+      "heapId": 31675,
+      "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+      "exposed": {
+        "nodeName": "A",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "DIV"
+      }
+    },
+    {
+      "heapId": 31677,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "A"
+      }
+    },
+    {
+      "heapId": 31681,
+      "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+      "exposed": {
+        "nodeName": "BUTTON",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "SPAN"
+      }
+    },
+    {
+      "heapId": 31683,
+      "name": "Text",
+      "exposed": {
+        "nodeName": "#text",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "BUTTON"
+      }
+    },
+    {
+      "heapId": 31689,
+      "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+      "exposed": {
+        "nodeName": "DIALOG",
+        "connected": false,
+        "ownerIsParent": true,
+        "rootName": "DIV",
+        "parentName": "SPAN"
+      }
+    }
+  ],
+  "native": {
+    "detachedNodes": [
+      {
+        "treeNode": {
+          "nodeId": 1,
+          "backendNodeId": 11,
+          "nodeType": 1,
+          "nodeName": "DIV",
+          "localName": "div",
+          "nodeValue": "",
+          "childNodeCount": 2,
+          "children": [
+            {
+              "nodeId": 2,
+              "parentId": 1,
+              "backendNodeId": 12,
+              "nodeType": 1,
+              "nodeName": "DIV",
+              "localName": "div",
+              "nodeValue": "",
+              "childNodeCount": 0,
+              "children": [],
+              "attributes": [
+                "class",
+                "min-h-0 flex-1 overflow-y-auto p-2"
+              ]
+            },
+            {
+              "nodeId": 3,
+              "parentId": 1,
+              "backendNodeId": 13,
+              "nodeType": 1,
+              "nodeName": "DIV",
+              "localName": "div",
+              "nodeValue": "",
+              "childNodeCount": 1,
+              "children": [
+                {
+                  "nodeId": 4,
+                  "parentId": 3,
+                  "backendNodeId": 14,
+                  "nodeType": 3,
+                  "nodeName": "#text",
+                  "localName": "",
+                  "nodeValue": "↑↓ to choose · Enter to open · Esc to close"
+                }
+              ],
+              "attributes": [
+                "class",
+                "border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300"
+              ]
+            }
+          ],
+          "attributes": [
+            "data-global-search-dialog",
+            "",
+            "class",
+            "absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full",
+            "data-search-state",
+            "idle"
+          ]
+        },
+        "retainedNodeIds": [
+          11,
+          12,
+          13,
+          14
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 5,
+          "backendNodeId": 15,
+          "nodeType": 1,
+          "nodeName": "DIV",
+          "localName": "div",
+          "nodeValue": "",
+          "childNodeCount": 2,
+          "children": [
+            {
+              "nodeId": 6,
+              "parentId": 5,
+              "backendNodeId": 16,
+              "nodeType": 1,
+              "nodeName": "DIV",
+              "localName": "div",
+              "nodeValue": "",
+              "childNodeCount": 3,
+              "children": [
+                {
+                  "nodeId": 7,
+                  "parentId": 6,
+                  "backendNodeId": 17,
+                  "nodeType": 1,
+                  "nodeName": "P",
+                  "localName": "p",
+                  "nodeValue": "",
+                  "childNodeCount": 1,
+                  "children": [
+                    {
+                      "nodeId": 8,
+                      "parentId": 7,
+                      "backendNodeId": 18,
+                      "nodeType": 3,
+                      "nodeName": "#text",
+                      "localName": "",
+                      "nodeValue": "Isolated fixture"
+                    }
+                  ],
+                  "attributes": [
+                    "class",
+                    "truncate text-[0.9375rem] font-medium text-ink-900"
+                  ]
+                },
+                {
+                  "nodeId": 9,
+                  "parentId": 6,
+                  "backendNodeId": 19,
+                  "nodeType": 1,
+                  "nodeName": "P",
+                  "localName": "p",
+                  "nodeValue": "",
+                  "childNodeCount": 1,
+                  "children": [
+                    {
+                      "nodeId": 10,
+                      "parentId": 9,
+                      "backendNodeId": 20,
+                      "nodeType": 3,
+                      "nodeName": "#text",
+                      "localName": "",
+                      "nodeValue": "fixture@example.invalid"
+                    }
+                  ],
+                  "attributes": [
+                    "class",
+                    "truncate text-[0.8125rem] text-ink-300"
+                  ]
+                },
+                {
+                  "nodeId": 11,
+                  "parentId": 6,
+                  "backendNodeId": 21,
+                  "nodeType": 1,
+                  "nodeName": "P",
+                  "localName": "p",
+                  "nodeValue": "",
+                  "childNodeCount": 1,
+                  "children": [
+                    {
+                      "nodeId": 12,
+                      "parentId": 11,
+                      "backendNodeId": 22,
+                      "nodeType": 3,
+                      "nodeName": "#text",
+                      "localName": "",
+                      "nodeValue": "Student"
+                    }
+                  ],
+                  "attributes": [
+                    "class",
+                    "mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700"
+                  ]
+                }
+              ],
+              "attributes": [
+                "class",
+                "border-b border-ink-100 px-3.5 py-3"
+              ]
+            },
+            {
+              "nodeId": 13,
+              "parentId": 5,
+              "backendNodeId": 23,
+              "nodeType": 1,
+              "nodeName": "DIV",
+              "localName": "div",
+              "nodeValue": "",
+              "childNodeCount": 3,
+              "children": [
+                {
+                  "nodeId": 14,
+                  "parentId": 13,
+                  "backendNodeId": 24,
+                  "nodeType": 1,
+                  "nodeName": "A",
+                  "localName": "a",
+                  "nodeValue": "",
+                  "childNodeCount": 1,
+                  "children": [
+                    {
+                      "nodeId": 15,
+                      "parentId": 14,
+                      "backendNodeId": 25,
+                      "nodeType": 3,
+                      "nodeName": "#text",
+                      "localName": "",
+                      "nodeValue": "Profile"
+                    }
+                  ],
+                  "attributes": [
+                    "href",
+                    "/app/profile",
+                    "role",
+                    "menuitem",
+                    "class",
+                    "flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900"
+                  ]
+                },
+                {
+                  "nodeId": 16,
+                  "parentId": 13,
+                  "backendNodeId": 26,
+                  "nodeType": 1,
+                  "nodeName": "A",
+                  "localName": "a",
+                  "nodeValue": "",
+                  "childNodeCount": 2,
+                  "children": [
+                    {
+                      "nodeId": 17,
+                      "parentId": 16,
+                      "backendNodeId": 27,
+                      "nodeType": 1,
+                      "nodeName": "svg",
+                      "localName": "svg",
+                      "nodeValue": "",
+                      "childNodeCount": 2,
+                      "children": [
+                        {
+                          "nodeId": 18,
+                          "parentId": 17,
+                          "backendNodeId": 28,
+                          "nodeType": 1,
+                          "nodeName": "circle",
+                          "localName": "circle",
+                          "nodeValue": "",
+                          "childNodeCount": 0,
+                          "children": [],
+                          "attributes": [
+                            "cx",
+                            "12",
+                            "cy",
+                            "8.5",
+                            "r",
+                            "3.8"
+                          ],
+                          "isSVG": true
+                        },
+                        {
+                          "nodeId": 19,
+                          "parentId": 17,
+                          "backendNodeId": 29,
+                          "nodeType": 1,
+                          "nodeName": "path",
+                          "localName": "path",
+                          "nodeValue": "",
+                          "childNodeCount": 0,
+                          "children": [],
+                          "attributes": [
+                            "d",
+                            "M4.5 20.5a7.5 7.5 0 0 1 15 0"
+                          ],
+                          "isSVG": true
+                        }
+                      ],
+                      "attributes": [
+                        "viewBox",
+                        "0 0 24 24",
+                        "width",
+                        "1em",
+                        "height",
+                        "1em",
+                        "fill",
+                        "none",
+                        "stroke",
+                        "currentColor",
+                        "stroke-width",
+                        "1.6",
+                        "stroke-linecap",
+                        "round",
+                        "stroke-linejoin",
+                        "round",
+                        "class",
+                        "text-[18px] text-ink-300",
+                        "aria-hidden",
+                        "true",
+                        "focusable",
+                        "false"
+                      ],
+                      "isSVG": true
+                    },
+                    {
+                      "nodeId": 20,
+                      "parentId": 16,
+                      "backendNodeId": 30,
+                      "nodeType": 3,
+                      "nodeName": "#text",
+                      "localName": "",
+                      "nodeValue": "Edit name"
+                    }
+                  ],
+                  "attributes": [
+                    "href",
+                    "/app/profile?edit=name",
+                    "role",
+                    "menuitem",
+                    "class",
+                    "flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900",
+                    "data-profile-menu-edit-name",
+                    ""
+                  ]
+                },
+                {
+                  "nodeId": 21,
+                  "parentId": 13,
+                  "backendNodeId": 31,
+                  "nodeType": 1,
+                  "nodeName": "SPAN",
+                  "localName": "span",
+                  "nodeValue": "",
+                  "childNodeCount": 2,
+                  "children": [
+                    {
+                      "nodeId": 22,
+                      "parentId": 21,
+                      "backendNodeId": 32,
+                      "nodeType": 1,
+                      "nodeName": "BUTTON",
+                      "localName": "button",
+                      "nodeValue": "",
+                      "childNodeCount": 1,
+                      "children": [
+                        {
+                          "nodeId": 23,
+                          "parentId": 22,
+                          "backendNodeId": 33,
+                          "nodeType": 3,
+                          "nodeName": "#text",
+                          "localName": "",
+                          "nodeValue": "Log out"
+                        }
+                      ],
+                      "attributes": [
+                        "type",
+                        "button",
+                        "role",
+                        "menuitem",
+                        "class",
+                        "flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900",
+                        "aria-haspopup",
+                        "dialog",
+                        "aria-expanded",
+                        "false",
+                        "data-interaction-type",
+                        "destructive"
+                      ]
+                    },
+                    {
+                      "nodeId": 24,
+                      "parentId": 21,
+                      "backendNodeId": 34,
+                      "nodeType": 1,
+                      "nodeName": "DIALOG",
+                      "localName": "dialog",
+                      "nodeValue": "",
+                      "childNodeCount": 3,
+                      "children": [
+                        {
+                          "nodeId": 25,
+                          "parentId": 24,
+                          "backendNodeId": 35,
+                          "nodeType": 1,
+                          "nodeName": "H2",
+                          "localName": "h2",
+                          "nodeValue": "",
+                          "childNodeCount": 1,
+                          "children": [
+                            {
+                              "nodeId": 26,
+                              "parentId": 25,
+                              "backendNodeId": 36,
+                              "nodeType": 3,
+                              "nodeName": "#text",
+                              "localName": "",
+                              "nodeValue": "Sign out of Learners Area?"
+                            }
+                          ],
+                          "attributes": [
+                            "id",
+                            "native-confirm-1-title"
+                          ]
+                        },
+                        {
+                          "nodeId": 27,
+                          "parentId": 24,
+                          "backendNodeId": 37,
+                          "nodeType": 1,
+                          "nodeName": "P",
+                          "localName": "p",
+                          "nodeValue": "",
+                          "childNodeCount": 1,
+                          "children": [
+                            {
+                              "nodeId": 28,
+                              "parentId": 27,
+                              "backendNodeId": 38,
+                              "nodeType": 3,
+                              "nodeName": "#text",
+                              "localName": "",
+                              "nodeValue": "Your current session will end, and you will need to sign in again to continue."
+                            }
+                          ],
+                          "attributes": [
+                            "id",
+                            "native-confirm-1-description"
+                          ]
+                        },
+                        {
+                          "nodeId": 29,
+                          "parentId": 24,
+                          "backendNodeId": 39,
+                          "nodeType": 1,
+                          "nodeName": "DIV",
+                          "localName": "div",
+                          "nodeValue": "",
+                          "childNodeCount": 2,
+                          "children": [
+                            {
+                              "nodeId": 30,
+                              "parentId": 29,
+                              "backendNodeId": 40,
+                              "nodeType": 1,
+                              "nodeName": "BUTTON",
+                              "localName": "button",
+                              "nodeValue": "",
+                              "childNodeCount": 1,
+                              "children": [
+                                {
+                                  "nodeId": 31,
+                                  "parentId": 30,
+                                  "backendNodeId": 41,
+                                  "nodeType": 3,
+                                  "nodeName": "#text",
+                                  "localName": "",
+                                  "nodeValue": "Cancel"
+                                }
+                              ],
+                              "attributes": [
+                                "type",
+                                "button"
+                              ]
+                            },
+                            {
+                              "nodeId": 32,
+                              "parentId": 29,
+                              "backendNodeId": 42,
+                              "nodeType": 1,
+                              "nodeName": "BUTTON",
+                              "localName": "button",
+                              "nodeValue": "",
+                              "childNodeCount": 1,
+                              "children": [
+                                {
+                                  "nodeId": 33,
+                                  "parentId": 32,
+                                  "backendNodeId": 43,
+                                  "nodeType": 3,
+                                  "nodeName": "#text",
+                                  "localName": "",
+                                  "nodeValue": "Sign out"
+                                }
+                              ],
+                              "attributes": [
+                                "type",
+                                "button",
+                                "class",
+                                "btn-primary",
+                                "data-confirm-action",
+                                "",
+                                "data-interaction-type",
+                                "mutation"
+                              ]
+                            }
+                          ],
+                          "attributes": [
+                            "class",
+                            "interaction-confirm-dialog__actions"
+                          ]
+                        }
+                      ],
+                      "attributes": [
+                        "class",
+                        "interaction-confirm-dialog",
+                        "aria-labelledby",
+                        "native-confirm-1-title",
+                        "aria-describedby",
+                        "native-confirm-1-description"
+                      ]
+                    }
+                  ],
+                  "attributes": [
+                    "data-native-confirm",
+                    "",
+                    "style",
+                    "display: contents;"
+                  ]
+                }
+              ],
+              "attributes": [
+                "class",
+                "p-1.5"
+              ]
+            }
+          ],
+          "attributes": [
+            "role",
+            "menu",
+            "data-profile-menu",
+            "",
+            "class",
+            "absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised",
+            "style",
+            "z-index: var(--z-dropdown);"
+          ]
+        },
+        "retainedNodeIds": [
+          15,
+          23,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          16,
+          24,
+          25,
+          28,
+          29,
+          27,
+          26,
+          30,
+          32,
+          33,
+          34,
+          40,
+          41,
+          42,
+          43,
+          35,
+          36,
+          37,
+          38,
+          39,
+          31
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 34,
+          "backendNodeId": 44,
+          "nodeType": 1,
+          "nodeName": "P",
+          "localName": "p",
+          "nodeValue": "",
+          "childNodeCount": 1,
+          "children": [
+            {
+              "nodeId": 35,
+              "parentId": 34,
+              "backendNodeId": 45,
+              "nodeType": 3,
+              "nodeName": "#text",
+              "localName": "",
+              "nodeValue": "The service is temporarily unavailable. Please try again in a moment."
+            }
+          ],
+          "attributes": [
+            "role",
+            "alert"
+          ]
+        },
+        "retainedNodeIds": [
+          44,
+          45
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 36,
+          "backendNodeId": 46,
+          "nodeType": 1,
+          "nodeName": "SPAN",
+          "localName": "span",
+          "nodeValue": "",
+          "childNodeCount": 1,
+          "children": [
+            {
+              "nodeId": 37,
+              "parentId": 36,
+              "backendNodeId": 47,
+              "nodeType": 3,
+              "nodeName": "#text",
+              "localName": "",
+              "nodeValue": "Loading…"
+            }
+          ],
+          "attributes": [
+            "role",
+            "status",
+            "class",
+            "sr-only"
+          ]
+        },
+        "retainedNodeIds": [
+          46,
+          47
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 38,
+          "backendNodeId": 48,
+          "nodeType": 1,
+          "nodeName": "P",
+          "localName": "p",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "role",
+            "alert",
+            "data-report-download-error",
+            "",
+            "class",
+            "text-sm text-band-bad"
+          ]
+        },
+        "retainedNodeIds": [
+          48
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 39,
+          "backendNodeId": 49,
+          "nodeType": 1,
+          "nodeName": "P",
+          "localName": "p",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": [
+            "role",
+            "status",
+            "data-report-download-status",
+            "",
+            "class",
+            "text-sm text-ink-500"
+          ]
+        },
+        "retainedNodeIds": [
+          49
+        ]
+      },
+      {
+        "treeNode": {
+          "nodeId": 40,
+          "backendNodeId": 50,
+          "nodeType": 1,
+          "nodeName": "DIV",
+          "localName": "div",
+          "nodeValue": "",
+          "childNodeCount": 0,
+          "children": [],
+          "attributes": []
+        },
+        "retainedNodeIds": [
+          50
+        ]
+      }
+    ]
+  }
+}

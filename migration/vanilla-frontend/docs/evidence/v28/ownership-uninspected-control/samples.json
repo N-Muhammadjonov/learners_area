@@ -1,0 +1,110 @@
+[
+  {
+    "stage": "initial-report",
+    "counts": {
+      "documents": 2,
+      "nodes": 472,
+      "jsEventListeners": 152
+    },
+    "parent": {
+      "intervals": [],
+      "timers": [
+        "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)",
+        "    at window.setTimeout (<anonymous>:13:63)\n    at modulePrewarm (http://127.0.0.1:4173/js/module-prewarm.js:16:21)\n    at createShell (http://127.0.0.1:4173/modules/shell/layout.js:38:2)"
+      ],
+      "rafs": [],
+      "observers": [],
+      "urls": 0,
+      "unabortedControllers": 4,
+      "controllerOwners": [
+        "    at new window.AbortController (<anonymous>:18:141)\n    at Object.render [as start] (http://127.0.0.1:4173/js/router.js:7:291)\n    at http://127.0.0.1:4173/js/main.js:12:13",
+        "    at new window.AbortController (<anonymous>:18:141)\n    at ensureAuthority (http://127.0.0.1:4173/js/workspace.js:31:70)\n    at Object.commit (http://127.0.0.1:4173/js/workspace.js:36:3)",
+        "    at new window.AbortController (<anonymous>:18:141)\n    at Object.commit (http://127.0.0.1:4173/js/workspace.js:41:365)\n    at commit (http://127.0.0.1:4173/js/main.js:11:493)",
+        "    at new window.AbortController (<anonymous>:18:141)\n    at refresh (http://127.0.0.1:4173/modules/shell/notifications.js:9:118)\n    at <anonymous>:13:156"
+      ],
+      "requests": 0,
+      "peakRequests": 2,
+      "audio": [],
+      "frames": 0,
+      "dialogs": 0
+    }
+  },
+  {
+    "stage": "settled-report",
+    "counts": {
+      "documents": 2,
+      "nodes": 541,
+      "jsEventListeners": 152
+    },
+    "parent": {
+      "intervals": [],
+      "timers": [
+        "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)",
+        "    at window.setTimeout (<anonymous>:13:63)\n    at modulePrewarm (http://127.0.0.1:4173/js/module-prewarm.js:16:21)\n    at createShell (http://127.0.0.1:4173/modules/shell/layout.js:38:2)"
+      ],
+      "rafs": [],
+      "observers": [],
+      "urls": 0,
+      "unabortedControllers": 4,
+      "controllerOwners": [
+        "    at new window.AbortController (<anonymous>:18:141)\n    at ensureAuthority (http://127.0.0.1:4173/js/workspace.js:31:70)\n    at Object.commit (http://127.0.0.1:4173/js/workspace.js:36:3)",
+        "    at new window.AbortController (<anonymous>:18:141)\n    at Object.commit (http://127.0.0.1:4173/js/workspace.js:41:365)\n    at commit (http://127.0.0.1:4173/js/main.js:11:493)",
+        "    at new window.AbortController (<anonymous>:18:141)\n    at refresh (http://127.0.0.1:4173/modules/shell/notifications.js:9:118)\n    at <anonymous>:13:156",
+        "    at new window.AbortController (<anonymous>:18:141)\n    at render (http://127.0.0.1:4173/js/router.js:7:291)\n    at navigate (http://127.0.0.1:4173/js/router.js:16:398)"
+      ],
+      "requests": 0,
+      "peakRequests": 3,
+      "audio": [],
+      "frames": 0,
+      "dialogs": 0
+    }
+  },
+  {
+    "stage": "shell-disposed",
+    "counts": {
+      "documents": 2,
+      "nodes": 545,
+      "jsEventListeners": 97
+    },
+    "parent": {
+      "intervals": [],
+      "timers": [],
+      "rafs": [],
+      "observers": [],
+      "urls": 0,
+      "unabortedControllers": 1,
+      "controllerOwners": [
+        "    at new window.AbortController (<anonymous>:18:141)\n    at render (http://127.0.0.1:4173/js/router.js:7:291)\n    at history (http://127.0.0.1:4173/js/router.js:18:95)"
+      ],
+      "requests": 0,
+      "peakRequests": 3,
+      "audio": [],
+      "frames": 0,
+      "dialogs": 0
+    }
+  },
+  {
+    "stage": "shell-disposed-frame",
+    "counts": {
+      "documents": 2,
+      "nodes": 501,
+      "jsEventListeners": 101
+    },
+    "parent": {
+      "intervals": [],
+      "timers": [],
+      "rafs": [],
+      "observers": [],
+      "urls": 0,
+      "unabortedControllers": 1,
+      "controllerOwners": [
+        "    at new window.AbortController (<anonymous>:18:141)\n    at render (http://127.0.0.1:4173/js/router.js:7:291)\n    at history (http://127.0.0.1:4173/js/router.js:18:95)"
+      ],
+      "requests": 0,
+      "peakRequests": 3,
+      "audio": [],
+      "frames": 0,
+      "dialogs": 0
+    }
+  }
+]

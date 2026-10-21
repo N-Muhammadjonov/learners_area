@@ -1,0 +1,7 @@
+# Ownership diagnostic chronology — not strict Phase2 retries
+
+1. Fixed original four-run strict series: 4PASS, no rerun. All counters and histories retained.
+2. Additional 3-cycle matched ownership inspection: appended /login anchor outside router root caused document navigation, not route cleanup. Saved ownership-initial-outside-router; not accepted cleanup proof.
+3. Corrected same-document path initially stopped at unsupported DOM.disable (DOM agent not enabled), before disposal; raw failure and available stages retained in ownership-dom-disable-error. No product assertion was weakened.
+4. Corrected same-document run passed marker identity, identified four legitimate controllers and two live-shell timers; remote heap objects released. 285 non-animation native targets remained immediately following shell disposal, many through StyleEngine or opaque InternalNode roots; cannot attribute these universally to application leaks or exclusively to inspector. Native getObject exposure availability/errors retained.
+5. Predetermined ONE additional paired control now: same 3-cycle route/shell path, no heap object exposure or DOM detached-node lookup. Raw snapshots only. Three/frame GC not used to replace original assertions. This control tests measurement interference; no runtime cleanup workaround or repeat-until-PASS series. Historical 13 IDs cannot be re-identified from absent heap binaries; complete fresh target lists do not invent those identities.

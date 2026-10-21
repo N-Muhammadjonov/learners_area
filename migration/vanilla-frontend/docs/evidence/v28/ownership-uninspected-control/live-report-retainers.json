@@ -1,0 +1,5158 @@
+{
+  "snapshotName": "control-live-report.heapsnapshot",
+  "snapshotSHA256": "20f608488c092c084ab3927a8c443f44342a0900e785531456f1f44e9589b2d2",
+  "snapshotBytes": 6657561,
+  "nodeFields": [
+    "type",
+    "name",
+    "id",
+    "self_size",
+    "edge_count",
+    "detachedness"
+  ],
+  "detachedDOMTargets": 37,
+  "shortestStrongPathCategories": {
+    "otherStrongPath": 37
+  },
+  "examples": {
+    "otherStrongPath": {
+      "targetId": 29813,
+      "targetName": "<div>",
+      "retainingPath": [
+        {
+          "id": 107397,
+          "type": "object",
+          "name": "Object",
+          "edgeType": "property",
+          "edgeName": "root"
+        },
+        {
+          "id": 106839,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "context"
+        },
+        {
+          "id": 106843,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "internal",
+          "edgeName": "previous"
+        },
+        {
+          "id": 29831,
+          "type": "closure",
+          "name": "remember",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 40238,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43314,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44552,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 30652,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 30648,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 40242,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29823,
+          "type": "native",
+          "name": "<form method=\"get\" action=\"/api/reports\" class=\"flex flex-col gap-4\" data-reporter-form=\"true\">",
+          "edgeType": "element",
+          "edgeName": "15"
+        },
+        {
+          "id": 1252,
+          "type": "native",
+          "name": "<input type=\"date\" name=\"to\" class=\"input\">",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 1242,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 15004,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 13058,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 12784,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 12754,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "26"
+        },
+        {
+          "id": 4310,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 11472,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 11360,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 45022,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "112"
+        }
+      ]
+    }
+  },
+  "allNonAnimationTargets": [
+    {
+      "targetId": 29813,
+      "targetName": "<div>",
+      "retainingPath": [
+        {
+          "id": 107397,
+          "type": "object",
+          "name": "Object",
+          "edgeType": "property",
+          "edgeName": "root"
+        },
+        {
+          "id": 106839,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "context"
+        },
+        {
+          "id": 106843,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "internal",
+          "edgeName": "previous"
+        },
+        {
+          "id": 29831,
+          "type": "closure",
+          "name": "remember",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 40238,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43314,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44552,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 30652,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 30648,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 40242,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29823,
+          "type": "native",
+          "name": "<form method=\"get\" action=\"/api/reports\" class=\"flex flex-col gap-4\" data-reporter-form=\"true\">",
+          "edgeType": "element",
+          "edgeName": "15"
+        },
+        {
+          "id": 1252,
+          "type": "native",
+          "name": "<input type=\"date\" name=\"to\" class=\"input\">",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 1242,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 15004,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 13058,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 12784,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 12754,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "26"
+        },
+        {
+          "id": 4310,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 11472,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 11360,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 45022,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "112"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 29813,
+          "type": "native",
+          "name": "<div>",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 107397,
+          "type": "object",
+          "name": "Object",
+          "edgeType": "property",
+          "edgeName": "root"
+        },
+        {
+          "id": 108761,
+          "type": "hidden",
+          "name": "system / PropertyArray",
+          "edgeType": "hidden",
+          "edgeName": "4"
+        },
+        {
+          "id": 22696,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "1"
+        }
+      ]
+    },
+    {
+      "targetId": 29827,
+      "targetName": "<p role=\"alert\" data-report-download-error=\"\" class=\"text-sm text-band-bad\">",
+      "retainingPath": [
+        {
+          "id": 106843,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "hidden",
+          "edgeName": "6"
+        },
+        {
+          "id": 29831,
+          "type": "closure",
+          "name": "remember",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 40238,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43314,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44552,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 30652,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 30648,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 40242,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29823,
+          "type": "native",
+          "name": "<form method=\"get\" action=\"/api/reports\" class=\"flex flex-col gap-4\" data-reporter-form=\"true\">",
+          "edgeType": "element",
+          "edgeName": "15"
+        },
+        {
+          "id": 1252,
+          "type": "native",
+          "name": "<input type=\"date\" name=\"to\" class=\"input\">",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 1242,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 15004,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 13058,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 12784,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 12754,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "26"
+        },
+        {
+          "id": 4310,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 11472,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 11360,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 45022,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "112"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 29827,
+          "type": "native",
+          "name": "<p role=\"alert\" data-report-download-error=\"\" class=\"text-sm text-band-bad\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 106843,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "hidden",
+          "edgeName": "6"
+        }
+      ]
+    },
+    {
+      "targetId": 29829,
+      "targetName": "<p role=\"status\" data-report-download-status=\"\" class=\"text-sm text-ink-500\">",
+      "retainingPath": [
+        {
+          "id": 106843,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "hidden",
+          "edgeName": "7"
+        },
+        {
+          "id": 29831,
+          "type": "closure",
+          "name": "remember",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 40238,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43314,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44552,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 30652,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 30648,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 40242,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29823,
+          "type": "native",
+          "name": "<form method=\"get\" action=\"/api/reports\" class=\"flex flex-col gap-4\" data-reporter-form=\"true\">",
+          "edgeType": "element",
+          "edgeName": "15"
+        },
+        {
+          "id": 1252,
+          "type": "native",
+          "name": "<input type=\"date\" name=\"to\" class=\"input\">",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 1242,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 15004,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 13058,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 12784,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 12754,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "26"
+        },
+        {
+          "id": 4310,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 11472,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 11360,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 45022,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "112"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 29829,
+          "type": "native",
+          "name": "<p role=\"status\" data-report-download-status=\"\" class=\"text-sm text-ink-500\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 106843,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "hidden",
+          "edgeName": "7"
+        }
+      ]
+    },
+    {
+      "targetId": 30607,
+      "targetName": "<p role=\"alert\">",
+      "retainingPath": [
+        {
+          "id": 95279,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "failure"
+        },
+        {
+          "id": 30643,
+          "type": "closure",
+          "name": "dispose",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32076,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 38558,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 40644,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32268,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 32266,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43474,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31291,
+          "type": "native",
+          "name": "AbortSignal",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 34660,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 34656,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "internal",
+          "edgeName": "part of key -> value pair in ephemeron table"
+        },
+        {
+          "id": 33870,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29292,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30607,
+          "type": "native",
+          "name": "<p role=\"alert\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 30609,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 95279,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "failure"
+        }
+      ]
+    },
+    {
+      "targetId": 30609,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 30607,
+          "type": "native",
+          "name": "<p role=\"alert\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 95279,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "failure"
+        },
+        {
+          "id": 30643,
+          "type": "closure",
+          "name": "dispose",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32076,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 38558,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 40644,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32268,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 32266,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43474,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31291,
+          "type": "native",
+          "name": "AbortSignal",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 34660,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 34656,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "internal",
+          "edgeName": "part of key -> value pair in ephemeron table"
+        },
+        {
+          "id": 33870,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29292,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30607,
+          "type": "native",
+          "name": "<p role=\"alert\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30607,
+          "type": "native",
+          "name": "<p role=\"alert\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 30609,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 30611,
+      "targetName": "<button type=\"button\">",
+      "retainingPath": [
+        {
+          "id": 30627,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30611,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 30613,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 30615,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 30627,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 95279,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "cancel"
+        }
+      ]
+    },
+    {
+      "targetId": 30613,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 30611,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30627,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30611,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30611,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 30613,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 30615,
+      "targetName": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+      "retainingPath": [
+        {
+          "id": 30627,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30611,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 30615,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 30617,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 30627,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95279,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "confirm"
+        }
+      ]
+    },
+    {
+      "targetId": 30617,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 30615,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30627,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30615,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30615,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 30617,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 30619,
+      "targetName": "<h2 id=\"native-confirm-1-title\">",
+      "retainingPath": [
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30619,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-1-title\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 30621,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 30623,
+          "type": "native",
+          "name": "<p id=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        }
+      ]
+    },
+    {
+      "targetId": 30621,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 30619,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-1-title\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30619,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-1-title\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30619,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-1-title\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 30621,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 30623,
+      "targetName": "<p id=\"native-confirm-1-description\">",
+      "retainingPath": [
+        {
+          "id": 30619,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-1-title\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30619,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-1-title\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 30623,
+          "type": "native",
+          "name": "<p id=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 30625,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 30627,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        }
+      ]
+    },
+    {
+      "targetId": 30625,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 30623,
+          "type": "native",
+          "name": "<p id=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30619,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-1-title\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30623,
+          "type": "native",
+          "name": "<p id=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30623,
+          "type": "native",
+          "name": "<p id=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 30625,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 30627,
+      "targetName": "<div class=\"interaction-confirm-dialog__actions\">",
+      "retainingPath": [
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30611,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 30615,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 30623,
+          "type": "native",
+          "name": "<p id=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 30627,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 30629,
+      "targetName": "<span data-native-confirm=\"\">",
+      "retainingPath": [
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 30631,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31499,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 31505,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        }
+      ]
+    },
+    {
+      "targetId": 30689,
+      "targetName": "<span role=\"status\" class=\"sr-only\">",
+      "retainingPath": [
+        {
+          "id": 58545,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "localeStatus"
+        },
+        {
+          "id": 58543,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 30659,
+          "type": "native",
+          "name": "<header class=\"col-span-3 row-start-2 flex shrink-0 items-center justify-end gap-2 lg:order-none\">",
+          "edgeType": "property",
+          "edgeName": "updateState"
+        },
+        {
+          "id": 30737,
+          "type": "native",
+          "name": "<div class=\"col-start-3 row-start-1 flex shrink-0 items-center gap-1.5 md:gap-2\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31341,
+          "type": "native",
+          "name": "<header data-shell-topbar=\"\" class=\"relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 30739,
+          "type": "native",
+          "name": "<main id=\"main-content\" tabindex=\"-1\" data-shell-main=\"\" class=\"min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-paper\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31537,
+          "type": "native",
+          "name": "HTMLDocument",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 29803,
+          "type": "object",
+          "name": "Window / http://127.0.0.1:4173",
+          "edgeType": "property",
+          "edgeName": "<symbol Window#DocumentCachedAccessor>"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "extension"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30689,
+          "type": "native",
+          "name": "<span role=\"status\" class=\"sr-only\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 30691,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 58545,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "localeStatus"
+        }
+      ]
+    },
+    {
+      "targetId": 30691,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 30689,
+          "type": "native",
+          "name": "<span role=\"status\" class=\"sr-only\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 58545,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "localeStatus"
+        },
+        {
+          "id": 58543,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 30659,
+          "type": "native",
+          "name": "<header class=\"col-span-3 row-start-2 flex shrink-0 items-center justify-end gap-2 lg:order-none\">",
+          "edgeType": "property",
+          "edgeName": "updateState"
+        },
+        {
+          "id": 30737,
+          "type": "native",
+          "name": "<div class=\"col-start-3 row-start-1 flex shrink-0 items-center gap-1.5 md:gap-2\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31341,
+          "type": "native",
+          "name": "<header data-shell-topbar=\"\" class=\"relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 30739,
+          "type": "native",
+          "name": "<main id=\"main-content\" tabindex=\"-1\" data-shell-main=\"\" class=\"min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-paper\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31537,
+          "type": "native",
+          "name": "HTMLDocument",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 29803,
+          "type": "object",
+          "name": "Window / http://127.0.0.1:4173",
+          "edgeType": "property",
+          "edgeName": "<symbol Window#DocumentCachedAccessor>"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "extension"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30689,
+          "type": "native",
+          "name": "<span role=\"status\" class=\"sr-only\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30689,
+          "type": "native",
+          "name": "<span role=\"status\" class=\"sr-only\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 30691,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 31415,
+      "targetName": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+      "retainingPath": [
+        {
+          "id": 95229,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "panel"
+        },
+        {
+          "id": 31441,
+          "type": "closure",
+          "name": "position",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 34658,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 34656,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33870,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29292,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31415,
+          "type": "native",
+          "name": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31417,
+          "type": "native",
+          "name": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31419,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 31447,
+          "type": "native",
+          "name": "DOMStringMap",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 95229,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "panel"
+        }
+      ]
+    },
+    {
+      "targetId": 31417,
+      "targetName": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+      "retainingPath": [
+        {
+          "id": 95229,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "results"
+        },
+        {
+          "id": 31441,
+          "type": "closure",
+          "name": "position",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 34658,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 34656,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33870,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29292,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31415,
+          "type": "native",
+          "name": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31417,
+          "type": "native",
+          "name": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 31419,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 95229,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "results"
+        }
+      ]
+    },
+    {
+      "targetId": 31419,
+      "targetName": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+      "retainingPath": [
+        {
+          "id": 31415,
+          "type": "native",
+          "name": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95229,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "panel"
+        },
+        {
+          "id": 31441,
+          "type": "closure",
+          "name": "position",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 34658,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 34656,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33870,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29292,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31415,
+          "type": "native",
+          "name": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31417,
+          "type": "native",
+          "name": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 31419,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31421,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        }
+      ]
+    },
+    {
+      "targetId": 31421,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 31419,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31415,
+          "type": "native",
+          "name": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95229,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "panel"
+        },
+        {
+          "id": 31441,
+          "type": "closure",
+          "name": "position",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 34658,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 34656,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33870,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29292,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31419,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31419,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31421,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 31463,
+      "targetName": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+      "retainingPath": [
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "menu"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31463,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31465,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 31485,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "menu"
+        }
+      ]
+    },
+    {
+      "targetId": 31467,
+      "targetName": "<div class=\"p-1.5\">",
+      "retainingPath": [
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 31463,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31485,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31487,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 31499,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        }
+      ]
+    },
+    {
+      "targetId": 31473,
+      "targetName": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+      "retainingPath": [
+        {
+          "id": 31485,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31463,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "menu"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31473,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31475,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31485,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        }
+      ]
+    },
+    {
+      "targetId": 31475,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 31473,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31485,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31463,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "menu"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31473,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31473,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31475,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 31477,
+      "targetName": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+      "retainingPath": [
+        {
+          "id": 31473,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31485,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31463,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "menu"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31473,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 31479,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31481,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        }
+      ]
+    },
+    {
+      "targetId": 31479,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 31477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31473,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31485,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31463,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "menu"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31479,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 31481,
+      "targetName": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+      "retainingPath": [
+        {
+          "id": 31485,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31463,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "menu"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31481,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31483,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31485,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 31483,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 31481,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31485,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31463,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "menu"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31481,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31481,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31483,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 31485,
+      "targetName": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+      "retainingPath": [
+        {
+          "id": 31463,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "menu"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31463,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31473,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 31477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 31481,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 31485,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        }
+      ]
+    },
+    {
+      "targetId": 31487,
+      "targetName": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+      "retainingPath": [
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31487,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 31489,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31499,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 3122,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "1"
+        }
+      ]
+    },
+    {
+      "targetId": 31489,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 31487,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31487,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31487,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 31489,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 31499,
+      "targetName": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+      "retainingPath": [
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31487,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31497,
+          "type": "native",
+          "name": "SVGSVGElement",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 31499,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "11"
+        },
+        {
+          "id": 31501,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 32128,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "1"
+        }
+      ]
+    },
+    {
+      "targetId": 31501,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 31499,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31497,
+          "type": "native",
+          "name": "SVGSVGElement",
+          "edgeType": "element",
+          "edgeName": "16"
+        },
+        {
+          "id": 31499,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 31501,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "6"
+        }
+      ]
+    },
+    {
+      "targetId": 31505,
+      "targetName": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+      "retainingPath": [
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31505,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 31507,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 95279,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "trigger"
+        }
+      ]
+    },
+    {
+      "targetId": 31507,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 31505,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 31505,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 31505,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31507,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 31513,
+      "targetName": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+      "retainingPath": [
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31467,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 95257,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 30657,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 32040,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 43262,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 32038,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29294,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 29254,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 32924,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 31515,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6531,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / gin::ContextHolder::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 30619,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-1-title\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 30623,
+          "type": "native",
+          "name": "<p id=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 30627,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 30629,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 31505,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 31513,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-1-title\" aria-describedby=\"native-confirm-1-description\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 95279,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "dialog"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Shortest strong incoming paths, not dominator or exclusive-ownership analysis.",
+    "No weak edges traversed; no path within30 edges is not proof of unreachability.",
+    "Snapshot protocol may affect scheduling; counters before/after capture are separate evidence."
+  ]
+}

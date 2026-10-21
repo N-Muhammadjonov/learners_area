@@ -1,0 +1,10 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+cdpSession.send: Protocol error (DOM.disable): DOM agent hasn't been enabled
+    at /home/user/learners_area/migration/vanilla-frontend/tests/phase2-ownership-v28.mjs:47:619 {
+  name: 'Error'
+}
+
+Node.js v22.22.3

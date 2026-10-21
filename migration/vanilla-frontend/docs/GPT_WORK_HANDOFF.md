@@ -1,3 +1,11 @@
+# Latest — V28 ownership evidence, Review PARTIAL
+
+Read CHECKPOINT_V28, SOURCE_STATE_INVENTORY_V28, ADAPTER_CONTRACTS_V28, V28_PHASE2_INVESTIGATION and V28_RESOURCE_OWNERSHIP plus final V28_VERIFICATION.json/V28_VALIDATION.txt. No application runtime change was justified. Four strict original diagnostic runs passed but historical failures remain, Phase2 OPEN. Historical thirteen identities not recoverable from absent raw heap; fresh full target lists and native/inspector scope limits retained. Four controllers and live-shell timers attributed, not arbitrarily deleted. Body fixtures and native network/media contexts improve coverage without claiming decoded/GPU release.
+
+V29 continuation ONLY: continue precise unresolved native/opaque/inspection-sensitive retained-target attribution, including16-node per-cycle resource growth and exact historical13 identity only if original raw heap becomes available. Predefine new bounded diagnostic plan only for a concrete remaining question; no repeated blank-page/cancellation/motion/budget work. Fix actual demonstrated application lifecycle defect if established; do not invent one. Preserve accepted15 mixed/30 source proofs and all failures. Test10/25 external correction remains content/media owner; comprehensive original/matched visual/authorized live/Safari/hardware/recordings separate UNVERIFIED. Full/Retry retained, Review PARTIAL, Script NOT ADVANCED, Reading GATED. No V29 begun, backend/content/Staff/Dictionary work, merge or deployment.
+
+## Historical handoff retained
+
 # Latest — V27 Review ownership checkpoint, PARTIAL
 
 Full IELTS and Retry Weak Areas FRONTEND CODE COMPLETE retained. Review PARTIAL; original Phase2 stability acceptance OPEN. Script NOT ADVANCED; Reading GATED. Matched-original rendering, authorized live integration and Safari/hardware/real-recording acceptance UNVERIFIED. No product-wide percentage claim.
