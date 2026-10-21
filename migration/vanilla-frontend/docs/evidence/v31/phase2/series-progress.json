@@ -1,0 +1,65 @@
+{
+  "results": [
+    {
+      "run": 1,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "run": 2,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "run": 3,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "run": 4,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "run": 5,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "run": 6,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "run": 7,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "run": 8,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "run": 9,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "run": 10,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "run": 11,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    },
+    {
+      "run": 12,
+      "name": "Phase2 repeated real content navigation retains shell and bounded DOM/listeners",
+      "status": "PASS"
+    }
+  ],
+  "stoppedOnUnexpectedFault": false
+}

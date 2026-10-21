@@ -1,3 +1,20 @@
+# V31 current handoff — authoritative over older next-task statements below
+
+Evidence-only checkpoint from sealed V30 final ba4ec43474e5900a5520e70aa83913f05885d98e; no runtime/content/CSS/backend change. V31 tooling implementation015820ce30d1bfd06e944e1446d5f6e22eae09ab. Source/seal/report/ZIP identities and independent outcomes: deliverables/V31_VERIFICATION.json / V31_VALIDATION.txt (post-seal reports, outside source ZIP under unchanged policy).
+
+Written A–J plan preceded tests. Preseal544 units/499 Chromium/418 original-source/14 timing PASS. Fixed original-stage12 repetitions:12PASS/0FAIL/0SKIP, no retry; node deltas−22…+35, listeners152, connected elements278, documents2, frames/dialogs/loading0, shell stable. No new ownership contradiction; conditional followup unused; no speculative repair or repeated settled studies. Final exact ZIP mandatory regression/four controls separately authoritative in final reports, not extra diagnostic runs. Reporting-only wrapper convenience-log issue disclosed; all499 case/stdout proofs retained, no rerun to recover it.
+
+Phase2 OPEN despite12PASS: historical two3PASS1FAIL series remain failures, V28 fourPASS/V29PASS/V30PASS separate; no new finite-run acceptance policy.219/232 historical CSSAnimation shortest paths do not identify all13 unavailable targets. Accepted Playwright inspector handle attribution unchanged; no runtime cleanup or animation/dependency change. V16 acknowledged-snapshot fence and both403/V14 native Exam observation gates unchanged; original assertions/timeouts retained.
+
+V29→V30 growth52,881,261bytes fully reconciled:52,632,221 compressed duplicate PARTIAL/V2/V3/V4 checkpoint bodies;249,040 remaining source/evidence/headers. Neither source ZIP directly contains the V29 ZIP. All history retained; no exclusion/dedup change; V31 resume uses references to existing deliverables so adds no duplicate bodies. See V31_ARCHIVE_SIZE_AUDIT.md.
+
+Full/Retry FRONTEND CODE COMPLETE; Review PARTIAL; Script NOT ADVANCED; Reading GATED. Frontend workflows2/9; comprehensive original0/9/live0/9. Global routes22/15/71,components62/17/127; Listening9/6/1,components9/10/5; Staff35 reserved.15 mixed/30 valid-source proofs retained, no unnecessary extension rerun. Test10/25 external authoritative correction only; original source1–32/content/recordings/mappings/publication/IDs read-only. Matched-original12-condition visuals/live/vocabulary backend exam policy/Safari/hardware/original recordings/universal native release UNVERIFIED.
+
+**Exact V32 task:** first verify sealed V31 source/seal/report/archive identities and preserve all prior failures. Diagnose any newly failed mandatory case with a written bounded causal plan and unchanged assertions, not unchanged retries. Otherwise continue Review only: obtain the existing objective Phase2/native acceptance criterion and evaluate whether available evidence meets it; if concrete contradictory app ownership is demonstrated, investigate only that owner/boundary with one matched causal proof and focused existing-controller repair. Do NOT launch another arbitrary stability series, repeat accepted CSSAnimation/blank-page/inspector/dirty-debounce studies, change animation/budgets, infer thirteen unavailable retaining-target identities, or close OPEN from twelve samples. Original heap/authorized evidence is required for unresolved identities; archive dedup policy requires explicit approval before any retention-format change. Keep Review PARTIAL, Script NOT ADVANCED, Reading GATED; Test10/25 corrections external authoritative only; no backend/content/design/main/deploy changes.
+
+---
+# Historical handoff sections (preserved; superseded where V31 states current status)
+
 # Latest — V30 V16 existing storage-ACK owner repaired; Review PARTIAL
 
 Read CHECKPOINT_V30, V30_V16_ROOT_CAUSE/PLAN, V30_TIMELINE_STAGES, SOURCE_STATE_INVENTORY_V30, ADAPTER_CONTRACTS_V30 and final V30_VALIDATION/V30_VERIFICATION. Final reports authoritative over preseal pending statements. V29417/1 and V28403 failure remain failures.

@@ -1,0 +1,22 @@
+{
+  "scope": "Synthetic encoded media, not real recording/provider/live acceptance",
+  "counts": {
+    "PASS": 3,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V12 encoded120s quota recovery keeps MSE URL, evicted backseek explicitly falls back",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 decoder exception falls back; invalid Blob fails visibly without retry loop",
+      "status": "PASS"
+    },
+    {
+      "name": "V12 duplicate encoded media nodes use one explicit Blob and independent native controls",
+      "status": "PASS"
+    }
+  ]
+}

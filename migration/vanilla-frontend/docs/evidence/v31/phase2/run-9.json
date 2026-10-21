@@ -1,0 +1,143 @@
+{
+  "run": 9,
+  "before": {
+    "documents": 2,
+    "nodes": 495,
+    "jsEventListeners": 152
+  },
+  "after": {
+    "documents": 2,
+    "nodes": 473,
+    "jsEventListeners": 152
+  },
+  "connected": {
+    "elements": 278,
+    "frames": 0,
+    "dialogs": 0,
+    "loading": 0,
+    "shellSame": true
+  },
+  "samples": [
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 65
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 58
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 46
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 99
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 52
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 49
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 41
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 95
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 37
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 44
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 97
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 16
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 68
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 66
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 40
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 105
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 18
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 21
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 50
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 42
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 44
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 78
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 65
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 31
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 69
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 30
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 46
+    },
+    {
+      "route": "/app",
+      "usableContentAndHarnessMs": 38
+    },
+    {
+      "route": "/app/mocks",
+      "usableContentAndHarnessMs": 126
+    },
+    {
+      "route": "/app/reports",
+      "usableContentAndHarnessMs": 39
+    }
+  ],
+  "scope": "Original immediate counters/assertions; connected observations AFTER assertions; no extra settling/GC"
+}

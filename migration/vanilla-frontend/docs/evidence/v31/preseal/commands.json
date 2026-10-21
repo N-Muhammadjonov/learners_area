@@ -1,0 +1,42 @@
+[
+  {
+    "name": "unit",
+    "args": [
+      "npm",
+      "test"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "chromium",
+    "args": [
+      "node",
+      "scripts/regression-v31.mjs"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "source",
+    "args": [
+      "node",
+      "tests/browser-original-source-v11.mjs"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "timing",
+    "args": [
+      "node",
+      "scripts/performance-v31.mjs"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "phase2",
+    "args": [
+      "node",
+      "tests/phase2-v31.mjs"
+    ],
+    "exit": 0
+  }
+]
