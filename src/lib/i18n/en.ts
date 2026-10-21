@@ -1381,6 +1381,7 @@ const en = {
   vocabulary: {
     dictionaryChoice: 'Choose the meaning used in this text.',
     dictionaryMissing: 'This word is not in the dictionary yet.',
+    contextMissing: 'The meaning for this place in the text has not been linked yet.',
 
     contextVerified: "Verified source meaning",
     contextUnverified: "Source meaning - not editorially verified",

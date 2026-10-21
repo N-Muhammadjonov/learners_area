@@ -24,3 +24,34 @@ test("a missing transcript notice is not a transcript and cannot satisfy complet
  assert.equal(hasMaterialText(placeholder),false);assert.equal(hasMaterialText({...placeholder,body:"Hello. Welcome to the listening test."}),true);
  assert.equal(audit(complete,[placeholder]).readyForManualCheck,false);assert.equal(audit(complete,[placeholder]).missingMaterial.length,1);
 });
+
+test("conflicting meanings at the same occurrence cannot count as one automatic context link",()=>{
+ const river={...sense,sense_id:"33333333-3333-4333-8333-333333333333",definition_en:"Land beside a river"};
+ const polysemous={...entry,senses:[sense,river]};
+ const reviews=structuredClone(complete);
+ reviews.contexts.push({...reviews.contexts[0]!,senseId:river.sense_id,meaningSha:senseMeaningHash(polysemous,river)});
+ const report=auditDictionaryEditorial({entries:[polysemous],presentation,materials:[material],reviews,expectedMaterials:{reading:1,listening:0,retention:0}});
+ assert.equal(report.materialRows[0]!.reviewedContentWordTokens,0);
+ assert.equal(report.materialRows[0]!.ambiguousContextWordTokens,1);
+ assert.equal(report.readyForManualCheck,false);
+});
+
+test("an explicit time-unit binding accepts the noun plural minutes without choosing the meeting-record sense",()=>{
+ const minute=applyDraft([],{operation:"add_lexeme",lemma:"minute",partOfSpeech:"n",lexicalType:"word",definitionEn:"A unit of time lasting sixty seconds",definitionUz:"Oltmish soniyalik vaqt birligi",translationUz:"daqiqa",examples:[{textEn:"One minute has sixty seconds.",textUz:"Bir daqiqada oltmish soniya bor."}]},entry.release_id);
+ const time=minute.senses[0]!,body="The minutes.";
+ const report=auditDictionaryEditorial({entries:[minute],presentation:()=>({senses:{}}),materials:[{...material,body}],reviews:{senses:[],texts:[],contexts:[{...complete.contexts[0]!,bodySha:materialBodyHash(body),surface:"minutes",end:11,senseId:time.sense_id,meaningSha:senseMeaningHash(minute,time)}]},expectedMaterials:{reading:1,listening:0,retention:0}});
+ assert.equal(report.materialRows[0]!.reviewedContentWordTokens,1);
+ assert.deepEqual(report.materialRows[0]!.missingDictionaryForms,[]);
+ assert.equal(report.readyForManualCheck,false,"a valid span does not certify the missing editorial work");
+});
+
+test("a container can, a month May, a legal will and the country US cannot be skipped as grammatical words",()=>{
+ const body="The can in May was in the will in the US.";
+ const row=audit({senses:[],texts:[],contexts:[]},[{...material,body}]).materialRows[0]!;
+ assert.equal(row.contentWordTokens,4);assert.equal(row.unreviewedContentWordTokens,4);
+ const modalBody="They can read.";
+ const review:EditorialReview={senses:[],texts:[],contexts:[],grammar:[{source:"reading",sourceId:material.id,bodySha:materialBodyHash(modalBody),start:5,end:8,surface:"can",reviewer:"editor",reason:"The auxiliary expresses their ability to read.",use:"modal_auxiliary"}]};
+ assert.equal(audit(review,[{...material,body:modalBody}]).materialRows[0]!.unreviewedContentWordTokens,1,"read still needs a meaning even when the auxiliary exemption is reviewed");
+ review.grammar![0]!.bodySha="stale";
+ assert.equal(audit(review,[{...material,body:modalBody}]).materialRows[0]!.unreviewedContentWordTokens,2);
+});

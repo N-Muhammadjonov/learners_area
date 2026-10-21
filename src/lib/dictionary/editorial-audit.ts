@@ -3,7 +3,8 @@ import { isFunctionWord } from "../text/lexical-normalize";
 import { entryTerms, normalizeSearch, senseMeaningHash, stableJson, type Entry } from "./model";
 import { exampleUsesEntry } from "./example-match";
 import type { EntryPresentation,SensePresentation } from "./presentation-types";
-import { dictionarySpellingVariants } from "./spelling-variants";
+import { formsOf } from "../services/lexical/forms";
+import {matchesDictionaryContextForm,type ContextFormPart} from "./context-form";
 
 export const materialBodyHash=(body:string)=>createHash("sha256").update(body).digest("hex");
 export const studyMaterialHash=(study:SensePresentation)=>materialBodyHash(stableJson(study));
@@ -11,9 +12,11 @@ export type MaterialText={source:"reading"|"listening"|"retention";id:string;tit
 type ReviewStatus="reviewed"|"pending";
 type RelationReview=ReviewStatus|{notApplicable:string;referenceUrl:string};
 export type SenseReview={senseId:string;meaningSha:string;studySha:string;reviewer:string;examples:ReviewStatus;synonyms:RelationReview;collocations:RelationReview};
-export type ContextReview={source:MaterialText["source"];sourceId:string;bodySha:string;start:number;end:number;surface:string;senseId:string;meaningSha:string;reviewer:string};
+export type ContextReview={source:MaterialText["source"];sourceId:string;bodySha:string;start:number;end:number;surface:string;senseId:string;meaningSha:string;reviewer:string;formParts?:ContextFormPart[]};
 export type TextReview={source:MaterialText["source"];id:string;bodySha:string;reviewer:string;readInFull:boolean};
-export type EditorialReview={senses:SenseReview[];contexts:ContextReview[];texts:TextReview[]};
+export type GrammarReview={source:MaterialText["source"];sourceId:string;bodySha:string;start:number;end:number;surface:string;reviewer:string;reason:string;use:"modal_auxiliary"};
+export type EditorialReview={senses:SenseReview[];contexts:ContextReview[];texts:TextReview[];grammar?:GrammarReview[]};
+const modalHomonym=(surface:string)=>/^(can|may|will)$/i.test(surface);
 
 /** Empty and explicit source placeholders are not transcripts. Word counts alone
  * are insufficient: a repeated "missing transcript" message is still missing. */
@@ -50,8 +53,12 @@ export function auditDictionaryEditorial(input:{entries:Entry[];presentation:(en
     ||!relationReviewed(review?.synonyms,!!synonyms.length)||!relationReviewed(review?.collocations,!!collocations.length))unreviewedSenses.push(sense.sense_id);
  }
  const words=new Map<string,Set<string>>();
- for(const entry of input.entries)for(const term of entryTerms(entry).filter(term=>term.direction==="EN")){
-  const group=words.get(term.term)??new Set<string>();entry.senses.forEach(sense=>group.add(sense.sense_id));words.set(term.term,group);
+ for(const entry of input.entries)for(const term of new Set([
+  ...entryTerms(entry).filter(term=>term.direction==="EN").map(term=>term.term),
+  ...formsOf(entry.display_lemma,entry.part_of_speech).map(form=>form.formNorm),
+ ])){
+  // Morphology admits a candidate (minutes -> minute), never chooses its sense.
+  const group=words.get(term)??new Set<string>();entry.senses.forEach(sense=>group.add(sense.sense_id));words.set(term,group);
  }
  const materialRows=input.materials.map(text=>{
   const bodySha=materialBodyHash(text.body),present=hasMaterialText(text);
@@ -60,11 +67,26 @@ export function auditDictionaryEditorial(input:{entries:Entry[];presentation:(en
   const contexts=input.reviews.contexts.filter(review=>review.source===text.source&&review.sourceId===text.id&&review.bodySha===bodySha
     &&Number.isInteger(review.start)&&Number.isInteger(review.end)&&review.start>=0&&review.end>review.start&&review.end<=text.body.length
     &&text.body.slice(review.start,review.end)===review.surface&&review.reviewer.trim()&&senses.get(review.senseId)?.hash===review.meaningSha
-    &&dictionarySpellingVariants(review.surface).some(form=>words.get(normalizeSearch(form))?.has(review.senseId)));
-  const tokens=present?[...text.body.matchAll(/[\p{L}][\p{L}\p{M}]*(?:['\u2018\u2019\u02bc\u02bb-][\p{L}\p{M}]+)*/gu)].filter(token=>token[0].length>1&&!isFunctionWord(token[0])):[];
-  const unreviewed=tokens.filter(token=>!contexts.some(span=>span.start<=token.index&&span.end>=token.index+token[0].length));
+    &&matchesDictionaryContextForm(senses.get(review.senseId)!.entry,review.surface,review.formParts));
+  const grammar=(input.reviews.grammar??[]).filter(review=>review.source===text.source&&review.sourceId===text.id&&review.bodySha===bodySha&&review.reviewer.trim()&&review.reason.trim().length>=12&&review.use==="modal_auxiliary"&&modalHomonym(review.surface)&&Number.isInteger(review.start)&&Number.isInteger(review.end)&&review.start>=0&&review.end>review.start&&review.end<=text.body.length&&text.body.slice(review.start,review.end)===review.surface);
+  // A can (container), May (month/name), will (wish/legal document), and US
+  // (country) cannot disappear merely because their lowercase spelling is also
+  // grammatical. An auxiliary exemption requires its own contextual receipt.
+  const tokens=present?[...text.body.matchAll(/[\p{L}][\p{L}\p{M}]*(?:['\u2018\u2019\u02bc\u02bb-][\p{L}\p{M}]+)*/gu)].filter(token=>token[0].length>1&&(!isFunctionWord(token[0])||modalHomonym(token[0])||token[0]==="US")):[];
+  let ambiguousContextWordTokens=0;
+  const unreviewed=tokens.filter(token=>{
+   const covering=contexts.filter(span=>span.start<=token.index&&span.end>=token.index+token[0].length);
+   const longest=Math.max(0,...covering.map(span=>span.end-span.start));
+   // An explicitly reviewed phrase may cover its component words. Equally
+   // specific conflicting meanings cannot certify one automatic context link.
+   const meanings=new Set(covering.filter(span=>span.end-span.start===longest).map(span=>span.senseId));
+   const auxiliary=grammar.some(review=>review.start===token.index&&review.end===token.index+token[0].length);
+   if(auxiliary&&meanings.size){ambiguousContextWordTokens++;return true;}
+   if(meanings.size>1)ambiguousContextWordTokens++;
+   return meanings.size!==1&&!auxiliary;
+  });
   const missingForms=[...new Set(unreviewed.filter(token=>!words.has(normalizeSearch(token[0]))).map(token=>normalizeSearch(token[0])))];
-  return {source:text.source,id:text.id,title:text.title,bodySha,present,readInFull,contentWordTokens:tokens.length,reviewedContentWordTokens:tokens.length-unreviewed.length,unreviewedContentWordTokens:unreviewed.length,missingDictionaryForms:missingForms};
+  return {source:text.source,id:text.id,title:text.title,bodySha,present,readInFull,contentWordTokens:tokens.length,reviewedContentWordTokens:tokens.length-unreviewed.length,unreviewedContentWordTokens:unreviewed.length,ambiguousContextWordTokens,missingDictionaryForms:missingForms};
  });
  const counts=Object.fromEntries((["reading","listening","retention"] as const).map(source=>[source,materialRows.filter(row=>row.source===source).length]));
  const missingMaterial=materialRows.filter(row=>!row.present).map(row=>({source:row.source,id:row.id,title:row.title}));

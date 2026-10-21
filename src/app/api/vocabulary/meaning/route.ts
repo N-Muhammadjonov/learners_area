@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { textDictionaryAccess } from "@/lib/services/lexical/source-access";
-import { textDictionaryMeanings } from "@/lib/dictionary/text-meanings";
 import { isUuid } from "@/lib/validation/ids";
 import { consume, RULES } from "@/lib/http/rate-limit";
 const headers = { "Cache-Control": "private, no-store" };
 
-/** Checked occurrences use /lookup. Other words open exact dictionary choices. */
+/** Course text exposes only an authored occurrence meaning through /lookup.
+ * A spelling by itself cannot identify which meaning the sentence uses. */
 export async function GET(req: NextRequest) {
   const user = await requireActiveUser();
   if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401, headers });
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
   try {
     const access=await textDictionaryAccess(user,sourceType,sourceId);
     if(access!=="allowed")return NextResponse.json({error:access==="locked"?"lexical_assistance_locked":"source_not_found"},{status:access==="locked"?403:404,headers});
-    return NextResponse.json({status:"dictionary",contextual:null,...await textDictionaryMeanings(term)},{headers});
+    return NextResponse.json({status:"unresolved",contextual:null,known:null},{headers});
   } catch {
     return NextResponse.json({ error: "temporarily_unavailable" }, { status: 503, headers });
   }

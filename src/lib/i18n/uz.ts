@@ -1365,6 +1365,7 @@ const uz: Dictionary = {
   vocabulary: {
     dictionaryChoice: "Matnda ishlatilgan ma'noni tanlang.",
     dictionaryMissing: "Bu so'z hozircha lug'atda yo'q.",
+    contextMissing: "Bu joydagi ma'no hali ulanmagan.",
 
     contextVerified: "Tekshirilgan manba ma'nosi",
     contextUnverified: "Manbadagi ma'no - muharrir tekshiruvidan o'tmagan",

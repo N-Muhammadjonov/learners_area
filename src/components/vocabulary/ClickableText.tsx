@@ -8,7 +8,6 @@ import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import { phraseTarget } from "@/lib/services/lexical/phrase-target";
 import type { SensePresentation } from "@/lib/dictionary/presentation-types";
-import type { TextDictionaryMeaning } from "@/lib/dictionary/text-meanings";
 import type { Dictionary } from "@/lib/i18n/en";
 
 /** Shared, selectable learning text with one keyboard stop per text region. */
@@ -362,8 +361,7 @@ export function WordPopover({
   const [contextual, setContextual] = useState<{ definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string; partOfSpeech?: string | null; lexicalType?: string | null; ipa?: string | null; study?: SensePresentation } | null>(null);
   /** The server knows this place in the text but has no checked meaning for it. */
   const [unresolved, setUnresolved] = useState(false);
-  const [catalogue, setCatalogue] = useState<{releaseId:string;choices:TextDictionaryMeaning[]}|null>(null);
-  const [chosenSense, setChosenSense] = useState("");
+  const contextualSource = ["listening", "reading", "retention"].includes(sourceType);
   const [known, setKnown] = useState<{ id: string; definitionEn: string; translationUz: string | null; mastery: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [meaning, setMeaning] = useState("");
@@ -390,34 +388,23 @@ export function WordPopover({
     setSaved(false);
     setMeaning("");
     setUzbek("");
-    const contextualSource = ["listening", "reading", "retention"].includes(sourceType);
     const dictionaryUrl = `/api/vocabulary/meaning?sourceType=${encodeURIComponent(sourceType)}&sourceId=${encodeURIComponent(sourceId)}&q=${encodeURIComponent(word)}`;
-    setCatalogue(null);
-    setChosenSense("");
     void (async () => {
-      let [lookup, folderResult] = await Promise.all([
-        requestJson<{ status?: "resolved" | "unresolved" | "dictionary"; releaseId?:string; choices?:TextDictionaryMeaning[]; contextual?: { definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string; partOfSpeech?: string | null; lexicalType?: string | null; ipa?: string | null; study?: SensePresentation } | null; known?: { id: string; mastery: string } | null; results?: { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string }[] }>(occurrenceId ? `/api/vocabulary/lookup?sourceType=${encodeURIComponent(sourceType)}&sourceId=${encodeURIComponent(sourceId)}&occurrenceId=${encodeURIComponent(occurrenceId)}` : contextualSource ? dictionaryUrl : catalogueLookup ? `/api/vocabulary/meaning?sourceId=${encodeURIComponent(sourceId)}&q=${encodeURIComponent(word)}` : `/api/vocabulary/search?q=${encodeURIComponent(word)}`, { method: "GET", signal: controller.signal }),
+      const [lookup, folderResult] = await Promise.all([
+        requestJson<{ status?: "resolved" | "unresolved"; contextual?: { definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string; partOfSpeech?: string | null; lexicalType?: string | null; ipa?: string | null; study?: SensePresentation } | null; known?: { id: string; mastery: string } | null; results?: { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string }[] }>(occurrenceId ? `/api/vocabulary/lookup?sourceType=${encodeURIComponent(sourceType)}&sourceId=${encodeURIComponent(sourceId)}&occurrenceId=${encodeURIComponent(occurrenceId)}` : contextualSource ? dictionaryUrl : catalogueLookup ? `/api/vocabulary/meaning?sourceId=${encodeURIComponent(sourceId)}&q=${encodeURIComponent(word)}` : `/api/vocabulary/search?q=${encodeURIComponent(word)}`, { method: "GET", signal: controller.signal }),
         requestJson<{ folders: { id: string; name: string }[] }>("/api/vocabulary/folders", { method: "GET", signal: controller.signal }),
       ]);
       if (controller.signal.aborted) return;
-      if (contextualSource && occurrenceId && ((lookup.ok && lookup.data?.status === "unresolved") || (!lookup.ok && lookup.status === 404))) {
-        lookup = await requestJson(dictionaryUrl, {method:"GET",signal:controller.signal});
-        if (controller.signal.aborted) return;
-      }
-      if (lookup.ok && lookup.data?.status === "dictionary" && typeof lookup.data.releaseId === "string" && Array.isArray(lookup.data.choices)) {
-        setContextual(null);
-        setCatalogue({releaseId:lookup.data.releaseId,choices:lookup.data.choices});
-        if (lookup.data.choices.length === 1) setChosenSense(lookup.data.choices[0]!.senseId);
-        setUnresolved(!lookup.data.choices.length);
-      } else if ((occurrenceId || catalogueLookup) && lookup.ok && lookup.data?.status === "unresolved") {
+      if ((occurrenceId || catalogueLookup || contextualSource) && lookup.ok && lookup.data?.status === "unresolved") {
         setContextual(null);
         setUnresolved(true);
-      } else if ((occurrenceId || catalogueLookup) && lookup.ok && typeof lookup.data?.contextual?.definitionEn === "string") {
+      } else if ((occurrenceId || catalogueLookup) && (!contextualSource || occurrenceId) && lookup.ok && typeof lookup.data?.contextual?.definitionEn === "string") {
         setContextual(lookup.data.contextual);
         if (lookup.data.known) setKnown({ ...lookup.data.known, ...lookup.data.contextual });
-      } else if (catalogueLookup && lookup.ok && lookup.data?.contextual === null) {
+      } else if ((catalogueLookup || contextualSource) && lookup.ok && lookup.data?.contextual === null) {
         setContextual(null);
-      } else if (!occurrenceId && lookup.ok && Array.isArray(lookup.data?.results)) {
+        setUnresolved(true);
+      } else if (!contextualSource && !occurrenceId && lookup.ok && Array.isArray(lookup.data?.results)) {
         const exact = lookup.data.results.filter((hit) => typeof hit?.term === "string" && typeof hit.definitionEn === "string" && hit.term.toLowerCase() === word.toLowerCase());
         // Multiple saved senses are not enough evidence to pick one for this text.
         setKnown(exact.length === 1 ? exact[0]! : null);
@@ -427,17 +414,18 @@ export function WordPopover({
       setLoading(false);
     })();
     return () => controller.abort();
-  }, [word, dict.auth, lookupVersion, occurrenceId, sourceId, sourceType, catalogueLookup]);
+  }, [word, dict.auth, lookupVersion, occurrenceId, sourceId, sourceType, catalogueLookup, contextualSource]);
 
   async function save() {
+    if (contextualSource && (!contextual || !occurrenceId)) return;
     setBusy(true);
     setError(null);
     setNeedsMeaning(false);
-    const choice=catalogue?.choices.find(row=>row.senseId===chosenSense);
-    const result = choice && catalogue ? await requestJson<{ok:boolean}>("/api/dictionary/save",{body:{lexemeId:choice.lexemeId,senseId:choice.senseId,releaseId:catalogue.releaseId,folderId:folderId||null}}) : await requestJson<{ ok: boolean }>("/api/vocabulary", {
+    const result = await requestJson<{ ok: boolean }>("/api/vocabulary", {
       body: {
         items: [{ term: word, ...(meaning.trim() ? { definitionEn: meaning.trim() } : {}), translationUz: uzbek.trim() || null }],
-        // An unresolved occurrence has no sense to attach: the learner's own meaning is saved without it.
+        // Course sources require their authored occurrence. A standalone note
+        // in another source can retain its explicitly supplied meaning.
         sourceType, sourceId, occurrenceId: unresolved ? undefined : occurrenceId, folderId: folderId || null,
       },
     });
@@ -452,7 +440,7 @@ export function WordPopover({
     else setError(result.ok ? dict.auth.errorServer : failureMessage(result, dict.auth));
   }
 
-  const study = contextual?.study ?? catalogue?.choices.find(choice=>choice.senseId===chosenSense)?.study;
+  const study = contextual?.study;
 
   return createPortal(
     <div
@@ -490,7 +478,7 @@ export function WordPopover({
       {!loading && !known && !saved && (
         <div className="mt-2 flex flex-col gap-2">
           {unresolved && <div role="status" className="text-xs text-ink-500" data-word-unresolved>
-            <p>{t.dictionaryMissing}</p>
+            <p>{contextualSource ? t.contextMissing : t.dictionaryMissing}</p>
           </div>}
           {contextual ? <div className="text-sm text-ink-700">
             {(contextual.partOfSpeech || contextual.lexicalType || contextual.ipa) && <p className="text-xs text-ink-500" data-word-lexical>
@@ -499,13 +487,7 @@ export function WordPopover({
             </p>}
             <p>{contextual.definitionEn}</p>
             {contextual.translationUz && <><hr className="dictionary-translation-divider" /><p>{contextual.translationUz}</p></>}
-          </div> : !!catalogue?.choices.length ? <div className="flex flex-col gap-2" data-dictionary-choices>
-            {catalogue.choices.length>1 && <p className="text-xs">{t.dictionaryChoice}</p>}
-            {catalogue.choices.map(choice=><label key={choice.senseId} className="cursor-pointer rounded border border-ink-100 p-2 text-sm">
-              <span className="flex items-start gap-2"><input type="radio" name="dictionary-sense" checked={chosenSense===choice.senseId} onChange={()=>setChosenSense(choice.senseId)}/><span><span className="text-xs">{choice.term} · {choice.partOfSpeech}</span><br/>{choice.definitionEn}</span></span>
-              <hr className="dictionary-translation-divider"/><span>{choice.translationUz}</span>
-            </label>)}
-          </div> : <>
+          </div> : !contextualSource && <>
           <label className="text-xs text-ink-500">
             {t.add.definition}
             <input className="input mt-1" value={meaning} onChange={(event) => setMeaning(event.target.value)} />
@@ -515,7 +497,7 @@ export function WordPopover({
             <input className="input mt-1" value={uzbek} onChange={(event) => setUzbek(event.target.value)} />
           </label>
           </>}
-          <label className="text-xs text-ink-500">
+          {(!contextualSource || contextual) && <><label className="text-xs text-ink-500">
             {t.games.set.folder}
             <select className="input mt-1" value={folderId} onChange={(event) => setFolderId(event.target.value)}>
               <option value="">{sourceType === "listening" ? "Listening" : sourceType === "reading" ? "Reading" : sourceType === "retention" ? "Retention" : t.folders.unassigned}</option>
@@ -523,10 +505,10 @@ export function WordPopover({
             </select>
           </label>
           <div className="flex items-center gap-2">
-            <button type="button" className="btn-primary text-xs" disabled={busy || (!!catalogue?.choices.length && !chosenSense)} data-word-save onClick={() => void save()}>
+            <button type="button" className="btn-primary text-xs" disabled={busy} data-word-save onClick={() => void save()}>
               {busy ? dict.common.saving : t.add.button}
             </button>
-          </div>
+          </div></>}
         </div>
       )}
 

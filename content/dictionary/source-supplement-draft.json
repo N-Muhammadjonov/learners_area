@@ -7,6 +7,28 @@
   "translationsAndExamples": "Original AI editorial drafts. Source English meanings and aliases must match their exact OEWN synset. This file does not assign contextual meanings.",
   "entries": [
     {
+      "lemma": "make",
+      "pos": "v",
+      "synsetId": "01624592-v",
+      "targetLexemeId": "6e6de819-6f7a-5055-9fc5-473bc52931d1",
+      "expectedEntrySha": "8e852ffa3fcfe44896674c3263c74f68e6056c8a9b8217ae23ea3529180b0c91",
+      "translationUz": "tayyorlamoq; yaratmoq; ishlab chiqarmoq",
+      "exampleEn": "Tom made sandwiches for the class trip.",
+      "exampleUz": "Tom sinf sayohati uchun sendvichlar tayyorladi.",
+      "collocations": ["make sandwiches", "make a meal", "make coffee"]
+    },
+    {
+      "lemma": "take",
+      "pos": "v",
+      "synsetId": "02081903-v",
+      "targetLexemeId": "40d4d60f-5af8-59bd-89bf-0dc55f4ddb71",
+      "expectedEntrySha": "2c2e3b70a80c4e9b2f1042c1a30ab66c3841bf49dfb3f147212b8c58dbc8c7f1",
+      "translationUz": "o‘zi bilan olib bormoq; olib ketmoq",
+      "exampleEn": "His sister took the lunch bag to the station.",
+      "exampleUz": "Opasi tushlik sumkasini bekatga olib bordi.",
+      "collocations": ["take a bag to school", "take something home", "take something with you"]
+    },
+    {
       "lemma": "cartographer",
       "pos": "n",
       "synsetId": "09917667-n",

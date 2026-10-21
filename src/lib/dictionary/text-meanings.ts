@@ -12,8 +12,8 @@ export type TextDictionaryMeaning = {
   study?: SensePresentation;
 };
 
-/** Dictionary choices are available without an authored occurrence. A spelling
- * hit never makes its first sense the contextual meaning. */
+/** Catalogue candidates supply study material to an exact authored meaning.
+ * Course text popovers never expose this list or choose a spelling's first hit. */
 export async function textDictionaryMeanings(word: string) {
   const {active_release_id: releaseId} = await activeRelease();
   const variants=dictionarySpellingVariants(word);
