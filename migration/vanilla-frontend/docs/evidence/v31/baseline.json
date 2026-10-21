@@ -1,0 +1,80 @@
+{
+  "head": "ba4ec43474e5900a5520e70aa83913f05885d98e",
+  "readDocuments": [
+    {
+      "path": "docs/CHECKPOINT_V30.md",
+      "bytes": 2785,
+      "sha256": "30628a321aea3d21a6f505e8c39f51c4fd327b9bce3e47afaae6bbbeaa272077"
+    },
+    {
+      "path": "docs/SOURCE_STATE_INVENTORY_V30.md",
+      "bytes": 1157,
+      "sha256": "fa9837a635a583ff944bf7bf8624e6e7d5e228dd8d6da9d6b5b97f986de55ccb"
+    },
+    {
+      "path": "docs/ADAPTER_CONTRACTS_V30.md",
+      "bytes": 1285,
+      "sha256": "fe7d3957810d033485dc90c0569a7ce8f85b06bd08c6d81f8494c3b5ab1826de"
+    },
+    {
+      "path": "docs/ROUTE_LEDGER_V30.md",
+      "bytes": 581,
+      "sha256": "947e4b34ed6517599fa805352436f67f2c64d96a0866cc8256763419225c3adb"
+    },
+    {
+      "path": "docs/COMPONENT_LEDGER_V30.md",
+      "bytes": 663,
+      "sha256": "afdbc2fb2cce92e64b120769d90229042540d69a573b2a35451d640a0dc41cfd"
+    },
+    {
+      "path": "docs/V30_V16_ROOT_CAUSE.md",
+      "bytes": 4886,
+      "sha256": "9962d1d5d6e6789f8acb9a921d59ae5035e2512f621f69d4f4ac87f30c0f76f3"
+    },
+    {
+      "path": "docs/V30_V16_PLAN.md",
+      "bytes": 2803,
+      "sha256": "081211e0c831018db149a86fa6f60b21fcdabe90ab39f86e9626aa05d9f6e970"
+    },
+    {
+      "path": "docs/V30_TIMELINE_STAGES.md",
+      "bytes": 2253,
+      "sha256": "e52235b554a9290dfee81426be0dc535bec3ea09a934724e2acbd958a450385d"
+    },
+    {
+      "path": "docs/V30_PHASE2_ASSESSMENT.md",
+      "bytes": 1408,
+      "sha256": "6ed6502b1f904048ad62b5a45507d136f47efb11454c9e15cc24872853fe1b44"
+    },
+    {
+      "path": "docs/GPT_WORK_HANDOFF.md",
+      "bytes": 44985,
+      "sha256": "e4af59bcbc0d51ec44668e34b96b217fcd40cbf10c3977953a05709157392f23"
+    },
+    {
+      "path": "deliverables/V30_VALIDATION.txt",
+      "bytes": 6052,
+      "sha256": "8fce63163310a8844c22c4e3997f5875ef27762a52958409dc248a0062bb22d7"
+    },
+    {
+      "path": "deliverables/V30_VERIFICATION.json",
+      "bytes": 3815750,
+      "sha256": "31c400077c6ecf7e3be513cd884d96006d325a7812284c461d2784f601fa8b42"
+    }
+  ],
+  "archiveSHA256": "160d800a7680839ff8303f0dceed079ae7ce66ebf510dd080a118adac2536878",
+  "CRC": "PASS",
+  "members": 2009,
+  "memberGitIdentity": "PASS",
+  "counts": {
+    "unit": 544,
+    "chromium": 499,
+    "source": {
+      "PASS": 418,
+      "FAIL": 0,
+      "SKIP": 0
+    },
+    "timing": 14,
+    "controls": 4
+  }
+}

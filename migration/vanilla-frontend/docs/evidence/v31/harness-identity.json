@@ -1,0 +1,13 @@
+{
+  "originalCaseSHA256": "b68914f395afbc11da985b5551c8aacad9edcde75c196d4fee40177bfe7ab39d",
+  "reconstructedOriginalCaseByteIdentical": true,
+  "originalPrefixBeforeAssertionsByteIdentical": true,
+  "observationsAfterOriginalAssertions": true,
+  "repetitions": 12,
+  "extraGCOrSettling": false,
+  "dependencyPins": {
+    "playwright-core": "1.51.1",
+    "Chromium": "133.0.6943.0"
+  },
+  "runtimeChanges": []
+}
