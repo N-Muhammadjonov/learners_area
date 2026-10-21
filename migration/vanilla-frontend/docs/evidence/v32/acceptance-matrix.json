@@ -1,0 +1,516 @@
+{
+  "authorityNote": "A=IMPLEMENTED AND VERIFIED; B=IMPLEMENTED BUT ACCEPTANCE INCOMPLETE; C=DEMONSTRATED FRONTEND DEFECT; D=BLOCKED BY AUTHORITATIVE EXTERNAL INPUT; E=NOT MEASURABLE WITH AVAILABLE TOOLS; F=NOT ACTUALLY REQUIRED BY EXISTING CONTRACT. No row C: no newly demonstrated frontend defect. F is documentary prohibition, never silent removal of a required gate.",
+  "criteria": [
+    {
+      "id": "C01",
+      "sources": [
+        "migration/vanilla-frontend/tests/browser-v6.mjs:53",
+        "migration/vanilla-frontend/docs/CHECKPOINT_V6.md:27"
+      ],
+      "observable": "Original stable shell; after.jsEventListeners<=before+5 and after.nodes<=before+50 after original warmup/30 route switches and two original diagnostic GC commands.",
+      "environment": "Original synthetic authorized Chromium fixture1440x900 EN/day; original test helper/timeouts unchanged.",
+      "requiredSampleCount": "One invocation defines one result;30 measured switches. No population/release sample count specified.",
+      "passThreshold": "Every original assertion must pass in that invocation.",
+      "historicalFailureTreatment": "Each failed invocation stays failed. Test contains no rule converting historical failures into release acceptance.",
+      "measurementKind": "Allocated browser/harness/application counters plus shell identity; not retaining-owner attribution.",
+      "acceptanceOwner": "Frontend verifier can report test outcome; release acceptance owner not named.",
+      "existingEvidence": "Two historical3/1, V28 4/0, V29/V30 original PASS, V31 12/0 plus separately labelled baseline/exact PASS.",
+      "decision": "Existing per-run requirement found and met by the listed PASS observations; historical FAIL observations still fail."
+    },
+    {
+      "id": "C02",
+      "sources": [
+        "migration/vanilla-frontend/docs/V31_PHASE2_RESULTS.md:38",
+        "migration/vanilla-frontend/docs/V31_PHASE2_DECISION_PLAN.md:19",
+        "migration/vanilla-frontend/docs/ROUTE_LEDGER_V31.md:15"
+      ],
+      "observable": "Repeated-run stability/release decision beyond C01.",
+      "environment": "No applicable population/environment policy found.",
+      "requiredSampleCount": "UNSPECIFIED; V31 twelve is diagnostic plan count, not release policy.",
+      "passThreshold": "UNSPECIFIED; no reliability bound/confidence or allowed failure rate found.",
+      "historicalFailureTreatment": "No approved supersession/native-exception or evidence-recency rule found.",
+      "measurementKind": "Release policy, not a new application test.",
+      "acceptanceOwner": "Project acceptance/release owner; person/delegation not identified in repository.",
+      "existingEvidence": "Existing results are available; they do not contain the missing decision rule.",
+      "decision": "EXTERNAL CRITERION REQUIRED. Neither12/12 sufficient nor12/12 insufficient is decided here; Phase2 release OPEN."
+    },
+    {
+      "id": "C03",
+      "sources": [
+        "migration/vanilla-frontend/tests/original-review-v27-journeys.mjs:9",
+        "migration/vanilla-frontend/docs/V27_RESOURCE_OWNERSHIP.md:15",
+        "migration/vanilla-frontend/docs/V27_RESOURCE_OWNERSHIP.md:13"
+      ],
+      "observable": "At each equivalent route-disposed sample:0frames/URLs/requests/RAF; audio paused and no src; observer/timer counts do not grow vs first equivalent disposed stage. Legitimate shell timers and Playwright observer distinguished.",
+      "environment": "Actual read-only source; isolated authorized API fixtures; parent wrappers and sampled CDP; not every native realm.",
+      "requiredSampleCount": "Existing test defines six cycles; V26 modal24 and V25 playing-media6 are separate existing evidence, not new stability policy.",
+      "passThreshold": "Exact original assertions, plus unchanged authority/writer/source invariants in mandatory suite.",
+      "historicalFailureTreatment": "V27 modal defect was demonstrated and repaired; old failures retained. Do not delete legitimate current-shell/harness owners.",
+      "measurementKind": "Application-owned lifecycle observables, scoped.",
+      "acceptanceOwner": "Frontend implementation/verifier for executable checks; product acceptance owner separately.",
+      "existingEvidence": "V27 modal causal repair; preserved six-cycle/24-modal/playing-media reports and V31 full418-source PASS.",
+      "decision": "IMPLEMENTED AND VERIFIED within stated scopes. Hypothetical unmeasured native objects do not make these features defective."
+    },
+    {
+      "id": "C04",
+      "sources": [
+        "migration/vanilla-frontend/docs/CHECKPOINT_V27.md:11",
+        "migration/vanilla-frontend/docs/V29_RESOURCE_OWNERSHIP.md:12",
+        "migration/vanilla-frontend/docs/V29_RESOURCE_OWNERSHIP.md:19"
+      ],
+      "observable": "Classify observed retaining paths without equating detached/allocated with abandoned app ownership.",
+      "environment": "Historical heap metadata and accepted normal CDP tools. Original historical raw heap unavailable.",
+      "requiredSampleCount": "No universal native sample count specified.",
+      "passThreshold": "No native-zero-allocation or all-target release threshold found.",
+      "historicalFailureTreatment": "219/232 shortest CSSAnimation paths and blank-page finding scoped; other13 not individually recoverable. Inspector causal release accepted.",
+      "measurementKind": "Browser-native / test-process attribution, not universal app cleanup.",
+      "acceptanceOwner": "Project acceptance owner for scope; browser/tool vendors control unsupported internals.",
+      "existingEvidence": "Accepted CSSAnimation path and blank-page proof; V29 pointer-handle444\u2192348,connected291/listeners184 unchanged.",
+      "decision": "Scoped attribution accepted; universal/native release decision NOT MEASURABLE WITH AVAILABLE TOOLS; missing release scope requires external criterion."
+    },
+    {
+      "id": "C05",
+      "sources": [
+        "migration/vanilla-frontend/docs/V30_PHASE2_ASSESSMENT.md:3",
+        "migration/vanilla-frontend/docs/V29_RESOURCE_OWNERSHIP.md:19"
+      ],
+      "observable": "Current frame detaches/context terminal events after source exit, pending own checked bytes retained, PUT2\u21922 and no stale UI.",
+      "environment": "Original source fixture with normal CDP frame/context events; sandbox allow-scripts only.",
+      "requiredSampleCount": "Existing V30 focused case; no universal OOPIF population specified.",
+      "passThreshold": "Existing exact functional/frame-terminal assertions.",
+      "historicalFailureTreatment": "Retain V30 invalid setups separately; accepted corrected result is not retroactive proof of every native resource.",
+      "measurementKind": "Functional/normal lifecycle terminals, not decoder/GPU/whole-process disposal.",
+      "acceptanceOwner": "Frontend verifier for normal terminals; acceptance owner for broader native scope.",
+      "existingEvidence": "V30 disposal PASS preserved; V31 no new defect or expanded native proof.",
+      "decision": "Scoped opaque-frame lifetime VERIFIED; universal native release NOT MEASURABLE, not presumed frontend defect."
+    },
+    {
+      "id": "C06",
+      "sources": [
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V20.md:3",
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V31.md:7",
+        "docs/RUNTIME-STABILITY-ARCHITECTURE.md:67"
+      ],
+      "observable": "Fresh authoritative eligibility, exact own canonical identity/ACK snapshot bytes, pending ownership, explicit Retry/Adopt; stale source/UI epoch fencing; no automatic uncertain replay.",
+      "environment": "Existing ReviewAuthorityBarrier/ReviewJournal/CheckpointWriter/source bridge under fixture/native source tests.",
+      "requiredSampleCount": "Existing functional tests define their cases; no invented sample count.",
+      "passThreshold": "Unchanged exact assertions and timeouts, including both native Exam-readiness observations.",
+      "historicalFailureTreatment": "V29/V30 actual failure chronology retained; accepted causal repairs remain unchanged.",
+      "measurementKind": "Application correctness and authority boundaries.",
+      "acceptanceOwner": "Frontend implementation owner; server authority/backend policy belongs to existing external workstream.",
+      "existingEvidence": "V31 544/499/418 PASS; accepted V16 delivery fence and V14 observations;15 mixed journeys/30 source proofs.",
+      "decision": "IMPLEMENTED AND VERIFIED in covered fixture scopes; live authorization is separate."
+    },
+    {
+      "id": "C07",
+      "sources": [
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V21.md:3",
+        "migration/vanilla-frontend/docs/SOURCE_STATE_INVENTORY_V25.md:10"
+      ],
+      "observable": "Comprehensive original catalogue/previous-attempt/sequence/publication workflow verification beyond isolated source combinations.",
+      "environment": "Genuine canonical catalogue/attempt identities and authorized matching states, not invented DTO/IDs.",
+      "requiredSampleCount": "No comprehensive product sample/closure set found; existing30 isolated-source proofs remain30.",
+      "passThreshold": "Existing supported assertions cannot certify undefined/unprovided cross-catalogue/live requirements.",
+      "historicalFailureTreatment": "Do not erase earlier OPEN catalogue requirements or claim32/32 from30.",
+      "measurementKind": "Product/source integration coverage; distinct from native memory.",
+      "acceptanceOwner": "Project/content/media/catalogue authority; frontend verifier can execute only authorized defined cases.",
+      "existingEvidence": "V27 closed15 mixed journeys and30 valid-source checks; original workflow0/9; Test10/25 invalid boundaries; no authoritative previous-attempt/publication acceptance mapping supplied.",
+      "decision": "BLOCKED BY AUTHORITATIVE EXTERNAL INPUT for comprehensive decision. Existing supported frontend checks remain executable and verified; no new frontend defect demonstrated."
+    },
+    {
+      "id": "C08",
+      "sources": [
+        "migration/vanilla-frontend/docs/SOURCE_STATE_INVENTORY_V25.md:12",
+        "migration/vanilla-frontend/docs/ROUTE_LEDGER_V31.md:15"
+      ],
+      "observable": "Same original design/behavior in12 viewport-locale-theme combinations; CSS identity alone not matched rendered comparison.",
+      "environment": "1440x900,768x1024,390x844 \u00d7 EN/UZ \u00d7 day/night; equivalent authorized original states.",
+      "requiredSampleCount": "Twelve condition combinations, not a reliability count.",
+      "passThreshold": "Original layout/behavior unchanged; equivalent original rendered reference required.",
+      "historicalFailureTreatment": "Migrated-only screenshots cannot supersede missing original comparison.",
+      "measurementKind": "Visual/product acceptance.",
+      "acceptanceOwner": "Project visual acceptance owner; original-reference access custodian, not named.",
+      "existingEvidence": "25 original assets/source+compiled CSS exact; migrated geometry/focus/scroll proofs; no authorized matched original rendering.",
+      "decision": "MATCHED-ORIGINAL VISUAL ACCEPTANCE UNVERIFIED; external reference/state required."
+    },
+    {
+      "id": "C09",
+      "sources": [
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:3",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:21",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:970",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:1647",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:3829"
+      ],
+      "observable": "Original product package requires browser acceptance twice and three cold/warm navigation rounds across>=10 representative routes with Back/Forward, tied to deployment SHA. Its resource-cleanup occurrence is WebRTC.",
+      "environment": "Explicit different branch arena/01a0f1a0-learners-area,dd23e0a original Next product/deployment; not this vanilla Phase2 +50/+5 fixture.",
+      "requiredSampleCount": "Two browser acceptances/three performance rounds explicitly exist FOR THAT CONTRACT, not an inferred migration stability N.",
+      "passThreshold": "Same-document navigation and separately measured feedback/usable-content/requests/recovery; no +50/+5 native-exception rule.",
+      "historicalFailureTreatment": "Historical QA is not current deployment acceptance; PDF captions explicitly preserve that limitation.",
+      "measurementKind": "Original deployment/integration QA, not Phase2 native population policy.",
+      "acceptanceOwner": "Original product owner/QA plus deployment authorization; not authority to switch this Arena branch or deploy.",
+      "existingEvidence": "PackageTXT lines21\u201323,970\u2013973 and paired63-page visual PDF inspected. Current V32 instruction forbids branch/deploy/backend changes.",
+      "decision": "Relevant external product requirements retained, NOT transplanted as a Phase2 repetition criterion. No unauthorized original-product tests/deployment."
+    },
+    {
+      "id": "C10",
+      "sources": [
+        "migration/vanilla-frontend/docs/SOURCE_STATE_INVENTORY_V31.md:11"
+      ],
+      "observable": "Test10 forty invalid/unavailable timings; Test25Q30 end1236>1235.879 andQ40 end1525>1524.01 require authoritative correction.",
+      "environment": "Original sources1\u201332 read-only; no replacement recordings.",
+      "requiredSampleCount": "Existing exact offending entries.",
+      "passThreshold": "Finite positive ordered clips within authoritative part bounds; unavailable otherwise, never clamp.",
+      "historicalFailureTreatment": "Preserve original bad values as evidence; do not rewrite them for PASS.",
+      "measurementKind": "External content/media correctness.",
+      "acceptanceOwner": "Authoritative content/media owner; individual not established.",
+      "existingEvidence": "Preserved V27 timing handoff and V31 timingHandoff entries.",
+      "decision": "BLOCKED BY AUTHORITATIVE EXTERNAL INPUT; frontend fail-closed behavior separately verified."
+    },
+    {
+      "id": "C11",
+      "sources": [
+        "migration/vanilla-frontend/docs/ROUTE_LEDGER_V31.md:15",
+        "migration/vanilla-frontend/docs/V31_PHASE2_RESULTS.md:38"
+      ],
+      "observable": "Review aggregate promotion only after actual required gates close; Full/Retry code complete retained; Script not advanced/Reading gated.",
+      "environment": "Current owner V32 \u00a7\u00a711,18,22 and inherited ledgers.",
+      "requiredSampleCount": "No aggregate review release sample count or delegated signing authority found.",
+      "passThreshold": "Do not promote from fixture-only success or declare a demonstrated feature broken solely from hypothetical native behavior.",
+      "historicalFailureTreatment": "Historical failures remain evidence, not proof of permanent app leak.",
+      "measurementKind": "Separate implementation/regression/release categories.",
+      "acceptanceOwner": "Project acceptance owner, no fabricated approval.",
+      "existingEvidence": "Full/Retry code complete, supported Review functionality verified, release policy and external scopes unresolved.",
+      "decision": "Review PARTIAL while Phase2 release OPEN; EXTERNAL CRITERION REQUIRED, not a newly diagnosed code defect."
+    }
+  ],
+  "requirements": [
+    {
+      "id": "R01",
+      "requirement": "Full IELTS frontend code",
+      "criterion": "C06",
+      "category": "A",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V20.md:3",
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V31.md:7",
+        "docs/RUNTIME-STABILITY-ARCHITECTURE.md:67"
+      ],
+      "owningWorkstream": "Frontend",
+      "currentImplementation": "Existing native Full controller; no rewrite.",
+      "observedEvidence": "V31 actual-source journeys, preserved canonical/clock/checkpoint tests.",
+      "remainingExecutableAction": "Run unchanged final mandatory regression only.",
+      "acceptanceDecision": "FRONTEND CODE COMPLETE",
+      "responsibleOwner": "Frontend verifier",
+      "blocker": "None"
+    },
+    {
+      "id": "R02",
+      "requirement": "Retry Weak Areas frontend code",
+      "criterion": "C06",
+      "category": "A",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V20.md:3",
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V31.md:7",
+        "docs/RUNTIME-STABILITY-ARCHITECTURE.md:67"
+      ],
+      "owningWorkstream": "Frontend",
+      "currentImplementation": "Existing native Retry implementation.",
+      "observedEvidence": "V31 all40-source retry, history and authority fixtures.",
+      "remainingExecutableAction": "Run unchanged mandatory cases only.",
+      "acceptanceDecision": "FRONTEND CODE COMPLETE",
+      "responsibleOwner": "Frontend verifier",
+      "blocker": "None"
+    },
+    {
+      "id": "R03",
+      "requirement": "Review aggregate frontend acceptance",
+      "criterion": "C11",
+      "category": "B",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/ROUTE_LEDGER_V31.md:15",
+        "migration/vanilla-frontend/docs/V31_PHASE2_RESULTS.md:38"
+      ],
+      "owningWorkstream": "Review / acceptance",
+      "currentImplementation": "Supported controls implemented; aggregate status not promoted.",
+      "observedEvidence": "15 mixed journeys,30 valid-source proofs, V31 full418 PASS; open release/external categories below.",
+      "remainingExecutableAction": "Verify mandatory cases; obtain exact missing acceptance decision rather than invent a feature defect.",
+      "acceptanceDecision": "PARTIAL",
+      "responsibleOwner": "Project acceptance owner",
+      "blocker": "C02 release policy plus R10\u2013R13 external scopes"
+    },
+    {
+      "id": "R04",
+      "requirement": "Mandatory fixture acceptance",
+      "criterion": "C06",
+      "category": "A",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V20.md:3",
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V31.md:7",
+        "docs/RUNTIME-STABILITY-ARCHITECTURE.md:67"
+      ],
+      "owningWorkstream": "Verification",
+      "currentImplementation": "544unit/499Chromium/418source/14timing/4controls existing cases.",
+      "observedEvidence": "V31 independently exact-verified PASS; fresh V32 outcome authoritative in final reports.",
+      "remainingExecutableAction": "Execute final exact V32 ZIP once; stop/plan any new failed mandatory case before expansion.",
+      "acceptanceDecision": "V31 VERIFIED; V32 actual outcome post-seal",
+      "responsibleOwner": "Frontend verifier",
+      "blocker": "None"
+    },
+    {
+      "id": "R05",
+      "requirement": "Phase2 per-invocation strict test",
+      "criterion": "C01",
+      "category": "A",
+      "existingSource": [
+        "migration/vanilla-frontend/tests/browser-v6.mjs:53",
+        "migration/vanilla-frontend/docs/CHECKPOINT_V6.md:27"
+      ],
+      "owningWorkstream": "Frontend fixture QA",
+      "currentImplementation": "Original immediate +50nodes/+5listeners/stable shell unchanged.",
+      "observedEvidence": "V31 twelve PASS with deltas\u221222\u2026+35; baseline/exact separate; historic failures retained.",
+      "remainingExecutableAction": "One unchanged invocation within required499-suite, not another diagnostic series.",
+      "acceptanceDecision": "PASS for named passing invocations; historical FAILs stay FAIL",
+      "responsibleOwner": "Frontend verifier",
+      "blocker": "None"
+    },
+    {
+      "id": "R06",
+      "requirement": "Phase2 stability/release",
+      "criterion": "C02",
+      "category": "D",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/V31_PHASE2_RESULTS.md:38",
+        "migration/vanilla-frontend/docs/V31_PHASE2_DECISION_PLAN.md:19",
+        "migration/vanilla-frontend/docs/ROUTE_LEDGER_V31.md:15"
+      ],
+      "owningWorkstream": "Acceptance authority",
+      "currentImplementation": "No new runtime defect established.",
+      "observedEvidence": "History provides outcomes but no applicable release reliability/supersession/native-exception rule.",
+      "remainingExecutableAction": "Ask owner for existing applicable criterion and authority; do not propose arbitrary N.",
+      "acceptanceDecision": "OPEN \u2014 EXTERNAL CRITERION REQUIRED",
+      "responsibleOwner": "Project acceptance/release owner",
+      "blocker": "Missing population, threshold, environment and historical-failure treatment"
+    },
+    {
+      "id": "R07",
+      "requirement": "Application-owned DOM/listeners/timers/RAF/controllers/observers",
+      "criterion": "C03",
+      "category": "A",
+      "existingSource": [
+        "migration/vanilla-frontend/tests/original-review-v27-journeys.mjs:9",
+        "migration/vanilla-frontend/docs/V27_RESOURCE_OWNERSHIP.md:15",
+        "migration/vanilla-frontend/docs/V27_RESOURCE_OWNERSHIP.md:13"
+      ],
+      "owningWorkstream": "Frontend lifecycle",
+      "currentImplementation": "Existing scoped owners; V27 modal repair retained; shell-owned timers legitimate.",
+      "observedEvidence": "Six equivalent route-disposed samples and24modal/6playing cycles; V31 full regression; harness observer distinguished.",
+      "remainingExecutableAction": "Required existing regression only; investigate only new concrete owned callback/retaining path.",
+      "acceptanceDecision": "IMPLEMENTED AND VERIFIED IN SCOPE",
+      "responsibleOwner": "Frontend verifier",
+      "blocker": "None"
+    },
+    {
+      "id": "R08",
+      "requirement": "Browser-native allocation and unknown13 historical targets",
+      "criterion": "C04",
+      "category": "E",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/CHECKPOINT_V27.md:11",
+        "migration/vanilla-frontend/docs/V29_RESOURCE_OWNERSHIP.md:12",
+        "migration/vanilla-frontend/docs/V29_RESOURCE_OWNERSHIP.md:19"
+      ],
+      "owningWorkstream": "Browser/tooling / acceptance",
+      "currentImplementation": "No browser engine replacement or speculative app cleanup.",
+      "observedEvidence": "219/232 CSSAnimation paths; original13 raw target identities absent; accepted isolated native reproduction.",
+      "remainingExecutableAction": "Obtain authorized original target evidence and scoped criterion before an actionable new measurement.",
+      "acceptanceDecision": "NOT UNIVERSALLY MEASURABLE; NOT AN APP DEFECT",
+      "responsibleOwner": "Acceptance owner / original-evidence custodian",
+      "blocker": "Absent original raw heap and undefined native release scope"
+    },
+    {
+      "id": "R08a",
+      "requirement": "Playwright inspector handles",
+      "criterion": "C04",
+      "category": "A",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/CHECKPOINT_V27.md:11",
+        "migration/vanilla-frontend/docs/V29_RESOURCE_OWNERSHIP.md:12",
+        "migration/vanilla-frontend/docs/V29_RESOURCE_OWNERSHIP.md:19"
+      ],
+      "owningWorkstream": "Test-process tooling",
+      "currentImplementation": "Accepted Playwright1.51.1 pointer-hit-test ownership, runtime untouched.",
+      "observedEvidence": "444\u2192348 allocated,291\u2192291 connected,184\u2192184 listeners after scoped15handle release.",
+      "remainingExecutableAction": "None without concrete contradiction.",
+      "acceptanceDecision": "SCOPED ATTRIBUTION VERIFIED",
+      "responsibleOwner": "Frontend/tooling verifier",
+      "blocker": "None"
+    },
+    {
+      "id": "R09",
+      "requirement": "Opaque-frame normal lifetime/dirty-write fences",
+      "criterion": "C05",
+      "category": "A",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/V30_PHASE2_ASSESSMENT.md:3",
+        "migration/vanilla-frontend/docs/V29_RESOURCE_OWNERSHIP.md:19"
+      ],
+      "owningWorkstream": "Source bridge / writer",
+      "currentImplementation": "Existing disposal fences and owned pending data preserved.",
+      "observedEvidence": "V30 frameDetached/context terminals,PUT2\u21922 and retained checked bytes; not every native allocation.",
+      "remainingExecutableAction": "Existing mandatory source lifecycle coverage, no repeated focused disposal study.",
+      "acceptanceDecision": "SCOPED LIFETIME VERIFIED",
+      "responsibleOwner": "Frontend verifier",
+      "blocker": "None"
+    },
+    {
+      "id": "R09a",
+      "requirement": "Universal OOPIF/decoder/GPU/SourceBuffer deallocation",
+      "criterion": "C04",
+      "category": "E",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/CHECKPOINT_V27.md:11",
+        "migration/vanilla-frontend/docs/V29_RESOURCE_OWNERSHIP.md:12",
+        "migration/vanilla-frontend/docs/V29_RESOURCE_OWNERSHIP.md:19"
+      ],
+      "owningWorkstream": "Browser-native tooling",
+      "currentImplementation": "Media256KiB/8MiB/max2,MSE recovery/Blob fallback unchanged.",
+      "observedEvidence": "Normal CDP/media events and body-reader tests do not enumerate every native allocation.",
+      "remainingExecutableAction": "No new study: no specified actionable available observation/criterion. Obtain scope/authorized tool capability first.",
+      "acceptanceDecision": "NOT MEASURABLE WITH AVAILABLE TOOLS",
+      "responsibleOwner": "Acceptance owner / browser vendors",
+      "blocker": "Unsupported universal native-memory observation; no permission expansion"
+    },
+    {
+      "id": "R10",
+      "requirement": "Comprehensive original-source product workflows",
+      "criterion": "C07",
+      "category": "D",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V21.md:3",
+        "migration/vanilla-frontend/docs/SOURCE_STATE_INVENTORY_V25.md:10"
+      ],
+      "owningWorkstream": "Catalogue/content/integration",
+      "currentImplementation": "Supported isolated flows verified; previous-attempt/catalogue/sequence/publication acceptance remains distinct.",
+      "observedEvidence": "30 valid-source proofs;0/9 comprehensive; no invented published IDs or previous-attempt mapping.",
+      "remainingExecutableAction": "Reconcile authoritative genuine IDs/attempt/publication scenarios with existing contract, then test only specified supported cases.",
+      "acceptanceDecision": "UNVERIFIED0/9",
+      "responsibleOwner": "Catalogue/content authority + acceptance owner",
+      "blocker": "Authoritative cross-catalogue/previous-attempt states and complete acceptance mapping absent"
+    },
+    {
+      "id": "R11",
+      "requirement": "Matched-original rendered visuals",
+      "criterion": "C08",
+      "category": "D",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/SOURCE_STATE_INVENTORY_V25.md:12",
+        "migration/vanilla-frontend/docs/ROUTE_LEDGER_V31.md:15"
+      ],
+      "owningWorkstream": "Visual QA",
+      "currentImplementation": "Original bytes/design unchanged.",
+      "observedEvidence": "12 migrated conditions/25asset/CSS proof, not authorized matched-original product rendering.",
+      "remainingExecutableAction": "Provide equivalent authorized original rendered states before paired comparison.",
+      "acceptanceDecision": "UNVERIFIED",
+      "responsibleOwner": "Visual acceptance owner",
+      "blocker": "Missing equivalent authorized original reference/state"
+    },
+    {
+      "id": "R12",
+      "requirement": "Authorized live integration/vocabulary exam policy",
+      "criterion": "C06",
+      "category": "D",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V20.md:3",
+        "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V31.md:7",
+        "docs/RUNTIME-STABILITY-ARCHITECTURE.md:67"
+      ],
+      "owningWorkstream": "Backend/GPT Work",
+      "currentImplementation": "Existing frontend barriers, APIs unchanged; static preview503 intentional.",
+      "observedEvidence": "Fixture authorization is not real backend acceptance.",
+      "remainingExecutableAction": "Existing external owner supplies authorized matched environment/policy results; no live probe.",
+      "acceptanceDecision": "UNVERIFIED0/9",
+      "responsibleOwner": "Backend/GPT Work + project authorization owner",
+      "blocker": "Authorization/environment/backend policy acceptance absent"
+    },
+    {
+      "id": "R13",
+      "requirement": "Safari/hardware/original recordings",
+      "criterion": "C09",
+      "category": "D",
+      "existingSource": [
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:3",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:21",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:970",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:1647",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:3829"
+      ],
+      "owningWorkstream": "Device/media QA",
+      "currentImplementation": "Existing media controls/limits retained.",
+      "observedEvidence": "Chromium synthetic encoded fixtures only; no original audio capture.",
+      "remainingExecutableAction": "Provide authorized device/browser/recording access and existing scenarios.",
+      "acceptanceDecision": "UNVERIFIED",
+      "responsibleOwner": "Device/media QA owner",
+      "blocker": "Authorized device/recording access unavailable"
+    },
+    {
+      "id": "R14",
+      "requirement": "Original product two-browser/three-round deployment QA",
+      "criterion": "C09",
+      "category": "D",
+      "existingSource": [
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:3",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:21",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:970",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:1647",
+        "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt:3829"
+      ],
+      "owningWorkstream": "Original product release",
+      "currentImplementation": "Different baseline/deployment; not an allocation-stability policy.",
+      "observedEvidence": "Exact package branch/SHA and repetition clauses located; PDF separates historical/current acceptance.",
+      "remainingExecutableAction": "External owner reconciles applicability; this task does not switch branches/deploy or transplant N.",
+      "acceptanceDecision": "SEPARATE EXTERNAL PRODUCT CONTRACT",
+      "responsibleOwner": "Original product acceptance owner",
+      "blocker": "Different baseline/deployment and no authorization to exercise it"
+    },
+    {
+      "id": "R15",
+      "requirement": "Tests10/25 authoritative content timing",
+      "criterion": "C10",
+      "category": "D",
+      "existingSource": [
+        "migration/vanilla-frontend/docs/SOURCE_STATE_INVENTORY_V31.md:11"
+      ],
+      "owningWorkstream": "Content/media authority",
+      "currentImplementation": "Fail-closed unavailable clips; source untouched.",
+      "observedEvidence": "40 invalid/unavailableTest10 entries;Test25Q30/Q40 boundaries pinned.",
+      "remainingExecutableAction": "External authoritative correction only.",
+      "acceptanceDecision": "EXTERNAL INPUT REQUIRED",
+      "responsibleOwner": "Content/media owner",
+      "blocker": "Authoritative times/original authorized recording reconciliation"
+    },
+    {
+      "id": "R16",
+      "requirement": "Another arbitrary Phase2 repetition or settled-study replay",
+      "criterion": "C02",
+      "category": "F",
+      "existingSource": [
+        "Current V32 owner instruction \u00a7\u00a75,7,22 (conversation)",
+        "migration/vanilla-frontend/docs/V31_PHASE2_DECISION_PLAN.md:19"
+      ],
+      "owningWorkstream": "Optional diagnostics",
+      "currentImplementation": "Not implemented as a new V32 experiment.",
+      "observedEvidence": "Current V32 owner instruction \u00a7\u00a75,7,22 explicitly forbids arbitrary series/blank-page/cancellation replay; V31 plan is diagnostic not release policy.",
+      "remainingExecutableAction": "Do not execute; required original strict case remains in499.",
+      "acceptanceDecision": "NOT REQUIRED / EXPRESSLY PROHIBITED",
+      "responsibleOwner": "Current V32 owner instruction",
+      "blocker": "Not used to waive any existing assertion or unknown native gate"
+    }
+  ],
+  "newDiagnostics": 0,
+  "newRuntimeDefects": [],
+  "runtimeRepair": null,
+  "phase2Release": "OPEN \u2014 EXTERNAL CRITERION REQUIRED",
+  "review": "PARTIAL",
+  "criteriaSearch": "criteria-search.json",
+  "currentOwnerInstruction": "V32 task \u00a7\u00a75\u20138,11,17\u201318,20\u201322; explicit scope authority, not fabricated release approval"
+}
