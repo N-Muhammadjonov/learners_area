@@ -1,0 +1,122 @@
+{
+  "browser": "Chromium 133 via @sparticuz/chromium; not Safari",
+  "date": "2026-10-21T01:47:36.826Z",
+  "apiIntegration": "Isolated fixtures only where named; real backend NOT connected",
+  "baselineScreenshots": 0,
+  "results": [
+    {
+      "name": "mobile: entry renders approved branding and six original vector ornaments",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile: recovery direct link and reload",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile: failed theme persistence reverts and announces error",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile: fixture theme persistence survives reload",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile: fixture locale switches visible text",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile: backend unavailable cannot report login success",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile: no horizontal page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "tablet: entry renders approved branding and six original vector ornaments",
+      "status": "PASS"
+    },
+    {
+      "name": "tablet: recovery direct link and reload",
+      "status": "PASS"
+    },
+    {
+      "name": "tablet: failed theme persistence reverts and announces error",
+      "status": "PASS"
+    },
+    {
+      "name": "tablet: fixture theme persistence survives reload",
+      "status": "PASS"
+    },
+    {
+      "name": "tablet: fixture locale switches visible text",
+      "status": "PASS"
+    },
+    {
+      "name": "tablet: backend unavailable cannot report login success",
+      "status": "PASS"
+    },
+    {
+      "name": "tablet: no horizontal page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop: entry renders approved branding and six original vector ornaments",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop: recovery direct link and reload",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop: failed theme persistence reverts and announces error",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop: fixture theme persistence survives reload",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop: fixture locale switches visible text",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop: backend unavailable cannot report login success",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop: no horizontal page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "unknown route uses original not-found screen",
+      "status": "PASS"
+    },
+    {
+      "name": "unconverted Reading attempt deep link reports unavailable; no exercise payload fetched",
+      "status": "PASS"
+    },
+    {
+      "name": "private API returns 503 JSON, never fabricated state",
+      "status": "PASS"
+    },
+    {
+      "name": "documentation and dotfiles are not published",
+      "status": "PASS"
+    },
+    {
+      "name": "missing JavaScript gets 404 instead of HTML",
+      "status": "PASS"
+    },
+    {
+      "name": "public intro supports range requests",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 27,
+    "FAIL": 0,
+    "SKIP": 0,
+    "BLOCKED": 0
+  }
+}

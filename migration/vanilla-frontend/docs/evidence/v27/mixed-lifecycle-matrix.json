@@ -1,0 +1,182 @@
+[
+  {
+    "number": 1,
+    "journey": "Check -> source replacement",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V27 mixed Check -> source replacement",
+    "result": {
+      "name": "V27 mixed Check -> source replacement",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 2,
+    "journey": "Retry -> Back -> Forward",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V27 mixed Retry -> Back -> Forward",
+    "result": {
+      "name": "V27 mixed Retry -> Back -> Forward",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 3,
+    "journey": "Audio -> another-tab retake",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V20 actual other tab retake without any A write invalidates standing transcript and owned audio",
+    "result": {
+      "name": "V20 actual other tab retake without any A write invalidates standing transcript and owned audio",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 4,
+    "journey": "Lexical selection -> session expiry",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V27 mixed Lexical selection -> session expiry",
+    "result": {
+      "name": "V27 mixed Lexical selection -> session expiry",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 5,
+    "journey": "Pending POST -> reload",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V19 actual two-tab held Review reload never clears foreign/stale original or duplicates submission",
+    "result": {
+      "name": "V19 actual two-tab held Review reload never clears foreign/stale original or duplicates submission",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 6,
+    "journey": "Recovery Check -> source replacement",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V24 disposed recovery Check cannot reject replacement UI on late failure",
+    "result": {
+      "name": "V24 disposed recovery Check cannot reject replacement UI on late failure",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 7,
+    "journey": "Recovery Adopt -> navigation",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V27 mixed Recovery Adopt -> navigation",
+    "result": {
+      "name": "V27 mixed Recovery Adopt -> navigation",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 8,
+    "journey": "Modal -> retake",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V26 modal held folders canonical retake disposes isolation and fences late continuation",
+    "result": {
+      "name": "V26 modal held folders canonical retake disposes isolation and fences late continuation",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 9,
+    "journey": "Held material -> logout",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V27 mixed Held material -> logout",
+    "result": {
+      "name": "V27 mixed Held material -> logout",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 10,
+    "journey": "Held media -> route exit",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V22 real held audio initialization route cancels queued playback without late resurrection",
+    "result": {
+      "name": "V22 real held audio initialization route cancels queued playback without late resurrection",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 11,
+    "journey": "Pending write -> canonical attempt change",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V24 canonical retake during post never grants old scope or clears owned bytes",
+    "result": {
+      "name": "V24 canonical retake during post never grants old scope or clears owned bytes",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 12,
+    "journey": "Transcript -> Check -> Retry",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V27 mixed Transcript -> Check -> Retry",
+    "result": {
+      "name": "V27 mixed Transcript -> Check -> Retry",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 13,
+    "journey": "Long answer -> modal -> reload",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V27 mixed Long answer -> modal -> reload",
+    "result": {
+      "name": "V27 mixed Long answer -> modal -> reload",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 14,
+    "journey": "Evidence -> another-tab retake",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V27 mixed Evidence -> another-tab retake",
+    "result": {
+      "name": "V27 mixed Evidence -> another-tab retake",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  },
+  {
+    "number": 15,
+    "journey": "Error -> explicit Retry -> reentry",
+    "status": "IMPLEMENTED AND VERIFIED",
+    "case": "V27 mixed Error -> explicit Retry -> reentry",
+    "result": {
+      "name": "V27 mixed Error -> explicit Retry -> reentry",
+      "status": "PASS"
+    },
+    "runtimeChange": "Existing controllers reused; no independent defect invented. Modal cleanup repaired separately.",
+    "scope": "Actual read-only original source; isolated authoritative server fixtures, not live backend."
+  }
+]

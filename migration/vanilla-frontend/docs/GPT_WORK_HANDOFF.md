@@ -1,3 +1,11 @@
+# Latest — V27 Review ownership checkpoint, PARTIAL
+
+Full IELTS and Retry Weak Areas FRONTEND CODE COMPLETE retained. Review PARTIAL; original Phase2 stability acceptance OPEN. Script NOT ADVANCED; Reading GATED. Matched-original rendering, authorized live integration and Safari/hardware/real-recording acceptance UNVERIFIED. No product-wide percentage claim.
+
+Continue from final V27_VERIFICATION.json source/seal/report/ZIP pins. Read CHECKPOINT_V27, V27_PHASE2_INVESTIGATION, mixed/source/resource matrices and Test10/25 external handoff. Preserve the accepted native-animation retainer evidence and unsuccessful cancellation trial. Do not reintroduce cancellation or change original animations/budgets. Complete any exact unverified lifecycle combinations and remaining ordinary resource attribution before promoting Review; do not mistake bounded fixture samples for universal cleanup proof. Keep pending exact own bytes and existing controllers. No Script/Reading advancement, backend/content changes, deployment or main merge.
+
+## Preserved earlier handoff
+
 # Latest — V25 fresh pre-reveal Review actions; Review PARTIAL
 
 Global routes22 COMPLETE/15 PARTIAL/71 NOT STARTED of108; components62/17/127 of206. Listening routes9/6/1 of16; components9/10/5 of24. Staff35 RESERVED, untouched. Full and Retry FRONTEND CODE COMPLETE retained; Review PARTIAL; Script NOT ADVANCED; Reading GATED. Frontend workflows2/9, comprehensive original0/9, authorized live0/9. Product-wide percentages UNDETERMINED.
