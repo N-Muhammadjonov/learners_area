@@ -5,7 +5,7 @@ import en from "../../src/lib/i18n/en";
 import { readFileSync } from "node:fs";
 
 const dom = new JSDOM('<!doctype html><div id="root"></div>', { url: "http://localhost/app" });
-for (const key of ["window", "document", "navigator", "HTMLElement", "Element", "Event", "MouseEvent", "KeyboardEvent"] as const) {
+for (const key of ["window", "document", "navigator", "HTMLElement", "HTMLAnchorElement", "Element", "Event", "MouseEvent", "KeyboardEvent"] as const) {
   Object.defineProperty(globalThis, key, { value: dom.window[key], configurable: true });
 }
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, self: dom.window });

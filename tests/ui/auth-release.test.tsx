@@ -27,7 +27,10 @@ for (const dict of [en, uz]) {
     for (const Component of [LoginForm, RegisterForm]) await mount(
       <Component dict={dict} passwordEnabled={false} telegramConfigured telegramBotUsername="fixture_bot" nonce="qa-nonce" />,
       () => {
-        assert.equal(document.querySelector("input,form,a[href*='google'],a[href*='reset']"), null);
+        assert.equal(document.querySelector("input[type='password'],input[type='email'],form,a[href*='google'],a[href*='reset']"), null);
+        if (Component === RegisterForm) {
+          assert.equal(document.querySelectorAll("input[autocomplete='given-name'],input[autocomplete='family-name']").length, 2);
+        } else assert.equal(document.querySelector("input"), null);
         const widget = document.querySelector("script[data-telegram-login]")!;
         assert.ok(widget);
         assert.equal(widget.getAttribute("nonce"), "qa-nonce");
