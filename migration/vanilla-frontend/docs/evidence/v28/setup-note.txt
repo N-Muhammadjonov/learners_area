@@ -1,0 +1,1 @@
+A precommit syntax/doc correction command was invoked at repository root instead of migration/vanilla-frontend. Those relative checks failed with file-not-found, without source edits. Implementation commit completed; correct-cwd syntax checks and doc correction are retained in source follow-up. Not a product test outcome.
