@@ -1,4 +1,5 @@
 import "server-only";
+import { TIMEZONE } from "@/lib/time";
 import { sql, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
 export const RESULT_MODULES=['reading','listening','writing','speaking','retention','vocabulary','grammar','video','lessons','mocks'] as const;
@@ -50,7 +51,7 @@ export async function centreStatistics(module?:string,executor:typeof db=db){
  type Data={summary:Awaited<ReturnType<typeof learningSummary>>;daily:{day:string;count:number}[];students:{id:string;name:string;started:number;completed:number;accuracy:number|null;band:number|null}[];levels:{level:string;rounds:number;average:number|null}[]};
  const row=(await executor.execute<{data:Data}>(sql`with results as materialized (${learningResultsSql()}), scoped as materialized (select r.*,u.name from results r join users u on u.id=r.user_id where u.role='student' and u.account_status<>'rejected'), chosen as materialized(select * from scoped ${filter}) select jsonb_build_object(
  'summary',(select coalesce(jsonb_agg(s),'[]'::jsonb) from (select module,count(*)::int started,count(*) filter(where completed)::int completed,count(distinct user_id)::int learners,avg(score/nullif(maximum,0)*100) filter(where completed and maximum>0 and unit='percent')::float8 accuracy,avg(score) filter(where completed and unit='band')::float8 band,max(at)::text latest from scoped group by module) s),
- 'daily',(select coalesce(jsonb_agg(d order by d."day"),'[]'::jsonb) from (select to_char(at at time zone 'Asia/Tashkent','YYYY-MM-DD') as "day",count(*)::int count from chosen where completed and at>=now()-interval '14 days' group by 1) d),
+ 'daily',(select coalesce(jsonb_agg(d order by d."day"),'[]'::jsonb) from (select to_char(at at time zone ${TIMEZONE},'YYYY-MM-DD') as "day",count(*)::int count from chosen where completed and at>=now()-interval '14 days' group by 1) d),
  'students',(select coalesce(jsonb_agg(s order by completed desc,name),'[]'::jsonb) from (select user_id id,name,count(*)::int started,count(*) filter(where completed)::int completed,avg(score/nullif(maximum,0)*100) filter(where completed and maximum>0 and unit='percent')::float8 accuracy,avg(score) filter(where completed and unit='band')::float8 band from chosen group by user_id,name order by completed desc,name limit 100) s),
  'levels',(select coalesce(jsonb_agg(l order by level),'[]'::jsonb) from (select a.level,count(*)::int rounds,avg(a.score)::float8 average from retention_attempts a join users u on u.id=a.user_id where u.role='student' and u.account_status<>'rejected' and a.status in ('completed','timed_out') group by a.level) l)
  ) data`)).rows[0]!.data;

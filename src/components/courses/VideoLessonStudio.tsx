@@ -344,7 +344,8 @@ export function VideoLessonStudio({
   }
 
   async function saveResponse() {
-    await writeLesson("response", mode === "standalone" ? {summaryText:summary} : { responseText: opinion, summaryText: summary });
+    if (mode === "standalone") await writeLesson("response", { summaryText: summary });
+    else await writeLesson("response", { responseText: opinion, summaryText: summary });
   }
 
   function renderQuestion(question: Question) {

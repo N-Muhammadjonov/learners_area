@@ -1,4 +1,5 @@
 "use client";
+import { TIMEZONE } from "@/lib/time";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
 import { useEffect, useState } from "react";
@@ -473,5 +474,5 @@ function StatusControl({
 function Presence({person,dict,locale}:{person:PersonRow;dict:Dictionary;locale:Locale}) {
   const duration=(seconds:number|null|undefined)=>seconds==null?"—":`${Math.floor(seconds/3600)}${locale==="uz"?" soat":"h"} ${Math.floor(seconds%3600/60)}${locale==="uz"?" daq.":"m"}`;
   const at=person.seenAt?new Date(person.seenAt):null;
-  return <div data-person-presence className="space-y-1 text-xs"><p>{person.online?"● Online":at?at.toLocaleString(locale==="uz"?"uz-UZ":"en-GB",{timeZone:"Asia/Tashkent",dateStyle:"short",timeStyle:"short"}):dict.people.notTracked}</p><>{!person.online&&<><p>{dict.people.visitTime}: {duration(person.visitSeconds)}</p><p>{dict.people.totalTime}: {duration(person.totalSeconds)}</p></>}</></div>;
+  return <div data-person-presence className="space-y-1 text-xs"><p>{person.online?"● Online":at?at.toLocaleString(locale==="uz"?"uz-UZ":"en-GB",{timeZone:TIMEZONE,dateStyle:"short",timeStyle:"short"}):dict.people.notTracked}</p><>{!person.online&&<><p>{dict.people.visitTime}: {duration(person.visitSeconds)}</p><p>{dict.people.totalTime}: {duration(person.totalSeconds)}</p></>}</></div>;
 }

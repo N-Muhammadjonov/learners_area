@@ -1,6 +1,6 @@
 import type {Entry} from './model';
 import {formsOf} from '@/lib/services/lexical/forms';
-export const usageNorm=(text:string)=>text.normalize('NFKC').toLowerCase().replace(/[’‘ʼʻ`]/g,"'").replace(/[^\p{L}\p{N}']+/gu,' ').replace(/\s+/g,' ').trim();
+export const usageNorm=(text:string)=>text.normalize('NFKC').toLowerCase().replace(/[\u2019\u2018\u02bc\u02bb`]/g,"'").replace(/[^\p{L}\p{N}']+/gu,' ').replace(/\s+/g,' ').trim();
 /** Morphology only. This never chooses a meaning from a sentence. */
 export function exampleUsesEntry(entry:Pick<Entry,'display_lemma'|'part_of_speech'|'lexical_type'|'forms'>,text:string){
  const body=' '+usageNorm(text)+' ';

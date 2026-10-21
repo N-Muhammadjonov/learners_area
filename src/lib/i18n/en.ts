@@ -550,7 +550,7 @@ const en = {
     courseHeading: "From your roadmap",
     title: "TED / PODCAST",
     intro:
-      "Watch or listen, open the transcript and teacher’s notes, learn vocabulary, then write or record your own summary.",
+      "Watch or listen, open the transcript and teacher's notes, learn vocabulary, then write or record your own summary.",
     none: "No video lesson is open right now.",
     open: "Open the lesson",
     minutes: "{n} min",
@@ -588,7 +588,7 @@ const en = {
       gap: "Script gap fill",
       opinion: "Your opinion",
       summary: "Summary",
-      notes: "Teacher’s notes",
+      notes: "Teacher's notes",
     },
     providerNote:
       "This video plays in YouTube's own embedded player. YouTube's controls, branding and captions menu are shown as YouTube provides them; Learners Area does not cover or alter them.",
@@ -634,7 +634,7 @@ const en = {
     transcriptDetectedPlain: "Plain transcript: {n} paragraph(s).",
     transcriptDetectedTimed: "Timed transcript: {n} line(s).",
     openStandalone: "Open",
-    notes: "Teacher’s notes (optional)",
+    notes: "Teacher's notes (optional)",
     notesHelp: "Study notes the learner can reveal on the lesson page. Leave empty and no notes control appears.",
     notesPresent: "added",
     notesAbsent: "none",
