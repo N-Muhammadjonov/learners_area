@@ -1,0 +1,30 @@
+V30 — actual V16 child ACK-delivery repair; fixtures PASS; Review PARTIAL
+A. Branch arena/96836bcf-learners-area. Implementation 0836b2aa32016c5eeaba774b80066236eecca6e1; source d1812b465d3dd32f6cb6356a597c243dcb53ce25; seal c3fa64a5f477c471b85b95ea4b507b48ffe691ba; report HEAD via Git path log (no recursive self-hash).
+B. V16 is independent of403: older legitimate checkpoint delivery could hydrate over newer checked-part bytes, cancelling their flush. Historical8000ms missing PUT response alone did not identify its callback timeline.
+C. Valid native-order trace: natural pre-Check input debounce PUT/ACK held at delivery -> fresh Check authority -> native checked1 -> immediate draftOnly stage -> actual old delivery -> old hydrate cancelled pending timers/no checked1 PUT -> progress independently confirmed -> original predicate times out. No fabricated response/extra write/sleep. Earlier invalid instrumentation/CSP attempts retained, not causal proof.
+D. Demonstrated application child-storage bridge defect, NOT late response listener: listener installed before Check. Historical callback ordering remains unknown, not filled from fresh probe.
+E. Existing authored ACK now includes original acknowledged snapshot internally; paintedBridge hydrates/dispatches only if exact current child bytes match. Newer bytes/timers survive and natural PUT occurs. Writer/ReviewJournal/authority/server DTOs unchanged. Original name/PUT predicate/reviewChecked/8000ms/UI requirements retained. Four unit checks and focused/controlled exact outcomes in JSON.
+F. Historical V29417PASS1FAIL preserved; V28403 failure preserved. New V30 first-full417/1 (V14 pending reload) also preserved, then its native Exam observation gate repaired and focused/control checked, without touching accepted403 repair. No unchanged retry-until-green.
+G. First full after V16 (new V14 failure preserved): {'PASS': 417, 'FAIL': 1, 'SKIP': 0}; after justified new V14 pending-reload native Exam observation repair: {'PASS': 418, 'FAIL': 0, 'SKIP': 0}; independent exact full: {'PASS': 418, 'FAIL': 0, 'SKIP': 0}.
+H. Full/Retry FRONTEND CODE COMPLETE retained, separate fixture results above; comprehensive-original still0/9 UNVERIFIED.
+I. Review PARTIAL: repair implementation delivered; mandatory fixture PASS; Phase2/native/comprehensive/external gates separate.
+J. Original strict Phase2 PASS; original+50DOM/+5listener assertion stage unchanged. Both historical3PASS1FAIL remain failed; V28 fixed4PASS/V29 strictPASS retained. Stability OPEN. No animation cancel/disable, runtimeGC, sleeps or budget changes.
+K. New dirty-debounce source-disposal regression: pending own checked bytes retained; route fences old writes/UI; normal CDP context/frame destruction only, not universal opaque/MSE/decoder/GPU/hardware release. No native byte extraction.
+L. Prior16-node slope remains Playwright1.51.1 inspector frame-element ownership:444->348 allocated,291 connected/184 listeners unchanged on scoped release; console clears negative. No repeated study/runtime cleanup/upgrade.
+M.15 mixed lifecycle proofs preserved, no extension rerun.
+N.30 valid-source proofs preserved, not32/32 acceptance.
+O. Test10 forty unavailable/invalid timings; Test25Q30 end1236>1235.879/Q40 end1525>1524.01 external authoritative correction only, no clamp/guess/content/audio change.
+P. Script NOT ADVANCED; Reading GATED.
+Q. Global routes22/15/71 of108; components62/17/127 of206; Staff35 RESERVED. Frontend workflows2/9; original0/9; live0/9. No invented product percentage.
+R. Listening routes9/6/1 of16; components9/10/5 of24, no promotion.
+S. Fresh npmci/build; units {'tests': 544, 'pass': 544, 'fail': 0, 'cancelled': 0, 'skipped': 0}; Chromium {'PASS': 499, 'FAIL': 0, 'SKIP': 0}; source {'PASS': 418, 'FAIL': 0, 'SKIP': 0}; timing {'PASS': 14, 'FAIL': 0}; controlled4 cases; focused/controlled/disposal statuses retained per command. Runtime audit0;5high dev findings retained. Baseline540 names+4 new checks,499/418/14 case names/order retained.
+T. Serial20 samples per condition, local fixture intent-to-focus, NOT production paint. Historical V29 zero26.40/36.70,40ms229.50/239.90 median/P95 preserved. Fresh comparisons below, no causal speedup claim.
+  V29-0: n=20 median=29.55 P95=50.40ms.
+  V29-40: n=20 median=228.40 P95=245.80ms.
+  V30-0: n=20 median=25.70 P95=34.50ms.
+  V30-40: n=20 median=225.10 P95=231.40ms.
+U.2104 originals/34 historical archives/1275 historical evidence files/25 assets preserved. CSS source/compiled exact; original layout/fonts/icons/colors/motion/content/media/backend/auth/API/DB/cloud/grading/publication/IDs read-only. Matched-original12-context rendering UNVERIFIED, CSS identity not pixel proof.
+V. LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V30.zip: 98858509 bytes; SHA256 160d800a7680839ff8303f0dceed079ae7ce66ebf510dd080a118adac2536878;2009 safe unique members. CRC/memberSHA/Git source bytes/freshci/build/test executions/two identical repacks verified. Execution completion is not acceptance of a failed case.
+W. Remaining exact-source failures: []. No additional ordinary application defect independently established; Phase2 OPEN is not universal persistent app leak claim.
+X. Comprehensive original/matched visual/authorized live/authored vocabulary backend exam-policy/Safari/hardware/original recordings UNVERIFIED. Test10/25 external only. No main merge/deploy/live probe.
+Y. V31: preserve V30 sealed identities and all historical failures. FIRST diagnose any new exact-suite failure listed in this report with a bounded causal plan, no unchanged retries. If none, remaining Review original Phase2/native/opaque acceptance only with a concrete new testable question and explicit objective closure criterion. Do not repeat accepted CSSAnimation/blank-page/inspector work or alter motion/budgets. Historical13 identities require original heap. Preserve403 native-navigation repair, child exact-byte ACK delivery fence, singleflight/pending ownership,15/30 proofs. Test10/25 external only; Script NOT ADVANCED, Reading GATED. No V31 begun.
