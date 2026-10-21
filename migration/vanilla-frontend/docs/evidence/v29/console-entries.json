@@ -1,0 +1,170 @@
+[
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565188917.319,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565188917.414,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565191493.407,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565191493.713,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565194445.861,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565194446.33,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565196448.83,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565196449.457,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565198392.394,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565198392.807,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565199640.437,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565199640.703,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565201234.502,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565201234.567,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565202565.179,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565202565.496,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565204158.48,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565204158.624,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565205840.043,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565205840.345,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565207351.958,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565207352.216,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565208842.459,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  },
+  {
+    "source": "security",
+    "level": "error",
+    "text": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n",
+    "timestamp": 1792565208842.529,
+    "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox"
+  }
+]

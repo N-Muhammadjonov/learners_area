@@ -1,0 +1,79 @@
+{
+  "before": true,
+  "after": false,
+  "events": [
+    {
+      "event": "original-hash-callback-held",
+      "at": 41.800000000046566,
+      "busy": null
+    },
+    {
+      "event": "before-showResults",
+      "at": 881.5,
+      "busy": null
+    },
+    {
+      "event": "before-showModal",
+      "at": 881.8000000000466,
+      "busy": null
+    },
+    {
+      "event": "after-showModal",
+      "at": 886,
+      "score": "0/40",
+      "modalHidden": false,
+      "busy": null
+    },
+    {
+      "event": "after-showResults",
+      "at": 886,
+      "score": "0/40",
+      "modalHidden": false,
+      "busy": null
+    },
+    {
+      "event": "before-native-hash-navigation",
+      "at": 886.1000000000349,
+      "score": "0/40",
+      "modalHidden": false,
+      "busy": null
+    },
+    {
+      "event": "before-openActivity",
+      "at": 886.1000000000349,
+      "score": "0/40",
+      "modalHidden": false,
+      "busy": null
+    },
+    {
+      "event": "before-closeModal",
+      "at": 886.8000000000466,
+      "score": "0/40",
+      "modalHidden": false,
+      "busy": null
+    },
+    {
+      "event": "after-closeModal",
+      "at": 887,
+      "score": "0/40",
+      "modalHidden": true,
+      "busy": null
+    },
+    {
+      "event": "after-openActivity",
+      "at": 887.2000000000116,
+      "score": "0/40",
+      "modalHidden": true,
+      "active": "activity-exam",
+      "busy": null
+    },
+    {
+      "event": "after-native-hash-navigation",
+      "at": 887.2000000000116,
+      "score": "0/40",
+      "modalHidden": true,
+      "active": "activity-exam",
+      "busy": null
+    }
+  ]
+}

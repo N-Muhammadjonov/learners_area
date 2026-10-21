@@ -1,0 +1,542 @@
+{
+  "parent": [
+    {
+      "at": 1792562884163,
+      "event": "response",
+      "path": "/api/frontend/session",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562884401,
+      "event": "response",
+      "path": "/api/frontend/view",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562884411,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/authored",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562884430,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562884486,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/authored-state",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562884487,
+      "event": "console-error",
+      "message": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n"
+    },
+    {
+      "at": 1792562884492,
+      "event": "console-error",
+      "message": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n"
+    },
+    {
+      "at": 1792562884551,
+      "event": "response",
+      "path": "/api/resources/fixture/audio",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562884577,
+      "event": "response",
+      "path": "/api/resources/original-synthetic-stream",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562885731,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/authored-state",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562885754,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/authored-state",
+      "status": 200,
+      "method": "PUT"
+    },
+    {
+      "at": 1792562886111,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/authored-state",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562886119,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/authored-state",
+      "status": 200,
+      "method": "PUT"
+    },
+    {
+      "at": 1792562886502,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/authored-state",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562886507,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/authored-state",
+      "status": 403,
+      "method": "PUT"
+    },
+    {
+      "at": 1792562886507,
+      "event": "console-error",
+      "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    },
+    {
+      "at": 1792562887108,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/authored",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562887134,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562887142,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/authored-state",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562887187,
+      "event": "console-error",
+      "message": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n"
+    },
+    {
+      "at": 1792562887187,
+      "event": "console-error",
+      "message": "Refused to load media from 'la-media:0' because it violates the following Content Security Policy directive: \"media-src data: blob:\".\n"
+    },
+    {
+      "at": 1792562887205,
+      "event": "response",
+      "path": "/api/listening/full/00000000-0000-4000-8000-000000000001/authored-state",
+      "status": 200,
+      "method": "PUT"
+    },
+    {
+      "at": 1792562887465,
+      "event": "response",
+      "path": "/api/resources/fixture/audio",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "at": 1792562887474,
+      "event": "response",
+      "path": "/api/resources/original-synthetic-stream",
+      "status": 200,
+      "method": "GET"
+    }
+  ],
+  "frames": [
+    {
+      "url": "http://127.0.0.1:4173/app/listening/tests/00000000-0000-4000-8000-000000000001#exam",
+      "trace": [
+        {
+          "at": 1792562883987,
+          "time": 107.29999999998836,
+          "event": "document-ready"
+        },
+        {
+          "at": 1792562884149,
+          "time": 269.20000000001164,
+          "event": "visibility",
+          "snapshot": {
+            "box": false,
+            "ancestors": []
+          }
+        },
+        {
+          "at": 1792562884492,
+          "time": 612.2999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "view"
+        },
+        {
+          "at": 1792562884545,
+          "time": 665.2000000000116,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "hub-ready"
+        },
+        {
+          "at": 1792562884551,
+          "time": 671.6000000000058,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "hydrated"
+        },
+        {
+          "at": 1792562885125,
+          "time": 1245.1000000000058,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "word"
+        },
+        {
+          "at": 1792562885129,
+          "time": 1249.5,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "media"
+        },
+        {
+          "at": 1792562885130,
+          "time": 1250.1000000000058,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "view"
+        },
+        {
+          "at": 1792562885133,
+          "time": 1253,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "view"
+        },
+        {
+          "at": 1792562885133,
+          "time": 1253.2000000000116,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "view"
+        },
+        {
+          "at": 1792562885700,
+          "time": 1820.2999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "word"
+        },
+        {
+          "at": 1792562885700,
+          "time": 1820.3999999999942,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "media"
+        },
+        {
+          "at": 1792562885700,
+          "time": 1820.5,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "media"
+        },
+        {
+          "at": 1792562885701,
+          "time": 1820.7999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885701,
+          "time": 1821.2999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885701,
+          "time": 1821.5,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885706,
+          "time": 1826.3999999999942,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885708,
+          "time": 1827.8999999999942,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885708,
+          "time": 1828.2000000000116,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "media"
+        },
+        {
+          "at": 1792562885710,
+          "time": 1830.1000000000058,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "media"
+        },
+        {
+          "at": 1792562885710,
+          "time": 1830.2000000000116,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "media"
+        },
+        {
+          "at": 1792562885710,
+          "time": 1830.2999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "media"
+        },
+        {
+          "at": 1792562885710,
+          "time": 1830.5,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885743,
+          "time": 1863.1000000000058,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885744,
+          "time": 1864.6000000000058,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885744,
+          "time": 1864.7999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885745,
+          "time": 1865,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885764,
+          "time": 1884.3999999999942,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885764,
+          "time": 1884.5,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885764,
+          "time": 1884.6000000000058,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562885975,
+          "time": 2095.5,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "word"
+        },
+        {
+          "at": 1792562885975,
+          "time": 2095.5,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562886099,
+          "time": 2219.399999999994,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "word"
+        },
+        {
+          "at": 1792562886099,
+          "time": 2219.399999999994,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "media"
+        },
+        {
+          "at": 1792562886100,
+          "time": 2219.7999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562886100,
+          "time": 2220.100000000006,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562886100,
+          "time": 2220.2000000000116,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562886100,
+          "time": 2220.5,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562886100,
+          "time": 2220.7000000000116,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562886100,
+          "time": 2220.7000000000116,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562886101,
+          "time": 2220.7999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562886153,
+          "time": 2273.2999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "view"
+        },
+        {
+          "at": 1792562886496,
+          "time": 2616.7000000000116,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562886517,
+          "time": 2637.600000000006,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562886517,
+          "time": 2637.7000000000116,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "storage"
+        },
+        {
+          "at": 1792562887186,
+          "time": 3306.7000000000116,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "view"
+        },
+        {
+          "at": 1792562887223,
+          "time": 3343.2999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "view"
+        },
+        {
+          "at": 1792562887456,
+          "time": 3576.7999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "hub-ready"
+        },
+        {
+          "at": 1792562887459,
+          "time": 3579.2999999999884,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "hydrated"
+        },
+        {
+          "at": 1792562887459,
+          "time": 3579.600000000006,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "media"
+        },
+        {
+          "at": 1792562887459,
+          "time": 3579.7000000000116,
+          "event": "message",
+          "channel": "learners-area-authored-v1",
+          "op": "view"
+        }
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:4173/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox#exam",
+      "trace": [
+        {
+          "at": 1792562887137,
+          "time": 12,
+          "event": "document-ready"
+        },
+        {
+          "at": 1792562887141,
+          "time": 16,
+          "event": "message",
+          "channel": "learners-area-sandbox-init"
+        }
+      ]
+    }
+  ]
+}

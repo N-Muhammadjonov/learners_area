@@ -1,0 +1,19 @@
+{
+  "playwright": "1.51.1",
+  "files": [
+    {
+      "path": "node_modules/playwright-core/lib/server/dom.js",
+      "sha256": "38096b8e8f9df3adc70f6e8fa59165336a6077a8bde21904016fce1e989bd89c"
+    },
+    {
+      "path": "node_modules/playwright-core/lib/server/chromium/crPage.js",
+      "sha256": "6107bc56566487d593ebf401c184aa8fabc3c9bf09ee4801e99739c71b883e29"
+    },
+    {
+      "path": "node_modules/playwright-core/lib/server/javascript.js",
+      "sha256": "d1a9c2697c1a89639f22694d1080c06ad5af4e6c302cdac009a3aa8fd756ba86"
+    }
+  ],
+  "code": "_checkFrameIsHitTarget obtains frame.frameElement at dom.js802; no dispose in method. CRPage.getFrameElement uses DOM.getFrameOwner then DOM.resolveNode into parent main-world inspector handle. No dependency files modified.",
+  "measured": "15 recorded pointer-action handles;12 distinct disposed iframe nodes plus84 Attr nodes released,444->348 while291 connected nodes/184 listeners unchanged. Console clearing alone had no effect."
+}

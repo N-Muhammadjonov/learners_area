@@ -1,0 +1,42 @@
+[
+  {
+    "path": "docs/CHECKPOINT_V28.md",
+    "bytes": 1960,
+    "sha256": "e703b8763e36facac2a5f254e99e04d4d07e0310b76ef4075738e5fc4695c11a"
+  },
+  {
+    "path": "docs/SOURCE_STATE_INVENTORY_V28.md",
+    "bytes": 748,
+    "sha256": "da725ac65c5f0149167f8bf9cd28cc508ac9e7f09f483e683d3ff9e2b7b84e4f"
+  },
+  {
+    "path": "docs/ADAPTER_CONTRACTS_V28.md",
+    "bytes": 1064,
+    "sha256": "f5d34754a29bbd8f169f5cbd63eafd908783d2c42d234d57390d4c3d0ff4f407"
+  },
+  {
+    "path": "docs/V28_RESOURCE_OWNERSHIP.md",
+    "bytes": 5702,
+    "sha256": "96abcd1fa5c56032dcbc73b1315dbce33dec118aba21b210809a2c51c3d93a26"
+  },
+  {
+    "path": "docs/V28_PHASE2_INVESTIGATION.md",
+    "bytes": 1199,
+    "sha256": "30725c34b5e8c1d6237569730502380e61893fbec5474495a1a63c3403a9e673"
+  },
+  {
+    "path": "deliverables/V28_VALIDATION.txt",
+    "bytes": 5996,
+    "sha256": "cd0765fd10e3deb798bb94e2e5e42b62647faeb38f12f08c120125838cf886da"
+  },
+  {
+    "path": "deliverables/V28_VERIFICATION.json",
+    "bytes": 4906646,
+    "sha256": "173e9e8f06fb6c749ca31cbb9c3293efde3de45cb5fd06f2de5c343ed75594dd"
+  },
+  {
+    "path": "docs/GPT_WORK_HANDOFF.md",
+    "bytes": 40548,
+    "sha256": "d2dc6da574bb8adf8a6152e01808adaa49bb4aff1a8721f07c24ba9e497eb3a2"
+  }
+]

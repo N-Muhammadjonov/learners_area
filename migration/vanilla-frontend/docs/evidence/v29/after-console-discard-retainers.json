@@ -1,0 +1,6942 @@
+{
+  "snapshotName": "console-after-runtime-discard.heapsnapshot",
+  "snapshotSHA256": "a9b47b83db77fd7620f1daee2490ca8b129663e26a8378111d961173451293da",
+  "snapshotBytes": 7400821,
+  "nodeFields": [
+    "type",
+    "name",
+    "id",
+    "self_size",
+    "edge_count",
+    "detachedness"
+  ],
+  "detachedDOMTargets": 57,
+  "shortestStrongPathCategories": {
+    "otherStrongPath": 57
+  },
+  "examples": {
+    "otherStrongPath": {
+      "targetId": 130119,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / DevTools console"
+        }
+      ]
+    }
+  },
+  "allNonAnimationTargets": [
+    {
+      "targetId": 130119,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / DevTools console"
+        },
+        {
+          "id": 130119,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 35824,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35826,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35828,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35830,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35832,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35834,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37620,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37624,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37630,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44748,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 48420,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        }
+      ]
+    },
+    {
+      "targetId": 130121,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "3 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "3 / DevTools console"
+        },
+        {
+          "id": 130121,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 35852,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35862,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35864,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37590,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37594,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37730,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37732,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37734,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37736,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44096,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44498,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        }
+      ]
+    },
+    {
+      "targetId": 6531,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "4 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "4 / DevTools console"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "7 / DevTools console"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "13 / DevTools console"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "27 / DevTools console"
+        },
+        {
+          "id": 6531,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 31187,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31193,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31195,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31197,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31199,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31201,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31203,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31205,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 31281,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 33507,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 24770,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        }
+      ]
+    },
+    {
+      "targetId": 6537,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "8 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "8 / DevTools console"
+        },
+        {
+          "id": 6537,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 31121,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 33109,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 33111,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 33117,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 33121,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 33123,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 33127,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 33135,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 33211,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 33215,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 25574,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        }
+      ]
+    },
+    {
+      "targetId": 130123,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "10 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "10 / DevTools console"
+        },
+        {
+          "id": 130123,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 35814,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35816,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35818,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35820,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35822,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37408,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37412,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37584,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37586,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 40414,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44754,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        }
+      ]
+    },
+    {
+      "targetId": 130125,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "11 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "11 / DevTools console"
+        },
+        {
+          "id": 130125,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 35854,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35856,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35858,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35860,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37398,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37402,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 39310,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 39312,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44212,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 45706,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 46306,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        }
+      ]
+    },
+    {
+      "targetId": 130127,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "12 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "12 / DevTools console"
+        },
+        {
+          "id": 130127,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 35836,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35838,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 35840,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 36540,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 36544,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37240,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 38548,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 46836,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 46838,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 47222,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 48494,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "1"
+        }
+      ]
+    },
+    {
+      "targetId": 130129,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "15 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "15 / DevTools console"
+        },
+        {
+          "id": 130129,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 131831,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131833,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131835,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131837,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131839,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131841,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131843,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131845,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131847,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131849,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 48058,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        }
+      ]
+    },
+    {
+      "targetId": 130133,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "17 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "17 / DevTools console"
+        },
+        {
+          "id": 130133,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 131803,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131805,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131807,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131809,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131811,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131813,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131817,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131819,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131821,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131823,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 47634,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        }
+      ]
+    },
+    {
+      "targetId": 130135,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "19 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "19 / DevTools console"
+        },
+        {
+          "id": 130135,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 130387,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131851,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131853,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131855,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131857,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131859,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131861,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131863,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131867,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131869,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 40206,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        }
+      ]
+    },
+    {
+      "targetId": 130137,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "20 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "20 / DevTools console"
+        },
+        {
+          "id": 130137,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 131675,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131691,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131693,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131695,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131697,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131699,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131701,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131703,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131705,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131707,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 47716,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        }
+      ]
+    },
+    {
+      "targetId": 130139,
+      "targetName": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+      "retainingPath": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "21 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "21 / DevTools console"
+        },
+        {
+          "id": 130139,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 131783,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131785,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131787,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131789,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131791,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131793,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131795,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131797,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131799,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131825,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 42192,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "2"
+        }
+      ]
+    },
+    {
+      "targetId": 131279,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131281,
+          "type": "native",
+          "name": "<span role=\"status\" class=\"sr-only\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 135959,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "localeStatus"
+        },
+        {
+          "id": 135957,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 131313,
+          "type": "native",
+          "name": "<header class=\"col-span-3 row-start-2 flex shrink-0 items-center justify-end gap-2 lg:order-none\">",
+          "edgeType": "property",
+          "edgeName": "updateState"
+        },
+        {
+          "id": 131231,
+          "type": "native",
+          "name": "<div class=\"col-start-3 row-start-1 flex shrink-0 items-center gap-1.5 md:gap-2\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131587,
+          "type": "native",
+          "name": "<header data-shell-topbar=\"\" class=\"relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131229,
+          "type": "native",
+          "name": "<main id=\"main-content\" tabindex=\"-1\" data-shell-main=\"\" class=\"min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-paper\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 36116,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33145,
+          "type": "native",
+          "name": "HTMLDocument",
+          "edgeType": "element",
+          "edgeName": "31"
+        },
+        {
+          "id": 130119,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131279,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131281,
+          "type": "native",
+          "name": "<span role=\"status\" class=\"sr-only\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131281,
+          "type": "native",
+          "name": "<span role=\"status\" class=\"sr-only\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131281,
+      "targetName": "<span role=\"status\" class=\"sr-only\">",
+      "retainingPath": [
+        {
+          "id": 135959,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "localeStatus"
+        },
+        {
+          "id": 135957,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 131313,
+          "type": "native",
+          "name": "<header class=\"col-span-3 row-start-2 flex shrink-0 items-center justify-end gap-2 lg:order-none\">",
+          "edgeType": "property",
+          "edgeName": "updateState"
+        },
+        {
+          "id": 131231,
+          "type": "native",
+          "name": "<div class=\"col-start-3 row-start-1 flex shrink-0 items-center gap-1.5 md:gap-2\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131587,
+          "type": "native",
+          "name": "<header data-shell-topbar=\"\" class=\"relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131229,
+          "type": "native",
+          "name": "<main id=\"main-content\" tabindex=\"-1\" data-shell-main=\"\" class=\"min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-paper\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 36116,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33145,
+          "type": "native",
+          "name": "HTMLDocument",
+          "edgeType": "element",
+          "edgeName": "31"
+        },
+        {
+          "id": 130119,
+          "type": "native",
+          "name": "<iframe title=\"Listening\" sandbox=\"allow-scripts\" referrerpolicy=\"no-referrer\" src=\"/api/listening/full/00000000-0000-4000-8000-000000000001/sandbox\" class=\"h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0\" allow=\"fullscreen\" style=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "2 / DevTools console"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131279,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131281,
+          "type": "native",
+          "name": "<span role=\"status\" class=\"sr-only\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 135959,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "localeStatus"
+        }
+      ]
+    },
+    {
+      "targetId": 131349,
+      "targetName": "<span data-native-confirm=\"\">",
+      "retainingPath": [
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131347,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131419,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131435,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131351,
+      "targetName": "<div class=\"interaction-confirm-dialog__actions\">",
+      "retainingPath": [
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131351,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131373,
+          "type": "native",
+          "name": "<p id=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131397,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131401,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131353,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131373,
+          "type": "native",
+          "name": "<p id=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131351,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131353,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131373,
+          "type": "native",
+          "name": "<p id=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131373,
+          "type": "native",
+          "name": "<p id=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131373,
+      "targetName": "<p id=\"native-confirm-6-description\">",
+      "retainingPath": [
+        {
+          "id": 131351,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131351,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131353,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131373,
+          "type": "native",
+          "name": "<p id=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 131377,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-6-title\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        }
+      ]
+    },
+    {
+      "targetId": 131375,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131377,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-6-title\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131375,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131377,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-6-title\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131377,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-6-title\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131377,
+      "targetName": "<h2 id=\"native-confirm-6-title\">",
+      "retainingPath": [
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131373,
+          "type": "native",
+          "name": "<p id=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131375,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131377,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-6-title\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        }
+      ]
+    },
+    {
+      "targetId": 131395,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131397,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131351,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131395,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131397,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131397,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131397,
+      "targetName": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+      "retainingPath": [
+        {
+          "id": 131351,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131351,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131395,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131397,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131401,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 136285,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "confirm"
+        }
+      ]
+    },
+    {
+      "targetId": 131399,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131401,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131351,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131399,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131401,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131401,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131401,
+      "targetName": "<button type=\"button\">",
+      "retainingPath": [
+        {
+          "id": 131351,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131351,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131397,
+          "type": "native",
+          "name": "<button type=\"button\" class=\"btn-primary\" data-confirm-action=\"\" data-interaction-type=\"mutation\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131399,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131401,
+          "type": "native",
+          "name": "<button type=\"button\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 136285,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "cancel"
+        }
+      ]
+    },
+    {
+      "targetId": 131403,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131409,
+          "type": "native",
+          "name": "<p role=\"alert\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 136285,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "failure"
+        },
+        {
+          "id": 131333,
+          "type": "closure",
+          "name": "dispose",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50252,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 47226,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 38368,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 38364,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 46144,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44818,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 131623,
+          "type": "native",
+          "name": "AbortSignal",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 50620,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 51158,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "internal",
+          "edgeName": "part of key -> value pair in ephemeron table"
+        },
+        {
+          "id": 49858,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37692,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131403,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131409,
+          "type": "native",
+          "name": "<p role=\"alert\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131409,
+          "type": "native",
+          "name": "<p role=\"alert\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131409,
+      "targetName": "<p role=\"alert\">",
+      "retainingPath": [
+        {
+          "id": 136285,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "failure"
+        },
+        {
+          "id": 131333,
+          "type": "closure",
+          "name": "dispose",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50252,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 47226,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 38368,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 38364,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 46144,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44818,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 131623,
+          "type": "native",
+          "name": "AbortSignal",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 50620,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 51158,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "internal",
+          "edgeName": "part of key -> value pair in ephemeron table"
+        },
+        {
+          "id": 49858,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37692,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131403,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131409,
+          "type": "native",
+          "name": "<p role=\"alert\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 136285,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "failure"
+        }
+      ]
+    },
+    {
+      "targetId": 131415,
+      "targetName": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+      "retainingPath": [
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131351,
+          "type": "native",
+          "name": "<div class=\"interaction-confirm-dialog__actions\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131373,
+          "type": "native",
+          "name": "<p id=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131377,
+          "type": "native",
+          "name": "<h2 id=\"native-confirm-6-title\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131419,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 136285,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "dialog"
+        }
+      ]
+    },
+    {
+      "targetId": 131417,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131419,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131417,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131419,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131419,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131419,
+      "targetName": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+      "retainingPath": [
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131415,
+          "type": "native",
+          "name": "<dialog class=\"interaction-confirm-dialog\" aria-labelledby=\"native-confirm-6-title\" aria-describedby=\"native-confirm-6-description\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131417,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131419,
+          "type": "native",
+          "name": "<button type=\"button\" role=\"menuitem\" class=\"flex min-h-[44px] w-full items-center gap-2.5 rounded-[10px] px-2.5 text-left text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-interaction-type=\"destructive\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 136285,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "trigger"
+        }
+      ]
+    },
+    {
+      "targetId": 131429,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131435,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131429,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131435,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131441,
+          "type": "native",
+          "name": "SVGSVGElement",
+          "edgeType": "element",
+          "edgeName": "16"
+        }
+      ]
+    },
+    {
+      "targetId": 131435,
+      "targetName": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+      "retainingPath": [
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131429,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131435,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "11"
+        },
+        {
+          "id": 131441,
+          "type": "native",
+          "name": "SVGSVGElement",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 131467,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 35754,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "1"
+        }
+      ]
+    },
+    {
+      "targetId": 131465,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131467,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131465,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131467,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131467,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        }
+      ]
+    },
+    {
+      "targetId": 131467,
+      "targetName": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+      "retainingPath": [
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131435,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131465,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131467,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 50344,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "1"
+        }
+      ]
+    },
+    {
+      "targetId": 131469,
+      "targetName": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+      "retainingPath": [
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131469,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131473,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131481,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131487,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        }
+      ]
+    },
+    {
+      "targetId": 131471,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131473,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131469,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131471,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131473,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131473,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131473,
+      "targetName": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+      "retainingPath": [
+        {
+          "id": 131469,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131469,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131471,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131473,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        }
+      ]
+    },
+    {
+      "targetId": 131475,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131473,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131469,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131475,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131477,
+      "targetName": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+      "retainingPath": [
+        {
+          "id": 131473,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131469,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131473,
+          "type": "native",
+          "name": "<p class=\"mt-1.5 inline-flex rounded-full border border-gold/45 px-2 py-0.5 text-[0.75rem] font-medium text-ink-700\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131475,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 131481,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        }
+      ]
+    },
+    {
+      "targetId": 131479,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131481,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131469,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131479,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131481,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131481,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131481,
+      "targetName": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+      "retainingPath": [
+        {
+          "id": 131469,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131469,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131477,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.8125rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131479,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131481,
+          "type": "native",
+          "name": "<p class=\"truncate text-[0.9375rem] font-medium text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        }
+      ]
+    },
+    {
+      "targetId": 131483,
+      "targetName": "<div class=\"p-1.5\">",
+      "retainingPath": [
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131349,
+          "type": "native",
+          "name": "<span data-native-confirm=\"\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131435,
+          "type": "native",
+          "name": "<a href=\"/app/profile?edit=name\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\" data-profile-menu-edit-name=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 131467,
+          "type": "native",
+          "name": "<a href=\"/app/profile\" role=\"menuitem\" class=\"flex min-h-[44px] items-center gap-2.5 rounded-[10px] px-2.5 text-[0.9375rem] text-ink-700 transition-colors hover:bg-paper-sunken hover:text-ink-900\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 131469,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131487,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "items"
+        }
+      ]
+    },
+    {
+      "targetId": 131487,
+      "targetName": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+      "retainingPath": [
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "menu"
+        },
+        {
+          "id": 131315,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50180,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51488,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 50178,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37694,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "20"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131469,
+          "type": "native",
+          "name": "<div class=\"border-b border-ink-100 px-3.5 py-3\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131483,
+          "type": "native",
+          "name": "<div class=\"p-1.5\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131485,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131487,
+          "type": "native",
+          "name": "<div role=\"menu\" data-profile-menu=\"\" class=\"absolute right-0 top-[calc(100%+0.5rem)] w-60 overflow-hidden rounded-[14px] border border-ink-100 bg-paper-raised shadow-raised\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 136261,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "menu"
+        }
+      ]
+    },
+    {
+      "targetId": 131533,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131535,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131537,
+          "type": "native",
+          "name": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 136247,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "results"
+        },
+        {
+          "id": 131511,
+          "type": "closure",
+          "name": "position",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50094,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51158,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 49858,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37692,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131533,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131535,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131535,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131535,
+      "targetName": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+      "retainingPath": [
+        {
+          "id": 131537,
+          "type": "native",
+          "name": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 136247,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "results"
+        },
+        {
+          "id": 131511,
+          "type": "closure",
+          "name": "position",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50094,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51158,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 49858,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37692,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131533,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131535,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131537,
+          "type": "native",
+          "name": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131539,
+          "type": "native",
+          "name": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131537,
+      "targetName": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+      "retainingPath": [
+        {
+          "id": 136247,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "results"
+        },
+        {
+          "id": 131511,
+          "type": "closure",
+          "name": "position",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50094,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51158,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 49858,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37692,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131535,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131537,
+          "type": "native",
+          "name": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 131539,
+          "type": "native",
+          "name": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 136247,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "results"
+        }
+      ]
+    },
+    {
+      "targetId": 131539,
+      "targetName": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+      "retainingPath": [
+        {
+          "id": 136247,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "panel"
+        },
+        {
+          "id": 131511,
+          "type": "closure",
+          "name": "position",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 50094,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 51158,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 49858,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 37692,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "19"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131503,
+          "type": "native",
+          "name": "DOMStringMap",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131535,
+          "type": "native",
+          "name": "<div class=\"border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131537,
+          "type": "native",
+          "name": "<div class=\"min-h-0 flex-1 overflow-y-auto p-2\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131539,
+          "type": "native",
+          "name": "<div data-global-search-dialog=\"\" class=\"absolute right-0 top-12 z-50 flex max-h-[65vh] w-[min(85vw,420px)] flex-col overflow-hidden rounded-xl border border-ink-100 bg-paper-raised shadow-raised lg:w-full\" data-search-state=\"idle\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 136247,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "panel"
+        }
+      ]
+    },
+    {
+      "targetId": 131633,
+      "targetName": "<div>",
+      "retainingPath": [
+        {
+          "id": 136519,
+          "type": "object",
+          "name": "Object",
+          "edgeType": "property",
+          "edgeName": "root"
+        },
+        {
+          "id": 136521,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "context"
+        },
+        {
+          "id": 131629,
+          "type": "closure",
+          "name": "",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 49832,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 47274,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 36620,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 36618,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 48952,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 49786,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 131667,
+          "type": "native",
+          "name": "AbortSignal",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 131669,
+          "type": "native",
+          "name": "AbortController",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 79905,
+          "type": "object",
+          "name": "system / Context",
+          "edgeType": "context",
+          "edgeName": "controller"
+        },
+        {
+          "id": 33245,
+          "type": "closure",
+          "name": "history",
+          "edgeType": "internal",
+          "edgeName": "context"
+        },
+        {
+          "id": 21798,
+          "type": "native",
+          "name": "V8EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 21796,
+          "type": "native",
+          "name": "EventListener",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 25070,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4934,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 4932,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 25078,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 33113,
+          "type": "native",
+          "name": "Window",
+          "edgeType": "element",
+          "edgeName": "22"
+        },
+        {
+          "id": 6529,
+          "type": "hidden",
+          "name": "system / NativeContext",
+          "edgeType": "internal",
+          "edgeName": "global_proxy_object"
+        },
+        {
+          "id": 23,
+          "type": "synthetic",
+          "name": "(Global handles)",
+          "edgeType": "internal",
+          "edgeName": "1 / blink::ScriptStateProtectingContext::context_"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 130699,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131633,
+          "type": "native",
+          "name": "<div>",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 136517,
+          "type": "hidden",
+          "name": "system / PropertyArray",
+          "edgeType": "hidden",
+          "edgeName": "4"
+        },
+        {
+          "id": 136519,
+          "type": "object",
+          "name": "Object",
+          "edgeType": "property",
+          "edgeName": "root"
+        }
+      ]
+    },
+    {
+      "targetId": 131767,
+      "targetName": "<section class=\"relative w-full\" data-authored-listening=\"\">",
+      "retainingPath": [
+        {
+          "id": 131769,
+          "type": "native",
+          "name": "<div data-authored-session=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131881,
+          "type": "native",
+          "name": "<div class=\"w-full\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131779,
+          "type": "native",
+          "name": "<div class=\"w-full min-w-0\" data-listening-focus-content=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131891,
+          "type": "native",
+          "name": "<div class=\"sticky top-0 z-40 flex min-h-16 w-full items-center bg-paper-raised/95 px-3 py-2 backdrop-blur\" data-listening-focus-backbar=\"\" style=\"padding-top: calc(0.5rem + env(safe-area-inset-top)); padding-left: calc(0.75rem + env(safe-area-inset-left)); padding-right: calc(0.75rem + env(safe-area-inset-right));\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 10418,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 10426,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10228,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 10274,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 51666,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "107"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131767,
+          "type": "native",
+          "name": "<section class=\"relative w-full\" data-authored-listening=\"\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 131769,
+          "type": "native",
+          "name": "<div data-authored-session=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131769,
+          "type": "native",
+          "name": "<div data-authored-session=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131769,
+      "targetName": "<div data-authored-session=\"\">",
+      "retainingPath": [
+        {
+          "id": 131881,
+          "type": "native",
+          "name": "<div class=\"w-full\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131779,
+          "type": "native",
+          "name": "<div class=\"w-full min-w-0\" data-listening-focus-content=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131891,
+          "type": "native",
+          "name": "<div class=\"sticky top-0 z-40 flex min-h-16 w-full items-center bg-paper-raised/95 px-3 py-2 backdrop-blur\" data-listening-focus-backbar=\"\" style=\"padding-top: calc(0.5rem + env(safe-area-inset-top)); padding-left: calc(0.75rem + env(safe-area-inset-left)); padding-right: calc(0.75rem + env(safe-area-inset-right));\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 10418,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 10426,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10228,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 10274,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 51666,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "107"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131767,
+          "type": "native",
+          "name": "<section class=\"relative w-full\" data-authored-listening=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131769,
+          "type": "native",
+          "name": "<div data-authored-session=\"\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        },
+        {
+          "id": 131881,
+          "type": "native",
+          "name": "<div class=\"w-full\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131881,
+          "type": "native",
+          "name": "<div class=\"w-full\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131779,
+      "targetName": "<div class=\"w-full min-w-0\" data-listening-focus-content=\"\">",
+      "retainingPath": [
+        {
+          "id": 131891,
+          "type": "native",
+          "name": "<div class=\"sticky top-0 z-40 flex min-h-16 w-full items-center bg-paper-raised/95 px-3 py-2 backdrop-blur\" data-listening-focus-backbar=\"\" style=\"padding-top: calc(0.5rem + env(safe-area-inset-top)); padding-left: calc(0.75rem + env(safe-area-inset-left)); padding-right: calc(0.75rem + env(safe-area-inset-right));\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 10418,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 10426,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10228,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 10274,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 51666,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "107"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131779,
+          "type": "native",
+          "name": "<div class=\"w-full min-w-0\" data-listening-focus-content=\"\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 131881,
+          "type": "native",
+          "name": "<div class=\"w-full\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131891,
+          "type": "native",
+          "name": "<div class=\"sticky top-0 z-40 flex min-h-16 w-full items-center bg-paper-raised/95 px-3 py-2 backdrop-blur\" data-listening-focus-backbar=\"\" style=\"padding-top: calc(0.5rem + env(safe-area-inset-top)); padding-left: calc(0.75rem + env(safe-area-inset-left)); padding-right: calc(0.75rem + env(safe-area-inset-right));\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131893,
+          "type": "native",
+          "name": "<main id=\"main-content\" tabindex=\"-1\" class=\"listening-full-focus relative min-h-dvh w-full min-w-0 overflow-x-hidden bg-paper\" data-listening-full-focus=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131881,
+      "targetName": "<div class=\"w-full\">",
+      "retainingPath": [
+        {
+          "id": 131779,
+          "type": "native",
+          "name": "<div class=\"w-full min-w-0\" data-listening-focus-content=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131891,
+          "type": "native",
+          "name": "<div class=\"sticky top-0 z-40 flex min-h-16 w-full items-center bg-paper-raised/95 px-3 py-2 backdrop-blur\" data-listening-focus-backbar=\"\" style=\"padding-top: calc(0.5rem + env(safe-area-inset-top)); padding-left: calc(0.75rem + env(safe-area-inset-left)); padding-right: calc(0.75rem + env(safe-area-inset-right));\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 10418,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 10426,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10228,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 10274,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 51666,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "107"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131769,
+          "type": "native",
+          "name": "<div data-authored-session=\"\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131779,
+          "type": "native",
+          "name": "<div class=\"w-full min-w-0\" data-listening-focus-content=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131779,
+          "type": "native",
+          "name": "<div class=\"w-full min-w-0\" data-listening-focus-content=\"\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131881,
+          "type": "native",
+          "name": "<div class=\"w-full\">",
+          "edgeType": "element",
+          "edgeName": "9"
+        }
+      ]
+    },
+    {
+      "targetId": 131883,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 10418,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 10426,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10228,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 10274,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 51666,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "107"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131883,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131887,
+          "type": "native",
+          "name": "<span aria-hidden=\"true\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        }
+      ]
+    },
+    {
+      "targetId": 131885,
+      "targetName": "Text",
+      "retainingPath": [
+        {
+          "id": 131887,
+          "type": "native",
+          "name": "<span aria-hidden=\"true\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10418,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 10426,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10228,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 10274,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 51666,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "107"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131885,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131887,
+          "type": "native",
+          "name": "<span aria-hidden=\"true\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131887,
+          "type": "native",
+          "name": "<span aria-hidden=\"true\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        }
+      ]
+    },
+    {
+      "targetId": 131887,
+      "targetName": "<span aria-hidden=\"true\">",
+      "retainingPath": [
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10418,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 10426,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10228,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 10274,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 51666,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "107"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131883,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 131885,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131887,
+          "type": "native",
+          "name": "<span aria-hidden=\"true\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 40070,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "2"
+        }
+      ]
+    },
+    {
+      "targetId": 131889,
+      "targetName": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+      "retainingPath": [
+        {
+          "id": 10418,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 10426,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10228,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 10274,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 51666,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "107"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131883,
+          "type": "native",
+          "name": "Text",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 131887,
+          "type": "native",
+          "name": "<span aria-hidden=\"true\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 131891,
+          "type": "native",
+          "name": "<div class=\"sticky top-0 z-40 flex min-h-16 w-full items-center bg-paper-raised/95 px-3 py-2 backdrop-blur\" data-listening-focus-backbar=\"\" style=\"padding-top: calc(0.5rem + env(safe-area-inset-top)); padding-left: calc(0.75rem + env(safe-area-inset-left)); padding-right: calc(0.75rem + env(safe-area-inset-right));\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 131891,
+          "type": "native",
+          "name": "<div class=\"sticky top-0 z-40 flex min-h-16 w-full items-center bg-paper-raised/95 px-3 py-2 backdrop-blur\" data-listening-focus-backbar=\"\" style=\"padding-top: calc(0.5rem + env(safe-area-inset-top)); padding-left: calc(0.75rem + env(safe-area-inset-left)); padding-right: calc(0.75rem + env(safe-area-inset-right));\">",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 36166,
+          "type": "native",
+          "name": "CSSTransition",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 36592,
+          "type": "native",
+          "name": "NamedNodeMap",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 36678,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 36680,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 36682,
+          "type": "native",
+          "name": "Attr",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 10416,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 10418,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 40070,
+          "type": "native",
+          "name": "NodeList",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 42030,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44706,
+          "type": "native",
+          "name": "KeyframeEffect",
+          "edgeType": "element",
+          "edgeName": "1"
+        },
+        {
+          "id": 44706,
+          "type": "native",
+          "name": "KeyframeEffect",
+          "edgeType": "element",
+          "edgeName": "2"
+        },
+        {
+          "id": 50800,
+          "type": "native",
+          "name": "DOMTokenList",
+          "edgeType": "element",
+          "edgeName": "1"
+        }
+      ]
+    },
+    {
+      "targetId": 131891,
+      "targetName": "<div class=\"sticky top-0 z-40 flex min-h-16 w-full items-center bg-paper-raised/95 px-3 py-2 backdrop-blur\" data-listening-focus-backbar=\"\" style=\"padding-top: calc(0.5rem + env(safe-area-inset-top)); padding-left: calc(0.75rem + env(safe-area-inset-left)); padding-right: calc(0.75rem + env(safe-area-inset-right));\">",
+      "retainingPath": [
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 10418,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 10426,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10228,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 10274,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 51666,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "107"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131779,
+          "type": "native",
+          "name": "<div class=\"w-full min-w-0\" data-listening-focus-content=\"\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        },
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 131891,
+          "type": "native",
+          "name": "<div class=\"sticky top-0 z-40 flex min-h-16 w-full items-center bg-paper-raised/95 px-3 py-2 backdrop-blur\" data-listening-focus-backbar=\"\" style=\"padding-top: calc(0.5rem + env(safe-area-inset-top)); padding-left: calc(0.75rem + env(safe-area-inset-left)); padding-right: calc(0.75rem + env(safe-area-inset-right));\">",
+          "edgeType": "element",
+          "edgeName": "10"
+        },
+        {
+          "id": 131893,
+          "type": "native",
+          "name": "<main id=\"main-content\" tabindex=\"-1\" class=\"listening-full-focus relative min-h-dvh w-full min-w-0 overflow-x-hidden bg-paper\" data-listening-full-focus=\"\">",
+          "edgeType": "element",
+          "edgeName": "4"
+        },
+        {
+          "id": 46688,
+          "type": "native",
+          "name": "CSSStyleDeclaration",
+          "edgeType": "element",
+          "edgeName": "1"
+        }
+      ]
+    },
+    {
+      "targetId": 131893,
+      "targetName": "<main id=\"main-content\" tabindex=\"-1\" class=\"listening-full-focus relative min-h-dvh w-full min-w-0 overflow-x-hidden bg-paper\" data-listening-full-focus=\"\">",
+      "retainingPath": [
+        {
+          "id": 131891,
+          "type": "native",
+          "name": "<div class=\"sticky top-0 z-40 flex min-h-16 w-full items-center bg-paper-raised/95 px-3 py-2 backdrop-blur\" data-listening-focus-backbar=\"\" style=\"padding-top: calc(0.5rem + env(safe-area-inset-top)); padding-left: calc(0.75rem + env(safe-area-inset-left)); padding-right: calc(0.75rem + env(safe-area-inset-right));\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131889,
+          "type": "native",
+          "name": "<a href=\"/app/listening\" class=\"btn-secondary inline-flex min-h-11 w-fit items-center gap-1\" data-back-link=\"true\">",
+          "edgeType": "element",
+          "edgeName": "7"
+        },
+        {
+          "id": 10418,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "3"
+        },
+        {
+          "id": 10426,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "5"
+        },
+        {
+          "id": 10228,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "14"
+        },
+        {
+          "id": 10274,
+          "type": "native",
+          "name": "InternalNode",
+          "edgeType": "element",
+          "edgeName": "18"
+        },
+        {
+          "id": 51666,
+          "type": "synthetic",
+          "name": "C++ Persistent roots",
+          "edgeType": "element",
+          "edgeName": "107"
+        }
+      ],
+      "directIncoming": [
+        {
+          "id": 131779,
+          "type": "native",
+          "name": "<div class=\"w-full min-w-0\" data-listening-focus-content=\"\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131891,
+          "type": "native",
+          "name": "<div class=\"sticky top-0 z-40 flex min-h-16 w-full items-center bg-paper-raised/95 px-3 py-2 backdrop-blur\" data-listening-focus-backbar=\"\" style=\"padding-top: calc(0.5rem + env(safe-area-inset-top)); padding-left: calc(0.75rem + env(safe-area-inset-left)); padding-right: calc(0.75rem + env(safe-area-inset-right));\">",
+          "edgeType": "element",
+          "edgeName": "6"
+        },
+        {
+          "id": 131893,
+          "type": "native",
+          "name": "<main id=\"main-content\" tabindex=\"-1\" class=\"listening-full-focus relative min-h-dvh w-full min-w-0 overflow-x-hidden bg-paper\" data-listening-full-focus=\"\">",
+          "edgeType": "element",
+          "edgeName": "8"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Shortest strong incoming paths, not dominator or exclusive-ownership analysis.",
+    "No weak edges traversed; no path within30 edges is not proof of unreachability.",
+    "Snapshot protocol may affect scheduling; counters before/after capture are separate evidence."
+  ]
+}

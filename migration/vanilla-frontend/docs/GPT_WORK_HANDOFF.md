@@ -1,3 +1,13 @@
+# Latest — V29 —403 native-navigation observer repaired; Review PARTIAL
+
+Read CHECKPOINT_V29, V29_403_ROOT_CAUSE, V29_RESOURCE_OWNERSHIP/PLAN, SOURCE_STATE_INVENTORY_V29, ADAPTER_CONTRACTS_V29 and final V29_VERIFICATION.json/V29_VALIDATION.txt. Final reports override any preseal pending outcomes. Preserve exact V28417/1; do not relabel it PASS. The recovery observer now waits native Exam activity before original results action; focused and pre-resource whole418 suite passed, final exact run reported separately. Original8000ms/score visibility/value/two-PUT assertions remain.
+
+The16-node slope is attributed at measured stages to orphaned Playwright1.51.1 pointer hit-target parent iframe inspector handles, not app callbacks:10 iframes+70 Attr added across5 further cycles; release12 iframe+84 Attr after6 cycles drops444->348 with connected291/listeners184 unchanged. Console clearing failed; retain negative control. Diagnostic scoped release is not website code or Phase2 policy, no dependency files changed. Preserve legitimate controllers/timers and sandbox allow-scripts only.
+
+V30 continuation ONLY: remaining Review native/opaque/media/hardware acceptance and original Phase2 stability. Do not reopen repaired403 or16-node ownership without concrete regression. Historical13 identities only if original raw heap available, no invented reconstruction. Preserve15/30 accepted proofs and all failures. Original Phase2 OPEN, Review PARTIAL, Full/Retry implementation retained with fixture status separate; Script NOT ADVANCED, Reading GATED. Test10/25 authoritative content/media correction external. Comprehensive original/matched visual/authorized live/backend vocabulary exam-policy/Safari/hardware/real recordings UNVERIFIED. No V30 begun, merge or deployment.
+
+## Historical handoff retained
+
 # Latest — V28 ownership evidence, Review PARTIAL
 
 Read CHECKPOINT_V28, SOURCE_STATE_INVENTORY_V28, ADAPTER_CONTRACTS_V28, V28_PHASE2_INVESTIGATION and V28_RESOURCE_OWNERSHIP plus final V28_VERIFICATION.json/V28_VALIDATION.txt. No application runtime change was justified. Four strict original diagnostic runs passed but historical failures remain, Phase2 OPEN. Historical thirteen identities not recoverable from absent raw heap; fresh full target lists and native/inspector scope limits retained. Four controllers and live-shell timers attributed, not arbitrarily deleted. Body fixtures and native network/media contexts improve coverage without claiming decoded/GPU release.
