@@ -1,0 +1,131 @@
+A. Branch and identities
+
+arena/96836bcf-learners-area
+
+Implementation fcf3ad97ee5a2b95c805c93bebdf7698aec5131d
+
+Source 49e64fc90f28641fa9d9d9d3622f23547c4feee0
+
+Seal 8c94846163c372f628e3bbc4b4f516ddebc6b428
+
+Final report HEAD/local=remote proof follows commit and is recorded in the final response.
+
+B. Functional changes
+
+Existing modal owner now releases removed owned siblings and disposes observer/focus confinement on external dialog removal. No new controller, writer, endpoint, design or motion change. Legacy V14 mapping harness now awaits native fresh authorization; all clock/part/40-window assertions retained.
+
+C. Phase2 attribution
+
+Preserved CSSAnimation -> DocumentTimeline -> HTMLDocument path:219/232 detached targets. Blank-page reproduction and failed cancellation trial retained. Cancellation NOT reinstated. Other roots/native realms not universally attributed. New resource probe identifies remaining sampled MO as Playwright InjectedScript, not app.
+
+D. Original Phase2 outcomes
+
+Unchanged strict case PASS in both current preseal499 and independent exact499. Historical3PASS1FAIL +3PASS1FAIL series remain recorded FAIL outcomes. Stability acceptance OPEN; no budget/assertion/motion workaround.
+
+E. Fifteen mixed lifecycle journeys
+
+1. Check -> source replacement: IMPLEMENTED AND VERIFIED — V27 mixed Check -> source replacement
+
+2. Retry -> Back -> Forward: IMPLEMENTED AND VERIFIED — V27 mixed Retry -> Back -> Forward
+
+3. Audio -> another-tab retake: IMPLEMENTED AND VERIFIED — V20 actual other tab retake without any A write invalidates standing transcript and owned audio
+
+4. Lexical selection -> session expiry: IMPLEMENTED AND VERIFIED — V27 mixed Lexical selection -> session expiry
+
+5. Pending POST -> reload: IMPLEMENTED AND VERIFIED — V19 actual two-tab held Review reload never clears foreign/stale original or duplicates submission
+
+6. Recovery Check -> source replacement: IMPLEMENTED AND VERIFIED — V24 disposed recovery Check cannot reject replacement UI on late failure
+
+7. Recovery Adopt -> navigation: IMPLEMENTED AND VERIFIED — V27 mixed Recovery Adopt -> navigation
+
+8. Modal -> retake: IMPLEMENTED AND VERIFIED — V26 modal held folders canonical retake disposes isolation and fences late continuation
+
+9. Held material -> logout: IMPLEMENTED AND VERIFIED — V27 mixed Held material -> logout
+
+10. Held media -> route exit: IMPLEMENTED AND VERIFIED — V22 real held audio initialization route cancels queued playback without late resurrection
+
+11. Pending write -> canonical attempt change: IMPLEMENTED AND VERIFIED — V24 canonical retake during post never grants old scope or clears owned bytes
+
+12. Transcript -> Check -> Retry: IMPLEMENTED AND VERIFIED — V27 mixed Transcript -> Check -> Retry
+
+13. Long answer -> modal -> reload: IMPLEMENTED AND VERIFIED — V27 mixed Long answer -> modal -> reload
+
+14. Evidence -> another-tab retake: IMPLEMENTED AND VERIFIED — V27 mixed Evidence -> another-tab retake
+
+15. Error -> explicit Retry -> reentry: IMPLEMENTED AND VERIFIED — V27 mixed Error -> explicit Retry -> reentry
+
+F. Source variants
+
+30 valid sources passed four-part controls and additional modal/long-answer/keyboard/focus/reload probes. All32 raw source SHA pins verified;60 positive probes,2 recorded unavailable/partial four-part failures10/25. NOT32/32 original acceptance.
+
+G. Authoritative timing handoff
+
+Test10:40 invalid/unavailable timing entries. Test25 Q30 part3:1205–1236 exceeds end1235.879 (start886.613); Q40 part4:1510–1525 exceeds end1524.01 (start1329.645). Exact per-question handoff in JSON/source docs. External original content/media owner must correct; no inferred/clamped timestamps or material edits.
+
+H. Resource ownership
+
+13 named stages/six source+route cycles: initial {'documents': 2, 'nodes': 770, 'jsEventListeners': 224}; observed sampled peak {'documents': 2, 'nodes': 867, 'jsEventListeners': 225}; last disposed {'documents': 1, 'nodes': 444, 'jsEventListeners': 184}.
+
+Last disposed:0 intervals/RAF/URLs/fetches/Audio objects/iframes/dialogs;4 live unaborted parent controllers. Two remaining timeout stacks:live authority-expiry scheduler + code-only shell module prewarm. One remaining MO stack:Playwright InjectedScript. Fetch response-header peak2 is NOT all native Range/body jobs. Parent wrappers/sample maxima, not universal no-leak proof.
+
+Independent24 modal cycles:773 nodes/238 listeners/2 documents in every sample (accepted V26 historical770/238/2 remains unchanged). Separate six playing-media source/route cycles confirm released audio/URLs and bounded authority listeners. Original256KiB/8MiB/max2 media limits unchanged.
+
+I. Keyboard/modal/focus/scroll
+
+Accepted12 desktop/tablet/mobile x EN/UZ x Day/Night original-source geometry/modal/recovery cases executed. Tab/ShiftTab/Enter/Space/Escape, native part/history navigation, transcript focus, long-answer/modal/reload and iframe focus restoration covered. Not30x12 matched-original pixel acceptance.
+
+J. Review status
+
+PARTIAL; Phase2 stability OPEN and ownership evidence bounded. No additional independently demonstrated application leak in measured scopes after modal repair; do not extrapolate universal code acceptance.
+
+K. Full/Retry
+
+FRONTEND CODE COMPLETE retained; no runtime checking/timing/grading semantics changed.
+
+L. Script/Reading
+
+Script NOT ADVANCED; Reading GATED.
+
+M. Inventories
+
+Global routes22/15/71 of108; components62/17/127 of206. Listening routes9/6/1 of16; components9/10/5 of24. Staff35 RESERVED. No promotions or product-wide percentages.
+
+N. Fresh exact-ZIP regressions
+
+Unit {'pass': 538, 'fail': 0, 'skipped': 0}; Chromium {'PASS': 499, 'FAIL': 0, 'SKIP': 0}; actual-source {'PASS': 418, 'FAIL': 0, 'SKIP': 0}; timing {'PASS': 14, 'FAIL': 0}; controls {'V26': {'PASS': 2, 'FAIL': 0, 'SKIP': 0}, 'V27': {'PASS': 2, 'FAIL': 0, 'SKIP': 0}}.
+
+All536 unit/499 Chromium/407 actual-source baseline case names preserved; additions2 units+11 actual-source. First preseal source417PASS1FAIL mapping-harness race retained, focused repaired1PASS, fresh exact full418PASS. Initial checked-adoption fixture failure retained separately. Runtime audit0; all-dependency audit5 known high development findings, no upgrades.
+
+O. Equivalent performance (20 warm samples per version/delay, milliseconds)
+
+V26-0: median 27.15; P95 35.70; API-wait median 14.50; sync JS+DOM median 2.20.
+
+V26-40: median 230.85; P95 238.80; API-wait median 217.85; sync JS+DOM median 2.20.
+
+V27-0: median 25.50; P95 31.90; API-wait median 14.85; sync JS+DOM median 2.20.
+
+V27-40: median 230.60; P95 243.80; API-wait median 217.55; sync JS+DOM median 2.25.
+
+Recorded V26 historical zero31.55/41.80 and40-delay232.60/246.80 median/P95 preserved, including prior slower-zero observation. Current V27 delayed P95 is5ms above adjacent V26 reference; no causal speedup/regression attribution from20 local samples. No production pixel-paint or whole-product1–100ms claim.
+
+P. Visual/backend/material preservation
+
+25 original assets/source CSS byte-compared directly to original; compiled CSS deterministic and unchanged. Original layout/colors/fonts/icons/motion/responsiveness/backend/API/DB/cloud/publication/IDs/materials unchanged. Sandbox allow-scripts ONLY; CSP unchanged. Matched-original visual acceptance UNVERIFIED.
+
+Q. Exact ZIP proof
+
+LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V27.zip: 44655542 bytes; SHA256 9b9efb5c312308a27292341f7756deccdd83af32b23dc8a3b3a6e4869d041c42
+
+1743 source +2 generated members; CRC/safe unique paths/all member hashes/source Git blobs/fresh npmci/build verified.2104 original files,31 historical ZIPs and1109 historical evidence files byte-preserved. Two deterministic repacks match 9b9efb5c312308a27292341f7756deccdd83af32b23dc8a3b3a6e4869d041c42.
+
+R. Remaining frontend acceptance
+
+Original Phase2 stability remains OPEN. Parent realm counters and bounded source/modal/media fixtures do not fully attribute every native/opaque-frame callback or prove infinite-run leak freedom. No further independently demonstrated functional leak is claimed or hidden. Review not promoted.
+
+S. Separate external limitations
+
+Tests10/25 authoritative corrections; authorized matched original rendering; live presentation integration and direct authored vocabulary backend exam-policy acceptance; Safari/hardware/original recordings. None is certified by fixtures. No production probes.
+
+T. Exact continuation
+
+Continue Review acceptance from these V27 source/seal/report identities and complete only remaining demonstrated ownership/acceptance gaps. Preserve all15/30 verified proofs and Phase2 raw failures; do not repeat blank-page GC investigation, reinstate cancellation, disable motion, weaken budgets, invent backend/content work or advance Script/Reading. No V28 started, main merge or deployment.
