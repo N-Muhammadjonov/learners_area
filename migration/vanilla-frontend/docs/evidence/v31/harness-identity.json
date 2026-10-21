@@ -9,5 +9,9 @@
     "playwright-core": "1.51.1",
     "Chromium": "133.0.6943.0"
   },
-  "runtimeChanges": []
+  "runtimeChanges": [],
+  "driverSHA256": "851ff496a898fe774011c2f95e9f9b4c99aee95f7300d46093b97a62ba5bdf8e",
+  "originalDriverSHA256": "46260dbf7089f85739dcdf03a2f8293b2c43ab72569688bb3fc674fd30f0b523",
+  "wholeDriverReconstructionByteIdentical": true,
+  "unexpectedNonAssertionFaultStopsSeries": true
 }

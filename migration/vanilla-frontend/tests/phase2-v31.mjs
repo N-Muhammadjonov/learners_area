@@ -15,7 +15,7 @@ const browser=await playwright.launch({executablePath:await chromium.executableP
 import {fixtureSession,publicPolicy,viewFixture} from './fixtures.mjs';
 import en from '../js/i18n/en.js';import uz from '../js/i18n/uz.js';
 const base=process.env.PREVIEW_URL??'http://127.0.0.1:4173',out=new URL('../docs/evidence/v31/phase2/',import.meta.url),results=[];fs.mkdirSync(out,{recursive:true});
-async function check(name,fn){if(name!=='Phase2 repeated real content navigation retains shell and bounded DOM/listeners')return;for(let run=0;run<12;run++){try{await fn();results.push({run:run+1,name,status:'PASS'});}catch(e){results.push({run:run+1,name,status:'FAIL',error:e.message});console.error('FAIL',run+1,name,e.stack);}}}
+async function check(name,fn){if(name!=='Phase2 repeated real content navigation retains shell and bounded DOM/listeners')return;for(let run=0;run<12;run++){let fatal;try{await fn();results.push({run:run+1,name,status:'PASS'});}catch(e){results.push({run:run+1,name,status:'FAIL',error:e.message,errorCode:e.code});console.error('FAIL',run+1,name,e.stack);if(e.code!=='ERR_ASSERTION')fatal=e;}fs.writeFileSync(new URL('series-progress.json',out),JSON.stringify({results,stoppedOnUnexpectedFault:!!fatal},null,2));if(fatal)throw fatal;}}
 
 async function fixture({width=1440,height=900,locale='en',theme='day',status='active',role='student',policy=publicPolicy,handler}={}){
  const context=await browser.newContext({viewport:{width,height}});await context.addCookies([{name:'la_locale',value:locale,url:base},{name:'la_theme',value:theme,url:base}]);await context.addInitScript(()=>{window.open=()=>null;});const page=await context.newPage();page.setDefaultTimeout(8000);const state={status,onboarded:true,requests:[],openRequest:null};
