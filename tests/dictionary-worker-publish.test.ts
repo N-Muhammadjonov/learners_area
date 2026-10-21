@@ -16,6 +16,7 @@ import {activateHybridRelease,cleanupFailedRelease} from '../src/lib/dictionary/
 import {saveDictionarySense} from '../src/lib/dictionary/save';
 import {beginPublish,advancePublish,rollback} from '../src/lib/dictionary/publish';
 import {sql} from 'drizzle-orm';
+import {repairMappedExamples} from '../src/lib/dictionary/repair-app-examples';
 import {encodeShard,bytesHash,shardKey} from '../src/lib/dictionary/shards';
 
 test('Worker-index owner publication, exact saves and rollback retain zero PostgreSQL terms and payload copies',async()=>{
@@ -59,6 +60,9 @@ test('Worker-index owner publication, exact saves and rollback retain zero Postg
   await activateHybridRelease({ownerId:owner,release,manifestSha:fingerprint,expectedBase:null},transport,d.db);
   assert.equal((await activeRelease(d.db)).active_release_id,release);
   assert.equal((await searchDictionary('bank','EN',release,d.db))[0]!.display_lemma,'bank');
+  await d.query("update lexemes set example_sentence='These signs bode bad news.' where id=$1",[existingSense]);
+  const repaired=await repairMappedExamples(d.db);assert.equal(repaired.changed,1);assert.equal((await d.query<{example_sentence:string|null}>('select example_sentence from lexemes where id=$1',[existingSense]))[0]!.example_sentence,null);
+  assert.equal((await repairMappedExamples(d.db)).changed,0,'repair is idempotent');
   assert.equal((await searchDictionary('banks','EN',release,d.db))[0]!.match_type,'form');
   assert.equal((await searchDictionary('qirg','UZ',release,d.db))[0]!.display_lemma,'bank');assert.equal((await searchDictionary('qirg‘oq','UZ',release,d.db))[0]!.translation_uz,'qirg‘oq');
   assert.equal((await searchDictionary('find out','EN',release,d.db))[0]!.display_lemma,'find out');

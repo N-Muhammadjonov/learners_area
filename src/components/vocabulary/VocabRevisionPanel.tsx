@@ -141,24 +141,22 @@ export function VocabRevisionPanel({
         </div>
       </div>
 
-      <div className="card flex min-h-[220px] flex-col items-center justify-center gap-3 p-6 text-center">
-        <span className="badge bg-paper-sunken text-ink-500">
-          {t.revision.stage} {current.srsStage + 1} · {current.intervalDays} {t.add.days}
-        </span>
-        <p className="font-display text-3xl text-ink-900" data-revision-term>
-          {current.term}
-        </p>
-        {revealed ? (
-          <div className="flex max-w-md flex-col gap-1">
-            <p className="text-sm text-ink-700">{current.definitionEn}</p>
-            {current.translationUz && <p className="text-sm font-medium text-signal-700">{current.translationUz}</p>}
-            {current.exampleSentence && (
-              <p className="mt-1 text-xs italic text-ink-500">{current.exampleSentence}</p>
-            )}
+      <div className="revision-flip-scene text-center" key={current.id} data-revision-card>
+        <div className="revision-flip-card" data-flipped={revealed}>
+          <div className="revision-flip-face" aria-hidden={revealed} inert={revealed}>
+            <span className="badge">{t.revision.stage} {current.srsStage + 1} · {current.intervalDays} {t.add.days}</span>
+            <p className="font-display text-3xl" data-revision-term>{current.term}</p>
+            <p className="text-sm">{t.revision.recall}</p>
           </div>
-        ) : (
-          <p className="text-sm text-ink-500">{t.revision.recall}</p>
-        )}
+          <div className="revision-flip-face revision-flip-back" aria-hidden={!revealed} inert={!revealed}>
+            <p className="font-display text-3xl">{current.term}</p>
+            <div className="flex max-w-md flex-col gap-2">
+              <p className="text-sm">{current.definitionEn}</p>
+              {current.translationUz && <p className="text-sm font-medium">{current.translationUz}</p>}
+              {current.exampleSentence && <p className="mt-1 text-xs italic">{current.exampleSentence}</p>}
+            </div>
+          </div>
+        </div>
       </div>
 
       {error && <p className="text-xs text-band-bad">{error}</p>}

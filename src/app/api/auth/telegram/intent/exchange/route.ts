@@ -1,8 +1,10 @@
+import {checkRequestOrigin} from "@/lib/http/request-origin";
 import { NextRequest, NextResponse } from "next/server";
 import { prepareIntentExchange } from "@/lib/auth/telegram-exchange";
 import { consumeConfirmedIntent } from "@/lib/auth/telegram-intent";
 import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
 import { clientKey, enforce, RULES } from "@/lib/http/rate-limit";
+import { getCurrentSessionAuthority } from "@/lib/auth/current-user";
 import { isUuid } from "@/lib/validation/ids";
 
 /**
@@ -11,6 +13,7 @@ import { isUuid } from "@/lib/validation/ids";
  * session can be issued. A login intent never creates an account.
  */
 export async function POST(req: NextRequest) {
+  if(!checkRequestOrigin(req).allowed)return NextResponse.json({error:"invalid_origin"},{status:403});
   const limited = enforce(RULES.telegramAuth, clientKey(req));
   if (limited) return limited;
 
@@ -26,7 +29,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "invalid_input" }, { status: 400 });
     }
 
-    const prepared = await prepareIntentExchange(intentId, browserNonce, gender);
+    const registrationName=body&&typeof body === "object"&&typeof body.name === "string"?body.name:undefined;
+    const authority=await getCurrentSessionAuthority();
+    const prepared = await prepareIntentExchange(intentId, browserNonce, gender,registrationName,authority?{id:authority.user.id,authVersion:authority.authVersion}:undefined);
     if (!prepared.ok) {
       const status = prepared.error === "no_linked_account" ? 404 :
         ["phone_required", "not_subscribed"].includes(prepared.error) ? 403 :

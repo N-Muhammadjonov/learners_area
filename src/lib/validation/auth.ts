@@ -1,7 +1,8 @@
 import { z } from "zod";
+export const registrationFullNameSchema=z.string().trim().min(3).max(200).refine(value=>/^\S+(?:\s+\S+)+$/u.test(value),'First and last name required');
 
 export const registerSchema = z.object({
-  name: z.string().trim().min(2, "Name is too short").max(200),
+  name: registrationFullNameSchema,
   email: z.string().trim().toLowerCase().email("Enter a valid email"),
   password: z.string().min(8, "Password must be at least 8 characters"),
   gender: z.enum(["male", "female"]),

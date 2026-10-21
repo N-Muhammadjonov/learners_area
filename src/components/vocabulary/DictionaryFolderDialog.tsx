@@ -84,31 +84,12 @@ export function DictionaryFolderDialog({
             {sense.translations.map((item) => item.text).join(" · ")}
           </p>
         </div>
-        <fieldset className="max-h-[38vh] overflow-y-auto">
-          <legend className="sr-only">{t.folder}</legend>
-          {[{ id: "", name: t.defaultFolder }, ...folders].map((item) => (
-            <label
-              key={item.id}
-              className="flex min-h-12 cursor-pointer items-center gap-3 rounded-lg px-2 py-3 hover:bg-paper-sunken"
-            >
-              <span aria-hidden className="text-sky-600">
-                ▣
-              </span>
-              <span className="min-w-0 flex-1 break-words">{item.name}</span>
-              {item.id && (
-                <span className="text-sm text-ink-500">{item.count ?? 0}</span>
-              )}
-              <input
-                type="radio"
-                name="dictionary-folder"
-                value={item.id}
-                checked={folder === item.id}
-                onChange={() => setFolder(item.id)}
-                disabled={saving}
-              />
-            </label>
-          ))}
-        </fieldset>
+        <label className="flex flex-col gap-2">{t.folder}
+          <select className="input w-full" aria-label={t.folder} value={folder} onChange={event=>setFolder(event.target.value)} disabled={saving||pending} data-dictionary-folder-select>
+            <option value="">{t.defaultFolder}</option>
+            {folders.map(item=><option key={item.id} value={item.id}>{item.name}</option>)}
+          </select>
+        </label>
         {creating ? (
           <form
             className="space-y-2"

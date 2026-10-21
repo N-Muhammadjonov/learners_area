@@ -14,7 +14,7 @@ import { findTelegramContact, upsertTelegramContact } from "./contacts";
 import { checkRequiredSubscriptions } from "./required-channels";
 import { telegramApplicationGatesEnabled } from "./access-gates";
 
-const NAME_MAX = 200;
+import {registrationFullNameSchema} from "@/lib/validation/auth";
 
 export async function requestAccessFromTelegram(input: {
   telegramUserId: string;
@@ -41,14 +41,15 @@ export async function requestAccessFromTelegram(input: {
       };
     }
   }
-  const name = input.name.trim().slice(0, NAME_MAX);
+  const parsedName=registrationFullNameSchema.safeParse(input.name);
+  if(!parsedName.success)return {ok:false as const,error:"invalid_input" as const};
+  const name=parsedName.data;
   if (!name) return { ok: false as const, error: "invalid_input" };
 
   await upsertTelegramContact({
     telegramUserId: input.telegramUserId,
     chatId: input.chatId,
     username: input.username,
-    firstName: name,
     languageCode: input.languageCode,
     restarted: true,
   });

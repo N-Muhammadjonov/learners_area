@@ -1,0 +1,12 @@
+{
+  "version":1,
+  "examples":[
+    {"lemma":"prefigure","definition":"indicate, as with a sign or an omen","text_en":"Dark clouds prefigure a storm.","text_uz":"Qora bulutlar bo‘ron yaqinlashayotganidan darak beradi.","reference":"https://dictionary.cambridge.org/dictionary/english/prefigure","note":"Original Learners Area sentence, checked against the forecasting sense."}
+  ],
+  "collocations":[
+    {"lemma":"predict","definition":"make a prediction about; tell in advance","phrases":["accurately predict","reliably predict","predict the outcome","predict future trends","predict heavy rain"]},
+    {"lemma":"prefigure","definition":"indicate, as with a sign or an omen","phrases":["prefigure later developments","prefigure future events"]},
+    {"lemma":"bank","definition":"a financial institution that accepts deposits and channels the money into lending activities","phrases":["open a bank account","close a bank account","a bank loan","a bank statement","a bank transfer"]},
+    {"lemma":"bank","definition":"sloping land (especially the slope beside a body of water)","phrases":["a river bank","a steep bank","the opposite bank"]}
+  ]
+}

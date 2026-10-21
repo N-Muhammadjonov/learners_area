@@ -42,7 +42,7 @@ const schema = z.object({
   // Optional study notes: absent means the learner surface shows no notes
   // control at all, never an empty one.
   notes: z.string().max(4000).optional().nullable(),
-  vocabulary: z.array(z.object({word: z.string().trim().min(1).max(120), pos: z.string().max(30), def: z.string().trim().min(1).max(500), uz: z.string().max(500), ex: z.string().trim().min(1).max(500)})).max(100).optional(),
+  vocabulary: z.array(z.object({word: z.string().trim().min(1).max(120), pos: z.string().max(30), def: z.string().trim().min(1).max(500), uz: z.string().max(500), ex: z.string().trim().max(500).default("")})).max(100).optional(),
   questions: z
     .array(
       z.object({
@@ -94,12 +94,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "invalid_input", detail: "transcript_ambiguous" }, { status: 400 });
   }
 
-  if (parsed.data.vocabulary?.length) {
-    const body = [parsed.data.transcriptText, ...(parsed.data.transcript ?? []).map(line => line.text), parsed.data.notes].filter(Boolean).join("\n");
-    if (parsed.data.vocabulary.some(entry => !body.includes(entry.ex))) {
-      return NextResponse.json({error: "vocabulary_context_required"}, {status: 400});
-    }
-  }
   if ((parsed.data.transcript?.length || parsed.data.transcriptText?.trim()) && !parsed.data.transcriptSource) {
     return NextResponse.json({error: "invalid_input", detail: "transcript_source_required"}, {status: 400});
   }

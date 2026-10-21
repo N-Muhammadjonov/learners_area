@@ -1,7 +1,8 @@
 import "server-only";
+import { TIMEZONE } from "@/lib/time";
 import { sql, type SQL } from "drizzle-orm";
 import { db } from "@/db/client";
-export const RESULT_MODULES=['reading','listening','writing','speaking','retention','vocabulary','grammar','video','lessons','assignments','mocks'] as const;
+export const RESULT_MODULES=['reading','listening','writing','speaking','retention','vocabulary','grammar','video','lessons','mocks'] as const;
 export type ResultModule=typeof RESULT_MODULES[number];
 export const resultModule=(value?:string)=>RESULT_MODULES.find(m=>m===value);
 /** Fixed internal source inventory. Grades stay in their original units; drafts
@@ -30,7 +31,6 @@ export function learningResultsSql(userId?:string):SQL {
   source('writing','activation',"(select * from activity_events where type='WRITING_ACTIVATION_CHECK') a",'a.created_at',"a.payload->>'verdict' in ('correct','needs_revision')", "case when jsonb_typeof(a.payload->'activationScore')='number' then (a.payload->>'activationScore')::float8 end",'100'),
   source('writing','lessons',"(select lesson_id as id,user_id,completed_at from writing_lesson_progress) a",'a.completed_at','true'),
   source('lessons','lessons','lesson_progress a join lessons p on p.id=a.lesson_id','a.updated_at',"a.state='completed'",'null','null','percent','p.title'),
-  source('assignments','assignments','assignment_responses a','a.updated_at',"length(trim(a.content))>0"),
   source('mocks','mocks','mock_attempts a','coalesce(a.finished_at,a.started_at)','a.finished_at is not null','a.estimated_band','9','band'),
  ],sql` union all `);
 }
@@ -51,7 +51,7 @@ export async function centreStatistics(module?:string,executor:typeof db=db){
  type Data={summary:Awaited<ReturnType<typeof learningSummary>>;daily:{day:string;count:number}[];students:{id:string;name:string;started:number;completed:number;accuracy:number|null;band:number|null}[];levels:{level:string;rounds:number;average:number|null}[]};
  const row=(await executor.execute<{data:Data}>(sql`with results as materialized (${learningResultsSql()}), scoped as materialized (select r.*,u.name from results r join users u on u.id=r.user_id where u.role='student' and u.account_status<>'rejected'), chosen as materialized(select * from scoped ${filter}) select jsonb_build_object(
  'summary',(select coalesce(jsonb_agg(s),'[]'::jsonb) from (select module,count(*)::int started,count(*) filter(where completed)::int completed,count(distinct user_id)::int learners,avg(score/nullif(maximum,0)*100) filter(where completed and maximum>0 and unit='percent')::float8 accuracy,avg(score) filter(where completed and unit='band')::float8 band,max(at)::text latest from scoped group by module) s),
- 'daily',(select coalesce(jsonb_agg(d order by d."day"),'[]'::jsonb) from (select to_char(at at time zone 'Asia/Tashkent','YYYY-MM-DD') as "day",count(*)::int count from chosen where completed and at>=now()-interval '14 days' group by 1) d),
+ 'daily',(select coalesce(jsonb_agg(d order by d."day"),'[]'::jsonb) from (select to_char(at at time zone ${TIMEZONE},'YYYY-MM-DD') as "day",count(*)::int count from chosen where completed and at>=now()-interval '14 days' group by 1) d),
  'students',(select coalesce(jsonb_agg(s order by completed desc,name),'[]'::jsonb) from (select user_id id,name,count(*)::int started,count(*) filter(where completed)::int completed,avg(score/nullif(maximum,0)*100) filter(where completed and maximum>0 and unit='percent')::float8 accuracy,avg(score) filter(where completed and unit='band')::float8 band from chosen group by user_id,name order by completed desc,name limit 100) s),
  'levels',(select coalesce(jsonb_agg(l order by level),'[]'::jsonb) from (select a.level,count(*)::int rounds,avg(a.score)::float8 average from retention_attempts a join users u on u.id=a.user_id where u.role='student' and u.account_status<>'rejected' and a.status in ('completed','timed_out') group by a.level) l)
  ) data`)).rows[0]!.data;

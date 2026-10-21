@@ -7,6 +7,7 @@ import {
 } from "@/lib/dictionary/store";
 import { savedSenseIds } from "@/lib/dictionary/save";
 import { apiError, privateHeaders } from "@/lib/dictionary/api";
+import {dictionaryPresentation} from "@/lib/dictionary/presentation";
 import { isUuid } from "@/lib/validation/ids";
 export async function GET(
   req: NextRequest,
@@ -36,7 +37,7 @@ export async function GET(
       entry.senses.map((s) => s.sense_id),
     );
     return NextResponse.json(
-      { entry, saved: saved.map((s) => s.sense_id) },
+      { entry, presentation:dictionaryPresentation(entry), saved: saved.map((s) => s.sense_id) },
       { headers: privateHeaders },
     );
   } catch (e) {

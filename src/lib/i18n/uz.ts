@@ -78,7 +78,7 @@ const uz: Dictionary = {
     deleteRecording: "Yozuvni o'chirish",
     "topicUploadHelp": "Barcha savollar va materiallari bitta topic sifatida birga saqlanadi.",
     "archived": "Arxivlangan",
-    "confirmArchive": "Topicni o‘chirish",
+    "confirmArchive": "Topicni o'chirish",
     "archiveHelp": "Shu topicdagi barcha savollar Practice va Partnerdan olib tashlansinmi? Ularni shu yerdan qayta tiklashingiz mumkin.",
     "removeTopic": "Topicni olib tashlash",
     "newTopic": "Yangi topic",
@@ -552,7 +552,7 @@ const uz: Dictionary = {
     courseHeading: "Yo'l xaritangizdan",
     title: "TED / PODCAST",
     intro:
-      "Qisqa nutq, so'ng uning atrofidagi dars: ko'rishdan oldin taxmin qiling, markazning o'z savollariga javob bering va undan nima olganingizni yozing. Nashr etilgan mustaqil video darslar shu yerda ochiladi. Yo'l xaritasiga bog'langan videolar tegishli dars ochilganda ochiladi.",
+      "Videoni ko'ring yoki tinglang, transkript va o'qituvchi qaydlarini oching, so'zlarni o'rganing hamda xulosangizni yozing yoki ovozga yozib oling.",
     none: "Hozircha ochiq video dars yo'q.",
     open: "Darsni ochish",
     minutes: "{n} daqiqa",
@@ -623,7 +623,7 @@ const uz: Dictionary = {
   },
   videoLessonAdmin: {
     vocabulary: "Muallif kiritgan lug'at (ixtiyoriy)",
-    vocabularyHelp: "Har qatorda: so'z || turkum || inglizcha ma'no || o'zbekcha || transkript yoki qayddagi aynan gap.",
+    vocabularyHelp: "Har qatorda: so'z || turkum || inglizcha ma'no || o'zbekcha || ixtiyoriy misol. So'z transkriptda bo'lishi shart emas.",
     vocabularyContextRequired: "Har bir lug'at misoli muallif transkripti yoki qaydlarida bo'lishi kerak.",
     sourceAuthored: "Muallifniki", sourceLicensed: "Litsenziyalangan", sourcePermitted: "Ruxsat olingan",
 
@@ -674,7 +674,7 @@ const uz: Dictionary = {
     subtitle: "Boshqaruv paneli va rejangiz birinchi kundanoq mos bo'lishi uchun oltita savol.",
     preferredLanguage: "Afzal ko'rgan til",
     currentLevel: "Hozirgi ingliz tili darajasi",
-    currentBand: "Hozirgi IELTS band (agar bilsangiz)",
+    currentBand: "So'nggi IELTS natijangiz (imtihon topshirgan bo'lsangiz)",
     targetBand: "Maqsad IELTS band",
     examDate: "Rejalashtirilgan imtihon sanasi",
     dailyStudyMinutes: "Kunlik o'qish vaqti (daqiqa)",
@@ -2137,9 +2137,10 @@ const uz: Dictionary = {
     nextPage: "Keyingi",
   },
   profile: {
+    studyTitle:"O'qish ma'lumotlari", saveStudy:"Ma'lumotlarni saqlash", studySaved:"Ma'lumotlar saqlandi.", day:"Kun", month:"Oy", year:"Yil", telegramAccount:"Ulangan Telegram hisobi", telegramChange:"Telegram hisobini almashtirish", telegramChangeHint:"Yangi hisobni botda tasdiqlang. Natijalaringiz shu Learners Area hisobida saqlanadi.", telegramStaffChange:"Boshqaruv Telegram hisobi alohida tasdiqlangan hisob o'tkazish tartibi orqali almashtiriladi.", firstName:"Ism", lastName:"Familiya", fullNameRequired:"Ism va familiyangizni kiriting.",
     photo: {"title": "Profil rasmi", "upload": "Rasm yuklash", "remove": "Rasmni olib tashlash", "saved": "Profil rasmi saqlandi.", "failed": "Rasm saqlanmadi. Kichikroq rasm tanlab, qayta urinib ko'ring."},
     title: "Profilingiz",
-    subtitle: "Learners Area hisobingizda ko'rinadigan ismni o'zgartiring.",
+    subtitle: "Ismingiz, o'qish ma'lumotlaringiz va ulangan hisobingizni boshqaring.",
     displayName: "Ko'rinadigan ism",
     saveName: "Ismni saqlash",
     editName: "Ismni tahrirlash",
@@ -2216,7 +2217,7 @@ const uz: Dictionary = {
     assignmentInstructions: "Talaba ko'radigan ko'rsatmalar",
   },
   admin: {
-    materialDeletion: { confirm: "Material o‘chirilsinmi? U materiallar va kurs ro‘yxatidan olib tashlanadi. O‘quvchilarning avvalgi natijalari saqlanadi.", failed: "Materialni o‘chirib bo‘lmadi. Qayta urinib ko‘ring." },
+    materialDeletion: { confirm: "Material o'chirilsinmi? U materiallar va kurs ro'yxatidan olib tashlanadi. O'quvchilarning avvalgi natijalari saqlanadi.", failed: "Materialni o'chirib bo'lmadi. Qayta urinib ko'ring." },
     usersTitle: "Foydalanuvchilar",
     changeRole: "Rolni o'zgartirish",
     promptsTitle: "Writing mavzulari",
@@ -2531,7 +2532,7 @@ const uz: Dictionary = {
       unauthenticated: "Davom etish uchun qaytadan kiring.",
     },
     admin: {
-    materialDeletion: { confirm: "Material o‘chirilsinmi? U materiallar va kurs ro‘yxatidan olib tashlanadi. O‘quvchilarning avvalgi natijalari saqlanadi.", failed: "Materialni o‘chirib bo‘lmadi. Qayta urinib ko‘ring." },
+    materialDeletion: { confirm: "Material o'chirilsinmi? U materiallar va kurs ro'yxatidan olib tashlanadi. O'quvchilarning avvalgi natijalari saqlanadi.", failed: "Materialni o'chirib bo'lmadi. Qayta urinib ko'ring." },
       title: "Retention",
       subtitle: "Xotira banki: har daraja uchun 15 ta matn — maqsad, chegara emas.",
       backToReading: "Reading",

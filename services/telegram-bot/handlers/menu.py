@@ -1,3 +1,5 @@
+from aiogram.fsm.context import FSMContext
+from handlers.admission import begin_apply
 from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
@@ -154,21 +156,8 @@ async def cb_status(callback: CallbackQuery | Message, db_user: dict | None = No
 
 
 @menu_router.callback_query(F.data == "m:apply")
-async def cb_apply(callback: CallbackQuery, db_user: dict | None = None, contact: dict | None = None):
-    lang = _lang(callback, db_user, contact)
-    try:
-        raw = await api_client.create_access_request(
-            str(callback.from_user.id),
-            callback.from_user.full_name,
-            "Telegram orqali ariza",
-            username=callback.from_user.username,
-            chatId=str(callback.message.chat.id),
-            languageCode=callback.from_user.language_code,
-        )
-        text = admission_text(lang, raw)
-    except Exception:
-        text = t(lang, "error")
-    await callback.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")]]))
+async def cb_apply(callback: CallbackQuery, state: FSMContext, db_user: dict | None = None, contact: dict | None = None):
+    await begin_apply(callback.message, state, db_user, _lang(callback, db_user, contact))
     await callback.answer()
 
 

@@ -46,6 +46,8 @@ export function VocabBoardPanel({
         rank: payload.rank ?? 0,
         streak: payload.streak ?? 0,
         top: payload.top ?? [],
+        name: payload.name,
+        level: payload.level,
       });
       setAwards(payload.awards ?? []);
       setAwardsUnavailable(payload.awardsUnavailable === true);
@@ -68,6 +70,8 @@ export function VocabBoardPanel({
         rank: payload.rank ?? 0,
         streak: payload.streak ?? 0,
         top: payload.top ?? [],
+        name: payload.name,
+        level: payload.level,
       });
       setStatus("ready");
     } catch {
@@ -127,6 +131,7 @@ export function VocabBoardPanel({
         </div>
       )}
       {live && <>
+        {!live.top.some(row=>row.isMe)&&<div className="flex flex-wrap items-center gap-3 rounded-xl border border-ink-100 p-3" data-board-own-standing><strong>{live.name??t.board.you}</strong>{live.level&&<span className="badge">{live.level}</span>}<span>#{live.rank||"—"} · {live.points} {t.board.points}</span></div>}
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           <Metric label={t.board.points} value={live.points} />
           <Metric label={t.board.streak} value={live.streak} />
@@ -143,6 +148,7 @@ export function VocabBoardPanel({
                 <span className="flex min-w-0 items-center gap-2">
                   <span className="w-6 shrink-0 text-xs text-ink-300">{row.rank}</span>
                   <span className="truncate">{row.isMe ? `${t.board.you} · ${row.name}` : row.name}</span>
+                  {row.level&&<span className="badge">{row.level}</span>}
                 </span>
                 <span className="shrink-0 font-mono text-xs text-ink-500">{row.points}</span>
               </li>

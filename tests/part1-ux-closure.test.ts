@@ -71,7 +71,8 @@ test("registration declares and persists a canonical gender while keeping legacy
   assert.equal(uz.auth.gender, "Jins");
   assert.equal(en.auth.genderMale, "Male");
   assert.equal(uz.auth.genderFemale, "Ayol");
-  assert.match(telegram, /\.values\(\{ name, telegramId, role: "student"/);
+  assert.doesNotMatch(telegram, /\.insert\(users\)/);
+  assert.match(telegram, /\/register\?error=telegram_no_account/);
   assert.doesNotMatch(telegram, /gender:/);
   assert.match(migration, /CREATE TYPE .*gender.*'male', 'female'/i);
   assert.match(migration, /ALTER TABLE "users" ADD COLUMN "gender" "gender"/);

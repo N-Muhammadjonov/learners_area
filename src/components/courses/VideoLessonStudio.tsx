@@ -3,9 +3,8 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/en";
 import { LocalReflectionRecorder } from "@/components/audio/LocalReflectionRecorder";
-import { TedStudyPractice, findTedStudyPack } from "./TedStudyPractice";
+import { VideoTranscriptDialog } from "./VideoTranscriptDialog";
 import { VideoVocabulary, type VideoWord } from "./VideoVocabulary";
-import { ClickableText } from "@/components/vocabulary/ClickableText";
 import { Button } from "@/components/ui/Button";
 import { embedUrlFor, type VideoProvider } from "@/lib/services/video/provider";
 import { DirectMediaPlayer, type DirectMediaControls } from "@/components/courses/DirectMediaPlayer";
@@ -77,7 +76,7 @@ export function VideoLessonStudio({
   } | null;
 }) {
   const t = dict.videoLesson;
-  const studyPack = mode === "standalone" ? findTedStudyPack(videoLesson.title) : undefined;
+  const [transcriptShown,setTranscriptShown]=useState(false);
   const provider = videoLesson.provider as VideoProvider;
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const reportedRef = useRef(initialProgress?.watchedSeconds ?? 0);
@@ -124,6 +123,7 @@ export function VideoLessonStudio({
   const gapFill = useMemo(() => questions.filter((q) => q.stage === "gap_fill"), [questions]);
 
   const tabs = useMemo(() => {
+    if(mode === "standalone") return [...(notes.length ? ["notes" as const] : []),"vocabulary","summary"] as Tab[];
     const list: Tab[] = [];
     // Whitespace-only authored text is no content: hide the tab.
     if (videoLesson.beforeYouWatch?.trim()) list.push("before");
@@ -133,12 +133,12 @@ export function VideoLessonStudio({
     if (comprehension.length > 0) list.push("comprehension");
     if (gapFill.length > 0) list.push("gap");
     if (vocabulary.length > 0) list.push("vocabulary");
-    if (!studyPack) list.push("opinion");
+    list.push("opinion");
     // Written recall does not depend on a transcript: the student writes what they
     // remember from the video itself.
-    if (!studyPack) list.push("summary");
+    list.push("summary");
     return list;
-  }, [videoLesson.beforeYouWatch, hasTranscript, notes.length, comprehension.length, gapFill.length, vocabulary.length, studyPack]);
+  }, [videoLesson.beforeYouWatch, hasTranscript, notes.length, comprehension.length, gapFill.length, vocabulary.length, mode]);
 
   const [selectedTab, setTab] = useState<Tab>(tabs[0] ?? "opinion");
   // If the available tabs ever change, never point at a removed one.
@@ -344,7 +344,8 @@ export function VideoLessonStudio({
   }
 
   async function saveResponse() {
-    await writeLesson("response", { responseText: opinion, summaryText: summary });
+    if (mode === "standalone") await writeLesson("response", { summaryText: summary });
+    else await writeLesson("response", { responseText: opinion, summaryText: summary });
   }
 
   function renderQuestion(question: Question) {
@@ -439,8 +440,9 @@ export function VideoLessonStudio({
         </span>
       </div>
 
-      {studyPack && <TedStudyPractice key={`${lessonId}:${videoLesson.id}`} title={videoLesson.title} initial={initialProgress?.responseText ?? ""} dict={dict} save={text => writeLesson("response", { responseText: text })} />}
-      <div className={studyPack && tabs.length === 0 ? "hidden" : "contents"}>
+      {mode === "standalone" && hasTranscript && <button type="button" className="btn-secondary w-fit" data-video-open-transcript onClick={()=>setTranscriptShown(true)}>{t.tabs.transcript}</button>}
+      {transcriptShown&&<VideoTranscriptDialog id={videoLesson.id} dict={dict} text={timedTranscript.length?timedTranscript.map(line=>line.text).join("\n"):plainTranscript} onClose={()=>setTranscriptShown(false)}/>}
+      <div className="contents">
       {!vocabularyReady && <p role="status" className="text-sm text-ink-500">{t.vocabularyUnavailable}</p>}
       <div className="flex flex-wrap gap-2" role="tablist" aria-label={t.stagesLabel} data-video-tablist>
         {tabs.map((item, index) => (
@@ -605,7 +607,7 @@ export function VideoLessonStudio({
         ) : null}
       </div>
       {/* Outside the keyed animation panel: the recording belongs to the lesson, not the tab. */}
-        {!studyPack && mode === "standalone" && <LocalReflectionRecorder key={`${lessonId}:${videoLesson.id}`} dict={dict} active={tab === "summary"} />}
+        {mode === "standalone" && <LocalReflectionRecorder key={`${lessonId}:${videoLesson.id}`} dict={dict} active={tab === "summary"} />}
       </div>
     </section>
   );

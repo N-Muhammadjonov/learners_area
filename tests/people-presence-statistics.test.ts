@@ -37,7 +37,7 @@ test('All result modules query real schema; typing results remain user-scoped, a
  const [a,b]=await e.query<{id:string}>("insert into users(name) values('A'),('B') returning id");
  await e.query("insert into typing_runs(user_id,target_chars,typed_chars,duration_ms,wpm,accuracy) select $1,100,100,60000,30,80 from generate_series(1,27)",[a!.id]);
  await e.query("insert into typing_runs(user_id,target_chars,typed_chars,duration_ms,wpm,accuracy) values($1,100,100,60000,40,100)",[b!.id]);
- const summaries=await learningSummary(a!.id,e.db),writing=summaries.find(r=>r.module==='writing')!;assert.equal(writing.started,27);assert.equal(writing.completed,27);assert.equal(writing.accuracy,80);assert.equal(summaries.length,11);
+ const summaries=await learningSummary(a!.id,e.db),writing=summaries.find(r=>r.module==='writing')!;assert.equal(writing.started,27);assert.equal(writing.completed,27);assert.equal(writing.accuracy,80);assert.equal(summaries.length,10);assert.equal(summaries.some(r=>String(r.module)==='assignments'),false);
  const page=await resultHistory(a!.id,'writing',2,e.db);assert.equal(page.total,27);assert.equal(page.rows.length,2);assert.equal(page.pages,2);assert.equal(page.rows[0]!.score,80);
  assert.deepEqual(await retentionSummary(a!.id,e.db),[]);
  const centre=await centreStatistics("writing",e.db);assert.equal(centre.summary.find(r=>r.module==="writing")?.completed,28);assert.equal(centre.students.length,2);assert.equal(centre.daily.reduce((n,r)=>n+r.count,0),28);

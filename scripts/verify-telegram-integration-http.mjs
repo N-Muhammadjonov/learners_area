@@ -35,8 +35,8 @@ async function confirm(value, telegramUserId) {
     { token: value.token, telegramUserId, displayName: 'Fixture applicant', languageCode: 'en' }, internal);
   assert.equal(r.status, 200);
 }
-async function exchange(value, nonce = value.browserNonce) {
-  return json('/api/auth/telegram/intent/exchange', { intentId: value.intentId, browserNonce: nonce });
+async function exchange(value, nonce = value.browserNonce, extra = {}) {
+  return json('/api/auth/telegram/intent/exchange', { intentId: value.intentId, browserNonce: nonce, ...(value.purpose === "register" ? { name: "Fixture Applicant" } : {}) }, extra);
 }
 try {
   for (const file of readdirSync('drizzle').filter(f => f.endsWith('.sql')).sort()) {
@@ -105,7 +105,8 @@ try {
   const ownerCookie = ownerPassword.response.headers.get('set-cookie').split(';')[0];
   const ownerLink = await intent('link', ownerCookie);
   await confirm(ownerLink, '9001');
-  const linkedOwner = await exchange(ownerLink);
+  assert.equal((await exchange(ownerLink)).response.status, 400, "link exchange requires the current browser session");
+  const linkedOwner = await exchange(ownerLink, undefined, { cookie: ownerCookie });
   assert.equal(linkedOwner.response.status, 200);
   assert.equal(linkedOwner.data.outcome, 'session');
   assert.equal((await pool.query("select telegram_id from users where id=$1", [ownerId])).rows[0].telegram_id, '9001');

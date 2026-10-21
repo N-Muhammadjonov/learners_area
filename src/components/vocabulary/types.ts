@@ -36,10 +36,12 @@ export type VocabFolder = { id: string; name: string; count: number };
 export type VocabPack = { id: string; label: string; wordCount: number };
 
 export type VocabStanding = {
+  name?: string;
+  level?: string | null;
   points: number;
   rank: number;
   streak: number;
-  top: { rank: number; userId: string; name: string; points: number; isMe: boolean }[];
+  top: { rank: number; userId: string; name: string; level?:string|null; points: number; isMe: boolean }[];
 };
 
 export type VocabAward = {

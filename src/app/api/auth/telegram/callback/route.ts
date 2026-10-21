@@ -4,7 +4,6 @@ import { db } from "@/db/client";
 import { users } from "@/db/schema";
 import { verifyTelegramPayload, type TelegramAuthPayload } from "@/lib/auth/providers/telegram";
 import { createSessionToken, SESSION_COOKIE, clearSessionCookies, sessionCookieOptions } from "@/lib/auth/session";
-import { getLocale } from "@/lib/i18n";
 
 export async function GET(req: NextRequest) {
   const params = Object.fromEntries(req.nextUrl.searchParams.entries());
@@ -19,19 +18,13 @@ export async function GET(req: NextRequest) {
   }
 
   const telegramId = String(payload.id);
-  let user = await db.query.users.findFirst({ where: eq(users.telegramId, telegramId) });
+  const user = await db.query.users.findFirst({ where: eq(users.telegramId, telegramId) });
+
+  // Existing Telegram identities may sign in here. New accounts complete the
+  // explicit registration form, including the learner's own first/last name.
 
   if (!user) {
-    const name = [payload.first_name, payload.last_name].filter(Boolean).join(" ") || "Telegram user";
-    const [created] = await db
-      .insert(users)
-      .values({ name, telegramId, role: "student", locale: await getLocale() })
-      .returning();
-    user = created;
-  }
-
-  if (!user) {
-    return NextResponse.redirect(new URL("/login?error=telegram", req.url));
+    return NextResponse.redirect(new URL("/register?error=telegram_no_account", req.url));
   }
 
   const token = await createSessionToken({

@@ -19,7 +19,7 @@ export async function POST(req: NextRequest, {params}: {params: Promise<{id: str
   if (!data.ready) return NextResponse.json({error: "service_unavailable", reason: "schema_missing"}, {status: 503, headers});
   const word = data.items.find(item => item.occurrenceId === parsed.data.occurrenceId);
   const body = [lesson.videoLesson.transcriptText, ...(lesson.videoLesson.transcript ?? []).map(line => line.text), lesson.videoLesson.notes].filter(Boolean).join("\n");
-  if (!word || body.slice(word.startChar, word.endChar) !== word.surfaceForm) return NextResponse.json({error: "not_found"}, {status: 404, headers});
+  if (!word || (word.segmentKey!==`v:${word.id}` && body.slice(word.startChar, word.endChar) !== word.surfaceForm)) return NextResponse.json({error: "not_found"}, {status: 404, headers});
   const result = await addVocabularyBatch({userId: user.id, sourceType: "video", sourceId: id, items: [{
     term: word.term, partOfSpeech: word.partOfSpeech, definitionEn: word.definitionEn, translationUz: word.translationUz,
     exampleSentence: word.exampleSentence, sourceSnapshot: {sourceType: "video", videoLessonId: id,

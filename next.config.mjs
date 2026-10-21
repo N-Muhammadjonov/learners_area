@@ -4,7 +4,9 @@ import { appLegacyAliasRedirects, canonicalHomeRedirects, legacyModuleRedirects 
 const nextConfig = {
   reactStrictMode: true,
   outputFileTracingIncludes: {
-    "/api/owner/dictionary/[...action]": ["./build/dictionary-index-worker.cjs"],
+    "/api/owner/dictionary/[...action]": ["./build/dictionary-index-worker.cjs","./content/dictionary/presentation/*.json.gz"],
+    "/api/dictionary/entries/[lexemeId]": ["./content/dictionary/presentation/*.json.gz"],
+    "/api/dictionary/save": ["./content/dictionary/presentation/*.json.gz"],
     "/api/listening/full/[id]/authored": ["./content/listening/academic/test-*/source.html"],
     "/api/owner/student-export": ["./src/assets/fonts/DejaVuSans.ttf"],
     // The guarded Owner QA page reads staged JSONL from disk at runtime.

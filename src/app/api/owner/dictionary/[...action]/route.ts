@@ -1,3 +1,4 @@
+import {dictionaryPresentation} from "@/lib/dictionary/presentation";
 import {finishWorkerIndex} from '@/lib/dictionary/publish-worker-index';
 import { after, NextRequest, NextResponse } from "next/server";
 import { sql } from "drizzle-orm";
@@ -56,7 +57,8 @@ export async function GET(req: NextRequest, { params }: Context) {
       const release = await pinnedRelease(
         req.nextUrl.searchParams.get("release_id"),
       );
-      data = { entry: await entryById(action[1]!, release) };
+      const entry=await entryById(action[1]!,release);
+      data = {entry,presentation:entry?dictionaryPresentation(entry):null};
     } else if (action.length === 1 && action[0] === "drafts")
       data = {
         drafts: await rows(

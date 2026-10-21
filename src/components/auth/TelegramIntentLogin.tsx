@@ -7,7 +7,7 @@ import { safeNextPath } from "@/lib/auth/safe-redirect";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 
-type IntentPurpose = "login" | "register" | "link";
+type IntentPurpose = "login" | "register" | "link" | "replace";
 
 type IntentResponse = {
   intentId: string;
@@ -38,6 +38,8 @@ export function TelegramIntentLogin({
   purpose,
   registrationGender,
   onGenderRequired,
+  registrationName,
+  onNameRequired,
 }: {
   dict: Dictionary;
   configured: boolean;
@@ -45,6 +47,8 @@ export function TelegramIntentLogin({
   purpose: IntentPurpose;
   registrationGender?: "male" | "female" | "";
   onGenderRequired?: () => void;
+  registrationName?:string;
+  onNameRequired?:()=>void;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -60,6 +64,8 @@ export function TelegramIntentLogin({
     already_consumed: dict.auth.telegramExpired,
     expired: dict.auth.telegramExpired,
     intent_not_confirmed: dict.auth.telegramExpired,
+    full_name_required:dict.profile.fullNameRequired,
+    change_not_available:dict.profile.telegramStaffChange,
   };
 
   useEffect(() => () => stop.current?.abort(), []);
@@ -76,6 +82,7 @@ export function TelegramIntentLogin({
   }
 
   async function start() {
+    if(purpose==='register'&&!/^\S+(?:\s+\S+)+$/u.test(registrationName?.trim()??'')){onNameRequired?.();setError(dict.profile.fullNameRequired);return;}
     if (purpose === "register" && !registrationGender) {
       onGenderRequired?.();
       setError(dict.auth.errorGenderRequired);
@@ -124,7 +131,7 @@ export function TelegramIntentLogin({
         body: {
           intentId: created.data.intentId,
           browserNonce: created.data.browserNonce,
-          ...(purpose === "register" ? { gender: registrationGender } : {}),
+          ...(purpose === "register" ? { gender: registrationGender,name:registrationName?.trim() } : {}),
         },
         signal: controller.signal,
       });
@@ -135,7 +142,7 @@ export function TelegramIntentLogin({
       }
       const outcome = exchanged.data.outcome;
       const accountStatus = exchanged.data.accountStatus;
-      if (purpose === "link") {
+      if (purpose === "link"||purpose==='replace') {
         router.push("/app/profile");
         router.refresh();
         setWaiting(false);
@@ -178,7 +185,7 @@ export function TelegramIntentLogin({
     pending.current = null;
   }
 
-  const label = purpose === "link" ? dict.auth.telegramLink : purpose === "register" ? dict.auth.continueWithTelegramRegister : dict.auth.continueWithTelegram;
+  const label = purpose==='replace'?dict.profile.telegramChange:purpose === "link" ? dict.auth.telegramLink : purpose === "register" ? dict.auth.continueWithTelegramRegister : dict.auth.continueWithTelegram;
   const waitingLabel = purpose === "register" ? dict.auth.telegramRegisterWaiting : dict.auth.telegramWaiting;
 
   return (
