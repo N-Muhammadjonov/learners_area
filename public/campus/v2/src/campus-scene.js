@@ -176,6 +176,10 @@ export class LearnersAreaCampusScene {
       }
 
       if (bldgGroup) {
+        if(!m.isCenter){
+          // Taller, wider real architecture while leaving more distance between modules.
+          bldgGroup.scale.set(1.16,1.23,1.16);
+        }
         this.scene.add(bldgGroup);
         this.buildingMeshes.set(m.id, bldgGroup);
 
@@ -204,6 +208,8 @@ export class LearnersAreaCampusScene {
     ];
 
     treePositions.forEach(([x, z], idx) => {
+      // Never place foliage through one of the resized buildings.
+      if(CAMPUS_CONFIG.modules.some(m=>!m.isCenter&&Math.hypot(m.pos.x-x,m.pos.z-z)<9.5))return;
       const tree = this.geometry.createPineTree(0.9 + (idx % 3) * 0.15);
       tree.position.set(x, 0.05, z);
       envGroup.add(tree);
@@ -216,6 +222,7 @@ export class LearnersAreaCampusScene {
     ];
 
     lampPositions.forEach(([x, z]) => {
+      if(CAMPUS_CONFIG.modules.some(m=>!m.isCenter&&Math.hypot(m.pos.x-x,m.pos.z-z)<8.0))return;
       const lamp = this.geometry.createStreetLamp(0.9);
       lamp.position.set(x, 0.05, z);
       envGroup.add(lamp);
