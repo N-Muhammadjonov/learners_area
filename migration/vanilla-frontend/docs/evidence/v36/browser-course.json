@@ -1,0 +1,378 @@
+{
+  "scope": "Actual Chromium133 synthetic-fixture course route/workspace/private notes. No live/originalNext acceptance. Synthetic lifecycle events explicitly labelled; keepalive delivery not guaranteed.",
+  "results": [
+    {
+      "name": "lesson original state locked 1440x900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 1440x900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 1440x900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 1440x900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 1440x900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 1440x900/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state locked 1440x900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 1440x900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 1440x900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 1440x900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 1440x900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 1440x900/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state locked 1440x900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 1440x900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 1440x900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 1440x900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 1440x900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 1440x900/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state locked 1440x900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 1440x900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 1440x900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 1440x900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 1440x900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 1440x900/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state locked 768x1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 768x1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 768x1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 768x1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 768x1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 768x1024/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state locked 768x1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 768x1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 768x1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 768x1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 768x1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 768x1024/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state locked 768x1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 768x1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 768x1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 768x1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 768x1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 768x1024/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state locked 768x1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 768x1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 768x1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 768x1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 768x1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 768x1024/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state locked 390x844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 390x844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 390x844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 390x844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 390x844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 390x844/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state locked 390x844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 390x844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 390x844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 390x844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 390x844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 390x844/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state locked 390x844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 390x844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 390x844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 390x844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 390x844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 390x844/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state locked 390x844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state scheduled 390x844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state available 390x844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state assigned 390x844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state in_progress 390x844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson original state completed 390x844/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "A/B/C hydration, rapid typing and exact900ms debounce without per-keystroke writes",
+      "status": "PASS"
+    },
+    {
+      "name": "D/E/G/L/T in-flight edits serialize, exactACK never acknowledges newer text, no duplicate flush writes",
+      "status": "PASS"
+    },
+    {
+      "name": "F/H failed save preserves text, explicit retry and blur flush",
+      "status": "PASS"
+    },
+    {
+      "name": "I/O route switch flushes latest to old lesson, oldACK never paints new lesson",
+      "status": "PASS"
+    },
+    {
+      "name": "J/K synthetic pagehide and hidden-visibility events flush latest without overlap",
+      "status": "PASS"
+    },
+    {
+      "name": "M/N overlong text is retained/refused, empty and whitespace clears are real writes",
+      "status": "PASS"
+    },
+    {
+      "name": "P notes401 revokes own scope and cannot paint saved success",
+      "status": "PASS"
+    },
+    {
+      "name": "Q unauthorized note save remains failed and visible, never changes progress",
+      "status": "PASS"
+    },
+    {
+      "name": "R Back Forward reload hydrate only own lesson values, no visit progress",
+      "status": "PASS"
+    },
+    {
+      "name": "S foreign owner projection never discloses notes/title",
+      "status": "PASS"
+    },
+    {
+      "name": "restoring original acknowledged text during flight sends latest restoration, not stale queued text",
+      "status": "PASS"
+    },
+    {
+      "name": "state singleflight authoritative ACK, notes focus survives action ACK, completion disabled and no invented date",
+      "status": "PASS"
+    },
+    {
+      "name": "state locked preserves current state and localized error",
+      "status": "PASS"
+    },
+    {
+      "name": "state wrong_direction preserves current state and localized error",
+      "status": "PASS"
+    },
+    {
+      "name": "state unavailable preserves current state and localized error",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid UUID is not-found without view lookup or internal exception",
+      "status": "PASS"
+    },
+    {
+      "name": "material order, authorized resource paths and teardown; video explicitly incomplete",
+      "status": "PASS"
+    },
+    {
+      "name": "start success follows authoritative state, later edits after ACK become unsaved, note POST never includes state",
+      "status": "PASS"
+    },
+    {
+      "name": "duplicate pending pagehide/blur cannot automatically replay a failed note snapshot",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile touch start and private note input use actual controls",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 92,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

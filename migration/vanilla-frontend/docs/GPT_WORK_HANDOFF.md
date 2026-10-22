@@ -1,3 +1,16 @@
+# CURRENT V36 — course lesson implementation, independent work ACTIVE
+
+BaselineV35 e8beca18e3bf9dd51a86691aaff4601d8f1e6bab. Native lesson detail/workspace/state actions/private-note pipeline and course material consumer now implemented in supported fixture scope; whole routePARTIAL. Existing ONE note writer reused and repaired for ACK-reversion stale pending + failed duplicate-flush automatic replay. Native workspace preserves textarea node/focus; no optimistic progress. SourceisOpen excludescompleted/locked/scheduled; preserve original page branch behavior.
+
+595unitPASS;92actualcoursebrowserPASS; final browser/regression results in evidence/v36/verification.json and browser-course.json. V35entry33functionalPASS; fresh entryvisual17/7FAIL, historicalV35 18/6FAIL retained. Newlesson initialsourceReactvisual9/3FAIL,maxchannel1,geometry12/12equal. No tolerance change,originalNext/live acceptance or videoStudio completion. Recorded bounded unchanged-native A/Bcapture control is inconclusive for root cause; do not relabel historicalFAILs.
+
+Routes22/18/68;components62/19/125;Staff35reserved;remainingnonStaff51,remainingcomponentfiles144. See V36_IMPLEMENTATION_HANDOFF.md,ADAPTER_CONTRACTS_V36.md,route-ledger-v36.json/component-ledger-v36.json,V36_DEPENDENCY_INVENTORY.json. No newZIP/seal. Source/backend/content/Staff/Dictionary unchanged.
+
+NEXT V37: actual VideoLessonStudio course mode/provider/direct-media ownership→watchedprogress→authored answer/response tabs→transcript and applicable vocabulary dependencies (reflection is standalone-only). Read originals; do not replacewithiframe or invent materials. GrammarTopic/activities independent option after lesson priority. Human projectowner authorizes wholewebsite migration. Pending Review-specific release must NOT halt ordinary implementation. ReviewPhase2 remainsBLOCKED pending actualA–Jdecision,not approved.
+
+---
+Historical handoffs retained below; V36 above is current.
+
 # CURRENT V35 — human owner correction: independent frontend implementation ACTIVE
 
 The human project owner/original creator explicitly authorized whole-site migration within constraints. This supersedes V34's global external-input stop condition. Do not confuse human ownership with app roles. Review-specific release remains pending A–J decision, NOT approved; its unsigned packet/raw evidence remain. Pending Review acceptance MUST NOT halt independent ordinary frontend work.
@@ -410,3 +423,5 @@ Phase2 exact retaining owner and stability are unresolved. Full15 requested mixe
 Source10/source25 authoritative time mappings need existing owner-authorized corrections; this frontend does not invent content or timing. Authorized rendered original, live presentation-adapter integration, direct authored?vocabulary=1 backend exam policy (GPT Work), Safari/hardware/real recordings remain UNVERIFIED. No production probing, backend/API/schema/auth/grading/publication/cloud/Staff/Dictionary edits.
 
 Next V27: continue Review, NOT Script. Attribute Phase2 transient detached-node ownership with serial matched-stage heap/callback instrumentation; finish mixed lifecycle and source-variant focus/scroll/resource gates. Obtain owner-authorized time mappings without editing original content. Preserve all accepted gates and original visuals. Reading remains gated.
+
+Source-specific V37 correction: LocalReflectionRecorder and TedStudyPractice mount ONLY in standalone mode, not course mode. Course LessonPage does not supply vocabulary, so its default empty vocabulary list must not be replaced by an invented fetch/tab. Transcript is a real conditional Studio tab, not a dialog dependency. Preserve separate provider-frame restrictions without changing the authored opaque sandbox.

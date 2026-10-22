@@ -1,0 +1,198 @@
+{
+  "native": [
+    {
+      "selector": "h1",
+      "rect": {
+        "x": 284,
+        "y": 185,
+        "width": 350.28125,
+        "height": 32,
+        "top": 185,
+        "right": 634.28125,
+        "bottom": 217,
+        "left": 284
+      },
+      "font": "650 24px / 32px LA-Sora, LA-Geist, system-ui, sans-serif, Georgia, serif",
+      "color": "rgb(243, 238, 229)",
+      "background": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "selector": "[data-lesson-back]",
+      "rect": {
+        "x": 284,
+        "y": 133,
+        "width": 197.890625,
+        "height": 44,
+        "top": 133,
+        "right": 481.890625,
+        "bottom": 177,
+        "left": 284
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "background": "rgba(8, 32, 68, 0.4)"
+    },
+    {
+      "selector": "[data-lesson-start]",
+      "rect": {
+        "x": 305,
+        "y": 298,
+        "width": 149.015625,
+        "height": 46,
+        "top": 298,
+        "right": 454.015625,
+        "bottom": 344,
+        "left": 305
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "background": "rgba(8, 32, 68, 0.4)"
+    },
+    {
+      "selector": "[data-lesson-complete]",
+      "rect": {
+        "x": 462.015625,
+        "y": 298,
+        "width": 168.859375,
+        "height": 46,
+        "top": 298,
+        "right": 630.875,
+        "bottom": 344,
+        "left": 462.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "background": "rgba(8, 32, 68, 0.4)"
+    },
+    {
+      "selector": "[data-lesson-notes]",
+      "rect": {
+        "x": 305,
+        "y": 429.59375,
+        "width": 422,
+        "height": 160,
+        "top": 429.59375,
+        "right": 727,
+        "bottom": 589.59375,
+        "left": 305
+      },
+      "font": "450 14px / 22.75px LA-Geist, system-ui, sans-serif, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "background": "rgba(8, 32, 68, 0.4)"
+    },
+    {
+      "selector": "[data-lesson-notes-count]",
+      "rect": {
+        "x": 668.921875,
+        "y": 601.1875,
+        "width": 58.078125,
+        "height": 16,
+        "top": 601.1875,
+        "right": 727,
+        "bottom": 617.1875,
+        "left": 668.921875
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "background": "rgba(0, 0, 0, 0)"
+    }
+  ],
+  "original": [
+    {
+      "selector": "h1",
+      "rect": {
+        "x": 284,
+        "y": 185,
+        "width": 350.28125,
+        "height": 32,
+        "top": 185,
+        "right": 634.28125,
+        "bottom": 217,
+        "left": 284
+      },
+      "font": "650 24px / 32px LA-Sora, LA-Geist, system-ui, sans-serif, Georgia, serif",
+      "color": "rgb(243, 238, 229)",
+      "background": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "selector": "[data-lesson-back]",
+      "rect": {
+        "x": 284,
+        "y": 133,
+        "width": 197.890625,
+        "height": 44,
+        "top": 133,
+        "right": 481.890625,
+        "bottom": 177,
+        "left": 284
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "background": "rgba(8, 32, 68, 0.4)"
+    },
+    {
+      "selector": "[data-lesson-start]",
+      "rect": {
+        "x": 305,
+        "y": 298,
+        "width": 149.015625,
+        "height": 46,
+        "top": 298,
+        "right": 454.015625,
+        "bottom": 344,
+        "left": 305
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "background": "rgba(8, 32, 68, 0.4)"
+    },
+    {
+      "selector": "[data-lesson-complete]",
+      "rect": {
+        "x": 462.015625,
+        "y": 298,
+        "width": 168.859375,
+        "height": 46,
+        "top": 298,
+        "right": 630.875,
+        "bottom": 344,
+        "left": 462.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "background": "rgba(8, 32, 68, 0.4)"
+    },
+    {
+      "selector": "[data-lesson-notes]",
+      "rect": {
+        "x": 305,
+        "y": 429.59375,
+        "width": 422,
+        "height": 160,
+        "top": 429.59375,
+        "right": 727,
+        "bottom": 589.59375,
+        "left": 305
+      },
+      "font": "450 14px / 22.75px LA-Geist, system-ui, sans-serif, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "background": "rgba(8, 32, 68, 0.4)"
+    },
+    {
+      "selector": "[data-lesson-notes-count]",
+      "rect": {
+        "x": 668.921875,
+        "y": 601.1875,
+        "width": 58.078125,
+        "height": 16,
+        "top": 601.1875,
+        "right": 727,
+        "bottom": 617.1875,
+        "left": 668.921875
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "background": "rgba(0, 0, 0, 0)"
+    }
+  ]
+}

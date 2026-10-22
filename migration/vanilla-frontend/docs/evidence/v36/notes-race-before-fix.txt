@@ -1,0 +1,149 @@
+TAP version 13
+# Subtest: source isOpen and detail locked
+ok 1 - source isOpen and detail locked
+  ---
+  duration_ms: 1.996346
+  type: 'test'
+  ...
+# Subtest: source isOpen and detail scheduled
+ok 2 - source isOpen and detail scheduled
+  ---
+  duration_ms: 0.413457
+  type: 'test'
+  ...
+# Subtest: source isOpen and detail available
+ok 3 - source isOpen and detail available
+  ---
+  duration_ms: 0.188955
+  type: 'test'
+  ...
+# Subtest: source isOpen and detail assigned
+ok 4 - source isOpen and detail assigned
+  ---
+  duration_ms: 0.260744
+  type: 'test'
+  ...
+# Subtest: source isOpen and detail in_progress
+ok 5 - source isOpen and detail in_progress
+  ---
+  duration_ms: 0.519346
+  type: 'test'
+  ...
+# Subtest: source isOpen and detail completed
+ok 6 - source isOpen and detail completed
+  ---
+  duration_ms: 0.258596
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.ownerId='foreign'
+ok 7 - reject invalid/foreign detail d=>d.detail.ownerId='foreign'
+  ---
+  duration_ms: 0.377722
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.lesson.id='wrong'
+ok 8 - reject invalid/foreign detail d=>d.detail.lesson.id='wrong'
+  ---
+  duration_ms: 0.210249
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.state='new-state'
+ok 9 - reject invalid/foreign detail d=>d.detail.state='new-state'
+  ---
+  duration_ms: 0.265066
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.lesson.recordingUrl='https://bucket.invalid/private'
+ok 10 - reject invalid/foreign detail d=>d.detail.lesson.recordingUrl='https://bucket.invalid/private'
+  ---
+  duration_ms: 0.392986
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.notes={}
+ok 11 - reject invalid/foreign detail d=>d.detail.notes={}
+  ---
+  duration_ms: 0.259772
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.completedAt='bad'
+ok 12 - reject invalid/foreign detail d=>d.detail.completedAt='bad'
+  ---
+  duration_ms: 0.152296
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.materialBlocks={}
+ok 13 - reject invalid/foreign detail d=>d.detail.materialBlocks={}
+  ---
+  duration_ms: 0.128136
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.videoAvailable=null
+ok 14 - reject invalid/foreign detail d=>d.detail.videoAvailable=null
+  ---
+  duration_ms: 0.11622
+  type: 'test'
+  ...
+# Subtest: closed projections reject hidden notes/material/video
+ok 15 - closed projections reject hidden notes/material/video
+  ---
+  duration_ms: 0.345942
+  type: 'test'
+  ...
+# Subtest: exact state ACK only; no optimistic success
+ok 16 - exact state ACK only; no optimistic success
+  ---
+  duration_ms: 0.214898
+  type: 'test'
+  ...
+# Subtest: state singleflight leaves notes node/focus intact while pending and on acknowledgement
+ok 17 - state singleflight leaves notes node/focus intact while pending and on acknowledgement
+  ---
+  duration_ms: 81.088465
+  type: 'test'
+  ...
+# Subtest: old note ACK cannot mark new text Saved; newer edit is serialized
+ok 18 - old note ACK cannot mark new text Saved; newer edit is serialized
+  ---
+  duration_ms: 68.20783
+  type: 'test'
+  ...
+# Subtest: reverting to old ACK during a pending different write must serialize restoration of current text
+not ok 19 - reverting to old ACK during a pending different write must serialize restoration of current text
+  ---
+  duration_ms: 16.5403
+  type: 'test'
+  location: '/home/user/learners_area/migration/vanilla-frontend/tests/course-v36.test.mjs:10:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+        'B',
+    +   'C'
+    -   'A'
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'B'
+    1: 'A'
+  actual:
+    0: 'B'
+    1: 'C'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/user/learners_area/migration/vanilla-frontend/tests/course-v36.test.mjs:10:619)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 18
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 576.306267

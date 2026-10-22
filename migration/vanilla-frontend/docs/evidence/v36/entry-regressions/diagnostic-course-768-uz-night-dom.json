@@ -1,0 +1,1640 @@
+{
+  "nativeHTML": "<div class=\"mx-auto flex max-w-3xl flex-col gap-6\"><div><h1 class=\"font-display text-2xl text-ink-900\">Fixture course &lt;plain text&gt;</h1><p class=\"text-sm text-ink-500\">Fixture description</p></div><div><h2 class=\"mb-2 font-display text-lg text-ink-900\">Fixture module</h2><div class=\"flex flex-col gap-2\"><div class=\"card p-5 \"><p class=\"mb-2 text-sm font-medium text-ink-700\">Fixture unit</p><div class=\"flex flex-col divide-y divide-ink-100\"><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000010\"><div><p class=\"text-sm text-ink-900\">Fixture lesson locked</p></div><div class=\"flex items-center gap-2\"><span class=\"badge-locked\">Locked</span></div></div><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000011\"><div><p class=\"text-sm text-ink-900\">Fixture lesson scheduled</p><p class=\"text-xs text-ink-300\">Fixture summary</p></div><div class=\"flex items-center gap-2\"><span></span><a href=\"/app/courses/ielts/lessons/00000000-0000-4000-8000-000000000011\" class=\"btn-secondary \" data-lesson-open=\"00000000-0000-4000-8000-000000000011\">Ochish</a></div></div><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000012\"><div><p class=\"text-sm text-ink-900\">Fixture lesson available</p><p class=\"text-xs text-ink-300\">Fixture summary</p></div><div class=\"flex items-center gap-2\"><span class=\"badge bg-signal-100 text-signal-700\">Available</span><a href=\"/app/courses/ielts/lessons/00000000-0000-4000-8000-000000000012\" class=\"btn-secondary \" data-lesson-open=\"00000000-0000-4000-8000-000000000012\">Ochish</a></div></div><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000013\"><div><p class=\"text-sm text-ink-900\">Fixture lesson assigned</p><p class=\"text-xs text-ink-300\">Fixture summary</p></div><div class=\"flex items-center gap-2\"><span class=\"badge bg-band-warn/10 text-band-warn\">Assigned</span><a href=\"/app/courses/ielts/lessons/00000000-0000-4000-8000-000000000013\" class=\"btn-secondary \" data-lesson-open=\"00000000-0000-4000-8000-000000000013\">Ochish</a></div></div><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000014\"><div><p class=\"text-sm text-ink-900\">Fixture lesson in_progress</p><p class=\"text-xs text-ink-300\">Fixture summary</p></div><div class=\"flex items-center gap-2\"><span class=\"badge bg-band-warn/10 text-band-warn\">In progress</span><a href=\"/app/courses/ielts/lessons/00000000-0000-4000-8000-000000000014\" class=\"btn-secondary \" data-lesson-open=\"00000000-0000-4000-8000-000000000014\">Ochish</a></div></div><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000015\"><div><p class=\"text-sm text-ink-900\">Fixture lesson completed</p><p class=\"text-xs text-ink-300\">Fixture summary</p></div><div class=\"flex items-center gap-2\"><span class=\"badge-done\">Completed</span><a href=\"/app/courses/ielts/lessons/00000000-0000-4000-8000-000000000015\" class=\"btn-secondary \" data-lesson-open=\"00000000-0000-4000-8000-000000000015\">Ochish</a></div></div></div></div></div></div></div>",
+  "originalHTML": "<div class=\"mx-auto flex max-w-3xl flex-col gap-6\"><div><h1 class=\"font-display text-2xl text-ink-900\">Fixture course &lt;plain text&gt;</h1><p class=\"text-sm text-ink-500\">Fixture description</p></div><div><h2 class=\"mb-2 font-display text-lg text-ink-900\">Fixture module</h2><div class=\"flex flex-col gap-2\"><div class=\"card p-5 \"><p class=\"mb-2 text-sm font-medium text-ink-700\">Fixture unit</p><div class=\"flex flex-col divide-y divide-ink-100\"><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000010\"><div><p class=\"text-sm text-ink-900\">Fixture lesson locked</p></div><div class=\"flex items-center gap-2\"><span class=\"badge-locked\">Locked</span></div></div><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000011\"><div><p class=\"text-sm text-ink-900\">Fixture lesson scheduled</p><p class=\"text-xs text-ink-300\">Fixture summary</p></div><div class=\"flex items-center gap-2\"><span></span><a href=\"/app/courses/ielts/lessons/00000000-0000-4000-8000-000000000011\" class=\"btn-secondary \" data-lesson-open=\"00000000-0000-4000-8000-000000000011\">Ochish</a></div></div><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000012\"><div><p class=\"text-sm text-ink-900\">Fixture lesson available</p><p class=\"text-xs text-ink-300\">Fixture summary</p></div><div class=\"flex items-center gap-2\"><span class=\"badge bg-signal-100 text-signal-700\">Available</span><a href=\"/app/courses/ielts/lessons/00000000-0000-4000-8000-000000000012\" class=\"btn-secondary \" data-lesson-open=\"00000000-0000-4000-8000-000000000012\">Ochish</a></div></div><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000013\"><div><p class=\"text-sm text-ink-900\">Fixture lesson assigned</p><p class=\"text-xs text-ink-300\">Fixture summary</p></div><div class=\"flex items-center gap-2\"><span class=\"badge bg-band-warn/10 text-band-warn\">Assigned</span><a href=\"/app/courses/ielts/lessons/00000000-0000-4000-8000-000000000013\" class=\"btn-secondary \" data-lesson-open=\"00000000-0000-4000-8000-000000000013\">Ochish</a></div></div><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000014\"><div><p class=\"text-sm text-ink-900\">Fixture lesson in_progress</p><p class=\"text-xs text-ink-300\">Fixture summary</p></div><div class=\"flex items-center gap-2\"><span class=\"badge bg-band-warn/10 text-band-warn\">In progress</span><a href=\"/app/courses/ielts/lessons/00000000-0000-4000-8000-000000000014\" class=\"btn-secondary \" data-lesson-open=\"00000000-0000-4000-8000-000000000014\">Ochish</a></div></div><div class=\"flex items-center justify-between py-2\" data-lesson=\"00000000-0000-4000-8000-000000000015\"><div><p class=\"text-sm text-ink-900\">Fixture lesson completed</p><p class=\"text-xs text-ink-300\">Fixture summary</p></div><div class=\"flex items-center gap-2\"><span class=\"badge-done\">Completed</span><a href=\"/app/courses/ielts/lessons/00000000-0000-4000-8000-000000000015\" class=\"btn-secondary \" data-lesson-open=\"00000000-0000-4000-8000-000000000015\">Ochish</a></div></div></div></div></div></div></div>",
+  "nativeGeometry": [
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 133,
+        "width": 464,
+        "height": 533,
+        "top": 133,
+        "right": 748,
+        "bottom": 666,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 133,
+        "width": 464,
+        "height": 533,
+        "top": 133,
+        "right": 748,
+        "bottom": 666,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 133,
+        "width": 464,
+        "height": 52,
+        "top": 133,
+        "right": 748,
+        "bottom": 185,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "H1",
+      "rect": {
+        "x": 284,
+        "y": 133,
+        "width": 464,
+        "height": 32,
+        "top": 133,
+        "right": 748,
+        "bottom": 165,
+        "left": 284
+      },
+      "font": "650 24px / 32px LA-Sora, LA-Geist, system-ui, sans-serif, Georgia, serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 284,
+        "y": 165,
+        "width": 464,
+        "height": 20,
+        "top": 165,
+        "right": 748,
+        "bottom": 185,
+        "left": 284
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 209,
+        "width": 464,
+        "height": 457,
+        "top": 209,
+        "right": 748,
+        "bottom": 666,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "H2",
+      "rect": {
+        "x": 284,
+        "y": 209,
+        "width": 464,
+        "height": 28,
+        "top": 209,
+        "right": 748,
+        "bottom": 237,
+        "left": 284
+      },
+      "font": "650 18px / 28px LA-Sora, LA-Geist, system-ui, sans-serif, Georgia, serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 245,
+        "width": 464,
+        "height": 421,
+        "top": 245,
+        "right": 748,
+        "bottom": 666,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 245,
+        "width": 464,
+        "height": 421,
+        "top": 245,
+        "right": 748,
+        "bottom": 666,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 266,
+        "width": 422,
+        "height": 20,
+        "top": 266,
+        "right": 727,
+        "bottom": 286,
+        "left": 305
+      },
+      "font": "500 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(234, 239, 247)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 294,
+        "width": 422,
+        "height": 351,
+        "top": 294,
+        "right": 727,
+        "bottom": 645,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 294,
+        "width": 422,
+        "height": 36,
+        "top": 294,
+        "right": 727,
+        "bottom": 330,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 302,
+        "width": 137.34375,
+        "height": 20,
+        "top": 302,
+        "right": 442.34375,
+        "bottom": 322,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 302,
+        "width": 137.34375,
+        "height": 20,
+        "top": 302,
+        "right": 442.34375,
+        "bottom": 322,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 666.140625,
+        "y": 302,
+        "width": 60.859375,
+        "height": 20,
+        "top": 302,
+        "right": 727,
+        "bottom": 322,
+        "left": 666.140625
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 666.140625,
+        "y": 302,
+        "width": 60.859375,
+        "height": 20,
+        "top": 302,
+        "right": 727,
+        "bottom": 322,
+        "left": 666.140625
+      },
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(225, 233, 243)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 330,
+        "width": 422,
+        "height": 63,
+        "top": 330,
+        "right": 727,
+        "bottom": 393,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 344,
+        "width": 161.078125,
+        "height": 36,
+        "top": 344,
+        "right": 466.078125,
+        "bottom": 380,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 344,
+        "width": 161.078125,
+        "height": 20,
+        "top": 344,
+        "right": 466.078125,
+        "bottom": 364,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 364,
+        "width": 161.078125,
+        "height": 16,
+        "top": 364,
+        "right": 466.078125,
+        "bottom": 380,
+        "left": 305
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 636.015625,
+        "y": 339,
+        "width": 90.984375,
+        "height": 46,
+        "top": 339,
+        "right": 727,
+        "bottom": 385,
+        "left": 636.015625
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 636.015625,
+        "y": 362,
+        "width": 0,
+        "height": 0,
+        "top": 362,
+        "right": 636.015625,
+        "bottom": 362,
+        "left": 636.015625
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "A",
+      "rect": {
+        "x": 644.015625,
+        "y": 339,
+        "width": 82.984375,
+        "height": 46,
+        "top": 339,
+        "right": 727,
+        "bottom": 385,
+        "left": 644.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 393,
+        "width": 422,
+        "height": 63,
+        "top": 393,
+        "right": 727,
+        "bottom": 456,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 407,
+        "width": 151.5625,
+        "height": 36,
+        "top": 407,
+        "right": 456.5625,
+        "bottom": 443,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 407,
+        "width": 151.5625,
+        "height": 20,
+        "top": 407,
+        "right": 456.5625,
+        "bottom": 427,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 427,
+        "width": 151.5625,
+        "height": 16,
+        "top": 427,
+        "right": 456.5625,
+        "bottom": 443,
+        "left": 305
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 564.890625,
+        "y": 402,
+        "width": 162.109375,
+        "height": 46,
+        "top": 402,
+        "right": 727,
+        "bottom": 448,
+        "left": 564.890625
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 564.890625,
+        "y": 415,
+        "width": 71.125,
+        "height": 20,
+        "top": 415,
+        "right": 636.015625,
+        "bottom": 435,
+        "left": 564.890625
+      },
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(79, 70, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "A",
+      "rect": {
+        "x": 644.015625,
+        "y": 402,
+        "width": 82.984375,
+        "height": 46,
+        "top": 402,
+        "right": 727,
+        "bottom": 448,
+        "left": 644.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 456,
+        "width": 422,
+        "height": 63,
+        "top": 456,
+        "right": 727,
+        "bottom": 519,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 470,
+        "width": 152.34375,
+        "height": 36,
+        "top": 470,
+        "right": 457.34375,
+        "bottom": 506,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 470,
+        "width": 152.34375,
+        "height": 20,
+        "top": 470,
+        "right": 457.34375,
+        "bottom": 490,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 490,
+        "width": 152.34375,
+        "height": 16,
+        "top": 490,
+        "right": 457.34375,
+        "bottom": 506,
+        "left": 305
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 564.0625,
+        "y": 465,
+        "width": 162.9375,
+        "height": 46,
+        "top": 465,
+        "right": 727,
+        "bottom": 511,
+        "left": 564.0625
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 564.0625,
+        "y": 478,
+        "width": 71.953125,
+        "height": 20,
+        "top": 478,
+        "right": 636.015625,
+        "bottom": 498,
+        "left": 564.0625
+      },
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(240, 204, 116)",
+      "opacity": "1"
+    },
+    {
+      "tag": "A",
+      "rect": {
+        "x": 644.015625,
+        "y": 465,
+        "width": 82.984375,
+        "height": 46,
+        "top": 465,
+        "right": 727,
+        "bottom": 511,
+        "left": 644.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 519,
+        "width": 422,
+        "height": 63,
+        "top": 519,
+        "right": 727,
+        "bottom": 582,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 533,
+        "width": 170.546875,
+        "height": 36,
+        "top": 533,
+        "right": 475.546875,
+        "bottom": 569,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 533,
+        "width": 170.546875,
+        "height": 20,
+        "top": 533,
+        "right": 475.546875,
+        "bottom": 553,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 553,
+        "width": 170.546875,
+        "height": 16,
+        "top": 553,
+        "right": 475.546875,
+        "bottom": 569,
+        "left": 305
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 553.109375,
+        "y": 528,
+        "width": 173.890625,
+        "height": 46,
+        "top": 528,
+        "right": 727,
+        "bottom": 574,
+        "left": 553.109375
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 553.109375,
+        "y": 541,
+        "width": 82.90625,
+        "height": 20,
+        "top": 541,
+        "right": 636.015625,
+        "bottom": 561,
+        "left": 553.109375
+      },
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(240, 204, 116)",
+      "opacity": "1"
+    },
+    {
+      "tag": "A",
+      "rect": {
+        "x": 644.015625,
+        "y": 528,
+        "width": 82.984375,
+        "height": 46,
+        "top": 528,
+        "right": 727,
+        "bottom": 574,
+        "left": 644.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 582,
+        "width": 422,
+        "height": 63,
+        "top": 582,
+        "right": 727,
+        "bottom": 645,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 596,
+        "width": 163.0625,
+        "height": 36,
+        "top": 596,
+        "right": 468.0625,
+        "bottom": 632,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 596,
+        "width": 163.0625,
+        "height": 20,
+        "top": 596,
+        "right": 468.0625,
+        "bottom": 616,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 616,
+        "width": 163.0625,
+        "height": 16,
+        "top": 616,
+        "right": 468.0625,
+        "bottom": 632,
+        "left": 305
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 554.28125,
+        "y": 591,
+        "width": 172.71875,
+        "height": 46,
+        "top": 591,
+        "right": 727,
+        "bottom": 637,
+        "left": 554.28125
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 554.28125,
+        "y": 604,
+        "width": 81.734375,
+        "height": 20,
+        "top": 604,
+        "right": 636.015625,
+        "bottom": 624,
+        "left": 554.28125
+      },
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(119, 213, 154)",
+      "opacity": "1"
+    },
+    {
+      "tag": "A",
+      "rect": {
+        "x": 644.015625,
+        "y": 591,
+        "width": 82.984375,
+        "height": 46,
+        "top": 591,
+        "right": 727,
+        "bottom": 637,
+        "left": 644.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    }
+  ],
+  "referenceGeometry": [
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 133,
+        "width": 464,
+        "height": 533,
+        "top": 133,
+        "right": 748,
+        "bottom": 666,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 133,
+        "width": 464,
+        "height": 533,
+        "top": 133,
+        "right": 748,
+        "bottom": 666,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 133,
+        "width": 464,
+        "height": 52,
+        "top": 133,
+        "right": 748,
+        "bottom": 185,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "H1",
+      "rect": {
+        "x": 284,
+        "y": 133,
+        "width": 464,
+        "height": 32,
+        "top": 133,
+        "right": 748,
+        "bottom": 165,
+        "left": 284
+      },
+      "font": "650 24px / 32px LA-Sora, LA-Geist, system-ui, sans-serif, Georgia, serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 284,
+        "y": 165,
+        "width": 464,
+        "height": 20,
+        "top": 165,
+        "right": 748,
+        "bottom": 185,
+        "left": 284
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 209,
+        "width": 464,
+        "height": 457,
+        "top": 209,
+        "right": 748,
+        "bottom": 666,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "H2",
+      "rect": {
+        "x": 284,
+        "y": 209,
+        "width": 464,
+        "height": 28,
+        "top": 209,
+        "right": 748,
+        "bottom": 237,
+        "left": 284
+      },
+      "font": "650 18px / 28px LA-Sora, LA-Geist, system-ui, sans-serif, Georgia, serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 245,
+        "width": 464,
+        "height": 421,
+        "top": 245,
+        "right": 748,
+        "bottom": 666,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 284,
+        "y": 245,
+        "width": 464,
+        "height": 421,
+        "top": 245,
+        "right": 748,
+        "bottom": 666,
+        "left": 284
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 266,
+        "width": 422,
+        "height": 20,
+        "top": 266,
+        "right": 727,
+        "bottom": 286,
+        "left": 305
+      },
+      "font": "500 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(234, 239, 247)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 294,
+        "width": 422,
+        "height": 351,
+        "top": 294,
+        "right": 727,
+        "bottom": 645,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 294,
+        "width": 422,
+        "height": 36,
+        "top": 294,
+        "right": 727,
+        "bottom": 330,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 302,
+        "width": 137.34375,
+        "height": 20,
+        "top": 302,
+        "right": 442.34375,
+        "bottom": 322,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 302,
+        "width": 137.34375,
+        "height": 20,
+        "top": 302,
+        "right": 442.34375,
+        "bottom": 322,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 666.140625,
+        "y": 302,
+        "width": 60.859375,
+        "height": 20,
+        "top": 302,
+        "right": 727,
+        "bottom": 322,
+        "left": 666.140625
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 666.140625,
+        "y": 302,
+        "width": 60.859375,
+        "height": 20,
+        "top": 302,
+        "right": 727,
+        "bottom": 322,
+        "left": 666.140625
+      },
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(225, 233, 243)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 330,
+        "width": 422,
+        "height": 63,
+        "top": 330,
+        "right": 727,
+        "bottom": 393,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 344,
+        "width": 161.078125,
+        "height": 36,
+        "top": 344,
+        "right": 466.078125,
+        "bottom": 380,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 344,
+        "width": 161.078125,
+        "height": 20,
+        "top": 344,
+        "right": 466.078125,
+        "bottom": 364,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 364,
+        "width": 161.078125,
+        "height": 16,
+        "top": 364,
+        "right": 466.078125,
+        "bottom": 380,
+        "left": 305
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 636.015625,
+        "y": 339,
+        "width": 90.984375,
+        "height": 46,
+        "top": 339,
+        "right": 727,
+        "bottom": 385,
+        "left": 636.015625
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 636.015625,
+        "y": 362,
+        "width": 0,
+        "height": 0,
+        "top": 362,
+        "right": 636.015625,
+        "bottom": 362,
+        "left": 636.015625
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "A",
+      "rect": {
+        "x": 644.015625,
+        "y": 339,
+        "width": 82.984375,
+        "height": 46,
+        "top": 339,
+        "right": 727,
+        "bottom": 385,
+        "left": 644.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 393,
+        "width": 422,
+        "height": 63,
+        "top": 393,
+        "right": 727,
+        "bottom": 456,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 407,
+        "width": 151.5625,
+        "height": 36,
+        "top": 407,
+        "right": 456.5625,
+        "bottom": 443,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 407,
+        "width": 151.5625,
+        "height": 20,
+        "top": 407,
+        "right": 456.5625,
+        "bottom": 427,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 427,
+        "width": 151.5625,
+        "height": 16,
+        "top": 427,
+        "right": 456.5625,
+        "bottom": 443,
+        "left": 305
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 564.890625,
+        "y": 402,
+        "width": 162.109375,
+        "height": 46,
+        "top": 402,
+        "right": 727,
+        "bottom": 448,
+        "left": 564.890625
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 564.890625,
+        "y": 415,
+        "width": 71.125,
+        "height": 20,
+        "top": 415,
+        "right": 636.015625,
+        "bottom": 435,
+        "left": 564.890625
+      },
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(79, 70, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "A",
+      "rect": {
+        "x": 644.015625,
+        "y": 402,
+        "width": 82.984375,
+        "height": 46,
+        "top": 402,
+        "right": 727,
+        "bottom": 448,
+        "left": 644.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 456,
+        "width": 422,
+        "height": 63,
+        "top": 456,
+        "right": 727,
+        "bottom": 519,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 470,
+        "width": 152.34375,
+        "height": 36,
+        "top": 470,
+        "right": 457.34375,
+        "bottom": 506,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 470,
+        "width": 152.34375,
+        "height": 20,
+        "top": 470,
+        "right": 457.34375,
+        "bottom": 490,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 490,
+        "width": 152.34375,
+        "height": 16,
+        "top": 490,
+        "right": 457.34375,
+        "bottom": 506,
+        "left": 305
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 564.0625,
+        "y": 465,
+        "width": 162.9375,
+        "height": 46,
+        "top": 465,
+        "right": 727,
+        "bottom": 511,
+        "left": 564.0625
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 564.0625,
+        "y": 478,
+        "width": 71.953125,
+        "height": 20,
+        "top": 478,
+        "right": 636.015625,
+        "bottom": 498,
+        "left": 564.0625
+      },
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(240, 204, 116)",
+      "opacity": "1"
+    },
+    {
+      "tag": "A",
+      "rect": {
+        "x": 644.015625,
+        "y": 465,
+        "width": 82.984375,
+        "height": 46,
+        "top": 465,
+        "right": 727,
+        "bottom": 511,
+        "left": 644.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 519,
+        "width": 422,
+        "height": 63,
+        "top": 519,
+        "right": 727,
+        "bottom": 582,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 533,
+        "width": 170.546875,
+        "height": 36,
+        "top": 533,
+        "right": 475.546875,
+        "bottom": 569,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 533,
+        "width": 170.546875,
+        "height": 20,
+        "top": 533,
+        "right": 475.546875,
+        "bottom": 553,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 553,
+        "width": 170.546875,
+        "height": 16,
+        "top": 553,
+        "right": 475.546875,
+        "bottom": 569,
+        "left": 305
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 553.109375,
+        "y": 528,
+        "width": 173.890625,
+        "height": 46,
+        "top": 528,
+        "right": 727,
+        "bottom": 574,
+        "left": 553.109375
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 553.109375,
+        "y": 541,
+        "width": 82.90625,
+        "height": 20,
+        "top": 541,
+        "right": 636.015625,
+        "bottom": 561,
+        "left": 553.109375
+      },
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(240, 204, 116)",
+      "opacity": "1"
+    },
+    {
+      "tag": "A",
+      "rect": {
+        "x": 644.015625,
+        "y": 528,
+        "width": 82.984375,
+        "height": 46,
+        "top": 528,
+        "right": 727,
+        "bottom": 574,
+        "left": 644.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 582,
+        "width": 422,
+        "height": 63,
+        "top": 582,
+        "right": 727,
+        "bottom": 645,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 305,
+        "y": 596,
+        "width": 163.0625,
+        "height": 36,
+        "top": 596,
+        "right": 468.0625,
+        "bottom": 632,
+        "left": 305
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 596,
+        "width": 163.0625,
+        "height": 20,
+        "top": 596,
+        "right": 468.0625,
+        "bottom": 616,
+        "left": 305
+      },
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "P",
+      "rect": {
+        "x": 305,
+        "y": 616,
+        "width": 163.0625,
+        "height": 16,
+        "top": 616,
+        "right": 468.0625,
+        "bottom": 632,
+        "left": 305
+      },
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(205, 223, 237)",
+      "opacity": "1"
+    },
+    {
+      "tag": "DIV",
+      "rect": {
+        "x": 554.28125,
+        "y": 591,
+        "width": 172.71875,
+        "height": 46,
+        "top": 591,
+        "right": 727,
+        "bottom": 637,
+        "left": 554.28125
+      },
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    },
+    {
+      "tag": "SPAN",
+      "rect": {
+        "x": 554.28125,
+        "y": 604,
+        "width": 81.734375,
+        "height": 20,
+        "top": 604,
+        "right": 636.015625,
+        "bottom": 624,
+        "left": 554.28125
+      },
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(119, 213, 154)",
+      "opacity": "1"
+    },
+    {
+      "tag": "A",
+      "rect": {
+        "x": 644.015625,
+        "y": 591,
+        "width": 82.984375,
+        "height": 46,
+        "top": 591,
+        "right": 727,
+        "bottom": 637,
+        "left": 644.015625
+      },
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "color": "rgb(243, 238, 229)",
+      "opacity": "1"
+    }
+  ]
+}

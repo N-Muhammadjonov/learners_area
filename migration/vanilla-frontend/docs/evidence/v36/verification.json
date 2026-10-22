@@ -1,0 +1,188 @@
+{
+  "checkpointKind": "V36 actual frontend implementation increment, not sealedZIP/comprehensive product acceptance",
+  "baselineCommit": "e8beca18e3bf9dd51a86691aaff4601d8f1e6bab",
+  "branch": "arena/96836bcf-learners-area",
+  "unit": {
+    "PASS": 595,
+    "FAIL": 0,
+    "SKIP": 0,
+    "newCases": 20
+  },
+  "build": "PASS",
+  "courseBrowser": {
+    "PASS": 92,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "historicalRelevantBrowser": {
+    "historicalFilesRestoredAndHashMatched": true,
+    "files": 1515,
+    "results": [
+      {
+        "suite": "v3",
+        "exitCode": 0,
+        "counts": {
+          "PASS": 49,
+          "FAIL": 0
+        },
+        "expected": 49
+      },
+      {
+        "suite": "v5",
+        "exitCode": 0,
+        "counts": {
+          "PASS": 52,
+          "FAIL": 0,
+          "SKIP": 0
+        },
+        "expected": 52
+      },
+      {
+        "suite": "v10",
+        "exitCode": 0,
+        "counts": {
+          "PASS": 53,
+          "FAIL": 0,
+          "SKIP": 0
+        },
+        "expected": 53
+      }
+    ]
+  },
+  "V35EntryFunctionalFresh": {
+    "PASS": 33,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "V35EntryStrictVisualFresh": {
+    "PASS": 17,
+    "FAIL": 7
+  },
+  "V35HistoricalStrictVisualRetained": {
+    "PASS": 18,
+    "FAIL": 6
+  },
+  "lessonInitialSourceReactVisual": {
+    "PASS": 9,
+    "FAIL": 3
+  },
+  "lessonMeasuredGeometry": {
+    "PASS": 12,
+    "FAIL": 0
+  },
+  "lessonVisualScope": "Original React19.3.0 initial LessonPage+LessonWorkspace+LessonNotesPanel+UI source render, available state, no video/material/recording, isolated metadata, candidate shell/sourceCSS. Not running Next/live integration or state-transition visual acceptance.",
+  "boundedControl": {
+    "unchangedNativeCaptureBytesEqual": true,
+    "conclusion": "Identical unchanged-native control does not prove a reference-harness cause; migrated/reference discrepancy remains unresolved. No threshold changes or retroactive approval."
+  },
+  "fixedDefects": [
+    "stale pending C survives revert to original ACK A while B in flight",
+    "duplicate identical in-flight flush automatically replays failed snapshot"
+  ],
+  "failureEvidence": [
+    "notes-race-before-fix.txt",
+    "duplicate-flush-before-fix.txt"
+  ],
+  "routeAccounting": {
+    "complete": 22,
+    "partial": 18,
+    "notStarted": 68,
+    "total": 108,
+    "staffReserved": 35
+  },
+  "componentAccounting": {
+    "complete": 62,
+    "partial": 19,
+    "notStarted": 125,
+    "total": 206
+  },
+  "newRouteCompletePromotions": 0,
+  "newComponentCompletePromotions": 0,
+  "newZIP": false,
+  "authorizedLiveIntegration": "UNVERIFIED, no production requests/writes",
+  "videoStudio": "NOT IMPLEMENTED; availability notice only; course-specific dependencies recorded",
+  "GrammarParallel": "NOT STARTED, lesson priority; V35consumer preserved",
+  "Phase2Release": "BLOCKED\u2014OWNER DECISION REQUIRED; no new native/inspector/Phase2series",
+  "full499418TimingControls": "NOT RERUN; no comprehensive sealed checkpoint claim",
+  "preservation": {
+    "baseline": "e8beca18e3bf9dd51a86691aaff4601d8f1e6bab",
+    "outsideOriginalFilesSHA256PASS": 2104,
+    "historicalArchivesSHA256PASS": 38,
+    "historicalEvidenceGitBlobBytesPASS": 1515,
+    "originalCSSAssetsFontsDictionariesUnchanged": true,
+    "noOriginalBackendContentStaffDictionaryEdits": true,
+    "V35RuntimeConsumersUnchanged": true,
+    "sharedChange": "Existing LessonNotesPanel writer only: two reproduced coalescing/dedup repairs. No authority/media/journal engine changes.",
+    "newZIP": false
+  },
+  "files": [
+    {
+      "path": "migration/vanilla-frontend/modules/courses/lesson.js",
+      "sha256": "b3c7e77be9b3749acee0ec12050901c92bb9cf64989e1d8cc515a2dd63abfc1b"
+    },
+    {
+      "path": "migration/vanilla-frontend/modules/courses/roadmap.js",
+      "sha256": "6be62154dfeb04746469d79989bf680c8fa459f65f9e3d7fc94954fd8b5f4f78"
+    },
+    {
+      "path": "migration/vanilla-frontend/modules/courses/workspace.js",
+      "sha256": "feab978e0ca26960d7e810dda632708ed3171d646cb2a78e4a1ffc09bf47e47b"
+    },
+    {
+      "path": "migration/vanilla-frontend/modules/notes/lesson-notes.js",
+      "sha256": "f447c25b3f9f212f338eeddb1115886e8b21f3cad5997cc9fff228447d843a7d"
+    },
+    {
+      "path": "migration/vanilla-frontend/js/adapters/course-lesson-v36.js",
+      "sha256": "b3b911ed93e0f1800a0c7a4d2e5b30a5191e350a7ed4094d844cc2a4201d085d"
+    },
+    {
+      "path": "migration/vanilla-frontend/js/generated/course-lesson-v36.js",
+      "sha256": "8b52e9750f173263252ee1e4c4f0897dea9bb64c7b37b1fd3e5e59526bf19324"
+    },
+    {
+      "path": "migration/vanilla-frontend/js/generated/course-workspace-v36.js",
+      "sha256": "7a95ddc6d50cf385c642c9bbda530f2c030ed100e554a66a68f1a11a5514ef58"
+    },
+    {
+      "path": "migration/vanilla-frontend/scripts/convert-course-lesson-v36.mjs",
+      "sha256": "259e78cab51c3e4489ba8eab716a67531c65963361daa6af2823753ce3b03c2d"
+    },
+    {
+      "path": "migration/vanilla-frontend/scripts/reference-course-v36.mjs",
+      "sha256": "b533a1ea60147135df3ab88b62d7b8d6ebecd3b14faa2eda6ce5bd53a52f8354"
+    },
+    {
+      "path": "migration/vanilla-frontend/scripts/regressions-v36.py",
+      "sha256": "28e0d79c3df36ecbdc5c7b1e78e68753d1452d6cc3ebc28b25f992d523310467"
+    },
+    {
+      "path": "migration/vanilla-frontend/tests/browser-course-v36.mjs",
+      "sha256": "77537f3e4b7d55d8e226d493cd44d4c9795e7991961f92031514a168a272a89c"
+    },
+    {
+      "path": "migration/vanilla-frontend/tests/browser-course-visual-v36.mjs",
+      "sha256": "c166e21e43344f5c970127ac21288a8cda48fbd7d64c899e63876528f6e13778"
+    },
+    {
+      "path": "migration/vanilla-frontend/tests/browser-entry-regressions-v36.mjs",
+      "sha256": "a67f432bd47269fdb019285beb9ffcdef2c28dc72dc276bff706963bd55f4a43"
+    },
+    {
+      "path": "migration/vanilla-frontend/tests/browser-visual-control-v36.mjs",
+      "sha256": "7c13f36f9abe63b195f717e3685cb7a6b3a8489cb95360068e2d8be238eb4baa"
+    },
+    {
+      "path": "migration/vanilla-frontend/tests/course-v36-fixtures.mjs",
+      "sha256": "5532daab9176c9fdfe110dd4f3d9873219188756c2f0039dc200fcd906b93aaa"
+    },
+    {
+      "path": "migration/vanilla-frontend/tests/course-v36.test.mjs",
+      "sha256": "4b7c117c117d26550d45188de0cbe47222b0ecddbe0d47991020b00d66a5bf9a"
+    },
+    {
+      "path": "migration/vanilla-frontend/tests/reference-course-v36.json",
+      "sha256": "855ea18ca9bbe41cce75a2200188fa8c812433454089abeb192c86725e393f5a"
+    }
+  ]
+}

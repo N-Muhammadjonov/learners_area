@@ -1,0 +1,6 @@
+{
+  "path": "/home/user/v36-preserved/manifest.json",
+  "sha256": "d80747d3ca645d4f6ca4be0ed1aed7829f03100e7117536b13209e03075be405",
+  "files": 359,
+  "method": "Copy/hash before removing only backed-up untracked paths, then same-branch FF; no tracked discard/reset/clean."
+}

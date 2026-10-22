@@ -1,0 +1,330 @@
+{
+  "read": [
+    {
+      "source": "src/app/app/(shell)/courses/ielts/lessons/[lessonId]/page.tsx",
+      "sha256": "ed5e7486b609fb15f787140c4901fe6a66dc857246eb32d950e8d06bef809b5a",
+      "lines": 128,
+      "imports": [
+        "@/components/ui/BackLink",
+        "next/link",
+        "next/navigation",
+        "@/lib/auth/current-user",
+        "@/lib/i18n",
+        "@/lib/data/roadmap",
+        "@/lib/services/lessons/state",
+        "@/components/ui/Card",
+        "@/components/ui/Badge",
+        "@/components/courses/LessonWorkspace",
+        "@/components/courses/VideoLessonStudio",
+        "@/lib/data/video-lessons",
+        "@/lib/validation/ids",
+        "@/lib/services/video/direct",
+        "next/headers",
+        "@/lib/config/site",
+        "@/lib/services/video/embed-origin",
+        "@/components/resources/OwnerMaterialBlocks"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/components/courses/LessonWorkspace.tsx",
+      "sha256": "f3a7854eb64a57af7b34a20e85ab323b6abb38746f1081401c62fef108abd502",
+      "lines": 99,
+      "imports": [
+        "@/lib/http/use-scoped-response",
+        "react",
+        "@/components/ui/Button",
+        "@/components/notes/LessonNotesPanel",
+        "@/components/ui/Card",
+        "@/lib/i18n/en",
+        "@/lib/time"
+      ],
+      "APIReferences": [
+        "/api/lessons/${lessonId}/state",
+        "/api/lessons/:id/notes"
+      ]
+    },
+    {
+      "source": "src/components/notes/LessonNotesPanel.tsx",
+      "sha256": "caaf4c4cffe28f38aae392f41586da8d2c7de073ac48c4bc7fd106683af8eb19",
+      "lines": 251,
+      "imports": [
+        "react",
+        "@/components/ui/Input",
+        "@/lib/i18n/en",
+        "@/lib/http/client-request"
+      ],
+      "APIReferences": [
+        "/api/lessons/${lessonId}/notes"
+      ]
+    },
+    {
+      "source": "src/lib/data/roadmap.ts",
+      "sha256": "bac6bfcb43c86ffed0dbb3c5ebfe491773a8e176cbf16ec7a19a4803a5b15f1f",
+      "lines": 89,
+      "imports": [
+        "drizzle-orm",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/services/notes/lesson-notes",
+        "@/lib/services/cms/publication"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/lib/services/lessons/state.ts",
+      "sha256": "601d604effb6598ec0205d4d1499224dc5cc9ecf2088daf089cdaebda756eca7",
+      "lines": 48,
+      "imports": [],
+      "APIReferences": []
+    },
+    {
+      "source": "src/lib/services/notes/lesson-notes.ts",
+      "sha256": "1cc74f8598b9f90ab85f3f30b52f9898a9ae1f5b3ef802bb1b11124d432f1ac2",
+      "lines": 123,
+      "imports": [
+        "drizzle-orm",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/services/cms/publication",
+        "not open"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/components/courses/VideoLessonStudio.tsx",
+      "sha256": "ee2a87c60897a64d21291c0613611b546fe72464e4d12011327462d62b3a3ee5",
+      "lines": 619,
+      "imports": [
+        "react",
+        "@/lib/i18n/en",
+        "@/components/audio/LocalReflectionRecorder",
+        "./TedStudyPractice",
+        "./VideoVocabulary",
+        "@/components/vocabulary/ClickableText",
+        "@/components/ui/Button",
+        "@/lib/services/video/provider",
+        "@/components/courses/DirectMediaPlayer"
+      ],
+      "APIReferences": [
+        "/api/video-lessons/${videoLesson.id}/${kind}",
+        "/api/video-lessons/${videoLesson.id}/progress"
+      ]
+    },
+    {
+      "source": "src/components/courses/DirectMediaPlayer.tsx",
+      "sha256": "5f504cc352ed0752a3f9db85b2750ef76df655b3331c6dd132bd0cf7b28f2eed",
+      "lines": 107,
+      "imports": [
+        "react"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/components/courses/VideoVocabulary.tsx",
+      "sha256": "1d96eff44201c4ba33208e50878982decc027f37a9900041b2b4462956a8f465",
+      "lines": 37,
+      "imports": [
+        "react",
+        "next/link",
+        "@/lib/i18n/en",
+        "@/lib/http/use-scoped-request",
+        "@/lib/api-error-message"
+      ],
+      "APIReferences": [
+        "/api/video-lessons/${id}/vocabulary"
+      ]
+    },
+    {
+      "source": "src/components/audio/LocalReflectionRecorder.tsx",
+      "sha256": "1061fac0d88f33ea258c477b19c23a86b846edd9c3f0c2665f9195213a163101",
+      "lines": 103,
+      "imports": [
+        "react",
+        "@/lib/audio/recorder",
+        "@/lib/i18n/en"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/components/resources/OwnerMaterialBlocks.tsx",
+      "sha256": "3eae001277978ce2bda3adaa55f7228f51cd338fee64bfde9e43ce8dfe592d95",
+      "lines": 34,
+      "imports": [
+        "@/lib/data/resources",
+        "@/lib/services/resources/owners",
+        "@/components/resources/ResourceBlocks",
+        "@/lib/i18n"
+      ],
+      "APIReferences": [
+        "/api/resources/<key>"
+      ]
+    },
+    {
+      "source": "src/components/resources/ResourceBlocks.tsx",
+      "sha256": "04652a9b1d827a270d7589c1a686a893c137ad1c1ce1b0c5ebf1f20f6f5834ce",
+      "lines": 90,
+      "imports": [
+        "@/components/vocabulary/ClickableText",
+        "@/components/ui/icons",
+        "@/lib/i18n/en",
+        "@/lib/data/resources"
+      ],
+      "APIReferences": [
+        "/api/resources/${block.objectKey}",
+        "/api/resources/<key>"
+      ]
+    },
+    {
+      "source": "src/components/vocabulary/ClickableText.tsx",
+      "sha256": "c0262237dc6ed98af0b33aacd82a1763da97be65dd0f26b8eeb517b3daa3db5d",
+      "lines": 580,
+      "imports": [
+        "@/lib/client/private-resource",
+        "react",
+        "react-dom",
+        "@/lib/http/client-request",
+        "@/lib/services/lexical/occurrence-spans",
+        "@/lib/i18n/en"
+      ],
+      "APIReferences": [
+        "/api/vocabulary",
+        "/api/vocabulary/folders",
+        "/api/vocabulary/lookup?sourceType=${encodeURIComponent(sourceType",
+        "/api/vocabulary/meaning?sourceId=${encodeURIComponent(sourceId",
+        "/api/vocabulary/search?q=${encodeURIComponent(word"
+      ]
+    },
+    {
+      "source": "src/lib/services/video/provider.ts",
+      "sha256": "eefaefe58adcb1a9f9ccb76e48750456a912a59f208186a71e673d3558ee0468",
+      "lines": 150,
+      "imports": [],
+      "APIReferences": []
+    },
+    {
+      "source": "src/lib/services/video/direct.ts",
+      "sha256": "4e1748c311db193bd45007a970b403f23ddfc83816f61c4ee82c0d7443bcef08",
+      "lines": 9,
+      "imports": [
+        "@/lib/config/site",
+        "@/lib/services/video/provider"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/lib/services/video/embed-origin.ts",
+      "sha256": "0c5d952b768b0d39da85cb2165d35172c847602ebf2a46c581c14612202deffa",
+      "lines": 54,
+      "imports": [
+        "@/lib/config/site"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/lib/data/video-lessons.ts",
+      "sha256": "58593f8d8c10f65787f38038f944b35df828be0cea286abec27d75f8484aec8a",
+      "lines": 499,
+      "imports": [
+        "@/lib/services/activity",
+        "drizzle-orm",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/services/video/provider",
+        "@/lib/config/site",
+        "@/lib/services/lexical/reading-occurrences",
+        "@/lib/services/cms/publication",
+        "@/lib/content/versions"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/lib/data/resources.ts",
+      "sha256": "98b89b02f7bb2841c5c74be6d24d9471bacc81821563bfef7ef2da9cba2933c3",
+      "lines": 202,
+      "imports": [
+        "drizzle-orm",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/data/uploads",
+        "@/lib/services/resources/owners"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/components/ui/Card.tsx",
+      "sha256": "48e12246832427420a1f21131ece34575d37e750e15097bb8d56fae9a544cb77",
+      "lines": 23,
+      "imports": [
+        "react"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/components/ui/Button.tsx",
+      "sha256": "68a5e25438627d33d2d16635b3804c64f6579dffcab9ddea1cb7a9f68ebca8d1",
+      "lines": 22,
+      "imports": [
+        "react"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/components/ui/Badge.tsx",
+      "sha256": "9339b9d9658b9084ce874ec4690fa038de466bb8684a9dee6928a687cb575a98",
+      "lines": 48,
+      "imports": [],
+      "APIReferences": []
+    },
+    {
+      "source": "src/components/ui/BackLink.tsx",
+      "sha256": "7b5090d0da98b20cd0e6e4588d4c3bb86727a9fdaff9d12a979c824eef00c93f",
+      "lines": 49,
+      "imports": [
+        "next/link",
+        "next/navigation",
+        "react",
+        "@/lib/navigation/back"
+      ],
+      "APIReferences": []
+    },
+    {
+      "source": "src/app/api/lessons/[id]/notes/route.ts",
+      "sha256": "c06fb012e811f607b9143b3d63c1ec53605683ccfaf8891826f5e977471a91ed",
+      "lines": 64,
+      "imports": [
+        "next/server",
+        "zod",
+        "@/lib/validation/ids",
+        "@/lib/auth/current-user",
+        "@/lib/services/notes/lesson-notes"
+      ],
+      "APIReferences": [
+        "/api/lessons/:id/notes"
+      ]
+    },
+    {
+      "source": "src/app/api/lessons/[id]/state/route.ts",
+      "sha256": "e8f0e0886120fc927fa8df1b80ac109f3eb2b30b5fc87ad6eba527e1cd539c11",
+      "lines": 82,
+      "imports": [
+        "@/lib/services/cms/publication",
+        "@/lib/validation/ids",
+        "next/server",
+        "zod",
+        "drizzle-orm",
+        "@/db/client",
+        "@/db/schema",
+        "@/lib/auth/current-user",
+        "@/lib/services/lessons/state",
+        "@/lib/services/activity",
+        "@/lib/services/notes/lesson-notes"
+      ],
+      "APIReferences": [
+        "/api/lessons/:id/state"
+      ]
+    }
+  ],
+  "VideoTranscriptDialog": "No such separate component in this checkout; transcript is a VideoLessonStudio tab. Do not invent a missing component.",
+  "videoDeferred": "Full619line VideoLessonStudio not implemented; preserve provider,origin,progress,recording/transcript dependencies for V37."
+}

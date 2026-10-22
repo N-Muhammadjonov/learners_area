@@ -1,0 +1,11 @@
+{
+  "baseline": "e8beca18e3bf9dd51a86691aaff4601d8f1e6bab",
+  "outsideOriginalFilesSHA256PASS": 2104,
+  "historicalArchivesSHA256PASS": 38,
+  "historicalEvidenceGitBlobBytesPASS": 1515,
+  "originalCSSAssetsFontsDictionariesUnchanged": true,
+  "noOriginalBackendContentStaffDictionaryEdits": true,
+  "V35RuntimeConsumersUnchanged": true,
+  "sharedChange": "Existing LessonNotesPanel writer only: two reproduced coalescing/dedup repairs. No authority/media/journal engine changes.",
+  "newZIP": false
+}

@@ -1,0 +1,9 @@
+/** Original presentation only. Backend/React hooks are never copied into runtime. */
+import fs from 'node:fs';import path from 'node:path';import ts from 'typescript';
+const b=path.resolve(import.meta.dirname,'..'),r=path.resolve(b,'../..');if(!fs.existsSync(path.join(r,'src')))process.exit(0);
+function expr(file,name){const t=fs.readFileSync(path.join(r,file),'utf8'),a=ts.createSourceFile('source.tsx',t,ts.ScriptTarget.Latest,true),f=a.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name);return f.body.statements.filter(ts.isReturnStatement).at(-1).expression.getText(a);}
+const compile=s=>ts.transpileModule(s,{fileName:'course.tsx',compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022,jsx:ts.JsxEmit.React,jsxFactory:'h',jsxFragmentFactory:'fragment'}}).outputText;
+const imports="import {h,fragment} from '../native.js';import {Card} from './ui.js';import {StateBadge} from './badges.js';import {BackLink,Button} from '../../modules/shared/presentation.js';import {formatDate} from './time.js';\n";
+const lesson=expr('src/app/app/(shell)/courses/ielts/lessons/[lessonId]/page.tsx','LessonPage').replace(/<VideoLessonStudio[\s\S]*?\/>/,'videoNotice()');
+fs.writeFileSync(path.join(b,'js/generated/course-lesson-v36.js'),'// Original JSX; missing VideoStudio explicitly surfaced, never substituted with an iframe.\n'+imports+compile(`export function render({dict,lesson,unitTitle,state,notes,completedAt,openable,video,videoNotice,OwnerMaterialBlocks,LessonWorkspace}){return ${lesson};}`));
+fs.writeFileSync(path.join(b,'js/generated/course-workspace-v36.js'),imports+compile(`export function render({dict,lessonId,current,busy,error,completedAt,showNotes,initialNotes,move,LessonNotesPanel}){const t=dict.courseRoadmap;return ${expr('src/components/courses/LessonWorkspace.tsx','LessonWorkspace')};}`));

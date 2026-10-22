@@ -1,0 +1,38 @@
+{
+  "scope": "V35 actual route consumers; isolated fixtures. ReactSSR reference in migrated shell/sourceCSS, NOT running original Next/live/production acceptance.",
+  "referenceMethod": "Original React19.3.0 SSR of original pure JSX and original Card/Badge/ProgressBar; isolated metadata; same candidate shell/extracted sourceCSS. Not a running Next.js/live reference. Only success Writing state compared for Grammar.",
+  "captureControl": "Screenshot context ONLY: freeze existing animation times equally for both captures. Product CSS/motion unchanged; no motion acceptance claimed.",
+  "visualResults": [
+    {
+      "name": "course/1440x900/en/night",
+      "status": "FAIL",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 33,
+      "maxChannelDelta": 1
+    }
+  ],
+  "visualCounts": {
+    "PASS": 0,
+    "FAIL": 1
+  },
+  "results": [
+    {
+      "name": "course original-React fixture parity and interaction 1440x900/en/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": false,
+        "geometryEqual": true,
+        "migratedSHA256": "cb2ed6129a2fe4d0aed638887f590fdc4b36d08e1d54b514dd0df8fa2e0effea",
+        "referenceSHA256": "16cb13f1671af575ef4b1255c222de00108609317bb800f88a8e6aef22f6069e",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    }
+  ],
+  "counts": {
+    "PASS": 1,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

@@ -1,0 +1,466 @@
+{
+  "plan": "One fixed desktop ENnight course case, two captures of identical unchanged native DOM before reference replacement. No threshold change or production claim.",
+  "unchangedNativeCaptureBytesEqual": true,
+  "rootTheme": "night",
+  "computedStyles": [
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "H1",
+      "font": "650 24px / 32px LA-Sora, LA-Geist, system-ui, sans-serif, Georgia, serif",
+      "fontFamily": "LA-Sora, LA-Geist, system-ui, sans-serif, Georgia, serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "-0.24px",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "H2",
+      "font": "650 18px / 28px LA-Sora, LA-Geist, system-ui, sans-serif, Georgia, serif",
+      "fontFamily": "LA-Sora, LA-Geist, system-ui, sans-serif, Georgia, serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "-0.18px",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(8, 32, 68, 0.4)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "500 14px / 20px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(234, 239, 247)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "SPAN",
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgb(58, 105, 151)",
+      "color": "rgb(225, 233, 243)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(205, 223, 237)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "SPAN",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "A",
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(8, 32, 68, 0.4)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(205, 223, 237)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "SPAN",
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgb(30, 29, 60)",
+      "color": "rgb(79, 70, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "A",
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(8, 32, 68, 0.4)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(205, 223, 237)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "SPAN",
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(240, 204, 116, 0.1)",
+      "color": "rgb(240, 204, 116)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "A",
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(8, 32, 68, 0.4)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(205, 223, 237)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "SPAN",
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(240, 204, 116, 0.1)",
+      "color": "rgb(240, 204, 116)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "A",
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(8, 32, 68, 0.4)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 14px / 20px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "P",
+      "font": "450 12px / 16px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(205, 223, 237)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "DIV",
+      "font": "450 16px / 25.6px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "SPAN",
+      "font": "500 12px / 16px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(119, 213, 154, 0.1)",
+      "color": "rgb(119, 213, 154)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    },
+    {
+      "tag": "A",
+      "font": "500 15px / 24px LA-Geist, system-ui, sans-serif",
+      "fontFamily": "LA-Geist, system-ui, sans-serif",
+      "background": "rgba(8, 32, 68, 0.4)",
+      "color": "rgb(243, 238, 229)",
+      "letterSpacing": "normal",
+      "textRendering": "auto"
+    }
+  ]
+}

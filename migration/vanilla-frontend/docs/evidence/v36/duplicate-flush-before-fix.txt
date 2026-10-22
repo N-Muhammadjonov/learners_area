@@ -1,0 +1,153 @@
+TAP version 13
+# Subtest: source isOpen and detail locked
+ok 1 - source isOpen and detail locked
+  ---
+  duration_ms: 1.630705
+  type: 'test'
+  ...
+# Subtest: source isOpen and detail scheduled
+ok 2 - source isOpen and detail scheduled
+  ---
+  duration_ms: 0.288385
+  type: 'test'
+  ...
+# Subtest: source isOpen and detail available
+ok 3 - source isOpen and detail available
+  ---
+  duration_ms: 0.236392
+  type: 'test'
+  ...
+# Subtest: source isOpen and detail assigned
+ok 4 - source isOpen and detail assigned
+  ---
+  duration_ms: 0.328746
+  type: 'test'
+  ...
+# Subtest: source isOpen and detail in_progress
+ok 5 - source isOpen and detail in_progress
+  ---
+  duration_ms: 0.434859
+  type: 'test'
+  ...
+# Subtest: source isOpen and detail completed
+ok 6 - source isOpen and detail completed
+  ---
+  duration_ms: 0.342237
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.ownerId='foreign'
+ok 7 - reject invalid/foreign detail d=>d.detail.ownerId='foreign'
+  ---
+  duration_ms: 0.360239
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.lesson.id='wrong'
+ok 8 - reject invalid/foreign detail d=>d.detail.lesson.id='wrong'
+  ---
+  duration_ms: 0.230613
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.state='new-state'
+ok 9 - reject invalid/foreign detail d=>d.detail.state='new-state'
+  ---
+  duration_ms: 0.315156
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.lesson.recordingUrl='https://bucket.invalid/private'
+ok 10 - reject invalid/foreign detail d=>d.detail.lesson.recordingUrl='https://bucket.invalid/private'
+  ---
+  duration_ms: 0.317052
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.notes={}
+ok 11 - reject invalid/foreign detail d=>d.detail.notes={}
+  ---
+  duration_ms: 0.243755
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.completedAt='bad'
+ok 12 - reject invalid/foreign detail d=>d.detail.completedAt='bad'
+  ---
+  duration_ms: 0.159298
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.materialBlocks={}
+ok 13 - reject invalid/foreign detail d=>d.detail.materialBlocks={}
+  ---
+  duration_ms: 0.126985
+  type: 'test'
+  ...
+# Subtest: reject invalid/foreign detail d=>d.detail.videoAvailable=null
+ok 14 - reject invalid/foreign detail d=>d.detail.videoAvailable=null
+  ---
+  duration_ms: 0.114618
+  type: 'test'
+  ...
+# Subtest: closed projections reject hidden notes/material/video
+ok 15 - closed projections reject hidden notes/material/video
+  ---
+  duration_ms: 0.338298
+  type: 'test'
+  ...
+# Subtest: exact state ACK only; no optimistic success
+ok 16 - exact state ACK only; no optimistic success
+  ---
+  duration_ms: 0.355822
+  type: 'test'
+  ...
+# Subtest: state singleflight leaves notes node/focus intact while pending and on acknowledgement
+ok 17 - state singleflight leaves notes node/focus intact while pending and on acknowledgement
+  ---
+  duration_ms: 84.670317
+  type: 'test'
+  ...
+# Subtest: old note ACK cannot mark new text Saved; newer edit is serialized
+ok 18 - old note ACK cannot mark new text Saved; newer edit is serialized
+  ---
+  duration_ms: 35.265805
+  type: 'test'
+  ...
+# Subtest: reverting to old ACK during a pending different write must serialize restoration of current text
+ok 19 - reverting to old ACK during a pending different write must serialize restoration of current text
+  ---
+  duration_ms: 15.538412
+  type: 'test'
+  ...
+# Subtest: duplicate flushes during a failed in-flight snapshot never cause uncertain automatic replay
+not ok 20 - duplicate flushes during a failed in-flight snapshot never cause uncertain automatic replay
+  ---
+  duration_ms: 21.283135
+  type: 'test'
+  location: '/home/user/learners_area/migration/vanilla-frontend/tests/course-v36.test.mjs:11:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+        'B',
+    +   'B'
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'B'
+  actual:
+    0: 'B'
+    1: 'B'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///home/user/learners_area/migration/vanilla-frontend/tests/course-v36.test.mjs:11:645)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 19
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 581.808492

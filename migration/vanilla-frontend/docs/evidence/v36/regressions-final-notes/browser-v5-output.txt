@@ -1,0 +1,221 @@
+{
+  "date": "2026-10-22T12:33:52.848Z",
+  "browser": "Chromium133",
+  "integration": "ISOLATED CONTRACT FIXTURES; NOT LIVE",
+  "originalVisualComparisons": 0,
+  "results": [
+    {
+      "name": "complete menu/name/photo lifecycle 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete menu/name/photo lifecycle 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete menu/name/photo lifecycle 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete menu/name/photo lifecycle 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete menu/name/photo lifecycle 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete menu/name/photo lifecycle 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete menu/name/photo lifecycle 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete menu/name/photo lifecycle 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete menu/name/photo lifecycle 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete menu/name/photo lifecycle 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete menu/name/photo lifecycle 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete menu/name/photo lifecycle 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete onboarding fields/validation/retry/locale 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "sidebar pending destination uses source60ms feedback, back cancels and late code cannot replace route",
+      "status": "PASS"
+    },
+    {
+      "name": "cross-tab name/session reprojection refreshes same-role identity, storage fallback works without BroadcastChannel",
+      "status": "PASS"
+    },
+    {
+      "name": "private focus and utilities preserve keyboard focus and never hijack a field Escape",
+      "status": "PASS"
+    },
+    {
+      "name": "preview diagnostics observe real local actions without values/query/identity and stop after navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "shell notification inbox acknowledges only server success and mark-all clears real badge",
+      "status": "PASS"
+    },
+    {
+      "name": "both broadcast and storage unavailable still reproject authority on resume",
+      "status": "PASS"
+    },
+    {
+      "name": "cold protected loader is data-free and interrupted session bootstrap cannot reveal the late identity",
+      "status": "PASS"
+    },
+    {
+      "name": "profile Telegram link purpose/bound pair/cleanup cancel",
+      "status": "PASS"
+    },
+    {
+      "name": "profile Telegram link purpose/bound pair/cleanup conflict",
+      "status": "PASS"
+    },
+    {
+      "name": "profile Telegram link purpose/bound pair/cleanup linked",
+      "status": "PASS"
+    },
+    {
+      "name": "shared ConfirmSelect real top-layer keyboard/cancel/pending/error/retry is not a staff action or local role grant",
+      "status": "PASS"
+    },
+    {
+      "name": "locale shell refresh preserves independent sidebar/main positions and keyboard focus",
+      "status": "PASS"
+    },
+    {
+      "name": "persistent header locale waits for current profile mutation without replay and transfers keyboard focus",
+      "status": "PASS"
+    },
+    {
+      "name": "typing during locale persistence retains profile draft/focus/caret instead of stealing focus back to locale",
+      "status": "PASS"
+    },
+    {
+      "name": "late photo mutation after route cancellation cannot dispatch avatar updates or replay upload",
+      "status": "PASS"
+    },
+    {
+      "name": "URL/local storage cannot enable diagnostics or expose typed values without server approval",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "complete notification inbox load/malformed/retry/read-all/empty journey 1440/uz/night",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 52,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

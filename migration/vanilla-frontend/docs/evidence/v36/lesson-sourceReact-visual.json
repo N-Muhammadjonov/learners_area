@@ -1,0 +1,155 @@
+{
+  "scope": "Original React19.3.0 initial LessonPage+LessonWorkspace+LessonNotesPanel+UI source render, available state, no video/material/recording, isolated metadata, candidate shell/sourceCSS. Not running Next/live integration or state-transition visual acceptance.",
+  "visual": [
+    {
+      "name": "lesson-1440-en-day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "lesson-1440-en-night",
+      "status": "FAIL",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 7,
+      "maxChannelDelta": 1
+    },
+    {
+      "name": "lesson-1440-uz-day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "lesson-1440-uz-night",
+      "status": "FAIL",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 7,
+      "maxChannelDelta": 1
+    },
+    {
+      "name": "lesson-768-en-day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "lesson-768-en-night",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "lesson-768-uz-day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "lesson-768-uz-night",
+      "status": "FAIL",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 1,
+      "maxChannelDelta": 1
+    },
+    {
+      "name": "lesson-390-en-day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "lesson-390-en-night",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "lesson-390-uz-day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "lesson-390-uz-night",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    }
+  ],
+  "counts": {
+    "PASS": 9,
+    "FAIL": 3
+  },
+  "execution": [
+    {
+      "name": "lesson initial sourceReact visual 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson initial sourceReact visual 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson initial sourceReact visual 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson initial sourceReact visual 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson initial sourceReact visual 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson initial sourceReact visual 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson initial sourceReact visual 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson initial sourceReact visual 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson initial sourceReact visual 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson initial sourceReact visual 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson initial sourceReact visual 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson initial sourceReact visual 390/uz/night",
+      "status": "PASS"
+    }
+  ]
+}
