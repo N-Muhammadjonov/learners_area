@@ -1,0 +1,154 @@
+{
+  "roleIdentified": "Human project owner / project acceptance decision role, evidenced by owner dossier/manual QA pack; not automatically an application Owner-role account.",
+  "namedPersonOrDelegation": null,
+  "verifiedSigningAuthority": null,
+  "existingPhase2Approval": null,
+  "accessibleAuthorizedSubmissionMechanism": null,
+  "existingProcessEvidence": "Direct explicit, scoped owner response is recorded for Preview migrations0029\u20130035. It is a precedent ONLY for that fingerprinted DB task, not authorization or a binding approval protocol for vanilla Phase2. Owner QA pack provides human review/failure feedback, not delegated migration release authority.",
+  "delivery": "Prepare owner-ready packet in this branch and return it to task requester for routing to the real project owner. Do not open/assign an issue, PR, send messages, impersonate anyone, or infer that repository handle/author/task requester/demoOwner is the signer. Request actual identity/delegation and authoritative recorded decision.",
+  "decision": "EXTERNAL RELEASE ACCEPTANCE BLOCKED",
+  "preparedDate": "2026-10-22",
+  "approvalDate": null,
+  "approvedRule": null,
+  "policyFields": {
+    "acceptancePopulation": null,
+    "requiredEnvironment": null,
+    "reliabilityThreshold": null,
+    "historicalFailureTreatment": null,
+    "transientNativeRetention": null,
+    "inspectorOwnership": null,
+    "nativeOpaqueConditions": null,
+    "signingAuthority": null,
+    "decisionDateVersion": null,
+    "authorizedOutcome": null
+  },
+  "additionalDiagnosticRuns": 0,
+  "references": [
+    {
+      "id": "owner-role",
+      "path": "docs/OWNER-DOSSIER.md",
+      "line": 3,
+      "sha256": "db57f2c978fd1bb0e9ffd268ea8bafedba6128e8a69e5820e59760b385c55a1c",
+      "quote": "Prepared for the owner. Every result below carries exactly one status label from the mandated set."
+    },
+    {
+      "id": "owner-external-decision",
+      "path": "docs/OWNER-DOSSIER.md",
+      "line": 10,
+      "sha256": "db57f2c978fd1bb0e9ffd268ea8bafedba6128e8a69e5820e59760b385c55a1c",
+      "quote": "`EXTERNAL_ACCEPTANCE_REQUIRED` \u00b7 `OWNER_DECISION_REQUIRED` \u00b7 `NOT_YET_EXECUTED`."
+    },
+    {
+      "id": "deployment-not-approval",
+      "path": "docs/OWNER-DOSSIER.md",
+      "line": 110,
+      "sha256": "db57f2c978fd1bb0e9ffd268ea8bafedba6128e8a69e5820e59760b385c55a1c",
+      "quote": "Vercel `success` does not authorise cutover, and none of the above is offered as cutover evidence."
+    },
+    {
+      "id": "manual-owner-process",
+      "path": "docs/MANUAL-QA-OWNER-PACK.md",
+      "line": 251,
+      "sha256": "c9bcec2fcee5496ccb2c0fad0b07ab8b34b498edf2b6e374c292488959708df6",
+      "quote": "### E6. Visual decisions reserved for you"
+    },
+    {
+      "id": "manual-not-go",
+      "path": "docs/MANUAL-QA-OWNER-PACK.md",
+      "line": 293,
+      "sha256": "c9bcec2fcee5496ccb2c0fad0b07ab8b34b498edf2b6e374c292488959708df6",
+      "quote": "- **This is not Production GO.** Manual QA readiness and production authorization are different states;"
+    },
+    {
+      "id": "explicit-scoped-precedent",
+      "path": "docs/PREVIEW-MIGRATION-APPROVAL-2026-10-03.md",
+      "line": 27,
+      "sha256": "f3dea3693db6c64d397e53a9b8b0fc1702b7ceba37be0ca08c8e0a5ee62dcc1c",
+      "quote": "User request section 30 explicitly requires one owner approval. Approval sought: apply only these seven migrations to the fingerprinted Preview, after fresh recovery protection is verified. Approval received directly from the owner: \u201cTasdiqlayman\u201d. Authorization is limited to pending 0029\u20130035 on this fingerprint and remains conditional on fresh verified recovery protection. After approval, safely update the apply allowlist (not the Drizzle journal), verify identity again, then schema/journal/data/roster checks and the eight Writing tabs. Production remains excluded."
+    },
+    {
+      "id": "latest-owner-instruction",
+      "path": "docs/arena-package/2026-10-01/Arena_implementation_and_acceptance_2026-10-01_v2.txt",
+      "line": 27,
+      "sha256": "bbb9e9e0d7138944bf746b1ad1033b61d73891f186ed353c44fb555f7585f476",
+      "quote": "A. This current owner request + this corrective package override conflicting historical briefs."
+    },
+    {
+      "id": "original-one-identity",
+      "path": "src/lib/listening/original-test-one.ts",
+      "line": 5,
+      "sha256": "0c0390d8052e6fedc8055f46a8e62cb7ad94bb572e40da8b43e20e3bd5ac0a3f",
+      "quote": "export const ORIGINAL_TEST_ONE_ID = 'e44e3d4b-3af6-41a9-b465-7d4bc21e1019';"
+    },
+    {
+      "id": "original-batch-definition",
+      "path": "src/lib/listening/original-listening.ts",
+      "line": 11,
+      "sha256": "c3588632790d5d83c0fcfed556235f41acde1600baf34f435b45f8853af4f419",
+      "quote": "export function originalListeningDefinition(id:string,sourceId:string):OriginalListeningDefinition|null {"
+    },
+    {
+      "id": "publication-contract",
+      "path": "src/lib/data/full-listening.ts",
+      "line": 29,
+      "sha256": "b9c0c5c66a0d3e91b53cb5c4c9188851aa1e13b1df36b9ee16fdd82bfa727899",
+      "quote": "  return row && (isStaff(role) || isLive(row.test)) ? row : null;"
+    },
+    {
+      "id": "source-mapping-contract",
+      "path": "src/app/api/listening/full/[id]/authored/route.ts",
+      "line": 19,
+      "sha256": "c66fe8cbe9e9532cd67dfde5ccfe9ab804dd44ba1cf2331a1ef889c17429e127",
+      "quote": " const definition=detail?originalListeningDefinition(id,detail.pkg.sourceId):null;const original=!!definition;const runtime=original?await originalListeningRuntime(id,detail!.pkg.sourceId):detail?.pkg.payload.authoredRuntime;"
+    },
+    {
+      "id": "sequence-contract",
+      "path": "src/app/api/listening/full/[id]/authored-state/route.ts",
+      "line": 20,
+      "sha256": "8d24f8bb980c8b089536994232284aff9d939491083eba23ae3cfbc113859b00",
+      "quote": "  if(!await listeningSequenceAccess(user,id))return {response:NextResponse.json({error:'sequence_locked'},{status:403,headers})};"
+    },
+    {
+      "id": "own-current-checkpoint",
+      "path": "src/lib/data/listening-original-state.ts",
+      "line": 16,
+      "sha256": "14d8a2685c8c095d70416fc03b6868f2cf054115ed72de7cd113cdad92955e09",
+      "quote": "  const row = await database.query.listeningAuthoredCheckpoints.findFirst({where:scope(userId,testId)});"
+    },
+    {
+      "id": "current-fallback-not-history-selector",
+      "path": "src/lib/data/listening-original-state.ts",
+      "line": 20,
+      "sha256": "14d8a2685c8c095d70416fc03b6868f2cf054115ed72de7cd113cdad92955e09",
+      "quote": "  const attempt=await database.query.listeningAttempts.findFirst({where:and(eq(listeningAttempts.userId,userId),eq(listeningAttempts.testId,testId)),orderBy:desc(listeningAttempts.startedAt)});"
+    },
+    {
+      "id": "get-may-normalize-state",
+      "path": "src/lib/data/listening-original-state.ts",
+      "line": 27,
+      "sha256": "14d8a2685c8c095d70416fc03b6868f2cf054115ed72de7cd113cdad92955e09",
+      "quote": "  await database.insert(listeningAuthoredCheckpoints).values({userId,testId,values,attemptId:attempt.id}).onConflictDoNothing();"
+    },
+    {
+      "id": "prior-comprehensive-open",
+      "path": "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V21.md",
+      "line": 3,
+      "sha256": "97ec3a9d21e8a2cdf92cfcad427d8d71eac39efdd5a808a0f28ddb5aab4e6efd",
+      "quote": "New interface-only fragment grammar: #review/part/1..4 optionally /question/1..40, with strict question-to-part agreement. Bare #review retained. These are UI locations, NEVER canonical attempts or authorization. No new HTTP endpoint or server payload. Parent uses existing V20 metadata barrier for direct Review entry and same-document history/hash intent; initial sandbox stays at hub until fresh own canonical state/session/progress availability is validated. Existing source controls open the activity/select the part; no original HTML/grading engine rewritten. Latest navigation intent coalesces during validation without incrementing authority churn. Explicit applied\u2192focus acknowledgments fence visible/noninteractive phase and focus restoration, with eight-second local failure deadline and explicit existing Retry. Parent/child source/window/token/sequence checks; stale frame load callback cannot publish a document into a replacement frame. One-shot load initialization, per-frame AbortController, owned RAF/debounced scroll timer cleanup. Generic authority hints do NOT refocus/reopen a location. Both existing writers/journals and UIepoch vs route-disposal distinction retained. Router onHistory is opt-in; other routes retain normal disposal. Only UI scroll/history keys enter history.state, not answers/identity/capabilities. Unsupported part URLs produce an explicit safe notice, no guessed part. Original activity hashes retained for native source controls. Previous-attempt selector/heterogeneous catalogue/sequence/publication comprehensive verification remains OPEN."
+    },
+    {
+      "id": "strict-case",
+      "path": "migration/vanilla-frontend/tests/browser-v6.mjs",
+      "line": 53,
+      "sha256": "46260dbf7089f85739dcdf03a2f8293b2c43ab72569688bb3fc674fd30f0b523",
+      "quote": "await check('Phase2 repeated real content navigation retains shell and bounded DOM/listeners',async()=>{const {context,page}=await fixture({handler:async({route,path,u})=>{if(path!=='/api/frontend/view')return false;const key=u.searchParams.get('route'),data=key.startsWith('/app/reports')?{reporter:{query:'',scopes:['student'],students:[]}}:{dashboard:summary(),openLessonsResult:{ok:true,lessons:[]},mock:mocks()};await route.fulfill({json:{version:1,route:key,region:u.searchParams.get('region')??undefined,data}});return true;}});try{await page.goto(base+'/app/reports');await page.locator('[data-reporter-form]').waitFor();await page.evaluate(()=>{window.__stableShell=document.querySelector('[data-shell]');window.__phase2Go=path=>{const a=document.createElement('a');a.href=path;document.querySelector('[data-shell-main]').append(a);a.click();a.remove();};});for(const path of ['/app','/app/mocks','/app/reports']){await page.evaluate(p=>window.__phase2Go(p),path);await page.locator(path==='/app'?'[data-dashboard-content]':path==='/app/mocks'?'[data-mocks-content]':'[data-reporter-form]').waitFor();}const cdp=await context.newCDPSession(page);await cdp.send('HeapProfiler.collectGarbage');const before=await cdp.send('Memory.getDOMCounters'),samples=[];for(let i=0;i<10;i++)for(const path of ['/app','/app/mocks','/app/reports']){const start=Date.now();await page.evaluate(p=>window.__phase2Go(p),path);await page.locator(path==='/app'?'[data-dashboard-content]':path==='/app/mocks'?'[data-mocks-content]':'[data-reporter-form]').waitFor();samples.push({route:path,usableContentAndHarnessMs:Date.now()-start});}await cdp.send('HeapProfiler.collectGarbage');const after=await cdp.send('Memory.getDOMCounters');assert(await page.evaluate(()=>window.__stableShell===document.querySelector('[data-shell]')));assert(after.jsEventListeners<=before.jsEventListeners+5);assert(after.nodes<=before.nodes+50);fs.writeFileSync(new URL('phase2-performance.json',out),JSON.stringify({conditions:'Chromium fixture 1440x900 EN/day, warm code, local transport, 30 switches; wall time includes Playwright locator overhead; not pixel paint/backend/media benchmark',before,after,samples,leakFreedomProven:false,liveBackend:false},null,2));}finally{await context.close();}});"
+    },
+    {
+      "id": "app-disposal-criterion",
+      "path": "migration/vanilla-frontend/tests/original-review-v27-journeys.mjs",
+      "line": 9,
+      "sha256": "dcd9e3275279ba83e2f5a9b164c034ffe62e87add0dac9d6d0c617da5db2a8ec",
+      "quote": " await check('V27 six Review source route cycles attribute parent timers RAF observers requests URLs controllers and audio',async()=>{const {context,page}=await originalFixture({initial:submitted()});await page.addInitScript(installResourceProbe);const samples=[];const cdp=await context.newCDPSession(page);const sample=async stage=>{await page.evaluate(()=>new Promise(r=>requestAnimationFrame(r)));await cdp.send('HeapProfiler.collectGarbage');const value={stage,counts:await cdp.send('Memory.getDOMCounters'),parent:await page.evaluate(()=>window.__v27probe())};samples.push(value);return value;};try{await page.goto(target);await open(page,'review');await ready(page);const initial=await sample('initial');for(let i=0;i<6;i++){await replace(page);await sample('source-replacement-'+i);await page.frameLocator('iframe').locator('#activity-review [data-back]').click();await page.frameLocator('iframe').locator('#hub:visible').waitFor();await page.locator('a[href=\"/app/listening\"]').first().click();await page.locator('iframe').waitFor({state:'detached'});await page.locator('[data-shell]').waitFor();const settled=await sample('route-disposed-'+i);assert.equal(settled.parent.frames,0);assert.equal(settled.parent.urls,0);assert.equal(settled.parent.requests,0);assert.equal(settled.parent.rafs.length,0);assert(settled.parent.audio.every(a=>a.paused&&!a.hasSrc));if(i<5){await page.goBack();await open(page,'review');await ready(page);}}const disposed=samples.filter(s=>s.stage.startsWith('route-disposed'));for(const r of disposed){assert(r.parent.observers.length<=disposed[0].parent.observers.length);assert(r.parent.timers.length<=disposed[0].parent.timers.length);} }finally{fs.writeFileSync(new URL('../docs/evidence/v27/resources.json',import.meta.url),JSON.stringify({scope:'Six bounded real source/route lifecycles; parent instrumented realm only. CDP allocated counters do not prove all native/opaque iframe ownership. No universal no-leak claim.',samples},null,2)+'\\n');await context.close();}});"
+    }
+  ]
+}
