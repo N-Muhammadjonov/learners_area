@@ -205,7 +205,7 @@ export class CampusMaterials {
     const emissiveColor = new THREE.Color(moduleConfig.emissive);
 
     // Wall stone / panels
-    const wallColor = baseColor.clone().multiplyScalar(0.28).add(new THREE.Color(0x090f1d));
+    const wallColor = baseColor.clone().multiplyScalar(0.43).add(new THREE.Color(0x090f1d));
     const wallMat = new THREE.MeshStandardMaterial({
       color: wallColor,
       roughness: 0.72,
@@ -239,11 +239,11 @@ export class CampusMaterials {
 
     // Glowing illuminated windows
     const windowMat = new THREE.MeshStandardMaterial({
-      color: baseColor.clone().lerp(new THREE.Color(0xffffff), 0.35),
-      emissive: emissiveColor,
-      emissiveIntensity: 1.8,
-      roughness: 0.1,
-      metalness: 0.9,
+      color: baseColor.clone().lerp(new THREE.Color(0xfff3d0), 0.63),
+      emissive: baseColor.clone().lerp(new THREE.Color(0xffe9aa), 0.54),
+      emissiveIntensity: 2.3,
+      roughness: 0.33,
+      metalness: 0.04,
     });
 
     const set = { wall: wallMat, trim: trimMat, foundation: foundationMat, window: windowMat };
