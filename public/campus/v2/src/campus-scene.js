@@ -70,6 +70,18 @@ export class LearnersAreaCampusScene {
     // 7. Circuits & Electrical Pathways
     this.circuits = new CampusCircuits(this.scene, this.materials);
     this.circuits.buildCircuitNetwork(CAMPUS_CONFIG.modules);
+    // Reference: each illuminated module sits on a soft, colored patch of
+    // pavement. The glow is a flat decal on the actual street, not a particle.
+    this.foundationGlows = [];
+    for (const module of CAMPUS_CONFIG.modules) {
+      if (module.isCenter) continue;
+      const glow = this.circuits.addHalo(module.color, 19, 0.18);
+      glow.position.set(module.pos.x, 0.061, module.pos.z);
+      this.foundationGlows.push(glow);
+    }
+    const dashboardGlow=this.circuits.addHalo(0x16d9ff, 32, .16);
+    dashboardGlow.position.set(0,.059,0);
+    this.foundationGlows.push(dashboardGlow);
 
     // 8. Interactive Labels Overlay
     this.labels = new CampusLabels(this.container, this.camera, this.onNavigate);
