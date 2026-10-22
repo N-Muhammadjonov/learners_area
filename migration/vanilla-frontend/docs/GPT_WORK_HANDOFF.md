@@ -1,3 +1,16 @@
+# CURRENT V37 — Listening priority; whole module NOT COMPLETE
+
+Baseline **62076acc0178602c0bd87025f5c542510242bc1e**, same Arena branch. Listening supersedes course video/Grammar priority. **This is not whole-Listening completion or release approval.** No main merge, deployment, new backend, Staff implementation, educational reconstruction or ZIP. Human project owner authorizes implementation; separate unsigned Phase2 A–J release decision remains BLOCKED and does not block frontend work.
+
+Historical counts are preserved, not silently relabeled: 16 canonical Listening routes = **9 CODE COMPLETE / 6 IN PROGRESS / 1 Staff NOT STARTED**. Target = 15 learner routes; historical frontend-code-complete count remains **9/15**, not 15/15 or 16/16. Full accepted/parity status is not established; do not confuse this historical code count with strict original/live acceptance. 24 components = **9 CODE COMPLETE / 10 IN PROGRESS / 5 NOT STARTED**. Global108 routes22/18/68;206components62/19/125;35 Staff routes reserved. CODE COMPLETE is historical frontend/fixture scope, not accepted production or comprehensive original parity.
+
+Script source-owned navigation/accessibility/hydration and source-specific Matching history repair and revision attempt-identity repair implemented. New original-source Script12condition matrix, revision explicit vocabulary scope test,605units and mandatory verification reports in docs/evidence/v37. Strict six-route visual evidence has retained FAILs; no route/component promotions, ZIP, release, merge or deploy.
+
+Read V37_LISTENING_COMPLETION_MATRIX.md, V37_LISTENING_FUNCTIONAL_VERIFICATION.md, V37_LISTENING_VISUAL_VERIFICATION.md, ADAPTER_CONTRACTS_V37.md and V37_LISTENING_INTEGRATION_HANDOFF.md before continuing. Listening supersedes V36 video/Grammar recommendation; continue remaining ordinary Listening work independently of Phase2 release. Staff imports/management reserved, audio-probe is import metadata only.
+
+---
+Historical handoffs follow.
+
 # CURRENT V36 — course lesson implementation, independent work ACTIVE
 
 BaselineV35 e8beca18e3bf9dd51a86691aaff4601d8f1e6bab. Native lesson detail/workspace/state actions/private-note pipeline and course material consumer now implemented in supported fixture scope; whole routePARTIAL. Existing ONE note writer reused and repaired for ACK-reversion stale pending + failed duplicate-flush automatic replay. Native workspace preserves textarea node/focus; no optimistic progress. SourceisOpen excludescompleted/locked/scheduled; preserve original page branch behavior.

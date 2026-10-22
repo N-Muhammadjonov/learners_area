@@ -1,0 +1,60 @@
+{
+  "sourceSha256": "f33c621a737ea75215f62d2aacbfde49350d44ade6cd3dacbaebf8675c8c601e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 12,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V37 Script 1440 en day native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V37 Script 1440 en night native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V37 Script 1440 uz day native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V37 Script 1440 uz night native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V37 Script 768 en day native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V37 Script 768 en night native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V37 Script 768 uz day native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V37 Script 768 uz night native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V37 Script 390 en day native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V37 Script 390 en night native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V37 Script 390 uz day native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    },
+    {
+      "name": "V37 Script 390 uz night native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    }
+  ]
+}

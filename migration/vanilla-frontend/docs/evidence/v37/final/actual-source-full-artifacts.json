@@ -1,0 +1,54 @@
+[
+  {
+    "path": "browser-results.json",
+    "sha256": "92f2fcfb8c0ed2d0603a24ebd179bc4a9e08fa25f654ed7dcc3b2b5777bc0d58"
+  },
+  {
+    "path": "v2/browser-v2-results.json",
+    "sha256": "e3917532a4190d7d2337cefd97d6ab74d81bc1d0528af60e7ac2172e4432516e"
+  },
+  {
+    "path": "v2/shell-performance.json",
+    "sha256": "7a102fae0cbb505187c05ca5fcccf8e053b24980590c4674214e3cb90cc98a76"
+  },
+  {
+    "path": "v3/browser-v3-results.json",
+    "sha256": "4b2f04e7bc1986670bb34401341b7b7dbad307b4447bcc1fd894d993dae413c5"
+  },
+  {
+    "path": "v4/browser-v4-results.json",
+    "sha256": "3d7326e233d7436c7d85adc92517525a685e6269ee09a962a6b00f95a374b9bd"
+  },
+  {
+    "path": "v24/review-performance.json",
+    "sha256": "20f50c41b314835897e00ac5c2dd67e0752c7e48fbaced5cafc0c5c2f4f2fc26"
+  },
+  {
+    "path": "v26/modal-resources.json",
+    "sha256": "ac9c37ee79c39f98b1dd980182213e964a1311f44fd760e158ae66d480d26e4e"
+  },
+  {
+    "path": "v27/original-behavior-v27.json",
+    "sha256": "182d3486b1a7c2a73dc54e608f2e59d7d224609f2dc6753efa513d60ae7b9178"
+  },
+  {
+    "path": "v27/resources.json",
+    "sha256": "f9a51db63ff960102b9b6a1cd4720ba4291efe557ab854edb61a2f2436c5d157"
+  },
+  {
+    "path": "v5/browser-v5-results.json",
+    "sha256": "f259d8e99ecc69ff211e73b086ef234f191509edb893bf61b6d9651758e4908f"
+  },
+  {
+    "path": "v6/browser-v6-results.json",
+    "sha256": "382e7003f715567710c8f269e927d7d5a20bae4b3962b35a3432bb006e1625d1"
+  },
+  {
+    "path": "v6/phase2-performance.json",
+    "sha256": "5de8b3b6692b1d843b87b976189328eeac6d086b4ba88f1fdf9620c8ff7ed4e6"
+  },
+  {
+    "path": "v9/browser-v9-results.json",
+    "sha256": "adc718adce6c45118ef728b0a68de99151e0d7060ee8b557ba31ed425fe7057f"
+  }
+]

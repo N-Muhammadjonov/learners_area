@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: Script part 1 URL roundtrip retains Review grammar
+ok 1 - Script part 1 URL roundtrip retains Review grammar
+  ---
+  duration_ms: 1.373145
+  type: 'test'
+  ...
+# Subtest: Script part 2 URL roundtrip retains Review grammar
+ok 2 - Script part 2 URL roundtrip retains Review grammar
+  ---
+  duration_ms: 0.166623
+  type: 'test'
+  ...
+# Subtest: Script part 3 URL roundtrip retains Review grammar
+ok 3 - Script part 3 URL roundtrip retains Review grammar
+  ---
+  duration_ms: 0.120265
+  type: 'test'
+  ...
+# Subtest: Script part 4 URL roundtrip retains Review grammar
+ok 4 - Script part 4 URL roundtrip retains Review grammar
+  ---
+  duration_ms: 0.081811
+  type: 'test'
+  ...
+# Subtest: refuse unsupported location \#script/part/0
+ok 5 - refuse unsupported location \#script/part/0
+  ---
+  duration_ms: 0.158279
+  type: 'test'
+  ...
+# Subtest: refuse unsupported location \#script/part/5
+ok 6 - refuse unsupported location \#script/part/5
+  ---
+  duration_ms: 0.072359
+  type: 'test'
+  ...
+# Subtest: refuse unsupported location \#script/part/2/question/11
+ok 7 - refuse unsupported location \#script/part/2/question/11
+  ---
+  duration_ms: 0.10935
+  type: 'test'
+  ...
+# Subtest: refuse unsupported location \#mcq/part/1
+ok 8 - refuse unsupported location \#mcq/part/1
+  ---
+  duration_ms: 0.057254
+  type: 'test'
+  ...
+# Subtest: Script native decorator keeps controls and original render and keyboard owners
+ok 9 - Script native decorator keeps controls and original render and keyboard owners
+  ---
+  duration_ms: 66.089212
+  type: 'test'
+  ...
+# Subtest: Source-specific Matching uses the existing location owner
+ok 10 - Source-specific Matching uses the existing location owner
+  ---
+  duration_ms: 0.370496
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 371.134466

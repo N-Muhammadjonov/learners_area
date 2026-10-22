@@ -1,0 +1,6 @@
+{
+  "reason": "Read-only source sweep exposed original source8 Matching/no Script and source11/12 alternate controls. Final runtime delta adds Matching to existing grammar/receiver, Back focus to originating source card, and retryScript aria-controls. No writer/media/API/content/CSS change. First full regressions run on the first-regression-build-hashes.json build; final mandatory verification rerun separately after rebuilding these actual changes.",
+  "firstScriptSweep": "script-source-matrix.json",
+  "initialVisual": "50PASS/22FAIL; viewport geometry contamination retained",
+  "correctedVisual": "64PASS/8FAIL; document geometry equal72/72, maxchannel1; not originalNext/live acceptance"
+}

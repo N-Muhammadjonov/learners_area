@@ -1,0 +1,122 @@
+FAIL V37 Script 1440 en day native tabs/check/retry/deep-link/history/reload locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#activity-script.active') to be visible
+
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:351)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+FAIL V37 Script 1440 en night native tabs/check/retry/deep-link/history/reload locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#activity-script.active') to be visible
+
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:351)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+FAIL V37 Script 1440 uz day native tabs/check/retry/deep-link/history/reload locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#activity-script.active') to be visible
+
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:351)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+FAIL V37 Script 1440 uz night native tabs/check/retry/deep-link/history/reload page.waitForURL: Timeout 8000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:366)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+FAIL V37 Script 768 en day native tabs/check/retry/deep-link/history/reload page.waitForURL: Timeout 8000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:366)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+FAIL V37 Script 768 en night native tabs/check/retry/deep-link/history/reload page.waitForURL: Timeout 8000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:366)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+FAIL V37 Script 768 uz day native tabs/check/retry/deep-link/history/reload locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#activity-script.active') to be visible
+
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:351)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+FAIL V37 Script 768 uz night native tabs/check/retry/deep-link/history/reload locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#activity-script.active') to be visible
+
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:351)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+FAIL V37 Script 390 en day native tabs/check/retry/deep-link/history/reload locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#activity-script.active') to be visible
+
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:351)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+FAIL V37 Script 390 en night native tabs/check/retry/deep-link/history/reload locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#activity-script.active') to be visible
+
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:351)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+FAIL V37 Script 390 uz day native tabs/check/retry/deep-link/history/reload page.waitForURL: Timeout 8000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:366)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+FAIL V37 Script 390 uz night native tabs/check/retry/deep-link/history/reload locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#activity-script.active') to be visible
+
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:351)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+node:fs:2430
+    return binding.writeFileUtf8(
+                   ^
+
+Error: EISDIR: illegal operation on a directory, open '/home/user/learners_area/migration/vanilla-frontend/v37/original-script.json'
+    at Object.writeFileSync (node:fs:2430:20)
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:82:333 {
+  errno: -21,
+  code: 'EISDIR',
+  syscall: 'open',
+  path: '/home/user/learners_area/migration/vanilla-frontend/v37/original-script.json'
+}
+
+Node.js v22.22.3

@@ -1,0 +1,16 @@
+{
+  "sourceSha256": "f0a92cbebdb65689fc28e30575a056aba782070fa1bce179b5fa1c385d6cc8ae",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 1,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V37 Script 1440 en day native tabs/check/retry/deep-link/history/reload",
+      "status": "PASS"
+    }
+  ]
+}

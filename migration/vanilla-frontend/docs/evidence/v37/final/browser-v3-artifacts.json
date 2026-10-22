@@ -1,0 +1,22 @@
+[
+  {
+    "path": "browser-results.json",
+    "sha256": "92f2fcfb8c0ed2d0603a24ebd179bc4a9e08fa25f654ed7dcc3b2b5777bc0d58"
+  },
+  {
+    "path": "v2/browser-v2-results.json",
+    "sha256": "e3917532a4190d7d2337cefd97d6ab74d81bc1d0528af60e7ac2172e4432516e"
+  },
+  {
+    "path": "v2/shell-performance.json",
+    "sha256": "7a102fae0cbb505187c05ca5fcccf8e053b24980590c4674214e3cb90cc98a76"
+  },
+  {
+    "path": "v3/browser-v3-results.json",
+    "sha256": "4b2f04e7bc1986670bb34401341b7b7dbad307b4447bcc1fd894d993dae413c5"
+  },
+  {
+    "path": "v27/resources.json",
+    "sha256": "f9a51db63ff960102b9b6a1cd4720ba4291efe557ab854edb61a2f2436c5d157"
+  }
+]

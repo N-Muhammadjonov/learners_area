@@ -1,0 +1,326 @@
+{
+  "conditions": "Chromium authorized synthetic workflows; NOT live or original-rendered acceptance",
+  "results": [
+    {
+      "name": "activity 2 complete/reload/media 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 2 complete/reload/media 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 2 complete/reload/media 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 2 complete/reload/media 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 2 complete/reload/media 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 2 complete/reload/media 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 2 complete/reload/media 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 2 complete/reload/media 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 2 complete/reload/media 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 2 complete/reload/media 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 2 complete/reload/media 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 2 complete/reload/media 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 3 complete/reload/media 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 4 complete/reload/media 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "activity 5 complete/reload/media 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "study server feedback/recovery 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy exam → own review → revision speed 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "test MCQ focus route preserves six server stages and genuine A/E choices",
+      "status": "PASS"
+    },
+    {
+      "name": "actual synthetic WAV clip plays, pauses at source end, recovers failed private-resource fetch",
+      "status": "PASS"
+    },
+    {
+      "name": "revoked activity save invalidates private DOM and cannot leave stale lexical content",
+      "status": "PASS"
+    },
+    {
+      "name": "activity save error preserves draft then retry; duplicate flight and stale-response teardown",
+      "status": "PASS"
+    },
+    {
+      "name": "occurrence-aware token keyboard opens authorized lookup; Escape restores region; policy false plain",
+      "status": "PASS"
+    },
+    {
+      "name": "vocabulary-only DTO rejects transcript/audio then explicit retry recovers without leak",
+      "status": "PASS"
+    },
+    {
+      "name": "exam lock prevents lexical surface and answer rendering; false lexical policy plain",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 79,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

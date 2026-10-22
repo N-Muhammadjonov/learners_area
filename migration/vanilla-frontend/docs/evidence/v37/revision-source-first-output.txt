@@ -1,0 +1,5 @@
+FAIL V37 revision transcript lookup retains original attempt identity, not canonical test identity page.waitForRequest: Timeout 8000ms exceeded while waiting for event "request"
+    at /home/user/learners_area/migration/vanilla-frontend/tests/browser-listening-revision-v37.mjs:40:792
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-listening-revision-v37.mjs:18:110)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-listening-revision-v37.mjs:40:5
+{ PASS: 0, FAIL: 1, SKIP: 0 }

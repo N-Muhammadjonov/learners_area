@@ -1,0 +1,14 @@
+{
+  "scope": "Native supported fixture; original source passes attempt.id to SpeedTrainer",
+  "results": [
+    {
+      "name": "V37 revision transcript vocabulary request retains original attempt identity, not canonical test identity",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 1,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

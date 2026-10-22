@@ -1,0 +1,36 @@
+FAIL V37 Script 1440 en day native tabs/check/retry/deep-link/history/reload locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('a[href="/app/listening"]').first()
+    - locator resolved to <a href="/app/listening" data-back-link="true" class="btn-secondary inline-flex min-h-11 w-fit items-center gap-1">…</a>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    14 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+    at /home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:8:140
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+node:fs:2430
+    return binding.writeFileUtf8(
+                   ^
+
+Error: EISDIR: illegal operation on a directory, open '/home/user/learners_area/migration/vanilla-frontend/v37/original-script.json'
+    at Object.writeFileSync (node:fs:2430:20)
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:82:333 {
+  errno: -21,
+  code: 'EISDIR',
+  syscall: 'open',
+  path: '/home/user/learners_area/migration/vanilla-frontend/v37/original-script.json'
+}
+
+Node.js v22.22.3

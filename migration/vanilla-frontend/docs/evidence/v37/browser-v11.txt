@@ -1,0 +1,82 @@
+{
+  "scope": "Synthetic encoded media, not real recording/provider/live acceptance",
+  "counts": {
+    "PASS": 18,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "Encoded MP3 plays before later chunk arrives; no full eager download while paused",
+      "status": "PASS"
+    },
+    {
+      "name": "Range 401 revokes or offers owned retry",
+      "status": "PASS"
+    },
+    {
+      "name": "Range 403 revokes or offers owned retry",
+      "status": "PASS"
+    },
+    {
+      "name": "Range 404 revokes or offers owned retry",
+      "status": "PASS"
+    },
+    {
+      "name": "Range 503 revokes or offers owned retry",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 1440/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 1440/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 1440/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 1440/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 768/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 768/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 768/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 768/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 390/en/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 390/en/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 390/uz/day",
+      "status": "PASS"
+    },
+    {
+      "name": "Encoded controls/reentry/security 390/uz/night",
+      "status": "PASS"
+    },
+    {
+      "name": "Shared property src switch owns one real parent Audio and tears it down",
+      "status": "PASS"
+    }
+  ]
+}

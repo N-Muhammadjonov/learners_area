@@ -1,0 +1,26 @@
+FAIL V37 Script 1440 en day native tabs/check/retry/deep-link/history/reload locator.click: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').contentFrame().locator('#hub:not([aria-busy]) [data-open=script]')
+
+    at open (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:54:617)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:5:43
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:19:110)
+    at async Module.run (/home/user/learners_area/migration/vanilla-frontend/tests/original-script-v37-journeys.mjs:3:130)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-original-source-v11.mjs:61:27
+{
+  "sourceSha256": "a2de37be316d4bb8cf4e0fe821b01d7feae5046c771f158e36fd1554acb9285e",
+  "scope": "Actual read-only original HTML; isolated authorized API/encoded-media fixtures; no corpus copied",
+  "comprehensiveClosures": 0,
+  "counts": {
+    "PASS": 0,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "results": [
+    {
+      "name": "V37 Script 1440 en day native tabs/check/retry/deep-link/history/reload",
+      "status": "FAIL",
+      "error": "locator.click: Timeout 8000ms exceeded.\nCall log:\n  - waiting for locator('iframe').contentFrame().locator('#hub:not([aria-busy]) [data-open=script]')\n"
+    }
+  ]
+}

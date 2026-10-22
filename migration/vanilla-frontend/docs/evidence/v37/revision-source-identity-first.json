@@ -1,0 +1,15 @@
+{
+  "scope": "Native supported fixture; original source passes attempt.id to SpeedTrainer",
+  "results": [
+    {
+      "name": "V37 revision transcript lookup retains original attempt identity, not canonical test identity",
+      "status": "FAIL",
+      "error": "page.waitForRequest: Timeout 8000ms exceeded while waiting for event \"request\""
+    }
+  ],
+  "counts": {
+    "PASS": 0,
+    "FAIL": 1,
+    "SKIP": 0
+  }
+}
