@@ -7,6 +7,7 @@ import { ThemeToggle } from "./ThemeToggle";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { BackToCampus } from "@/components/campus/BackToCampus";
 import { GlobalSearch } from "./GlobalSearch";
+import { CampusTopbarBrand } from "@/components/campus/CampusTopbarBrand";
 import { ProfileMenu } from "./ProfileMenu";
 import type { Role } from "@/lib/auth/roles";
 
@@ -55,6 +56,7 @@ export function Topbar({
       className="relative z-50 grid shrink-0 grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 border-b border-ink-100 bg-paper-raised px-3 py-2 md:px-5 lg:flex lg:gap-3 lg:py-0"
       style={{ minHeight: "var(--shell-topbar-h)" }}
     >
+      <CampusTopbarBrand />
       <div className="flex min-w-0 flex-1 items-center gap-2">
         {/* The only way into the drawer on a phone; the brand artwork itself
             lives inside it. See MobileNav. */}
