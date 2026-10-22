@@ -78,6 +78,32 @@ export class CampusGeometry {
     const innerRimLine = new THREE.Line(innerRimGeo, innerRimMat);
     group.add(innerRimLine);
 
+    // Dedicated illuminated strips on the SIDE of the slab, not just its top.
+    // Segmenting the edges creates the alternating road-light pattern in the reference.
+    const borderGlow=new THREE.MeshBasicMaterial({color:p.rimGlowColor,transparent:true,
+      opacity:.91,depthWrite:false,blending:THREE.AdditiveBlending});
+    const borderDim=new THREE.MeshBasicMaterial({color:p.rimInnerColor,transparent:true,
+      opacity:.52,depthWrite:false});
+    for(let edge=0;edge<poly.length;edge++){
+      const [ax,az]=poly[edge], [bx,bz]=poly[(edge+1)%poly.length];
+      const dx=bx-ax,dz=bz-az,len=Math.hypot(dx,dz),segments=Math.ceil(len/5.5);
+      for(let i=0;i<segments;i++){
+        const a=(i+.12)/segments,b=(i+.84)/segments;
+        const x=ax+(bx-ax)*(a+b)/2,z=az+(bz-az)*(a+b)/2;
+        const width=len*(b-a);
+        const neon=new THREE.Mesh(new THREE.BoxGeometry(width,.11,.15),
+          i%3===0?borderDim:borderGlow);
+        neon.position.set(x,-1.45,z);
+        neon.rotation.y=-Math.atan2(dz,dx);
+        group.add(neon);
+        // A second, lower side trace makes the platform visibly volumetric.
+        if(i%2===0){
+          const under=new THREE.Mesh(new THREE.BoxGeometry(width*.65,.08,.13),borderDim);
+          under.position.set(x,-3.15,z);
+          under.rotation.y=neon.rotation.y;group.add(under);
+        }
+      }
+    }
     return group;
   }
 
