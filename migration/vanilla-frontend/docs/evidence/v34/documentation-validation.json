@@ -1,0 +1,48 @@
+{
+  "kind": "Documentation-only validation, NOT a fresh app suite/package verification run",
+  "branch": "arena/96836bcf-learners-area",
+  "baseline": "d1919555b0f4a8d5587b50c12122840eede1ffde",
+  "17separateRowsAndFields": "PASS",
+  "requesterSelectionsNotApproval": "PASS",
+  "unchangedV33SidecarAndCompleteMemberHashCoverage": "PASS",
+  "independentV33Integrity": "See continuation-record.json (current restored checkout rechecked)",
+  "unchangedRuntimeTestsOriginalsHistoricalEvidenceAndArchives": "PASS",
+  "onlyDocumentationChanges": "PASS",
+  "gitDiffCheck": "PASS",
+  "freshCIBuildMandatoryPerformanceAudit": "NOT RUN: no runtime change or newly packaged source",
+  "V34ZIP": "NOT CREATED",
+  "implementationCommit": "NOT APPLICABLE",
+  "packagedSourceCommit": "NOT APPLICABLE",
+  "sealCommit": "NOT APPLICABLE",
+  "files": [
+    {
+      "path": "migration/vanilla-frontend/docs/GPT_WORK_HANDOFF.md",
+      "sha256": "22517c23b7b93fa7d7cf3ef914528a702e8b5df05170f3d81e87c9a16222becf"
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/V34_ACCEPTANCE_MATRIX.md",
+      "sha256": "13f8420f2c3e4846bbf68a48b5adadc9c0c489df1d85ba2e5e28505bc206a2fd"
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/V34_CATALOGUE_ACCEPTANCE_STATUS.md",
+      "sha256": "2780494a39be35756424f6505f0e7abdea886d9b230923b4f74c8d33e1e5d3ec"
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/V34_EXTERNAL_BLOCKER_HANDOFF.md",
+      "sha256": "58008d9f6627ae7b55b21b4611e4833d9a2e38879223e320f00b54d4452a66dd"
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/V34_PHASE2_DECISION_STATUS.md",
+      "sha256": "4252227b23e6c902ece786849afc0f292ec13cf1f3feb2421732578f4162bc03"
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/evidence/v34/acceptance-matrix.json",
+      "sha256": "3e684b299a30e8dc005474a17a3a434f6ea8126db34c71dce834bd78df55de53"
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/evidence/v34/continuation-record.json",
+      "sha256": "5a3b2c50049d402b92add8182366a66b597681f747382b1dec237f60383220b5"
+    }
+  ],
+  "selfExcluded": true
+}

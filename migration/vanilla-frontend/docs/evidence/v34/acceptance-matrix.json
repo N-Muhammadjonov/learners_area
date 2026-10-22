@@ -1,0 +1,194 @@
+{
+  "kind": "V34documentation-only17scope update; no new runtime progress",
+  "rows": [
+    {
+      "id": "1",
+      "scope": "Full IELTS frontend implementation",
+      "status": "FRONTEND CODE COMPLETE",
+      "exactRequirement": "Preserve own-byte/grading/input safeguards",
+      "requirementSource": "V33 accepted checkpoint/contracts",
+      "evidence": "V33 exact fixture/source evidence",
+      "responsibleOwner": "Frontend verifier",
+      "missingCondition": "Comprehensive/live separate",
+      "nextExecutableAction": "Preserve; repair only proven defect"
+    },
+    {
+      "id": "2",
+      "scope": "Retry Weak Areas frontend implementation",
+      "status": "FRONTEND CODE COMPLETE",
+      "exactRequirement": "Preserve original retry/server-only feedback",
+      "requirementSource": "V33 accepted checkpoint/contracts",
+      "evidence": "V33 fixtures/30source proofs",
+      "responsibleOwner": "Frontend verifier",
+      "missingCondition": "Comprehensive/live separate",
+      "nextExecutableAction": "No rebuild"
+    },
+    {
+      "id": "3",
+      "scope": "Review frontend implementation",
+      "status": "PARTIAL; supported subset verified",
+      "exactRequirement": "No promotion without authorized aggregate acceptance",
+      "requirementSource": "V33 checkpoint; V34 task\u00a76",
+      "evidence": "V33 supported source/lifecycle proofs",
+      "responsibleOwner": "Verified project acceptance owner",
+      "missingCondition": "Owner decision absent",
+      "nextExecutableAction": "Route existing packet when authorized route supplied"
+    },
+    {
+      "id": "4",
+      "scope": "Mandatory fixture verification",
+      "status": "V33 PASS; NOT RERUN IN V34",
+      "exactRequirement": "544/499/418/14/4,0FAIL0SKIP unchanged",
+      "requirementSource": "V33_VERIFICATION.json; V34\u00a718/22 conditional archive",
+      "evidence": "V33 packaged source reverified CRC/Gitbytes; no new archive",
+      "responsibleOwner": "Frontend verifier",
+      "missingCondition": "No new packaged source",
+      "nextExecutableAction": "Do not claim freshV34 suite PASS"
+    },
+    {
+      "id": "5",
+      "scope": "Phase2 strict per-run",
+      "status": "V33 PASS; NOT RERUN",
+      "exactRequirement": "Same shell,+50nodes/+5listeners,originalstage/warmup/30switches",
+      "requirementSource": "tests/browser-v6.mjs strict same-shell assertion",
+      "evidence": "V33nodes472\u2192480(+8),listeners152/docs2",
+      "responsibleOwner": "Frontend verifier",
+      "missingCondition": "No new required measurement",
+      "nextExecutableAction": "Preserve assertion; no arbitrary trials"
+    },
+    {
+      "id": "6",
+      "scope": "Phase2 release",
+      "status": "BLOCKED \u2014 OWNER DECISION REQUIRED",
+      "exactRequirement": "Authentic applicable A\u2013J owner decision",
+      "requirementSource": "V34task\u00a74\u20136; unchanged V33packet",
+      "evidence": "Requester route=unavailable; no owner reply",
+      "responsibleOwner": "Verified owner/delegate (not identified)",
+      "missingCondition": "Signer/route/rule/date/evidence scope",
+      "nextExecutableAction": "Concise handoff, no inferred approval"
+    },
+    {
+      "id": "7",
+      "scope": "Application resources",
+      "status": "SCOPED VERIFIED",
+      "exactRequirement": "Owned disposal invariants,legitimate owners retained",
+      "requirementSource": "V27resource contract/V33 accepted evidence",
+      "evidence": "Preserved existing six-cycle/fixture proofs",
+      "responsibleOwner": "Frontend verifier",
+      "missingCondition": "No new defect; no universal guarantee",
+      "nextExecutableAction": "No speculative cleanup"
+    },
+    {
+      "id": "8",
+      "scope": "Browser-native acceptance",
+      "status": "SCOPED ATTRIBUTION; RELEASE TREATMENT BLOCKED",
+      "exactRequirement": "Owner-defined measurable native condition",
+      "requirementSource": "V27native evidence/V34A\u2013J E/G",
+      "evidence": "219/232shortestCSSpaths;13unknown",
+      "responsibleOwner": "Owner + original evidence custodian",
+      "missingCondition": "Native acceptance rule; originalheapifrequired",
+      "nextExecutableAction": "No settled study replay or identity invention"
+    },
+    {
+      "id": "9",
+      "scope": "Opaque-frame acceptance",
+      "status": "NORMAL TERMINALS SCOPED VERIFIED; UNIVERSAL UNVERIFIED",
+      "exactRequirement": "Existing terminals/pendingbytes/security,notallnativeGPUrelease",
+      "requirementSource": "V30\u2013V33contracts",
+      "evidence": "Preserved frame/context/lifecycle proofs",
+      "responsibleOwner": "Verifier + acceptance owner",
+      "missingCondition": "Which extra measurable conditions are mandatory",
+      "nextExecutableAction": "No private-child access/sandbox weakening"
+    },
+    {
+      "id": "10",
+      "scope": "Comprehensive original source",
+      "status": "BLOCKED/UNVERIFIED0/9",
+      "exactRequirement": "Actual applicable source/workflow/own-context original QA",
+      "requirementSource": "V33catalogue handoff",
+      "evidence": "32metadata rows/9workflow rows reused",
+      "responsibleOwner": "Catalogue/content + project owner",
+      "missingCondition": "Authorized original states and acceptance set",
+      "nextExecutableAction": "Wait for genuine scoped evidence"
+    },
+    {
+      "id": "11",
+      "scope": "Catalogue acceptance",
+      "status": "FIXTURE SUBSET; ORIGINAL/LIVE BLOCKED",
+      "exactRequirement": "Canonical identity,availability,original source-specific behavior",
+      "requirementSource": "V33handoff;existing original catalogue contracts",
+      "evidence": "No new evidence per requester",
+      "responsibleOwner": "Catalogue/content owner (not named)",
+      "missingCondition": "Authorized current UUID/source/availability mapping",
+      "nextExecutableAction": "No recreation/invented IDs"
+    },
+    {
+      "id": "12",
+      "scope": "Previous-attempt acceptance",
+      "status": "BLOCKED \u2014 CONTRACT/EVIDENCE REQUIRED",
+      "exactRequirement": "Distinguish own-history/attempt-ID routes from arbitrary authoredReview",
+      "requirementSource": "V34 targeted original/migration refs",
+      "evidence": "Existing history/getAttemptDetail/redirect/DTO verified statically",
+      "responsibleOwner": "Attempt/contract + acceptance owner",
+      "missingCondition": "Source-kind original applicability and authorized own data",
+      "nextExecutableAction": "Existing contract-mapped QA only after inputs"
+    },
+    {
+      "id": "13",
+      "scope": "Publication/sequence acceptance",
+      "status": "BLOCKED",
+      "exactRequirement": "Real current published/locked/unavailable state under own permission",
+      "requirementSource": "Existing publication/sequence contracts;V33handoff",
+      "evidence": "Only repository waiting/draft declarations;no live probe",
+      "responsibleOwner": "Content/publication custodian",
+      "missingCondition": "Current authorized evidence;11/22keyclarification",
+      "nextExecutableAction": "Do not normalize,publish or alter DB"
+    },
+    {
+      "id": "14",
+      "scope": "Matched-original visual",
+      "status": "UNVERIFIED",
+      "exactRequirement": "3viewports\u00d7EN/UZ\u00d7day/night exact original states",
+      "requirementSource": "V34task\u00a716",
+      "evidence": "V33CSS/assets identity notpixels",
+      "responsibleOwner": "Original visual acceptance owner",
+      "missingCondition": "Authorized matched rendered references",
+      "nextExecutableAction": "Compare only if available"
+    },
+    {
+      "id": "15",
+      "scope": "Authorized live integration",
+      "status": "BLOCKED/UNVERIFIED0/9",
+      "exactRequirement": "Existing authorized runtime/view/API/media context",
+      "requirementSource": "V7/V10proposedprojection docs;V34\u00a717",
+      "evidence": "Fixtures not deployment;requester no new access",
+      "responsibleOwner": "Integration/authorization owner",
+      "missingCondition": "Actual scoped permission and evidence",
+      "nextExecutableAction": "No production probe/new endpoint"
+    },
+    {
+      "id": "16",
+      "scope": "Vocabulary backend exam policy",
+      "status": "UNVERIFIED \u2014 GPT Work",
+      "exactRequirement": "Direct authored?vocabulary=1 server enforcement",
+      "requirementSource": "V33contracts/V34\u00a717",
+      "evidence": "Frontend fixtures do not certify serverpolicy",
+      "responsibleOwner": "GPT Work/backend-policy authority",
+      "missingCondition": "Independent authorized server-policy verification",
+      "nextExecutableAction": "No backend change or claimed frontend certification"
+    },
+    {
+      "id": "17",
+      "scope": "Safari/hardware/real recording",
+      "status": "UNVERIFIED/BLOCKED",
+      "exactRequirement": "Actual authorized device/browser/media conditions",
+      "requirementSource": "V34\u00a716\u201320/V33externallimits",
+      "evidence": "Chromium/synthetic fixtures only",
+      "responsibleOwner": "Device/media QA/content owner",
+      "missingCondition": "Authorized original device/recording evidence",
+      "nextExecutableAction": "No protected audio capture or emulation-as-Safari claim"
+    }
+  ],
+  "newApproval": null,
+  "freshV34SuiteRun": false
+}

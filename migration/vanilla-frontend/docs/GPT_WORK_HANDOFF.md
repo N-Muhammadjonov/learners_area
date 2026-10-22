@@ -1,3 +1,16 @@
+# V34 current handoff — stop at confirmed external blockers, no automatic V35
+
+V33 remains the last independently verified packaged checkpoint: report d1919555b0f4a8d5587b50c12122840eede1ffde,source17d12f5fc0879db6f26ebdbdbc7403df9f0771fd,seal0c52da7b94f6a01fdf0fb979e79931ca5fbfba13;ZIP100443205bytes/2130members/SHA19aab9d9659fbd8e9f52b6ca2951e645cc0748e35ba14ea35061f8dbbb01b735. V34 reverified allZIPGitbytes/hashes/CRC,38archives,2104originals,1428historicalevidence. Runtime/tests/oldpacket/catalogue unchanged. No V34ZIP/seal or fresh mandatory suite/audit/performance run; do NOT call preservedV33PASS a freshV34run.
+
+Current requester explicitly selected NO AUTHORIZED ROUTE AVAILABLE and NO NEW EVIDENCE AVAILABLE in Arena ask_user. This is not an owner decision or authority delegation. PHASE2BLOCKED—OWNERDECISIONREQUIRED;ReviewPARTIAL;ScriptNOTADVANCED;ReadingGATED. Reuse exact unsignedV33packet, do not duplicate/version-bump it. V34_EXTERNAL_BLOCKER_HANDOFF.md is concise A–J request and V35material triggers; V34_ACCEPTANCE_MATRIX.md splits17scopes; V34_CATALOGUE_ACCEPTANCE_STATUS.md clarifies actual contracts.
+
+Original own-history/attempt-ID detail/revision behavior EXISTS via listUserAttempts/getAttemptDetail with ownuser and boundquestionversion. Migration historyDTO/route-v7 consumers already exist. Completed non-sectionAcademic package redirects to test-level activity2; authored-state current/latest fallback is NOT proof of arbitrary older authoredReview selection. Do not claim no historical contract anywhere; do not claim every prior authoredReview is supported. Need source-kind applicability/selection and authorized own data. No new frontend bug inferred. Test11/22keys remain both recorded/unresolved; waiting/draft repo declarations notlivefacts;10/25corrections externalonly.
+
+Do not start identical V35 automatically. Require real authorized rule/decision, genuine catalogue/attempt/publication evidence, independently reproduced app defect, authorized access enabling a specific blocked verification, or an existing legitimate requirement naming a concrete action. Identify trigger/source first. Otherwise stop with precise owner handoff; no new arbitrary trials, no Script/Reading bypass, no redesign/backend/content/Staff/Dictionary/main/deploy/retention changes. Existing V33 package command targets a historical checkpoint: do not invoke it to overwrite V33 with these documentation additions.
+
+---
+## Historical handoff sections — preserved, V34 above is current
+
 # V33 — BLOCKED acceptance checkpoint, no runtime implementation change
 
 Current release disposition: **EXTERNAL RELEASE ACCEPTANCE BLOCKED**. Review PARTIAL; Full IELTS/Retry Weak Areas FRONTEND CODE COMPLETE; Script NOT ADVANCED; Reading GATED. No owner approval/rule/signature obtained. Human project-owner role documented; specific signer/delegation and established accessible Phase2 approval mechanism not identified. Source of truth: V33_PHASE2_OWNER_DECISION_REQUEST.md (unsigned A–J), V33_CATALOGUE_ACCEPTANCE_HANDOFF.md (32sources/9workflows), V33_ACCEPTANCE_STATUS_MATRIX.md (13decisions), V33_REMAINING_EXTERNAL_DECISIONS.md. Targeted18provenance receipts reuse V32's audit, no new broad search or arbitrary native/Phase2 diagnostic.

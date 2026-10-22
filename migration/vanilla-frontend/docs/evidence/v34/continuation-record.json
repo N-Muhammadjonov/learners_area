@@ -1,0 +1,216 @@
+{
+  "kind": "V34 documentation-only escalation; NOT a new packaged checkpoint",
+  "baselineHEAD": "d1919555b0f4a8d5587b50c12122840eede1ffde",
+  "V33Identities": {
+    "implementationCommit": "b17ec7be88e810a38e009106865257e029853408",
+    "sourceCommit": "17d12f5fc0879db6f26ebdbdbc7403df9f0771fd",
+    "sealCommit": "0c52da7b94f6a01fdf0fb979e79931ca5fbfba13"
+  },
+  "archive": {
+    "name": "LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V33.zip",
+    "bytes": 100443205,
+    "sha256": "19aab9d9659fbd8e9f52b6ca2951e645cc0748e35ba14ea35061f8dbbb01b735",
+    "sourceMembers": 2128,
+    "generatedMembers": 2
+  },
+  "integrity": {
+    "CRC": "PASS",
+    "safeUniqueMembers": 2130,
+    "allMemberHashes": "PASS",
+    "allMemberSourceSealGitBytes": "PASS",
+    "historicalArchivesIncludingV33": 38,
+    "originalFilesUnchanged": 2104,
+    "historicalEvidenceGitBytes": 1428
+  },
+  "requestedV33ReadReceipts": [
+    {
+      "path": "migration/vanilla-frontend/docs/CHECKPOINT_V33.md",
+      "sha256": "c4b1f5b307b0ea874149a5e51f0e2b50fc114488807586dfa08932accf64a06f",
+      "lines": 43
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/SOURCE_STATE_INVENTORY_V33.md",
+      "sha256": "2b982d27f6800b67e33730d3d2267fdc26ba88e01719abdf3fd92fc2a408d9fb",
+      "lines": 20
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V33.md",
+      "sha256": "f8856a9b8443b640dfcd9daa60a25d0f6d09160a486d92119150ee06aa37e25f",
+      "lines": 17
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/ROUTE_LEDGER_V33.md",
+      "sha256": "3ec781c3cbce2aa6ace0a02efe561854357091d86c0062220c8e95cf36a0b3d6",
+      "lines": 5
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/COMPONENT_LEDGER_V33.md",
+      "sha256": "719f1a556676de411ffdad260b3c96e0eaa0ae17aa99af553080880896935641",
+      "lines": 5
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/V33_PHASE2_OWNER_DECISION_REQUEST.md",
+      "sha256": "a12ff73c1fbeccc3ed77be9bdaf043ee4b6bf48ec32be8373d4cf6e998122064",
+      "lines": 108
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/V33_CATALOGUE_ACCEPTANCE_HANDOFF.md",
+      "sha256": "2eafbee72d714e4043f73c09f35a93a88d94162dad1bf105653f5665a05416e7",
+      "lines": 107
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/V33_ACCEPTANCE_STATUS_MATRIX.md",
+      "sha256": "a63680a34be8c1b7bf41c456a34c37fef5c836f84417a1b4e40072fca5cd0e5a",
+      "lines": 21
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/V33_REMAINING_EXTERNAL_DECISIONS.md",
+      "sha256": "642d8b232bf0d4402afafad69611d245b18269a8dd67dae940b859e4517de02c",
+      "lines": 21
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/GPT_WORK_HANDOFF.md",
+      "sha256": "ebe5b0981dc6cf03d954a6a008dedb980c768c474f4cd444fd82719e729b2962",
+      "lines": 388
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/V33_VALIDATION.txt",
+      "sha256": "b9a903c3938f8b2d75c9e26137e4861524d86294f225923801306e7b7c09a1d4",
+      "lines": 35
+    },
+    {
+      "path": "migration/vanilla-frontend/deliverables/V33_VERIFICATION.json",
+      "sha256": "51884a5287cf5ade6d1606e181cef3e95820acd3d10a9df5be6577b96debd215",
+      "lines": 138808
+    }
+  ],
+  "ownerPacketSHA256": "a12ff73c1fbeccc3ed77be9bdaf043ee4b6bf48ec32be8373d4cf6e998122064",
+  "communication": {
+    "channel": "Arena ask_user to current task requester, not verified external owner",
+    "requestAndResponse": {
+      "release_authority": {
+        "selectedOptionId": "unavailable",
+        "customResponse": null,
+        "questionScopeSummaryNotVerbatim": "Asked current requester for a verified authorized owner route or existing decision for the unchanged V33 A\u2013J packet.",
+        "recordedMeaning": "No authorized route available; keep blocked, return concise request without invented approval/checkpoint."
+      },
+      "catalogue_evidence": {
+        "selectedOptionId": "unavailable",
+        "customResponse": null,
+        "questionScopeSummaryNotVerbatim": "Asked whether new genuine authorized catalogue/previous-attempt/publication evidence was available.",
+        "recordedMeaning": "No new evidence available; preserve exact blockers, no production probe, invented attempts or metadata changes."
+      }
+    },
+    "interpretation": "Requester confirms no authorized route and no new evidence. This is NOT an owner approval/rejection/conditional approval or authority delegation. No external request sent; no owner reply received.",
+    "provenanceCaveat": "Selected option IDs and null custom responses are recorded facts. Question/option meanings are summaries, not a verbatim transport transcript."
+  },
+  "authority": {
+    "verifiedSigner": null,
+    "authorizedRoute": null,
+    "ownerResponse": null,
+    "approvedRule": null,
+    "policyDecisionsAtoJ": null
+  },
+  "targetedContractReferences": [
+    {
+      "path": "src/app/app/(shell)/listening/history/page.tsx",
+      "line": 27,
+      "sha256": "3f28e8f185a52a4a9e6afc7de0acc60fe02c22313256ce5779a4a7a978e5465b",
+      "quote": "        <Link key={attempt.id} href={`/app/listening/attempts/${attempt.id}`}>"
+    },
+    {
+      "path": "src/lib/data/listening.ts",
+      "line": 71,
+      "sha256": "456bdb41939278d410686f9a41ea44a3b31059d47873b58f604221fa3d04abd0",
+      "quote": "export function listUserAttempts(userId: string) {"
+    },
+    {
+      "path": "src/lib/data/listening.ts",
+      "line": 51,
+      "sha256": "456bdb41939278d410686f9a41ea44a3b31059d47873b58f604221fa3d04abd0",
+      "quote": "    where: and(eq(listeningAttempts.id, attemptId), eq(listeningAttempts.userId, userId)),"
+    },
+    {
+      "path": "src/lib/data/listening.ts",
+      "line": 63,
+      "sha256": "456bdb41939278d410686f9a41ea44a3b31059d47873b58f604221fa3d04abd0",
+      "quote": "    listeningQuestionsForAttempt(attempt),"
+    },
+    {
+      "path": "src/app/app/(focus)/listening/attempts/[id]/page.tsx",
+      "line": 92,
+      "sha256": "4f06402c8682822d8e44e16d99d7fbd8b2940d2d757ef2be28a6c1f97b06661d",
+      "quote": "    if (attempt.status === \"completed\") redirect(`/app/listening/tests/${test.id}/2`);"
+    },
+    {
+      "path": "src/app/app/(focus)/listening/attempts/[id]/revision/page.tsx",
+      "line": 36,
+      "sha256": "8608de65405e835ec2fa464feaf1af2f26bd445ad090379d55b4bfc8be304675",
+      "quote": "  const detail = await getAttemptDetail(id, user.id);"
+    },
+    {
+      "path": "src/lib/data/listening-original-state.ts",
+      "line": 20,
+      "sha256": "14d8a2685c8c095d70416fc03b6868f2cf054115ed72de7cd113cdad92955e09",
+      "quote": "  const attempt=await database.query.listeningAttempts.findFirst({where:and(eq(listeningAttempts.userId,userId),eq(listeningAttempts.testId,testId)),orderBy:desc(listeningAttempts.startedAt)});"
+    },
+    {
+      "path": "src/lib/data/listening-original-state.ts",
+      "line": 27,
+      "sha256": "14d8a2685c8c095d70416fc03b6868f2cf054115ed72de7cd113cdad92955e09",
+      "quote": "  await database.insert(listeningAuthoredCheckpoints).values({userId,testId,values,attemptId:attempt.id}).onConflictDoNothing();"
+    },
+    {
+      "path": "migration/vanilla-frontend/modules/listening/catalogue-v10.js",
+      "line": 5,
+      "sha256": "713a8810e5a3edf50d031da8e9390620ec8e071a840716bdf754ccb80fbb152f",
+      "quote": " async function load(){if(busy||signal.aborted)return;busy=true;host.setAttribute('aria-busy','true');host.replaceChildren(loading({dict}));try{const raw=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;const p=isHistory?historyDTO(raw,context.session.user.id):academicCatalogueDTO(raw);host.replaceChildren((isHistory?history:academic)({...p,dict,context,user:context.session.user}));}catch{if(!signal.aborted)host.replaceChildren(RegionFailureNotice({region:name,message:dict.auth.errorServer,retryLabel:dict.globalDictionary.retry,refresh:load}));}finally{busy=false;if(!signal.aborted)host.setAttribute('aria-busy','false');}}"
+    },
+    {
+      "path": "migration/vanilla-frontend/js/adapters/listening-v10.js",
+      "line": 8,
+      "sha256": "3747d749ba064950b8a08679fa06890dc89254a206879efc1c5b4646f8636905",
+      "quote": "export function historyDTO(p,userId){if(!obj(p)||!Array.isArray(p.rows)||secret(p))bad();const seen=new Set();return {rows:p.rows.map(row=>{const a=row?.attempt,t=row?.test;if(!obj(a)||!uuid(a.id)||seen.has(a.id)||!['in_progress','completed'].includes(a.status)||a.userId!==undefined&&a.userId!==userId||!obj(t)||!str(t.title)||t.id!==undefined&&!uuid(t.id)||secret(a)||secret(t))bad();seen.add(a.id);scoreDTO({score:a.score,total:a.totalQuestions});if(a.status==='in_progress'&&(a.score!==null||a.totalQuestions!==null))bad();return {attempt:{id:a.id,status:a.status,score:a.score,totalQuestions:a.totalQuestions},test:{title:t.title}};})};}"
+    },
+    {
+      "path": "migration/vanilla-frontend/modules/listening/route-v7.js",
+      "line": 18,
+      "sha256": "3c86d4f0277c76cf2b1178db6254d965fcb2bc927ffa285404ecb7cbed4136e0",
+      "quote": " else if(attempt&&activity==='revision'&&data.kind==='revision'&&data.revision?.attempt?.id===id)host.replaceChildren(listeningRevision(context,data.revision));"
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V7.md",
+      "line": 22,
+      "sha256": "2c8ca7c1bbbf775deabb15b176f1e30bae2745b108280b3edb63766e3aea0e1d",
+      "quote": "- Completed package full exam `{kind:'redirect',href:'/app/listening/tests/<ownedTestUUID>/2'}`; finished section may redirect to its own `/app/listening/general/<ownedTestUUID>`. Server chooses own target; client only accepts narrow Listening destinations."
+    },
+    {
+      "path": "migration/vanilla-frontend/docs/ADAPTER_CONTRACTS_V10.md",
+      "line": 9,
+      "sha256": "1f704753d402afc0802d8ede4515bc0e63392b224eeabe8630153b1ba5eccf13",
+      "quote": "- History {rows:[{attempt:{id,status,score,totalQuestions},test:{title}}]}; only current authenticated user, server order. Optional own userId checked then removed; any foreign owner fails closed. Completed can be ungraded; null is not zero. No other student, answers, content payload. Source status in_progress|completed."
+    }
+  ],
+  "newRuntimeChanges": [],
+  "newApplicationDefects": [],
+  "testsExecutedInV34": false,
+  "auditsExecutedInV34": false,
+  "baselineV33Mandatory": {
+    "unit": 544,
+    "chromium": 499,
+    "actualSource": 418,
+    "timing": 14,
+    "controls": 4,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "V34ArchiveCreated": false,
+  "reasonNoArchive": "No runtime repair, owner rule, authorized state/access or requirement mandating another packaged checkpoint. Current requester explicitly selected return concise request without another checkpoint. Material documentation-only work records escalation response,17 separate statuses and existing own-history versus authored-Review contract distinction. No fresh packaged-source PASS claimed.",
+  "preflightPreservation": {
+    "files": 359,
+    "bytes": 75144582,
+    "manifestSHA256": "103c92eace3d8bf36fdee44ddfc19457651bc71e744286e17c1384131b78a202",
+    "backupDirectory": "/home/user/v34-work/after-human-response-preservation",
+    "reason": "Interactive pause restored original checkout and old untracked files; hash/copy preserved before same-branch fetch/fast-forward. No reset/clean/rebase/stash/discard."
+  }
+}
