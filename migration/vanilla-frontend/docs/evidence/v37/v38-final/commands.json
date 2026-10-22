@@ -1,0 +1,154 @@
+[
+  {
+    "name": "units",
+    "args": [
+      "npm",
+      "test"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "browser",
+    "args": [
+      "node",
+      "tests/browser.mjs"
+    ],
+    "exit": 0,
+    "report": "browser.json"
+  },
+  {
+    "name": "browser-v2",
+    "args": [
+      "node",
+      "tests/browser-v2.mjs"
+    ],
+    "exit": 0,
+    "report": "browser-v2.json"
+  },
+  {
+    "name": "browser-v3",
+    "args": [
+      "node",
+      "tests/browser-v3.mjs"
+    ],
+    "exit": 0,
+    "report": "browser-v3.json"
+  },
+  {
+    "name": "browser-v4",
+    "args": [
+      "node",
+      "tests/browser-v4.mjs"
+    ],
+    "exit": 0,
+    "report": "browser-v4.json"
+  },
+  {
+    "name": "browser-v5",
+    "args": [
+      "node",
+      "tests/browser-v5.mjs"
+    ],
+    "exit": 0,
+    "report": "browser-v5.json"
+  },
+  {
+    "name": "browser-v6",
+    "args": [
+      "node",
+      "tests/browser-v6.mjs"
+    ],
+    "exit": 0,
+    "report": "browser-v6.json"
+  },
+  {
+    "name": "browser-v7",
+    "args": [
+      "node",
+      "tests/browser-v7.mjs"
+    ],
+    "exit": 0,
+    "report": "browser-v7.json"
+  },
+  {
+    "name": "browser-v8",
+    "args": [
+      "node",
+      "tests/browser-v8.mjs"
+    ],
+    "exit": 0,
+    "report": "browser-v8.json"
+  },
+  {
+    "name": "browser-v9",
+    "args": [
+      "node",
+      "tests/browser-v9.mjs"
+    ],
+    "exit": 0,
+    "report": "browser-v9.json"
+  },
+  {
+    "name": "browser-v10",
+    "args": [
+      "node",
+      "tests/browser-v10.mjs"
+    ],
+    "exit": 0,
+    "report": "browser-v10.json"
+  },
+  {
+    "name": "browser-v11",
+    "args": [
+      "node",
+      "tests/browser-v11.mjs"
+    ],
+    "exit": 0,
+    "report": "browser-v11.json"
+  },
+  {
+    "name": "encoded-media",
+    "args": [
+      "node",
+      "tests/browser-v11.mjs"
+    ],
+    "exit": 0,
+    "report": "encoded-media.json"
+  },
+  {
+    "name": "actual-source-full",
+    "args": [
+      "node",
+      "tests/browser-original-source-v11.mjs"
+    ],
+    "exit": 0,
+    "report": "actual-source-full.json"
+  },
+  {
+    "name": "timing",
+    "args": [
+      "node",
+      "scripts/performance-v33.mjs"
+    ],
+    "exit": 0,
+    "report": "timing.json"
+  },
+  {
+    "name": "assets",
+    "args": [
+      "node",
+      "scripts/assets-css-v33.mjs"
+    ],
+    "exit": 0,
+    "report": "assets.json"
+  },
+  {
+    "name": "equivalent-controls",
+    "args": [
+      "node",
+      "tests/browser-original-source-v11.mjs"
+    ],
+    "exit": 0,
+    "report": "equivalent-controls.json"
+  }
+]

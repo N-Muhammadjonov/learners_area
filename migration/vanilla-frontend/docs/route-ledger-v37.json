@@ -119,6 +119,16 @@
         "acceptancePromotion": false,
         "live": "UNVERIFIED",
         "evidence": "evidence/v37/listening-visual-document.json (initial branch only); browser-v7/v8/v9/v10.json; original-script.json where applicable"
+      },
+      "v38": {
+        "status": "IN PROGRESS",
+        "changedFiles": [
+          "modules/listening/legacy.js"
+        ],
+        "audit": "Legacy in-progress exam submit failure now maps 429/network/500 through request-errors failure(e,dict) (was always errorServer). Focus-entry is off, matching the original (focus) layout which has no ShellUtilities subscriber.",
+        "tests": [
+          "browser-listening-v38.mjs cases a,b"
+        ]
       }
     },
     {
@@ -144,6 +154,16 @@
         "acceptancePromotion": false,
         "live": "UNVERIFIED",
         "evidence": "evidence/v37/listening-visual-document.json (initial branch only); browser-v7/v8/v9/v10.json; original-script.json where applicable"
+      },
+      "v38": {
+        "status": "IN PROGRESS",
+        "changedFiles": [],
+        "audit": "No source change. V37 SpeedTrainer attempt-ID fix preserved. Strict visual FAILs (1440 EN/UZ day/night, 768 EN night) not investigated in V38.",
+        "tests": [
+          "browser-listening-revision-v37.mjs",
+          "browser-v8.mjs",
+          "browser-v9.mjs"
+        ]
       }
     },
     {
@@ -173,6 +193,14 @@
         "acceptancePromotion": false,
         "live": "UNVERIFIED",
         "evidence": "evidence/v37/listening-visual-document.json (initial branch only); browser-v7/v8/v9/v10.json; original-script.json where applicable"
+      },
+      "v38": {
+        "status": "IN PROGRESS",
+        "changedFiles": [],
+        "audit": "Activity branches compared with original tests/[id]/[activity]/page.tsx: activity 1 FullExamStart, 2-5 FullListeningActivity, practice kinds ListeningPractice, mcq redirect, authored redirect; no missing branch found; per-source journeys across all 32 source files not completed.",
+        "tests": [
+          "existing V37 tests unchanged"
+        ]
       }
     },
     {
@@ -234,6 +262,14 @@
         "acceptancePromotion": false,
         "live": "UNVERIFIED",
         "evidence": "evidence/v37/listening-visual-document.json (initial branch only); browser-v7/v8/v9/v10.json; original-script.json where applicable"
+      },
+      "v38": {
+        "status": "IN PROGRESS",
+        "changedFiles": [],
+        "audit": "Hub branches compared with original tests/[id]/page.tsx: no missing branch found; not promoted because hub-768-uz-day strict visual FAIL (max channel delta 1) is unresolved.",
+        "tests": [
+          "browser-listening-visual-v37 (V37 strict hub cases; hub-768-uz-day FAIL retained)"
+        ]
       }
     },
     {
@@ -1405,6 +1441,16 @@
         "acceptancePromotion": false,
         "live": "UNVERIFIED",
         "evidence": "evidence/v37/listening-visual-document.json (initial branch only); browser-v7/v8/v9/v10.json; original-script.json where applicable"
+      },
+      "v38": {
+        "status": "IN PROGRESS",
+        "changedFiles": [
+          "modules/listening/mcq.js"
+        ],
+        "audit": "Reasoned completion now uses history.replaceState (same-path guarded) plus context.refresh(), matching original router.replace + router.refresh. Router.navigate focuses h1/[data-shell-main] (js/router.js), refresh does not; the V38 case records focusin targets to detect a transient heading focus.",
+        "tests": [
+          "browser-listening-v38.mjs case c (focusin discriminating assertion; see V38_LISTENING_BROWSER_VERIFICATION.md)"
+        ]
       }
     },
     {
@@ -1441,6 +1487,14 @@
         "acceptancePromotion": false,
         "live": "UNVERIFIED",
         "evidence": "evidence/v37/listening-visual-document.json (initial branch only); browser-v7/v8/v9/v10.json; original-script.json where applicable"
+      },
+      "v38": {
+        "status": "IN PROGRESS",
+        "changedFiles": [],
+        "audit": "Library compared with original (shell)/listening/mcq/page.tsx: faithful on read-only comparison; no change.",
+        "tests": [
+          "existing V37 tests unchanged"
+        ]
       }
     },
     {

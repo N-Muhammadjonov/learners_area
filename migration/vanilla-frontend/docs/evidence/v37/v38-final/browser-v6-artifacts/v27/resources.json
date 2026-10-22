@@ -1,0 +1,410 @@
+{
+  "scope": "Six bounded real source/route lifecycles; parent instrumented realm only. CDP allocated counters do not prove all native/opaque iframe ownership. No universal no-leak claim.",
+  "samples": [
+    {
+      "stage": "initial",
+      "counts": {
+        "documents": 2,
+        "nodes": 770,
+        "jsEventListeners": 227
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 7,
+        "requests": 0,
+        "peakRequests": 1,
+        "audio": [
+          {
+            "paused": true,
+            "hasSrc": true
+          }
+        ],
+        "frames": 1,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "source-replacement-0",
+      "counts": {
+        "documents": 2,
+        "nodes": 774,
+        "jsEventListeners": 227
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 7,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [
+          {
+            "paused": true,
+            "hasSrc": true
+          }
+        ],
+        "frames": 1,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "route-disposed-0",
+      "counts": {
+        "documents": 1,
+        "nodes": 364,
+        "jsEventListeners": 184
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)",
+          "    at window.setTimeout (<anonymous>:13:63)\n    at modulePrewarm (http://127.0.0.1:4173/js/module-prewarm.js:16:21)\n    at createShell (http://127.0.0.1:4173/modules/shell/layout.js:38:2)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 4,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [],
+        "frames": 0,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "source-replacement-1",
+      "counts": {
+        "documents": 2,
+        "nodes": 803,
+        "jsEventListeners": 228
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 7,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [
+          {
+            "paused": true,
+            "hasSrc": true
+          }
+        ],
+        "frames": 1,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "route-disposed-1",
+      "counts": {
+        "documents": 1,
+        "nodes": 380,
+        "jsEventListeners": 184
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)",
+          "    at window.setTimeout (<anonymous>:13:63)\n    at modulePrewarm (http://127.0.0.1:4173/js/module-prewarm.js:16:21)\n    at createShell (http://127.0.0.1:4173/modules/shell/layout.js:38:2)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 4,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [],
+        "frames": 0,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "source-replacement-2",
+      "counts": {
+        "documents": 2,
+        "nodes": 819,
+        "jsEventListeners": 228
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 7,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [
+          {
+            "paused": true,
+            "hasSrc": true
+          }
+        ],
+        "frames": 1,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "route-disposed-2",
+      "counts": {
+        "documents": 1,
+        "nodes": 396,
+        "jsEventListeners": 184
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)",
+          "    at window.setTimeout (<anonymous>:13:63)\n    at modulePrewarm (http://127.0.0.1:4173/js/module-prewarm.js:16:21)\n    at createShell (http://127.0.0.1:4173/modules/shell/layout.js:38:2)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 4,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [],
+        "frames": 0,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "source-replacement-3",
+      "counts": {
+        "documents": 2,
+        "nodes": 835,
+        "jsEventListeners": 228
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 7,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [
+          {
+            "paused": true,
+            "hasSrc": true
+          }
+        ],
+        "frames": 1,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "route-disposed-3",
+      "counts": {
+        "documents": 1,
+        "nodes": 412,
+        "jsEventListeners": 184
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)",
+          "    at window.setTimeout (<anonymous>:13:63)\n    at modulePrewarm (http://127.0.0.1:4173/js/module-prewarm.js:16:21)\n    at createShell (http://127.0.0.1:4173/modules/shell/layout.js:38:2)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 4,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [],
+        "frames": 0,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "source-replacement-4",
+      "counts": {
+        "documents": 2,
+        "nodes": 851,
+        "jsEventListeners": 228
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 7,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [
+          {
+            "paused": true,
+            "hasSrc": true
+          }
+        ],
+        "frames": 1,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "route-disposed-4",
+      "counts": {
+        "documents": 1,
+        "nodes": 428,
+        "jsEventListeners": 184
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)",
+          "    at window.setTimeout (<anonymous>:13:63)\n    at modulePrewarm (http://127.0.0.1:4173/js/module-prewarm.js:16:21)\n    at createShell (http://127.0.0.1:4173/modules/shell/layout.js:38:2)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 4,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [],
+        "frames": 0,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "source-replacement-5",
+      "counts": {
+        "documents": 2,
+        "nodes": 867,
+        "jsEventListeners": 228
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 7,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [
+          {
+            "paused": true,
+            "hasSrc": true
+          }
+        ],
+        "frames": 1,
+        "dialogs": 0
+      }
+    },
+    {
+      "stage": "route-disposed-5",
+      "counts": {
+        "documents": 1,
+        "nodes": 444,
+        "jsEventListeners": 184
+      },
+      "parent": {
+        "intervals": [],
+        "timers": [
+          "    at window.setTimeout (<anonymous>:13:63)\n    at schedule (http://127.0.0.1:4173/js/authority.js:12:163)\n    at watchAuthority (http://127.0.0.1:4173/js/authority.js:24:61)",
+          "    at window.setTimeout (<anonymous>:13:63)\n    at modulePrewarm (http://127.0.0.1:4173/js/module-prewarm.js:16:21)\n    at createShell (http://127.0.0.1:4173/modules/shell/layout.js:38:2)"
+        ],
+        "rafs": [],
+        "observers": [
+          {
+            "type": "MutationObserver",
+            "owner": "    at new window.<computed> (<anonymous>:17:201)\n    at InjectedScript._setupGlobalListenersRemovalDetection (<anonymous>:6748:5)\n    at new InjectedScript (<anonymous>:5790:10)"
+          }
+        ],
+        "urls": 0,
+        "unabortedControllers": 4,
+        "requests": 0,
+        "peakRequests": 2,
+        "audio": [],
+        "frames": 0,
+        "dialogs": 0
+      }
+    }
+  ]
+}

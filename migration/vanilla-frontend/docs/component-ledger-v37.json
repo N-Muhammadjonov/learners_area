@@ -467,6 +467,13 @@
         "beforeStatus": "IN PROGRESS",
         "afterStatus": "IN PROGRESS",
         "scope": "Existing learner implementation; no whole-component acceptance promotion"
+      },
+      "v38": {
+        "status": "IN PROGRESS",
+        "changedFiles": [
+          "modules/listening/legacy.js"
+        ],
+        "audit": "Submit catch maps errors through request-errors failure(e,dict): 429 -> errorRateLimited, network -> errorNetwork, other -> errorServer. 409 still refreshes. Status unchanged (IN PROGRESS)."
       }
     },
     {
@@ -588,6 +595,13 @@
         "beforeStatus": "IN PROGRESS",
         "afterStatus": "IN PROGRESS",
         "scope": "Existing learner implementation; no whole-component acceptance promotion"
+      },
+      "v38": {
+        "status": "IN PROGRESS",
+        "changedFiles": [
+          "modules/listening/mcq.js"
+        ],
+        "audit": "Reasoned completion in MCQ Day uses replaceState (same-path guarded) + refresh, matching original router.replace + router.refresh. Status unchanged (IN PROGRESS)."
       }
     },
     {

@@ -30,7 +30,8 @@
     "test:original-source:v26": "V26_SOURCE=1 V25_SOURCE=1 V24_SOURCE=1 V23_SOURCE=1 V22_SOURCE=1 V21_SOURCE=1 V20_SOURCE=1 V19_SOURCE=1 V18_SOURCE=1 V17_SOURCE=1 V16_SOURCE=1 V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
     "diagnose:phase2": "node tests/phase2-diagnostic-v26.mjs",
     "test:original-source:v27": "V27_SOURCE=1 V26_SOURCE=1 V25_SOURCE=1 V24_SOURCE=1 V23_SOURCE=1 V22_SOURCE=1 V21_SOURCE=1 V20_SOURCE=1 V19_SOURCE=1 V18_SOURCE=1 V17_SOURCE=1 V16_SOURCE=1 V15_SOURCE=1 V14_SOURCE=1 V13_SOURCE=1 V12_SOURCE=1 node tests/browser-original-source-v11.mjs",
-    "verify:v27-extension": "python3 scripts/verify-extension-v27.py"
+    "verify:v27-extension": "python3 scripts/verify-extension-v27.py",
+    "test:listening-v38": "node tests/browser-listening-v38.mjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "133.0.0",

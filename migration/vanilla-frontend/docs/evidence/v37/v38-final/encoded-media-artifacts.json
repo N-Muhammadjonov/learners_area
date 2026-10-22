@@ -1,0 +1,50 @@
+[
+  {
+    "path": "browser-results.json",
+    "sha256": "f0ed62001594a5c03808d4b85d211a6c229fea6872387e908b4826bae0e5d7ed"
+  },
+  {
+    "path": "v2/browser-v2-results.json",
+    "sha256": "b01db2de2cf8d65447e4915de08201b1080a8f55ad4862cdb2f512bd9514b26a"
+  },
+  {
+    "path": "v2/shell-performance.json",
+    "sha256": "e7bd3fc498fb432e4eff2aad681a483dfc36be04830a82246065d3a19ee6d90a"
+  },
+  {
+    "path": "v3/browser-v3-results.json",
+    "sha256": "e18e29844d7c70fd6f7cbed88f27ac67ac6b324c92111e25145a22172e7683d7"
+  },
+  {
+    "path": "v4/browser-v4-results.json",
+    "sha256": "40b020e2aab27b28e0c82025e9f97c383b508a53960facf3ac623df4e8734648"
+  },
+  {
+    "path": "v24/review-performance.json",
+    "sha256": "3e752f511dd3578f204cff1322524c7d00f485133d3351e33ebdf0db557ab725"
+  },
+  {
+    "path": "v26/modal-resources.json",
+    "sha256": "ac9c37ee79c39f98b1dd980182213e964a1311f44fd760e158ae66d480d26e4e"
+  },
+  {
+    "path": "v27/resources.json",
+    "sha256": "f9a51db63ff960102b9b6a1cd4720ba4291efe557ab854edb61a2f2436c5d157"
+  },
+  {
+    "path": "v5/browser-v5-results.json",
+    "sha256": "7e584a03ebc96ec927d5d7f1393070d33db4ff3f920af8dca93cd4db05e9e8c9"
+  },
+  {
+    "path": "v6/browser-v6-results.json",
+    "sha256": "283ca63979e7893514b8bde1a6e407832a58c1af221ce8c6572e522b6e87c68a"
+  },
+  {
+    "path": "v6/phase2-performance.json",
+    "sha256": "85d8b410896c4a5b3603655d55d98ea24036fdf9f50a9049cceb128ef98e6e58"
+  },
+  {
+    "path": "v9/browser-v9-results.json",
+    "sha256": "adc718adce6c45118ef728b0a68de99151e0d7060ee8b557ba31ed425fe7057f"
+  }
+]

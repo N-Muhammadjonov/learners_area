@@ -1,0 +1,25 @@
+{
+  "generated": "2026-10-22T17:39:55.207Z",
+  "results": [
+    {
+      "name": "V38 in-progress legacy attempt (focus group) does not auto-enter Focus mode; original (focus) layout has no ShellUtilities subscriber",
+      "status": "PASS"
+    },
+    {
+      "name": "V38 legacy submit rate limited 429 shows the original failure category",
+      "status": "PASS"
+    },
+    {
+      "name": "V38 legacy submit network failure shows the original failure category",
+      "status": "PASS"
+    },
+    {
+      "name": "V38 legacy submit server 500 shows the original failure category",
+      "status": "PASS"
+    },
+    {
+      "name": "V38 MCQ Day reasoned completion refreshes day progress without moving focus to the heading",
+      "status": "PASS"
+    }
+  ]
+}

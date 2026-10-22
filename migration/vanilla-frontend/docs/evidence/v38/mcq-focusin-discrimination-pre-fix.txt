@@ -1,0 +1,5 @@
+FAIL V38 MCQ Day reasoned completion refreshes day progress without moving focus to the heading AssertionError [ERR_ASSERTION]: reasoned completion must not focus the route heading or main, focusin=TEXTAREA,BUTTON,MAIN
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-listening-v38.mjs:79:10
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-listening-v38.mjs:19:110)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-listening-v38.mjs:61:1
+{"pass":4,"fail":1}

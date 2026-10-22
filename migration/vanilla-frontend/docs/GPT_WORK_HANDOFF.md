@@ -1,3 +1,9 @@
+# CURRENT V38 — Listening still NOT COMPLETE; audit and two repairs only
+
+Baseline V37 **79a289298f25a26e4804168df9d228129294a024** on `arena/96836bcf-learners-area`. V38 did **not** deliver the working frontend for the six partial learner routes; it performed a read-only parity audit of all six, repaired two real divergences (legacy exam submit error mapping; MCQ Day reasoned completion focus), added a focused browser suite (5/0), and ran the full mandatory regression (exit 0: units 605/0/0; browser 499/0; actual-source 418/0/0; timing 14/0; equivalent controls 2/0). No route, component, or workflow promoted: routes 9 CODE COMPLETE / 6 IN PROGRESS / 1 Staff NOT STARTED; components 9/10/5. Six strict visual FAILs remain open and unexplained; not hidden, not tolerated.
+
+Read V38_LISTENING_IMPLEMENTATION_REPORT.md, V38_LISTENING_ROUTE_CLOSURE_MATRIX.md, V38_LISTENING_BROWSER_VERIFICATION.md, V38_LISTENING_VISUAL_PARITY.md and V38_LISTENING_GPT_WORK_HANDOFF.md first. Unfinished source work per route is in the implementation report §13. Phase2 A–J remains an unsigned BLOCKED owner decision. Live integration UNVERIFIED. No main merge, deploy, ZIP, or new API. Do not run document-listening-v37.py (it rewrites this file from an older marker).
+
 # CURRENT V37 — Listening priority; whole module NOT COMPLETE
 
 Baseline **62076acc0178602c0bd87025f5c542510242bc1e**, same Arena branch. Listening supersedes course video/Grammar priority. **This is not whole-Listening completion or release approval.** No main merge, deployment, new backend, Staff implementation, educational reconstruction or ZIP. Human project owner authorizes implementation; separate unsigned Phase2 A–J release decision remains BLOCKED and does not block frontend work.
