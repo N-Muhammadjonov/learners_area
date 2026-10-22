@@ -94,9 +94,11 @@ function makeBuilding(scene,entry,reduced) {
     }
   }
   // Symbol panel faces upwards, just like the miniature buildings in the reference.
-  const cap=box(root,1.19,.18,1.19,dark,0,entry.h+.72,0);
-  cap.rotation.y=Math.PI/4;
-  const symbol=makeCanvasSymbol(entry.emblem,entry.id==="grammar"?"#f5bf49":hex(c),entry.id==="grammar");
+  if(entry.id==="grammar"){
+    const cap=box(root,1.19,.18,1.19,dark,0,entry.h+.72,0);
+    cap.rotation.y=Math.PI/4;
+  }
+  const symbol=entry.id==="grammar" ? makeCanvasSymbol(entry.emblem,"#f5bf49",true) : null;
   if(symbol){
     const sign=new THREE.Mesh(markerPlane,new THREE.MeshBasicMaterial({
       map:symbol,transparent:true,depthWrite:false,side:THREE.DoubleSide
@@ -302,7 +304,7 @@ export function mountCampus(node) {
   const circuits=[];
   const pulseMeshes=[];
   const entries=NAV.map(e=>makeBuilding(scene,e,reduced));
-  const routeData=[{id:"dashboard",href:"/app/dashboard",x:0,z:0,h:1.05},...NAV];
+
   for(const entry of NAV){
     const color=entry.color;
     const mx=entry.x*.56,mz=entry.z*.54;
