@@ -70,7 +70,15 @@ export class CampusLabels {
   update(width, height) {
     const tempVec = new THREE.Vector3();
 
-    for (const item of this.labels) {
+    const placed=[];
+    // Screen-space collision handling keeps the buildings visible at low camera angles.
+    // Preserve the exact words and SVG icons; only fade colliding labels.
+    const ordered=[...this.labels].sort((a,b)=>{
+      const da=this.camera.position.distanceToSquared(a.anchorPos);
+      const db=this.camera.position.distanceToSquared(b.anchorPos);
+      return (a.module.id==="dashboard"?-1:b.module.id==="dashboard"?1:da-db);
+    });
+    for (const item of ordered) {
       tempVec.copy(item.anchorPos);
       tempVec.project(this.camera);
 
@@ -86,6 +94,15 @@ export class CampusLabels {
 
       item.el.style.left = `${screenX.toFixed(1)}px`;
       item.el.style.top = `${screenY.toFixed(1)}px`;
+      const estimatedWidth=Math.min(165,Math.max(80,item.module.name.length*7.2+35));
+      const rect={left:screenX-estimatedWidth/2,right:screenX+estimatedWidth/2,
+        top:screenY-14,bottom:screenY+14};
+      const colliding=placed.some(other=>
+        rect.left<other.right+5&&rect.right>other.left-5&&
+        rect.top<other.bottom+5&&rect.bottom>other.top-5);
+      const clipped=rect.right<0||rect.left>width||rect.bottom<0||rect.top>height;
+      item.el.style.visibility=clipped||colliding?'hidden':'visible';
+      if(!clipped&&!colliding)placed.push(rect);
     }
   }
 
