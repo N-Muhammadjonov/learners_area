@@ -176,6 +176,7 @@ export class LearnersAreaCampusScene {
       }
 
       if (bldgGroup) {
+        if(!m.isCenter)this.geometry.addFacadeIllumination(bldgGroup,m);
         if(!m.isCenter){
           // Taller, wider real architecture while leaving more distance between modules.
           bldgGroup.scale.set(1.16,1.23,1.16);
