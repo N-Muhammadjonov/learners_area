@@ -394,6 +394,11 @@
         "beforeStatus": "IN PROGRESS",
         "afterStatus": "IN PROGRESS",
         "scope": "Existing learner implementation; no whole-component acceptance promotion"
+      },
+      "v39": {
+        "notes": "V39: activity 1 exam start, Start posts once, start failure and Retry covered by browser matrix (run 14). Status unchanged: sound-check and remaining exam-start branches not verified in V39.",
+        "evidence": "docs/V39_LISTENING_HUB_ACTIVITY.md",
+        "statusChanged": false
       }
     },
     {
@@ -406,6 +411,11 @@
         "beforeStatus": "CODE COMPLETE",
         "afterStatus": "CODE COMPLETE",
         "scope": "Existing learner implementation; no whole-component acceptance promotion"
+      },
+      "v39": {
+        "notes": "V39: activity 2-5 browser cases pass (run 14), including activity 3 typed gap save, failed save, network single write, 401, draft restore, 12-case matrix; inner '\u2190 Test hub' literal matches source line 237. Status unchanged (CODE COMPLETE from V37); lexical assistance and Say-it not run in V39 and not re-verified.",
+        "evidence": "docs/V39_LISTENING_HUB_ACTIVITY.md",
+        "statusChanged": false
       }
     },
     {
@@ -535,6 +545,11 @@
         "beforeStatus": "IN PROGRESS",
         "afterStatus": "IN PROGRESS",
         "scope": "Existing learner implementation; no whole-component acceptance promotion"
+      },
+      "v39": {
+        "notes": "V39: practice.js Previous/Next prediction reset fixed (reproduced run 6, PASS run 7-14); browser matrix cases for matching, completion, retry, map, 500, answer-key refusal, media lifecycle pass. Status unchanged: lexical popovers in practice not run in V39.",
+        "evidence": "docs/V39_LISTENING_HUB_ACTIVITY.md",
+        "statusChanged": false
       }
     },
     {

@@ -1,0 +1,72 @@
+PASS V39 hub direct entry renders the hubDTO test, meta and card links (EN, desktop)
+PASS V39 hub completed and in-progress badges reflect server latest scores
+PASS V39 hub draft publication shows the QA draft notice; published does not
+PASS V39 hub card click navigates to the activity route; Back and Forward restore both screens
+PASS V39 hub direct reload refetches the authorized view and keeps the hub
+PASS V39 hub keyboard: Tab reaches Back link then exam card CTA; Enter follows the link
+PASS V39 hub touch: tap on the card CTA navigates (touch emulation, 390 px)
+PASS V39 hub Back link on a cold entry follows its library href (no history on the page)
+PASS V39 hub locked (403 sequence_locked) shows the locked section linking to academic
+PASS V39 hub kind locked from the view shows the locked section
+PASS V39 hub not_found (404) shows the original not-found screen with no hub content
+PASS V39 hub malformed id never requests data and shows the not-found screen
+PASS V39 hub 500 shows the region error; Try again re-requests and renders the hub
+PASS V39 hub network failure shows the region error and no hub content
+PASS V39 hub 429 shows the region error and no hub content
+PASS V39 hub 403 (not sequence-locked) shows the region error and no hub content
+PASS V39 hub 401 ends the session: hub content is removed and the app leaves the Listening screen
+PASS V39 hub unrecognized view kind is a region error, never fabricated hub content
+PASS V39 hub payload with extra transcript field is refused; transcript text never renders
+FAIL V39 hub authored kind renders the sandboxed authored frame (allow-scripts only) locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('iframe').first() to be visible
+
+PASS V39 hub in-app source switch (pushState + popstate) replaces the hub with the new test only
+PASS V39 hub in-app navigation during an in-flight hub request discards the stale response
+FAIL V39 activity invalid route segments are not-found and issue no request (activity 0, 6, malformed id) locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('[data-listening-not-found]') to be visible
+
+PASS V39 activity 1 shows the original exam start; Start posts once and navigates to the attempt
+PASS V39 activity 1 start failure shows the original message; Retry resumes the same start path
+PASS V39 activity 3 Save progress posts complete:false with the typed gap answer and keeps it on screen
+PASS V39 activity 3 failed save shows the save-failed message and keeps the typed gap answer
+PASS V39 activity 2 rate-limited Complete (429) shows save-failed and displays no score
+PASS V39 activity 2 Complete posts complete:true and shows the server score (no client grading)
+PASS V39 practice matching: Check is disabled until answered; Check posts only answered questions and shows the verdict and key
+PASS V39 practice Finish is blocked until every question is answered, then sends complete:true for all
+FAIL V39 practice Previous and Next move between questions and reset the prediction field prediction reset on Next
++ actual - expected
+
++ 'typed prediction'
+- ''
+
+PASS V39 practice completion: a text answer is sent as typed and the Test hub link returns to the hub
+PASS V39 practice retry with no missed questions shows the original empty message
+PASS V39 practice map: the plan renders and a location answer is submitted (ListeningMap)
+PASS V39 practice error (500) shows the common error and Try again succeeds
+PASS V39 practice while an exam is in progress shows the exam-locked notice
+PASS V39 activity 2 while an exam is in progress shows the exam-locked notice
+PASS V39 activity route: unknown view kind is a region error, never a fabricated activity
+PASS V39 activity 3 network failure on Save issues exactly one write (no silent replay)
+FAIL V39 activity source switch via popstate loads only the new test activity page.waitForFunction: EvalError: Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: "script-src 'self'".
+
+    at eval (<anonymous>)
+    at predicate (eval at evaluate (:234:30), <anonymous>:11:37)
+    at next (eval at evaluate (:234:30), <anonymous>:32:31)
+PASS V39 activity 3 typed gap answer survives reload from the local draft (sessionStorage), not from the server
+PASS V39 activity direct reload refetches and keeps the same activity screen
+PASS V39 activity 2 authored-runtime redirect (kind authored) goes to the hub with no fragment
+PASS V39 hub matrix 1440x900 en day: title, card CTA href and no horizontal overflow
+PASS V39 hub matrix 1440x900 en night: title, card CTA href and no horizontal overflow
+PASS V39 hub matrix 1440x900 uz day: title, card CTA href and no horizontal overflow
+PASS V39 hub matrix 1440x900 uz night: title, card CTA href and no horizontal overflow
+PASS V39 hub matrix 768x1024 en day: title, card CTA href and no horizontal overflow
+PASS V39 hub matrix 768x1024 en night: title, card CTA href and no horizontal overflow
+PASS V39 hub matrix 768x1024 uz day: title, card CTA href and no horizontal overflow
+PASS V39 hub matrix 768x1024 uz night: title, card CTA href and no horizontal overflow
+PASS V39 hub matrix 390x844 en day: title, card CTA href and no horizontal overflow
+PASS V39 hub matrix 390x844 en night: title, card CTA href and no horizontal overflow
+PASS V39 hub matrix 390x844 uz day: title, card CTA href and no horizontal overflow
+PASS V39 hub matrix 390x844 uz night: title, card CTA href and no horizontal overflow
+{"pass":52,"fail":4}

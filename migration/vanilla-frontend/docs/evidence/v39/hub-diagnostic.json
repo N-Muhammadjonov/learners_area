@@ -1,0 +1,169 @@
+{
+  "scope": "V39 Hub strict-residual self-control; synthetic fixtures; V37 reference JSON; not production parity",
+  "results": {
+    "hub-768-uz-day": {
+      "A_nativeTwice": {
+        "dimensionsEqual": true,
+        "differentPixels": 0,
+        "maxChannelDelta": 0,
+        "samples": []
+      },
+      "B_referenceTwice": {
+        "dimensionsEqual": true,
+        "differentPixels": 0,
+        "maxChannelDelta": 0,
+        "samples": []
+      },
+      "C_freshPages": {
+        "dimensionsEqual": true,
+        "differentPixels": 2,
+        "maxChannelDelta": 1,
+        "samples": [
+          {
+            "x": 325,
+            "y": 462,
+            "native": [
+              167,
+              170,
+              175
+            ],
+            "reference": [
+              167,
+              171,
+              175
+            ]
+          },
+          {
+            "x": 345,
+            "y": 465,
+            "native": [
+              13,
+              32,
+              65
+            ],
+            "reference": [
+              13,
+              32,
+              64
+            ]
+          }
+        ]
+      },
+      "D_v37Order": {
+        "dimensionsEqual": true,
+        "differentPixels": 2,
+        "maxChannelDelta": 1,
+        "samples": [
+          {
+            "x": 325,
+            "y": 462,
+            "native": [
+              167,
+              170,
+              175
+            ],
+            "reference": [
+              167,
+              171,
+              175
+            ]
+          },
+          {
+            "x": 345,
+            "y": 465,
+            "native": [
+              13,
+              32,
+              65
+            ],
+            "reference": [
+              13,
+              32,
+              64
+            ]
+          }
+        ]
+      },
+      "E_structure": {
+        "nativeNodes": 18,
+        "referenceNodes": 18,
+        "diffs": []
+      }
+    },
+    "hub-768-en-day": {
+      "A_nativeTwice": {
+        "dimensionsEqual": true,
+        "differentPixels": 0,
+        "maxChannelDelta": 0,
+        "samples": []
+      },
+      "B_referenceTwice": {
+        "dimensionsEqual": true,
+        "differentPixels": 0,
+        "maxChannelDelta": 0,
+        "samples": []
+      },
+      "C_freshPages": {
+        "dimensionsEqual": true,
+        "differentPixels": 1,
+        "maxChannelDelta": 1,
+        "samples": [
+          {
+            "x": 501,
+            "y": 461,
+            "native": [
+              114,
+              123,
+              137
+            ],
+            "reference": [
+              114,
+              122,
+              137
+            ]
+          }
+        ]
+      },
+      "D_v37Order": {
+        "dimensionsEqual": true,
+        "differentPixels": 1,
+        "maxChannelDelta": 1,
+        "samples": [
+          {
+            "x": 501,
+            "y": 461,
+            "native": [
+              114,
+              123,
+              137
+            ],
+            "reference": [
+              114,
+              122,
+              137
+            ]
+          }
+        ]
+      },
+      "E_structure": {
+        "nativeNodes": 18,
+        "referenceNodes": 18,
+        "diffs": []
+      }
+    },
+    "hub-768-uz-day-settle": {
+      "trials": 8,
+      "nonzero": 4,
+      "counts": [
+        0,
+        2,
+        0,
+        2,
+        2,
+        2,
+        0,
+        0
+      ]
+    }
+  }
+}

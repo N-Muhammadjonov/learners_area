@@ -201,6 +201,11 @@
         "tests": [
           "existing V37 tests unchanged"
         ]
+      },
+      "v39": {
+        "audit": "V39: status unchanged (IN PROGRESS). Fixed two source-grounded gaps reproduced first in run 6: invalid activity segments (0, 6, malformed id) now not-found with no request (modules/listening/route-v7.js invalidActivitySegment); practice Previous/Next resets prediction (modules/listening/practice.js). Browser matrix 78 PASS / 0 FAIL (activity 1 start/retry, activity 2 Complete 429/score, activity 3 save/network/401/draft restore/12-case matrix, activity 4 Save/keyboard, activity 5 vocabulary/Quiz, practice matching/completion/retry/map/500/answer-key refusal, popstate source switch). NOT RUN: lexical assistance popovers, activity 5 Study/Say-it (speechSynthesis), activity-screen touch and back/forward, 403 on activity writes, activity 2-4 clip media lifecycle. Inner Test hub link on activity is the source literal '\u2190 Test hub' in every locale (original FullListeningActivity.tsx line 237). See docs/V39_LISTENING_HUB_ACTIVITY.md.",
+        "evidence": "docs/V39_LISTENING_HUB_ACTIVITY.md",
+        "statusChanged": false
       }
     },
     {
@@ -270,6 +275,11 @@
         "tests": [
           "browser-listening-visual-v37 (V37 strict hub cases; hub-768-uz-day FAIL retained)"
         ]
+      },
+      "v39": {
+        "audit": "V39: status unchanged (IN PROGRESS). Browser matrix docs/evidence/v39/final-run14-browser-listening-v39.log: 78 PASS / 0 FAIL (hub: direct entry, reload, back/forward, keyboard, touch, 404/malformed no request, 401 to /login, 403 locked, 429, 500 retry, network, unrecognized kind, transcript refusal, authored sandbox, source switch, stale response, 12-case viewport/locale/theme matrix). Not promoted: hub authored-frame media not separately verified; route-level visual strict FAIL hub-768-uz-day unresolved (docs/evidence/v39/hub-diagnostic.json); see docs/V39_LISTENING_HUB_ACTIVITY.md. No source or code change to the hub owner in V39.",
+        "evidence": "docs/V39_LISTENING_HUB_ACTIVITY.md",
+        "statusChanged": false
       }
     },
     {
