@@ -331,7 +331,10 @@ export class LearnersAreaCampusScene {
       const { id, active } = e.detail;
       const bldg = this.buildingMeshes.get(id);
       if (bldg) {
-        bldg.scale.setScalar(active ? 1.04 : 1.0);
+        // Hover must never erase each building's calibrated non-uniform scale.
+        if (!bldg.userData.restingScale) bldg.userData.restingScale=bldg.scale.clone();
+        const k=active?1.025:1;
+        bldg.scale.copy(bldg.userData.restingScale).multiplyScalar(k);
       }
     };
     window.addEventListener('campus-module-hover',this.onModuleHover);
