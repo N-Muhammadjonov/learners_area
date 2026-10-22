@@ -14,9 +14,12 @@ test("discontinuous phrasal forms need explicit source-relative parts matching a
 
 test("an authored adverb degree form admits higher without choosing a meaning or another head",()=>{
  const release="rel-v1-111111111111111111111111";
- const entry=(lemma:string,pos:"r"|"adverb"|"n")=>applyDraft([],{operation:"add_lexeme",lemma,partOfSpeech:pos,lexicalType:"word",definitionEn:"Fixture meaning",definitionUz:"Ma'no",translationUz:"ma'no",examples:[]},release);
+ const entry=(lemma:string,pos:"r"|"adverb"|"adjective"|"a"|"n")=>applyDraft([],{operation:"add_lexeme",lemma,partOfSpeech:pos,lexicalType:"word",definitionEn:"Fixture meaning",definitionUz:"Ma'no",translationUz:"ma'no",examples:[]},release);
  assert.equal(matchesDictionaryContextForm(entry("high","r"),"higher"),true);
  assert.equal(matchesDictionaryContextForm(entry("high","adverb"),"highest"),true);
  assert.equal(matchesDictionaryContextForm(entry("high","r"),"lighter"),false);
  assert.equal(matchesDictionaryContextForm(entry("high","n"),"higher"),false);
+ assert.equal(matchesDictionaryContextForm(entry("high","a"),"higher"),true,"prices look higher uses an adjective, not the adverb in rose higher");
+ assert.equal(matchesDictionaryContextForm(entry("high","adjective"),"highest"),true);
+ assert.equal(matchesDictionaryContextForm(entry("height","n"),"higher"),false);
 });

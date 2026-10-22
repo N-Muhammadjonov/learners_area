@@ -49,6 +49,9 @@ const IRREGULAR_NOUNS: Record<string, string> = {
 const ADVERB_DEGREE_FORMS: Record<string, string[]> = {
   high: ["higher", "highest"],
 };
+const ADJECTIVE_DEGREE_FORMS: Record<string, string[]> = {
+  high: ["higher", "highest"],
+};
 
 const VOWEL = /[aeiou]/;
 
@@ -126,6 +129,8 @@ export function formsOf(term: string, partOfSpeech: string | null | undefined): 
   const verbal = pos === "verb" || type === "verb_phrase" || type === "phrasal_verb";
   if (verbal) for (const f of verbForms(head)) add(join(f.form), f.formType);
   else if (pos === "noun" && words.length === 1) add(plural(lemma), IRREGULAR_NOUNS[lemma] ? "irregular" : "regular");
+  else if ((pos === "adjective" || pos === "a") && words.length === 1)
+    for (const form of ADJECTIVE_DEGREE_FORMS[lemma] ?? []) add(form, "regular");
   else if ((pos === "adverb" || pos === "r") && words.length === 1)
     for (const form of ADVERB_DEGREE_FORMS[lemma] ?? []) add(form, "regular");
   return [...out.values()];
