@@ -39,3 +39,61 @@
   .la-campus-reset{right:12px;top:10px}
 }
 @media(prefers-reduced-motion:reduce){.la-campus .campus-module-label{transition:none}}
+
+/* Campus-only chrome: keep real global search, theme, locale, bell, profile in one row. */
+[data-shell]:has([data-campus-world]) [data-shell-topbar]{
+  display:flex!important;flex-wrap:nowrap!important;align-items:center!important;
+  justify-content:flex-end!important;gap:clamp(4px,.7vw,12px)!important;
+  padding:6px clamp(10px,1vw,20px) 6px clamp(230px,25vw,345px)!important;
+  min-width:0;z-index:50!important;
+}
+[data-shell]:has([data-campus-world]) [data-shell-topbar]>div{
+  min-width:0;flex-shrink:1;grid-column:auto!important;grid-row:auto!important;
+  order:initial!important;margin:0!important;
+}
+[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:first-child{
+  display:none!important;
+}
+[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:nth-child(2){
+  flex:1 1 280px!important;max-width:510px;min-width:125px;
+}
+[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:nth-child(3),
+[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:nth-child(4){
+  display:flex!important;flex:0 0 auto!important;flex-wrap:nowrap!important;
+  align-items:center!important;justify-content:flex-end!important;gap:5px!important;
+}
+[data-shell]:has([data-campus-world]) [data-mobile-nav-toggle]{display:none!important}
+.la-campus-brand{
+  position:fixed!important;top:6px!important;left:18px!important;
+  z-index:70!important;min-height:calc(var(--shell-topbar-h) - 12px);
+  align-items:center;pointer-events:none!important;
+}
+.la-campus-brand strong{font-size:18px!important;white-space:nowrap}
+.la-campus-brand small{font-size:10px!important;white-space:nowrap}
+.la-campus .campus-module-label{
+  gap:5px!important;padding:5px 8px!important;
+  font-size:clamp(10px,.83vw,12px)!important;line-height:1.05!important;
+  max-width:160px!important;
+}
+.la-campus .campus-module-label .module-icon{
+  width:15px!important;height:15px!important;flex-shrink:0;
+}
+.la-campus .campus-module-label .module-text{font-size:inherit!important;line-height:inherit!important}
+.la-campus .campus-labels-overlay{overflow:hidden!important}
+@media(max-width:920px){
+ [data-shell]:has([data-campus-world]) [data-shell-topbar]{
+   padding-left:190px!important;gap:3px!important
+ }
+ .la-campus-brand{left:8px!important}
+ .la-campus-brand strong{font-size:13px!important}
+ .la-campus-brand small{font-size:9px!important}
+ .la-campus-brand [data-brand-logo]{height:30px!important}
+}
+@media(max-width:660px){
+ [data-shell]:has([data-campus-world]) [data-shell-topbar]{
+   padding-left:95px!important;overflow-x:auto!important
+ }
+ .la-campus-brand small{display:none!important}
+ .la-campus-brand strong{font-size:11px!important}
+ .la-campus .campus-module-label{font-size:9px!important;padding:4px 6px!important}
+}
