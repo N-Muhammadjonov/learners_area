@@ -145,6 +145,24 @@
       "translationUz": "omma oldida namoyish etish",
       "definitionUz": "omma oldida namoyish etish",
       "reason": "Public exhibition need not imply boastful showing off."
+    },
+    {
+      "entryId": "37aaeef1-ff38-5d29-8204-44bd44d11078",
+      "senseId": "358a0d79-fbbf-4132-a92f-a8f23c6ef0e3",
+      "meaningSha": "f357052d3dbde946bc26ed3618f0e8b684b2bd9a887aedb532bab5df9ab441e5",
+      "beforeTranslationSha": "2180bfb266008853fc0673ddd63eae6ae384189e36f96e4a97d02bd4836c459b",
+      "translationUz": "qadr; biror narsaning ahamiyati yoki foydalilik darajasi",
+      "definitionUz": "qadr; biror narsaning ahamiyati yoki foydalilik darajasi",
+      "reason": "Educational value is importance or usefulness; qadriyat incorrectly suggests an ethical ideal, a separate existing sense."
+    },
+    {
+      "entryId": "73b1835c-9d09-5a83-9e6d-f5f7e6f51f58",
+      "senseId": "d45eefbc-cf9a-40f7-ad50-c52224c27bfd",
+      "meaningSha": "196213c02cbf8fcd7841e5f1b87d7ae189e66332f8a28b54e37cb589c4efff12",
+      "beforeTranslationSha": "9ebee03176def51071f059bda999b8a484876275f4893752a261e50017ac1502",
+      "translationUz": "model; biror narsaning tasviri yoki ifodasi, ba’zan kichikroq o‘lchamdagi nusxasi",
+      "definitionUz": "model; biror narsaning tasviri yoki ifodasi, ba’zan kichikroq o‘lchamdagi nusxasi",
+      "reason": "The canonical English says sometimes smaller: a digital model need not be a miniature physical object. Keep the representation sense and original identity."
     }
   ]
 }

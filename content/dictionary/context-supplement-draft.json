@@ -2278,20 +2278,6 @@
       "referenceUrl": "https://dictionary.cambridge.org/dictionary/learner-english/like"
     },
     {
-      "lemma": "no longer",
-      "pos": "idiom",
-      "key": "past-state-has-ended",
-      "definitionEn": "Used to say that a situation or action existed before but has now stopped.",
-      "translationUz": "endi ... emas; endi ... qilmaydi",
-      "exampleEn": "Employees no longer treated every evening message as urgent.",
-      "exampleUz": "Xodimlar endi har bir kechki xabarni shoshilinch deb hisoblamas edi.",
-      "usageFrames": [
-        "no longer feel pressured",
-        "no longer work late"
-      ],
-      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/no-longer"
-    },
-    {
       "lemma": "response time",
       "pos": "n",
       "key": "time-taken-to-reply",
@@ -2540,6 +2526,826 @@
           "meaningSha": "e699bbcdc53dec913421e1fd8a5acdd20ae018a57893b910368c1732b7271b00"
         }
       ]
+    },
+    {
+      "lemma": "machine learning",
+      "pos": "n",
+      "key": "learning-patterns-from-data",
+      "definitionEn": "A computing method in which a system learns patterns from data to make predictions or decisions.",
+      "translationUz": "mashinaviy o‘rganish; kompyuterning ma’lumotlardagi qonuniyatlarni o‘rganib, bashorat yoki qaror chiqarishi",
+      "exampleEn": "The laboratory used machine learning to identify samples needing review.",
+      "exampleUz": "Laboratoriya qayta tekshirish kerak bo‘lgan namunalarni aniqlash uchun mashinaviy o‘rganishdan foydalandi.",
+      "forms": [
+        "machine-learning"
+      ],
+      "usageFrames": [
+        "a machine-learning system",
+        "use machine learning"
+      ],
+      "referenceUrl": "https://developers.google.com/machine-learning/glossary#machine-learning"
+    },
+    {
+      "lemma": "model",
+      "pos": "n",
+      "key": "trained-computational-predictor",
+      "definitionEn": "A computational structure with learned parameters that transforms input data into predictions or other outputs.",
+      "translationUz": "o‘rgatilgan kompyuter modeli; kiruvchi ma’lumotlardan bashorat yoki natija chiqaradigan tuzilma",
+      "exampleEn": "The model made more errors on images from the night scanner.",
+      "exampleUz": "Model tungi skanerdan olingan tasvirlarda ko‘proq xato qildi.",
+      "usageFrames": [
+        "train a model on examples",
+        "evaluate the model's predictions"
+      ],
+      "referenceUrl": "https://developers.google.com/machine-learning/glossary#model",
+      "targetLexemeId": "73b1835c-9d09-5a83-9e6d-f5f7e6f51f58",
+      "expectedEntrySha": "76eb8e1ec125d499c37d6038ca4db0381097836a4e9bcf0475591edb32aaf0f4"
+    },
+    {
+      "lemma": "training data",
+      "pos": "n",
+      "key": "examples-used-to-fit-model",
+      "definitionEn": "The examples used to adjust the parameters of a machine-learning model.",
+      "translationUz": "modelni o‘rgatish ma’lumotlari; modelning ishlashini sozlash uchun beriladigan namunalar",
+      "exampleEn": "The training data contained too few images from the overnight scanner.",
+      "exampleUz": "O‘rgatish ma’lumotlarida tungi skanerdan olingan tasvirlar juda kam edi.",
+      "usageFrames": [
+        "representative training data",
+        "include examples in the training data"
+      ],
+      "referenceUrl": "https://developers.google.com/machine-learning/glossary#training"
+    },
+    {
+      "lemma": "test set",
+      "pos": "n",
+      "key": "held-out-evaluation-examples",
+      "definitionEn": "A separate group of examples used to evaluate a trained model rather than to train it.",
+      "translationUz": "sinov ma’lumotlari to‘plami; o‘rgatishda ishlatilmagan, modelni baholash uchun ajratilgan namunalar",
+      "exampleEn": "The team reserved a fresh test set covering every work shift.",
+      "exampleUz": "Jamoa barcha ish smenalarini qamrab oladigan yangi sinov ma’lumotlari to‘plamini ajratdi.",
+      "usageFrames": [
+        "reserve a test set",
+        "evaluate predictions on the test set"
+      ],
+      "referenceUrl": "https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets"
+    },
+    {
+      "lemma": "route",
+      "pos": "n",
+      "key": "method-for-achieving-something",
+      "definitionEn": "A way or procedure through which someone can achieve something or raise an issue.",
+      "translationUz": "yo‘l; biror maqsadga erishish yoki masalani ko‘tarish usuli",
+      "exampleEn": "Staff had a clear route for challenging the system's recommendations.",
+      "exampleUz": "Xodimlarda tizim tavsiyalariga e’tiroz bildirishning aniq yo‘li bor edi.",
+      "usageFrames": [
+        "a route for raising concerns",
+        "a clear route to review"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/route",
+      "targetLexemeId": "8b50f420-f89b-50fe-9dea-fcdcf3a042e7",
+      "expectedEntrySha": "b74c250d645a4ac3aed40c2fac09b0bde2bf98d7ba8c0a8b908a47a28f055eab"
+    },
+    {
+      "lemma": "subject to",
+      "pos": "adjective phrase",
+      "key": "required-to-undergo",
+      "definitionEn": "Required to undergo the process or follow the condition mentioned.",
+      "translationUz": "...dan o‘tishi shart bo‘lgan; ... talabiga bo‘ysunadigan",
+      "exampleEn": "The revised system remained subject to monthly error reviews.",
+      "exampleUz": "Yangilangan tizimdagi xatolarni har oy ko‘rib chiqish talabi saqlanib qoldi.",
+      "usageFrames": [
+        "subject to regular review",
+        "subject to inspection"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/subject_2"
+    },
+    {
+      "lemma": "whereas",
+      "pos": "conjunction",
+      "key": "contrasting-facts",
+      "definitionEn": "Introduces a fact or opinion that contrasts with the one just mentioned.",
+      "translationUz": "... esa; ... bo‘lsa; ikki holat yoki fikrni qarama-qarshi qo‘yuvchi bog‘lovchi",
+      "exampleEn": "The operator preferred barriers, whereas residents wanted quieter manoeuvres.",
+      "exampleUz": "Tashuvchi to‘siqlarni ma’qul ko‘rdi, aholi esa manevrlar tinchroq bo‘lishini xohladi.",
+      "usageFrames": [
+        "whereas residents preferred another option",
+        "one result fell, whereas another stayed the same"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/whereas"
+    },
+    {
+      "lemma": "around",
+      "pos": "preposition",
+      "key": "taking-a-constraint-into-account",
+      "definitionEn": "With the named activity or requirement taken into account when arranging something.",
+      "translationUz": "...ni hisobga olgan holda; reja tuzishda ...ga moslashtirib",
+      "exampleEn": "Freight movements were scheduled around passenger services.",
+      "exampleUz": "Yuk poyezdlari harakati yo‘lovchi qatnovlarini hisobga olgan holda rejalashtirildi.",
+      "usageFrames": [
+        "schedule work around other duties",
+        "arrange movements around passenger services"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/around_1"
+    },
+    {
+      "lemma": "service",
+      "pos": "n",
+      "key": "regular-transport-operation",
+      "definitionEn": "A regular transport operation or a scheduled journey made by a train, bus, or similar vehicle.",
+      "translationUz": "qatnov; poyezd, avtobus yoki boshqa transportning muntazam yoki jadvaldagi reysi",
+      "exampleEn": "Freight trains had to fit around the passenger services.",
+      "exampleUz": "Yuk poyezdlari yo‘lovchi qatnovlariga moslashtirilishi kerak edi.",
+      "usageFrames": [
+        "passenger services",
+        "scheduled railway services"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/service",
+      "targetLexemeId": "50eaa263-dd18-52a5-b3da-771f61163402",
+      "expectedEntrySha": "91c0966bdf4317a8f753d4cb31cf8d67820caba27751636b390103849a19c6d0"
+    },
+    {
+      "lemma": "carriage",
+      "pos": "n",
+      "key": "railway-vehicle-passengers-or-goods",
+      "definitionEn": "A separate vehicle forming part of a train and used to carry passengers or goods.",
+      "translationUz": "vagon; poyezd tarkibida yo‘lovchi yoki yuk tashiydigan alohida transport vositasi",
+      "exampleEn": "The workers changed the order in which the freight carriages were coupled.",
+      "exampleUz": "Ishchilar yuk vagonlarini bir-biriga ulash tartibini o‘zgartirdi.",
+      "usageFrames": [
+        "freight carriages",
+        "couple the carriages together"
+      ],
+      "referenceUrl": "https://www.networkrail.co.uk/wp-content/uploads/2022/03/Board-Minutes-January-2022.pdf",
+      "targetLexemeId": "8595eae9-d7ec-50c5-97b6-71622cbc15dc",
+      "expectedEntrySha": "33fda102cf4e15c4facdde6ded294071d38b731d6d4d469cf09074fe21c60280"
+    },
+    {
+      "lemma": "further",
+      "pos": "a",
+      "key": "additional-more",
+      "definitionEn": "More or additional to what has already been mentioned or done.",
+      "translationUz": "yana; qo‘shimcha; avvalgisiga qo‘shiladigan",
+      "exampleEn": "The operator kept the quieter procedure for a further season.",
+      "exampleUz": "Tashuvchi tinchroq tartibni yana bir mavsum davomida saqladi.",
+      "usageFrames": [
+        "a further season",
+        "further investigation"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/further_1",
+      "targetLexemeId": "9a19799e-aa71-5d43-b0bd-7aee005a2ecb",
+      "expectedEntrySha": "0970bc13a4a1dce4b6a94cd30405ed6f8c0467f447b55dc47510644af3877fb6"
+    },
+    {
+      "lemma": "background noise",
+      "pos": "n",
+      "key": "underlying-or-accompanying-sound",
+      "definitionEn": "Sound that continues in the surrounding environment behind the main sound or event being considered.",
+      "translationUz": "fon shovqini; asosiy tovush yoki hodisaga qo‘shilib, atrofda davom etadigan shovqin",
+      "exampleEn": "The sharp impacts fell, but background noise from the railway remained.",
+      "exampleUz": "Keskin urilish tovushlari kamaydi, ammo temiryo‘lning fon shovqini saqlanib qoldi.",
+      "usageFrames": [
+        "background railway noise",
+        "reduce background noise"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/background-noise"
+    },
+    {
+      "lemma": "commit",
+      "pos": "v",
+      "key": "promise-to-take-action",
+      "definitionEn": "To promise or accept an obligation to carry out a particular action.",
+      "translationUz": "va’da bermoq; muayyan ishni bajarish majburiyatini olmoq",
+      "exampleEn": "The council committed to publishing the monitoring locations.",
+      "exampleUz": "Kengash kuzatuv nuqtalarini e’lon qilish majburiyatini oldi.",
+      "usageFrames": [
+        "commit to publishing the results",
+        "commit to a clear timetable"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/commit",
+      "targetLexemeId": "d3d20bb2-0a6f-5a01-a56c-15c6edccd6e4",
+      "expectedEntrySha": "d8ef7e622009f4febdcd79264d93f38a317ff6e0591a05f6406374833c97d94d",
+      "forms": [
+        "committed",
+        "committing"
+      ]
+    },
+    {
+      "lemma": "searchable",
+      "pos": "a",
+      "key": "electronic-search-available",
+      "definitionEn": "Able to be searched electronically to find particular items or information.",
+      "translationUz": "elektron qidiruv orqali topish yoki ichidan ma’lumot izlash mumkin bo‘lgan",
+      "exampleEn": "The archive made its catalogue searchable by date and location.",
+      "exampleUz": "Arxiv katalogini sana va joy bo‘yicha qidirish mumkin bo‘ldi.",
+      "usageFrames": [
+        "a searchable catalogue",
+        "make records searchable"
+      ],
+      "referenceUrl": "https://www.collinsdictionary.com/es/diccionario/ingles-espanol/searchable"
+    },
+    {
+      "lemma": "low-resolution",
+      "pos": "a",
+      "key": "less-fine-image-detail",
+      "definitionEn": "Showing relatively little fine detail in a digital image.",
+      "translationUz": "tasvir aniqligi past; mayda tafsilotlari kam ko‘rinadigan",
+      "exampleEn": "The archive supplied a lower-resolution copy to protect the people pictured.",
+      "exampleUz": "Arxiv suratdagi odamlarni himoya qilish uchun aniqligi pastroq nusxa berdi.",
+      "usageFrames": [
+        "a low-resolution image",
+        "a lower-resolution copy"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/low-resolution?topic=photography",
+      "forms": [
+        "lower-resolution"
+      ]
+    },
+    {
+      "lemma": "trace",
+      "pos": "v",
+      "key": "find-person-or-thing",
+      "definitionEn": "To find a person or thing by investigating where they are.",
+      "translationUz": "izlab topmoq; surishtirib qayerdaligini aniqlamoq",
+      "exampleEn": "The archivists traced three people who appeared in the photograph.",
+      "exampleUz": "Arxivchilar suratda ko‘ringan uch kishini izlab topdi.",
+      "usageFrames": [
+        "trace a person",
+        "trace the owner of a photograph"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/trace?topic=finding-and-discovering",
+      "targetLexemeId": "367fd801-b417-56e8-bde3-f0faba7f377d",
+      "expectedEntrySha": "c37c698407ec363545133d29de3a02431e5b597f6c43ae7150a829210c90e8be"
+    },
+    {
+      "lemma": "accustomed",
+      "pos": "a",
+      "key": "familiar-through-repeated-experience",
+      "definitionEn": "Familiar with something through repeated experience and accepting it as usual.",
+      "translationUz": "ko‘nikkan; qayta-qayta duch kelib odatlanib qolgan",
+      "exampleEn": "Researchers accustomed to instant downloads had to wait for supervised access.",
+      "exampleUz": "Darhol yuklab olishga ko‘nikkan tadqiqotchilar nazorat ostida foydalanish uchun kutishiga to‘g‘ri keldi.",
+      "usageFrames": [
+        "accustomed to instant downloads",
+        "become accustomed to a procedure"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/accustomed",
+      "targetLexemeId": "bf81ef37-0f50-5825-84bb-f300b3356284",
+      "expectedEntrySha": "b1244a5f41e756c9ccabce93535d8e587d17688c6bdd94d1966947c98c3c96e1",
+      "synonyms": [
+        {
+          "entryId": "53b78491-8312-5aa7-9e97-ef901501641a",
+          "senseId": "d4108c32-4e7b-5f71-8248-936d3150ffd6",
+          "meaningSha": "d3d8fc763824fffc8822dc7a4802871dcc0f8c120004970631a5117dce17b969"
+        }
+      ]
+    },
+    {
+      "lemma": "download",
+      "pos": "n",
+      "key": "network-transfer-process",
+      "definitionEn": "The act of receiving electronic data from another computer system over a network.",
+      "translationUz": "yuklab olish; boshqa kompyuter tizimidan tarmoq orqali ma’lumot olish jarayoni",
+      "exampleEn": "A slow connection delayed the download of the catalogue.",
+      "exampleUz": "Sekin ulanish katalogni yuklab olishni kechiktirdi.",
+      "usageFrames": [
+        "an instant download",
+        "allow file downloads"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/download_2"
+    },
+    {
+      "lemma": "download",
+      "pos": "n",
+      "key": "file-received-over-network",
+      "definitionEn": "A file or group of files received from another computer system over a network.",
+      "translationUz": "yuklab olingan fayl yoki fayllar to‘plami",
+      "exampleEn": "The high-resolution download was available only to approved researchers.",
+      "exampleUz": "Aniqligi yuqori yuklab olinadigan fayl faqat ruxsat berilgan tadqiqotchilar uchun ochiq edi.",
+      "usageFrames": [
+        "a high-resolution download",
+        "a free download"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/download_2"
+    },
+    {
+      "lemma": "sensitive",
+      "pos": "a",
+      "key": "information-needing-careful-handling",
+      "definitionEn": "Needing careful handling or limited disclosure because release could cause harm, embarrassment or offence.",
+      "translationUz": "ehtiyotkorlik bilan muomala qilish talab etiladigan; oshkor qilinishi zarar yoki noqulaylik keltirishi mumkin bo‘lgan",
+      "exampleEn": "The archive restricted access to sensitive photographs of living people.",
+      "exampleUz": "Arxiv tirik odamlar aks etgan nozik suratlarni ko‘rishni chekladi.",
+      "usageFrames": [
+        "sensitive images",
+        "handle sensitive information carefully"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/sensitive",
+      "targetLexemeId": "2b33d2cd-ac4a-5b8e-bcd5-dd9e02cc37cb",
+      "expectedEntrySha": "dd5b64ab58136c493993ed90af893271b972eff72c7ca2ad0a0e100980b3cfec"
+    },
+    {
+      "lemma": "sensitivity",
+      "pos": "n",
+      "key": "information-needing-careful-handling",
+      "definitionEn": "The quality of information or material that requires careful handling because disclosure could harm or upset people.",
+      "translationUz": "ma’lumotning nozikligi; oshkor qilinsa zarar yoki noqulaylik tug‘dirishi mumkinligi",
+      "exampleEn": "The committee considered the sensitivity of the images before approving access.",
+      "exampleUz": "Qo‘mita foydalanishga ruxsat berishdan oldin suratlarning nozikligini hisobga oldi.",
+      "usageFrames": [
+        "the sensitivity of an image",
+        "assess the sensitivity of information"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/sensitivity?topic=empathy-and-sensitivity",
+      "targetLexemeId": "8f4956f3-032b-5e03-a3e1-14bcd935f943",
+      "expectedEntrySha": "8f1a6c0cf8ee3d8d830a07d5360a8bd6b7c71328b95830feb3feb372aaa69554"
+    },
+    {
+      "lemma": "researcher",
+      "pos": "n",
+      "key": "person-investigating-a-subject",
+      "definitionEn": "A person who investigates a subject systematically to discover or establish facts.",
+      "translationUz": "tadqiqotchi; yangi faktlarni aniqlash yoki tekshirish uchun mavzuni izchil o‘rganuvchi kishi",
+      "exampleEn": "A history researcher compared the photographs with written records.",
+      "exampleUz": "Tarix tadqiqotchisi suratlarni yozma qaydlar bilan solishtirdi.",
+      "usageFrames": [
+        "an archive researcher",
+        "researchers in history"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/researcher",
+      "targetLexemeId": "85d5a9bf-dc0d-55a6-9493-626bcd28d783",
+      "expectedEntrySha": "80389f6c35906c7c06b993ac82280fa1e1e9b65358f6f16b97f1805dee55797d"
+    },
+    {
+      "lemma": "gap",
+      "pos": "n",
+      "key": "missing-information-or-material",
+      "definitionEn": "A part that is missing from a body of information, knowledge or material.",
+      "translationUz": "bo‘shliq; ma’lumot yoki materialning yetishmayotgan qismi",
+      "exampleEn": "The catalogue explained the gaps left by redacted photographs.",
+      "exampleUz": "Katalog yashirilgan suratlar tufayli qolgan bo‘shliqlarni izohladi.",
+      "usageFrames": [
+        "a gap in the records",
+        "identify gaps in the evidence"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/gap",
+      "targetLexemeId": "40425ce6-beaf-52fd-8a31-71c29a944229",
+      "expectedEntrySha": "e1a690ec733619e6f30bec2e75f7d8799da97b79b46170ff0be8363c81e2b9b6"
+    },
+    {
+      "lemma": "beyond",
+      "pos": "preposition",
+      "key": "outside-a-stated-boundary",
+      "definitionEn": "Outside a stated boundary or extending farther than a named place or area.",
+      "translationUz": "... doirasidan tashqarida; ...dan nariga yoki nariroqda",
+      "exampleEn": "The effects of publishing the images could extend beyond the university.",
+      "exampleUz": "Suratlarni e’lon qilish oqibatlari universitet doirasidan tashqariga ham yoyilishi mumkin edi.",
+      "usageFrames": [
+        "extend beyond the university",
+        "consequences beyond one institution"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/beyond"
+    },
+    {
+      "lemma": "meaningful",
+      "pos": "a",
+      "key": "substantial-useful-or-important",
+      "definitionEn": "Having real importance, usefulness or practical effect.",
+      "translationUz": "amaliy ahamiyatga ega; sezilarli foyda yoki ta’siri bor",
+      "exampleEn": "Once the files were copied widely, the archive had little meaningful control over them.",
+      "exampleUz": "Fayllar keng ko‘chirilgach, arxiv ularni amalda deyarli nazorat qila olmadi.",
+      "usageFrames": [
+        "meaningful control",
+        "a meaningful restriction"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/meaningful",
+      "targetLexemeId": "c709a2ea-e529-566f-8805-454cbe524451",
+      "expectedEntrySha": "9ceec4f7d1856b8d6c66b94f03f7dec0426636b5fe01c9fa4681b7ad970ffd05"
+    },
+    {
+      "lemma": "between",
+      "pos": "preposition",
+      "key": "relating-compared-things",
+      "definitionEn": "Used when describing a relationship or difference involving the things named.",
+      "translationUz": "... o‘rtasida; ko‘rsatilgan narsalarning munosabati yoki farqini bildiradi",
+      "exampleEn": "The policy distinguished between supervised viewing and open publication.",
+      "exampleUz": "Siyosat nazorat ostida ko‘rish bilan ochiq e’lon qilish o‘rtasidagi farqni belgiladi.",
+      "usageFrames": [
+        "distinguish between two approaches",
+        "the difference between access and publication"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/between"
+    },
+    {
+      "lemma": "between",
+      "pos": "preposition",
+      "key": "alternatives-in-a-choice",
+      "definitionEn": "Used to name the alternatives from which a choice is made.",
+      "translationUz": "...dan birini; tanlovdagi muqobil imkoniyatlarni ko‘rsatadi",
+      "exampleEn": "The researchers had to choose between waiting and using a lower-resolution copy.",
+      "exampleUz": "Tadqiqotchilar kutish yoki aniqligi pastroq nusxadan foydalanishdan birini tanlashi kerak edi.",
+      "usageFrames": [
+        "a choice between two options",
+        "choose between alternatives"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/between"
+    },
+    {
+      "lemma": "expense",
+      "pos": "n",
+      "key": "cost-of-providing-or-doing-something",
+      "definitionEn": "A cost that must be paid for something or for carrying out an activity.",
+      "translationUz": "xarajat; biror narsa yoki faoliyat uchun sarflanadigan mablag‘",
+      "exampleEn": "Heating was the greenhouse's largest winter expense.",
+      "exampleUz": "Isitish issiqxonaning qishdagi eng katta xarajati edi.",
+      "usageFrames": [
+        "a heating expense",
+        "reduce operating expenses"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/expense",
+      "targetLexemeId": "1cadf9a5-e0da-5dc3-a4ea-70d91a147a41",
+      "expectedEntrySha": "8e576a875889eb1185ceea9b49f0dc60420b56749911b05b17d351213f528452"
+    },
+    {
+      "lemma": "plant maintenance",
+      "pos": "n",
+      "key": "care-of-living-plants",
+      "definitionEn": "The regular work needed to keep living plants healthy, such as watering, feeding and pruning.",
+      "translationUz": "o‘simliklarni parvarishlash; ularni sog‘lom saqlash uchun muntazam bajariladigan ishlar",
+      "exampleEn": "The report separated teaching costs from plant-maintenance costs.",
+      "exampleUz": "Hisobot o‘qitish xarajatlarini o‘simliklarni parvarishlash xarajatlaridan ajratdi.",
+      "usageFrames": [
+        "plant-maintenance costs",
+        "regular plant maintenance"
+      ],
+      "referenceUrl": "https://www.rhs.org.uk/plants/types/shrubs/growing-guide",
+      "forms": [
+        "plant-maintenance"
+      ]
+    },
+    {
+      "lemma": "informed",
+      "pos": "a",
+      "key": "judgment-based-on-information",
+      "definitionEn": "Based on relevant knowledge or reliable information.",
+      "translationUz": "ma’lumotga asoslangan; tegishli bilim yoki dalilga tayangan",
+      "exampleEn": "Separating the costs made a more informed argument possible.",
+      "exampleUz": "Xarajatlarni ajratish ko‘proq ma’lumotga asoslangan muhokama qilish imkonini berdi.",
+      "usageFrames": [
+        "an informed argument",
+        "make an informed decision"
+      ],
+      "referenceUrl": "https://www.collinsdictionary.com/us/dictionary/english/informed",
+      "targetLexemeId": "06017e38-9b48-541d-aec8-66b1ad4adea9",
+      "expectedEntrySha": "305db670e16e6ff1a8fd53db2ec455a6b78989a0e5eccfd849ea74efea1acebc"
+    },
+    {
+      "lemma": "transfer",
+      "pos": "v",
+      "key": "pass-duty-or-burden-to-another",
+      "definitionEn": "To move a duty, responsibility or financial burden from one person or organisation to another.",
+      "translationUz": "boshqa shaxs yoki tashkilot zimmasiga o‘tkazmoq; mas’uliyat yoki xarajat yukini boshqaga yuklamoq",
+      "exampleEn": "The proposal transferred some costs to unpaid participants.",
+      "exampleUz": "Taklif ayrim xarajatlarni haq olmaydigan qatnashchilar zimmasiga yukladi.",
+      "usageFrames": [
+        "transfer costs to participants",
+        "transfer responsibility to another organisation"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/transfer",
+      "forms": [
+        "transferred",
+        "transferring"
+      ],
+      "targetLexemeId": "d6fe6698-6086-5134-97e9-8ddad6d77f9f",
+      "expectedEntrySha": "daa1ee3983aed6ffc2d4b803be485c6d7dd0c03864a81949a4b2c921c46cae1c"
+    },
+    {
+      "lemma": "identifier",
+      "pos": "n",
+      "key": "data-that-identifies-an-entity",
+      "definitionEn": "A name, code or piece of data used to distinguish a particular person or other entity.",
+      "translationUz": "identifikator; muayyan shaxs yoki narsani ajratib ko‘rsatadigan ism, kod yoki ma’lumot",
+      "exampleEn": "Removing a direct identifier did not eliminate every risk of recognising a patient.",
+      "exampleUz": "Bevosita identifikatorni olib tashlash bemorni tanib olishga doir barcha xavflarni yo‘qotmadi.",
+      "usageFrames": [
+        "a direct identifier",
+        "remove personal identifiers"
+      ],
+      "referenceUrl": "https://csrc.nist.gov/glossary/term/identifier"
+    },
+    {
+      "lemma": "privacy",
+      "pos": "n",
+      "key": "protection-of-personal-information",
+      "definitionEn": "Protection of a person's private information from unwanted access, collection or use.",
+      "translationUz": "shaxsiy ma’lumotlar daxlsizligi; ularni nomaqbul olish yoki ishlatishdan himoya qilish",
+      "exampleEn": "The privacy officer checked how the dataset could expose individual patients.",
+      "exampleUz": "Shaxsiy ma’lumotlarni himoyalash bo‘yicha xodim ma’lumotlar to‘plami ayrim bemorlarni qanday oshkor qilishi mumkinligini tekshirdi.",
+      "usageFrames": [
+        "protect patient privacy",
+        "a privacy officer"
+      ],
+      "referenceUrl": "https://csrc.nist.gov/glossary/term/privacy",
+      "targetLexemeId": "42c45582-5dd2-5568-ad8f-a60c29f016eb",
+      "expectedEntrySha": "3d8c2e588322a80f9b748cda03c418614d7dd872334fbf4abc8d3f91473b2870"
+    },
+    {
+      "lemma": "indirectly",
+      "pos": "r",
+      "key": "through-an-intermediate-connection",
+      "definitionEn": "Through another step, person or connection, rather than by a direct link.",
+      "translationUz": "bilvosita; bevosita emas, boshqa bosqich, vosita yoki bog‘lanish orqali",
+      "exampleEn": "A rare combination of dates and treatments could identify a patient indirectly.",
+      "exampleUz": "Sana va davolash usullarining kam uchraydigan birikmasi bemorni bilvosita aniqlash imkonini berishi mumkin edi.",
+      "usageFrames": [
+        "identify a person indirectly",
+        "be indirectly connected"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/indirectly",
+      "targetLexemeId": "f0232ea2-f209-5045-98d4-493cbe8ac4a5",
+      "expectedEntrySha": "f6fb07d4faee9ab8ce7c8231ff3d642dec5c040775081fa560f280fd32f824de"
+    },
+    {
+      "lemma": "within",
+      "pos": "preposition",
+      "key": "inside-area-group-or-system",
+      "definitionEn": "Inside the limits of a named area, group or system.",
+      "translationUz": "... ichida; ko‘rsatilgan hudud, guruh yoki tizim chegaralari doirasida",
+      "exampleEn": "The analysis had to remain within a controlled environment.",
+      "exampleUz": "Tahlil nazorat qilinadigan muhit doirasida qolishi kerak edi.",
+      "usageFrames": [
+        "within a controlled environment",
+        "within the hospital system"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/learner-english/within"
+    },
+    {
+      "lemma": "project lead",
+      "pos": "n",
+      "key": "person-leading-a-project",
+      "definitionEn": "The person responsible for coordinating and guiding a particular project.",
+      "translationUz": "loyiha rahbari; muayyan loyihani muvofiqlashtirib boshqaradigan shaxs",
+      "exampleEn": "The project lead asked who would carry the risks of sharing the data.",
+      "exampleUz": "Loyiha rahbari ma’lumotlarni ulashish xavflari kimning zimmasiga tushishini so‘radi.",
+      "usageFrames": [
+        "the project lead",
+        "appoint a project lead"
+      ],
+      "referenceUrl": "https://www.torbay.gov.uk/jobs/job-descriptions/project-lead/"
+    },
+    {
+      "lemma": "party",
+      "pos": "n",
+      "key": "person-or-group-involved-in-arrangement",
+      "definitionEn": "A person or group involved in an arrangement, agreement or dispute.",
+      "translationUz": "taraf; kelishuv, bitim yoki nizoda ishtirok etuvchi shaxs yoki guruh",
+      "exampleEn": "Each party faced different risks under the data-sharing agreement.",
+      "exampleUz": "Ma’lumotlarni ulashish kelishuvida har bir taraf turli xavflarga duch keldi.",
+      "usageFrames": [
+        "the parties to an agreement",
+        "all parties involved"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/party?q=parties",
+      "targetLexemeId": "4e03ec50-0761-5ecb-8cc7-e670a8801e95",
+      "expectedEntrySha": "97998af52db2bb315b72af382121dbe713901921ffe73804aafdc9b207207575"
+    },
+    {
+      "lemma": "release",
+      "pos": "n",
+      "key": "making-information-available",
+      "definitionEn": "The act of making information or data available for others to use or see.",
+      "translationUz": "e’lon qilish; ma’lumotni boshqalar ko‘rishi yoki ishlatishi uchun ochish",
+      "exampleEn": "The agreement allowed a limited release of the hospital data.",
+      "exampleUz": "Kelishuv shifoxona ma’lumotlarini cheklangan tarzda foydalanishga ochishga ruxsat berdi.",
+      "usageFrames": [
+        "data release",
+        "authorise the release of information"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/release_2",
+      "targetLexemeId": "a1bc80ec-80ec-568d-a94e-a835d68a772f",
+      "expectedEntrySha": "766379f612efae73b47cf049459b9cd6f41c8ad6841c0b44593dc5d3b9c4900f"
+    },
+    {
+      "lemma": "reviewer",
+      "pos": "n",
+      "key": "person-assessing-work-or-decisions",
+      "definitionEn": "A person who examines a proposal, decision or piece of work to assess it.",
+      "translationUz": "tekshiruvchi; taklif, qaror yoki ishni ko‘rib chiqib baholaydigan shaxs",
+      "exampleEn": "The reviewers examined whether the access rules had been applied consistently.",
+      "exampleUz": "Tekshiruvchilar foydalanish qoidalari izchil qo‘llangan-qo‘llanmaganini ko‘rib chiqdi.",
+      "usageFrames": [
+        "an independent reviewer",
+        "a reviewer examines a decision"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/american_english/review_2",
+      "targetLexemeId": "8f8ca8ca-769b-5f15-8c0f-ee181f93d84e",
+      "expectedEntrySha": "9a2047ec7dc57acbcd528e6584d78e2f9e368308532e18bc73381f919963beed"
+    },
+    {
+      "lemma": "control",
+      "pos": "n",
+      "key": "method-for-managing-or-limiting",
+      "definitionEn": "A rule, measure or procedure used to manage an activity or keep it within limits.",
+      "translationUz": "nazorat chorasi; faoliyatni boshqarish yoki cheklash uchun qo‘llanadigan qoida yoki tartib",
+      "exampleEn": "The hospital checked whether its data-access controls were applied consistently.",
+      "exampleUz": "Shifoxona ma’lumotlardan foydalanish bo‘yicha nazorat choralari izchil qo‘llanganini tekshirdi.",
+      "usageFrames": [
+        "data-access controls",
+        "apply controls consistently"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/control_1",
+      "targetLexemeId": "331e2a34-2344-586b-82ab-ad98fa353587",
+      "expectedEntrySha": "524173bf151d9ba5e0772e518adcef85ffb31a5a026c57613095699c3aab3f4b",
+      "synonyms": [
+        {
+          "entryId": "a56cab0e-2984-5eae-900b-97d05c547a2e",
+          "senseId": "118a3805-4677-401a-a812-d894e92d752d",
+          "meaningSha": "537874d8807d38b043c57b94fda61b06e12daf99a5f4f54f84677f8b42a39315"
+        }
+      ]
+    },
+    {
+      "lemma": "suppress",
+      "pos": "v",
+      "key": "withhold-information-from-publication",
+      "definitionEn": "To prevent particular information from being published or made known.",
+      "translationUz": "oshkor qilmaslik; muayyan ma’lumotning e’lon qilinishiga yo‘l qo‘ymaslik",
+      "exampleEn": "The report suppressed very small counts to reduce the risk of identifying patients.",
+      "exampleUz": "Hisobot bemorlarni aniqlab olish xavfini kamaytirish uchun juda kichik miqdorlarni oshkor qilmadi.",
+      "usageFrames": [
+        "suppress small counts",
+        "suppress identifying details"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/suppress",
+      "forms": [
+        "suppressed",
+        "suppressing"
+      ],
+      "targetLexemeId": "bba23d84-f48c-5402-a23d-9cdf43275ba3",
+      "expectedEntrySha": "dbb938cc6d54dbbdcd35e120df13d1a6cb7754608cc9654c5fdcdc2e9bd1b8d2"
+    },
+    {
+      "lemma": "conservator",
+      "pos": "n",
+      "key": "cultural-heritage-care-specialist",
+      "definitionEn": "A specialist who examines and cares for cultural objects to protect them from damage or deterioration.",
+      "translationUz": "konservator; madaniy buyumlarni shikastlanish va yemirilishdan asraydigan mutaxassis",
+      "exampleEn": "The conservators recorded every repair before treating the textile.",
+      "exampleUz": "Konservatorlar matoga ishlov berishdan oldin har bir ta’mir izini qayd etdi.",
+      "usageFrames": [
+        "a textile conservator",
+        "conservators examine an object"
+      ],
+      "referenceUrl": "https://www.vam.ac.uk/info/conservation"
+    },
+    {
+      "lemma": "ceremonial",
+      "pos": "a",
+      "key": "used-in-or-related-to-ceremonies",
+      "definitionEn": "Used in or connected with a formal ceremony.",
+      "translationUz": "marosimga oid; rasmiy marosimda ishlatiladigan",
+      "exampleEn": "The museum displayed a ceremonial textile with carefully preserved repairs.",
+      "exampleUz": "Muzey ta’mir izlari ehtiyotkorlik bilan saqlangan marosim matosini namoyish etdi.",
+      "usageFrames": [
+        "a ceremonial textile",
+        "ceremonial dress"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/ceremonial",
+      "targetLexemeId": "f5366a02-b847-5178-9ba7-5d0971ef37d1",
+      "expectedEntrySha": "0364f60b650ed82801842ed268aba99782e2a85719b5b809a6c11f67655ae19d"
+    },
+    {
+      "lemma": "return",
+      "pos": "v",
+      "key": "put-back-into-former-state",
+      "definitionEn": "To put something back into a former state, position or condition.",
+      "translationUz": "avvalgi holatiga qaytarmoq",
+      "exampleEn": "Returning every thread to its earlier colour could hide the textile's history.",
+      "exampleUz": "Har bir ipni avvalgi rangiga qaytarish matoning tarixini yashirishi mumkin edi.",
+      "usageFrames": [
+        "return an object to its earlier state",
+        "return the fabric to its original colour"
+      ],
+      "referenceUrl": "https://www.merriam-webster.com/dictionary/return",
+      "targetLexemeId": "e6e4a8d9-f56b-5925-9982-78439c9b8b35",
+      "expectedEntrySha": "d46c1bf6a4fefc751cbb5bf9b6a0c9c3ae48438191ea06a649bc7410387da64d"
+    },
+    {
+      "lemma": "treatment",
+      "pos": "n",
+      "key": "procedure-applied-to-conserve-object",
+      "definitionEn": "A procedure applied to a material object to protect or improve its condition.",
+      "translationUz": "ishlov; buyumning holatini asrash yoki yaxshilash uchun qo‘llanadigan amaliy chora",
+      "exampleEn": "The conservation treatment protected the fragile edges without hiding later repairs.",
+      "exampleUz": "Konservatsion ishlov keyingi ta’mir izlarini yashirmay, nozik chetlarni asradi.",
+      "usageFrames": [
+        "a conservation treatment",
+        "choose an appropriate treatment"
+      ],
+      "referenceUrl": "https://www.icom-cc.org/en/terminology-for-conservation",
+      "targetLexemeId": "efe386bc-a6ae-5062-b836-db56d6fd1eb4",
+      "expectedEntrySha": "3ba16edd470796f1dc99f81cf28e3e52db3acda186e7e397968ffc6cd3371766"
+    },
+    {
+      "lemma": "stitching",
+      "pos": "n",
+      "key": "threads-sewn-into-material",
+      "definitionEn": "A line or group of stitches sewn into fabric or another material.",
+      "translationUz": "choklar; mato yoki boshqa materialga tikilgan ip qatorlari",
+      "exampleEn": "The conservators photographed the stitching before removing it.",
+      "exampleUz": "Konservatorlar choklarni so‘kib olishdan oldin ularni suratga oldi.",
+      "usageFrames": [
+        "remove old stitching",
+        "visible stitching"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/stitching",
+      "targetLexemeId": "5c2f8019-e041-50f5-ab91-49aa3798421e",
+      "expectedEntrySha": "b593c7284a3052509d7b1fa78e3d838ad2e0b947a345bbe4aaf1ac8294fbe199"
+    },
+    {
+      "lemma": "conservation",
+      "pos": "n",
+      "key": "safeguarding-cultural-heritage",
+      "definitionEn": "The care and protection of cultural objects to prevent deterioration and preserve their significance.",
+      "translationUz": "madaniy buyumlarni asrash; ularning yemirilishining oldini olib, ahamiyatini saqlash ishlari",
+      "exampleEn": "Conservation kept the textile stable while preserving evidence of its later repairs.",
+      "exampleUz": "Konservatsiya keyingi ta’mir izlarini saqlagan holda matoning holatini barqaror tutdi.",
+      "usageFrames": [
+        "textile conservation",
+        "a conservation treatment"
+      ],
+      "referenceUrl": "https://www.icom-cc.org/en/terminology-for-conservation",
+      "targetLexemeId": "299d856a-67e4-5302-b478-cf8ec0ecd314",
+      "expectedEntrySha": "0fff677b0af05897821e38474aab8ae749e43ea8e210c0006c9d78f018ff4e1d"
+    },
+    {
+      "lemma": "stabilise",
+      "pos": "v",
+      "key": "prevent-object-deterioration",
+      "definitionEn": "To make an object's condition secure enough to prevent further deterioration.",
+      "translationUz": "buyumning yanada yemirilishini to‘xtatmoq; holatini barqarorlashtirmoq",
+      "exampleEn": "The team stabilised the fragile edges instead of replacing the whole textile.",
+      "exampleUz": "Jamoa butun matoni almashtirish o‘rniga uning nozik chetlarini mustahkamladi.",
+      "usageFrames": [
+        "stabilise a fragile textile",
+        "stabilise damaged edges"
+      ],
+      "referenceUrl": "https://www.icom-cc.org/en/terminology-for-conservation",
+      "targetLexemeId": "4095d908-3711-5d87-a51a-9a8aa75597e4",
+      "expectedEntrySha": "fdbc6fcb04478e47730030cef07c98d0f104b0eb8a8caf2aafc0748529a20094"
+    },
+    {
+      "lemma": "weak",
+      "pos": "a",
+      "key": "unconvincing-evidence-or-reasoning",
+      "definitionEn": "Not convincing or well supported when used as evidence or reasoning.",
+      "translationUz": "dalili sust; yetarlicha asoslanmagan yoki ishontirmaydigan",
+      "exampleEn": "The evidence for the proposed pattern remained weak.",
+      "exampleUz": "Taklif qilingan naqshni asoslovchi dalillar sustligicha qoldi.",
+      "usageFrames": [
+        "weak evidence",
+        "a weak argument"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/weak",
+      "targetLexemeId": "929d9300-bb46-5106-ae35-c572011a2cb0",
+      "expectedEntrySha": "09446a68b44f6ccecdbebb0ac3f9ee42c759b585aa14e8d05ba30a9e21ce779a",
+      "synonyms": [
+        {
+          "entryId": "1d5979db-7745-5f98-8b28-b202eb01a7ff",
+          "senseId": "a50e7d14-348a-477b-b8cf-ec6dc16f2da5",
+          "meaningSha": "58a6df38144b6f5cdf174081e2c92e647482f3f1d46cefca5de6f003c0bba193"
+        }
+      ]
+    },
+    {
+      "lemma": "physically",
+      "pos": "r",
+      "key": "involving-real-material-things",
+      "definitionEn": "In a way that involves real material things or direct action on them.",
+      "translationUz": "moddiy buyumning o‘ziga amalda ta’sir qilib; jismoniy jihatdan",
+      "exampleEn": "Physically conserving the textile differed from imagining its earlier appearance.",
+      "exampleUz": "Matoning o‘zini amalda asrash uning avvalgi ko‘rinishini tasavvur qilishdan farq qilardi.",
+      "usageFrames": [
+        "physically conserve an object",
+        "physically handle a textile"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/physical_1",
+      "targetLexemeId": "22e1d2f0-a438-51f5-b46a-1a67928b6f98",
+      "expectedEntrySha": "1951821046d3d88430900a42224f28340d9e91d56ba98f9e9b1cdd156f0e09a2"
+    },
+    {
+      "lemma": "photograph",
+      "pos": "v",
+      "key": "make-photographic-image-with-camera",
+      "definitionEn": "To make a photographic image of someone or something using a camera.",
+      "translationUz": "suratga olmoq; kamera yordamida fotografik tasvir yaratmoq",
+      "exampleEn": "The conservators photographed the textile before removing any stitching.",
+      "exampleUz": "Konservatorlar birorta chokni so‘kib olishdan oldin matoni suratga oldi.",
+      "usageFrames": [
+        "photograph an object",
+        "photograph each visible repair"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/photograph",
+      "targetLexemeId": "5c992436-a4ed-5682-9810-d37743ad46ac",
+      "expectedEntrySha": "3b2221fe1bbf37e2f5e00cbcb5933761cdde3a934ecd8b6bd9e4af3c2021b76a"
     }
   ]
 }
