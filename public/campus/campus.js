@@ -70,6 +70,29 @@ function makeCanvasSymbol(text,color,brain=false) {
   tex.colorSpace=THREE.SRGBColorSpace;
   return tex;
 }
+/** Procedural, additive, soft glow texture for LED bulbs and electric current. */
+function makeGlowTexture(){
+  const canvas=document.createElement("canvas");canvas.width=128;canvas.height=128;
+  const ctx=canvas.getContext("2d");
+  if(!ctx)return null;
+  const gradient=ctx.createRadialGradient(64,64,2,64,64,63);
+  gradient.addColorStop(0,"rgba(255,255,255,1)");
+  gradient.addColorStop(.18,"rgba(255,255,255,.8)");
+  gradient.addColorStop(.43,"rgba(255,255,255,.32)");
+  gradient.addColorStop(1,"rgba(255,255,255,0)");
+  ctx.fillStyle=gradient;ctx.fillRect(0,0,128,128);
+  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;
+  return texture;
+}
+function makeGroundGlow(scene,texture,color,opacity,size){
+  if(!texture)return {position:new THREE.Vector3(),material:{opacity},visible:true};
+  // Rotated plane remains *on the street*, unlike camera-facing floating bubbles.
+  const material=new THREE.MeshBasicMaterial({color,map:texture,transparent:true,
+    opacity,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending});
+  const mesh=new THREE.Mesh(new THREE.PlaneGeometry(size,size),material);
+  mesh.rotation.x=-Math.PI/2;mesh.position.y=.165;scene.add(mesh);return mesh;
+}
+
 function makeBuilding(scene,entry,reduced) {
   const root=new THREE.Group();
   root.position.set(entry.x,0.15,entry.z);scene.add(root);
@@ -82,7 +105,7 @@ function makeBuilding(scene,entry,reduced) {
   box(root,2.34,.23,2.24,dark,0,.36+entry.h,0);
   box(root,2.28,.048,2.18,c,0,.505+entry.h,0,glowMaterial(c,.75));
   // Window geometry is deliberately low-poly and remains real when orbiting.
-  const winMat=glowMaterial(c,.88);
+  const winMat=new THREE.MeshBasicMaterial({color:0xffd4a2,transparent:true,opacity:.94,depthWrite:false});
   for(let row=0;row<2;row++){
     const y=.75+row*.62;
     if(y>entry.h+.19)continue;
@@ -109,7 +132,8 @@ function makeBuilding(scene,entry,reduced) {
 
   // Distinct sculpted, rotatable roof landmarks match the original campus
   // concept instead of repeating identical rectangles on each building.
-  const roof=new THREE.Group();roof.position.y=entry.h+1.0;root.add(roof);
+  // Anchor all real roof objects to the roof slab; the previous +1.0 left them floating.
+  const roof=new THREE.Group();roof.position.y=entry.h+.32;root.add(roof);
   const solid=(color)=>new THREE.MeshStandardMaterial({color,metalness:.26,roughness:.32,emissive:color,emissiveIntensity:.18});
   const addShape=(geo,material,x,y,z,rx=0,ry=0,rz=0)=>{
     const m=new THREE.Mesh(geo,material);m.position.set(x,y,z);
@@ -168,6 +192,14 @@ function makeBuilding(scene,entry,reduced) {
   box(root,1.55,.055,.065,c,0,.84,1.069,glowMaterial(c,.85));
   box(root,1.55,.055,.065,c,0,1.43,1.069,glowMaterial(c,.85));
 
+  // Light only the building's real corners and street-facing windows.
+  const bodyOutline=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(2.17,entry.h,2.07)),
+    new THREE.LineBasicMaterial({color:c,transparent:true,opacity:.62}));
+  bodyOutline.position.y=.34+entry.h/2;root.add(bodyOutline);
+  for(const side of [-1,1]){
+    box(root,.055,.055,2.19,c,side*1.14,entry.h+.52,0,glowMaterial(c,.82));
+    box(root,2.30,.055,.055,c,0,entry.h+.52,side*1.09,glowMaterial(c,.82));
+  }
   // A roof spotlight glows softly rather than emitting floating particles.
   if(!reduced) pointLight(root,c,0,entry.h+.76,0,.35,3.9);
   const hit=new THREE.Mesh(new THREE.BoxGeometry(2.7,entry.h+1.5,2.7),new THREE.MeshBasicMaterial({
@@ -199,8 +231,10 @@ function addBillboardTexture(scene,uri,w,h,pos) {
   const loader=new THREE.TextureLoader();
   loader.load(uri,(texture)=>{
     texture.colorSpace=THREE.SRGBColorSpace;
-    const material=new THREE.MeshBasicMaterial({map:texture,transparent:true,depthWrite:false,side:THREE.DoubleSide});
-    const mesh=new THREE.Mesh(new THREE.PlaneGeometry(w,h),material);
+    // A camera-facing sprite preserves the single approved LA mark when the world orbits.
+    const material=new THREE.SpriteMaterial({map:texture,transparent:true,depthWrite:false});
+    const mesh=new THREE.Sprite(material);
+    mesh.scale.set(w,h,1);
     mesh.position.set(...pos);
     mesh.userData.campusBrand=true; scene.add(mesh);
   },undefined,()=>{/* Label remains accessible if logo asset fails. */});
@@ -289,20 +323,24 @@ export function mountCampus(node) {
       const led=new THREE.Mesh(new THREE.CircleGeometry(.062,12),
         new THREE.MeshBasicMaterial({color:ring===1?0xf7dba0:0x69faff,transparent:true,opacity:.3,side:THREE.DoubleSide}));
       led.rotation.x=-Math.PI/2;led.position.set(px,.116,pz);scene.add(led);
-      floorLeds.push({mesh:led,angle:a,ring});
+      const halo=makeGroundGlow(scene,makeGlowTexture(),ring===1?0xffcd74:0x1fdfff,.25,.55);
+      halo.position.set(px,.154,pz);
+      floorLeds.push({mesh:led,halo,angle:a,ring});
     }
   }
   box(scene,3.25,.22,3.25,0x0e3453,0,.17,0);
   const portal=new THREE.Mesh(new THREE.CylinderGeometry(1.50,1.58,.19,32),
     new THREE.MeshStandardMaterial({color:0x123253,emissive:0x064e7c,emissiveIntensity:.7,metalness:.55,roughness:.29}));
   portal.position.y=.34;scene.add(portal);
-  addBillboardTexture(scene,"/brand/derived/owner-neon-day-192.png",2.35,1.75,[0,1.66,0]);
+  addBillboardTexture(scene,"/brand/derived/owner-v11-night-192.png",2.35,1.75,[0,1.66,0]);
   // A grounded highlight behind the single official brand mark.
   pointLight(scene,0x10c2ff,0,.45,0,1.4,7);
 
   // Ground-level electrical paths: constantly moving emissive pulses.
+  // This soft radial texture is a fixed, ground-oriented glow, not airborne particles.
   const circuits=[];
   const pulseMeshes=[];
+  const pulseHaloTexture=makeGlowTexture();
   const entries=NAV.map(e=>makeBuilding(scene,e,reduced));
 
   for(const entry of NAV){
@@ -312,9 +350,12 @@ export function mountCampus(node) {
     lineTube(scene,[[0,.148,0],[mx,.15,0],[mx,.15,mz],[entry.x,.15,mz],[entry.x,.15,entry.z]],color,.065,.24);
     circuits.push({curve:path,offset:(circuits.length*.167)%1});
     for(let i=0;i<3;i++){
-      const pulse=new THREE.Mesh(new THREE.SphereGeometry(i===0?.13:.078,9,7),
-        new THREE.MeshBasicMaterial({color:i===0?0xffffff:color,transparent:true,opacity:i===0?1:.58,depthWrite:false}));
-      scene.add(pulse);pulseMeshes.push({mesh:pulse,curve:path,index:i,phase:circuits.length*.139});
+      // Flat light streaks hug the asphalt; no floating spherical bubbles.
+      const pulse=new THREE.Mesh(new THREE.BoxGeometry(i===0?.28:.17,.024,i===0?.095:.07),
+        new THREE.MeshBasicMaterial({color:i===0?0xffffff:color,transparent:true,opacity:i===0?1:.64,depthWrite:false,blending:THREE.AdditiveBlending}));
+      scene.add(pulse);
+      const halo=makeGroundGlow(scene,pulseHaloTexture,color,i===0?.88:.59,.95);
+      pulseMeshes.push({mesh:pulse,halo,curve:path,index:i,phase:circuits.length*.139});
     }
     // 2 road LED studs at fixed asphalt coordinates for each circuit.
     for(const dist of [.35,.76]){
@@ -322,7 +363,10 @@ export function mountCampus(node) {
       const led=new THREE.Mesh(new THREE.CircleGeometry(.079,12),
         new THREE.MeshBasicMaterial({color,transparent:true,opacity:.3,side:THREE.DoubleSide}));
       led.rotation.x=-Math.PI/2;led.position.set(pos.x,.141,pos.z);
-      scene.add(led);floorLeds.push({mesh:led,angle:dist*11,ring:circuits.length});
+      scene.add(led);
+      const halo=makeGroundGlow(scene,pulseHaloTexture,color,.20,.42);
+      halo.position.set(pos.x,.154,pos.z);
+      floorLeds.push({mesh:led,halo,angle:dist*11,ring:circuits.length});
     }
   }
   // 36 deterministic low-poly trees and several illuminated light poles.
@@ -354,7 +398,7 @@ export function mountCampus(node) {
   scene.add(centerHit);pickables.push(centerHit);
   const raycaster=new THREE.Raycaster();
   const mouse=new THREE.Vector2();
-  let down=null, hovered=null,raf=0,disposed=false,frames=0,last=0,lastSaved=0;
+  let down=null, hovered=null,raf=0,disposed=false;
   const tmp=new THREE.Vector3();
   const centerLabel=labelNodes.get("dashboard");
 
@@ -408,7 +452,6 @@ export function mountCampus(node) {
     const dx=event.deltaX*(event.deltaMode===1?16:1);
     const dy=event.deltaY*(event.deltaMode===1?16:1);
     const offset=camera.position.clone().sub(controls.target);
-    const distance=offset.length();
     if(Math.abs(dx)>0.2){
       offset.applyAxisAngle(new THREE.Vector3(0,1,0),-dx*.0032);
     }
@@ -458,14 +501,20 @@ export function mountCampus(node) {
     if(t-lastCameraSave>.35){lastCameraSave=t;remember();}
     // Lower-cost motion under reduced-motion. Everything stays on the ground.
     if(!reduced){
-      pulseMeshes.forEach(({mesh,curve,index,phase})=>{
+      pulseMeshes.forEach(({mesh,halo,curve,index,phase})=>{
         const progress=((t*.22+phase-index*.072)%1+1)%1;
-        mesh.position.copy(curve.getPointAt(progress));mesh.position.y=.17+index*.008;
-        mesh.material.opacity=index===0?1:.85;
+        mesh.position.copy(curve.getPointAt(progress));mesh.position.y=.168+index*.005;
+        const tangent=curve.getTangentAt(progress);
+        mesh.rotation.y=-Math.atan2(tangent.z,tangent.x);
+        halo.position.set(mesh.position.x,.161,mesh.position.z);
+        halo.material.opacity=(index===0?.72:.36)*(0.75+.25*Math.sin(t*8-index));
+        mesh.material.opacity=index===0?1:.75;
       });
-      floorLeds.forEach(({mesh,angle,ring})=>{
+      floorLeds.forEach(({mesh,halo,angle,ring})=>{
         const phase=t*2.0-angle-ring*.22;
-        mesh.material.opacity=.12+.88*Math.pow(Math.max(0,Math.sin(phase)),2);
+        const strength=.12+.88*Math.pow(Math.max(0,Math.sin(phase)),2);
+        mesh.material.opacity=strength;
+        if(halo)halo.material.opacity=strength*.47;
       });
       poles.forEach(({bulb,index})=>{
         bulb.material.color.setHex(Math.sin(t*1.5+index*.4)>.2?0xffd080:0x665334);
@@ -474,8 +523,8 @@ export function mountCampus(node) {
         glow.material.opacity=hovered===entry.id?.78:(.14+.13*Math.sin(t*1.9+entry.x));
       });
     }else{
-      pulseMeshes.forEach(({mesh})=>mesh.visible=false);
-      floorLeds.forEach(({mesh})=>mesh.material.opacity=.48);
+      pulseMeshes.forEach(({mesh,halo})=>{mesh.visible=false;halo.visible=false;});
+      floorLeds.forEach(({mesh,halo})=>{mesh.material.opacity=.48;if(halo)halo.material.opacity=.20;});
     }
     for(const {entry} of entries)labelPosition(labelNodes.get(entry.id),[entry.x,entry.h*.72+.56,entry.z+1.12]);
     labelPosition(centerLabel,[0,.65,1.35]);
@@ -502,6 +551,7 @@ export function mountCampus(node) {
       materials.forEach(m=>{if(m.map)m.map.dispose();m.dispose();});
       if(obj.userData.symbolTexture)obj.userData.symbolTexture.dispose();
     });
+    if(pulseHaloTexture)pulseHaloTexture.dispose();
     renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();
   };
 }
