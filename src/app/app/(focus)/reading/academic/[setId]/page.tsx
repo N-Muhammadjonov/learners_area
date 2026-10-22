@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { isUuid } from "@/lib/validation/ids";
-import { generalSetDetail } from "@/lib/data/general-reading";
+import { academicSetAccess, generalSetDetail } from "@/lib/data/general-reading";
 import { StartPassageButton } from "@/components/reading/StartPassageButton";
 import { academicQuestionSelection } from "@/lib/reading/academic-selection";
 import { academicQuestionSelectionReady } from "@/lib/data/reading-assessments";
@@ -12,6 +12,7 @@ export default async function AcademicSetPage({ params }: { params: Promise<{ se
   if (!isUuid(setId)) notFound();
   const user = await requireActiveUser();
   if (!user) return null;
+  if (!(await academicSetAccess(user,setId))) notFound();
   const dict = getDictionary(await getLocale());
   const detail = await generalSetDetail(setId, user.role);
   if (!detail || detail.passages.length !== 3 || detail.passages.some((p, i) => p.passageNo !== i + 1 || p.questions.length === 0)) notFound();

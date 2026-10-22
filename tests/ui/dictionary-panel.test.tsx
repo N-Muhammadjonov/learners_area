@@ -59,3 +59,16 @@ test("pronunciation speaks the displayed entry in English only after a click and
 });
 
 test("relations live inside the expanded sense and folder choice stays a single collapsed control",async()=>{await mount(async()=>{await open();assert.equal(document.querySelectorAll('summary').length,0);await act(async()=>document.querySelector<HTMLButtonElement>('[aria-controls="dictionary-sense-sense-0"]')!.click());const finance=document.querySelector('[data-dictionary-sense="sense-0"]')!;assert.ok(finance.textContent?.includes('lender'));assert.ok(finance.textContent?.includes('bank account'));assert.ok(!finance.textContent?.includes('shore'));assert.equal(document.querySelector('[data-dictionary-sense="sense-1"] summary'),null);await act(async()=>document.querySelector<HTMLButtonElement>('[data-dictionary-sense="sense-0"] button[aria-label="Add to Vocabulary"]')!.click());assert.equal(document.querySelectorAll('dialog select').length,1);assert.equal(document.querySelector('dialog input[type="radio"]'),null);});});
+
+test("global search deep link opens its exact published dictionary entry",async()=>{
+ document.body.innerHTML='<div id="root"></div>';const root=createRoot(document.querySelector('#root')!);const original=globalThis.fetch;
+ const calls:string[]=[];
+ globalThis.fetch=async(url)=>{const path=String(url);calls.push(path);const data=path.includes('/search')?{release_id:'rel-test',results:[{lexeme_id:'word',display_lemma:'bank',part_of_speech:'n',translation_uz:'bank'}]}:path.includes('/entries/')?{entry:word,saved:[]}:path.includes('/folders')?{folders:[]}:{recent:[]};return new Response(JSON.stringify(data));};
+ try{
+   await act(async()=>root.render(React.createElement(DictionaryPanel,{dict,initialQuery:'bank',initialEntryId:'word'})));
+   await act(async()=>new Promise(resolve=>setTimeout(resolve,250)));
+   assert.ok(document.querySelector('[data-dictionary-sense="sense-0"]'));
+   assert.ok(calls.some(path=>path.includes('/entries/word')));
+   assert.equal(document.querySelector<HTMLInputElement>('input[role="combobox"]')!.value,'bank');
+ }finally{await act(async()=>root.unmount());globalThis.fetch=original;}
+});

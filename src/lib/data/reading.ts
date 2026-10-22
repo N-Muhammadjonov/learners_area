@@ -1,3 +1,4 @@
+import { withReadingFeedback } from "@/lib/reading/feedback";
 import { and, asc, desc, eq, inArray, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
 import {
@@ -83,7 +84,7 @@ export async function getPassageWithQuestions(passageId: string, executor: typeo
     return descriptor && descriptor.id!==readingQuestionType(q.typeCode??q.type)?.id
       ? {...q,type:readingStorageType(descriptor.id),typeCode:descriptor.id} : q;
   });
-  return { passage, questions:projected, groups, paragraphs, occurrences };
+  return { passage, questions:withReadingFeedback(projected,passage.bodyText), groups, paragraphs, occurrences };
 }
 
 export async function getAttemptDetail(attemptId: string, userId: string, executor: typeof db = db) {

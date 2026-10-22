@@ -1,0 +1,699 @@
+{
+  "version": 1,
+  "policy": "Display-only source-hash-guarded supplement. No grading key or saved result is changed. Agent-reviewed drafts; no human review claimed.",
+  "questions": {
+    "27de7dd8-a5d8-406d-9a57-b4ce5b65f304": {
+      "passageId": "3ca44393-8611-4ae7-b9ca-273451676e7f",
+      "bodySha": "211c1c749b3c3ee92970503e90bd931a1bc185438dede9cbfd9fafd24edd2b81",
+      "questionSha": "285d7e0b2911c1719aa7bb8fe38fbb2bf63dad3702060976c32e5f1d3f778425",
+      "quote": "The novice needs to learn the guiding principles and rules of a given task in order to perform that task.",
+      "explanation": "The novice must learn both guiding principles and rules. The second item supplies the missing noun.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "b7dd182c-101c-40ad-bb0a-50f2799b0cc2": {
+      "passageId": "8c03e5e7-4d13-4672-a261-8c90bd44ac16",
+      "bodySha": "a01dca9b31e0270b0e87b3128b78ea0c8161fb5a8f7dc3fc509a97b7ad9c6430",
+      "questionSha": "4102fb0fd529eeeee6f882856d357adc6d63bcf0edf8e1ad2d4dd1421b5b1964",
+      "quote": "His aim was to recapture the now ageing customers that had given him his early success and target consumers aged 60+ with devices and gadgets specifically designed to assist them with the problems associated with ageing: mobile phones with screens that were easy to read; kitchen gadgets with comfortable grips; electronic devices that were easy to set and adjust.",
+      "explanation": "The target customers were aged 60+, and the products were designed to assist with problems of ageing. This confirms the statement.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "2560b381-5400-4fb8-80c4-127f284b3248": {
+      "passageId": "8c03e5e7-4d13-4672-a261-8c90bd44ac16",
+      "bodySha": "a01dca9b31e0270b0e87b3128b78ea0c8161fb5a8f7dc3fc509a97b7ad9c6430",
+      "questionSha": "15adb622676416435da6e2b8e42ef3aff5360e6857e44de074f938dd43f9bbd4",
+      "quote": "TF’s market research proved to be very positive, showing strong consumer support for the products.",
+      "explanation": "Strong consumer support in the market research means that respondents liked the proposed products.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "f2fdad5f-2a3b-437b-90b2-f53b2aa866d8": {
+      "passageId": "8c03e5e7-4d13-4672-a261-8c90bd44ac16",
+      "bodySha": "a01dca9b31e0270b0e87b3128b78ea0c8161fb5a8f7dc3fc509a97b7ad9c6430",
+      "questionSha": "47ac85d0def9518301900255dc38bb840b1c85def3e8434367778d396808bf66",
+      "quote": "Customers complained that the new stores felt like a senior center and reminded them that they were growing old.",
+      "explanation": "Customers complained that the stores felt like a senior center. Complaints contradict the claim that they liked the atmosphere.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "42dd8a0a-dfd7-4639-81f6-66141d5ec0b8": {
+      "passageId": "1ea0f13f-1e08-49cc-87be-560889abb723",
+      "bodySha": "3552b177c173e2ea90b77e8a99ff7027294e54af0bea194224222459e07bac8f",
+      "questionSha": "ac6c7fd3e4b20df7d09d7ec8bf6c8a03832c1fc8e31ad035df9a8fa6ae23c17c",
+      "quote": "So it may seem far-fetched to suggest that humans have been causing global warming ever since our ancestors started burning and cutting forests to make way for fields at least 7,000 years ago.",
+      "explanation": "The proposed early cause is the forest clearance carried out by our ancestors; this noun fits the gap before were responsible.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "93bc8e97-9c77-44b3-9fd6-7966f47648b5": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "0167bdc6b7907fa29ba4388ace6ee191eba874f1511b79f2dd9ac98f34c99fe0",
+      "quote": "The traditional lifting mechanism is a long length of chain running up the hill under the track.",
+      "explanation": "The lifting mechanism is explicitly described as a long length of chain.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "efbc2a3d-b6ec-450c-9720-e0f11df94505": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "6f1c96865c26efd8c2f3e88bf9f7f55d3470285f1778157702f9685021e34a20",
+      "quote": "The chain is fastened in a loop, which is wound around a gear at the top of the hill and another one at the bottom of the hill.",
+      "explanation": "The loop runs around two gears, including the toothed wheel at the bottom.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "d002ea09-8c8e-47db-8b80-65ba85008af2": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "adf390bf9949fcc268f4a91e8299bcf03318e4f580e4407ee7a5a0863ff15dfd",
+      "quote": "The gear at the bottom of the hill is turned by a motor.",
+      "explanation": "The motor is named as the device that turns the bottom gear.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "d35fac25-a179-4dfd-9761-56fb8a024fcc": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "12a770c55225425a3eb1210a977aec1c92bf5d3a3035924e2ee1bae088f621b3",
+      "quote": "Their direct ancestors were ice slides, popular in Russia in the 16th and 17th centuries.",
+      "explanation": "The ancestors of roller coasters were ice slides, so ice describes their surface.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "8f2c4a53-2f76-47fb-a06d-79e87e42e74a": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "7579558ae3c7fb810f8e3540b4c684c0471fee630246ac141051752a80b78541",
+      "quote": "For most of the year, the warmer climate would melt the ice, so the French started building waxed slides instead.",
+      "explanation": "The warmer French climate led to waxed slides, replacing the ice surface.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "e232300f-d095-4f23-a95c-e05b0daff547": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "1fea9fa452bd791f8598f030faed3e7bcf94e7387db0196221cde8a0a42232ee",
+      "quote": "To help the sleds move down these slides, they added wheels, and in 1817, for the first time, a train was attached to the track.",
+      "explanation": "The French added wheels to help the sleds move down the slides.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "5806fb0c-ecfe-4f4e-9c41-ed04ead93cfc": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "1312d84ccdce9c7c7b490361799443c3d85856642b9772ca47a0a8e05cfe1018",
+      "quote": "The first American roller coaster was built in the mountains of Pennsylvania in the mid-1800s, originally to provide an easy way to send coal to the railway 29km down to mountain.",
+      "explanation": "The original American ride carried coal downhill to the railway.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "cfd7d589-fbaf-47fa-9698-280d871b107f": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "3244bb2dff7dad81e9aae9670892bf334b2462e0d112a904e3ce86c22dbd425a",
+      "quote": "They were eventually replaced with steam engines, to make the system more efficient.",
+      "explanation": "Steam engines replaced the mules that had pulled the carts uphill.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "99634995-9778-4eba-9b7f-fc86a60f3d79": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "1b3213a4b2d108fb9da711f9ac299e94c23a6719b873af83ae812e4d2f96dc30",
+      "quote": "Following the Great Depression, a decline in roller coaster production began in the early 1930s, but a second roller-coaster boom in the 1970s and the beginning of the 1980s revitalised the amusement park industry, and introduced a slew of innovative tubular steel coasters.",
+      "explanation": "The passage describes a decline beginning in the early 1930s, contradicting continued growth throughout that decade.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "9a97a76f-b0c8-4dc6-95af-a9253744b688": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "967711f45c909329572022e67ec93c4fd394ed104209f8d5106701a873b184af",
+      "quote": "Following the Great Depression, a decline in roller coaster production began in the early 1930s, but a second roller-coaster boom in the 1970s and the beginning of the 1980s revitalised the amusement park industry, and introduced a slew of innovative tubular steel coasters.\n\nThis was followed by a decline in interest for the rest of the decade, but since the early 1990s, the amusement-park industry has experienced another coaster boom of sorts.",
+      "explanation": "The text describes an early-1980s boom, a decline for the rest of that decade, and renewed interest from the early 1990s.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "d7595392-7e70-4357-a14d-05feb1a0a574": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "0100a12f4a2c3b2c4654537db334e1366a9f176123fc7baf517a6e020797cf66",
+      "quote": "It seems that the idea was then imported into France. For most of the year, the warmer climate would melt the ice, so the French started building waxed slides instead. To help the sleds move down these slides, they added wheels, and in 1817, for the first time, a train was attached to the track. The French continued to expand on this idea, coming up with more complex track layouts, with multiple cars and all sorts of twists and turns.",
+      "explanation": "The French replaced ice with waxed slides, added wheels and attached a train to the track. These are the first modifications described.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "0de6e380-11fc-4d62-be1f-270360696fba": {
+      "passageId": "0eb40b99-504a-4458-9ba9-a08e22d8d8c0",
+      "bodySha": "901e084151d1b58a3a27bacd7d9cf8fd9ea7b162cefd7507a307d99d084ffc20",
+      "questionSha": "75a3c236dcc9953918a7777e232dd233ca67cb458423f66d3e9dc7ff5a533157",
+      "quote": "This was followed by a decline in interest for the rest of the decade, but since the early 1990s, the amusement-park industry has experienced another coaster boom of sorts. New launching techniques and other technological developments have opened up a world of options for designers, so in some rides you feel as if you are flying.",
+      "explanation": "The renewed 1990s boom brought launching techniques and technological developments that created more design options.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "de2c0f52-4164-474c-8ae2-0ccf6361b53e": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "b13e2f642e08c912e10786347808a13e9861ece85784f046903d441feb32d6aa",
+      "quote": "However, to do this they need to have features such as airports, hotels, sanitation facilities, roads and medical facilities.",
+      "explanation": "Airports, roads and sanitation are the infrastructure needed to support tourism; the matching choice supplies that term.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "ad1716af-c1b1-4db4-be75-fbd8caceca9e": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "c1d04c443da8437ffd18451d46c8f141b37bc553852b9adf7b277c89fb9549d4",
+      "quote": "A government can build these itself, using revenue from local taxes or getting finance from foreign lenders.",
+      "explanation": "Foreign lenders provide loans as an alternative to local tax revenue.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "1c066ceb-5b61-4a49-b1ba-8389d97e3502": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "98192e8f69f44e53bc0e58133bb1c0ffc5b9716f6d8e53b1623222190c99b3b3",
+      "quote": "Alternatively, the government may attract foreign investment, allowing others to pay for the building, thus relieving itself of providing capital but forgoing profits.",
+      "explanation": "Foreign investment pays for construction while the government forgoes the profits.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "c5b6920a-59f3-4ad2-ba7e-920b23967501": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "da28e4be846e8169573f091363c87463871e68aa2e30ef6eef41fbc6dae1ccfb",
+      "quote": "It can gradually decline as a resort becomes seen as outdated, or it can be destroyed overnight by a single hurricane, or a political emergency.",
+      "explanation": "A resort can decline because it is seen as outdated: the relevant factor is the perception of its modernity.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "89573397-ff7c-4b16-af8f-dc498fe618fd": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "d295c7720603664567dd9987dabed56117dae263f5e27dd99caec2074b613e92",
+      "quote": "Even when successful, countries and localities are faced with a dilemma: keep it within limits, or extend its benefits but also deepen dependence on a single, fickle industry.",
+      "explanation": "The dilemma is whether to keep tourism limited or extend its benefits. This identifies expansion as the decision in the summary.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "08a1b880-17a8-4781-8576-593374889cef": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "3fa0ddd2a78f94e29a3497205742add5407200b9ddbcd8edf49857d07a4286b1",
+      "quote": "But only through artifice can the tourist demand for authenticity be met.",
+      "explanation": "Artifice means deliberate staging: the supposedly authentic experience is created artificially.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "20a70c38-0bb0-4e3f-8281-dd465535816a": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "3b3314ad676f88f86b9fcdc205b631503634553df64c97cfa4d4461070289d71",
+      "quote": "Tourism places a premium on the parts of a culture that are visible, such as handicrafts and costume, and disregards those that are not, like the rules governing seating on a bus, attitudes to the elderly, or appropriate ways of addressing family members; in this way, tourism favors what can be commodified.",
+      "explanation": "Bus seating rules are among the invisible parts of culture that tourism disregards.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "fcfa24b6-d6bf-4c3b-b8ab-b82216bf37c3": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "5f4f644c2a591326dc022742fd25f9fb7c742f59f92c3f5edc0bb90fe469c392",
+      "quote": "Yet commodities can be produced most efficiently using industrial machinery to take advantage of economies of scale, an option closed to village artisans. This alienates the producers from what is being produced, and means the product no longer has any personal meaning to them.",
+      "explanation": "The contrast between industrial machinery and village artisans concerns the method of making the objects.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "565c9591-179a-467c-8cba-4b6e479620a2": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "f6be3b881c10528e833344211a8cf5231ceb4d8eb670fd71d35d306ed5c39241",
+      "quote": "As a consequence, efforts are made to fix and standardize: folk dances, tortilla-making, peace pipes, bird habitats and the course of the Amazon have all been bound and defined. Had they not been fixed, however, they would not be accessible.",
+      "explanation": "Fixing and standardizing folk dances makes them accessible to tourists but prevents their natural change.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "23e4ed3e-8146-4121-a995-01c7a01520a4": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "5cdc5d20416f7f5ab6ad64f7016f739411fd33b9db0542cb86c2c6b179c38320",
+      "quote": "The economies of scale that allow tourism to be profitable cannot operate in a small bush camp.",
+      "explanation": "Small bush camps cannot achieve the economies of scale needed for profitability. Fewer facilities do not make ecotourism more profitable.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "bb5345b9-b4b2-42a2-aab9-0fe191371558": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "cdbd09c4c3ebfa7ebee43af12c4df59ac4a1f5784974b9fd8a28a7dbbf0a2a40",
+      "quote": "In order to be environmentally sustainable, ecotourists have to be few in number.",
+      "explanation": "The text directly links environmental sustainability to keeping ecotourist numbers low.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "62576605-f91a-42ec-98ff-6297020515ed": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "0120175455f9f4cfb2614dc84050422012994cf12691dca990d7ff06d737a48a",
+      "quote": "Furthermore, Westerners’ interest in biodiversity often means that the tourist wants to listen to a parrot, not a local elder, and that dollars bypass beggars on their way to support trees.",
+      "explanation": "Listening to parrots rather than local elders contrasts interest in wildlife with interest in local people.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "2bd7cc64-caaf-4c81-bb96-631521b44526": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "a33856a2cd971b78ba7c7b2546b95c29184aad207d9ba52032850514cc051ab5",
+      "quote": "However, what is fortunate for the birds is not always so fortunate for the local people.",
+      "explanation": "A benefit to birds is explicitly contrasted with a lack of benefit to local people, so equal benefits are not guaranteed.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "70ec4b6d-962a-4792-829b-823456218531": {
+      "passageId": "db1cdff3-50de-4942-a0e2-32ff45fde9d0",
+      "bodySha": "17a0b4c1888720dabf93b11eae073505eca70206eea4a9c84f96a2be0d42cc4c",
+      "questionSha": "0780691631981052b760cb64d2bf49ed6c04dfbc59ac5b79bef9dbfa16b901a6",
+      "quote": "In these ways, tourism can result in a political system becoming more authoritarian and giving less consideration to the needs of individuals within the country.",
+      "explanation": "The government may become more authoritarian and give less consideration to individuals, showing a political effect of tourism.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "2570e47a-911a-48f0-9a43-433ed59dc940": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "a914c3a862cd67f1b6e255ace71ad532766d717d75174e978d698a76d3586727",
+      "quote": "Chemical preparations are based on dissolving the media; these solvents can range from water to potentially hazardous chemical ‘cocktails’. Mechanical systems such as wire-brushing and grit-blasting attempt to abrade or chip the media from the surface.",
+      "explanation": "Chemical solvents can be hazardous, while mechanical systems abrade the surface. This identifies paragraph D and its removal risks.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "06589992-a052-4223-8bbd-2bec2a705112": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "cf44808a0a1a3be914f9a5dffcfdf6e6c131c74351595e4a230d3d5ab166d3b7",
+      "quote": "Removal of graffiti from a surface that has been treated in this way is much easier, usually using low-pressure water which reduces the possibility of damage.",
+      "explanation": "A pretreated surface allows low-pressure water removal and therefore reduces the risk of damage.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "15ac5576-2af7-44ca-9fbb-c38ecc48343b": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "83cc6a58dc2ed20f2c8083c6e577f66dfcac9821693db60b1392a3ad695c90da",
+      "quote": "Graffiti can also lead to more serious forms of vandalism and, ultimately, the deterioration of an area, contributing to social decline.",
+      "explanation": "Escalating vandalism, deterioration and social decline describe the cumulative community harm in paragraph B.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "407a4a55-1b57-479c-8767-072d05c5e0fd": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "0180f60c3cd2118eb75ce725c095a1f5bf1a9441df9087a287acad067eda29d5",
+      "quote": "As no two sites are the same, no one set of protection measures will be suitable for all situations.",
+      "explanation": "Different sites require different protection measures; no single preventive strategy works everywhere.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "48873181-137f-4176-ad47-ba9b22a3ef54": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "a1c51579e575ec390e568775bb8f4d420d0e242e299583ba25f6725c0514e476",
+      "quote": "The police should be informed as there may be other related attacks occurring locally.",
+      "explanation": "The recommendation to inform police is the legal step given to owners in paragraph C.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "c340b3ee-1ec1-4619-abf6-4289b208cb66": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "f84deae370b5fa3223cdb83dc9291aa860911044bbfe96a00a06f1ac071b2270",
+      "quote": "It is usually considered a priority to remove graffiti as quickly as possible after it appears. This is for several reasons. The first is to prevent ‘copy-cat’ emulation which can occur rapidly once a clean surface is defaced. It may also be of a racist or otherwise offensive nature and many companies and councils have a policy of removing this type of graffiti within an hour or two of it being reported. Also, as paints, glues and inks dry out over time they can become increasingly difficult to remove and are usually best dealt with as soon as possible after the incident.",
+      "explanation": "Rapid removal prevents copy-cat marking, deals with offensive content and avoids the increased difficulty of removing dried paint.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "527157e2-eba5-4b3d-8079-233e12bdbe1e": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "3467b37e31df2c9ff9dc475d7cc99f8b59d2c3d08baf11a0e44e601fa582e663",
+      "quote": "If there is any doubt regarding this, then small trial areas should be undertaken to assess the impact of more extensive treatment.",
+      "explanation": "A small trial area is recommended before using the treatment more extensively, matching option B.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "3d384e70-cbb7-492f-99d8-def1e4d26429": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "1ed836dc1aa4649bd155a87fcd8ccc2cfdb836b6b9c627a729a1df8e1d2a1a45",
+      "quote": "Chemical preparations are based on dissolving the media; these solvents can range from water to potentially hazardous chemical ‘cocktails’. Mechanical systems such as wire-brushing and grit-blasting attempt to abrade or chip the media from the surface. Care should be taken to comply with health and safety legislation with regard to the protection of both passers-by and any person carrying out the cleaning. Operatives should follow product guidelines in terms of application and removal, and wear the appropriate protective equipment. Measures must be taken to ensure that run-off, aerial mists, drips and splashes do not threaten unprotected members of the public.",
+      "explanation": "Chemical solvents may be hazardous and mechanical methods abrade surfaces. Safety measures are required for both types, matching option D.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "2621a153-5f72-4010-afc4-8684f0d0f2bb": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "94ad79a5a2d7ddd53b42bbc9e2347730f1512080132a2de7e0b537d728d57b87",
+      "quote": "Security patrols will also act as a deterrent to prevent recurring attacks.",
+      "explanation": "The passage names security patrols as a deterrent, corresponding to the patrol option.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "6a268a14-701f-4e26-a77d-45e4cf9f0592": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "5f1176a289f52fa3f5b1a6bafc2391cf8ff19ab998ce1eaee2d3cca8f9466920",
+      "quote": "In cities and towns around the country, prominently placed cameras have been shown to reduce anti-social behavior of all types including graffiti.",
+      "explanation": "Prominently placed cameras are explicitly said to reduce graffiti and other anti-social behaviour.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "a30b0336-a4e5-47a8-97bf-82c4a2e15b79": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "ce92249312f720be708d02976f438e1441f24e0797910142e5726407d1ccfaa0",
+      "quote": "In such circumstances it has acquired invaluable historical and archaeological significance, providing a social history of life and events at that time.",
+      "explanation": "Ancient graffiti provides a social history of life and events, supplying the two-word noun phrase.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "23cc48e0-aa48-4cb5-8ab5-8ff2e0d3fff7": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "dfa3b7fcca4e8bd7f2c8155c54d02ee9396ca88ad408dd2d44bcedeb834a36e3",
+      "quote": "An incidence pattern can identify possible culprits, as can stylised signatures or nicknames, known as ‘tags’, which may already be familiar to local police.",
+      "explanation": "The identifying signatures are called tags; the question requires the singular form tag.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "028e9124-0938-4f0e-b6ae-3d01843f16c1": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "07732a9db1d7c90e17e6d45c271bfe7c4fb92515431d518b1bf9e3bd3adbabc6",
+      "quote": "Operatives should follow product guidelines in terms of application and removal, and wear the appropriate protective equipment.",
+      "explanation": "Operatives are instructed to wear appropriate protective equipment, which fills the gap.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "f0f98206-44c4-4e40-b87c-52587cce1d81": {
+      "passageId": "818290cd-9f13-4f06-b453-6e1012552c63",
+      "bodySha": "b317315fac4ce20b44400dbc74c1d831db621c727424da76934515af9cfa2acb",
+      "questionSha": "954f35fbf07f6729cf3eb208058f3967048ff0e80f44365eeae878ef8e3d3b89",
+      "quote": "Removal of graffiti from a surface that has been treated in this way is much easier, usually using low-pressure water which reduces the possibility of damage.",
+      "explanation": "Low-pressure water is the removal method named for the treated surface.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "a67ce2f4-e3be-468c-9292-2a353319ac94": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "73cfd8cce9cfc16795a8fcd152a03ef1c876cd353e577ab703b21c49be222eee",
+      "quote": "As an eighteen-year-old living in the small Australian island state of Tasmania, moving to the ‘mainland’ could not happen soon enough. Now, ten years later, I look forward to going home. This is probably because I’ve grown up, but also perhaps because the cultural landscape of Tasmania has matured.",
+      "explanation": "The writer once wanted to leave but now looks forward to going home, showing a change of mind.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "6e0bedc0-d204-47f1-81ee-04b667eb7574": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "ab8212168e0956034e710302c7ad0752510fa7270dc4cd53cc24113273fe31b7",
+      "quote": "Andrew Bain of The Sydney Morning Herald wrote, ‘In a virtual blink, Hobart’s cultural landscape has been transformed, with art, wine, fine food and stylish accommodation becoming integral features of the city… .",
+      "explanation": "In a virtual blink describes an immediate transformation, agreeing with the statement.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "8e19e29e-f533-460a-a6b6-45505fdf5547": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "92965ed45051728810d5928618a72ab901167bab0a0d8e341a175ca6bab98a2b",
+      "quote": "MONA is said to have been solely instrumental in the reinvention of Hobart as a cultural hub.",
+      "explanation": "Solely instrumental attributes the transformation to MONA, contradicting equal contributions from other factors.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "f0334553-fb08-4ceb-aa7c-a409521cc8d6": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "5e742dcaa3beb0c595baabdd80f0c58b9a4349ed18c29859025aba1250661304",
+      "quote": "Rather than spending a week in the state and hiring a car to experience the beauty of the Tasmanian landscape, people are making short stays in Hobart only to visit the gallery.",
+      "explanation": "Visitors make short trips only for the gallery instead of using it as the start of longer trips around Tasmania.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "a3dff9a5-8c17-4f41-a6a8-2076cb05daec": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "8ed124a4de2ef8844ae6de0b9b8b3a5764907b9b65ecb63bf6eaf7160cc5afb5",
+      "quote": "According to Martin, possibilities for packaging up MONA with visits to other galleries around Tasmania are being investigated.",
+      "explanation": "Packaging MONA with other gallery visits is the combined-trip strategy described by Martin.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "68ba1016-6ba9-4d4a-95ec-62a0cd76548a": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "18ece4ddaefc6135151c68fc4172f141229cf7d7cce08d9822a610c41506b554",
+      "quote": "MONA’s ‘wow factor’ comes from the notoriety of David Walsh, the museum’s millionaire founder, and his choice of unusual artworks.",
+      "explanation": "The writer identifies the founder and his choices as the source of the wow factor, rather than the architecture or location.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "7e6c8155-dcdd-4783-a8c3-993576a87da2": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "c455feb04774f5bc7a133ec010910a09e930ae9cda97c504491c94a2e4f56908",
+      "quote": "This is because the gallery engages all of the senses, and visitors often pause to experience the effect each artwork has on them.",
+      "explanation": "Engaging all the senses gives the gallery a physical effect, causing visitors to pause and stay longer.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "13eacd18-0f34-46f7-b115-2a20ac56792e": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "b5cb0cca838990a8c704a07700b49fe4c09ddaa3373107fb1b4f9e49b0565e05",
+      "quote": "People from all kinds of socioeconomic backgrounds are curious about what lies within the subterranean maze of MONA.",
+      "explanation": "All kinds of socioeconomic backgrounds explicitly indicates a wide variety of visitors.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "c912d8e5-b1ea-45ca-8ac9-4470c04a2afc": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "58d5a52f916930625c0bd7c9934943bbeeab40f8400e5573100ef47136c27bb6",
+      "quote": "Walsh’s antiquities collection is superb, but he knew that old coins would compete for attention against new works that are more challenging in scale and subject matter, hence the device of setting antiquities among twentieth- and twenty-first century works. For me, one of the intriguing outcomes of this strategy was an intensified feeling that the makers of the coins and antiquities were the great contemporary artists of their time.",
+      "explanation": "The coins are placed among modern works; the writer admires how that display intensifies appreciation of their makers.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "962d5be7-cd59-46df-a8cb-8254c49477af": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "209c9f0bb2e48b582eb65e3cbdde135043d3478f373c1fd3b998c3a19d35c30e",
+      "quote": "However, the architectural ‘wow factor’ of the Guggenheim was the most famous component of that city’s transformation, whereas Fender Katsalidis’s MONA does not have the same spectacular impact as the shimmering metal surfaces of Gehry’s building.",
+      "explanation": "The contrast concerns the spectacular visual impact of the Guggenheim that MONA does not share.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "3fed06da-5f93-4f7f-b4ed-61ed278499df": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "cca299e78fdaa4e6b029fff1df555029a4e913f1a764ec18165f1d70c85c34f3",
+      "quote": "Walsh himself abhors descriptions of MONA as the Bilbao of the south, saying that Fender Katsalidis solved a problem when he designed MONA, in executing a project of this scale in an underground location.",
+      "explanation": "The underground location was a practical problem that the architect had to solve.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "c737d032-ea2a-47ac-a7fc-a5c88715d8f2": {
+      "passageId": "f7817580-bfd5-4423-aae5-f087bb0e5a3d",
+      "bodySha": "b15a5cec33e8aa990d112bbb7495b1af9a3410235b585c102fce640b68dcf375",
+      "questionSha": "3844f3b93b515cabbdb4c0d7a62c106b298f290ec31ad32c4e93399ff69410f4",
+      "quote": "Now the question is how Tasmania will build on David Walsh’s input into its cultural setting.",
+      "explanation": "The closing question is how Tasmania will build on the contribution made by David Walsh.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "a6d00928-b82b-4714-8144-000f4f479499": {
+      "passageId": "8c03e5e7-4d13-4672-a261-8c90bd44ac16",
+      "bodySha": "a01dca9b31e0270b0e87b3128b78ea0c8161fb5a8f7dc3fc509a97b7ad9c6430",
+      "questionSha": "860bc25c7a6b6ecf10548729d4f5dc1e59ab7a3a814d8b1f10fcd9a96b0c74b4",
+      "quote": "Tibal and his executives looked only at surface attitudes.",
+      "explanation": "Surface attitudes are the limited level of customer thinking examined by the TF executives.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "3b576310-5f74-4303-8f71-35ff6ca19c19": {
+      "passageId": "8c03e5e7-4d13-4672-a261-8c90bd44ac16",
+      "bodySha": "a01dca9b31e0270b0e87b3128b78ea0c8161fb5a8f7dc3fc509a97b7ad9c6430",
+      "questionSha": "eb8542cca3ca45a7213f769830f48e3d5707020466dabf51520c538926586c1e",
+      "quote": "A great example is Alli (pronounced ‘ally’), a drug to aid weight loss.",
+      "explanation": "The product is explicitly described as aiding weight loss.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "326a8a09-c2a5-4e24-9155-961630fafc27": {
+      "passageId": "8c03e5e7-4d13-4672-a261-8c90bd44ac16",
+      "bodySha": "a01dca9b31e0270b0e87b3128b78ea0c8161fb5a8f7dc3fc509a97b7ad9c6430",
+      "questionSha": "4f9289ffcb23974a8267de5cb1677188f20fcb3bb0cc321632ec92403f124578",
+      "quote": "First we came up with a name that sounds like a helpful partner.",
+      "explanation": "A helpful-sounding name makes the product seem like a supportive partner.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "0ea5785c-7948-44ea-b1a6-69863e86e239": {
+      "passageId": "8c03e5e7-4d13-4672-a261-8c90bd44ac16",
+      "bodySha": "a01dca9b31e0270b0e87b3128b78ea0c8161fb5a8f7dc3fc509a97b7ad9c6430",
+      "questionSha": "55c82760aaba5db46996aff0ec400956a9f849b3ebce0c19d84d082476cefbb2",
+      "quote": "We also aimed to make the container both beautiful and functional – something that didn’t just hold pills but could later be used to store diet guides and recipes.",
+      "explanation": "The container is designed to be used again for diet guides and recipes.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "7eb9a260-bbec-4ecc-ba02-0bc9eae8d5ab": {
+      "passageId": "8c03e5e7-4d13-4672-a261-8c90bd44ac16",
+      "bodySha": "a01dca9b31e0270b0e87b3128b78ea0c8161fb5a8f7dc3fc509a97b7ad9c6430",
+      "questionSha": "d1ad6eb401c903f7dd7ca3ec784dac5dc84017cbb853117ed5ae77db5e80c8d8",
+      "quote": "We conducted what are known as focus groups, where participants were asked to look at photos of people and pick those they perceived to be users and non-users of our products.",
+      "explanation": "The photo-selection research exercise is explicitly called focus groups.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "8404c126-1b09-4259-a901-afc38604d9f9": {
+      "passageId": "8c03e5e7-4d13-4672-a261-8c90bd44ac16",
+      "bodySha": "a01dca9b31e0270b0e87b3128b78ea0c8161fb5a8f7dc3fc509a97b7ad9c6430",
+      "questionSha": "dddf86ec3e5ff4ceb0a875461e6b4d7c880637651a47e97eb10308cb1bf3e643",
+      "quote": "For instance, we have conducted simple surveys in the lobby of our building offering free products in exchange for people’s opinions.",
+      "explanation": "Simple surveys in the lobby are an example of basic research.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "2834208f-7365-4054-81d0-71c19b2188b8": {
+      "passageId": "8c03e5e7-4d13-4672-a261-8c90bd44ac16",
+      "bodySha": "a01dca9b31e0270b0e87b3128b78ea0c8161fb5a8f7dc3fc509a97b7ad9c6430",
+      "questionSha": "0b2b4ccb395dbdcca250246ff189c289803401d398483a15c540701ccc135313",
+      "quote": "Sometimes the most important signals come from an executive’s own instincts.",
+      "explanation": "The executive should pay attention to signals from their own instincts.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "5fea4dec-5c14-41a4-b850-711914e29d9e": {
+      "passageId": "8c03e5e7-4d13-4672-a261-8c90bd44ac16",
+      "bodySha": "a01dca9b31e0270b0e87b3128b78ea0c8161fb5a8f7dc3fc509a97b7ad9c6430",
+      "questionSha": "9a0a4c76fa540ae7a6cb738f654d8578bd59a68bc73eed0009a89eaa7fd29200",
+      "quote": "Even simple techniques such as one-on-one interviews, or ethnographical observation that involves going into people’s houses to examine their behaviour, can provide valuable data.",
+      "explanation": "Ethnographical observation means examining consumer behaviour in the home; the stored key uses the American spelling behavior.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "1299c448-422b-475e-966f-dd8adb9210e6": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "6c6897653d553abb255154a5c293f26d934fa2db1c06c53e9ab83963128d4343",
+      "quote": "Indeed, by 1300 it appears there was a toy industry in England.",
+      "explanation": "Evidence of a toy industry is economic evidence about the manufacture and supply of toys.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "ecc7a0d1-d57a-4ac8-ba09-b810a443f4a7": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "ae442e70e0721ef2b277f167acd9f0d2c38ad4c5768b94111ce7260a1cb2bebc",
+      "quote": "In 1518, the poet Alexander Barclay records children playing with tops in March, looking for fruit in summer and making footballs by filling pigs’ bladders with dried peas in autumn.",
+      "explanation": "Children made footballs from pigs bladders and dried peas, an example of making their own playthings.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "ef1cf3ca-57c2-4731-8978-b7f2c478b3bb": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "a93ba1666c13b04904fa27ccad51a212edf5a16c13612d7ffee8fee7586d8a53",
+      "quote": "Boys in the later Middle Ages shot arrows with bows and archery is an example of a sport encouraged by adults, who wanted boys to grow up to play their part in what was, for most men, a warrior society.",
+      "explanation": "Adults encouraged archery so boys could prepare for a warrior society.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "96d2f1bc-ae16-4ad0-84f2-238587045a4e": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "a7ed59b323ff546df3d217d779abd3019a3f10f5008292915bd81fc84e250a39",
+      "quote": "In 1400, six months after King Richard II had been overthrown by Henry IV, the children of London gathered together and chose themselves kings.",
+      "explanation": "The children chose kings shortly after Richard II was overthrown, mirroring a political event.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "246e9dd9-435c-4230-ba14-9e4204c49ef2": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "e688a7275bb27e133f095f5f8e41621e0788578ce43eb17e60d37744edd4900a",
+      "quote": "Forty years ago, the French historian Philippe Ariès argued, in Centuries of Childhood, that childhood in the Middle Ages did not exist in its modern sense. Children were regarded by adults with relatively little affection and followed a way of life not very different from that of their elders. More recent historians have disputed this, pointing to plentiful signs of parental affection and arguing that childhood, by its very nature, must always have been much the same.",
+      "explanation": "The debate began with the thesis in Centuries of Childhood and the later historians who disputed it.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "39184f98-3ce3-4462-b88f-a082f7aa8feb": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "dd5da00061be7025484127b8ecacaa2959ff0285f5c8d6be81f8992629893769",
+      "quote": "In 1400, six months after King Richard II had been overthrown by Henry IV, the children of London gathered together and chose themselves kings. Adam of Usk tells us they congregated ‘in thousands … and made war upon each other … whereby many died’. The new king had to order their parents and masters to stop them.",
+      "explanation": "The date 1400 is tied to children choosing kings and making war on one another, matching gang warfare.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "a5a34803-2b83-43d8-8810-23f4c6900050": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "5525b0606435733696513303863eef9a30089c092821f04a2b74d8ecd42f2504",
+      "quote": "In 1518, the poet Alexander Barclay records children playing with tops in March, looking for fruit in summer and making footballs by filling pigs’ bladders with dried peas in autumn.",
+      "explanation": "The 1518 account lists activities in March, summer and autumn, matching seasonal activities.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "8aace1eb-6a45-4d13-b0c9-5ce4e30c6fe4": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "313826bd9bb1a292216c8cbadbff0fdf29952a5194c9a654ca8c6c2f5a17befa",
+      "quote": "Girls had dolls, known before the 17th century as ‘poppets’ or puppets, commercially manufactured, imported and, in 1582, taxed at a halfpenny each.",
+      "explanation": "The dolls were taxed at a halfpenny each in 1582.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "f8eea2c2-d8e4-4879-b6a2-689a6870e127": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "45b0b8f3bcbf6af649bfcbe71911285a49d77f052b85ffd3cd17396ab19fab70",
+      "quote": "’ The ringing chorus of Sir Henry Newbolt’s celebrated cricket poem Vitaï Lampada (1908) sums up views about play in 19th- and early 20th-century Britain.",
+      "explanation": "The date 1908 belongs to the cricket poem Vitaï Lampada and its views about the value of games.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "5fe3ccce-ba34-49b3-a5d4-6dc91be697c4": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "aba0c7f0b0a68b9f645a63bf01e0eb907ced805785248a50d6a89c8de4dec098",
+      "quote": "We know not only how medieval English children played but what their elders thought on the subject.",
+      "explanation": "The author explicitly says adult views are known, contradicting the claim that little is known.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "c67adf83-8d7b-4f7d-99da-eedec1f09bfd": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "d22b3f6a55e12bb7189d5fce6ffed026c0aa62d9e9e4e1896191692b4f955db3",
+      "quote": "Children shared in the adult round of religious festivals, but had their own observances as well, semi-detached from their elders.",
+      "explanation": "Children had observances of their own alongside adult festivals, confirming distinct ways of celebrating.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    },
+    "4a5e31a9-b6e9-4d3f-9309-f735ab88f862": {
+      "passageId": "d80a1be3-6cdf-49b1-a6ae-8f22a50d8325",
+      "bodySha": "408eafc8e59179c48a36d82b18a8f03327967716105ea9d3d81cc12f6026798c",
+      "questionSha": "6947d6c6658f89218ccaac6df354c3e85b0d6e11af6dab9a811f0bdbe629ff17",
+      "quote": "It is clear from this evidence that the relationship between adults and children in medieval society was, in major respects, a modern one. Parents took an indulgent interest in their children, providing them with toys and giving them time to play. Children played in a wide variety of ways – imaginatively, skilfully, athletically and violently – developing their minds, bodies and social skills. Adults tried at times to direct play – partly to keep children in order, partly to give them skills for adult life – but children gravitated to one another and formed a culture of their own. We can answer Ariès’s thesis, then, with a resounding ‘No!’. Childhood has always been much the same.",
+      "explanation": "The conclusion calls the relationship modern in major respects and says childhood has always been much the same.",
+      "provenance": "source_excerpt_agent_review",
+      "humanReviewed": false
+    }
+  }
+}

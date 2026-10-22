@@ -1,3 +1,4 @@
+import { withReadingFeedback } from "@/lib/reading/feedback";
 import { activateReadingSchedules } from "@/lib/services/reading/schedules";
 import "server-only";
 import { and, asc, eq, inArray, sql } from "drizzle-orm";
@@ -9,6 +10,7 @@ import { isStaff, type Role } from "@/lib/auth/roles";
 import { getPassageWithQuestions } from "@/lib/data/reading";
 import { academicQuestionCountClause } from "@/lib/data/reading-assessments";
 import { notDeleted } from "@/lib/content/deletion-filter";
+import { sequentialLocks } from "@/lib/listening/course-progress";
 
 /*
  * General Reading = LEARNING (develop reading). IELTS Academic = ASSESSMENT
@@ -23,7 +25,7 @@ let schemaReady = false;
  * Academic pages keep working on a database that has not been migrated yet.
  * A positive answer is cached for the life of the process (tables are never dropped).
  */
-export async function generalReadingSchemaReady(database = db) {
+export async function generalReadingSchemaReady(database: Pick<typeof db,"execute"> = db) {
   if (schemaReady) return true;
   const result = await database.execute(sql`select to_regclass('public.general_reading_passages') is not null
     and to_regclass('public.general_reading_sets') is not null and to_regclass('public.general_reading_progress') is not null as ready`);
@@ -46,7 +48,7 @@ export async function academicOnlyClause() {
   return sql`not exists (select 1 from general_reading_passages g where g.passage_id = ${readingPassages.id})`;
 }
 
-export async function listGeneralSets(userId: string, options: { page?: number; academic?: boolean; all?: boolean } = {}, executor: typeof db = db) {
+export async function listGeneralSets(userId: string, options: { page?: number; academic?: boolean; all?: boolean } = {}, executor: Pick<typeof db,"execute"|"select"|"transaction"> = db) {
   if (!(await generalReadingSchemaReady(executor))) return [];
   await activateReadingSchedules(executor);
   const validPassages = sql`not exists (select 1 from general_reading_passages g join reading_passages p on p.id=g.passage_id where g.set_id=${generalReadingSets.id} and (not (${notDeleted(sql`p.id`)}) or not (p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now()))))`;
@@ -66,19 +68,32 @@ export async function listGeneralSets(userId: string, options: { page?: number; 
       .where(inArray(generalReadingPassages.setId, ids)).orderBy(asc(generalReadingPassages.passageNo)),
     executor.select({ setId: generalReadingProgress.setId, checkedAt: generalReadingProgress.checkedAt })
       .from(generalReadingProgress).where(and(eq(generalReadingProgress.userId, userId), inArray(generalReadingProgress.setId, ids))),
-    options.academic ? executor.execute<{ set_id: string; id: string; status: string }>(sql`
-    select distinct on (a.set_id) a.set_id,r.id,r.status from reading_assessments a join reading_attempts r on r.id=a.attempt_id
+    options.academic ? executor.execute<{ set_id: string; id: string; status: string; completed: boolean }>(sql`
+    select distinct on (a.set_id) a.set_id,r.id,r.status,
+      exists(select 1 from reading_assessments done join reading_attempts attempt on attempt.id=done.attempt_id where done.set_id=a.set_id and attempt.user_id=${userId}::uuid and attempt.status='completed') as completed
+    from reading_assessments a join reading_attempts r on r.id=a.attempt_id
     where r.user_id=${userId}::uuid and a.set_id in (${sql.join(ids.map(id => sql`${id}::uuid`), sql`,`)})
     order by a.set_id, r.started_at desc, r.id desc`) : Promise.resolve({ rows: [] }),
   ]);
   const academicStates = academicResult.rows;
   return sets.map((set) => ({
-    ...(options.academic ? { assessmentStatus: academicStates.find(row => row.set_id === set.id)?.status ?? "not_started", attemptId: academicStates.find(row => row.set_id === set.id)?.id ?? null } : {}),
+    ...(options.academic ? { completed: academicStates.find(row => row.set_id === set.id)?.completed ?? false, assessmentStatus: academicStates.find(row => row.set_id === set.id)?.status ?? "not_started", attemptId: academicStates.find(row => row.set_id === set.id)?.id ?? null } : {}),
     id: set.id, title: set.title, description: set.description, level: set.difficultyLevel,
     passages: slots.filter((slot) => slot.setId === set.id).map((slot) => ({ passageNo: slot.passageNo, title: slot.title })),
     started: progress.filter((row) => row.setId === set.id).length,
     checked: progress.filter((row) => row.setId === set.id && row.checkedAt).length,
   }));
+}
+
+/** One catalogue order and learner-owned completion rule for cards and Start.
+ * General progress never unlocks or locks a formal Academic assessment. */
+export async function academicSetCatalogue(user: {id:string;role:Role}, executor:Pick<typeof db,"execute"|"select"|"transaction">=db) {
+  const sets = await listGeneralSets(user.id, {academic:true,all:true}, executor);
+  const locks = sequentialLocks(sets.map(set => ({complete:set.completed === true})));
+  return sets.map((set,index) => ({...set,locked:!isStaff(user.role) && locks[index] === true}));
+}
+export async function academicSetAccess(user: {id:string;role:Role}, setId:string, executor:Pick<typeof db,"execute"|"select"|"transaction">=db) {
+  return (await academicSetCatalogue(user,executor)).some(set=>set.id===setId && !set.locked);
 }
 
 /** One set with its (up to three) passages, questions, paragraphs and occurrence offsets. */
@@ -168,7 +183,7 @@ export async function saveGeneralProgress(input: { userId: string; role: Role; p
   let score: number | null = null;
   if (input.check) {
     const groups=await executor.query.readingQuestionGroups.findMany({where:eq(readingQuestionGroups.passageId,input.passageId)});
-    result = generalCheckRows(questions, groups, answers);
+    result = generalCheckRows(withReadingFeedback(questions,passage.bodyText), groups, answers);
     score = result.filter((row) => row.isCorrect).length;
   }
   const now = new Date();

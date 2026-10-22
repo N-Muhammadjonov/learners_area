@@ -73,7 +73,7 @@ async function SpeakingMaterials({ dict }: { dict: ReturnType<typeof getDictiona
           <h2 className="mb-3 font-display text-lg text-ink-900">{dict.speaking.category[cat]}</h2>
           <div className="flex flex-col gap-4">
             {byCategory.get(cat)!.map(({ material }) => (
-              <Card key={material.id} className="flex flex-col gap-3">
+              <Card key={material.id} id={`material-${material.id}`} className="flex scroll-mt-40 flex-col gap-3">
                 <p className="text-sm font-medium text-ink-900">{material.title}</p>
                 <MaterialPlayer
                   url={material.primaryUrl}

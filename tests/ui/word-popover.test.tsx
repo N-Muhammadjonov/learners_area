@@ -275,10 +275,7 @@ test("double-click does not focus a popup before native word selection", async (
   } finally { t.mock.timers.reset(); }
 });
 
-test('Listening spelling-only lookup shows "Meaning not checked yet" and saves only the learner\'s own meaning', async () => {
- // Contract (mode separation): a Listening word with no server-proven occurrence has
- // no knowable sense, so the client makes NO meaning/spelling request at all — it
- // shows the unresolved state directly. Only folders are loaded for an own-meaning save.
+test('Listening without a bound occurrence shows no guessed meaning, chooser or learner definition form', async () => {
  let saved: Record<string, unknown> | undefined;
  const lookups: string[] = [];
  await page(async (url, options) => {
@@ -289,19 +286,20 @@ test('Listening spelling-only lookup shows "Meaning not checked yet" and saves o
  }, async () => {
   await click('[data-word="decades"]');
   assert.ok(document.querySelector('[data-word-unresolved]'));
-  assert.ok(popupText().includes(en.vocabulary.meaningUnchecked));
-  await fill('[data-word-popover] input', 'Periods of ten years');
-  await click('[data-word-save]');
-  assert.equal(saved?.sourceType,'listening'); assert.equal(saved?.sourceId,'qa-listening');
-  assert.equal(saved?.occurrenceId,undefined);
-  assert.deepEqual((saved?.items as {definitionEn?: string}[])[0]?.definitionEn,'Periods of ten years');
-  assert.deepEqual(lookups, [], 'no spelling-based meaning or library request');
+  assert.ok(popupText().includes(en.vocabulary.contextMissing));
+  assert.equal(document.querySelector('[data-word-popover] input'),null);
+  assert.equal(document.querySelector('[data-dictionary-choices]'),null);
+  assert.equal(document.querySelector('[data-word-save]'),null);
+  assert.equal(saved,undefined);
+  assert.equal(lookups.length,1);
+  assert.ok(lookups[0]!.includes('/meaning?sourceType=listening&sourceId=qa-listening&q=decades'));
  }, {sourceType:'listening',sourceId:'qa-listening',catalogueLookup:true});
 });
-test('Listening unknown meaning remains editable rather than inventing a translation', async () => {
+test('Listening unknown meaning does not ask the learner to supply the contextual translation', async () => {
  await page(async (url) => url.includes('folders') ? folderReply() : json({contextual:null}), async () => {
   await click('[data-word="decades"]');
-  assert.deepEqual(values(),['','']);
+  assert.deepEqual(values(),[]);
+  assert.equal(document.querySelector('[data-word-save]'),null);
   assert.equal(document.querySelector('[data-word-saved]'),null);
  }, {sourceType:'listening',sourceId:'qa-listening',catalogueLookup:true});
 });
@@ -333,21 +331,24 @@ test('Listening click resolves by occurrence, shows only the linked sense with P
   }, listeningSpans);
 });
 
-test('An occurrence the server marks unresolved shows the unchecked state, no meaning, and never posts its occurrence', async () => {
+test('An unresolved occurrence cannot fall through to a spelling choice or post an invented meaning', async () => {
   const posted: Record<string, unknown>[] = [];
+  const urls:string[]=[];
   await page(async (url, options) => {
     if (options.method === 'POST') { posted.push(JSON.parse(String(options.body))); return json({ ok: true }); }
     if (url.includes('folders')) return folderReply();
+    urls.push(url);
     return json({ status: 'unresolved', occurrenceId: 'occ-bank', surfaceForm: 'bank', contextual: null, known: null });
   }, async () => {
     await click('[data-token="4"]');
     const status = query('[data-word-unresolved]');
     assert.equal(status.getAttribute('role'), 'status', 'screen readers hear the unchecked state');
-    assert.ok(status.textContent!.includes(en.vocabulary.meaningUnchecked));
+    assert.ok(status.textContent!.includes(en.vocabulary.contextMissing));
     assert.equal(popupText().includes('financial'), false);
-    await fill('[data-word-popover] input', 'Land beside a river');
-    await click('[data-word-save]');
-    assert.equal(posted[0]?.occurrenceId, undefined);
+    assert.equal(document.querySelector('[data-word-popover] input'),null);
+    assert.equal(document.querySelector('[data-word-save]'),null);
+    assert.equal(posted.length,0);
+    assert.equal(urls.some(url=>url.includes('/meaning')||url.includes('/search')),false);
   }, listeningSpans);
 });
 
@@ -395,21 +396,23 @@ test('Listening popup is a labelled dialog that takes focus, closes on Escape an
   }, listeningSpans);
 });
 
-test('Reading word without an occurrence: no spelling search, "Meaning not checked yet", own meaning only', async () => {
+test('Reading without an occurrence never uses another saved word or dictionary choice as a contextual guess', async () => {
   const lookups: string[] = [];
   let saved: Record<string, unknown> | undefined;
   await page(async (url, options) => {
     if (options.method === 'POST') { saved = JSON.parse(String(options.body)); return json({ ok: true }); }
     if (url.includes('folders')) return folderReply();
     lookups.push(url);
-    return json({ results: [{ id: 'x', term: 'decades', definitionEn: 'SPELLING GUESS', translationUz: 'X', mastery: 'new' }] });
+    return json({status:'unresolved',contextual:null,known:null});
   }, async () => {
     await click('[data-word="decades"]');
     assert.ok(document.querySelector('[data-word-unresolved]'));
     assert.equal(popupText().includes('SPELLING GUESS'), false);
-    await fill('[data-word-popover] input', 'Periods of ten years');
-    await click('[data-word-save]');
-    assert.equal(saved?.occurrenceId, undefined);
-    assert.deepEqual(lookups, [], 'no /search or /meaning request for a Reading spelling');
+    assert.equal(document.querySelector('[data-word-popover] input'),null);
+    assert.equal(document.querySelector('[data-word-save]'),null);
+    assert.equal(document.querySelector('[data-dictionary-choices]'),null);
+    assert.equal(saved, undefined);
+    assert.equal(lookups.length,1);
+    assert.ok(lookups[0]!.includes('/meaning?sourceType=reading&sourceId=qa-attempt&q=decades'));
   }, { sourceType: 'reading', sourceId: 'qa-attempt' });
 });

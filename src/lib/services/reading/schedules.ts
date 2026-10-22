@@ -9,7 +9,7 @@ import { publishContentVersion } from "@/lib/content/authoring";
  * no passage catalogue is loaded or post-filtered. Unversioned legacy schedules
  * retain their existing publication-window rule. Other modules are untouched.
  */
-export async function activateReadingSchedules(executor: typeof db = db, now = new Date()) {
+export async function activateReadingSchedules(executor: Pick<typeof db,"transaction"> = db, now = new Date()) {
   for (;;) {
     const processed = await executor.transaction(async tx => {
       const candidates = await tx.execute<{id:string;source_ref:string;content_type:string;version_no:number}>(sql`

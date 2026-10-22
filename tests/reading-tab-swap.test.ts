@@ -28,7 +28,8 @@ test("R2 General retains URL-backed, independently streamed single-page learning
 });
 test("R3 Academic discovers genuine formal sets, not standalone passages or learning library",()=>{
  const academic=read("src/app/app/(shell)/reading/academic/page.tsx");
- assert.match(academic,/academic: true/);assert.match(academic,/data-academic-set/);
+ assert.match(academic,/academicSetCatalogue\(user\)/);assert.match(academic,/data-academic-set/);
+ assert.match(read("src/lib/data/general-reading.ts"),/listGeneralSets\(user.id,\s*\{academic:true,all:true\}/);
  assert.doesNotMatch(academic,/ReadingFiltersRegion|listLibrary|StartPassageButton/);
 });
 test("R4 both locales name all four sections distinctly",()=>{

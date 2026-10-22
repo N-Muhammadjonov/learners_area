@@ -34,19 +34,27 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
   const [hits, setHits] = useState<Hit[]>([]);
   const [state, setState] = useState<State>("idle");
   const [active, setActive] = useState(0);
+  const [retry, setRetry] = useState(0);
+  const [partial, setPartial] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const resultsId = useId();
   const openerRef = useRef<HTMLElement | null>(null);
+  const restoringFocus = useRef(false);
 
-  const close = useCallback(() => {
+  const close = useCallback((restoreFocus = true) => {
     setOpen(false);
     setQuery("");
     setHits([]);
     setState("idle");
+    setPartial(false);
     setActive(0);
     // Keyboard users must land back where they were, not at the top of the page.
-    openerRef.current?.focus();
+    if (restoreFocus) {
+      restoringFocus.current = true;
+      openerRef.current?.focus();
+      restoringFocus.current = false;
+    }
   }, []);
 
   // Cmd/Ctrl + K, anywhere in the product.
@@ -76,7 +84,7 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
       if (event.key === "Escape") { event.preventDefault(); close(); }
     }
     function outside(event: PointerEvent) {
-      if (!dialogRef.current?.contains(event.target as Node)) close();
+      if (!dialogRef.current?.contains(event.target as Node)) close(false);
     }
     document.addEventListener("keydown", onKey);
     document.addEventListener("pointerdown", outside);
@@ -105,7 +113,7 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
     const controller = new AbortController();
     const id = window.setTimeout(() => {
       void (async () => {
-        const result = await requestJson<{ results: Hit[] }>(`/api/search?q=${encodeURIComponent(trimmed)}`, {
+        const result = await requestJson<{ results: Hit[]; partial?: boolean }>(`/api/search?q=${encodeURIComponent(trimmed)}`, {
           method: "GET",
           signal: controller.signal,
         });
@@ -114,6 +122,7 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
         if (controller.signal.aborted) return;
         if (result.ok) {
           setHits(result.data.results ?? []);
+          setPartial(result.data.partial === true);
           setActive(0);
           setState("ready");
         } else {
@@ -126,10 +135,10 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
       window.clearTimeout(id);
       controller.abort();
     };
-  }, [query, open]);
+  }, [query, open, retry]);
 
   function go(hit: Hit) {
-    close();
+    close(false);
     navigate(hit.href);
   }
 
@@ -150,6 +159,11 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
 
   const typeLabels: Record<string, string> = {
     reading: dict.nav.reading,
+    listening: dict.nav.listening,
+    dictionary: dict.vocabulary.tab.dictionary,
+    module: dict.nav.courseModules,
+    section: dict.nav.courseModules,
+    video: dict.nav.videoLessons,
     vocabulary: dict.nav.vocabulary,
     lesson: dict.nav.courseModules,
     grammar: dict.nav.grammar,
@@ -170,7 +184,7 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
       <div className={`${open ? "flex absolute right-0 top-0 w-[min(85vw,420px)]" : "hidden"} h-11 items-center gap-2.5 rounded-[10px] border border-ink-100 bg-paper-sunken px-3 lg:static lg:flex lg:w-full`}>
         <IconSearch className="shrink-0 text-[18px]" />
         <input ref={inputRef} value={query}
-          onFocus={() => { if (!open) openerRef.current = inputRef.current; setOpen(true); }}
+          onFocus={() => { if (restoringFocus.current) return; if (!open) openerRef.current = inputRef.current; setOpen(true); }}
           onChange={(event) => setQuery(event.target.value)} onKeyDown={onInputKeyDown}
           placeholder={dict.shell.searchPlaceholder} aria-label={dict.shell.search}
           role="combobox" aria-autocomplete="list" aria-expanded={open}
@@ -179,7 +193,7 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
           className="min-w-0 flex-1 bg-transparent text-[0.9375rem] text-ink-900 outline-none placeholder:text-ink-300" />
         <span className="flex w-16 shrink-0 items-center justify-end gap-2">
         {query && <button type="button" aria-label={dict.shell.clear} onClick={() => { setQuery(""); setHits([]); setState("idle"); inputRef.current?.focus(); }}><IconClose className="text-[14px]" /></button>}
-        {open ? <button type="button" onClick={close} aria-label={dict.shell.closeSearch}>
+        {open ? <button type="button" onClick={()=>close()} aria-label={dict.shell.closeSearch}>
           <IconClose className="text-[18px]" />
         </button> : <kbd className="shrink-0 rounded border border-ink-100 px-1.5 py-0.5 text-[0.6875rem] text-ink-300">{dict.shell.searchShortcut}</kbd>}
         </span>
@@ -202,7 +216,7 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
                 </div>
               )}
               {state === "error" && (
-                <p className="px-3 py-6 text-center text-[0.9375rem] text-band-bad">{dict.common.error}</p>
+                <div role="alert" className="px-3 py-6 text-center text-[0.9375rem]"><p className="text-band-bad">{dict.common.error}</p><button className="btn-secondary mt-3" type="button" onClick={()=>setRetry(value=>value+1)}>{dict.errorPage.retry}</button></div>
               )}
               {state === "ready" && hits.length === 0 && (
                 <div className="px-3 py-8 text-center">
@@ -241,6 +255,7 @@ export function GlobalSearch({ dict }: { dict: Dictionary }) {
                   ))}
                 </ul>
               )}
+              {state === "ready" && partial && <button type="button" className="btn-secondary m-2" onClick={()=>setRetry(value=>value+1)}>{dict.errorPage.retry}</button>}
             </div>
 
             <div className="border-t border-ink-100 px-4 py-2 text-[0.75rem] text-ink-300">

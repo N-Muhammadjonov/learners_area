@@ -246,7 +246,7 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
         <div>
           <p className="text-sm text-ink-500">{tab === "dictionary" ? dict.globalDictionary.description : tab === "board" ? t.board.hint : t.search.hint}</p>
         </div>
-        {tab !== "dictionary" && tab !== "board" && <VocabSearch dict={dict} onOpenWord={() => openTab("words")} />}
+        {tab !== "dictionary" && tab !== "board" && <VocabSearch key={query.get("q")??""} dict={dict} onOpenWord={() => openTab("words")} />}
       </div>
 
       <div
@@ -256,7 +256,7 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
         className="flex flex-col gap-4"
         data-vocabulary-panel={tab}
       >
-      {tab === "dictionary" && <DictionaryPanel dict={dict} />}
+      {tab === "dictionary" && <DictionaryPanel key={`${query.get("q")}:${query.get("entry")}:${query.get("direction")}`} dict={dict} initialQuery={query.get("q")??""} initialDirection={query.get("direction")==="UZ"?"UZ":"EN"} initialEntryId={query.get("entry")??undefined} />}
       <div className={tab === "dictionary" ? "hidden" : tab === "board" ? "grid gap-4" : "grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]"}>
         <div className="flex min-w-0 flex-col gap-4">
           {tab === "words" && (
@@ -335,7 +335,8 @@ function VocabSearch({ dict, onOpenWord }: { dict: Dictionary; onOpenWord: () =>
   const requestResponse = useScopedResponse(25000);
 
   const t = dict.vocabulary;
-  const [query, setQuery] = useState("");
+  const params = useSearchParams();
+  const [query, setQuery] = useState(params.get("q")??"");
   const [hits, setHits] = useState<SearchHit[]>([]);
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);

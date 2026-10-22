@@ -10,7 +10,7 @@
 .reading-focus[data-reading-full-focus] { display: flex; flex-direction: column; width: min(100%,100dvw); padding: 0; height: 100dvh; overflow: hidden; background: #fff; color: #111827; font-family: Arial, Helvetica, sans-serif; }
 .reading-attempt-route, .reading-session { width: 100%; height: 100%; min-width: 0; min-height: 0; }
 .reading-attempt-route { display: flex; flex-direction: column; overflow: auto; }
-.reading-session { flex: 1; }
+.reading-session { flex: 1; overflow: hidden; }
 .reading-workspace { display: grid; grid-template-columns: minmax(0,1fr); grid-template-rows: auto minmax(0,1fr) auto; width: 100%; height: 100%; min-width: 0; overflow: hidden; background: #fff; }
 .reading-workspace-header { display: flex; min-height: 56px; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 20px; border-bottom: 1px solid #d6dce4; box-shadow: 0 1px 3px #1118270d; }
 .reading-workspace-identity { display: flex; min-width: 0; align-items: center; gap: 20px; }
@@ -86,5 +86,7 @@
 }
 
 .reading-focus mark[data-highlight-id] { background: #ffeb59; color: #111; border-radius: 0; padding: 0; box-shadow: none; }
-.reading-focus ::selection { background: #ffeb59; color: #111; }
+.reading-focus ::selection { background: #bae6fd; color: #0c3050; }
+.reading-workspace-passage > :last-child { margin-bottom: 0; }
+.reading-back { display: inline-flex; align-items: center; min-height: 36px; padding: 4px 8px; border: 1px solid #94a3b8; border-radius: 4px; color: #334155; white-space: nowrap; }
 .reading-elapsed { font-variant-numeric: tabular-nums; font-size: 16px; color: #334155; white-space: nowrap; }

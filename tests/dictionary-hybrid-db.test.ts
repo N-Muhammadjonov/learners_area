@@ -31,6 +31,7 @@ test('hybrid import, private transport, exact-sense saves, resumability, owner p
   let bank=applyDraft([],{operation:'add_lexeme',lemma:'bank',partOfSpeech:'n',lexicalType:'word',definitionEn:'A financial institution',translationUz:'bank',definitionUz:'Pul saqlaydigan muassasa',examples:[{textEn:'The bank lends money.',textUz:'Bank pul qarz beradi.'}]},release);
   bank=applyDraft([bank],{operation:'add_sense',lexemeId:bank.lexeme_id,definitionEn:'Land beside a river',translationUz:'qirg‘oq',definitionUz:'Daryo yonidagi yer',examples:[]},release);
   bank.forms.push({surface_form:'banks'});
+  bank.collocations.push({text:'open a bank account',sense_id:bank.senses[0]!.sense_id},{text:'the river bank',sense_id:bank.senses[1]!.sense_id});
   const phrase=applyDraft([],{operation:'add_lexeme',lemma:'find out',partOfSpeech:'v',lexicalType:'phrasal_verb',definitionEn:'Discover information',translationUz:'bilib olmoq',definitionUz:'Ma’lumotni aniqlamoq',examples:[]},release);
   const existingSense='f83bda39-765c-4ef2-bc9f-e04253b3d6aa';
   await d.query("insert into lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,provenance,verification_status) values($1,'bank','noun','Land beside a river','qirg‘oq','existing-bank-river','manual','unverified')",[existingSense]);
@@ -55,9 +56,12 @@ test('hybrid import, private transport, exact-sense saves, resumability, owner p
   const selected=bank.senses[1]!;
   assert.equal((await d.query<{app_sense_id:string}>('select app_sense_id from dictionary_sense_mappings where sense_id=$1',[selected.sense_id]))[0]!.app_sense_id,existingSense,'exact existing sense identity is retained');
   assert.equal((await saveDictionarySense(student,bank.lexeme_id,selected.sense_id,release,null)).ok,true);
+  assert.equal((await d.query<{collocations:string}>('select collocations from lexemes where id=$1',[existingSense]))[0]!.collocations,'the river bank','a mapped saved meaning carries only its own phrases into flashcards');
+  await d.query("update lexemes set collocations='the steep bank' where id=$1",[existingSense]);
   const savedBefore=await d.query('select * from user_vocabulary where user_id=$1',[student]);assert.equal(savedBefore.length,1);
   assert.equal((await saveDictionarySense(student,bank.lexeme_id,selected.sense_id,release,null)).ok,true);
   assert.deepEqual(await d.query('select * from user_vocabulary where user_id=$1',[student]),savedBefore);
+  assert.equal((await d.query<{collocations:string}>('select collocations from lexemes where id=$1',[existingSense]))[0]!.collocations,'the steep bank','an existing authored phrase is preserved');
   const meaning=await d.query<{definition_en:string}>("select l.definition_en from lexemes l join user_vocabulary v on v.lexeme_id=l.id where v.user_id=$1",[student]);assert.equal(meaning[0]!.definition_en,selected.definition_en);
   await assert.rejects(()=>saveDictionarySense(student,bank.lexeme_id,phrase.senses[0]!.sense_id,release,null),/sense_not_found/);
   await rememberSearch(student,'qirg‘oq','UZ',bank.lexeme_id);assert.equal((await recentSearches(student))[0]!.translation_uz,'qirg‘oq');
@@ -89,5 +93,8 @@ test('hybrid import, private transport, exact-sense saves, resumability, owner p
   assert.equal((await activeRelease(d.db)).active_release_id,release);objects.set(missing,Buffer.from('corrupt'));
   await assert.rejects(()=>activateHybridRelease({ownerId:owner,release:interrupted,manifestSha:current[0]!.manifest_sha,expectedBase:release},transport,d.db));objects.set(missing,backup);
   await assert.rejects(()=>activateHybridRelease({ownerId:owner,release:interrupted,manifestSha:current[0]!.manifest_sha,expectedBase:null},transport,d.db),/release_mismatch/);
+  assert.equal((await saveDictionarySense(student,bank.lexeme_id,bank.senses[0]!.sense_id,release,null)).ok,true);
+  const [financial]=await d.query<{collocations:string;example_sentence:string}>('select collocations,example_sentence from lexemes where id=$1',[bank.senses[0]!.sense_id]);
+  assert.equal(financial!.collocations,'open a bank account');assert.equal(financial!.example_sentence,'The bank lends money.');
  }finally{mock.restoreAll();for(const k of Object.keys(process.env))if(!(k in env))delete process.env[k];Object.assign(process.env,env);await new Promise<void>(r=>server.close(()=>r()));await d.close();}
 });

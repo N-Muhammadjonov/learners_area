@@ -1,0 +1,1987 @@
+{
+  "version": 1,
+  "status": "ai_editorial_draft_not_published",
+  "policy": "Original explanations, Uzbek translations and examples. References support grammatical facts; their dictionary wording and examples are not copied. Usage frames are labelled separately from lexical collocations. Personal names have no interchangeable synonyms.",
+  "entries": [
+    {
+      "lemma": "gone",
+      "pos": "a",
+      "key": "away-from-place",
+      "definitionEn": "Away from the place where someone or something was before.",
+      "translationUz": "ketgan; avvalgi joyida yo‘q",
+      "exampleEn": "When Mia checked the cage, the hamster was gone.",
+      "exampleUz": "Mia qafasni tekshirganda, xomyak u yerda yo‘q edi.",
+      "usageFrames": [
+        "already gone",
+        "long gone",
+        "be gone by morning"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/gone_1",
+      "targetLexemeId": "9e6f32ab-7c95-5b5c-8775-9831cb9de1b6",
+      "expectedEntrySha": "0b14105f4ab1828d9a00df31dcd4c7e2541f946f33785cecb43e2e06ad893a95"
+    },
+    {
+      "lemma": "before",
+      "pos": "preposition",
+      "key": "earlier-time",
+      "definitionEn": "At an earlier time than the event or time named after this word.",
+      "translationUz": "...dan oldin; ...dan avval",
+      "exampleEn": "We packed our bags before breakfast.",
+      "exampleUz": "Biz nonushtadan oldin sumkalarimizni tayyorladik.",
+      "usageFrames": [
+        "before breakfast",
+        "before the trip",
+        "just before noon"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/before"
+    },
+    {
+      "lemma": "before",
+      "pos": "conjunction",
+      "key": "earlier-event",
+      "definitionEn": "Introduces a clause describing an event that happens later than the main event.",
+      "translationUz": "...ishidan oldin; ...masidan avval",
+      "exampleEn": "Check the door before you leave.",
+      "exampleUz": "Ketishingizdan oldin eshikni tekshiring.",
+      "usageFrames": [
+        "before you leave",
+        "before the bus arrives"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/before"
+    },
+    {
+      "lemma": "after",
+      "pos": "preposition",
+      "key": "later-time",
+      "definitionEn": "At a later time than the event or time named after this word.",
+      "translationUz": "...dan keyin; ...dan so‘ng",
+      "exampleEn": "Sara went home after school.",
+      "exampleUz": "Sara darslardan keyin uyiga ketdi.",
+      "usageFrames": [
+        "after school",
+        "after lunch",
+        "ten minutes after noon"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/after-afterwards"
+    },
+    {
+      "lemma": "after",
+      "pos": "conjunction",
+      "key": "later-event",
+      "definitionEn": "Introduces a clause describing an earlier event, with the main event happening later.",
+      "translationUz": "...ganidan keyin; ...gach",
+      "exampleEn": "His mother found the bag after he left.",
+      "exampleUz": "Onasi u ketganidan keyin sumkani topdi.",
+      "usageFrames": [
+        "after he left",
+        "after we arrived"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/after-afterwards"
+    },
+    {
+      "lemma": "near",
+      "pos": "preposition",
+      "key": "close-location",
+      "definitionEn": "A short distance from the person, place or thing named after this word.",
+      "translationUz": "...ga yaqin; ...ning yaqinida",
+      "exampleEn": "The farm is near the river.",
+      "exampleUz": "Ferma daryoning yaqinida.",
+      "usageFrames": [
+        "near the river",
+        "near the wall",
+        "near the station"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/near-"
+    },
+    {
+      "lemma": "behind",
+      "pos": "preposition",
+      "key": "rear-location",
+      "definitionEn": "At the back of the person, place or thing named after this word.",
+      "translationUz": "...ning orqasida; ...ning ortida",
+      "exampleEn": "The hamster was behind the wardrobe.",
+      "exampleUz": "Xomyak kiyim javonining orqasida edi.",
+      "usageFrames": [
+        "behind the wardrobe",
+        "behind the door"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/behind"
+    },
+    {
+      "lemma": "half past",
+      "pos": "fixed expression",
+      "key": "thirty-minutes-after",
+      "definitionEn": "A time expression placing an event thirty minutes after the hour that follows.",
+      "translationUz": "soat ... yarim; aytilgan soatdan o‘ttiz daqiqa o‘tgan vaqt",
+      "exampleEn": "The lesson starts at half past eight.",
+      "exampleUz": "Dars soat sakkiz yarimda boshlanadi.",
+      "usageFrames": [
+        "at half past eight",
+        "half past seven"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english-polish/half-past-three-four-seven"
+    },
+    {
+      "lemma": "Tom",
+      "pos": "proper noun",
+      "key": "given-name",
+      "definitionEn": "A male given name, also used as a short form of Thomas.",
+      "translationUz": "Tom — erkak kishining ismi",
+      "exampleEn": "Tom packed his lunch for the trip.",
+      "exampleUz": "Tom sayohat uchun tushligini tayyorladi.",
+      "usageFrames": [],
+      "referenceUrl": "https://en.wiktionary.org/w/index.php?title=Tom&oldid=92970918"
+    },
+    {
+      "lemma": "Sara",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Sara — qiz yoki ayol kishining ismi",
+      "exampleEn": "Sara checked her alarm clock.",
+      "exampleUz": "Sara uyg‘otkich soatini tekshirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "10284942-507a-40d4-bcf6-1eeb8c10f77c",
+      "sourceBodySha": "76d99e1edf4813a801e7f9ccbe5fcc4a2222679d9775b1d1c3323adda86369a6"
+    },
+    {
+      "lemma": "Mia",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Mia — qiz yoki ayol kishining ismi",
+      "exampleEn": "Mia put her hamster back in its cage.",
+      "exampleUz": "Mia xomyagini qafasiga qaytardi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "3ed36997-67ee-43c1-a063-cfca584ae504",
+      "sourceBodySha": "3f3a046116a580b8ada06df3775e68f88f3a06fa4e98f6973ef1236caa109567"
+    },
+    {
+      "lemma": "through",
+      "pos": "preposition",
+      "key": "passage-opening",
+      "definitionEn": "By passing within an opening or space from one side to the other.",
+      "translationUz": "... orqali; ... ichidan o‘tib",
+      "exampleEn": "Cold air entered through a gap in the door.",
+      "exampleUz": "Eshikdagi tirqish orqali sovuq havo kirdi.",
+      "usageFrames": [
+        "through a gap",
+        "through the open window"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/through"
+    },
+    {
+      "lemma": "under",
+      "pos": "preposition",
+      "key": "lower-location",
+      "definitionEn": "In a position lower than the object named, often directly beneath it.",
+      "translationUz": "... tagida; ... ostida",
+      "exampleEn": "The puppy slept under my chair.",
+      "exampleUz": "Kuchukcha stulimning tagida uxladi.",
+      "usageFrames": [
+        "under the table",
+        "under a chair"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/under"
+    },
+    {
+      "lemma": "across",
+      "pos": "preposition",
+      "key": "extending-side-to-side",
+      "definitionEn": "Extending from one side of a space or surface to another.",
+      "translationUz": "... bo‘ylab ko‘ndalang; bir chetidan ikkinchi chetiga",
+      "exampleEn": "A fallen tree lay across the road.",
+      "exampleUz": "Qulagan daraxt yo‘lni ko‘ndalang to‘sib yotardi.",
+      "usageFrames": [
+        "across the road",
+        "across the path"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/uk/grammar/british-grammar/across-over-or-through"
+    },
+    {
+      "lemma": "inside",
+      "pos": "preposition",
+      "key": "enclosed-location",
+      "definitionEn": "Within the space enclosed by the object or place named.",
+      "translationUz": "... ichida",
+      "exampleEn": "The spare keys were inside a red box.",
+      "exampleUz": "Zaxira kalitlar qizil qutining ichida edi.",
+      "usageFrames": [
+        "inside a suitcase",
+        "inside the bag"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/prepositions_2"
+    },
+    {
+      "lemma": "above",
+      "pos": "preposition",
+      "key": "higher-location",
+      "definitionEn": "At a position higher than the object or level named.",
+      "translationUz": "... tepasida; ...dan yuqorida",
+      "exampleEn": "A small bird flew above the roof.",
+      "exampleUz": "Kichkina qush tomning tepasida uchdi.",
+      "usageFrames": [
+        "above the trees",
+        "above the roof"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/above"
+    },
+    {
+      "lemma": "until",
+      "pos": "preposition",
+      "key": "time-limit",
+      "definitionEn": "Marks the time up to which an action or situation continues.",
+      "translationUz": "...gacha; ...ga qadar",
+      "exampleEn": "The children stayed outside until dinner.",
+      "exampleUz": "Bolalar kechki ovqatgacha tashqarida qolishdi.",
+      "usageFrames": [
+        "until lunch",
+        "until midnight"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/uk/grammar/british-grammar/until"
+    },
+    {
+      "lemma": "Leo",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Leo — ushbu hikoyadagi o‘g‘il bolaning ismi",
+      "exampleEn": "Leo helped his grandfather dry the floor.",
+      "exampleUz": "Leo bobosiga polni quritishda yordam berdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "ef8ceb58-db7c-4cc2-bbbe-3ff06f7e262c",
+      "sourceBodySha": "bd65724f36ddf0d8446be1f63f368853e0cbcba8707e8b461c349c89b0a87eba"
+    },
+    {
+      "lemma": "Rosa",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Rosa — ushbu hikoyadagi buvining ismi",
+      "exampleEn": "Rosa cooked soup with her grandson.",
+      "exampleUz": "Rosa nevarasi bilan sho‘rva pishirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "fd07a66f-c72b-422b-8afb-d3b95a6546a5",
+      "sourceBodySha": "9f263809ce3fe6f7f8c841eefddbc1ea7ebd09b697726cecb5779710c02d5fca"
+    },
+    {
+      "lemma": "Amir",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Amir — ushbu hikoyadagi o‘g‘il bolaning ismi",
+      "exampleEn": "Amir flew a yellow kite at the beach.",
+      "exampleUz": "Amir sohilda sariq varrak uchirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "9aa75000-d905-4ce6-95d2-3b75b0cbde9f",
+      "sourceBodySha": "1d6c8f4f6d49ad7c7e8acc738afd238a6589ade5eed388d731a78867ff62bf71"
+    },
+    {
+      "lemma": "storm",
+      "pos": "n",
+      "key": "severe-weather-general",
+      "definitionEn": "A spell of severe weather involving strong wind and heavy rain, snow or other precipitation.",
+      "translationUz": "kuchli shamol va yog‘in bilan kechadigan bo‘ron",
+      "exampleEn": "The storm blew a branch onto the garden path.",
+      "exampleUz": "Bo‘ron bir shoxni bog‘ yo‘lagiga uchirib tushirdi.",
+      "usageFrames": [
+        "during a storm",
+        "after the storm",
+        "a severe storm"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/storm",
+      "targetLexemeId": "ffbad804-d0f1-5a31-bf6e-6531af1e2e09",
+      "expectedEntrySha": "238009c0a8258f2aff55c57b3cd75387ef7f858841126eb666707b9bfa0a52ea"
+    },
+    {
+      "lemma": "Ella",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Ella — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Ella borrowed a new storybook.",
+      "exampleUz": "Ella boshqa bir hikoyalar kitobini vaqtincha oldi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "c234d82f-d972-42f0-809e-2a5d0db75ac5",
+      "sourceBodySha": "da43825c3ef68ce36087eadf009a356261fafbba044c83652be7751a10796f51"
+    },
+    {
+      "lemma": "Ben",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Ben — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Ben wore a blue jacket for the photograph.",
+      "exampleUz": "Ben suratga tushish uchun ko‘k kurtka kiydi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "2818cc7a-45be-4681-8756-570a56329886",
+      "sourceBodySha": "33563f5b6c1f6f80b4219543a158c2bc14980d289e26dc8efc40faf977ff8ee3"
+    },
+    {
+      "lemma": "Lily",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Lily — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Lily lent her jacket to her friend.",
+      "exampleUz": "Lily kurtkasini do‘stiga vaqtincha berdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "2818cc7a-45be-4681-8756-570a56329886",
+      "sourceBodySha": "33563f5b6c1f6f80b4219543a158c2bc14980d289e26dc8efc40faf977ff8ee3"
+    },
+    {
+      "lemma": "Hana",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Hana — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Hana bought a raincoat near the station.",
+      "exampleUz": "Hana bekat yaqinidan yomg‘irpo‘sh sotib oldi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "aaa5eec6-28c1-4cd3-b075-ede257f67613",
+      "sourceBodySha": "1be6981eeeb3163a122c0a3080a92f7eef5f04eeab65d5e02e4d7a044fa6844d"
+    },
+    {
+      "lemma": "Neha",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Neha — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Neha baked a cake for her father.",
+      "exampleUz": "Neha otasi uchun tort pishirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "847f9c5f-0a75-4455-8006-75db290caebc",
+      "sourceBodySha": "f34768264590195cb3842dc745fa317ed04bc383114ca87e9c6f2ff4500dd6bd"
+    },
+    {
+      "lemma": "Yusuf",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Yusuf — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Yusuf tied a ribbon to his suitcase.",
+      "exampleUz": "Yusuf chamadoniga tasma bog‘ladi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "d8d61091-e608-4cb9-b056-ffc5ac6b8c12",
+      "sourceBodySha": "0cf6b37262c7d6c61cff32304d418f62ad9532052a9be975f1808caee441c652"
+    },
+    {
+      "lemma": "Amina",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Amina — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Amina grew flowers on her balcony.",
+      "exampleUz": "Amina balkonida gullar o‘stirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "4b6eb3fe-fad8-4b61-afd8-6787b9a2358e",
+      "sourceBodySha": "d6cd50fdb75f5e1c55ce0fe266fb79a829111e2cce135cbf7098f45a952c7ec7"
+    },
+    {
+      "lemma": "Kamal",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Kamal — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Kamal arrived late for dinner.",
+      "exampleUz": "Kamal kechki ovqatga kechikib keldi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "5136eef0-76e2-45da-b1e1-0cdc6f84c9a4",
+      "sourceBodySha": "77b8e947482c8384f2744cb920243bc57b4c5f86c62fe8b932598bd7d7a4d058"
+    },
+    {
+      "lemma": "Ruby",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Ruby — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Ruby followed the route on the map.",
+      "exampleUz": "Ruby xaritada ko‘rsatilgan yo‘l bo‘ylab yurdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "bcedcc11-af31-4fe4-9a3d-9023d5f71d20",
+      "sourceBodySha": "aa9fff7d76a9f0840d1673d59d2333b4ae8766d29de6d0496f689cd439a00d22"
+    },
+    {
+      "lemma": "Joel",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Joel — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Joel helped the farmer catch the goat.",
+      "exampleUz": "Joel fermerga echkini tutishda yordam berdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "9194094a-779b-4c86-8524-1338923ffd15",
+      "sourceBodySha": "40298055ba14a6da9c29f0e9d37968c3d0c567ba56a8f84f6a4faae2ca781b59"
+    },
+    {
+      "lemma": "why",
+      "pos": "adverb",
+      "key": "reason-question",
+      "definitionEn": "Asks for, or introduces an explanation of, the reason for an event or situation.",
+      "translationUz": "nega; nima sababdan; ...ligining sababi",
+      "exampleEn": "Ella explained why she had returned the book late.",
+      "exampleUz": "Ella kitobni nega kech qaytarganini tushuntirdi.",
+      "usageFrames": [
+        "explain why",
+        "ask why",
+        "know why"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/learner-english/why"
+    },
+    {
+      "lemma": "outside",
+      "pos": "preposition",
+      "key": "exterior-location",
+      "definitionEn": "On the outer side of the place or boundary named, rather than within it.",
+      "translationUz": "... tashqarisida; ...ning tashqi tomonida",
+      "exampleEn": "There were flowerpots outside her bedroom window.",
+      "exampleUz": "Uning yotoqxonasi derazasi tashqarisida gultuvaklar bor edi.",
+      "usageFrames": [
+        "outside the bedroom",
+        "outside the house"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/outside"
+    },
+    {
+      "lemma": "around",
+      "pos": "preposition",
+      "key": "route-about-place",
+      "definitionEn": "Following a route about the edges or different parts of the place or object named.",
+      "translationUz": "... atrofida; ...ning turli joylari bo‘ylab",
+      "exampleEn": "The map showed a walking route around the town.",
+      "exampleUz": "Xaritada shaharcha bo‘ylab piyoda yurish yo‘li ko‘rsatilgan edi.",
+      "usageFrames": [
+        "around the town",
+        "around the lake"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/around?topic=general-location-and-orientation"
+    },
+    {
+      "lemma": "past",
+      "pos": "preposition",
+      "key": "movement-beyond-reference",
+      "definitionEn": "Moving by a person, object or place and continuing beyond it.",
+      "translationUz": "... yonidan o‘tib; ...dan nariga",
+      "exampleEn": "The goat ran past the stalls before the farmer caught it.",
+      "exampleUz": "Fermer uni tutishidan oldin echki savdo rastalari yonidan yugurib o‘tdi.",
+      "usageFrames": [
+        "past the food stalls",
+        "past the shop"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/learner-english/past"
+    },
+    {
+      "lemma": "break",
+      "pos": "v",
+      "key": "cord-separate",
+      "definitionEn": "To separate into parts, as a cord or rope does when it cannot withstand a pulling force.",
+      "translationUz": "uzilmoq (ip, arqon kabi narsa haqida)",
+      "exampleEn": "The thin kite string broke in the strong wind.",
+      "exampleUz": "Kuchli shamolda varrakning ingichka ipi uzildi.",
+      "usageFrames": [
+        "the string broke",
+        "the rope broke"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/break",
+      "targetLexemeId": "7f2f0473-a900-5b38-b2fc-fac4304cce56",
+      "expectedEntrySha": "54e669bfbccdfdbc1bbf45bd7bd6b6e97c8854b5b873e17e6fc7217987b895eb"
+    },
+    {
+      "lemma": "fair",
+      "pos": "n",
+      "key": "public-local-event",
+      "definitionEn": "An organised public event with stalls and things for visitors to see or do.",
+      "translationUz": "yarmarka; savdo rastalari va tomoshalar bo'ladigan ommaviy tadbir",
+      "exampleEn": "Joel saw farm animals at the village fair.",
+      "exampleUz": "Joel qishloq yarmarkasida chorva hayvonlarini ko'rdi.",
+      "usageFrames": [
+        "a village fair",
+        "a summer fair",
+        "an annual fair"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/fair",
+      "targetLexemeId": "c7bfff1e-11a0-592a-b328-237b66dbfb59",
+      "expectedEntrySha": "327db9dcd326d81a90e04d8b68892ee9e9f051bf815193a414882117bccb24a4"
+    },
+    {
+      "lemma": "Mara",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Mara — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Mara took her grandfather to the cinema.",
+      "exampleUz": "Mara bobosini kinoteatrga olib bordi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "722e1054-7751-48d4-8478-d23928b7d399",
+      "sourceBodySha": "7b7c1a74f2c05f6a6dec42a2b2cf093784d8ba5eb8915d9aa7db8380559ca3ef"
+    },
+    {
+      "lemma": "Kian",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Kian — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Kian checked the label on his parcel.",
+      "exampleUz": "Kian jo‘natmasidagi yorliqni tekshirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "08037464-fd7f-4d62-baa5-4139fa7fb378",
+      "sourceBodySha": "6a2d6892250a68ef92ca02fc1b4ce06458bb71c313208dab5da0060633b2ec64"
+    },
+    {
+      "lemma": "Farah",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Farah — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Farah observed the sky from the farm.",
+      "exampleUz": "Farah fermadan osmonni kuzatdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "6a5ba3c3-c401-41f0-a3f1-7c91f188b82c",
+      "sourceBodySha": "e467aede16b1e2e7b254e7f0100ab0a2a28da9c0e28e5d098835bd19da183ec9"
+    },
+    {
+      "lemma": "Elena",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Elena — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Elena translated a notice for her neighbours.",
+      "exampleUz": "Elena qo‘shnilariga e’lonni tarjima qilib berdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "673b21a1-33cc-4373-99b5-b16445046671",
+      "sourceBodySha": "b502b3d57a8befdfa63d3b830bd2057269dba96ff752360eca6d3ae39b99f3cd"
+    },
+    {
+      "lemma": "Nabil",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Nabil — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Nabil prepared soup for the competition.",
+      "exampleUz": "Nabil musobaqa uchun sho‘rva tayyorladi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "1fe78512-1781-42f2-b6fb-d9b9f95d1fe9",
+      "sourceBodySha": "b751588ff2a8fb99f3f5dbdb92598b635f3454e5e229afa66212927776309df1"
+    },
+    {
+      "lemma": "Priya",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Priya — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Priya waited for the next ferry.",
+      "exampleUz": "Priya keyingi paromni kutdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "31c4ea91-3b68-4dee-94de-c74794fe64cf",
+      "sourceBodySha": "fc70d3fe9e7806791b381527d769b2452dd580b8cde732f8e07ab7248c51d359"
+    },
+    {
+      "lemma": "Lara",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Lara — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Lara remembered her lines on stage.",
+      "exampleUz": "Lara sahnada aytadigan gaplarini esladi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "e1e53b79-47ed-432e-88c4-3f4303778445",
+      "sourceBodySha": "6c7aab5ebdba68b99ab3b22803965d7c8f006a8b4e493326b961f6dc0789aeff"
+    },
+    {
+      "lemma": "Omar",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Omar — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Omar looked for old photographs of the square.",
+      "exampleUz": "Omar maydonning eski suratlarini qidirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "761f01cc-597b-4850-8dd8-722b55201e03",
+      "sourceBodySha": "1850fa38d4f1cf9f5cea53edf2e9f16a4ba560089f442adcb816c9e241619168"
+    },
+    {
+      "lemma": "Mariam",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Mariam — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Mariam found her bottle in the sports hall.",
+      "exampleUz": "Mariam idishini sport zalidan topdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "23c952f2-f67e-4caf-8931-2bd5684ed520",
+      "sourceBodySha": "42bca2060a656de8baba3d0d82fbf9aca30ed0a66935698af0b8c1ba850fc9f1"
+    },
+    {
+      "lemma": "Alice",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Alice — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Alice checked the information before broadcasting it.",
+      "exampleUz": "Alice ma’lumotni efirga uzatishdan oldin tekshirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "62f5dd46-cc45-4291-a447-157285af813a",
+      "sourceBodySha": "a8ee075ce781e8dad5b2da3cfcc0db4fd7d1e70e0af2e467001ba7c6ed301fe0"
+    },
+    {
+      "lemma": "Sofia",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Sofia — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Sofia kept the old letters in a dry box.",
+      "exampleUz": "Sofia eski xatlarni quruq qutida saqladi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "09a92834-bcad-4aad-813d-1af5c8870334",
+      "sourceBodySha": "afa1cd3c5a8c69317718b6e48f87664e5b27b20ea8c7813b97f99ea021482f79"
+    },
+    {
+      "lemma": "Ibrahim",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Ibrahim — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Ibrahim moved the hive to his garden.",
+      "exampleUz": "Ibrahim asalari uyasini bog‘iga ko‘chirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "b5410934-256d-44ff-81d7-81c463f136cc",
+      "sourceBodySha": "59dc31cbb3ad44c260537e3fec384c43c0ca9ee7484076db19f84e9f4ab9ee4f"
+    },
+    {
+      "lemma": "Lucy",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Lucy — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Lucy asked a repairer to check the clock.",
+      "exampleUz": "Lucy ustadan soatni tekshirishni so‘radi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "3e71c838-693d-43f4-9989-b97f26ebed83",
+      "sourceBodySha": "810e95096f9b93420c34a1ea05f4cd471f592d157ac394367e595c09c7cdb75b"
+    },
+    {
+      "lemma": "online",
+      "pos": "r",
+      "key": "using-internet",
+      "definitionEn": "Using a connection to the internet.",
+      "translationUz": "internet orqali; onlayn tarzda",
+      "exampleEn": "Mara bought the cinema tickets online.",
+      "exampleUz": "Mara kino chiptalarini internet orqali sotib oldi.",
+      "usageFrames": [
+        "buy tickets online",
+        "book online"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/online"
+    },
+    {
+      "lemma": "customer service",
+      "pos": "n",
+      "key": "customer-help",
+      "definitionEn": "The work or department that helps customers with questions, purchases and problems.",
+      "translationUz": "mijozlarga xizmat ko‘rsatish; mijozlar muammolari bilan ishlaydigan bo‘lim",
+      "exampleEn": "The customer service team arranged a replacement delivery.",
+      "exampleUz": "Mijozlarga xizmat ko‘rsatish jamoasi almashtirilgan mahsulotni yetkazib berishni tashkil qildi.",
+      "usageFrames": [
+        "customer service team",
+        "customer service department",
+        "contact customer service"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/customer-service"
+    },
+    {
+      "lemma": "return",
+      "pos": "a",
+      "key": "sending-goods-back",
+      "definitionEn": "Used for sending an item back to the person or organisation it came from.",
+      "translationUz": "mahsulotni qaytarib yuborish uchun mo‘ljallangan",
+      "exampleEn": "The shop sent Kian a return label for the parcel.",
+      "exampleUz": "Do‘kon Kianga jo‘natmani qaytarib yuborish uchun yorliq yubordi.",
+      "usageFrames": [
+        "return label",
+        "return service",
+        "return code"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/return"
+    },
+    {
+      "lemma": "send back",
+      "pos": "v",
+      "key": "return-an-item",
+      "definitionEn": "To send something to the person or place it came from.",
+      "translationUz": "qaytarib yubormoq",
+      "exampleEn": "Kian agreed to send back the gloves.",
+      "exampleUz": "Kian qo‘lqoplarni qaytarib yuborishga rozi bo‘ldi.",
+      "usageFrames": [
+        "send back an item",
+        "send back the goods"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/send",
+      "targetLexemeId": "510e3181-a427-5d98-a95c-ad3a128c942f",
+      "expectedEntrySha": "9f9dcc5385c4015be8ca99c7d60f4ea95574dd6db44b1e6d4940e38f011f6b5a"
+    },
+    {
+      "lemma": "refresh",
+      "pos": "v",
+      "key": "reload-webpage",
+      "definitionEn": "To load a web page again so that it can show the latest information.",
+      "translationUz": "veb-sahifani qayta yuklamoq; yangilamoq",
+      "exampleEn": "Kian refreshed the page to check his delivery.",
+      "exampleUz": "Kian yetkazib berish holatini tekshirish uchun sahifani qayta yukladi.",
+      "usageFrames": [
+        "refresh the page",
+        "refresh a browser tab"
+      ],
+      "referenceUrl": "https://learn.microsoft.com/en-us/style-guide/a-z-word-list-term-collections/r/refresh",
+      "targetLexemeId": "b8cb3347-3432-5f39-8e94-f71f9de240f4",
+      "expectedEntrySha": "69a67a928b8061bb9bbcd7f3a36cfcfe180e9d2fc9170a2ff4614bf5ddaea338"
+    },
+    {
+      "lemma": "page",
+      "pos": "n",
+      "key": "webpage",
+      "definitionEn": "A document or screen of information available at a particular address on the web.",
+      "translationUz": "veb-sahifa; internet sahifasi",
+      "exampleEn": "The page showed the parcel’s current location.",
+      "exampleUz": "Sahifada jo‘natmaning hozirgi joylashuvi ko‘rsatilgan edi.",
+      "usageFrames": [
+        "web page",
+        "open a page",
+        "refresh the page"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/web-page",
+      "targetLexemeId": "5e5e0825-79d2-54fd-9e96-94671d1710a5",
+      "expectedEntrySha": "51eb7d824108dada062e8e19892dba8ff35d98e9881511e0ea63dbdd7640a76e"
+    },
+    {
+      "lemma": "rather than",
+      "pos": "conjunction",
+      "key": "alternative-choice",
+      "definitionEn": "Used to introduce an alternative that is not chosen or does not apply.",
+      "translationUz": "... o‘rniga; ...dan ko‘ra",
+      "exampleEn": "Kian chose a replacement rather than a refund.",
+      "exampleUz": "Kian pulini qaytarib olish o‘rniga mahsulotni almashtirishni tanladi.",
+      "usageFrames": [
+        "choose a replacement rather than a refund"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/rather"
+    },
+    {
+      "lemma": "Venus",
+      "pos": "n",
+      "key": "solar-system-planet",
+      "definitionEn": "The planet whose orbit is the second from the Sun.",
+      "translationUz": "Venera; Zuhra sayyorasi",
+      "exampleEn": "Farah identified the bright point in the sky as Venus.",
+      "exampleUz": "Farah osmondagi yorqin nuqta Venera ekanini aniqladi.",
+      "usageFrames": [
+        "observe Venus",
+        "the planet Venus"
+      ],
+      "referenceUrl": "https://science.nasa.gov/venus/venus-facts/"
+    },
+    {
+      "lemma": "older",
+      "pos": "a",
+      "key": "greater-age-comparison",
+      "definitionEn": "Having lived for more years than the person or thing being compared.",
+      "translationUz": "yoshi kattaroq; ...dan katta",
+      "exampleEn": "Farah’s older brother suggested a quieter place.",
+      "exampleUz": "Farahning akasi tinchroq joyni taklif qildi.",
+      "usageFrames": [
+        "older brother",
+        "older sister",
+        "older than me"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/elder-eldest-or-older-oldest",
+      "targetLexemeId": "e05c51bb-a1f7-5b2b-a466-e4e850419888",
+      "expectedEntrySha": "24a89f92acbab82162a2a22c8723d656bbd79008b06f2dc69ab4d6d346cb7481"
+    },
+    {
+      "lemma": "while",
+      "pos": "conjunction",
+      "key": "contrast-whereas",
+      "definitionEn": "Introduces a contrasting fact or opinion.",
+      "translationUz": "holbuki; esa; ... bo‘lsa",
+      "exampleEn": "Some neighbours thought it was a plane, while others called it a star.",
+      "exampleUz": "Ba’zi qo‘shnilar uni samolyot deb o‘yladi, boshqalari esa yulduz deb atadi.",
+      "usageFrames": [
+        "some thought so while others disagreed"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/while-and-whilst",
+      "targetLexemeId": "2a086988-d355-5718-b3fd-03bdc3e7fcb8",
+      "expectedEntrySha": "4cdbae37f1b2c88ad4e3b2b10363fc95c7b53322c62fb56fc91cd6ba47acf1da"
+    },
+    {
+      "lemma": "light",
+      "pos": "n",
+      "key": "visible-point-or-glow",
+      "definitionEn": "A visible point or patch of brightness, such as one seen in a dark sky.",
+      "translationUz": "yorug‘ nuqta; ko‘rinib turgan nur",
+      "exampleEn": "The light above the hill did not flash.",
+      "exampleUz": "Tepalik ustidagi yorug‘ nuqta miltillamadi.",
+      "usageFrames": [
+        "a bright light",
+        "a distant light"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/light",
+      "targetLexemeId": "fd1b2979-8375-5015-a10a-947148110449",
+      "expectedEntrySha": "bd0d3704b06d7e092f905cd9c47537cd7f81b7097932879c02d1df71d9424e9b"
+    },
+    {
+      "lemma": "below",
+      "pos": "preposition",
+      "key": "lower-than",
+      "definitionEn": "In a position lower than the person, place or thing that follows.",
+      "translationUz": "...dan pastda; ...ning pastida",
+      "exampleEn": "The family lived in the flat below Elena’s.",
+      "exampleUz": "Oila Elenaning xonadonidan pastdagi xonadonda yashardi.",
+      "usageFrames": [
+        "below the window",
+        "below her flat"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/below"
+    },
+    {
+      "lemma": "between",
+      "pos": "preposition",
+      "key": "separating-two-points",
+      "definitionEn": "In the space or interval separating the two things, places or times named.",
+      "translationUz": "... orasida; ... bilan ... oralig‘ida",
+      "exampleEn": "The water would be off between one and four.",
+      "exampleUz": "Suv soat birdan to‘rtgacha o‘chirilishi kerak edi.",
+      "usageFrames": [
+        "between one and four",
+        "between the two pots"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/between"
+    },
+    {
+      "lemma": "competitor",
+      "pos": "n",
+      "key": "competition-participant",
+      "definitionEn": "A person who takes part in a contest.",
+      "translationUz": "musobaqa ishtirokchisi",
+      "exampleEn": "Each competitor prepared a savoury dish.",
+      "exampleUz": "Har bir musobaqa ishtirokchisi shirin bo‘lmagan taom tayyorladi.",
+      "usageFrames": [
+        "a fellow competitor",
+        "a strong competitor"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/competitor",
+      "targetLexemeId": "07e0f459-0151-5117-bf72-c850a1f56ba9",
+      "expectedEntrySha": "0c2fbe42a28a6115cd68db67b0f899cafaabb3ed2ff2c7a467d9a27bf3ab431b"
+    },
+    {
+      "lemma": "round",
+      "pos": "n",
+      "key": "competition-stage",
+      "definitionEn": "One of the separate stages or sessions of a competition.",
+      "translationUz": "musobaqaning bosqichi; davra",
+      "exampleEn": "The judges added a new round for savoury dishes.",
+      "exampleUz": "Hakamlar shirin bo‘lmagan taomlar uchun yangi bosqich qo‘shdi.",
+      "usageFrames": [
+        "the first round",
+        "the final round",
+        "a qualifying round"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/round",
+      "targetLexemeId": "1744186f-25b5-5ca9-8f89-79230e4409a2",
+      "expectedEntrySha": "f35723d16d21b62fdc088075baf8bc462f6a11b443447d2210008e4a344a7e2c"
+    },
+    {
+      "lemma": "screen",
+      "pos": "n",
+      "key": "visual-display-surface",
+      "definitionEn": "The surface on a television, computer or similar device where images and text are displayed.",
+      "translationUz": "ekran",
+      "exampleEn": "The screen showed an incorrect bread price.",
+      "exampleUz": "Ekranda nonning narxi xato ko‘rsatilgan edi.",
+      "usageFrames": [
+        "a computer screen",
+        "on the screen"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/screen",
+      "targetLexemeId": "d675c083-cbf9-5992-bbbf-8c865e1bc8d4",
+      "expectedEntrySha": "0e4e05a8ec305f7c68f2a0fa81e1570d08aaf791c970295e69dee6f9d2bcdfc3"
+    },
+    {
+      "lemma": "list",
+      "pos": "n",
+      "key": "written-items",
+      "definitionEn": "A series of names, amounts or other items written one after another.",
+      "translationUz": "ro‘yxat",
+      "exampleEn": "The printed list gave the correct prices.",
+      "exampleUz": "Bosma ro‘yxatda to‘g‘ri narxlar berilgan edi.",
+      "usageFrames": [
+        "price list",
+        "a list of names"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/list",
+      "targetLexemeId": "ae66d84a-7a81-55ac-afe6-81f01b1968c3",
+      "expectedEntrySha": "f423dc2ce23474af054ed81b7f88af9b1278af68c9416c8d0e1b81015dad82e3"
+    },
+    {
+      "lemma": "until",
+      "pos": "conjunction",
+      "key": "up-to-later-event",
+      "definitionEn": "Introduces an event that marks when an earlier action or situation ends.",
+      "translationUz": "...guncha; ...maguncha",
+      "exampleEn": "The display stayed off until the prices were checked.",
+      "exampleUz": "Narxlar tekshirilguncha ekran o‘chirilgan holda qoldi.",
+      "usageFrames": [
+        "wait until they arrive",
+        "until the figures are checked"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/grammar/british-grammar/until",
+      "targetLexemeId": "3e70ca61-a927-5a80-9a0f-2d8a973c83ee",
+      "expectedEntrySha": "0763c9d576730448ebc6ba0fea2e9470d47ff3a8bc7fe03ff2513305184728a1"
+    },
+    {
+      "lemma": "nobody",
+      "pos": "pronoun",
+      "key": "no-person",
+      "definitionEn": "No person at all.",
+      "translationUz": "hech kim",
+      "exampleEn": "Nobody wanted to cancel the play.",
+      "exampleUz": "Hech kim spektaklni bekor qilishni istamadi.",
+      "usageFrames": [
+        "nobody knew",
+        "nobody was there"
+      ],
+      "referenceUrl": "https://learnenglish.britishcouncil.org/free-resources/grammar/english-grammar-reference/indefinite-pronouns"
+    },
+    {
+      "lemma": "line",
+      "pos": "n",
+      "key": "actors-words",
+      "definitionEn": "Words that an actor has to say as part of a performance.",
+      "translationUz": "aktyor aytishi kerak bo‘lgan gap; rolning replikasi",
+      "exampleEn": "Lara forgot a line during the second scene.",
+      "exampleUz": "Lara ikkinchi sahnada aytadigan gapini unutib qo‘ydi.",
+      "usageFrames": [
+        "learn your lines",
+        "forget a line"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/line?a=british",
+      "targetLexemeId": "db585398-1e0f-5e70-8364-c6c3266a0eb8",
+      "expectedEntrySha": "dd63d6b0ab6de50340663f160094c6ad706790d2f70cc5c0622720914a9301eb"
+    },
+    {
+      "lemma": "in front of",
+      "pos": "preposition",
+      "key": "facing-an-audience",
+      "definitionEn": "Facing the people who are watching or listening.",
+      "translationUz": "... oldida; tomoshabinlar qarshisida",
+      "exampleEn": "Lara performed in front of a large audience.",
+      "exampleUz": "Lara ko‘p tomoshabinlar qarshisida rol ijro etdi.",
+      "usageFrames": [
+        "in front of an audience",
+        "in front of the class"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/in-front-of"
+    },
+    {
+      "lemma": "disappear",
+      "pos": "v",
+      "key": "no-longer-present",
+      "definitionEn": "To be no longer present in the place where something was before.",
+      "translationUz": "yo‘qolmoq; avvalgi joyida bo‘lmay qolmoq",
+      "exampleEn": "The fountain disappeared from the square after the flood.",
+      "exampleUz": "Toshqindan keyin favvora maydonda yo‘q bo‘lib qoldi.",
+      "usageFrames": [
+        "disappear from the square",
+        "disappear from view"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/disappear",
+      "targetLexemeId": "df743880-ed4f-5cb6-a4bf-7e1f94d83a79",
+      "expectedEntrySha": "20d66854c7d52f6ba7810397ceac0eba3479637976cc00f2c3e05705b45e4fdc"
+    },
+    {
+      "lemma": "till",
+      "pos": "n",
+      "key": "shop-cash-register",
+      "definitionEn": "A shop’s cash register or the drawer in which payments are kept.",
+      "translationUz": "do‘kon kassasi; kassa tortmasi",
+      "exampleEn": "The owner kept a printed price list beside the till.",
+      "exampleUz": "Do‘kon egasi kassaning yonida bosma narxlar ro‘yxatini saqlardi.",
+      "usageFrames": [
+        "beside the till",
+        "work at the till"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/till",
+      "targetLexemeId": "4c82a6a4-2241-55e4-b864-85d3ae1fa772",
+      "expectedEntrySha": "294115a5929653bfb5706df74e08d113621d192c8926aadd6aaacde4d7142b78"
+    },
+    {
+      "lemma": "beneath",
+      "pos": "preposition",
+      "key": "lower-position",
+      "definitionEn": "In a position directly under the thing or place named.",
+      "translationUz": "... tagida; ...ning ostida",
+      "exampleEn": "The caretaker found the bottle beneath the seats.",
+      "exampleUz": "Qarovchi idishni o‘rindiqlar tagidan topdi.",
+      "usageFrames": [
+        "beneath the seats",
+        "beneath the table"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/beneath"
+    },
+    {
+      "lemma": "over",
+      "pos": "preposition",
+      "key": "time-span",
+      "definitionEn": "During the period of time that follows.",
+      "translationUz": "... davomida; ... mobaynida",
+      "exampleEn": "Over the week, the school used fewer paper cups.",
+      "exampleUz": "Hafta davomida maktabda kamroq qog‘oz stakan ishlatildi.",
+      "usageFrames": [
+        "over the week",
+        "over the next few days"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/over"
+    },
+    {
+      "lemma": "climb over",
+      "pos": "verb phrase",
+      "key": "cross-obstacle-by-climbing",
+      "definitionEn": "To get to the other side of something by climbing across its top.",
+      "translationUz": "... ustidan oshib o‘tmoq",
+      "exampleEn": "Ben wanted to climb over the fallen tree.",
+      "exampleUz": "Ben qulagan daraxt ustidan oshib o‘tmoqchi edi.",
+      "usageFrames": [
+        "climb over a wall",
+        "climb over a fallen tree"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/climb"
+    },
+    {
+      "lemma": "repairer",
+      "pos": "n",
+      "key": "repair-worker",
+      "definitionEn": "A person whose work is to fix damaged or faulty objects or equipment.",
+      "translationUz": "ta’mirlovchi usta",
+      "exampleEn": "Lucy asked a clock repairer to examine the motor.",
+      "exampleUz": "Lucy soatsoz ustadan motorni tekshirishni so‘radi.",
+      "usageFrames": [
+        "a clock repairer",
+        "a skilled repairer"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/repairer"
+    },
+    {
+      "lemma": "track",
+      "pos": "n",
+      "key": "marks-left-by-movement",
+      "definitionEn": "A mark left on the ground by a person, animal or moving vehicle.",
+      "translationUz": "iz; oyoq izi",
+      "exampleEn": "Ben photographed the animal’s tracks in the mud.",
+      "exampleUz": "Ben loydagi hayvon izlarini suratga oldi.",
+      "usageFrames": [
+        "animal tracks",
+        "fresh tracks",
+        "follow the tracks"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/track",
+      "targetLexemeId": "10f11979-39bf-5f22-8bfd-4bdfc6600730",
+      "expectedEntrySha": "b3121393ce9dfc37180f5553e12953679cc3e41e9ea47b83c8a377d87166e885"
+    },
+    {
+      "lemma": "unanswered",
+      "pos": "a",
+      "key": "question-not-resolved",
+      "definitionEn": "Describes a question for which no answer has been found or given.",
+      "translationUz": "javobsiz qolgan; javobi topilmagan",
+      "exampleEn": "Sofia left the question unanswered instead of inventing a name.",
+      "exampleUz": "Sofia ism to‘qib chiqarish o‘rniga savolni javobsiz qoldirdi.",
+      "usageFrames": [
+        "an unanswered question",
+        "leave a question unanswered"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/unanswered",
+      "targetLexemeId": "883c4735-c25f-5142-ab52-63b455c182ea",
+      "expectedEntrySha": "57b5957721ad14a001f326fb84fa76c1f645e0e46211535637b716a91b7e6465"
+    },
+    {
+      "lemma": "come from",
+      "pos": "phrasal verb",
+      "key": "information-origin",
+      "definitionEn": "To originate in, or be supplied by, the person, place or organisation named.",
+      "translationUz": "...dan kelib chiqmoq; ...dan olingan bo‘lmoq",
+      "exampleEn": "The report did not come from the council.",
+      "exampleUz": "Xabar kengashdan olinmagan edi.",
+      "usageFrames": [
+        "come from an official source",
+        "come from the council"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/come-from?topic=origins-and-sources"
+    },
+    {
+      "lemma": "reopening",
+      "pos": "n",
+      "key": "open-again-event",
+      "definitionEn": "The occasion when a place begins admitting people or operating again after being closed.",
+      "translationUz": "qayta ochilish; faoliyatning qayta boshlanishi",
+      "exampleEn": "The reopening of the pool was planned for Tuesday.",
+      "exampleUz": "Hovuzning qayta ochilishi seshanbaga rejalashtirilgan edi.",
+      "usageFrames": [
+        "a planned reopening",
+        "the reopening date"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/reopening"
+    },
+    {
+      "lemma": "changing room",
+      "pos": "n",
+      "key": "room-for-changing-clothes",
+      "definitionEn": "A room set aside for people to put on different clothes, for example before or after sport.",
+      "translationUz": "kiyim almashtirish xonasi",
+      "exampleEn": "The workers replaced tiles near the changing rooms.",
+      "exampleUz": "Ishchilar kiyim almashtirish xonalari yonidagi plitkalarni almashtirdi.",
+      "usageFrames": [
+        "the changing rooms",
+        "a changing room at the pool"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/changing-room",
+      "forms": [
+        "changing rooms"
+      ]
+    },
+    {
+      "lemma": "stop",
+      "pos": "v",
+      "key": "cease-functioning",
+      "definitionEn": "To cease functioning or working, as a machine or device does.",
+      "translationUz": "ishlamay qolmoq; ishlashdan to‘xtamoq",
+      "exampleEn": "The old motor stopped when the weather became cold.",
+      "exampleUz": "Havo soviganda eski motor ishlamay qoldi.",
+      "usageFrames": [
+        "the motor stopped",
+        "the clock has stopped"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/stop?topic=train-and-bus-stations-and-taxi-ranks",
+      "targetLexemeId": "bdbc0a98-3e2e-54c3-befa-9306b208e35f",
+      "expectedEntrySha": "b0c304fac1cbcc11907b7f40edec4e29bb1712589776c8adab7cc0426af5c01f"
+    },
+    {
+      "lemma": "time signal",
+      "pos": "n",
+      "key": "precise-time-indicator",
+      "definitionEn": "A sound or other signal used to indicate an accurate time.",
+      "translationUz": "aniq vaqt signali",
+      "exampleEn": "Lucy compared the clock with a reliable time signal.",
+      "exampleUz": "Lucy soatni ishonchli aniq vaqt signali bilan solishtirdi.",
+      "usageFrames": [
+        "a reliable time signal",
+        "a broadcast time signal"
+      ],
+      "referenceUrl": "https://www.nist.gov/pml/time-and-frequency-division/time-distribution/radio-station-wwv"
+    },
+    {
+      "lemma": "Chloe",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Chloe — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Chloe tested a movable sign at the beach.",
+      "exampleUz": "Chloe sohilda ko‘chma belgini sinab ko‘rdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "bca341a0-2f88-4d62-8001-4b35cbc53bb0",
+      "sourceBodySha": "4231e5b079f55da71b0ac39d2ea43e72b245f221d7b5317a90aaa9399caf7660"
+    },
+    {
+      "lemma": "Javed",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Javed — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Javed compared the numbers on the electricity meters.",
+      "exampleUz": "Javed elektr hisoblagichlaridagi raqamlarni solishtirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "6c8182ee-a50b-4625-af8f-5484b25680c2",
+      "sourceBodySha": "e6961a094fcb1e35e5d15d432e809d40899393918daa7ccc30025fae03969b2a"
+    },
+    {
+      "lemma": "Amel",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Amel — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Amel checked the date of the photograph.",
+      "exampleUz": "Amel suratning sanasini tekshirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "2ca54000-f811-4728-bdad-4a2c010483e2",
+      "sourceBodySha": "2daf4c79990b599b54bdcba95c93225b69cd0eef3e20e84484f44297f4424c50"
+    },
+    {
+      "lemma": "Iris",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Iris — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Iris requested the original plotting files.",
+      "exampleUz": "Iris grafik chizilgan dastlabki fayllarni so‘radi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "7527ea38-7f23-4f58-ac55-bfde6b747f35",
+      "sourceBodySha": "6416cde9a06c62871540db280b9cb33604f682db72fdf992539add713dfacbc0"
+    },
+    {
+      "lemma": "Elias",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Elias — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Elias added familiar landmarks to the map.",
+      "exampleUz": "Elias xaritaga tanish mo‘ljal joylarni qo‘shdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "6071b5bd-0816-4cbd-8bc8-8383808b857c",
+      "sourceBodySha": "acb5995461092fd46593d164a0c0c684ea5fe798beb74ed307e0063a6ced3c68"
+    },
+    {
+      "lemma": "Mei",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Mei — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Mei examined the museum’s old records.",
+      "exampleUz": "Mei muzeyning eski qaydlarini o‘rgandi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "c2236d17-66f9-4d83-ae14-7fada3af8ee8",
+      "sourceBodySha": "37f9e3110de982872c8fa716f42d9207e0c55d577382ae9819b4c8997ebd3c14"
+    },
+    {
+      "lemma": "Pavel",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Pavel — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Pavel asked for supervised tests of the lift.",
+      "exampleUz": "Pavel liftni nazorat ostida sinashni so‘radi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "12951f9f-f75c-46f9-9b15-fc31bd6cd437",
+      "sourceBodySha": "2f0484826c6e08d4f00500f304f958b59ccc3a926adcd5e66373b875f194bf99"
+    },
+    {
+      "lemma": "screenshot",
+      "pos": "n",
+      "key": "captured-screen-image",
+      "definitionEn": "An image saved from what is displayed on a computer or phone screen.",
+      "translationUz": "ekran surati; skrinshot",
+      "exampleEn": "The administrator kept a screenshot of the old message.",
+      "exampleUz": "Administrator eski xabarning ekran suratini saqladi.",
+      "usageFrames": [
+        "take a screenshot",
+        "save a screenshot"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/screenshot"
+    },
+    {
+      "lemma": "dataset",
+      "pos": "n",
+      "key": "related-data-collection",
+      "definitionEn": "A collection of related data organised for use together, for example in an analysis.",
+      "translationUz": "ma’lumotlar to‘plami",
+      "exampleEn": "Iris requested the original dataset behind the graph.",
+      "exampleUz": "Iris grafik asosidagi dastlabki ma’lumotlar to‘plamini so‘radi.",
+      "usageFrames": [
+        "a public dataset",
+        "analyse a dataset"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/dataset"
+    },
+    {
+      "lemma": "neither",
+      "pos": "pronoun",
+      "key": "not-one-of-two",
+      "definitionEn": "Not one and not the other of two people or things.",
+      "translationUz": "ikkalasidan hech biri",
+      "exampleEn": "Two studies used the same dataset, but neither explained the graph.",
+      "exampleUz": "Ikkita tadqiqot bir xil ma’lumotlar to‘plamidan foydalandi, ammo ularning hech biri grafikni izohlamadi.",
+      "usageFrames": [
+        "neither of them",
+        "neither explained it"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/neither-neither-nor-and-not-either"
+    },
+    {
+      "lemma": "headteacher",
+      "pos": "n",
+      "key": "school-leader",
+      "definitionEn": "The person responsible for leading and managing a school.",
+      "translationUz": "maktab direktori",
+      "exampleEn": "The headteacher asked whether families had received the correction.",
+      "exampleUz": "Maktab direktori oilalardan tuzatilgan xabarni olgan-olmaganini so‘radi.",
+      "usageFrames": [
+        "a school headteacher",
+        "the headteacher’s decision"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/headteacher"
+    },
+    {
+      "lemma": "toward",
+      "pos": "preposition",
+      "key": "direction-towards",
+      "definitionEn": "In the direction of the person, place or thing named.",
+      "translationUz": "... tomon; ...ga qarab",
+      "exampleEn": "The technician moved the camera toward the riverbed.",
+      "exampleUz": "Texnik kamerani daryo tubi tomon siljitdi.",
+      "usageFrames": [
+        "toward the riverbed",
+        "move toward the door"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/towards-or-toward"
+    },
+    {
+      "lemma": "inbox",
+      "pos": "n",
+      "key": "incoming-digital-messages",
+      "definitionEn": "The part of an email or messaging service where received messages are listed.",
+      "translationUz": "kiruvchi xabarlar qutisi",
+      "exampleEn": "The workers kept checking their inboxes at home.",
+      "exampleUz": "Xodimlar uyida ham kiruvchi xabarlar qutisini tekshirishda davom etdi.",
+      "usageFrames": [
+        "check your inbox",
+        "an email inbox"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/inbox"
+    },
+    {
+      "lemma": "recalibrate",
+      "pos": "v",
+      "key": "adjust-instrument-again",
+      "definitionEn": "To adjust a measuring device again so that its readings are accurate.",
+      "translationUz": "o‘lchov moslamasini to‘g‘ri ko‘rsatish uchun qayta sozlamoq",
+      "exampleEn": "The technician recalibrated the lift’s weight sensor.",
+      "exampleUz": "Texnik liftning og‘irlik datchigini to‘g‘ri ko‘rsatish uchun qayta sozladi.",
+      "usageFrames": [
+        "recalibrate a sensor",
+        "recalibrate an instrument"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/recalibrate"
+    },
+    {
+      "lemma": "Colour-related",
+      "pos": "a",
+      "key": "connected-with-colour",
+      "definitionEn": "Connected with the colour of something.",
+      "translationUz": "rang bilan bog‘liq",
+      "exampleEn": "Colour-related returns fell after the new photographs were added.",
+      "exampleUz": "Yangi suratlar qo‘shilgach, mahsulotni rangi sabab qaytarish holatlari kamaydi.",
+      "usageFrames": [
+        "colour-related complaints",
+        "colour-related returns"
+      ],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "29a22b24-7915-4c6b-a12d-db97217a101e",
+      "sourceBodySha": "13ff7d7d1caa1fc84306fecdb48e0bfd05adecbe03b8706246834e8a7ca4eab7"
+    },
+    {
+      "lemma": "late-payment",
+      "pos": "a",
+      "key": "connected-with-overdue-payment",
+      "definitionEn": "Connected with paying after the required date.",
+      "translationUz": "to‘lovni kechiktirish bilan bog‘liq",
+      "exampleEn": "Late-payment charges were paused during the investigation.",
+      "exampleUz": "Tekshiruv paytida to‘lovni kechiktirish uchun olinadigan qo‘shimcha haq to‘xtatib turildi.",
+      "usageFrames": [
+        "late-payment charges",
+        "a late-payment fee"
+      ],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "6c8182ee-a50b-4625-af8f-5484b25680c2",
+      "sourceBodySha": "e6961a094fcb1e35e5d15d432e809d40899393918daa7ccc30025fae03969b2a"
+    },
+    {
+      "lemma": "full-orchestra",
+      "pos": "a",
+      "key": "entire-musical-ensemble",
+      "definitionEn": "Involving all the members or sections of an orchestra together.",
+      "translationUz": "butun orkestr ishtirokidagi",
+      "exampleEn": "The players requested a full-orchestra rehearsal.",
+      "exampleUz": "Musiqachilar butun orkestr bilan repetitsiya qilishni so‘radi.",
+      "usageFrames": [
+        "a full-orchestra rehearsal",
+        "a full-orchestra session"
+      ],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "449f7db8-3801-46a0-9104-a33c8dcc56a3",
+      "sourceBodySha": "51c73e267835def6fe737314c7eaede0ab43baf4249279d42188eb8020b5788e"
+    },
+    {
+      "lemma": "class-wide",
+      "pos": "a",
+      "key": "entire-school-class",
+      "definitionEn": "Concerning or affecting every pupil in a class.",
+      "translationUz": "butun sinfga oid; sinfdagi barcha o‘quvchilarni qamrab oladigan",
+      "exampleEn": "Class-wide alerts needed an extra staff check.",
+      "exampleUz": "Butun sinfga oid ogohlantirishlar xodimning qo‘shimcha tekshiruvini talab qildi.",
+      "usageFrames": [
+        "class-wide alerts",
+        "a class-wide message"
+      ],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "e23cc51e-fbda-4d9b-9cf4-f75d231f147e",
+      "sourceBodySha": "4a3135a3a3b3a2042d13da84aa0b27d94cc1f9739b709e1e5a56412f2dc2ef26"
+    },
+    {
+      "lemma": "notice",
+      "pos": "n",
+      "key": "public-information-message",
+      "definitionEn": "A written message displayed to give information or instructions.",
+      "translationUz": "yozma e’lon; ma’lumot yoki ko‘rsatma yozilgan xabar",
+      "exampleEn": "The notice asked visitors to keep away from the nests.",
+      "exampleUz": "Yozma e’londa tashrif buyuruvchilardan uyalarga yaqinlashmaslik so‘ralgan edi.",
+      "usageFrames": [
+        "a public notice",
+        "read the notice"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/notice",
+      "targetLexemeId": "d7120758-816f-5368-b125-7bc96a5ccbc9",
+      "expectedEntrySha": "5c4feb3078f1f1c2d24d808109a6cffcc1cb927dc1eefab0824097e22f6b954d"
+    },
+    {
+      "lemma": "return",
+      "pos": "n",
+      "key": "commercial-sending-back",
+      "definitionEn": "The act of sending a purchased product back to the seller, for example because it is unsuitable.",
+      "translationUz": "xarid qilingan mahsulotni sotuvchiga qaytarish",
+      "exampleEn": "The shop recorded every return request separately.",
+      "exampleUz": "Do‘kon mahsulotni qaytarish haqidagi har bir so‘rovni alohida qayd etdi.",
+      "usageFrames": [
+        "a return request",
+        "the return of a product"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/return",
+      "targetLexemeId": "69425447-09d0-500e-810e-865b9500d338",
+      "expectedEntrySha": "473facb82341af5f7e5b3dfdc9fe55d568cbf5133b7334df554c7a6b425093ba"
+    },
+    {
+      "lemma": "return",
+      "pos": "n",
+      "key": "commercial-returned-goods",
+      "definitionEn": "A purchased product sent back to the seller because the buyer does not want or cannot use it.",
+      "translationUz": "sotuvchiga qaytarilgan mahsulot",
+      "exampleEn": "The returns team checked the colour of each chair.",
+      "exampleUz": "Qaytarilgan mahsulotlar bilan ishlovchi guruh har bir stulning rangini tekshirdi.",
+      "usageFrames": [
+        "the returns team",
+        "inspect customer returns"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/return",
+      "targetLexemeId": "69425447-09d0-500e-810e-865b9500d338",
+      "expectedEntrySha": "473facb82341af5f7e5b3dfdc9fe55d568cbf5133b7334df554c7a6b425093ba"
+    },
+    {
+      "lemma": "even though",
+      "pos": "conjunction",
+      "key": "emphatic-concession",
+      "definitionEn": "Introduces a fact that contrasts strongly with what the main clause says.",
+      "translationUz": "... bo‘lsa ham; ...ga qaramay",
+      "exampleEn": "The chair was returned even though it was comfortable.",
+      "exampleUz": "Stul qulay bo‘lsa ham, uni sotuvchiga qaytarishdi.",
+      "usageFrames": [
+        "even though it was comfortable",
+        "even though the result was positive"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/comparatives-and-"
+    },
+    {
+      "lemma": "review",
+      "pos": "n",
+      "key": "customer-product-evaluation",
+      "definitionEn": "A customer's written opinion or rating of a product or service they have used.",
+      "translationUz": "xaridorning mahsulot yoki xizmat haqidagi fikri va bahosi",
+      "exampleEn": "The customer wrote a positive review of the chair.",
+      "exampleUz": "Xaridor stul haqida ijobiy fikr va baho yozdi.",
+      "usageFrames": [
+        "a customer review",
+        "write a positive review"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/review_1",
+      "targetLexemeId": "b4eb8648-de76-522c-a1a6-ae2358e10211",
+      "expectedEntrySha": "50f8471032b015b250f742279cdf1fb15c49c4413e0ece78e9608a44ee11d916"
+    },
+    {
+      "lemma": "setting",
+      "pos": "n",
+      "key": "device-configuration",
+      "definitionEn": "A selected value or option that controls how a device or program operates.",
+      "translationUz": "qurilma yoki dastur sozlamasi",
+      "exampleEn": "The screen settings changed the appearance of the photograph.",
+      "exampleUz": "Ekran sozlamalari suratning ko‘rinishini o‘zgartirdi.",
+      "usageFrames": [
+        "screen settings",
+        "change a setting"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/setting?topic=communications-technology-general-words",
+      "targetLexemeId": "01993c65-7a7d-568e-be2c-17b6eb4adbe2",
+      "expectedEntrySha": "144b330b50fd87f2901de821e1ddab5be2219e60cd49467c8a48588eb2de503f"
+    },
+    {
+      "lemma": "website",
+      "pos": "n",
+      "key": "related-web-pages",
+      "definitionEn": "A collection of related pages available on the internet under a common address.",
+      "translationUz": "veb-sayt; umumiy manzildagi internet sahifalari to‘plami",
+      "exampleEn": "The website showed the chair in natural daylight.",
+      "exampleUz": "Veb-saytda stul tabiiy kunduzgi yorug‘likda ko‘rsatilgan edi.",
+      "usageFrames": [
+        "visit a website",
+        "an online shopping website"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/website?q=websites",
+      "targetLexemeId": "28d38200-dd51-5d34-a7fc-e67184ce6140",
+      "expectedEntrySha": "719f275f5115b37fb81bb15d109df0a0aa7da53c1a5943a257e4a249b16df7b2"
+    },
+    {
+      "lemma": "under",
+      "pos": "preposition",
+      "key": "conditions-experienced",
+      "definitionEn": "With the conditions or circumstances named applying at the time.",
+      "translationUz": "... sharoitida; ... ta’sirida",
+      "exampleEn": "The fabric looked different under warm lighting.",
+      "exampleUz": "Mato iliq tusli yorug‘lik ta’sirida boshqacha ko‘rindi.",
+      "usageFrames": [
+        "under daylight",
+        "under different lighting"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/under"
+    },
+    {
+      "lemma": "beyond",
+      "pos": "preposition",
+      "key": "outside-capacity-or-limit",
+      "definitionEn": "Outside the limits of a person's or organisation's power, ability or control.",
+      "translationUz": "... imkoniyati yoki nazorati doirasidan tashqarida",
+      "exampleEn": "The colour settings on customers' screens were beyond the retailer's control.",
+      "exampleUz": "Xaridorlar ekranidagi rang sozlamalari sotuvchining nazorat doirasidan tashqarida edi.",
+      "usageFrames": [
+        "beyond our control",
+        "beyond their ability"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/beyond"
+    },
+    {
+      "lemma": "times",
+      "pos": "preposition",
+      "key": "multiplication-comparison",
+      "definitionEn": "Multiplied by the number stated, when comparing quantities.",
+      "translationUz": "... baravar; ... marta ko‘p",
+      "exampleEn": "The bill showed three times the usual electricity use.",
+      "exampleUz": "Hisobda odatdagidan uch baravar ko‘p elektr sarfi ko‘rsatilgan edi.",
+      "usageFrames": [
+        "three times the usual amount",
+        "twice the amount, or two times the amount"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/times"
+    },
+    {
+      "lemma": "along with",
+      "pos": "preposition",
+      "key": "in-addition-to",
+      "definitionEn": "Together with or in addition to the person or thing named.",
+      "translationUz": "... bilan birga; ...ga qo‘shimcha ravishda",
+      "exampleEn": "Javed uploaded the document along with the photographs.",
+      "exampleUz": "Javed hujjatni suratlar bilan birga yukladi.",
+      "usageFrames": [
+        "along with the documents",
+        "along with the photographs"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/along-with"
+    },
+    {
+      "lemma": "player",
+      "pos": "n",
+      "key": "musical-instrument-performer",
+      "definitionEn": "A person who plays a musical instrument, whether professionally or as an amateur.",
+      "translationUz": "musiqa asbobida chaladigan kishi; sozanda",
+      "exampleEn": "The young players asked for a full-orchestra rehearsal.",
+      "exampleUz": "Yosh sozandalar butun orkestr bilan repetitsiya qilishni so‘radi.",
+      "usageFrames": [
+        "a violin player",
+        "the orchestra's players"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/player",
+      "targetLexemeId": "c3872bcb-39a0-5f4f-a4e9-462251be1314",
+      "expectedEntrySha": "493d5a31334a361f5b6b799a38677e4ac5b26e22022deea26ec098370a02f2c0"
+    },
+    {
+      "lemma": "musician",
+      "pos": "n",
+      "key": "music-performer-without-professional-restriction",
+      "definitionEn": "A person who plays a musical instrument or creates music, especially with skill.",
+      "translationUz": "musiqachi; musiqa ijro etadigan yoki yaratadigan kishi",
+      "exampleEn": "One musician asked the conductor for more practice together.",
+      "exampleUz": "Bir musiqachi dirijyordan birga ko‘proq mashq qilishni so‘radi.",
+      "usageFrames": [
+        "a young musician",
+        "an amateur musician"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/musician",
+      "targetLexemeId": "0d5ca8ec-308f-538d-854a-fb626d7e58be",
+      "expectedEntrySha": "0f33a47de9d42ca1f5f613dd934df9df01dff9e922cc753164c78087a49cc133"
+    },
+    {
+      "lemma": "recover",
+      "pos": "v",
+      "key": "normal-performance-after-difficulty",
+      "definitionEn": "To return to a normal or effective condition after a difficulty or disruption.",
+      "translationUz": "qiyinchilikdan keyin o‘zini o‘nglab olmoq; odatdagi holatga qaytmoq",
+      "exampleEn": "The players recovered quickly after missing the conductor's cue.",
+      "exampleUz": "Sozandalar dirijyorning ishorasini o‘tkazib yuborgach, tezda o‘zlarini o‘nglab oldi.",
+      "usageFrames": [
+        "recover after a mistake",
+        "recover quickly"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/recover",
+      "targetLexemeId": "1d316eb7-8f5e-500e-a546-0a07a2fee773",
+      "expectedEntrySha": "c33500e3dce3f605e247e7c578d764a1c6a348f24c7b5677ba712a95cbf3dbbe"
+    },
+    {
+      "lemma": "either",
+      "pos": "determiner",
+      "key": "one-or-other-of-two",
+      "definitionEn": "One or the other of the two people or things being considered.",
+      "translationUz": "ikkalasidan biri; u yoki bu",
+      "exampleEn": "Neither rehearsal method was sufficient on its own, but either method could help.",
+      "exampleUz": "Repetitsiyaning hech qaysi usuli yolg‘iz o‘zi yetarli emas edi, ammo ikkalasidan biri ham foyda berishi mumkin edi.",
+      "usageFrames": [
+        "either approach",
+        "either method"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/either"
+    },
+    {
+      "lemma": "flooding",
+      "pos": "n",
+      "key": "land-covered-by-water",
+      "definitionEn": "A situation in which water covers land or buildings that are normally dry.",
+      "translationUz": "suv bosishi; toshqin oqibatida suv ostida qolish",
+      "exampleEn": "The photograph showed flooding from five years earlier.",
+      "exampleUz": "Suratda besh yil oldingi suv bosish holati ko‘rsatilgan edi.",
+      "usageFrames": [
+        "severe flooding",
+        "reports of flooding"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/flooding",
+      "targetLexemeId": "c0d461f4-6d3e-5af7-9514-aa236be98d65",
+      "expectedEntrySha": "67f6d7d9edcee55edce27e60bca8ab96eb074d0ea4799ad2c7e6d86e5fa32e06"
+    },
+    {
+      "lemma": "administrator",
+      "pos": "n",
+      "key": "online-group-manager",
+      "definitionEn": "A person who manages an online group or service and controls its content or access.",
+      "translationUz": "onlayn guruh yoki xizmat boshqaruvchisi; administrator",
+      "exampleEn": "The group administrator removed the misleading photograph.",
+      "exampleUz": "Guruh administratori chalg‘ituvchi suratni olib tashladi.",
+      "usageFrames": [
+        "a group administrator",
+        "contact the administrator"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/administrator",
+      "targetLexemeId": "fda382b0-4864-58bc-bba9-9bfb8d1234f8",
+      "expectedEntrySha": "ee03932bc076db37335ee6774b88be4271bc1fd50420ca2bdab9c53eae0d1668"
+    },
+    {
+      "lemma": "link",
+      "pos": "v",
+      "key": "connect-using-web-hyperlink",
+      "definitionEn": "To provide an electronic connection that lets someone open another internet page or resource.",
+      "translationUz": "internet havolasi orqali bog‘lamoq; boshqa sahifaga havola bermoq",
+      "exampleEn": "The correction linked readers to the hospital's current notice.",
+      "exampleUz": "Tuzatish xabari o‘quvchilarni havola orqali shifoxonaning amaldagi e’loniga olib bordi.",
+      "usageFrames": [
+        "link to a notice",
+        "link readers to the original source"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/link",
+      "targetLexemeId": "d768ceb1-b4a5-55a1-b4d7-5bf001cc0044",
+      "expectedEntrySha": "473da1c7d0a4a4d21cac9bbc817d1769bc57220cdbfb1cd8bc4cbdffbcfdf4a0"
+    },
+    {
+      "lemma": "through",
+      "pos": "preposition",
+      "key": "by-channel-or-means",
+      "definitionEn": "By using the person, organisation, channel or method named.",
+      "translationUz": "... orqali; ... vositasida",
+      "exampleEn": "The photograph spread through a local message group.",
+      "exampleUz": "Surat mahalliy xabar almashish guruhi orqali tarqaldi.",
+      "usageFrames": [
+        "through a message group",
+        "through an official channel"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/through"
+    },
+    {
+      "lemma": "script",
+      "pos": "n",
+      "key": "computer-instruction-sequence",
+      "definitionEn": "A short computer program containing instructions for carrying out a task.",
+      "translationUz": "kompyuter vazifasini bajaradigan buyruqlar ketma-ketligi; skript",
+      "exampleEn": "The author sent a script that recreated the graph.",
+      "exampleUz": "Muallif grafikni qayta yaratadigan skriptni yubordi.",
+      "usageFrames": [
+        "run a script",
+        "a plotting script"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/script",
+      "targetLexemeId": "8c8f0c24-1aab-5d4c-b0c0-ea23526a772e",
+      "expectedEntrySha": "5284ebd5922f5a679ce6f6c5717015b12bad37ff0f6bb7ccb0e5ce7d9a4d9449"
+    },
+    {
+      "lemma": "spreadsheet",
+      "pos": "n",
+      "key": "electronic-grid-document",
+      "definitionEn": "An electronic document with rows and columns used to organise data and calculate values.",
+      "translationUz": "ma’lumotlarni tartiblash va hisoblash uchun elektron jadval hujjati",
+      "exampleEn": "The spreadsheet contained the values used in the graph.",
+      "exampleUz": "Elektron jadvalda grafikda ishlatilgan qiymatlar bor edi.",
+      "usageFrames": [
+        "send a spreadsheet",
+        "a spreadsheet of measurements"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/spreadsheet",
+      "targetLexemeId": "5199e525-ec2a-59b5-bfa5-b428a2db8089",
+      "expectedEntrySha": "485ee9e8507a96574f41fa578c2465df0889d322ab92a96ffd48720fe7f8dbdc"
+    },
+    {
+      "lemma": "author",
+      "pos": "n",
+      "key": "writer-of-work",
+      "definitionEn": "The person who wrote a particular book, article, report or other written work.",
+      "translationUz": "yozma asarning muallifi; kitob, maqola yoki hisobotni yozgan kishi",
+      "exampleEn": "The author of the article supplied the original data.",
+      "exampleUz": "Maqola muallifi dastlabki ma’lumotlarni taqdim etdi.",
+      "usageFrames": [
+        "the author of an article",
+        "contact the author"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/author",
+      "targetLexemeId": "880cf5b0-567e-5eca-b4bd-69f7244f8318",
+      "expectedEntrySha": "2ceaffa660c26ae8fea17f1e767f5fd7e88f22ac1404d59fe225cd2cf3b7de54"
+    },
+    {
+      "lemma": "automatically",
+      "pos": "r",
+      "key": "necessary-result-without-further-condition",
+      "definitionEn": "As a necessary result, without requiring another condition or decision.",
+      "translationUz": "o‘z-o‘zidan; qo‘shimcha shartsiz zarur natija sifatida",
+      "exampleEn": "A similar graph does not automatically prove that the data were copied.",
+      "exampleUz": "Grafikning o‘xshashligi ma’lumotlar ko‘chirilganini o‘z-o‘zidan isbotlamaydi.",
+      "usageFrames": [
+        "does not automatically prove",
+        "does not automatically mean"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/example/english/automatically",
+      "targetLexemeId": "66042178-17a6-5a6c-8266-0ed6a2ea127b",
+      "expectedEntrySha": "2cb32935e01d05246f368dccdf9863b037e58a06766103eb0081dd88d7ef7d4f"
+    },
+    {
+      "lemma": "under",
+      "pos": "preposition",
+      "key": "associated-name-or-heading",
+      "definitionEn": "Using or being described by the name, title, heading or label stated.",
+      "translationUz": "... nomi yoki sarlavhasi ostida; ... deb belgilangan holda",
+      "exampleEn": "The articles displayed the same graph under different labels.",
+      "exampleUz": "Maqolalarda ayni grafik turli nomlar ostida ko‘rsatilgan edi.",
+      "usageFrames": [
+        "under a different label",
+        "under the same heading"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/under"
+    },
+    {
+      "lemma": "verdict",
+      "pos": "n",
+      "key": "considered-opinion-nonlegal",
+      "definitionEn": "An opinion or decision reached after considering the available information.",
+      "translationUz": "o‘rganib chiqilgach bildirilgan fikr yoki yakuniy xulosa",
+      "exampleEn": "The museum asked a question instead of giving a final verdict about the bowls.",
+      "exampleUz": "Muzey kosalar haqida yakuniy xulosa berish o‘rniga savol qo‘ydi.",
+      "usageFrames": [
+        "a final verdict",
+        "give a verdict on the evidence"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/verdict",
+      "targetLexemeId": "7727e29b-d89a-55a6-8d0a-e9cf7d1004f5",
+      "expectedEntrySha": "bcfd0786be1162f7fa9283e0ad95aeca29b66f22f59bce7c5a3e016255e1d65d"
+    },
+    {
+      "lemma": "deliver",
+      "pos": "v",
+      "key": "produce-expected-result",
+      "definitionEn": "To produce or provide the result, benefit or outcome expected.",
+      "translationUz": "kutilgan natija yoki foydani bermoq; ta’minlamoq",
+      "exampleEn": "A careful museum display does not always deliver certainty.",
+      "exampleUz": "Puxta tayyorlangan muzey ko‘rgazmasi har doim ham qat’iy ishonch hosil qildirmaydi.",
+      "usageFrames": [
+        "deliver results",
+        "deliver certainty"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/deliver",
+      "targetLexemeId": "8725dac6-b63b-55b0-8afe-2f2005e75da3",
+      "expectedEntrySha": "ef0393694c99e8edaf9027cdc3ba09db8647917a67930e221540c2fb69594596"
+    },
+    {
+      "lemma": "authority",
+      "pos": "n",
+      "key": "trusted-expert-knowledge",
+      "definitionEn": "The credibility or influence gained because someone is regarded as knowledgeable and reliable.",
+      "translationUz": "bilim va ishonchlilikka asoslangan nufuz; mutaxassis sifatidagi obro‘",
+      "exampleEn": "Visitors should examine the evidence rather than rely only on the museum's authority.",
+      "exampleUz": "Tashrif buyuruvchilar faqat muzeyning nufuziga tayanmay, dalillarni ham tekshirishi kerak.",
+      "usageFrames": [
+        "the museum's authority",
+        "speak with authority on a subject"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/authority",
+      "targetLexemeId": "045198ba-bb47-5f86-abe8-d867535ada85",
+      "expectedEntrySha": "11f3e778e143a4056ffdc4a636f4433ab58951778d72c24e4d256922595d13be"
+    },
+    {
+      "lemma": "surround",
+      "pos": "v",
+      "key": "relate-to-situation",
+      "definitionEn": "To be closely connected with a particular event, question or situation.",
+      "translationUz": "muayyan voqea, masala yoki holat bilan bog‘liq bo‘lmoq",
+      "exampleEn": "The label explained the uncertainty surrounding the bowls' possible uses.",
+      "exampleUz": "Izoh kosalarning ehtimoliy ishlatilish maqsadlari bilan bog‘liq noaniqlikni tushuntirdi.",
+      "usageFrames": [
+        "uncertainty surrounding the evidence",
+        "questions surrounding an interpretation"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/surround",
+      "targetLexemeId": "4801f26c-d193-5da7-9fdd-51bc3fd992c5",
+      "expectedEntrySha": "0aa9b782476b9b82fad98f28a9ddd0d984f3cde1ed466a60d90bf3282e1123fd"
+    },
+    {
+      "lemma": "carry",
+      "pos": "v",
+      "key": "bear-written-label",
+      "definitionEn": "To have a label, mark, message or similar information attached to or displayed on something.",
+      "translationUz": "yorliq, belgi yoki yozuvga ega bo‘lmoq; ustida ... bo‘lmoq",
+      "exampleEn": "The bowls carried labels describing them as cooking pots.",
+      "exampleUz": "Kosalarda ularni ovqat pishirish idishlari deb ta’riflovchi yorliqlar bor edi.",
+      "usageFrames": [
+        "carry a label",
+        "carry a warning"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/carry",
+      "targetLexemeId": "46e9ab9f-d7d0-55e1-8fe3-4a91df0bdfb4",
+      "expectedEntrySha": "b013c55fb78347bd66ecb6a6308fa2292456e496a276b38013f32b9ae20f7186"
+    },
+    {
+      "lemma": "secondary school",
+      "pos": "n",
+      "key": "education-after-primary",
+      "definitionEn": "A school that provides education after primary school and before college or university.",
+      "translationUz": "boshlang‘ich ta’limdan keyingi bosqichdagi maktab; o‘rta maktab",
+      "exampleEn": "The secondary school sent attendance alerts to families.",
+      "exampleUz": "O‘rta maktab oilalarga davomat haqidagi ogohlantirishlarni yubordi.",
+      "usageFrames": [
+        "a secondary school pupil",
+        "attend secondary school"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/secondary-school"
+    },
+    {
+      "lemma": "registration",
+      "pos": "n",
+      "key": "recording-official-details",
+      "definitionEn": "The process of recording a person's presence or other details in an official list or system.",
+      "translationUz": "davomat yoki boshqa ma’lumotlarni rasmiy ro‘yxat yoki tizimga qayd etish",
+      "exampleEn": "The teacher corrected the registration code for the exam hall.",
+      "exampleUz": "O‘qituvchi imtihon zalining ro‘yxatga olish kodini tuzatdi.",
+      "usageFrames": [
+        "a registration code",
+        "school registration records"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/registration",
+      "targetLexemeId": "c259b5ee-4dac-51fb-abf2-383ec38dfc87",
+      "expectedEntrySha": "94b6bf31ab27ca299a2997d2e46850d2812a527e4a5c67318ca7c0e98cb57dc5"
+    },
+    {
+      "lemma": "dashboard",
+      "pos": "n",
+      "key": "digital-information-overview",
+      "definitionEn": "A computer screen or page that presents important data and status information together.",
+      "translationUz": "muhim ma’lumotlar va holatni bir joyda ko‘rsatadigan boshqaruv oynasi",
+      "exampleEn": "The dashboard showed that the messages had been sent.",
+      "exampleUz": "Boshqaruv oynasi xabarlar yuborilganini ko‘rsatdi.",
+      "usageFrames": [
+        "an attendance dashboard",
+        "check the dashboard"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/dashboard",
+      "targetLexemeId": "da908665-53de-591f-8ad1-c12510d9ae90",
+      "expectedEntrySha": "a420136f96aff5e6b102467d285fcd497a4cdfec788fc1e06adde8fee471ac4b"
+    },
+    {
+      "lemma": "notification",
+      "pos": "n",
+      "key": "informational-alert-message",
+      "definitionEn": "A message or alert sent to tell someone that something has happened or needs attention.",
+      "translationUz": "biror voqea yoki e’tibor talab qiladigan holat haqida yuborilgan bildirishnoma",
+      "exampleEn": "Receiving a notification did not prove that the parent understood it.",
+      "exampleUz": "Bildirishnomani olish ota-ona uni tushunganini isbotlamas edi.",
+      "usageFrames": [
+        "send a notification",
+        "a school notification"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/notification",
+      "targetLexemeId": "cf97af6a-84b2-5d1b-8bac-52a3c331461e",
+      "expectedEntrySha": "88100fb09006b62123c91998082f4b4ec6f6c170e8f629aee05cf653324f4f24"
+    },
+    {
+      "lemma": "need",
+      "pos": "n",
+      "key": "necessary-action-or-requirement",
+      "definitionEn": "A requirement or necessity for something or for an action to be done.",
+      "translationUz": "zarurat; ehtiyoj; biror ishni qilish zarurligi",
+      "exampleEn": "The school balanced the need to inform families with the risk of sending incorrect alerts.",
+      "exampleUz": "Maktab oilalarni xabardor qilish zarurati bilan xato ogohlantirish yuborish xavfi o‘rtasida muvozanat saqladi.",
+      "usageFrames": [
+        "the need to inform families",
+        "meet a need"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/need",
+      "targetLexemeId": "a842b529-86b3-530e-b1a8-ce25efbc8c3b",
+      "expectedEntrySha": "64b2aacf2e821510436c78e6c9c5b3e7d3c714fc79298f15a3a4e9afe6e0de09"
+    }
+  ]
+}

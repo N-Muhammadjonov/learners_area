@@ -66,7 +66,8 @@ test("Reading 105 real SQL repair links original IDs once, atomically rejects co
     assert.equal(partial.linked,2,"draft child does not make two valid General passages inaccessible");
     assert.equal(await startAcademicSet(user!.id,partial.id,env.db),null);
     const oversized=result.sets.find(s=>s.sourceRef==='reading105:test:08')!;
-    assert.ok(await startAcademicSet(user!.id,oversized.id,env.db),"the reviewed 40-question selection can start without deleting the 41-question General original");
+    assert.equal(await startAcademicSet(user!.id,oversized.id,env.db),null,"learner completes earlier Academic sets before starting a later test");
+    assert.ok(await startAcademicSet(owner!.id,oversized.id,env.db),"staff can inspect the reviewed 40-question selection without deleting the 41-question General original");
     assert.ok(await startAcademicSet(user!.id,academic[0]!.id,env.db));
 
     // A conflict at the end must roll back relations inserted earlier in this run.

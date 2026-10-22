@@ -23,7 +23,7 @@ const { AppRouterContext } = await import("next/dist/shared/lib/app-router-conte
 const { GeneralReadingSession } = await import("../../src/components/reading/GeneralReadingSession");
 const { GeneralReadingSets } = await import("../../src/components/reading/GeneralReadingSets");
 
-const router = { back() {}, forward() {}, refresh() {}, push() {}, replace() {}, prefetch() {} };
+const router = { back() {}, forward() {}, refresh() {}, push(_path:string) {}, replace() {}, prefetch() {} };
 const SET = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
 const pid = (n: number) => `0000000${n}-0000-4000-8000-000000000000`;
 const passage = (n: number, body: string) => ({
@@ -173,7 +173,7 @@ test("VD-003 XSS: HTML-like source, question and popup strings render as literal
       const region = document.querySelector("[data-clickable-text]") as HTMLElement;
       const bank = Array.from(region.querySelectorAll("[data-token]")).find((el) => el.textContent === "bank") as HTMLElement;
       region.focus();
-      for (let i = 0; i < 40 && region.querySelector(".bg-signal-50")?.textContent !== "bank"; i += 1)
+      for (let i = 0; i < 40 && region.querySelector("[data-lookup-active]")?.textContent !== "bank"; i += 1)
         await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true })); });
       assert.ok(bank, "bank token exists");
       await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true })); });
@@ -259,4 +259,19 @@ test("GEN-06 a late Check response that was overtaken by an edit cannot restore 
       assert.ok(calls.some((c) => c.body.check === true), "a real Check request was actually issued");
     });
   } finally { globalThis.fetch = original; }
+});
+
+test('General Back saves the pending draft and leaves without checking or revealing answers',async()=>{
+ const n=net(),oldPush=router.push;const destinations:string[]=[];router.push=(path:string)=>{destinations.push(path);};
+ try{
+  await mount(React.createElement(GeneralReadingSession,{userId:'test-user',dict:en,setId:SET,setTitle:'Set',passages:[passages[0]!],initialProgress:{[pid(1)]:{answers:{},score:null,total:null,checked:false}},mode:1}),async()=>{
+   const choice=document.querySelector<HTMLElement>('[role="radio"]')!;
+   await act(async()=>choice.click());
+   await act(async()=>document.querySelector<HTMLButtonElement>('[data-general-back]')!.click());
+   assert.deepEqual(destinations,['/app/reading/general']);
+   const writes=n.calls.filter(c=>c.url.includes('/progress')).map(c=>c.body as {check:boolean;answers:Record<string,string>});
+   assert.ok(writes.length>0);assert.ok(writes.every(w=>w.check===false));assert.ok(writes.some(w=>Object.values(w.answers).some(Boolean)));
+   assert.equal(document.querySelector('[data-general-result]'),null);
+  });
+ }finally{router.push=oldPush;n.restore();}
 });

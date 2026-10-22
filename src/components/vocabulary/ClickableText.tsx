@@ -1,11 +1,13 @@
 "use client";
 
+import { foldApostrophes } from "@/lib/text/lexical-normalize";
 import { privateResources } from "@/lib/client/private-resource";
 import { Fragment, useEffect, useId, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
 import { phraseTarget } from "@/lib/services/lexical/phrase-target";
+import type { SensePresentation } from "@/lib/dictionary/presentation-types";
 import type { Dictionary } from "@/lib/i18n/en";
 
 /** Shared, selectable learning text with one keyboard stop per text region. */
@@ -67,13 +69,15 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
   const cursorId = useId();
   const close = (restoreFocus = false) => {
     setActive(null);
+    setCursor(null);
+    window.getSelection()?.removeAllRanges();
     if (restoreFocus) wrapperRef.current?.focus({ preventScroll: true });
   };
 
   useEffect(() => {
     if (active === null) return;
     function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") { setActive(null); wrapperRef.current?.focus({ preventScroll: true }); }
+      if (event.key === "Escape") { setActive(null); setCursor(null); window.getSelection()?.removeAllRanges(); wrapperRef.current?.focus({ preventScroll: true }); }
     }
     function onClickAway(event: PointerEvent) {
       const target = event.target;
@@ -100,6 +104,30 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
   // any later layout: nothing about it depends on the DOM. Highlight permission is
   // separate from lexical permission; an exam can annotate already-visible text.
   const [selection, setSelection] = useState<{ start: number; end: number; box: { left: number; top: number } } | null>(null);
+  useEffect(() => {
+    // Capture on the first press, before the browser moves/collapses its range.
+    // Keep the toolbar's own press alive so Highlight/Remove remains actionable.
+    const dismiss = (event: Event) => {
+      const target = event.target;
+      if (target instanceof Element && target.closest("[data-highlight-control], [data-word-popover]")) return;
+      setSelection(null);
+      setActive(null);
+      setCursor(null);
+      window.getSelection()?.removeAllRanges();
+    };
+    const dismissOnScroll = (event: Event) => {
+      if (event.target instanceof Element && event.target.closest("[data-word-popover]")) return;
+      setSelection(null);
+    };
+    document.addEventListener("pointerdown", dismiss, true);
+    document.addEventListener("scroll", dismissOnScroll, true);
+    window.addEventListener("resize", dismissOnScroll);
+    return () => {
+      document.removeEventListener("pointerdown", dismiss, true);
+      document.removeEventListener("scroll", dismissOnScroll, true);
+      window.removeEventListener("resize", dismissOnScroll);
+    };
+  }, []);
   const highlightAt = (start: number, end: number) =>
     highlights.find((highlight) => start < highlight.end && end > highlight.start) ?? null;
   const selected = active === null ? null : tokens[active]!;
@@ -133,9 +161,9 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
     let left = 8;
     let top = 8;
     try {
-      const rect = range.getBoundingClientRect?.();
+      const rect = range.getClientRects?.()[0] ?? range.getBoundingClientRect?.();
       if (rect) {
-        left = rect.left + rect.width / 2;
+        left = Math.max(80, Math.min(window.innerWidth - 80, rect.left + rect.width / 2));
         top = rect.top;
       }
     } catch {
@@ -150,7 +178,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
       {lexicalAssistance && <span id={hintId} className="sr-only">{doubleClickLookup ? dict.vocabulary.textLookupDoubleHint : dict.vocabulary.textLookupHint}</span>}
       <Region
         ref={node => { wrapperRef.current = node; }}
-        className="relative whitespace-pre-line outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-600"
+        className="lexical-text-region relative whitespace-pre-line outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-600"
         data-clickable-text={lexicalAssistance ? "true" : undefined}
         data-highlight-text={!lexicalAssistance ? "true" : undefined}
         data-highlight-surface={onHighlightRange ? "true" : undefined}
@@ -257,7 +285,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
           // partly highlighted; the pieces above only choose the colours.
           return lexicalAssistance && token.isWord ? (
             <span key={index} data-word={token.clean} data-token={index}
-              className={active === index || cursor === index ? "rounded-sm bg-signal-50 text-ink-900" : undefined}>
+              data-lookup-active={active === index || cursor === index ? "true" : undefined}>
               {body}
             </span>
           ) : (
@@ -280,8 +308,7 @@ function LexicalText({ dict, text, sourceType, sourceId, className = "", inline 
               className="btn-secondary min-h-9"
               onPointerDown={(event) => event.preventDefault()}
               onClick={() => {
-                const existing = highlightAt(selection.start, selection.end)!;
-                onRemoveHighlight(existing.id);
+                for (const row of highlights.filter(row=>selection.start<row.end && selection.end>row.start)) onRemoveHighlight(row.id);
                 setSelection(null);
                 window.getSelection()?.removeAllRanges();
               }}
@@ -331,9 +358,10 @@ export function WordPopover({
   catalogueLookup?: boolean;
 }) {
   const t = dict.vocabulary;
-  const [contextual, setContextual] = useState<{ definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string; partOfSpeech?: string | null; lexicalType?: string | null; ipa?: string | null } | null>(null);
+  const [contextual, setContextual] = useState<{ definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string; partOfSpeech?: string | null; lexicalType?: string | null; ipa?: string | null; study?: SensePresentation } | null>(null);
   /** The server knows this place in the text but has no checked meaning for it. */
   const [unresolved, setUnresolved] = useState(false);
+  const contextualSource = ["listening", "reading", "retention"].includes(sourceType);
   const [known, setKnown] = useState<{ id: string; definitionEn: string; translationUz: string | null; mastery: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [meaning, setMeaning] = useState("");
@@ -355,35 +383,28 @@ export function WordPopover({
     setLoading(true);
     setError(null);
     setUnresolved(false);
-    // A Listening or Reading word without a server-proven occurrence has no knowable
-    // sense. No spelling lookup is made at all: the learner sees "Meaning not checked
-    // yet" and may only save their own meaning. (Other sources keep the library search.)
-    const spellingOnlyContextual = ["listening", "reading", "retention"].includes(sourceType) && !occurrenceId;
+    setContextual(null);
+    setKnown(null);
+    setSaved(false);
+    setMeaning("");
+    setUzbek("");
+    const dictionaryUrl = `/api/vocabulary/meaning?sourceType=${encodeURIComponent(sourceType)}&sourceId=${encodeURIComponent(sourceId)}&q=${encodeURIComponent(word)}`;
     void (async () => {
-      if (spellingOnlyContextual) {
-        const folderResult = await requestJson<{ folders: { id: string; name: string }[] }>("/api/vocabulary/folders", { method: "GET", signal: controller.signal });
-        if (controller.signal.aborted) return;
-        setContextual(null);
-        setUnresolved(true);
-        if (folderResult.ok && Array.isArray(folderResult.data?.folders)) setFolders(folderResult.data.folders.filter((folder) => typeof folder?.id === "string" && typeof folder.name === "string"));
-        else setError(folderResult.ok ? dict.auth.errorServer : failureMessage(folderResult, dict.auth));
-        setLoading(false);
-        return;
-      }
       const [lookup, folderResult] = await Promise.all([
-        requestJson<{ status?: "resolved" | "unresolved"; contextual?: { definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string; partOfSpeech?: string | null; lexicalType?: string | null; ipa?: string | null } | null; known?: { id: string; mastery: string } | null; results?: { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string }[] }>(occurrenceId ? `/api/vocabulary/lookup?sourceType=${encodeURIComponent(sourceType)}&sourceId=${encodeURIComponent(sourceId)}&occurrenceId=${encodeURIComponent(occurrenceId)}` : catalogueLookup ? `/api/vocabulary/meaning?sourceId=${encodeURIComponent(sourceId)}&q=${encodeURIComponent(word)}` : `/api/vocabulary/search?q=${encodeURIComponent(word)}`, { method: "GET", signal: controller.signal }),
+        requestJson<{ status?: "resolved" | "unresolved"; contextual?: { definitionEn: string; translationUz: string | null; verificationStatus: string | null; sourceLabel?: string; partOfSpeech?: string | null; lexicalType?: string | null; ipa?: string | null; study?: SensePresentation } | null; known?: { id: string; mastery: string } | null; results?: { id: string; term: string; definitionEn: string; translationUz: string | null; mastery: string }[] }>(occurrenceId ? `/api/vocabulary/lookup?sourceType=${encodeURIComponent(sourceType)}&sourceId=${encodeURIComponent(sourceId)}&occurrenceId=${encodeURIComponent(occurrenceId)}` : contextualSource ? dictionaryUrl : catalogueLookup ? `/api/vocabulary/meaning?sourceId=${encodeURIComponent(sourceId)}&q=${encodeURIComponent(word)}` : `/api/vocabulary/search?q=${encodeURIComponent(word)}`, { method: "GET", signal: controller.signal }),
         requestJson<{ folders: { id: string; name: string }[] }>("/api/vocabulary/folders", { method: "GET", signal: controller.signal }),
       ]);
       if (controller.signal.aborted) return;
-      if ((occurrenceId || catalogueLookup) && lookup.ok && lookup.data?.status === "unresolved") {
+      if ((occurrenceId || catalogueLookup || contextualSource) && lookup.ok && lookup.data?.status === "unresolved") {
         setContextual(null);
         setUnresolved(true);
-      } else if ((occurrenceId || catalogueLookup) && lookup.ok && typeof lookup.data?.contextual?.definitionEn === "string") {
+      } else if ((occurrenceId || catalogueLookup) && (!contextualSource || occurrenceId) && lookup.ok && typeof lookup.data?.contextual?.definitionEn === "string") {
         setContextual(lookup.data.contextual);
         if (lookup.data.known) setKnown({ ...lookup.data.known, ...lookup.data.contextual });
-      } else if (catalogueLookup && lookup.ok && lookup.data?.contextual === null) {
+      } else if ((catalogueLookup || contextualSource) && lookup.ok && lookup.data?.contextual === null) {
         setContextual(null);
-      } else if (!occurrenceId && lookup.ok && Array.isArray(lookup.data?.results)) {
+        setUnresolved(true);
+      } else if (!contextualSource && !occurrenceId && lookup.ok && Array.isArray(lookup.data?.results)) {
         const exact = lookup.data.results.filter((hit) => typeof hit?.term === "string" && typeof hit.definitionEn === "string" && hit.term.toLowerCase() === word.toLowerCase());
         // Multiple saved senses are not enough evidence to pick one for this text.
         setKnown(exact.length === 1 ? exact[0]! : null);
@@ -393,16 +414,18 @@ export function WordPopover({
       setLoading(false);
     })();
     return () => controller.abort();
-  }, [word, dict.auth, lookupVersion, occurrenceId, sourceId, sourceType, catalogueLookup]);
+  }, [word, dict.auth, lookupVersion, occurrenceId, sourceId, sourceType, catalogueLookup, contextualSource]);
 
   async function save() {
+    if (contextualSource && (!contextual || !occurrenceId)) return;
     setBusy(true);
     setError(null);
     setNeedsMeaning(false);
     const result = await requestJson<{ ok: boolean }>("/api/vocabulary", {
       body: {
         items: [{ term: word, ...(meaning.trim() ? { definitionEn: meaning.trim() } : {}), translationUz: uzbek.trim() || null }],
-        // An unresolved occurrence has no sense to attach: the learner's own meaning is saved without it.
+        // Course sources require their authored occurrence. A standalone note
+        // in another source can retain its explicitly supplied meaning.
         sourceType, sourceId, occurrenceId: unresolved ? undefined : occurrenceId, folderId: folderId || null,
       },
     });
@@ -416,6 +439,8 @@ export function WordPopover({
     if (!result.ok && result.error === "needs_definition") setNeedsMeaning(true);
     else setError(result.ok ? dict.auth.errorServer : failureMessage(result, dict.auth));
   }
+
+  const study = contextual?.study;
 
   return createPortal(
     <div
@@ -453,8 +478,7 @@ export function WordPopover({
       {!loading && !known && !saved && (
         <div className="mt-2 flex flex-col gap-2">
           {unresolved && <div role="status" className="text-xs text-ink-500" data-word-unresolved>
-            <p className="font-medium text-ink-700">{t.meaningUnchecked}</p>
-            <p>{t.meaningUncheckedHint}</p>
+            <p>{contextualSource ? t.contextMissing : t.dictionaryMissing}</p>
           </div>}
           {contextual ? <div className="text-sm text-ink-700">
             {(contextual.partOfSpeech || contextual.lexicalType || contextual.ipa) && <p className="text-xs text-ink-500" data-word-lexical>
@@ -463,7 +487,7 @@ export function WordPopover({
             </p>}
             <p>{contextual.definitionEn}</p>
             {contextual.translationUz && <><hr className="dictionary-translation-divider" /><p>{contextual.translationUz}</p></>}
-          </div> : <>
+          </div> : !contextualSource && <>
           <label className="text-xs text-ink-500">
             {t.add.definition}
             <input className="input mt-1" value={meaning} onChange={(event) => setMeaning(event.target.value)} />
@@ -473,7 +497,7 @@ export function WordPopover({
             <input className="input mt-1" value={uzbek} onChange={(event) => setUzbek(event.target.value)} />
           </label>
           </>}
-          <label className="text-xs text-ink-500">
+          {(!contextualSource || contextual) && <><label className="text-xs text-ink-500">
             {t.games.set.folder}
             <select className="input mt-1" value={folderId} onChange={(event) => setFolderId(event.target.value)}>
               <option value="">{sourceType === "listening" ? "Listening" : sourceType === "reading" ? "Reading" : sourceType === "retention" ? "Retention" : t.folders.unassigned}</option>
@@ -484,9 +508,11 @@ export function WordPopover({
             <button type="button" className="btn-primary text-xs" disabled={busy} data-word-save onClick={() => void save()}>
               {busy ? dict.common.saving : t.add.button}
             </button>
-          </div>
+          </div></>}
         </div>
       )}
+
+      {!loading && study && <MeaningStudy study={study} dict={dict} />}
 
       {saved && (
         <p className="mt-2 text-xs text-band-good" data-word-saved>
@@ -502,6 +528,15 @@ export function WordPopover({
     </div>,
     anchor.closest("dialog") ?? document.body,
   );
+}
+
+function MeaningStudy({study,dict}:{study:SensePresentation;dict:Dictionary}) {
+  const t=dict.globalDictionary;
+  return <div className="mt-3 space-y-2 border-t border-ink-100 pt-2 text-sm" data-word-study>
+    {!!study.synonyms.length && <details data-word-synonyms><summary className="cursor-pointer font-semibold">{t.synonyms}</summary><div className="mt-2 flex flex-wrap gap-1">{study.synonyms.map((item,index)=><span key={index} className="rounded border border-ink-100 px-2 py-1" data-related-sense={item.senseId}>{item.text}</span>)}</div></details>}
+    {!!study.collocations.length && <details data-word-collocations><summary className="cursor-pointer font-semibold">{t.collocations}</summary><ul className="mt-2 list-inside list-disc">{study.collocations.map((item,index)=><li key={index} data-related-sense={item.senseId}>{item.text}</li>)}</ul></details>}
+    {!!study.examples.length && <details data-word-examples><summary className="cursor-pointer font-semibold">{t.moreExamples}</summary><div className="mt-2 space-y-2">{study.examples.map(example=><div key={example.example_id}><p>{example.text_en}</p><p className="mt-1 text-xs">{example.text_uz}</p></div>)}</div></details>}
+  </div>;
 }
 
 function speak(word: string) {
@@ -561,7 +596,7 @@ function splitByHighlights(token: Token, highlights: TextHighlight[]): { value: 
 /** Split text into words and separators, keeping the original characters. */
 function tokenise(text: string): Token[] {
   const tokens: Token[] = [];
-  const pattern = /([A-Za-z][A-Za-z'-]*)/g;
+  const pattern = /[\p{L}][\p{L}\p{M}]*(?:[\x27\u2018\u2019\u02bc\u02bb-][\p{L}\p{M}]+)*/gu;
   let lastIndex = 0;
   let match: RegExpExecArray | null;
   while ((match = pattern.exec(text)) !== null) {
@@ -570,7 +605,7 @@ function tokenise(text: string): Token[] {
     }
     const value = match[0];
     // Single letters are not worth a popover.
-    tokens.push({ value, clean: value, isWord: value.length > 1, start: match.index, end: match.index + value.length });
+    tokens.push({ value, clean: foldApostrophes(value), isWord: value.length > 1, start: match.index, end: match.index + value.length });
     lastIndex = match.index + value.length;
   }
   if (lastIndex < text.length) {

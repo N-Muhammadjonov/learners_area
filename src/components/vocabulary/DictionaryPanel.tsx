@@ -29,16 +29,22 @@ export function DictionaryPanel({
   onEdit,
   onAddSense,
   onAddWord,
+  initialQuery = "",
+  initialDirection = "EN",
+  initialEntryId,
 }: {
   dict: Dictionary;
   owner?: boolean;
   onEdit?: (entry: Entry, sense: Sense) => void;
   onAddSense?: (entry: Entry) => void;
   onAddWord?: () => void;
+  initialQuery?: string;
+  initialDirection?: "EN" | "UZ";
+  initialEntryId?: string;
 }) {
   const t = dict.globalDictionary;
-  const [query, setQuery] = useState("");
-  const [direction, setDirection] = useState<"EN" | "UZ">("EN");
+  const [query, setQuery] = useState(initialQuery.slice(0,80));
+  const [direction, setDirection] = useState<"EN" | "UZ">(initialDirection);
   const [hits, setHits] = useState<Hit[]>([]);
   const [recent, setRecent] = useState<Recent[]>([]);
   const [release, setRelease] = useState("");
@@ -57,6 +63,7 @@ export function DictionaryPanel({
   const request = useRef(0);
   const entryCacheKeys=useRef<string[]>([]);
   const mounted = useRef(true);
+  const deepLinkOpened = useRef(false);
   const base = owner ? "/api/owner/dictionary" : "/api/dictionary";
   useEffect(() => {
     mounted.current = true;
@@ -117,6 +124,12 @@ export function DictionaryPanel({
           if (stamp === request.current) {
             setHits(result.results);
             setRelease(result.release_id);
+            const target = !owner && !deepLinkOpened.current && query === initialQuery
+              ? result.results.find(hit => hit.lexeme_id === initialEntryId) : undefined;
+            if (target) {
+              deepLinkOpened.current = true;
+              void open(target, query, direction);
+            }
           }
         })
         .catch(() => {
@@ -131,7 +144,9 @@ export function DictionaryPanel({
       clearTimeout(timer);
       abort.abort();
     };
-  }, [query, direction, base, read, t.unavailable, retry, searchRun]);
+    // open() deliberately runs only for this matching, uncancelled search response.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, direction, base, read, t.unavailable, retry, searchRun, owner, initialEntryId, initialQuery]);
 
   async function open(
     hit: Pick<Hit, "lexeme_id" | "display_lemma">,
