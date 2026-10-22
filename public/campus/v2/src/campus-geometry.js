@@ -1193,6 +1193,68 @@ export class CampusGeometry {
   // =========================================================================
   // 14. DECORATIVE ELEMENTS: TREES, STREETLIGHTS, BENCHES
   // =========================================================================
+  /** Architectural lighting on all visible facades.
+   * The approved reference uses glowing vertical window bays and lit roof
+   * edges; rear/side faces must remain modeled during a real 360° orbit.
+   * Roof symbols and each module's established palette are unchanged. */
+  addFacadeIllumination(group, config) {
+    if(config.isCenter)return;
+    const dimensions={
+      reading:[9.5,8.5,4.8],
+      listening:[9.6,8.6,3.4],
+      writing:[8.8,7.8,4.4],
+      speaking:[8.6,7.8,4.0],
+      grammar:[8.8,8.2,3.6],
+      vocabulary:[8.1,7.8,3.1],
+      progress:[8.2,7.8,4.4],
+      mocks:[8.6,7.8,4.6],
+      assignments:[8.6,7.8,4.8],
+      live_classes:[9.6,8.2,3.9],
+      video_lessons:[8.6,7.8,4.4],
+    };
+    const dims=dimensions[config.id];if(!dims)return;
+    const [width,depth,height]=dims;
+    const mats=this.materials.getBuildingMaterials(config);
+    const frameMat=new THREE.MeshStandardMaterial({
+      color:config.color,emissive:config.emissive,emissiveIntensity:.75,
+      metalness:.45,roughness:.35
+    });
+    const glassMat=new THREE.MeshStandardMaterial({
+      color:config.color,emissive:config.emissive,emissiveIntensity:1.9,
+      metalness:.10,roughness:.30,side:THREE.DoubleSide
+    });
+    const count=Math.max(2,Math.min(4,Math.floor(width/2.5)));
+    const glassHeight=Math.min(1.37,height*.31);
+    // Window openings face toward the camera from any direction. Kept
+    // shallow to avoid z-fighting and never replace existing windows.
+    for(const dir of [-1,1]){
+      for(let i=0;i<count;i++){
+        const x=(i-(count-1)/2)*(width-1.6)/count;
+        const y=1.9+(i%2)*.12;
+        const front=new THREE.Mesh(new THREE.PlaneGeometry(1.18,glassHeight),glassMat);
+        front.position.set(x,y,dir*(depth/2+.065));
+        group.add(front);
+        const top=new THREE.Mesh(new THREE.BoxGeometry(1.32,.10,.11),frameMat);
+        top.position.set(x,y+glassHeight/2+.07,dir*(depth/2+.085));
+        group.add(top);
+      }
+      for(let i=0;i<3;i++){
+        const z=(i-1)*(depth-1.8)/3;
+        const side=new THREE.Mesh(new THREE.PlaneGeometry(.99,glassHeight),glassMat);
+        side.rotation.y=Math.PI/2;
+        side.position.set(dir*(width/2+.065),1.95,z);
+        group.add(side);
+      }
+      const sideStrip=new THREE.Mesh(new THREE.BoxGeometry(.10,.12,depth+.14),frameMat);
+      sideStrip.position.set(dir*(width/2+.08),height+.48,0);
+      group.add(sideStrip);
+      const faceStrip=new THREE.Mesh(new THREE.BoxGeometry(width+.14,.12,.10),frameMat);
+      faceStrip.position.set(0,height+.48,dir*(depth/2+.08));
+      group.add(faceStrip);
+    }
+    group.userData.facadeIllumination=true;
+  }
+
   createPineTree(scale = 1.0) {
     const tree = new THREE.Group();
     const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.25 * scale, 0.35 * scale, 1.5 * scale, 8), this.materials.materials.get('wood'));
