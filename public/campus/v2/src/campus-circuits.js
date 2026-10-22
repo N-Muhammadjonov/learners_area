@@ -20,30 +20,14 @@ export class CampusCircuits {
 
   // Define and build all 11 road circuit pathways connecting Dashboard to buildings
   buildCircuitNetwork(modules) {
-    const pathways = [
-      // 1. Reading (North)
-      { id: 'reading', color: 0x00e5ff, points: [[0, 0.04, -13.5], [-15, 0.04, -13.5], [-15, 0.04, -30.0], [-30.5, 0.04, -30.0]] },
-      // 2. Listening (North-West)
-      { id: 'listening', color: 0x00e5ff, points: [[-9.5, 0.04, -9.5], [-22, 0.04, -9.5], [-22, 0.04, -7.0], [-36.0, 0.04, -7.0]] },
-      // 3. Writing (West)
-      { id: 'writing', color: 0x10b981, points: [[-13.5, 0.04, 0], [-24.5, 0.04, 0], [-24.5, 0.04, 18.5]] },
-      // 4. Speaking (South-West)
-      { id: 'speaking', color: 0xc084fc, points: [[-9.5, 0.04, 9.5], [-11.5, 0.04, 9.5], [-11.5, 0.04, 32.5]] },
-      // 5. Grammar (South-South-West)
-      { id: 'grammar', color: 0x38bdf8, points: [[0, 0.04, 13.5], [12.0, 0.04, 13.5], [12.0, 0.04, 31.0]] },
-      // 6. Vocabulary (South)
-      { id: 'vocabulary', color: 0xf43f5e, points: [[9.5, 0.04, 9.5], [20.0, 0.04, 9.5], [20.0, 0.04, 25.5], [27.0, 0.04, 25.5]] },
-      // 7. My progress (South-East)
-      { id: 'progress', color: 0xfacc15, points: [[13.5, 0.04, 0], [26.0, 0.04, 0], [26.0, 0.04, 10.0], [37.5, 0.04, 10.0]] },
-      // 8. Mock tests (Lower-East)
-      { id: 'mocks', color: 0x38bdf8, points: [[11.5, 0.04, -7.0], [25.0, 0.04, -7.0], [25.0, 0.04, -8.5], [39.5, 0.04, -8.5]] },
-      // 9. Assignments (East)
-      { id: 'assignments', color: 0xa855f7, points: [[9.5, 0.04, -9.5], [21.5, 0.04, -9.5], [21.5, 0.04, -15.0]] },
-      // 10. Live classes (Far-East)
-      { id: 'live_classes', color: 0x2dd4bf, points: [[7.0, 0.04, -11.5], [19.0, 0.04, -11.5], [19.0, 0.04, -39.5]] },
-      // 11. TED / PODCAST (North-East)
-      { id: 'video_lessons', color: 0xf43f5e, points: [[-3.5, 0.04, -13.5], [-4.0, 0.04, -13.5], [-4.0, 0.04, -35.5]] },
-    ];
+    const pathways = modules.filter(m=>!m.isCenter).map((m,idx)=>{
+      const x=m.pos.x,z=m.pos.z;
+      const middleX=x*.56,middleZ=z*.55;
+      return {id:m.id,color:m.color,points:[
+        [0,0.075,0],[middleX,0.075,0],[middleX,0.075,middleZ],
+        [x,0.075,middleZ],[x,0.075,z]
+      ]};
+    });
 
     pathways.forEach((pathDef, idx) => {
       this.createPathBranch(pathDef, idx);
@@ -57,10 +41,10 @@ export class CampusCircuits {
     
     // Create base static trace strip
     const baseMat = new THREE.LineBasicMaterial({
-      color: 0x004466,
+      color: pathDef.color,
       linewidth: 2,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.88,
     });
     const lineGeo = new THREE.BufferGeometry().setFromPoints(rawPoints);
     const baseLine = new THREE.Line(lineGeo, baseMat);
