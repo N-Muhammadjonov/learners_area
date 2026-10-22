@@ -33,12 +33,12 @@ export type CspOptions = {
 };
 
 export function buildCsp({ nonce, secure, dev, host = null }: CspOptions): string {
-  const scriptSrc = ["'self'", `'nonce-${nonce}'`, "'strict-dynamic'"];
+  const scriptSrc = ["'self'", `'nonce-${nonce}'`, "https://esm.sh"];
   // React Refresh and the webpack dev runtime evaluate code at runtime. This is
   // a development-only allowance; production never gets `'unsafe-eval'`.
   if (dev) scriptSrc.push("'unsafe-eval'");
 
-  const connectSrc = ["'self'", ...connectSrcOrigins];
+  const connectSrc = ["'self'", "https://esm.sh", ...connectSrcOrigins];
   if (dev) connectSrc.push("ws:", "wss:");
 
   const directives = [
