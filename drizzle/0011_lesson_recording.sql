@@ -1,1 +1,0 @@
-ALTER TABLE "lessons" ADD COLUMN "recording_url" text;

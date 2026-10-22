@@ -1,1 +1,0 @@
-{"extends":"../../tsconfig.json","compilerOptions":{"jsx":"react-jsx","paths":{"@/*":["src/*"],"next/image":["tests/ui/stubs/image.tsx"]}}}

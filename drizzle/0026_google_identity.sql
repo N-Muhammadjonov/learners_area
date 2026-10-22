@@ -1,2 +1,0 @@
-ALTER TABLE "users" ADD COLUMN "google_sub" varchar(255);--> statement-breakpoint
-ALTER TABLE "users" ADD CONSTRAINT "users_google_sub_unique" UNIQUE("google_sub");

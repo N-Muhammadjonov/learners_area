@@ -1,1 +1,0 @@
-ALTER TABLE "video_lessons" ADD COLUMN "notes" text;

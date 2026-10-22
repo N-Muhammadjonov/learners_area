@@ -1,1 +1,0 @@
-ALTER TABLE "users" ADD COLUMN "last_meaningful_activity_at" timestamp with time zone;
