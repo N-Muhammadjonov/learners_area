@@ -14,12 +14,11 @@
  * `src/lib/nav/private-modules.d.mts` types it for TypeScript.
  *
  * `destination` is the module's canonical home under `/app`. Every module maps to
- * `/app/<segment>` except the **dashboard**, which owns the namespace root
- * (`/app`) — that is the owner-approved application entry, and `/app/dashboard`
- * is kept only as a redirect onto it.
+ * `/app/<segment>`. The interactive campus owns `/app`, while the original
+ * data-rich dashboard is preserved as a real `/app/dashboard` page.
  */
 export const PRIVATE_MODULES = [
-  { segment: "dashboard", destination: "/app" },
+  { segment: "dashboard", destination: "/app/dashboard" },
   { segment: "courses", destination: "/app/courses" },
   { segment: "writing", destination: "/app/writing" },
   { segment: "vocabulary", destination: "/app/vocabulary" },
@@ -43,17 +42,11 @@ export const PRIVATE_MODULES = [
   { segment: "management", destination: "/app/management" },
 ];
 
-/**
- * The canonical application entry. The dashboard owns the namespace root, so the
- * approved Home URL is `/app` — not `/app/dashboard`.
- */
+/** The 3D campus is the canonical app home; dashboard data has its own route. */
 export const APP_HOME = "/app";
 
-/**
- * URLs that used to point at a dashboard of their own. They are aliases now: they
- * must resolve to the single canonical Home instead of rendering a second one.
- */
-export const APP_HOME_ALIASES = ["/app/dashboard"];
+/** No redirect for /app/dashboard: its previous redirect created a navigation loop. */
+export const APP_HOME_ALIASES = [];
 
 /** Just the historical top-level segments: `/dashboard`, `/listening`, … */
 export const PRIVATE_MODULE_SEGMENTS = PRIVATE_MODULES.map((m) => m.segment);
