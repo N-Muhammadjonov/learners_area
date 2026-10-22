@@ -1,0 +1,228 @@
+{
+  "scope": "V35 actual route consumers; isolated fixtures. ReactSSR reference in migrated shell/sourceCSS, NOT running original Next/live/production acceptance.",
+  "referenceMethod": "Original React19.3.0 SSR of original pure JSX and original Card/Badge/ProgressBar; isolated metadata; same candidate shell/extracted sourceCSS. Not a running Next.js/live reference. Only success Writing state compared for Grammar.",
+  "results": [
+    {
+      "name": "course original-React fixture parity and interaction 1440x900/en/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "migratedSHA256": "4d425d3b5b4d542c84e17d533cb733ea7ab6b3b903b76d40db53a9a774771941",
+        "referenceSHA256": "4d425d3b5b4d542c84e17d533cb733ea7ab6b3b903b76d40db53a9a774771941",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 1440x900/en/day",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "course original-React fixture parity and interaction 1440x900/en/night",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 1440x900/en/night",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "course original-React fixture parity and interaction 1440x900/uz/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "migratedSHA256": "b348fa5dd3202d80bae35bbf4cbf7cc9a8996b8496d061330a2c291487a6c48d",
+        "referenceSHA256": "b348fa5dd3202d80bae35bbf4cbf7cc9a8996b8496d061330a2c291487a6c48d",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 1440x900/uz/day",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "course original-React fixture parity and interaction 1440x900/uz/night",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 1440x900/uz/night",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "course original-React fixture parity and interaction 768x1024/en/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "migratedSHA256": "da06508d8223fe6e7378902538ae49cc9fd6867a4681485ba972855aaebbd0e8",
+        "referenceSHA256": "da06508d8223fe6e7378902538ae49cc9fd6867a4681485ba972855aaebbd0e8",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 768x1024/en/day",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "course original-React fixture parity and interaction 768x1024/en/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "migratedSHA256": "782a3a06cdbc820c157bd4345211294cedc9043eb8dc03ed1a6f08c88d3594fc",
+        "referenceSHA256": "782a3a06cdbc820c157bd4345211294cedc9043eb8dc03ed1a6f08c88d3594fc",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 768x1024/en/night",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at runNextTicks (node:internal/process/task_queues:64:5)\n    at process.processImmediate (node:internal/timers:452:9)\n    at process.callbackTrampoline (node:internal/async_hooks:130:17)\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "course original-React fixture parity and interaction 768x1024/uz/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "migratedSHA256": "f4656b9b17e420a7ae137544b866a1e48d5717626d88bd95bcfe3eddbf3e991e",
+        "referenceSHA256": "f4656b9b17e420a7ae137544b866a1e48d5717626d88bd95bcfe3eddbf3e991e",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 768x1024/uz/day",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "course original-React fixture parity and interaction 768x1024/uz/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "migratedSHA256": "755aa64a18502545c26f70cec1b343023ce9831892b653578453be6639e78a6a",
+        "referenceSHA256": "755aa64a18502545c26f70cec1b343023ce9831892b653578453be6639e78a6a",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 768x1024/uz/night",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "course original-React fixture parity and interaction 390x844/en/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "migratedSHA256": "7909d2fb765c2d4b34ab5e4957e4fadc0e63f7edec80bc40d1ed9476136f4d4f",
+        "referenceSHA256": "7909d2fb765c2d4b34ab5e4957e4fadc0e63f7edec80bc40d1ed9476136f4d4f",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 390x844/en/day",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "course original-React fixture parity and interaction 390x844/en/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "migratedSHA256": "0927f7e1a26423bb53bc92fc680b22215c96b6845370ba4181b5520ce5de0722",
+        "referenceSHA256": "0927f7e1a26423bb53bc92fc680b22215c96b6845370ba4181b5520ce5de0722",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 390x844/en/night",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "course original-React fixture parity and interaction 390x844/uz/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "migratedSHA256": "a85ae35ee45bea88f499c703344a3c4cb01599a9b264742c001edce08bffa864",
+        "referenceSHA256": "a85ae35ee45bea88f499c703344a3c4cb01599a9b264742c001edce08bffa864",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 390x844/uz/day",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "course original-React fixture parity and interaction 390x844/uz/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "migratedSHA256": "e3aad37fbf3e2e72219c625912a1699e1f2620692430c017447bfb2a4e1f11cc",
+        "referenceSHA256": "e3aad37fbf3e2e72219c625912a1699e1f2620692430c017447bfb2a4e1f11cc",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 390x844/uz/night",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ\n    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291\n    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168"
+    },
+    {
+      "name": "Grammar default and empty tab replace redirect to Lessons",
+      "status": "FAIL",
+      "error": "page.waitForURL: Timeout 8000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"**/app/grammar/lessons\" until \"load\"\n============================================================\n    at /home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:13:195\n    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)\n    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:13:1"
+    },
+    {
+      "name": "Grammar speaking unavailable metadata remains usable, retries refresh own route",
+      "status": "PASS"
+    },
+    {
+      "name": "course 403 read failure keeps local retry without fake content",
+      "status": "PASS"
+    },
+    {
+      "name": "course 500 read failure keeps local retry without fake content",
+      "status": "PASS"
+    },
+    {
+      "name": "grammar 403 read failure keeps local retry without fake content",
+      "status": "PASS"
+    },
+    {
+      "name": "grammar 500 read failure keeps local retry without fake content",
+      "status": "PASS"
+    },
+    {
+      "name": "Empty Grammar is not unavailable; missing course uses not-found",
+      "status": "PASS"
+    },
+    {
+      "name": "course 401 revokes existing shell without new auth contract",
+      "status": "PASS"
+    },
+    {
+      "name": "grammar 401 revokes existing shell without new auth contract",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 18,
+    "FAIL": 15,
+    "SKIP": 0
+  }
+}

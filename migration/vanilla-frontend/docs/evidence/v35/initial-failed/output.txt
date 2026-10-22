@@ -1,0 +1,167 @@
+FAIL grammar original-React fixture parity and interaction 1440x900/en/day AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL course original-React fixture parity and interaction 1440x900/en/night AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL grammar original-React fixture parity and interaction 1440x900/en/night AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL grammar original-React fixture parity and interaction 1440x900/uz/day AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL course original-React fixture parity and interaction 1440x900/uz/night AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL grammar original-React fixture parity and interaction 1440x900/uz/night AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL grammar original-React fixture parity and interaction 768x1024/en/day AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL grammar original-React fixture parity and interaction 768x1024/en/night AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at runNextTicks (node:internal/process/task_queues:64:5)
+    at process.processImmediate (node:internal/timers:452:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17)
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL grammar original-React fixture parity and interaction 768x1024/uz/day AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL grammar original-React fixture parity and interaction 768x1024/uz/night AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL grammar original-React fixture parity and interaction 390x844/en/day AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL grammar original-React fixture parity and interaction 390x844/en/night AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL grammar original-React fixture parity and interaction 390x844/uz/day AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL grammar original-React fixture parity and interaction 390x844/uz/night AssertionError [ERR_ASSERTION]: Original ReactSSR fixture and migrated pixels differ
+    at file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:10:291
+    at async check (file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:9:168 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+FAIL Grammar default and empty tab replace redirect to Lessons page.waitForURL: Timeout 8000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to "**/app/grammar/lessons" until "load"
+============================================================
+    at /home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:13:195
+    at async check (/home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:6:48)
+    at async file:///home/user/learners_area/migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs:13:1 {
+  name: 'TimeoutError'
+}
+{"PASS":18,"FAIL":15,"SKIP":0}

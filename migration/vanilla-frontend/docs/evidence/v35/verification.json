@@ -1,0 +1,130 @@
+{
+  "type": "V35 implementation increment; not a sealed packaged checkpoint",
+  "ownerInstruction": "Current human project owner authorizes independent whole-site frontend work. Review decision separate; no approval invented.",
+  "unit": {
+    "PASS": 575,
+    "FAIL": 0,
+    "SKIP": 0,
+    "newTargeted": 31
+  },
+  "build": "PASS",
+  "newBrowserFunctional": {
+    "PASS": 33,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "newStrictVisual": {
+    "PASS": 18,
+    "FAIL": 6
+  },
+  "newVisualGeometryMatches": 24,
+  "newVisualMaxChannelDelta": 1,
+  "visualGate": "FAIL; no threshold relaxed, no route COMPLETE promotion; browser process exit1",
+  "referenceScope": "Original React19.3.0 SSR of original pure JSX and original Card/Badge/ProgressBar; isolated metadata; same candidate shell/extracted sourceCSS. Not a running Next.js/live reference. Only success Writing state compared for Grammar.",
+  "relevantHistoricalBrowserRegression": {
+    "historicalFilesRestoredAndHashMatched": true,
+    "files": 1431,
+    "results": [
+      {
+        "suite": "v3",
+        "exitCode": 0,
+        "counts": {
+          "PASS": 49,
+          "FAIL": 0
+        },
+        "expected": 49
+      },
+      {
+        "suite": "v5",
+        "exitCode": 0,
+        "counts": {
+          "PASS": 52,
+          "FAIL": 0,
+          "SKIP": 0
+        },
+        "expected": 52
+      },
+      {
+        "suite": "v10",
+        "exitCode": 0,
+        "counts": {
+          "PASS": 53,
+          "FAIL": 0,
+          "SKIP": 0
+        },
+        "expected": 53
+      }
+    ]
+  },
+  "originalFilesUnchanged": 2104,
+  "historicalArchivesUnchanged": 38,
+  "historicalEvidenceGitByteIdentity": "PASS",
+  "CSSAssetsDictionariesOldGeneratedConsumersUnchanged": "PASS",
+  "actualNewlyImplementedRoutes": [
+    "/app/courses/ielts",
+    "/app/grammar"
+  ],
+  "newCompleteRoutes": 0,
+  "globalRoutes": {
+    "complete": 22,
+    "partial": 17,
+    "notStarted": 69,
+    "reservedStaff": 35
+  },
+  "globalComponents": {
+    "complete": 62,
+    "partial": 17,
+    "notStarted": 127
+  },
+  "newCompleteSourceComponentFiles": 0,
+  "newZIP": false,
+  "full499Browser418SourceTimingControls": "NOT RERUN; relevant154browser cases only",
+  "phase2AdditionalMeasurements": 0,
+  "productionAccess": false,
+  "files": [
+    {
+      "path": "migration/vanilla-frontend/modules/courses/roadmap.js",
+      "sha256": "6be62154dfeb04746469d79989bf680c8fa459f65f9e3d7fc94954fd8b5f4f78"
+    },
+    {
+      "path": "migration/vanilla-frontend/modules/grammar/topics.js",
+      "sha256": "929ec56f95eeab0b75777d2cda3429b6a6c6d688802114610d20c87935562848"
+    },
+    {
+      "path": "migration/vanilla-frontend/js/adapters/entry-routes-v35.js",
+      "sha256": "0bbeb3de5743925220e27aa41679c261435cfc053b19f73d2fdd2cfe6d7263d0"
+    },
+    {
+      "path": "migration/vanilla-frontend/js/generated/course-roadmap-v35.js",
+      "sha256": "f5ea15ebe335ff58d86027beaf9b6ffffefeb317dfaecb6ec6c658dc93a7d767"
+    },
+    {
+      "path": "migration/vanilla-frontend/js/generated/grammar-topics-v35.js",
+      "sha256": "5efdc6356b0858a28a4e868ac6f0cbf267938a6a44a702c04a2f90d64f3f4c7f"
+    },
+    {
+      "path": "migration/vanilla-frontend/scripts/convert-entry-routes-v35.mjs",
+      "sha256": "20d143dea4ae10371b9bc0c10fe5fa6420ab8b68a02191bb0e2bb997a4d4bfe9"
+    },
+    {
+      "path": "migration/vanilla-frontend/scripts/reference-entry-routes-v35.mjs",
+      "sha256": "a208fef7664885bfa806b1367a78a7a9b77e303cec61e84f178dca199dc7e6af"
+    },
+    {
+      "path": "migration/vanilla-frontend/tests/browser-entry-routes-v35.mjs",
+      "sha256": "1bbdf69eb53714ca435621ef19d9868950c576db9b48d9d6988fcc1d3254b379"
+    },
+    {
+      "path": "migration/vanilla-frontend/tests/entry-routes-v35-fixtures.mjs",
+      "sha256": "a7bae9dd6c062daa8f2a0687a9c13d8cf43b1a293ac88a23a644b7110d87ade5"
+    },
+    {
+      "path": "migration/vanilla-frontend/tests/entry-routes-v35.test.mjs",
+      "sha256": "c318289b5228e1c6c8d7c1c8ea2a5f71ce00dcf35319a9eb649c0dbd79b43cc8"
+    },
+    {
+      "path": "migration/vanilla-frontend/tests/reference-entry-routes-v35.json",
+      "sha256": "91005876a35a5ddb5a7919b0e3fcc304e6d1f555e9c3fa0d80a374fe47f392f6"
+    }
+  ]
+}

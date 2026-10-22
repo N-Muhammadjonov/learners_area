@@ -1,0 +1,35 @@
+{
+  "historicalFilesRestoredAndHashMatched": true,
+  "files": 1431,
+  "results": [
+    {
+      "suite": "v3",
+      "exitCode": 0,
+      "counts": {
+        "PASS": 49,
+        "FAIL": 0
+      },
+      "expected": 49
+    },
+    {
+      "suite": "v5",
+      "exitCode": 0,
+      "counts": {
+        "PASS": 52,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "expected": 52
+    },
+    {
+      "suite": "v10",
+      "exitCode": 0,
+      "counts": {
+        "PASS": 53,
+        "FAIL": 0,
+        "SKIP": 0
+      },
+      "expected": 53
+    }
+  ]
+}

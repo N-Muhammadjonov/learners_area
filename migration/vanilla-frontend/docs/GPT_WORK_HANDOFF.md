@@ -1,3 +1,14 @@
+# CURRENT V35 — human owner correction: independent frontend implementation ACTIVE
+
+The human project owner/original creator explicitly authorized whole-site migration within constraints. This supersedes V34's global external-input stop condition. Do not confuse human ownership with app roles. Review-specific release remains pending A–J decision, NOT approved; its unsigned packet/raw evidence remain. Pending Review acceptance MUST NOT halt independent ordinary frontend work.
+
+V35 implemented native CourseRoadmap `/app/courses/ielts` and Grammar topics `/app/grammar?tab=writing|speaking`, retaining both PARTIAL. Global22/17/69 (108),components62/17/127(206),Staff35reserved unchanged. See V35_IMPLEMENTATION_HANDOFF.md, V35_DEPENDENCY_INVENTORY.json and route-ledger-v35.json/component-ledger-v35.json. Existing extracted source/Card/Badge/ProgressBar, shell/navigation/locale/theme reused; no educational/backend/Dictionary/Staff changes.575unitPASS incl31new; new33functionalbrowserPASS, strictvisual18/24PASS6FAIL(maxchannel1;geometryall24equal), not running originalNext/live. Browser visual gate remains nonzero. Relevant preserved browser v3/v5/v10 regressions49/52/53PASS (154total),0FAIL; historical evidence restored byte-for-byte. Current exact results in evidence/v35/regressions. No V35ZIP/seal and no full499/418run claimed.
+
+NEXT: courseLessonWorkspace→reuse existing lessonNotes owner + original lesson-state API→materials/video provider consumers→courseLessonDetail; parallel GrammarTopic/activity clients. Inspect full source/dependencies. Can start without Review approval. Do not promote HTML-only route; explicit integration/visual gaps remain actionable without blocking other implementation. Owner message itself is authorization for this independent work; do not demand another owner-route search first.
+
+---
+Historical handoffs below are retained; V35 instructions above are current and supersede earlier GLOBAL stop language.
+
 # V34 current handoff — stop at confirmed external blockers, no automatic V35
 
 V33 remains the last independently verified packaged checkpoint: report d1919555b0f4a8d5587b50c12122840eede1ffde,source17d12f5fc0879db6f26ebdbdbc7403df9f0771fd,seal0c52da7b94f6a01fdf0fb979e79931ca5fbfba13;ZIP100443205bytes/2130members/SHA19aab9d9659fbd8e9f52b6ca2951e645cc0748e35ba14ea35061f8dbbb01b735. V34 reverified allZIPGitbytes/hashes/CRC,38archives,2104originals,1428historicalevidence. Runtime/tests/oldpacket/catalogue unchanged. No V34ZIP/seal or fresh mandatory suite/audit/performance run; do NOT call preservedV33PASS a freshV34run.

@@ -1,0 +1,4 @@
+/** Isolated UI metadata ONLY. No questions, answers, curriculum HTML or learner data. */
+export const id=n=>`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`;
+export function roadmap(){return {roadmap:{course:{title:'Fixture course <plain text>',description:'Fixture description'},modules:[{id:id(1),title:'Fixture module',units:[{id:id(2),title:'Fixture unit',lessons:['locked','scheduled','available','assigned','in_progress','completed'].map((state,i)=>({id:id(10+i),title:'Fixture lesson '+state,summary:i===0?null:'Fixture summary',state}))}]}]}};}
+export function topics(){return {rows:[{topic:{id:id(30),title:'Fixture Writing <plain text>',skillArea:'writing'},totalExercises:8,mastery:{scorePercent:81,sessions:4,mastered:true},masteryUnavailable:false},{topic:{id:id(31),title:'Fixture Speaking',skillArea:'speaking'},totalExercises:0,mastery:null,masteryUnavailable:true}]};}

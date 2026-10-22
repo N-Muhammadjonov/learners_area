@@ -1,0 +1,196 @@
+TAP version 13
+# Subtest: roadmap minimized, immutable, preserves server states and missing course
+ok 1 - roadmap minimized, immutable, preserves server states and missing course
+  ---
+  duration_ms: 2.244576
+  type: 'test'
+  ...
+# Subtest: unsafe roadmap fails closed: x=>delete x.roadmap
+ok 2 - unsafe roadmap fails closed: x=>delete x.roadmap
+  ---
+  duration_ms: 0.660238
+  type: 'test'
+  ...
+# Subtest: unsafe roadmap fails closed: x=>x.roadmap.modules={}
+ok 3 - unsafe roadmap fails closed: x=>x.roadmap.modules={}
+  ---
+  duration_ms: 0.399119
+  type: 'test'
+  ...
+# Subtest: unsafe roadmap fails closed: x=>x.roadmap.course.title=null
+ok 4 - unsafe roadmap fails closed: x=>x.roadmap.course.title=null
+  ---
+  duration_ms: 0.353123
+  type: 'test'
+  ...
+# Subtest: unsafe roadmap fails closed: x=>x.roadmap.modules[0].units[0].lessons[0].id='javascript:bad'
+ok 5 - unsafe roadmap fails closed: x=>x.roadmap.modules[0].units[0].lessons[0].id='javascript:bad'
+  ---
+  duration_ms: 0.734559
+  type: 'test'
+  ...
+# Subtest: unsafe roadmap fails closed: x=>x.roadmap.modules[0].units[0].lessons[0].state='admin'
+ok 6 - unsafe roadmap fails closed: x=>x.roadmap.modules[0].units[0].lessons[0].state='admin'
+  ---
+  duration_ms: 0.373349
+  type: 'test'
+  ...
+# Subtest: unsafe roadmap fails closed: x=>x.roadmap.modules[0].units[0].lessons[1].id=id(10)
+ok 7 - unsafe roadmap fails closed: x=>x.roadmap.modules[0].units[0].lessons[1].id=id(10)
+  ---
+  duration_ms: 0.266004
+  type: 'test'
+  ...
+# Subtest: unsafe roadmap fails closed: x=>x.roadmap.modules[0].units[0].lessons[0].answerKey='private'
+ok 8 - unsafe roadmap fails closed: x=>x.roadmap.modules[0].units[0].lessons[0].answerKey='private'
+  ---
+  duration_ms: 0.233522
+  type: 'test'
+  ...
+# Subtest: Grammar preserves unavailable versus zero and server-derived mastery
+ok 9 - Grammar preserves unavailable versus zero and server-derived mastery
+  ---
+  duration_ms: 0.62009
+  type: 'test'
+  ...
+# Subtest: unsafe Grammar fails closed: x=>x.rows={}
+ok 10 - unsafe Grammar fails closed: x=>x.rows={}
+  ---
+  duration_ms: 0.419769
+  type: 'test'
+  ...
+# Subtest: unsafe Grammar fails closed: x=>x.rows[0].mastery.scorePercent=101
+ok 11 - unsafe Grammar fails closed: x=>x.rows[0].mastery.scorePercent=101
+  ---
+  duration_ms: 0.421924
+  type: 'test'
+  ...
+# Subtest: unsafe Grammar fails closed: x=>x.rows[0].mastery.sessions=-1
+ok 12 - unsafe Grammar fails closed: x=>x.rows[0].mastery.sessions=-1
+  ---
+  duration_ms: 0.195554
+  type: 'test'
+  ...
+# Subtest: unsafe Grammar fails closed: x=>x.rows[0].mastery=null
+ok 13 - unsafe Grammar fails closed: x=>x.rows[0].mastery=null
+  ---
+  duration_ms: 0.150444
+  type: 'test'
+  ...
+# Subtest: unsafe Grammar fails closed: x=>x.rows[1].masteryUnavailable=false
+ok 14 - unsafe Grammar fails closed: x=>x.rows[1].masteryUnavailable=false
+  ---
+  duration_ms: 0.202652
+  type: 'test'
+  ...
+# Subtest: unsafe Grammar fails closed: x=>x.rows[0].topic.skillArea='reading'
+ok 15 - unsafe Grammar fails closed: x=>x.rows[0].topic.skillArea='reading'
+  ---
+  duration_ms: 0.171632
+  type: 'test'
+  ...
+# Subtest: unsafe Grammar fails closed: x=>x.rows[1].topic.id=id(30)
+ok 16 - unsafe Grammar fails closed: x=>x.rows[1].topic.id=id(30)
+  ---
+  duration_ms: 0.201724
+  type: 'test'
+  ...
+# Subtest: unsafe Grammar fails closed: x=>x.rows[0].answers=[]
+ok 17 - unsafe Grammar fails closed: x=>x.rows[0].answers=[]
+  ---
+  duration_ms: 0.166527
+  type: 'test'
+  ...
+# Subtest: original query semantics 
+ok 18 - original query semantics 
+  ---
+  duration_ms: 0.213669
+  type: 'test'
+  ...
+# Subtest: original query semantics ?tab=
+ok 19 - original query semantics ?tab=
+  ---
+  duration_ms: 0.195789
+  type: 'test'
+  ...
+# Subtest: original query semantics ?tab=speaking
+ok 20 - original query semantics ?tab=speaking
+  ---
+  duration_ms: 0.212827
+  type: 'test'
+  ...
+# Subtest: original query semantics ?tab=writing
+ok 21 - original query semantics ?tab=writing
+  ---
+  duration_ms: 0.142236
+  type: 'test'
+  ...
+# Subtest: original query semantics ?tab=unknown
+ok 22 - original query semantics ?tab=unknown
+  ---
+  duration_ms: 0.142872
+  type: 'test'
+  ...
+# Subtest: source roadmap DOM, locked links, safe text, localization Open
+ok 23 - source roadmap DOM, locked links, safe text, localization Open
+  ---
+  duration_ms: 80.937329
+  type: 'test'
+  ...
+# Subtest: source roadmap DOM, locked links, safe text, localization Ochish
+ok 24 - source roadmap DOM, locked links, safe text, localization Ochish
+  ---
+  duration_ms: 12.592756
+  type: 'test'
+  ...
+# Subtest: no-tab replace redirect performs no data request
+ok 25 - no-tab replace redirect performs no data request
+  ---
+  duration_ms: 6.467578
+  type: 'test'
+  ...
+# Subtest: Grammar filtering and unavailable mastery retain metadata retry
+ok 26 - Grammar filtering and unavailable mastery retain metadata retry
+  ---
+  duration_ms: 11.045238
+  type: 'test'
+  ...
+# Subtest: manual retry /app/courses/ielts
+ok 27 - manual retry /app/courses/ielts
+  ---
+  duration_ms: 18.43488
+  type: 'test'
+  ...
+# Subtest: late response cannot paint aborted route /app/courses/ielts
+ok 28 - late response cannot paint aborted route /app/courses/ielts
+  ---
+  duration_ms: 7.440816
+  type: 'test'
+  ...
+# Subtest: manual retry /app/grammar?tab=writing
+ok 29 - manual retry /app/grammar?tab=writing
+  ---
+  duration_ms: 9.442011
+  type: 'test'
+  ...
+# Subtest: late response cannot paint aborted route /app/grammar?tab=writing
+ok 30 - late response cannot paint aborted route /app/grammar?tab=writing
+  ---
+  duration_ms: 7.482397
+  type: 'test'
+  ...
+# Subtest: new route overrides are protected
+ok 31 - new route overrides are protected
+  ---
+  duration_ms: 0.543436
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 506.077935

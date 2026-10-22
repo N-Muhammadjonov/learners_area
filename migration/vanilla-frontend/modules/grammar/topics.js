@@ -1,0 +1,6 @@
+import {el} from '../../js/dom.js';import {viewData} from '../../js/adapters/frontend.js';import {grammarArea,grammarDTO} from '../../js/adapters/entry-routes-v35.js';import {render,loading} from '../../js/generated/grammar-topics-v35.js';import {RegionFailureNotice} from '../shared/presentation.js';
+/** Existing ?tab semantics, not new local tabs or a second mastery engine. */
+export function mount(context){const {root,url,signal,dict,navigate}=context,area=grammarArea(url);if(!area){void navigate('/app/grammar/lessons',{replace:true});return;}
+ const page=el('div',{class:'mx-auto flex max-w-3xl flex-col gap-4','data-route-usable':'grammar'}),host=el('div',{'data-grammar-entry':''});page.append(host);root.append(page);let busy=false;
+ async function load(){if(busy||signal.aborted)return;busy=true;host.setAttribute('aria-busy','true');host.replaceChildren(loading());try{const rows=grammarDTO(await viewData(url.pathname+url.search,signal));if(signal.aborted)return;host.replaceChildren(render({rows,area,dict,refresh:load}));}catch(error){if(!signal.aborted)host.replaceChildren(RegionFailureNotice({region:'grammar-topics',message:dict.common.error,retryLabel:dict.common.retry,refresh:load}));}finally{busy=false;if(!signal.aborted)host.setAttribute('aria-busy','false');}}
+ void load();}

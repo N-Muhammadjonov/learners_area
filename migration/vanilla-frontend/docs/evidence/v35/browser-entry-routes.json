@@ -1,0 +1,534 @@
+{
+  "scope": "V35 actual route consumers; isolated fixtures. ReactSSR reference in migrated shell/sourceCSS, NOT running original Next/live/production acceptance.",
+  "referenceMethod": "Original React19.3.0 SSR of original pure JSX and original Card/Badge/ProgressBar; isolated metadata; same candidate shell/extracted sourceCSS. Not a running Next.js/live reference. Only success Writing state compared for Grammar.",
+  "captureControl": "Screenshot context ONLY: freeze existing animation times equally for both captures. Product CSS/motion unchanged; no motion acceptance claimed.",
+  "visualResults": [
+    {
+      "name": "course/1440x900/en/day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "grammar/1440x900/en/day",
+      "status": "FAIL",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 5,
+      "maxChannelDelta": 1
+    },
+    {
+      "name": "course/1440x900/en/night",
+      "status": "FAIL",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 10,
+      "maxChannelDelta": 1
+    },
+    {
+      "name": "grammar/1440x900/en/night",
+      "status": "FAIL",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 2,
+      "maxChannelDelta": 1
+    },
+    {
+      "name": "course/1440x900/uz/day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "grammar/1440x900/uz/day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "course/1440x900/uz/night",
+      "status": "FAIL",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 10,
+      "maxChannelDelta": 1
+    },
+    {
+      "name": "grammar/1440x900/uz/night",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "course/768x1024/en/day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "grammar/768x1024/en/day",
+      "status": "FAIL",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 5,
+      "maxChannelDelta": 1
+    },
+    {
+      "name": "course/768x1024/en/night",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "grammar/768x1024/en/night",
+      "status": "FAIL",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 2,
+      "maxChannelDelta": 1
+    },
+    {
+      "name": "course/768x1024/uz/day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "grammar/768x1024/uz/day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "course/768x1024/uz/night",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "grammar/768x1024/uz/night",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "course/390x844/en/day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "grammar/390x844/en/day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "course/390x844/en/night",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "grammar/390x844/en/night",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "course/390x844/uz/day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "grammar/390x844/uz/day",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "course/390x844/uz/night",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    },
+    {
+      "name": "grammar/390x844/uz/night",
+      "status": "PASS",
+      "geometryEqual": true,
+      "dimensionsEqual": true,
+      "differentPixels": 0,
+      "maxChannelDelta": 0
+    }
+  ],
+  "visualCounts": {
+    "PASS": 18,
+    "FAIL": 6
+  },
+  "results": [
+    {
+      "name": "course original-React fixture parity and interaction 1440x900/en/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "0494b32df854c799e3cb03758389dfc5ddbccf6b484c2502a04778d7ed1ada09",
+        "referenceSHA256": "0494b32df854c799e3cb03758389dfc5ddbccf6b484c2502a04778d7ed1ada09",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 1440x900/en/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": false,
+        "geometryEqual": true,
+        "migratedSHA256": "65053a0392412a272b546bf46ffd62fabc192ba42c4d64744767f2f2a1bf6b5b",
+        "referenceSHA256": "11156695327ba840f08f63889e06cee7c665b51cfb57df933768cefca4f4528f",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "course original-React fixture parity and interaction 1440x900/en/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": false,
+        "geometryEqual": true,
+        "migratedSHA256": "cb2ed6129a2fe4d0aed638887f590fdc4b36d08e1d54b514dd0df8fa2e0effea",
+        "referenceSHA256": "a0079cb48b361b3e54d56cecf74e83e73c5ac2aeb522b4d7b295dc845c9b11fb",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 1440x900/en/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": false,
+        "geometryEqual": true,
+        "migratedSHA256": "5f4218bb19a62ef3309821006952d2a46086fa938fc293753630369dbeed0ece",
+        "referenceSHA256": "af2c62880be1f8fa63002e40ab112dd073da4c07d45a8d5ab6ee115a54119170",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "course original-React fixture parity and interaction 1440x900/uz/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "b348fa5dd3202d80bae35bbf4cbf7cc9a8996b8496d061330a2c291487a6c48d",
+        "referenceSHA256": "b348fa5dd3202d80bae35bbf4cbf7cc9a8996b8496d061330a2c291487a6c48d",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 1440x900/uz/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "fa3c648b14abee1dde6077b7ac256a893c028c2ebe8ce2c804980c3053bb194b",
+        "referenceSHA256": "fa3c648b14abee1dde6077b7ac256a893c028c2ebe8ce2c804980c3053bb194b",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "course original-React fixture parity and interaction 1440x900/uz/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": false,
+        "geometryEqual": true,
+        "migratedSHA256": "c7aada9b18c600026bec2805fdbf889548941e17e38d509fd1381515d09509f0",
+        "referenceSHA256": "d8f56993bc823b549859add2bc956114e15e20551ab8eb57feb076a46e43580e",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 1440x900/uz/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "aea0f8d9e77cb1b71b15e64e2163b9a2cf4adc94f9c64c41ed3cfff598455424",
+        "referenceSHA256": "aea0f8d9e77cb1b71b15e64e2163b9a2cf4adc94f9c64c41ed3cfff598455424",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "course original-React fixture parity and interaction 768x1024/en/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "da06508d8223fe6e7378902538ae49cc9fd6867a4681485ba972855aaebbd0e8",
+        "referenceSHA256": "da06508d8223fe6e7378902538ae49cc9fd6867a4681485ba972855aaebbd0e8",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 768x1024/en/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": false,
+        "geometryEqual": true,
+        "migratedSHA256": "c9e2e89017baf79a374b710eada9831d4e90c5b9ccedf97078763dee83f5f652",
+        "referenceSHA256": "c6a93f21999339ca9b756b68ca5d51ca812d6a1541759c845f9291352d66fe56",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "course original-React fixture parity and interaction 768x1024/en/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "782a3a06cdbc820c157bd4345211294cedc9043eb8dc03ed1a6f08c88d3594fc",
+        "referenceSHA256": "782a3a06cdbc820c157bd4345211294cedc9043eb8dc03ed1a6f08c88d3594fc",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 768x1024/en/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": false,
+        "geometryEqual": true,
+        "migratedSHA256": "74dda66186bbf152c6be576b4e72d25db173dc442886629eca5c9e09b035764e",
+        "referenceSHA256": "f2f46004f7122f562072d4d534f7850ad4941ae817960a8180b67c221309deb4",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "course original-React fixture parity and interaction 768x1024/uz/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "f4656b9b17e420a7ae137544b866a1e48d5717626d88bd95bcfe3eddbf3e991e",
+        "referenceSHA256": "f4656b9b17e420a7ae137544b866a1e48d5717626d88bd95bcfe3eddbf3e991e",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 768x1024/uz/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "0f695b032a34b66c6c3db56211e811a265709835be67645025d2a05e60f2458f",
+        "referenceSHA256": "0f695b032a34b66c6c3db56211e811a265709835be67645025d2a05e60f2458f",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "course original-React fixture parity and interaction 768x1024/uz/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "755aa64a18502545c26f70cec1b343023ce9831892b653578453be6639e78a6a",
+        "referenceSHA256": "755aa64a18502545c26f70cec1b343023ce9831892b653578453be6639e78a6a",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 768x1024/uz/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "566cef4dfc926ecaa2eb6167cf716487c5a8688aad6d5e3e6324b054ea586870",
+        "referenceSHA256": "566cef4dfc926ecaa2eb6167cf716487c5a8688aad6d5e3e6324b054ea586870",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "course original-React fixture parity and interaction 390x844/en/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "7909d2fb765c2d4b34ab5e4957e4fadc0e63f7edec80bc40d1ed9476136f4d4f",
+        "referenceSHA256": "7909d2fb765c2d4b34ab5e4957e4fadc0e63f7edec80bc40d1ed9476136f4d4f",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 390x844/en/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "b43c596cd23b584d46ad5d20df3120fdde30e97976a33c6327882c12c7482e02",
+        "referenceSHA256": "b43c596cd23b584d46ad5d20df3120fdde30e97976a33c6327882c12c7482e02",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "course original-React fixture parity and interaction 390x844/en/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "0927f7e1a26423bb53bc92fc680b22215c96b6845370ba4181b5520ce5de0722",
+        "referenceSHA256": "0927f7e1a26423bb53bc92fc680b22215c96b6845370ba4181b5520ce5de0722",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 390x844/en/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "89c2ffce5b29d9c63ac67542b25e5485ddd21860aefbbf739305a7ce69806a7f",
+        "referenceSHA256": "89c2ffce5b29d9c63ac67542b25e5485ddd21860aefbbf739305a7ce69806a7f",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "course original-React fixture parity and interaction 390x844/uz/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "a85ae35ee45bea88f499c703344a3c4cb01599a9b264742c001edce08bffa864",
+        "referenceSHA256": "a85ae35ee45bea88f499c703344a3c4cb01599a9b264742c001edce08bffa864",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 390x844/uz/day",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "2777cc18eab8e2b672b9784708eae4651672c031b74b626d0110627b45c27a7e",
+        "referenceSHA256": "2777cc18eab8e2b672b9784708eae4651672c031b74b626d0110627b45c27a7e",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "course original-React fixture parity and interaction 390x844/uz/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "e3aad37fbf3e2e72219c625912a1699e1f2620692430c017447bfb2a4e1f11cc",
+        "referenceSHA256": "e3aad37fbf3e2e72219c625912a1699e1f2620692430c017447bfb2a4e1f11cc",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "grammar original-React fixture parity and interaction 390x844/uz/night",
+      "status": "PASS",
+      "detail": {
+        "pixelEqual": true,
+        "geometryEqual": true,
+        "migratedSHA256": "83c6d2e4f45cfaf43c59e68852bc580ee1305e63b852814af0054e2384887973",
+        "referenceSHA256": "83c6d2e4f45cfaf43c59e68852bc580ee1305e63b852814af0054e2384887973",
+        "fixtureOnly": true,
+        "navigationDestinationImplementation": "Not certified; next independent workstream"
+      }
+    },
+    {
+      "name": "Grammar default and empty tab replace redirect to Lessons",
+      "status": "PASS"
+    },
+    {
+      "name": "Grammar speaking unavailable metadata remains usable, retries refresh own route",
+      "status": "PASS"
+    },
+    {
+      "name": "course 403 read failure keeps local retry without fake content",
+      "status": "PASS"
+    },
+    {
+      "name": "course 500 read failure keeps local retry without fake content",
+      "status": "PASS"
+    },
+    {
+      "name": "grammar 403 read failure keeps local retry without fake content",
+      "status": "PASS"
+    },
+    {
+      "name": "grammar 500 read failure keeps local retry without fake content",
+      "status": "PASS"
+    },
+    {
+      "name": "Empty Grammar is not unavailable; missing course uses not-found",
+      "status": "PASS"
+    },
+    {
+      "name": "course 401 revokes existing shell without new auth contract",
+      "status": "PASS"
+    },
+    {
+      "name": "grammar 401 revokes existing shell without new auth contract",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 33,
+    "FAIL": 0,
+    "SKIP": 0
+  }
+}

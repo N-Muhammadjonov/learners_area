@@ -1,0 +1,2 @@
+{"PASS":33,"FAIL":0,"SKIP":0}
+Strict visual {"PASS":18,"FAIL":6}
