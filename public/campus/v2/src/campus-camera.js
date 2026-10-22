@@ -53,7 +53,7 @@ export class CampusCameraController {
     const offset=new THREE.Vector3().subVectors(this.camera.position,c.target);
     const spherical=new THREE.Spherical().setFromVector3(offset);
     // Two-finger horizontal gesture rotates; vertical gesture zooms independently.
-    spherical.theta -= dx*.0034;
+    spherical.theta += dx*.0034;
     spherical.radius = THREE.MathUtils.clamp(spherical.radius*Math.exp(dy*.0014),
       c.minDistance,c.maxDistance);
     spherical.phi=THREE.MathUtils.clamp(spherical.phi,c.minPolarAngle,c.maxPolarAngle);
