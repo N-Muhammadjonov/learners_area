@@ -77,7 +77,7 @@ export function ShellUtilities({ dict }: { dict: Dictionary }) {
    * re-applied over it when the path change and the announcement land together. */
   const autoEnteredPath = useRef<string | null>(null);
 
-  const useful = FOCUS_ROUTES.some((r) => pathname === r || pathname.startsWith(`${r}/`)) && !isManagementRoute(pathname);
+  const useful = (pathname === "/app" || FOCUS_ROUTES.some((r) => pathname === r || pathname.startsWith(`${r}/`))) && !isManagementRoute(pathname);
   const current = useRef({ pathname, useful });
   useEffect(() => {
     current.current = { pathname, useful };
