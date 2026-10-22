@@ -307,6 +307,7 @@ export function mountCampus(node) {
 
   const circleSegments=96;
   const floorLeds=[];
+  const groundHaloTexture=makeGlowTexture();
   for(let ring=0;ring<3;ring++){
     const r=2.05+ring*.36;
     const points=[];
@@ -323,7 +324,7 @@ export function mountCampus(node) {
       const led=new THREE.Mesh(new THREE.CircleGeometry(.062,12),
         new THREE.MeshBasicMaterial({color:ring===1?0xf7dba0:0x69faff,transparent:true,opacity:.3,side:THREE.DoubleSide}));
       led.rotation.x=-Math.PI/2;led.position.set(px,.116,pz);scene.add(led);
-      const halo=makeGroundGlow(scene,makeGlowTexture(),ring===1?0xffcd74:0x1fdfff,.25,.55);
+      const halo=makeGroundGlow(scene,groundHaloTexture,ring===1?0xffcd74:0x1fdfff,.25,.55);
       halo.position.set(px,.154,pz);
       floorLeds.push({mesh:led,halo,angle:a,ring});
     }
@@ -552,6 +553,7 @@ export function mountCampus(node) {
       if(obj.userData.symbolTexture)obj.userData.symbolTexture.dispose();
     });
     if(pulseHaloTexture)pulseHaloTexture.dispose();
+    if(groundHaloTexture)groundHaloTexture.dispose();
     renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();
   };
 }
