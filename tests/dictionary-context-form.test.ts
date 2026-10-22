@@ -11,3 +11,12 @@ test("discontinuous phrasal forms need explicit source-relative parts matching a
  assert.equal(matchesDictionaryContextForm(phrase,"picked it up",[{start:0,end:6},{start:9,end:12}]),true,"whitespace is normalized without changing the source");
  assert.equal(matchesDictionaryContextForm(phrase,"picked it out",[{start:0,end:6},{start:10,end:13}]),false);
 });
+
+test("an authored adverb degree form admits higher without choosing a meaning or another head",()=>{
+ const release="rel-v1-111111111111111111111111";
+ const entry=(lemma:string,pos:"r"|"adverb"|"n")=>applyDraft([],{operation:"add_lexeme",lemma,partOfSpeech:pos,lexicalType:"word",definitionEn:"Fixture meaning",definitionUz:"Ma'no",translationUz:"ma'no",examples:[]},release);
+ assert.equal(matchesDictionaryContextForm(entry("high","r"),"higher"),true);
+ assert.equal(matchesDictionaryContextForm(entry("high","adverb"),"highest"),true);
+ assert.equal(matchesDictionaryContextForm(entry("high","r"),"lighter"),false);
+ assert.equal(matchesDictionaryContextForm(entry("high","n"),"higher"),false);
+});

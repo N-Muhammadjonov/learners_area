@@ -3,10 +3,11 @@ import uz from "@/lib/i18n/uz";
 import { moduleSectionLinks, type HeaderModule } from "@/lib/nav/module-sections";
 import { SPEAKING_HUB_CARDS } from "@/lib/speaking/hub";
 import { WRITING_TABS } from "@/lib/writing/tabs";
+import { normalizeLexical } from "@/lib/text/lexical-normalize";
 
 export type SearchHit = { type: string; title: string; context: string | null; href: string };
 const modules: HeaderModule[] = ["listening", "reading", "writing", "grammar", "vocabulary", "video-lessons"];
-const normalized = (value: string) => value.toLocaleLowerCase().replace(/[‘’ʻʼ`]/g, "'").replace(/\s+/g, " ").trim();
+const normalized = normalizeLexical;
 
 /** Search both interface languages, displaying the visitor's selected language.
  * Destinations come from the same route registry as the header tabs. */

@@ -3,16 +3,520 @@
   "status": "ai_editorial_draft_not_published",
   "policy": "Original explanations, Uzbek translations and examples. References support grammatical facts; their dictionary wording and examples are not copied. Usage frames are labelled separately from lexical collocations. Personal names have no interchangeable synonyms.",
   "entries": [
-    {"lemma":"gone","pos":"a","key":"away-from-place","definitionEn":"Away from the place where someone or something was before.","translationUz":"ketgan; avvalgi joyida yo‘q","exampleEn":"When Mia checked the cage, the hamster was gone.","exampleUz":"Mia qafasni tekshirganda, xomyak u yerda yo‘q edi.","usageFrames":["already gone","long gone","be gone by morning"],"referenceUrl":"https://www.oxfordlearnersdictionaries.com/definition/english/gone_1","targetLexemeId":"9e6f32ab-7c95-5b5c-8775-9831cb9de1b6","expectedEntrySha":"0b14105f4ab1828d9a00df31dcd4c7e2541f946f33785cecb43e2e06ad893a95"},
-    {"lemma":"before","pos":"preposition","key":"earlier-time","definitionEn":"At an earlier time than the event or time named after this word.","translationUz":"...dan oldin; ...dan avval","exampleEn":"We packed our bags before breakfast.","exampleUz":"Biz nonushtadan oldin sumkalarimizni tayyorladik.","usageFrames":["before breakfast","before the trip","just before noon"],"referenceUrl":"https://dictionary.cambridge.org/grammar/british-grammar/before"},
-    {"lemma":"before","pos":"conjunction","key":"earlier-event","definitionEn":"Introduces a clause describing an event that happens later than the main event.","translationUz":"...ishidan oldin; ...masidan avval","exampleEn":"Check the door before you leave.","exampleUz":"Ketishingizdan oldin eshikni tekshiring.","usageFrames":["before you leave","before the bus arrives"],"referenceUrl":"https://dictionary.cambridge.org/grammar/british-grammar/before"},
-    {"lemma":"after","pos":"preposition","key":"later-time","definitionEn":"At a later time than the event or time named after this word.","translationUz":"...dan keyin; ...dan so‘ng","exampleEn":"Sara went home after school.","exampleUz":"Sara darslardan keyin uyiga ketdi.","usageFrames":["after school","after lunch","ten minutes after noon"],"referenceUrl":"https://dictionary.cambridge.org/grammar/british-grammar/after-afterwards"},
-    {"lemma":"after","pos":"conjunction","key":"later-event","definitionEn":"Introduces a clause describing an earlier event, with the main event happening later.","translationUz":"...ganidan keyin; ...gach","exampleEn":"His mother found the bag after he left.","exampleUz":"Onasi u ketganidan keyin sumkani topdi.","usageFrames":["after he left","after we arrived"],"referenceUrl":"https://dictionary.cambridge.org/grammar/british-grammar/after-afterwards"},
-    {"lemma":"near","pos":"preposition","key":"close-location","definitionEn":"A short distance from the person, place or thing named after this word.","translationUz":"...ga yaqin; ...ning yaqinida","exampleEn":"The farm is near the river.","exampleUz":"Ferma daryoning yaqinida.","usageFrames":["near the river","near the wall","near the station"],"referenceUrl":"https://dictionary.cambridge.org/grammar/british-grammar/near-"},
-    {"lemma":"behind","pos":"preposition","key":"rear-location","definitionEn":"At the back of the person, place or thing named after this word.","translationUz":"...ning orqasida; ...ning ortida","exampleEn":"The hamster was behind the wardrobe.","exampleUz":"Xomyak kiyim javonining orqasida edi.","usageFrames":["behind the wardrobe","behind the door"],"referenceUrl":"https://dictionary.cambridge.org/dictionary/english/behind"},
-    {"lemma":"half past","pos":"fixed expression","key":"thirty-minutes-after","definitionEn":"A time expression placing an event thirty minutes after the hour that follows.","translationUz":"soat ... yarim; aytilgan soatdan o‘ttiz daqiqa o‘tgan vaqt","exampleEn":"The lesson starts at half past eight.","exampleUz":"Dars soat sakkiz yarimda boshlanadi.","usageFrames":["at half past eight","half past seven"],"referenceUrl":"https://dictionary.cambridge.org/dictionary/english-polish/half-past-three-four-seven"},
-    {"lemma":"Tom","pos":"proper noun","key":"given-name","definitionEn":"A male given name, also used as a short form of Thomas.","translationUz":"Tom — erkak kishining ismi","exampleEn":"Tom packed his lunch for the trip.","exampleUz":"Tom sayohat uchun tushligini tayyorladi.","usageFrames":[],"referenceUrl":"https://en.wiktionary.org/w/index.php?title=Tom&oldid=92970918"},
-    {"lemma":"Sara","pos":"proper noun","key":"story-given-name","definitionEn":"A personal name used for a girl or woman.","translationUz":"Sara — qiz yoki ayol kishining ismi","exampleEn":"Sara checked her alarm clock.","exampleUz":"Sara uyg‘otkich soatini tekshirdi.","usageFrames":[],"referenceUrl":"https://learnersarea.uz","sourceMaterialId":"10284942-507a-40d4-bcf6-1eeb8c10f77c","sourceBodySha":"76d99e1edf4813a801e7f9ccbe5fcc4a2222679d9775b1d1c3323adda86369a6"},
-    {"lemma":"Mia","pos":"proper noun","key":"story-given-name","definitionEn":"A personal name used for a girl or woman.","translationUz":"Mia — qiz yoki ayol kishining ismi","exampleEn":"Mia put her hamster back in its cage.","exampleUz":"Mia xomyagini qafasiga qaytardi.","usageFrames":[],"referenceUrl":"https://learnersarea.uz","sourceMaterialId":"3ed36997-67ee-43c1-a063-cfca584ae504","sourceBodySha":"3f3a046116a580b8ada06df3775e68f88f3a06fa4e98f6973ef1236caa109567"}
+    {
+      "lemma": "gone",
+      "pos": "a",
+      "key": "away-from-place",
+      "definitionEn": "Away from the place where someone or something was before.",
+      "translationUz": "ketgan; avvalgi joyida yo‘q",
+      "exampleEn": "When Mia checked the cage, the hamster was gone.",
+      "exampleUz": "Mia qafasni tekshirganda, xomyak u yerda yo‘q edi.",
+      "usageFrames": [
+        "already gone",
+        "long gone",
+        "be gone by morning"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/gone_1",
+      "targetLexemeId": "9e6f32ab-7c95-5b5c-8775-9831cb9de1b6",
+      "expectedEntrySha": "0b14105f4ab1828d9a00df31dcd4c7e2541f946f33785cecb43e2e06ad893a95"
+    },
+    {
+      "lemma": "before",
+      "pos": "preposition",
+      "key": "earlier-time",
+      "definitionEn": "At an earlier time than the event or time named after this word.",
+      "translationUz": "...dan oldin; ...dan avval",
+      "exampleEn": "We packed our bags before breakfast.",
+      "exampleUz": "Biz nonushtadan oldin sumkalarimizni tayyorladik.",
+      "usageFrames": [
+        "before breakfast",
+        "before the trip",
+        "just before noon"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/before"
+    },
+    {
+      "lemma": "before",
+      "pos": "conjunction",
+      "key": "earlier-event",
+      "definitionEn": "Introduces a clause describing an event that happens later than the main event.",
+      "translationUz": "...ishidan oldin; ...masidan avval",
+      "exampleEn": "Check the door before you leave.",
+      "exampleUz": "Ketishingizdan oldin eshikni tekshiring.",
+      "usageFrames": [
+        "before you leave",
+        "before the bus arrives"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/before"
+    },
+    {
+      "lemma": "after",
+      "pos": "preposition",
+      "key": "later-time",
+      "definitionEn": "At a later time than the event or time named after this word.",
+      "translationUz": "...dan keyin; ...dan so‘ng",
+      "exampleEn": "Sara went home after school.",
+      "exampleUz": "Sara darslardan keyin uyiga ketdi.",
+      "usageFrames": [
+        "after school",
+        "after lunch",
+        "ten minutes after noon"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/after-afterwards"
+    },
+    {
+      "lemma": "after",
+      "pos": "conjunction",
+      "key": "later-event",
+      "definitionEn": "Introduces a clause describing an earlier event, with the main event happening later.",
+      "translationUz": "...ganidan keyin; ...gach",
+      "exampleEn": "His mother found the bag after he left.",
+      "exampleUz": "Onasi u ketganidan keyin sumkani topdi.",
+      "usageFrames": [
+        "after he left",
+        "after we arrived"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/after-afterwards"
+    },
+    {
+      "lemma": "near",
+      "pos": "preposition",
+      "key": "close-location",
+      "definitionEn": "A short distance from the person, place or thing named after this word.",
+      "translationUz": "...ga yaqin; ...ning yaqinida",
+      "exampleEn": "The farm is near the river.",
+      "exampleUz": "Ferma daryoning yaqinida.",
+      "usageFrames": [
+        "near the river",
+        "near the wall",
+        "near the station"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/near-"
+    },
+    {
+      "lemma": "behind",
+      "pos": "preposition",
+      "key": "rear-location",
+      "definitionEn": "At the back of the person, place or thing named after this word.",
+      "translationUz": "...ning orqasida; ...ning ortida",
+      "exampleEn": "The hamster was behind the wardrobe.",
+      "exampleUz": "Xomyak kiyim javonining orqasida edi.",
+      "usageFrames": [
+        "behind the wardrobe",
+        "behind the door"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/behind"
+    },
+    {
+      "lemma": "half past",
+      "pos": "fixed expression",
+      "key": "thirty-minutes-after",
+      "definitionEn": "A time expression placing an event thirty minutes after the hour that follows.",
+      "translationUz": "soat ... yarim; aytilgan soatdan o‘ttiz daqiqa o‘tgan vaqt",
+      "exampleEn": "The lesson starts at half past eight.",
+      "exampleUz": "Dars soat sakkiz yarimda boshlanadi.",
+      "usageFrames": [
+        "at half past eight",
+        "half past seven"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english-polish/half-past-three-four-seven"
+    },
+    {
+      "lemma": "Tom",
+      "pos": "proper noun",
+      "key": "given-name",
+      "definitionEn": "A male given name, also used as a short form of Thomas.",
+      "translationUz": "Tom — erkak kishining ismi",
+      "exampleEn": "Tom packed his lunch for the trip.",
+      "exampleUz": "Tom sayohat uchun tushligini tayyorladi.",
+      "usageFrames": [],
+      "referenceUrl": "https://en.wiktionary.org/w/index.php?title=Tom&oldid=92970918"
+    },
+    {
+      "lemma": "Sara",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Sara — qiz yoki ayol kishining ismi",
+      "exampleEn": "Sara checked her alarm clock.",
+      "exampleUz": "Sara uyg‘otkich soatini tekshirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "10284942-507a-40d4-bcf6-1eeb8c10f77c",
+      "sourceBodySha": "76d99e1edf4813a801e7f9ccbe5fcc4a2222679d9775b1d1c3323adda86369a6"
+    },
+    {
+      "lemma": "Mia",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Mia — qiz yoki ayol kishining ismi",
+      "exampleEn": "Mia put her hamster back in its cage.",
+      "exampleUz": "Mia xomyagini qafasiga qaytardi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "3ed36997-67ee-43c1-a063-cfca584ae504",
+      "sourceBodySha": "3f3a046116a580b8ada06df3775e68f88f3a06fa4e98f6973ef1236caa109567"
+    },
+    {
+      "lemma": "through",
+      "pos": "preposition",
+      "key": "passage-opening",
+      "definitionEn": "By passing within an opening or space from one side to the other.",
+      "translationUz": "... orqali; ... ichidan o‘tib",
+      "exampleEn": "Cold air entered through a gap in the door.",
+      "exampleUz": "Eshikdagi tirqish orqali sovuq havo kirdi.",
+      "usageFrames": [
+        "through a gap",
+        "through the open window"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/through"
+    },
+    {
+      "lemma": "under",
+      "pos": "preposition",
+      "key": "lower-location",
+      "definitionEn": "In a position lower than the object named, often directly beneath it.",
+      "translationUz": "... tagida; ... ostida",
+      "exampleEn": "The puppy slept under my chair.",
+      "exampleUz": "Kuchukcha stulimning tagida uxladi.",
+      "usageFrames": [
+        "under the table",
+        "under a chair"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/under"
+    },
+    {
+      "lemma": "across",
+      "pos": "preposition",
+      "key": "extending-side-to-side",
+      "definitionEn": "Extending from one side of a space or surface to another.",
+      "translationUz": "... bo‘ylab ko‘ndalang; bir chetidan ikkinchi chetiga",
+      "exampleEn": "A fallen tree lay across the road.",
+      "exampleUz": "Qulagan daraxt yo‘lni ko‘ndalang to‘sib yotardi.",
+      "usageFrames": [
+        "across the road",
+        "across the path"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/uk/grammar/british-grammar/across-over-or-through"
+    },
+    {
+      "lemma": "inside",
+      "pos": "preposition",
+      "key": "enclosed-location",
+      "definitionEn": "Within the space enclosed by the object or place named.",
+      "translationUz": "... ichida",
+      "exampleEn": "The spare keys were inside a red box.",
+      "exampleUz": "Zaxira kalitlar qizil qutining ichida edi.",
+      "usageFrames": [
+        "inside a suitcase",
+        "inside the bag"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/prepositions_2"
+    },
+    {
+      "lemma": "above",
+      "pos": "preposition",
+      "key": "higher-location",
+      "definitionEn": "At a position higher than the object or level named.",
+      "translationUz": "... tepasida; ...dan yuqorida",
+      "exampleEn": "A small bird flew above the roof.",
+      "exampleUz": "Kichkina qush tomning tepasida uchdi.",
+      "usageFrames": [
+        "above the trees",
+        "above the roof"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/grammar/british-grammar/above"
+    },
+    {
+      "lemma": "until",
+      "pos": "preposition",
+      "key": "time-limit",
+      "definitionEn": "Marks the time up to which an action or situation continues.",
+      "translationUz": "...gacha; ...ga qadar",
+      "exampleEn": "The children stayed outside until dinner.",
+      "exampleUz": "Bolalar kechki ovqatgacha tashqarida qolishdi.",
+      "usageFrames": [
+        "until lunch",
+        "until midnight"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/uk/grammar/british-grammar/until"
+    },
+    {
+      "lemma": "Leo",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Leo — ushbu hikoyadagi o‘g‘il bolaning ismi",
+      "exampleEn": "Leo helped his grandfather dry the floor.",
+      "exampleUz": "Leo bobosiga polni quritishda yordam berdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "ef8ceb58-db7c-4cc2-bbbe-3ff06f7e262c",
+      "sourceBodySha": "bd65724f36ddf0d8446be1f63f368853e0cbcba8707e8b461c349c89b0a87eba"
+    },
+    {
+      "lemma": "Rosa",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Rosa — ushbu hikoyadagi buvining ismi",
+      "exampleEn": "Rosa cooked soup with her grandson.",
+      "exampleUz": "Rosa nevarasi bilan sho‘rva pishirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "fd07a66f-c72b-422b-8afb-d3b95a6546a5",
+      "sourceBodySha": "9f263809ce3fe6f7f8c841eefddbc1ea7ebd09b697726cecb5779710c02d5fca"
+    },
+    {
+      "lemma": "Amir",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Amir — ushbu hikoyadagi o‘g‘il bolaning ismi",
+      "exampleEn": "Amir flew a yellow kite at the beach.",
+      "exampleUz": "Amir sohilda sariq varrak uchirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "9aa75000-d905-4ce6-95d2-3b75b0cbde9f",
+      "sourceBodySha": "1d6c8f4f6d49ad7c7e8acc738afd238a6589ade5eed388d731a78867ff62bf71"
+    },
+    {
+      "lemma": "storm",
+      "pos": "n",
+      "key": "severe-weather-general",
+      "definitionEn": "A spell of severe weather involving strong wind and heavy rain, snow or other precipitation.",
+      "translationUz": "kuchli shamol va yog‘in bilan kechadigan bo‘ron",
+      "exampleEn": "The storm blew a branch onto the garden path.",
+      "exampleUz": "Bo‘ron bir shoxni bog‘ yo‘lagiga uchirib tushirdi.",
+      "usageFrames": [
+        "during a storm",
+        "after the storm",
+        "a severe storm"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/storm",
+      "targetLexemeId": "ffbad804-d0f1-5a31-bf6e-6531af1e2e09",
+      "expectedEntrySha": "238009c0a8258f2aff55c57b3cd75387ef7f858841126eb666707b9bfa0a52ea"
+    },
+    {
+      "lemma": "Ella",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Ella — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Ella borrowed a new storybook.",
+      "exampleUz": "Ella boshqa bir hikoyalar kitobini vaqtincha oldi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "c234d82f-d972-42f0-809e-2a5d0db75ac5",
+      "sourceBodySha": "da43825c3ef68ce36087eadf009a356261fafbba044c83652be7751a10796f51"
+    },
+    {
+      "lemma": "Ben",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Ben — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Ben wore a blue jacket for the photograph.",
+      "exampleUz": "Ben suratga tushish uchun ko‘k kurtka kiydi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "2818cc7a-45be-4681-8756-570a56329886",
+      "sourceBodySha": "33563f5b6c1f6f80b4219543a158c2bc14980d289e26dc8efc40faf977ff8ee3"
+    },
+    {
+      "lemma": "Lily",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Lily — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Lily lent her jacket to her friend.",
+      "exampleUz": "Lily kurtkasini do‘stiga vaqtincha berdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "2818cc7a-45be-4681-8756-570a56329886",
+      "sourceBodySha": "33563f5b6c1f6f80b4219543a158c2bc14980d289e26dc8efc40faf977ff8ee3"
+    },
+    {
+      "lemma": "Hana",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Hana — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Hana bought a raincoat near the station.",
+      "exampleUz": "Hana bekat yaqinidan yomg‘irpo‘sh sotib oldi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "aaa5eec6-28c1-4cd3-b075-ede257f67613",
+      "sourceBodySha": "1be6981eeeb3163a122c0a3080a92f7eef5f04eeab65d5e02e4d7a044fa6844d"
+    },
+    {
+      "lemma": "Neha",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Neha — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Neha baked a cake for her father.",
+      "exampleUz": "Neha otasi uchun tort pishirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "847f9c5f-0a75-4455-8006-75db290caebc",
+      "sourceBodySha": "f34768264590195cb3842dc745fa317ed04bc383114ca87e9c6f2ff4500dd6bd"
+    },
+    {
+      "lemma": "Yusuf",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Yusuf — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Yusuf tied a ribbon to his suitcase.",
+      "exampleUz": "Yusuf chamadoniga tasma bog‘ladi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "d8d61091-e608-4cb9-b056-ffc5ac6b8c12",
+      "sourceBodySha": "0cf6b37262c7d6c61cff32304d418f62ad9532052a9be975f1808caee441c652"
+    },
+    {
+      "lemma": "Amina",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Amina — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Amina grew flowers on her balcony.",
+      "exampleUz": "Amina balkonida gullar o‘stirdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "4b6eb3fe-fad8-4b61-afd8-6787b9a2358e",
+      "sourceBodySha": "d6cd50fdb75f5e1c55ce0fe266fb79a829111e2cce135cbf7098f45a952c7ec7"
+    },
+    {
+      "lemma": "Kamal",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Kamal — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Kamal arrived late for dinner.",
+      "exampleUz": "Kamal kechki ovqatga kechikib keldi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "5136eef0-76e2-45da-b1e1-0cdc6f84c9a4",
+      "sourceBodySha": "77b8e947482c8384f2744cb920243bc57b4c5f86c62fe8b932598bd7d7a4d058"
+    },
+    {
+      "lemma": "Ruby",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a girl or woman.",
+      "translationUz": "Ruby — ushbu hikoyadagi qiz yoki ayol kishining ismi",
+      "exampleEn": "Ruby followed the route on the map.",
+      "exampleUz": "Ruby xaritada ko‘rsatilgan yo‘l bo‘ylab yurdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "bcedcc11-af31-4fe4-9a3d-9023d5f71d20",
+      "sourceBodySha": "aa9fff7d76a9f0840d1673d59d2333b4ae8766d29de6d0496f689cd439a00d22"
+    },
+    {
+      "lemma": "Joel",
+      "pos": "proper noun",
+      "key": "story-given-name",
+      "definitionEn": "A personal name used for a boy or man.",
+      "translationUz": "Joel — ushbu hikoyadagi o‘g‘il bola yoki erkak kishining ismi",
+      "exampleEn": "Joel helped the farmer catch the goat.",
+      "exampleUz": "Joel fermerga echkini tutishda yordam berdi.",
+      "usageFrames": [],
+      "referenceUrl": "https://learnersarea.uz",
+      "sourceMaterialId": "9194094a-779b-4c86-8524-1338923ffd15",
+      "sourceBodySha": "40298055ba14a6da9c29f0e9d37968c3d0c567ba56a8f84f6a4faae2ca781b59"
+    },
+    {
+      "lemma": "why",
+      "pos": "adverb",
+      "key": "reason-question",
+      "definitionEn": "Asks for, or introduces an explanation of, the reason for an event or situation.",
+      "translationUz": "nega; nima sababdan; ...ligining sababi",
+      "exampleEn": "Ella explained why she had returned the book late.",
+      "exampleUz": "Ella kitobni nega kech qaytarganini tushuntirdi.",
+      "usageFrames": [
+        "explain why",
+        "ask why",
+        "know why"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/learner-english/why"
+    },
+    {
+      "lemma": "outside",
+      "pos": "preposition",
+      "key": "exterior-location",
+      "definitionEn": "On the outer side of the place or boundary named, rather than within it.",
+      "translationUz": "... tashqarisida; ...ning tashqi tomonida",
+      "exampleEn": "There were flowerpots outside her bedroom window.",
+      "exampleUz": "Uning yotoqxonasi derazasi tashqarisida gultuvaklar bor edi.",
+      "usageFrames": [
+        "outside the bedroom",
+        "outside the house"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/outside"
+    },
+    {
+      "lemma": "around",
+      "pos": "preposition",
+      "key": "route-about-place",
+      "definitionEn": "Following a route about the edges or different parts of the place or object named.",
+      "translationUz": "... atrofida; ...ning turli joylari bo‘ylab",
+      "exampleEn": "The map showed a walking route around the town.",
+      "exampleUz": "Xaritada shaharcha bo‘ylab piyoda yurish yo‘li ko‘rsatilgan edi.",
+      "usageFrames": [
+        "around the town",
+        "around the lake"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/around?topic=general-location-and-orientation"
+    },
+    {
+      "lemma": "past",
+      "pos": "preposition",
+      "key": "movement-beyond-reference",
+      "definitionEn": "Moving by a person, object or place and continuing beyond it.",
+      "translationUz": "... yonidan o‘tib; ...dan nariga",
+      "exampleEn": "The goat ran past the stalls before the farmer caught it.",
+      "exampleUz": "Fermer uni tutishidan oldin echki savdo rastalari yonidan yugurib o‘tdi.",
+      "usageFrames": [
+        "past the food stalls",
+        "past the shop"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/learner-english/past"
+    },
+    {
+      "lemma": "break",
+      "pos": "v",
+      "key": "cord-separate",
+      "definitionEn": "To separate into parts, as a cord or rope does when it cannot withstand a pulling force.",
+      "translationUz": "uzilmoq (ip, arqon kabi narsa haqida)",
+      "exampleEn": "The thin kite string broke in the strong wind.",
+      "exampleUz": "Kuchli shamolda varrakning ingichka ipi uzildi.",
+      "usageFrames": [
+        "the string broke",
+        "the rope broke"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/break",
+      "targetLexemeId": "7f2f0473-a900-5b38-b2fc-fac4304cce56",
+      "expectedEntrySha": "54e669bfbccdfdbc1bbf45bd7bd6b6e97c8854b5b873e17e6fc7217987b895eb"
+    },
+    {
+      "lemma": "fair",
+      "pos": "n",
+      "key": "public-local-event",
+      "definitionEn": "An organised public event with stalls and things for visitors to see or do.",
+      "translationUz": "yarmarka; savdo rastalari va tomoshalar bo'ladigan ommaviy tadbir",
+      "exampleEn": "Joel saw farm animals at the village fair.",
+      "exampleUz": "Joel qishloq yarmarkasida chorva hayvonlarini ko'rdi.",
+      "usageFrames": [
+        "a village fair",
+        "a summer fair",
+        "an annual fair"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/fair",
+      "targetLexemeId": "c7bfff1e-11a0-592a-b328-237b66dbfb59",
+      "expectedEntrySha": "327db9dcd326d81a90e04d8b68892ee9e9f051bf815193a414882117bccb24a4"
+    }
   ]
 }

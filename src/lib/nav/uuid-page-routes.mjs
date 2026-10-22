@@ -109,6 +109,7 @@ export const DYNAMIC_PAGE_ROUTES = [
   "/app/writing/grade/[id]",
   "/app/writing/language-stealing/[id]",
   "/app/writing/lessons/[id]",
+  "/app/writing/prompts/[id]",
   "/app/writing/submissions/[id]",
   "/app/writing/translation/[id]",
 ];
