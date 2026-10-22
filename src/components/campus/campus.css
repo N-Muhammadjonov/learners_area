@@ -1,0 +1,50 @@
+/* Isolated world-view treatment; other module pages retain the existing shell. */
+[data-shell]:has([data-campus-world]) > [data-shell-sidebar] { display:none!important }
+[data-shell]:has([data-campus-world]) { background:#081628 }
+[data-shell]:has([data-campus-world]) [data-shell-topbar] {
+  background:#0b1930!important;color:#eaf3ff;border-color:#233c61!important
+}
+[data-shell]:has([data-campus-world]) [data-shell-main] {background:#0b1930;overflow:hidden}
+[data-shell-main]:has([data-campus-world]) > div {max-width:none!important;height:100%;padding:0!important}
+.la-campus {height:100%;min-height:350px;position:relative;overflow:hidden;
+ background:radial-gradient(ellipse at 50% 43%,#1d3459 0%,#10243e 46%,#081427 100%);
+ color:#edf6ff;isolation:isolate}
+.la-campus-canvas {position:absolute;inset:0;touch-action:none}
+.la-campus-canvas canvas {display:block;width:100%;height:100%}
+.la-campus-brand {position:absolute;left:18px;top:16px;display:flex;align-items:center;
+ gap:8px;pointer-events:none;text-shadow:0 1px 8px #0008}
+.la-campus-brand strong {font-weight:750;display:block;font-size:18px;line-height:1.25}
+.la-campus-brand small {display:block;font-size:11px;color:#a9bdd9;line-height:1.25}
+.la-campus-caption {position:absolute;bottom:14px;left:16px;color:#b7cde5;
+ font-size:12px;pointer-events:none;text-shadow:0 2px 8px #000}
+.la-campus-reset {position:absolute;right:18px;top:16px;width:40px;height:40px;
+ border:1px solid #3b5b84;border-radius:12px;color:#daeaff;background:#142b48;
+ font-size:25px;line-height:1;cursor:pointer}
+.la-campus-reset:hover {background:#234368}
+.la-campus-label {position:absolute;z-index:2;display:inline-block;transform:translate(-50%,-50%);
+ background:#08142df0;color:#f2f8ff;border:1px solid var(--campus-border,#4699c9);
+ border-radius:9px;padding:6px 11px;font-size:12px;font-weight:600;text-decoration:none;
+ white-space:nowrap;box-shadow:0 4px 20px #0008;transition:background .2s,border-color .2s;
+ visibility:hidden}
+.la-campus-label:hover,.la-campus-label:focus-visible {background:#163859;outline:2px solid #eff}
+.la-campus-label-dashboard {--campus-border:#36d7ff;font-size:14px}
+.la-campus-label-writing {--campus-border:#4de5a6}
+.la-campus-label-listening {--campus-border:#338ffd}
+.la-campus-label-reading {--campus-border:#ffb957}
+.la-campus-label-video {--campus-border:#ec498e}
+.la-campus-label-live {--campus-border:#38cfc8}
+.la-campus-label-speaking {--campus-border:#ba72ff}
+.la-campus-label-grammar {--campus-border:#e8bd4d}
+.la-campus-label-vocabulary {--campus-border:#f7689e}
+.la-campus-label-progress {--campus-border:#e6b65c}
+.la-campus-label-mocks {--campus-border:#73aaff}
+.la-campus-label-assignments {--campus-border:#bd76ec}
+.la-campus-fallback {position:absolute;inset:76px 20px 56px;display:none;align-content:center;
+ justify-content:center;flex-wrap:wrap;gap:8px;max-width:750px;margin:auto}
+.la-campus-fallback.visible {display:flex}
+.la-campus-fallback a {padding:10px;border-radius:9px;background:#1b3654;border:1px solid #47739b;color:white}
+.la-campus[data-campus-status="unavailable"] .la-campus-label,
+.la-campus:not([data-campus-status="ready"]) .la-campus-label {display:none}
+@media (max-width:650px) {.la-campus-brand strong{font-size:14px}.la-campus-brand small{font-size:9px}
+ .la-campus-label{font-size:9px;padding:4px 5px}.la-campus-caption{font-size:10px;max-width:75%}}
+@media (prefers-reduced-motion:reduce){.la-campus-label{transition:none}}
