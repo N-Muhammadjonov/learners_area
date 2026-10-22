@@ -5,6 +5,7 @@ import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileNav } from "./MobileNav";
 import { ThemeToggle } from "./ThemeToggle";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { BackToCampus } from "@/components/campus/BackToCampus";
 import { GlobalSearch } from "./GlobalSearch";
 import { ProfileMenu } from "./ProfileMenu";
 import type { Role } from "@/lib/auth/roles";
@@ -59,6 +60,7 @@ export function Topbar({
             lives inside it. See MobileNav. */}
         <MobileNav dict={dict} role={role} />
         <Breadcrumbs dict={dict} />
+        <BackToCampus />
       </div>
 
       <div className="flex min-w-0 shrink-0 justify-center lg:flex-[0_1_420px]">
