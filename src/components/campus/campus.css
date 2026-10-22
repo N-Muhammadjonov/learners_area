@@ -44,21 +44,21 @@
 [data-shell]:has([data-campus-world]) [data-shell-topbar]{
   display:flex!important;flex-wrap:nowrap!important;align-items:center!important;
   justify-content:flex-end!important;gap:clamp(4px,.7vw,12px)!important;
-  padding:6px clamp(10px,1vw,20px) 6px clamp(230px,25vw,345px)!important;
+  padding:6px clamp(8px,.9vw,18px)!important;
   min-width:0;z-index:50!important;
 }
 [data-shell]:has([data-campus-world]) [data-shell-topbar]>div{
   min-width:0;flex-shrink:1;grid-column:auto!important;grid-row:auto!important;
   order:initial!important;margin:0!important;
 }
-[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:first-child{
+[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:nth-child(2){
   display:none!important;
 }
-[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:nth-child(2){
+[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:nth-child(3){
   flex:1 1 280px!important;max-width:510px;min-width:125px;
 }
-[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:nth-child(3),
-[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:nth-child(4){
+[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:nth-child(4),
+[data-shell]:has([data-campus-world]) [data-shell-topbar]>div:nth-child(5){
   display:flex!important;flex:0 0 auto!important;flex-wrap:nowrap!important;
   align-items:center!important;justify-content:flex-end!important;gap:5px!important;
 }
@@ -82,7 +82,7 @@
 .la-campus .campus-labels-overlay{overflow:hidden!important}
 @media(max-width:920px){
  [data-shell]:has([data-campus-world]) [data-shell-topbar]{
-   padding-left:190px!important;gap:3px!important
+   padding-left:8px!important;gap:3px!important
  }
  .la-campus-brand{left:8px!important}
  .la-campus-brand strong{font-size:13px!important}
@@ -91,9 +91,15 @@
 }
 @media(max-width:660px){
  [data-shell]:has([data-campus-world]) [data-shell-topbar]{
-   padding-left:95px!important;overflow-x:auto!important
+   padding-left:6px!important;overflow-x:auto!important
  }
  .la-campus-brand small{display:none!important}
  .la-campus-brand strong{font-size:11px!important}
  .la-campus .campus-module-label{font-size:9px!important;padding:4px 6px!important}
 }
+
+/* The brand is now rendered inside Topbar, never duplicated on the 3D canvas. */
+.la-campus-brand{display:none!important}
+[data-campus-topbar-brand]{min-width:235px!important;max-width:275px;flex:0 0 auto!important}
+@media(max-width:1000px){[data-campus-topbar-brand]{min-width:165px!important}[data-campus-topbar-brand] strong{font-size:14px!important}[data-campus-topbar-brand] small{font-size:9px!important}}
+@media(max-width:720px){[data-campus-topbar-brand]{min-width:36px!important}[data-campus-topbar-brand]>span{display:none!important}}
