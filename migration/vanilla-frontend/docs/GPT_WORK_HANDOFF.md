@@ -1,3 +1,20 @@
+# V33 — BLOCKED acceptance checkpoint, no runtime implementation change
+
+Current release disposition: **EXTERNAL RELEASE ACCEPTANCE BLOCKED**. Review PARTIAL; Full IELTS/Retry Weak Areas FRONTEND CODE COMPLETE; Script NOT ADVANCED; Reading GATED. No owner approval/rule/signature obtained. Human project-owner role documented; specific signer/delegation and established accessible Phase2 approval mechanism not identified. Source of truth: V33_PHASE2_OWNER_DECISION_REQUEST.md (unsigned A–J), V33_CATALOGUE_ACCEPTANCE_HANDOFF.md (32sources/9workflows), V33_ACCEPTANCE_STATUS_MATRIX.md (13decisions), V33_REMAINING_EXTERNAL_DECISIONS.md. Targeted18provenance receipts reuse V32's audit, no new broad search or arbitrary native/Phase2 diagnostic.
+
+## CURRENT V33 HANDOFF (supersedes historical next tasks below)
+
+V32baseline b09c0e73c15b3adaf6fc9d8ab4f40cf9cbd42325 verified after safe359file75144582byte preservation and samebranch normalFF from9a7d. V32ZIP100238862bytes/2109members/SHA138fb550e9d28e4ec4ed266a6c53c8ea51f82dbf190646d88ac341cfaec69835 allCRC/Gitbytes/memberhash verified;37priorarchives preserved. V33tooling b17ec7be88e810a38e009106865257e029853408. Source/seal/final identities and fresh exact outcomes are external final V33_VERIFICATION.json/V33_VALIDATION.txt by existing source-only ZIP policy.
+
+Main new work is an OWNER-READY UNSIGNED decision request with A–J and exact chronology/scope, and catalogue/previous-attempt/publication handoff32sources/9workflows. No actual rule or signoff obtained. Human owner role identified but named signer/delegation/channel not verified; no approval from GitHubownership/demoOwner/taskexecution/oldDBTasdiqlayman. Ready for requester to route; no external submission fabricated. Test1codeUUID known,2–32currentauthorizedUUID binding not supplied; draft/waiting manifest declarations notlivepublication. Test11/22manifeststorage differsruntimecatalogue, documented only; don'trewrite originals. Existing authored-state current/latest fallback not arbitrary historicalselector; GETmaynormalizecheckpoint so don'tprobeproduction.
+
+ZERO extraPhase2/native studies. One mandatoryexact V33 verification544/499/418/14/4 with oldtests/names/timeouts,originalstrictinside499,4equivalent20samplecontrols,25assetsCSS,2104originals/history,tworepacks. Stop newmandatoryfailure, preserve evidence and write boundedplan; no unchangedretry. No newappdefect or runtime repair. No performanceimprovementclaim. V32−23nodes/152listeners/docs2;V31twelvePASSnotautomaticrelease;both3/1andallotherfailuresremainfailed. No blankpage/cancel/inspectorstudies, newGC/sleeps/budgets/security changes. 15mixed/30sourceproofspreserved, not additional matrices. Test10/25authoritativecorrectiononly. ExistingV16/V14/v27fixespreserved.
+
+Exact V34 continuation is in V33_REMAINING_EXTERNAL_DECISIONS.md and final validation/report: verify V33 identities/results/history, prioritize actualmandatoryfailure ifany; otherwise route actualownerpacket, obtain authenticated authority/rule/datescope and missingoriginalcontextstates, applyonlyauthorizedfiniteobservations with prewrittenrule; ifunavailable keepBLOCKED/ReviewPARTIAL/ScriptNOTADVANCED/ReadingGATED. No redesign/content/backend/Staff/Dictionary/main/deploy/retention changes.
+
+---
+## Historical handoff (preserved, not current instructions)
+
 # V32 current handoff — acceptance authority reconciled; supersedes older next-task instructions
 
 Exact V31 baseline cf5df0d8bce7e8b22a203a7458a4ac54e787f3d6, source98fd7ef0aea78ef457808857c91d041094dd1850/seal3daf82bd8194827fa9040ca00b5e59de998937e3; ZIPeed242e11efd12bfbee617836b48741449a2eaadb3b18df0508389959539837a/99738886bytes/2089members verified every Gitbyte/CRC/hash. Initial local=remote clean; no unexpected work. V32 tooling bc28d715772ec145963da59cadb36467d0f1b64d; NO runtime/oldtest/content/CSS/backend changes. Source/seal/final report identity and fresh exact outcomes are post-seal deliverables/V32_VERIFICATION.json and V32_VALIDATION.txt, not copied V31 PASS.
