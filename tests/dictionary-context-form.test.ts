@@ -22,4 +22,10 @@ test("an authored adverb degree form admits higher without choosing a meaning or
  assert.equal(matchesDictionaryContextForm(entry("high","a"),"higher"),true,"prices look higher uses an adjective, not the adverb in rose higher");
  assert.equal(matchesDictionaryContextForm(entry("high","adjective"),"highest"),true);
  assert.equal(matchesDictionaryContextForm(entry("height","n"),"higher"),false);
+ assert.equal(matchesDictionaryContextForm(entry("low","a"),"lower"),true,"lower consumption is an adjective, not the verb lower");
+ assert.equal(matchesDictionaryContextForm(entry("low","r"),"lowest"),true);
+ assert.equal(matchesDictionaryContextForm(entry("low","n"),"lower"),false);
+ assert.equal(matchesDictionaryContextForm(entry("low","a"),"slower"),false);
+ assert.equal(matchesDictionaryContextForm(entry("old","a"),"older"),true,"an older report is not restricted to the older entry's personal-age meaning");
+ assert.equal(matchesDictionaryContextForm(entry("old","n"),"older"),false);
 });

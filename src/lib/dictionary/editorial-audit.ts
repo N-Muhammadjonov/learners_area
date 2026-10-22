@@ -14,9 +14,10 @@ type RelationReview=ReviewStatus|{notApplicable:string;referenceUrl:string};
 export type SenseReview={senseId:string;meaningSha:string;studySha:string;reviewer:string;examples:ReviewStatus;synonyms:RelationReview;collocations:RelationReview};
 export type ContextReview={source:MaterialText["source"];sourceId:string;bodySha:string;start:number;end:number;surface:string;senseId:string;meaningSha:string;reviewer:string;formParts?:ContextFormPart[]};
 export type TextReview={source:MaterialText["source"];id:string;bodySha:string;reviewer:string;readInFull:boolean};
-export type GrammarReview={source:MaterialText["source"];sourceId:string;bodySha:string;start:number;end:number;surface:string;reviewer:string;reason:string;use:"modal_auxiliary"};
+export type GrammarReview={source:MaterialText["source"];sourceId:string;bodySha:string;start:number;end:number;surface:string;reviewer:string;reason:string;use:"modal_auxiliary"|"passive_auxiliary"};
 export type EditorialReview={senses:SenseReview[];contexts:ContextReview[];texts:TextReview[];grammar?:GrammarReview[]};
 const modalHomonym=(surface:string)=>/^(can|may|will)$/i.test(surface);
+const reviewedAuxiliaryForm=(review:GrammarReview)=>review.use==="modal_auxiliary"?modalHomonym(review.surface):review.use==="passive_auxiliary"&&/^being$/i.test(review.surface);
 
 /** Empty and explicit source placeholders are not transcripts. Word counts alone
  * are insufficient: a repeated "missing transcript" message is still missing. */
@@ -68,7 +69,7 @@ export function auditDictionaryEditorial(input:{entries:Entry[];presentation:(en
     &&Number.isInteger(review.start)&&Number.isInteger(review.end)&&review.start>=0&&review.end>review.start&&review.end<=text.body.length
     &&text.body.slice(review.start,review.end)===review.surface&&review.reviewer.trim()&&senses.get(review.senseId)?.hash===review.meaningSha
     &&matchesDictionaryContextForm(senses.get(review.senseId)!.entry,review.surface,review.formParts));
-  const grammar=(input.reviews.grammar??[]).filter(review=>review.source===text.source&&review.sourceId===text.id&&review.bodySha===bodySha&&review.reviewer.trim()&&review.reason.trim().length>=12&&review.use==="modal_auxiliary"&&modalHomonym(review.surface)&&Number.isInteger(review.start)&&Number.isInteger(review.end)&&review.start>=0&&review.end>review.start&&review.end<=text.body.length&&text.body.slice(review.start,review.end)===review.surface);
+  const grammar=(input.reviews.grammar??[]).filter(review=>review.source===text.source&&review.sourceId===text.id&&review.bodySha===bodySha&&review.reviewer.trim()&&review.reason.trim().length>=12&&reviewedAuxiliaryForm(review)&&Number.isInteger(review.start)&&Number.isInteger(review.end)&&review.start>=0&&review.end>review.start&&review.end<=text.body.length&&text.body.slice(review.start,review.end)===review.surface);
   // A can (container), May (month/name), will (wish/legal document), and US
   // (country) cannot disappear merely because their lowercase spelling is also
   // grammatical. An auxiliary exemption requires its own contextual receipt.

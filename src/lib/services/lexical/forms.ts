@@ -48,9 +48,12 @@ const IRREGULAR_NOUNS: Record<string, string> = {
 // admits "rose higher" as a form of adverb high; it does not choose a sense.
 const ADVERB_DEGREE_FORMS: Record<string, string[]> = {
   high: ["higher", "highest"],
+  low: ["lower", "lowest"],
 };
 const ADJECTIVE_DEGREE_FORMS: Record<string, string[]> = {
   high: ["higher", "highest"],
+  low: ["lower", "lowest"],
+  old: ["older", "oldest"],
 };
 
 const VOWEL = /[aeiou]/;

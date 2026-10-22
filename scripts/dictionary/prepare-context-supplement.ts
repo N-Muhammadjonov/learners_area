@@ -17,6 +17,9 @@ const source=JSON.parse(gunzipSync(readFileSync(sourceAdditions)).toString()) as
 if(source.report.sourceRelease!==plan.release)throw Error("supplement_release_mismatch");
 const additions=[...source.entries],combined=new Map(original.map(e=>[e.lexeme_id,e]));
 for(const entry of additions){entrySchema.parse(entry);combined.set(entry.lexeme_id,entry);}
+// All revision guards refer to the same immutable input, even when several
+// distinct missing meanings are appended to one head in this draft.
+const baseline=new Map(combined),newHeads=new Set<string>(),extendedHeads=new Set<string>();
 const corpus=JSON.parse(readFileSync(corpusPath,"utf8")) as {texts:{id:string;body:string}[]};
 for(const row of draft.entries){
  if(row.sourceMaterialId){
@@ -24,16 +27,27 @@ for(const row of draft.entries){
   if(matches.length!==1||sha(matches[0]!.body)!==row.sourceBodySha||!matches[0]!.body.includes(row.lemma))throw Error("supplement_owner_source_changed:"+row.lemma);
  }else if(row.sourceBodySha)throw Error("supplement_source_identity_missing");
  const norm=normalizeSearch(row.lemma),id=projectId("context-editorial-lexeme",norm+"|"+row.pos),senseId=projectId("context-editorial-sense",norm+"|"+row.pos+"|"+row.key);
- const existing=[...combined.values()].filter(e=>e.normalized_search_form===norm&&dictionaryPos(e.part_of_speech)===dictionaryPos(row.pos));
- if(existing.length&&(existing.length!==1||existing[0]!.lexeme_id!==row.targetLexemeId||entryContentHash(existing[0]!)!==row.expectedEntrySha))throw Error("existing_head_requires_explicit_sense_revision:"+row.lemma);
+ const initial=[...baseline.values()].filter(e=>e.normalized_search_form===norm&&dictionaryPos(e.part_of_speech)===dictionaryPos(row.pos));
+ const guarded=initial.find(e=>e.lexeme_id===row.targetLexemeId);
+ const existing=guarded?[combined.get(guarded.lexeme_id)!]:[...combined.values()].filter(e=>e.normalized_search_form===norm&&dictionaryPos(e.part_of_speech)===dictionaryPos(row.pos));
+ if(initial.length){
+  if(!guarded||entryContentHash(guarded)!==row.expectedEntrySha)throw Error("existing_head_requires_explicit_sense_revision:"+row.lemma);
+  extendedHeads.add(guarded.lexeme_id);
+ }else{
+  if(row.targetLexemeId||row.expectedEntrySha)throw Error("supplement_revision_target_missing:"+row.lemma);
+  if(existing.length>1)throw Error("ambiguous_supplement_head:"+row.lemma);
+  newHeads.add(id);
+ }
+ if(existing[0]?.senses.some(s=>s.sense_id===senseId))throw Error("supplement_duplicate_sense:"+row.lemma);
  const entry:Entry={schema_version:"1.0.0",release_id:plan.release,lexeme_id:id,display_lemma:row.lemma,normalized_search_form:norm,part_of_speech:row.pos,lexical_type:norm.includes(" ")?"fixed_expression":"word",homograph_group:null,is_satellite:false,pronunciations:[],forms:(row.forms??[]).map(surface_form=>({surface_form,form_type:"authored_context_form"})),relations:[],collocations:row.usageFrames.map(text=>({text,sense_id:senseId,pattern_type:"usage_frame"})),senses:[{sense_id:senseId,definition_en:row.definitionEn,definition_uz:row.translationUz,translations:[{translation_id:projectId("context-editorial-translation",senseId),text:row.translationUz,order:0}],examples:[{example_id:projectId("context-editorial-example",senseId+"|"+row.exampleEn),text_en:row.exampleEn,text_uz:row.exampleUz}],editorial:{status:"source_checked",translation_status:"ai_draft",reference_urls:[row.referenceUrl],provenance:"context_source_supplement"},...(row.pos==="proper noun"?{usage_label:"personal name"}:{})}],attribution:[{source_name:"Learners Area",snapshot_id:sha(draftBytes),creator:"Learners Area editorial assistant",source_url:row.referenceUrl,license_reference:"Original Learners Area editorial draft; references support facts only",license_url:"",attribution_text:"Original explanatory wording, Uzbek translation and usage example; not a copy of a referenced dictionary. AI editorial draft without independent human certification."}]};
  entrySchema.parse(entry);if(!exampleUsesEntry(entry,row.exampleEn))throw Error("supplement_example_missing_head:"+row.lemma);
  const target=existing[0],candidate=target?{...target,forms:[...target.forms,...entry.forms],senses:[...target.senses,...entry.senses],collocations:[...target.collocations,...entry.collocations],attribution:[...target.attribution,...entry.attribution]}:entry;
- if(additions.some(e=>e.lexeme_id===candidate.lexeme_id))throw Error("supplement_duplicate_target");
- entrySchema.parse(candidate);combined.set(candidate.lexeme_id,candidate);additions.push(candidate);
+ entrySchema.parse(candidate);combined.set(candidate.lexeme_id,candidate);
+ const index=additions.findIndex(e=>e.lexeme_id===candidate.lexeme_id);
+ if(index<0)additions.push(candidate);else additions[index]=candidate;
 }
-for(const before of original)for(const sense of before.senses)if(stableJson(combined.get(before.lexeme_id)!.senses.find(s=>s.sense_id===sense.sense_id))!==stableJson(sense))throw Error("original_sense_changed");
+for(const before of baseline.values())for(const sense of before.senses)if(stableJson(combined.get(before.lexeme_id)!.senses.find(s=>s.sense_id===sense.sense_id))!==stableJson(sense))throw Error("original_sense_changed");
 if(new Set(additions.map(e=>e.lexeme_id)).size!==additions.length)throw Error("supplement_duplicate_identity");
-const report={version:1,sourceRelease:plan.release,originalEntries:original.length,sourceSupplementEntries:source.entries.length,newContextEntries:draft.entries.filter(e=>!e.targetLexemeId).length,additiveExistingContextEntries:draft.entries.filter(e=>e.targetLexemeId).length,contextExamplePairs:draft.entries.length,usageFrames:draft.entries.reduce((n,e)=>n+e.usageFrames.length,0),inventedNameSynonyms:0,originalSenseFieldsChanged:0,published:false,contextAssignmentsMade:0};
+const report={version:1,sourceRelease:plan.release,originalEntries:original.length,sourceSupplementEntries:source.entries.length,newContextEntries:newHeads.size,additiveExistingContextEntries:extendedHeads.size,contextExamplePairs:draft.entries.length,usageFrames:draft.entries.reduce((n,e)=>n+e.usageFrames.length,0),inventedNameSynonyms:0,originalSenseFieldsChanged:0,published:false,contextAssignmentsMade:0};
 writeFileSync(out,gzipSync(stableJson({report,entries:additions})),{flag:"wx"});
 writeFileSync(out+".report.json",JSON.stringify(report,null,2)+"\n",{flag:"wx"});console.log(JSON.stringify(report));

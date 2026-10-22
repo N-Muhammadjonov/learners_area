@@ -55,3 +55,13 @@ test("a container can, a month May, a legal will and the country US cannot be sk
  review.grammar![0]!.bodySha="stale";
  assert.equal(audit(review,[{...material,body:modalBody}]).materialRows[0]!.unreviewedContentWordTokens,2);
 });
+
+test("being requires a source-relative passive auxiliary receipt or its own lexical meaning",()=>{
+ const body="The bank is being used.";
+ const grammar:NonNullable<EditorialReview["grammar"]>[number]={source:"reading",sourceId:material.id,bodySha:materialBodyHash(body),start:12,end:17,surface:"being",reviewer:"editor",reason:"Being forms the passive auxiliary construction being used.",use:"passive_auxiliary"};
+ const review:EditorialReview={senses:[],texts:[],contexts:[],grammar:[grammar]};
+ assert.equal(audit(review,[{...material,body}]).materialRows[0]!.unreviewedContentWordTokens,2,"bank and used still require lexical meanings");
+ assert.equal(audit({senses:[],texts:[],contexts:[]},[{...material,body:"A living being."}]).materialRows[0]!.unreviewedContentWordTokens,2,"the noun being is not globally excluded");
+ grammar.use="modal_auxiliary";assert.equal(audit(review,[{...material,body}]).materialRows[0]!.unreviewedContentWordTokens,3);
+ grammar.use="passive_auxiliary";grammar.bodySha="stale";assert.equal(audit(review,[{...material,body}]).materialRows[0]!.unreviewedContentWordTokens,3);
+});

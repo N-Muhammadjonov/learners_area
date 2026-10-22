@@ -275,6 +275,30 @@
         "hold soil",
         "hold flowers"
       ]
+    },
+    {
+      "lemma": "unrelated",
+      "pos": "a",
+      "synsetId": "01981804-a",
+      "translationUz": "aloqasi yo‘q; bog‘liq bo‘lmagan",
+      "exampleEn": "Javed covered unrelated personal details before uploading the document.",
+      "exampleUz": "Javed hujjatni yuklashdan oldin ishga aloqasi bo‘lmagan shaxsiy ma’lumotlarni yopdi.",
+      "collocations": [
+        "unrelated personal details",
+        "seemingly unrelated events"
+      ]
+    },
+    {
+      "lemma": "handwritten",
+      "pos": "a",
+      "synsetId": "02293141-s",
+      "translationUz": "qo‘lda yozilgan",
+      "exampleEn": "A handwritten date appeared on the envelope.",
+      "exampleUz": "Konvertda qo‘lda yozilgan sana bor edi.",
+      "collocations": [
+        "a handwritten note",
+        "a handwritten date"
+      ]
     }
   ]
 }

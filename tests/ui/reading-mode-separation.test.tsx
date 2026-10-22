@@ -115,7 +115,14 @@ test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word targe
       await act(async()=> (document.querySelector("[data-highlight-control] button") as HTMLButtonElement).click());
       assert.equal(surface.querySelector("mark")?.textContent,"bank");
       assert.equal(surface.textContent,body,"highlight does not change text offsets");
-      await act(async()=> (document.querySelector("[data-reading-remove-highlight]") as HTMLButtonElement).click());
+      assert.equal(document.querySelector("[data-reading-remove-highlight]"),null,"there is no permanent remove-highlight button");
+      const highlighted=surface.querySelector("mark")!;
+      const selectedHighlight=document.createRange();selectedHighlight.setStart(highlighted.firstChild!,0);selectedHighlight.setEnd(highlighted.firstChild!,highlighted.textContent!.length);
+      window.getSelection()!.removeAllRanges();window.getSelection()!.addRange(selectedHighlight);
+      await act(async()=>surface.dispatchEvent(new dom.window.KeyboardEvent("keyup",{key:"Shift",bubbles:true})));
+      const remove=document.querySelector("[data-highlight-control] button") as HTMLButtonElement;
+      assert.equal(remove.textContent,en.listening.general.clearHighlight,"removal is offered only for the selected highlighted text");
+      await act(async()=>remove.click());
       assert.equal(surface.querySelector("mark"),null);
       assert.equal(surface.textContent,body,"removal never deletes text");
       assert.deepEqual(net.urls.filter(url=>url.includes("/api/vocabulary")),[]);
