@@ -5,8 +5,11 @@
   background:#0b1930!important;color:#eaf3ff;border-color:#233c61!important
 }
 [data-shell]:has([data-campus-world]) [data-shell-main] {background:#0b1930;overflow:hidden}
-[data-shell-main]:has([data-campus-world]) > div {max-width:none!important;height:100%;padding:0!important}
-.la-campus {height:100%;min-height:350px;position:relative;overflow:hidden;
+[data-shell-main]:has([data-campus-world]) > div {max-width:none!important;height:100%;padding:0!important;min-height:0}
+[data-shell-main]:has([data-campus-world]) [data-workspace-transition],
+[data-shell-main]:has([data-campus-world]) [data-workspace-content] {height:100%;min-height:0}
+[data-shell-main]:has([data-campus-world]) {height:100%;min-height:0}
+.la-campus {height:100%;min-height:0;position:relative;overflow:hidden;
  background:radial-gradient(ellipse at 50% 43%,#1d3459 0%,#10243e 46%,#081427 100%);
  color:#edf6ff;isolation:isolate}
 .la-campus-canvas {position:absolute;inset:0;touch-action:none}
