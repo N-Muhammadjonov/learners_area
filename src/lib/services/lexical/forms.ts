@@ -49,6 +49,7 @@ const IRREGULAR_NOUNS: Record<string, string> = {
 const ADVERB_DEGREE_FORMS: Record<string, string[]> = {
   high: ["higher", "highest"],
   low: ["lower", "lowest"],
+  long: ["longer", "longest"],
 };
 const ADJECTIVE_DEGREE_FORMS: Record<string, string[]> = {
   high: ["higher", "highest"],

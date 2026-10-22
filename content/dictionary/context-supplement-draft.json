@@ -1982,6 +1982,564 @@
       "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/need",
       "targetLexemeId": "a842b529-86b3-530e-b1a8-ce25efbc8c3b",
       "expectedEntrySha": "64b2aacf2e821510436c78e6c9c5b3e7d3c714fc79298f15a3a4e9afe6e0de09"
+    },
+    {
+      "lemma": "capture",
+      "pos": "v",
+      "key": "record-image-or-sound",
+      "definitionEn": "To record something as an image, video or sound so that it can be seen or heard again.",
+      "translationUz": "tasvir, video yoki ovoz ko‘rinishida qayd etmoq; kameraga olmoq",
+      "exampleEn": "The camera captured the larger fish but missed the smaller ones.",
+      "exampleUz": "Kamera yirikroq baliqlarni tasvirga oldi, ammo kichikroqlarini qayd etmadi.",
+      "usageFrames": [
+        "capture an image",
+        "capture fish on camera"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/capture",
+      "targetLexemeId": "5dbdf91a-5314-5c64-8a83-4074b741f449",
+      "expectedEntrySha": "0a203445cdb0cd12cba51c281567a0bf451a868c99a8719f78d64bd24e713a50"
+    },
+    {
+      "lemma": "intelligible",
+      "pos": "a",
+      "key": "able-to-be-understood",
+      "definitionEn": "Clear enough in meaning for someone to understand.",
+      "translationUz": "mazmuni tushunarli; tushunish mumkin bo‘lgan",
+      "exampleEn": "The report made the limits of the camera method intelligible.",
+      "exampleUz": "Hisobot kamera usulining cheklovlarini tushunarli qilib izohladi.",
+      "usageFrames": [
+        "make the limits intelligible",
+        "an intelligible explanation"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/intelligible",
+      "targetLexemeId": "6dc306bc-33c0-5ef4-828c-b6e2fa2c8c1b",
+      "expectedEntrySha": "1b5a319397dad5cb6c3cae69b5a27ac4dda6ec8f542a3b8681b90602ec435c9f",
+      "synonyms": [
+        {
+          "entryId": "7728a5a2-3199-5b61-a842-01e24768a451",
+          "senseId": "99b3637f-9b38-436e-a62e-e2c03e8690b2",
+          "meaningSha": "b5df4f571b9e7285825fa359c4f6dae8d37d392115c9843735c89555075f6363"
+        }
+      ]
+    },
+    {
+      "lemma": "across",
+      "pos": "preposition",
+      "key": "range-of-groups-or-periods",
+      "definitionEn": "In the different groups, places, periods or situations within the range named.",
+      "translationUz": "ko‘rsatilgan turli guruhlar, davrlar yoki holatlar bo‘ylab; ularning barchasida",
+      "exampleEn": "The researchers checked whether the estimates stayed reliable across different seasons.",
+      "exampleUz": "Tadqiqotchilar taxminiy hisoblar turli fasllarda ham ishonchli qolishini tekshirdi.",
+      "usageFrames": [
+        "across different seasons",
+        "across several groups"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/across"
+    },
+    {
+      "lemma": "small print",
+      "pos": "n",
+      "key": "less-prominent-important-details",
+      "definitionEn": "Important details printed in smaller or less noticeable text, often containing conditions or qualifications.",
+      "translationUz": "mayda yozuvdagi muhim tafsilotlar, shartlar yoki cheklovlar",
+      "exampleEn": "The report explained its limitations clearly instead of hiding them in small print.",
+      "exampleUz": "Hisobot cheklovlarni mayda yozuvga yashirmay, aniq tushuntirdi.",
+      "usageFrames": [
+        "read the small print",
+        "a caveat in small print"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/small-print",
+      "targetLexemeId": "a921f944-371b-5cd9-b277-e1bb7b461c2a",
+      "expectedEntrySha": "63be51355eb322fd47527c8d08d072245b08b232c75bd464ad88cab26b4ccc2d"
+    },
+    {
+      "lemma": "railway station",
+      "pos": "n",
+      "key": "place-for-train-passengers",
+      "definitionEn": "A place on a railway where trains stop so that passengers can get on or off.",
+      "translationUz": "temiryo‘l vokzali yoki bekati; yo‘lovchilar poyezdga chiqadigan va tushadigan joy",
+      "exampleEn": "The restaurant stood inside a busy railway station.",
+      "exampleUz": "Restoran gavjum temiryo‘l vokzali ichida joylashgan edi.",
+      "usageFrames": [
+        "a railway station restaurant",
+        "arrive at the railway station"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/railway-station",
+      "synonyms": [
+        {
+          "entryId": "d914af7a-75e3-511d-a951-10ffa7e74b60",
+          "senseId": "ab2f1ab6-2626-5ed0-9571-51c43b7a09b3",
+          "meaningSha": "cbe2cf294a3ffdd8d16e0761d67b01c5ded3fb8d2e1dcb61452b8be264379774"
+        }
+      ]
+    },
+    {
+      "lemma": "regardless of",
+      "pos": "preposition",
+      "key": "without-being-affected-by",
+      "definitionEn": "Without allowing the fact or condition named to change what happens.",
+      "translationUz": "...dan qat’i nazar; ...ni hisobga olmagan holda",
+      "exampleEn": "The kitchen prepared the same amount regardless of how busy the station was.",
+      "exampleUz": "Oshxona vokzal qanchalik gavjumligidan qat’i nazar, bir xil miqdorda taom tayyorlar edi.",
+      "usageFrames": [
+        "regardless of demand",
+        "regardless of whether it is busy"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/regardless-of"
+    },
+    {
+      "lemma": "though",
+      "pos": "conjunction",
+      "key": "concession-although",
+      "definitionEn": "Introduces a fact that contrasts with the main statement, meaning although.",
+      "translationUz": "... bo‘lsa ham; garchi",
+      "exampleEn": "Waste fell, though the restaurant had also had fewer customers.",
+      "exampleUz": "Chiqindi kamaydi, garchi restoranga kelgan mijozlar ham kamroq bo‘lgan bo‘lsa-da.",
+      "usageFrames": [
+        "though there were fewer customers",
+        "though the result looked positive"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/grammar/british-grammar/though"
+    },
+    {
+      "lemma": "alongside",
+      "pos": "preposition",
+      "key": "together-with-for-comparison",
+      "definitionEn": "Together with another item, so that both are included or considered.",
+      "translationUz": "... bilan birga; taqqoslash uchun ... bilan yonma-yon",
+      "exampleEn": "Staff recorded food waste alongside the number of meals sold.",
+      "exampleUz": "Xodimlar ovqat chiqindisini sotilgan taomlar soni bilan birga qayd etdi.",
+      "usageFrames": [
+        "record waste alongside sales",
+        "consider the result alongside other evidence"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/alongside"
+    },
+    {
+      "lemma": "overturn",
+      "pos": "v",
+      "key": "invalidate-existing-belief",
+      "definitionEn": "To show that an established belief or assumption is wrong and should be rejected.",
+      "translationUz": "mavjud qarash yoki taxminning noto‘g‘riligini ko‘rsatib, uni rad etmoq",
+      "exampleEn": "The measurements overturned the assumption that diners caused most of the waste.",
+      "exampleUz": "O‘lchovlar chiqindining ko‘piga mijozlar sabab bo‘ladi degan taxminni rad etdi.",
+      "usageFrames": [
+        "overturn an assumption",
+        "overturn a previously accepted idea"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/overturn",
+      "targetLexemeId": "87616fec-b991-52c8-a476-5650278a20f8",
+      "expectedEntrySha": "5c234a83fe3d9c59ae6af21509652572189f604fe940acf1113f5b715e785236",
+      "synonyms": [
+        {
+          "entryId": "a6490b50-28ad-5fbc-b581-bc092efd3629",
+          "senseId": "07835581-437a-4565-bf01-298178441dc6",
+          "meaningSha": "306595a2df836de3a1242675e8e68ba9be726c4acf4d58307e0d02ef9df5975d"
+        }
+      ]
+    },
+    {
+      "lemma": "quietly",
+      "pos": "r",
+      "key": "without-attracting-attention",
+      "definitionEn": "In a way that other people do not readily notice.",
+      "translationUz": "sezilmasdan; ko‘pchilikning e’tiborini tortmagan holda",
+      "exampleEn": "Remote working had quietly extended the working day.",
+      "exampleUz": "Masofadan ishlash ish kunini sezilmasdan uzaytirib yuborgan edi.",
+      "usageFrames": [
+        "quietly extend working hours",
+        "quietly introduce a change"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/quietly?topic=silence-and-quiet",
+      "targetLexemeId": "f0086882-2382-5b05-bb38-945690a19ff8",
+      "expectedEntrySha": "10ffc7faf06735d35b8f4be58154c8f2bb9523ac6aa551812b4d4f285852a01c",
+      "synonyms": [
+        {
+          "entryId": "734d6cb7-d89c-590f-9de4-17b30cca7377",
+          "senseId": "24fc43fb-b843-54ea-b89f-c9949f3cf3cb",
+          "meaningSha": "8e34e15fc8bdcfc660c77739351f646f37975442679ca6f07926d8a1024aca77"
+        }
+      ]
+    },
+    {
+      "lemma": "survey",
+      "pos": "n",
+      "key": "research-by-asking-questions",
+      "definitionEn": "An investigation that collects people's answers to questions about their experiences or opinions.",
+      "translationUz": "so‘rov; odamlarning tajribasi yoki fikrini savollar orqali o‘rganish",
+      "exampleEn": "A staff survey identified evening messages as a source of stress.",
+      "exampleUz": "Xodimlar so‘rovi kechki xabarlar ruhiy bosim manbai ekanini ko‘rsatdi.",
+      "usageFrames": [
+        "a staff survey",
+        "carry out a survey"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/survey",
+      "targetLexemeId": "5c7953cb-6627-5da6-bd2b-c3bc77a108d6",
+      "expectedEntrySha": "b2efbcb2db4d1039ef839ad1e655863acfd83d12fff1439fb9194b0b61dd6ba7"
+    },
+    {
+      "lemma": "director",
+      "pos": "n",
+      "key": "organization-manager",
+      "definitionEn": "A senior person responsible for running an organization or one of its departments.",
+      "translationUz": "direktor; tashkilot yoki bo‘limni boshqaradigan rahbar",
+      "exampleEn": "The director agreed to review the company's messaging policy.",
+      "exampleUz": "Direktor kompaniyaning xabar almashish qoidasini qayta ko‘rib chiqishga rozi bo‘ldi.",
+      "usageFrames": [
+        "the company director",
+        "a department director"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/director",
+      "targetLexemeId": "ca191653-05fb-5d49-9b30-5f3b243a881b",
+      "expectedEntrySha": "15c24d1d5a888b9630c4bdd36c1de54184aef997d3b374cbe4c7cc62112d07f3"
+    },
+    {
+      "lemma": "time zone",
+      "pos": "n",
+      "key": "region-with-standard-local-time",
+      "definitionEn": "A region whose clocks follow the same standard local time.",
+      "translationUz": "vaqt mintaqasi; bir xil mahalliy vaqt amal qiladigan hudud",
+      "exampleEn": "Colleagues in different time zones agreed on shared working hours.",
+      "exampleUz": "Turli vaqt mintaqalaridagi hamkasblar birgalikda ishlash vaqtini kelishib oldi.",
+      "usageFrames": [
+        "in different time zones",
+        "work across time zones"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/time-zone",
+      "forms": [
+        "time zones"
+      ]
+    },
+    {
+      "lemma": "provided",
+      "pos": "conjunction",
+      "key": "on-condition-that",
+      "definitionEn": "Introduces a condition that must be met for the main statement to apply.",
+      "translationUz": "... sharti bilan; agar ... bo‘lsa",
+      "exampleEn": "Teams could choose their hours, provided everyone understood the urgent channel.",
+      "exampleUz": "Hamma shoshilinch aloqa kanalini tushunishi sharti bilan, jamoalar ish vaqtini tanlashi mumkin edi.",
+      "usageFrames": [
+        "provided everyone agrees",
+        "provided the request is urgent"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/provided?topic=connecting-words-which-express-a-condition"
+    },
+    {
+      "lemma": "alert",
+      "pos": "n",
+      "key": "digital-message-notification",
+      "definitionEn": "A sound or on-screen notice that draws attention to a new message or event.",
+      "translationUz": "bildirishnoma; yangi xabar yoki hodisa kelganini bildiradigan signal",
+      "exampleEn": "Incoming alerts interrupted employees during dinner.",
+      "exampleUz": "Kiruvchi bildirishnomalar xodimlarni kechki ovqat paytida chalg‘itar edi.",
+      "usageFrames": [
+        "incoming email alerts",
+        "turn off message alerts"
+      ],
+      "referenceUrl": "https://support.google.com/mail/answer/1075549?hl=en",
+      "targetLexemeId": "8ce6e437-adfb-561f-9908-458d120efdd9",
+      "expectedEntrySha": "6415ec5ba6451991b25c8d98d0a5137928aca24e5095d467a169568c668d35f6",
+      "synonyms": [
+        {
+          "entryId": "cf97af6a-84b2-5d1b-8bac-52a3c331461e",
+          "senseId": "a38fef97-7f8e-5cab-8ac0-f4046a3b28db",
+          "meaningSha": "0d538fcf071badfb90aee9b12ff51fb8751f8298d94b0a95b3d5f9e7f74d1ea7"
+        }
+      ]
+    },
+    {
+      "lemma": "expectation",
+      "pos": "n",
+      "key": "standard-of-behaviour-expected",
+      "definitionEn": "A belief about the standard of behaviour or performance that someone ought to meet.",
+      "translationUz": "kutiladigan talab; kimdir qanday ishlashi yoki o‘zini tutishi kerakligi haqidagi tasavvur",
+      "exampleEn": "Employees felt pressure from their own expectations of constant availability.",
+      "exampleUz": "Xodimlar doim aloqada bo‘lish kerak degan o‘z talablaridan bosim his qilardi.",
+      "usageFrames": [
+        "unrealistic expectations of staff",
+        "meet professional expectations"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/expectation",
+      "targetLexemeId": "c859b2bb-0040-5fad-b5a4-05a4cd146999",
+      "expectedEntrySha": "0d48a34324b59110d0c61366ef558e3522af9b2d41b0ef0444de1be1dd5fb8e9"
+    },
+    {
+      "lemma": "like",
+      "pos": "preposition",
+      "key": "similar-to",
+      "definitionEn": "Used to compare someone or something with a similar person, thing, or situation.",
+      "translationUz": "...ga o‘xshab; ...dek; ...kabi",
+      "exampleEn": "A delayed reply no longer felt like a professional failure.",
+      "exampleUz": "Kechikkan javob endi kasbiy muvaffaqiyatsizlikdek tuyulmas edi.",
+      "usageFrames": [
+        "feel like a failure",
+        "look like a solution"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/learner-english/like"
+    },
+    {
+      "lemma": "no longer",
+      "pos": "idiom",
+      "key": "past-state-has-ended",
+      "definitionEn": "Used to say that a situation or action existed before but has now stopped.",
+      "translationUz": "endi ... emas; endi ... qilmaydi",
+      "exampleEn": "Employees no longer treated every evening message as urgent.",
+      "exampleUz": "Xodimlar endi har bir kechki xabarni shoshilinch deb hisoblamas edi.",
+      "usageFrames": [
+        "no longer feel pressured",
+        "no longer work late"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/no-longer"
+    },
+    {
+      "lemma": "response time",
+      "pos": "n",
+      "key": "time-taken-to-reply",
+      "definitionEn": "The period between receiving a request or message and responding to it.",
+      "translationUz": "javob berish muddati; so‘rov yoki xabar kelganidan unga javob berilguncha o‘tadigan vaqt",
+      "exampleEn": "Managers stated realistic response times for routine messages.",
+      "exampleUz": "Rahbarlar oddiy xabarlarga javob berish uchun maqbul muddatlarni belgiladi.",
+      "usageFrames": [
+        "agree on response times",
+        "a reasonable response time"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/response-time?topic=specific-periods-of-time",
+      "forms": [
+        "response times"
+      ]
+    },
+    {
+      "lemma": "pass",
+      "pos": "v",
+      "key": "meet-test-requirements",
+      "definitionEn": "To meet the required standard in a test or inspection.",
+      "translationUz": "sinov yoki tekshiruvdan muvaffaqiyatli o‘tmoq; talabga javob bermoq",
+      "exampleEn": "The lift passed the supervised safety trials.",
+      "exampleUz": "Lift nazorat ostidagi xavfsizlik sinovlaridan muvaffaqiyatli o‘tdi.",
+      "usageFrames": [
+        "pass a safety test",
+        "pass an inspection"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/pass_1",
+      "targetLexemeId": "a170f90d-6fdb-5006-9cf9-c3c2aff4de54",
+      "expectedEntrySha": "1a141a490c844fd6698a8ce6fafbe62a08cbe6c8ed115a6058b89a566fb4923e"
+    },
+    {
+      "lemma": "shortly",
+      "pos": "r",
+      "key": "short-interval-before-or-after",
+      "definitionEn": "With only a small interval of time before or after the event mentioned.",
+      "translationUz": "sal oldin yoki ko‘p o‘tmay; qisqa vaqt farqi bilan",
+      "exampleEn": "The lift stopped shortly after heavy objects were loaded.",
+      "exampleUz": "Og‘ir buyumlar yuklanganidan ko‘p o‘tmay lift to‘xtadi.",
+      "usageFrames": [
+        "shortly after loading",
+        "shortly before the inspection"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/learner-english/shortly",
+      "targetLexemeId": "77fc0294-5567-5c93-bae6-cccd65ccb41c",
+      "expectedEntrySha": "b99599d0ca5955bbe8f71451e0c289c5f7771e1cfac8feddb1cea43bcce46ef9"
+    },
+    {
+      "lemma": "language",
+      "pos": "n",
+      "key": "words-and-style-used",
+      "definitionEn": "The words and expressions chosen to communicate something, including their style or tone.",
+      "translationUz": "ifoda usuli; fikrni bildirish uchun tanlangan so‘z va iboralar",
+      "exampleEn": "Reassuring language alone did not prove that the lift was safe.",
+      "exampleUz": "Faqat xotirjam qiluvchi iboralar lift xavfsizligini isbotlamas edi.",
+      "usageFrames": [
+        "reassuring language",
+        "use clear language"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/language",
+      "targetLexemeId": "b0f4a2ba-789b-5ebe-a4bd-71729a11cba4",
+      "expectedEntrySha": "bedb18ef1ba00d6becd758513de3821e0650185472731e4d968780d019d91dd5",
+      "synonyms": [
+        {
+          "entryId": "6a7f5aa7-1f3a-59ac-a713-c03a666d56a3",
+          "senseId": "b86f0f39-15ef-4077-bcac-3a230264e9f3",
+          "meaningSha": "bd5d995f6ab7f1275a80cb46f0186d48e6077e1b35d3b54bb2854d48f6b7af95"
+        }
+      ]
+    },
+    {
+      "lemma": "log",
+      "pos": "n",
+      "key": "systematic-record-of-events",
+      "definitionEn": "A written or electronic record in which events, problems, or actions are entered in order.",
+      "translationUz": "qayd jurnali; voqea, muammo yoki bajarilgan ishlar ketma-ket yoziladigan qaydnoma",
+      "exampleEn": "Residents entered each lift fault in a central log.",
+      "exampleUz": "Aholi liftdagi har bir nosozlikni umumiy qayd jurnaliga yozdi.",
+      "usageFrames": [
+        "keep a maintenance log",
+        "enter a fault in the log"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/log_1",
+      "targetLexemeId": "3a765e2b-1e86-58b7-9f5a-9aa8926291df",
+      "expectedEntrySha": "4e35e95bcfbd40d263abce75fe1743a2f1a4175a4900b7baa3c007978e8e7f46"
+    },
+    {
+      "lemma": "through",
+      "pos": "preposition",
+      "key": "by-means-of-channel",
+      "definitionEn": "By using the method, person, or communication channel named.",
+      "translationUz": "... orqali; ... vositasida",
+      "exampleEn": "Residents reported faults through a shared maintenance log.",
+      "exampleUz": "Aholi nosozliklar haqida umumiy texnik qayd jurnali orqali xabar berdi.",
+      "usageFrames": [
+        "report a fault through the system",
+        "communicate through a representative"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/through_1"
+    },
+    {
+      "lemma": "second-hand",
+      "pos": "a",
+      "key": "previously-owned",
+      "definitionEn": "Previously owned or used by someone else before being sold or given to another person.",
+      "translationUz": "ishlatilgan; avval boshqa birovga tegishli bo‘lgan",
+      "exampleEn": "She found the film inside a second-hand camera.",
+      "exampleUz": "U plyonkani ishlatilgan fotoapparat ichidan topdi.",
+      "usageFrames": [
+        "a second-hand camera",
+        "buy second-hand equipment"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/second-hand_2",
+      "synonyms": [
+        {
+          "entryId": "e3394a46-d6e5-5512-91b0-44bb58d9ce01",
+          "senseId": "6065d0b9-630b-481f-82b8-b1c5652a942a",
+          "meaningSha": "07caa8d7c55b651f55c5ebc2db5c6ef50269a967b8afdd56744b49210c45ec95"
+        }
+      ]
+    },
+    {
+      "lemma": "social media",
+      "pos": "n",
+      "key": "online-sharing-platforms",
+      "definitionEn": "Internet services through which people share posts, pictures, and messages with other users.",
+      "translationUz": "ijtimoiy tarmoqlar; foydalanuvchilar xabar va surat ulashadigan internet xizmatlari",
+      "exampleEn": "The photographer did not put the wedding pictures on social media.",
+      "exampleUz": "Fotograf to‘y suratlarini ijtimoiy tarmoqlarga joylamadi.",
+      "usageFrames": [
+        "post a picture on social media",
+        "public social media accounts"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/social-media"
+    },
+    {
+      "lemma": "digital",
+      "pos": "a",
+      "key": "electronic-information-format",
+      "definitionEn": "Stored or represented as electronic data that a computer can process.",
+      "translationUz": "raqamli; kompyuterda qayta ishlash va saqlash mumkin bo‘lgan elektron shakldagi",
+      "exampleEn": "She gave the family digital copies of the photographs.",
+      "exampleUz": "U oilaga fotosuratlarning raqamli nusxalarini berdi.",
+      "usageFrames": [
+        "digital copies of photographs",
+        "store digital images"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/digital",
+      "targetLexemeId": "553f1adb-28af-5122-93e7-ee5a368bd5e9",
+      "expectedEntrySha": "345ef2d111bed47df202c9bcdc6857da75c91a7573b32053b366d66684d47fa6"
+    },
+    {
+      "lemma": "off",
+      "pos": "preposition",
+      "key": "excluded-from-place-or-platform",
+      "definitionEn": "Away from or not included on the place, surface, or platform mentioned.",
+      "translationUz": "...dan chetda; ...ga chiqarmasdan yoki joylamasdan",
+      "exampleEn": "She kept the private photographs off public websites.",
+      "exampleUz": "U shaxsiy fotosuratlarni ommaviy saytlarga joylamadi.",
+      "usageFrames": [
+        "keep photographs off social media",
+        "keep personal details off public pages"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/off_2"
+    },
+    {
+      "lemma": "within",
+      "pos": "preposition",
+      "key": "before-period-ends",
+      "definitionEn": "Before the end of the period of time mentioned.",
+      "translationUz": "... ichida; belgilangan muddat tugashidan oldin",
+      "exampleEn": "Complaints appeared within a week of the benches being installed.",
+      "exampleUz": "O‘rindiqlar o‘rnatilganidan keyin bir hafta ichida shikoyatlar kelib tushdi.",
+      "usageFrames": [
+        "within a week",
+        "within the agreed time"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/within_1"
+    },
+    {
+      "lemma": "measurement",
+      "pos": "n",
+      "key": "measured-size-or-quantity",
+      "definitionEn": "A number or set of numbers showing the size, distance, or quantity that has been measured.",
+      "translationUz": "o‘lcham; o‘lchab aniqlangan kattalik, masofa yoki miqdor",
+      "exampleEn": "The measurements on the old map no longer matched the path.",
+      "exampleUz": "Eski xaritadagi o‘lchamlar endi yo‘lakka mos kelmas edi.",
+      "usageFrames": [
+        "check the path measurements",
+        "take accurate measurements"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/measurement",
+      "targetLexemeId": "666701a1-7e3c-5736-96ca-47c4d4f25a0b",
+      "expectedEntrySha": "7fbca212426dbc60af9024c5b03b0f8961c9561d324036c336fa92c8f377fead"
+    },
+    {
+      "lemma": "landscape designer",
+      "pos": "n",
+      "key": "outdoor-space-planner",
+      "definitionEn": "A person who plans the layout and planting of outdoor spaces such as gardens or parks.",
+      "translationUz": "landshaft dizayneri; bog‘ va xiyobon kabi ochiq joylarning tuzilishi va o‘simliklarini rejalashtiruvchi mutaxassis",
+      "exampleEn": "The landscape designer asked wheelchair users to test the path.",
+      "exampleUz": "Landshaft dizayneri nogironlik aravachasidan foydalanuvchilardan yo‘lakni sinab ko‘rishni so‘radi.",
+      "usageFrames": [
+        "consult a landscape designer",
+        "a landscape designer's plan"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/landscape-designer"
+    },
+    {
+      "lemma": "capture",
+      "pos": "v",
+      "key": "represent-features-accurately",
+      "definitionEn": "To represent the important or true features of something in a picture, description, or other record.",
+      "translationUz": "muhim yoki haqiqiy jihatlarni aniq aks ettirmoq",
+      "exampleEn": "A drawing cannot capture every obstacle people encounter on the path.",
+      "exampleUz": "Chizma odamlar yo‘lakda duch keladigan har bir to‘siqni aniq aks ettira olmaydi.",
+      "usageFrames": [
+        "capture the actual layout",
+        "capture important details"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/capture_1",
+      "targetLexemeId": "5dbdf91a-5314-5c64-8a83-4074b741f449",
+      "expectedEntrySha": "0a203445cdb0cd12cba51c281567a0bf451a868c99a8719f78d64bd24e713a50"
+    },
+    {
+      "lemma": "station",
+      "pos": "n",
+      "key": "train-passenger-stop",
+      "definitionEn": "A place where trains stop for passengers to get on or off.",
+      "translationUz": "vokzal yoki temiryo‘l bekati; poyezd yo‘lovchilari chiqib-tushadigan joy",
+      "exampleEn": "The station was quieter than usual at the weekend.",
+      "exampleUz": "Dam olish kunlari vokzal odatdagidan tinchroq edi.",
+      "usageFrames": [
+        "a busy station",
+        "arrive at the station"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/station",
+      "targetLexemeId": "d914af7a-75e3-511d-a951-10ffa7e74b60",
+      "expectedEntrySha": "528f736235976c4e66095596bd6c7bede2071abe9fff00c46ad28946cc068286",
+      "synonyms": [
+        {
+          "entryId": "349f312d-8aca-59bb-a5c2-8a5fe6d722ad",
+          "senseId": "38c8bfb7-e6b8-5643-9010-d9420bd0d7cb",
+          "meaningSha": "e699bbcdc53dec913421e1fd8a5acdd20ae018a57893b910368c1732b7271b00"
+        }
+      ]
     }
   ]
 }

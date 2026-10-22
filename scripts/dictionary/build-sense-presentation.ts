@@ -16,12 +16,15 @@ export function buildPresentations(entries:Entry[],curation:Curation){
  const stats={entries:entries.length,senses:0,sourceRelations:0,sourceExamples:0,matchingExamples:0,hiddenUnrelatedExamples:0,synonymLinks:0,phraseLinks:0,sensesWithSynonyms:0,sensesWithPhrases:0,authoredExamples:0};
  for(const entry of entries){for(const sense of entry.senses){const key=dictionaryPos(entry.part_of_speech)+':'+gloss(sense.definition_en),g=groups.get(key)??[];g.push({entry,sense});groups.set(key,g);}for(const term of new Set(usageNorm(entry.display_lemma).split(' '))){const list=terms.get(term)??[];list.push(entry);terms.set(term,list);}}
  const result=new Map<string,StoredPresentation>();
+ const targets=new Map(entries.flatMap(entry=>entry.senses.map(sense=>[sense.sense_id,{entry,sense}]as const)));
  for(const entry of entries){const senses:StoredPresentation['senses']={};stats.sourceRelations+=entry.relations.length;
   const words=usageNorm(entry.display_lemma).split(' '),candidates=(terms.get(words[0]!)??[]).filter(p=>p.lexeme_id!==entry.lexeme_id&&usageNorm(p.display_lemma)!==usageNorm(entry.display_lemma)&&usageNorm(p.display_lemma).includes(' ')&&includes(p.display_lemma,entry.display_lemma));
   for(const sense of entry.senses){stats.senses++;stats.sourceExamples+=sense.examples.length;
    const members=groups.get(dictionaryPos(entry.part_of_speech)+':'+gloss(sense.definition_en))??[];
    const excluded=new Set((curation.excludedSynonyms??[]).filter(row=>usageNorm(row.lemma)===usageNorm(entry.display_lemma)&&gloss(row.definition)===gloss(sense.definition_en)).map(row=>usageNorm(row.term)));
-   const synonyms=distinct(members.filter(m=>m.entry.lexeme_id!==entry.lexeme_id&&usageNorm(m.entry.display_lemma)!==usageNorm(entry.display_lemma)&&!excluded.has(usageNorm(m.entry.display_lemma))).map(m=>({text:m.entry.display_lemma,lexemeId:m.entry.lexeme_id,senseId:m.sense.sense_id})));
+   const explicit=entry.relations.filter(r=>r.relation_type==='synonym'&&r.source_sense_id===sense.sense_id);
+   for(const relation of explicit)if(!relation.target_sense_id||targets.get(relation.target_sense_id)?.entry.lexeme_id!==relation.target_lexeme_id)throw Error('scoped_synonym_target_missing');
+   const synonyms=distinct([...members.filter(m=>m.entry.lexeme_id!==entry.lexeme_id&&usageNorm(m.entry.display_lemma)!==usageNorm(entry.display_lemma)).map(m=>({text:m.entry.display_lemma,lexemeId:m.entry.lexeme_id,senseId:m.sense.sense_id})),...explicit.map(r=>({text:r.display_lemma,lexemeId:r.target_lexeme_id,senseId:r.target_sense_id!}))].filter(r=>!excluded.has(usageNorm(r.text))));
    const phrases:RelatedMeaning[]=synonyms.filter(m=>m.text.includes(' ')&&includes(m.text,entry.display_lemma));
    for(const phrase of candidates){
     const reverse=phrase.relations.find(r=>r.target_lexeme_id===entry.lexeme_id&&r.target_sense_id===sense.sense_id&&['hypernym','hyponym','synonym','similar'].includes(r.relation_type));

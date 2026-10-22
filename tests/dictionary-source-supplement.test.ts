@@ -6,7 +6,7 @@ import {join} from "node:path";
 import {spawnSync} from "node:child_process";
 import {gunzipSync,gzipSync} from "node:zlib";
 import {zipSync,strToU8} from "fflate";
-import {applyDraft,entryContentHash,type Entry} from "../src/lib/dictionary/model";
+import {applyDraft,entryContentHash,senseMeaningHash,type Entry} from "../src/lib/dictionary/model";
 import {encodeShard,bytesHash} from "../src/lib/dictionary/shards";
 import {matchesDictionaryContextForm} from "../src/lib/dictionary/context-form";
 test("source supplements verify source and target identities and append a sense without rewriting historical meanings",()=>{
@@ -71,5 +71,24 @@ test("multiple context meanings use immutable input guards and retain source-add
   const stale=run([row,{...second,expectedEntrySha:"0".repeat(64)}],"stale.gz");assert.notEqual(stale.status,0);assert.match(stale.stderr,/explicit_sense_revision/);assert.equal(existsSync(join(dir,"stale.gz")),false);
   const duplicate=run([row,row],"duplicate.gz");assert.notEqual(duplicate.status,0);assert.match(duplicate.stderr,/supplement_duplicate_sense/);assert.equal(existsSync(join(dir,"duplicate.gz")),false);
   const wrongHomograph=run([{...row,targetLexemeId:homograph.lexeme_id}],"wrong-homograph.gz");assert.notEqual(wrongHomograph.status,0);assert.match(wrongHomograph.stderr,/explicit_sense_revision/);assert.equal(existsSync(join(dir,"wrong-homograph.gz")),false);
+ }finally{rmSync(dir,{recursive:true,force:true});}
+});
+
+test("context synonyms pin both meaning identities on a polysemous head and reject stale targets",()=>{
+ const dir=mkdtempSync(join(tmpdir(),"dictionary-context-synonyms-")),release="rel-v1-111111111111111111111111";
+ try{
+  const original=applyDraft([],{operation:"add_lexeme",lemma:"bank",partOfSpeech:"n",lexicalType:"word",definitionEn:"Land beside a river.",definitionUz:"Qirg‘oq",translationUz:"qirg‘oq",examples:[]},release);
+  const target=applyDraft([],{operation:"add_lexeme",lemma:"lender",partOfSpeech:"n",lexicalType:"word",definitionEn:"An organization that lends money.",definitionUz:"Kredit beruvchi tashkilot",translationUz:"kredit beruvchi tashkilot",examples:[]},release);
+  mkdirSync(join(dir,"shards"));const shards=[original,target].map(e=>{const s=encodeShard(release,[e],true);writeFileSync(join(dir,"shards",s.descriptor.shard+".json.gz"),s.body);return s.descriptor;});
+  writeFileSync(join(dir,"release-plan.json"),JSON.stringify({release,expected:{lexemes:2},shards}));
+  writeFileSync(join(dir,"source.gz"),gzipSync(JSON.stringify({report:{sourceRelease:release},entries:[]})));writeFileSync(join(dir,"corpus.json"),JSON.stringify({texts:[]}));
+  const row={lemma:"bank",pos:"n",key:"finance",definitionEn:"A financial institution that lends money.",translationUz:"Bank",exampleEn:"The bank approved the loan.",exampleUz:"Bank kreditni ma’qulladi.",usageFrames:["a bank loan"],referenceUrl:"https://example.test/bank",targetLexemeId:original.lexeme_id,expectedEntrySha:entryContentHash(original),synonyms:[{entryId:target.lexeme_id,senseId:target.senses[0]!.sense_id,meaningSha:senseMeaningHash(target,target.senses[0]!)}]};
+  const run=(entry:typeof row,out:string)=>{writeFileSync(join(dir,"draft.json"),JSON.stringify({version:1,status:"ai_editorial_draft_not_published",policy:"Original fixture",entries:[entry]}));return spawnSync(process.execPath,["--conditions=react-server","--import","tsx","scripts/dictionary/prepare-context-supplement.ts",dir,join(dir,"source.gz"),join(dir,"corpus.json"),join(dir,"draft.json"),join(dir,out)],{cwd:process.cwd(),encoding:"utf8"});};
+  const success=run(row,"valid.gz");assert.equal(success.status,0,success.stderr);
+  const output=JSON.parse(gunzipSync(readFileSync(join(dir,"valid.gz"))).toString())as{entries:Entry[];report:{contextSynonymLinks:number}};
+  const bank=output.entries[0]!;assert.deepEqual(bank.senses[0],original.senses[0]);assert.equal(bank.senses.length,2);assert.equal(output.report.contextSynonymLinks,1);
+  assert.equal(bank.relations[0]!.source_sense_id,bank.senses[1]!.sense_id);assert.equal(bank.relations[0]!.target_sense_id,target.senses[0]!.sense_id);
+  const stale=structuredClone(row);stale.synonyms[0]!.meaningSha="0".repeat(64);const bad=run(stale,"stale.gz");assert.notEqual(bad.status,0);assert.match(bad.stderr,/context_synonym_target_changed/);assert.equal(existsSync(join(dir,"stale.gz")),false);
+  const wrong=structuredClone(row);wrong.synonyms[0]!.entryId=original.lexeme_id;const missing=run(wrong,"wrong-entry.gz");assert.notEqual(missing.status,0);assert.match(missing.stderr,/context_synonym_target_changed/);
  }finally{rmSync(dir,{recursive:true,force:true});}
 });

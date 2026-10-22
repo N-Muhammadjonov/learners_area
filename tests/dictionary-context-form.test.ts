@@ -28,4 +28,6 @@ test("an authored adverb degree form admits higher without choosing a meaning or
  assert.equal(matchesDictionaryContextForm(entry("low","a"),"slower"),false);
  assert.equal(matchesDictionaryContextForm(entry("old","a"),"older"),true,"an older report is not restricted to the older entry's personal-age meaning");
  assert.equal(matchesDictionaryContextForm(entry("old","n"),"older"),false);
+ assert.equal(matchesDictionaryContextForm(entry("long","r"),"longer"),true,"waited longer takes a duration adverb");
+ assert.equal(matchesDictionaryContextForm(entry("long","n"),"longer"),false);
 });
