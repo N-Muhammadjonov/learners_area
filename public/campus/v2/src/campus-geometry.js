@@ -41,8 +41,11 @@ export class CampusGeometry {
     };
 
     const slabGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-    slabGeo.rotateX(Math.PI / 2); // align to XZ plane
-    slabGeo.translate(0, -h, 0);
+    slabGeo.rotateX(Math.PI / 2); // XY -> XZ; extrude spans y=0 down to -h.
+    // The previous extra -h translation left the platform slab one full
+    // thickness below its asphalt, causing its glowing sidewalls to float.
+    // Keep the top flush with the road surface at y=0.
+    slabGeo.computeVertexNormals();
 
     const slabMesh = new THREE.Mesh(slabGeo, this.materials.materials.get('platform_slab'));
     slabMesh.receiveShadow = true;
