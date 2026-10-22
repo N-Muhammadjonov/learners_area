@@ -21,9 +21,9 @@ const NAV = [
   { id:"mocks", href:"/app/mocks", color:0x70baf9, x:8.25, z:2.2, h:1.8, emblem:"▥" },
   { id:"assignments", href:"/app/assignments", color:0xb77cff, x:7.5, z:-0.9, h:1.68, emblem:"▣" }
 ];
-const START = [23, 25, 27];
+const START = [19.5, 24.5, 25];
 const TARGET = [0, 0.4, 0];
-const STORE = "learners-campus-camera-v1";
+const STORE = "learners-campus-camera-v2";
 const markerPlane = new THREE.PlaneGeometry(1.2, 1.2);
 const glowMaterial = (color, opacity=1) => new THREE.MeshBasicMaterial({color,transparent:opacity<1,opacity,depthWrite:false});
 const clamp = (n,lo,hi)=>Math.max(lo,Math.min(hi,n));
@@ -173,13 +173,14 @@ export function mountCampus(node) {
   controls.target.set(...TARGET);
   controls.enableDamping=true; controls.dampingFactor=.065;
   controls.enablePan=false;
+  controls.enableZoom=false; // Dedicated horizontal-trackpad orbit and vertical-trackpad zoom below.
   controls.minDistance=12;controls.maxDistance=43;
-  controls.minPolarAngle=.26;controls.maxPolarAngle=1.43;
+  controls.minPolarAngle=.32;controls.maxPolarAngle=1.39;
   controls.maxAzimuthAngle=Infinity;controls.minAzimuthAngle=-Infinity;
   controls.update();
   try {
     const value=JSON.parse(sessionStorage.getItem(STORE)||"null");
-    if(Array.isArray(value?.position)&&Array.isArray(value?.target)&&value.position.every(Number.isFinite)){
+    if(Array.isArray(value?.position)&&Array.isArray(value?.target)&&value.position.every(Number.isFinite) && value.target.every(Number.isFinite) && value.position.length===3 && value.target.length===3){
       camera.position.fromArray(value.position);controls.target.fromArray(value.target);controls.update();
     }
   }catch{/* ignore corrupt stored camera */}
@@ -244,9 +245,10 @@ export function mountCampus(node) {
     const color=entry.color;
     const mx=entry.x*.56,mz=entry.z*.54;
     const path=lineTube(scene,[[0,.13,0],[mx,.132,0],[mx,.132,mz],[entry.x,.132,mz],[entry.x,.132,entry.z]],color,.028,.64);
+    lineTube(scene,[[0,.148,0],[mx,.15,0],[mx,.15,mz],[entry.x,.15,mz],[entry.x,.15,entry.z]],color,.065,.24);
     circuits.push({curve:path,offset:(circuits.length*.167)%1});
     for(let i=0;i<3;i++){
-      const pulse=new THREE.Mesh(new THREE.SphereGeometry(i===0?.088:.050,9,7),
+      const pulse=new THREE.Mesh(new THREE.SphereGeometry(i===0?.13:.078,9,7),
         new THREE.MeshBasicMaterial({color:i===0?0xffffff:color,transparent:true,opacity:i===0?1:.58,depthWrite:false}));
       scene.add(pulse);pulseMeshes.push({mesh:pulse,curve:path,index:i,phase:circuits.length*.139});
     }
@@ -333,6 +335,33 @@ export function mountCampus(node) {
   renderer.domElement.addEventListener("pointerup",onUp);
   renderer.domElement.addEventListener("pointerleave",()=>{hovered=null;});
   controls.addEventListener("end",remember);
+  // A two-finger vertical trackpad gesture zooms; horizontal gestures rotate
+  // around the campus. OrbitControls' default wheel zoom incorrectly treats
+  // both axes as dolly. Suppress it and handle the axes independently.
+  let wheelSaveTimer;
+  function onWheel(event){
+    event.preventDefault();
+    const dx=event.deltaX*(event.deltaMode===1?16:1);
+    const dy=event.deltaY*(event.deltaMode===1?16:1);
+    const offset=camera.position.clone().sub(controls.target);
+    const distance=offset.length();
+    if(Math.abs(dx)>0.2){
+      offset.applyAxisAngle(new THREE.Vector3(0,1,0),-dx*.0032);
+    }
+    if(Math.abs(dy)>0.2){
+      offset.multiplyScalar(Math.exp(dy*.00115));
+    }
+    offset.setLength(clamp(offset.length(),controls.minDistance,controls.maxDistance));
+    camera.position.copy(controls.target).add(offset);
+    controls.update();
+    clearTimeout(wheelSaveTimer);
+    wheelSaveTimer=setTimeout(remember,130);
+  }
+  renderer.domElement.addEventListener("wheel",onWheel,{passive:false});
+  // Browser back/forward and fast Next.js route transitions can unmount before
+  // OrbitControls emits 'end'. Save every committed pose before page departure.
+  function onPageHide(){remember();}
+  window.addEventListener("pagehide",onPageHide);
   function resize(){
     const r=canvasParent.getBoundingClientRect();
     const w=Math.max(1,Math.round(r.width)),h=Math.max(1,Math.round(r.height));
@@ -341,6 +370,7 @@ export function mountCampus(node) {
   const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(canvasParent);resize();
   const clock=new THREE.Clock();
   let hidden=document.visibilityState!=="visible";
+  let lastCameraSave=0;
   function onVisibility(){hidden=document.visibilityState!=="visible";if(!hidden){clock.start();schedule();}}
   document.addEventListener("visibilitychange",onVisibility);
 
@@ -361,16 +391,17 @@ export function mountCampus(node) {
     raf=0;if(disposed||hidden)return;
     const t=clock.getElapsedTime();
     controls.update();
+    if(t-lastCameraSave>.35){lastCameraSave=t;remember();}
     // Lower-cost motion under reduced-motion. Everything stays on the ground.
     if(!reduced){
       pulseMeshes.forEach(({mesh,curve,index,phase})=>{
-        const progress=((t*.16+phase-index*.072)%1+1)%1;
+        const progress=((t*.22+phase-index*.072)%1+1)%1;
         mesh.position.copy(curve.getPointAt(progress));mesh.position.y=.17+index*.008;
-        mesh.material.opacity=index===0?.95:.55;
+        mesh.material.opacity=index===0?1:.85;
       });
       floorLeds.forEach(({mesh,angle,ring})=>{
         const phase=t*2.0-angle-ring*.22;
-        mesh.material.opacity=.18+.78*Math.pow(Math.max(0,Math.sin(phase)),5);
+        mesh.material.opacity=.12+.88*Math.pow(Math.max(0,Math.sin(phase)),2);
       });
       poles.forEach(({bulb,index})=>{
         bulb.material.color.setHex(Math.sin(t*1.5+index*.4)>.2?0xffd080:0x665334);
@@ -382,8 +413,8 @@ export function mountCampus(node) {
       pulseMeshes.forEach(({mesh})=>mesh.visible=false);
       floorLeds.forEach(({mesh})=>mesh.material.opacity=.48);
     }
-    for(const {entry} of entries)labelPosition(labelNodes.get(entry.id),[entry.x,entry.h+1.34,entry.z]);
-    labelPosition(centerLabel,[0,2.45,0]);
+    for(const {entry} of entries)labelPosition(labelNodes.get(entry.id),[entry.x,entry.h*.72+.56,entry.z+1.12]);
+    labelPosition(centerLabel,[0,.65,1.35]);
     renderer.render(scene,camera);
     schedule();
   }
@@ -396,6 +427,9 @@ export function mountCampus(node) {
     renderer.domElement.removeEventListener("pointermove",onMove);
     renderer.domElement.removeEventListener("pointerup",onUp);
     controls.removeEventListener("end",remember);
+    renderer.domElement.removeEventListener("wheel",onWheel);
+    window.removeEventListener("pagehide",onPageHide);
+    clearTimeout(wheelSaveTimer);
     node.querySelector("[data-campus-reset]")?.removeEventListener("click",onReset);
     remember();controls.dispose();
     scene.traverse(obj=>{
