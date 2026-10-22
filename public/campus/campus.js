@@ -104,6 +104,68 @@ function makeBuilding(scene,entry,reduced) {
     sign.rotation.x=-Math.PI/2; sign.position.set(0,entry.h+.826,0);
     root.add(sign);root.userData.symbolTexture=symbol;
   }
+
+  // Distinct sculpted, rotatable roof landmarks match the original campus
+  // concept instead of repeating identical rectangles on each building.
+  const roof=new THREE.Group();roof.position.y=entry.h+1.0;root.add(roof);
+  const solid=(color)=>new THREE.MeshStandardMaterial({color,metalness:.26,roughness:.32,emissive:color,emissiveIntensity:.18});
+  const addShape=(geo,material,x,y,z,rx=0,ry=0,rz=0)=>{
+    const m=new THREE.Mesh(geo,material);m.position.set(x,y,z);
+    m.rotation.set(rx,ry,rz);roof.add(m);return m;
+  };
+  const gold=solid(0xffc66b),neon=solid(c);
+  const torus=(radius,tube,material,x,y,z,rx=0,ry=0,rz=0)=>
+    addShape(new THREE.TorusGeometry(radius,tube,8,40),material,x,y,z,rx,ry,rz);
+  const slab=(w,h,d,material,x,y,z,rx=0,ry=0,rz=0)=>
+    addShape(new THREE.BoxGeometry(w,h,d),material,x,y,z,rx,ry,rz);
+  const sphere=(radius,material,x,y,z)=>
+    addShape(new THREE.SphereGeometry(radius,12,8),material,x,y,z);
+  // Existing roof canvas plate is retained only for Grammar, whose mark has
+  // the user's approved specific brain silhouette.
+  if(entry.id==="listening"){
+    torus(.48,.092,neon,0,.52,0,0,0,0);
+    slab(.20,.47,.28,neon,-.47,.30,0);
+    slab(.20,.47,.28,neon,.47,.30,0);
+  } else if(entry.id==="reading"){
+    for(const dir of [-1,1]){
+      slab(.94,.09,.66,gold,dir*.48,.30,0,.18*dir,0,-.13*dir);
+      slab(.96,.045,.62,solid(0xfff2ca),dir*.48,.39,0,.18*dir,0,-.13*dir);
+    }
+    slab(.11,.13,.82,gold,0,.18,0);
+  } else if(entry.id==="video"){
+    slab(.87,1.05,.22,neon,0,.48,0);
+    const tri=new THREE.Shape();tri.moveTo(-.22,-.30);tri.lineTo(.35,0);tri.lineTo(-.22,.30);tri.closePath();
+    addShape(new THREE.ShapeGeometry(tri),solid(0xff9dbc),0,.49,.14);
+  } else if(entry.id==="live"){
+    for(const [x,y,radius] of [[-.36,.56,.22],[.25,.69,.27],[.69,.50,.18]]){
+      sphere(radius,neon,x,y,0);slab(radius*2.4,.43,.28,neon,x,y-.40,0);
+    }
+  } else if(entry.id==="writing"){
+    slab(.15,.15,1.3,neon,0,.49,0,.16,.25,.48);
+    addShape(new THREE.ConeGeometry(.14,.34,5),solid(0xb9ffe0),.48,.15,.29,Math.PI/2,0,.48);
+  } else if(entry.id==="speaking"){
+    const mic=sphere(.28,neon,0,.67,0);
+    mic.scale.set(.78,1.45,.77);
+    slab(.09,.56,.09,neon,0,.13,0);slab(.65,.085,.22,neon,0,-.10,0);
+    torus(.47,.045,neon,0,.39,0,0,0,0);
+  } else if(entry.id==="vocabulary"){
+    const cubes=[[-.36,.16,"A"],[.34,.11,"B"],[0,.72,"C"]];
+    for(const [x,y] of cubes){slab(.65,.65,.65,solid(0xff84ba),x,y,0);}
+  } else if(entry.id==="assignments"){
+    slab(.83,.94,.18,neon,0,.53,0);
+    for(let i=0;i<3;i++)slab(.48,.045,.04,solid(0xffd6fe),0,.76-i*.19,.12);
+    slab(.37,.11,.18,solid(0xffd6fe),0,1.03,0);
+  } else if(entry.id==="mocks"){
+    for(let i=0;i<3;i++)slab(.21,.39+i*.23,.24,neon,(i-1)*.32,.21+i*.12,0);
+  } else if(entry.id==="progress"){
+    sphere(.43,gold,0,.59,0);
+    for(const dir of [-1,1])torus(.26,.07,gold,dir*.46,.59,0,0,0,0);
+    slab(.13,.50,.13,gold,0,.16,0);slab(.74,.15,.38,gold,0,-.06,0);
+  }
+  // Extra horizontal warm strips resemble the illuminated windows from the reference.
+  box(root,1.55,.055,.065,c,0,.84,1.069,glowMaterial(c,.85));
+  box(root,1.55,.055,.065,c,0,1.43,1.069,glowMaterial(c,.85));
+
   // A roof spotlight glows softly rather than emitting floating particles.
   if(!reduced) pointLight(root,c,0,entry.h+.76,0,.35,3.9);
   const hit=new THREE.Mesh(new THREE.BoxGeometry(2.7,entry.h+1.5,2.7),new THREE.MeshBasicMaterial({
