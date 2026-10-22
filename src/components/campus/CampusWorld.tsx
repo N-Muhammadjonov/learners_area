@@ -1,67 +1,93 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 
-type CampusWindow = Window & { LearnersAreaCampusMount?: (el: HTMLElement) => () => void };
+type Module = { id: string; name: string; route: string };
+type CampusScene = {
+  cameraController?: { resetToIsometric(): void; saveState(): void };
+  destroy(): void;
+};
+type SceneModule = {
+  LearnersAreaCampusScene: new (el: HTMLElement, opts: {
+    onNavigate: (module: Module) => void;
+  }) => CampusScene;
+};
+
 const modules = [
- ["writing","Writing","/app/writing"],
- ["listening","Listening","/app/listening/lessons"],
- ["reading","Reading","/app/reading/lessons"],
- ["video","TED / PODCAST","/app/video-lessons"],
- ["live","Live classes","/app/live-classes"],
- ["speaking","Speaking","/app/speaking"],
- ["grammar","Grammar","/app/grammar/lessons"],
- ["vocabulary","Vocabulary","/app/vocabulary"],
- ["progress","My progress","/app/progress"],
- ["mocks","Mock tests","/app/mocks"],
- ["assignments","Assignments","/app/assignments"],
- ["dashboard","Dashboard","/app/dashboard"],
+  ["dashboard","Dashboard","/app/dashboard"],
+  ["reading","Reading","/app/reading/lessons"],
+  ["listening","Listening","/app/listening/lessons"],
+  ["writing","Writing","/app/writing"],
+  ["speaking","Speaking","/app/speaking"],
+  ["grammar","Grammar","/app/grammar/lessons"],
+  ["vocabulary","Vocabulary","/app/vocabulary"],
+  ["progress","My progress","/app/progress"],
+  ["mocks","Mock tests","/app/mocks"],
+  ["assignments","Assignments","/app/assignments"],
+  ["live_classes","Live classes","/app/live-classes"],
+  ["video_lessons","TED / PODCAST","/app/video-lessons"]
 ] as const;
 
+/** Only the exterior map is new. All existing Learners Area modules,
+ * search, theme, locale, notifications and ShellUtilities stay intact. */
 export function CampusWorld() {
-  const ref = useRef<HTMLElement>(null);
-  const [state,setState] = useState<"loading"|"ready"|"error">("loading");
+  const mountRef=useRef<HTMLDivElement>(null);
+  const sceneRef=useRef<CampusScene|null>(null);
+  const [state,setState]=useState<"loading"|"ready"|"error">("loading");
+
   useEffect(()=>{
-    const el=ref.current;
-    if(!el)return;
-    let canceled=false;
-    let cleanup: undefined | (()=>void);
-    let script: HTMLScriptElement | undefined;
-    const mount=()=>{
-      if(canceled)return;
-      const fn=(window as CampusWindow).LearnersAreaCampusMount;
-      if(!fn){setState("error");return;}
-      try{cleanup=fn(el);setState(el.dataset.campusStatus==="ready"?"ready":"error");}
-      catch{setState("error");}
+    const element=mountRef.current;
+    if(!element)return;
+    let cancelled=false;
+    const jsUrl="/campus/v2/src/campus-scene.js";
+    (async()=>{
+      try {
+        // Native ESM loads self-hosted vendor copies without depending on esm.sh.
+        const mod=(await import(/* webpackIgnore: true */ jsUrl)) as SceneModule;
+        if(cancelled)return;
+        const scene=new mod.LearnersAreaCampusScene(element,{
+          onNavigate(module){
+            if(!module.route.startsWith("/app/"))return;
+            sceneRef.current?.cameraController?.saveState();
+            window.location.assign(module.route);
+          }
+        });
+        if(cancelled){scene.destroy();return;}
+        sceneRef.current=scene;
+        setState("ready");
+      } catch(error) {
+        if(!cancelled){console.error("Learners Area campus error:",error);setState("error");}
+      }
+    })();
+    return ()=>{
+      cancelled=true;
+      sceneRef.current?.destroy();
+      sceneRef.current=null;
     };
-    if((window as CampusWindow).LearnersAreaCampusMount){mount();}
-    else{
-      script=document.createElement("script");script.type="module";script.src="/campus/campus.js";
-      script.addEventListener("load",mount,{once:true});
-      script.addEventListener("error",()=>{if(!canceled)setState("error");},{once:true});
-      document.head.appendChild(script);
-    }
-    return ()=>{canceled=true;cleanup?.();if(script)script.remove();};
   },[]);
-  return <section ref={ref} data-campus-world aria-label="Learners Area 3D campus" className="la-campus">
-    <div className="la-campus-canvas" data-campus-canvas />
-    <div className="la-campus-brand">
-      <BrandLogo kind="mark" className="h-12 w-14" decorative eager />
-      <div><strong>Learners Area</strong><small>Take your learning journey with us</small></div>
-    </div>
-    <div className="la-campus-caption" aria-live="polite">
-      {state==="loading"?"3D xarita yuklanmoqda…":state==="error"?"3D xarita mavjud emas. Modullarni quyidan ochishingiz mumkin.":"Sichqoncha bilan aylantiring · G‘ildirak bilan yaqinlashtiring"}
-    </div>
-    <button className="la-campus-reset" type="button" data-campus-reset aria-label="Kamerani boshlang‘ich holatga qaytarish" title="Reset camera">↺</button>
-    <nav aria-label="Learning buildings" data-campus-fallback className={state==="error"?"la-campus-fallback visible":"la-campus-fallback"}>
-      {modules.map(([id,label,href])=><Link href={href} key={id}>{label}</Link>)}
-    </nav>
-    {modules.map(([id,label,href])=><Link
-       key={id} href={href} data-campus-label={id}
-       className={"la-campus-label la-campus-label-"+id}
-       title={label}
-       aria-label={label}
-    >{label}</Link>)}
-  </section>;
+
+  return (
+    <section data-campus-world className="la-campus" aria-label="Learners Area 3D campus">
+      <div data-campus-canvas ref={mountRef} className="la-campus-canvas" />
+      <div className="la-campus-brand">
+        <BrandLogo kind="mark" className="h-12 w-14" decorative eager />
+        <div><strong>Learners Area</strong><small>Take your learning journey with us</small></div>
+      </div>
+      <button type="button" className="la-campus-reset" title="Kamerani qaytarish"
+        aria-label="3D kamera holatini qayta tiklash"
+        onClick={()=>sceneRef.current?.cameraController?.resetToIsometric()}>↺</button>
+      <div className="la-campus-caption" role="status">
+        {state==="loading"?"3D xarita yuklanmoqda…":
+         state==="error"?"WebGL mavjud emas. Modullarni quyidagi havolalardan oching.":
+         "Touchpad: chap/o‘ng — aylantirish, yuqori/past — zoom"}
+      </div>
+      {state==="error" && (
+        <nav aria-label="Learning modules" className="la-campus-fallback">
+          {modules.map(([id,name,route])=><Link key={id} href={route}>{name}</Link>)}
+        </nav>
+      )}
+    </section>
+  );
 }
