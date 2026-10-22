@@ -151,7 +151,7 @@ export class CampusGeometry {
     edgeRing.position.y = 1.0;
     group.add(edgeRing);
 
-    // Volumetric vertical light beam
+    // Raised rocket-inspired central tower supporting the single official LA emblem.\n    const tower = new THREE.Group();\n    const towerMat = new THREE.MeshStandardMaterial({color:0x143b69,metalness:.43,roughness:.33,emissive:0x063b65,emissiveIntensity:.42});\n    const stage = new THREE.Mesh(new THREE.CylinderGeometry(3.1,3.8,2.4,8),towerMat);stage.position.y=2.0;tower.add(stage);\n    const stem = new THREE.Mesh(new THREE.CylinderGeometry(1.48,2.7,4.0,8),towerMat);stem.position.y=4.7;tower.add(stem);\n    const crown = new THREE.Mesh(new THREE.ConeGeometry(1.9,2.1,8),this.materials.materials.get('platform_rim'));crown.position.y=7.6;tower.add(crown);\n    for(const angle of [0,Math.PI/2,Math.PI,3*Math.PI/2]){const fin = new THREE.Mesh(new THREE.BoxGeometry(.38,3.0,1.5),this.materials.materials.get('platform_rim'));fin.position.set(Math.sin(angle)*2.2,3.7,Math.cos(angle)*2.2);fin.rotation.y=angle;tower.add(fin);}\n    group.add(tower);\n\n    // Volumetric vertical light beam
     const beam = this.materials.materials.get('dashboard_beam');
     if (beam) {
       const beamGeo = new THREE.CylinderGeometry(3.5, 6.0, 24, 32, 1, true);
@@ -163,7 +163,7 @@ export class CampusGeometry {
     // THE EXACT OFFICIAL LEARNERS AREA LA LOGO
     // Loaded from the official transparent brand asset: la-logo-clean.png
     const textureLoader = new THREE.TextureLoader();
-    const laTexture = textureLoader.load('/brand/Learners_Area_V11_Exact_Cutout_Logo.png');
+    const laTexture = textureLoader.load('/brand/derived/mark-day-cutout-192.png');
     laTexture.colorSpace = THREE.SRGBColorSpace;
 
     // A single, camera-facing sprite prevents the LA mark from being mirrored
@@ -175,8 +175,8 @@ export class CampusGeometry {
       alphaTest: 0.03,
     });
     const logoMesh = new THREE.Sprite(logoMat);
-    logoMesh.position.set(0, 5.8, 0);
-    logoMesh.scale.set(8.6, 8.5, 1);
+    logoMesh.position.set(0, 9.2, 0);
+    logoMesh.scale.set(8.4, 8.4, 1);
     group.add(logoMesh);
     group.userData.logo = logoMesh;
 
