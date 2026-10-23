@@ -1,0 +1,50 @@
+{
+  "suite": "V44 Reading migration",
+  "date": "2026-10-23T10:45:38.537Z",
+  "results": [
+    {
+      "name": "Reading landing: /app/reading redirects to Lessons with replaceState (the original redirect)",
+      "status": "PASS"
+    },
+    {
+      "name": "Reading legacy query links keep their destination (?tab=academic goes to Academic, not Lessons)",
+      "status": "PASS"
+    },
+    {
+      "name": "Reading Lessons catalogue: cards, open links, next page, and empty state",
+      "status": "PASS"
+    },
+    {
+      "name": "Reading Lessons catalogue: an empty library shows the original empty message",
+      "status": "PASS"
+    },
+    {
+      "name": "Reading lesson detail: body first, audio with focus and minutes, then the three tabs",
+      "status": "PASS"
+    },
+    {
+      "name": "Reading lesson detail: tabs switch and survive reload; teacher notes source is shown",
+      "status": "PASS"
+    },
+    {
+      "name": "Reading lesson detail: the progress control writes the existing lesson state endpoint",
+      "status": "PASS"
+    },
+    {
+      "name": "Reading lesson detail: a provider-hosted item links to the video-lesson studio, not a second player",
+      "status": "PASS"
+    },
+    {
+      "name": "Reading lesson body: a selected range is highlighted for this visit only",
+      "status": "PASS"
+    },
+    {
+      "name": "Reading lesson detail: unknown lesson shows the not-found presentation, not a service error",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 10,
+    "FAIL": 0
+  }
+}

@@ -7,7 +7,7 @@ function isMediaReference(block) {
     return block.ref?.module === "ted";
 }
 export function render(scope) {
-    const { dict, blocks, highlightScope, LessonQuizBlock } = scope;
+    const { dict, blocks, highlightScope, LessonQuizBlock, ReadingLessonText } = scope;
     const t = dict.listening.lessons;
     return (h("div", { className: "flex flex-col gap-5", "data-lesson-body": true }, blocks.map((block, index) => (h("div", { key: `${block.position}-${index}`, "data-lesson-block": block.type },
         block.type === "text" && block.text && (h("div", { className: "flex flex-col gap-3 text-sm leading-relaxed text-ink-700" }, block.text.split(/\n{2,}/).map((paragraph, position) => (highlightScope ? h(ReadingLessonText, { key: position, dict: dict, text: paragraph, scope: `${highlightScope}:${block.blockId}:${index}:${position}` }) : h("p", { key: position }, paragraph))))),
