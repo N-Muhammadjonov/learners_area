@@ -2,6 +2,17 @@ import {readingDictionary} from './dictionary.js';
 import {readingLegacyDestination} from '../../js/reading-destinations.js';
 /** One entry for every learner Reading route. Each original page maps to one native module below; the Reading
  * dictionary overlay is loaded once per locale. Unknown Reading paths use the shared not-found presentation. */
+/** Original (focus)/reading/reading-workspace.css: loaded once for every Reading focus screen, scoped to .reading-focus. */
+function ensureFocusStyles(){
+ if(document.querySelector('link[data-reading-focus-css]'))return;
+ const link=document.createElement('link');link.rel='stylesheet';link.href='/modules/reading/reading-workspace.css';link.setAttribute('data-reading-focus-css','');document.head.append(link);
+}
+/** Original (focus)/reading/layout.tsx: a full-viewport main with no ordinary shell. */
+function focusContext(ctx){
+ const main=document.createElement('main');main.id='main-content';main.tabIndex=-1;main.className='reading-focus';main.setAttribute('data-reading-full-focus','');
+ ctx.root.append(main);
+ return {...ctx,root:main};
+}
 export async function mount(context){
  const {url,navigate}=context;
  const dict=await readingDictionary(context);
@@ -15,6 +26,9 @@ export async function mount(context){
  }
  if(path==='/app/reading/lessons')return (await import('./lessons.js')).mountLessons(ctx);
  if(/^\/app\/reading\/lessons\/[^/]+$/.test(path))return (await import('./lessons.js')).mountLesson(ctx);
+  if(path==='/app/reading/academic')return (await import('./academic.js')).mountAcademicCatalogue(ctx);
+  if(/^\/app\/reading\/academic\/[^/]+$/.test(path)){ensureFocusStyles();return (await import('./academic.js')).mountAcademicSet(focusContext(ctx));}
+  if(/^\/app\/reading\/attempts\/[^/]+$/.test(path)){ensureFocusStyles();return (await import('./attempt.js')).mountAttempt(focusContext(ctx));}
  const {mount:notFound}=await import('../not-found.js');
  return notFound(ctx);
 }

@@ -12,3 +12,28 @@ export function readingLessonDTO(d,id){
  lessonDTO({...d,lesson:{...d.lesson,learningArea:'listening'}},id);
  return d;
 }
+const str=x=>typeof x==='string',int=x=>Number.isSafeInteger(x)&&x>=0,nullable=x=>x===null||x===undefined;
+const STATUSES=['not_started','in_progress','completed'];
+/** Academic catalogue projection: `{sets:[{id,title,locked,assessmentStatus,attemptId,passages:[{passageNo,title}]}]}`. */
+export function readingAcademicCatalogueDTO(raw){
+ if(!obj(raw)||!Array.isArray(raw.sets))bad('invalid_reading_academic');
+ for(const s of raw.sets){
+  if(!obj(s)||!str(s.id)||!str(s.title)||typeof s.locked!=='boolean'||!STATUSES.includes(s.assessmentStatus)||!(nullable(s.attemptId)||str(s.attemptId))||!Array.isArray(s.passages))bad('invalid_reading_academic');
+  for(const p of s.passages)if(!obj(p)||!int(p.passageNo)||!str(p.title))bad('invalid_reading_academic');
+ }
+ return raw;
+}
+/** One Academic set's intro: `{set:{id,title}, passages:[{passageNo,title}]}` or `{kind:'not_found'}`. */
+export function readingAcademicSetDTO(raw,setId){
+ if(!obj(raw)||!obj(raw.set)||raw.set.id!==setId||!str(raw.set.title)||!Array.isArray(raw.passages)||raw.passages.length!==3)bad('invalid_reading_academic_set');
+ return {title:raw.set.title,passages:raw.passages.map(p=>{if(!obj(p)||!int(p.passageNo)||!str(p.title))bad('invalid_reading_academic_set');return {passageNo:p.passageNo,title:p.title};})};
+}
+/** Attempt projection (the server-computed getAttemptDetail): attempt, passage, sections, questions, groups,
+ * paragraphs, answers and occurrences. Answer keys exist only after submit; the exam reads public fields only. */
+export function readingAttemptDTO(raw,id){
+ if(!obj(raw)||raw.kind!=='attempt'||!obj(raw.detail))bad('invalid_reading_attempt');
+ const d=raw.detail,a=d.attempt;
+ if(!obj(a)||a.id!==id||!['in_progress','completed'].includes(a.status)||!str(a.startedAt)||!obj(d.passage)||!str(d.passage.title)||!str(d.passage.bodyText)||!int(d.passage.suggestedMinutes))bad('invalid_reading_attempt');
+ for(const k of ['sections','questions','groups','paragraphs','answers','occurrences'])if(!Array.isArray(d[k]))bad('invalid_reading_attempt');
+ return d;
+}

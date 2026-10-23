@@ -1,6 +1,6 @@
 {
   "suite": "V44 Reading migration",
-  "date": "2026-10-23T10:45:38.537Z",
+  "date": "2026-10-23T10:52:10.926Z",
   "results": [
     {
       "name": "Reading landing: /app/reading redirects to Lessons with replaceState (the original redirect)",
@@ -41,10 +41,26 @@
     {
       "name": "Reading lesson detail: unknown lesson shows the not-found presentation, not a service error",
       "status": "PASS"
+    },
+    {
+      "name": "Academic catalogue: open and locked sets, the set link, and the original hints",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic set page: three passages, then Start posts the set and opens the attempt",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic exam: focus screen, questions by type, autosave, submit, then the analysis",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic exam: a malformed attempt id shows the not-found presentation",
+      "status": "PASS"
     }
   ],
   "counts": {
-    "PASS": 10,
+    "PASS": 14,
     "FAIL": 0
   }
 }

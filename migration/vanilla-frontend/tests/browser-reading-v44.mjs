@@ -130,7 +130,7 @@ await check('Reading lesson detail: tabs switch and survive reload; teacher note
 });
 
 await check('Reading lesson detail: the progress control writes the existing lesson state endpoint',async()=>{
- const {context,page,errors,state}=await fixture({view:(rt)=>rt.split('?')[0]===detailRoute?{kind:'lesson',detail:readingLesson()}:undefined,api:async(p,{method})=>{if(p===`/api/lessons/${lessonId}/state`&&method==='POST')return {state:'in_progress'};return undefined;}});
+ const {context,page,errors,state}=await fixture({view:(rt)=>rt.split('?')[0]===detailRoute?{kind:'lesson',detail:readingLesson()}:undefined,api:async(p,{method})=>{if(p===`/api/lessons/${lessonId}/state`&&method==='POST')return {ok:true,state:'in_progress'};return undefined;}});
  try{
   await page.goto(base+detailRoute);
   await page.locator('[data-lesson-start]').click();
@@ -175,6 +175,92 @@ await check('Reading lesson detail: unknown lesson shows the not-found presentat
   await page.goto(base+detailRoute);
   await page.locator('[data-listening-not-found]').waitFor();
   assert.equal(await page.locator('[data-region-failure]').count(),0);
+ }finally{await context.close();}
+});
+
+
+// ---- Academic Reading ----
+const SET='00000000-0000-4000-8000-0000000000b1',ATT='00000000-0000-4000-8000-0000000000a1',P1='00000000-0000-4000-8000-0000000000c1',G1='00000000-0000-4000-8000-0000000000d1';
+const Q1='00000000-0000-4000-8000-0000000000e1',Q2='00000000-0000-4000-8000-0000000000e2',Q3='00000000-0000-4000-8000-0000000000e3',PA='00000000-0000-4000-8000-0000000000f1';
+const passages3=[{passageNo:1,title:'Synthetic passage one'},{passageNo:2,title:'Synthetic passage two'},{passageNo:3,title:'Synthetic passage three'}];
+const catalogue=()=>({sets:[{id:SET,title:'Synthetic Academic test',locked:false,assessmentStatus:'not_started',attemptId:null,passages:passages3},{id:'00000000-0000-4000-8000-0000000000b2',title:'Locked test',locked:true,assessmentStatus:'not_started',attemptId:null,passages:passages3}]});
+const attemptBase=(status)=>({attempt:{id:ATT,status,startedAt:new Date(Date.now()-60000).toISOString(),score:status==='completed'?2:null,totalQuestions:status==='completed'?3:null},passage:{title:'Synthetic passage',bodyText:'Paragraph A text. Water boils at one hundred degrees.',suggestedMinutes:20,testNo:null,passageNo:null,difficultyLevel:'B2'},
+ sections:[],groups:[{id:G1,position:1,typeCode:'true_false_not_given',displayTitle:null,instructionsText:'Do the following statements agree with the information in the passage?',fromQuestionNo:1,toQuestionNo:3,sharedChoices:[]}],
+ paragraphs:[{id:PA,position:0,label:'A',text:'Paragraph A text.',isFootnote:false}],
+ questions:[{id:Q1,order:1,questionNo:1,sourceQuestionNo:1,type:'true_false_not_given',typeCode:'true_false_not_given',groupId:G1,renderMode:'question_row',questionText:'Paragraph A is about boiling.',options:null,answerConstraint:null},
+  {id:Q2,order:2,questionNo:2,sourceQuestionNo:2,type:'short_answer',typeCode:'short_answer',groupId:G1,renderMode:'question_row',questionText:'Water boils at ___ degrees.',options:null,answerConstraint:{max_words:2}},
+  {id:Q3,order:3,questionNo:3,sourceQuestionNo:3,type:'multiple_choice',typeCode:'multiple_choice',groupId:G1,renderMode:'question_row',questionText:'Which option is right?',options:['A — Option one','B — Option two','C — Option three'],answerConstraint:null}],
+ answers:status==='completed'?[{questionId:Q1,userAnswer:'TRUE',isCorrect:true},{questionId:Q2,userAnswer:'90',isCorrect:false},{questionId:Q3,userAnswer:'B — Option two',isCorrect:true}]:[],occurrences:[]});
+const examDetail=(status)=>{const d=attemptBase(status);if(status==='completed'){d.questions=d.questions.map((q,i)=>({...q,correctAnswer:['TRUE','100','B — Option two'][i],acceptedAnswers:[],explanation:'Synthetic explanation',evidenceQuote:'Paragraph A text.',evidenceType:'quoted',passageId:P1}));d.passages=undefined;d.sections=[{passage:{id:P1,title:'Synthetic passage',bodyText:'Paragraph A text. Water boils at one hundred degrees.'},paragraphs:[],questions:[],groups:[]}];}return d;};
+
+await check('Academic catalogue: open and locked sets, the set link, and the original hints',async()=>{
+ const {context,page,errors}=await fixture({view:(rt)=>rt.startsWith('/app/reading/academic')?catalogue():undefined});
+ try{
+  await page.goto(base+'/app/reading/academic');
+  await page.locator('[data-academic-set]').first().waitFor();
+  assert.equal(await page.locator('[data-academic-set]').count(),2);
+  assert.equal(await page.locator(`[data-academic-set="${SET}"] a`).getAttribute('href'),`/app/reading/academic/${SET}`);
+  assert.equal(await page.locator('[data-academic-locked="true"] [data-academic-locked-hint]').count(),1,'locked set shows its hint, not a link');
+  assert.equal(await page.locator('[data-academic-locked="true"] a').count(),0);
+  assert.deepEqual(errors,[]);
+ }finally{await context.close();}
+});
+
+await check('Academic set page: three passages, then Start posts the set and opens the attempt',async()=>{
+ let started=false;
+ const {context,page,errors,state}=await fixture({view:(rt)=>rt.split('?')[0]===`/app/reading/academic/${SET}`?{set:{id:SET,title:'Synthetic Academic test'},passages:passages3}:rt.split('?')[0]===`/app/reading/attempts/${ATT}`?{kind:'attempt',detail:attemptBase(started?'in_progress':'in_progress')}:undefined,api:async(p,{method})=>{if(p==='/api/reading/academic'&&method==='POST'){started=true;return {id:ATT};}return undefined;}});
+ try{
+  await page.goto(base+`/app/reading/academic/${SET}`);
+  await page.locator('[data-academic-reading-start]').waitFor();
+  assert.equal(await page.locator('ol li').count(),3);
+  await page.locator('[data-passage-action=start]').click();
+  await page.waitForURL(new RegExp(`/app/reading/attempts/${ATT}$`));
+  const posts=state.requests.filter(r=>r.method==='POST'&&r.path==='/api/reading/academic');
+  assert.deepEqual(posts[0].body,{setId:SET});
+  assert.deepEqual(errors,[]);
+ }finally{await context.close();}
+});
+
+await check('Academic exam: focus screen, questions by type, autosave, submit, then the analysis',async()=>{
+ let submitted=false;
+ const {context,page,errors,state}=await fixture({view:(rt)=>rt.split('?')[0]===`/app/reading/attempts/${ATT}`?{kind:'attempt',detail:examDetail(submitted?'completed':'in_progress')}:undefined,api:async(p,{method})=>{if(p===`/api/reading/attempts/${ATT}`&&method==='PATCH')return {saved:1,at:new Date().toISOString()};if(p===`/api/reading/attempts/${ATT}/submit`&&method==='POST'){submitted=true;return {ok:true,score:2,totalQuestions:3};}return undefined;}});
+ try{
+  page.once('dialog',d=>d.accept());
+  await page.goto(base+`/app/reading/attempts/${ATT}`);
+  await page.locator('[data-reading-practice]').waitFor();
+  assert.equal(await page.locator('main#main-content.reading-focus[data-reading-full-focus]').count(),1,'focus shell');
+  assert.equal(await page.locator('link[data-reading-focus-css]').count(),1,'focus stylesheet loaded');
+  assert.equal(await page.locator('[data-reading-workspace]').count(),1);
+  assert.equal(await page.locator('[data-passage-body]').count(),1);
+  assert.equal(await page.locator('[data-question]').count(),3);
+  assert.notEqual(await page.locator('[data-time-remaining]').getAttribute('data-time-remaining'),null);
+  // inline blank (Q2) autosaves after the debounce
+  await page.locator(`[data-answer-input="${Q2}"]`).fill('100');
+  await page.locator('[data-save-state="saved"]').waitFor({timeout:6000});
+  // ternary choice and a letter choice
+  await page.locator(`[data-question="${Q1}"] [data-answer-option="true"]`).click();
+  await page.locator(`[data-question="${Q3}"] [data-answer-option="B"]`).click();
+  await page.waitForTimeout(1200);
+  const patches=state.requests.filter(r=>r.method==='PATCH');
+  const last=patches.at(-1).body.answers;
+  assert.ok(last.some(a=>a.questionId===Q2&&a.answer==='100'),'short answer saved');
+  assert.ok(last.some(a=>a.questionId===Q1&&a.answer==='true'),'ternary saved');
+  assert.ok(last.some(a=>a.questionId===Q3&&a.answer==='B — Option two'),'letter choice saved as the authored option');
+  assert.equal(await page.locator(`[data-question="${Q1}"]`).getAttribute('data-answered'),'true');
+  await page.locator('[data-submit-attempt]').click();
+  await page.locator('[data-type-mastery]').waitFor({timeout:8000});
+  assert.ok(state.requests.some(r=>r.method==='POST'&&r.path===`/api/reading/attempts/${ATT}/submit`),'submit posted');
+  assert.ok((await page.locator('[data-reading-analysis]').innerText()).includes('2/3'),'score shown');
+  assert.equal(await page.locator('[data-evidence]').count(),3);
+  assert.deepEqual(errors,[]);
+ }finally{await context.close();}
+});
+
+await check('Academic exam: a malformed attempt id shows the not-found presentation',async()=>{
+ const {context,page}=await fixture({view:()=>undefined});
+ try{
+  await page.goto(base+'/app/reading/attempts/not-a-uuid');
+  await page.locator('[data-listening-not-found]').waitFor();
  }finally{await context.close();}
 });
 
