@@ -5399,6 +5399,1884 @@
       "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/reuse",
       "targetLexemeId": "a889b52e-5561-551b-9404-92d83fd14741",
       "expectedEntrySha": "b7564eea4fa42c14b5762f777a2250b5f3658adc7fad281dc857f43e7e4c28d9"
+    },
+    {
+      "lemma": "project",
+      "pos": "v",
+      "key": "estimate-a-future-amount-or-outcome",
+      "definitionEn": "To estimate a future amount or outcome from available information.",
+      "translationUz": "mavjud ma’lumotga qarab kelajakdagi miqdor yoki natijani hisoblab bashorat qilmoq",
+      "exampleEn": "The engineers projected lower flooding near the town centre.",
+      "exampleUz": "Muhandislar shahar markazi yaqinida suv bosishi kamayishini bashorat qildi.",
+      "usageFrames": [
+        "project future flooding",
+        "projected losses"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/project",
+      "targetLexemeId": "54cf3679-6756-512a-92ce-da34266aff8f",
+      "expectedEntrySha": "23e7fdce4f5ee6b09ca476100b6290aa5f9bfd28a508b955a0682b6b76f26b25"
+    },
+    {
+      "lemma": "town-centre",
+      "pos": "a",
+      "key": "in-the-central-part-of-a-town",
+      "definitionEn": "Located in or relating to the central part of a town.",
+      "translationUz": "shaharcha yoki shahar markaziga oid, markazda joylashgan",
+      "exampleEn": "The wall reduced projected town-centre flooding.",
+      "exampleUz": "Devor shahar markazida kutilgan suv bosishini kamaytirdi.",
+      "usageFrames": [
+        "town-centre flooding",
+        "town-centre businesses"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/town-centre"
+    },
+    {
+      "lemma": "discount",
+      "pos": "v",
+      "key": "calculate-a-lower-present-value",
+      "definitionEn": "To convert a future cost or benefit into a lower present value using a discount rate.",
+      "translationUz": "kelajakdagi xarajat yoki foydaning diskont stavkasi asosida hozirgi qiymatini kamaytirib hisoblamoq",
+      "exampleEn": "The assessment discounted future losses heavily.",
+      "exampleUz": "Baholash kelajakdagi yo‘qotishlarning hozirgi qiymatini ancha kamaytirib hisobladi.",
+      "usageFrames": [
+        "discount future losses",
+        "discount costs to present value"
+      ],
+      "referenceUrl": "https://www.gov.uk/government/publications/the-green-book--2/the-green-book-2026",
+      "targetLexemeId": "06cb8efc-c499-53b3-8fce-3a8c5ffb72dc",
+      "expectedEntrySha": "3ad5fb6057add83a3e8114d83696afcc66163b70b9e44cfb7a0bc1ddf2219897"
+    },
+    {
+      "lemma": "discounting",
+      "pos": "n",
+      "key": "converting-future-values-to-present-values",
+      "definitionEn": "The calculation of present values for costs or benefits that occur in the future.",
+      "translationUz": "kelajakda yuz beradigan xarajat yoki foydaning hozirgi qiymatini hisoblash; diskontlash",
+      "exampleEn": "The economists explained the discounting method used in the assessment.",
+      "exampleUz": "Iqtisodchilar baholashda qo‘llangan diskontlash usulini tushuntirdi.",
+      "usageFrames": [
+        "a discounting method",
+        "the effects of discounting"
+      ],
+      "referenceUrl": "https://www.gov.uk/government/publications/the-green-book--2/the-green-book-2026"
+    },
+    {
+      "lemma": "cost-benefit",
+      "pos": "a",
+      "key": "comparing-benefits-with-associated-costs",
+      "definitionEn": "Comparing the benefits of an action with the costs it would involve.",
+      "translationUz": "biror harakatning foydasini unga ketadigan xarajatlar bilan taqqoslaydigan",
+      "exampleEn": "The cost-benefit review displayed several possible outcomes.",
+      "exampleUz": "Xarajat va foydani taqqoslovchi ko‘rib chiqish bir nechta ehtimoliy natijani ko‘rsatdi.",
+      "usageFrames": [
+        "a cost-benefit review",
+        "cost-benefit analysis"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/cost-benefit"
+    },
+    {
+      "lemma": "hybrid",
+      "pos": "a",
+      "key": "combining-different-approaches-or-features",
+      "definitionEn": "Combining features or methods from different kinds of approach.",
+      "translationUz": "turli yondashuvlarning xususiyat yoki usullarini birlashtirgan; aralash",
+      "exampleEn": "The hybrid proposal combined temporary defences with wetland restoration.",
+      "exampleUz": "Aralash taklif vaqtinchalik himoya inshootlarini botqoqliklarni tiklash bilan birlashtirdi.",
+      "usageFrames": [
+        "a hybrid proposal",
+        "a hybrid approach"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/hybrid",
+      "targetLexemeId": "7bc865b9-2fc3-54af-81a5-6625e5f73cee",
+      "expectedEntrySha": "420bb41bc75aef0730fbaa0919d6f892dca1acbdffbd1b97e7483e55385376fa"
+    },
+    {
+      "lemma": "carry",
+      "pos": "v",
+      "key": "have-a-particular-quality-or-result",
+      "definitionEn": "To have a particular quality, significance or result.",
+      "translationUz": "muayyan xususiyat, ahamiyat yoki oqibatga ega bo‘lmoq",
+      "exampleEn": "Future harms should not carry little weight merely because they are distant.",
+      "exampleUz": "Kelajakdagi zararlar faqat uzoq bo‘lgani uchun kam ahamiyatga ega deb qaralmasligi kerak.",
+      "usageFrames": [
+        "carry little weight",
+        "carry considerable influence"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/carry",
+      "targetLexemeId": "46e9ab9f-d7d0-55e1-8fe3-4a91df0bdfb4",
+      "expectedEntrySha": "b013c55fb78347bd66ecb6a6308fa2292456e496a276b38013f32b9ae20f7186"
+    },
+    {
+      "lemma": "account for",
+      "pos": "v",
+      "key": "include-a-factor-in-plans-or-calculations",
+      "definitionEn": "To include or allow for a factor when making plans, decisions or calculations.",
+      "translationUz": "reja, qaror yoki hisob-kitobda biror omilni inobatga olmoq",
+      "exampleEn": "The timetable had to account for social infrastructure as well as property values.",
+      "exampleUz": "Jadval mulk qiymati bilan birga ijtimoiy infratuzilmani ham hisobga olishi kerak edi.",
+      "usageFrames": [
+        "account for social costs",
+        "account for practical constraints"
+      ],
+      "referenceUrl": "https://www.merriam-webster.com/dictionary/account%20for",
+      "targetLexemeId": "69c51975-eb65-5d6e-a9ef-9e34d9ead6d8",
+      "expectedEntrySha": "b7b91193e2e1cb3851445d7c9fe8db0dfb6ffa119f8845898e3398b4d910f81b",
+      "forms": [
+        "accounting for"
+      ]
+    },
+    {
+      "lemma": "erode",
+      "pos": "v",
+      "key": "gradually-reduce-or-weaken",
+      "definitionEn": "To gradually reduce the amount, strength or effectiveness of something.",
+      "translationUz": "miqdor, kuch yoki samaradorlikni asta-sekin kamaytirmoq; yemirmoq",
+      "exampleEn": "Repeated flooding eroded the families’ savings.",
+      "exampleUz": "Qayta-qayta suv bosishi oilalarning jamg‘armalarini kamaytirdi.",
+      "usageFrames": [
+        "erode savings",
+        "erode public confidence"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/erode",
+      "targetLexemeId": "8591d9fe-fc15-57ac-ab26-b05f2e8981e4",
+      "expectedEntrySha": "186ccbd5277d9366af9c0b4bb1cad5e59bcaea1d5b1ad9a7b8e8c7f413779040"
+    },
+    {
+      "lemma": "disadvantage",
+      "pos": "n",
+      "key": "unfavourable-aspect-or-effect",
+      "definitionEn": "An unfavourable aspect or effect of a situation, choice or action.",
+      "translationUz": "vaziyat, tanlov yoki harakatning salbiy jihati yoxud oqibati; kamchilik",
+      "exampleEn": "The disadvantages included disruption to households.",
+      "exampleUz": "Kamchiliklar orasida uy xo‘jaliklari hayotining izdan chiqishi bor edi.",
+      "usageFrames": [
+        "a substantial disadvantage",
+        "the disadvantages of relocation"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/disadvantage",
+      "targetLexemeId": "d8a8ea7e-e168-5302-9b48-bac44d369742",
+      "expectedEntrySha": "e2848175f3b5a7ca631deff694e4e24b4b4120cc27d178bc08b7adea301ad87b"
+    },
+    {
+      "lemma": "defence",
+      "pos": "n",
+      "key": "protective-structure-or-measure-against-harm",
+      "definitionEn": "A structure or measure intended to prevent or reduce damage or harm.",
+      "translationUz": "zarar yoki xavfni oldini olish, kamaytirishga mo‘ljallangan inshoot yoxud chora",
+      "exampleEn": "Temporary flood defences protected essential buildings.",
+      "exampleUz": "Vaqtinchalik suv toshqinidan himoya inshootlari muhim binolarni himoya qildi.",
+      "usageFrames": [
+        "flood defences",
+        "temporary coastal defences"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/defence",
+      "targetLexemeId": "90ddcb73-7740-5e9c-99a5-91232f93211f",
+      "expectedEntrySha": "f76a706e9584f70b6400f58c7f0b2861c60f8b14e8941018bc810807384e575f"
+    },
+    {
+      "lemma": "sea wall",
+      "pos": "n",
+      "key": "coastal-wall-protecting-land-from-water",
+      "definitionEn": "A wall built along a coast to protect land and buildings from waves, erosion or flooding.",
+      "translationUz": "qirg‘oqdagi yer va binolarni to‘lqin, eroziya yoki suv bosishidan himoyalovchi devor",
+      "exampleEn": "The authority proposed a sea wall to protect the historic town.",
+      "exampleUz": "Idora tarixiy shaharni himoya qilish uchun qirg‘oq himoya devorini taklif qildi.",
+      "usageFrames": [
+        "build a sea wall",
+        "a coastal sea wall"
+      ],
+      "referenceUrl": "https://repository.library.noaa.gov/view/noaa/51047/noaa_51047_DS1.pdf"
+    },
+    {
+      "lemma": "as well as",
+      "pos": "conjunction",
+      "key": "adding-another-item",
+      "definitionEn": "Used to add another person, thing or activity to those already mentioned.",
+      "translationUz": "... bilan birga; ...ga qo‘shimcha ravishda; shuningdek",
+      "exampleEn": "The plan had to account for social infrastructure as well as property values.",
+      "exampleUz": "Reja mulk qiymati bilan birga ijtimoiy infratuzilmani ham hisobga olishi kerak edi.",
+      "usageFrames": [
+        "social costs as well as financial costs",
+        "people as well as property"
+      ],
+      "referenceUrl": "https://www.merriam-webster.com/dictionary/as%20well%20as"
+    },
+    {
+      "lemma": "regulator",
+      "pos": "n",
+      "key": "public-organisation-supervising-an-activity",
+      "definitionEn": "A public organisation responsible for supervising an activity and setting or enforcing its rules.",
+      "translationUz": "biror faoliyatni nazorat qilib, unga oid qoidalarni belgilovchi yoki ijro ettiruvchi davlat tashkiloti",
+      "exampleEn": "The financial regulator created a supervised testing environment.",
+      "exampleUz": "Moliyaviy nazorat organi kuzatuv ostidagi sinov muhitini yaratdi.",
+      "usageFrames": [
+        "a financial regulator",
+        "the regulator’s requirements"
+      ],
+      "referenceUrl": "https://www.fca.org.uk/firms/innovation/regulatory-sandbox",
+      "targetLexemeId": "4e8f4dd0-1b25-5209-97e0-21661b8b3f21",
+      "expectedEntrySha": "6ae3061ae1ccd2da98066135b261da5085fe716e80b2a092e71d4ce65b0a2e59"
+    },
+    {
+      "lemma": "competitor",
+      "pos": "n",
+      "key": "business-offering-rival-goods-or-services",
+      "definitionEn": "A business that competes with others offering similar goods or services.",
+      "translationUz": "o‘xshash tovar yoki xizmat taklif qilib, boshqa korxonalar bilan raqobatlashuvchi korxona",
+      "exampleEn": "Smaller competitors worried that the testing scheme favoured established firms.",
+      "exampleUz": "Kichikroq raqobatchi korxonalar sinov dasturi allaqachon tanilgan firmalarga yon bosishidan xavotirlandi.",
+      "usageFrames": [
+        "smaller competitors",
+        "a company’s main competitors"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/competitor",
+      "targetLexemeId": "07e0f459-0151-5117-bf72-c850a1f56ba9",
+      "expectedEntrySha": "0c2fbe42a28a6115cd68db67b0f899cafaabb3ed2ff2c7a467d9a27bf3ab431b"
+    },
+    {
+      "lemma": "business model",
+      "pos": "n",
+      "key": "plan-for-operating-and-earning-revenue",
+      "definitionEn": "A plan explaining how a business operates, provides value and earns revenue.",
+      "translationUz": "korxona qanday ishlashi, foyda taklif qilishi va daromad olishini tushuntiruvchi biznes modeli",
+      "exampleEn": "Applicants needed evidence of a clear business model and customer protection.",
+      "exampleUz": "Arizachilarga aniq biznes modeli va mijozlar himoyasiga oid dalillar kerak edi.",
+      "usageFrames": [
+        "a clear business model",
+        "a sustainable business model"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/business-model"
+    },
+    {
+      "lemma": "evidence-based",
+      "pos": "a",
+      "key": "based-on-relevant-supporting-evidence",
+      "definitionEn": "Based on relevant evidence rather than unsupported claims or assumptions.",
+      "translationUz": "asossiz da’vo yoki farazlarga emas, tegishli dalillarga tayangan",
+      "exampleEn": "The regulator introduced evidence-based readiness checks.",
+      "exampleUz": "Nazorat organi tayyorgarlikni dalillarga asoslanib tekshirishni joriy etdi.",
+      "usageFrames": [
+        "evidence-based checks",
+        "evidence-based decisions"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/evidence-based"
+    },
+    {
+      "lemma": "dense",
+      "pos": "a",
+      "key": "containing-much-complex-information",
+      "definitionEn": "Containing a large amount of complex information in a form that is difficult to understand.",
+      "translationUz": "ko‘p murakkab ma’lumotni zich jamlagan, tushunish qiyin",
+      "exampleEn": "Dense legal notices were rarely read by trial participants.",
+      "exampleUz": "Murakkab ma’lumotlarga to‘la huquqiy bildirishnomalarni sinov ishtirokchilari kamdan-kam o‘qirdi.",
+      "usageFrames": [
+        "dense legal language",
+        "a dense explanation"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/dense",
+      "targetLexemeId": "2f199e7f-069b-5b29-baf4-f36f4bc3b7b8",
+      "expectedEntrySha": "099726147164cae872765ff6a63fb09c089fc0a380583ff7f5d838e2a6e14e8f",
+      "synonyms": [
+        {
+          "entryId": "93624c74-9d24-5c7c-bdc6-5987a5901d2c",
+          "senseId": "16e4413d-6ece-40ba-9a0f-98f9ccc8c519",
+          "meaningSha": "c8e766514460026203930017dcaf6159a39c65ff22d233c6e61f7f5f9c30cc45"
+        }
+      ]
+    },
+    {
+      "lemma": "disclaimer",
+      "pos": "n",
+      "key": "statement-limiting-responsibility-or-approval",
+      "definitionEn": "A formal statement limiting responsibility or clarifying that a claim or approval does not apply.",
+      "translationUz": "javobgarlikni cheklovchi yoki muayyan da’vo yoxud tasdiq amal qilmasligini tushuntiruvchi rasmiy bayonot",
+      "exampleEn": "A lengthy disclaimer did not reliably explain the limits of the trial.",
+      "exampleUz": "Uzun rasmiy javobgarlik izohi sinov chegaralarini ishonchli tushuntirib bermadi.",
+      "usageFrames": [
+        "a legal disclaimer",
+        "a disclaimer of official approval"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/disclaimer",
+      "targetLexemeId": "bf5db303-7ba1-5f39-a37a-f8ed0a0f9251",
+      "expectedEntrySha": "b768bb9a8375d157c403f86a0b6e586bb342c40c06cd08ca4dba625881cb0550"
+    },
+    {
+      "lemma": "preventable",
+      "pos": "a",
+      "key": "capable-of-being-stopped-before-occurring",
+      "definitionEn": "Able to be stopped or avoided before it happens.",
+      "translationUz": "oldini olish mumkin bo‘lgan",
+      "exampleEn": "The trial’s learning value did not justify preventable financial harm.",
+      "exampleUz": "Sinovning o‘rgatish qiymati oldini olish mumkin bo‘lgan moliyaviy zararni oqlamas edi.",
+      "usageFrames": [
+        "preventable financial harm",
+        "a preventable failure"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/preventable"
+    },
+    {
+      "lemma": "customer-loss",
+      "pos": "a",
+      "key": "relating-to-losses-suffered-by-customers",
+      "definitionEn": "Relating to financial losses suffered by customers.",
+      "translationUz": "mijozlar ko‘rgan moliyaviy zararga oid",
+      "exampleEn": "Participating firms contributed to a pooled customer-loss fund.",
+      "exampleUz": "Ishtirokchi firmalar mijozlar zarari uchun umumiy jamg‘armaga mablag‘ qo‘shdi.",
+      "usageFrames": [
+        "a customer-loss fund",
+        "customer-loss compensation"
+      ],
+      "referenceUrl": "https://www.fca.org.uk/firms/innovation/regulatory-sandbox"
+    },
+    {
+      "lemma": "sandbox",
+      "pos": "n",
+      "key": "controlled-environment-for-regulatory-testing",
+      "definitionEn": "A controlled environment in which firms test innovations with supervision and safeguards before wider use.",
+      "translationUz": "firmalar yangiliklarni kengroq joriy etishdan oldin nazorat va himoya choralari ostida sinaydigan muhit",
+      "exampleEn": "The sandbox had to produce evidence about the safety of new payment services.",
+      "exampleUz": "Nazorat ostidagi sinov muhiti yangi to‘lov xizmatlari xavfsizligi haqida dalil berishi kerak edi.",
+      "usageFrames": [
+        "a regulatory sandbox",
+        "test a service in a sandbox"
+      ],
+      "referenceUrl": "https://www.fca.org.uk/firms/innovation/regulatory-sandbox",
+      "targetLexemeId": "910d6a87-5e28-5fc7-951c-d467fa118e2d",
+      "expectedEntrySha": "0984ea4f96643f5327ab561b85d1e675b6ddf2aa46a2cb00b3ff5ba12007b84d"
+    },
+    {
+      "lemma": "evaluator",
+      "pos": "n",
+      "key": "person-assessing-quality-or-effectiveness",
+      "definitionEn": "A person who assesses the quality, effectiveness or results of something.",
+      "translationUz": "biror narsaning sifati, samaradorligi yoki natijalarini baholovchi kishi",
+      "exampleEn": "Evaluators collected complaints from customers who had left the trials.",
+      "exampleUz": "Baholovchilar sinovni tark etgan mijozlarning shikoyatlarini yig‘di.",
+      "usageFrames": [
+        "an independent evaluator",
+        "trial evaluators"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/evaluator",
+      "synonyms": [
+        {
+          "entryId": "8f8ca8ca-769b-5f15-8c0f-ee181f93d84e",
+          "senseId": "46958ede-015d-56ff-812e-568ce9fbf4c3",
+          "meaningSha": "550768cf6fc0f329a2a4ee563201c5679a0251e016f62b5806a02f7c1469e5e0"
+        }
+      ]
+    },
+    {
+      "lemma": "problematic",
+      "pos": "a",
+      "key": "causing-problems-or-difficulties",
+      "definitionEn": "Causing problems or difficulties.",
+      "translationUz": "muammolar yoki qiyinchiliklar tug‘diradigan",
+      "exampleEn": "Attrition could make a problematic service appear successful.",
+      "exampleUz": "Ishtirokchilarning chiqib ketishi muammo tug‘diradigan xizmatni muvaffaqiyatli qilib ko‘rsatishi mumkin edi.",
+      "usageFrames": [
+        "a problematic service",
+        "a potentially problematic result"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/problematic",
+      "targetLexemeId": "34a3dadc-dfd5-5c2a-be42-9e0260f825c4",
+      "expectedEntrySha": "3c49443e298bab6aa026d94f35f6f94686942107468653d7b8678c9c7b366e46"
+    },
+    {
+      "lemma": "lengthy",
+      "pos": "a",
+      "key": "long-and-requiring-considerable-time-or-attention",
+      "definitionEn": "Long, especially in a way requiring considerable time or attention.",
+      "translationUz": "uzun; ko‘p vaqt yoki diqqat talab qiladigan",
+      "exampleEn": "Customers needed a short explanation rather than another lengthy disclaimer.",
+      "exampleUz": "Mijozlarga yana bir uzun rasmiy izoh emas, qisqa tushuntirish kerak edi.",
+      "usageFrames": [
+        "a lengthy disclaimer",
+        "a lengthy document"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/lengthy",
+      "targetLexemeId": "85f46bb2-f429-5237-a4a1-89c2bd377899",
+      "expectedEntrySha": "24e682b1eaa55f7d6541c8b795775faffb9df92b79bedce147c91dab299e9585"
+    },
+    {
+      "lemma": "archival",
+      "pos": "a",
+      "key": "relating-to-preserved-historical-records",
+      "definitionEn": "Relating to records kept for their historical or evidential value.",
+      "translationUz": "tarixiy yoki daliliy ahamiyati uchun saqlanadigan hujjatlarga oid",
+      "exampleEn": "Private messages can become archival records.",
+      "exampleUz": "Shaxsiy xabarlar arxiv hujjatlariga aylanishi mumkin.",
+      "usageFrames": [
+        "archival records",
+        "archival material"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/archival"
+    },
+    {
+      "lemma": "estate",
+      "pos": "n",
+      "key": "representatives-managing-a-deceased-persons-affairs",
+      "definitionEn": "The people or legal body managing a deceased person’s property, rights and affairs.",
+      "translationUz": "vafot etgan shaxsning mol-mulki, huquqlari va ishlarini boshqaruvchi vakillar",
+      "exampleEn": "The poet’s estate requested wider access to the donated papers.",
+      "exampleUz": "Shoirning merosini boshqaruvchi vakillar topshirilgan hujjatlardan kengroq foydalanishga ruxsat so‘radi.",
+      "usageFrames": [
+        "a writer’s estate",
+        "permission from the estate"
+      ],
+      "referenceUrl": "https://searcharchives.bl.uk/catalog/032-000001282",
+      "targetLexemeId": "3ef4681d-33ee-5f4c-b5e3-381c33a0d06c",
+      "expectedEntrySha": "5538986c07616ffc367410eb2109879fd1608791c456e7330a482a719567133c"
+    },
+    {
+      "lemma": "embargo",
+      "pos": "n",
+      "key": "restriction-on-releasing-information",
+      "definitionEn": "A restriction preventing information or documents from being released, often until specified conditions are met.",
+      "translationUz": "ma’lumot yoki hujjatlarni e’lon qilishga qo‘yilgan, ko‘pincha muayyan shartgacha amal qiladigan taqiq",
+      "exampleEn": "A blanket embargo would keep all the private papers closed.",
+      "exampleUz": "Yalpi taqiq barcha shaxsiy hujjatlarni foydalanish uchun yopiq saqlardi.",
+      "usageFrames": [
+        "an embargo on publication",
+        "lift an embargo"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/embargo",
+      "targetLexemeId": "0bdf2828-9bae-526f-88a7-65697fcd67fe",
+      "expectedEntrySha": "1a2f6fb233b81f8eb0cfa9588aa613d98f9e002e4b22e8e3adb6aba9a89797e0"
+    },
+    {
+      "lemma": "scholarship",
+      "pos": "n",
+      "key": "academic-study-and-research",
+      "definitionEn": "Serious academic study or research and the knowledge produced by it.",
+      "translationUz": "ilmiy tadqiqot va chuqur o‘rganish; ulardan hosil bo‘ladigan bilim",
+      "exampleEn": "Access to the archive could support valuable scholarship.",
+      "exampleUz": "Arxivdan foydalanish muhim ilmiy tadqiqotlarga yordam berishi mumkin edi.",
+      "usageFrames": [
+        "historical scholarship",
+        "support scholarly research and scholarship"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/scholarship",
+      "targetLexemeId": "afd12b3c-51a0-5adf-a81b-788fe6d3a6bc",
+      "expectedEntrySha": "8da3391302bc4df9f3f105b23e15613cfafaf068cd4c6a4f0ec2c91d1199b00b"
+    },
+    {
+      "lemma": "attachment",
+      "pos": "n",
+      "key": "electronic-file-sent-with-a-message",
+      "definitionEn": "An electronic file sent or stored together with a message.",
+      "translationUz": "xabar bilan birga yuboriladigan yoki saqlanadigan elektron ilova fayli",
+      "exampleEn": "The archivist checked every email attachment for private information.",
+      "exampleUz": "Arxivchi har bir elektron xat ilovasida shaxsiy ma’lumot bor-yo‘qligini tekshirdi.",
+      "usageFrames": [
+        "an email attachment",
+        "open an attachment"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/attachment",
+      "targetLexemeId": "45bd44fe-6c83-5dba-946e-f24cbedd7165",
+      "expectedEntrySha": "0b1ed032fc5c9d155583dd835f85a4d44ea07d0bf7598db004ff44a78325cfb3"
+    },
+    {
+      "lemma": "bulk",
+      "pos": "a",
+      "key": "involving-a-large-quantity-together",
+      "definitionEn": "Involving or handling a large quantity together rather than individual items.",
+      "translationUz": "alohida bittadan emas, katta miqdorni birgalikda qamrab oladigan",
+      "exampleEn": "Bulk downloads can include files that need separate privacy checks.",
+      "exampleUz": "Ko‘p faylni birdan yuklab olishga maxfiyligi alohida tekshirilishi kerak bo‘lgan fayllar ham kirishi mumkin.",
+      "usageFrames": [
+        "bulk downloads",
+        "bulk analysis"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/bulk"
+    },
+    {
+      "lemma": "contact list",
+      "pos": "n",
+      "key": "list-of-people-and-their-contact-details",
+      "definitionEn": "A list of people or organisations with details for communicating with them.",
+      "translationUz": "odamlar yoki tashkilotlar va ular bilan bog‘lanish ma’lumotlari ro‘yxati",
+      "exampleEn": "A private contact list was hidden in an email attachment.",
+      "exampleUz": "Elektron xat ilovasida shaxsiy kontaktlar ro‘yxati yashiringan edi.",
+      "usageFrames": [
+        "a private contact list",
+        "an electronic contact list"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/contact-list",
+      "forms": [
+        "contact lists"
+      ]
+    },
+    {
+      "lemma": "staged",
+      "pos": "a",
+      "key": "arranged-in-successive-phases",
+      "definitionEn": "Arranged to happen in successive phases rather than all at once.",
+      "translationUz": "birdaniga emas, ketma-ket bosqichlarda amalga oshiriladigan",
+      "exampleEn": "The library introduced staged access to sensitive records.",
+      "exampleUz": "Kutubxona nozik ma’lumotli hujjatlardan foydalanishni bosqichma-bosqich yo‘lga qo‘ydi.",
+      "usageFrames": [
+        "staged access",
+        "a staged approach"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/staged",
+      "targetLexemeId": "de6d52c4-bc77-593e-aa61-5bb5abb9eb7a",
+      "expectedEntrySha": "c5b63829d7cb57ce58825022733ce317de48edf5faa36427a5ecfbd218f9a2f5"
+    },
+    {
+      "lemma": "pending",
+      "pos": "preposition",
+      "key": "while-waiting-for-an-event-or-decision",
+      "definitionEn": "While waiting for the event, decision or action that follows.",
+      "translationUz": "keyingi voqea, qaror yoki harakatni kutish davomida; ...gacha",
+      "exampleEn": "The files remained closed pending further review.",
+      "exampleUz": "Fayllar qo‘shimcha tekshiruv tugaguncha yopiq qoldi.",
+      "usageFrames": [
+        "pending further review",
+        "pending approval"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/pending"
+    },
+    {
+      "lemma": "series",
+      "pos": "n",
+      "key": "related-archival-records-kept-as-a-unit",
+      "definitionEn": "A group of related archival records kept or described together because of a shared activity, function or origin.",
+      "translationUz": "umumiy faoliyat, vazifa yoki kelib chiqishi tufayli birga saqlanadigan yoki tavsiflanadigan arxiv hujjatlari turkumi",
+      "exampleEn": "The catalogue named the restricted series without exposing private messages.",
+      "exampleUz": "Katalog shaxsiy xabarlarni oshkor qilmay, cheklangan arxiv turkumlarini nomladi.",
+      "usageFrames": [
+        "an archival series",
+        "a restricted series"
+      ],
+      "referenceUrl": "https://www.archives.gov/records-mgmt/scheduling/basics",
+      "targetLexemeId": "145802f3-ab43-58e2-8fa5-a732e40019fc",
+      "expectedEntrySha": "81b6df6be12969144a0e2ba9789f8174ec8806ecfd0e2bf9cffaad94f2ac3a00"
+    },
+    {
+      "lemma": "reviewable",
+      "pos": "a",
+      "key": "capable-of-being-reconsidered-or-reassessed",
+      "definitionEn": "Able to be examined again and reconsidered when necessary.",
+      "translationUz": "zarur bo‘lganda qayta ko‘rib chiqish va baholash mumkin bo‘lgan",
+      "exampleEn": "The archivists adopted a reviewable framework for new technologies.",
+      "exampleUz": "Arxivchilar yangi texnologiyalar uchun qayta ko‘rib chiqish mumkin bo‘lgan tizimni qabul qildi.",
+      "usageFrames": [
+        "a reviewable framework",
+        "a reviewable decision"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/reviewable"
+    },
+    {
+      "lemma": "silence",
+      "pos": "n",
+      "key": "absence-of-information-or-comment",
+      "definitionEn": "A lack of information, comment or acknowledgement about a matter.",
+      "translationUz": "biror masala haqida ma’lumot, izoh yoki e’tirofning yo‘qligi; sukut",
+      "exampleEn": "Silence about missing files could give a false impression of completeness.",
+      "exampleUz": "Yetishmayotgan fayllar haqida sukut saqlash to‘liqlik haqida yolg‘on taassurot berishi mumkin edi.",
+      "usageFrames": [
+        "silence about an issue",
+        "official silence"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/silence",
+      "targetLexemeId": "62406e49-2aaf-5760-87c8-f883231003e9",
+      "expectedEntrySha": "dcbf0bb983c549cb71668fa09ed23fc19ac0870678bff80ad611cb0ed192ec25"
+    },
+    {
+      "lemma": "archive",
+      "pos": "n",
+      "key": "collection-of-records-kept-for-lasting-value",
+      "definitionEn": "A collection of documents or other records kept because of their lasting historical or evidential value.",
+      "translationUz": "uzoq muddatli tarixiy yoki daliliy ahamiyati sababli saqlanadigan hujjatlar yoki boshqa yozuvlar to‘plami",
+      "exampleEn": "The donated archive included private correspondence.",
+      "exampleUz": "Topshirilgan arxiv to‘plamiga shaxsiy yozishmalar ham kirardi.",
+      "usageFrames": [
+        "a literary archive",
+        "donate an archive"
+      ],
+      "referenceUrl": "https://history.house.gov/Records-and-Research/FAQs/Records-Glossary/",
+      "targetLexemeId": "271711ef-73be-53fb-83a4-a9deb1b63eae",
+      "expectedEntrySha": "4a22d6b7768e8e33803cc45b9b9c74c469d4bd1c77fa5c32a1d153e42b3867b9"
+    },
+    {
+      "lemma": "ethical",
+      "pos": "a",
+      "key": "relating-to-questions-of-right-and-wrong",
+      "definitionEn": "Relating to questions of right and wrong or to responsibilities towards other people.",
+      "translationUz": "to‘g‘ri va noto‘g‘ri xatti-harakatlar yoki boshqalar oldidagi mas’uliyatga oid",
+      "exampleEn": "The archive raised ethical questions about the privacy of living people.",
+      "exampleUz": "Arxiv tirik odamlarning shaxsiy hayotiga oid axloqiy masalalarni yuzaga chiqardi.",
+      "usageFrames": [
+        "ethical questions",
+        "an ethical responsibility"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/ethical",
+      "targetLexemeId": "a433e0d9-d196-5fd6-90de-46b9607ed26d",
+      "expectedEntrySha": "684afa59cd2476a1b2837681781d9ed5891b111bfbf35e5361f9b3a48b738c77"
+    },
+    {
+      "lemma": "over",
+      "pos": "preposition",
+      "key": "concerning-or-in-relation-to-a-matter",
+      "definitionEn": "Concerning or in relation to the person or matter named.",
+      "translationUz": "aytilgan shaxs yoki masalaga oid; uning yuzasidan",
+      "exampleEn": "Ownership did not grant publication rights over every person mentioned.",
+      "exampleUz": "Egalik huquqi tilga olingan har bir shaxsga oid ma’lumotni e’lon qilish huquqini bermasdi.",
+      "usageFrames": [
+        "rights over material",
+        "control over access"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/over"
+    },
+    {
+      "lemma": "district-level",
+      "pos": "a",
+      "key": "relating-to-a-district-as-a-whole",
+      "definitionEn": "Relating to a district as a whole rather than to individual sites within it.",
+      "translationUz": "tuman yoki hududning alohida nuqtalariga emas, uning umumiy miqyosiga oid",
+      "exampleEn": "Partners requested district-level summaries of food deliveries.",
+      "exampleUz": "Hamkorlar oziq-ovqat yetkazilishi haqida tuman miqyosidagi umumlashma ma’lumotlarni so‘radi.",
+      "usageFrames": [
+        "district-level summaries",
+        "district-level reporting"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/district"
+    },
+    {
+      "lemma": "point-by-point",
+      "pos": "a",
+      "key": "covering-each-individual-point-separately",
+      "definitionEn": "Showing or considering each individual point separately.",
+      "translationUz": "har bir nuqtani alohida ko‘rsatadigan yoki ko‘rib chiqadigan",
+      "exampleEn": "Point-by-point locations could expose vulnerable distribution sites.",
+      "exampleUz": "Har bir nuqtaning joylashuvini alohida ko‘rsatish himoyasiz tarqatish joylarini oshkor qilishi mumkin edi.",
+      "usageFrames": [
+        "point-by-point locations",
+        "a point-by-point comparison"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/point-by-point"
+    },
+    {
+      "lemma": "hard-to-reach",
+      "pos": "a",
+      "key": "difficult-to-get-to-or-contact",
+      "definitionEn": "Difficult to get to or make contact with.",
+      "translationUz": "yetib borish yoki aloqa o‘rnatish qiyin bo‘lgan",
+      "exampleEn": "The hardest-to-reach settlements were at risk of disappearing from reports.",
+      "exampleUz": "Yetib borish eng qiyin bo‘lgan aholi punktlari hisobotlardan tushib qolish xavfi ostida edi.",
+      "usageFrames": [
+        "hard-to-reach communities",
+        "the hardest-to-reach settlements"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/hard-to-reach",
+      "forms": [
+        "hardest-to-reach"
+      ]
+    },
+    {
+      "lemma": "decimal place",
+      "pos": "n",
+      "key": "digit-position-after-the-decimal-point",
+      "definitionEn": "A position occupied by a digit after the decimal point in a number.",
+      "translationUz": "sondagi o‘nli nuqtadan keyingi raqam xonasi",
+      "exampleEn": "More decimal places did not make the reported locations more reliable.",
+      "exampleUz": "O‘nli nuqtadan keyingi xonalar ko‘pligi berilgan joylashuvlarni ishonchliroq qilmasdi.",
+      "usageFrames": [
+        "two decimal places",
+        "round to one decimal place"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/decimal-place",
+      "forms": [
+        "decimal places"
+      ]
+    },
+    {
+      "lemma": "in real time",
+      "pos": "r",
+      "key": "as-an-event-occurs-without-significant-delay",
+      "definitionEn": "As an event happens or information changes, without a significant delay.",
+      "translationUz": "voqea sodir bo‘layotgan yoki ma’lumot o‘zgarayotgan paytning o‘zida, sezilarli kechikishsiz",
+      "exampleEn": "Donors did not need to see sensitive operational details in real time.",
+      "exampleUz": "Donorlarga nozik operatsion tafsilotlarni ayni sodir bo‘layotgan paytda ko‘rish shart emas edi.",
+      "usageFrames": [
+        "monitor progress in real time",
+        "report events in real time"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/real-time"
+    },
+    {
+      "lemma": "drop out",
+      "pos": "v",
+      "key": "cease-to-be-included-in-a-process-or-system",
+      "definitionEn": "To stop being included in a process, system or set of records.",
+      "translationUz": "biror jarayon, tizim yoki yozuvlar to‘plamiga kirmay qolmoq; undan tushib qolmoq",
+      "exampleEn": "Remote settlements dropped out of reporting when deliveries were not confirmed.",
+      "exampleUz": "Yetkazib berish tasdiqlanmaganda olis aholi punktlari hisobotdan tushib qoldi.",
+      "usageFrames": [
+        "drop out of reporting",
+        "drop out of the records"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/drop-out",
+      "forms": [
+        "dropped out"
+      ],
+      "targetLexemeId": "a005c67c-e8a3-59b5-9dad-470fae5db184",
+      "expectedEntrySha": "3811c264592db2666b72b3447978188b8c15782737dc6727ae4ca77139b06223"
+    },
+    {
+      "lemma": "otherwise",
+      "pos": "r",
+      "key": "if-the-situation-or-action-described-does-not-happen",
+      "definitionEn": "If the action or situation just described does not happen or is not the case.",
+      "translationUz": "aks holda; aytilgan ish bajarilmasa yoki holat bo‘lmasa",
+      "exampleEn": "Missing deliveries must stay in the totals; otherwise success rates may be inflated.",
+      "exampleUz": "Yetishmagan yetkazib berishlar umumiy hisobda qolishi kerak; aks holda muvaffaqiyat ulushi sun’iy oshishi mumkin.",
+      "usageFrames": [
+        "otherwise the result may change",
+        "check it; otherwise errors remain"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/otherwise",
+      "targetLexemeId": "e53a61b5-6a82-585d-8524-550e8ad58522",
+      "expectedEntrySha": "f0c1b7df940aebe9bfbde2fe36a70deea656d04d590ea7f4bdd1f8be582e86db"
+    },
+    {
+      "lemma": "account",
+      "pos": "n",
+      "key": "record-of-money-received-and-spent",
+      "definitionEn": "A financial record of money received, spent or owed by a person or organisation.",
+      "translationUz": "shaxs yoki tashkilot olgan, sarflagan yoki qarzdor bo‘lgan pulga oid moliyaviy hisob yozuvi",
+      "exampleEn": "The donors inspected the procurement and transport accounts.",
+      "exampleUz": "Donorlar xarid va tashish bo‘yicha moliyaviy hisoblarni tekshirdi.",
+      "usageFrames": [
+        "inspect the accounts",
+        "keep accurate accounts"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/account",
+      "targetLexemeId": "b7e3c5d1-1c07-5aec-8bd5-3f7726469a28",
+      "expectedEntrySha": "d7d4f9bef6b0e72483e3494b38dc1ac42161cfa5f9254a1ffcde2958fca9cea5"
+    },
+    {
+      "lemma": "theatre",
+      "pos": "n",
+      "key": "group-producing-or-performing-plays",
+      "definitionEn": "A group or organisation that produces or performs plays and other dramatic performances.",
+      "translationUz": "spektakl va boshqa sahna asarlarini tayyorlaydigan yoki ijro etadigan jamoa yoxud tashkilot",
+      "exampleEn": "The community theatre recorded a traditional performance.",
+      "exampleUz": "Mahalliy teatr jamoasi an’anaviy tomoshani yozib oldi.",
+      "usageFrames": [
+        "a community theatre",
+        "the theatre’s performers"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/theatre",
+      "targetLexemeId": "2f8be34b-9c09-58ff-97e9-ceaeeb7073b9",
+      "expectedEntrySha": "a0337cd35ee77e631736db9d451d3acff7cc2fb53878729c1cb6e68072e8c911"
+    },
+    {
+      "lemma": "elder",
+      "pos": "n",
+      "key": "respected-older-member-of-a-community",
+      "definitionEn": "An older member of a community who is respected for experience or knowledge.",
+      "translationUz": "tajribasi yoki bilimi uchun hurmat qilinadigan, yoshi katta jamoa a’zosi",
+      "exampleEn": "The elders taught the chant to younger performers.",
+      "exampleUz": "Jamoaning hurmatli keksalari yosh ijrochilarga aytimni o‘rgatdi.",
+      "usageFrames": [
+        "community elders",
+        "consult the elders"
+      ],
+      "referenceUrl": "https://ich.unesco.org/en/tradition-bearers-and-practitioners-00259",
+      "targetLexemeId": "3f73f362-2765-58c8-8c9f-4df7027a3b18",
+      "expectedEntrySha": "89b59a807bde242447cb607ae5e2c1eb41ef4faa0973defd1d17c5f492ce0b4e"
+    },
+    {
+      "lemma": "licensing",
+      "pos": "n",
+      "key": "granting-permission-to-use-something",
+      "definitionEn": "The process or practice of granting permission to use something under stated conditions.",
+      "translationUz": "biror narsadan belgilangan shartlar asosida foydalanishga ruxsat berish jarayoni yoki amaliyoti",
+      "exampleEn": "The company’s licensing assumptions did not establish the community’s consent.",
+      "exampleUz": "Kompaniyaning foydalanishga ruxsat haqidagi taxminlari jamoaning roziligini tasdiqlamasdi.",
+      "usageFrames": [
+        "licensing conditions",
+        "licensing assumptions"
+      ],
+      "referenceUrl": "https://www.law.cornell.edu/wex/license"
+    },
+    {
+      "lemma": "documentation",
+      "pos": "n",
+      "key": "making-and-keeping-a-record",
+      "definitionEn": "The process of creating and keeping a record of information, events or practices.",
+      "translationUz": "ma’lumot, voqea yoki amaliyotni qayd etish va uning yozuvini saqlash jarayoni",
+      "exampleEn": "Performers agreed to documentation for teaching purposes.",
+      "exampleUz": "Ijrochilar ta’lim maqsadida qayd etishga rozilik berdi.",
+      "usageFrames": [
+        "documentation of cultural practices",
+        "educational documentation"
+      ],
+      "referenceUrl": "https://ich.unesco.org/en/tradition-bearers-and-practitioners-00259",
+      "targetLexemeId": "90d835ba-1779-5615-b889-564363c10741",
+      "expectedEntrySha": "31163c346f706015b8ce2d20e46440b455a2d087356720e44258b8fcf2b8d134"
+    },
+    {
+      "lemma": "transmission",
+      "pos": "n",
+      "key": "passing-knowledge-or-traditions-to-others",
+      "definitionEn": "The passing of knowledge, skills or traditions from one person or generation to another.",
+      "translationUz": "bilim, ko‘nikma yoki an’analarni bir kishidan yoki avloddan boshqasiga yetkazish",
+      "exampleEn": "Private transmission of the chant followed community customs.",
+      "exampleUz": "Aytimni o‘zaro o‘rgatish jamoa urf-odatlariga amal qilar edi.",
+      "usageFrames": [
+        "cultural transmission",
+        "transmission between generations"
+      ],
+      "referenceUrl": "https://ich.unesco.org/doc/src/32697-EN.pdf",
+      "targetLexemeId": "55dcc69a-304f-5066-8d0c-c00ac530245f",
+      "expectedEntrySha": "db1c613e0a2c5c3acb8c43e618d4e97fb7a2d104a25c67a8cdf9c386166aa39d"
+    },
+    {
+      "lemma": "one-off",
+      "pos": "a",
+      "key": "happening-once-and-not-repeated",
+      "definitionEn": "Happening or being done only once rather than repeatedly.",
+      "translationUz": "bir martalik; takrorlanmaydigan",
+      "exampleEn": "Permission was not a one-off action that ended all consultation.",
+      "exampleUz": "Ruxsat olish barcha maslahatlashuvni tugatadigan bir martalik ish emas edi.",
+      "usageFrames": [
+        "a one-off decision",
+        "a one-off action"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/one-off"
+    },
+    {
+      "lemma": "rights-holder",
+      "pos": "n",
+      "key": "person-or-group-entitled-to-control-use",
+      "definitionEn": "A person, group or organisation holding rights over material or an activity.",
+      "translationUz": "material yoki faoliyat ustidan muayyan huquqlarga ega bo‘lgan shaxs, guruh yoki tashkilot",
+      "exampleEn": "The community could not be treated as a single unanimous rights-holder.",
+      "exampleUz": "Jamoaga bir ovozdan fikrlaydigan yagona huquq egasi sifatida qarab bo‘lmasdi.",
+      "usageFrames": [
+        "a cultural rights-holder",
+        "consult the rights-holder"
+      ],
+      "referenceUrl": "https://ich.unesco.org/en/tradition-bearers-and-practitioners-00259"
+    },
+    {
+      "lemma": "checkbox",
+      "pos": "n",
+      "key": "task-treated-as-a-procedural-formality",
+      "definitionEn": "A task treated as a formality to mark as completed rather than as a meaningful process.",
+      "translationUz": "mazmunli jarayon emas, bajarildi deb belgilash uchun shunchaki rasmiyatchilik sifatida ko‘riladigan ish",
+      "exampleEn": "The researchers refused to treat consent as a one-off checkbox.",
+      "exampleUz": "Tadqiqotchilar rozilikni bir martalik rasmiyatchilik deb ko‘rishni rad etdi.",
+      "usageFrames": [
+        "a one-off checkbox",
+        "a checkbox exercise"
+      ],
+      "referenceUrl": "https://ich.unesco.org/en/tradition-bearers-and-practitioners-00259"
+    },
+    {
+      "lemma": "contestable",
+      "pos": "a",
+      "key": "open-to-reasoned-challenge-or-disagreement",
+      "definitionEn": "Able to be questioned, disputed or challenged rather than accepted as settled.",
+      "translationUz": "yakuniy va bahssiz deb qabul qilinmay, savol ostiga olish yoki bahslashish mumkin bo‘lgan",
+      "exampleEn": "The community’s governance remained contestable and open to discussion.",
+      "exampleUz": "Jamoaning boshqaruv tartibi bahsga va muhokamaga ochiq bo‘lib qoldi.",
+      "usageFrames": [
+        "a contestable decision",
+        "contestable governance"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/contestable"
+    },
+    {
+      "lemma": "survival",
+      "pos": "n",
+      "key": "continued-existence-of-a-practice-or-institution",
+      "definitionEn": "The continued existence of a practice, institution or other non-living thing despite threats to it.",
+      "translationUz": "xavflarga qaramay amaliyot, muassasa yoki boshqa jonsiz narsaning mavjud bo‘lib qolishi",
+      "exampleEn": "Young performers viewed wider circulation as a means of cultural survival.",
+      "exampleUz": "Yosh ijrochilar kengroq tarqalishni madaniyatni saqlab qolish vositasi deb bildi.",
+      "usageFrames": [
+        "cultural survival",
+        "the survival of a tradition"
+      ],
+      "referenceUrl": "https://ich.unesco.org/en/tradition-bearers-and-practitioners-00259",
+      "targetLexemeId": "7c390e7d-e81d-57ba-b6ab-a9ca3d82b27f",
+      "expectedEntrySha": "761d15c9d7f4b332a1087b2b00465c828845161d2b8b49375792298865d27669"
+    },
+    {
+      "lemma": "strip",
+      "pos": "v",
+      "key": "deprive-something-of-a-quality-or-feature",
+      "definitionEn": "To take away an important quality, feature or protection from someone or something.",
+      "translationUz": "biror kishi yoki narsani muhim xususiyat, jihat yoki himoyadan mahrum qilmoq",
+      "exampleEn": "The advertisement could strip the chant of its cultural context.",
+      "exampleUz": "Reklama aytimni madaniy kontekstidan mahrum qilishi mumkin edi.",
+      "usageFrames": [
+        "strip something of context",
+        "strip someone of protection"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/strip",
+      "targetLexemeId": "44252333-19f3-5929-a5d5-2fe79776dda9",
+      "expectedEntrySha": "e799c507126de5771a9fa33845d7a45b9dd7f1456ad980cb9987f997d84b7bf8"
+    },
+    {
+      "lemma": "public-health",
+      "pos": "a",
+      "key": "relating-to-the-health-of-a-population",
+      "definitionEn": "Relating to the protection and improvement of health across a population.",
+      "translationUz": "aholi salomatligini himoya qilish va yaxshilashga oid",
+      "exampleEn": "The public-health office explained what was known and still uncertain.",
+      "exampleUz": "Aholi salomatligi bo‘yicha idora nimalar ma’lum, nimalar esa hali noaniq ekanini tushuntirdi.",
+      "usageFrames": [
+        "public-health information",
+        "public-health guidance"
+      ],
+      "referenceUrl": "https://www.who.int/emergencies/risk-communications"
+    },
+    {
+      "lemma": "briefing",
+      "pos": "n",
+      "key": "meeting-or-statement-providing-essential-information",
+      "definitionEn": "A meeting or statement that gives essential information about a situation.",
+      "translationUz": "biror holat haqida asosiy ma’lumot beriladigan uchrashuv yoki bayonot",
+      "exampleEn": "The first briefing separated observed cases from hypotheses.",
+      "exampleUz": "Birinchi axborot bayonotida kuzatilgan holatlar farazlardan ajratildi.",
+      "usageFrames": [
+        "a public briefing",
+        "a press briefing"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/briefing",
+      "targetLexemeId": "20613fd8-5ae9-507f-9db1-60ebff816b88",
+      "expectedEntrySha": "3c8b474cc37a00ec4bb6cd92808c4b75e7fed6052cb218ff3a8a2d25797a8fa9"
+    },
+    {
+      "lemma": "collapse",
+      "pos": "n",
+      "key": "sudden-severe-loss-or-failure",
+      "definitionEn": "A sudden and severe loss or failure of a system, relationship or abstract quality.",
+      "translationUz": "tizim, munosabat yoki mavhum sifatning keskin va jiddiy yo‘qolishi yoki izdan chiqishi",
+      "exampleEn": "Withholding uncertainty could cause a collapse of public trust.",
+      "exampleUz": "Noaniqlikni yashirish jamoatchilik ishonchining keskin yo‘qolishiga sabab bo‘lishi mumkin edi.",
+      "usageFrames": [
+        "a collapse of trust",
+        "a collapse in confidence"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/collapse",
+      "targetLexemeId": "4d608284-1e4d-52d2-a140-e48de2963b02",
+      "expectedEntrySha": "6e3abb01774244f9eca69ec5e7745dde1ec1bd18629ac3b1f22d55b3f1cc5ce1"
+    },
+    {
+      "lemma": "low-confidence",
+      "pos": "a",
+      "key": "supported-with-only-limited-certainty",
+      "definitionEn": "Assessed as having only limited certainty or evidential support.",
+      "translationUz": "ishonchlilik darajasi yoki daliliy asosi cheklangan deb baholangan",
+      "exampleEn": "A low-confidence classification did not mean that the possible harm was small.",
+      "exampleUz": "Ishonchlilik darajasi past tasnif mumkin bo‘lgan zarar kichikligini anglatmasdi.",
+      "usageFrames": [
+        "low-confidence evidence",
+        "a low-confidence assessment"
+      ],
+      "referenceUrl": "https://www.who.int/emergencies/risk-communications"
+    },
+    {
+      "lemma": "willingness",
+      "pos": "n",
+      "key": "readiness-to-do-something",
+      "definitionEn": "Readiness to do or accept something.",
+      "translationUz": "biror ishni qilish yoki qabul qilishga tayyorlik",
+      "exampleEn": "The office showed a willingness to correct earlier statements.",
+      "exampleUz": "Idora oldingi bayonotlarni tuzatishga tayyorligini ko‘rsatdi.",
+      "usageFrames": [
+        "a willingness to correct mistakes",
+        "show willingness"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/willingness",
+      "targetLexemeId": "f2a8e1f1-4fe2-57f7-a5e4-01b581142c6c",
+      "expectedEntrySha": "bde97a712b958b8d56f8519863edfa1a4afcbb08ef81f78cb935dfce05e414e8"
+    },
+    {
+      "lemma": "responsiveness",
+      "pos": "n",
+      "key": "readiness-to-adapt-to-new-needs-or-information",
+      "definitionEn": "Readiness or ability to react appropriately to new needs, conditions or information.",
+      "translationUz": "yangi ehtiyoj, sharoit yoki ma’lumotga mos ravishda javob berish yoki moslashish qobiliyati",
+      "exampleEn": "Changing the guidance could show responsiveness to new evidence.",
+      "exampleUz": "Tavsiyani o‘zgartirish yangi dalillarga mos javob berishni ko‘rsatishi mumkin edi.",
+      "usageFrames": [
+        "responsiveness to evidence",
+        "institutional responsiveness"
+      ],
+      "referenceUrl": "https://www.who.int/emergencies/risk-communications",
+      "targetLexemeId": "01937f7d-1498-5807-8169-df7d478adf5c",
+      "expectedEntrySha": "775c9bd50281734fbccc7d7a614c411edb33951d6b6d36cacc4e9bcc5b75915a"
+    },
+    {
+      "lemma": "compressed",
+      "pos": "a",
+      "key": "expressed-in-a-shortened-form",
+      "definitionEn": "Expressed in fewer words or a shortened form, often with details omitted.",
+      "translationUz": "kamroq so‘z bilan qisqartirib ifodalangan, ko‘pincha tafsilotlari tushirib qoldirilgan",
+      "exampleEn": "The compressed message lost important qualifications.",
+      "exampleUz": "Qisqartirilgan xabarda muhim cheklovchi izohlar yo‘qoldi.",
+      "usageFrames": [
+        "a compressed explanation",
+        "compressed messages"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/compress",
+      "targetLexemeId": "4d03a870-234b-5db6-91ac-de842cfb1a5f",
+      "expectedEntrySha": "454ec3ecce064631def7065e37b66ab491cbc5b11905fd8ad0edd1a89baa1c94"
+    },
+    {
+      "lemma": "difficulty",
+      "pos": "n",
+      "key": "problem-or-obstacle-requiring-effort",
+      "definitionEn": "A problem or obstacle that requires effort or care to deal with.",
+      "translationUz": "hal qilish uchun kuch yoki e’tibor talab qiladigan muammo yoxud to‘siq",
+      "exampleEn": "The evidence-grading system created new difficulties.",
+      "exampleUz": "Dalillarni darajalash tizimi yangi qiyinchiliklar tug‘dirdi.",
+      "usageFrames": [
+        "create difficulties",
+        "practical difficulties"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/difficulty",
+      "targetLexemeId": "bacc82c8-9ef8-5a2c-a650-0cd62348f859",
+      "expectedEntrySha": "0e3517ce8041994c89a1a0c73317de4f756773659e0dd55dae73eda23416b33d"
+    },
+    {
+      "lemma": "shorthand",
+      "pos": "n",
+      "key": "abbreviated-way-of-referring-to-something",
+      "definitionEn": "A short or simplified expression used to refer to a more detailed idea.",
+      "translationUz": "batafsilroq g‘oyani ifodalash uchun ishlatiladigan qisqa yoki soddalashtirilgan ibora",
+      "exampleEn": "The team replaced unsupported shorthand with clear examples.",
+      "exampleUz": "Jamoa yetarli asoslanmagan qisqa iboralarni aniq misollar bilan almashtirdi.",
+      "usageFrames": [
+        "shorthand for an idea",
+        "misleading shorthand"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/shorthand",
+      "targetLexemeId": "71b3549c-51ec-5dba-a803-829e58c6938b",
+      "expectedEntrySha": "5fba04b0ffece401a1f8956f1e979813ec4a66cc3031f1495fb5b80830cc852a"
+    },
+    {
+      "lemma": "epistemic humility",
+      "pos": "n",
+      "key": "recognition-of-the-limits-of-ones-knowledge",
+      "definitionEn": "Recognition that one’s knowledge or beliefs may be limited or mistaken.",
+      "translationUz": "o‘z bilimi yoki ishonchlari cheklangan yoxud xato bo‘lishi mumkinligini tan olish",
+      "exampleEn": "Epistemic humility helped the office acknowledge what it did not know.",
+      "exampleUz": "Bilim chegaralarini tan olish idoraga nimalarni bilmasligini e’tirof etishga yordam berdi.",
+      "usageFrames": [
+        "show epistemic humility",
+        "epistemic humility about uncertain evidence"
+      ],
+      "referenceUrl": "https://www.cambridge.org/core/journals/episteme/article/abs/what-does-epistemic-mean/1B92CF86D32968E01052CE27F448BB18"
+    },
+    {
+      "lemma": "orientation",
+      "pos": "n",
+      "key": "understanding-that-provides-a-direction-for-action",
+      "definitionEn": "Understanding or a sense of direction that helps someone decide how to act.",
+      "translationUz": "qanday harakat qilishni tanlashga yordam beradigan tushuncha yoki yo‘nalish",
+      "exampleEn": "People needed practical orientation as well as honest uncertainty.",
+      "exampleUz": "Odamlarga noaniqlikning rost aytilishi bilan birga amaliy yo‘l-yo‘riq ham kerak edi.",
+      "usageFrames": [
+        "practical orientation",
+        "provide orientation for action"
+      ],
+      "referenceUrl": "https://www.who.int/emergencies/risk-communications",
+      "targetLexemeId": "eb6af4a1-6c3e-584f-954a-38f431418793",
+      "expectedEntrySha": "17cf7e70954da71a44f4b3a8ab17ee3c52287a7507bc95039f1decc47afe8852"
+    },
+    {
+      "lemma": "cast doubt",
+      "pos": "v",
+      "key": "give-reason-to-question-the-truth-or-reliability",
+      "definitionEn": "To give reason to question whether something is true or reliable.",
+      "translationUz": "biror narsaning rostligi yoki ishonchliligini shubha ostiga qo‘ymoq",
+      "exampleEn": "A correction should not cast doubt on every earlier statement.",
+      "exampleUz": "Bitta tuzatish oldingi barcha bayonotlarni shubha ostiga qo‘ymasligi kerak.",
+      "usageFrames": [
+        "cast doubt on a claim",
+        "cast doubt on earlier evidence"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/cast-doubt-on",
+      "forms": [
+        "casting doubt"
+      ]
+    },
+    {
+      "lemma": "transmission",
+      "pos": "n",
+      "key": "passing-an-infection-between-people-or-organisms",
+      "definitionEn": "The passing of an infection from one person or organism to another.",
+      "translationUz": "infeksiyaning bir odam yoki organizmdan boshqasiga yuqishi",
+      "exampleEn": "Scientists were still investigating the transmission routes.",
+      "exampleUz": "Olimlar yuqish yo‘llarini hali ham tekshirayotgan edi.",
+      "usageFrames": [
+        "infection transmission",
+        "transmission routes"
+      ],
+      "referenceUrl": "https://www.who.int/emergencies/risk-communications",
+      "targetLexemeId": "55dcc69a-304f-5066-8d0c-c00ac530245f",
+      "expectedEntrySha": "db1c613e0a2c5c3acb8c43e618d4e97fb7a2d104a25c67a8cdf9c386166aa39d"
+    },
+    {
+      "lemma": "unsupported",
+      "pos": "a",
+      "key": "not-backed-by-sufficient-reasons-or-evidence",
+      "definitionEn": "Not backed by sufficient evidence, reasons or justification.",
+      "translationUz": "yetarli dalil, sabab yoki asos bilan tasdiqlanmagan",
+      "exampleEn": "Unsupported shorthand confused some listeners.",
+      "exampleUz": "Yetarli asoslanmagan qisqa iboralar ayrim tinglovchilarni chalg‘itdi.",
+      "usageFrames": [
+        "an unsupported claim",
+        "unsupported assumptions"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/unsupported",
+      "targetLexemeId": "3d8acf13-575f-521d-a09e-c1a590a52fbd",
+      "expectedEntrySha": "c904c02e0a4e8adb78bf3e54f3c947f428ce7b934c0af0f7df02c26db4e1f6eb"
+    },
+    {
+      "lemma": "wage-growth",
+      "pos": "a",
+      "key": "relating-to-increases-in-wages",
+      "definitionEn": "Relating to an increase in the amount of money paid to workers.",
+      "translationUz": "ishchilarga to‘lanadigan ish haqi miqdorining o‘sishiga oid",
+      "exampleEn": "The first forecast assumed a single wage-growth rate.",
+      "exampleUz": "Birinchi prognozda ish haqining yagona o‘sish sur’ati faraz qilindi.",
+      "usageFrames": [
+        "a wage-growth rate",
+        "wage-growth assumptions"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/wage"
+    },
+    {
+      "lemma": "modeller",
+      "pos": "n",
+      "key": "person-creating-or-using-representational-models",
+      "definitionEn": "A person who builds or uses a simplified representation to study or predict a real system.",
+      "translationUz": "haqiqiy tizimni o‘rganish yoki prognoz qilish uchun soddalashtirilgan model tuzadigan yoxud ishlatadigan mutaxassis",
+      "exampleEn": "Modellers examined how several assumptions could change together.",
+      "exampleUz": "Model tuzuvchi mutaxassislar bir nechta faraz birgalikda qanday o‘zgarishini tekshirdi.",
+      "usageFrames": [
+        "economic modellers",
+        "a statistical modeller"
+      ],
+      "referenceUrl": "https://www.bankofengland.co.uk/independent-evaluation-office/forecasting-for-monetary-policy-making-and-communication-at-the-bank-of-england-a-review/forecasting-for-monetary-policy-making-and-communication-at-the-bank-of-england-a-review"
+    },
+    {
+      "lemma": "policymaker",
+      "pos": "n",
+      "key": "person-responsible-for-deciding-policy",
+      "definitionEn": "A person responsible for deciding the plans and rules followed by a government or organisation.",
+      "translationUz": "hukumat yoki tashkilot amal qiladigan siyosat va qoidalarni belgilashga mas’ul shaxs",
+      "exampleEn": "Policymakers were warned not to treat the chart as a single correct answer.",
+      "exampleUz": "Siyosatni belgilovchilarga grafikni yagona to‘g‘ri javob deb qabul qilmaslik aytildi.",
+      "usageFrames": [
+        "public policymakers",
+        "policymakers’ decisions"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/policymaker"
+    },
+    {
+      "lemma": "revisable",
+      "pos": "a",
+      "key": "capable-of-being-reconsidered-and-changed",
+      "definitionEn": "Able to be reconsidered and changed when information or circumstances change.",
+      "translationUz": "ma’lumot yoki sharoit o‘zgarganda qayta ko‘rib chiqish va o‘zgartirish mumkin bo‘lgan",
+      "exampleEn": "The projections supported revisable policy choices.",
+      "exampleUz": "Prognozlar qayta ko‘rib chiqish mumkin bo‘lgan siyosiy qarorlar uchun asos bo‘ldi.",
+      "usageFrames": [
+        "revisable policy choices",
+        "a revisable assumption"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/revisable"
+    },
+    {
+      "lemma": "fan chart",
+      "pos": "n",
+      "key": "chart-showing-a-range-of-forecast-outcomes",
+      "definitionEn": "A chart with widening bands showing a range of possible future outcomes and the uncertainty around a projection.",
+      "translationUz": "kelajakdagi ehtimoliy natijalar oralig‘i va prognoz noaniqligini kengayib boruvchi tasmalar bilan ko‘rsatadigan grafik",
+      "exampleEn": "The fan chart displayed possibilities rather than guaranteed limits.",
+      "exampleUz": "Yelpig‘ichsimon grafik kafolatlangan chegaralarni emas, mumkin bo‘lgan natijalarni ko‘rsatdi.",
+      "usageFrames": [
+        "a forecast fan chart",
+        "the bands of a fan chart"
+      ],
+      "referenceUrl": "https://www.bankofengland.co.uk/independent-evaluation-office/forecasting-for-monetary-policy-making-and-communication-at-the-bank-of-england-a-review/forecasting-for-monetary-policy-making-and-communication-at-the-bank-of-england-a-review",
+      "forms": [
+        "fan charts"
+      ]
+    },
+    {
+      "lemma": "probability distribution",
+      "pos": "n",
+      "key": "allocation-of-probabilities-to-possible-values",
+      "definitionEn": "A description of how probabilities are assigned to the possible values or outcomes of a variable.",
+      "translationUz": "o‘zgaruvchining mumkin bo‘lgan qiymatlari yoki natijalariga ehtimollar qanday taqsimlanganini ko‘rsatuvchi tavsif",
+      "exampleEn": "The scenarios were not drawn from a known probability distribution.",
+      "exampleUz": "Ssenariylar ma’lum ehtimollar taqsimotidan olinmagan edi.",
+      "usageFrames": [
+        "a known probability distribution",
+        "a conditional probability distribution"
+      ],
+      "referenceUrl": "https://www.bankofengland.co.uk/independent-evaluation-office/forecasting-for-monetary-policy-making-and-communication-at-the-bank-of-england-a-review/forecasting-for-monetary-policy-making-and-communication-at-the-bank-of-england-a-review",
+      "forms": [
+        "probability distributions"
+      ]
+    },
+    {
+      "lemma": "stress test",
+      "pos": "n",
+      "key": "assessment-under-difficult-hypothetical-conditions",
+      "definitionEn": "An assessment of how a system would cope with unusually difficult hypothetical conditions.",
+      "translationUz": "tizim odatdagidan og‘ir faraziy sharoitga qanday bardosh berishini baholash",
+      "exampleEn": "The report separated stress tests from central projections.",
+      "exampleUz": "Hisobotda og‘ir sharoitdagi chidamlilik sinovlari asosiy prognozlardan ajratildi.",
+      "usageFrames": [
+        "financial stress tests",
+        "a severe stress test"
+      ],
+      "referenceUrl": "https://www.bankofengland.co.uk/stress-testing",
+      "forms": [
+        "stress tests"
+      ]
+    },
+    {
+      "lemma": "sensitivity analysis",
+      "pos": "n",
+      "key": "examining-how-assumption-changes-affect-results",
+      "definitionEn": "An examination of how changing inputs or assumptions changes the results of an analysis or model.",
+      "translationUz": "kirish ma’lumotlari yoki farazlarning o‘zgarishi tahlil yoki model natijasiga qanday ta’sir qilishini tekshirish",
+      "exampleEn": "Sensitivity analysis showed which assumptions mattered most.",
+      "exampleUz": "Sezgirlik tahlili qaysi farazlar eng katta ahamiyatga ega ekanini ko‘rsatdi.",
+      "usageFrames": [
+        "perform sensitivity analysis",
+        "sensitivity analysis of a model"
+      ],
+      "referenceUrl": "https://www.gov.uk/government/publications/the-mhclg-appraisal-guide/the-mhclg-appraisal-guide"
+    },
+    {
+      "lemma": "central",
+      "pos": "a",
+      "key": "main-or-reference-case-in-a-set-of-estimates",
+      "definitionEn": "Serving as the main or reference case among a range of estimates or projections.",
+      "translationUz": "bir nechta baho yoki prognoz orasida asosiy yoxud tayanch holat bo‘lib xizmat qiladigan",
+      "exampleEn": "Central projections were presented separately from severe scenarios.",
+      "exampleUz": "Asosiy prognozlar og‘ir ssenariylardan alohida taqdim etildi.",
+      "usageFrames": [
+        "a central projection",
+        "a central estimate"
+      ],
+      "referenceUrl": "https://www.bankofengland.co.uk/independent-evaluation-office/forecasting-for-monetary-policy-making-and-communication-at-the-bank-of-england-a-review/forecasting-for-monetary-policy-making-and-communication-at-the-bank-of-england-a-review",
+      "targetLexemeId": "b44bc920-d143-5e9a-9305-2c3480720d81",
+      "expectedEntrySha": "6a7fff7e18769b5fd9d3a87a225a14a3048c56c2bfe764c015e1dc92fae48db0"
+    },
+    {
+      "lemma": "normative",
+      "pos": "a",
+      "key": "concerning-how-things-ought-to-be",
+      "definitionEn": "Concerned with how things ought to be or what should be considered right, fair or acceptable.",
+      "translationUz": "ishlar qanday bo‘lishi kerakligi yoki nima to‘g‘ri, adolatli yoxud maqbul ekani bilan bog‘liq",
+      "exampleEn": "A graph could not answer normative questions about who should bear risk.",
+      "exampleUz": "Xavfni kim ko‘tarishi kerakligi haqidagi adolatga oid savollarga grafik javob bera olmasdi.",
+      "usageFrames": [
+        "normative questions",
+        "a normative judgement"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/normative",
+      "targetLexemeId": "d243018d-4ad8-5541-82c5-b3a61c5507fe",
+      "expectedEntrySha": "9d454717eaa04ed4e53d4eaecd37fef98d2552067477336c5d78ed8bda4c8643"
+    },
+    {
+      "lemma": "behind",
+      "pos": "preposition",
+      "key": "forming-the-basis-or-reason-for-something",
+      "definitionEn": "Forming the underlying reason, assumption or explanation for something.",
+      "translationUz": "biror narsaning asosidagi sabab, faraz yoki izoh bo‘lib xizmat qiladigan",
+      "exampleEn": "The analysis revealed the assumptions behind each answer.",
+      "exampleUz": "Tahlil har bir javobning asosidagi farazlarni ko‘rsatdi.",
+      "usageFrames": [
+        "the assumptions behind a model",
+        "the reason behind a decision"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/behind"
+    },
+    {
+      "lemma": "great",
+      "pos": "a",
+      "key": "large-in-amount-degree-or-importance",
+      "definitionEn": "Large in amount, size, degree or importance.",
+      "translationUz": "miqdor, o‘lcham, daraja yoki ahamiyat jihatidan katta",
+      "exampleEn": "The agency identified the assumptions with the greatest effect.",
+      "exampleUz": "Idora eng katta ta’sirga ega farazlarni aniqladi.",
+      "usageFrames": [
+        "a great effect",
+        "the greatest impact"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/great",
+      "forms": [
+        "greater",
+        "greatest"
+      ],
+      "targetLexemeId": "bf9f66ec-6191-55a5-8063-0b009213c492",
+      "expectedEntrySha": "ac66a2e08be3a5e4252df09baac66e97a74b72fbce3265b9293841a3d3b2b4c1"
+    },
+    {
+      "lemma": "shock",
+      "pos": "n",
+      "key": "sudden-event-disrupting-an-economic-system",
+      "definitionEn": "A sudden event or change that significantly disrupts an economy or other system.",
+      "translationUz": "iqtisodiyot yoki boshqa tizim ishini jiddiy buzadigan to‘satdan yuz bergan voqea yoki o‘zgarish",
+      "exampleEn": "The model examined linked economic shocks.",
+      "exampleUz": "Model bir-biriga bog‘liq iqtisodiy zarbalarni tekshirdi.",
+      "usageFrames": [
+        "an economic shock",
+        "linked financial shocks"
+      ],
+      "referenceUrl": "https://www.bankofengland.co.uk/stress-testing",
+      "targetLexemeId": "daf65e23-9343-59d6-ae2c-3ded238a2512",
+      "expectedEntrySha": "7a2e0a8c0e240fcfc6091d5d6970dc97682fbea3c3972eb1c8255af1fd8876bc"
+    },
+    {
+      "lemma": "bear",
+      "pos": "v",
+      "key": "accept-or-carry-a-burden-or-risk",
+      "definitionEn": "To accept, carry or be responsible for a burden, cost or risk.",
+      "translationUz": "yuk, xarajat yoki xavfni ko‘tarmoq; uni o‘z zimmasiga olmoq",
+      "exampleEn": "The consultation asked which generations should bear the risks.",
+      "exampleUz": "Maslahatlashuvda xavflarni qaysi avlodlar zimmasiga olishi kerakligi so‘raldi.",
+      "usageFrames": [
+        "bear a risk",
+        "bear the cost"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/bear",
+      "targetLexemeId": "8d13f30f-d929-586c-80a8-9acfd3d0f8b7",
+      "expectedEntrySha": "c143f4fbf51ef9ec3f9aaf2e59d290baabf9fda59a4b3006c2dabe1de7d14242"
+    },
+    {
+      "lemma": "recession",
+      "pos": "n",
+      "key": "sustained-broad-decline-in-economic-activity",
+      "definitionEn": "A sustained decline in economic activity across a substantial part of an economy.",
+      "translationUz": "iqtisodiyotning katta qismida iqtisodiy faollikning davomli pasayishi",
+      "exampleEn": "Recessions could reduce contributions and raise unemployment.",
+      "exampleUz": "Iqtisodiy tanazzul badallarni kamaytirib, ishsizlikni oshirishi mumkin edi.",
+      "usageFrames": [
+        "an economic recession",
+        "a severe recession"
+      ],
+      "referenceUrl": "https://www.imf.org/-/media/Files/Publications/Fandd/Back-to-Basics/claessens-recession.ashx",
+      "targetLexemeId": "0c43827a-a7fb-51ce-887c-e51cfa597eee",
+      "expectedEntrySha": "8831f4fcef82b7147d46ca415f8b685abd85a74a4ad36a2845c78a2cb7d52d81"
+    },
+    {
+      "lemma": "let alone",
+      "pos": "conjunction",
+      "key": "introducing-an-even-less-likely-alternative",
+      "definitionEn": "Used after a negative statement to introduce something even less likely or possible.",
+      "translationUz": "inkor gapdan keyin undan ham ehtimoli kamroq yoki yanada mushkulroq holatni kiritadi; u yoqda tursin",
+      "exampleEn": "A projection was not the most likely path, let alone a guaranteed outcome.",
+      "exampleUz": "Prognoz kafolatlangan natija u yoqda tursin, eng ehtimolli yo‘l ham emas edi.",
+      "usageFrames": [
+        "not likely, let alone certain",
+        "cannot predict it, let alone guarantee it"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/let-alone",
+      "targetLexemeId": "da52f31b-a719-4a86-b515-9f3060d940f5",
+      "expectedEntrySha": "6c553800295f50b7f5062229997816364c9b7dd3271c28c4972b7210f56d94e0"
+    },
+    {
+      "lemma": "plain-English",
+      "pos": "a",
+      "key": "expressed-in-clear-everyday-english",
+      "definitionEn": "Expressed in clear everyday English rather than complicated or specialist wording.",
+      "translationUz": "murakkab yoki maxsus atamalar o‘rniga sodda, tushunarli ingliz tilida ifodalangan",
+      "exampleEn": "A plain-English summary still had to preserve the legal conditions.",
+      "exampleUz": "Sodda ingliz tilidagi qisqacha mazmun ham huquqiy shartlarni saqlashi kerak edi.",
+      "usageFrames": [
+        "a plain-English explanation",
+        "plain-English wording"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/plain-english"
+    },
+    {
+      "lemma": "machine-generated",
+      "pos": "a",
+      "key": "produced-automatically-by-a-machine",
+      "definitionEn": "Produced automatically by a computer or another machine.",
+      "translationUz": "kompyuter yoki boshqa mashina tomonidan avtomatik yaratilgan",
+      "exampleEn": "Machine-generated summaries were not the court’s authoritative judgement.",
+      "exampleUz": "Mashina yaratgan qisqacha mazmunlar sudning rasmiy qarori emas edi.",
+      "usageFrames": [
+        "machine-generated text",
+        "a machine-generated summary"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/machine-generated"
+    },
+    {
+      "lemma": "unrepresented",
+      "pos": "a",
+      "key": "without-a-professional-legal-representative",
+      "definitionEn": "Not having a lawyer or other professional representative acting on one’s behalf.",
+      "translationUz": "o‘z nomidan ish yuritadigan advokat yoki boshqa professional vakili bo‘lmagan",
+      "exampleEn": "An unrepresented litigant might depend heavily on the short explanation.",
+      "exampleUz": "Advokatsiz sud ishtirokchisi qisqa tushuntirishga katta darajada tayanishi mumkin edi.",
+      "usageFrames": [
+        "an unrepresented litigant",
+        "unrepresented parties"
+      ],
+      "referenceUrl": "https://www.judiciary.uk/courts-and-tribunals/business-and-property-courts/commercial-court/litigating-in-the-commercial-court/litigants-in-person/"
+    },
+    {
+      "lemma": "ruling",
+      "pos": "n",
+      "key": "authoritative-decision-by-a-court-or-judge",
+      "definitionEn": "An authoritative decision made by a court or judge about a legal matter.",
+      "translationUz": "huquqiy masala bo‘yicha sud yoki sudya chiqargan rasmiy qaror",
+      "exampleEn": "The summary had to preserve the conditions attached to the ruling.",
+      "exampleUz": "Qisqacha mazmun sud qaroriga oid shartlarni saqlashi kerak edi.",
+      "usageFrames": [
+        "a court ruling",
+        "the conditions of a ruling"
+      ],
+      "referenceUrl": "https://www.law.cornell.edu/wex/ruling",
+      "targetLexemeId": "4c366aaa-7db7-5865-ad88-f7d6740d832c",
+      "expectedEntrySha": "dfc1407507752a95ad85d58acbecf082d9ae85c336268c0892f8f28fd7d5e588"
+    },
+    {
+      "lemma": "fidelity",
+      "pos": "n",
+      "key": "accuracy-in-preserving-an-original-meaning",
+      "definitionEn": "Accuracy in preserving or representing the meaning and important features of an original source.",
+      "translationUz": "asl manbaning ma’nosi va muhim jihatlarini saqlash yoki aks ettirishdagi aniqlik",
+      "exampleEn": "Clarity could not come at the expense of legal fidelity.",
+      "exampleUz": "Tushunarlilik huquqiy ma’noga aniqlikni qurbon qilish hisobiga bo‘lmasligi kerak edi.",
+      "usageFrames": [
+        "fidelity to the original",
+        "legal fidelity"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/fidelity",
+      "targetLexemeId": "2a6f8d23-4d17-5269-806e-91f9a4decb98",
+      "expectedEntrySha": "d4b4758b7029ce96b304bce6baf20743466c60a4be1d7142a1796e315e0ce82b"
+    },
+    {
+      "lemma": "unless",
+      "pos": "conjunction",
+      "key": "introducing-an-exception-to-a-condition",
+      "definitionEn": "Introduces the condition that is the exception to a statement; if not.",
+      "translationUz": "gapdagi holatga istisno bo‘ladigan shartni kiritadi; agar ...masa",
+      "exampleEn": "A statement using unless may reverse the meaning of a legal condition.",
+      "exampleUz": "Unless ishlatilgan gap huquqiy shartning ma’nosini teskarisiga o‘zgartirishi mumkin.",
+      "usageFrames": [
+        "unless a condition is met",
+        "unless stated otherwise"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/unless"
+    },
+    {
+      "lemma": "reward",
+      "pos": "v",
+      "key": "give-an-advantage-or-higher-evaluation",
+      "definitionEn": "To give an advantage or a higher evaluation to something because of a particular feature.",
+      "translationUz": "muayyan xususiyati sababli biror narsaga afzallik yoki yuqoriroq baho bermoq",
+      "exampleEn": "A lexical metric could reward dense wording instead of clear reasoning.",
+      "exampleUz": "So‘zlar o‘xshashligi mezoni aniq mantiq o‘rniga murakkab ifodaga yuqoriroq baho berishi mumkin edi.",
+      "usageFrames": [
+        "reward a feature",
+        "a metric that rewards complexity"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/reward",
+      "targetLexemeId": "abfbc399-6677-583b-a09c-eaa813573f60",
+      "expectedEntrySha": "309cdd4a70d2aee2f78815c7fb8dd61ff3eb935873510311f5e2692d248a199b"
+    },
+    {
+      "lemma": "civil society",
+      "pos": "n",
+      "key": "organised-public-activity-outside-the-state",
+      "definitionEn": "Organised groups and public activity outside government, including voluntary associations.",
+      "translationUz": "hukumatdan tashqaridagi uyushgan jamoat faoliyati va guruhlar, jumladan ko‘ngilli birlashmalar",
+      "exampleEn": "Civil society groups welcomed accessible explanations.",
+      "exampleUz": "Fuqarolik jamiyati guruhlari tushunarli izohlarni qo‘llab-quvvatladi.",
+      "usageFrames": [
+        "civil society groups",
+        "civil society organisations"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/civil-society"
+    },
+    {
+      "lemma": "initiative",
+      "pos": "n",
+      "key": "planned-action-to-improve-a-situation",
+      "definitionEn": "A planned action or project intended to improve a situation or solve a problem.",
+      "translationUz": "holatni yaxshilash yoki muammoni hal etish uchun rejalashtirilgan tashabbus yoxud loyiha",
+      "exampleEn": "The initiative aimed to make court judgements easier to understand.",
+      "exampleUz": "Tashabbus sud qarorlarini tushunishni osonlashtirishni maqsad qildi.",
+      "usageFrames": [
+        "a public initiative",
+        "launch an initiative"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/initiative",
+      "targetLexemeId": "46d8828c-6161-5b65-849c-b372037a24bf",
+      "expectedEntrySha": "31d003a82824dbf71e1e07554a1dd87a8baddf3863d842c99ccd81e98cc5fbaf"
+    },
+    {
+      "lemma": "inaccessible",
+      "pos": "a",
+      "key": "difficult-to-understand-because-of-complexity",
+      "definitionEn": "Difficult to understand or appreciate because of complexity or unfamiliar language.",
+      "translationUz": "murakkabligi yoki notanish tili sababli tushunish qiyin bo‘lgan",
+      "exampleEn": "Dense legal wording made the explanation inaccessible.",
+      "exampleUz": "Murakkab huquqiy ifoda izohni tushunish qiyin bo‘lishiga olib keldi.",
+      "usageFrames": [
+        "inaccessible language",
+        "an inaccessible explanation"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/inaccessible",
+      "targetLexemeId": "114baaa8-1c2f-51e5-8a58-a67fa922569f",
+      "expectedEntrySha": "f964dbfee6cae5ad1c4f4ac04bd419e154d132f71539a353ee79374f3a264ad6"
+    },
+    {
+      "lemma": "dramatically",
+      "pos": "r",
+      "key": "to-a-large-and-noticeable-extent",
+      "definitionEn": "To a large and noticeable extent.",
+      "translationUz": "katta va yaqqol darajada; keskin",
+      "exampleEn": "A shorter summary could be dramatically less accurate.",
+      "exampleUz": "Qisqaroq mazmunning aniqligi keskin pastroq bo‘lishi mumkin edi.",
+      "usageFrames": [
+        "change dramatically",
+        "dramatically less accurate"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/dramatically",
+      "targetLexemeId": "bda9d62c-6c61-5012-af51-ef45229f33ff",
+      "expectedEntrySha": "a250336381ce56ade72a24593d2506e660196bef6e6ec92d77433c4341e62ac5"
+    },
+    {
+      "lemma": "over",
+      "pos": "preposition",
+      "key": "in-preference-to-an-alternative",
+      "definitionEn": "In preference to the alternative named after this word.",
+      "translationUz": "keyin aytilgan muqobildan ko‘ra afzal deb",
+      "exampleEn": "The reviewers favoured accuracy over elegant brevity.",
+      "exampleUz": "Tekshiruvchilar nafis qisqalikdan ko‘ra aniqlikni afzal bildi.",
+      "usageFrames": [
+        "prefer accuracy over brevity",
+        "choose one option over another"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/over"
+    },
+    {
+      "lemma": "according to",
+      "pos": "preposition",
+      "key": "using-the-stated-basis-or-criterion",
+      "definitionEn": "Using the stated information, rule or criterion as a basis.",
+      "translationUz": "aytilgan ma’lumot, qoida yoki mezonga asoslanib",
+      "exampleEn": "The system ranked repairs according to predicted disruption.",
+      "exampleUz": "Tizim ta’mir ishlarini kutilayotgan uzilish darajasiga qarab tartibladi.",
+      "usageFrames": [
+        "rank according to a criterion",
+        "according to the model"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/according-to"
+    },
+    {
+      "lemma": "minimum-access",
+      "pos": "a",
+      "key": "relating-to-a-required-minimum-of-access",
+      "definitionEn": "Relating to a required minimum level of access to a place or service.",
+      "translationUz": "joy yoki xizmatdan foydalanishning talab qilinadigan eng kam darajasiga oid",
+      "exampleEn": "The council set a minimum-access criterion for clinics.",
+      "exampleUz": "Kengash klinikalarga yetib borishning eng kam talabini belgiladi.",
+      "usageFrames": [
+        "a minimum-access criterion",
+        "minimum-access requirements"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/minimum"
+    },
+    {
+      "lemma": "low-traffic",
+      "pos": "a",
+      "key": "having-relatively-little-vehicle-movement",
+      "definitionEn": "Having relatively little movement of vehicles.",
+      "translationUz": "transport qatnovi nisbatan kam bo‘lgan",
+      "exampleEn": "The new criterion protected several low-traffic routes.",
+      "exampleUz": "Yangi mezon transport kam qatnaydigan bir nechta yo‘nalishni himoya qildi.",
+      "usageFrames": [
+        "low-traffic routes",
+        "a low-traffic road"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/traffic"
+    },
+    {
+      "lemma": "unintended",
+      "pos": "a",
+      "key": "not-planned-or-meant-to-happen",
+      "definitionEn": "Not planned, intended or meant to happen.",
+      "translationUz": "rejalashtirilmagan yoki ko‘zda tutilmagan",
+      "exampleEn": "An unintended consequence created a shortage of repair crews.",
+      "exampleUz": "Ko‘zda tutilmagan oqibat ta’mir guruhlari yetishmasligiga sabab bo‘ldi.",
+      "usageFrames": [
+        "an unintended consequence",
+        "an unintended effect"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/unintended"
+    },
+    {
+      "lemma": "decision-maker",
+      "pos": "n",
+      "key": "person-responsible-for-choosing-what-to-do",
+      "definitionEn": "A person responsible for deciding what action should be taken.",
+      "translationUz": "qanday ish qilinishini tanlashga mas’ul shaxs; qaror qabul qiluvchi",
+      "exampleEn": "Decision-makers compared several feasible plans.",
+      "exampleUz": "Qaror qabul qiluvchilar amalga oshirish mumkin bo‘lgan bir nechta rejani taqqosladi.",
+      "usageFrames": [
+        "public decision-makers",
+        "a senior decision-maker"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/decision-maker",
+      "forms": [
+        "decision-makers"
+      ]
+    },
+    {
+      "lemma": "value-driven",
+      "pos": "a",
+      "key": "guided-by-beliefs-about-what-matters",
+      "definitionEn": "Guided by beliefs about what is important, right or desirable.",
+      "translationUz": "nima muhim, to‘g‘ri yoki ma’qul ekaniga oid qarashlarga tayangan",
+      "exampleEn": "The revision was value-driven rather than a neutral mathematical result.",
+      "exampleUz": "Tuzatish xolis matematik natija emas, qadriyatlarga tayangan qaror edi.",
+      "usageFrames": [
+        "a value-driven revision",
+        "value-driven choices"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/value"
+    },
+    {
+      "lemma": "equity",
+      "pos": "n",
+      "key": "fairness-in-treatment-and-allocation",
+      "definitionEn": "Fairness in how people or groups are treated and how resources or benefits are allocated.",
+      "translationUz": "odamlar yoki guruhlarga munosabatda hamda resurs va foydalarni taqsimlashda adolat",
+      "exampleEn": "The plans involved trade-offs between cost and geographical equity.",
+      "exampleUz": "Rejalar xarajat bilan hududlar o‘rtasidagi adolat orasida murosa talab qilardi.",
+      "usageFrames": [
+        "geographical equity",
+        "equity in access to services"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/equity",
+      "targetLexemeId": "a16357d2-e560-5c98-876b-15571b99b62c",
+      "expectedEntrySha": "4a253b0e62ad20605e789c5901fdd776535f834389aad2da5c48724c9d02657a"
+    },
+    {
+      "lemma": "despite",
+      "pos": "preposition",
+      "key": "without-being-prevented-by-a-fact-or-condition",
+      "definitionEn": "Without being prevented or changed by the fact or condition that follows.",
+      "translationUz": "keyin aytilgan holatga qaramay",
+      "exampleEn": "The authority explained why repairs were postponed despite high risk.",
+      "exampleUz": "Idora xavf katta bo‘lishiga qaramay, ta’mir nega kechiktirilganini tushuntirdi.",
+      "usageFrames": [
+        "despite high risk",
+        "despite objections"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/despite"
+    },
+    {
+      "lemma": "following",
+      "pos": "preposition",
+      "key": "after-an-event-or-action",
+      "definitionEn": "After the event or action named.",
+      "translationUz": "aytilgan voqea yoki harakatdan keyin",
+      "exampleEn": "Some assumptions changed following public submissions.",
+      "exampleUz": "Jamoatchilik takliflaridan keyin ayrim farazlar o‘zgardi.",
+      "usageFrames": [
+        "following consultation",
+        "following public submissions"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/following"
+    },
+    {
+      "lemma": "platform",
+      "pos": "n",
+      "key": "software-system-providing-tools-for-an-activity",
+      "definitionEn": "A software system providing functions or tools for a particular activity.",
+      "translationUz": "muayyan faoliyat uchun vazifa yoki vositalar taqdim etuvchi dasturiy tizim",
+      "exampleEn": "The platform supported public deliberation about repairs.",
+      "exampleUz": "Dasturiy tizim ta’mir ishlariga oid jamoatchilik muhokamasiga yordam berdi.",
+      "usageFrames": [
+        "a decision-support platform",
+        "a planning platform"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/platform",
+      "targetLexemeId": "4843ef72-6921-589f-80e6-eab6da6337f6",
+      "expectedEntrySha": "eed5dcf462dc02c50c06c11b9f6b8fac6df118dab9b3cc6556eff8c06a8f24ea"
+    },
+    {
+      "lemma": "carry",
+      "pos": "v",
+      "key": "allow-traffic-or-a-service-to-pass-along",
+      "definitionEn": "To allow traffic, signals or a service to pass along or through something.",
+      "translationUz": "transport, signal yoki xizmatning biror yo‘l yoki vosita orqali o‘tishiga xizmat qilmoq",
+      "exampleEn": "Some roads carried little daily traffic but were vital during floods.",
+      "exampleUz": "Ba’zi yo‘llarda kunlik qatnov kam bo‘lsa-da, ular suv toshqinida juda muhim edi.",
+      "usageFrames": [
+        "a road carrying traffic",
+        "a cable carrying signals"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/carry",
+      "targetLexemeId": "46e9ab9f-d7d0-55e1-8fe3-4a91df0bdfb4",
+      "expectedEntrySha": "b013c55fb78347bd66ecb6a6308fa2292456e496a276b38013f32b9ae20f7186"
+    },
+    {
+      "lemma": "automatic",
+      "pos": "a",
+      "key": "following-without-a-further-deliberate-choice",
+      "definitionEn": "Following as a consequence without a further deliberate choice or decision.",
+      "translationUz": "qo‘shimcha ongli tanlov yoki qarorsiz oqibat sifatida yuz beradigan",
+      "exampleEn": "The revision was not the automatic consequence of a neutral formula.",
+      "exampleUz": "Tuzatish xolis formulaning o‘z-o‘zidan kelib chiqqan oqibati emas edi.",
+      "usageFrames": [
+        "an automatic consequence",
+        "an automatic response"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/automatic",
+      "targetLexemeId": "8d3aad52-f7b2-5790-aaee-f21d8332662b",
+      "expectedEntrySha": "ebc6560f377a16e58a71f276de1affe08e3a8fc7735fab1787dbfd5837f2b43b"
+    },
+    {
+      "lemma": "check out",
+      "pos": "v",
+      "key": "borrow-an-item-from-a-library",
+      "definitionEn": "To borrow a book or another library item for a limited period.",
+      "translationUz": "kutubxonadan kitob yoki boshqa materialni ma’lum muddatga olib turmoq",
+      "exampleEn": "More books were checked out after the catalogue changed.",
+      "exampleUz": "Katalog o‘zgargandan keyin kutubxonadan ko‘proq kitob olib turildi.",
+      "usageFrames": [
+        "check out a library book",
+        "books checked out"
+      ],
+      "referenceUrl": "https://libguides.adelphi.edu/c.php?g=603101&p=4178338",
+      "forms": [
+        "checked out"
+      ],
+      "targetLexemeId": "e016772e-519e-55b1-b2ed-f4e46915e8f7",
+      "expectedEntrySha": "cb3c6b431de4028522de3128e9109422c6963aa234c429eabb7872f30737acd2"
+    },
+    {
+      "lemma": "local-language",
+      "pos": "a",
+      "key": "written-or-spoken-in-a-local-language",
+      "definitionEn": "Written or spoken in a language used by the local community.",
+      "translationUz": "mahalliy jamoa ishlatadigan tilda yozilgan yoki aytilgan",
+      "exampleEn": "Local-language works were difficult to discover in the catalogue.",
+      "exampleUz": "Katalogdan mahalliy tildagi asarlarni topish qiyin edi.",
+      "usageFrames": [
+        "local-language books",
+        "local-language works"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/local"
+    },
+    {
+      "lemma": "circular",
+      "pos": "a",
+      "key": "involving-a-self-reinforcing-process",
+      "definitionEn": "Involving a process in which an outcome reinforces the conditions that produced it.",
+      "translationUz": "natija o‘zini yuzaga keltirgan sharoitni yana kuchaytiradigan aylanma jarayonga oid",
+      "exampleEn": "The system’s apparent success was partly circular.",
+      "exampleUz": "Tizimning ko‘rinishdagi muvaffaqiyati qisman o‘zini o‘zi kuchaytiruvchi aylanma jarayon edi.",
+      "usageFrames": [
+        "a circular process",
+        "circular reinforcement"
+      ],
+      "referenceUrl": "https://proceedings.neurips.cc/paper/2016/hash/962e56a8a0b0420d87272a682bfd1e53-Abstract.html",
+      "targetLexemeId": "b381c67c-e67c-551f-897f-0253925b4dd1",
+      "expectedEntrySha": "11e5541a858c2ab01d33fd9a7f787ddf21f86c92d1fa4467117d59dcbe41fe99"
+    },
+    {
+      "lemma": "feedback loop",
+      "pos": "n",
+      "key": "process-in-which-results-influence-later-inputs",
+      "definitionEn": "A process in which results influence later inputs or decisions, which then produce further results.",
+      "translationUz": "natijalar keyingi kirish ma’lumotlari yoki qarorlarga ta’sir qilib, ular yana yangi natija hosil qiladigan jarayon",
+      "exampleEn": "A feedback loop made familiar books more visible and more frequently borrowed.",
+      "exampleUz": "Qayta ta’sir jarayoni tanish kitoblarni ko‘proq ko‘rsatib, ularning ko‘proq olinishiga sabab bo‘ldi.",
+      "usageFrames": [
+        "a recommendation feedback loop",
+        "a self-reinforcing feedback loop"
+      ],
+      "referenceUrl": "https://proceedings.neurips.cc/paper/2016/hash/962e56a8a0b0420d87272a682bfd1e53-Abstract.html",
+      "forms": [
+        "feedback loops"
+      ]
+    },
+    {
+      "lemma": "public-service",
+      "pos": "a",
+      "key": "intended-to-benefit-the-public",
+      "definitionEn": "Intended to provide a useful service or benefit to the public.",
+      "translationUz": "jamoatchilikka foydali xizmat yoki naf yetkazishga qaratilgan",
+      "exampleEn": "The public-service objective included helping readers discover unfamiliar works.",
+      "exampleUz": "Jamoatchilikka xizmat qilish maqsadiga o‘quvchilarga notanish asarlarni topishda yordam berish ham kirardi.",
+      "usageFrames": [
+        "a public-service objective",
+        "a public-service role"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/public-service"
+    },
+    {
+      "lemma": "title",
+      "pos": "n",
+      "key": "book-or-other-published-work",
+      "definitionEn": "A book or other published work referred to as an item in a publication list or catalogue.",
+      "translationUz": "nashrlar ro‘yxati yoki katalogdagi alohida kitob yoxud boshqa nashr",
+      "exampleEn": "The library reserved space for unfamiliar titles.",
+      "exampleUz": "Kutubxona notanish kitoblar uchun joy ajratdi.",
+      "usageFrames": [
+        "new titles",
+        "recommended titles"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/title",
+      "targetLexemeId": "c4bd76d7-b24d-5195-a507-86a07a48d89c",
+      "expectedEntrySha": "9fabfe338e50fcc1212004e01d78c010a301be4eac8a82dba667a896b52195b3"
+    },
+    {
+      "lemma": "loan",
+      "pos": "n",
+      "key": "temporary-lending-of-an-item",
+      "definitionEn": "The temporary lending or borrowing of an item, including a library book.",
+      "translationUz": "biror buyumni, jumladan kutubxona kitobini vaqtincha berish yoki olib turish",
+      "exampleEn": "Another loan was not the only measure of recommendation quality.",
+      "exampleUz": "Yana bir kitobning olib turilishi tavsiya sifatining yagona o‘lchovi emas edi.",
+      "usageFrames": [
+        "a library loan",
+        "a book on loan"
+      ],
+      "referenceUrl": "https://libguides.adelphi.edu/c.php?g=603101&p=4178338",
+      "targetLexemeId": "0d567ccb-59e0-56ca-95c7-4a0c20a25a72",
+      "expectedEntrySha": "cd1245314434b68be597fe09ce5f2e1ede4ef79078b7de3fc39f1712b8dd264e"
+    },
+    {
+      "lemma": "developer",
+      "pos": "n",
+      "key": "person-who-builds-computer-software",
+      "definitionEn": "A person who designs, builds or maintains computer software.",
+      "translationUz": "kompyuter dasturini loyihalaydigan, yaratadigan yoki qo‘llab-quvvatlaydigan dasturchi",
+      "exampleEn": "Developers explained how the recommendation model had been trained.",
+      "exampleUz": "Dasturchilar tavsiya modeli qanday o‘qitilganini tushuntirdi.",
+      "usageFrames": [
+        "software developers",
+        "an application developer"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/developer",
+      "targetLexemeId": "37f9e1df-0ee7-5f1a-9c93-7ee763f85672",
+      "expectedEntrySha": "5fcea9fc9f3d67549de633ef8541f0b2a44cdf5d8cb428db68bfb35e5ab7e123"
     }
   ]
 }

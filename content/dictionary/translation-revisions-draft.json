@@ -172,6 +172,15 @@
       "translationUz": "keng tarqatmoq yoki taqsimlamoq",
       "definitionUz": "keng tarqatmoq yoki taqsimlamoq",
       "reason": "The distribute-or-disperse meaning also applies to sharing costs among households; include taqsimlamoq without changing the canonical English or other senses."
+    },
+    {
+      "entryId": "b8f8653b-0804-5c91-8899-bcc9b9afacd4",
+      "senseId": "78114ef9-7d31-4424-95cf-1440bf314edd",
+      "meaningSha": "ea2d6a0f2dbca50cc85aa3144d809bb6a365cc1777b323ee969d36a98b8d05f4",
+      "beforeTranslationSha": "a2aa11ee7552255b095004287b834a6600bac3d20ea49efa98933bed7484c736",
+      "translationUz": "zarar; ziyon",
+      "definitionUz": "zarar; ziyon",
+      "reason": "The noun harm denotes damage or an adverse outcome, including financial loss; yomonlashish alone is too indirect for this canonical meaning."
     }
   ]
 }

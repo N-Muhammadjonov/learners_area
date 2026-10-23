@@ -49,6 +49,7 @@ test("a container can, a month May, a legal will and the country US cannot be sk
  const body="The can in May was in the will in the US.";
  const row=audit({senses:[],texts:[],contexts:[]},[{...material,body}]).materialRows[0]!;
  assert.equal(row.contentWordTokens,4);assert.equal(row.unreviewedContentWordTokens,4);
+ assert.equal(audit({senses:[],texts:[],contexts:[]},[{...material,body:"They cannot."}]).materialRows[0]!.contentWordTokens,0,"the unambiguous negative auxiliary is basic grammar, while can remains subject to its own context review");
  const modalBody="They can read.";
  const review:EditorialReview={senses:[],texts:[],contexts:[],grammar:[{source:"reading",sourceId:material.id,bodySha:materialBodyHash(modalBody),start:5,end:8,surface:"can",reviewer:"editor",reason:"The auxiliary expresses their ability to read.",use:"modal_auxiliary"}]};
  assert.equal(audit(review,[{...material,body:modalBody}]).materialRows[0]!.unreviewedContentWordTokens,1,"read still needs a meaning even when the auxiliary exemption is reviewed");
