@@ -1,0 +1,5 @@
+{
+  "reason": "Reading V44 pin remains as history. V47 TED / PODCAST migration adds Tailwind utility classes (line clamps, 4:3 aspect, lg grid, hover/transition helpers) used by the native video library and studio. The regenerated css/global.css only adds 18 rules and removes none.",
+  "compiledCssSha256": "67eb833f84f8ba3ea7c85b81ffb0e33d752dcec313df7e121648698bedba6930",
+  "previousPin": "docs/evidence/v44/assets-css-pin.json"
+}

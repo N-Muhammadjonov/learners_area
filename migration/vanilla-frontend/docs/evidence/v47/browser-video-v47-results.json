@@ -1,0 +1,98 @@
+{
+  "suite": "V47 TED / PODCAST",
+  "date": "2026-10-23T16:23:08.438Z",
+  "results": [
+    {
+      "name": "library: real cards, standalone and open course grouping, states, links, thumbnails, no iframe",
+      "status": "PASS"
+    },
+    {
+      "name": "library: empty state when nothing is open; course section only when present",
+      "status": "PASS"
+    },
+    {
+      "name": "library: standalone-only hides the course section when no course video is open",
+      "status": "PASS"
+    },
+    {
+      "name": "library: loading skeleton, then a retryable error on a failed projection, then data",
+      "status": "PASS"
+    },
+    {
+      "name": "library: malformed projection (bad video id) fails the region, renders no fake card",
+      "status": "PASS"
+    },
+    {
+      "name": "library: Uzbek labels and responsive 390px layout without overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "library: night appearance renders the same real cards with no errors",
+      "status": "PASS"
+    },
+    {
+      "name": "standalone detail: YouTube embed rules, resume start, no autoplay, sandbox, origin, tabs, notes",
+      "status": "PASS"
+    },
+    {
+      "name": "standalone: transcript dialog opens with lookup text, closes on Escape and removes itself",
+      "status": "PASS"
+    },
+    {
+      "name": "standalone vocabulary: save posts only the occurrence id, saved state is final",
+      "status": "PASS"
+    },
+    {
+      "name": "standalone vocabulary failure shows a localized alert and keeps the word unsaved",
+      "status": "PASS"
+    },
+    {
+      "name": "standalone summary: saves summary only, server state decides the visible verdict",
+      "status": "PASS"
+    },
+    {
+      "name": "standalone recorder: no microphone before a click; permission denial is shown and nothing is recorded",
+      "status": "PASS"
+    },
+    {
+      "name": "YouTube progress: periodic write after 5 new seconds, one END write, replay without resume offset",
+      "status": "PASS"
+    },
+    {
+      "name": "navigation away tears down the player: frame removed, late player messages send nothing",
+      "status": "PASS"
+    },
+    {
+      "name": "direct media: owner-authorised player with captions, speed, CC, no autoplay, no iframe",
+      "status": "PASS"
+    },
+    {
+      "name": "blocked or unsupported media is an honest notice, never a black frame",
+      "status": "PASS"
+    },
+    {
+      "name": "detail: retryable projection error, not-found for a non-live item, invalid id is not-found without lookup",
+      "status": "PASS"
+    },
+    {
+      "name": "detail responsive 390px: no horizontal overflow, tabs wrap",
+      "status": "PASS"
+    },
+    {
+      "name": "course studio: course tabs, transcript as a tab, no recorder, Comprehension verdict from server only",
+      "status": "PASS"
+    },
+    {
+      "name": "course studio: opinion and summary save together; plain transcript shows its text",
+      "status": "PASS"
+    },
+    {
+      "name": "course studio retry does not leave a second player behind",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 22,
+    "FAIL": 0
+  }
+}
