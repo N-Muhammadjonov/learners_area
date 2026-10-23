@@ -1,0 +1,42 @@
+{
+  "suite": "V42 Listening learner sections",
+  "date": "2026-10-23T09:58:45.788Z",
+  "results": [
+    {
+      "name": "Listening landing: /app/listening lands on Lessons through a replaced history entry, as the original redirect() does",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson detail: tabs keep the chosen panel across reload; the back link returns to Lessons",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson detail: the body shows the authored text and quiz block before the three approved panels",
+      "status": "PASS"
+    },
+    {
+      "name": "Lesson detail: an unknown lesson shows the not-found state, not a service error",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons catalogue card opens its detail page",
+      "status": "PASS"
+    },
+    {
+      "name": "Test MCQ page: heading, back link to the test hub, and the original per-question audio offset",
+      "status": "PASS"
+    },
+    {
+      "name": "Test MCQ page: opening a question shows the note field and the start-to-resume label change",
+      "status": "PASS"
+    },
+    {
+      "name": "Test MCQ page: a learner with an exam in progress gets the locked notice and a way back, not the drill",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 8,
+    "FAIL": 0
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "suite": "V43 Activity 3 script completion",
+  "date": "2026-10-23T09:58:52.844Z",
+  "results": [
+    {
+      "name": "V43 activity 3 script: PART tabs switch gap fields and transcript; typed answers survive switching",
+      "status": "PASS"
+    },
+    {
+      "name": "V43 activity 3 script: Check all is disabled until every gap of the part is answered",
+      "status": "PASS"
+    },
+    {
+      "name": "V43 activity 3 script: Check all reveals each gap (correct label or key), saves once with the answers",
+      "status": "PASS"
+    },
+    {
+      "name": "V43 lesson: direct audio media plays from its resource, and the description shows the media focus and minutes",
+      "status": "PASS"
+    },
+    {
+      "name": "V43 lesson: provider-hosted media is not played here; it links to the video-lesson studio",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 5,
+    "FAIL": 0
+  }
+}
