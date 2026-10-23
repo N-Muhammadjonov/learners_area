@@ -5,11 +5,13 @@
 export const CAMPUS_CONFIG = {
   // Platform outline matching reference boundary
   platform: {
+    // Calibrated five-corner reference footprint.
     polygon: [
-      [-51, -51],
-      [51, -51],
-      [51, 51],
-      [-51, 51],
+      [-59.03, -49.20],
+      [63.88, -37.90],
+      [69.77, 39.53],
+      [36.63, 63.01],
+      [-51.65, 50.62],
     ],
     height: 4.8,
     bevelSize: 1.4,
@@ -22,15 +24,15 @@ export const CAMPUS_CONFIG = {
 
   // Exact Camera Parameters calibrated to reference isometric view
   camera: {
-    fov: 37.0,
+    orthoHeight: 75.4, // reference-calibrated desktop orthographic scene
     near: 0.1,
     far: 1000,
-    position: { x: 93.0, y: 118.0, z: 93.0 },
-    target: { x: 0.0, y: 0.8, z: 0.0 },
-    minDistance: 40,
+    position: { x: 93.0, y: 60.0, z: 93.0 },
+    target: { x: 0.0, y: -4.0, z: 0.0 },
+    minDistance: 45,
     maxDistance: 220,
     minPolarAngle: Math.PI / 6,
-    maxPolarAngle: 1.26,
+    maxPolarAngle: Math.PI / 2.3,
     dampingFactor: 0.08,
   },
 
@@ -47,7 +49,7 @@ export const CAMPUS_CONFIG = {
       borderClass: 'border-cyan-400',
       shadowClass: 'shadow-[0_0_15px_rgba(0,229,255,0.6)]',
       pos: { x: 0, y: 0, z: 0 },
-      labelPos: { x: 3.3, y: 1.6, z: 3.3 },
+      labelPos: { x: 5.8, y: 1.6, z: 6.9 },
       isCenter: true,
       description: 'Learners Area Central Dashboard',
     },
@@ -61,8 +63,8 @@ export const CAMPUS_CONFIG = {
       accentHex: '#f59e0b',
       borderClass: 'border-amber-400',
       shadowClass: 'shadow-[0_0_15px_rgba(245,158,11,0.6)]',
-      pos: { x: -6, y: 0, z: -37 },
-      labelPos: { x: -3.5, y: 3.1, z: -34.5 },
+      pos: { x: -36.1, y: 0, z: -33.2 },
+      labelPos: { x: -33.6, y: 3.1, z: -30.7 },
       description: 'IELTS Reading practice and tests',
     },
     {
@@ -75,8 +77,8 @@ export const CAMPUS_CONFIG = {
       accentHex: '#38bdf8',
       borderClass: 'border-sky-400',
       shadowClass: 'shadow-[0_0_15px_rgba(56,189,248,0.6)]',
-      pos: { x: -26, y: 0, z: -17 },
-      labelPos: { x: -23.5, y: 3.1, z: -14.5 },
+      pos: { x: -43.7, y: 0, z: -15.1 },
+      labelPos: { x: -41.2, y: 3.1, z: -12.6 },
       description: 'IELTS Listening audio tracks and exams',
     },
     {
@@ -89,8 +91,8 @@ export const CAMPUS_CONFIG = {
       accentHex: '#10b981',
       borderClass: 'border-emerald-400',
       shadowClass: 'shadow-[0_0_15px_rgba(16,185,129,0.6)]',
-      pos: { x: -34, y: 0, z: 6 },
-      labelPos: { x: -31.5, y: 3.1, z: 8.5 },
+      pos: { x: -35.4, y: 0, z: 15 },
+      labelPos: { x: -32.9, y: 3.1, z: 17.5 },
       description: 'Task 1 and Task 2 writing evaluation',
     },
     {
@@ -103,8 +105,8 @@ export const CAMPUS_CONFIG = {
       accentHex: '#c084fc',
       borderClass: 'border-purple-400',
       shadowClass: 'shadow-[0_0_15px_rgba(192,132,252,0.6)]',
-      pos: { x: -41, y: 0, z: 24 },
-      labelPos: { x: -38.5, y: 3.1, z: 26.5 },
+      pos: { x: -21.1, y: 0, z: 40.9 },
+      labelPos: { x: -18.6, y: 3.1, z: 43.4 },
       description: 'Speaking cue cards and audio recorder',
     },
     {
@@ -117,8 +119,8 @@ export const CAMPUS_CONFIG = {
       accentHex: '#60a5fa',
       borderClass: 'border-blue-400',
       shadowClass: 'shadow-[0_0_15px_rgba(96,165,250,0.6)]',
-      pos: { x: -23, y: 0, z: 37 },
-      labelPos: { x: -20.5, y: 3.1, z: 39.5 },
+      pos: { x: 12.9, y: 0, z: 43.5 },
+      labelPos: { x: 15.4, y: 3.1, z: 46 },
       description: 'Core English grammar quizzes and rules',
     },
     {
@@ -131,8 +133,8 @@ export const CAMPUS_CONFIG = {
       accentHex: '#fb7185',
       borderClass: 'border-rose-400',
       shadowClass: 'shadow-[0_0_15px_rgba(251,113,133,0.6)]',
-      pos: { x: 2, y: 0, z: 41 },
-      labelPos: { x: 4.5, y: 3.1, z: 43.5 },
+      pos: { x: 43.4, y: 0, z: 40.3 },
+      labelPos: { x: 45.9, y: 3.1, z: 42.8 },
       description: 'Lexical resource, flashcards and SRS',
     },
     {
@@ -145,8 +147,8 @@ export const CAMPUS_CONFIG = {
       accentHex: '#facc15',
       borderClass: 'border-yellow-400',
       shadowClass: 'shadow-[0_0_15px_rgba(250,204,21,0.6)]',
-      pos: { x: 26, y: 0, z: 35 },
-      labelPos: { x: 28.5, y: 3.1, z: 37.5 },
+      pos: { x: 56.8, y: 0, z: 8.2 },
+      labelPos: { x: 59.3, y: 3.1, z: 10.7 },
       description: 'Score predictions and completed analytics',
     },
     {
@@ -159,8 +161,8 @@ export const CAMPUS_CONFIG = {
       accentHex: '#38bdf8',
       borderClass: 'border-sky-400',
       shadowClass: 'shadow-[0_0_15px_rgba(56,189,248,0.6)]',
-      pos: { x: 42, y: 0, z: 14 },
-      labelPos: { x: 44.5, y: 3.1, z: 16.5 },
+      pos: { x: 54.7, y: 0, z: -19.3 },
+      labelPos: { x: 57.2, y: 3.1, z: -16.8 },
       description: 'Full timed IELTS mock examinations',
     },
     {
@@ -173,8 +175,8 @@ export const CAMPUS_CONFIG = {
       accentHex: '#a855f7',
       borderClass: 'border-purple-400',
       shadowClass: 'shadow-[0_0_15px_rgba(168,85,247,0.6)]',
-      pos: { x: 30, y: 0, z: -2 },
-      labelPos: { x: 32.5, y: 3.1, z: 0.5 },
+      pos: { x: 24, y: 0, z: -25.9 },
+      labelPos: { x: 26.5, y: 3.1, z: -23.4 },
       description: 'Teacher assigned homework and submissions',
     },
     {
@@ -187,8 +189,8 @@ export const CAMPUS_CONFIG = {
       accentHex: '#2dd4bf',
       borderClass: 'border-teal-400',
       shadowClass: 'shadow-[0_0_15px_rgba(45,212,191,0.6)]',
-      pos: { x: 38, y: 0, z: -20 },
-      labelPos: { x: 40.5, y: 3.1, z: -17.5 },
+      pos: { x: 25, y: 0, z: -42 },
+      labelPos: { x: 21.4, y: 3.1, z: -47.5 },
       description: 'Interactive group lessons and webinars',
     },
     {
@@ -201,14 +203,14 @@ export const CAMPUS_CONFIG = {
       accentHex: '#f43f5e',
       borderClass: 'border-rose-500',
       shadowClass: 'shadow-[0_0_15px_rgba(244,63,94,0.6)]',
-      pos: { x: 17, y: 0, z: -33 },
-      labelPos: { x: 19.5, y: 3.1, z: -30.5 },
+      pos: { x: -8, y: 0, z: -35 },
+      labelPos: { x: -8.5, y: 3.1, z: -41.8 },
       description: 'TED talks and educational podcasts',
     },
   ],
 
   storage: {
-    cameraKey: 'learners_area_3d_camera_v3',
+    cameraKey: 'learners_area_3d_camera_v4',
     themeKey: 'learners_area_theme',
     localeKey: 'learners_area_locale',
   },

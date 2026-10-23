@@ -23,7 +23,9 @@ export class CampusCameraController {
     c.enableDamping = true;
     c.dampingFactor = config.camera.dampingFactor || .075;
     c.enablePan = false;
-    c.enableZoom = true; // keep native pinch-to-zoom on touch
+    c.enableZoom = true; // native touch pinch updates orthographic zoom
+    c.minZoom=0.65;
+    c.maxZoom=2.6;
     c.minDistance = config.camera.minDistance;
     c.maxDistance = config.camera.maxDistance;
     c.minPolarAngle = config.camera.minPolarAngle;
@@ -45,22 +47,23 @@ export class CampusCameraController {
   handleWheel(event) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    if(event.deltaX===0 && event.deltaY===0)return;
     const c=this.controls;
-    const mul=event.deltaMode===1 ? 16 : event.deltaMode===2 ? this.domElement.clientHeight : 1;
-    const dx=event.deltaX*mul;
-    const dy=event.deltaY*mul;
-    const offset=new THREE.Vector3().subVectors(this.camera.position,c.target);
-    const spherical=new THREE.Spherical().setFromVector3(offset);
-    // Two-finger horizontal gesture rotates; vertical gesture zooms independently.
+    const mul=event.deltaMode===1?16:event.deltaMode===2?this.domElement.clientHeight:1;
+    const dx=THREE.MathUtils.clamp(event.deltaX*mul,-80,80);
+    const dy=THREE.MathUtils.clamp(event.deltaY*mul,-80,80);
+    const spherical=new THREE.Spherical().setFromVector3(
+      new THREE.Vector3().subVectors(this.camera.position,c.target));
+    // Horizontal Mac trackpad: orbit. Vertical: independent orthographic zoom.
     spherical.theta += dx*.0034;
-    spherical.radius = THREE.MathUtils.clamp(spherical.radius*Math.exp(dy*.0014),
-      c.minDistance,c.maxDistance);
     spherical.phi=THREE.MathUtils.clamp(spherical.phi,c.minPolarAngle,c.maxPolarAngle);
     spherical.makeSafe();
-    offset.setFromSpherical(spherical);
-    this.camera.position.copy(c.target).add(offset);
+    this.camera.zoom=THREE.MathUtils.clamp(this.camera.zoom*Math.exp(-dy*.0014),c.minZoom,c.maxZoom);
+    this.camera.updateProjectionMatrix();
+    const damping=c.enableDamping;
+    c.enableDamping=false;
+    this.camera.position.copy(c.target).add(new THREE.Vector3().setFromSpherical(spherical));
     c.update();
+    c.enableDamping=damping;
     clearTimeout(this.pendingSave);
     this.pendingSave=setTimeout(()=>this.saveState(),150);
   }
@@ -80,34 +83,42 @@ export class CampusCameraController {
       if(!numbers.every(Number.isFinite))return;
       sessionStorage.setItem(this.storageKey,JSON.stringify({
         position: this.camera.position.toArray(),
-        target: c.target.toArray()
+        target: c.target.toArray(),
+        zoom: this.camera.zoom
       }));
     }catch{/* inaccessible storage is non-fatal */}
   }
   restoreState() {
-    try{
+    try {
       const data=JSON.parse(sessionStorage.getItem(this.storageKey)||'null');
-      if(data && Array.isArray(data.position) && Array.isArray(data.target) &&
-         data.position.length===3 && data.target.length===3 &&
-         [...data.position,...data.target].every(Number.isFinite)) {
-        const distance=new THREE.Vector3(...data.position).distanceTo(new THREE.Vector3(...data.target));
-        if(distance>=this.controls.minDistance && distance<=this.controls.maxDistance){
-          this.camera.position.fromArray(data.position);
-          this.controls.target.fromArray(data.target);
-          this.controls.update();
+      if(data&&Array.isArray(data.position)&&Array.isArray(data.target)&&
+         data.position.length===3&&data.target.length===3&&
+         [...data.position,...data.target].every(Number.isFinite)){
+        const pos=new THREE.Vector3().fromArray(data.position);
+        const target=new THREE.Vector3().fromArray(data.target);
+        const d=pos.distanceTo(target);
+        if(d>=this.controls.minDistance&&d<=this.controls.maxDistance){
+          this.applyExactPose(pos,target,Number.isFinite(data.zoom)?data.zoom:1);
           return true;
         }
       }
     }catch{}
-    this.camera.position.copy(this.initialPosition);
-    this.controls.target.copy(this.initialTarget);
-    this.controls.update();
+    this.applyExactPose(this.initialPosition,this.initialTarget,1);
     return false;
   }
+  applyExactPose(position,target,zoom=1) {
+    // Clear momentum to prevent map moving after navigating back.
+    const c=this.controls, damping=c.enableDamping;
+    c.enableDamping=false;
+    this.camera.zoom=THREE.MathUtils.clamp(zoom,c.minZoom,c.maxZoom);
+    this.camera.updateProjectionMatrix();
+    this.camera.position.copy(position);
+    c.target.copy(target);
+    c.update();
+    c.enableDamping=damping;
+  }
   resetToIsometric() {
-    this.camera.position.copy(this.initialPosition);
-    this.controls.target.copy(this.initialTarget);
-    this.controls.update();
+    this.applyExactPose(this.initialPosition,this.initialTarget,1);
     this.saveState();
   }
   dispose() {

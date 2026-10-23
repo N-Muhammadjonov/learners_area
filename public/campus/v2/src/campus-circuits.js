@@ -154,9 +154,9 @@ export class CampusCircuits {
       pulseLine,
       streak,
       halo,
-      speed: 12.0 + Math.random() * 4.0, // units per second
+      speed: 12.0 + (branchIndex % 4) * 1.25, // units per second
       progress: (branchIndex * 0.35) % 1.0, // staggered start phase
-      pauseTime: 0.5 + Math.random() * 1.5,
+      pauseTime: 0.5 + (branchIndex % 5) * .25,
       currentPause: 0,
     });
 
@@ -174,7 +174,7 @@ export class CampusCircuits {
       this.group.add(node);
       const halo=this.addHalo(pathDef.color,1.65,.30);
       halo.position.set(node.position.x,.14,node.position.z);
-      this.junctionNodes.push({ mesh: node,halo, baseScale: 1.0, phase: Math.random() * Math.PI * 2 });
+      this.junctionNodes.push({ mesh: node,halo, baseScale: 1.0, phase: ((branchIndex*7+i)*.43)%(Math.PI*2) });
     }
   }
 

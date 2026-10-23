@@ -60,6 +60,23 @@ export class CampusGeometry {
     asphaltMesh.receiveShadow = true;
     group.add(asphaltMesh);
 
+    // Support the edge-most Live classes pavilion without relocating its
+    // approved label. This extension is intentionally small and reviewable.
+    const live=config.modules.find(m=>m.id==='live_classes');
+    if(live){
+      const dockW=14,dockD=13;
+      const dock=new THREE.Mesh(new THREE.BoxGeometry(dockW,h,dockD),
+        this.materials.materials.get('platform_slab'));
+      dock.position.set(live.pos.x,-h/2,live.pos.z);
+      dock.receiveShadow=true;
+      dock.name='live_classes_support_dock';
+      group.add(dock);
+      const dockTop=new THREE.Mesh(new THREE.BoxGeometry(dockW,.045,dockD),
+        this.materials.materials.get('asphalt'));
+      dockTop.position.set(live.pos.x,.006,live.pos.z);
+      group.add(dockTop);
+    }
+
     // Platform Outer Glowing Rim (Double Neon Border)
     const points = shape.getPoints();
     const linePoints = points.map(pt => new THREE.Vector3(pt.x, 0.08, pt.y));

@@ -19,6 +19,7 @@ export class LearnersAreaCampusScene {
     this.width = this.container.clientWidth || 1024;
     this.height = this.container.clientHeight || 571;
     this.isPaused = false;
+    this.reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
     this.buildingMeshes = new Map();
 
     this.init();
@@ -31,11 +32,12 @@ export class LearnersAreaCampusScene {
 
     // 2. Camera (Exact Isometric composition matching reference view)
     const aspect = this.width / this.height;
-    this.camera = new THREE.PerspectiveCamera(
-      CAMPUS_CONFIG.camera.fov,
-      aspect,
-      CAMPUS_CONFIG.camera.near,
-      CAMPUS_CONFIG.camera.far
+    // Actual 3D island with reference-style isometric orthographic framing.
+    const viewH=CAMPUS_CONFIG.camera.orthoHeight;
+    const viewW=viewH*aspect;
+    this.camera = new THREE.OrthographicCamera(
+      -viewW/2, viewW/2, viewH/2, -viewH/2,
+      CAMPUS_CONFIG.camera.near, CAMPUS_CONFIG.camera.far
     );
     this.camera.position.set(
       CAMPUS_CONFIG.camera.position.x,
@@ -371,7 +373,13 @@ export class LearnersAreaCampusScene {
   onResize() {
     this.width = this.container.clientWidth || 1024;
     this.height = this.container.clientHeight || 571;
-    this.camera.aspect = this.width / this.height;
+    // Preserve current orbit and zoom while fitting a wide island on narrow screens.
+    const aspect=this.width/this.height;
+    const viewH=Math.max(CAMPUS_CONFIG.camera.orthoHeight,145/aspect);
+    this.camera.left=-viewH*aspect/2;
+    this.camera.right=viewH*aspect/2;
+    this.camera.top=viewH/2;
+    this.camera.bottom=-viewH/2;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(this.width, this.height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -385,8 +393,8 @@ export class LearnersAreaCampusScene {
     const elapsed = this.clock.getElapsedTime();
 
     this.cameraController.update();
-    this.materials.update(delta, elapsed);
-    this.circuits.update(delta, elapsed);
+    this.materials.update(this.reducedMotion ? 0 : delta, this.reducedMotion ? 0 : elapsed);
+    this.circuits.update(this.reducedMotion ? 0 : delta, this.reducedMotion ? 0 : elapsed);
     this.labels.update(this.width, this.height);
 
     this.renderer.render(this.scene, this.camera);

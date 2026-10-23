@@ -5,6 +5,7 @@
  */
 
 import * as THREE from 'https://esm.sh/three@0.180.0';
+import { orbitFacingAnchor } from './campus-label-anchors.js';
 
 export class CampusLabels {
   constructor(container, camera, onNavigate) {
@@ -79,7 +80,8 @@ export class CampusLabels {
       return (a.module.id==="dashboard"?-1:b.module.id==="dashboard"?1:da-db);
     });
     for (const item of ordered) {
-      tempVec.copy(item.anchorPos);
+      const anchor=orbitFacingAnchor(item.anchorPos,item.module,this.camera.position);
+      tempVec.set(anchor.x,anchor.y,anchor.z);
       tempVec.project(this.camera);
 
       // Check if behind camera
