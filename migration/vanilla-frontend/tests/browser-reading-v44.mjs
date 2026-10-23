@@ -251,6 +251,7 @@ await check('Academic exam: focus screen, questions by type, autosave, submit, t
   assert.ok(state.requests.some(r=>r.method==='POST'&&r.path===`/api/reading/attempts/${ATT}/submit`),'submit posted');
   assert.ok((await page.locator('[data-reading-analysis]').innerText()).includes('2/3'),'score shown');
   assert.equal(await page.locator('[data-evidence]').count(),3);
+  assert.equal(await page.locator('[data-retention-toggle]').count(),1,'the passage retention check follows the analysis');
   assert.deepEqual(errors,[]);
  }finally{await context.close();}
 });
@@ -322,6 +323,95 @@ await check('General session: passage redirect, questions, autosave, explicit ch
   assert.ok((await page.locator('[data-general-score]').innerText()).includes('2'),'score shown after check');
   await page.locator('[data-general-back]').click();
   await page.waitForURL(/\/app\/reading\/general$/,{timeout:6000});
+  assert.deepEqual(errors,[]);
+ }finally{await context.close();}
+});
+
+
+// ---- Retention ----
+const RA1='00000000-0000-4000-8000-000000000001';const RID='00000000-0000-4000-8000-0000000000a7';
+const nowIso=()=>new Date().toISOString();
+const hubData=(over={})=>({initial:null,sessionFailed:false,summary:{bestScore:72,completedCount:3,lastTenAverage:65,lastTenCount:3},history:{rows:[{attemptId:RA1,level:'B1',score:70,status:'completed',completedAt:nowIso(),createdAt:nowIso(),label:'Synthetic text',recallWordCount:120}],page:1,pageCount:1,total:1},...over});
+const meta=(extra={})=>({attemptId:RID,level:'B1',label:'Synthetic text',readStartedAt:new Date(Date.now()).toISOString(),readEndsAt:new Date(Date.now()+120000).toISOString(),writeStartedAt:new Date(Date.now()+120000).toISOString(),writeEndsAt:new Date(Date.now()+300000).toISOString(),serverNow:nowIso(),...extra});
+
+await check('Retention hub: summary, instructions, history rows and the level choices',async()=>{
+ const {context,page,errors}=await fixture({view:(rt)=>rt.startsWith('/app/reading/retention')?hubData():undefined});
+ try{
+  await page.goto(base+'/app/reading/retention');
+  await page.locator('[data-retention-summary]').waitFor();
+  assert.equal((await page.locator('[data-retention-summary-best]').innerText()).trim(),'72');
+  assert.equal(await page.locator('[data-retention-level]').count(),5);
+  assert.equal(await page.locator(`[data-retention-history-open="${RA1}"]`).getAttribute('href'),`/app/reading/retention/results/${RA1}`);
+  assert.equal(await page.locator('[data-retention-instructions]').count(),1);
+  assert.deepEqual(errors,[]);
+ }finally{await context.close();}
+});
+
+await check('Retention session: reading shows the source, finishing removes it, recall autosaves, and submit shows the result',async()=>{
+ let phase='none';const reqs=[];
+ const reading=()=>({phase:'reading',...meta(),wordCount:12,bodyText:'Synthetic source words about the topic. Second sentence here.',occurrences:[]});
+ const recall=()=>({phase:'recall',...meta({writeStartedAt:new Date(Date.now()-60000).toISOString()}),recallDraft:''});
+ const result=()=>({phase:'completed',...meta(),score:81,level:'B1',breakdown:{totals:{mainIdeasRemembered:2,mainIdeasPossible:3,matchedGroups:4,totalGroups:5,contradicted:0},claims:[{claimId:'c1',claimLabel:'Synthetic claim',status:'captured',awardedPoints:2,possiblePoints:2}]},evaluatorVersion:'v1',recallWordCount:4,submittedAt:nowIso(),completedAt:nowIso()});
+ const {context,page,errors,state}=await fixture({view:(rt)=>rt.startsWith('/app/reading/retention')?hubData():undefined,api:async(p,{method,body})=>{
+  reqs.push([method,p]);
+  if(p==='/api/retention/attempts'&&method==='POST'){phase='reading';return reading();}
+  if(p===`/api/retention/attempts/${RID}/finish-reading`&&method==='POST'){phase='recall';return recall();}
+  if(p===`/api/retention/attempts/${RID}/draft`&&method==='PATCH')return {ok:true};
+  if(p===`/api/retention/attempts/${RID}/submit`&&method==='POST')return result();
+  if(p===`/api/retention/attempts/${RID}`&&method==='GET')return phase==='recall'?recall():reading();
+  return undefined;}});
+ try{
+  page.once('dialog',d=>d.accept());
+  await page.goto(base+'/app/reading/retention');
+  await page.locator('[data-retention-start="A2"]').waitFor();
+  await page.locator('[data-retention-level="B1"]').click();
+  await page.locator('[data-retention-start="B1"]').click();
+  await page.locator('[data-retention-source]').waitFor();
+  assert.ok((await page.locator('[data-retention-source]').innerText()).includes('Synthetic source words'));
+  await page.locator('[data-retention-finish-reading]').click();
+  await page.locator('[data-retention-answer]').waitFor({timeout:6000});
+  assert.equal(await page.locator('[data-retention-source]').count(),0,'the source leaves the screen when reading ends');
+  await page.locator('[data-retention-answer]').fill('Synthetic recall words here.');
+  await page.locator('[data-retention-save-state="saved"]').waitFor({timeout:6000});
+  assert.ok(state.requests.some(r=>r.method==='PATCH'&&r.path===`/api/retention/attempts/${RID}/draft`&&r.body.recallText==='Synthetic recall words here.'),'draft saved');
+  await page.locator('[data-retention-submit]').click();
+  await page.locator('[data-retention-result]').waitFor({timeout:8000});
+  assert.equal((await page.locator('[data-retention-score]').innerText()).includes('81'),true);
+  assert.equal(await page.locator('[data-retention-claim]').count(),1);
+  assert.equal(await page.locator('[data-retention-result-permalink]').getAttribute('href'),`/app/reading/retention/results/${RID}`);
+  assert.deepEqual(errors,[]);
+ }finally{await context.close();}
+});
+
+
+// ---- Reading child pages: history, question types, retention result, retention check in analysis ----
+await check('Reading history lists attempts with their score or resume text, and each row opens the attempt',async()=>{
+ const {context,page,errors}=await fixture({view:(rt)=>rt.startsWith('/app/reading/history')?{rows:[{attempt:{id:ATT,status:'completed',score:2,totalQuestions:3},passage:{title:'Synthetic passage'}}]}:undefined});
+ try{
+  await page.goto(base+'/app/reading/history');
+  await page.locator(`a[href="/app/reading/attempts/${ATT}"]`).waitFor();
+  assert.ok((await page.locator(`a[href="/app/reading/attempts/${ATT}"]`).innerText()).includes('2/3'));
+  assert.deepEqual(errors,[]);
+ }finally{await context.close();}
+});
+
+await check('Reading question types: a known type redirects into General Reading; an unknown type is not found',async()=>{
+ const {context,page}=await fixture({view:()=>undefined});
+ try{
+  await page.goto(base+'/app/reading/question-types?type=true_false_not_given');
+  await page.waitForURL(/\/app\/reading\/general\?.*type=true_false_not_given/,{timeout:6000});
+  await page.goto(base+'/app/reading/question-types?type=no_such_type');
+  await page.locator('[data-listening-not-found]').waitFor();
+ }finally{await context.close();}
+});
+
+await check('Retention result permalink: an owner result renders; a live attempt returns to the session',async()=>{
+ const payload={phase:'completed',attemptId:RID,level:'B1',label:'Synthetic text',readStartedAt:nowIso(),readEndsAt:nowIso(),writeStartedAt:nowIso(),writeEndsAt:nowIso(),serverNow:nowIso(),score:64,breakdown:{totals:{mainIdeasRemembered:1,mainIdeasPossible:3,matchedGroups:2,totalGroups:5,contradicted:0},claims:[]},evaluatorVersion:'v1',recallWordCount:30,submittedAt:nowIso(),completedAt:nowIso()};
+ const {context,page,errors}=await fixture({view:(rt)=>rt.startsWith(`/app/reading/retention/results/${RID}`)?{kind:'result',payload}:undefined});
+ try{
+  await page.goto(base+`/app/reading/retention/results/${RID}`);
+  await page.locator('[data-retention-result]').waitFor();
+  assert.ok((await page.locator('[data-retention-score]').innerText()).includes('64'));
   assert.deepEqual(errors,[]);
  }finally{await context.close();}
 });

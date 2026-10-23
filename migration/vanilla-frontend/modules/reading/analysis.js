@@ -5,6 +5,7 @@ import {readingQuestionType} from '../../js/generated/reading-lib/question-model
 import {ternaryLabel} from '../../js/generated/reading-lib/reading-choices.js';
 import {isUnstatedAnswer} from '../../js/generated/reading-lib/unstated.js';
 import {occurrenceSpans} from '../../js/generated/reading-lib/occurrence-spans.js';
+import {retentionCheck} from './retention-check.js';
 /** Original ReadingAnalysis.tsx (+ ReadingEvidence.tsx). Everything shown comes from the learner's own attempt rows.
  * The type table counts submitted answers only. The passage-level RetentionCheck is mounted by the caller. */
 const answerLabel=(type,raw)=>(type!=='true_false_not_given'&&type!=='yes_no_not_given')?raw:ternaryLabel(type,raw);
@@ -40,6 +41,7 @@ export function mountAnalysis(context,p){
    el('span',{class:'h-1.5 flex-1 overflow-hidden rounded-full bg-paper-sunken'},el('span',{class:`block h-full ${row.ratio>=0.8?'bg-band-good':row.ratio>=0.5?'bg-band-warn':'bg-band-bad'}`,style:{width:`${Math.round(row.ratio*100)}%`}})),
    el('span',{class:'w-12 shrink-0 text-right font-mono text-xs text-ink-500'},`${row.correct}/${row.total}`)))),
   weakest?el('p',{class:'text-xs text-ink-500'},`${dict.reading.weakTypeNote}: `,el('strong',{class:'text-ink-900'},questionTypeLabel(weakest.type,locale)),` (${weakest.correct}/${weakest.total})`):null));
+ if(p.passageBody&&attemptId)root.append(retentionCheck(context,{passageTitle:p.passageTitle,passageBody:p.passageBody,passageLevel:p.passageLevel,sourceId:attemptId,occurrences:p.occurrences,lexicalAssistance:true}));
  for(const [index,q] of ordered.entries()){
   const evidencePassage=p.passages.find(x=>x.id===q.passageId),a=answerBy.get(q.id),group=q.groupId?groupById.get(q.groupId):undefined;
   const isNewGroup=!!group&&ordered[index-1]?.groupId!==group.id;

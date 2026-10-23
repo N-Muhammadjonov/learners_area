@@ -1,5 +1,5 @@
 import {readingDictionary} from './dictionary.js';
-import {readingLegacyDestination} from '../../js/reading-destinations.js';
+import {readingLegacyDestination} from '../../js/generated/reading-destinations.js';
 /** One entry for every learner Reading route. Each original page maps to one native module below; the Reading
  * dictionary overlay is loaded once per locale. Unknown Reading paths use the shared not-found presentation. */
 /** Original (focus)/reading/reading-workspace.css: loaded once for every Reading focus screen, scoped to .reading-focus. */
@@ -26,7 +26,19 @@ export async function mount(context){
  }
  if(path==='/app/reading/lessons')return (await import('./lessons.js')).mountLessons(ctx);
  if(/^\/app\/reading\/lessons\/[^/]+$/.test(path))return (await import('./lessons.js')).mountLesson(ctx);
-   if(path==='/app/reading/general')return (await import('./general.js')).mountGeneral(ctx);
+     if(path==='/app/reading/history')return (await import('./history.js')).mountHistory(ctx);
+  if(path==='/app/reading/question-types'){
+   // Original question-types page: a legacy redirect into General Reading; unknown types are not found.
+   const {readingQuestionType}=await import('../../js/generated/reading-lib/question-model.js');
+   const {readingLegacyDestination}=await import('../../js/generated/reading-destinations.js');
+   const params=Object.fromEntries(url.searchParams);
+   if(params.type&&!readingQuestionType(params.type)){const {missing}=await import('../listening/catalogue-v9.js');ctx.root.append(missing(dict));return;}
+   void navigate(readingLegacyDestination({...params,tab:'types',type:params.type?readingQuestionType(params.type).id:undefined})??'/app/reading/general',{replace:true});
+   return;
+  }
+  if(/^\/app\/reading\/retention\/results\/[^/]+$/.test(path))return (await import('./retention.js')).mountRetentionResult(ctx);
+ if(path==='/app/reading/retention')return (await import('./retention.js')).mountRetention(ctx);
+ if(path==='/app/reading/general')return (await import('./general.js')).mountGeneral(ctx);
   if(/^\/app\/reading\/general\/[^/]+$/.test(path)){ensureFocusStyles();return (await import('./general-session.js')).mountGeneralSession(focusContext(ctx));}
  if(path==='/app/reading/academic')return (await import('./academic.js')).mountAcademicCatalogue(ctx);
   if(/^\/app\/reading\/academic\/[^/]+$/.test(path)){ensureFocusStyles();return (await import('./academic.js')).mountAcademicSet(focusContext(ctx));}

@@ -1,0 +1,5 @@
+{
+  "reason": "Reading V44 migration adds Tailwind utility classes used by the native Reading pages. The V19 pin stays as history; this pin is the compiled CSS of the current sources.",
+  "compiledCssSha256": "a1a67fb72ba037bfdfa8ed2adcfa28fb347890e1bec9c542634a6c957e4f4e18",
+  "previousPin": "docs/evidence/v19/assets-css.json"
+}

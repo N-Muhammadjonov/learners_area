@@ -58,3 +58,22 @@ export function readingGeneralSetDTO(raw,setId){
  }
  return raw;
 }
+/** Retention hub projection: the live attempt (already server-checked), the overview reads and the first history page.
+ * `sessionFailed`, `summary` and `history` are null when that read is unavailable, as the original region failures. */
+export function readingRetentionDTO(raw){
+ if(!obj(raw)||!('initial' in raw)||(raw.initial!==null&&(!obj(raw.initial)||!str(raw.initial.phase))))bad('invalid_reading_retention');
+ if(raw.summary!==null&&raw.summary!==undefined&&(!obj(raw.summary)||!int(raw.summary.completedCount)||!int(raw.summary.lastTenCount)))bad('invalid_reading_retention');
+ if(raw.history!==null&&raw.history!==undefined&&(!obj(raw.history)||!Array.isArray(raw.history.rows)||!int(raw.history.page)||!int(raw.history.pageCount)||!int(raw.history.total)))bad('invalid_reading_retention');
+ return {initial:raw.initial??null,sessionFailed:raw.sessionFailed===true,summary:raw.summary??null,history:raw.history??null};
+}
+/** Reading attempt history: `{rows:[{attempt:{id,status,score,totalQuestions}, passage:{title}}]}`. */
+export function readingHistoryDTO(raw){
+ if(!obj(raw)||!Array.isArray(raw.rows))bad('invalid_reading_history');
+ for(const r of raw.rows){if(!obj(r)||!obj(r.attempt)||!str(r.attempt.id)||!['in_progress','completed'].includes(r.attempt.status)||!obj(r.passage)||!str(r.passage.title))bad('invalid_reading_history');}
+ return raw;
+}
+/** Retention result permalink: `{kind:'result', payload}` (terminal, learner-safe), `{kind:'live'}`, or unavailable. */
+export function readingRetentionResultDTO(raw){
+ if(!obj(raw)||!['result','live','unavailable'].includes(raw.kind))bad('invalid_retention_result');
+ return raw;
+}

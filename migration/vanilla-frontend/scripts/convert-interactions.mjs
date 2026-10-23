@@ -41,7 +41,7 @@ fs.writeFileSync(path.join(base,'js/generated/interaction-navigation.js'),compil
 // Existing catalogue layouts: preserve source section labels, query semantics,
 // keyboard focus model and exact presentation. No new page/workflow is claimed.
 fs.writeFileSync(path.join(base,'js/generated/tablist.js'),compile(read('src/lib/a11y/tablist.ts')));
-fs.writeFileSync(path.join(base,'js/generated/reading-destinations.js'),compile(read('src/lib/reading/destinations.ts')));
+fs.writeFileSync(path.join(base,'js/generated/reading-destinations.js'),compile(fs.readFileSync(path.join(base,'scripts/source/reading-destinations.ts'),'utf8')));
 const moduleNav=read('src/components/navigation/ModuleNavigation.tsx'),moduleFn=find(moduleNav,'ModuleNavigation');
 const linkStatements=moduleFn.body.statements.filter(n=>!ts.isReturnStatement(n)&&!(ts.isVariableStatement(n)&&n.getText().startsWith('const dict ='))).map(n=>n.getText()).join('\n');
 fs.writeFileSync(path.join(base,'js/generated/module-navigation.js'),"// Reviewed pure source link selection, no server dictionary calls.\nimport {READING_DESTINATIONS} from './reading-destinations.js';\n"+compile(`export function navigationLinks({module,dict}){${linkStatements}\nreturn links;}`));
