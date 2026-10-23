@@ -8,7 +8,7 @@ import {occurrenceSpans} from '../../js/generated/reading-lib/occurrence-spans.j
 /** Original ReadingAnalysis.tsx (+ ReadingEvidence.tsx). Everything shown comes from the learner's own attempt rows.
  * The type table counts submitted answers only. The passage-level RetentionCheck is mounted by the caller. */
 const answerLabel=(type,raw)=>(type!=='true_false_not_given'&&type!=='yes_no_not_given')?raw:ternaryLabel(type,raw);
-function evidence(context,{dict,body,title,quote,unstated}){
+export function evidence(context,{dict,body,title,quote,unstated}){
  if(unstated&&!quote.trim())return el('details',{'data-reading-evidence-absence':true},el('summary',{class:'cursor-pointer text-xs'},`${dict.reading.evidence}: ${title}`),el('p',{class:'mt-2 text-sm'},dict.readingV4.unstatedEvidence),el('p',{class:'mt-2 whitespace-pre-line text-sm','data-reading-evidence-context':true},body));
  const start=quote.trim()?body.indexOf(quote):-1;
  if(start<0)return el('p',{'data-reading-evidence-unlocated':true},dict.readingPractice.evidenceMissing);

@@ -160,7 +160,6 @@ await check('Reading lesson body: a selected range is highlighted for this visit
   await page.goto(base+detailRoute);
   await page.locator('[data-highlight-surface]').first().waitFor();
   await page.evaluate(()=>{const region=document.querySelector('[data-highlight-surface]');const text=region.firstChild;const range=document.createRange();range.setStart(text,0);range.setEnd(text,9);const sel=getSelection();sel.removeAllRanges();sel.addRange(range);region.dispatchEvent(new MouseEvent('mouseup',{bubbles:true}));});
-  if(false)console.error('DBGSEL',JSON.stringify(await page.evaluate(()=>({sel:String(getSelection()),collapsed:getSelection().isCollapsed,control:!!document.querySelector('[data-highlight-control]'),surface:document.querySelectorAll('[data-highlight-surface]').length,html:document.querySelector('[data-highlight-surface]')?.outerHTML.slice(0,300)}))));
   // The control is positioned from the selection rectangle; activate its button directly, as a pointer click would.
   await page.locator('[data-highlight-control] button').first().dispatchEvent('click');
   await page.locator('mark[data-highlight-id]').first().waitFor({timeout:3000});
@@ -261,6 +260,69 @@ await check('Academic exam: a malformed attempt id shows the not-found presentat
  try{
   await page.goto(base+'/app/reading/attempts/not-a-uuid');
   await page.locator('[data-listening-not-found]').waitFor();
+ }finally{await context.close();}
+});
+
+
+// ---- General Reading ----
+const GP='00000000-0000-4000-8000-0000000000g1'.replace('g','0');
+const GSET='00000000-0000-4000-8000-0000000000b9';
+const libraryData=(over={})=>({filter:{query:'',topic:'',type:'',status:'',page:1},facets:{topics:[{code:'science',count:2}],types:[{code:'true_false_not_given',count:1}]},library:{items:[{id:GP,title:'Synthetic general passage',setId:null,questionTypes:['true_false_not_given'],topicCode:'science',questionCount:3,suggestedMinutes:20,status:'not_started',lastScore:null,lastAttemptId:null,passageNo:null,testNo:null},{id:'00000000-0000-4000-8000-0000000000g2'.replace('g','0'),title:'Finished passage',setId:null,questionTypes:[],topicCode:null,questionCount:3,suggestedMinutes:15,status:'completed',lastScore:2,lastAttemptId:null,passageNo:null,testNo:null}],total:2,page:1,pageCount:1},...over});
+const generalSet=(progress={})=>({set:{id:GSET,title:'Synthetic general set'},passages:[{passageNo:1,passageId:P1,title:'Synthetic passage',body:'Paragraph A text. Water boils at one hundred degrees.',paragraphs:[{id:PA,label:'A',text:'Paragraph A text.',isFootnote:false}],groups:[{id:G1,position:1,typeCode:'true_false_not_given',displayTitle:null,instructionsText:'Do the following statements agree with the information in the passage?',fromQuestionNo:1,toQuestionNo:3,sharedChoices:[]}],questions:[{id:Q1,questionNo:1,order:1,type:'true_false_not_given',typeCode:'true_false_not_given',groupId:G1,renderMode:'question_row',questionText:'Paragraph A is about boiling.',options:null,answerConstraint:null},{id:Q2,questionNo:2,order:2,type:'short_answer',typeCode:'short_answer',groupId:G1,renderMode:'question_row',questionText:'Water boils at ___ degrees.',options:null,answerConstraint:{max_words:2}},{id:Q3,questionNo:3,order:3,type:'multiple_choice',typeCode:'multiple_choice',groupId:G1,renderMode:'question_row',questionText:'Which option is right?',options:['A — Option one','B — Option two','C — Option three'],answerConstraint:null}],occurrences:[]}],initialProgress:progress});
+
+await check('General catalogue: cards by status, the count, filter links and the search that updates the URL',async()=>{
+ const {context,page,errors}=await fixture({view:(rt)=>rt.startsWith('/app/reading/general')?libraryData():undefined});
+ try{
+  await page.goto(base+'/app/reading/general');
+  await page.locator('[data-passage]').first().waitFor();
+  assert.equal(await page.locator('[data-passage]').count(),2);
+  assert.equal(await page.locator(`[data-passage="${GP}"] [data-passage-state]`).getAttribute('data-passage-state'),'not_started');
+  assert.equal(await page.locator('[data-passage-score]').count(),1,'finished passage shows its score');
+  assert.equal(await page.locator('[data-reading-status]').count(),7);
+  assert.ok((await page.locator('[data-reading-count]').innerText()).includes('2'));
+  await page.locator('[data-reading-search]').fill('boil');
+  await page.waitForURL(/[?&]q=boil/,{timeout:6000});
+  assert.deepEqual(errors,[]);
+ }finally{await context.close();}
+});
+
+await check('General catalogue: a legacy page link is normalised to the first page, and Start opens an attempt',async()=>{
+ let started=false;
+ const {context,page,errors,state}=await fixture({view:(rt)=>rt.startsWith('/app/reading/general')?libraryData():undefined,api:async(p,{method})=>{if(p==='/api/reading/attempts'&&method==='POST'){started=true;return {id:ATT};}return undefined;}});
+ try{
+  await page.goto(base+'/app/reading/general?page=2&topic=science');
+  await page.waitForURL(url=>!url.search.includes('page='),{timeout:6000});
+  assert.ok(page.url().includes('topic=science'),'filters kept');
+  await page.locator(`[data-passage="${GP}"] [data-passage-action=start]`).click();
+  await page.waitForURL(new RegExp(`/app/reading/attempts/${ATT}$`));
+  assert.deepEqual(state.requests.find(r=>r.method==='POST'&&r.path==='/api/reading/attempts').body,{passageId:GP});
+  assert.deepEqual(errors,[]);
+ }finally{await context.close();}
+});
+
+await check('General session: passage redirect, questions, autosave, explicit check with feedback, then back to the library',async()=>{
+ let checked=false,started=false;
+ const rows=[{questionId:Q1,isCorrect:true,correctAnswer:'TRUE',acceptedAnswers:[],evidenceQuote:'Paragraph A text.',explanation:'Synthetic explanation'},{questionId:Q2,isCorrect:false,correctAnswer:'90',acceptedAnswers:[],evidenceQuote:null,explanation:null},{questionId:Q3,isCorrect:true,correctAnswer:'B — Option two',acceptedAnswers:[],evidenceQuote:null,explanation:null}];
+ const view=(rt)=>{const path=rt.split('?')[0];if(path!==`/app/reading/general/${GSET}`)return undefined;const progress=checked?{[P1]:{answers:{[Q2]:'90'},score:2,total:3,checked:true,result:rows}}:started?{[P1]:{answers:{},score:null,total:null,checked:false,result:null}}:{};return {kind:'general_set',...generalSet(progress)};};
+ const {context,page,errors,state}=await fixture({view,api:async(p,{method,body})=>{if(p==='/api/reading/general/progress'&&method==='POST'){if(body.check){checked=true;return {ok:true,score:2,total:3,result:[{questionId:Q1,isCorrect:true,correctAnswer:'TRUE',acceptedAnswers:[],evidenceQuote:'Paragraph A text.',explanation:'Synthetic explanation'},{questionId:Q2,isCorrect:false,correctAnswer:'90',acceptedAnswers:[],evidenceQuote:null,explanation:null},{questionId:Q3,isCorrect:true,correctAnswer:'B — Option two',acceptedAnswers:[],evidenceQuote:null,explanation:null}]};}if(body.start)started=true;return {ok:true,updatedAt:new Date().toISOString(),score:null,total:null,result:null};}return undefined;}});
+ try{
+  await page.goto(base+`/app/reading/general/${GSET}`);
+  await page.waitForURL(new RegExp(`passage=1$`),{timeout:6000});
+  await page.locator('[data-general-passage-tab]').waitFor();
+  assert.equal(await page.locator('[data-general-passage-tab]').count(),1);
+  assert.equal(await page.locator('[data-reading-question-nav]').count(),3);
+  assert.ok(state.requests.some(r=>r.method==='POST'&&r.path==='/api/reading/general/progress'&&r.body.start===true),'a new session is started once');
+  await page.locator(`[data-answer-input="${Q2}"]`).fill('90');
+  await page.locator('[data-general-save-state="saved"]').waitFor({timeout:6000});
+  assert.ok(state.requests.some(r=>r.method==='POST'&&r.body&&r.body.passageId===P1&&r.body.check===false&&r.body.answers[Q2]==='90'),'autosave sends the answer without checking');
+  await page.locator('[data-general-check]').click();
+  await page.locator('[data-general-result]').first().waitFor({timeout:6000});
+  assert.equal(await page.locator('[data-general-result]').count(),3);
+  assert.equal(await page.locator('[data-general-result="correct"]').count(),2);
+  assert.ok((await page.locator('[data-general-score]').innerText()).includes('2'),'score shown after check');
+  await page.locator('[data-general-back]').click();
+  await page.waitForURL(/\/app\/reading\/general$/,{timeout:6000});
+  assert.deepEqual(errors,[]);
  }finally{await context.close();}
 });
 

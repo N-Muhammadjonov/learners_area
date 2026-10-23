@@ -1,6 +1,6 @@
 {
   "suite": "V44 Reading migration",
-  "date": "2026-10-23T10:52:10.926Z",
+  "date": "2026-10-23T10:59:52.723Z",
   "results": [
     {
       "name": "Reading landing: /app/reading redirects to Lessons with replaceState (the original redirect)",
@@ -57,10 +57,22 @@
     {
       "name": "Academic exam: a malformed attempt id shows the not-found presentation",
       "status": "PASS"
+    },
+    {
+      "name": "General catalogue: cards by status, the count, filter links and the search that updates the URL",
+      "status": "PASS"
+    },
+    {
+      "name": "General catalogue: a legacy page link is normalised to the first page, and Start opens an attempt",
+      "status": "PASS"
+    },
+    {
+      "name": "General session: passage redirect, questions, autosave, explicit check with feedback, then back to the library",
+      "status": "PASS"
     }
   ],
   "counts": {
-    "PASS": 14,
+    "PASS": 17,
     "FAIL": 0
   }
 }

@@ -37,3 +37,24 @@ export function readingAttemptDTO(raw,id){
  for(const k of ['sections','questions','groups','paragraphs','answers','occurrences'])if(!Array.isArray(d[k]))bad('invalid_reading_attempt');
  return d;
 }
+const STATUS3=['not_started','in_progress','completed'];
+/** General library projection: `{filter, facets:{topics,types}, library:{items,total,page,pageCount}}` plus the two
+ * region flags the original reports as `unavailable` (facets, library). Rows carry no answer keys. */
+export function readingGeneralLibraryDTO(raw){
+ if(!obj(raw)||!obj(raw.filter)||!obj(raw.facets)||!Array.isArray(raw.facets.topics)||!Array.isArray(raw.facets.types)||!obj(raw.library))bad('invalid_reading_general');
+ const lib=raw.library;
+ if(!Array.isArray(lib.items)||!int(lib.total)||!int(lib.page)||!int(lib.pageCount))bad('invalid_reading_general');
+ for(const item of lib.items){
+  if(!obj(item)||!str(item.id)||!str(item.title)||!STATUS3.includes(item.status)||!int(item.questionCount)||!int(item.suggestedMinutes)||!(nullable(item.setId)||str(item.setId))||!(nullable(item.topicCode)||str(item.topicCode)))bad('invalid_reading_general');
+ }
+ return {...raw,facetsUnavailable:raw.facetsUnavailable===true,libraryUnavailable:raw.libraryUnavailable===true,facets:{topics:raw.facets.topics.map(t=>({code:t.code,count:t.count})),types:raw.facets.types.map(t=>({code:t.code,count:t.count}))}};
+}
+/** General set projection: the selected passages as the original session consumes them, plus the progress rows the
+ * server has already reconciled (`initialProgress`, keyed by passage id). Keys never appear before a check. */
+export function readingGeneralSetDTO(raw,setId){
+ if(!obj(raw)||raw.kind==='not_found'||!obj(raw.set)||raw.set.id!==setId||!Array.isArray(raw.passages)||!obj(raw.initialProgress))bad('invalid_reading_general_set');
+ for(const p of raw.passages){
+  if(!obj(p)||!int(p.passageNo)||!str(p.passageId)||!str(p.title)||!str(p.body)||!Array.isArray(p.paragraphs)||!Array.isArray(p.questions)||!Array.isArray(p.groups)||!Array.isArray(p.occurrences))bad('invalid_reading_general_set');
+ }
+ return raw;
+}

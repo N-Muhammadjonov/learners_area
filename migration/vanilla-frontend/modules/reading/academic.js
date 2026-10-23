@@ -40,7 +40,7 @@ export function mountAcademicSet(context){
    const raw=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;
    if(raw.kind==='not_found'){host.replaceChildren(missing(dict));return;}
    const set=readingAcademicSetDTO(raw,setId);
-   const start=Button({variant:'primary','data-passage-action':'start'},dict.generalReading.full);
+   const start=Button({variant:'primary','data-passage-action':'start',children:dict.generalReading.full});
    const message=el('span',{class:'text-[0.8125rem] text-band-bad','data-passage-action-error':true});
    message.hidden=true;
    start.addEventListener('click',async()=>{
