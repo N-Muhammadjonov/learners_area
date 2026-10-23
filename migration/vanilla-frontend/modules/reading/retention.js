@@ -15,13 +15,27 @@ const remaining=(iso,skew)=>iso?Math.ceil((Date.parse(iso)-(Date.now()+skew))/10
 export function mountRetention(context){
  const {root,url,signal,dict,locale}=context,t=dict.retentionMemory,host=el('div',{class:'mx-auto flex max-w-6xl flex-col gap-6','data-retention-page':true,'data-route-usable':'retention','data-native-view':'retention'});
  root.append(host);let busy=false;
+ // The summary and history nodes shown beside the session. A finished attempt re-reads only these two (the original router.refresh()),
+ // so the learner keeps the result on screen and the overview is current.
+ const overview={summary:null,history:null};
+ async function refreshOverview(){
+  try{
+   const raw=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;
+   const data=readingRetentionDTO(raw);
+   if(overview.summary?.isConnected){const next=summaryPanel(context,data);overview.summary.replaceWith(next);overview.summary=next;}
+   if(overview.history?.isConnected){const next=historySection(context,data.history);overview.history.replaceWith(next);overview.history=next;}
+  }catch{
+   if(signal.aborted)return;
+   if(overview.summary?.isConnected){const next=RegionFailureNotice({region:'retention-summary',message:dict.retentionMemory.errors.retention_unavailable,retryLabel:dict.errorPage.retry,refresh:refreshOverview});overview.summary.replaceWith(next);overview.summary=next;}
+  }
+ }
  async function load(){
   if(busy||signal.aborted)return;busy=true;
   host.replaceChildren(el('header',{class:'flex flex-col gap-2'},el('h1',{class:'page-title'},t.title),el('p',{class:'page-subtitle'},t.subtitle),el('p',{class:'body-text'},t.intro)),el('p',{class:'panel meta-text',role:'status','aria-busy':'true'},dict.common.loading));
   try{
    const raw=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;
    const data=readingRetentionDTO(raw);
-   host.replaceChildren(el('header',{class:'flex flex-col gap-2'},el('h1',{class:'page-title'},t.title),el('p',{class:'page-subtitle'},t.subtitle),el('p',{class:'body-text'},t.intro)),session(context,data));
+   host.replaceChildren(el('header',{class:'flex flex-col gap-2'},el('h1',{class:'page-title'},t.title),el('p',{class:'page-subtitle'},t.subtitle),el('p',{class:'body-text'},t.intro)),session(context,data,{overview,refreshOverview}));
   }catch(e){
    if(signal.aborted)return;
    host.replaceChildren(RegionFailureNotice({region:'retention',message:dict.auth.errorServer,retryLabel:dict.globalDictionary.retry,refresh:load}));
@@ -31,13 +45,16 @@ export function mountRetention(context){
  void locale;
 }
 const isActive=p=>!!p&&p.phase!=='completed'&&p.phase!=='timed_out';
-function session(context,data){
+function session(context,data,slots){
  const {dict}=context,t=dict.retentionMemory;
  const active=isActive(data.initial);
- const sessionRegion=el('section',{class:'panel','data-retention-session-region':true},data.sessionFailed?RegionFailureNotice({region:'retention-session',message:t.errors.retention_unavailable,retryLabel:dict.errorPage.retry,refresh:()=>context.refresh()}):retentionSession(context,data.initial));
- const overview=el('aside',{class:'flex flex-col gap-4'},summaryPanel(context,data),
+ const sessionRegion=el('section',{class:'panel','data-retention-session-region':true},data.sessionFailed?RegionFailureNotice({region:'retention-session',message:t.errors.retention_unavailable,retryLabel:dict.errorPage.retry,refresh:()=>context.refresh()}):retentionSession(context,data.initial,slots.refreshOverview));
+ const summary=summaryPanel(context,data);
+ slots.overview.summary=active?null:summary;
+ const overview=el('aside',{class:'flex flex-col gap-4'},summary,
   el('section',{class:'panel flex flex-col gap-3','data-retention-instructions':true},el('h2',{class:'section-title'},t.howTitle),el('ol',{class:'list-decimal space-y-3 pl-5 body-text'},el('li',{},t.readingHint),el('li',{},t.recallHint),el('li',{},t.resultHint))));
- const history=el('section',{class:'flex flex-col gap-3','data-retention-history-section':true},el('h2',{class:'section-title'},t.historyTitle),historyList(context,data.history));
+ const history=historySection(context,data.history);
+ slots.overview.history=active?null:history;
  return el('div',{class:'flex flex-col gap-6','data-retention-workspace':active?'active':'entry'},
   el('div',{class:active?'min-w-0':'retention-hub-grid'},sessionRegion,active?null:overview),
   active?null:history);
@@ -52,6 +69,10 @@ function summaryPanel(context,data){
    el('div',{},el('dd',{'data-retention-summary-completed':true},String(s.completedCount)),el('dt',{},t.summaryCompletedLabel)),
    el('div',{},el('dd',{'data-retention-summary-average':true},String(s.lastTenAverage??'—')),el('dt',{},t.summaryAverageLabel))),
   s.lastTenCount===0?el('p',{class:'meta-text'},t.summaryNoResults):null);
+}
+function historySection(context,history){
+ const {dict}=context,t=dict.retentionMemory;
+ return el('section',{class:'flex flex-col gap-3','data-retention-history-section':true},el('h2',{class:'section-title'},t.historyTitle),historyList(context,history));
 }
 /** Original RetentionHistory: bounded, owner-scoped pages; "load more" appends by attempt id. */
 function historyList(context,initial){
@@ -82,8 +103,9 @@ function historyList(context,initial){
  return wrap;
 }
 /** Original RetentionSession. Entry (levels) → reading → awaiting_recall → recall → result. */
-function retentionSession(context,initial){
+function retentionSession(context,initial,onTerminal){
  const {dict,signal,navigate,refresh}=context,t=dict.retentionMemory;
+ const terminalSeen=new Set();
  const host=el('div',{'data-retention-session':true});
  const state={payload:initial,selected:'A2',busy:false,error:null,unknown:false,rechecking:false,refreshFailed:false,skew:initial?Date.parse(initial.serverNow)-Date.now():0};
  let ticker=null,poll=null,inFlight=null;
@@ -91,7 +113,8 @@ function retentionSession(context,initial){
  signal.addEventListener('abort',()=>{clearInterval(ticker);clearInterval(poll);},{once:true});
  const errorText=code=>(code&&t.errors[code])||t.errors.retention_unavailable;
  const banner=msg=>el('p',{class:'panel border-signal-300 text-sm text-signal-700',role:'alert','data-retention-error':true},msg);
- function setPayload(next){state.payload=next;if(next?.serverNow)state.skew=Date.parse(next.serverNow)-Date.now();draw();}
+ function setPayload(next){state.payload=next;if(next?.serverNow)state.skew=Date.parse(next.serverNow)-Date.now();draw();
+  if((next?.phase==='completed'||next?.phase==='timed_out')&&!terminalSeen.has(next.attemptId)){terminalSeen.add(next.attemptId);void onTerminal?.();}}
  async function start(level){
   if(state.busy||state.unknown)return;state.busy=true;state.error=null;draw();
   const ctl=new AbortController();const timer=setTimeout(()=>ctl.abort(),12000);
@@ -139,7 +162,7 @@ function retentionSession(context,initial){
   if(alive())draw({keep:true});
  }
  async function submitRecall(){
-  if(submitting||!state.payload||state.payload.phase!=='recall')return;submitting=true;draw();
+  if(submitting||!state.payload||state.payload.phase!=='recall')return;submitting=true;clearTimeout(draftTimer);draw();
   try{const r=await fetch(`/api/retention/attempts/${state.payload.attemptId}/submit`,{method:'POST',credentials:'same-origin',cache:'no-store',redirect:'error',headers:{'content-type':'application/json'},body:JSON.stringify({recallText:draftText}),signal});
    if(!r.ok){saveState='failed';submitting=false;draw();return;}
    const result=await r.json();
@@ -198,7 +221,7 @@ function retentionSession(context,initial){
   const expired=s<=0;
   const area=el('textarea',{id:'retention-recall-answer',class:'input min-h-[14rem] w-full',readonly:(submitting||expired)?true:null,placeholder:t.recallPlaceholder,'aria-label':t.recallTitle,'data-retention-answer':true});
   area.value=draftText;
-  area.addEventListener('input',()=>{if(submitting||expired)return;draftText=area.value;clearTimeout(draftTimer);if(draftText!==lastSaved){draftTimer=setTimeout(()=>void saveDraft(draftText),1200);}draftCounter();});
+  area.addEventListener('input',()=>{if(submitting||expired)return;draftText=area.value;clearTimeout(draftTimer);if(draftText!==lastSaved){draftTimer=setTimeout(()=>void saveDraft(draftText),1200);}draftCounter();submit.disabled=draftText.trim().length===0;});
   const count=el('span',{class:'meta-text','aria-live':'polite','data-retention-save-state':saveState},
    saveState==='saving'?t.recallSaving:saveState==='saved'?t.recallSaved:saveState==='failed'?t.recallSaveFailed:t.recallWordCount.replace('{n}',String(words(draftText))));
   countNode=count;

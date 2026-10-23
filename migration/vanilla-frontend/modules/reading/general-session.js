@@ -59,7 +59,10 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  const state={answers:saved?.answers??{},status:'idle',error:null,leaving:false,checkPending:false,pane:'passage',split:58,fontSize:16,check:saved?.checked&&saved.result?{rows:saved.result,score:saved.score,total:saved.total}:null,revision:0};
  let timer=null,queue=Promise.resolve(),pendingDraft=null,lastOk=true;
  // Open a session: create the progress row once (the original start request). Nothing is rebuilt for it.
- if(!hasSaved)api.request('/api/reading/general/progress',{method:'POST',body:{passageId,answers:{},check:false,start:true},signal}).catch(()=>{});
+ if(!hasSaved)api.request('/api/reading/general/progress',{method:'POST',body:{passageId,answers:{},check:false,start:true},signal})
+ .catch(e=>{if(signal.aborted)return;
+  // A failed start is shown with the mapped message; it is never reported as a started session. The learner's next save still sends the answers.
+  state.error=failure(e,dict);draw();});
  function persist(nextAnswers,check){
   clearTimeout(timer);pendingDraft=null;
   const revision=state.revision;

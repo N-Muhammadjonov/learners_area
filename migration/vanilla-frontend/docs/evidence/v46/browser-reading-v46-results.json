@@ -1,0 +1,26 @@
+{
+  "suite": "V46 Reading finish",
+  "date": "2026-10-23T14:37:39.968Z",
+  "results": [
+    {
+      "name": "General start failure: the mapped message is shown, typed answers survive, one start is sent, and a later save clears it",
+      "status": "PASS"
+    },
+    {
+      "name": "Retention phrase lookup: a double-click on a word of an authored phrase looks up the whole phrase by its occurrence",
+      "status": "PASS"
+    },
+    {
+      "name": "Retention completion: the result shows, the summary and history refresh in place, and submit is sent once",
+      "status": "PASS"
+    },
+    {
+      "name": "Mobile 390px: the General session and the Retention hub fit the screen without horizontal overflow",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 4,
+    "FAIL": 0
+  }
+}
