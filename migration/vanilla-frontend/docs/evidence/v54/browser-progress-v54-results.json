@@ -1,0 +1,118 @@
+{
+  "suite": "V54 My Progress (synthetic projections)",
+  "date": "2026-10-23T18:55:36.217Z",
+  "results": [
+    {
+      "name": "route resolves to native My Progress with heading, subtitle and Reports link",
+      "status": "PASS"
+    },
+    {
+      "name": "skill cards: attempts, accuracy, zero vs no score, submitted counts and links",
+      "status": "PASS"
+    },
+    {
+      "name": "new learner: no attempts, no score, zero vocabulary and empty trend states",
+      "status": "PASS"
+    },
+    {
+      "name": "Writing: latest estimate shown, and \"no estimate yet\" without evaluation",
+      "status": "PASS"
+    },
+    {
+      "name": "Writing with evaluation unavailable shows an unknown state, never a band",
+      "status": "PASS"
+    },
+    {
+      "name": "Speaking never shows a score: with and without transcript",
+      "status": "PASS"
+    },
+    {
+      "name": "mock overview: completed full mocks, trend, removed mock kept as history, table",
+      "status": "PASS"
+    },
+    {
+      "name": "mock overview with no finished mocks: empty note, zero of catalogue, no fake band",
+      "status": "PASS"
+    },
+    {
+      "name": "mock attempts unavailable shows a notice with retry, not a stale chart",
+      "status": "PASS"
+    },
+    {
+      "name": "vocabulary: mixed distribution shows counts; empty library shows real zeros",
+      "status": "PASS"
+    },
+    {
+      "name": "course: lesson, task and mock figures, roadmap link and unavailable dashes",
+      "status": "PASS"
+    },
+    {
+      "name": "trends: weekly charts keep empty weeks as no value and render tables",
+      "status": "PASS"
+    },
+    {
+      "name": "retention table shows levels, last five scores, average and change",
+      "status": "PASS"
+    },
+    {
+      "name": "heatmap maps counts to all five levels and offers a table of active days",
+      "status": "PASS"
+    },
+    {
+      "name": "single failed widget: streak fails alone; others still render; retry recovers",
+      "status": "PASS"
+    },
+    {
+      "name": "partial summary: an unavailable section is a dash, the other sections render",
+      "status": "PASS"
+    },
+    {
+      "name": "all requests failing: four independent notices, no fabricated numbers",
+      "status": "PASS"
+    },
+    {
+      "name": "loading placeholders announce status and clear when data arrives",
+      "status": "PASS"
+    },
+    {
+      "name": "stale response from a navigated-away mount never paints into the new page",
+      "status": "PASS"
+    },
+    {
+      "name": "reload re-requests every region and repaints from scratch",
+      "status": "PASS"
+    },
+    {
+      "name": "EN and UZ labels come from the dictionary (heading, Reports, module labels)",
+      "status": "PASS"
+    },
+    {
+      "name": "dark theme changes the surface and keeps every region visible without overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "responsive: no horizontal overflow at 390px with full data",
+      "status": "PASS"
+    },
+    {
+      "name": "responsive: no horizontal overflow at 768px with full data",
+      "status": "PASS"
+    },
+    {
+      "name": "responsive: no horizontal overflow at 1440px with full data",
+      "status": "PASS"
+    },
+    {
+      "name": "keyboard: Reports and module links are reachable, tables have captions, details toggles work",
+      "status": "PASS"
+    },
+    {
+      "name": "back and forward restore the progress page after navigating away",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 27,
+    "FAIL": 0
+  }
+}

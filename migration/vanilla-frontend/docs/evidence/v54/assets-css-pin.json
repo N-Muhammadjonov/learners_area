@@ -1,0 +1,5 @@
+{
+  "reason": "V54 My Progress adds six Tailwind utilities used by the native progress modules (.h-3, .h-7, .w-3, .rounded-t, .text-[10px], .font-normal). A rule-by-rule comparison with the V48 css/global.css shows 6 rules added and 0 removed.",
+  "compiledCssSha256": "342fce3c85a198e22e36503991808eada78b42e852eca6a4286467d26abb3c1a",
+  "previousPin": "docs/evidence/v48/assets-css-pin.json"
+}
