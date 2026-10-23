@@ -137,18 +137,20 @@
  }
 }
 .la-campus .campus-module-label{
-  font-size:clamp(9px,.71vw,11px)!important;
-  padding:4px 7px!important;border-radius:8px!important;
-  gap:5px!important;max-width:150px!important;
+  font-size:clamp(10px,1.02vw,17px)!important;
+  padding:6px 10px!important;border-radius:8px!important;
+  gap:7px!important;max-width:210px!important;
   box-shadow:0 0 7px currentColor;
 }
 .la-campus .campus-module-label .module-icon{
-  width:12px!important;height:12px!important;flex-basis:12px!important;
+  width:20px!important;height:20px!important;flex-basis:20px!important;
 }
 .la-campus .campus-module-label .module-text{
   font-size:inherit!important;line-height:1.1!important;
 }
 @media(max-width:800px){
+ .la-campus .campus-module-label{font-size:10px!important;padding:4px 6px!important;gap:5px!important;max-width:155px!important}
+ .la-campus .campus-module-label .module-icon{width:14px!important;height:14px!important;flex-basis:14px!important}
  [data-shell]:has([data-campus-world]) [data-shell-topbar] [data-campus-topbar-brand]{
     min-width:40px!important;max-width:46px!important;
  }
@@ -156,3 +158,14 @@
     display:none!important;
  }
 }
+
+/* Owner button revision: preserve existing metrics, enlarge the complete pill by 8%. */
+.la-campus .campus-module-label{
+  width:max-content!important;max-width:none!important;box-sizing:border-box!important;
+  border:2px solid var(--module-accent)!important;border-radius:13px!important;
+  background:rgba(5,14,31,.96)!important;overflow:visible!important;
+  transform:translate(-50%,-50%) scale(1.08);
+  box-shadow:0 0 13px color-mix(in srgb,var(--module-accent) 55%,transparent),inset 0 0 6px color-mix(in srgb,var(--module-accent) 18%,transparent)!important;
+}
+.la-campus .campus-module-label .module-text{flex:none!important;white-space:nowrap!important}
+.la-campus .campus-module-label:is(:hover,:focus-visible){outline-color:var(--module-accent)!important;background:#10223c!important}

@@ -19,6 +19,9 @@ test("Recovered 3D campus modules, safe routing, and interaction code",()=>{
   assert.match(scene,/cameraController\?\.saveState/);
   assert.match(scene,/cameraController\?\.dispose/);
   const geometry=text(base+"campus-geometry.js");
-  assert.match(geometry,/Learners_Area_V11_Exact_Cutout_Logo/);
+  const logo=geometry.match(/textureLoader\.load\('([^']+)'\)/)?.[1];
+  assert.equal(logo,"/brand/derived/mark-day-cutout-192.png");
+  const bytes=readFileSync("public"+logo);
+  assert.deepEqual([...bytes.subarray(0,8)],[137,80,78,71,13,10,26,10]);
   assert.ok(existsSync("src/components/campus/CampusWorld.tsx"));
 });

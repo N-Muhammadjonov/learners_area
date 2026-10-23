@@ -4,11 +4,49 @@
  * platform slab, trees, benches, lamp posts, and official LA logo dais.
  */
 
-import * as THREE from 'https://esm.sh/three@0.180.0';
+import * as THREE from '../vendor/three-runtime.js';
+import {neonTube} from './campus-neon.js';
 
 export class CampusGeometry {
   constructor(materials) {
     this.materials = materials;
+  }
+
+  finishArchitecture(group) {
+    group.traverse(mesh=>{
+      if(!mesh.isMesh)return;
+      mesh.castShadow=!mesh.material.transparent;
+      mesh.receiveShadow=true;
+      const params=mesh.geometry.parameters;
+      // Textured letter blocks retain their six normalized BoxGeometry UVs.
+      if(mesh.material.map||(Array.isArray(mesh.material)&&mesh.material.some(m=>m.map)))return;
+      if(mesh.geometry.type!=='BoxGeometry'||!params||params.height<.3||params.width<2||params.depth<2)return;
+      const {width:w,height:h,depth:d}=params;
+      const r=Math.min(.18,Math.min(w,h,d)*.2);
+      const face=new THREE.Shape();
+      face.moveTo(-w/2+r,-h/2+r);face.lineTo(w/2-r,-h/2+r);
+      face.lineTo(w/2-r,h/2-r);face.lineTo(-w/2+r,h/2-r);face.closePath();
+      const geometry=new THREE.ExtrudeGeometry(face,{depth:d-2*r,steps:1,
+        bevelEnabled:true,bevelSize:r,bevelThickness:r,bevelSegments:3});
+      geometry.translate(0,0,-(d-2*r)/2);
+      mesh.geometry.dispose();mesh.geometry=geometry;
+    });
+  }
+
+  createBuildingLot(config) {
+    const lot=new THREE.Group();
+    const width=config.id==='live_classes'?18:21.5,depth=config.id==='live_classes'?17:19.5;
+    const surface=new THREE.Mesh(new THREE.BoxGeometry(width,.035,depth),
+      new THREE.MeshStandardMaterial({color:0x182138,roughness:.94,metalness:.04}));
+    surface.position.y=.041;surface.receiveShadow=true;lot.add(surface);
+    const outline=new THREE.MeshBasicMaterial({color:0x254279,transparent:true,opacity:.72});
+    for(const sign of [-1,1]){
+      const horizontal=new THREE.Mesh(new THREE.BoxGeometry(width,.025,.065),outline);
+      horizontal.position.set(0,.067,sign*depth/2);lot.add(horizontal);
+      const vertical=new THREE.Mesh(new THREE.BoxGeometry(.065,.025,depth),outline);
+      vertical.position.set(sign*width/2,.067,0);lot.add(vertical);
+    }
+    lot.position.set(config.pos.x,0,config.pos.z);return lot;
   }
 
   // =========================================================================
@@ -33,7 +71,7 @@ export class CampusGeometry {
     // Extrude platform slab downwards
     const extrudeSettings = {
       steps: 1,
-      depth: h,
+      depth: Math.max(.1,h-2*p.bevelSize),
       bevelEnabled: true,
       bevelThickness: p.bevelSize,
       bevelSize: p.bevelSize,
@@ -42,6 +80,9 @@ export class CampusGeometry {
 
     const slabGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
     slabGeo.rotateX(Math.PI / 2); // XY -> XZ; extrude spans y=0 down to -h.
+    // ExtrudeGeometry's bevel also extends above the un-beveled top. Align
+    // that upper face with y=0 so it cannot cover the roads and foundations.
+    slabGeo.translate(0, -p.bevelSize, 0);
     // The previous extra -h translation left the platform slab one full
     // thickness below its asphalt, causing its glowing sidewalls to float.
     // Keep the top flush with the road surface at y=0.
@@ -64,88 +105,11 @@ export class CampusGeometry {
     asphaltMesh.receiveShadow = true;
     group.add(asphaltMesh);
 
-    // Support the edge-most Live classes pavilion without relocating its
-    // approved label. This extension is intentionally small and reviewable.
-    const live=config.modules.find(m=>m.id==='live_classes');
-    if(live){
-      const dockW=14,dockD=13;
-      const dock=new THREE.Mesh(new THREE.BoxGeometry(dockW,h,dockD),
-        this.materials.materials.get('platform_slab'));
-      dock.position.set(live.pos.x,-h/2,live.pos.z);
-      dock.receiveShadow=true;
-      dock.name='live_classes_support_dock';
-      group.add(dock);
-      const dockTop=new THREE.Mesh(new THREE.BoxGeometry(dockW,.045,dockD),
-        this.materials.materials.get('asphalt'));
-      dockTop.position.set(live.pos.x,.006,live.pos.z);
-      group.add(dockTop);
-    }
-
-    // Platform Outer Glowing Rim (Double Neon Border)
-    const points = shape.getPoints();
-    const linePoints = points.map(pt => new THREE.Vector3(pt.x, 0.08, pt.y));
-    linePoints.push(linePoints[0]); // close loop
-
-    const rimGeo = new THREE.BufferGeometry().setFromPoints(linePoints);
-    const rimLine = new THREE.Line(rimGeo, this.materials.materials.get('platform_rim'));
-    group.add(rimLine);
-    // Bold, volumetric blue edge illumination seen from overhead and side.
-    // Unlike WebGL line widths, these tubular geometry segments remain visible.
-    const axis = new THREE.Vector3(0,1,0);
-    for (let i=0;i<poly.length;i++) {
-      const a=poly[i],b=poly[(i+1)%poly.length];
-      const span=new THREE.Vector3(b[0]-a[0],0,b[1]-a[1]);
-      const length=span.length();
-      if(length<.001)continue;
-      const center=new THREE.Vector3((a[0]+b[0])/2,0,(a[1]+b[1])/2);
-      const orientation=new THREE.Quaternion().setFromUnitVectors(axis,span.normalize());
-      for(const [y,radius,alpha] of [[.16,.105,.98],[-1.55,.09,.87],[-1.55,.34,.24]]) {
-        const tube=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,length,8),
-          new THREE.MeshBasicMaterial({color:y>.0?p.rimGlowColor:p.rimInnerColor,
-            transparent:true,opacity:alpha,depthWrite:false,blending:THREE.AdditiveBlending}));
-        tube.position.set(center.x,y,center.z);
-        tube.quaternion.copy(orientation);
-        group.add(tube);
-      }
-    }
-
-    // Slightly inset secondary neon trace
-    const innerPoints = shape.getPoints().map(pt => {
-      const mag = Math.hypot(pt.x, pt.y);
-      const factor = (mag - 1.2) / mag;
-      return new THREE.Vector3(pt.x * factor, 0.08, pt.y * factor);
-    });
-    innerPoints.push(innerPoints[0]);
-    const innerRimGeo = new THREE.BufferGeometry().setFromPoints(innerPoints);
-    const innerRimMat = new THREE.LineBasicMaterial({ color: 0x0099ff, linewidth: 1.5 });
-    const innerRimLine = new THREE.Line(innerRimGeo, innerRimMat);
-    group.add(innerRimLine);
-
-    // Dedicated illuminated strips on the SIDE of the slab, not just its top.
-    // Segmenting the edges creates the alternating road-light pattern in the reference.
-    const borderGlow=new THREE.MeshBasicMaterial({color:p.rimGlowColor,transparent:true,
-      opacity:.91,depthWrite:false,blending:THREE.AdditiveBlending});
-    const borderDim=new THREE.MeshBasicMaterial({color:p.rimInnerColor,transparent:true,
-      opacity:.52,depthWrite:false});
-    for(let edge=0;edge<poly.length;edge++){
-      const [ax,az]=poly[edge], [bx,bz]=poly[(edge+1)%poly.length];
-      const dx=bx-ax,dz=bz-az,len=Math.hypot(dx,dz),segments=Math.ceil(len/5.5);
-      for(let i=0;i<segments;i++){
-        const a=(i+.12)/segments,b=(i+.84)/segments;
-        const x=ax+(bx-ax)*(a+b)/2,z=az+(bz-az)*(a+b)/2;
-        const width=len*(b-a);
-        const neon=new THREE.Mesh(new THREE.BoxGeometry(width,.11,.15),
-          i%3===0?borderDim:borderGlow);
-        neon.position.set(x,-1.45,z);
-        neon.rotation.y=-Math.atan2(dz,dx);
-        group.add(neon);
-        // A second, lower side trace makes the platform visibly volumetric.
-        if(i%2===0){
-          const under=new THREE.Mesh(new THREE.BoxGeometry(width*.65,.08,.13),borderDim);
-          under.position.set(x,-3.15,z);
-          under.rotation.y=neon.rotation.y;group.add(under);
-        }
-      }
+    // Circuit-board pavement: shallow panels never cover electrical conduits.
+    const panelMaterial=new THREE.MeshStandardMaterial({color:0x15213a,roughness:.95,metalness:0});
+    for(let x=-60;x<=60;x+=12)for(let z=-66;z<=60;z+=12){
+      const panel=new THREE.Mesh(new THREE.BoxGeometry(11.7,.018,11.7),panelMaterial);
+      panel.position.set(x,.023,z);panel.receiveShadow=true;group.add(panel);
     }
     return group;
   }
@@ -160,6 +124,8 @@ export class CampusGeometry {
     group.userData = { id: config.id, name: config.name, route: config.route };
 
     // Concentric circular cyan neon rings
+    const rings=new THREE.Group();rings.name='dashboard_rotating_rings';
+    group.add(rings);group.userData.rings=rings;
     const ringRadii = [13.5, 11.0, 8.5, 6.0];
     ringRadii.forEach((r, idx) => {
       const ringGeo = new THREE.RingGeometry(r - 0.18, r + 0.18, 64);
@@ -170,7 +136,7 @@ export class CampusGeometry {
       });
       const ringMesh = new THREE.Mesh(ringGeo, ringMat);
       ringMesh.position.y = 0.05 + idx * 0.02;
-      group.add(ringMesh);
+      rings.add(ringMesh);
     });
 
     // Radial dash lines on mid ring
@@ -186,7 +152,7 @@ export class CampusGeometry {
       dash.position.set(Math.cos(angle) * 9.75, 0.07, Math.sin(angle) * 9.75);
       dashesGroup.add(dash);
     }
-    group.add(dashesGroup);
+    rings.add(dashesGroup);
     group.userData.dashes = dashesGroup;
 
     // Stepped central cylindrical dais
@@ -220,15 +186,26 @@ export class CampusGeometry {
     edgeRing.position.y = 1.0;
     group.add(edgeRing);
 
-    // Raised rocket-inspired central tower supporting the single official LA emblem.
-    const tower = new THREE.Group();
-    const towerMat = new THREE.MeshStandardMaterial({color:0x143b69,metalness:.43,roughness:.33,emissive:0x063b65,emissiveIntensity:.42});
-    const stage = new THREE.Mesh(new THREE.CylinderGeometry(3.1,3.8,2.4,8),towerMat);stage.position.y=2.0;tower.add(stage);
-    const stem = new THREE.Mesh(new THREE.CylinderGeometry(1.48,2.7,4.0,8),towerMat);stem.position.y=4.7;tower.add(stem);
-    const crown = new THREE.Mesh(new THREE.ConeGeometry(1.9,2.1,8),this.materials.materials.get('platform_rim'));crown.position.y=7.6;tower.add(crown);
-    for(const angle of [0,Math.PI/2,Math.PI,3*Math.PI/2]){const fin = new THREE.Mesh(new THREE.BoxGeometry(.38,3.0,1.5),this.materials.materials.get('platform_rim'));fin.position.set(Math.sin(angle)*2.2,3.7,Math.cos(angle)*2.2);fin.rotation.y=angle;tower.add(fin);}
-    group.add(tower);
-
+    // The rocket is an independent 3D object; the official LA emblem floats above it.
+    const rocket=new THREE.Group();rocket.name='campus_rocket';
+    rocket.scale.setScalar(1.1);
+    const rocketMat=new THREE.MeshStandardMaterial({color:0xfff0c6,roughness:.44,metalness:.12,emissive:0xffc46b,emissiveIntensity:.32});
+    const rocketAccent=new THREE.MeshStandardMaterial({color:0xff862e,roughness:.48,metalness:.1,emissive:0xff6218,emissiveIntensity:.28});
+    const body=new THREE.Mesh(new THREE.CylinderGeometry(1.45,1.7,4.8,32),rocketMat);
+    body.position.y=4.1;rocket.add(body);
+    const nose=new THREE.Mesh(new THREE.ConeGeometry(1.45,2.5,32),rocketAccent);nose.position.y=7.75;rocket.add(nose);
+    const collar=new THREE.Mesh(new THREE.TorusGeometry(1.55,.13,12,32),this.materials.materials.get('platform_rim'));
+    collar.rotation.x=Math.PI/2;collar.position.y=2.0;rocket.add(collar);
+    const port=new THREE.Mesh(new THREE.CylinderGeometry(.57,.57,.14,24),this.materials.materials.get('platform_rim'));
+    port.rotation.x=Math.PI/2;port.position.set(0,4.85,1.5);rocket.add(port);
+    const glass=new THREE.Mesh(new THREE.CircleGeometry(.42,24),new THREE.MeshBasicMaterial({color:0x102e58}));
+    glass.position.set(0,4.85,1.58);rocket.add(glass);
+    const finShape=new THREE.Shape();finShape.moveTo(1.45,1.1);finShape.lineTo(3.1,.95);finShape.lineTo(1.65,3.8);finShape.closePath();
+    for(let i=0;i<4;i++){
+      const fin=new THREE.Mesh(new THREE.ExtrudeGeometry(finShape,{depth:.28,bevelEnabled:true,bevelSize:.08,bevelThickness:.06,bevelSegments:2}),rocketAccent);
+      fin.rotation.y=i*Math.PI/2;rocket.add(fin);
+    }
+    group.add(rocket);group.userData.rocket=rocket;
     // Volumetric vertical light beam
     const beam = this.materials.materials.get('dashboard_beam');
     if (beam) {
@@ -239,7 +216,7 @@ export class CampusGeometry {
     }
 
     // THE EXACT OFFICIAL LEARNERS AREA LA LOGO
-    // Loaded from the official transparent brand asset: la-logo-clean.png
+    // Official transparent gold-and-blue brand mark from the repository.
     const textureLoader = new THREE.TextureLoader();
     const laTexture = textureLoader.load('/brand/derived/mark-day-cutout-192.png');
     laTexture.colorSpace = THREE.SRGBColorSpace;
@@ -253,8 +230,8 @@ export class CampusGeometry {
       alphaTest: 0.03,
     });
     const logoMesh = new THREE.Sprite(logoMat);
-    logoMesh.position.set(0, 13.3, 0);
-    logoMesh.scale.set(8.4, 8.4, 1);
+    logoMesh.position.set(0, 14.8, 0);
+    logoMesh.scale.set(11.2, 11.2, 1);
     group.add(logoMesh);
     group.userData.logo = logoMesh;
 
@@ -304,16 +281,9 @@ export class CampusGeometry {
       group.add(pillar);
     }
 
-    // Pediment triangular roof
-    const pedimentShape = new THREE.Shape();
-    pedimentShape.moveTo(-5.2, 0);
-    pedimentShape.lineTo(0, 2.4);
-    pedimentShape.lineTo(5.2, 0);
-    pedimentShape.closePath();
-
-    const pedimentGeo = new THREE.ExtrudeGeometry(pedimentShape, { steps: 1, depth: 9.2, bevelEnabled: false });
-    pedimentGeo.translate(0, 5.4, -4.6);
-    const pediment = new THREE.Mesh(pedimentGeo, mats.trim);
+    // The approved reading hall has a flat, stepped roof below the book.
+    const pediment = new THREE.Mesh(new THREE.BoxGeometry(10.6,.55,9.4),mats.trim);
+    pediment.position.y=5.65;
     group.add(pediment);
 
     // Glowing warm windows
@@ -326,7 +296,8 @@ export class CampusGeometry {
 
     // ROOFTOP LANDMARK: 3D OPEN BOOK
     const bookGroup = new THREE.Group();
-    bookGroup.position.set(0, 8.2, 0);
+    bookGroup.position.set(0, 6.55, 0);
+    bookGroup.rotation.x = .17;
     bookGroup.rotation.y = Math.PI / 4;
 
     // Hardcover leather spine/back
@@ -365,7 +336,41 @@ export class CampusGeometry {
     bookCoverRight.rotation.z = -0.28;
     bookGroup.add(bookCoverRight);
 
+    // Curved paper surfaces and printed rules sit above the physical page blocks.
+    const ink=new THREE.MeshBasicMaterial({color:0x8d9cac});
+    for(const sign of [-1,1]){
+      const points=[],indices=[];
+      const rows=14,cols=20;
+      const pageY=u=>.58+.48*Math.sin(u*Math.PI*.85);
+      for(let row=0;row<=rows;row++)for(let col=0;col<=cols;col++){
+        const u=col/cols,v=row/rows;
+        points.push(sign*(.12+3.45*u),pageY(u),(v-.5)*5.3);
+      }
+      for(let row=0;row<rows;row++)for(let col=0;col<cols;col++){
+        const n=row*(cols+1)+col;
+        indices.push(n,n+cols+1,n+1,n+1,n+cols+1,n+cols+2);
+      }
+      const paper=new THREE.BufferGeometry();
+      paper.setAttribute('position',new THREE.Float32BufferAttribute(points,3));
+      paper.setIndex(indices);paper.computeVertexNormals();
+      const surfaceMat=this.materials.materials.get('book_paper').clone();
+      surfaceMat.side=THREE.DoubleSide;
+      bookGroup.add(new THREE.Mesh(paper,surfaceMat));
+      for(let row=0;row<11;row++){
+        const z=-2.15+row*.4;
+        const line=[];
+        for(let i=0;i<14;i++){
+          const u=.12+i/13*(row%3===0?.61:.76);
+          line.push(new THREE.Vector3(sign*(.12+3.45*u),pageY(u)+.014,z));
+        }
+        const curve=new THREE.CatmullRomCurve3(line);
+        bookGroup.add(new THREE.Mesh(new THREE.TubeGeometry(curve,14,.017,4,false),ink));
+      }
+    }
+
     group.add(bookGroup);
+    group.userData.landmark=bookGroup;
+    bookGroup.name='rooftop_landmark';
     return group;
   }
 
@@ -411,63 +416,70 @@ export class CampusGeometry {
 
     // ROOFTOP LANDMARK: 3D HEADPHONES
     const hpGroup = new THREE.Group();
-    hpGroup.position.set(0, 8.0, 0);
+    hpGroup.position.set(0, 9.05, 0);
     hpGroup.rotation.y = Math.PI / 4;
 
     // Arched Headband (half Torus)
-    const bandGeo = new THREE.TorusGeometry(3.2, 0.45, 16, 32, Math.PI);
+    const bandGeo = new THREE.TorusGeometry(3, .3, 16, 48, Math.PI);
     const bandMat = new THREE.MeshStandardMaterial({
-      color: 0x0284c7,
-      roughness: 0.25,
-      metalness: 0.7,
-      emissive: 0x0099ff,
-      emissiveIntensity: 0.4,
+      color: 0xb5e7ff,
+      roughness: .5,
+      metalness: .18,
+      emissive: 0x5cbce9,
+      emissiveIntensity: .3,
     });
     const headband = new THREE.Mesh(bandGeo, bandMat);
     headband.rotation.z = 0;
     hpGroup.add(headband);
 
     // Inner cushion pad
-    const cushionGeo = new THREE.TorusGeometry(3.0, 0.28, 16, 32, Math.PI * 0.75);
+    const cushionGeo = new THREE.TorusGeometry(2.7, .18, 16, 48, Math.PI);
     const padMat = this.materials.materials.get('dark_metal');
     const cushion = new THREE.Mesh(cushionGeo, padMat);
-    cushion.rotation.z = Math.PI * 0.125;
     hpGroup.add(cushion);
 
     // Ear Cups (Left and Right)
     const cupMat = new THREE.MeshStandardMaterial({
-      color: 0x0369a1,
-      roughness: 0.3,
-      metalness: 0.8,
+      color: 0xd1eeff,
+      roughness: .55,
+      metalness: .15,
+      emissive: 0x478cb8,
+      emissiveIntensity: .22,
     });
-    const ringGlowMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+    const ringGlowMat = new THREE.MeshBasicMaterial({ color: 0x8ae7ff, toneMapped:false });
 
-    [-3.2, 3.2].forEach((xPos, idx) => {
+    [-3, 3].forEach((xPos, idx) => {
       const earCupGroup = new THREE.Group();
-      earCupGroup.position.set(xPos, 0, 0);
-      earCupGroup.rotation.y = idx === 0 ? 0.25 : -0.25;
+      earCupGroup.position.set(xPos, -.35, 0);
+      earCupGroup.rotation.y = idx === 0 ? .12 : -.12;
 
       // Outer housing cylinder
-      const housing = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.4, 1.1, 24), cupMat);
-      housing.rotation.z = Math.PI / 2;
+      const housing = new THREE.Mesh(new THREE.CapsuleGeometry(.66,1.15,8,20), cupMat);
+      housing.scale.z=.72;
       earCupGroup.add(housing);
 
       // Glowing outer accent ring
-      const glowRing = new THREE.Mesh(new THREE.TorusGeometry(1.4, 0.12, 16, 32), ringGlowMat);
-      glowRing.rotation.y = Math.PI / 2;
-      glowRing.position.x = idx === 0 ? -0.55 : 0.55;
+      const glowRing = new THREE.Mesh(new THREE.TorusGeometry(.56, .09, 12, 32), ringGlowMat);
+      glowRing.scale.y=1.72;
+      glowRing.rotation.y = 0;
+      glowRing.position.z = .49;
       earCupGroup.add(glowRing);
 
       // Soft donut cushion
-      const earDonut = new THREE.Mesh(new THREE.TorusGeometry(1.1, 0.35, 16, 24), padMat);
-      earDonut.rotation.y = Math.PI / 2;
-      earDonut.position.x = idx === 0 ? 0.4 : -0.4;
+      const earDonut = new THREE.Mesh(new THREE.TorusGeometry(.39, .17, 12, 32), padMat);
+      earDonut.scale.y=1.75;
+      earDonut.rotation.y = 0;
+      earDonut.position.z = .55;
       earCupGroup.add(earDonut);
+      const hinge=new THREE.Mesh(new THREE.BoxGeometry(.35,.85,.32),bandMat);
+      hinge.position.set(0,.95,-.06);earCupGroup.add(hinge);
 
       hpGroup.add(earCupGroup);
     });
 
     group.add(hpGroup);
+    group.userData.landmark=hpGroup;
+    hpGroup.name='rooftop_landmark';
     return group;
   }
 
@@ -508,50 +520,16 @@ export class CampusGeometry {
       group.add(win);
     }
 
-    // ROOFTOP LANDMARK: LARGE 3D PENCIL
-    const pencilGroup = new THREE.Group();
-    pencilGroup.position.set(0, 6.8, 0);
-    // Angled upwards at 35 degrees pointing top-right
-    pencilGroup.rotation.y = Math.PI / 4;
-    pencilGroup.rotation.z = -0.55;
-
-    // Hexagonal pencil body (6-sided cylinder)
-    const bodyGeo = new THREE.CylinderGeometry(0.75, 0.75, 6.5, 6);
-    const pencilBodyMat = new THREE.MeshStandardMaterial({
-      color: 0x10b981,
-      roughness: 0.35,
-      metalness: 0.25,
-      emissive: 0x059669,
-      emissiveIntensity: 0.5,
-    });
-    const body = new THREE.Mesh(bodyGeo, pencilBodyMat);
-    pencilGroup.add(body);
-
-    // Sharpened wooden cone collar
-    const coneGeo = new THREE.ConeGeometry(0.75, 2.0, 24);
-    const cone = new THREE.Mesh(coneGeo, this.materials.materials.get('pencil_wood'));
-    cone.position.y = 4.25;
-    pencilGroup.add(cone);
-
-    // Graphite lead tip
-    const tipGeo = new THREE.ConeGeometry(0.28, 0.75, 16);
-    const tip = new THREE.Mesh(tipGeo, this.materials.materials.get('pencil_lead'));
-    tip.position.y = 4.88;
-    pencilGroup.add(tip);
-
-    // Gold ferrule ring
-    const ferruleGeo = new THREE.CylinderGeometry(0.78, 0.78, 0.7, 16);
-    const ferrule = new THREE.Mesh(ferruleGeo, this.materials.materials.get('gold'));
-    ferrule.position.y = -3.5;
-    pencilGroup.add(ferrule);
-
-    // Pink rubber eraser
-    const eraserGeo = new THREE.CylinderGeometry(0.74, 0.74, 0.9, 16);
-    const eraser = new THREE.Mesh(eraserGeo, this.materials.materials.get('pencil_eraser'));
-    eraser.position.y = -4.1;
-    pencilGroup.add(eraser);
-
+    // Hollow cyan pen nib, as in the approved landmark artwork.
+    const pencilGroup=new THREE.Group();pencilGroup.position.set(0,5.9,0);pencilGroup.rotation.y=Math.PI/4;
+    const pen=new THREE.Group();pen.rotation.z=-Math.PI/4;pen.position.set(-1.0,.2,0);pencilGroup.add(pen);
+    const outline=new THREE.Shape();outline.moveTo(-.62,1);outline.lineTo(-.62,4.4);outline.quadraticCurveTo(0,4.95,.62,4.4);outline.lineTo(.62,1);outline.lineTo(0,0);outline.closePath();
+    const hole=new THREE.Path();hole.moveTo(-.36,1.15);hole.lineTo(.36,1.15);hole.lineTo(.36,4.15);hole.quadraticCurveTo(0,4.5,-.36,4.15);hole.closePath();outline.holes.push(hole);
+    const nib=new THREE.Mesh(new THREE.ExtrudeGeometry(outline,{depth:.35,bevelEnabled:true,bevelSize:.06,bevelThickness:.05,bevelSegments:2}),new THREE.MeshStandardMaterial({color:0x72fff2,emissive:0x18bfb4,emissiveIntensity:.32,roughness:.5,metalness:.1}));pen.add(nib);
+    const divider=new THREE.Mesh(new THREE.BoxGeometry(1.08,.13,.43),nib.material);divider.position.set(0,1.15,.15);pen.add(divider);
     group.add(pencilGroup);
+    group.userData.landmark=pencilGroup;
+    pencilGroup.name='rooftop_landmark';
     return group;
   }
 
@@ -593,16 +571,18 @@ export class CampusGeometry {
 
     // ROOFTOP LANDMARK: 3D STUDIO MICROPHONE
     const micGroup = new THREE.Group();
-    micGroup.position.set(-0.8, 6.2, 0);
+    micGroup.position.set(-0.8, 5.2, 0);
+    micGroup.scale.setScalar(.86);
     micGroup.rotation.y = Math.PI / 4;
+    const standMat=new THREE.MeshStandardMaterial({color:0xd5e3ed,roughness:.5,metalness:.2,emissive:0xd1efff,emissiveIntensity:.2});
 
     // Mic stand base & pole
     const baseGeo = new THREE.CylinderGeometry(1.4, 1.5, 0.4, 24);
-    const base = new THREE.Mesh(baseGeo, this.materials.materials.get('chrome'));
+    const base = new THREE.Mesh(baseGeo, standMat);
     micGroup.add(base);
 
     const poleGeo = new THREE.CylinderGeometry(0.2, 0.2, 2.4, 16);
-    const pole = new THREE.Mesh(poleGeo, this.materials.materials.get('chrome'));
+    const pole = new THREE.Mesh(poleGeo, standMat);
     pole.position.y = 1.4;
     micGroup.add(pole);
 
@@ -614,20 +594,29 @@ export class CampusGeometry {
 
     // Mic capsule body
     const capsuleMat = new THREE.MeshStandardMaterial({
-      color: 0xc084fc,
-      roughness: 0.25,
-      metalness: 0.85,
-      emissive: 0x9333ea,
-      emissiveIntensity: 0.5,
+      color: 0xfff3ce,
+      roughness: .5,
+      metalness: .18,
+      emissive: 0xffe6a6,
+      emissiveIntensity: .3,
     });
     const capBody = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, 1.8, 24), capsuleMat);
     capBody.position.y = 3.0;
     micGroup.add(capBody);
 
     // Mesh dome grille
-    const dome = new THREE.Mesh(new THREE.SphereGeometry(0.75, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2), this.materials.materials.get('chrome'));
+    const dome = new THREE.Mesh(new THREE.SphereGeometry(0.75, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2), capsuleMat);
     dome.position.y = 3.9;
     micGroup.add(dome);
+    for(let i=0;i<4;i++){
+      const slot=new THREE.Mesh(new THREE.BoxGeometry(1.15,.085,.08),this.materials.materials.get('dark_metal'));
+      slot.position.set(0,2.45+i*.33,.72);micGroup.add(slot);
+    }
+    const waveMat=new THREE.MeshBasicMaterial({color:0xffdf86,toneMapped:false});
+    for(const [i,h] of [1.3,2.1,3.0,3.5,2.8,2.1,1.3].entries()){
+      const bar=new THREE.Mesh(new THREE.BoxGeometry(.18,h,.22),waveMat);
+      bar.position.set(3.9+i*.48,h/2,.15);micGroup.add(bar);
+    }
 
     // SOUND-WAVE DETAILS: 3 Glowing concentric arcs to the right of mic
     const waveGroup = new THREE.Group();
@@ -637,7 +626,7 @@ export class CampusGeometry {
     waveRadii.forEach((r, idx) => {
       const arcGeo = new THREE.TorusGeometry(r, 0.12, 12, 24, Math.PI * 0.45);
       arcGeo.rotateZ(-Math.PI * 0.225);
-      const arcMat = new THREE.MeshBasicMaterial({ color: 0xe879f9 });
+      const arcMat = waveMat;
       const arcMesh = new THREE.Mesh(arcGeo, arcMat);
       arcMesh.position.set(idx * 0.5, 0, 0);
       waveGroup.add(arcMesh);
@@ -645,6 +634,8 @@ export class CampusGeometry {
 
     micGroup.add(waveGroup);
     group.add(micGroup);
+    group.userData.landmark=micGroup;
+    micGroup.name='rooftop_landmark';
     return group;
   }
 
@@ -690,45 +681,32 @@ export class CampusGeometry {
 
     // ROOFTOP LANDMARK: THE EXACT GOLD BRAIN SYMBOL (NOT LA LOGO!)
     const brainGroup = new THREE.Group();
-    brainGroup.position.set(0, 7.6, 0);
+    brainGroup.position.set(0, 8.35, 0);
     brainGroup.rotation.y = Math.PI / 4;
 
     const goldMat = this.materials.materials.get('gold');
 
-    // Dual Cerebral Hemispheres (Left & Right) with convolutions
-    [-1.2, 1.2].forEach((xSide) => {
-      const hemiGroup = new THREE.Group();
-      hemiGroup.position.set(xSide, 0, 0);
-
-      // Base hemisphere ellipsoid
-      const baseHemi = new THREE.Mesh(new THREE.SphereGeometry(1.6, 24, 20), goldMat);
-      baseHemi.scale.set(0.85, 1.1, 1.25);
-      hemiGroup.add(baseHemi);
-
-      // Convoluted lobes / sulci modeled with rounded toruses/spheres
-      const lobes = [
-        { p: [0.3 * (xSide > 0 ? 1 : -1), 0.7, 0.6], s: [0.7, 0.6, 0.8] },
-        { p: [0.4 * (xSide > 0 ? 1 : -1), 0.8, -0.5], s: [0.8, 0.7, 0.7] },
-        { p: [0.5 * (xSide > 0 ? 1 : -1), -0.5, 0.4], s: [0.7, 0.6, 0.7] },
-        { p: [0.5 * (xSide > 0 ? 1 : -1), -0.6, -0.4], s: [0.6, 0.6, 0.7] },
-      ];
-
-      lobes.forEach(l => {
-        const lobeMesh = new THREE.Mesh(new THREE.SphereGeometry(0.8, 16, 16), goldMat);
-        lobeMesh.position.set(l.p[0], l.p[1], l.p[2]);
-        lobeMesh.scale.set(l.s[0], l.s[1], l.s[2]);
-        hemiGroup.add(lobeMesh);
-      });
-
-      brainGroup.add(hemiGroup);
-    });
-
-    // Golden pedestal collar
-    const brainPedestal = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.8, 0.5, 24), goldMat);
-    brainPedestal.position.y = -1.2;
-    brainGroup.add(brainPedestal);
+    // A modeled blue plaque carries the gold outlined brain from the reference.
+    const plaque=new THREE.Mesh(new THREE.CylinderGeometry(3.05,3.05,4.7,6),mats.wall);
+    plaque.rotation.x=Math.PI/2;brainGroup.add(plaque);
+    const outlineMat=new THREE.MeshStandardMaterial({color:0xffd45b,
+      emissive:0xe69b12,emissiveIntensity:.6,roughness:.35,metalness:.5});
+    const lobe=[[0,1.68],[-.6,2.0],[-1.3,1.82],[-1.5,1.2],[-1.93,.77],
+      [-1.85,.13],[-1.4,-.13],[-1.67,-.77],[-1.26,-1.43],[-.56,-1.45],
+      [0,-.92],[0,1.68]];
+    const folds=[[[0,.9],[-.65,.55],[-.96,.78]],
+      [[0,-.15],[-.78,-.36],[-1.04,-.97]]];
+    for(const face of [-1,1])for(const sign of [-1,1]){
+      const paths=[lobe,...folds];
+      for(const path of paths){
+        const curve=new THREE.CatmullRomCurve3(path.map(([x,y])=>new THREE.Vector3(x*sign,y-.25,face*2.385)));
+        brainGroup.add(new THREE.Mesh(new THREE.TubeGeometry(curve,48,.085,8,false),outlineMat));
+      }
+    }
 
     group.add(brainGroup);
+    group.userData.landmark=brainGroup;
+    brainGroup.name='rooftop_landmark';
     return group;
   }
 
@@ -788,12 +766,9 @@ export class CampusGeometry {
 
       const tex = new THREE.CanvasTexture(canvas);
       tex.colorSpace = THREE.SRGBColorSpace;
-      const blockMat = new THREE.MeshStandardMaterial({
-        map: tex,
-        roughness: 0.3,
-        metalness: 0.2,
-      });
-      return new THREE.Mesh(blockGeo, blockMat);
+      const blockMat = new THREE.MeshBasicMaterial({map:tex,toneMapped:false});
+      const solid=new THREE.MeshStandardMaterial({color:blockHex,roughness:.8,metalness:0});
+      return new THREE.Mesh(blockGeo,[solid,solid,solid,solid,blockMat,solid]);
     };
 
     // Block 'A' (Top center, Red/Pink)
@@ -812,6 +787,8 @@ export class CampusGeometry {
     blocksGroup.add(blockC);
 
     group.add(blocksGroup);
+    group.userData.landmark=blocksGroup;
+    blocksGroup.name='rooftop_landmark';
     return group;
   }
 
@@ -854,7 +831,8 @@ export class CampusGeometry {
 
     // ROOFTOP LANDMARK: DETAILED GOLDEN TROPHY
     const trophyGroup = new THREE.Group();
-    trophyGroup.position.set(0, 6.4, 0);
+    trophyGroup.position.set(0, 6.05, 0);
+    trophyGroup.scale.set(.65,1.4,.65);
     trophyGroup.rotation.y = Math.PI / 4;
 
     const trophyMat = this.materials.materials.get('trophy_gold');
@@ -898,6 +876,8 @@ export class CampusGeometry {
     });
 
     group.add(trophyGroup);
+    group.userData.landmark=trophyGroup;
+    trophyGroup.name='rooftop_landmark';
     return group;
   }
 
@@ -939,33 +919,38 @@ export class CampusGeometry {
 
     // ROOFTOP LANDMARK: 3D CHART / BARS (Ascending 3 Bars)
     const chartGroup = new THREE.Group();
-    chartGroup.position.set(0, 6.2, 0);
+    chartGroup.position.set(0, 5.9, 0);
+    chartGroup.scale.setScalar(.75);
     chartGroup.rotation.y = Math.PI / 4;
 
-    const barHeights = [2.4, 4.2, 6.0];
+    const barHeights = [1.8, 3.4, 5.0];
+    const housing=new THREE.Mesh(new THREE.BoxGeometry(6.2,3.4,3.4),new THREE.MeshStandardMaterial({color:0x16354e,roughness:.8,metalness:.08}));
+    housing.position.set(0,1.7,-.6);chartGroup.add(housing);
     const barMat = new THREE.MeshStandardMaterial({
-      color: 0x38bdf8,
-      roughness: 0.25,
-      metalness: 0.85,
-      emissive: 0x0284c7,
-      emissiveIntensity: 0.6,
+      color: 0xe5f9ff,
+      roughness: .48,
+      metalness: .15,
+      emissive: 0x81c6ee,
+      emissiveIntensity: .32,
     });
-    const capMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff });
+    const capMat = new THREE.MeshBasicMaterial({ color: 0xffdf72, toneMapped:false });
 
     barHeights.forEach((bh, idx) => {
       const barGeo = new THREE.BoxGeometry(1.4, bh, 1.4);
       const bar = new THREE.Mesh(barGeo, barMat);
-      bar.position.set(-2.0 + idx * 2.0, bh / 2, 0);
+      bar.position.set(-2.0 + idx * 2.0, bh / 2, 1.4);
       chartGroup.add(bar);
 
       // Glowing cap on top of bar
       const capGeo = new THREE.BoxGeometry(1.45, 0.18, 1.45);
       const cap = new THREE.Mesh(capGeo, capMat);
-      cap.position.set(-2.0 + idx * 2.0, bh + 0.09, 0);
+      cap.position.set(-2.0 + idx * 2.0, bh + 0.09, 1.4);
       chartGroup.add(cap);
     });
 
     group.add(chartGroup);
+    group.userData.landmark=chartGroup;
+    chartGroup.name='rooftop_landmark';
     return group;
   }
 
@@ -1009,9 +994,10 @@ export class CampusGeometry {
 
     // ROOFTOP LANDMARK: 3D CLIPBOARD
     const cbGroup = new THREE.Group();
-    cbGroup.position.set(0, 6.8, 0);
+    cbGroup.position.set(-1.7, 7.2, -.8);
     cbGroup.rotation.y = Math.PI / 4;
-    cbGroup.rotation.x = 0.45; // angled back
+    cbGroup.rotation.x = -Math.PI/3;
+    cbGroup.scale.setScalar(.8);
 
     // Wooden backing board
     const boardGeo = new THREE.BoxGeometry(4.4, 6.2, 0.3);
@@ -1042,7 +1028,12 @@ export class CampusGeometry {
       cbGroup.add(line);
     }
 
+    const caseMat=new THREE.MeshStandardMaterial({color:0x542c9c,roughness:.82,metalness:.05});
+    const toolCase=new THREE.Mesh(new THREE.BoxGeometry(1.8,1.4,1.3),caseMat);toolCase.position.set(2.6,6.3,-1.8);group.add(toolCase);
+    const caseHandle=new THREE.Mesh(new THREE.TorusGeometry(.38,.08,8,16,Math.PI),caseMat);caseHandle.position.set(2.6,7.0,-1.8);group.add(caseHandle);
     group.add(cbGroup);
+    group.userData.landmark=cbGroup;
+    cbGroup.name='rooftop_landmark';
     return group;
   }
 
@@ -1084,11 +1075,11 @@ export class CampusGeometry {
 
     // ROOFTOP LANDMARK: 3D PLAY MONITOR
     const tvGroup = new THREE.Group();
-    tvGroup.position.set(0, 6.8, 0);
+    tvGroup.position.set(0, 7.9, 0);
     tvGroup.rotation.y = Math.PI / 4;
 
     // Monitor cabinet in ruby red
-    const cabGeo = new THREE.BoxGeometry(5.2, 4.0, 1.4);
+    const cabGeo = new THREE.BoxGeometry(5.2, 5.0, 1.4);
     const cabMat = new THREE.MeshStandardMaterial({
       color: 0xbe123c,
       roughness: 0.3,
@@ -1100,7 +1091,7 @@ export class CampusGeometry {
     tvGroup.add(cab);
 
     // Recessed dark screen face
-    const screenGeo = new THREE.PlaneGeometry(4.4, 3.2);
+    const screenGeo = new THREE.PlaneGeometry(4.4, 4.1);
     const screenMat = new THREE.MeshBasicMaterial({ color: 0x4c0519 });
     const screen = new THREE.Mesh(screenGeo, screenMat);
     screen.position.set(0, 0, 0.72);
@@ -1123,16 +1114,22 @@ export class CampusGeometry {
     play.position.set(0, 0, 0.74);
     tvGroup.add(play);
 
-    // Broadcast antenna knob on top
-    const ant = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 1.2, 12), this.materials.materials.get('chrome'));
-    ant.position.set(0, 2.6, 0);
-    tvGroup.add(ant);
-
-    const knob = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), this.materials.materials.get('chrome'));
-    knob.position.set(0, 3.2, 0);
-    tvGroup.add(knob);
+    // Carrying handle and physical transport keys match the reference player.
+    const dark=this.materials.materials.get('dark_metal');
+    for(const x of [-1.05,1.05]){
+      const side=new THREE.Mesh(new THREE.BoxGeometry(.23,.65,.3),dark);
+      side.position.set(x,2.8,0);tvGroup.add(side);
+    }
+    const handle=new THREE.Mesh(new THREE.BoxGeometry(2.3,.23,.3),dark);
+    handle.position.set(0,3.2,0);tvGroup.add(handle);
+    for(let i=0;i<3;i++){
+      const key=new THREE.Mesh(new THREE.BoxGeometry(.38,.16,.38),mats.trim);
+      key.position.set(-1.55+i*.65,2.59,.4);tvGroup.add(key);
+    }
 
     group.add(tvGroup);
+    group.userData.landmark=tvGroup;
+    tvGroup.name='rooftop_landmark';
     return group;
   }
 
@@ -1185,15 +1182,16 @@ export class CampusGeometry {
 
     // ROOFTOP LANDMARK: THREE-PERSON GROUP SYMBOL
     const groupSym = new THREE.Group();
-    groupSym.position.set(0, 6.8, 0);
+    groupSym.position.set(0, 5.55, 0);
+    groupSym.scale.y=1.5;
     groupSym.rotation.y = Math.PI / 4;
 
     const figMat = new THREE.MeshStandardMaterial({
-      color: 0x2dd4bf,
-      roughness: 0.25,
-      metalness: 0.75,
-      emissive: 0x0d9488,
-      emissiveIntensity: 0.6,
+      color: 0xffedc2,
+      roughness: .55,
+      metalness: .12,
+      emissive: 0xffe6a8,
+      emissiveIntensity: .28,
     });
 
     // Helper to create a stylized figure bust (head + torso)
@@ -1202,12 +1200,20 @@ export class CampusGeometry {
       f.position.set(xOffset, yOffset, 0);
 
       // Head
-      const head = new THREE.Mesh(new THREE.SphereGeometry(0.75 * scale, 24, 20), figMat);
-      head.position.y = 2.2 * scale;
+      const head = new THREE.Mesh(new THREE.CylinderGeometry(.75*scale,.75*scale,.55*scale,24),figMat);
+      head.rotation.x=Math.PI/2;
+      head.position.set(0,2.2*scale,.25*scale);
       f.add(head);
 
       // Torso / shoulders
-      const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.3 * scale, 1.3 * scale, 1.6 * scale, 24), figMat);
+      const shoulders=new THREE.Shape();
+      shoulders.moveTo(-1.05*scale,-.75*scale);
+      shoulders.lineTo(1.05*scale,-.75*scale);
+      shoulders.lineTo(1.05*scale,.25*scale);
+      shoulders.quadraticCurveTo(1.0*scale,.9*scale,0,.9*scale);
+      shoulders.quadraticCurveTo(-1.0*scale,.9*scale,-1.05*scale,.25*scale);
+      shoulders.closePath();
+      const torso = new THREE.Mesh(new THREE.ExtrudeGeometry(shoulders,{depth:.5*scale,bevelEnabled:true,bevelSize:.06*scale,bevelThickness:.06*scale,bevelSegments:2,steps:1}),figMat);
       torso.position.y = 0.9 * scale;
       f.add(torso);
 
@@ -1227,6 +1233,8 @@ export class CampusGeometry {
     groupSym.add(rightFig);
 
     group.add(groupSym);
+    group.userData.landmark=groupSym;
+    groupSym.name='rooftop_landmark';
     return group;
   }
 
@@ -1237,62 +1245,94 @@ export class CampusGeometry {
    * The approved reference uses glowing vertical window bays and lit roof
    * edges; rear/side faces must remain modeled during a real 360° orbit.
    * Roof symbols and each module's established palette are unchanged. */
-  addFacadeIllumination(group, config) {
-    if(config.isCenter)return;
-    const dimensions={
-      reading:[9.5,8.5,4.8],
-      listening:[9.6,8.6,3.4],
-      writing:[8.8,7.8,4.4],
-      speaking:[8.6,7.8,4.0],
-      grammar:[8.8,8.2,3.6],
-      vocabulary:[8.1,7.8,3.1],
-      progress:[8.2,7.8,4.4],
-      mocks:[8.6,7.8,4.6],
-      assignments:[8.6,7.8,4.8],
-      live_classes:[9.6,8.2,3.9],
-      video_lessons:[8.6,7.8,4.4],
-    };
-    const dims=dimensions[config.id];if(!dims)return;
-    const [width,depth,height]=dims;
+  addFacadeIllumination(group,config) {
+    const dimensions={reading:[9.5,8.5,4.8],listening:[9.6,8.6,3.4],writing:[8.8,7.8,4.4],
+      speaking:[8.6,7.8,4],grammar:[8.8,8.2,3.6],vocabulary:[10.8,9.8,1.4],
+      progress:[8.2,7.8,4.4],mocks:[8.6,7.8,4.6],assignments:[8.6,7.8,4.8],
+      live_classes:[9.6,8.2,3.9],video_lessons:[8.6,7.8,4.4]};
+    const [width,depth,height]=dimensions[config.id];
     const mats=this.materials.getBuildingMaterials(config);
-    const frameMat=new THREE.MeshStandardMaterial({
-      color:config.color,emissive:config.emissive,emissiveIntensity:.75,
-      metalness:.45,roughness:.35
-    });
-    const glassMat=new THREE.MeshStandardMaterial({
-      color:config.color,emissive:config.emissive,emissiveIntensity:1.9,
-      metalness:.10,roughness:.30,side:THREE.DoubleSide
-    });
-    const count=Math.max(2,Math.min(4,Math.floor(width/2.5)));
-    const glassHeight=Math.min(1.37,height*.31);
-    // Window openings face toward the camera from any direction. Kept
-    // shallow to avoid z-fighting and never replace existing windows.
-    for(const dir of [-1,1]){
-      for(let i=0;i<count;i++){
-        const x=(i-(count-1)/2)*(width-1.6)/count;
-        const y=1.9+(i%2)*.12;
-        const front=new THREE.Mesh(new THREE.PlaneGeometry(1.18,glassHeight),glassMat);
-        front.position.set(x,y,dir*(depth/2+.065));
-        group.add(front);
-        const top=new THREE.Mesh(new THREE.BoxGeometry(1.32,.10,.11),frameMat);
-        top.position.set(x,y+glassHeight/2+.07,dir*(depth/2+.085));
-        group.add(top);
+    for(const child of [...group.children])if(child.material===mats.window)group.remove(child);
+    const frame=new THREE.MeshStandardMaterial({color:0x102542,roughness:.84,metalness:.05});
+    const glass=mats.window.clone();glass.emissiveIntensity=.85;glass.roughness=.65;glass.metalness=0;
+    const facade=new THREE.Group();facade.name='window_panes_and_mullions';
+    let panes=0;
+    const addWindow=(x,y,z,w,h,rotation=0)=>{
+      const window=new THREE.Group();window.position.set(x,y,z);window.rotation.y=rotation;
+      const pane=new THREE.Mesh(new THREE.BoxGeometry(w,h,.065),glass);window.add(pane);
+      for(const dy of [-h/2,0,h/2]){
+        const rail=new THREE.Mesh(new THREE.BoxGeometry(w+.12,.075,.12),frame);rail.position.z=.045;rail.position.y=dy;window.add(rail);
       }
-      for(let i=0;i<3;i++){
-        const z=(i-1)*(depth-1.8)/3;
-        const side=new THREE.Mesh(new THREE.PlaneGeometry(.99,glassHeight),glassMat);
-        side.rotation.y=Math.PI/2;
-        side.position.set(dir*(width/2+.065),1.95,z);
-        group.add(side);
+      for(const dx of [-w/2,0,w/2]){
+        const mullion=new THREE.Mesh(new THREE.BoxGeometry(.075,h+.1,.12),frame);mullion.position.set(dx,0,.045);window.add(mullion);
       }
-      const sideStrip=new THREE.Mesh(new THREE.BoxGeometry(.10,.12,depth+.14),frameMat);
-      sideStrip.position.set(dir*(width/2+.08),height+.48,0);
-      group.add(sideStrip);
-      const faceStrip=new THREE.Mesh(new THREE.BoxGeometry(width+.14,.12,.10),frameMat);
-      faceStrip.position.set(0,height+.48,dir*(depth/2+.08));
-      group.add(faceStrip);
+      facade.add(window);panes++;
+    };
+    const rows=config.id==='assignments'||config.id==='mocks'||config.id==='listening'?2:1;
+    const windowH=config.id==='reading'?2.7:config.id==='vocabulary'?.72:rows===2?1.12:2.15;
+    for(const side of [-1,1]){
+      for(let row=0;row<rows;row++)for(let col=0;col<3;col++){
+        const y=config.id==='vocabulary'?.77:rows===2?1.6+row*1.6:2.6;
+        addWindow((col-1)*(width-1.8)/3,y,side*(depth/2+.12),(width-2)/3-.18,windowH,side===1?0:Math.PI);
+      }
+      for(let col=0;col<3;col++)addWindow(side*(width/2+.12),config.id==='vocabulary'?.77:2.5,(col-1)*(depth-1.8)/3,(depth-2)/3-.18,windowH,side*Math.PI/2);
     }
+    if(config.id==='listening')for(const side of [-1,1])for(let col=0;col<3;col++)addWindow((col-1)*1.85,5.35,side*3.13,1.6,1.65,side===1?0:Math.PI);
+    if(config.id==='live_classes')facade.position.y=.2;
+    group.add(facade);group.userData.windowCount=panes;
+    // A round conduit wraps all four sides outside the opaque foundation.
+    const plinth=group.children[0].geometry.parameters;
+    const halfW=plinth.width/2+.4,halfD=plinth.depth/2+.4;
+    const loop=[[-halfW,.24,-halfD],[halfW,.24,-halfD],[halfW,.24,halfD],[-halfW,.24,halfD],[-halfW,.24,-halfD]];
+    for(let i=1;i<loop.length;i++)group.add(neonTube(loop[i-1],loop[i],config.color,.075));
+    group.userData.foundationLoop=loop;
     group.userData.facadeIllumination=true;
+  }
+
+  createSystemComponents(kind='processor'){
+    const group=new THREE.Group();group.name='campus_system_components';group.userData.kind=kind;
+    const shell=new THREE.MeshStandardMaterial({color:0x294d85,roughness:.7,metalness:.18,emissive:0x122d57,emissiveIntensity:.28});
+    const lid=new THREE.MeshStandardMaterial({color:0x3b69a0,roughness:.66,metalness:.12});
+    const recess=new THREE.MeshStandardMaterial({color:0x10233d,roughness:.8,metalness:.12});
+    const glow=new THREE.MeshBasicMaterial({color:new THREE.Color(0x47cfff).multiplyScalar(2.7),toneMapped:false});
+    const steel=new THREE.MeshStandardMaterial({color:0x7aa8c9,roughness:.65,metalness:.2});
+    const box=(name,w,h,d,x,y,z,material)=>{
+      const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);mesh.name=name;
+      mesh.position.set(x,y,z);group.add(mesh);return mesh;
+    };
+    if(kind==='power'){
+      // Low stepped electrical housing with a luminous collar, as in the sample.
+      box('power_base',5.3,.55,4.6,0,.275,0,shell);
+      box('power_lower_tier',4.45,.65,3.8,0,.875,0,lid);
+      box('power_dark_spacer',3.7,.25,3.15,0,1.325,0,recess);
+      box('power_cyan_collar',3.72,.13,3.17,0,1.515,0,glow);
+      box('power_stack',3.65,1.05,3.1,0,2.1,0,shell);
+      box('power_top_lid',3.85,.24,3.3,0,2.745,0,lid);
+      box('power_top_recess',1.15,.055,1.1,0,2.9,0,recess);
+      box('power_top_contact',.64,.07,.6,0,2.96,0,shell);
+      for(const sign of [-1,1])for(let i=0;i<4;i++){
+        box('component_vent',.34,.13,.065,-.78+i*.52,1.0,sign*1.93,recess);
+      }
+    }else{
+      // A shallow exposed processor/control panel, without any desktop equipment.
+      box('processor_base',6.4,.48,4.6,0,.24,0,shell);
+      box('processor_recess',5.7,.1,3.9,0,.53,0,recess);
+      box('processor_socket',3.05,.2,2.25,-.55,.66,.25,lid);
+      box('processor_chip',2.3,.14,1.65,-.55,.84,.25,glow);
+      box('component_connector',1.85,.3,.75,.15,.76,-1.35,shell);
+      for(let i=0;i<5;i++){
+        box('component_heatsink_fin',.15,.32,.75,1.8+i*.2,.78,-.4,lid);
+        box('component_contact',.16,.06,.28,-1.65+i*.55,.65,1.55,steel);
+      }
+      for(const x of [-2.45,2.45]){
+        const light=new THREE.Mesh(new THREE.SphereGeometry(.13,10,8),glow);
+        light.name='component_signal_light';light.position.set(x,.3,2.34);group.add(light);
+      }
+      for(const sign of [-1,1])for(let i=0;i<4;i++){
+        box('component_vent',.055,.16,.48,sign*3.23,.27,-1.15+i*.67,recess);
+      }
+    }
+    return group;
   }
 
   createPineTree(scale = 1.0) {
@@ -1304,19 +1344,20 @@ export class CampusGeometry {
     const foliageMat = this.materials.materials.get('tree_pine');
     // 3 stacked cones
     for (let i = 0; i < 3; i++) {
-      const coneR = (1.8 - i * 0.4) * scale;
-      const coneH = (2.2 - i * 0.3) * scale;
+      const coneR = (1.25 - i * 0.26) * scale;
+      const coneH = (3.1 - i * 0.3) * scale;
       const cone = new THREE.Mesh(new THREE.ConeGeometry(coneR, coneH, 7), foliageMat);
-      cone.position.y = (1.8 + i * 1.2) * scale;
+      cone.position.y = (1.9 + i * 1.6) * scale;
       tree.add(cone);
     }
     return tree;
   }
 
-  createStreetLamp(scale = 1.0) {
+  createStreetLamp(scale = 1.0, phase = 0) {
     const lamp = new THREE.Group();
     const postMat = this.materials.materials.get('dark_metal');
-    const glowMat = this.materials.materials.get('lamp_glow');
+    const glowMat = this.materials.materials.get('lamp_glow').clone();
+    this.materials.animatedMaterials.push({mat:glowMat,type:'breathe',base:2.2,amp:.3,freq:1.8,phase});
 
     // Vertical post
     const post = new THREE.Mesh(new THREE.CylinderGeometry(0.12 * scale, 0.16 * scale, 4.2 * scale, 12), postMat);
@@ -1338,13 +1379,15 @@ export class CampusGeometry {
     const pl = new THREE.PointLight(0xfef08a, 1.2, 14, 1.5);
     pl.position.set(0.7 * scale, 4.5 * scale, 0);
     lamp.add(pl);
+    lamp.userData.light=pl;
+    lamp.userData.phase=phase;
 
     return lamp;
   }
 
   createBench(scale = 1.0) {
     const bench = new THREE.Group();
-    const woodMat = this.materials.materials.get('wood');
+    const woodMat = new THREE.MeshStandardMaterial({color:0x344d79,roughness:.78,metalness:.15});
     const metalMat = this.materials.materials.get('dark_metal');
 
     // Legs

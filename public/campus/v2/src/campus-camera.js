@@ -3,8 +3,8 @@
  * Source: recovered prototype, corrected for horizontal-wheel rotation,
  * camera persistence and exact restoration after module navigation.
  */
-import * as THREE from 'https://esm.sh/three@0.180.0';
-import { OrbitControls } from 'https://esm.sh/three@0.180.0/addons/controls/OrbitControls.js';
+import * as THREE from '../vendor/three-runtime.js';
+import { OrbitControls } from '../vendor/three-runtime.js';
 
 export class CampusCameraController {
   constructor(camera, domElement, config) {
@@ -51,16 +51,24 @@ export class CampusCameraController {
     const mul=event.deltaMode===1?16:event.deltaMode===2?this.domElement.clientHeight:1;
     const dx=THREE.MathUtils.clamp(event.deltaX*mul,-80,80);
     const dy=THREE.MathUtils.clamp(event.deltaY*mul,-80,80);
+    // A trackpad reports small amounts of cross-axis noise. Lock each wheel
+    // gesture to its dominant axis and keep that choice through its inertia.
+    const now=performance.now();
+    if(event.ctrlKey || !this.wheelAxis || now-this.lastWheelTime>180){
+      this.wheelAxis=event.ctrlKey || Math.abs(dy)>=Math.abs(dx)?'zoom':'orbit';
+    }
+    this.lastWheelTime=now;
     const spherical=new THREE.Spherical().setFromVector3(
       new THREE.Vector3().subVectors(this.camera.position,c.target));
     // Horizontal Mac trackpad: orbit. Vertical: independent orthographic zoom.
-    spherical.theta += dx*.0034;
+    if(this.wheelAxis==='orbit')spherical.theta += dx*.0034;
     spherical.phi=THREE.MathUtils.clamp(spherical.phi,c.minPolarAngle,c.maxPolarAngle);
     spherical.makeSafe();
-    this.camera.zoom=THREE.MathUtils.clamp(this.camera.zoom*Math.exp(-dy*.0014),c.minZoom,c.maxZoom);
+    if(this.wheelAxis==='zoom')this.camera.zoom=THREE.MathUtils.clamp(this.camera.zoom*Math.exp(-dy*.0014),c.minZoom,c.maxZoom);
     this.camera.updateProjectionMatrix();
     const damping=c.enableDamping;
     c.enableDamping=false;
+    c.update(); // consume drag momentum before applying the requested pose
     this.camera.position.copy(c.target).add(new THREE.Vector3().setFromSpherical(spherical));
     c.update();
     c.enableDamping=damping;
@@ -110,6 +118,7 @@ export class CampusCameraController {
     // Clear momentum to prevent map moving after navigating back.
     const c=this.controls, damping=c.enableDamping;
     c.enableDamping=false;
+    c.update();
     this.camera.zoom=THREE.MathUtils.clamp(zoom,c.minZoom,c.maxZoom);
     this.camera.updateProjectionMatrix();
     this.camera.position.copy(position);

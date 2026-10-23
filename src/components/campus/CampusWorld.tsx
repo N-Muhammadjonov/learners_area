@@ -11,6 +11,7 @@ type CampusScene = {
 type SceneModule = {
   LearnersAreaCampusScene: new (el: HTMLElement, opts: {
     onNavigate: (module: Module) => void;
+    motion: "on" | "off" | "auto";
   }) => CampusScene;
 };
 
@@ -47,6 +48,7 @@ export function CampusWorld() {
         const mod=(await import(/* webpackIgnore: true */ jsUrl)) as SceneModule;
         if(cancelled)return;
         const scene=new mod.LearnersAreaCampusScene(element,{
+          motion: "on",
           onNavigate(module){
             if(!module.route.startsWith("/app/"))return;
             sceneRef.current?.cameraController?.saveState();

@@ -2,11 +2,13 @@
  * Learners Area 3D Campus Master Scene Orchestrator - Calibrated High-Fidelity
  */
 
-import * as THREE from 'https://esm.sh/three@0.180.0';
+import * as THREE from '../vendor/three-runtime.js';
+import { EffectComposer, RenderPass, UnrealBloomPass, OutputPass } from '../vendor/three-runtime.js';
 import { CAMPUS_CONFIG } from './campus-config.js';
 import { CampusMaterials } from './campus-materials.js';
 import { CampusGeometry } from './campus-geometry.js';
 import { CampusCircuits } from './campus-circuits.js';
+import {setBuildingHover,updateCampusObjects,resolveReducedMotion} from './campus-motion.js';
 import { CampusLabels } from './campus-labels.js';
 import { CampusCameraController } from './campus-camera.js';
 
@@ -19,7 +21,9 @@ export class LearnersAreaCampusScene {
     this.width = this.container.clientWidth || 1024;
     this.height = this.container.clientHeight || 571;
     this.isPaused = false;
-    this.reducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+    const systemReducedMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+    // An explicit campus motion choice wins over the automatic system default.
+    this.reducedMotion=resolveReducedMotion(options.motion,systemReducedMotion);
     this.buildingMeshes = new Map();
 
     this.init();
@@ -33,7 +37,7 @@ export class LearnersAreaCampusScene {
     // 2. Camera (Exact Isometric composition matching reference view)
     const aspect = this.width / this.height;
     // Actual 3D island with reference-style isometric orthographic framing.
-    const viewH=CAMPUS_CONFIG.camera.orthoHeight;
+    const viewH=Math.max(CAMPUS_CONFIG.camera.orthoHeight,CAMPUS_CONFIG.camera.minWorldWidth/aspect);
     const viewW=viewH*aspect;
     this.camera = new THREE.OrthographicCamera(
       -viewW/2, viewW/2, viewH/2, -viewH/2,
@@ -55,9 +59,27 @@ export class LearnersAreaCampusScene {
     this.renderer.setSize(this.width, this.height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.35;
+    this.renderer.toneMappingExposure = 1.05;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    this.renderer.shadowMap.enabled=true;
+    this.renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.autoUpdate=false;
+    this.renderer.shadowMap.needsUpdate=true;
     this.container.appendChild(this.renderer.domElement);
+    // Canvas antialiasing does not reach offscreen postprocessing targets.
+    // Multisample the scene before bloom so thin neon does not become stippled
+    // at shallow or rotated camera angles.
+    const target=new THREE.WebGLRenderTarget(this.width,this.height,{
+      type:THREE.HalfFloatType,samples:Math.min(4,this.renderer.capabilities.maxSamples),
+      depthBuffer:true,stencilBuffer:false,
+    });
+    this.composer=new EffectComposer(this.renderer,target);
+    this.composer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    this.composer.addPass(new RenderPass(this.scene,this.camera));
+    this.bloom=new UnrealBloomPass(new THREE.Vector2(this.width,this.height),.24,.18,1.25);
+    this.composer.addPass(this.bloom);
+    this.outputPass=new OutputPass();
+    this.composer.addPass(this.outputPass);
 
     // 4. Materials & Geometry
     this.materials = new CampusMaterials();
@@ -72,6 +94,13 @@ export class LearnersAreaCampusScene {
     // 7. Circuits & Electrical Pathways
     this.circuits = new CampusCircuits(this.scene, this.materials);
     this.circuits.buildCircuitNetwork(CAMPUS_CONFIG.modules);
+    this.circuits.buildPlatformNetwork(CAMPUS_CONFIG);
+    for(const module of CAMPUS_CONFIG.modules)if(!module.isCenter)this.circuits.addFoundationCurrent(this.buildingMeshes.get(module.id),module);
+    for(const lamp of this.streetLamps){
+      const halo=this.circuits.addHalo(0xffdb78,4.8,.15);
+      halo.position.set(lamp.position.x,.065,lamp.position.z);
+      lamp.userData.halo=halo;
+    }
     // Reference: each illuminated module sits on a soft, colored patch of
     // pavement. The glow is a flat decal on the actual street, not a particle.
     this.foundationGlows = [];
@@ -88,6 +117,12 @@ export class LearnersAreaCampusScene {
     // 8. Interactive Labels Overlay
     this.labels = new CampusLabels(this.container, this.camera, this.onNavigate);
     this.loadIconsAndInitLabels();
+    for(const label of this.labels.labels){
+      const building=this.buildingMeshes.get(label.module.id);
+      if(!building)continue;
+      const box=new THREE.Box3().setFromObject(building);
+      label.footprint={halfWidth:(box.max.x-box.min.x)/2,halfDepth:(box.max.z-box.min.z)/2};
+    }
 
     // 9. Camera Controls with state persistence
     this.cameraController = new CampusCameraController(this.camera, this.renderer.domElement, CAMPUS_CONFIG);
@@ -111,10 +146,10 @@ export class LearnersAreaCampusScene {
     const ctx = bgCanvas.getContext('2d');
 
     const grad = ctx.createRadialGradient(256, 190, 20, 256, 256, 360);
-    grad.addColorStop(0.0, '#0e203c');
-    grad.addColorStop(0.35, '#091528');
-    grad.addColorStop(0.7, '#050c18');
-    grad.addColorStop(1.0, '#02050b');
+    grad.addColorStop(0.0, '#122443');
+    grad.addColorStop(0.35, '#0c1b34');
+    grad.addColorStop(0.7, '#08152a');
+    grad.addColorStop(1.0, '#061126');
 
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 512, 512);
@@ -130,12 +165,18 @@ export class LearnersAreaCampusScene {
     this.scene.add(ambientLight);
 
     // Directional Isometric Sun (soft daylight from top-right)
-    const dirLight = new THREE.DirectionalLight(0xfff8e7, 2.2);
+    const dirLight = new THREE.DirectionalLight(0xfff8e7, 1.5);
     dirLight.position.set(65, 95, 65);
+    dirLight.castShadow=true;
+    dirLight.shadow.mapSize.set(2048,2048);
+    Object.assign(dirLight.shadow.camera,{left:-95,right:95,top:95,bottom:-95,near:1,far:250});
+    dirLight.shadow.camera.updateProjectionMatrix();
+    dirLight.shadow.bias=-.00015;
+    dirLight.shadow.normalBias=.04;
     this.scene.add(dirLight);
 
     // Back / Rim Light with vibrant cyan tint
-    const rimLight = new THREE.DirectionalLight(0x00e5ff, 1.1);
+    const rimLight = new THREE.DirectionalLight(0x00bfff, .55);
     rimLight.position.set(-60, 50, -60);
     this.scene.add(rimLight);
   }
@@ -190,12 +231,17 @@ export class LearnersAreaCampusScene {
       }
 
       if (bldgGroup) {
+        if(!m.isCenter)this.scene.add(this.geometry.createBuildingLot(m));
         if(!m.isCenter)this.geometry.addFacadeIllumination(bldgGroup,m);
         if(!m.isCenter){
           // Taller, wider real architecture while leaving more distance between modules.
           // More architectural presence relative to the asphalt, as in the approved map.
-          bldgGroup.scale.set(1.32,1.52,1.32);
+          const {scale,heights}=CAMPUS_CONFIG.architecture;
+          const horizontal=(m.id==='live_classes'?1.12:1.32)*scale;
+          bldgGroup.scale.set(horizontal,(heights[m.id]||1.4)*scale,horizontal);
         }
+        bldgGroup.userData.restingScale=bldgGroup.scale.clone();
+        this.geometry.finishArchitecture(bldgGroup);
         this.scene.add(bldgGroup);
         this.buildingMeshes.set(m.id, bldgGroup);
 
@@ -212,6 +258,7 @@ export class LearnersAreaCampusScene {
 
   populateEnvironment() {
     const envGroup = new THREE.Group();
+    this.streetLamps=[];
     envGroup.name = 'environment_props';
 
     // Low-poly pine trees along perimeter and paths
@@ -225,7 +272,7 @@ export class LearnersAreaCampusScene {
 
     treePositions.forEach(([x, z], idx) => {
       // Never place foliage through one of the resized buildings.
-      if(CAMPUS_CONFIG.modules.some(m=>!m.isCenter&&Math.hypot(m.pos.x-x,m.pos.z-z)<9.5))return;
+      if(CAMPUS_CONFIG.modules.some(m=>!m.isCenter&&Math.hypot(m.pos.x-x,m.pos.z-z)<13))return;
       const tree = this.geometry.createPineTree(0.9 + (idx % 3) * 0.15);
       tree.position.set(x, 0.05, z);
       envGroup.add(tree);
@@ -237,19 +284,21 @@ export class LearnersAreaCampusScene {
       [16.0, 9.5], [24.0, 0], [22.0, -7.0], [17.5, -9.5], [17.5, -11.5], [-3.5, -13.5]
     ];
 
-    lampPositions.forEach(([x, z]) => {
+    lampPositions.forEach(([x, z],index) => {
       if(CAMPUS_CONFIG.modules.some(m=>!m.isCenter&&Math.hypot(m.pos.x-x,m.pos.z-z)<8.0))return;
-      const lamp = this.geometry.createStreetLamp(0.9);
+      const lamp = this.geometry.createStreetLamp(0.9,index*.65);
       lamp.position.set(x, 0.05, z);
       envGroup.add(lamp);
+      this.streetLamps.push(lamp);
     });
 
     // Modern park benches
     const benchPositions = [
-      { pos: [-16, 6], rot: Math.PI / 4 },
-      { pos: [10, 17], rot: -Math.PI / 4 },
-      { pos: [22, -4], rot: Math.PI / 4 },
-      { pos: [-8, -19], rot: -Math.PI / 4 },
+      { pos: [-23.21, .62], rot: Math.PI / 4 },
+      { pos: [13.98,31.58], rot: Math.PI / 4 },
+      { pos: [20.36,12.91], rot: Math.PI / 4 },
+      { pos: [6.1,-36.79], rot: Math.PI / 4 },
+      { pos: [-6.7,48.91], rot: Math.PI / 4 },
     ];
 
     benchPositions.forEach(b => {
@@ -258,6 +307,12 @@ export class LearnersAreaCampusScene {
       bench.rotation.y = b.rot;
       envGroup.add(bench);
     });
+
+    for(const [index,[x,z]] of [[-57,52],[-30,-17],[27,16],[30,-32],[-5,62],[-38,-62],[-42,57],[55,18]].entries()){
+      const components=this.geometry.createSystemComponents(index%2?'power':'processor');
+      components.position.set(x,.05,z);components.scale.setScalar(1.15);
+      this.geometry.finishArchitecture(components);envGroup.add(components);
+    }
 
     this.scene.add(envGroup);
   }
@@ -273,7 +328,7 @@ export class LearnersAreaCampusScene {
       vocabulary: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 17l4-10 4 10"/><line x1="9.5" y1="13" x2="14.5" y2="13"/></svg>`,
       progress: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
       mock_tests: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
-      assignments: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/><rect x=\"8\" y=\"2\" width=\"8\" height=\"4\" rx=\"1\" ry=\"1\"/><path d=\"M9 14h6\"/><path d=\"M9 10h6\"/><path d=\"M9 18h4\"/></svg>`,
+      assignments: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 14h6M9 10h6M9 18h4"/></svg>`,
       ted_podcast: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="4"/><polygon points="10 9 16 12 10 15 10 9" fill="currentColor"/></svg>`,
       live_classes: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
     };
@@ -331,9 +386,11 @@ export class LearnersAreaCampusScene {
       if (newId !== this.hoveredModuleId) {
         if (this.hoveredModuleId) {
           this.labels.setHighlight(this.hoveredModuleId, false);
+          setBuildingHover(this.buildingMeshes,this.hoveredModuleId,false);
         }
         if (newId) {
           this.labels.setHighlight(newId, true);
+          setBuildingHover(this.buildingMeshes,newId,true);
           this.renderer.domElement.style.cursor = 'pointer';
         } else {
           this.renderer.domElement.style.cursor = 'default';
@@ -343,22 +400,20 @@ export class LearnersAreaCampusScene {
     };
     this.renderer.domElement.addEventListener('mousemove',this.onMouseMove);
 
-    this.onModuleHover=(e)=>{
-      const { id, active } = e.detail;
-      const bldg = this.buildingMeshes.get(id);
-      if (bldg) {
-        // Hover must never erase each building's calibrated non-uniform scale.
-        if (!bldg.userData.restingScale) bldg.userData.restingScale=bldg.scale.clone();
-        const k=active?1.025:1;
-        bldg.scale.copy(bldg.userData.restingScale).multiplyScalar(k);
-      }
+    this.onCanvasLeave=()=>{
+      if(this.hoveredModuleId){this.labels.setHighlight(this.hoveredModuleId,false);setBuildingHover(this.buildingMeshes,this.hoveredModuleId,false);}
+      this.hoveredModuleId=null;this.renderer.domElement.style.cursor='default';
     };
+    this.renderer.domElement.addEventListener('pointerleave',this.onCanvasLeave);
+    this.onModuleHover=(e)=>setBuildingHover(this.buildingMeshes,e.detail.id,e.detail.active);
     window.addEventListener('campus-module-hover',this.onModuleHover);
   }
 
   setupEventListeners() {
     this.onResize = this.onResize.bind(this);
     window.addEventListener('resize', this.onResize);
+    this.resizeObserver=new ResizeObserver(this.onResize);
+    this.resizeObserver.observe(this.container);
 
     this.onVisibilityChange=()=>{
       this.isPaused = document.hidden;
@@ -376,7 +431,7 @@ export class LearnersAreaCampusScene {
     this.height = this.container.clientHeight || 571;
     // Preserve current orbit and zoom while fitting a wide island on narrow screens.
     const aspect=this.width/this.height;
-    const viewH=Math.max(CAMPUS_CONFIG.camera.orthoHeight,145/aspect);
+    const viewH=Math.max(CAMPUS_CONFIG.camera.orthoHeight,CAMPUS_CONFIG.camera.minWorldWidth/aspect);
     this.camera.left=-viewH*aspect/2;
     this.camera.right=viewH*aspect/2;
     this.camera.top=viewH/2;
@@ -384,6 +439,8 @@ export class LearnersAreaCampusScene {
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(this.width, this.height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this.composer.setPixelRatio(Math.min(window.devicePixelRatio || 1,2));
+    this.composer.setSize(this.width,this.height);
     this.labels.update(this.width, this.height);
   }
 
@@ -391,14 +448,20 @@ export class LearnersAreaCampusScene {
     if (this.isPaused) return;
 
     const delta = Math.min(this.clock.getDelta(), 0.1);
-    const elapsed = this.clock.getElapsedTime();
+    const elapsed = this.clock.elapsedTime;
 
     this.cameraController.update();
+    if(updateCampusObjects(this.buildingMeshes,this.camera,delta,elapsed,this.reducedMotion))this.renderer.shadowMap.needsUpdate=true;
     this.materials.update(this.reducedMotion ? 0 : delta, this.reducedMotion ? 0 : elapsed);
     this.circuits.update(this.reducedMotion ? 0 : delta, this.reducedMotion ? 0 : elapsed);
+    for(const lamp of this.streetLamps){
+      const strength=1+.12*Math.sin((this.reducedMotion?0:elapsed)*1.8+lamp.userData.phase);
+      lamp.userData.light.intensity=1.2*strength;
+      lamp.userData.halo.material.opacity=.15*strength;
+    }
     this.labels.update(this.width, this.height);
 
-    this.renderer.render(this.scene, this.camera);
+    this.composer.render();
     this.animId = requestAnimationFrame(this.animate);
   }
 
@@ -406,6 +469,10 @@ export class LearnersAreaCampusScene {
     this.isPaused=true;
     cancelAnimationFrame(this.animId);
     this.cameraController?.dispose();
+    this.resizeObserver?.disconnect();
+    this.bloom?.dispose();
+    this.outputPass?.dispose();
+    this.composer?.dispose();
     window.removeEventListener('resize',this.onResize);
     window.removeEventListener('campus-module-hover',this.onModuleHover);
     document.removeEventListener('visibilitychange',this.onVisibilityChange);
@@ -413,16 +480,20 @@ export class LearnersAreaCampusScene {
     canvas?.removeEventListener('pointerdown',this.onPointerDown);
     canvas?.removeEventListener('click',this.onClick);
     canvas?.removeEventListener('mousemove',this.onMouseMove);
+    canvas?.removeEventListener('pointerleave',this.onCanvasLeave);
     this.labels?.overlay?.remove();
+    const textures=new Set();
     this.scene?.traverse(obj=>{
       obj.geometry?.dispose?.();
       if(obj.material){
         for(const material of Array.isArray(obj.material)?obj.material:[obj.material]){
+          for(const value of Object.values(material))if(value?.isTexture)textures.add(value);
           // Materials may be shared across meshes; dispose is idempotent.
           material.dispose?.();
         }
       }
     });
+    for(const texture of textures)texture.dispose();
     this.scene?.background?.dispose?.();
     this.renderer?.dispose();
     canvas?.remove();

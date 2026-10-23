@@ -4,13 +4,44 @@
  * sequential ring illumination, and road junction nodes.
  */
 
-import * as THREE from 'https://esm.sh/three@0.180.0';
+import * as THREE from '../vendor/three-runtime.js';
+import {NeonCurrent,NeonDashLoop,neonTube,neonMaterial,platformEdgeLoops,scaleNeonEmission} from './campus-neon.js';
+import {dashboardRingAngle} from './campus-motion.js';
+
+// Street traces follow the blue/violet electrical network in the artwork.
+// In particular, the Live classes branch runs beside Assignments rather
+// than through the administrative building on its way to the pavilion.
+export function campusRoadPath(module) {
+  const routes={
+    reading:[[-12,0],[-12,-18],[-26,-18],[-26,-38]],
+    listening:[[-16,0],[-16,-4]],
+    writing:[[-15,0],[-15,18],[-36,18],[-36,28]],
+    speaking:[[-12,0],[-12,35],[-18,35]],
+    grammar:[[0,16],[7,16],[7,39],[18,39]],
+    vocabulary:[[14,0],[14,20],[33,20],[33,36]],
+    progress:[[18,0]],
+    mocks:[[16,0],[32,0],[32,-28]],
+    assignments:[[12,0],[12,-20],[39,-20],[39,-48],[54,-48]],
+    live_classes:[[0,-16],[4,-16],[4,-43],[24,-43]],
+    video_lessons:[[0,-16],[-5,-16],[-5,-43],[-16,-43]],
+  };
+  const points=[[0,0],...(routes[module.id]||[])];
+  const last=points.at(-1);
+  // Keep the final connection orthogonal after a pavilion is repositioned.
+  if(last[0]!==module.pos.x&&last[1]!==module.pos.z)points.push([module.pos.x,last[1]]);
+  points.push([module.pos.x,module.pos.z]);
+  // One shared blue guide keeps every route as bright as Writing.
+  return {id:module.id,color:0x32bfff,
+    points:points.map(([x,z])=>[x,.27,z])};
+}
 
 export class CampusCircuits {
   constructor(scene, materials) {
     this.scene = scene;
     this.materials = materials;
     this.branches = [];
+    this.currents=[];
+    this.sideLoops=[];
     this.ringPulses = [];
     this.junctionNodes = [];
     this.groundHalos = [];
@@ -19,6 +50,8 @@ export class CampusCircuits {
     this.group = new THREE.Group();
     this.group.name = 'circuit_network';
     this.scene.add(this.group);
+    this.dashboardRings=new THREE.Group();this.dashboardRings.name='dashboard_rotating_circuit_lights';
+    this.group.add(this.dashboardRings);
   }
 
   // All glows are horizontal planes anchored to the road at the same height
@@ -47,14 +80,7 @@ export class CampusCircuits {
 
   // Define and build all 11 road circuit pathways connecting Dashboard to buildings
   buildCircuitNetwork(modules) {
-    const pathways = modules.filter(m=>!m.isCenter).map((m,idx)=>{
-      const x=m.pos.x,z=m.pos.z;
-      const middleX=x*.56,middleZ=z*.55;
-      return {id:m.id,color:m.color,points:[
-        [0,0.075,0],[middleX,0.075,0],[middleX,0.075,middleZ],
-        [x,0.075,middleZ],[x,0.075,z]
-      ]};
-    });
+    const pathways = modules.filter(m=>!m.isCenter).map(campusRoadPath);
 
     pathways.forEach((pathDef, idx) => {
       this.createPathBranch(pathDef, idx);
@@ -64,118 +90,46 @@ export class CampusCircuits {
     this.createGroundRingLights();
   }
 
-  createPathBranch(pathDef, branchIndex) {
-    const rawPoints = pathDef.points.map(p => new THREE.Vector3(p[0], p[1], p[2]));
-    
-    // Create base static trace strip
-    const baseMat = new THREE.LineBasicMaterial({
-      color: pathDef.color,
-      linewidth: 2,
-      transparent: true,
-      opacity: 0.88,
-    });
-    const lineGeo = new THREE.BufferGeometry().setFromPoints(rawPoints);
-    const baseLine = new THREE.Line(lineGeo, baseMat);
-    this.group.add(baseLine);
-    // Thin neon cores + translucent atmospheric fringe, both physically
-    // embedded in the asphalt; linewidth on WebGL lines is unreliable.
-    for(let i=0;i<rawPoints.length-1;i++){
-      const from=rawPoints[i],to=rawPoints[i+1],direction=new THREE.Vector3().subVectors(to,from);
-      const length=direction.length();
-      if(length<.01)continue;
-      const midpoint=new THREE.Vector3().addVectors(from,to).multiplyScalar(.5);
-      const rotation=new THREE.Quaternion().setFromUnitVectors(
-        new THREE.Vector3(0,1,0),direction.normalize());
-      for(const [radius,opacity] of [[.057,.98],[.27,.20]]){
-        const tube=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,length,6),
-          new THREE.MeshBasicMaterial({color:pathDef.color,transparent:true,
-            opacity,depthWrite:false,blending:THREE.AdditiveBlending}));
-        tube.position.copy(midpoint);tube.position.y+=.036;
-        tube.quaternion.copy(rotation);
-        this.group.add(tube);
-      }
+  createPathBranch(pathDef,branchIndex){
+    const guide=new THREE.Group();guide.name='road_guide_'+pathDef.id;
+    for(let i=1;i<pathDef.points.length;i++)guide.add(neonTube(pathDef.points[i-1],pathDef.points[i],pathDef.color,.115,4.2));
+    scaleNeonEmission(guide,.95);
+    this.group.add(guide);
+    const currents=[];
+    for(const [index,[color,power]] of [[0xff405b,6],[0xf4fbff,2.6],[0x42bfff,4.5]].entries()){
+      const current=new NeonCurrent(pathDef.points,color,{speed:14,phase:branchIndex*.087+index/3,tail:6.5,power});
+      current.group.name='road_current_'+pathDef.id;current.group.userData.color=color;
+      scaleNeonEmission(current.group,.95);
+      this.group.add(current.group);this.currents.push(current);currents.push(current);
     }
-
-    // Compute total path length and cumulative segment distances
-    let totalLength = 0;
-    const segLengths = [];
-    for (let i = 0; i < rawPoints.length - 1; i++) {
-      const len = rawPoints[i].distanceTo(rawPoints[i + 1]);
-      segLengths.push(len);
-      totalLength += len;
+    this.branches.push({id:pathDef.id,currents,guide});
+    for(let i=1;i<pathDef.points.length-1;i++){
+      const node=new THREE.Mesh(new THREE.SphereGeometry(.13,10,8),neonMaterial(pathDef.color,2.1));
+      node.position.set(...pathDef.points[i]);this.group.add(node);
+      node.material.color.multiplyScalar(.95);
+      const halo=this.addHalo(pathDef.color,1.65,.3);halo.position.set(node.position.x,.12,node.position.z);
+      halo.material.color.multiplyScalar(.95);
+      this.junctionNodes.push({mesh:node,halo,phase:branchIndex*.7+i*.43});
     }
+  }
 
-    // Function to sample position along polyline at distance d (0 <= d <= totalLength)
-    const samplePoint = (dist) => {
-      let accumulated = 0;
-      for (let i = 0; i < segLengths.length; i++) {
-        if (dist <= accumulated + segLengths[i]) {
-          const t = (dist - accumulated) / segLengths[i];
-          return new THREE.Vector3().lerpVectors(rawPoints[i], rawPoints[i + 1], t);
-        }
-        accumulated += segLengths[i];
-      }
-      return rawPoints[rawPoints.length - 1].clone();
-    };
-
-    // Create an animated current pulse head & tail
-    const pulseLength = Math.min(6.5, totalLength * 0.4);
-    const pulsePointsCount = 12;
-    const pulsePositions = new Float32Array(pulsePointsCount * 3);
-    const pulseColors = new Float32Array(pulsePointsCount * 3);
-
-    const pulseGeo = new THREE.BufferGeometry();
-    pulseGeo.setAttribute('position', new THREE.BufferAttribute(pulsePositions, 3));
-    pulseGeo.setAttribute('color', new THREE.BufferAttribute(pulseColors, 3));
-
-    const pulseMat = new THREE.LineBasicMaterial({
-      vertexColors: true,
-      linewidth: 3,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-    });
-
-    const pulseLine = new THREE.Line(pulseGeo, pulseMat);
-    this.group.add(pulseLine);
-    const streak=new THREE.Mesh(new THREE.BoxGeometry(1.05,.026,.115),
-      new THREE.MeshBasicMaterial({color:0xf9ffff,transparent:true,opacity:.96,
-        depthWrite:false,blending:THREE.AdditiveBlending}));
-    streak.position.y=.16;this.group.add(streak);
-    const halo=this.addHalo(pathDef.color,2.7,.46);
-
-    // Register active branch
-    this.branches.push({
-      id: pathDef.id,
-      color: new THREE.Color(pathDef.color),
-      totalLength,
-      pulseLength,
-      samplePoint,
-      pulseGeo,
-      pulseLine,
-      streak,
-      halo,
-      speed: 12.0 + (branchIndex % 4) * 1.25, // units per second
-      progress: (branchIndex * 0.35) % 1.0, // staggered start phase
-      pauseTime: 0.5 + (branchIndex % 5) * .25,
-      currentPause: 0,
-    });
-
-    // Add glowing junction pads at corners
-    for (let i = 1; i < rawPoints.length - 1; i++) {
-      const nodeGeo = new THREE.PlaneGeometry(0.8, 0.8);
-      nodeGeo.rotateX(-Math.PI / 2);
-      const nodeMat = new THREE.MeshBasicMaterial({
-        color: pathDef.color,
-        side: THREE.DoubleSide,
-      });
-      const node = new THREE.Mesh(nodeGeo, nodeMat);
-      node.position.copy(rawPoints[i]);
-      node.position.y += 0.01;
-      this.group.add(node);
-      const halo=this.addHalo(pathDef.color,1.65,.30);
-      halo.position.set(node.position.x,.14,node.position.z);
-      this.junctionNodes.push({ mesh: node,halo, baseScale: 1.0, phase: ((branchIndex*7+i)*.43)%(Math.PI*2) });
+  buildPlatformNetwork(config){
+    for(const [index,loop] of platformEdgeLoops(config).entries()){
+      const color=index===0?0x00bdff:0x087bff;
+      const dashes=new NeonDashLoop(loop,color,{speed:index===0?29:-24,phase:index*.18});
+      this.group.add(dashes.group);this.sideLoops.push(dashes);
     }
+    const p=config.platform.polygon;const top=p.map(([x,z])=>[x,.22,z]);top.push(top[0]);
+    for(let i=1;i<top.length;i++)this.group.add(neonTube(top[i-1],top[i],0x007dff,.08,3.4));
+    const bottom=platformEdgeLoops(config)[1].map(([x,,z])=>[x,-config.platform.height+.16,z]);
+    this.lowerRim=new THREE.Group();this.lowerRim.name='platform_lower_continuous_rim';
+    for(let i=1;i<bottom.length;i++)this.lowerRim.add(neonTube(bottom[i-1],bottom[i],0x40cfff,.105,3.8));
+    this.group.add(this.lowerRim);
+  }
+
+  addFoundationCurrent(building,config){
+    const current=new NeonCurrent(building.userData.foundationLoop,config.color,{speed:7,phase:.25,tail:4,loop:true});
+    current.group.name='foundation_current';building.add(current.group);this.currents.push(current);
   }
 
   // Sequential traveling pulse segments around Dashboard concentric rings
@@ -198,7 +152,7 @@ export class CampusCircuits {
 
       const arcMesh = new THREE.Mesh(arcGeo, arcMat);
       arcMesh.position.y = 0.09 + idx * 0.02;
-      this.group.add(arcMesh);
+      this.dashboardRings.add(arcMesh);
 
       this.ringPulses.push({
         mesh: arcMesh,
@@ -219,60 +173,21 @@ export class CampusCircuits {
             depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending}));
         point.rotation.x=-Math.PI/2;
         point.position.set(Math.cos(angle)*radius,.143,Math.sin(angle)*radius);
-        this.group.add(point);
+        this.dashboardRings.add(point);
         const halo=this.addHalo(color,1.9,.29);
         halo.position.set(point.position.x,.142,point.position.z);
+        this.dashboardRings.add(halo);
         this.ringBulbs.push({point,halo,index:i,ring:ri});
       }
     });
   }
 
   update(deltaTime, elapsedTime) {
-    // 1. Update electrical branch current pulses
-    for (const b of this.branches) {
-      if (b.currentPause > 0) {
-        b.currentPause -= deltaTime;
-        b.pulseLine.visible = false;
-        b.streak.visible=false;b.halo.visible=false;
-        continue;
-      }
-
-      b.pulseLine.visible = true;
-      b.streak.visible=true;b.halo.visible=true;
-      b.progress += (b.speed * deltaTime) / b.totalLength;
-
-      if (b.progress >= 1.0) {
-        b.progress = 0;
-        b.currentPause = b.pauseTime;
-      }
-
-      const headDist = b.progress * b.totalLength;
-      const head=b.samplePoint(headDist);
-      const behind=b.samplePoint(Math.max(0,headDist-.45));
-      b.streak.position.set(head.x,.164,head.z);
-      b.streak.rotation.y=-Math.atan2(head.z-behind.z,head.x-behind.x);
-      b.halo.position.set(head.x,.147,head.z);
-      const tailDist = Math.max(0, headDist - b.pulseLength);
-
-      const posAttr = b.pulseGeo.attributes.position;
-      const colAttr = b.pulseGeo.attributes.color;
-      const count = posAttr.count;
-
-      for (let i = 0; i < count; i++) {
-        const t = i / (count - 1);
-        const curDist = tailDist + t * (headDist - tailDist);
-        const pt = b.samplePoint(curDist);
-
-        posAttr.setXYZ(i, pt.x, pt.y + 0.02, pt.z);
-
-        // Alpha / brightness falls off from head to tail
-        const brightness = Math.pow(t, 1.4);
-        colAttr.setXYZ(i, b.color.r * brightness, b.color.g * brightness, b.color.b * brightness);
-      }
-
-      posAttr.needsUpdate = true;
-      colAttr.needsUpdate = true;
-    }
+    // Position is an absolute function of time, so switching tabs never freezes
+    // a current at its first frame or leaves a zero-sized bounding sphere.
+    for(const current of this.currents)current.update(elapsedTime);
+    for(const loop of this.sideLoops)loop.update(elapsedTime);
+    this.dashboardRings.rotation.y=dashboardRingAngle(elapsedTime);
 
     // 2. Update Dashboard ring rotating illumination
     for (const r of this.ringPulses) {

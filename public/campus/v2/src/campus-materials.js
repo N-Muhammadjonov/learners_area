@@ -3,7 +3,7 @@
  * High-quality PBR materials, emissive neon glows, and custom pulse shaders.
  */
 
-import * as THREE from 'https://esm.sh/three@0.180.0';
+import * as THREE from '../vendor/three-runtime.js';
 
 export class CampusMaterials {
   constructor() {
@@ -49,11 +49,11 @@ export class CampusMaterials {
 
     // 5. Bright Polished Gold (Trophy cup)
     const trophyGoldMat = new THREE.MeshStandardMaterial({
-      color: 0xfacc15,
-      roughness: 0.18,
-      metalness: 0.92,
-      emissive: 0xd97706,
-      emissiveIntensity: 0.35,
+      color: 0xffbd22,
+      roughness: .38,
+      metalness: .5,
+      emissive: 0x9b4c02,
+      emissiveIntensity: .2,
     });
     this.materials.set('trophy_gold', trophyGoldMat);
 
@@ -106,15 +106,17 @@ export class CampusMaterials {
 
     // 11. Book Paper (Reading open book pages)
     const paperMat = new THREE.MeshStandardMaterial({
-      color: 0xfffbeb,
-      roughness: 0.6,
-      metalness: 0.02,
+      color: 0xfffefa,
+      emissive: 0xffffff,
+      emissiveIntensity: .28,
+      roughness: .9,
+      metalness: 0,
     });
     this.materials.set('book_paper', paperMat);
 
     // 12. Tree Foliage (Teal / deep green low-poly)
     const treePineMat = new THREE.MeshStandardMaterial({
-      color: 0x064e3b,
+      color: 0x075f61,
       roughness: 0.8,
       metalness: 0.1,
       emissive: 0x022c22,
@@ -137,7 +139,7 @@ export class CampusMaterials {
     const lampGlowMat = new THREE.MeshStandardMaterial({
       color: 0xfffbeb,
       emissive: 0xfef08a,
-      emissiveIntensity: 2.2,
+      emissiveIntensity: .7,
       roughness: 0.2,
     });
     this.materials.set('lamp_glow', lampGlowMat);
@@ -154,7 +156,6 @@ export class CampusMaterials {
   }
 
   createVolumetricBeamMaterial() {
-    const beamGeo = new THREE.CylinderGeometry(8, 12, 38, 32, 1, true);
     const beamMat = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
@@ -183,7 +184,7 @@ export class CampusMaterials {
           float rim = pow(1.0 - abs(vNormal.z), 1.5);
           // Subtle pulsation
           float pulse = 0.85 + 0.15 * sin(uTime * 2.0);
-          float alpha = clamp(verticalFade * rim * 0.45 * pulse, 0.0, 1.0);
+          float alpha = clamp(verticalFade * rim * 0.07 * pulse, 0.0, 1.0);
           gl_FragColor = vec4(uColor, alpha);
         }
       `,
@@ -205,9 +206,10 @@ export class CampusMaterials {
     const emissiveColor = new THREE.Color(moduleConfig.emissive);
 
     // Wall stone / panels
-    const wallColor = baseColor.clone().multiplyScalar(0.43).add(new THREE.Color(0x090f1d));
+    const wallColor = baseColor.clone().multiplyScalar(.72).add(new THREE.Color(0x090f1d));
     const wallMat = new THREE.MeshStandardMaterial({
       color: wallColor,
+      emissive: baseColor.clone().multiplyScalar(.1),
       roughness: 0.72,
       metalness: 0.28,
       flatShading: false,
@@ -217,31 +219,35 @@ export class CampusMaterials {
     const trimMat = new THREE.MeshStandardMaterial({
       color: baseColor,
       emissive: emissiveColor,
-      emissiveIntensity: 1.2,
-      roughness: 0.35,
-      metalness: 0.5,
+      emissiveIntensity: .045,
+      roughness: .92,
+      metalness: .02,
     });
+
+    if(['speaking','vocabulary'].includes(moduleConfig.id)){trimMat.color.multiplyScalar(.76);trimMat.emissiveIntensity=.02;}
 
     // Glowing foundation neon band
     const foundationMat = new THREE.MeshStandardMaterial({
       color: baseColor,
       emissive: emissiveColor,
-      emissiveIntensity: 2.2,
+      emissiveIntensity: .7,
       roughness: 0.2,
     });
     this.animatedMaterials.push({
       mat: foundationMat,
       type: 'pulse',
-      base: 2.2,
-      amp: 0.35,
-      freq: 1.5 + Math.random() * 0.5,
+      base: .7,
+      amp: .12,
+      freq: 1.5 + [...moduleConfig.id].reduce((sum,c)=>sum+c.charCodeAt(0),0)%5*.1,
     });
 
     // Glowing illuminated windows
+    const coolWindows=['listening','writing','live_classes'].includes(moduleConfig.id);
+    const windowColor=coolWindows?baseColor.clone().lerp(new THREE.Color(0xacfaff),.22):new THREE.Color(0xffbc60);
     const windowMat = new THREE.MeshStandardMaterial({
-      color: baseColor.clone().lerp(new THREE.Color(0xfff3d0), 0.63),
-      emissive: baseColor.clone().lerp(new THREE.Color(0xffe9aa), 0.54),
-      emissiveIntensity: 2.3,
+      color: windowColor,
+      emissive: windowColor,
+      emissiveIntensity: 1.4,
       roughness: 0.33,
       metalness: 0.04,
     });
@@ -258,9 +264,9 @@ export class CampusMaterials {
           item.mat.uniforms.uTime.value = elapsedTime;
         }
       } else if (item.type === 'pulse') {
-        item.mat.emissiveIntensity = item.base + Math.sin(elapsedTime * item.freq) * item.amp;
+        item.mat.emissiveIntensity = item.base + Math.sin(elapsedTime * item.freq + (item.phase||0)) * item.amp;
       } else if (item.type === 'breathe') {
-        item.mat.emissiveIntensity = item.base + Math.sin(elapsedTime * item.freq) * item.amp;
+        item.mat.emissiveIntensity = item.base + Math.sin(elapsedTime * item.freq + (item.phase||0)) * item.amp;
       }
     }
   }

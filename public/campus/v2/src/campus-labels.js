@@ -4,7 +4,7 @@
  * with glowing neon borders, crisp typography, and bidirectional interaction.
  */
 
-import * as THREE from 'https://esm.sh/three@0.180.0';
+import * as THREE from '../vendor/three-runtime.js';
 import { orbitFacingAnchor } from './campus-label-anchors.js';
 
 export class CampusLabels {
@@ -13,6 +13,7 @@ export class CampusLabels {
     this.camera = camera;
     this.onNavigate = onNavigate;
     this.labels = [];
+    this.viewDirection=new THREE.Vector3();
     this.overlay = document.createElement('div');
     this.overlay.className = 'campus-labels-overlay';
     this.overlay.style.zIndex = '20';
@@ -28,6 +29,8 @@ export class CampusLabels {
       const el = document.createElement('button');
       el.type = 'button';
       el.className = 'campus-module-label';
+      el.style.setProperty('--module-accent',m.accentHex);
+      el.style.transform='translate(-50%, -50%) scale(1.08)';
       el.style.backgroundColor = 'rgba(8, 15, 29, 0.92)';
       el.style.border = `1.5px solid ${m.accentHex}`;
       el.style.boxShadow = `0 0 12px ${m.accentHex}66, inset 0 0 6px ${m.accentHex}33`;
@@ -53,13 +56,13 @@ export class CampusLabels {
 
       el.addEventListener('mouseenter', () => {
         el.style.boxShadow = `0 0 20px ${m.accentHex}aa, inset 0 0 8px ${m.accentHex}66`;
-        el.style.transform = 'translate(-50%, -50%) scale(1.08)';
+        el.style.transform = 'translate(-50%, -50%) scale(1.1664)';
         window.dispatchEvent(new CustomEvent('campus-module-hover', { detail: { id: m.id, active: true } }));
       });
 
       el.addEventListener('mouseleave', () => {
         el.style.boxShadow = `0 0 12px ${m.accentHex}66, inset 0 0 6px ${m.accentHex}33`;
-        el.style.transform = 'translate(-50%, -50%) scale(1.0)';
+        el.style.transform = 'translate(-50%, -50%) scale(1.08)';
         window.dispatchEvent(new CustomEvent('campus-module-hover', { detail: { id: m.id, active: false } }));
       });
 
@@ -69,6 +72,8 @@ export class CampusLabels {
   }
 
   update(width, height) {
+    this.camera.updateMatrixWorld();
+    this.camera.getWorldDirection(this.viewDirection).negate();
     const point=new THREE.Vector3();
     const occupied=[];
     // Keep every available label on screen. Previously a collision led to
@@ -76,11 +81,10 @@ export class CampusLabels {
     const ordered=[...this.labels].sort((a,b)=>{
       if(a.module.isCenter)return -1;
       if(b.module.isCenter)return 1;
-      return this.camera.position.distanceToSquared(a.anchorPos) -
-             this.camera.position.distanceToSquared(b.anchorPos);
+      return 0; // stable module order avoids collision-layout swaps while orbiting
     });
     for(const item of ordered){
-      const anchor=orbitFacingAnchor(item.anchorPos,item.module,this.camera.position);
+      const anchor=orbitFacingAnchor(item.anchorPos,item.module,this.camera.position,this.viewDirection,item.footprint);
       point.set(anchor.x,anchor.y,anchor.z).project(this.camera);
       const el=item.el;
       if(!Number.isFinite(point.x)||!Number.isFinite(point.y)||point.z>1||point.z< -1){
@@ -89,8 +93,8 @@ export class CampusLabels {
       }
       el.style.display='flex';
       el.style.visibility='visible';
-      const halfW=Math.max(31,(el.offsetWidth||105)/2);
-      const halfH=Math.max(10,(el.offsetHeight||24)/2);
+      const halfW=Math.max(31,(el.offsetWidth||105)*1.08/2);
+      const halfH=Math.max(10,(el.offsetHeight||24)*1.08/2);
       const margin=6;
       const baseX=THREE.MathUtils.clamp((point.x*.5+.5)*width,halfW+margin,Math.max(halfW+margin,width-halfW-margin));
       const baseY=THREE.MathUtils.clamp((-point.y*.5+.5)*height,halfH+margin,Math.max(halfH+margin,height-halfH-margin));
@@ -129,10 +133,10 @@ export class CampusLabels {
       if (item.module.id === moduleId) {
         if (active) {
           item.el.style.boxShadow = `0 0 24px ${item.module.accentHex}cc, inset 0 0 10px ${item.module.accentHex}88`;
-          item.el.style.transform = 'translate(-50%, -50%) scale(1.12)';
+          item.el.style.transform = 'translate(-50%, -50%) scale(1.1664)';
         } else {
           item.el.style.boxShadow = `0 0 12px ${item.module.accentHex}66, inset 0 0 6px ${item.module.accentHex}33`;
-          item.el.style.transform = 'translate(-50%, -50%) scale(1.0)';
+          item.el.style.transform = 'translate(-50%, -50%) scale(1.08)';
         }
       }
     }
