@@ -1,0 +1,30 @@
+PASS V40 activity 5 Say it: each activation cancels then speaks the term in en-GB; focus stays on the button
+PASS V40 activity 5 Say it on a browser without speech shows the original unavailable message and keeps the page
+PASS V40 activity 5 leaving the route by the Test hub link cancels speech and shows the hub
+PASS V40 lexical: a word without a server occurrence opens spelling-only with no lookup request
+PASS V40 lexical: a word with a server occurrence fetches its contextual meaning by occurrence identity
+PASS V40 lexical refusal: a 403 lookup shows the generic error and never renders a meaning, with no retry
+FAIL V40 lexical keyboard: Tab reaches the text region, End and Enter look up the last word, Escape returns focus locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for getByText('Synthetic meaning').first() to be visible
+
+PASS V40 lexical disposal: an open popover is removed when the learner leaves the route by the Test hub link
+PASS V40 lexical pronounce: the word popover Pronounce control speaks the occurrence word in en-GB
+PASS V40 lexical policy: with lexical assistance false the Activity 2 text is plain (no word targets, no lookup)
+PASS V40 activity 3 Save refused with 403: save-failed shown, typed answer kept, exactly one write, no replay
+PASS V40 activity 2 Complete with 409 conflict: save-failed shown and no score or completion is displayed
+PASS V40 activity 4 Save refused with 404: save-failed shown, chosen meaning kept, one write
+PASS V40 activity 1 start refused with 403: failure shown, no navigation to an attempt, no automatic replay
+PASS V40 stale response: a save answered after leaving the activity is ignored and writes nothing on the hub
+FAIL V40 media: a clip plays from its start and pauses at its end boundary (original timeupdate rule) page.waitForFunction: EvalError: Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: "script-src 'self'".
+
+    at eval (<anonymous>)
+    at predicate (eval at evaluate (:234:30), <anonymous>:11:37)
+    at next (eval at evaluate (:234:30), <anonymous>:32:31)
+PASS V40 media: leaving the route mid-clip pauses the element (no playback continues in the background)
+PASS V40 media: an unavailable recording shows an original media message and does not advance
+FAIL V40 activity 2 first attempt: question buttons toggle reviewed state on click; no typed answer control exists locator.getAttribute: Timeout 8000ms exceeded.
+Call log:
+  - waiting for locator('nav.flex-wrap button').filter({ hasText: /^1$/ }).last()
+
+{"pass":16,"fail":3}

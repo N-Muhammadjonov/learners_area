@@ -1,0 +1,9 @@
+PASS V40 activity 2 Complete with 409 conflict: save-failed shown and no score or completion is displayed
+PASS V40 activity 2 first attempt: Mark reviewed records a local draft only (no server write)
+PASS V40 activity 2 speed control: only allowed rates are selectable and the chosen rate sets the audio playbackRate
+FAIL V40 activity 2 typed answers: Check sends one complete write with the typed answer and the speed rate; the server score is shown locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+  - waiting for getByText('1 / 1', { exact: true }) to be visible
+
+PASS V40 activity 2 Check failure (500) keeps the typed answer, shows the speed failure and no score
+{"pass":4,"fail":1}

@@ -1,0 +1,48 @@
+PASS V40 activity 5 Say it: each activation cancels then speaks the term in en-GB; focus stays on the button
+PASS V40 activity 5 Say it on a browser without speech shows the original unavailable message and keeps the page
+PASS V40 activity 5 leaving the route by the Test hub link cancels speech and shows the hub
+PASS V40 lexical: a word without a server occurrence opens spelling-only with no lookup request
+PASS V40 lexical: a word with a server occurrence fetches its contextual meaning by occurrence identity
+PASS V40 lexical refusal: a 403 lookup shows the generic error and never renders a meaning, with no retry
+PASS V40 lexical keyboard: Tab reaches the text region, End and Enter look up the last word, Escape returns focus
+PASS V40 lexical disposal: an open popover is removed when the learner leaves the route by the Test hub link
+PASS V40 lexical pronounce: the word popover Pronounce control speaks the occurrence word in en-GB
+PASS V40 lexical policy: with lexical assistance false the Activity 2 text is plain (no word targets, no lookup)
+PASS V40 activity 3 Save refused with 403: save-failed shown, typed answer kept, exactly one write, no replay
+PASS V40 activity 2 Complete with 409 conflict: save-failed shown and no score or completion is displayed
+PASS V40 activity 4 Save refused with 404: save-failed shown, chosen meaning kept, one write
+PASS V40 activity 1 start refused with 403: failure shown, no navigation to an attempt, no automatic replay
+PASS V40 stale response: a save answered after leaving the activity is ignored and writes nothing on the hub
+PASS V40 media: a clip plays from its start and pauses at its end boundary (original timeupdate rule)
+PASS V40 media: leaving the route mid-clip pauses the element (no playback continues in the background)
+PASS V40 media: an unavailable recording shows an original media message and does not advance
+PASS V40 media: after a failed recording, the next clip press reloads the source (native load-on-error addition) and plays
+PASS V40 activity 2 first attempt: Mark reviewed records a local draft only (no server write)
+PASS V40 activity 2 speed control: only allowed rates are selectable and the chosen rate sets the audio playbackRate
+PASS V40 activity 2 typed answers: Check sends one complete write with the typed answer and the speed rate; the server score is shown
+PASS V40 activity 2 Check failure (500) keeps the typed answer, shows the speed failure and no score
+PASS V40 activity 2 speed state is kept across the post-Check refresh but dropped when the learner leaves and returns (original unmounts)
+PASS V40 lexical stale response: a lookup answered after leaving the activity renders nothing on the hub
+PASS V40 lexical touch (390 px, touch emulation): a tap on a word with an occurrence opens its authorized meaning once
+PASS V40 activity 5 Say it keyboard: Enter and Space each activate once and keep focus on the button (UZ labels, Night theme)
+PASS V40 activity 1 responsive 768x1024 EN day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 1 responsive 768x1024 UZ day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 1 responsive 390x844 EN night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 1 responsive 390x844 UZ night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 2 responsive 768x1024 EN day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 2 responsive 768x1024 UZ day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 2 responsive 390x844 EN night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 2 responsive 390x844 UZ night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 3 responsive 768x1024 EN day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 3 responsive 768x1024 UZ day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 3 responsive 390x844 EN night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 3 responsive 390x844 UZ night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 4 responsive 768x1024 EN day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 4 responsive 768x1024 UZ day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 4 responsive 390x844 EN night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 4 responsive 390x844 UZ night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 5 responsive 768x1024 EN day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 5 responsive 768x1024 UZ day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 5 responsive 390x844 EN night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 5 responsive 390x844 UZ night: branch renders in viewport, no horizontal overflow, primary control visible
+{"pass":47,"fail":0}

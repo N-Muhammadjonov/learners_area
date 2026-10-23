@@ -1,0 +1,2 @@
+FAIL V40 media: after a failed recording, the next clip press reloads the source (native load-on-error addition) and plays pollPage timed out
+{"pass":0,"fail":1}

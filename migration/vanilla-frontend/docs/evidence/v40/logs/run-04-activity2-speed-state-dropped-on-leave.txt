@@ -1,0 +1,2 @@
+PASS V40 activity 2 speed state is kept across the post-Check refresh but dropped when the learner leaves and returns (original unmounts)
+{"pass":1,"fail":0}

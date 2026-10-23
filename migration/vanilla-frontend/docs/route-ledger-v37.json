@@ -206,6 +206,11 @@
         "audit": "V39: status unchanged (IN PROGRESS). Fixed two source-grounded gaps reproduced first in run 6: invalid activity segments (0, 6, malformed id) now not-found with no request (modules/listening/route-v7.js invalidActivitySegment); practice Previous/Next resets prediction (modules/listening/practice.js). Browser matrix 78 PASS / 0 FAIL (activity 1 start/retry, activity 2 Complete 429/score, activity 3 save/network/401/draft restore/12-case matrix, activity 4 Save/keyboard, activity 5 vocabulary/Quiz, practice matching/completion/retry/map/500/answer-key refusal, popstate source switch). NOT RUN: lexical assistance popovers, activity 5 Study/Say-it (speechSynthesis), activity-screen touch and back/forward, 403 on activity writes, activity 2-4 clip media lifecycle. Inner Test hub link on activity is the source literal '\u2190 Test hub' in every locale (original FullListeningActivity.tsx line 237). See docs/V39_LISTENING_HUB_ACTIVITY.md.",
         "evidence": "docs/V39_LISTENING_HUB_ACTIVITY.md",
         "statusChanged": false
+      },
+      "v40": {
+        "notes": "V40 Activity closure: V40 suite 47/0 (lexical policy and popover, Say-it, write errors 403/404/409 and stale response, media lifecycle, Activity 2 speed control and Check, responsive 768x1024 and 390x844 branches 1-5 EN/UZ Day/Night) plus V39 78/0 unchanged. One real defect repaired: Activity 2 speed Check lost typed answers, score and open panel on the post-Check refresh (modules/listening/speed-practice.js; before-fix failing log and after-fix passing log in docs/evidence/v40). No promotion: General/provider/authored gate note still open, strict visual not run for the Activity, runtime parity, live backend and hardware not verified.",
+        "evidence": "docs/V40_LISTENING_ACTIVITY_CLOSURE.md",
+        "statusChanged": false
       }
     },
     {
@@ -279,6 +284,11 @@
       "v39": {
         "audit": "V39: status unchanged (IN PROGRESS). Browser matrix docs/evidence/v39/final-run14-browser-listening-v39.log: 78 PASS / 0 FAIL (hub: direct entry, reload, back/forward, keyboard, touch, 404/malformed no request, 401 to /login, 403 locked, 429, 500 retry, network, unrecognized kind, transcript refusal, authored sandbox, source switch, stale response, 12-case viewport/locale/theme matrix). Not promoted: hub authored-frame media not separately verified; route-level visual strict FAIL hub-768-uz-day unresolved (docs/evidence/v39/hub-diagnostic.json); see docs/V39_LISTENING_HUB_ACTIVITY.md. No source or code change to the hub owner in V39.",
         "evidence": "docs/V39_LISTENING_HUB_ACTIVITY.md",
+        "statusChanged": false
+      },
+      "v40": {
+        "notes": "V40 Hub closure: no Hub-only V40 cases were added. The V39 Hub/Activity suite was re-run at 78/0. tests/browser-listening-v40.mjs covers the Activity route only (47/0 final). Strict visual 768 UZ Day diagnostic re-run: native/native and reference/reference 0 px; fresh-page native vs reference 0 px (V39: 2 px, max delta 1); settle 0/8 non-zero (V39: 4/8). The residual moves between runs (nondeterministic raster noise); strict zero-tolerance assertion stays FAIL, historical FAIL retained, tolerance unchanged. Authored-frame media lifecycle not verified in V40 (open). No promotion.",
+        "evidence": "docs/V40_LISTENING_HUB_CLOSURE.md",
         "statusChanged": false
       }
     },

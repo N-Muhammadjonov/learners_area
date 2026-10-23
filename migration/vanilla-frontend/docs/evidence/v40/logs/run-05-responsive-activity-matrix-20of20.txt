@@ -1,0 +1,21 @@
+PASS V40 activity 1 responsive 768x1024 EN day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 1 responsive 768x1024 UZ day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 1 responsive 390x844 EN night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 1 responsive 390x844 UZ night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 2 responsive 768x1024 EN day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 2 responsive 768x1024 UZ day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 2 responsive 390x844 EN night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 2 responsive 390x844 UZ night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 3 responsive 768x1024 EN day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 3 responsive 768x1024 UZ day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 3 responsive 390x844 EN night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 3 responsive 390x844 UZ night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 4 responsive 768x1024 EN day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 4 responsive 768x1024 UZ day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 4 responsive 390x844 EN night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 4 responsive 390x844 UZ night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 5 responsive 768x1024 EN day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 5 responsive 768x1024 UZ day: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 5 responsive 390x844 EN night: branch renders in viewport, no horizontal overflow, primary control visible
+PASS V40 activity 5 responsive 390x844 UZ night: branch renders in viewport, no horizontal overflow, primary control visible
+{"pass":20,"fail":0}

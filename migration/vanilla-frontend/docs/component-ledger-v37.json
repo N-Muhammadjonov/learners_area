@@ -416,6 +416,10 @@
         "notes": "V39: activity 2-5 browser cases pass (run 14), including activity 3 typed gap save, failed save, network single write, 401, draft restore, 12-case matrix; inner '\u2190 Test hub' literal matches source line 237. Status unchanged (CODE COMPLETE from V37); lexical assistance and Say-it not run in V39 and not re-verified.",
         "evidence": "docs/V39_LISTENING_HUB_ACTIVITY.md",
         "statusChanged": false
+      },
+      "v40": {
+        "notes": "V40: Activity 2 first-attempt typed answers are rendered by ListeningSpeedPractice when data.questions exists (native uses the identical condition). Earlier note 'no typed control on Activity 2' was wrong and is corrected. Lexical, Say-it, write-error, media-lifecycle and responsive cases verified in V40. Status unchanged.",
+        "statusChanged": false
       }
     },
     {
@@ -586,6 +590,10 @@
         "beforeStatus": "CODE COMPLETE",
         "afterStatus": "CODE COMPLETE",
         "scope": "Existing learner implementation; no whole-component acceptance promotion"
+      },
+      "v40": {
+        "notes": "V40: native speed-practice state (rate, typed answers, last result, panel open) now survives the post-Check context.refresh() and is dropped on normal navigation (router context.state). Before/after evidence in docs/evidence/v40. Status unchanged.",
+        "statusChanged": false
       }
     },
     {
