@@ -3,6 +3,11 @@ import {readingLegacyDestination} from '../../js/generated/reading-destinations.
 /** One entry for every learner Reading route. Each original page maps to one native module below; the Reading
  * dictionary overlay is loaded once per locale. Unknown Reading paths use the shared not-found presentation. */
 /** Original (focus)/reading/reading-workspace.css: loaded once for every Reading focus screen, scoped to .reading-focus. */
+/** Original globals.css dictionary panel: the contextual popover lives on <body>, so it is loaded for every Reading route. */
+function ensureReadingPopoverStyles(){
+ if(document.querySelector('link[data-reading-popover-css]'))return;
+ const link=document.createElement('link');link.rel='stylesheet';link.href='/modules/reading/reading-popover.css';link.setAttribute('data-reading-popover-css','');document.head.append(link);
+}
 function ensureFocusStyles(){
  if(document.querySelector('link[data-reading-focus-css]'))return;
  const link=document.createElement('link');link.rel='stylesheet';link.href='/modules/reading/reading-workspace.css';link.setAttribute('data-reading-focus-css','');document.head.append(link);
@@ -15,6 +20,7 @@ function focusContext(ctx){
 }
 export async function mount(context){
  const {url,navigate}=context;
+ ensureReadingPopoverStyles();
  const dict=await readingDictionary(context);
  if(context.signal.aborted)return;
  const ctx={...context,dict},path=url.pathname.replace(/\/+$/,'');

@@ -1,6 +1,7 @@
 import {el} from '../../js/dom.js';
 import {api} from '../../js/api-client.js';
 import {Button} from '../shared/presentation.js';
+import {failure} from '../../js/request-errors.js';
 /** Original src/components/reading/StartPassageButton.tsx. One request: POST the set (Academic) or the passage
  * (General/practice), then open the attempt. Pending always clears, and a failure is shown, never swallowed. */
 export function startPassageButton(context,{passageId,setId,label,requestedType,variant='secondary'}){
@@ -19,7 +20,8 @@ export function startPassageButton(context,{passageId,setId,label,requestedType,
    error.textContent=dict.errors.unknown;error.hidden=false;
   }catch(e){
    if(signal.aborted)return;
-   error.textContent=dict.errors.unknown;error.hidden=false;
+   // Original StartPassageButton: failureMessage(result, dict.auth, { unknown: dict.errors.unknown }).
+   error.textContent=failure(e,dict,{unknown:dict.errors.unknown});error.hidden=false;
   }finally{
    if(!signal.aborted){button.disabled=false;button.textContent=label;}
   }

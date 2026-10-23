@@ -90,3 +90,6 @@
 .reading-workspace-passage > :last-child { margin-bottom: 0; }
 .reading-back { display: inline-flex; align-items: center; min-height: 36px; padding: 4px 8px; border: 1px solid #94a3b8; border-radius: 4px; color: #334155; white-space: nowrap; }
 .reading-elapsed { font-variant-numeric: tabular-nums; font-size: 16px; color: #334155; white-space: nowrap; }
+/* A General session wraps the workspace in flex columns so the passage and question panes scroll inside the focus screen. */
+.reading-fill { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; min-height: 0; overflow: hidden; }
+.reading-fill > .reading-workspace { flex: 1 1 auto; height: auto; min-height: 0; }

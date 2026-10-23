@@ -7,7 +7,7 @@ import path from 'node:path';
 import ts from 'typescript';
 const base=path.resolve(import.meta.dirname,'..');
 const source=path.resolve(process.argv[2]??path.join(base,'../..'));
-const MODULES=['content/question-types','services/reading/grading','reading/question-model','reading/stimulus','reading/timer','reading-labels','reading-choices','reading/unstated','reading/academic-selection','services/lexical/occurrence-spans','reading/dropdowns'];
+const MODULES=['content/question-types','services/reading/grading','reading/question-model','reading/stimulus','reading/timer','reading-labels','reading-choices','reading/unstated','reading/academic-selection','services/lexical/occurrence-spans','services/lexical/phrase-target','reading/dropdowns'];
 const flat=m=>m.split('/').pop();
 const outDir=path.join(base,'js/generated/reading-lib');fs.mkdirSync(outDir,{recursive:true});
 const known=new Set(MODULES.map(flat));

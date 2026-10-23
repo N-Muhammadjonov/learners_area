@@ -1,0 +1,38 @@
+{
+  "suite": "V45 Reading frontend",
+  "date": "2026-10-23T13:28:58.127Z",
+  "results": [
+    {
+      "name": "Phrase lookup: a double-click on a word of an authored phrase looks up the whole phrase by its occurrence; a single click only selects",
+      "status": "PASS"
+    },
+    {
+      "name": "Phrase lookup: ambiguous authored phrases stay unresolved, with no invented meaning and no save",
+      "status": "PASS"
+    },
+    {
+      "name": "Start errors: an Academic start failure shows the mapped server message, not the generic unknown message",
+      "status": "PASS"
+    },
+    {
+      "name": "Start errors: a rate-limited General start shows the mapped rate-limit message",
+      "status": "PASS"
+    },
+    {
+      "name": "Completion refresh: a double-click on Check sends one check, keeps answers, shows the result, and the overview reflects it",
+      "status": "PASS"
+    },
+    {
+      "name": "Autosave keeps the passage node, the scroll position and the input focus while typing",
+      "status": "PASS"
+    },
+    {
+      "name": "Academic exam: typing keeps the passage node and the answer input, with one autosave in flight",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 7,
+    "FAIL": 0
+  }
+}

@@ -6,7 +6,7 @@ import {readingDurationSeconds,readingRemainingSeconds} from '../../js/generated
 import {readingHighlighted} from './lesson-text.js';
 import {groupHeading,groupQuestions,questionCard} from './questions.js';
 import {Button} from '../shared/presentation.js';
-import {workspace} from './workspace.js';
+import {createWorkspace} from './workspace.js';
 const SAVE_DEBOUNCE_MS=900;
 const formatDuration=ms=>{const total=Math.max(0,Math.floor(ms/1000)),h=Math.floor(total/3600),m=Math.floor((total%3600)/60),s=total%60,pad=n=>String(n).padStart(2,'0');return h>0?`${h}:${pad(m)}:${pad(s)}`:`${pad(m)}:${pad(s)}`;};
 /** Original ReadingExam.tsx + ReadingWorkspace.tsx as one native controller. Nothing here grades: the server does
@@ -89,17 +89,16 @@ export function mountExam(context,p){
   return el('span',{class:'flex items-center gap-1.5 text-sm text-ink-500','data-save-state':s},s==='saved'?IconCheck({class:'text-[16px] text-band-good'}):null,label);
  }
 
+ let passageCache=null;
  function draw(){
   if(signal.aborted)return;
-  const active=host.contains(document.activeElement)?document.activeElement:null;
-  const focusId=active?.id??null,selection=active&&typeof active.selectionStart==='number'?{start:active.selectionStart,end:active.selectionEnd}:null,focusNav=active?.dataset?.readingQuestionNav??null;
   const expired=timeExpired();
   const first=visibleQuestions()[0]?.questionNo??1,last=visibleQuestions().at(-1)?.questionNo??first;
   const range=t=>dict.readingWorkspace.questionRange.replace('{from}',String(first)).replace('{to}',String(last));
   const navParts=parts.length?parts:[{title:p.passageTitle,questionIds:p.questions.map(q=>q.id)}];
   const shownParagraphs=parts[state.activePart]?.paragraphs??p.paragraphs,shownBody=parts[state.activePart]?.body??p.passageBody,shownTitle=parts[state.activePart]?.title??p.passageTitle;
   const highlightOpts={scope:p.attemptId};
-  const passagePane=el('div',{},
+  const buildPassage=()=>el('div',{},
    el('h2',{class:'reading-pane-heading'},dict.readingWorkspace.passageHeading.replace('{n}',String(state.activePart+1))),
    el('p',{class:'reading-part-instruction'},range()),
    el('h3',{class:'reading-passage-title'},shownTitle),
@@ -109,6 +108,8 @@ export function mountExam(context,p){
         paragraph.label?el('strong',{class:'reading-paragraph-label'},paragraph.label):null,
         el('div',{'data-exam-passage-text':true},readingHighlighted(context,{...highlightOpts,textKey:paragraph.id,text:paragraph.text,className:`academic-text ${paragraph.isFootnote?'italic':''}`}))))
      :el('div',{'data-exam-passage-text':true},readingHighlighted(context,{...highlightOpts,textKey:`part:${state.activePart}`,text:shownBody,className:'academic-text'}))));
+  // The passage text is rebuilt only when the part changes; an answer or a save never rebuilds it.
+  const passagePane=passageCache?.part===state.activePart?passageCache.node:(passageCache={part:state.activePart,node:buildPassage()}).node;
   const orderedNow=orderedBlocks();
   const answered=p.questions.filter(q=>(state.answers[q.id]??'').trim()!=='').length;
   const questionsPane=el('div',{},
@@ -130,14 +131,9 @@ export function mountExam(context,p){
   const submitButton=Button({variant:'primary',disabled:state.submitting||state.saveState==='locked','data-submit-attempt':true,children:state.submitting?dict.common.loading:dict.reading.submit});
   submitButton.addEventListener('click',()=>void submit());
   const action=[el('span',{class:'reading-answered','aria-live':'polite'},t.answered.replace('{answered}',String(answered)).replace('{total}',String(p.questions.length))),submitButton];
-  // Stop the previous highlight controllers before their DOM is replaced, so listeners never accumulate.
-  for(const node of host.querySelectorAll('[data-highlight-host]'))node.stop?.();
-  host.replaceChildren(workspace({
+  ws.update({title:p.passageTitle,passagePane,
    tools:[el('span',{class:'reading-timer','data-practice-timer':true},el('span',{class:'sr-only'},t.timerLabel),(()=>{timerNode.textContent=formatDuration(remaining()*1000);timerNode.dataset.timeRemaining=String(remaining());return timerNode;})()),saveBadge()],
-   passagePane,questionsPane,navigation,action,labels:dict.readingWorkspace,title:p.passageTitle,brand:dict.marketing.title,
-   pane:state.pane,setPane:v=>{state.pane=v;draw();},state,setFont:f=>{state.fontSize=f;draw();}
-  }));
-  if(focusId){const node=(focusNav?host.querySelector(`[data-reading-question-nav="${focusNav}"]`):null)??(focusId?document.getElementById(focusId):null);if(node&&node.isConnected){node.focus({preventScroll:true});if(selection&&typeof node.setSelectionRange==='function')try{node.setSelectionRange(selection.start,selection.end);}catch{}}}
+   questionsPane,navigation,action,pane:state.pane});
  }
  function focusQuestion(questionId){
   const input=document.getElementById(`answer-${questionId}`);
@@ -145,5 +141,8 @@ export function mountExam(context,p){
   target?.scrollIntoView?.({block:'center',behavior:'smooth'});
   if(input instanceof HTMLElement)input.focus({preventScroll:true});
  }
+ const ws=createWorkspace({labels:dict.readingWorkspace,title:p.passageTitle,brand:dict.marketing.title,state,
+  setPane:v=>{state.pane=v;ws.update({pane:v});},setFont:f=>{state.fontSize=f;ws.update({});}});
+ host.replaceChildren(ws.root);
  draw();
 }

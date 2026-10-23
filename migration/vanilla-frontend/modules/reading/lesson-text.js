@@ -17,7 +17,7 @@ export function readingHighlighted(context,{scope,textKey,text,className='whites
  function onRemoveHighlight(id){const map=store.get(scope);if(!map)return;map.set(key,(map.get(key)??[]).filter(row=>row.id!==id));draw();}
  function draw(){
   current?.stop();
-  current=clickableText(context,{text,sourceType:'reading',sourceId,lexicalAssistance,occurrences,className,highlights:rows(),onHighlightRange,onRemoveHighlight});
+  current=clickableText(context,{text,sourceType:'reading',sourceId,lexicalAssistance,phraseAware:true,doubleClickLookup:true,occurrences,className,highlights:rows(),onHighlightRange,onRemoveHighlight});
   host.replaceChildren(current.node);
  }
  draw();

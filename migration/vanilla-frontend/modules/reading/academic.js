@@ -5,6 +5,7 @@ import {uuid} from '../../js/adapters/listening-v7.js';
 import {readingAcademicCatalogueDTO,readingAcademicSetDTO} from '../../js/adapters/reading-v44.js';
 import {RegionFailureNotice,Button} from '../shared/presentation.js';
 import {missing} from '../listening/catalogue-v9.js';
+import {failure} from '../../js/request-errors.js';
 /** Original src/app/app/(shell)/reading/academic/page.tsx: the Academic catalogue, one card per set. */
 export function mountAcademicCatalogue(context){
  const {root,url,signal,dict}=context,host=el('div',{'data-native-view':'reading-academic'});root.append(host);let busy=false;
@@ -48,7 +49,7 @@ export function mountAcademicSet(context){
     try{const result=await api.request('/api/reading/academic',{method:'POST',body:{setId},signal});
      if(result?.id){void context.navigate(`/app/reading/attempts/${result.id}`);return;}
      message.textContent=dict.errors.unknown;message.hidden=false;
-    }catch(e){if(signal.aborted)return;message.textContent=e.status===404?dict.errors.unknown:dict.errors.unknown;message.hidden=false;}
+    }catch(e){if(signal.aborted)return;message.textContent=failure(e,dict,{unknown:dict.errors.unknown});message.hidden=false;}
     finally{if(!signal.aborted)start.disabled=false;}
    },{signal});
    host.replaceChildren(el('div',{class:'reading-exam-intro','data-academic-reading-start':true},
