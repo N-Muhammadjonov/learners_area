@@ -495,6 +495,8 @@ await check('keyboard: Reports and module links are reachable, tables have capti
     await until(async () => new URL(f.page.url()).pathname.startsWith('/app/reading'), 'module link did not navigate by keyboard');
     await f.page.goBack();
     await until(async () => new URL(f.page.url()).pathname === '/app/progress', 'no back from module link');
+    // Back navigation also commits a route, and the router focuses the page heading on commit; wait for it.
+    await until(async () => f.page.evaluate(() => document.activeElement?.tagName === 'H1'), 'back did not settle on heading focus');
     const details = f.page.locator('[data-trend="reading"] details summary').first();
     await details.focus();
     await f.page.keyboard.press('Enter');
