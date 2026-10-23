@@ -155,6 +155,8 @@ const open = async (f, path = '/app/progress') => {
   await f.page.goto(base + path);
   await f.page.locator('[data-route-usable="progress"]').waitFor();
   await until(async () => (await f.page.locator('[data-async-loading]').count()) === 0, 'still loading');
+  // The router focuses the page heading when the route commits; wait for that so later focus is ours.
+  await until(async () => f.page.evaluate(() => document.activeElement?.tagName === 'H1'), 'route did not settle on heading focus');
 };
 const text = (f, sel) => f.page.locator(sel).first().textContent();
 const attr = (f, sel, name) => f.page.locator(sel).first().getAttribute(name);
@@ -513,6 +515,27 @@ await check('back and forward restore the progress page after navigating away', 
     await f.page.locator('[data-progress-module]').first().waitFor();
     await f.page.goForward();
     await until(async () => new URL(f.page.url()).pathname === '/app/reports', 'no forward');
+  } finally { await f.close(); }
+});
+
+await check('catalogue unavailable keeps the learner band panel and shows one notice', async () => {
+  const f = await fixture({regions: {progressMocks: {...mocksFull, catalogueUnavailable: true}}});
+  try {
+    await open(f);
+    assert.equal(await f.page.locator('[data-region-failure="mock-overview"]').count(), 1);
+    assert.equal(await f.page.locator('[data-mock-band-panel]').count(), 1);
+    assert.equal(await f.page.locator('[data-mock-band-panel]').getAttribute('data-completed-mocks'), '2');
+    noErrors(f);
+  } finally { await f.close(); }
+});
+
+await check('UZ mock panel labels follow the locale', async () => {
+  const f = await fixture({locale: 'uz'});
+  try {
+    await open(f);
+    assert.match(await f.page.locator('[data-mock-band-panel] h2').textContent(), /Mock natijalari/);
+    assert.match(await f.page.locator('[data-mock-band-panel] label').first().textContent(), /Katalogdagi tugallangan mocklar/);
+    assert.equal(await f.page.locator('[data-mock-band-panel] svg').getAttribute('aria-label'), 'Haqiqiy tugallangan full mock bandlari');
   } finally { await f.close(); }
 });
 
