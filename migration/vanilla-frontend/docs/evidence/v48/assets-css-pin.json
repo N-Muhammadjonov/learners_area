@@ -1,0 +1,5 @@
+{
+  "reason": "V48 Grammar migration adds two Tailwind utilities used by the native Grammar modules (.list-inside, .pt-3). A rule-by-rule comparison with the V47 css/global.css shows 2 rules added and 0 removed.",
+  "compiledCssSha256": "5c2af57d12fe0bb51c9c911973beece112fcd816c94ecd13ddeb78f78780cd09",
+  "previousPin": "docs/evidence/v47/assets-css-pin.json"
+}

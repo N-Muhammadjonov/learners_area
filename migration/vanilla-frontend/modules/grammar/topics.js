@@ -1,6 +1,73 @@
-import {el} from '../../js/dom.js';import {viewData} from '../../js/adapters/frontend.js';import {grammarArea,grammarDTO} from '../../js/adapters/entry-routes-v35.js';import {render,loading} from '../../js/generated/grammar-topics-v35.js';import {RegionFailureNotice} from '../shared/presentation.js';
-/** Existing ?tab semantics, not new local tabs or a second mastery engine. */
-export function mount(context){const {root,url,signal,dict,navigate}=context,area=grammarArea(url);if(!area){void navigate('/app/grammar/lessons',{replace:true});return;}
- const page=el('div',{class:'mx-auto flex max-w-3xl flex-col gap-4','data-route-usable':'grammar'}),host=el('div',{'data-grammar-entry':''});page.append(host);root.append(page);let busy=false;
- async function load(){if(busy||signal.aborted)return;busy=true;host.setAttribute('aria-busy','true');host.replaceChildren(loading());try{const rows=grammarDTO(await viewData(url.pathname+url.search,signal));if(signal.aborted)return;host.replaceChildren(render({rows,area,dict,refresh:load}));}catch(error){if(!signal.aborted)host.replaceChildren(RegionFailureNotice({region:'grammar-topics',message:dict.common.error,retryLabel:dict.common.retry,refresh:load}));}finally{busy=false;if(!signal.aborted)host.setAttribute('aria-busy','false');}}
- void load();}
+import {h} from '../../js/native.js';
+import {viewData} from '../../js/adapters/frontend.js';
+import {grammarArea, grammarDTO} from '../../js/adapters/entry-routes-v35.js';
+import {Card, ProgressBar} from '../../js/generated/ui.js';
+import {RegionFailureNotice} from '../shared/presentation.js';
+import {MASTERY_SESSIONS_DISPLAY} from './mastery.js';
+
+/**
+ * Grammar topics `/app/grammar?tab=writing|speaking` (the original GrammarPage + GrammarTopics).
+ * `/app/grammar` with no tab redirects to the Lessons section, as in the original.
+ * Writing and Speaking differ only by the skill-area filter and the section label.
+ */
+export function mount(context) {
+  const {root, url, signal, dict, navigate} = context;
+  const area = grammarArea(url);
+  if (!area) {
+    void navigate('/app/grammar/lessons', {replace: true});
+    return;
+  }
+  const t = dict.grammar;
+  const host = h('div', {'data-grammar-topics-host': area});
+  root.append(host);
+  let generation = 0;
+
+  function skeleton() {
+    return h('div', {'aria-hidden': 'true', class: 'flex flex-col gap-3', 'data-async-loading': 'grammar-topics'},
+      [0, 1, 2].map(index => h('div', {key: index, class: 'h-24 animate-pulse rounded-xl bg-ink-50'})));
+  }
+
+  function row({topic, totalExercises, mastery}) {
+    return h('a', {href: `/app/grammar/${topic.id}`, class: 'block', 'data-topic-link': topic.id},
+      h(Card, {className: 'hover:border-signal-400', 'data-topic-row': topic.id},
+        h('div', {class: 'mb-2 flex items-center justify-between'},
+          h('p', {class: 'text-sm font-medium text-ink-900'}, topic.title),
+          h('span', {class: 'flex items-center gap-2 text-xs text-ink-300'},
+            mastery?.mastered
+              ? h('span', {class: 'badge bg-band-good/10 text-band-good', 'data-topic-mastered': topic.id}, t.masteryMastered)
+              : null,
+            mastery
+              ? h('span', {'data-topic-score': topic.id},
+                `${t.masteryScore}: ${mastery.scorePercent}% · ${mastery.sessions}/${MASTERY_SESSIONS_DISPLAY} ${t.masterySessions.toLowerCase()}`)
+              : h('span', {'data-topic-mastery-unavailable': topic.id}, '—'))),
+        mastery ? h(ProgressBar, {value: mastery.scorePercent}) : null,
+        h('p', {class: 'mt-1 text-xs text-ink-300'}, `${t.masteryActivities}: ${totalExercises} ${t.exercises}`)));
+  }
+
+  function render(rows) {
+    const selected = rows.filter(r => r.topic.skillArea === area);
+    const masteryUnavailable = selected.some(r => r.masteryUnavailable);
+    return h('div', {class: 'mx-auto flex max-w-3xl flex-col gap-4', 'data-route-usable': 'grammar'},
+      masteryUnavailable
+        ? RegionFailureNotice({region: 'grammar-mastery', message: dict.errors.unknown, retryLabel: dict.errorPage.retry, refresh: load})
+        : null,
+      h('div', {class: 'flex flex-col gap-3', 'data-grammar-topics': '', 'data-async-content': 'grammar-topics'},
+        h('section', {class: 'space-y-3', 'data-grammar-skill': area}, selected.map(row))));
+  }
+
+  async function load() {
+    const current = ++generation;
+    host.replaceChildren(skeleton());
+    try {
+      const raw = await viewData(url.pathname + url.search, signal);
+      if (signal.aborted || current !== generation) return;
+      host.replaceChildren(render(grammarDTO(raw)));
+    } catch {
+      if (signal.aborted || current !== generation) return;
+      host.replaceChildren(RegionFailureNotice({region: 'grammar-topics', message: dict.common.error, retryLabel: dict.errorPage.retry, refresh: load}));
+    }
+  }
+
+  signal.addEventListener('abort', () => { generation++; host.replaceChildren(); }, {once: true});
+  void load();
+}

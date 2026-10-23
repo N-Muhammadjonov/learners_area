@@ -1,0 +1,90 @@
+{
+  "suite": "V48 Grammar",
+  "date": "2026-10-23T17:25:54.850Z",
+  "results": [
+    {
+      "name": "lessons catalogue: cards, open link and pagination",
+      "status": "PASS"
+    },
+    {
+      "name": "/app/grammar redirects to the Lessons section",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson detail: body, workspace, tabs and teacher notes",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson progress posts once and is not repeated on double press",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson not-found and invalid id show the original not-found page",
+      "status": "PASS"
+    },
+    {
+      "name": "lesson unavailable (server error) shows retry and recovers",
+      "status": "PASS"
+    },
+    {
+      "name": "Writing and Speaking lists show only their own skill area",
+      "status": "PASS"
+    },
+    {
+      "name": "topic detail: materials, mastery and the three activities render from the server",
+      "status": "PASS"
+    },
+    {
+      "name": "Correct It: submit is gated, server result is the only grader, and the verdict is shown",
+      "status": "PASS"
+    },
+    {
+      "name": "Correct It: a malformed submit response shows the generic error and keeps answers",
+      "status": "PASS"
+    },
+    {
+      "name": "Write Your Own: sample released only after the attempt; text survives the quiz; checked-by named",
+      "status": "PASS"
+    },
+    {
+      "name": "Translate With It and Activate It show the structure checklist, verdict and evaluator",
+      "status": "PASS"
+    },
+    {
+      "name": "a failed practice check shows the mapped error and keeps the answer",
+      "status": "PASS"
+    },
+    {
+      "name": "double press on a write sends one request",
+      "status": "PASS"
+    },
+    {
+      "name": "materials retry keeps Correct It answers and Write Your Own text",
+      "status": "PASS"
+    },
+    {
+      "name": "topic with no exercises shows the empty state and no mastery card",
+      "status": "PASS"
+    },
+    {
+      "name": "unknown topic shows not-found and invalid id never calls the view",
+      "status": "PASS"
+    },
+    {
+      "name": "EN and UZ labels are localised on the topic page",
+      "status": "PASS"
+    },
+    {
+      "name": "no horizontal overflow on topic and lesson pages at 390px",
+      "status": "PASS"
+    },
+    {
+      "name": "no horizontal overflow on topic and lesson pages at 1440px",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 20,
+    "FAIL": 0
+  }
+}
