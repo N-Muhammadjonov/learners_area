@@ -4540,6 +4540,865 @@
           "meaningSha": "1ed614d6bd77d0e0887e520867099593bbc497d0710642f851b212767c312b7e"
         }
       ]
+    },
+    {
+      "lemma": "uncontroversial",
+      "pos": "a",
+      "key": "not-causing-significant-disagreement",
+      "definitionEn": "Not causing or expected to cause substantial disagreement.",
+      "translationUz": "jiddiy bahs yoki kelishmovchilik tug‘dirmaydigan",
+      "exampleEn": "The demand for understandable explanations initially seemed uncontroversial.",
+      "exampleUz": "Tushunarli izoh talab qilish avvaliga bahs tug‘dirmaydigan masala bo‘lib ko‘rindi.",
+      "usageFrames": [
+        "an uncontroversial demand",
+        "an uncontroversial explanation"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/uncontroversial"
+    },
+    {
+      "lemma": "appeal",
+      "pos": "n",
+      "key": "formal-request-to-review-a-decision",
+      "definitionEn": "A formal request for an authority to review and change a decision.",
+      "translationUz": "qarorni qayta ko‘rib chiqib, o‘zgartirish haqidagi rasmiy shikoyat yoki murojaat",
+      "exampleEn": "Applicants needed an explanation that would help them make an appeal.",
+      "exampleUz": "Murojaatchilarga qaror ustidan shikoyat qilishga yordam beradigan izoh kerak edi.",
+      "usageFrames": [
+        "lodge an appeal",
+        "a successful appeal against a decision"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/appeal_1",
+      "targetLexemeId": "f9e8ceca-ba04-5627-8c63-c4d3ffdd045e",
+      "expectedEntrySha": "4fe82871dde02f907d9ab57917be7c3bf2606fc7a84fc045b65d8de8a110bb18"
+    },
+    {
+      "lemma": "input",
+      "pos": "n",
+      "key": "data-provided-for-processing",
+      "definitionEn": "Data supplied to a computer or other system for processing.",
+      "translationUz": "tizim qayta ishlashi uchun kiritilgan ma’lumot",
+      "exampleEn": "The ranking depended on how different inputs were weighted.",
+      "exampleUz": "Reyting turli kiritilgan ma’lumotlarga qanday vazn berilganiga bog‘liq edi.",
+      "usageFrames": [
+        "input data",
+        "correct an inaccurate input"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/learner-english/input",
+      "targetLexemeId": "a3f2f096-6603-5689-841f-872ebd99b79c",
+      "expectedEntrySha": "d3492ae554f7c1fe1b18d5f0ee29acc03b81a7d4cf152f2720cc4294a586fa64"
+    },
+    {
+      "lemma": "weight",
+      "pos": "v",
+      "key": "assign-relative-importance-or-influence",
+      "definitionEn": "To assign relative importance or influence to a factor in a calculation or decision.",
+      "translationUz": "hisoblash yoki qaror chiqarishda omilga nisbiy ahamiyat, vazn bermoq",
+      "exampleEn": "The agency needed to explain how its inputs were weighted.",
+      "exampleUz": "Idora kiritilgan ma’lumotlarga qanday vazn berilishini tushuntirishi kerak edi.",
+      "usageFrames": [
+        "weight factors by importance",
+        "heavily weighted inputs"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/weight_2",
+      "targetLexemeId": "b78c7101-b691-5994-99e3-75177c8279e0",
+      "expectedEntrySha": "b97cfddaa0a00c2d8904252d0fe541b1b652b2570d7a329cdb85f4d2d81a6a09"
+    },
+    {
+      "lemma": "procedurally",
+      "pos": "r",
+      "key": "in-relation-to-a-procedure",
+      "definitionEn": "With regard to the steps or accepted method used to do something.",
+      "translationUz": "tartib-taomil jihatidan; ishni bajarish bosqichlari yoki usuli nuqtayi nazaridan",
+      "exampleEn": "A procedurally fluent explanation could still conceal a mistaken assumption.",
+      "exampleUz": "Tartib-taomil jihatidan ravon izoh ham xato farazni yashirishi mumkin edi.",
+      "usageFrames": [
+        "procedurally correct",
+        "procedurally fair"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/procedurally"
+    },
+    {
+      "lemma": "highest-weighted",
+      "pos": "a",
+      "key": "assigned-the-greatest-relative-weight",
+      "definitionEn": "Assigned the greatest relative importance or influence in a calculation.",
+      "translationUz": "hisoblashda eng katta vazn, nisbiy ta’sir berilgan",
+      "exampleEn": "Some applicants identified the highest-weighted variable but misunderstood their appeal rights.",
+      "exampleUz": "Ayrim murojaatchilar eng katta vazn berilgan omilni aniqladi, lekin shikoyat qilish huquqini noto‘g‘ri tushundi.",
+      "usageFrames": [
+        "the highest-weighted variable",
+        "the highest-weighted factor"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/weight_2"
+    },
+    {
+      "lemma": "fluent",
+      "pos": "a",
+      "key": "smoothly-and-easily-carried-out",
+      "definitionEn": "Smoothly and easily carried out or produced.",
+      "translationUz": "ravon, silliq bajarilgan yoki ifodalangan",
+      "exampleEn": "A fluent procedure could still lead to a damaging mistake.",
+      "exampleUz": "Ravon bajarilgan tartib-taomil ham zararli xatoga olib kelishi mumkin edi.",
+      "usageFrames": [
+        "a fluent performance",
+        "procedurally fluent explanations"
+      ],
+      "referenceUrl": "https://www.merriam-webster.com/dictionary/fluent",
+      "targetLexemeId": "1e74f4bf-3fdc-5877-a84b-bf5a4e190df3",
+      "expectedEntrySha": "fab0543c2988eab99eb3665470d360180cacde52aaeb86ad342b069e21ee7f94",
+      "synonyms": [
+        {
+          "entryId": "0faf5d86-48f5-5881-8903-41e494caa336",
+          "senseId": "b2bb2d78-d522-5e0d-a393-6f757958a234",
+          "meaningSha": "2dc1c0ed5a82b2026fb1c6538a55710a2d48b2e1cb90a59d17c8b5597c43e472"
+        }
+      ]
+    },
+    {
+      "lemma": "escape",
+      "pos": "v",
+      "key": "remain-unnoticed-or-unconsidered",
+      "definitionEn": "To remain unnoticed or not receive attention or consideration.",
+      "translationUz": "e’tibordan chetda qolmoq; ko‘rib chiqilmay qolmoq",
+      "exampleEn": "The problem had escaped public debate until the explanations were examined.",
+      "exampleUz": "Izohlar tekshirilguncha bu muammo jamoatchilik muhokamasidan chetda qolgan edi.",
+      "usageFrames": [
+        "escape public attention",
+        "escape scrutiny"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/learner-english/escape",
+      "targetLexemeId": "4c420911-d3b0-59c2-adc6-5275455a8d84",
+      "expectedEntrySha": "b5395b8dd0cc32551446b54de8c28ebcd906d1fc66fd6f1eb1fb74a33b807f2f"
+    },
+    {
+      "lemma": "turn",
+      "pos": "v",
+      "key": "cause-a-change-into-another-state",
+      "definitionEn": "To cause something to change into a different state or type.",
+      "translationUz": "biror narsani boshqa holat yoki turga aylantirmoq",
+      "exampleEn": "A document could not turn a disputed allocation rule into a neutral technical fact.",
+      "exampleUz": "Bitta hujjat bahsli taqsimlash qoidasini xolis texnik faktga aylantira olmasdi.",
+      "usageFrames": [
+        "turn a dispute into an explanation",
+        "turn information into action"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/turn",
+      "targetLexemeId": "8ff98daf-cd53-5cd5-8cfc-2cc054c77fba",
+      "expectedEntrySha": "6d725a51c9d8be57c6f47bbcf741dd148408d0623a0340685d077574e73e0d4e",
+      "synonyms": [
+        {
+          "entryId": "81688193-15f2-5bab-85c9-3795f8d654b3",
+          "senseId": "42705b8b-2c5b-45f8-be1f-fa589ba34f7c",
+          "meaningSha": "80ca5d0fc6ba85f0176b05f6fce18261cf5b03d6bf879d29af3646b8c5ddf1ee"
+        }
+      ]
+    },
+    {
+      "lemma": "band",
+      "pos": "n",
+      "key": "range-between-numerical-limits",
+      "definitionEn": "A range of values between specified limits.",
+      "translationUz": "belgilangan chegaralar orasidagi qiymatlar oralig‘i",
+      "exampleEn": "The researchers displayed a broad uncertainty band around the prediction.",
+      "exampleUz": "Tadqiqotchilar bashorat atrofida keng noaniqlik oralig‘ini ko‘rsatdi.",
+      "usageFrames": [
+        "an uncertainty band",
+        "a narrow confidence band"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/us/definition/english/band_1",
+      "targetLexemeId": "bade4d92-f17e-5367-86c8-a5589e3c31b0",
+      "expectedEntrySha": "1a2f3b36a56a7f0f56ab124c975ecb933a4d466b9c4575aec9818c17b42ce8a3",
+      "synonyms": [
+        {
+          "entryId": "dd8ef8c5-4be2-5668-bb4f-a713300a9e42",
+          "senseId": "2d0f9cec-6a03-56d3-adf2-f3a47864d931",
+          "meaningSha": "1ebf0767171bff06080423ffbf4c36eaef82c15275f179f47cd8b79c7dfbb945"
+        }
+      ]
+    },
+    {
+      "lemma": "invite",
+      "pos": "v",
+      "key": "cause-or-encourage-a-reaction",
+      "definitionEn": "To bring about or encourage a particular reaction, feeling or result.",
+      "translationUz": "muayyan munosabat, his yoki natijani keltirib chiqarmoq",
+      "exampleEn": "A precise image may invite more confidence than the evidence supports.",
+      "exampleUz": "Aniq tasvir dalillar asoslay oladigan darajadan ortiq ishonch uyg‘otishi mumkin.",
+      "usageFrames": [
+        "invite unwarranted confidence",
+        "invite criticism"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/invite",
+      "targetLexemeId": "832aca0e-6090-52c4-976e-6b2159380854",
+      "expectedEntrySha": "ccbc9e94fb33c31f77cebfa1791a28115c05afd88311449d0cd15b3ebfd1b9cf",
+      "synonyms": [
+        {
+          "entryId": "6558c731-fed4-5243-ad26-332092cec0e1",
+          "senseId": "e142119c-9a48-40a8-b6a6-de9ad83dfa37",
+          "meaningSha": "315f22837a14be57c784b5589dd91156353583b4c5fbd01d9734f878927a6b0a"
+        }
+      ]
+    },
+    {
+      "lemma": "drive",
+      "pos": "v",
+      "key": "cause-or-strongly-influence",
+      "definitionEn": "To cause or strongly influence how something works or develops.",
+      "translationUz": "biror narsaning ishlashi yoki rivojiga sabab bo‘lmoq, kuchli ta’sir ko‘rsatmoq",
+      "exampleEn": "The clinicians were shown which assumptions drove the simulation.",
+      "exampleUz": "Shifokorlarga simulyatsiyani qaysi farazlar belgilagani ko‘rsatildi.",
+      "usageFrames": [
+        "drive a simulation",
+        "assumptions that drive a model"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/drive",
+      "targetLexemeId": "fd40cc50-8e0b-57fe-9ec9-0e198a907cf8",
+      "expectedEntrySha": "493541c9c0ca41093573b2d0a471702b534a1f9c33ba50b7ddff470e5f054238",
+      "synonyms": [
+        {
+          "entryId": "6558c731-fed4-5243-ad26-332092cec0e1",
+          "senseId": "e142119c-9a48-40a8-b6a6-de9ad83dfa37",
+          "meaningSha": "315f22837a14be57c784b5589dd91156353583b4c5fbd01d9734f878927a6b0a"
+        }
+      ]
+    },
+    {
+      "lemma": "study",
+      "pos": "n",
+      "key": "systematic-investigation-to-discover-information",
+      "definitionEn": "A systematic investigation of a subject to discover information or test an idea.",
+      "translationUz": "ma’lumot topish yoki fikrni tekshirish uchun o‘tkazilgan tizimli tadqiqot",
+      "exampleEn": "The study examined whether forecasts improved clinical decisions.",
+      "exampleUz": "Tadqiqot bashoratlar klinik qarorlarni yaxshilash-yaxshilamasligini tekshirdi.",
+      "usageFrames": [
+        "conduct a study",
+        "a clinical study"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/study",
+      "targetLexemeId": "3c33a033-1522-5160-b1f1-b7f576909667",
+      "expectedEntrySha": "06aca041b9fcd3cc68cda30e81875622ab6fa0759f85b9daf642c8ebdade1021",
+      "synonyms": [
+        {
+          "entryId": "071b3f7e-176e-5008-858c-caca57fc76aa",
+          "senseId": "fca2fbc9-f076-4e43-915e-94a56378c3a5",
+          "meaningSha": "cf11f8690dbdd25d88a932e1a0f4aa7abcef178b12ea941c91b396fc7293e998"
+        }
+      ]
+    },
+    {
+      "lemma": "competing",
+      "pos": "a",
+      "key": "mutually-rival-accounts-or-possibilities",
+      "definitionEn": "Offering rival accounts or possibilities that cannot all be true of the same situation.",
+      "translationUz": "ayni vaziyat haqida bir vaqtda to‘g‘ri bo‘la olmaydigan muqobil talqinlarni taklif qiluvchi",
+      "exampleEn": "The predictions were presented as competing stories about a possible future.",
+      "exampleUz": "Bashoratlar ehtimoliy kelajak haqidagi o‘zaro muqobil talqinlar sifatida berildi.",
+      "usageFrames": [
+        "competing explanations",
+        "competing accounts"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/competing"
+    },
+    {
+      "lemma": "represent",
+      "pos": "v",
+      "key": "include-members-or-examples-of-a-group",
+      "definitionEn": "To include members or examples of a group within a study, dataset or other collection.",
+      "translationUz": "tadqiqot yoki ma’lumotlar majmuasida bir guruh vakillari yoki namunalarini qamrab olmoq",
+      "exampleEn": "Older patients were poorly represented in the original study.",
+      "exampleUz": "Dastlabki tadqiqotda keksa bemorlar yetarlicha qamrab olinmagan edi.",
+      "usageFrames": [
+        "adequately represented groups",
+        "be poorly represented in a study"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/represent",
+      "targetLexemeId": "98079752-2253-5ae3-92a6-d682cd5b25d2",
+      "expectedEntrySha": "764dede0b91f0ecd09c1dd8d807ea4639c3dbd9472f10cf18206debb807c68b1"
+    },
+    {
+      "lemma": "against",
+      "pos": "preposition",
+      "key": "in-comparison-with-a-reference",
+      "definitionEn": "In comparison with a reference value or standard.",
+      "translationUz": "solishtiriladigan qiymat yoki mezonga nisbatan",
+      "exampleEn": "The simulations were calibrated against averages from patient groups.",
+      "exampleUz": "Simulyatsiyalar bemor guruhlarining o‘rtacha qiymatlariga nisbatan sozlandi.",
+      "usageFrames": [
+        "calibrate against a reference",
+        "check results against a standard"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/against",
+      "targetLexemeId": "a63dbdcf-7540-5b79-a5b4-ad4754810137",
+      "expectedEntrySha": "cd94f0318a2485215a2b2bbe9e9a355333fc361da30ac7fe6406c8dccadc5b43"
+    },
+    {
+      "lemma": "around",
+      "pos": "preposition",
+      "key": "surrounding-on-different-sides",
+      "definitionEn": "On different sides of or surrounding something.",
+      "translationUz": "atrofida; turli tomonlaridan o‘rab turgan",
+      "exampleEn": "The chart showed uncertainty bands around the predicted trajectory.",
+      "exampleUz": "Diagramma bashorat qilingan rivojlanish chizig‘i atrofidagi noaniqlik oraliqlarini ko‘rsatdi.",
+      "usageFrames": [
+        "a band around a prediction",
+        "draw a boundary around something"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/around"
+    },
+    {
+      "lemma": "interview",
+      "pos": "v",
+      "key": "obtain-information-by-asking-questions",
+      "definitionEn": "To ask someone questions in a planned conversation to obtain information about their experiences or views.",
+      "translationUz": "tajribasi yoki fikrlarini bilish uchun rejalashtirilgan suhbatda savollar bermoq",
+      "exampleEn": "Historians interviewed survivors about the sequence of the evacuation.",
+      "exampleUz": "Tarixchilar tirik qolganlardan evakuatsiya voqealari ketma-ketligi haqida so‘rab suhbatlashdi.",
+      "usageFrames": [
+        "interview a witness",
+        "interview someone about their experience"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/interview_2",
+      "targetLexemeId": "7ff1485d-68a0-5d38-bacc-35428269afcd",
+      "expectedEntrySha": "f217b3bb5ca24e925e9d5bb34309723c75089ab4df4a6b07016d739b53861d47"
+    },
+    {
+      "lemma": "seamlessness",
+      "pos": "n",
+      "key": "absence-of-noticeable-breaks-or-contradictions",
+      "definitionEn": "The quality of appearing continuous and coherent without noticeable breaks or inconsistencies.",
+      "translationUz": "uzilish yoki nomuvofiqliklar sezilmaydigan yaxlitlik va izchillik",
+      "exampleEn": "The editor valued seamlessness, but the historian wanted conflicting memories preserved.",
+      "exampleUz": "Muharrir bayonning yaxlitligini qadrladi, ammo tarixchi qarama-qarshi xotiralarni saqlashni istadi.",
+      "usageFrames": [
+        "narrative seamlessness",
+        "the appearance of seamlessness"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/seamless"
+    },
+    {
+      "lemma": "purchase",
+      "pos": "v",
+      "key": "obtain-at-the-cost-of-a-sacrifice",
+      "definitionEn": "To obtain or achieve something at the cost of losing or sacrificing something else.",
+      "translationUz": "boshqa narsani yo‘qotish yoki qurbon qilish evaziga erishmoq",
+      "exampleEn": "A smooth narrative would be purchased at the cost of erasing disagreement.",
+      "exampleUz": "Ravon bayonga kelishmovchiliklarni o‘chirish evaziga erishilgan bo‘lardi.",
+      "usageFrames": [
+        "purchase agreement at a price",
+        "a result purchased at great cost"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/american_english/purchase_2",
+      "targetLexemeId": "18828d93-714d-5036-9caa-78559c0f8c59",
+      "expectedEntrySha": "fdf302f68e30cdd9bd93a4ea8c1fee32d107e46b92ba9cb81a3eee65a9fbf3ae",
+      "synonyms": [
+        {
+          "entryId": "090d2c0a-0d7c-56b0-b66b-2370e4929e97",
+          "senseId": "6ff2ab4a-971c-42f6-88d4-b644604ebbac",
+          "meaningSha": "3db14cfd35793028d39db509310f1219057ecc0d8b6491a33df0203ee37e18ed"
+        }
+      ]
+    },
+    {
+      "lemma": "prompt",
+      "pos": "n",
+      "key": "cue-or-question-encouraging-a-response",
+      "definitionEn": "A cue, instruction or question used to encourage someone to give a response.",
+      "translationUz": "javob berishga undaydigan ishora, ko‘rsatma yoki savol",
+      "exampleEn": "Some interview prompts suggested that the siren had already sounded.",
+      "exampleUz": "Ayrim suhbat savollari sirena allaqachon chalinganini anglatib turardi.",
+      "usageFrames": [
+        "an interview prompt",
+        "a leading prompt"
+      ],
+      "referenceUrl": "https://sociology.stanford.edu/publications/prompts-not-questions-four-techniques-crafting-better-interview-protocols",
+      "targetLexemeId": "ac083a41-5507-5139-adfb-561b0fa964c4",
+      "expectedEntrySha": "fe6ade1b08045618a3e2778379c9af723a33d9feb6775769d374eab8eb547d8f"
+    },
+    {
+      "lemma": "undermine",
+      "pos": "v",
+      "key": "weaken-confidence-authority-or-effectiveness",
+      "definitionEn": "To weaken confidence, authority, credibility or effectiveness.",
+      "translationUz": "ishonch, nufuz, haqqoniylik yoki samaradorlikni zaiflashtirmoq",
+      "exampleEn": "Survivors feared that visible disagreement would undermine their accounts.",
+      "exampleUz": "Tirik qolganlar oshkor kelishmovchilik ularning bayonlariga ishonchni susaytirishidan qo‘rqdi.",
+      "usageFrames": [
+        "undermine credibility",
+        "undermine public confidence"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/undermine",
+      "targetLexemeId": "dc70ed61-d19a-57ac-a84e-80794c7496a2",
+      "expectedEntrySha": "93f883fc39d8ac94ea3ce673d0c3a396b2e06c3173ac62f29cb7ec81748d0953",
+      "synonyms": [
+        {
+          "entryId": "00155e64-15ae-551a-95b3-c735d1187c4c",
+          "senseId": "5917e630-bd80-4aa7-b23f-b67676624027",
+          "meaningSha": "cf10811dc7024c8a75665d4fd1e809ba39214d465f661a8e24982c653556a019"
+        }
+      ]
+    },
+    {
+      "lemma": "reader",
+      "pos": "n",
+      "key": "person-reading-a-particular-text",
+      "definitionEn": "A person who reads a particular text or publication.",
+      "translationUz": "muayyan matn yoki nashrni o‘qiyotgan kishi; o‘quvchi",
+      "exampleEn": "Readers needed enough context to understand the conflicting accounts.",
+      "exampleUz": "O‘quvchilarga qarama-qarshi bayonlarni tushunish uchun yetarli kontekst kerak edi.",
+      "usageFrames": [
+        "the reader of a report",
+        "help readers understand"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/reader",
+      "targetLexemeId": "f98c359d-ebec-5df4-b933-e066fa7afe6c",
+      "expectedEntrySha": "0cb931ed5412fbb12c5eb711f2628f2efe194c14a77eb264fc4180ccd9aa750c"
+    },
+    {
+      "lemma": "over",
+      "pos": "preposition",
+      "key": "concerning-authority-or-control-of",
+      "definitionEn": "With authority, influence or control concerning the person or thing named.",
+      "translationUz": "ustidan; biror kishi yoki narsaga oid vakolat yoxud nazorat bilan",
+      "exampleEn": "No participant had absolute authority over another person’s testimony.",
+      "exampleUz": "Hech bir ishtirokchi boshqa kishining guvohligi ustidan mutlaq vakolatga ega emas edi.",
+      "usageFrames": [
+        "authority over an account",
+        "control over information"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/over"
+    },
+    {
+      "lemma": "landscape",
+      "pos": "n",
+      "key": "overall-features-of-an-area-of-activity",
+      "definitionEn": "The overall features and conditions of an area of activity or experience.",
+      "translationUz": "biror faoliyat yoki tajriba sohasining umumiy manzarasi, xususiyatlari",
+      "exampleEn": "The archive revealed a complex evidentiary landscape rather than one definitive story.",
+      "exampleUz": "Arxiv yagona uzil-kesil hikoyani emas, dalillarning murakkab umumiy manzarasini ko‘rsatdi.",
+      "usageFrames": [
+        "an evidentiary landscape",
+        "a changing cultural landscape"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/landscape_1",
+      "targetLexemeId": "9c39063d-b5a2-5558-bb39-add20cce902a",
+      "expectedEntrySha": "c91a7bd2c9fe041158d8464250cc469f2e17506d0f14a067119fd2f350efd708"
+    },
+    {
+      "lemma": "representation",
+      "pos": "n",
+      "key": "way-someone-or-something-is-depicted",
+      "definitionEn": "The way a person, event or idea is described or depicted.",
+      "translationUz": "kishi, voqea yoki fikrning tasvirlanish yoxud bayon etilish usuli",
+      "exampleEn": "The exhibition raised questions about the ethics of representation.",
+      "exampleUz": "Ko‘rgazma voqealarni tasvirlash axloqi haqida savollar tug‘dirdi.",
+      "usageFrames": [
+        "historical representation",
+        "the ethics of representation"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/representation",
+      "targetLexemeId": "b2449585-c086-515b-9502-bc7c700aa9b4",
+      "expectedEntrySha": "1f89da5775ffb61d3ac473ff009c6aa14bdfffe99373c40409b2b62edd2d1f1a"
+    },
+    {
+      "lemma": "retelling",
+      "pos": "n",
+      "key": "telling-an-account-again",
+      "definitionEn": "The act of telling a story or account again, or a new version produced by doing so.",
+      "translationUz": "hikoya yoki voqeani qayta aytib berish; shunday qayta bayon",
+      "exampleEn": "Repeated retelling influenced how survivors remembered the evacuation.",
+      "exampleUz": "Qayta-qayta hikoya qilish tirik qolganlarning evakuatsiyani eslashiga ta’sir ko‘rsatdi.",
+      "usageFrames": [
+        "repeated retelling",
+        "a retelling of an event"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/retelling"
+    },
+    {
+      "lemma": "side by side",
+      "pos": "r",
+      "key": "alongside-one-another-for-comparison",
+      "definitionEn": "Alongside one another, so that both can be seen or considered together.",
+      "translationUz": "yonma-yon; birga ko‘rish yoki solishtirish mumkin bo‘lgan holda",
+      "exampleEn": "The archive displayed conflicting accounts side by side.",
+      "exampleUz": "Arxiv qarama-qarshi bayonlarni yonma-yon namoyish etdi.",
+      "usageFrames": [
+        "present accounts side by side",
+        "compare evidence side by side"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/side-by-side"
+    },
+    {
+      "lemma": "just as",
+      "pos": "conjunction",
+      "key": "in-the-same-way-or-for-a-similar-reason",
+      "definitionEn": "Introduces a comparison showing that something applies in a similar way.",
+      "translationUz": "xuddi ... kabi; o‘xshash holatni qiyoslab ko‘rsatuvchi bog‘lovchi",
+      "exampleEn": "One accurate detail does not prove perfect recall, just as one error does not prove invention.",
+      "exampleUz": "Bitta aniq tafsilot mukammal xotirani isbotlamaydi, xuddi bitta xato uydirmani isbotlamaganidek.",
+      "usageFrames": [
+        "just as one example shows",
+        "just as a mistake does not prove dishonesty"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/just-as"
+    },
+    {
+      "lemma": "publicly",
+      "pos": "r",
+      "key": "by-the-government-or-public-funds",
+      "definitionEn": "By the government or using government funds.",
+      "translationUz": "davlat tomonidan; davlat mablag‘i hisobidan",
+      "exampleEn": "The records combined publicly funded weather observations with local knowledge.",
+      "exampleUz": "Yozuvlar davlat mablag‘i bilan yig‘ilgan ob-havo kuzatuvlari va mahalliy bilimlarni birlashtirdi.",
+      "usageFrames": [
+        "publicly funded research",
+        "publicly financed projects"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/publicly",
+      "targetLexemeId": "df6dcf1c-1b0b-5f9e-90c8-e0adaffa3b35",
+      "expectedEntrySha": "d3933a059cd749d9d623559323469c1a49b54b659bcf68e4cd52a8aa75dfd41a"
+    },
+    {
+      "lemma": "public",
+      "pos": "a",
+      "key": "provided-or-financed-by-government",
+      "definitionEn": "Provided, owned or financed by the government for the community.",
+      "translationUz": "davlatga qarashli yoki davlat tomonidan taqdim etilgan, moliyalashtirilgan",
+      "exampleEn": "Public funding did not settle who could approve commercial reuse.",
+      "exampleUz": "Davlat moliyalashtirishi tijoriy qayta foydalanishga kim ruxsat berishini hal qilmadi.",
+      "usageFrames": [
+        "public funding",
+        "public research funds"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/public",
+      "targetLexemeId": "ca0f165a-b263-5a0f-b600-f34ae322c0f3",
+      "expectedEntrySha": "76d6f9d835d6b1b90daa77cc8b264d971007c0a1786d444556faaa979ef93bda"
+    },
+    {
+      "lemma": "reuse",
+      "pos": "n",
+      "key": "act-of-using-something-again",
+      "definitionEn": "The act of using something again, possibly for a different purpose.",
+      "translationUz": "biror narsadan takror yoki yangi maqsadda foydalanish",
+      "exampleEn": "The agreement allowed commercial reuse of the agricultural records.",
+      "exampleUz": "Kelishuv qishloq xo‘jaligi yozuvlaridan tijoriy maqsadda qayta foydalanishga ruxsat berdi.",
+      "usageFrames": [
+        "commercial reuse",
+        "permission for data reuse"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/reuse"
+    },
+    {
+      "lemma": "clean",
+      "pos": "a",
+      "key": "clearly-separated-without-overlap",
+      "definitionEn": "Clearly defined or separated, with little ambiguity or overlap.",
+      "translationUz": "aniq ajratilgan, noaniqlik yoki o‘zaro tutashishsiz",
+      "exampleEn": "The distinction between weather data and local knowledge was not perfectly clean.",
+      "exampleUz": "Ob-havo ma’lumotlari bilan mahalliy bilimlar o‘rtasidagi farq mutlaqo aniq ajratilmagan edi.",
+      "usageFrames": [
+        "a clean distinction",
+        "a clean separation"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/clean_1",
+      "targetLexemeId": "4475a979-7c1a-5b6e-a2ef-d8d804168633",
+      "expectedEntrySha": "941b7f653a665e0ec812d30bbce75028f6b52f0f377246a1cd27bbbb2f71fd37"
+    },
+    {
+      "lemma": "community-contributed",
+      "pos": "a",
+      "key": "provided-by-a-community",
+      "definitionEn": "Provided or shared by members of a community.",
+      "translationUz": "jamoa a’zolari tomonidan taqdim etilgan yoki ulashilgan",
+      "exampleEn": "The contract treated community-contributed knowledge separately.",
+      "exampleUz": "Shartnoma jamoa taqdim etgan bilimlarni alohida ko‘rib chiqdi.",
+      "usageFrames": [
+        "community-contributed knowledge",
+        "community-contributed information"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/contribute"
+    },
+    {
+      "lemma": "well-funded",
+      "pos": "a",
+      "key": "having-ample-financial-resources",
+      "definitionEn": "Having ample money available to support its activities.",
+      "translationUz": "faoliyatini olib borish uchun yetarli yoki katta mablag‘ bilan ta’minlangan",
+      "exampleEn": "Small communities negotiated with well-funded institutions.",
+      "exampleUz": "Kichik jamoalar katta mablag‘ga ega muassasalar bilan muzokara olib bordi.",
+      "usageFrames": [
+        "well-funded institutions",
+        "a well-funded research project"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/funded"
+    },
+    {
+      "lemma": "one-time",
+      "pos": "a",
+      "key": "happening-or-done-once-only",
+      "definitionEn": "Happening or intended to be done on one occasion only.",
+      "translationUz": "faqat bir marta qilinadigan yoki bo‘lib o‘tadigan; bir martalik",
+      "exampleEn": "Consent was not treated as a one-time exercise.",
+      "exampleUz": "Rozilik berish bir martalik tadbir deb qaralmadi.",
+      "usageFrames": [
+        "a one-time exercise",
+        "a one-time permission"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/one-time",
+      "targetLexemeId": "8c5c1967-d129-5069-9cec-04ef617a3abd",
+      "expectedEntrySha": "e8edf81d6210c5b9b26ce168b6f7909c5a96c4f7c57c234e3cf097d66307182d"
+    },
+    {
+      "lemma": "support",
+      "pos": "v",
+      "key": "provide-necessary-conditions-for-use-or-operation",
+      "definitionEn": "To provide what is necessary for an activity, use or process to happen or operate.",
+      "translationUz": "faoliyat, foydalanish yoki jarayon amalga oshishi uchun zarur imkoniyatni yaratmoq",
+      "exampleEn": "The datasets could support uses that nobody had anticipated.",
+      "exampleUz": "Ma’lumotlar majmuasi hech kim kutmagan foydalanish usullariga ham imkon berishi mumkin edi.",
+      "usageFrames": [
+        "support new uses",
+        "support a research process"
+      ],
+      "referenceUrl": "https://www.oxfordlearnersdictionaries.com/definition/english/support_1",
+      "targetLexemeId": "726881e7-4341-5eb6-ab55-93a3b4dc4295",
+      "expectedEntrySha": "4dc44145ef8dcc17bc1b0e02d9eff3b3d56270ce3b4fa8c85609e1366fe9cca7"
+    },
+    {
+      "lemma": "reproduction",
+      "pos": "n",
+      "key": "obtaining-research-results-again",
+      "definitionEn": "The repetition of research procedures or calculations to obtain their results again.",
+      "translationUz": "tadqiqot tartiblari yoki hisob-kitoblarini takrorlab, natijalarni qayta olish",
+      "exampleEn": "The council examined why some reproductions of published results failed.",
+      "exampleUz": "Kengash e’lon qilingan natijalarni qayta olishga qaratilgan ayrim urinishlar nega muvaffaqiyatsiz bo‘lganini tekshirdi.",
+      "usageFrames": [
+        "successful reproduction of results",
+        "failed research reproductions"
+      ],
+      "referenceUrl": "https://nap.nationalacademies.org/catalog/25303/reproducibility-and-replicability-in-science",
+      "targetLexemeId": "6482b5bf-cc9a-571e-a692-594559bee891",
+      "expectedEntrySha": "bfad0085221cfef911541964c51f664cd4630d5c637d860bae99a536c482d51a"
+    },
+    {
+      "lemma": "repository",
+      "pos": "n",
+      "key": "digital-store-of-data-or-software",
+      "definitionEn": "A digital location where data, documents or software are stored and made available.",
+      "translationUz": "ma’lumot, hujjat yoki dastur saqlanib, foydalanishga taqdim etiladigan raqamli ombor",
+      "exampleEn": "A repository could contain complete files but still lack a usable service.",
+      "exampleUz": "Raqamli omborda barcha fayllar bo‘lsa ham, foydalanishga yaroqli xizmat yetishmasligi mumkin edi.",
+      "usageFrames": [
+        "a data repository",
+        "deposit files in a repository"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/repository",
+      "targetLexemeId": "ca79900c-644d-531d-9b8a-55d43264e2a8",
+      "expectedEntrySha": "d2989e310ad1b333d8bd119fc3eabadc2817840b63db6de1366457c0dcd1b2d8"
+    },
+    {
+      "lemma": "protocol",
+      "pos": "n",
+      "key": "detailed-procedure-for-a-scientific-study",
+      "definitionEn": "A detailed plan of procedures to follow in a scientific study or experiment.",
+      "translationUz": "ilmiy tadqiqot yoki tajribada bajariladigan bosqichlarning batafsil tartibi",
+      "exampleEn": "The protocol omitted a calibration technique known to experienced technicians.",
+      "exampleUz": "Tajriba tartibida tajribali texniklarga ma’lum bo‘lgan kalibrlash usuli ko‘rsatilmagan edi.",
+      "usageFrames": [
+        "an experimental protocol",
+        "follow a research protocol"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/protocol",
+      "targetLexemeId": "ff991235-2b76-58ce-a5ca-a05849c9fc03",
+      "expectedEntrySha": "03f884235e5b4d136ba20491fa76539b9c2a592e2d4b3390b78fa60d3e5d0996",
+      "synonyms": [
+        {
+          "entryId": "38b53baf-49a7-5d3a-9e05-a3a512d568cb",
+          "senseId": "4e8f382c-a15d-476f-bdfe-8105d9543df1",
+          "meaningSha": "4123fbc14af2c5854f2aeaaf0153706c127efbfd2b180b6d7dfc79d716ab51ba"
+        }
+      ]
+    },
+    {
+      "lemma": "rerun",
+      "pos": "n",
+      "key": "repeated-execution-of-a-process",
+      "definitionEn": "A repeated execution of a calculation, procedure or process.",
+      "translationUz": "hisob-kitob, tartib yoki jarayonning qayta bajarilishi",
+      "exampleEn": "Successful reruns were recorded separately from access limits.",
+      "exampleUz": "Muvaffaqiyatli qayta bajarishlar foydalanish cheklovlaridan alohida qayd etildi.",
+      "usageFrames": [
+        "a successful rerun",
+        "reruns of an analysis"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/us/dictionary/english/rerun",
+      "targetLexemeId": "a626623b-d517-5356-a554-d365f5f54e81",
+      "expectedEntrySha": "af88e214205c7d591eeb05a9af153ea7fbc80358a3f6817457a26f7682fe537f",
+      "synonyms": [
+        {
+          "entryId": "1a30db3c-9568-57b8-9ed2-c294e517201a",
+          "senseId": "1ba39295-e8dd-48df-b329-9434c13aa1fa",
+          "meaningSha": "34bc7eefc04aa88d4cdd2ada2f83c392ea311ee3fb957be020d081564e087e10"
+        }
+      ]
+    },
+    {
+      "lemma": "upload",
+      "pos": "n",
+      "key": "transfer-of-a-file-to-a-remote-system",
+      "definitionEn": "The transfer of a file or data from a local device to a remote computer or service.",
+      "translationUz": "fayl yoki ma’lumotni mahalliy qurilmadan masofadagi kompyuter yoki xizmatga yuklash",
+      "exampleEn": "A simple upload count did not show whether anyone had checked the results.",
+      "exampleUz": "Oddiy yuklashlar soni natijalarni kimdir tekshirgan-tekshirmaganini ko‘rsatmas edi.",
+      "usageFrames": [
+        "an upload count",
+        "a successful data upload"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/upload"
+    },
+    {
+      "lemma": "justified",
+      "pos": "a",
+      "key": "supported-by-good-reasons",
+      "definitionEn": "Supported by sound reasons or adequate evidence.",
+      "translationUz": "asosli; yetarli sabab yoki dalil bilan oqlangan",
+      "exampleEn": "Reviewers distinguished a justified constraint from a convenient excuse.",
+      "exampleUz": "Tekshiruvchilar asosli cheklovni qulay bahonadan ajratdi.",
+      "usageFrames": [
+        "a justified constraint",
+        "a fully justified decision"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/justified",
+      "targetLexemeId": "77c2832c-460c-57f1-9c6b-decc0e139060",
+      "expectedEntrySha": "dd60fa064d8a29d6cf6404c4a9357668728a2f7eaf781c8c3bf6d9416f993dd4",
+      "synonyms": [
+        {
+          "entryId": "6e0ee46e-ea39-569b-a04f-a5db1f032785",
+          "senseId": "c9f20d48-7c86-4b39-93a5-6f29446fdb51",
+          "meaningSha": "391595c4c514008f2987055a297e8232370621c983091c88d82a4e680c7933e6"
+        }
+      ]
+    },
+    {
+      "lemma": "pilot",
+      "pos": "a",
+      "key": "small-scale-initial-test",
+      "definitionEn": "Carried out as an initial test before wider implementation.",
+      "translationUz": "kengroq joriy etishdan oldin sinov tariqasida o‘tkaziladigan",
+      "exampleEn": "A pilot audit attempted to reproduce results from funded studies.",
+      "exampleUz": "Sinov tariqasidagi audit moliyalashtirilgan tadqiqotlar natijalarini qayta olishga urindi.",
+      "usageFrames": [
+        "a pilot audit",
+        "a pilot study"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/pilot"
+    },
+    {
+      "lemma": "league table",
+      "pos": "n",
+      "key": "ordered-ranking-of-performance",
+      "definitionEn": "A list ranking people or organisations according to a measure of performance.",
+      "translationUz": "odam yoki tashkilotlarni natija mezoni bo‘yicha tartiblagan reyting jadvali",
+      "exampleEn": "The council rejected a league table based only on failed reproductions.",
+      "exampleUz": "Kengash faqat muvaffaqiyatsiz qayta tekshirishlarga asoslangan reyting jadvalini rad etdi.",
+      "usageFrames": [
+        "a university league table",
+        "publish a league table"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/league-table"
+    },
+    {
+      "lemma": "link",
+      "pos": "n",
+      "key": "electronic-connection-to-an-online-resource",
+      "definitionEn": "An electronic connection that opens another online page or resource.",
+      "translationUz": "boshqa internet sahifasi yoki manbasini ochadigan elektron havola",
+      "exampleEn": "A repository link alone did not prove that a scientific claim was verifiable.",
+      "exampleUz": "Raqamli omborga havolaning o‘zi ilmiy da’voni tekshirish mumkinligini isbotlamadi.",
+      "usageFrames": [
+        "a repository link",
+        "open an online link"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/link",
+      "targetLexemeId": "1ab05712-c652-531a-90d2-c7982309d989",
+      "expectedEntrySha": "d5107eb5c235273a28e55c0ee8535261787d67eb5a72debf82ac0803f687e3f6"
+    },
+    {
+      "lemma": "finding",
+      "pos": "n",
+      "key": "information-established-by-an-investigation",
+      "definitionEn": "Information or a conclusion established by an investigation or study.",
+      "translationUz": "tadqiqot yoki tekshiruvda aniqlangan ma’lumot yoxud xulosa",
+      "exampleEn": "Researchers could respond without suppressing an unfavourable finding.",
+      "exampleUz": "Tadqiqotchilar o‘zlariga yoqmagan xulosani yashirmasdan javob berishi mumkin edi.",
+      "usageFrames": [
+        "a research finding",
+        "report an unfavourable finding"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/finding",
+      "targetLexemeId": "017dff09-e93d-50c2-b729-674a4d010291",
+      "expectedEntrySha": "d466fff02b5203988971828806c23f83abf714c6881267532484a19bf7bfef2e",
+      "synonyms": [
+        {
+          "entryId": "8c75f95a-662b-5443-9472-8d42d7f30311",
+          "senseId": "a261501f-ddd4-43e1-9aca-d168ceb49f04",
+          "meaningSha": "b25d5e08e65324e92891ce11febf7825f3ade75863bbf37ea1c70a1c3a02922b"
+        }
+      ]
+    },
+    {
+      "lemma": "verification",
+      "pos": "n",
+      "key": "process-of-checking-truth-or-accuracy",
+      "definitionEn": "The process of checking whether a statement, result or item of information is true or accurate.",
+      "translationUz": "bayonot, natija yoki ma’lumotning to‘g‘ri, aniq ekanini tekshirish jarayoni",
+      "exampleEn": "Missing technical details prevented independent verification.",
+      "exampleUz": "Texnik tafsilotlarning yetishmasligi mustaqil tekshirishga to‘sqinlik qildi.",
+      "usageFrames": [
+        "independent verification",
+        "verification of results"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/verification",
+      "targetLexemeId": "dbdc426a-a80f-514e-be72-15f97a50ad1f",
+      "expectedEntrySha": "a30ec50d51edbae7665790958f21cde86c8bbac9046f7ef1c64c47c4027986b4"
+    },
+    {
+      "lemma": "means",
+      "pos": "n",
+      "key": "method-or-instrument-for-a-purpose",
+      "definitionEn": "A method or instrument used to achieve a purpose.",
+      "translationUz": "maqsadga erishish uchun qo‘llanadigan usul yoki vosita",
+      "exampleEn": "Openness remained a means to better research rather than an end in itself.",
+      "exampleUz": "Ochiqlik o‘zicha maqsad emas, tadqiqotni yaxshilash vositasi bo‘lib qoldi.",
+      "usageFrames": [
+        "a means of verification",
+        "a means to an end"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/means",
+      "targetLexemeId": "066576e2-9cd8-5509-a77c-2895e38b67d5",
+      "expectedEntrySha": "4c20a401a79874b6296ecaeb401aa7a6382c46a387fa4034355893febfe50800",
+      "synonyms": [
+        {
+          "entryId": "97b8e821-60bb-5278-a497-05d6262b5271",
+          "senseId": "c58053ea-8cf6-48c9-9c32-e3637f31616d",
+          "meaningSha": "5cf1131f747d9071799676123471201b01d13bb7a460cf056789cbc6cc1ce86a"
+        }
+      ]
+    },
+    {
+      "lemma": "reuse",
+      "pos": "v",
+      "key": "use-something-again",
+      "definitionEn": "To use something again.",
+      "translationUz": "biror narsadan qayta foydalanmoq",
+      "exampleEn": "Uploaded files could not always be reused without practical instructions.",
+      "exampleUz": "Amaliy ko‘rsatmalarsiz yuklangan fayllardan har doim ham qayta foydalanib bo‘lmas edi.",
+      "usageFrames": [
+        "reuse research data",
+        "reuse an existing file"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/reuse",
+      "targetLexemeId": "a889b52e-5561-551b-9404-92d83fd14741",
+      "expectedEntrySha": "b7564eea4fa42c14b5762f777a2250b5f3658adc7fad281dc857f43e7e4c28d9"
     }
   ]
 }
