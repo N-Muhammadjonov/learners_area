@@ -69,5 +69,29 @@ test("reviewed occurrence bindings select their exact sense in all three sources
    assert.deepEqual(await env.query("select * from user_vocabulary"),saved);
    assert.equal((await env.query<{lexeme_id:string}>("select lexeme_id from lexical_occurrences where id=$1",[old!.id]))[0]!.lexeme_id,river);
   });
+  await t.test("an explicit boundary repair preserves its occurrence ID, fails closed on stale state and replays safely",async()=>{
+   const text="The bank lends money.";
+   const [passage]=await env.query<{id:string}>("insert into reading_passages(title,body_text) values('Malformed source boundary',$1) returning id",[text]);
+   const [old]=await env.query<{id:string}>("insert into lexical_occurrences(source_type,passage_id,start_char,end_char,surface_form,resolution_status) values('reading',$1,4,7,'ban','unresolved') returning id",[passage!.id]);
+   const span={...sources[0]!.spans[0]!,before:{id:old!.id,lexemeId:null,status:"unresolved" as const,location:{start:4,end:7,surface:"ban"}}};
+   const patch:ContextBindingPlan={...plan,materials:[{source:"reading",sourceId:passage!.id,bodySha:sha(text),spans:[span]}]};
+   const saved=await env.query("select * from user_vocabulary");
+   const noGuard=structuredClone(patch);delete noGuard.materials[0]!.spans[0]!.before!.location;
+   await assert.rejects(()=>applyContextBindings(noGuard,env.db),/context_existing_overlap_requires_review/);
+   const stale=structuredClone(patch);stale.materials[0]!.spans[0]!.before!.location!.surface="bad";
+   await assert.rejects(()=>applyContextBindings(stale,env.db),/context_previous_surface_changed/);
+   const wrongState=structuredClone(patch);wrongState.materials[0]!.spans[0]!.before!.status="review";
+   await assert.rejects(()=>applyContextBindings(wrongState,env.db),/context_previous_link_changed/);
+   const duplicateId=structuredClone(patch);duplicateId.materials[0]!.spans.push({...span,start:9,end:14,surface:"lends"});
+   await assert.rejects(()=>applyContextBindings(duplicateId,env.db),/context_binding_inventory_invalid/);
+   const [other]=await env.query<{id:string}>("insert into lexical_occurrences(source_type,passage_id,start_char,end_char,surface_form,resolution_status) values('reading',$1,4,8,'bank','unresolved') returning id",[passage!.id]);
+   await assert.rejects(()=>applyContextBindings(patch,env.db),/context_existing_overlap_requires_review/);
+   await env.query("delete from lexical_occurrences where id=$1",[other!.id]);
+   assert.equal((await applyContextBindings(patch,env.db)).updated,1);
+   assert.equal((await applyContextBindings(patch,env.db)).unchanged,1);
+   const actual=await env.query<{id:string;start_char:number;end_char:number;surface_form:string}>("select id,start_char,end_char,surface_form from lexical_occurrences where passage_id=$1",[passage!.id]);
+   assert.deepEqual(actual,[{id:old!.id,start_char:4,end_char:8,surface_form:"bank"}]);
+   assert.deepEqual(await env.query("select * from user_vocabulary"),saved);
+  });
  }finally{await env.close();}
 });
