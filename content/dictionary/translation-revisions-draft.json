@@ -163,6 +163,15 @@
       "translationUz": "model; biror narsaning tasviri yoki ifodasi, ba’zan kichikroq o‘lchamdagi nusxasi",
       "definitionUz": "model; biror narsaning tasviri yoki ifodasi, ba’zan kichikroq o‘lchamdagi nusxasi",
       "reason": "The canonical English says sometimes smaller: a digital model need not be a miniature physical object. Keep the representation sense and original identity."
+    },
+    {
+      "entryId": "d1e8152e-76fc-5113-8900-aa752cbc993e",
+      "senseId": "bda488b2-34db-4253-b186-acdb29a1d862",
+      "meaningSha": "91ce30b61700938e379d522b2ade294b9f729af8cbd064478c4e52102e35d993",
+      "beforeTranslationSha": "8f2493781b24ce4a801fbe370e3b284cf704d51847b3261961edcff3663267e7",
+      "translationUz": "keng tarqatmoq yoki taqsimlamoq",
+      "definitionUz": "keng tarqatmoq yoki taqsimlamoq",
+      "reason": "The distribute-or-disperse meaning also applies to sharing costs among households; include taqsimlamoq without changing the canonical English or other senses."
     }
   ]
 }
