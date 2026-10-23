@@ -193,13 +193,14 @@ export class LearnersAreaCampusScene {
         if(!m.isCenter)this.geometry.addFacadeIllumination(bldgGroup,m);
         if(!m.isCenter){
           // Taller, wider real architecture while leaving more distance between modules.
-          bldgGroup.scale.set(1.16,1.23,1.16);
+          // More architectural presence relative to the asphalt, as in the approved map.
+          bldgGroup.scale.set(1.32,1.52,1.32);
         }
         this.scene.add(bldgGroup);
         this.buildingMeshes.set(m.id, bldgGroup);
 
         // Localized point light casting colored glow onto nearby asphalt
-        const fLight = new THREE.PointLight(m.color, m.isCenter ? 3.2 : 2.0, m.isCenter ? 36 : 22, 1.4);
+        const fLight = new THREE.PointLight(m.color, m.isCenter ? 3.7 : 2.65, m.isCenter ? 40 : 25, 1.5);
         fLight.position.set(m.pos.x, 1.2, m.pos.z);
         this.scene.add(fLight);
       }

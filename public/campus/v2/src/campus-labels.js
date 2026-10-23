@@ -69,42 +69,58 @@ export class CampusLabels {
   }
 
   update(width, height) {
-    const tempVec = new THREE.Vector3();
-
-    const placed=[];
-    // Screen-space collision handling keeps the buildings visible at low camera angles.
-    // Preserve the exact words and SVG icons; only fade colliding labels.
+    const point=new THREE.Vector3();
+    const occupied=[];
+    // Keep every available label on screen. Previously a collision led to
+    // visibility:hidden and made buildings inaccessible when orbiting.
     const ordered=[...this.labels].sort((a,b)=>{
-      const da=this.camera.position.distanceToSquared(a.anchorPos);
-      const db=this.camera.position.distanceToSquared(b.anchorPos);
-      return (a.module.id==="dashboard"?-1:b.module.id==="dashboard"?1:da-db);
+      if(a.module.isCenter)return -1;
+      if(b.module.isCenter)return 1;
+      return this.camera.position.distanceToSquared(a.anchorPos) -
+             this.camera.position.distanceToSquared(b.anchorPos);
     });
-    for (const item of ordered) {
+    for(const item of ordered){
       const anchor=orbitFacingAnchor(item.anchorPos,item.module,this.camera.position);
-      tempVec.set(anchor.x,anchor.y,anchor.z);
-      tempVec.project(this.camera);
-
-      // Check if behind camera
-      if (tempVec.z > 1.0 || tempVec.z < -1.0 || !Number.isFinite(tempVec.x) || !Number.isFinite(tempVec.y)) {
-        item.el.style.display = 'none';
+      point.set(anchor.x,anchor.y,anchor.z).project(this.camera);
+      const el=item.el;
+      if(!Number.isFinite(point.x)||!Number.isFinite(point.y)||point.z>1||point.z< -1){
+        el.style.visibility='hidden';
         continue;
       }
-
-      item.el.style.display = 'flex';
-      const screenX = (tempVec.x * 0.5 + 0.5) * width;
-      const screenY = (-tempVec.y * 0.5 + 0.5) * height;
-
-      item.el.style.left = `${screenX.toFixed(1)}px`;
-      item.el.style.top = `${screenY.toFixed(1)}px`;
-      const estimatedWidth=Math.min(165,Math.max(80,item.module.name.length*7.2+35));
-      const rect={left:screenX-estimatedWidth/2,right:screenX+estimatedWidth/2,
-        top:screenY-14,bottom:screenY+14};
-      const colliding=placed.some(other=>
-        rect.left<other.right+5&&rect.right>other.left-5&&
-        rect.top<other.bottom+5&&rect.bottom>other.top-5);
-      const clipped=rect.right<0||rect.left>width||rect.bottom<0||rect.top>height;
-      item.el.style.visibility=clipped||colliding?'hidden':'visible';
-      if(!clipped&&!colliding)placed.push(rect);
+      el.style.display='flex';
+      el.style.visibility='visible';
+      const halfW=Math.max(31,(el.offsetWidth||105)/2);
+      const halfH=Math.max(10,(el.offsetHeight||24)/2);
+      const margin=6;
+      const baseX=THREE.MathUtils.clamp((point.x*.5+.5)*width,halfW+margin,Math.max(halfW+margin,width-halfW-margin));
+      const baseY=THREE.MathUtils.clamp((-point.y*.5+.5)*height,halfH+margin,Math.max(halfH+margin,height-halfH-margin));
+      const rectAt=(x,y)=>({left:x-halfW,right:x+halfW,top:y-halfH,bottom:y+halfH});
+      const overlap=(a,b)=>Math.max(0,Math.min(a.right,b.right)-Math.max(a.left,b.left))*
+                           Math.max(0,Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top));
+      let selected=null;
+      let minimum=Infinity;
+      // Search nearby screen positions rather than dropping the label entirely.
+      const stride=halfH*2+8;
+      for(let ring=0;ring<=11;ring++){
+        const offsets=ring===0?[[0,0]]:
+          [[0,-ring*stride],[0,ring*stride],[-ring*18,0],[ring*18,0],
+           [-ring*12,-ring*stride],[ring*12,ring*stride]];
+        for(const [ox,oy] of offsets){
+          const x=THREE.MathUtils.clamp(baseX+ox,halfW+margin,Math.max(halfW+margin,width-halfW-margin));
+          const y=THREE.MathUtils.clamp(baseY+oy,halfH+margin,Math.max(halfH+margin,height-halfH-margin));
+          const box=rectAt(x,y);
+          const total=occupied.reduce((cost,old)=>cost+overlap(box,old),0);
+          const cost=total*1000+Math.abs(ox)+Math.abs(oy);
+          if(cost<minimum){minimum=cost;selected={x,y,box};}
+          if(total===0)break;
+        }
+        if(minimum<1000)break;
+      }
+      if(!selected)continue;
+      occupied.push(selected.box);
+      el.style.left=`${selected.x.toFixed(1)}px`;
+      el.style.top=`${selected.y.toFixed(1)}px`;
+      el.style.zIndex=String(item.module.isCenter?3:2);
     }
   }
 

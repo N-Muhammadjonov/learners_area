@@ -2,11 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { BrandLogo } from "@/components/brand/BrandLogo";
 
 type Module = { id: string; name: string; route: string };
 type CampusScene = {
-  cameraController?: { resetToIsometric(): void; saveState(): void };
+  cameraController?: { saveState(): void };
   destroy(): void;
 };
 type SceneModule = {
@@ -71,13 +70,6 @@ export function CampusWorld() {
   return (
     <section data-campus-world className="la-campus" aria-label="Learners Area 3D campus">
       <div data-campus-canvas ref={mountRef} className="la-campus-canvas" />
-      <div className="la-campus-brand">
-        <BrandLogo kind="mark" className="h-12 w-14" decorative eager />
-        <div><strong>Learners Area</strong><small>Take your learning journey with us</small></div>
-      </div>
-      <button type="button" className="la-campus-reset" title="Kamerani qaytarish"
-        aria-label="3D kamera holatini qayta tiklash"
-        onClick={()=>sceneRef.current?.cameraController?.resetToIsometric()}>↺</button>
       <div className="la-campus-caption" role="status">
         {state==="loading"?"3D xarita yuklanmoqda…":
          state==="error"?"WebGL mavjud emas. Modullarni quyidagi havolalardan oching.":

@@ -53,10 +53,14 @@ export class CampusGeometry {
 
     // Asphalt surface plane (top face)
     const asphaltGeo = new THREE.ShapeGeometry(shape);
-    asphaltGeo.rotateX(-Math.PI / 2);
+    // Use the SAME X/Z winding as the extruded slab. The old -PI/2 mirrored
+    // the asphalt polygon and made embedded circuitry disappear at some edges.
+    asphaltGeo.rotateX(Math.PI / 2);
     asphaltGeo.translate(0, 0.02, 0);
 
-    const asphaltMesh = new THREE.Mesh(asphaltGeo, this.materials.materials.get('asphalt'));
+    const asphaltMat=this.materials.materials.get('asphalt');
+    asphaltMat.side=THREE.DoubleSide; // road normals point down after alignment
+    const asphaltMesh = new THREE.Mesh(asphaltGeo, asphaltMat);
     asphaltMesh.receiveShadow = true;
     group.add(asphaltMesh);
 
@@ -85,6 +89,25 @@ export class CampusGeometry {
     const rimGeo = new THREE.BufferGeometry().setFromPoints(linePoints);
     const rimLine = new THREE.Line(rimGeo, this.materials.materials.get('platform_rim'));
     group.add(rimLine);
+    // Bold, volumetric blue edge illumination seen from overhead and side.
+    // Unlike WebGL line widths, these tubular geometry segments remain visible.
+    const axis = new THREE.Vector3(0,1,0);
+    for (let i=0;i<poly.length;i++) {
+      const a=poly[i],b=poly[(i+1)%poly.length];
+      const span=new THREE.Vector3(b[0]-a[0],0,b[1]-a[1]);
+      const length=span.length();
+      if(length<.001)continue;
+      const center=new THREE.Vector3((a[0]+b[0])/2,0,(a[1]+b[1])/2);
+      const orientation=new THREE.Quaternion().setFromUnitVectors(axis,span.normalize());
+      for(const [y,radius,alpha] of [[.16,.105,.98],[-1.55,.09,.87],[-1.55,.34,.24]]) {
+        const tube=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,length,8),
+          new THREE.MeshBasicMaterial({color:y>.0?p.rimGlowColor:p.rimInnerColor,
+            transparent:true,opacity:alpha,depthWrite:false,blending:THREE.AdditiveBlending}));
+        tube.position.set(center.x,y,center.z);
+        tube.quaternion.copy(orientation);
+        group.add(tube);
+      }
+    }
 
     // Slightly inset secondary neon trace
     const innerPoints = shape.getPoints().map(pt => {
@@ -230,7 +253,7 @@ export class CampusGeometry {
       alphaTest: 0.03,
     });
     const logoMesh = new THREE.Sprite(logoMat);
-    logoMesh.position.set(0, 9.2, 0);
+    logoMesh.position.set(0, 13.3, 0);
     logoMesh.scale.set(8.4, 8.4, 1);
     group.add(logoMesh);
     group.userData.logo = logoMesh;

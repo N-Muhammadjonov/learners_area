@@ -6,7 +6,7 @@ import { BrandLogo } from "@/components/brand/BrandLogo";
 /** The campus is the only page with the left-aligned in-header brand block. */
 export function CampusTopbarBrand(){
   const pathname=usePathname();
-  if(pathname!=="/app")return null;
+  if(pathname?.replace(/\/+$/,"")!=="/app")return null;
   return (
     <div data-campus-topbar-brand className="flex shrink-0 items-center gap-2">
       <BrandLogo kind="mark" className="h-11 shrink-0" eager decorative />
