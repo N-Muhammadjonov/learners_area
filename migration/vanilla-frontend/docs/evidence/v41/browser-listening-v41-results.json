@@ -1,0 +1,78 @@
+{
+  "suite": "V41 Listening sections",
+  "date": "2026-10-23T06:05:38.511Z",
+  "results": [
+    {
+      "name": "Lessons author: a learner is sent back to the dashboard and the desk is never shown",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: staff opens the desk, lists lessons and states the revision pointers",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: opening a live lesson hydrates it, locks the stable reference and offers a revision",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: a new lesson saves one draft with the authored payload, then re-reads it",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: missing fields are refused before any request, and server issues are shown in the source wording",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: typing keeps focus and value; the desk does not rebuild the input under the author",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: quiz options keep a line break while typing and save as separate options",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: publish sends one publication request with the draft version and no publish time",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: unit search asks the server, shows results and keeps the chosen unit",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: an upload replaces the file once the new upload completes; a failed replacement keeps the old file",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: a successful upload records its object and saves it as the block media",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: EN and UZ, Day and Night, phone width renders the desk without horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: when the desk projection is unavailable, the page shows a retry notice and no form",
+      "status": "PASS"
+    },
+    {
+      "name": "Lessons author: at desktop width the lesson list sits beside the editor; on a phone the two stack",
+      "status": "PASS"
+    },
+    {
+      "name": "MCQ catalogue: each day shows its real status, the right action and one address per day",
+      "status": "PASS"
+    },
+    {
+      "name": "MCQ catalogue: an empty programme is an honest empty state, with a staff-only hint",
+      "status": "PASS"
+    },
+    {
+      "name": "MCQ catalogue: a failed read shows a retry that re-requests the same day list",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 17,
+    "FAIL": 0
+  }
+}
