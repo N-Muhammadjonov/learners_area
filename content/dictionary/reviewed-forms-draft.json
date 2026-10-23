@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "status": "ai_editorial_draft_not_published",
+  "rows": [
+    {
+      "entryId": "b9d3cfb7-a54e-504f-a69b-b3a018cafc76",
+      "beforeEntrySha": "02eae864c24e7e54c04ec3e99720f458aefd53f095ec4a1847fc1d02a56a0af7",
+      "lemma": "native speaker",
+      "forms": [
+        "native speakers"
+      ],
+      "referenceUrl": "https://dictionary.cambridge.org/dictionary/english/native-speaker",
+      "reason": "Explicit regular plural of the final noun in this compound. Preserve the existing meaning and all other entry fields; no generic compound-inflection guess."
+    }
+  ]
+}

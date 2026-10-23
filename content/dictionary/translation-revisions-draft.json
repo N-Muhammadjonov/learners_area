@@ -1,0 +1,177 @@
+{
+  "version": 1,
+  "status": "ai_editorial_draft_not_published",
+  "rows": [
+    {
+      "entryId": "d704f21b-21f2-52ae-9012-73564a1ce833",
+      "senseId": "4b8c2649-b3c1-4181-a3bd-741b98a4f8db",
+      "meaningSha": "b7e98bc357c81374893039bbee87620a8740270c1bc1db48a7e24d4d217aa282",
+      "beforeTranslationSha": "f6de51371999c62b9d8ab75a33b07812b96f34742661171ab441224c045a5f46",
+      "translationUz": "voqea sodir bo‘ladigan vaqt",
+      "definitionUz": "voqea sodir bo‘ladigan vaqt",
+      "reason": "Time of an event is not necessarily the act of scheduling it."
+    },
+    {
+      "entryId": "0f148b55-a156-524e-a58d-10233e168647",
+      "senseId": "c26f1e59-693e-458c-8e67-0ab60f1c4409",
+      "meaningSha": "b26cc781dbe6c56f51aa46ac99bcd72fd4c9b4bb91a97db60e32fa49ddba794d",
+      "beforeTranslationSha": "0f5367e564a2f57c556441cf69fd114e17d439ff8f74ae86f69736c535b0632f",
+      "translationUz": "sotuv; biror narsa sotilgan holat",
+      "definitionUz": "sotuv; biror narsa sotilgan holat",
+      "reason": "Use an ordinary Uzbek term for an individual completed sale."
+    },
+    {
+      "entryId": "d7f9a7ee-0519-5388-9256-4c66da9a1642",
+      "senseId": "e869abe9-0098-432c-9d7d-2c21a17ed374",
+      "meaningSha": "e5d49897b6c38ca0f76ee3fddb09041b212703d01720d0110ce6178acfa5b6d9",
+      "beforeTranslationSha": "1cf8817b50fceff8638eeb97e96706cf3da5b2633cbff1cdc494277abb26f9bd",
+      "translationUz": "og‘irlik; og‘irlik kuchi",
+      "definitionUz": "og‘irlik; og‘irlik kuchi",
+      "reason": "Retain the physical sense while allowing normal food-weighing language."
+    },
+    {
+      "entryId": "36d0ff6b-996d-5ed3-9e72-264acf6d159a",
+      "senseId": "3668ce2e-f18e-591b-9749-ed415c97b636",
+      "meaningSha": "76a5504b287979bd3eb3ab625ed9c47d777bfd866a60c95c12a6ec1aedaa4174",
+      "beforeTranslationSha": "cd5f05b2c63fddb84160119f36a48a8564384736b565de9e42257d633bbf4733",
+      "translationUz": "qat’iy; ishonchli; mustahkam",
+      "definitionUz": "qat’iy; ishonchli; mustahkam",
+      "reason": "The adjective also qualifies confident assertions, not only physical firmness."
+    },
+    {
+      "entryId": "6396527c-8ab3-5154-b995-b313a62530cb",
+      "senseId": "9cb280d2-3a08-41e2-a4c3-6b22c2e10787",
+      "meaningSha": "9a610c69df1b8515910a4c42dd760520e0e3b3e27fb3d13b7293ab0b0c485045",
+      "beforeTranslationSha": "b39d834609098f77c414e48086598e596d0fa53bc58d26c078d37bd7dc223b58",
+      "translationUz": "texnik; texnika yoki moslamalarga oid",
+      "definitionUz": "texnik; texnika yoki moslamalarga oid",
+      "reason": "Mexanik is narrower than the machinery-and-tools definition."
+    },
+    {
+      "entryId": "e9f40193-d072-5de6-a236-8616359ebf37",
+      "senseId": "06686d32-8d41-460e-a7ac-1b8f5ec777bc",
+      "meaningSha": "66bed0df389be88d52a6dd7f216aa0c403def124f98a49fd6928dad5df84dad5",
+      "beforeTranslationSha": "5c03526a898a6562a462560f06bb7184f6f799ed337f4d4d7fc17087ad67cfd3",
+      "translationUz": "to‘xtash; to‘xtatish",
+      "definitionUz": "to‘xtash; to‘xtatish",
+      "reason": "The noun can describe a lift coming to a halt, not only somebody stopping it."
+    },
+    {
+      "entryId": "29ba56eb-b336-55a8-ab0f-3f91fbdc42b4",
+      "senseId": "053bee4d-acb1-5c75-9b4f-8874298031ec",
+      "meaningSha": "88e609f6e52e115314689d44ac971759249af719cb88133615a486959906d647",
+      "beforeTranslationSha": "70a3df4075537f5c4a8fb2f1d5307e9695817832dfe42d4a1da80c9a88c1ac29",
+      "translationUz": "oxirigacha o‘tkazmoq; bajarib tugatmoq",
+      "definitionUz": "oxirigacha o‘tkazmoq; bajarib tugatmoq",
+      "reason": "Preserve conducting a trial rather than reducing the meaning to finishing."
+    },
+    {
+      "entryId": "f7673d26-1fb9-5110-8335-1ad0272692e5",
+      "senseId": "d149d088-9b5c-4b2c-84ce-908d8e67d2b0",
+      "meaningSha": "ce7aa601e02d2a22a80cc0faa54d74315fecaa8d975b3090791be419017419db",
+      "beforeTranslationSha": "a802e4d89d4a0b71a4e5d2c2019649365523de4aad1974bbf50fc64b3eb86446",
+      "translationUz": "ishonchi komil bo‘lmagan; amin bo‘lmagan",
+      "definitionUz": "ishonchi komil bo‘lmagan; amin bo‘lmagan",
+      "reason": "Uncertainty about a fact is distinct from personal lack of self-confidence."
+    },
+    {
+      "entryId": "46e9ab9f-d7d0-55e1-8fe3-4a91df0bdfb4",
+      "senseId": "2963b4df-e7fd-514e-987c-d18216f3b823",
+      "meaningSha": "1f8b81503f40297f3543038d1e5ef55aa2988e4fb6056054c4a4da338847f004",
+      "beforeTranslationSha": "5b42ab98fd57f3003e0baf9826124b862a972823df3c8a3b2b89448c8d035060",
+      "translationUz": "o‘z ichiga olmoq; o‘zida qayd etilgan bo‘lmoq",
+      "definitionUz": "o‘z ichiga olmoq; o‘zida qayd etilgan bo‘lmoq",
+      "reason": "Include is the main sense; listing is an illustration rather than a restriction."
+    },
+    {
+      "entryId": "b93b5fcc-a926-5745-b25d-d06073681fc8",
+      "senseId": "a0a8c227-89cb-5073-9b55-a3cc4b84b3b7",
+      "meaningSha": "821300325b8f88e8c2ceba59dabf8ede36661343ea38bb04d9fbd099ef0d332b",
+      "beforeTranslationSha": "9ebd1dc26802fa7a7a0d564c16e9fb265e31a62fff47e98e4704ba8f3345f890",
+      "translationUz": "natijada qoldirmoq; natijasida yuzaga keltirmoq",
+      "definitionUz": "natijada qoldirmoq; natijasida yuzaga keltirmoq",
+      "reason": "The result can be available space, not just a physical trace."
+    },
+    {
+      "entryId": "75bf6b2e-c888-5e8d-8f16-59b00015a5f5",
+      "senseId": "33c666ec-6390-4494-8505-a2f342babed8",
+      "meaningSha": "6b95de565a90e80f9d0ef2ef471816cce443586278a26440d4b00b879ea01aee",
+      "beforeTranslationSha": "5af58bc9a6f38e69488bc74c3f30ce270da8763b96f74426977df3610f5daaf9",
+      "translationUz": "chizma; chizilgan tasvir",
+      "definitionUz": "chizma; chizilgan tasvir",
+      "reason": "A technical diagram does not have to be an artistic drawing."
+    },
+    {
+      "entryId": "c63d15e0-8e3c-549f-b87e-dad0706d5eef",
+      "senseId": "aa39ed8c-7219-4b0e-9283-b7ab3e3ff06b",
+      "meaningSha": "7f27baa80a31836be238e99d99e9ac8bded440fa6f23c71b78dff60e93fc159d",
+      "beforeTranslationSha": "a97c71d289a9d9f9d1aa49497e744ff680b562f1f93c7e5e4ee1650c2c25d24a",
+      "translationUz": "piyoda yuruvchi kishi",
+      "definitionUz": "piyoda yuruvchi kishi",
+      "reason": "A person walking in a park need not be a tourist or long-distance traveller."
+    },
+    {
+      "entryId": "032b7e2e-fae8-5f6a-accf-7b8430365986",
+      "senseId": "ba6f6271-145a-4358-819b-5752799def3a",
+      "meaningSha": "47b7fe825a60a5cb7f093bbf0897a2543b2bb18d3b5c4f1d9d29f57cbfdd876d",
+      "beforeTranslationSha": "74d50bc4552c8ab074f519749871ac45a56c74c4f29e54696631b64c7ff0e886",
+      "translationUz": "joylashuv; joylashtirish rejasi",
+      "definitionUz": "joylashuv; joylashtirish rejasi",
+      "reason": "The arrangement can concern benches and paths, not only page design."
+    },
+    {
+      "entryId": "70b271d7-df2d-5cba-b363-4de6c19fdbea",
+      "senseId": "7b0f5ec7-a6af-535b-8933-c7ed3f404cba",
+      "meaningSha": "d7f05cb53dcea43d40aceebf171f377faec8f1a9afd382ccdac2f6fa33a50400",
+      "beforeTranslationSha": "8dd6b355b5f12ac437f1acde9ac6179943147f6d688f38b49d61fa6be9ebed3e",
+      "translationUz": "asos qilib olmoq; amal qilmoq",
+      "definitionUz": "asos qilib olmoq; amal qilmoq",
+      "reason": "Plans and measurements can guide an action without following a person."
+    },
+    {
+      "entryId": "2f111589-99ae-5d10-bc3a-94dd18d3a992",
+      "senseId": "50cc7109-3034-497f-b2e2-506d27e93a70",
+      "meaningSha": "60f62b19e4255658796fe92c682d5d23567d990497f6d0c6c1170fb55ca86ca8",
+      "beforeTranslationSha": "9c321538c11d34e3866a9247a8d38767e313014c4151df0402e06922981b48cc",
+      "translationUz": "shaxsiy tarzda; faqat tegishli shaxslar doirasida",
+      "definitionUz": "shaxsiy tarzda; faqat tegishli shaxslar doirasida",
+      "reason": "Privacy need not imply secretly doing something."
+    },
+    {
+      "entryId": "fb6c2574-43a6-57ed-832b-21244649c414",
+      "senseId": "ae5d0a3b-31b6-426f-b949-8954baa160ce",
+      "meaningSha": "a00dad796365ee9d2bf5e56719ea61f01ad374f8a20a24b76454eecba9d1ae7c",
+      "beforeTranslationSha": "b2cd43b75611a4beb1f8b3da2f160d43c17eb81642433b3575c02521087fcf2c",
+      "translationUz": "omma oldida namoyish etish",
+      "definitionUz": "omma oldida namoyish etish",
+      "reason": "Public exhibition need not imply boastful showing off."
+    },
+    {
+      "entryId": "37aaeef1-ff38-5d29-8204-44bd44d11078",
+      "senseId": "358a0d79-fbbf-4132-a92f-a8f23c6ef0e3",
+      "meaningSha": "f357052d3dbde946bc26ed3618f0e8b684b2bd9a887aedb532bab5df9ab441e5",
+      "beforeTranslationSha": "2180bfb266008853fc0673ddd63eae6ae384189e36f96e4a97d02bd4836c459b",
+      "translationUz": "qadr; biror narsaning ahamiyati yoki foydalilik darajasi",
+      "definitionUz": "qadr; biror narsaning ahamiyati yoki foydalilik darajasi",
+      "reason": "Educational value is importance or usefulness; qadriyat incorrectly suggests an ethical ideal, a separate existing sense."
+    },
+    {
+      "entryId": "73b1835c-9d09-5a83-9e6d-f5f7e6f51f58",
+      "senseId": "d45eefbc-cf9a-40f7-ad50-c52224c27bfd",
+      "meaningSha": "196213c02cbf8fcd7841e5f1b87d7ae189e66332f8a28b54e37cb589c4efff12",
+      "beforeTranslationSha": "9ebee03176def51071f059bda999b8a484876275f4893752a261e50017ac1502",
+      "translationUz": "model; biror narsaning tasviri yoki ifodasi, ba’zan kichikroq o‘lchamdagi nusxasi",
+      "definitionUz": "model; biror narsaning tasviri yoki ifodasi, ba’zan kichikroq o‘lchamdagi nusxasi",
+      "reason": "The canonical English says sometimes smaller: a digital model need not be a miniature physical object. Keep the representation sense and original identity."
+    },
+    {
+      "entryId": "d1e8152e-76fc-5113-8900-aa752cbc993e",
+      "senseId": "bda488b2-34db-4253-b186-acdb29a1d862",
+      "meaningSha": "91ce30b61700938e379d522b2ade294b9f729af8cbd064478c4e52102e35d993",
+      "beforeTranslationSha": "8f2493781b24ce4a801fbe370e3b284cf704d51847b3261961edcff3663267e7",
+      "translationUz": "keng tarqatmoq yoki taqsimlamoq",
+      "definitionUz": "keng tarqatmoq yoki taqsimlamoq",
+      "reason": "The distribute-or-disperse meaning also applies to sharing costs among households; include taqsimlamoq without changing the canonical English or other senses."
+    }
+  ]
+}

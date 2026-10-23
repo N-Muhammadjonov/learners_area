@@ -33,6 +33,21 @@ test('unrelated shared examples are suppressed; regular/irregular and split phra
  const {result}=buildPresentations([entry],{examples:[],collocations:[]});assert.deepEqual(result.get(entry.lexeme_id)!.senses[entry.senses[0]!.sense_id]!.exampleIds,[]);
 });
 
+test('explicit synonyms survive runtime and rebuild only on the authored source meaning',()=>{
+ let bank=word('bank','A financial institution');bank=applyDraft([bank],{operation:'add_sense',lexemeId:bank.lexeme_id,definitionEn:'Land beside a river',definitionUz:'Qirg‘oq',translationUz:'qirg‘oq',examples:[]},release);
+ const lender=word('lender','An organization that lends money'),shore=word('shore','The land at the edge of water');
+ const relation=(target:Entry,source?:string)=>({relation_type:'synonym',...(source?{source_sense_id:source}:{}),target_lexeme_id:target.lexeme_id,target_sense_id:target.senses[0]!.sense_id,display_lemma:target.display_lemma,part_of_speech:target.part_of_speech,lexical_type:target.lexical_type});
+ bank.relations.push(relation(shore),relation(lender,bank.senses[0]!.sense_id),relation(shore,bank.senses[1]!.sense_id));
+ const runtime=dictionaryPresentation(bank),rebuilt=buildPresentations([bank,lender,shore],{examples:[],collocations:[]}).result.get(bank.lexeme_id)!;
+ for(const view of[runtime,rebuilt]){
+  assert.deepEqual(view.senses[bank.senses[0]!.sense_id]!.synonyms.map(s=>s.text),['lender']);
+  assert.deepEqual(view.senses[bank.senses[1]!.sense_id]!.synonyms.map(s=>s.text),['shore']);
+ }
+ assert.throws(()=>buildPresentations([bank,lender],{examples:[],collocations:[]}),/scoped_synonym_target_missing/);
+ const single=word('seashore','Land beside the sea');single.relations.push(relation(shore));
+ assert.equal(dictionaryPresentation(single).senses[single.senses[0]!.sense_id]!.synonyms[0]!.text,'shore','old unscoped one-meaning entries stay compatible');
+});
+
 test('a source grouping can be corrected without deleting its canonical senses or suppressing another meaning',()=>{
  const bus=word('bus','A passenger vehicle'),double=word('double-decker','A passenger vehicle'),omnibus=word('omnibus','A passenger vehicle');
  const before=JSON.stringify([bus,double,omnibus]);

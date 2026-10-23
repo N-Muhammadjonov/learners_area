@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "status": "prepared_source_wording_revision_not_applied",
+  "productionApplied": false,
+  "revisions": [
+    {
+      "version": 1,
+      "status": "prepared_source_wording_revision_not_applied",
+      "source": "retention",
+      "sourceId": "0c63829e-c4ae-4689-ba08-2c21423b19cf",
+      "sourceBodySha": "9a6ea25c6b087542221eda2a53d888a13eb7eec0f8fc21562b8a89226c4e6553",
+      "before": "there was a distribution of risks and benefits, and different parties would bear them differently.",
+      "after": "there was a distribution of risks and benefits, and different parties would face those risks and receive those benefits differently.",
+      "proposedBody": "A hospital sought to release a dataset that could help researchers study waiting times. Direct identifiers had been removed, and the administrative team regarded the files as anonymous. A privacy officer remained concerned because a small number of patients had exceptionally unusual combinations of age, appointment date and treatment type. The dataset included rare appointments that could identify individual patients indirectly. Simply removing names was therefore insufficient. The researchers needed enough detail to compare different services, however, and broad categories could conceal delays affecting particular groups. The team discussed whether some analyses should be performed within a controlled environment rather than on files distributed without restrictions. The hospital replaced exact appointment dates with calendar months. This reduced one source of re-identification risk but made it harder to study short periods of exceptional demand. The project lead refused to present the choice as a purely technical matter: there was a distribution of risks and benefits, and different parties would face those risks and receive those benefits differently. External researchers received access through a monitored workspace. Requests had to specify a question and a proposed output, and the hospital reviewed whether aggregate results could reveal a very small patient group. The controls also created administrative costs, which the team made explicit rather than hiding under a claim of frictionless openness. Reports suppressing very small counts were checked before publication. The hospital documented which research questions the reduced data could not answer. The resulting agreement was deliberately narrower than unlimited data release, but more useful than an unusable file described as safe merely because names were absent. The hospital also provided a route for researchers to challenge a refusal, with reasons recorded for each decision. Reviewers could therefore examine whether controls were being applied consistently instead of trusting informal assurances of discretion.",
+      "proposedBodySha": "640767a003374d0ee5aeabedcf828d52febfd2bcff73f4da03914a0777cb5f09",
+      "reason": "Bear does not ordinarily take benefits as its object. Retain the intended unequal distribution of risks and benefits, using natural verbs for each.",
+      "publicationContract": "Publish a new immutable Retention version, remap its occurrence spans, and retain all historical attempts/results on their original version. Do not patch the existing body in place.",
+      "productionApplied": false
+    }
+  ]
+}

@@ -87,6 +87,7 @@ export const entrySchema = z
       z
         .object({
           relation_type: z.string(),
+          source_sense_id: id.optional(),
           target_lexeme_id: id,
           target_sense_id: id.nullable().optional(),
           display_lemma: z.string(),
