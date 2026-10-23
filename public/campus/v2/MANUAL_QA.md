@@ -5,6 +5,22 @@ Starting commit: `67981049740a34f8b80d25b6d5e480cfaeb73e4b`.
 Source branch: `arena/learners-area-next`. Main is unchanged.
 This is a branch revision, not a production deployment or full release acceptance.
 
+## Module workspace update — 2026-10-23
+
+- Campus destinations now hide the desktop module sidebar, mobile module menu
+  and redundant shell breadcrumbs on first render. A theme-aware `← Main` link
+  returns directly to `/app`, including after a direct link or refresh.
+- Day/Night wallpaper, translucent glass overrides and image preloads were
+  removed. The original opaque Day/Night tokens now apply with Focus both on
+  and off. Explicit Focus preferences, exam routes and management navigation
+  retain their existing behavior; the campus scene and header remain intact.
+- Module-shell UI checks cover all 12 campus destinations in both themes with
+  Focus on/off, plus the Main link and management route boundaries.
+  These use the compiled production stylesheet and real navigation components
+  in JSDOM. All 18 focused UI/source checks, TypeScript, ESLint, the production
+  build and `git diff --check` passed. Authenticated visual browser acceptance
+  remains subject to the preview limitations below.
+
 ## Latest changes
 
 - The offscreen HDR scene target now uses up to four hardware-supported MSAA
@@ -101,7 +117,7 @@ checks above do not imply that the full application suite passed.
 
 Run the authenticated app in an environment that permits a local preview.
 Check header/search, day/night, UZ/EN, bell/profile/utilities, real destination
-pages and exact camera restoration after Xaritaga qaytish. Check keyboard/mobile
+pages and exact camera restoration after `← Main`. Check keyboard/mobile
 interaction and inspect the new component forms, RGB current visibility, wider
 LED gaps and continuous lower rim in real WebGL. Arbitrary low-angle 3D views
 may naturally occlude buildings; initial opaque silhouettes are separate.

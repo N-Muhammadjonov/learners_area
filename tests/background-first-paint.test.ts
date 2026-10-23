@@ -1,29 +1,40 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
-import {createHash} from 'node:crypto';
-import {BACKGROUND_ASSETS} from '../src/lib/ui/background-assets';
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import postcss from "postcss";
 
-test('approved wallpaper bytes are content-addressed and paired with an inline first-paint image', () => {
-  const css = readFileSync('src/app/globals.css', 'utf8');
-  for (const asset of BACKGROUND_ASSETS) {
-    const bytes = readFileSync(`public${asset.href}`);
-    assert.ok(asset.href.includes(createHash('sha256').update(bytes).digest('hex').slice(0,12)));
-    assert.ok(bytes.length < 50_000);
-    assert.ok(asset.previewBytes < 1200);
-    assert.ok(css.includes(asset.href));
-  }
-  for (const match of css.matchAll(/data:image\/webp;base64,([A-Za-z0-9+/=]+)/g)) {
-    assert.equal(Buffer.from(match[1]!, "base64").subarray(0,4).toString(), "RIFF");
-  }
-  assert.ok(css.includes('background-image: var(--la-day-wallpaper), var(--la-day-wallpaper-preview)'));
+const read = (path: string) => readFileSync(path, "utf8");
+
+test("Day and Night use their original opaque surfaces without wallpaper or glass overrides", () => {
+  const css = read("src/app/globals.css");
+  const root = postcss.parse(css);
+  const palettes = new Map<string, Record<string, string>>();
+  root.walkRules((rule) => {
+    if (![":root,\n[data-theme=\"day\"]", "[data-theme=\"night\"]"].includes(rule.selector)) return;
+    const tokens: Record<string, string> = {};
+    rule.walkDecls((decl) => { tokens[decl.prop] = decl.value; });
+    palettes.set(rule.selector.includes("night") ? "night" : "day", tokens);
+  });
+  assert.equal(palettes.get("day")?.["--paper"], "251 250 254");
+  assert.equal(palettes.get("day")?.["--paper-raised"], "255 255 255");
+  assert.equal(palettes.get("night")?.["--paper"], "11 13 24");
+  assert.equal(palettes.get("night")?.["--paper-raised"], "17 20 33");
+  assert.doesNotMatch(css, /LA_(?:DAY|NIGHT)_\w*BACKGROUND|data:image\/webp|--la-surface-glass|--la-(?:day|night)-/);
+  root.walkRules((rule) => {
+    if (rule.selector.includes('[data-focus="on"]')) {
+      rule.walkDecls((decl) => {
+        assert.ok(!decl.prop.startsWith("--paper"), "Focus does not select a different surface palette");
+      });
+    }
+  });
 });
-test('preload is server-selected and the mobile/tablet Welcome page is untouched', () => {
-  const root=readFileSync('src/app/layout.tsx','utf8');
-  assert.match(root,/asset.theme === theme/);
-  assert.match(root,/rel="preload" as="image"/);
-  assert.match(root,/media=\{asset.media\} fetchPriority="high"/);
-  const intro=readFileSync('src/components/brand/DesktopIntro.tsx','utf8');
-  assert.ok(intro.includes('(min-width: 1024px) and (hover: hover) and (pointer: fine)'));
-  assert.ok(intro.includes('data-touch-welcome>{children}'));
+
+test("the server preserves theme selection without downloading removed wallpaper; Welcome is unchanged", () => {
+  const root = read("src/app/layout.tsx");
+  assert.match(root, /themeFromCookie/);
+  assert.match(root, /data-theme=\{theme\}/);
+  assert.doesNotMatch(root, /BACKGROUND_ASSETS|as="image"/);
+  const intro = read("src/components/brand/DesktopIntro.tsx");
+  assert.ok(intro.includes("(min-width: 1024px) and (hover: hover) and (pointer: fine)"));
+  assert.ok(intro.includes("data-touch-welcome>{children}"));
 });
