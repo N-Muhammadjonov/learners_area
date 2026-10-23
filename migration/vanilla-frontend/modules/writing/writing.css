@@ -1,0 +1,20 @@
+/* Writing-only CSS3. Preserve shell theme variables; do not change css/global.css. */
+[data-writing-native] { min-width:0; max-width:100%; }
+[data-writing-native] textarea, [data-writing-native] input, [data-writing-native] select { max-width:100%; }
+[data-writing-native] textarea { resize:vertical; line-height:1.7; }
+[data-writing-native] .writing-tabs { display:flex; gap:.25rem; overflow-x:auto; scrollbar-width:thin; border-bottom:1px solid rgb(var(--ink-100)/1); }
+[data-writing-native] .writing-tabs button { flex:0 0 auto; padding:.8rem .75rem; border-bottom:2px solid transparent; font:inherit; font-size:.875rem; white-space:nowrap; }
+[data-writing-native] .writing-tabs button[aria-selected="true"] { color:rgb(var(--ink-900)/1); border-color:rgb(var(--signal-600)/1); font-weight:600; }
+[data-writing-native] .writing-two-column { display:grid; grid-template-columns:minmax(0,1fr); align-items:start; gap:1.25rem; }
+[data-writing-native] .writing-sticky { position:relative; }
+[data-writing-native] .writing-editor { min-height:20rem; width:100%; tab-size:4; }
+[data-writing-native] .writing-progress { width:100%; height:.45rem; background:rgb(var(--ink-100)/1); overflow:hidden; border-radius:9999px; }
+[data-writing-native] .writing-progress > span { display:block; background:rgb(var(--signal-600)/1); height:100%; transition:width .2s; }
+[data-writing-native] .writing-criterion { display:flex; flex-direction:column; align-items:center; text-align:center; padding:1rem; border:1px solid rgb(var(--ink-100)/1); border-radius:.75rem; gap:.5rem; }
+[data-writing-native] .writing-help { font-size:.85rem; color:rgb(var(--ink-500)/1); line-height:1.6; }
+[data-writing-native] .writing-error { color:rgb(var(--band-bad)/1); }
+[data-writing-native] [data-exam-timer] { font-variant-numeric:tabular-nums; font-size:1.25rem; font-weight:650; }
+[data-writing-native] .writing-groups { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr)); gap:1rem; }
+[data-writing-native] .writing-groups > * { min-width:0; }
+@media (min-width:1024px){ [data-writing-native] .writing-two-column {grid-template-columns:repeat(2,minmax(0,1fr))} [data-writing-native] .writing-sticky {position:sticky;top:1rem} }
+@media(prefers-reduced-motion:reduce){[data-writing-native] *,[data-writing-native] *::before,[data-writing-native] *::after{transition-duration:0s!important;animation-duration:0s!important}}
