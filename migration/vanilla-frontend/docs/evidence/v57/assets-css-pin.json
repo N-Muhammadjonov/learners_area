@@ -1,0 +1,5 @@
+{
+  "reason": "Staff V56 additive main migration: 93 added selector rules; 0 removed from docs/evidence/v55/assets-css-pin.json. Tailwind safelist restores none.",
+  "compiledCssSha256": "372f9b4ea7a4429c66e6632df4ea8c5e45902d1423e40949ddaa50f24a67beea",
+  "previousPin": "docs/evidence/v55/assets-css-pin.json"
+}

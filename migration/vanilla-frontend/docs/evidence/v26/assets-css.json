@@ -5,7 +5,7 @@
   "sourceCssExact": true,
   "sourceCssSha256": "b91507c391d30d49d1f9c2882fa10ae5835409f43866d9bedc578d6a26156ce2",
   "compiledCssDeterministic": true,
-  "compiledCssSha256": "cb27f613acbccc08b33851c5318b5dae8fbff1647fb515322870bdb97f138881",
+  "compiledCssSha256": "372f9b4ea7a4429c66e6632df4ea8c5e45902d1423e40949ddaa50f24a67beea",
   "checks": [
     {
       "path": "fonts/PROVENANCE.md",
