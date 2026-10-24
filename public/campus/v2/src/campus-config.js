@@ -163,7 +163,7 @@ export const CAMPUS_CONFIG = {
       accentHex: '#38bdf8',
       borderClass: 'border-sky-400',
       shadowClass: 'shadow-[0_0_15px_rgba(56,189,248,0.6)]',
-      pos: { x: 54, y: 0, z: -28 },
+      pos: { x: 52, y: 0, z: -32 },
       labelPos: { x: 57, y: 3.1, z: -25 },
       description: 'Full timed IELTS mock examinations',
     },
@@ -177,7 +177,7 @@ export const CAMPUS_CONFIG = {
       accentHex: '#a855f7',
       borderClass: 'border-purple-400',
       shadowClass: 'shadow-[0_0_15px_rgba(168,85,247,0.6)]',
-      pos: { x: 54, y: 0, z: -61 },
+      pos: { x: 51, y: 0, z: -61 },
       labelPos: { x: 57, y: 3.1, z: -58 },
       description: 'Teacher assigned homework and submissions',
     },
@@ -191,7 +191,7 @@ export const CAMPUS_CONFIG = {
       accentHex: '#2dd4bf',
       borderClass: 'border-teal-400',
       shadowClass: 'shadow-[0_0_15px_rgba(45,212,191,0.6)]',
-      pos: { x: 24, y: 0, z: -59 },
+      pos: { x: 19, y: 0, z: -59 },
       labelPos: { x: 27, y: 3.1, z: -56 },
       description: 'Interactive group lessons and webinars',
     },
@@ -217,3 +217,4 @@ export const CAMPUS_CONFIG = {
     localeKey: 'learners_area_locale',
   },
 };
+

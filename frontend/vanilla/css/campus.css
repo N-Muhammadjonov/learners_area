@@ -13,7 +13,7 @@
 .la-campus-fallback a{color:#fff;background:#17375a;border:1px solid #3c7ab5;padding:8px 12px;border-radius:8px}
 .la-campus .campus-labels-overlay{position:absolute;inset:0;overflow:hidden;z-index:24;pointer-events:none}
 .la-campus .campus-module-label{position:absolute;pointer-events:auto;display:flex;align-items:center;gap:7px;
- transform:translate(-50%,-50%) scale(1.08);padding:6px 10px;color:#f9fcff;white-space:nowrap;
+ transform:translate(-50%,-50%) scale(.864);padding:6px 10px;color:#f9fcff;white-space:nowrap;
  font:600 clamp(10px,1.02vw,17px)/1.1 system-ui,sans-serif;cursor:pointer;width:max-content;box-sizing:border-box;
  border:2px solid var(--module-accent)!important;border-radius:13px!important;background:rgba(5,14,31,.96)!important;
  box-shadow:0 0 13px color-mix(in srgb,var(--module-accent) 55%,transparent),inset 0 0 6px color-mix(in srgb,var(--module-accent) 18%,transparent)!important}
@@ -37,4 +37,45 @@
  [data-campus-topbar-brand]{min-width:36px;max-width:42px;overflow:hidden}
  [data-campus-topbar-brand] p,[data-campus-topbar-brand] strong,[data-campus-topbar-brand] small{display:none}
  [data-shell]:has([data-campus-world]) [data-shell-topbar]{gap:4px;padding-inline:6px}
+}
+
+
+/* The campus is Main; its return link only belongs to module pages. */
+[data-campus-main-link][hidden]{display:none!important}
+[data-shell]:has([data-campus-world]) [data-global-search]{width:100%;max-width:none}
+[data-shell]:has([data-campus-world]) [data-global-search-trigger]{display:none!important}
+[data-shell]:has([data-campus-world]) [data-global-search-field]{display:flex!important;position:relative!important;inset:auto!important;width:100%!important;height:40px;gap:8px;padding-inline:10px}
+[data-shell]:has([data-campus-world]) [data-global-search-field] input{width:100%;min-width:0}
+[data-shell]:has([data-campus-world]) [data-global-search-field]>span{width:auto}
+[data-shell]:has([data-campus-world]) [data-global-search-dialog]{top:calc(100% + 6px);width:min(85vw,420px)}
+[data-shell]:has([data-campus-world]) [data-campus-topbar-brand]{min-width:0;max-width:245px}
+[data-shell]:has([data-campus-world]) [data-campus-topbar-brand] [data-sidebar-brand]{--ink-900:243 238 229;--ink-300:205 223 237}
+[data-shell]:has([data-campus-world]) [data-campus-topbar-brand] .brand-name{font-size:14px}
+[data-shell]:has([data-campus-world]) [data-campus-topbar-brand] .brand-tagline{display:block;font-size:10px;line-height:1.3;max-width:175px}
+[data-shell]:has([data-campus-world]) [data-utilities-launcher]{transform:scale(.9);transform-origin:bottom right}
+@media(max-width:800px){
+ [data-shell]:has([data-campus-world]) [data-campus-topbar-brand]{max-width:145px;overflow:visible}
+ [data-shell]:has([data-campus-world]) [data-campus-topbar-brand] [data-sidebar-brand]{flex-direction:column;gap:2px;align-items:flex-start}
+ [data-shell]:has([data-campus-world]) [data-campus-topbar-brand] .brand-name{display:none}
+ [data-shell]:has([data-campus-world]) [data-campus-topbar-brand] .brand-tagline{font-size:8px;max-width:125px}
+ [data-shell]:has([data-campus-world]) [data-global-search-field] kbd{display:none}
+}
+@media(max-width:520px){
+ [data-shell]:has([data-campus-world]) [data-shell-topbar]{flex-wrap:wrap!important;row-gap:6px}
+ [data-shell]:has([data-campus-world]) [data-campus-header-search]{order:4;flex-basis:100%!important;max-width:none}
+ [data-shell]:has([data-campus-world]) [data-campus-header-preferences]{margin-left:auto}
+ [data-shell]:has([data-campus-world]) [data-campus-topbar-brand]{max-width:120px}
+ [data-shell]:has([data-campus-world]) [data-campus-topbar-brand] .brand-tagline{max-width:110px}
+}
+
+@media(max-width:520px){
+ [data-shell]:has([data-campus-world]) [data-campus-header-preferences]{gap:3px}
+ [data-shell]:has([data-campus-world]) [data-campus-header-preferences] .theme-btn{width:34px;height:38px;min-width:34px;min-height:38px}
+ [data-shell]:has([data-campus-world]) [data-locale-switcher] button{min-width:30px;min-height:34px;padding-inline:5px}
+ [data-shell]:has([data-campus-world]) [data-campus-header-profile]{--icon-btn:36px;gap:3px}
+ [data-shell]:has([data-campus-world]) [data-campus-header-profile]>div>button{width:36px!important;height:38px!important;min-width:36px}
+}
+@media(max-width:370px){
+ [data-shell]:has([data-campus-world]) [data-campus-topbar-brand]{max-width:80px}
+ [data-shell]:has([data-campus-world]) [data-campus-topbar-brand] .brand-tagline{max-width:80px}
 }

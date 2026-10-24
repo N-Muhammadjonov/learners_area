@@ -79,8 +79,10 @@ export function createManagementArea(config = MANAGEMENT_CASTLE) {
     box(castle, 1.25, 1.35, 1.4, edge, x, 8.2, 10);
   }
   for (const x of [-13,13]) for (let z=-7;z<=7;z+=2.3) box(castle,1.4,1.35,1.25,edge,x,8.2,z);
-  for (const x of [-6,-3,0,3,6]) for (const z of [-9.8,3.8]) box(castle,1.5,1.6,1.1,edge,x,14.3,z);
-  for (const x of [-7.6,7.6]) for (const z of [-7,-3,1]) box(castle,1.1,1.6,1.5,edge,x,14.3,z);
+  // A tall four-sided pitched roof gives the central keep its castle silhouette.
+  const keepRoof=new THREE.ConeGeometry(12.2,9.5,4);
+  keepRoof.rotateY(Math.PI/4);keepRoof.scale(1,1,.88);
+  mesh(castle,keepRoof,roof,0,18.35,-3,'castle_keep_pitched_roof');
   for (const x of [-13,13]) for (const z of [-10,10]) {
     const tower = new THREE.Group(); tower.name = 'castle_turret'; tower.position.set(x,0,z); castle.add(tower);
     mesh(tower, new THREE.CylinderGeometry(2.6,3,13.4,10),stone,0,7.1,0);
@@ -103,10 +105,29 @@ export function createManagementArea(config = MANAGEMENT_CASTLE) {
     box(castle,1.1,2,.15,windowGlow,x,8.4,3.58);
     box(castle,1.3,3.1,.18,violet,x,11,3.65,'castle_banner');
   }
-  mesh(castle,new THREE.CylinderGeometry(.12,.12,5.2,8),gold,0,16.4,-3);
-  const flag=new THREE.Shape();flag.moveTo(0,0);flag.lineTo(3.6,-.2);flag.lineTo(2.8,-1.4);flag.lineTo(0,-1.2);flag.closePath();
-  mesh(castle,new THREE.ShapeGeometry(flag),violet,.15,18.7,-3,'castle_flag');
+  mesh(castle,new THREE.CylinderGeometry(.12,.12,5.2,8),gold,0,25.7,-3,'castle_flagpole');
+  // Geometry, rather than a platform-dependent emoji, keeps 🇺🇿 recognizable.
+  const flag=new THREE.Group();flag.name='castle_flag';flag.position.set(.15,28,-3);
+  flag.userData.country='UZ';castle.add(flag);
+  const flagColors={blue:0x0099b5,white:0xffffff,green:0x1eb53a,red:0xce1126};
+  const flagMats=Object.fromEntries(Object.entries(flagColors).map(([key,color])=>[key,new THREE.MeshBasicMaterial({color,side:THREE.DoubleSide})]));
+  const stripe=(name,y,height)=>mesh(flag,new THREE.PlaneGeometry(5,height),flagMats[name],2.5,y,0,'uzbekistan_'+name);
+  stripe('blue',-.4,.8);stripe('red',-.825,.05);stripe('white',-1.25,.8);
+  stripe('red',-1.675,.05);stripe('green',-2.1,.8);
+  mesh(flag,new THREE.CircleGeometry(.29,32),flagMats.white,.62,-.4,.01,'uzbekistan_crescent');
+  mesh(flag,new THREE.CircleGeometry(.25,32),flagMats.blue,.72,-.37,.02);
+  for(let row=0;row<3;row++)for(let col=0;col<3+row;col++){
+    const star=new THREE.Shape();
+    for(let i=0;i<10;i++){
+      const angle=Math.PI/2+i*Math.PI/5,r=i%2?.035:.08;
+      const x=Math.cos(angle)*r,y=Math.sin(angle)*r;
+      if(i===0)star.moveTo(x,y);else star.lineTo(x,y);
+    }
+    star.closePath();
+    mesh(flag,new THREE.ShapeGeometry(star),flagMats.white,1.1+(2-row)*.2+col*.25,-.16-row*.24,.01,'uzbekistan_star');
+  }
   const light=new THREE.PointLight(0xffd484,2.6,28,1.7);light.position.set(0,5,12);castle.add(light);
   castle.userData.restingScale=castle.scale.clone();
   return { island, castle };
 }
+

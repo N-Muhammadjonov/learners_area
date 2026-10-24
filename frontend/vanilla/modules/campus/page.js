@@ -16,7 +16,7 @@ export async function mount(context){
    onNavigate(module){if(module.route.startsWith('/app/')){scene?.cameraController?.saveState();void context.navigate(module.route);}}
   });
   if(signal.aborted){scene.destroy();scene=null;return;}
-  caption.textContent=locale==='uz'?'Touchpad: chap/o‘ng — aylantirish, yuqori/past — zoom':'Touchpad: left/right to rotate, up/down to zoom';
+  caption.remove();
  }catch{
   if(signal.aborted)return;
   scene?.destroy();scene=null;
@@ -31,3 +31,4 @@ export async function mount(context){
 }
 
 export function preload(){return import('../../campus/v2/src/campus-scene.js');}
+

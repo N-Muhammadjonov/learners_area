@@ -115,13 +115,13 @@ test("the initial view contains every enlarged landmark and opaque building silh
     assert.deepEqual([...conflicts],[],`${m.id} obscures another building`);ids.push(m.id);
   }
 });
-test("all eleven pavilions retain their proportions at exactly 111 percent, with Assignments at the outer corner",()=>{
+test("all eleven pavilions grow a further ten percent without changing proportions, with Assignments at the outer corner",()=>{
   for(const m of CAMPUS_CONFIG.modules.filter((m:{isCenter?:boolean})=>!m.isCenter)){
     const scale=world.buildingMeshes.get(m.id).userData.restingScale;
     const previousHorizontal=1.22*(m.id==='live_classes'?1.12:1.32);
-    assert.ok(Math.abs(scale.x/previousHorizontal-1.11)<1e-10,m.id);
-    assert.ok(Math.abs(scale.z/previousHorizontal-1.11)<1e-10,m.id);
-    assert.ok(Math.abs(scale.y/(1.22*CAMPUS_CONFIG.architecture.heights[m.id])-1.11)<1e-10,m.id);
+    assert.ok(Math.abs(scale.x/previousHorizontal-1.11*1.1)<1e-10,m.id);
+    assert.ok(Math.abs(scale.z/previousHorizontal-1.11*1.1)<1e-10,m.id);
+    assert.ok(Math.abs(scale.y/(1.22*CAMPUS_CONFIG.architecture.heights[m.id])-1.11*1.1)<1e-10,m.id);
   }
   const a=world.buildingMeshes.get('assignments').position,l=world.buildingMeshes.get('live_classes').position;
   assert.ok(a.length()>75);assert.ok(a.distanceTo(l)<35);assert.ok(a.x>45&&a.z<-50);
@@ -155,12 +155,12 @@ test("all genuine 3D landmarks face four camera azimuths and ABC never reverses"
 test("the restored rocket rotates below the single official LA emblem",()=>{
   const dashboard=world.buildingMeshes.get('dashboard'),rocket=dashboard.userData.rocket,logo=dashboard.userData.logo,camera=initialCamera();assert.ok(rocket?.isGroup);
   updateCampusObjects(world.buildingMeshes,camera,0,0);const first=rocket.rotation.y;updateCampusObjects(world.buildingMeshes,camera,0,2);assert.ok(Math.abs(rocket.rotation.y-first)>.5);
-  const box=new THREE.Box3().setFromObject(rocket);assert.ok(logo.position.y-logo.scale.y/2+logo.scale.y*(23/192)>box.max.y);
+  const box=new THREE.Box3().setFromObject(rocket);assert.ok((logo.position.y-logo.scale.y/2+logo.scale.y*(23/192))*dashboard.scale.y>box.max.y);
   let count=0;dashboard.traverse((o:{isSprite:boolean})=>{if(o.isSprite)count++;});assert.equal(count,1);
 });
 test("building hover smoothly grows the actual model and restores its original proportions",()=>{
   const b=world.buildingMeshes.get('speaking'),base=b.userData.restingScale.clone(),camera=initialCamera();setBuildingHover(world.buildingMeshes,'speaking',true);updateCampusObjects(world.buildingMeshes,camera,1,1);
-  assert.ok(b.scale.x/base.x>1.04&&b.scale.x/base.x<1.05);setBuildingHover(world.buildingMeshes,'speaking',false);updateCampusObjects(world.buildingMeshes,camera,2,3);assert.ok(b.scale.distanceTo(base)<1e-7);
+  assert.ok(b.scale.x/base.x>1.06&&b.scale.x/base.x<1.07);setBuildingHover(world.buildingMeshes,'speaking',false);updateCampusObjects(world.buildingMeshes,camera,2,3);assert.ok(b.scale.distanceTo(base)<1e-7);
 });
 test("side neon clears the bevel and volumetric currents advance with finite instance geometry",()=>{
   const slab=world.scene.getObjectByName('platform_root').children[0].geometry;slab.computeBoundingBox();
@@ -172,22 +172,20 @@ test("side neon clears the bevel and volumetric currents advance with finite ins
   }
 });
 
-test("side LEDs retain physical gaps while their fixed segments light and extinguish in sequence",()=>{
-  for(const loop of platformEdgeLoops(CAMPUS_CONFIG)){
-    const leds=new NeonDashLoop(loop,0x00bdff),matrix=new THREE.Matrix4();
-    const fixed=leds.core.instanceMatrix.array.slice(),before=leds.strengths.slice();
-    leds.core.getMatrixAt(0,matrix);const dashLength=new THREE.Vector3().setFromMatrixScale(matrix).y;
-    const gap=leds.centers[1]-leds.centers[0]-dashLength;
-    const edgeLength=new THREE.Vector3(...loop[0]).distanceTo(new THREE.Vector3(...loop[1]));
-    const oldGap=edgeLength/Math.ceil(edgeLength/4.5)*.4;
-    assert.ok(gap/oldGap>1.95&&gap/oldGap<2.05,'LED gaps are twice the prior visible spacing');
-    const spacing=leds.centers[1]-leds.centers[0],t=leds.centers[0]/leds.speed;
-    leds.update(t);assert.ok(leds.strengths[0]>.99);assert.equal(leds.strengths[1],0);
-    leds.update(t+spacing/leds.speed);assert.ok(leds.strengths[1]>.99);assert.ok(leds.strengths[0]<leds.strengths[1]);
-    leds.update(t+leds.totalLength/3/leds.speed*.5);assert.equal(leds.strengths[0],0);
-    assert.notDeepEqual(leds.strengths,before);assert.deepEqual(leds.core.instanceMatrix.array,fixed);
-    assert.ok(leds.core.instanceColor.array.every(Number.isFinite));
-  }
+test("both platform side rows are solid conduits with no instanced LED gaps",()=>{
+  const doc=globalThis.document;
+  globalThis.document={createElement:()=>({getContext:()=>({createRadialGradient:()=>({addColorStop(){}}),fillRect(){}})})} as unknown as Document;
+  try{
+    const scene=new THREE.Scene(),circuits=new CampusCircuits(scene,world.materials);
+    circuits.buildPlatformNetwork(CAMPUS_CONFIG);
+    const rows=circuits.group.children.filter((o:typeof THREE.Group)=>o.name==='platform_side_continuous_rim');
+    assert.equal(rows.length,2);
+    for(const row of rows){
+      assert.equal(row.children.length,4);
+      row.traverse((mesh:typeof THREE.Mesh)=>{if(mesh.isMesh){assert.equal(mesh.isInstancedMesh,undefined);assert.equal(mesh.geometry.type,'CylinderGeometry');assert.ok(mesh.geometry.parameters.radiusTop>=.18);}});
+    }
+    assert.equal(circuits.sideLoops.length,0);
+  }finally{globalThis.document=doc;}
 });
 test("Dashboard radial dashes and ring bulbs both orbit instead of remaining fixed",()=>{
   const doc=globalThis.document;
@@ -321,3 +319,4 @@ test("trackpad cross-axis noise cannot mix orbit and zoom within a gesture",()=>
     assert.ok(controller.camera.position.distanceTo(beforeZoom)<1e-8);
   }finally{clearTimeout(controller.pendingSave);}
 });
+

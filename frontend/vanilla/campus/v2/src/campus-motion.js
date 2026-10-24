@@ -21,7 +21,8 @@ export function updateCampusObjects(buildings,camera,delta,elapsed,reducedMotion
     const amount=reducedMotion?target:THREE.MathUtils.damp(old,target,12,delta);
     if(Math.abs(amount-old)>1e-5)scaleChanged=true;
     building.userData.hoverAmount=amount;
-    building.scale.copy(base).multiplyScalar(1+.045*amount);
+    building.scale.copy(base).multiplyScalar(1+.065*amount);
   }
   return scaleChanged;
 }
+

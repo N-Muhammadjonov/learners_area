@@ -1123,14 +1123,18 @@
 .la-welcome-main { position: relative; isolation: isolate; }
 .la-welcome-main::before { content: ""; position: absolute; inset: 10% 12%; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at center, rgb(var(--gold) / .07), transparent 65%); }
 .la-welcome-orbit { display: flex; gap: clamp(.6rem, 3vw, 1.5rem); margin-bottom: 2rem; pointer-events: none; }
-.la-welcome-chip { animation: la-chip-float 6s ease-in-out infinite; }
-.la-welcome-chip-1 { animation-delay: -1s; } .la-welcome-chip-2 { animation-delay: -2s; } .la-welcome-chip-3 { animation-delay: -3s; } .la-welcome-chip-4 { animation-delay: -4s; } .la-welcome-chip-5 { animation-delay: -5s; }
+/* Touch welcome only. Desktop intro remains the original untouched MP4. */
+.la-welcome-brand-link { transform-origin: left center; animation: la-welcome-brand-float 3.64s ease-in-out infinite; }
+.la-welcome-brand-link .brand-mark { animation: la-welcome-mark-rock 3.64s ease-in-out infinite; }
+.la-welcome-chip { animation: la-chip-float 3.37s ease-in-out infinite; }
+.la-welcome-chip-1 { animation-delay: -.62s; } .la-welcome-chip-2 { animation-delay: -1.24s; } .la-welcome-chip-3 { animation-delay: -1.86s; } .la-welcome-chip-4 { animation-delay: -2.48s; } .la-welcome-chip-5 { animation-delay: -3.10s; }
 .la-welcome-heading { animation: la-welcome-enter .5s ease-out both; }
 .la-welcome-cta { animation: la-welcome-enter .5s .12s ease-out both; }
-@keyframes la-chip-float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-6px) rotate(2deg); } }
+@keyframes la-chip-float { 0%, 100% { transform: translate3d(0, 1px, 0) rotate(-2deg); } 50% { transform: translate3d(0, -17px, 0) rotate(4deg); } }
+@keyframes la-welcome-brand-float { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -15px, 0); } }
+@keyframes la-welcome-mark-rock { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-4deg); } }
 @keyframes la-welcome-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 420px) { .la-welcome-orbit { gap: .55rem; } .la-welcome-orbit .module-emoji { width: 1.9rem; height: 1.9rem; } }
-@media (prefers-reduced-motion: reduce) { .la-welcome-chip, .la-welcome-heading, .la-welcome-cta { animation: none; } }
 
 .race-answer-box { font-family: var(--font-technical), ui-monospace, monospace; font-variant-numeric: tabular-nums; }
 
@@ -1143,7 +1147,7 @@
 
 /* Original lightweight motion: transform-only loops, no animation library. */
 h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spacing: -0.01em; }
-.la-welcome { position: relative; isolation: isolate; background: #080f21; }
+.la-welcome { position: relative; isolation: isolate; background: #0a1a39; color-scheme: dark; }
 .la-welcome-cosmos { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
 .la-welcome-aurora { position: absolute; width: min(90vw, 1100px); height: 70vh; top: 5%; left: 5%; background: radial-gradient(ellipse, #30628b35, transparent 65%); animation: la-aurora-drift 16s ease-in-out infinite alternate; }
 .la-welcome-ring { position: absolute; width: min(80vw, 800px); aspect-ratio: 1; border: 1px solid #e5bf5a30; border-radius: 50%; box-shadow: inset 0 0 60px #d3a94308, 0 0 50px #d3a94308; }
@@ -1167,8 +1171,8 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .listening-collection-tabs button:focus-visible { outline:2px solid currentColor; outline-offset:-3px; }
 .listening-summary { padding:1.5rem; border-radius:1.4rem; }
 .mock-progress-track { display:block; width:100%; height:.7rem; margin-top:.5rem; accent-color:rgb(var(--gold)); }
-.la-welcome-text { animation:la-text-rise 2.4s ease-in-out infinite; }
-.la-welcome-text-second { animation-delay:.16s; }
+.la-welcome-text { animation:la-text-rise 3.3s ease-in-out infinite; }
+.la-welcome-text-second { animation-delay:.22s; }
 @keyframes la-text-rise { 0%,100% { transform:translateY(0); } 45% { transform:translateY(-5px); } }
 @media (prefers-reduced-motion:reduce) { .la-welcome-text { animation:none; } }
 
@@ -2213,3 +2217,6 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 [data-theme="night"] [data-shell] .typing-footer {
   color: #ffffff;
 }
+
+
+.la-welcome [data-sidebar-brand]{--ink-900:243 238 229;--ink-300:205 223 237;color:rgb(var(--ink-900))}

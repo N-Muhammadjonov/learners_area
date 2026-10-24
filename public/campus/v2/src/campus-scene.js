@@ -128,6 +128,11 @@ export class LearnersAreaCampusScene {
       if(!building)continue;
       const box=new THREE.Box3().setFromObject(building);
       label.footprint={halfWidth:(box.max.x-box.min.x)/2,halfDepth:(box.max.z-box.min.z)/2};
+      if (!label.module.isCenter && label.module.id !== 'management') {
+        // Landmarks sit on the roof; place the badge below the facade midpoint.
+        const roofBase=building.userData.landmark?.position.y ?? 7;
+        label.anchorPos.y=building.position.y+roofBase*building.scale.y*.34;
+      }
     }
 
     // 9. Camera Controls with state persistence
@@ -247,6 +252,8 @@ export class LearnersAreaCampusScene {
           const horizontal=(m.id==='live_classes'?1.12:1.32)*scale;
           bldgGroup.scale.set(horizontal,(heights[m.id]||1.4)*scale,horizontal);
         }
+        // Uniform enlargement preserves each existing building and rooftop landmark.
+        bldgGroup.scale.multiplyScalar(1.1);
         bldgGroup.userData.restingScale=bldgGroup.scale.clone();
         this.geometry.finishArchitecture(bldgGroup);
         this.scene.add(bldgGroup);
@@ -395,13 +402,15 @@ export class LearnersAreaCampusScene {
 
     // Hover on 3D building
     this.hoveredModuleId = null;
+    this.labelHoveredModules=new Set();
     this.onMouseMove=(e)=>{
       const mod = getIntersectedModule(e);
       const newId = mod ? mod.id : null;
       if (newId !== this.hoveredModuleId) {
         if (this.hoveredModuleId) {
-          this.labels.setHighlight(this.hoveredModuleId, false);
-          setBuildingHover(this.buildingMeshes,this.hoveredModuleId,false);
+          const active=this.labelHoveredModules.has(this.hoveredModuleId);
+          this.labels.setHighlight(this.hoveredModuleId,active);
+          setBuildingHover(this.buildingMeshes,this.hoveredModuleId,active);
         }
         if (newId) {
           this.labels.setHighlight(newId, true);
@@ -416,11 +425,17 @@ export class LearnersAreaCampusScene {
     this.renderer.domElement.addEventListener('mousemove',this.onMouseMove);
 
     this.onCanvasLeave=()=>{
-      if(this.hoveredModuleId){this.labels.setHighlight(this.hoveredModuleId,false);setBuildingHover(this.buildingMeshes,this.hoveredModuleId,false);}
+      if(this.hoveredModuleId){const active=this.labelHoveredModules.has(this.hoveredModuleId);this.labels.setHighlight(this.hoveredModuleId,active);setBuildingHover(this.buildingMeshes,this.hoveredModuleId,active);}
       this.hoveredModuleId=null;this.renderer.domElement.style.cursor='default';
     };
     this.renderer.domElement.addEventListener('pointerleave',this.onCanvasLeave);
-    this.onModuleHover=(e)=>setBuildingHover(this.buildingMeshes,e.detail.id,e.detail.active);
+    this.onModuleHover=(e)=>{
+      const {id,active}=e.detail;
+      if(active)this.labelHoveredModules.add(id);else this.labelHoveredModules.delete(id);
+      const selected=active||this.hoveredModuleId===id;
+      this.labels.setHighlight(id,selected);
+      setBuildingHover(this.buildingMeshes,id,selected);
+    };
     window.addEventListener('campus-module-hover',this.onModuleHover);
   }
 
@@ -515,3 +530,4 @@ export class LearnersAreaCampusScene {
     canvas?.remove();
   }
 }
+
