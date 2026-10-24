@@ -1,5 +1,7 @@
-/** Slice 17: legacy Listening import verified against a REAL owner file (fixtures/listening-test-1.html = Listening_Test_1.html with the 16 MB recording replaced by a 74-byte stub). */
-import {test,afterEach} from 'node:test';import assert from 'node:assert/strict';
+/** Slice 17: legacy Listening import verified against a REAL owner file. The owner file is NOT committed (it contains
+ * educational content and answer keys). Set LEGACY_LISTENING_FIXTURE to a local copy of Listening_Test_1.html; without it
+ * these tests are skipped with an explicit reason. */
+import {test as baseTest,afterEach} from 'node:test';import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {deflateRawSync,crc32} from 'node:zlib';
 import {setup,tick,ID,dicts} from './harness.mjs';
@@ -7,7 +9,8 @@ import * as LI from '../../modules/staff-final30/listening-import.js';
 import {legacyImporter,listeningMap} from '../../modules/staff-final30/listening-legacy-import.js';
 import * as G from '../../js/adapters/staff-final30/listening-legacy.js';
 let h;afterEach(()=>{h?.dispose();delete globalThis.fetch;delete globalThis.DOMParser;});
-const FIX=new URL('../fixtures/listening-test-1.html',import.meta.url);const jres=(status,data)=>({status,ok:status<400,headers:{get:()=>'application/json'},json:async()=>data});
+const FIX=process.env.LEGACY_LISTENING_FIXTURE;const SKIP=FIX&&fs.existsSync(FIX)?false:'set LEGACY_LISTENING_FIXTURE to a local copy of the owner file (not committed)';
+const test=(name,fn)=>baseTest(name,{skip:SKIP},fn);const jres=(status,data)=>({status,ok:status<400,headers:{get:()=>'application/json'},json:async()=>data});
 const fixtureFile=()=>new File([fs.readFileSync(FIX)],'Listening_Test_1.html',{type:'text/html'});
 const inspectFixture=async(o={})=>{h=setup({path:'/app/admin/listening/import'});globalThis.DOMParser=h.dom.window.DOMParser;const {entries,textFiles}=await G.readListeningFiles([fixtureFile()]);return G.inspectListeningPackage({entries,textFiles,zipName:'Listening_Test_1.html',probeDuration:async()=>1700,read:G.readDocument,...o});};
 test('REAL FILE parity: 40 questions with the proven type of every item, Choose-TWO pairs with A–E options, map, script gaps, vocabulary, part ranges, activities',async()=>{
