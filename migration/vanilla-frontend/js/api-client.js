@@ -19,7 +19,9 @@ export function createApi(fetcher=globalThis.fetch.bind(globalThis),onUnauthoriz
  // Only identical concurrent GETs share a transport. Every consumer can cancel
  // independently; the last departure aborts the shared network request.
  function request(path,options={}){
-  if((options.method??'GET')!=='GET')return bounded(path,options);
+  // `fresh` is for a re-read that must reflect a mutation made after an identical request started: it never joins
+  // an in-flight GET (which may predate the change) and is not shared with later callers.
+  if((options.method??'GET')!=='GET'||options.fresh===true)return bounded(path,options);
   if(options.signal?.aborted)return Promise.reject(new DOMException('Aborted','AbortError'));
   let entry=pending.get(path);
   if(!entry){const controller=new AbortController();entry={controller,users:0};entry.promise=bounded(path,{...options,signal:controller.signal}).finally(()=>{if(pending.get(path)===entry)pending.delete(path);});pending.set(path,entry);}
