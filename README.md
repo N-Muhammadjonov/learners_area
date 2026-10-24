@@ -41,7 +41,10 @@ npm run dev               # starts Python on 8000, then Next on 3000
 or connects to the configured external backend when `BACKEND_MANAGED=external`.
 Use `npm run backend:test`, `npm run backend:test:postgres`, `npm run test:ui`,
 `npm run typecheck` and `npm run lint` for the migration checks. The backend README
-lists the transport tests and the limits of the checks.
+lists the transport tests and the limits of the checks. `npm run backend:test:main`
+compares the real pinned main handlers with FastAPI using isolated PostgreSQL
+databases; set `MAIN_REFERENCE_ROOT` as described there. The current parity
+record is `services/backend/contracts/main-parity.json`.
 
 ## Demo accounts
 

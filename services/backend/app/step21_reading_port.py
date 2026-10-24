@@ -7,6 +7,8 @@ from datetime import datetime,timezone,timedelta
 from fastapi import APIRouter,Request
 from . import main as core
 from .db import row_to_dict
+from .js_text import collapse, trim, words
+from pathlib import Path
 router=APIRouter()
 PRIVATE={'Cache-Control':'private, no-store'}
 STAFF=('teacher','admin','owner')
@@ -17,7 +19,7 @@ OMISSIONS={'reading105:test:08':('t08-p2-european-heat-wave',14),
 
 def is_live(r):return bool(r and (r['publication_state']=='published' or (r['publication_state']=='scheduled' and r['publish_at'] and r['publish_at']<=datetime.now(timezone.utc))))
 def norm(s):
- return re.sub(r'\.$','',re.sub(r'\s+',' ',s.strip().lower().replace('\u2018',"'").replace('\u2019',"'").replace('\u02bc',"'").replace('\u2013','-').replace('\u2014','-').replace('_',' '))).strip()
+ return re.sub(r'\.$','',collapse(trim(s).lower().replace('\u2018',"'").replace('\u2019',"'").replace('\u02bc',"'").replace('\u2013','-').replace('\u2014','-').replace('_',' ')))
 def matches(a,b):
  a=norm(a);b=norm(b)
  if not a:return False
@@ -28,20 +30,61 @@ def matches(a,b):
  la=label(a);lb=label(b)
  return (la is not None and lb is not None and la==lb) or (la is not None and la==b) or (lb is not None and lb==a)
 
+READING_TYPES=json.loads(Path(__file__).with_name('reading_question_types.json').read_text())
+TYPE_IDS={alias.lower():kind for kind,aliases,_ in READING_TYPES for alias in [kind,*aliases]}
+
+def choice_shape(value):
+ value=trim(value)
+ matched=re.match(r'^((?:[ivx]+|[a-z]))\s*[)—–.:\-]\s*(.+)$',value,re.I|re.ASCII)
+ if matched:return matched[1].lower(),collapse(trim(matched[2])).lower()
+ if re.fullmatch(r'(?:[ivx]+|[a-z])',value,re.I|re.ASCII):return value.lower(),''
+ return None,collapse(value.lower())
+
+def choice_matches(answer,key,options):
+ left,text=choice_shape(answer);right,expected=choice_shape(key)
+ if not left and not text:return False
+ if left and right:return left==right
+ if text and expected:return text==expected
+ def option_label(text):
+  return next((label for value in options for label,body in [choice_shape(value)] if label and body==text),None)
+ return option_label(expected)==left if left and expected else option_label(text)==right if text and right else False
+
 def correct(q,answer,choices=None):
  raw=q['accepted_answers'] or []
  constraints=q['answer_constraint'] or {}
  max_words=constraints.get('max_words',constraints.get('maxWords'))
- if isinstance(max_words,(float,int)) and len(answer.split())>max_words:return False
- kind=(q['type_code'] or q['type'] or '').lower()
- if kind in ('mcq_multi','multiple_choice_multi','multiple_choice_multiple_answers'):
+ if isinstance(max_words,(float,int)) and len(words(answer))>max_words:return False
+ kind=TYPE_IDS.get((q['type_code'] or q['type'] or '').lower())
+ if not kind:return False
+ options=[]
+ for index,value in enumerate(q.get('options') or choices or []):
+  label,text=choice_shape(value)
+  options.append((label or chr(65+index))+') '+(text or value))
+ if kind in ('true_false_not_given','yes_no_not_given'):
+  allowed=constraints.get('allowed_values')
+  if isinstance(allowed,list) and all(isinstance(v,str) for v in allowed):
+   values={collapse(trim(v).upper()).replace(' ','_') for v in allowed}
+   if values=={'YES','NO','NOT_GIVEN'}:kind='yes_no_not_given'
+   elif values=={'TRUE','FALSE','NOT_GIVEN'}:kind='true_false_not_given'
+  valid=('YES','NO','NOT GIVEN') if kind=='yes_no_not_given' else ('TRUE','FALSE','NOT GIVEN')
+  value=collapse(trim(answer)).replace('_',' ').upper()
+  return value in valid and value==collapse(trim(q['correct_answer'])).replace('_',' ').upper()
+ if kind=='multiple_choice_multi':
   split=lambda s:[x.strip() for x in re.split(r'[,;]|\s+and\s+',s,flags=re.I) if x.strip()]
   provided=split(answer)
   for expected in [q['correct_answer'],*raw]:
    keys=split(expected)
    number=constraints.get('selection_count',len(keys))
-   if len(keys)==number==len(provided) and len({x.lower() for x in provided})==len(provided) and all(any(matches(a,k) for k in keys) for a in provided):return True
+   remaining=keys.copy()
+   for value in provided:
+    match=next((i for i,key in enumerate(remaining) if choice_matches(value,key,options)),None)
+    if match is not None:remaining.pop(match)
+   if len(keys)==number==len(provided) and len({x.lower() for x in provided})==len(provided) and not remaining:return True
   return False
+ if kind=='multiple_choice':return choice_matches(answer,q['correct_answer'],options)
+ if kind.startswith('matching_') or kind=='classification':
+  return choice_matches(answer,q['correct_answer'],options) or any(matches(answer,x) for x in [q['correct_answer'],*raw])
+ if kind!='short_answer' and not isinstance(max_words,(float,int)) and len(words(answer))>3:return False
  return any(matches(answer,x) for x in [q['correct_answer'],*raw])
 
 def assessment_question_selection(source,rows):

@@ -1,9 +1,10 @@
 # Python backend for arena/learners-area-next
 
 The canonical entrypoint is `app.asgi:application`, not `app.main:app`.
-`main.app` retains the uploaded package's public route inventory for baseline
-regression tests. The ASGI entrypoint adds the private renderer adapter and
-request-local compatibility behavior for this preview's existing frontend.
+`main.app` retains the public route inventory for regression tests. The ASGI
+entrypoint adds the private renderer adapter. Public routes now follow the pinned
+`main` backend contract (`b62b78f469e4f73aa80f441f630b012dc422af39`);
+the initial migration's older-preview behavior overrides have been removed.
 
 ## Runtime boundary
 
@@ -43,12 +44,26 @@ SHA-256: `ead8bf6a8e523a3562194460bdc7b1f9a2252a97d8ca14e0dbc0bfe5ae164ef6`.
 | SQL migrations | 53 | 66 | First 53 byte-identical; added 0053–0065 and synced the journal/typed schema |
 | UI | Existing campus and module pages | Later backend contracts | Current React pages and campus assets preserved |
 
-Compatibility adjustments preserve the preview's inline Listening runtime,
-vocabulary/resource response fields, reversible Listening archive, 120-character
-vocabulary limit, existing Telegram widget signup, material deletion semantics
-and required contextual video vocabulary examples. New session revocation stays
-authoritative. Later course-sequence restrictions are not enabled by the preview
-API adapter; the existing UI progression selectors remain unchanged.
+The latest comparison uses all 218 API files and all 466 shared backend library
+and schema files from the pinned main commit. All 265 public methods are covered
+by the Python inventory. The 66 migrations match main; this parity update adds
+no schema migration. `contracts/main-reference.json` pins the original files by
+Git blob SHA, and the differential runner refuses a modified reference checkout.
+
+Corrections include canonical sequence checks, Telegram account rules,
+history-preserving content deletion, native Listening persistence, vocabulary
+sense identity/SRS, Reading grading, Structures word boundaries, validation
+messages, and Writing/Speaking feedback. All 32 original Listening browser
+runtimes and the main dictionary presentation shards are shipped with checksums;
+Python serves them without starting Node. Explicit dictionary context bindings,
+translation revisions and immutable Retention wording revisions are available
+as trusted Python maintenance helpers, not public learner endpoints.
+
+Content authoring preserves published lesson blocks and past attempts. Reading
+drafts own new physical targets and revisions; Vocabulary and Lesson authors
+pin the same canonical snapshots/provenance as main. Snapshot text is preserved
+verbatim while hashes use main's canonical normalization. Real PostgreSQL
+parameter-inference errors in SRS review and content publication are corrected.
 
 Shared fixes include stable dependency versions, real asyncpg JSON/UUID codecs,
 a single concurrent pool initializer, transaction-pooler-compatible statements,
@@ -58,7 +73,28 @@ retryable 503 responses, including when acquiring a connection fails.
 
 The original `PORT_STATUS.json` and `MIGRATION_AUDIT_*.json` files are historical
 package reports. They are not claims that every endpoint has live integration
-coverage. `contracts/preview-adaptation.json` records this adaptation separately.
+coverage. `contracts/preview-adaptation.json` is the superseded initial migration
+record; `contracts/main-parity.json` records the current checks and limitations.
+
+## Performance and future frontend
+
+Listening vocabulary enrichment fetches all candidate senses, pronunciation and
+occurrence metadata in one indexed query instead of querying each word. The
+100-word differential fixture reduces total endpoint SQL calls from 307 to 5,
+including identity and content access checks. See the parity contract for raw
+local timing samples; embedded PostgreSQL and different test transports are not
+a deployed latency benchmark. Other endpoints have no blanket speed guarantee.
+
+Password hashing/checking runs in worker threads, leaving the async event loop
+available to other requests. Auth-change SSE streams share one dedicated LISTEN
+connection per Python worker, with bounded queues and reconnect handling. The
+normal query pool remains bounded and transaction-pooler compatible.
+
+A future HTML/CSS/JavaScript frontend can use the same `/api/*` URLs, JSON,
+multipart uploads and HttpOnly session cookies. Serve it on the same public
+origin through a reverse proxy to FastAPI; keep private `/_frontend/*` routes
+server-only. React/Next is only the current renderer and transport. Browser
+Listening assets contain JavaScript because they execute in the browser.
 
 ## Start and deploy
 
@@ -119,18 +155,31 @@ Python subprocess; configure an external Python service there.
 
 Checks performed for this migration:
 
-- 733 Python tests: 706 uploaded baseline checks and 27 preview integration cases.
+- 2,556 Python tests, including 1,531 fixtures captured by executing actual main
+  functions and 288 Listening/dictionary asset integrity cases.
+- 2,120 differential HTTP cases: all 265 methods across anonymous, student,
+  teacher, admin, owner, pending, suspended and rejected identities. These cover
+  authentication, authorization, empty bodies and missing-resource contracts;
+  they are not 2,120 successful content workflows.
+- 119 sequential workflow cases run the real main handlers and canonical Python
+  ASGI app against separate freshly migrated PostgreSQL engines. They cover
+  Vocabulary/SRS, Structures, Reading, Listening, Writing, Speaking, Retention,
+  all 17 registered content authors, publication, immutable live lesson edits,
+  editorial bindings and Retention revisions. All responses and 29 database
+  state/hash checks match. Generated UUIDs and timestamps are normalized only
+  across independent runs; each content hash is also checked against main.
 - 8 Node transport/read-adapter tests; includes all 207 original API exports.
 - 337 UI tests, including updated server-contract assertions targeting Python.
 - All 66 migrations applied to embedded PostgreSQL (PGlite); all columns of the
   126 typed Drizzle tables found. Nine actual ASGI HTTP checks cover bcrypt login,
   fresh identity, typed reads, database-enforced read-only behavior, inline
-  Listening data/CSP, reversible archive and logout revocation.
+  Listening data/CSP, history-preserving deletion and logout revocation.
 - TypeScript, ESLint, backend import/native-dependency check and production build.
 
 ```bash
 npm run backend:test
 npm run backend:test:postgres
+npm run backend:test:main
 node --conditions=react-server --import tsx --test tests/backend-proxy.test.ts tests/backend-read-client.test.ts
 npm run test:ui
 npm run typecheck
@@ -143,6 +192,22 @@ probe. `backend:test` runs in `services/backend` because baseline inventory test
 read package reports relative to that directory. The broad legacy `npm test`
 suite still includes tests coupled to retired Next handler source; it is not the
 migration gate listed above.
+
+To reproduce the differential comparison, create an independent main checkout
+at the pinned commit with its original content files. The reference needs the
+same installed Node dependencies (for example, link its `node_modules` to this
+checkout's `node_modules`). Then run:
+
+```bash
+git worktree add ../main-reference b62b78f469e4f73aa80f441f630b012dc422af39
+MAIN_REFERENCE_ROOT=../main-reference npm run backend:test:main
+```
+
+The runner writes reports under `/tmp` (`PARITY_OUTPUT_DIR` overrides it), exits
+nonzero for any response/state mismatch, and never contacts a live database or
+external provider. `tools/generate-main-fixtures.mjs` and
+`tools/build-main-listening.mjs` rebuild fixtures/assets from that same reference
+using `TSX_TSCONFIG_PATH` set to the reference's `tsconfig.json`.
 
 PGlite verification uses a PostgreSQL engine with a stdio test-driver adapter;
 it does not prove the live asyncpg network/TLS path. Live Supabase, R2, Telegram,

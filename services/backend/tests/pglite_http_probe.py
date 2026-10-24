@@ -131,14 +131,16 @@ payload = {'authoredRuntime': '<main>Original inline lesson</main>', 'audio': {'
 asyncio.run(con.execute("INSERT INTO listening_tests(id,created_by_user_id,title,audio_type,publication_state,is_active) VALUES($1,$2,'Original lesson','file','published',true)", TEST, UID))
 asyncio.run(con.execute('INSERT INTO listening_packages(test_id,source_id,payload,audio_object_key,source_hash) VALUES($1,$2,$3::jsonb,$4,$5)', TEST, 'listening-test-1', payload, 'audio/probe.mp3', 'a'*64))
 response = client.get('/api/listening/full/'+TEST+'/authored')
-assert response.status_code == 200 and response.json()['runtime'] == payload['authoredRuntime'], response.text
+assert response.status_code == 200 and response.json()['nativePersistence'] is True, response.text
+assert response.json()['runtime']['entryPath']=='source.html'
+assert 'originalSaveStored' in response.json()['runtime']['files']['source.html']
 checks += 1
 response = client.get('/api/listening/full/preview/sandbox')
 assert response.status_code == 200 and 'sandbox allow-scripts' in response.headers['content-security-policy']
 checks += 1
 response = client.delete('/api/admin/listening/tests/'+TEST)
-assert response.status_code == 200 and response.json() == {'ok': True}, response.text
-assert asyncio.run(con.fetchval('SELECT publication_state FROM listening_tests WHERE id=$1', TEST)) == 'archived'
+assert response.status_code == 200 and response.json() == {'ok': True, 'action':'deleted','resultsPreserved':True}, response.text
+assert asyncio.run(con.fetchval('SELECT publication_state FROM listening_tests WHERE id=$1', TEST)) == 'draft'
 assert asyncio.run(con.fetchval('SELECT count(*)::int FROM listening_tests WHERE id=$1', TEST)) == 1
 checks += 1
 

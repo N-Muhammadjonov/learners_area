@@ -119,7 +119,7 @@ def sval(transcript,part,durationMs=None,promptText=None,origin='manual',pronunc
     crit=[{'key':'fluency','label':'Fluency and Coherence','band':to_band(fluency),'note':' '.join(notes)},
           {'key':'lexical','label':'Lexical Resource','band':to_band(lexical),'note':f'Content-word variety {a["typeTokenRatioOnContentWords"]*100:.0f}%.'},
           {'key':'grammar','label':'Grammatical Range and Accuracy','band':to_band(grammar),'note':f'{len(a["issues"])} pattern-level issue(s) in the transcript.'},
-          {'key':'pronunciation','label':'Pronunciation','band':None,'limited':True,'note':'Pronunciation cannot be assessed from a transcript alone.'}]
+          {'key':'pronunciation','label':'Pronunciation','band':None,'limited':True,'note':'Not assessed: pronunciation cannot be judged from a transcript, and no connected provider analyses audio. This criterion is left empty on purpose rather than estimated.'}]
     overall=to_band(sum(c['band'] for c in crit if c['band'] is not None)/3)
     confidence=.3+.3*min(1,words/150)
     if durationMs:confidence+=.1

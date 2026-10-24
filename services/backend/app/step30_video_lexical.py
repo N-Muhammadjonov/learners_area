@@ -5,14 +5,14 @@ forms.ts and units.ts. Every candidate occurrence is grounded in a real string
 span; ambiguity never guesses a sense.
 """
 from __future__ import annotations
-import json,re
+import json,re,unicodedata
 from pathlib import Path
 from .step21_vocab_batch import sense_key,normalize_term,normalize_pos
 RULES=json.loads((Path(__file__).parent/'video_lexical_rules.json').read_text())
 WORD=re.compile(r"[A-Za-z0-9'\-]")
 
 def normalize_lex(s):
-    return re.sub(r'\s+',' ',str(s).lower().replace('’',"'").replace('‘',"'").replace('`',"'")).strip()
+    return re.sub(r'\s+',' ',re.sub('[’‘ʼʻ`´′]', "'",unicodedata.normalize('NFKC',str(s)).lower())).strip()
 
 def lexical_type(word,pos):
     by={'noun phrase':'noun_phrase','verb phrase':'verb_phrase','phrasal verb':'phrasal_verb','idiom':'idiom','collocation':'collocation','fixed expression':'fixed_expression','compound':'compound'}
@@ -22,6 +22,8 @@ def is_function(word):return ' ' not in normalize_lex(word) and normalize_lex(wo
 
 def forms_of(term,pos):
     lemma=normalize_lex(term);pos=normalize_pos(pos)
+    pos=re.sub(r'^\((.*)\)$',r'\1',unicodedata.normalize('NFKC',pos)).removesuffix('.')
+    pos={'n':'noun','v':'verb','adj':'adjective','adv':'adverb','phr':'phrase','prep':'preposition','n.phrase':'noun phrase','v.phrase':'verb phrase'}.get(pos,pos)
     found={}
     def add(form,kind):
         norm=normalize_lex(form)

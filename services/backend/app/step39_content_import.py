@@ -371,6 +371,8 @@ async def listening_import(req:Request):
         return core.j({'error':mapcode.get(code,code) if code in ('unauthenticated','forbidden','schema_not_ready','asset_missing',
           'asset_hash_mismatch','asset_not_owned','asset_not_finalized','asset_mime_invalid','duplicate_asset','source_already_imported',
           'source_conflict','unknown') else 'invalid_package','detail':detail,'issues':issues},ERROR_STATUS.get(code,400))
+    if 'package' not in body and 'payload' not in body:
+        return core.j({'error':'invalid_package'},400)
     # Legacy one-shot requires its own preserved HTML runtime. Never silently turn
     # executable material into a canonical package or claim it is converted.
     p=body.get('payload');audio=core.uuid_value(body.get('audioUploadId'))

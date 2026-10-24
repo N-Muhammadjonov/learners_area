@@ -184,13 +184,6 @@ async def delete_listening_test(req:Request,id:str):
     db=await core.pool()
     async with db.acquire() as conn:
         async with conn.transaction():
-            from .preview_contract import current_preview
-            if current_preview.get():
-                row=await conn.fetchrow('SELECT id FROM listening_tests WHERE id=$1 FOR UPDATE',core.uuid_value(id))
-                if not row:return core.j({'error':'not_found'},404)
-                await conn.execute("UPDATE listening_tests SET publication_state='archived',is_active=false,publish_at=NULL WHERE id=$1",core.uuid_value(id))
-                await conn.execute("INSERT INTO audit_log(actor_user_id,action,target_type,target_id,metadata) VALUES($1,'content.updated','listening',$2,$3::jsonb)",user['id'],id,json.dumps({'operation':'archive'}))
-                return core.j({'ok':True},headers={'Cache-Control':'private, no-store'})
             result=await _delete_material(conn,user,'listening',id)
     if result=='deleted':return core.j({'ok':True,'action':result,'resultsPreserved':True})
     return core.j({'error':result},403 if result=='forbidden' else 404)

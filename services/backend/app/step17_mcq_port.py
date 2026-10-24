@@ -51,8 +51,6 @@ async def available_set(con,test):
     if not rows:rows=await con.fetch('SELECT id FROM listening_questions WHERE test_id=$1 ORDER BY "order"',test)
     return {str(r['id']) for r in rows}
 async def sequence(con,user,test):
-    from .preview_contract import current_preview
-    if current_preview.get():return True
     if staff(user):return True
     if test['program_ref']=='listening-mcq-program':
         rows=await con.fetch("""SELECT id,program_ordinal FROM listening_tests WHERE program_ref='listening-mcq-program' AND (publication_state='published' OR (publication_state='scheduled' AND publish_at<=now())) AND NOT EXISTS (SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:' || listening_tests.id::text)::uuid AND d.type='CONTENT_DELETED') ORDER BY program_ordinal""")

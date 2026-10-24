@@ -34,6 +34,7 @@ def bad(code,message,field=None):raise PublicationRefusal(code,message,field)
 
 def parse_body(body):
     if not isinstance(body,dict):return None,'Required'
+    if 'to' not in body:return None,'Required'
     state=body.get('to')
     if state not in STATES:return None,"Invalid enum value. Expected 'draft' | 'scheduled' | 'published' | 'archived'"
     raw=body.get('publishAt')
@@ -157,8 +158,8 @@ async def publish(con,row,state,date,actor,*,system_schedule=False):
     if state=='published':
         await con.execute('''UPDATE content_versions SET status='superseded',superseded_at=NOW() WHERE module=$1
           AND content_type=$2 AND source_ref=$3 AND status='published' AND id<>$4''',row['module'],row['content_type'],row['source_ref'],row['id'])
-    updated=await con.fetchrow('''UPDATE content_versions SET publication_state=$2,status=$3,
-       published_at=CASE WHEN $2='published' THEN NOW() ELSE published_at END WHERE id=$1 RETURNING *''',
+    updated=await con.fetchrow('''UPDATE content_versions SET publication_state=$2::publication_state,status=$3,
+       published_at=CASE WHEN $2::text='published' THEN NOW() ELSE published_at END WHERE id=$1 RETURNING *''',
        row['id'],state,'published' if state=='published' else 'archived' if state=='archived' else 'draft')
     if state=='published' and key==('lesson','lesson'):await materialize_lesson(con,dict(updated))
     return {'ok':True,'versionId':str(row['id']),'publicationState':state}

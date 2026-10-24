@@ -4,6 +4,8 @@ Source: cb6b3cdf. No generic /api/{path} fallback, no synthetic responses:
 only endpoints with translated business logic are routed here.
 """
 from __future__ import annotations
+import asyncio
+from .admin_validation import parse as parse_admin
 
 import math
 import re
@@ -531,11 +533,9 @@ async def auth_reset_request(req: Request):
     from datetime import timedelta
     from .rate_limit import RULES,counter,client_key,too_many
     if not core.auth_policy()['passwordEnabled']:return core.auth_disabled()
-    body = await core.payload(req)
-    raw_email = body.get('email') if isinstance(body,dict) else None
-    if not isinstance(raw_email,str):return core.j({'error':'Invalid input'},400)
-    email=raw_email.strip().lower()
-    if not core.is_email(email):return core.j({'error':'Enter a valid email'},400)
+    body, error = core.validate_auth(await core.payload(req), 'request')
+    if error:return core.j({'error': error},400)
+    email=body['email']
     RULES.setdefault('password_reset',(5,900))
     ip_limit=counter('password_reset',client_key(req),consume=True)
     if ip_limit:return too_many(ip_limit)
@@ -557,19 +557,16 @@ async def auth_reset_request(req: Request):
 @router.post('/api/auth/reset/confirm')
 async def auth_reset_confirm(req: Request):
     if not core.auth_policy()['passwordEnabled']:return core.auth_disabled()
-    body=await core.payload(req)
-    token=body.get('token') if isinstance(body,dict) else None
-    password=body.get('password') if isinstance(body,dict) else None
-    if not isinstance(token,str) or len(token)<10:return core.j({'error':'Invalid input'},400)
-    if not isinstance(password,str) or len(password)<8:
-        return core.j({'error':'Password must be at least 8 characters' if isinstance(password,str) else 'Invalid input'},400)
+    body, error=core.validate_auth(await core.payload(req), 'confirm')
+    if error:return core.j({'error':error},400)
+    token=body['token'];password=body['password']
     db=await core.pool()
     async with db.acquire() as conn:
         record=await conn.fetchrow('''SELECT id,user_id FROM password_reset_tokens
           WHERE token_hash=$1 AND used_at IS NULL AND expires_at>now() LIMIT 1''',_telegram_hash(token))
         if not record:return core.j({'error':'invalid_or_expired_token'},400)
         import bcrypt
-        pw_hash=bcrypt.hashpw(password.encode('utf-8'),bcrypt.gensalt(rounds=12)).decode('utf-8')
+        pw_hash=(await asyncio.to_thread(bcrypt.hashpw,password.encode('utf-8'),bcrypt.gensalt(rounds=12))).decode('utf-8')
         async with conn.transaction():
             claimed=await conn.fetchrow('''UPDATE password_reset_tokens SET used_at=now()
               WHERE id=$1 AND used_at IS NULL AND expires_at>now() RETURNING id''',record['id'])
@@ -617,9 +614,8 @@ async def admin_grammar_topics(req: Request):
     user=await core.current_user(req,active=True)
     if not user:return core.auth_error()
     if user['role'] not in ('admin','owner'):return core.j({'error':'forbidden'},403)
-    body=await core.payload(req)
-    if not isinstance(body,dict) or body.get('skillArea') not in ('writing','speaking') or not isinstance(body.get('title'),str) or not 3<=len(body['title'])<=200 or not isinstance(body.get('explanation'),str) or len(body['explanation'])<5:
-        return core.j({'error':'invalid_input'},400)
+    body,error=parse_admin(await core.payload(req),'grammar_topic')
+    if error:return core.j({'error':error},400)
     db=await core.pool()
     async with db.acquire() as conn:
         # Original reads all topics then writes count+1; deliberately not a MAX(order) shortcut.
@@ -634,11 +630,8 @@ async def admin_reading_passages(req: Request):
     user=await core.current_user(req,active=True)
     if not user:return core.auth_error()
     if user['role'] not in ('admin','owner'):return core.j({'error':'forbidden'},403)
-    body=await core.payload(req)
-    if (not isinstance(body,dict) or not isinstance(body.get('title'),str) or not 3<=len(body['title'])<=200
-        or not isinstance(body.get('bodyText'),str) or len(body['bodyText'])<50
-        or not isinstance(body.get('difficultyLevel'),str) or not 2<=len(body['difficultyLevel'])<=10):
-        return core.j({'error':'invalid_input'},400)
+    body,error=parse_admin(await core.payload(req),'passage')
+    if error:return core.j({'error':error},400)
     minutes=_number(body.get('suggestedMinutes'))
     if not math.isfinite(minutes) or not minutes.is_integer() or not 5<=minutes<=90:
         return core.j({'error':'invalid_input'},400)

@@ -106,7 +106,7 @@ async def convert_listening(req:Request,id:str):
         raw=await core.payload(req)
         try:
             if not isinstance(raw,dict) or 'package' not in raw or not isinstance(raw['package'],dict):
-                raise InvalidPackage('schema_invalid',[{'level':1,'code':'schema_invalid','message':'Required','path':'package','blocking':True}])
+                raise InvalidPackage('schema_invalid',[{'level':1,'code':'schema_invalid','message':'Required','blocking':True}])
             pkg,_=parse_package(raw['package'])
             if pkg['module']!='listening' or pkg['contentType']!='full_test':
                 raise InvalidPackage('schema_invalid',[{'level':1,'code':'schema_invalid','message':'Invalid package type','blocking':True}])

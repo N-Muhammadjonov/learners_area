@@ -1,0 +1,1973 @@
+{
+  "sourceCommit": "b62b78f469e4f73aa80f441f630b012dc422af39",
+  "verifiedSourceFiles": 684,
+  "scope": "workflows",
+  "cases": [
+    {
+      "name": "initial /api/vocabulary",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/vocabulary",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 513.2842920000003,
+        "python": 67.84395799999947
+      }
+    },
+    {
+      "name": "initial /api/vocabulary/summary",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/vocabulary/summary",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 4.490625000000364,
+        "python": 3.4007919999994556
+      }
+    },
+    {
+      "name": "initial /api/vocabulary/folders",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/vocabulary/folders",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 4.346582999999555,
+        "python": 3.097917000000052
+      }
+    },
+    {
+      "name": "initial /api/vocabulary/due",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/vocabulary/due",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 4.177166999999827,
+        "python": 3.075166999999965
+      }
+    },
+    {
+      "name": "initial /api/vocabulary/leaderboard",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/vocabulary/leaderboard",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 5,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 7.76891599999999,
+        "python": 6.21979199999987
+      }
+    },
+    {
+      "name": "create folder",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/vocabulary/folders",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 3.183708000000479,
+        "python": 2.897624999999607
+      }
+    },
+    {
+      "name": "duplicate folder",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/vocabulary/folders",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 3,
+        "python": 3
+      },
+      "elapsedMs": {
+        "main": 1.9752499999995052,
+        "python": 3.3476250000003347
+      }
+    },
+    {
+      "name": "move vocabulary",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/vocabulary/folders",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 3,
+        "python": 3
+      },
+      "elapsedMs": {
+        "main": 2.97754199999963,
+        "python": 3.4641670000000886
+      }
+    },
+    {
+      "name": "folder membership",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/vocabulary/folders",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 1.8378750000001673,
+        "python": 2.7629159999996773
+      }
+    },
+    {
+      "name": "vocabulary review",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/vocabulary/70000000-0000-4000-8000-000000000002/review",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 6,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 7.2308750000001965,
+        "python": 6.858249999999316
+      }
+    },
+    {
+      "name": "review is not due twice",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/vocabulary/70000000-0000-4000-8000-000000000002/review",
+      "status": 409,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 4
+      },
+      "elapsedMs": {
+        "main": 1.8287499999996726,
+        "python": 3.5243749999999636
+      }
+    },
+    {
+      "name": "other user cannot review",
+      "actor": "teacher",
+      "method": "POST",
+      "path": "/api/vocabulary/70000000-0000-4000-8000-000000000002/review",
+      "status": 404,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 4
+      },
+      "elapsedMs": {
+        "main": 1.486624999999549,
+        "python": 3.27612500000032
+      }
+    },
+    {
+      "name": "leaderboard after review",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/vocabulary/leaderboard",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 5,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 33.755333000000064,
+        "python": 5.017125000000306
+      }
+    },
+    {
+      "name": "grammar correct structure",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/grammar/exercises/40000000-0000-4000-8000-000000000001/practice",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 9,
+        "python": 9
+      },
+      "elapsedMs": {
+        "main": 117.79933299999993,
+        "python": 6.487374999999702
+      }
+    },
+    {
+      "name": "grammar wrong structure",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/grammar/exercises/40000000-0000-4000-8000-000000000001/practice",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 9,
+        "python": 9
+      },
+      "elapsedMs": {
+        "main": 3.8875829999997222,
+        "python": 5.582000000000335
+      }
+    },
+    {
+      "name": "grammar topic submit",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/grammar/topics/30000000-0000-4000-8000-000000000001/submit",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 6,
+        "python": 6
+      },
+      "elapsedMs": {
+        "main": 6.541459000000032,
+        "python": 5.612916000000041
+      }
+    },
+    {
+      "name": "reading start",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/reading/attempts",
+      "status": 404,
+      "equal": true,
+      "queries": {
+        "main": 11,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 8.344457999999577,
+        "python": 5.746041999999761
+      }
+    },
+    {
+      "name": "reading resume same attempt",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/reading/attempts",
+      "status": 404,
+      "equal": true,
+      "queries": {
+        "main": 10,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 3.78808300000037,
+        "python": 4.775166999999783
+      }
+    },
+    {
+      "name": "reading autosave",
+      "actor": "student",
+      "method": "PATCH",
+      "path": "/api/reading/attempts/$readingAttempt",
+      "status": 404,
+      "equal": true,
+      "queries": {
+        "main": 0,
+        "python": 0
+      },
+      "elapsedMs": {
+        "main": 3.554667000000336,
+        "python": 1.5456659999999829
+      }
+    },
+    {
+      "name": "other learner cannot draft",
+      "actor": "teacher",
+      "method": "PATCH",
+      "path": "/api/reading/attempts/$readingAttempt",
+      "status": 404,
+      "equal": true,
+      "queries": {
+        "main": 0,
+        "python": 0
+      },
+      "elapsedMs": {
+        "main": 0.1637090000003809,
+        "python": 1.1130409999996118
+      }
+    },
+    {
+      "name": "reading submit",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/reading/attempts/$readingAttempt/submit",
+      "status": 404,
+      "equal": true,
+      "queries": {
+        "main": 0,
+        "python": 0
+      },
+      "elapsedMs": {
+        "main": 4.855415999999423,
+        "python": 1.4509590000006938
+      }
+    },
+    {
+      "name": "reading duplicate submit",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/reading/attempts/$readingAttempt/submit",
+      "status": 404,
+      "equal": true,
+      "queries": {
+        "main": 0,
+        "python": 0
+      },
+      "elapsedMs": {
+        "main": 0.15204199999971024,
+        "python": 1.2515000000003056
+      }
+    },
+    {
+      "name": "general reading check",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/reading/general/progress",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 6,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 7.4042499999995925,
+        "python": 5.295959000000039
+      }
+    },
+    {
+      "name": "listening start",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/listening/attempts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 12,
+        "python": 11
+      },
+      "elapsedMs": {
+        "main": 37.44837499999994,
+        "python": 8.381583000000319
+      }
+    },
+    {
+      "name": "listening resume",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/listening/attempts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 9,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 5.276208000000224,
+        "python": 6.087916999999834
+      }
+    },
+    {
+      "name": "listening submit",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/listening/attempts/$listeningAttempt/submit",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 14,
+        "python": 13
+      },
+      "elapsedMs": {
+        "main": 10.800083000000086,
+        "python": 8.099541999999929
+      }
+    },
+    {
+      "name": "listening duplicate submit",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/listening/attempts/$listeningAttempt/submit",
+      "status": 409,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 4.265832999999475,
+        "python": 5.774250000000393
+      }
+    },
+    {
+      "name": "grammar topic authoring",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/grammar/topics",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 3,
+        "python": 3
+      },
+      "elapsedMs": {
+        "main": 4.837207999999919,
+        "python": 7.713542000000416
+      }
+    },
+    {
+      "name": "reading passage authoring",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/reading/passages",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 3.9147499999999127,
+        "python": 3.3536659999999756
+      }
+    },
+    {
+      "name": "listening deletion",
+      "actor": "admin",
+      "method": "DELETE",
+      "path": "/api/admin/listening/tests/60000000-0000-4000-8000-000000000001",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 12.330582999999933,
+        "python": 4.795959000000039
+      }
+    },
+    {
+      "name": "deleted listening cannot start",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/listening/attempts",
+      "status": 404,
+      "equal": true,
+      "queries": {
+        "main": 4,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 3.497707999999875,
+        "python": 2.8874589999995806
+      }
+    },
+    {
+      "name": "authored Listening runtime",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000003/authored",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 6,
+        "python": 4
+      },
+      "elapsedMs": {
+        "main": 15.692291999999725,
+        "python": 4.8000410000004194
+      }
+    },
+    {
+      "name": "Listening vocabulary enrichment",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000003/authored?vocabulary=1",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 10,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 13.023666000000048,
+        "python": 6.695458999999573
+      }
+    },
+    {
+      "name": "writing start",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/writing/submissions",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 5,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 6.7905000000000655,
+        "python": 4.690791999999419
+      }
+    },
+    {
+      "name": "writing resumes draft",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/writing/submissions",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 3,
+        "python": 3
+      },
+      "elapsedMs": {
+        "main": 1.8789580000002388,
+        "python": 3.065791999999419
+      }
+    },
+    {
+      "name": "writing too short",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/writing/submissions/$writingSubmission/submit",
+      "status": 400,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 4.954917000000023,
+        "python": 2.9294580000005226
+      }
+    },
+    {
+      "name": "writing draft save",
+      "actor": "student",
+      "method": "PATCH",
+      "path": "/api/writing/submissions/$writingSubmission",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 4.849208000000544,
+        "python": 2.9622499999995853
+      }
+    },
+    {
+      "name": "other user cannot edit writing",
+      "actor": "teacher",
+      "method": "PATCH",
+      "path": "/api/writing/submissions/$writingSubmission",
+      "status": 404,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 1.243416000000252,
+        "python": 3.0655839999999444
+      }
+    },
+    {
+      "name": "writing submit evaluation",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/writing/submissions/$writingSubmission/submit",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 19,
+        "python": 18
+      },
+      "elapsedMs": {
+        "main": 12.479209000000083,
+        "python": 13.335541000000376
+      }
+    },
+    {
+      "name": "writing duplicate submit",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/writing/submissions/$writingSubmission/submit",
+      "status": 409,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 1.4150830000007772,
+        "python": 2.6544169999997393
+      }
+    },
+    {
+      "name": "speaking free practice",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/speaking/attempts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 11.86370799999986,
+        "python": 3.4479590000000826
+      }
+    },
+    {
+      "name": "speaking cannot submit without recording",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/speaking/attempts/$speakingAttempt/submit",
+      "status": 409,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 6.940625000000182,
+        "python": 3.140124999999898
+      }
+    },
+    {
+      "name": "speaking manual transcript",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/speaking/attempts/$speakingAttempt/transcript",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 13,
+        "python": 13
+      },
+      "elapsedMs": {
+        "main": 11.311291999999412,
+        "python": 10.753000000000611
+      }
+    },
+    {
+      "name": "other user cannot submit transcript",
+      "actor": "teacher",
+      "method": "POST",
+      "path": "/api/speaking/attempts/$speakingAttempt/transcript",
+      "status": 403,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 1.4488750000000437,
+        "python": 2.7796660000003612
+      }
+    },
+    {
+      "name": "speaking own history",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/speaking/attempts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 2,
+        "python": 2
+      },
+      "elapsedMs": {
+        "main": 1.47400000000016,
+        "python": 2.6707909999995536
+      }
+    },
+    {
+      "name": "retention start",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/retention/attempts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 14,
+        "python": 13
+      },
+      "elapsedMs": {
+        "main": 24.198333000000275,
+        "python": 8.155917000000045
+      }
+    },
+    {
+      "name": "retention resumes same attempt",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/retention/attempts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 2.9061659999997573,
+        "python": 4.567667000000256
+      }
+    },
+    {
+      "name": "retention phase aware read",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/retention/attempts/$retentionAttempt",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 5,
+        "python": 4
+      },
+      "elapsedMs": {
+        "main": 3.7394580000000133,
+        "python": 3.5218749999994543
+      }
+    },
+    {
+      "name": "retention finish reading",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/retention/attempts/$retentionAttempt/finish-reading",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 6,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 4.91254200000003,
+        "python": 4.518041999999696
+      }
+    },
+    {
+      "name": "retention finish reading idempotent",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/retention/attempts/$retentionAttempt/finish-reading",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 5,
+        "python": 4
+      },
+      "elapsedMs": {
+        "main": 2.2925420000001395,
+        "python": 3.4786659999999756
+      }
+    },
+    {
+      "name": "retention recall draft",
+      "actor": "student",
+      "method": "PATCH",
+      "path": "/api/retention/attempts/$retentionAttempt/draft",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 5,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 3.5775000000003274,
+        "python": 3.7739590000001044
+      }
+    },
+    {
+      "name": "other user cannot save recall",
+      "actor": "teacher",
+      "method": "PATCH",
+      "path": "/api/retention/attempts/$retentionAttempt/draft",
+      "status": 404,
+      "equal": true,
+      "queries": {
+        "main": 4,
+        "python": 4
+      },
+      "elapsedMs": {
+        "main": 1.9824170000001686,
+        "python": 3.147624999999607
+      }
+    },
+    {
+      "name": "retention submit",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/retention/attempts/$retentionAttempt/submit",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 11,
+        "python": 10
+      },
+      "elapsedMs": {
+        "main": 9.04016700000011,
+        "python": 8.707499999999527
+      }
+    },
+    {
+      "name": "retention submit idempotent",
+      "actor": "student",
+      "method": "POST",
+      "path": "/api/retention/attempts/$retentionAttempt/submit",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 5,
+        "python": 4
+      },
+      "elapsedMs": {
+        "main": 2.1530000000002474,
+        "python": 3.920082999999977
+      }
+    },
+    {
+      "name": "bulk Listening vocabulary 1",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000004/authored?vocabulary=1",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 307,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 98.22641600000043,
+        "python": 13.161083999999391
+      }
+    },
+    {
+      "name": "bulk Listening vocabulary 2",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000004/authored?vocabulary=1",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 307,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 98.38441700000021,
+        "python": 14.150666000000456
+      }
+    },
+    {
+      "name": "bulk Listening vocabulary 3",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000004/authored?vocabulary=1",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 307,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 93.65250000000015,
+        "python": 13.121167000000241
+      }
+    },
+    {
+      "name": "bulk Listening vocabulary 4",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000004/authored?vocabulary=1",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 307,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 91.33379200000036,
+        "python": 14.080040999999255
+      }
+    },
+    {
+      "name": "bulk Listening vocabulary 5",
+      "actor": "student",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000004/authored?vocabulary=1",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 307,
+        "python": 5
+      },
+      "elapsedMs": {
+        "main": 93.4197920000006,
+        "python": 16.088582999999744
+      }
+    },
+    {
+      "name": "editorial exact contextual meaning",
+      "operation": "context_bindings",
+      "equal": true
+    },
+    {
+      "name": "editorial binding idempotent",
+      "operation": "context_bindings",
+      "equal": true
+    },
+    {
+      "name": "editorial stale source rejected",
+      "operation": "context_bindings",
+      "equal": true
+    },
+    {
+      "name": "retention immutable source revision",
+      "operation": "retention_revision",
+      "equal": true
+    },
+    {
+      "name": "retention revision idempotent",
+      "operation": "retention_revision",
+      "equal": true
+    },
+    {
+      "name": "student cannot revise retention source",
+      "operation": "retention_revision",
+      "equal": true
+    },
+    {
+      "name": "Content author creates listening:full_test",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 19.166541000000507,
+        "python": 7.22229200000038
+      }
+    },
+    {
+      "name": "Content author updates draft listening:full_test",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 9
+      },
+      "elapsedMs": {
+        "main": 5.237625000000662,
+        "python": 5.503125000000182
+      }
+    },
+    {
+      "name": "Content author creates listening:section",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 3.4586249999993015,
+        "python": 4.852125000000342
+      }
+    },
+    {
+      "name": "Content author updates draft listening:section",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 9
+      },
+      "elapsedMs": {
+        "main": 3.774250000000393,
+        "python": 5.706749999999374
+      }
+    },
+    {
+      "name": "Content author creates reading:general_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 10,
+        "python": 10
+      },
+      "elapsedMs": {
+        "main": 4.683874999999716,
+        "python": 6.677750000000742
+      }
+    },
+    {
+      "name": "Content author updates draft reading:general_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 11,
+        "python": 11
+      },
+      "elapsedMs": {
+        "main": 4.881249999999454,
+        "python": 6.6484580000005735
+      }
+    },
+    {
+      "name": "Content author creates reading:passage",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 3.798208000000159,
+        "python": 5.845124999999825
+      }
+    },
+    {
+      "name": "Content author updates draft reading:passage",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 9,
+        "python": 9
+      },
+      "elapsedMs": {
+        "main": 4.043666999999914,
+        "python": 5.5912500000004
+      }
+    },
+    {
+      "name": "Content author creates writing:task1",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.661000000000058,
+        "python": 4.885791999999128
+      }
+    },
+    {
+      "name": "Content author updates draft writing:task1",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 3.314416999999594,
+        "python": 5.716625000000022
+      }
+    },
+    {
+      "name": "Content author creates writing:task2",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.2114590000001044,
+        "python": 5.126500000000306
+      }
+    },
+    {
+      "name": "Content author updates draft writing:task2",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 3.3932080000004134,
+        "python": 5.530749999999898
+      }
+    },
+    {
+      "name": "Content author creates writing:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.8630000000002838,
+        "python": 6.102042000000438
+      }
+    },
+    {
+      "name": "Content author updates draft writing:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 3.771125000000211,
+        "python": 5.617957999999817
+      }
+    },
+    {
+      "name": "Content author creates writing:model_text",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.694209000000228,
+        "python": 5.31512500000008
+      }
+    },
+    {
+      "name": "Content author updates draft writing:model_text",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 3.8179999999993015,
+        "python": 5.456958000000668
+      }
+    },
+    {
+      "name": "Content author creates writing:pattern",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.5327909999996336,
+        "python": 4.649792000000161
+      }
+    },
+    {
+      "name": "Content author updates draft writing:pattern",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 9,
+        "python": 9
+      },
+      "elapsedMs": {
+        "main": 4.393332999999984,
+        "python": 5.7237499999992
+      }
+    },
+    {
+      "name": "Content author creates writing:translation_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 9,
+        "python": 9
+      },
+      "elapsedMs": {
+        "main": 4.383458999999675,
+        "python": 6.636000000000422
+      }
+    },
+    {
+      "name": "Content author updates draft writing:translation_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 10,
+        "python": 10
+      },
+      "elapsedMs": {
+        "main": 4.637749999999869,
+        "python": 5.972541000000092
+      }
+    },
+    {
+      "name": "Content author creates speaking:part1_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.6505830000005517,
+        "python": 6.958499999999731
+      }
+    },
+    {
+      "name": "Content author updates draft speaking:part1_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 3.425666000000092,
+        "python": 5.100625000000036
+      }
+    },
+    {
+      "name": "Content author creates speaking:cue_card",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.269333000000188,
+        "python": 4.69970899999953
+      }
+    },
+    {
+      "name": "Content author updates draft speaking:cue_card",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 3.2864589999999225,
+        "python": 4.861457999999402
+      }
+    },
+    {
+      "name": "Content author creates speaking:part3_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.3838749999995343,
+        "python": 4.635334000000512
+      }
+    },
+    {
+      "name": "Content author updates draft speaking:part3_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 3.1717500000004293,
+        "python": 4.874957999999424
+      }
+    },
+    {
+      "name": "Content author creates speaking:material",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 7,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.6406660000002375,
+        "python": 4.80645899999945
+      }
+    },
+    {
+      "name": "Content author updates draft speaking:material",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 9,
+        "python": 9
+      },
+      "elapsedMs": {
+        "main": 3.4876670000003287,
+        "python": 5.017707999999402
+      }
+    },
+    {
+      "name": "Content author creates grammar:topic",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 201,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 9
+      },
+      "elapsedMs": {
+        "main": 3.6572499999992942,
+        "python": 5.888208000000304
+      }
+    },
+    {
+      "name": "Content author updates draft grammar:topic",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 10,
+        "python": 10
+      },
+      "elapsedMs": {
+        "main": 4.045915999999124,
+        "python": 5.683125000000473
+      }
+    },
+    {
+      "name": "Content author creates vocabulary:topic_pack",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 13,
+        "python": 14
+      },
+      "elapsedMs": {
+        "main": 6.029459000000315,
+        "python": 7.416582999999264
+      }
+    },
+    {
+      "name": "Content author updates draft vocabulary:topic_pack",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 13,
+        "python": 14
+      },
+      "elapsedMs": {
+        "main": 5.023750000000291,
+        "python": 6.90979200000038
+      }
+    },
+    {
+      "name": "Content author creates lesson:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 11,
+        "python": 10
+      },
+      "elapsedMs": {
+        "main": 5.884207999999489,
+        "python": 6.523417000000336
+      }
+    },
+    {
+      "name": "Content author updates draft lesson:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 13,
+        "python": 13
+      },
+      "elapsedMs": {
+        "main": 5.632042000000183,
+        "python": 7.750250000000051
+      }
+    },
+    {
+      "name": "Publish authored listening:full_test",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftA/publication",
+      "status": 422,
+      "equal": true,
+      "queries": {
+        "main": 5,
+        "python": 4
+      },
+      "elapsedMs": {
+        "main": 5.021374999999352,
+        "python": 3.8713750000006257
+      }
+    },
+    {
+      "name": "Publish authored listening:section",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftB/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 12,
+        "python": 11
+      },
+      "elapsedMs": {
+        "main": 4.790041000000201,
+        "python": 6.434500000000298
+      }
+    },
+    {
+      "name": "Publish authored reading:general_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftC/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 12,
+        "python": 11
+      },
+      "elapsedMs": {
+        "main": 4.2445410000000265,
+        "python": 5.933458999999857
+      }
+    },
+    {
+      "name": "Publish authored reading:passage",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftD/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 11,
+        "python": 10
+      },
+      "elapsedMs": {
+        "main": 3.8718330000001515,
+        "python": 5.372583000000304
+      }
+    },
+    {
+      "name": "Publish authored writing:task1",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftE/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.0884580000001733,
+        "python": 4.556082999999489
+      }
+    },
+    {
+      "name": "Publish authored writing:task2",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftF/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.121125000000575,
+        "python": 4.509207999999489
+      }
+    },
+    {
+      "name": "Publish authored writing:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftG/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.11725000000024,
+        "python": 6.21337499999936
+      }
+    },
+    {
+      "name": "Publish authored writing:model_text",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftH/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.4748749999998836,
+        "python": 4.8419999999996435
+      }
+    },
+    {
+      "name": "Publish authored writing:pattern",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftI/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.5358329999999114,
+        "python": 5.57024999999976
+      }
+    },
+    {
+      "name": "Publish authored writing:translation_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftJ/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.4844580000008136,
+        "python": 4.957874999999149
+      }
+    },
+    {
+      "name": "Publish authored speaking:part1_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftK/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.209125000000313,
+        "python": 4.582083999999668
+      }
+    },
+    {
+      "name": "Publish authored speaking:cue_card",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftL/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.158625000000029,
+        "python": 4.434624999999869
+      }
+    },
+    {
+      "name": "Publish authored speaking:part3_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftM/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.0031660000004194,
+        "python": 4.557749999999942
+      }
+    },
+    {
+      "name": "Publish authored speaking:material",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftN/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.209125000000313,
+        "python": 4.275709000000461
+      }
+    },
+    {
+      "name": "Publish authored grammar:topic",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftO/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 2.9681250000003274,
+        "python": 4.649374999999964
+      }
+    },
+    {
+      "name": "Publish authored vocabulary:topic_pack",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftP/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 7
+      },
+      "elapsedMs": {
+        "main": 3.2922499999995125,
+        "python": 4.510624999999891
+      }
+    },
+    {
+      "name": "Publish authored lesson:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftQ/publication",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 15,
+        "python": 12
+      },
+      "elapsedMs": {
+        "main": 5.298125000000255,
+        "python": 7.48279199999979
+      }
+    },
+    {
+      "name": "Published lesson revision is immutable",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 422,
+      "equal": true,
+      "queries": {
+        "main": 4,
+        "python": 4
+      },
+      "elapsedMs": {
+        "main": 1.9602089999998498,
+        "python": 3.922625000000153
+      }
+    },
+    {
+      "name": "Start a draft revision of a live lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 8,
+        "python": 8
+      },
+      "elapsedMs": {
+        "main": 4.0052080000004935,
+        "python": 5.231583999999202
+      }
+    },
+    {
+      "name": "Continue editing live lesson draft",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "status": 200,
+      "equal": true,
+      "queries": {
+        "main": 9,
+        "python": 9
+      },
+      "elapsedMs": {
+        "main": 4.1397909999996045,
+        "python": 5.9496250000001965
+      }
+    }
+  ],
+  "differences": [],
+  "state": [
+    {
+      "sql": "SELECT user_id,exercise_id,activity,response_text,is_correct FROM grammar_attempts ORDER BY activity,response_text",
+      "equal": true
+    },
+    {
+      "sql": "SELECT user_id,passage_id,status,score FROM reading_attempts ORDER BY user_id",
+      "equal": true
+    },
+    {
+      "sql": "SELECT user_id,test_id,status,score FROM listening_attempts ORDER BY user_id",
+      "equal": true
+    },
+    {
+      "sql": "SELECT user_id,mastery,srs_stage,correct_count,incorrect_count,interval_days FROM user_vocabulary ORDER BY user_id",
+      "equal": true
+    },
+    {
+      "sql": "SELECT user_id,kind,points,dedupe_key FROM vocab_point_events ORDER BY kind",
+      "equal": true
+    },
+    {
+      "sql": "SELECT type,payload FROM activity_events WHERE type IN ('VOCAB_REVIEWED','GRAMMAR_PRACTICE_SUBMITTED','CONTENT_DELETED') ORDER BY type,payload::text",
+      "equal": true
+    },
+    {
+      "sql": "SELECT user_id,prompt_id,status,content,word_count FROM writing_submissions ORDER BY user_id",
+      "equal": true
+    },
+    {
+      "sql": "SELECT user_id,part,status,transcript,transcript_origin FROM speaking_attempts ORDER BY user_id",
+      "equal": true
+    },
+    {
+      "sql": "SELECT user_id,status,recall_text,score,evaluator_version FROM retention_attempts ORDER BY user_id",
+      "equal": true
+    },
+    {
+      "sql": "SELECT id,retention_text_id,version_number,body_text,word_count,scoring_structure FROM retention_text_versions ORDER BY id",
+      "equal": true
+    },
+    {
+      "sql": "SELECT source_type,passage_id,surface_form,start_char,end_char,resolution_status,resolution_source FROM lexical_occurrences WHERE source_type='reading' ORDER BY start_char",
+      "equal": true
+    },
+    {
+      "sql": "SELECT retention_text_version_id,start_char,end_char,surface_form,lexeme_id FROM lexical_occurrences WHERE source_type='retention' ORDER BY retention_text_version_id,start_char",
+      "equal": true
+    },
+    {
+      "sql": "SELECT action,target_id,metadata FROM audit_log WHERE action='retention_text.version_created' ORDER BY target_id",
+      "equal": true
+    },
+    {
+      "sql": "SELECT module,content_type,source_ref,version_no,status,change_kind,publication_state,title,track,CASE WHEN module='reading' THEN NULL ELSE content_hash END AS content_hash,semantic_hash,answer_key_hash,content_snapshot,provenance FROM content_versions WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref,version_no",
+      "equal": true
+    },
+    {
+      "sql": "SELECT source_ref,title,audio_type,audio_url,transcript,difficulty_level,publication_state FROM listening_tests WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref",
+      "equal": true
+    },
+    {
+      "sql": "SELECT t.source_ref,q.\"order\",q.type,q.type_code,q.question_text,q.options,q.correct_answer,q.explanation,q.keywords,q.paraphrases FROM listening_tests t JOIN listening_questions q ON q.test_id=t.id WHERE t.source_ref LIKE 'parity-author-%' ORDER BY t.source_ref,q.\"order\"",
+      "equal": true
+    },
+    {
+      "sql": "SELECT source_ref,passage_no,title,body_text,publication_state FROM reading_passages WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref,publication_state",
+      "equal": true
+    },
+    {
+      "sql": "SELECT source_ref,task_type,category,prompt,target_word_count,publication_state FROM writing_prompts WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref",
+      "equal": true
+    },
+    {
+      "sql": "SELECT source_ref,title,category,body,summary,duration_minutes,publication_state FROM writing_lessons WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref",
+      "equal": true
+    },
+    {
+      "sql": "SELECT source_ref,title,task_type,topic,target_band,body,word_count,provenance,publication_state FROM writing_model_texts WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref",
+      "equal": true
+    },
+    {
+      "sql": "SELECT v.source_ref,p.pattern,p.function,p.task_type,p.topic,p.target_band,p.example,p.provenance,p.publication_state FROM content_versions v JOIN writing_language_patterns p ON p.id=v.target_id WHERE v.source_ref LIKE 'parity-author-%' AND v.content_type='pattern' ORDER BY v.source_ref",
+      "equal": true
+    },
+    {
+      "sql": "SELECT t.source_ref,s.position,s.uzbek_source,s.model_english,s.accepted_alternatives,s.notes,s.target_lexical_items FROM writing_translation_sets t JOIN writing_translation_sentences s ON s.set_id=t.id WHERE t.source_ref LIKE 'parity-author-%' ORDER BY t.source_ref,s.position",
+      "equal": true
+    },
+    {
+      "sql": "SELECT external_id,part,category,prompt_text,cue_card,prep_seconds,answer_seconds,follow_ups,topic,publication_state FROM speaking_prompts WHERE external_id LIKE 'parity-author-%' ORDER BY external_id",
+      "equal": true
+    },
+    {
+      "sql": "SELECT v.source_ref,s.title,s.category,s.primary_type,s.primary_url,s.publication_state FROM content_versions v JOIN speaking_materials s ON s.id=v.target_id WHERE v.source_ref LIKE 'parity-author-%' ORDER BY v.source_ref",
+      "equal": true
+    },
+    {
+      "sql": "SELECT t.source_ref,t.title,t.skill_area,t.explanation,t.publication_state,e.\"order\",e.prompt_text,e.options,e.correct_option,e.explanation FROM grammar_topics t JOIN grammar_exercises e ON e.topic_id=t.id WHERE t.source_ref LIKE 'parity-author-%' ORDER BY t.source_ref,e.\"order\"",
+      "equal": true
+    },
+    {
+      "sql": "SELECT p.source_ref,p.slug,p.label_en,p.label_uz,p.position,p.publication_state,m.position,l.term,l.part_of_speech,l.definition_en,l.sense_key FROM vocabulary_topic_packs p JOIN vocabulary_topic_pack_words m ON m.pack_id=p.id JOIN lexemes l ON l.id=m.lexeme_id WHERE p.source_ref LIKE 'parity-author-%' ORDER BY p.source_ref,m.position",
+      "equal": true
+    },
+    {
+      "sql": "SELECT l.source_ref,l.title,l.slug,l.summary,l.learning_area,l.teacher_notes,l.estimated_minutes,l.publication_state,b.position,b.type,b.text_content FROM lessons l JOIN lesson_blocks b ON b.lesson_id=l.id WHERE l.source_ref LIKE 'parity-author-%' ORDER BY l.source_ref,b.position",
+      "equal": true
+    },
+    {
+      "hashIntegrity": "main",
+      "rows": 20,
+      "equal": true
+    },
+    {
+      "hashIntegrity": "python",
+      "rows": 20,
+      "equal": true
+    }
+  ],
+  "summary": {
+    "total": 119,
+    "matched": 119,
+    "stateChecks": 29,
+    "matchedStateChecks": 29,
+    "differences": 0
+  }
+}

@@ -69,8 +69,7 @@ async def meaning(req:Request):
     if not user:return core.j({'error':'unauthenticated'},401,PRIVATE)
     source=req.query_params.get('sourceType','listening'); id=req.query_params.get('sourceId','')
     term=req.query_params.get('q','').strip()
-    from .preview_contract import current_preview
-    if not core.uuid_value(id) or source not in ('reading','listening','retention') or not term or len(term)>(120 if current_preview.get() else 80):
+    if not core.uuid_value(id) or source not in ('reading','listening','retention') or not term or len(term)>80:
         return core.j({'error':'invalid_input'},400,PRIVATE)
     delay=counter('vocabulary_search','text-dictionary:'+str(user['id']),consume=True)
     if delay:return core.j({'error':'rate_limited'},429,{**PRIVATE,'Retry-After':str(delay)})

@@ -19,17 +19,6 @@ async def remove_speaking_material(req:Request,id:str):
         if not row:return core.j({'error':'not_found'},404)
         if user['role'] not in ('teacher','admin','owner') or user['role']!='owner' and row['created_by_user_id'] is not None and row['created_by_user_id']!=user['id']:
             return core.j({'error':'forbidden'},403)
-        from .preview_contract import current_preview
-        if current_preview.get():
-            blocks=await con.fetch('SELECT object_key FROM material_blocks WHERE material_id=$1',target)
-            material=await con.fetchrow('SELECT primary_object_key FROM speaking_materials WHERE id=$1',target)
-            await con.execute('DELETE FROM speaking_materials WHERE id=$1',target)
-            from .step19_storage import delete_object
-            for key in [material['primary_object_key'] if material else None,*[b['object_key'] for b in blocks]]:
-                if key:
-                    try:await delete_object(key)
-                    except Exception:pass
-            return core.j({'ok':True})
         async with con.transaction():
             row=await con.fetchrow('SELECT id,created_by_user_id FROM speaking_materials WHERE id=$1 FOR UPDATE',target)
             if not row:return core.j({'error':'not_found'},404)

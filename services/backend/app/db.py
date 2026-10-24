@@ -51,6 +51,13 @@ async def _create_pool():
     dsn = os.environ.get('DATABASE_URL')
     if not dsn:
         raise OSError('DATABASE_URL is required')
+    dsn,tls=connection_settings(dsn)
+    return await asyncpg.create_pool(dsn=dsn, min_size=1, max_size=max(1, min(int(os.environ.get('DATABASE_POOL_MAX', '5')), 20)),
+                                      timeout=8, command_timeout=20, ssl=tls, init=initialize_connection,
+                                      statement_cache_size=0)
+
+
+def connection_settings(dsn):
     # Existing server uses a private CA for Supabase. asyncpg respects TLS verify-full
     # only with an explicitly provided trust chain. Never silently disable TLS.
     import ssl
@@ -64,9 +71,7 @@ async def _create_pool():
         parts = urlsplit(dsn)
         query = urlencode([(k, v) for k, v in parse_qsl(parts.query) if not k.lower().startswith('ssl')])
         dsn = urlunsplit((parts.scheme, parts.netloc, parts.path, query, parts.fragment))
-    return await asyncpg.create_pool(dsn=dsn, min_size=1, max_size=max(1, min(int(os.environ.get('DATABASE_POOL_MAX', '5')), 20)),
-                                      timeout=8, command_timeout=20, ssl=tls, init=initialize_connection,
-                                      statement_cache_size=0)
+    return dsn,tls
 
 
 async def close_pool():

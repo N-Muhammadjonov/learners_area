@@ -1,5 +1,7 @@
 {
   "format": 1,
+  "historical": true,
+  "superseded_by": "main-parity.json",
   "branch": "arena/learners-area-next",
   "previous_preview_commit": "184e33d103861922125655e23bb56e6b978fa1a5",
   "uploaded_source_commit": "cb6b3cdfdab8909c8d172df4714dba2bfe1a7b2e",

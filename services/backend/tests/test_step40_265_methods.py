@@ -83,7 +83,7 @@ def test_speaking_cannot_use_retired_shadowing_or_unsafe_upload_keys():
         with pytest.raises(draft.DraftInvalid):draft.validate('speaking','material',invalid)
 
 def test_draft_listening_section_question_cap_preserved():
-    q={'type':'mcq_single','questionText':'Choose the answer','correctAnswer':'A','explanation':'A is correct'}
+    q={'type':'mcq','questionText':'Choose the answer','correctAnswer':'A','explanation':'A is correct'}
     assert draft.validate('listening','section',{'questions':[q]})['sectionNo']==1
     with pytest.raises(draft.DraftInvalid):draft.validate('listening','section',{'questions':[q]*13})
 

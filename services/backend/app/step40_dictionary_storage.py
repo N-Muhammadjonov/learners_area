@@ -137,9 +137,10 @@ def validate_entry(entry):
             for value in sense['domain_tags']:string(value,120)
         optstr(sense,'cefr',12)
     for r in entry['relations']:
-        obj(r,('relation_type','target_lexeme_id','display_lemma','part_of_speech','lexical_type'),('target_sense_id',))
+        obj(r,('relation_type','target_lexeme_id','display_lemma','part_of_speech','lexical_type'),('target_sense_id','source_sense_id'))
         for field in ('relation_type','display_lemma','part_of_speech','lexical_type'):string(r[field])
         uid(r['target_lexeme_id'])
+        if 'source_sense_id' in r:uid(r['source_sense_id'])
         if r.get('target_sense_id') is not None:uid(r['target_sense_id'])
     for c in entry['collocations']:
         obj(c,('text',),('sense_id','pattern_type','direction'));string(c['text'])

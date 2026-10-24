@@ -11,6 +11,7 @@ import uuid
 from urllib.parse import urlsplit
 from fastapi import APIRouter, Request
 from . import main as core
+from .admin_validation import parse as parse_admin
 
 router=APIRouter()
 _UUID=re.compile(r'^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$',re.I)
@@ -43,9 +44,8 @@ async def grammar_exercise(req:Request,id:str):
     if not ident:return core.j({'error':'not_found'},404)
     user,error=await admin_user(req)
     if error:return error
-    b=await core.payload(req)
-    if not isinstance(b,dict) or not valid_string(b.get('promptText'),3) or not nonempty_options(b.get('options')) or not 2<=len(b['options'])<=6 or not valid_string(b.get('correctOption'),1) or not valid_string(b.get('explanation'),3) or ('sourceSubmissionId' in b and not uuid_val(b.get('sourceSubmissionId'))):
-        return core.j({'error':'invalid_input'},400)
+    b,error=parse_admin(await core.payload(req),'grammar_exercise')
+    if error:return core.j({'error':error},400)
     if b['correctOption'] not in b['options']:
         return core.j({'error':'correct_option_must_be_one_of_options'},400)
     db=await core.pool()
@@ -80,14 +80,8 @@ async def reading_question(req:Request,id:str):
     if not ident:return core.j({'error':'not_found'},404)
     user,error=await admin_user(req)
     if error:return error
-    b=await core.payload(req)
-    types=('true_false_not_given','yes_no_not_given','multiple_choice','short_answer')
-    if (not isinstance(b,dict) or b.get('type') not in types
-        or not valid_string(b.get('questionText'),5) or not valid_string(b.get('correctAnswer'),1)
-        or not valid_string(b.get('explanation'),1)
-        or ('evidenceQuote' in b and not isinstance(b['evidenceQuote'],str))
-        or ('options' in b and not nonempty_options(b['options']))):
-        return core.j({'error':'invalid_input'},400)
+    b,error=parse_admin(await core.payload(req),'reading_question')
+    if error:return core.j({'error':error},400)
     if b['type']=='multiple_choice' and (not b.get('options') or len(b['options'])<2):
         return core.j({'error':'multiple_choice needs at least 2 options'},400)
     db=await core.pool()
@@ -111,12 +105,8 @@ async def listening_question(req:Request,id:str):
     if not ident:return core.j({'error':'not_found'},404)
     user,error=await admin_user(req,staff=True)
     if error:return error
-    b=await core.payload(req)
-    if (not isinstance(b,dict) or b.get('type') not in ('multiple_choice','short_answer')
-        or not valid_string(b.get('questionText'),5) or not valid_string(b.get('correctAnswer'),1)
-        or not valid_string(b.get('explanation'),1) or
-        ('options' in b and not nonempty_options(b.get('options')))):
-        return core.j({'error':'invalid_input'},400)
+    b,error=parse_admin(await core.payload(req),'listening_question')
+    if error:return core.j({'error':error},400)
     if b['type']=='multiple_choice' and (not b.get('options') or len(b['options'])<2):
         return core.j({'error':'multiple_choice needs at least 2 options'},400)
     db=await core.pool()
@@ -143,15 +133,8 @@ def _valid_url(value:str):
 async def listening_test_create(req:Request):
     user,error=await admin_user(req,staff=True)
     if error:return error
-    b=await core.payload(req)
-    if (not isinstance(b,dict) or not valid_string(b.get('title'),3,200)
-        or b.get('audioType') not in ('video','audio','file','link')
-        or not valid_string(b.get('difficultyLevel'),2,10)
-        or ('transcript' in b and not valid_string(b['transcript'],0,200000))
-        or ('audioUrl' in b and not _valid_url(b['audioUrl']))
-        or ('audioUploadId' in b and not uuid_val(b.get('audioUploadId')))
-        or bool(b.get('audioUrl')) == bool(b.get('audioUploadId'))):
-        return core.j({'error':'invalid_input'},400)
+    b,error=parse_admin(await core.payload(req),'listening_test')
+    if error:return core.j({'error':error},400)
     upload_id=uuid_val(b.get('audioUploadId'))
     db=await core.pool()
     async with db.acquire() as conn:

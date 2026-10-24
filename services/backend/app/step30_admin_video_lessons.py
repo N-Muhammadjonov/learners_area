@@ -6,7 +6,6 @@ import json,os,re
 from urllib.parse import urlsplit,parse_qs
 from fastapi import APIRouter,Request
 from . import main as core
-from .preview_contract import current_preview
 from .step25_content_version import version_hashes,encoded,digest
 from .step30_video_lexical import ingest_video_occurrences
 
@@ -97,7 +96,7 @@ def schema(body):
             if not isinstance(item,dict):raise Bad('Expected object')
             out['vocabulary'].append({'word':text(item.get('word'),1,120,trim=True),
                 'pos':text(item.get('pos'),0,30),'def':text(item.get('def'),1,500,trim=True),
-                'uz':text(item.get('uz'),0,500),'ex':text(item.get('ex',''),1 if current_preview.get() else 0,500,trim=True)})
+                'uz':text(item.get('uz'),0,500),'ex':text(item.get('ex',''),0,500,trim=True)})
     else:out['vocabulary']=None
     questions=body.get('questions')
     if questions is not None:
@@ -145,11 +144,6 @@ async def admin_video_create(req:Request):
     except Bad as ex:return core.j({'error':'invalid_input','detail':ex.message},400)
     if b['lessonId'] and b['videoLessonId']:return core.j({'error':'invalid_input','detail':'lessonId_or_videoLessonId'},400)
     if b['transcript'] and b['transcriptText'] and b['transcriptText'].strip():return core.j({'error':'invalid_input','detail':'transcript_ambiguous'},400)
-    from .preview_contract import current_preview
-    if current_preview.get() and b['vocabulary']:
-        context='\n'.join(str(x) for x in [b['transcriptText'],*[line['text'] for line in b['transcript'] or []],b['notes']] if x)
-        if any(item['ex'] not in context for item in b['vocabulary']):
-            return core.j({'error':'vocabulary_context_required'},400)
     if (b['transcript'] or b['transcriptText'] and b['transcriptText'].strip()) and not b['transcriptSource']:
         return core.j({'error':'invalid_input','detail':'transcript_source_required'},400)
     db=await core.pool()

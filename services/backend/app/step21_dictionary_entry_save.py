@@ -7,26 +7,7 @@ from .step17_dictionary_read_port import pinned,entry,error_response,PRIVATE,nor
 from .step21_vocab_batch import add_batch
 router=APIRouter()
 
-# The uploaded backend contains source code but not the large precomputed editorial
-# presentation shards. When deployed beside those shards, use a verified manifest;
-# without them only explicitly included entry examples/collocations are returned.
-def present(e):
-    lemma=e.get('display_lemma','')
-    terms=[lemma]+[form.get('surface_form','') for form in e.get('forms',[])]
-    words={normalize_search(w) for w in terms if w}
-    def used(text):
-        norm=normalize_search(text)
-        return any(re.search(r'(?<!\w)'+re.escape(w)+r'(?!\w)',norm) for w in words)
-    senses=e.get('senses',[])
-    result={}
-    for sense in senses:
-        sid=sense['sense_id']
-        synonyms=([{'text':r['display_lemma'],'lexemeId':r['target_lexeme_id'],
-                    'senseId':r.get('target_sense_id')} for r in e.get('relations',[]) if r.get('relation_type')=='synonym'] if len(senses)==1 else [])
-        coll=[{'text':c['text']} for c in e.get('collocations',[]) if c.get('sense_id')==sid or (c.get('sense_id') is None and len(senses)==1)]
-        result[sid]={'synonyms':synonyms,'collocations':coll,
-                    'examples':[ex for ex in sense.get('examples',[]) if used(ex.get('text_en',''))]}
-    return {'senses':result}
+from .dictionary_presentation import present
 
 @router.get('/api/dictionary/entries/{lexemeId}')
 async def dictionary_entry(req:Request,lexemeId:str):
@@ -70,31 +51,8 @@ async def save_sense(req:Request):
                 if not value:raise ValueError('sense_not_found')
                 sense=next((s for s in value['senses'] if s['sense_id']==body['senseId']),None)
                 if not sense:raise ValueError('sense_not_found')
-                maprow=await con.fetchrow('SELECT app_sense_id FROM dictionary_sense_mappings WHERE sense_id=$1',core.uuid_value(body['senseId']))
-                presentation=present(value)['senses'][body['senseId']]
-                example=presentation['examples'][0]['text_en'] if presentation['examples'] else None
-                coll=' · '.join(r['text'] for r in presentation['collocations']) or None
-                if maprow:
-                    appid=maprow['app_sense_id']
-                    current=await con.fetchrow('SELECT id,example_sentence,collocations FROM lexemes WHERE id=$1',appid)
-                    if not current:raise RuntimeError('dictionary_mapping_missing')
-                    if not current['example_sentence'] or current['example_sentence'] not in [x['text_en'] for x in presentation['examples']]:
-                        await con.execute('UPDATE lexemes SET example_sentence=$2 WHERE id=$1',appid,example)
-                    if not (current['collocations'] or '').strip() and coll:
-                        await con.execute('UPDATE lexemes SET collocations=$2 WHERE id=$1',appid,coll)
-                else:
-                    pos={'n':'noun','v':'verb','a':'adjective','r':'adverb'}.get(value['part_of_speech'],value['part_of_speech'])
-                    typ=value['lexical_type'] if value['lexical_type'] in ('word','noun_phrase','verb_phrase','collocation','phrasal_verb','idiom','fixed_expression','compound','technical_term','phrase') else ('phrase' if ' ' in value['display_lemma'] else 'word')
-                    unit=await con.fetchval('''INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type,provenance)
-                        VALUES($1,$2,$3,$4,$5,'dictionary_release') ON CONFLICT(language,lemma_norm,part_of_speech,lexical_type)
-                        DO UPDATE SET lemma=lexical_units.lemma RETURNING id''',core.uuid_value(body['lexemeId']),value['display_lemma'],normalize_search(value['display_lemma']),pos,typ)
-                    appid=core.uuid_value(body['senseId'])
-                    await con.execute('''INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,example_sentence,
-                       collocations,sense_key,provenance,verification_status,lexical_unit_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,'dictionary_release',$9,$10)''',
-                      appid,value['display_lemma'],pos,sense['definition_en'],sense['translations'][0]['text'],example,coll,
-                      'dictionary:'+body['senseId'],'unverified' if sense.get('editorial') and sense['editorial']['translation_status']!='human_reviewed' else 'verified',unit)
-                    await con.execute('''INSERT INTO dictionary_sense_mappings(sense_id,app_sense_id,app_unit_id,mapping_method)
-                       VALUES($1,$2,$3,'new_canonical')''',appid,appid,unit)
+                from .dictionary_materialize import materialize
+                appid=await materialize(con,value,body['senseId'])
                 lex=await con.fetchrow('SELECT * FROM lexemes WHERE id=$1',appid)
                 item={'term':lex['term'],'partOfSpeech':lex['part_of_speech'],'definitionEn':lex['definition_en'],
                       'translationUz':lex['translation_uz'],'canonicalLexemeId':lex['id']}

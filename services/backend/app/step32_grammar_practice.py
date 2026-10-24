@@ -7,19 +7,20 @@ from fastapi import APIRouter,Request
 from . import main as core
 from .step31_learning_production import _exercise_and_topic,_revision,_remove_attempt,_language
 from . import step31_coach as coach
+from .js_text import collapse, trim
 router=APIRouter()
 
 def check_structures(answer,structures):
-    haystack=re.sub(r'\s+',' ',answer.lower().replace('\u2019',"'").strip())
+    haystack=trim(collapse(answer.lower().replace('\u2019',"'")))
     used=[];missing=[]
     for raw in structures:
-        s=re.sub(r'\s+',' ',raw.lower().replace('\u2019',"'").strip())
+        s=trim(collapse(raw.lower().replace('\u2019',"'")))
         if not s:missing.append(raw);continue
         tokens=s.split(' ')
         escaped=[re.escape(t) for t in tokens]
         simple=r'\b'+r'\s+'.join(escaped)+r'\b'
         pattern=r'\b'+escaped[0]+r'\w*'+r'(?:\s+\w+){0,4}\s+'+r'\s+'.join(escaped[1:])+r'\b'
-        ok=bool(re.search(r'\b'+escaped[0]+r'\w*\b',haystack)) if len(tokens)==1 else bool(re.search(pattern,haystack) or re.search(simple,haystack))
+        ok=bool(re.search(r'\b'+escaped[0]+r'\w*\b',haystack,re.ASCII)) if len(tokens)==1 else bool(re.search(pattern,haystack,re.ASCII) or re.search(simple,haystack,re.ASCII))
         (used if ok else missing).append(raw)
     return {'used':used,'missing':missing,'complete':not missing and bool(used)}
 

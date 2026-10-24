@@ -6,13 +6,22 @@ import hashlib,json,re,unicodedata
 from .db import row_to_dict
 
 
-def fold(s):return str(s).replace('\u2018',"'").replace('\u2019',"'").replace('\u02bc',"'").replace('\u02bb',"'")
-def normalize_term(s):return re.sub(r'^(a|an|the)\s+','',re.sub(r'\s+',' ',fold(s.lower()).strip())).strip()
+from .js_text import collapse,trim,slice as js_slice
+
+def fold(s):return re.sub('[\u2018\u2019\u02bc\u02bb`´′]',"'",str(s))
+def normalize_term(s):return trim(re.sub(r'^(a|an|the)\s+','',trim(collapse(fold(s.lower())))))
 def normalize_pos(s):
-    raw=(s or '').strip().lower()
-    aliases={'n':'noun','n.':'noun','v':'verb','v.':'verb','adj':'adjective','adj.':'adjective','adv':'adverb','adv.':'adverb'}
-    return aliases.get(raw,raw)
-def normalize_meaning(s):return re.sub(r'\.$','',re.sub(r'\s+',' ',unicodedata.normalize('NFKC',s or '').lower().strip())).strip()
+    raw=re.sub(r'^\((.*)\)$',r'\1',trim(unicodedata.normalize('NFKC',s or '').lower())).removesuffix('.')
+    aliases={'n':'noun','v':'verb','adj':'adjective','adv':'adverb','phr':'phrase','prep':'preposition','n.phrase':'noun phrase','v.phrase':'verb phrase'}
+    return aliases.get(raw,collapse(raw))
+def normalize_meaning(s):return trim(re.sub(r'\.$','',trim(collapse(unicodedata.normalize('NFKC',s or '').lower()))))
+def legacy_sense_key(item):
+    raw=trim((item.get('partOfSpeech') or '').lower());pos=None
+    for pattern,value in [('n|noun','noun'),('v|verb','verb'),('adj|adjective','adjective'),('adv|adverb','adverb'),('phr|phrase|idiom|expression','phrase'),('prep|preposition','preposition')]:
+        if re.match('^('+pattern+')',raw):pos=value;break
+    if pos is None:pos=re.sub('[^a-z]+','',raw)[:20]
+    meaning=re.split(r'[;,.(\n]',(item.get('definitionEn') or '').lower())[0]
+    return js_slice('|'.join(part for part in [normalize_term(item['term']),pos,meaning] if part),0,200)
 def sense_key(item):
     parts=[normalize_term(item['term']),normalize_pos(item.get('partOfSpeech')),normalize_meaning(item.get('definitionEn'))]
     return 'v2:'+hashlib.sha256(json.dumps(parts,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()

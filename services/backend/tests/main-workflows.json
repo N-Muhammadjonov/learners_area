@@ -1,0 +1,2438 @@
+{
+  "sourceCommit": "b62b78f469e4f73aa80f441f630b012dc422af39",
+  "seed": [
+    "INSERT INTO grammar_topics(id,skill_area,title,explanation,\"order\",publication_state) VALUES('30000000-0000-4000-8000-000000000001','writing','Present perfect','Use have studied.',1,'published')",
+    "INSERT INTO grammar_exercises(id,topic_id,\"order\",prompt_text,options,correct_option,explanation,target_structures) VALUES('40000000-0000-4000-8000-000000000001','30000000-0000-4000-8000-000000000001',1,'I have studied German.', '[\"have studied\",\"studied\"]','have studied','The present perfect.', '[\"have studied\"]')",
+    "INSERT INTO reading_passages(id,title,body_text,publication_state,suggested_minutes) VALUES('50000000-0000-4000-8000-000000000001','A parity passage','A student studies languages. This passage supplies a real grading fixture.','published',20)",
+    "INSERT INTO reading_questions(id,passage_id,\"order\",type,type_code,question_text,correct_answer,accepted_answers,explanation) VALUES('50000000-0000-4000-8000-000000000003','50000000-0000-4000-8000-000000000001',1,'short_answer','short_answer','What does the student study?','languages','[\"a language\"]','The first sentence states it.')",
+    "INSERT INTO general_reading_sets(id,title,publication_state) VALUES('50000000-0000-4000-8000-000000000002','General parity set','published')",
+    "INSERT INTO general_reading_passages(passage_id,set_id,passage_no,reading_mode) VALUES('50000000-0000-4000-8000-000000000001','50000000-0000-4000-8000-000000000002',1,'general_practice')",
+    "INSERT INTO listening_tests(id,created_by_user_id,title,audio_type,source_ref,publication_state) VALUES('60000000-0000-4000-8000-000000000001','11111111-1111-4111-8111-111111111113','A parity listening test','file','parity-listening','published')",
+    "INSERT INTO listening_questions(id,test_id,\"order\",type,question_text,correct_answer,explanation) VALUES('60000000-0000-4000-8000-000000000002','60000000-0000-4000-8000-000000000001',1,'short_answer','Where is the station?','London','The speaker says London.')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key) VALUES('70000000-0000-4000-8000-000000000001','study','verb','To learn a subject.','O‘rganmoq','parity:study')",
+    "INSERT INTO vocab_folders(id,user_id,name) VALUES('70000000-0000-4000-8000-000000000003','11111111-1111-4111-8111-111111111110','Existing')",
+    "INSERT INTO user_vocabulary(id,user_id,lexeme_id,sense_key,folder_id,srs_stage,next_review_at) VALUES('70000000-0000-4000-8000-000000000002','11111111-1111-4111-8111-111111111110','70000000-0000-4000-8000-000000000001','parity:study','70000000-0000-4000-8000-000000000003',-1,'2000-01-01T00:00:00Z')",
+    "INSERT INTO writing_prompts(id,task_type,category,prompt,target_word_count,publication_state) VALUES('80000000-0000-4000-8000-000000000001','task2','education','Discuss education.',250,'published')",
+    "INSERT INTO retention_texts(id,level,internal_label,sequence,active) VALUES('90000000-0000-4000-8000-000000000001','A2','A2-001',1,true)",
+    "INSERT INTO retention_text_versions(id,retention_text_id,version_number,body_text,word_count,scoring_structure) VALUES('90000000-0000-4000-8000-000000000002','90000000-0000-4000-8000-000000000001',1,'The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998. The company began in 1998.',110,'{\"schemaVersion\": 1, \"maxScore\": 100, \"claims\": [{\"id\": \"fact\", \"label\": \"The foundation year\", \"points\": 100, \"scope\": \"sentence\", \"groups\": [{\"id\": \"year\", \"points\": 100, \"kind\": \"date\", \"anyOf\": [\"1998\"], \"critical\": true}]}]}'::jsonb)",
+    "UPDATE retention_texts SET current_version_id='90000000-0000-4000-8000-000000000002' WHERE id='90000000-0000-4000-8000-000000000001'",
+    "INSERT INTO listening_tests(id,created_by_user_id,title,audio_type,publication_state) VALUES('60000000-0000-4000-8000-000000000003','11111111-1111-4111-8111-111111111113','Authored vocabulary lesson','file','published')",
+    "INSERT INTO listening_packages(test_id,source_id,payload,audio_object_key,source_hash) VALUES('60000000-0000-4000-8000-000000000003','parity-authored','{\"audio\": {\"path\": \"audio.mp3\"}, \"sections\": [{\"number\": 1, \"transcript\": \"We study languages.\"}], \"questions\": [], \"vocabulary\": [{\"word\": \"study\", \"pos\": \"verb\", \"def\": \"To learn a subject.\", \"uz\": \"O\\u2018rganmoq\", \"ex\": \"We study languages.\", \"also\": [], \"quiz\": null}, {\"word\": \"study\", \"pos\": \"(v)\", \"def\": \" To learn a subject. \", \"uz\": \"O\\u2018rganmoq\", \"ex\": \"We study languages.\", \"also\": [], \"quiz\": null}], \"authoredRuntime\": {\"entryPath\": \"index.html\", \"files\": {\"index.html\": \"<main>Authored lesson</main>\"}}}'::jsonb,'audio/parity.mp3',repeat('a',64))",
+    "INSERT INTO listening_tests(id,created_by_user_id,title,audio_type,publication_state) VALUES('60000000-0000-4000-8000-000000000004','11111111-1111-4111-8111-111111111113','Bulk vocabulary lesson','file','published')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000001','studyword0','studyword0','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000001','/studyword0/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000001','studyword0','noun','An authored meaning number 0.','Tarjima 0','parity:studyword0','b0000000-0000-4000-8000-000000000001')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000001','listening','60000000-0000-4000-8000-000000000004',1,'s1',0,10,'studyword0','a0000000-0000-4000-8000-000000000001','b0000000-0000-4000-8000-000000000001','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000002','studyword1','studyword1','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000002','/studyword1/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000002','studyword1','noun','An authored meaning number 1.','Tarjima 1','parity:studyword1','b0000000-0000-4000-8000-000000000002')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000002','listening','60000000-0000-4000-8000-000000000004',1,'s1',11,21,'studyword1','a0000000-0000-4000-8000-000000000002','b0000000-0000-4000-8000-000000000002','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000003','studyword2','studyword2','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000003','/studyword2/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000003','studyword2','noun','An authored meaning number 2.','Tarjima 2','parity:studyword2','b0000000-0000-4000-8000-000000000003')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000003','listening','60000000-0000-4000-8000-000000000004',1,'s1',22,32,'studyword2','a0000000-0000-4000-8000-000000000003','b0000000-0000-4000-8000-000000000003','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000004','studyword3','studyword3','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000004','/studyword3/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000004','studyword3','noun','An authored meaning number 3.','Tarjima 3','parity:studyword3','b0000000-0000-4000-8000-000000000004')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000004','listening','60000000-0000-4000-8000-000000000004',1,'s1',33,43,'studyword3','a0000000-0000-4000-8000-000000000004','b0000000-0000-4000-8000-000000000004','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000005','studyword4','studyword4','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000005','/studyword4/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000005','studyword4','noun','An authored meaning number 4.','Tarjima 4','parity:studyword4','b0000000-0000-4000-8000-000000000005')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000005','listening','60000000-0000-4000-8000-000000000004',1,'s1',44,54,'studyword4','a0000000-0000-4000-8000-000000000005','b0000000-0000-4000-8000-000000000005','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000006','studyword5','studyword5','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000006','/studyword5/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000006','studyword5','noun','An authored meaning number 5.','Tarjima 5','parity:studyword5','b0000000-0000-4000-8000-000000000006')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000006','listening','60000000-0000-4000-8000-000000000004',1,'s1',55,65,'studyword5','a0000000-0000-4000-8000-000000000006','b0000000-0000-4000-8000-000000000006','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000007','studyword6','studyword6','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000007','/studyword6/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000007','studyword6','noun','An authored meaning number 6.','Tarjima 6','parity:studyword6','b0000000-0000-4000-8000-000000000007')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000007','listening','60000000-0000-4000-8000-000000000004',1,'s1',66,76,'studyword6','a0000000-0000-4000-8000-000000000007','b0000000-0000-4000-8000-000000000007','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000008','studyword7','studyword7','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000008','/studyword7/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000008','studyword7','noun','An authored meaning number 7.','Tarjima 7','parity:studyword7','b0000000-0000-4000-8000-000000000008')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000008','listening','60000000-0000-4000-8000-000000000004',1,'s1',77,87,'studyword7','a0000000-0000-4000-8000-000000000008','b0000000-0000-4000-8000-000000000008','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000009','studyword8','studyword8','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000009','/studyword8/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000009','studyword8','noun','An authored meaning number 8.','Tarjima 8','parity:studyword8','b0000000-0000-4000-8000-000000000009')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000009','listening','60000000-0000-4000-8000-000000000004',1,'s1',88,98,'studyword8','a0000000-0000-4000-8000-000000000009','b0000000-0000-4000-8000-000000000009','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000000a','studyword9','studyword9','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000000a','/studyword9/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000000a','studyword9','noun','An authored meaning number 9.','Tarjima 9','parity:studyword9','b0000000-0000-4000-8000-00000000000a')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000000a','listening','60000000-0000-4000-8000-000000000004',1,'s1',99,109,'studyword9','a0000000-0000-4000-8000-00000000000a','b0000000-0000-4000-8000-00000000000a','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000000b','studyword10','studyword10','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000000b','/studyword10/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000000b','studyword10','noun','An authored meaning number 10.','Tarjima 10','parity:studyword10','b0000000-0000-4000-8000-00000000000b')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000000b','listening','60000000-0000-4000-8000-000000000004',1,'s1',110,121,'studyword10','a0000000-0000-4000-8000-00000000000b','b0000000-0000-4000-8000-00000000000b','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000000c','studyword11','studyword11','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000000c','/studyword11/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000000c','studyword11','noun','An authored meaning number 11.','Tarjima 11','parity:studyword11','b0000000-0000-4000-8000-00000000000c')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000000c','listening','60000000-0000-4000-8000-000000000004',1,'s1',122,133,'studyword11','a0000000-0000-4000-8000-00000000000c','b0000000-0000-4000-8000-00000000000c','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000000d','studyword12','studyword12','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000000d','/studyword12/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000000d','studyword12','noun','An authored meaning number 12.','Tarjima 12','parity:studyword12','b0000000-0000-4000-8000-00000000000d')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000000d','listening','60000000-0000-4000-8000-000000000004',1,'s1',134,145,'studyword12','a0000000-0000-4000-8000-00000000000d','b0000000-0000-4000-8000-00000000000d','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000000e','studyword13','studyword13','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000000e','/studyword13/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000000e','studyword13','noun','An authored meaning number 13.','Tarjima 13','parity:studyword13','b0000000-0000-4000-8000-00000000000e')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000000e','listening','60000000-0000-4000-8000-000000000004',1,'s1',146,157,'studyword13','a0000000-0000-4000-8000-00000000000e','b0000000-0000-4000-8000-00000000000e','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000000f','studyword14','studyword14','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000000f','/studyword14/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000000f','studyword14','noun','An authored meaning number 14.','Tarjima 14','parity:studyword14','b0000000-0000-4000-8000-00000000000f')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000000f','listening','60000000-0000-4000-8000-000000000004',1,'s1',158,169,'studyword14','a0000000-0000-4000-8000-00000000000f','b0000000-0000-4000-8000-00000000000f','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000010','studyword15','studyword15','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000010','/studyword15/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000010','studyword15','noun','An authored meaning number 15.','Tarjima 15','parity:studyword15','b0000000-0000-4000-8000-000000000010')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000010','listening','60000000-0000-4000-8000-000000000004',1,'s1',170,181,'studyword15','a0000000-0000-4000-8000-000000000010','b0000000-0000-4000-8000-000000000010','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000011','studyword16','studyword16','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000011','/studyword16/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000011','studyword16','noun','An authored meaning number 16.','Tarjima 16','parity:studyword16','b0000000-0000-4000-8000-000000000011')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000011','listening','60000000-0000-4000-8000-000000000004',1,'s1',182,193,'studyword16','a0000000-0000-4000-8000-000000000011','b0000000-0000-4000-8000-000000000011','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000012','studyword17','studyword17','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000012','/studyword17/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000012','studyword17','noun','An authored meaning number 17.','Tarjima 17','parity:studyword17','b0000000-0000-4000-8000-000000000012')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000012','listening','60000000-0000-4000-8000-000000000004',1,'s1',194,205,'studyword17','a0000000-0000-4000-8000-000000000012','b0000000-0000-4000-8000-000000000012','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000013','studyword18','studyword18','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000013','/studyword18/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000013','studyword18','noun','An authored meaning number 18.','Tarjima 18','parity:studyword18','b0000000-0000-4000-8000-000000000013')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000013','listening','60000000-0000-4000-8000-000000000004',1,'s1',206,217,'studyword18','a0000000-0000-4000-8000-000000000013','b0000000-0000-4000-8000-000000000013','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000014','studyword19','studyword19','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000014','/studyword19/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000014','studyword19','noun','An authored meaning number 19.','Tarjima 19','parity:studyword19','b0000000-0000-4000-8000-000000000014')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000014','listening','60000000-0000-4000-8000-000000000004',1,'s1',218,229,'studyword19','a0000000-0000-4000-8000-000000000014','b0000000-0000-4000-8000-000000000014','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000015','studyword20','studyword20','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000015','/studyword20/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000015','studyword20','noun','An authored meaning number 20.','Tarjima 20','parity:studyword20','b0000000-0000-4000-8000-000000000015')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000015','listening','60000000-0000-4000-8000-000000000004',1,'s1',230,241,'studyword20','a0000000-0000-4000-8000-000000000015','b0000000-0000-4000-8000-000000000015','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000016','studyword21','studyword21','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000016','/studyword21/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000016','studyword21','noun','An authored meaning number 21.','Tarjima 21','parity:studyword21','b0000000-0000-4000-8000-000000000016')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000016','listening','60000000-0000-4000-8000-000000000004',1,'s1',242,253,'studyword21','a0000000-0000-4000-8000-000000000016','b0000000-0000-4000-8000-000000000016','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000017','studyword22','studyword22','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000017','/studyword22/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000017','studyword22','noun','An authored meaning number 22.','Tarjima 22','parity:studyword22','b0000000-0000-4000-8000-000000000017')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000017','listening','60000000-0000-4000-8000-000000000004',1,'s1',254,265,'studyword22','a0000000-0000-4000-8000-000000000017','b0000000-0000-4000-8000-000000000017','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000018','studyword23','studyword23','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000018','/studyword23/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000018','studyword23','noun','An authored meaning number 23.','Tarjima 23','parity:studyword23','b0000000-0000-4000-8000-000000000018')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000018','listening','60000000-0000-4000-8000-000000000004',1,'s1',266,277,'studyword23','a0000000-0000-4000-8000-000000000018','b0000000-0000-4000-8000-000000000018','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000019','studyword24','studyword24','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000019','/studyword24/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000019','studyword24','noun','An authored meaning number 24.','Tarjima 24','parity:studyword24','b0000000-0000-4000-8000-000000000019')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000019','listening','60000000-0000-4000-8000-000000000004',1,'s1',278,289,'studyword24','a0000000-0000-4000-8000-000000000019','b0000000-0000-4000-8000-000000000019','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000001a','studyword25','studyword25','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000001a','/studyword25/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000001a','studyword25','noun','An authored meaning number 25.','Tarjima 25','parity:studyword25','b0000000-0000-4000-8000-00000000001a')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000001a','listening','60000000-0000-4000-8000-000000000004',1,'s1',290,301,'studyword25','a0000000-0000-4000-8000-00000000001a','b0000000-0000-4000-8000-00000000001a','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000001b','studyword26','studyword26','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000001b','/studyword26/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000001b','studyword26','noun','An authored meaning number 26.','Tarjima 26','parity:studyword26','b0000000-0000-4000-8000-00000000001b')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000001b','listening','60000000-0000-4000-8000-000000000004',1,'s1',302,313,'studyword26','a0000000-0000-4000-8000-00000000001b','b0000000-0000-4000-8000-00000000001b','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000001c','studyword27','studyword27','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000001c','/studyword27/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000001c','studyword27','noun','An authored meaning number 27.','Tarjima 27','parity:studyword27','b0000000-0000-4000-8000-00000000001c')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000001c','listening','60000000-0000-4000-8000-000000000004',1,'s1',314,325,'studyword27','a0000000-0000-4000-8000-00000000001c','b0000000-0000-4000-8000-00000000001c','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000001d','studyword28','studyword28','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000001d','/studyword28/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000001d','studyword28','noun','An authored meaning number 28.','Tarjima 28','parity:studyword28','b0000000-0000-4000-8000-00000000001d')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000001d','listening','60000000-0000-4000-8000-000000000004',1,'s1',326,337,'studyword28','a0000000-0000-4000-8000-00000000001d','b0000000-0000-4000-8000-00000000001d','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000001e','studyword29','studyword29','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000001e','/studyword29/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000001e','studyword29','noun','An authored meaning number 29.','Tarjima 29','parity:studyword29','b0000000-0000-4000-8000-00000000001e')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000001e','listening','60000000-0000-4000-8000-000000000004',1,'s1',338,349,'studyword29','a0000000-0000-4000-8000-00000000001e','b0000000-0000-4000-8000-00000000001e','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000001f','studyword30','studyword30','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000001f','/studyword30/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000001f','studyword30','noun','An authored meaning number 30.','Tarjima 30','parity:studyword30','b0000000-0000-4000-8000-00000000001f')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000001f','listening','60000000-0000-4000-8000-000000000004',1,'s1',350,361,'studyword30','a0000000-0000-4000-8000-00000000001f','b0000000-0000-4000-8000-00000000001f','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000020','studyword31','studyword31','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000020','/studyword31/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000020','studyword31','noun','An authored meaning number 31.','Tarjima 31','parity:studyword31','b0000000-0000-4000-8000-000000000020')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000020','listening','60000000-0000-4000-8000-000000000004',1,'s1',362,373,'studyword31','a0000000-0000-4000-8000-000000000020','b0000000-0000-4000-8000-000000000020','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000021','studyword32','studyword32','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000021','/studyword32/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000021','studyword32','noun','An authored meaning number 32.','Tarjima 32','parity:studyword32','b0000000-0000-4000-8000-000000000021')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000021','listening','60000000-0000-4000-8000-000000000004',1,'s1',374,385,'studyword32','a0000000-0000-4000-8000-000000000021','b0000000-0000-4000-8000-000000000021','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000022','studyword33','studyword33','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000022','/studyword33/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000022','studyword33','noun','An authored meaning number 33.','Tarjima 33','parity:studyword33','b0000000-0000-4000-8000-000000000022')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000022','listening','60000000-0000-4000-8000-000000000004',1,'s1',386,397,'studyword33','a0000000-0000-4000-8000-000000000022','b0000000-0000-4000-8000-000000000022','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000023','studyword34','studyword34','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000023','/studyword34/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000023','studyword34','noun','An authored meaning number 34.','Tarjima 34','parity:studyword34','b0000000-0000-4000-8000-000000000023')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000023','listening','60000000-0000-4000-8000-000000000004',1,'s1',398,409,'studyword34','a0000000-0000-4000-8000-000000000023','b0000000-0000-4000-8000-000000000023','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000024','studyword35','studyword35','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000024','/studyword35/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000024','studyword35','noun','An authored meaning number 35.','Tarjima 35','parity:studyword35','b0000000-0000-4000-8000-000000000024')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000024','listening','60000000-0000-4000-8000-000000000004',1,'s1',410,421,'studyword35','a0000000-0000-4000-8000-000000000024','b0000000-0000-4000-8000-000000000024','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000025','studyword36','studyword36','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000025','/studyword36/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000025','studyword36','noun','An authored meaning number 36.','Tarjima 36','parity:studyword36','b0000000-0000-4000-8000-000000000025')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000025','listening','60000000-0000-4000-8000-000000000004',1,'s1',422,433,'studyword36','a0000000-0000-4000-8000-000000000025','b0000000-0000-4000-8000-000000000025','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000026','studyword37','studyword37','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000026','/studyword37/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000026','studyword37','noun','An authored meaning number 37.','Tarjima 37','parity:studyword37','b0000000-0000-4000-8000-000000000026')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000026','listening','60000000-0000-4000-8000-000000000004',1,'s1',434,445,'studyword37','a0000000-0000-4000-8000-000000000026','b0000000-0000-4000-8000-000000000026','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000027','studyword38','studyword38','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000027','/studyword38/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000027','studyword38','noun','An authored meaning number 38.','Tarjima 38','parity:studyword38','b0000000-0000-4000-8000-000000000027')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000027','listening','60000000-0000-4000-8000-000000000004',1,'s1',446,457,'studyword38','a0000000-0000-4000-8000-000000000027','b0000000-0000-4000-8000-000000000027','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000028','studyword39','studyword39','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000028','/studyword39/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000028','studyword39','noun','An authored meaning number 39.','Tarjima 39','parity:studyword39','b0000000-0000-4000-8000-000000000028')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000028','listening','60000000-0000-4000-8000-000000000004',1,'s1',458,469,'studyword39','a0000000-0000-4000-8000-000000000028','b0000000-0000-4000-8000-000000000028','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000029','studyword40','studyword40','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000029','/studyword40/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000029','studyword40','noun','An authored meaning number 40.','Tarjima 40','parity:studyword40','b0000000-0000-4000-8000-000000000029')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000029','listening','60000000-0000-4000-8000-000000000004',1,'s1',470,481,'studyword40','a0000000-0000-4000-8000-000000000029','b0000000-0000-4000-8000-000000000029','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000002a','studyword41','studyword41','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000002a','/studyword41/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000002a','studyword41','noun','An authored meaning number 41.','Tarjima 41','parity:studyword41','b0000000-0000-4000-8000-00000000002a')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000002a','listening','60000000-0000-4000-8000-000000000004',1,'s1',482,493,'studyword41','a0000000-0000-4000-8000-00000000002a','b0000000-0000-4000-8000-00000000002a','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000002b','studyword42','studyword42','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000002b','/studyword42/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000002b','studyword42','noun','An authored meaning number 42.','Tarjima 42','parity:studyword42','b0000000-0000-4000-8000-00000000002b')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000002b','listening','60000000-0000-4000-8000-000000000004',1,'s1',494,505,'studyword42','a0000000-0000-4000-8000-00000000002b','b0000000-0000-4000-8000-00000000002b','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000002c','studyword43','studyword43','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000002c','/studyword43/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000002c','studyword43','noun','An authored meaning number 43.','Tarjima 43','parity:studyword43','b0000000-0000-4000-8000-00000000002c')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000002c','listening','60000000-0000-4000-8000-000000000004',1,'s1',506,517,'studyword43','a0000000-0000-4000-8000-00000000002c','b0000000-0000-4000-8000-00000000002c','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000002d','studyword44','studyword44','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000002d','/studyword44/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000002d','studyword44','noun','An authored meaning number 44.','Tarjima 44','parity:studyword44','b0000000-0000-4000-8000-00000000002d')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000002d','listening','60000000-0000-4000-8000-000000000004',1,'s1',518,529,'studyword44','a0000000-0000-4000-8000-00000000002d','b0000000-0000-4000-8000-00000000002d','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000002e','studyword45','studyword45','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000002e','/studyword45/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000002e','studyword45','noun','An authored meaning number 45.','Tarjima 45','parity:studyword45','b0000000-0000-4000-8000-00000000002e')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000002e','listening','60000000-0000-4000-8000-000000000004',1,'s1',530,541,'studyword45','a0000000-0000-4000-8000-00000000002e','b0000000-0000-4000-8000-00000000002e','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000002f','studyword46','studyword46','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000002f','/studyword46/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000002f','studyword46','noun','An authored meaning number 46.','Tarjima 46','parity:studyword46','b0000000-0000-4000-8000-00000000002f')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000002f','listening','60000000-0000-4000-8000-000000000004',1,'s1',542,553,'studyword46','a0000000-0000-4000-8000-00000000002f','b0000000-0000-4000-8000-00000000002f','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000030','studyword47','studyword47','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000030','/studyword47/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000030','studyword47','noun','An authored meaning number 47.','Tarjima 47','parity:studyword47','b0000000-0000-4000-8000-000000000030')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000030','listening','60000000-0000-4000-8000-000000000004',1,'s1',554,565,'studyword47','a0000000-0000-4000-8000-000000000030','b0000000-0000-4000-8000-000000000030','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000031','studyword48','studyword48','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000031','/studyword48/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000031','studyword48','noun','An authored meaning number 48.','Tarjima 48','parity:studyword48','b0000000-0000-4000-8000-000000000031')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000031','listening','60000000-0000-4000-8000-000000000004',1,'s1',566,577,'studyword48','a0000000-0000-4000-8000-000000000031','b0000000-0000-4000-8000-000000000031','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000032','studyword49','studyword49','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000032','/studyword49/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000032','studyword49','noun','An authored meaning number 49.','Tarjima 49','parity:studyword49','b0000000-0000-4000-8000-000000000032')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000032','listening','60000000-0000-4000-8000-000000000004',1,'s1',578,589,'studyword49','a0000000-0000-4000-8000-000000000032','b0000000-0000-4000-8000-000000000032','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000033','studyword50','studyword50','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000033','/studyword50/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000033','studyword50','noun','An authored meaning number 50.','Tarjima 50','parity:studyword50','b0000000-0000-4000-8000-000000000033')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000033','listening','60000000-0000-4000-8000-000000000004',1,'s1',590,601,'studyword50','a0000000-0000-4000-8000-000000000033','b0000000-0000-4000-8000-000000000033','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000034','studyword51','studyword51','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000034','/studyword51/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000034','studyword51','noun','An authored meaning number 51.','Tarjima 51','parity:studyword51','b0000000-0000-4000-8000-000000000034')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000034','listening','60000000-0000-4000-8000-000000000004',1,'s1',602,613,'studyword51','a0000000-0000-4000-8000-000000000034','b0000000-0000-4000-8000-000000000034','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000035','studyword52','studyword52','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000035','/studyword52/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000035','studyword52','noun','An authored meaning number 52.','Tarjima 52','parity:studyword52','b0000000-0000-4000-8000-000000000035')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000035','listening','60000000-0000-4000-8000-000000000004',1,'s1',614,625,'studyword52','a0000000-0000-4000-8000-000000000035','b0000000-0000-4000-8000-000000000035','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000036','studyword53','studyword53','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000036','/studyword53/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000036','studyword53','noun','An authored meaning number 53.','Tarjima 53','parity:studyword53','b0000000-0000-4000-8000-000000000036')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000036','listening','60000000-0000-4000-8000-000000000004',1,'s1',626,637,'studyword53','a0000000-0000-4000-8000-000000000036','b0000000-0000-4000-8000-000000000036','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000037','studyword54','studyword54','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000037','/studyword54/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000037','studyword54','noun','An authored meaning number 54.','Tarjima 54','parity:studyword54','b0000000-0000-4000-8000-000000000037')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000037','listening','60000000-0000-4000-8000-000000000004',1,'s1',638,649,'studyword54','a0000000-0000-4000-8000-000000000037','b0000000-0000-4000-8000-000000000037','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000038','studyword55','studyword55','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000038','/studyword55/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000038','studyword55','noun','An authored meaning number 55.','Tarjima 55','parity:studyword55','b0000000-0000-4000-8000-000000000038')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000038','listening','60000000-0000-4000-8000-000000000004',1,'s1',650,661,'studyword55','a0000000-0000-4000-8000-000000000038','b0000000-0000-4000-8000-000000000038','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000039','studyword56','studyword56','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000039','/studyword56/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000039','studyword56','noun','An authored meaning number 56.','Tarjima 56','parity:studyword56','b0000000-0000-4000-8000-000000000039')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000039','listening','60000000-0000-4000-8000-000000000004',1,'s1',662,673,'studyword56','a0000000-0000-4000-8000-000000000039','b0000000-0000-4000-8000-000000000039','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000003a','studyword57','studyword57','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000003a','/studyword57/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000003a','studyword57','noun','An authored meaning number 57.','Tarjima 57','parity:studyword57','b0000000-0000-4000-8000-00000000003a')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000003a','listening','60000000-0000-4000-8000-000000000004',1,'s1',674,685,'studyword57','a0000000-0000-4000-8000-00000000003a','b0000000-0000-4000-8000-00000000003a','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000003b','studyword58','studyword58','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000003b','/studyword58/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000003b','studyword58','noun','An authored meaning number 58.','Tarjima 58','parity:studyword58','b0000000-0000-4000-8000-00000000003b')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000003b','listening','60000000-0000-4000-8000-000000000004',1,'s1',686,697,'studyword58','a0000000-0000-4000-8000-00000000003b','b0000000-0000-4000-8000-00000000003b','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000003c','studyword59','studyword59','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000003c','/studyword59/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000003c','studyword59','noun','An authored meaning number 59.','Tarjima 59','parity:studyword59','b0000000-0000-4000-8000-00000000003c')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000003c','listening','60000000-0000-4000-8000-000000000004',1,'s1',698,709,'studyword59','a0000000-0000-4000-8000-00000000003c','b0000000-0000-4000-8000-00000000003c','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000003d','studyword60','studyword60','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000003d','/studyword60/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000003d','studyword60','noun','An authored meaning number 60.','Tarjima 60','parity:studyword60','b0000000-0000-4000-8000-00000000003d')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000003d','listening','60000000-0000-4000-8000-000000000004',1,'s1',710,721,'studyword60','a0000000-0000-4000-8000-00000000003d','b0000000-0000-4000-8000-00000000003d','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000003e','studyword61','studyword61','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000003e','/studyword61/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000003e','studyword61','noun','An authored meaning number 61.','Tarjima 61','parity:studyword61','b0000000-0000-4000-8000-00000000003e')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000003e','listening','60000000-0000-4000-8000-000000000004',1,'s1',722,733,'studyword61','a0000000-0000-4000-8000-00000000003e','b0000000-0000-4000-8000-00000000003e','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000003f','studyword62','studyword62','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000003f','/studyword62/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000003f','studyword62','noun','An authored meaning number 62.','Tarjima 62','parity:studyword62','b0000000-0000-4000-8000-00000000003f')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000003f','listening','60000000-0000-4000-8000-000000000004',1,'s1',734,745,'studyword62','a0000000-0000-4000-8000-00000000003f','b0000000-0000-4000-8000-00000000003f','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000040','studyword63','studyword63','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000040','/studyword63/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000040','studyword63','noun','An authored meaning number 63.','Tarjima 63','parity:studyword63','b0000000-0000-4000-8000-000000000040')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000040','listening','60000000-0000-4000-8000-000000000004',1,'s1',746,757,'studyword63','a0000000-0000-4000-8000-000000000040','b0000000-0000-4000-8000-000000000040','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000041','studyword64','studyword64','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000041','/studyword64/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000041','studyword64','noun','An authored meaning number 64.','Tarjima 64','parity:studyword64','b0000000-0000-4000-8000-000000000041')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000041','listening','60000000-0000-4000-8000-000000000004',1,'s1',758,769,'studyword64','a0000000-0000-4000-8000-000000000041','b0000000-0000-4000-8000-000000000041','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000042','studyword65','studyword65','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000042','/studyword65/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000042','studyword65','noun','An authored meaning number 65.','Tarjima 65','parity:studyword65','b0000000-0000-4000-8000-000000000042')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000042','listening','60000000-0000-4000-8000-000000000004',1,'s1',770,781,'studyword65','a0000000-0000-4000-8000-000000000042','b0000000-0000-4000-8000-000000000042','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000043','studyword66','studyword66','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000043','/studyword66/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000043','studyword66','noun','An authored meaning number 66.','Tarjima 66','parity:studyword66','b0000000-0000-4000-8000-000000000043')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000043','listening','60000000-0000-4000-8000-000000000004',1,'s1',782,793,'studyword66','a0000000-0000-4000-8000-000000000043','b0000000-0000-4000-8000-000000000043','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000044','studyword67','studyword67','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000044','/studyword67/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000044','studyword67','noun','An authored meaning number 67.','Tarjima 67','parity:studyword67','b0000000-0000-4000-8000-000000000044')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000044','listening','60000000-0000-4000-8000-000000000004',1,'s1',794,805,'studyword67','a0000000-0000-4000-8000-000000000044','b0000000-0000-4000-8000-000000000044','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000045','studyword68','studyword68','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000045','/studyword68/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000045','studyword68','noun','An authored meaning number 68.','Tarjima 68','parity:studyword68','b0000000-0000-4000-8000-000000000045')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000045','listening','60000000-0000-4000-8000-000000000004',1,'s1',806,817,'studyword68','a0000000-0000-4000-8000-000000000045','b0000000-0000-4000-8000-000000000045','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000046','studyword69','studyword69','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000046','/studyword69/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000046','studyword69','noun','An authored meaning number 69.','Tarjima 69','parity:studyword69','b0000000-0000-4000-8000-000000000046')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000046','listening','60000000-0000-4000-8000-000000000004',1,'s1',818,829,'studyword69','a0000000-0000-4000-8000-000000000046','b0000000-0000-4000-8000-000000000046','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000047','studyword70','studyword70','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000047','/studyword70/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000047','studyword70','noun','An authored meaning number 70.','Tarjima 70','parity:studyword70','b0000000-0000-4000-8000-000000000047')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000047','listening','60000000-0000-4000-8000-000000000004',1,'s1',830,841,'studyword70','a0000000-0000-4000-8000-000000000047','b0000000-0000-4000-8000-000000000047','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000048','studyword71','studyword71','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000048','/studyword71/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000048','studyword71','noun','An authored meaning number 71.','Tarjima 71','parity:studyword71','b0000000-0000-4000-8000-000000000048')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000048','listening','60000000-0000-4000-8000-000000000004',1,'s1',842,853,'studyword71','a0000000-0000-4000-8000-000000000048','b0000000-0000-4000-8000-000000000048','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000049','studyword72','studyword72','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000049','/studyword72/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000049','studyword72','noun','An authored meaning number 72.','Tarjima 72','parity:studyword72','b0000000-0000-4000-8000-000000000049')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000049','listening','60000000-0000-4000-8000-000000000004',1,'s1',854,865,'studyword72','a0000000-0000-4000-8000-000000000049','b0000000-0000-4000-8000-000000000049','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000004a','studyword73','studyword73','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000004a','/studyword73/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000004a','studyword73','noun','An authored meaning number 73.','Tarjima 73','parity:studyword73','b0000000-0000-4000-8000-00000000004a')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000004a','listening','60000000-0000-4000-8000-000000000004',1,'s1',866,877,'studyword73','a0000000-0000-4000-8000-00000000004a','b0000000-0000-4000-8000-00000000004a','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000004b','studyword74','studyword74','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000004b','/studyword74/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000004b','studyword74','noun','An authored meaning number 74.','Tarjima 74','parity:studyword74','b0000000-0000-4000-8000-00000000004b')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000004b','listening','60000000-0000-4000-8000-000000000004',1,'s1',878,889,'studyword74','a0000000-0000-4000-8000-00000000004b','b0000000-0000-4000-8000-00000000004b','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000004c','studyword75','studyword75','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000004c','/studyword75/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000004c','studyword75','noun','An authored meaning number 75.','Tarjima 75','parity:studyword75','b0000000-0000-4000-8000-00000000004c')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000004c','listening','60000000-0000-4000-8000-000000000004',1,'s1',890,901,'studyword75','a0000000-0000-4000-8000-00000000004c','b0000000-0000-4000-8000-00000000004c','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000004d','studyword76','studyword76','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000004d','/studyword76/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000004d','studyword76','noun','An authored meaning number 76.','Tarjima 76','parity:studyword76','b0000000-0000-4000-8000-00000000004d')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000004d','listening','60000000-0000-4000-8000-000000000004',1,'s1',902,913,'studyword76','a0000000-0000-4000-8000-00000000004d','b0000000-0000-4000-8000-00000000004d','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000004e','studyword77','studyword77','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000004e','/studyword77/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000004e','studyword77','noun','An authored meaning number 77.','Tarjima 77','parity:studyword77','b0000000-0000-4000-8000-00000000004e')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000004e','listening','60000000-0000-4000-8000-000000000004',1,'s1',914,925,'studyword77','a0000000-0000-4000-8000-00000000004e','b0000000-0000-4000-8000-00000000004e','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000004f','studyword78','studyword78','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000004f','/studyword78/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000004f','studyword78','noun','An authored meaning number 78.','Tarjima 78','parity:studyword78','b0000000-0000-4000-8000-00000000004f')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000004f','listening','60000000-0000-4000-8000-000000000004',1,'s1',926,937,'studyword78','a0000000-0000-4000-8000-00000000004f','b0000000-0000-4000-8000-00000000004f','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000050','studyword79','studyword79','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000050','/studyword79/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000050','studyword79','noun','An authored meaning number 79.','Tarjima 79','parity:studyword79','b0000000-0000-4000-8000-000000000050')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000050','listening','60000000-0000-4000-8000-000000000004',1,'s1',938,949,'studyword79','a0000000-0000-4000-8000-000000000050','b0000000-0000-4000-8000-000000000050','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000051','studyword80','studyword80','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000051','/studyword80/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000051','studyword80','noun','An authored meaning number 80.','Tarjima 80','parity:studyword80','b0000000-0000-4000-8000-000000000051')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000051','listening','60000000-0000-4000-8000-000000000004',1,'s1',950,961,'studyword80','a0000000-0000-4000-8000-000000000051','b0000000-0000-4000-8000-000000000051','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000052','studyword81','studyword81','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000052','/studyword81/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000052','studyword81','noun','An authored meaning number 81.','Tarjima 81','parity:studyword81','b0000000-0000-4000-8000-000000000052')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000052','listening','60000000-0000-4000-8000-000000000004',1,'s1',962,973,'studyword81','a0000000-0000-4000-8000-000000000052','b0000000-0000-4000-8000-000000000052','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000053','studyword82','studyword82','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000053','/studyword82/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000053','studyword82','noun','An authored meaning number 82.','Tarjima 82','parity:studyword82','b0000000-0000-4000-8000-000000000053')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000053','listening','60000000-0000-4000-8000-000000000004',1,'s1',974,985,'studyword82','a0000000-0000-4000-8000-000000000053','b0000000-0000-4000-8000-000000000053','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000054','studyword83','studyword83','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000054','/studyword83/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000054','studyword83','noun','An authored meaning number 83.','Tarjima 83','parity:studyword83','b0000000-0000-4000-8000-000000000054')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000054','listening','60000000-0000-4000-8000-000000000004',1,'s1',986,997,'studyword83','a0000000-0000-4000-8000-000000000054','b0000000-0000-4000-8000-000000000054','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000055','studyword84','studyword84','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000055','/studyword84/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000055','studyword84','noun','An authored meaning number 84.','Tarjima 84','parity:studyword84','b0000000-0000-4000-8000-000000000055')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000055','listening','60000000-0000-4000-8000-000000000004',1,'s1',998,1009,'studyword84','a0000000-0000-4000-8000-000000000055','b0000000-0000-4000-8000-000000000055','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000056','studyword85','studyword85','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000056','/studyword85/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000056','studyword85','noun','An authored meaning number 85.','Tarjima 85','parity:studyword85','b0000000-0000-4000-8000-000000000056')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000056','listening','60000000-0000-4000-8000-000000000004',1,'s1',1010,1021,'studyword85','a0000000-0000-4000-8000-000000000056','b0000000-0000-4000-8000-000000000056','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000057','studyword86','studyword86','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000057','/studyword86/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000057','studyword86','noun','An authored meaning number 86.','Tarjima 86','parity:studyword86','b0000000-0000-4000-8000-000000000057')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000057','listening','60000000-0000-4000-8000-000000000004',1,'s1',1022,1033,'studyword86','a0000000-0000-4000-8000-000000000057','b0000000-0000-4000-8000-000000000057','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000058','studyword87','studyword87','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000058','/studyword87/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000058','studyword87','noun','An authored meaning number 87.','Tarjima 87','parity:studyword87','b0000000-0000-4000-8000-000000000058')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000058','listening','60000000-0000-4000-8000-000000000004',1,'s1',1034,1045,'studyword87','a0000000-0000-4000-8000-000000000058','b0000000-0000-4000-8000-000000000058','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000059','studyword88','studyword88','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000059','/studyword88/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000059','studyword88','noun','An authored meaning number 88.','Tarjima 88','parity:studyword88','b0000000-0000-4000-8000-000000000059')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000059','listening','60000000-0000-4000-8000-000000000004',1,'s1',1046,1057,'studyword88','a0000000-0000-4000-8000-000000000059','b0000000-0000-4000-8000-000000000059','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000005a','studyword89','studyword89','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000005a','/studyword89/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000005a','studyword89','noun','An authored meaning number 89.','Tarjima 89','parity:studyword89','b0000000-0000-4000-8000-00000000005a')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000005a','listening','60000000-0000-4000-8000-000000000004',1,'s1',1058,1069,'studyword89','a0000000-0000-4000-8000-00000000005a','b0000000-0000-4000-8000-00000000005a','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000005b','studyword90','studyword90','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000005b','/studyword90/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000005b','studyword90','noun','An authored meaning number 90.','Tarjima 90','parity:studyword90','b0000000-0000-4000-8000-00000000005b')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000005b','listening','60000000-0000-4000-8000-000000000004',1,'s1',1070,1081,'studyword90','a0000000-0000-4000-8000-00000000005b','b0000000-0000-4000-8000-00000000005b','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000005c','studyword91','studyword91','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000005c','/studyword91/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000005c','studyword91','noun','An authored meaning number 91.','Tarjima 91','parity:studyword91','b0000000-0000-4000-8000-00000000005c')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000005c','listening','60000000-0000-4000-8000-000000000004',1,'s1',1082,1093,'studyword91','a0000000-0000-4000-8000-00000000005c','b0000000-0000-4000-8000-00000000005c','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000005d','studyword92','studyword92','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000005d','/studyword92/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000005d','studyword92','noun','An authored meaning number 92.','Tarjima 92','parity:studyword92','b0000000-0000-4000-8000-00000000005d')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000005d','listening','60000000-0000-4000-8000-000000000004',1,'s1',1094,1105,'studyword92','a0000000-0000-4000-8000-00000000005d','b0000000-0000-4000-8000-00000000005d','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000005e','studyword93','studyword93','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000005e','/studyword93/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000005e','studyword93','noun','An authored meaning number 93.','Tarjima 93','parity:studyword93','b0000000-0000-4000-8000-00000000005e')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000005e','listening','60000000-0000-4000-8000-000000000004',1,'s1',1106,1117,'studyword93','a0000000-0000-4000-8000-00000000005e','b0000000-0000-4000-8000-00000000005e','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-00000000005f','studyword94','studyword94','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-00000000005f','/studyword94/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-00000000005f','studyword94','noun','An authored meaning number 94.','Tarjima 94','parity:studyword94','b0000000-0000-4000-8000-00000000005f')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-00000000005f','listening','60000000-0000-4000-8000-000000000004',1,'s1',1118,1129,'studyword94','a0000000-0000-4000-8000-00000000005f','b0000000-0000-4000-8000-00000000005f','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000060','studyword95','studyword95','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000060','/studyword95/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000060','studyword95','noun','An authored meaning number 95.','Tarjima 95','parity:studyword95','b0000000-0000-4000-8000-000000000060')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000060','listening','60000000-0000-4000-8000-000000000004',1,'s1',1130,1141,'studyword95','a0000000-0000-4000-8000-000000000060','b0000000-0000-4000-8000-000000000060','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000061','studyword96','studyword96','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000061','/studyword96/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000061','studyword96','noun','An authored meaning number 96.','Tarjima 96','parity:studyword96','b0000000-0000-4000-8000-000000000061')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000061','listening','60000000-0000-4000-8000-000000000004',1,'s1',1142,1153,'studyword96','a0000000-0000-4000-8000-000000000061','b0000000-0000-4000-8000-000000000061','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000062','studyword97','studyword97','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000062','/studyword97/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000062','studyword97','noun','An authored meaning number 97.','Tarjima 97','parity:studyword97','b0000000-0000-4000-8000-000000000062')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000062','listening','60000000-0000-4000-8000-000000000004',1,'s1',1154,1165,'studyword97','a0000000-0000-4000-8000-000000000062','b0000000-0000-4000-8000-000000000062','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000063','studyword98','studyword98','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000063','/studyword98/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000063','studyword98','noun','An authored meaning number 98.','Tarjima 98','parity:studyword98','b0000000-0000-4000-8000-000000000063')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000063','listening','60000000-0000-4000-8000-000000000004',1,'s1',1166,1177,'studyword98','a0000000-0000-4000-8000-000000000063','b0000000-0000-4000-8000-000000000063','resolved')",
+    "INSERT INTO lexical_units(id,lemma,lemma_norm,part_of_speech,lexical_type) VALUES('b0000000-0000-4000-8000-000000000064','studyword99','studyword99','noun','word')",
+    "INSERT INTO lexical_unit_pronunciations(lexical_unit_id,ipa,provenance) VALUES('b0000000-0000-4000-8000-000000000064','/studyword99/','parity')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,lexical_unit_id) VALUES('a0000000-0000-4000-8000-000000000064','studyword99','noun','An authored meaning number 99.','Tarjima 99','parity:studyword99','b0000000-0000-4000-8000-000000000064')",
+    "INSERT INTO lexical_occurrences(id,source_type,listening_test_id,section_number,segment_key,start_char,end_char,surface_form,lexeme_id,lexical_unit_id,resolution_status) VALUES('c0000000-0000-4000-8000-000000000064','listening','60000000-0000-4000-8000-000000000004',1,'s1',1178,1189,'studyword99','a0000000-0000-4000-8000-000000000064','b0000000-0000-4000-8000-000000000064','resolved')",
+    "INSERT INTO listening_packages(test_id,source_id,payload,audio_object_key,source_hash) VALUES('60000000-0000-4000-8000-000000000004','parity-bulk','{\"audio\": {\"path\": \"audio.mp3\"}, \"sections\": [{\"number\": 1, \"transcript\": \"studyword0 studyword1 studyword2 studyword3 studyword4 studyword5 studyword6 studyword7 studyword8 studyword9 studyword10 studyword11 studyword12 studyword13 studyword14 studyword15 studyword16 studyword17 studyword18 studyword19 studyword20 studyword21 studyword22 studyword23 studyword24 studyword25 studyword26 studyword27 studyword28 studyword29 studyword30 studyword31 studyword32 studyword33 studyword34 studyword35 studyword36 studyword37 studyword38 studyword39 studyword40 studyword41 studyword42 studyword43 studyword44 studyword45 studyword46 studyword47 studyword48 studyword49 studyword50 studyword51 studyword52 studyword53 studyword54 studyword55 studyword56 studyword57 studyword58 studyword59 studyword60 studyword61 studyword62 studyword63 studyword64 studyword65 studyword66 studyword67 studyword68 studyword69 studyword70 studyword71 studyword72 studyword73 studyword74 studyword75 studyword76 studyword77 studyword78 studyword79 studyword80 studyword81 studyword82 studyword83 studyword84 studyword85 studyword86 studyword87 studyword88 studyword89 studyword90 studyword91 studyword92 studyword93 studyword94 studyword95 studyword96 studyword97 studyword98 studyword99\"}], \"questions\": [], \"vocabulary\": [{\"word\": \"studyword0\", \"pos\": \"noun\", \"def\": \"An authored meaning number 0.\", \"uz\": \"Tarjima 0\", \"ex\": \"studyword0 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword1\", \"pos\": \"noun\", \"def\": \"An authored meaning number 1.\", \"uz\": \"Tarjima 1\", \"ex\": \"studyword1 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword2\", \"pos\": \"noun\", \"def\": \"An authored meaning number 2.\", \"uz\": \"Tarjima 2\", \"ex\": \"studyword2 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword3\", \"pos\": \"noun\", \"def\": \"An authored meaning number 3.\", \"uz\": \"Tarjima 3\", \"ex\": \"studyword3 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword4\", \"pos\": \"noun\", \"def\": \"An authored meaning number 4.\", \"uz\": \"Tarjima 4\", \"ex\": \"studyword4 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword5\", \"pos\": \"noun\", \"def\": \"An authored meaning number 5.\", \"uz\": \"Tarjima 5\", \"ex\": \"studyword5 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword6\", \"pos\": \"noun\", \"def\": \"An authored meaning number 6.\", \"uz\": \"Tarjima 6\", \"ex\": \"studyword6 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword7\", \"pos\": \"noun\", \"def\": \"An authored meaning number 7.\", \"uz\": \"Tarjima 7\", \"ex\": \"studyword7 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword8\", \"pos\": \"noun\", \"def\": \"An authored meaning number 8.\", \"uz\": \"Tarjima 8\", \"ex\": \"studyword8 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword9\", \"pos\": \"noun\", \"def\": \"An authored meaning number 9.\", \"uz\": \"Tarjima 9\", \"ex\": \"studyword9 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword10\", \"pos\": \"noun\", \"def\": \"An authored meaning number 10.\", \"uz\": \"Tarjima 10\", \"ex\": \"studyword10 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword11\", \"pos\": \"noun\", \"def\": \"An authored meaning number 11.\", \"uz\": \"Tarjima 11\", \"ex\": \"studyword11 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword12\", \"pos\": \"noun\", \"def\": \"An authored meaning number 12.\", \"uz\": \"Tarjima 12\", \"ex\": \"studyword12 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword13\", \"pos\": \"noun\", \"def\": \"An authored meaning number 13.\", \"uz\": \"Tarjima 13\", \"ex\": \"studyword13 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword14\", \"pos\": \"noun\", \"def\": \"An authored meaning number 14.\", \"uz\": \"Tarjima 14\", \"ex\": \"studyword14 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword15\", \"pos\": \"noun\", \"def\": \"An authored meaning number 15.\", \"uz\": \"Tarjima 15\", \"ex\": \"studyword15 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword16\", \"pos\": \"noun\", \"def\": \"An authored meaning number 16.\", \"uz\": \"Tarjima 16\", \"ex\": \"studyword16 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword17\", \"pos\": \"noun\", \"def\": \"An authored meaning number 17.\", \"uz\": \"Tarjima 17\", \"ex\": \"studyword17 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword18\", \"pos\": \"noun\", \"def\": \"An authored meaning number 18.\", \"uz\": \"Tarjima 18\", \"ex\": \"studyword18 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword19\", \"pos\": \"noun\", \"def\": \"An authored meaning number 19.\", \"uz\": \"Tarjima 19\", \"ex\": \"studyword19 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword20\", \"pos\": \"noun\", \"def\": \"An authored meaning number 20.\", \"uz\": \"Tarjima 20\", \"ex\": \"studyword20 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword21\", \"pos\": \"noun\", \"def\": \"An authored meaning number 21.\", \"uz\": \"Tarjima 21\", \"ex\": \"studyword21 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword22\", \"pos\": \"noun\", \"def\": \"An authored meaning number 22.\", \"uz\": \"Tarjima 22\", \"ex\": \"studyword22 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword23\", \"pos\": \"noun\", \"def\": \"An authored meaning number 23.\", \"uz\": \"Tarjima 23\", \"ex\": \"studyword23 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword24\", \"pos\": \"noun\", \"def\": \"An authored meaning number 24.\", \"uz\": \"Tarjima 24\", \"ex\": \"studyword24 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword25\", \"pos\": \"noun\", \"def\": \"An authored meaning number 25.\", \"uz\": \"Tarjima 25\", \"ex\": \"studyword25 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword26\", \"pos\": \"noun\", \"def\": \"An authored meaning number 26.\", \"uz\": \"Tarjima 26\", \"ex\": \"studyword26 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword27\", \"pos\": \"noun\", \"def\": \"An authored meaning number 27.\", \"uz\": \"Tarjima 27\", \"ex\": \"studyword27 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword28\", \"pos\": \"noun\", \"def\": \"An authored meaning number 28.\", \"uz\": \"Tarjima 28\", \"ex\": \"studyword28 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword29\", \"pos\": \"noun\", \"def\": \"An authored meaning number 29.\", \"uz\": \"Tarjima 29\", \"ex\": \"studyword29 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword30\", \"pos\": \"noun\", \"def\": \"An authored meaning number 30.\", \"uz\": \"Tarjima 30\", \"ex\": \"studyword30 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword31\", \"pos\": \"noun\", \"def\": \"An authored meaning number 31.\", \"uz\": \"Tarjima 31\", \"ex\": \"studyword31 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword32\", \"pos\": \"noun\", \"def\": \"An authored meaning number 32.\", \"uz\": \"Tarjima 32\", \"ex\": \"studyword32 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword33\", \"pos\": \"noun\", \"def\": \"An authored meaning number 33.\", \"uz\": \"Tarjima 33\", \"ex\": \"studyword33 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword34\", \"pos\": \"noun\", \"def\": \"An authored meaning number 34.\", \"uz\": \"Tarjima 34\", \"ex\": \"studyword34 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword35\", \"pos\": \"noun\", \"def\": \"An authored meaning number 35.\", \"uz\": \"Tarjima 35\", \"ex\": \"studyword35 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword36\", \"pos\": \"noun\", \"def\": \"An authored meaning number 36.\", \"uz\": \"Tarjima 36\", \"ex\": \"studyword36 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword37\", \"pos\": \"noun\", \"def\": \"An authored meaning number 37.\", \"uz\": \"Tarjima 37\", \"ex\": \"studyword37 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword38\", \"pos\": \"noun\", \"def\": \"An authored meaning number 38.\", \"uz\": \"Tarjima 38\", \"ex\": \"studyword38 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword39\", \"pos\": \"noun\", \"def\": \"An authored meaning number 39.\", \"uz\": \"Tarjima 39\", \"ex\": \"studyword39 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword40\", \"pos\": \"noun\", \"def\": \"An authored meaning number 40.\", \"uz\": \"Tarjima 40\", \"ex\": \"studyword40 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword41\", \"pos\": \"noun\", \"def\": \"An authored meaning number 41.\", \"uz\": \"Tarjima 41\", \"ex\": \"studyword41 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword42\", \"pos\": \"noun\", \"def\": \"An authored meaning number 42.\", \"uz\": \"Tarjima 42\", \"ex\": \"studyword42 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword43\", \"pos\": \"noun\", \"def\": \"An authored meaning number 43.\", \"uz\": \"Tarjima 43\", \"ex\": \"studyword43 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword44\", \"pos\": \"noun\", \"def\": \"An authored meaning number 44.\", \"uz\": \"Tarjima 44\", \"ex\": \"studyword44 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword45\", \"pos\": \"noun\", \"def\": \"An authored meaning number 45.\", \"uz\": \"Tarjima 45\", \"ex\": \"studyword45 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword46\", \"pos\": \"noun\", \"def\": \"An authored meaning number 46.\", \"uz\": \"Tarjima 46\", \"ex\": \"studyword46 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword47\", \"pos\": \"noun\", \"def\": \"An authored meaning number 47.\", \"uz\": \"Tarjima 47\", \"ex\": \"studyword47 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword48\", \"pos\": \"noun\", \"def\": \"An authored meaning number 48.\", \"uz\": \"Tarjima 48\", \"ex\": \"studyword48 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword49\", \"pos\": \"noun\", \"def\": \"An authored meaning number 49.\", \"uz\": \"Tarjima 49\", \"ex\": \"studyword49 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword50\", \"pos\": \"noun\", \"def\": \"An authored meaning number 50.\", \"uz\": \"Tarjima 50\", \"ex\": \"studyword50 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword51\", \"pos\": \"noun\", \"def\": \"An authored meaning number 51.\", \"uz\": \"Tarjima 51\", \"ex\": \"studyword51 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword52\", \"pos\": \"noun\", \"def\": \"An authored meaning number 52.\", \"uz\": \"Tarjima 52\", \"ex\": \"studyword52 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword53\", \"pos\": \"noun\", \"def\": \"An authored meaning number 53.\", \"uz\": \"Tarjima 53\", \"ex\": \"studyword53 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword54\", \"pos\": \"noun\", \"def\": \"An authored meaning number 54.\", \"uz\": \"Tarjima 54\", \"ex\": \"studyword54 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword55\", \"pos\": \"noun\", \"def\": \"An authored meaning number 55.\", \"uz\": \"Tarjima 55\", \"ex\": \"studyword55 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword56\", \"pos\": \"noun\", \"def\": \"An authored meaning number 56.\", \"uz\": \"Tarjima 56\", \"ex\": \"studyword56 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword57\", \"pos\": \"noun\", \"def\": \"An authored meaning number 57.\", \"uz\": \"Tarjima 57\", \"ex\": \"studyword57 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword58\", \"pos\": \"noun\", \"def\": \"An authored meaning number 58.\", \"uz\": \"Tarjima 58\", \"ex\": \"studyword58 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword59\", \"pos\": \"noun\", \"def\": \"An authored meaning number 59.\", \"uz\": \"Tarjima 59\", \"ex\": \"studyword59 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword60\", \"pos\": \"noun\", \"def\": \"An authored meaning number 60.\", \"uz\": \"Tarjima 60\", \"ex\": \"studyword60 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword61\", \"pos\": \"noun\", \"def\": \"An authored meaning number 61.\", \"uz\": \"Tarjima 61\", \"ex\": \"studyword61 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword62\", \"pos\": \"noun\", \"def\": \"An authored meaning number 62.\", \"uz\": \"Tarjima 62\", \"ex\": \"studyword62 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword63\", \"pos\": \"noun\", \"def\": \"An authored meaning number 63.\", \"uz\": \"Tarjima 63\", \"ex\": \"studyword63 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword64\", \"pos\": \"noun\", \"def\": \"An authored meaning number 64.\", \"uz\": \"Tarjima 64\", \"ex\": \"studyword64 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword65\", \"pos\": \"noun\", \"def\": \"An authored meaning number 65.\", \"uz\": \"Tarjima 65\", \"ex\": \"studyword65 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword66\", \"pos\": \"noun\", \"def\": \"An authored meaning number 66.\", \"uz\": \"Tarjima 66\", \"ex\": \"studyword66 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword67\", \"pos\": \"noun\", \"def\": \"An authored meaning number 67.\", \"uz\": \"Tarjima 67\", \"ex\": \"studyword67 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword68\", \"pos\": \"noun\", \"def\": \"An authored meaning number 68.\", \"uz\": \"Tarjima 68\", \"ex\": \"studyword68 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword69\", \"pos\": \"noun\", \"def\": \"An authored meaning number 69.\", \"uz\": \"Tarjima 69\", \"ex\": \"studyword69 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword70\", \"pos\": \"noun\", \"def\": \"An authored meaning number 70.\", \"uz\": \"Tarjima 70\", \"ex\": \"studyword70 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword71\", \"pos\": \"noun\", \"def\": \"An authored meaning number 71.\", \"uz\": \"Tarjima 71\", \"ex\": \"studyword71 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword72\", \"pos\": \"noun\", \"def\": \"An authored meaning number 72.\", \"uz\": \"Tarjima 72\", \"ex\": \"studyword72 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword73\", \"pos\": \"noun\", \"def\": \"An authored meaning number 73.\", \"uz\": \"Tarjima 73\", \"ex\": \"studyword73 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword74\", \"pos\": \"noun\", \"def\": \"An authored meaning number 74.\", \"uz\": \"Tarjima 74\", \"ex\": \"studyword74 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword75\", \"pos\": \"noun\", \"def\": \"An authored meaning number 75.\", \"uz\": \"Tarjima 75\", \"ex\": \"studyword75 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword76\", \"pos\": \"noun\", \"def\": \"An authored meaning number 76.\", \"uz\": \"Tarjima 76\", \"ex\": \"studyword76 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword77\", \"pos\": \"noun\", \"def\": \"An authored meaning number 77.\", \"uz\": \"Tarjima 77\", \"ex\": \"studyword77 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword78\", \"pos\": \"noun\", \"def\": \"An authored meaning number 78.\", \"uz\": \"Tarjima 78\", \"ex\": \"studyword78 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword79\", \"pos\": \"noun\", \"def\": \"An authored meaning number 79.\", \"uz\": \"Tarjima 79\", \"ex\": \"studyword79 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword80\", \"pos\": \"noun\", \"def\": \"An authored meaning number 80.\", \"uz\": \"Tarjima 80\", \"ex\": \"studyword80 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword81\", \"pos\": \"noun\", \"def\": \"An authored meaning number 81.\", \"uz\": \"Tarjima 81\", \"ex\": \"studyword81 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword82\", \"pos\": \"noun\", \"def\": \"An authored meaning number 82.\", \"uz\": \"Tarjima 82\", \"ex\": \"studyword82 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword83\", \"pos\": \"noun\", \"def\": \"An authored meaning number 83.\", \"uz\": \"Tarjima 83\", \"ex\": \"studyword83 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword84\", \"pos\": \"noun\", \"def\": \"An authored meaning number 84.\", \"uz\": \"Tarjima 84\", \"ex\": \"studyword84 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword85\", \"pos\": \"noun\", \"def\": \"An authored meaning number 85.\", \"uz\": \"Tarjima 85\", \"ex\": \"studyword85 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword86\", \"pos\": \"noun\", \"def\": \"An authored meaning number 86.\", \"uz\": \"Tarjima 86\", \"ex\": \"studyword86 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword87\", \"pos\": \"noun\", \"def\": \"An authored meaning number 87.\", \"uz\": \"Tarjima 87\", \"ex\": \"studyword87 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword88\", \"pos\": \"noun\", \"def\": \"An authored meaning number 88.\", \"uz\": \"Tarjima 88\", \"ex\": \"studyword88 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword89\", \"pos\": \"noun\", \"def\": \"An authored meaning number 89.\", \"uz\": \"Tarjima 89\", \"ex\": \"studyword89 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword90\", \"pos\": \"noun\", \"def\": \"An authored meaning number 90.\", \"uz\": \"Tarjima 90\", \"ex\": \"studyword90 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword91\", \"pos\": \"noun\", \"def\": \"An authored meaning number 91.\", \"uz\": \"Tarjima 91\", \"ex\": \"studyword91 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword92\", \"pos\": \"noun\", \"def\": \"An authored meaning number 92.\", \"uz\": \"Tarjima 92\", \"ex\": \"studyword92 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword93\", \"pos\": \"noun\", \"def\": \"An authored meaning number 93.\", \"uz\": \"Tarjima 93\", \"ex\": \"studyword93 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword94\", \"pos\": \"noun\", \"def\": \"An authored meaning number 94.\", \"uz\": \"Tarjima 94\", \"ex\": \"studyword94 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword95\", \"pos\": \"noun\", \"def\": \"An authored meaning number 95.\", \"uz\": \"Tarjima 95\", \"ex\": \"studyword95 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword96\", \"pos\": \"noun\", \"def\": \"An authored meaning number 96.\", \"uz\": \"Tarjima 96\", \"ex\": \"studyword96 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword97\", \"pos\": \"noun\", \"def\": \"An authored meaning number 97.\", \"uz\": \"Tarjima 97\", \"ex\": \"studyword97 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword98\", \"pos\": \"noun\", \"def\": \"An authored meaning number 98.\", \"uz\": \"Tarjima 98\", \"ex\": \"studyword98 is in this lesson.\", \"also\": [], \"quiz\": null}, {\"word\": \"studyword99\", \"pos\": \"noun\", \"def\": \"An authored meaning number 99.\", \"uz\": \"Tarjima 99\", \"ex\": \"studyword99 is in this lesson.\", \"also\": [], \"quiz\": null}], \"authoredRuntime\": {\"entryPath\": \"index.html\", \"files\": {\"index.html\": \"<main>Bulk lesson</main>\"}}}'::jsonb,'audio/bulk.mp3',repeat('b',64))",
+    "INSERT INTO dictionary_releases(id,state) VALUES('rel-v1-aaaaaaaaaaaaaaaaaaaaaaaa','building')",
+    "INSERT INTO dictionary_channels(name,active_release_id) VALUES('stable','rel-v1-aaaaaaaaaaaaaaaaaaaaaaaa')",
+    "INSERT INTO dictionary_entries(release_id,lexeme_id,lemma_norm,part_of_speech,lexical_type,payload,content_sha) VALUES('rel-v1-aaaaaaaaaaaaaaaaaaaaaaaa','aa000000-0000-4000-8000-000000000001','study','v','word','{\"schema_version\": \"1.0.0\", \"release_id\": \"rel-v1-aaaaaaaaaaaaaaaaaaaaaaaa\", \"lexeme_id\": \"aa000000-0000-4000-8000-000000000001\", \"display_lemma\": \"study\", \"normalized_search_form\": \"study\", \"lexical_type\": \"word\", \"part_of_speech\": \"v\", \"homograph_group\": null, \"is_satellite\": false, \"pronunciations\": [], \"forms\": [], \"senses\": [{\"sense_id\": \"aa000000-0000-4000-8000-000000000002\", \"definition_en\": \"To learn a subject.\", \"definition_uz\": \"Biror narsani yechmoq.\", \"translations\": [{\"translation_id\": \"aa000000-0000-4000-8000-000000000003\", \"text\": \"Yechmoq\", \"order\": 0}], \"examples\": []}], \"relations\": [], \"collocations\": [], \"attribution\": [{\"source_name\": \"Learners Area\", \"snapshot_id\": \"parity\", \"creator\": \"Learners Area\", \"source_url\": \"\", \"license_reference\": \"Owned\", \"license_url\": \"\", \"attribution_text\": \"Parity fixture\"}]}'::jsonb,'ab77571b0f148524ce525203dfb55ce2dde2d98cef04e780cbff1477ff2b7ee4')",
+    "INSERT INTO lexemes(id,term,part_of_speech,definition_en,sense_key) VALUES('d0000000-0000-4000-8000-000000000001','1998','numeral','The foundation year.','parity:year')",
+    "INSERT INTO lexical_occurrences(id,source_type,retention_text_version_id,start_char,end_char,surface_form,lexeme_id,resolution_status) VALUES('d0000000-0000-4000-8000-000000000002','retention','90000000-0000-4000-8000-000000000002',21,25,'1998','d0000000-0000-4000-8000-000000000001','resolved')",
+    "INSERT INTO courses(id,slug,title) VALUES('e0000000-0000-4000-8000-000000000001','parity-course','Parity Course')",
+    "INSERT INTO course_modules(id,course_id,slug,title,\"order\") VALUES('e0000000-0000-4000-8000-000000000002','e0000000-0000-4000-8000-000000000001','parity-module','Parity Module',1)",
+    "INSERT INTO units(id,module_id,slug,title,\"order\") VALUES('e0000000-0000-4000-8000-000000000003','e0000000-0000-4000-8000-000000000002','parity-unit','Parity Unit',1)"
+  ],
+  "cases": [
+    {
+      "name": "initial /api/vocabulary",
+      "method": "GET",
+      "path": "/api/vocabulary",
+      "actor": "student"
+    },
+    {
+      "name": "initial /api/vocabulary/summary",
+      "method": "GET",
+      "path": "/api/vocabulary/summary",
+      "actor": "student"
+    },
+    {
+      "name": "initial /api/vocabulary/folders",
+      "method": "GET",
+      "path": "/api/vocabulary/folders",
+      "actor": "student"
+    },
+    {
+      "name": "initial /api/vocabulary/due",
+      "method": "GET",
+      "path": "/api/vocabulary/due",
+      "actor": "student"
+    },
+    {
+      "name": "initial /api/vocabulary/leaderboard",
+      "method": "GET",
+      "path": "/api/vocabulary/leaderboard",
+      "actor": "student"
+    },
+    {
+      "name": "create folder",
+      "method": "POST",
+      "path": "/api/vocabulary/folders",
+      "actor": "student",
+      "body": {
+        "name": "Important"
+      },
+      "save": {
+        "folder": "folder.id"
+      }
+    },
+    {
+      "name": "duplicate folder",
+      "method": "POST",
+      "path": "/api/vocabulary/folders",
+      "actor": "student",
+      "body": {
+        "name": "Important"
+      }
+    },
+    {
+      "name": "move vocabulary",
+      "method": "POST",
+      "path": "/api/vocabulary/folders",
+      "actor": "student",
+      "body": {
+        "entryIds": [
+          "70000000-0000-4000-8000-000000000002"
+        ],
+        "folderId": "$folder"
+      }
+    },
+    {
+      "name": "folder membership",
+      "method": "GET",
+      "path": "/api/vocabulary/folders",
+      "actor": "student"
+    },
+    {
+      "name": "vocabulary review",
+      "method": "POST",
+      "path": "/api/vocabulary/70000000-0000-4000-8000-000000000002/review",
+      "actor": "student",
+      "body": {
+        "outcome": "correct"
+      }
+    },
+    {
+      "name": "review is not due twice",
+      "method": "POST",
+      "path": "/api/vocabulary/70000000-0000-4000-8000-000000000002/review",
+      "actor": "student",
+      "body": {
+        "outcome": "correct"
+      }
+    },
+    {
+      "name": "other user cannot review",
+      "method": "POST",
+      "path": "/api/vocabulary/70000000-0000-4000-8000-000000000002/review",
+      "actor": "teacher",
+      "body": {
+        "outcome": "correct"
+      }
+    },
+    {
+      "name": "leaderboard after review",
+      "method": "GET",
+      "path": "/api/vocabulary/leaderboard",
+      "actor": "student"
+    },
+    {
+      "name": "grammar correct structure",
+      "method": "POST",
+      "path": "/api/grammar/exercises/40000000-0000-4000-8000-000000000001/practice",
+      "actor": "student",
+      "body": {
+        "activity": "translate_it",
+        "answer": "I have studied German for years."
+      }
+    },
+    {
+      "name": "grammar wrong structure",
+      "method": "POST",
+      "path": "/api/grammar/exercises/40000000-0000-4000-8000-000000000001/practice",
+      "actor": "student",
+      "body": {
+        "activity": "translate_it",
+        "answer": "I am learning German."
+      }
+    },
+    {
+      "name": "grammar topic submit",
+      "method": "POST",
+      "path": "/api/grammar/topics/30000000-0000-4000-8000-000000000001/submit",
+      "actor": "student",
+      "body": {
+        "answers": [
+          {
+            "exerciseId": "40000000-0000-4000-8000-000000000001",
+            "selectedOption": "have studied"
+          }
+        ]
+      }
+    },
+    {
+      "name": "reading start",
+      "method": "POST",
+      "path": "/api/reading/attempts",
+      "actor": "student",
+      "body": {
+        "passageId": "50000000-0000-4000-8000-000000000001"
+      },
+      "save": {
+        "readingAttempt": "id"
+      }
+    },
+    {
+      "name": "reading resume same attempt",
+      "method": "POST",
+      "path": "/api/reading/attempts",
+      "actor": "student",
+      "body": {
+        "passageId": "50000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "name": "reading autosave",
+      "method": "PATCH",
+      "path": "/api/reading/attempts/$readingAttempt",
+      "actor": "student",
+      "body": {
+        "answers": [
+          {
+            "questionId": "50000000-0000-4000-8000-000000000003",
+            "answer": "languages"
+          }
+        ]
+      }
+    },
+    {
+      "name": "other learner cannot draft",
+      "method": "PATCH",
+      "path": "/api/reading/attempts/$readingAttempt",
+      "actor": "teacher",
+      "body": {
+        "answers": [
+          {
+            "questionId": "50000000-0000-4000-8000-000000000003",
+            "answer": "wrong"
+          }
+        ]
+      }
+    },
+    {
+      "name": "reading submit",
+      "method": "POST",
+      "path": "/api/reading/attempts/$readingAttempt/submit",
+      "actor": "student",
+      "body": {
+        "answers": [
+          {
+            "questionId": "50000000-0000-4000-8000-000000000003",
+            "answer": "languages"
+          }
+        ]
+      }
+    },
+    {
+      "name": "reading duplicate submit",
+      "method": "POST",
+      "path": "/api/reading/attempts/$readingAttempt/submit",
+      "actor": "student",
+      "body": {
+        "answers": [
+          {
+            "questionId": "50000000-0000-4000-8000-000000000003",
+            "answer": "wrong"
+          }
+        ]
+      }
+    },
+    {
+      "name": "general reading check",
+      "method": "POST",
+      "path": "/api/reading/general/progress",
+      "actor": "student",
+      "body": {
+        "passageId": "50000000-0000-4000-8000-000000000001",
+        "answers": {
+          "50000000-0000-4000-8000-000000000003": "a language"
+        },
+        "check": true
+      }
+    },
+    {
+      "name": "listening start",
+      "method": "POST",
+      "path": "/api/listening/attempts",
+      "actor": "student",
+      "body": {
+        "testId": "60000000-0000-4000-8000-000000000001"
+      },
+      "save": {
+        "listeningAttempt": "id"
+      }
+    },
+    {
+      "name": "listening resume",
+      "method": "POST",
+      "path": "/api/listening/attempts",
+      "actor": "student",
+      "body": {
+        "testId": "60000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "name": "listening submit",
+      "method": "POST",
+      "path": "/api/listening/attempts/$listeningAttempt/submit",
+      "actor": "student",
+      "body": {
+        "answers": [
+          {
+            "questionId": "60000000-0000-4000-8000-000000000002",
+            "answer": "London"
+          }
+        ]
+      }
+    },
+    {
+      "name": "listening duplicate submit",
+      "method": "POST",
+      "path": "/api/listening/attempts/$listeningAttempt/submit",
+      "actor": "student",
+      "body": {
+        "answers": [
+          {
+            "questionId": "60000000-0000-4000-8000-000000000002",
+            "answer": "Paris"
+          }
+        ]
+      }
+    },
+    {
+      "name": "grammar topic authoring",
+      "method": "POST",
+      "path": "/api/admin/grammar/topics",
+      "actor": "admin",
+      "body": {
+        "skillArea": "speaking",
+        "title": "A new topic",
+        "explanation": "A valid explanation."
+      }
+    },
+    {
+      "name": "reading passage authoring",
+      "method": "POST",
+      "path": "/api/admin/reading/passages",
+      "actor": "admin",
+      "body": {
+        "title": "New passage",
+        "bodyText": "A sufficiently long passage body for the authoring form.",
+        "difficultyLevel": "B2",
+        "suggestedMinutes": "20"
+      }
+    },
+    {
+      "name": "listening deletion",
+      "method": "DELETE",
+      "path": "/api/admin/listening/tests/60000000-0000-4000-8000-000000000001",
+      "actor": "admin"
+    },
+    {
+      "name": "deleted listening cannot start",
+      "method": "POST",
+      "path": "/api/listening/attempts",
+      "actor": "student",
+      "body": {
+        "testId": "60000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "name": "authored Listening runtime",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000003/authored",
+      "actor": "student"
+    },
+    {
+      "name": "Listening vocabulary enrichment",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000003/authored?vocabulary=1",
+      "actor": "student"
+    },
+    {
+      "name": "writing start",
+      "method": "POST",
+      "path": "/api/writing/submissions",
+      "actor": "student",
+      "body": {
+        "promptId": "80000000-0000-4000-8000-000000000001"
+      },
+      "save": {
+        "writingSubmission": "id"
+      }
+    },
+    {
+      "name": "writing resumes draft",
+      "method": "POST",
+      "path": "/api/writing/submissions",
+      "actor": "student",
+      "body": {
+        "promptId": "80000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "name": "writing too short",
+      "method": "POST",
+      "path": "/api/writing/submissions/$writingSubmission/submit",
+      "actor": "student"
+    },
+    {
+      "name": "writing draft save",
+      "method": "PATCH",
+      "path": "/api/writing/submissions/$writingSubmission",
+      "actor": "student",
+      "body": {
+        "content": "Education opens opportunities for students. Education opens opportunities for students. Education opens opportunities for students. Education opens opportunities for students. Education opens opportunities for students. Education opens opportunities for students. Education opens opportunities for students. Education opens opportunities for students. Education opens opportunities for students. Education opens opportunities for students. "
+      }
+    },
+    {
+      "name": "other user cannot edit writing",
+      "method": "PATCH",
+      "path": "/api/writing/submissions/$writingSubmission",
+      "actor": "teacher",
+      "body": {
+        "content": "Other writer"
+      }
+    },
+    {
+      "name": "writing submit evaluation",
+      "method": "POST",
+      "path": "/api/writing/submissions/$writingSubmission/submit",
+      "actor": "student"
+    },
+    {
+      "name": "writing duplicate submit",
+      "method": "POST",
+      "path": "/api/writing/submissions/$writingSubmission/submit",
+      "actor": "student"
+    },
+    {
+      "name": "speaking free practice",
+      "method": "POST",
+      "path": "/api/speaking/attempts",
+      "actor": "student",
+      "body": {
+        "part": "part1"
+      },
+      "save": {
+        "speakingAttempt": "attempt.id"
+      }
+    },
+    {
+      "name": "speaking cannot submit without recording",
+      "method": "POST",
+      "path": "/api/speaking/attempts/$speakingAttempt/submit",
+      "actor": "student",
+      "body": {}
+    },
+    {
+      "name": "speaking manual transcript",
+      "method": "POST",
+      "path": "/api/speaking/attempts/$speakingAttempt/transcript",
+      "actor": "student",
+      "body": {
+        "manualTranscript": "I enjoy learning languages because I can understand people from different cultures."
+      }
+    },
+    {
+      "name": "other user cannot submit transcript",
+      "method": "POST",
+      "path": "/api/speaking/attempts/$speakingAttempt/transcript",
+      "actor": "teacher",
+      "body": {
+        "manualTranscript": "I enjoy learning languages."
+      }
+    },
+    {
+      "name": "speaking own history",
+      "method": "GET",
+      "path": "/api/speaking/attempts",
+      "actor": "student"
+    },
+    {
+      "name": "retention start",
+      "method": "POST",
+      "path": "/api/retention/attempts",
+      "actor": "student",
+      "body": {
+        "level": "A2"
+      },
+      "save": {
+        "retentionAttempt": "attemptId"
+      }
+    },
+    {
+      "name": "retention resumes same attempt",
+      "method": "POST",
+      "path": "/api/retention/attempts",
+      "actor": "student",
+      "body": {
+        "level": "A2"
+      }
+    },
+    {
+      "name": "retention phase aware read",
+      "method": "GET",
+      "path": "/api/retention/attempts/$retentionAttempt",
+      "actor": "student"
+    },
+    {
+      "name": "retention finish reading",
+      "method": "POST",
+      "path": "/api/retention/attempts/$retentionAttempt/finish-reading",
+      "actor": "student"
+    },
+    {
+      "name": "retention finish reading idempotent",
+      "method": "POST",
+      "path": "/api/retention/attempts/$retentionAttempt/finish-reading",
+      "actor": "student"
+    },
+    {
+      "name": "retention recall draft",
+      "method": "PATCH",
+      "path": "/api/retention/attempts/$retentionAttempt/draft",
+      "actor": "student",
+      "body": {
+        "recallText": "The company began in 1998."
+      }
+    },
+    {
+      "name": "other user cannot save recall",
+      "method": "PATCH",
+      "path": "/api/retention/attempts/$retentionAttempt/draft",
+      "actor": "teacher",
+      "body": {
+        "recallText": "Other learner"
+      }
+    },
+    {
+      "name": "retention submit",
+      "method": "POST",
+      "path": "/api/retention/attempts/$retentionAttempt/submit",
+      "actor": "student",
+      "body": {
+        "recallText": "The company began in 1998."
+      }
+    },
+    {
+      "name": "retention submit idempotent",
+      "method": "POST",
+      "path": "/api/retention/attempts/$retentionAttempt/submit",
+      "actor": "student",
+      "body": {
+        "recallText": "Wrong later text"
+      }
+    },
+    {
+      "name": "bulk Listening vocabulary 1",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000004/authored?vocabulary=1",
+      "actor": "student"
+    },
+    {
+      "name": "bulk Listening vocabulary 2",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000004/authored?vocabulary=1",
+      "actor": "student"
+    },
+    {
+      "name": "bulk Listening vocabulary 3",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000004/authored?vocabulary=1",
+      "actor": "student"
+    },
+    {
+      "name": "bulk Listening vocabulary 4",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000004/authored?vocabulary=1",
+      "actor": "student"
+    },
+    {
+      "name": "bulk Listening vocabulary 5",
+      "method": "GET",
+      "path": "/api/listening/full/60000000-0000-4000-8000-000000000004/authored?vocabulary=1",
+      "actor": "student"
+    },
+    {
+      "name": "editorial exact contextual meaning",
+      "operation": "context_bindings",
+      "plan": {
+        "version": 1,
+        "releaseId": "rel-v1-aaaaaaaaaaaaaaaaaaaaaaaa",
+        "reviewer": "parity-editor",
+        "materials": [
+          {
+            "source": "reading",
+            "sourceId": "50000000-0000-4000-8000-000000000001",
+            "bodySha": "9c53ec0c89cab91ca7d0c8cb3850648d289caea52db4f50bc3558b14c0f5c299",
+            "spans": [
+              {
+                "start": 10,
+                "end": 17,
+                "surface": "studies",
+                "entryId": "aa000000-0000-4000-8000-000000000001",
+                "senseId": "aa000000-0000-4000-8000-000000000002",
+                "meaningSha": "bff2c0250bad4a5a9cb03ce519835784cefe57349ef39b6940d97ce679833da3"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "editorial binding idempotent",
+      "operation": "context_bindings",
+      "plan": {
+        "version": 1,
+        "releaseId": "rel-v1-aaaaaaaaaaaaaaaaaaaaaaaa",
+        "reviewer": "parity-editor",
+        "materials": [
+          {
+            "source": "reading",
+            "sourceId": "50000000-0000-4000-8000-000000000001",
+            "bodySha": "9c53ec0c89cab91ca7d0c8cb3850648d289caea52db4f50bc3558b14c0f5c299",
+            "spans": [
+              {
+                "start": 10,
+                "end": 17,
+                "surface": "studies",
+                "entryId": "aa000000-0000-4000-8000-000000000001",
+                "senseId": "aa000000-0000-4000-8000-000000000002",
+                "meaningSha": "bff2c0250bad4a5a9cb03ce519835784cefe57349ef39b6940d97ce679833da3"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "editorial stale source rejected",
+      "operation": "context_bindings",
+      "plan": {
+        "version": 1,
+        "releaseId": "rel-v1-aaaaaaaaaaaaaaaaaaaaaaaa",
+        "reviewer": "parity-editor",
+        "materials": [
+          {
+            "source": "reading",
+            "sourceId": "50000000-0000-4000-8000-000000000001",
+            "bodySha": "0000000000000000000000000000000000000000000000000000000000000000",
+            "spans": [
+              {
+                "start": 10,
+                "end": 17,
+                "surface": "studies",
+                "entryId": "aa000000-0000-4000-8000-000000000001",
+                "senseId": "aa000000-0000-4000-8000-000000000002",
+                "meaningSha": "bff2c0250bad4a5a9cb03ce519835784cefe57349ef39b6940d97ce679833da3"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "retention immutable source revision",
+      "operation": "retention_revision",
+      "actorId": "11111111-1111-4111-8111-111111111113",
+      "plan": {
+        "version": 1,
+        "revision": "parity-1",
+        "sourceVersionId": "90000000-0000-4000-8000-000000000002",
+        "nextVersionId": "1042c61d-d725-5f94-a913-894278b85b58",
+        "bodySha": "2d94d2315c72f927817867230d68820bb24f79466e0fee76c5551869cf48f1ce",
+        "structureSha": "c431a51ea51c67ae683b12730ea3974e3156a46f1f3683e60b4485e605a71322",
+        "start": 0,
+        "before": "The company",
+        "after": "A business",
+        "nextBodySha": "4ef10e1b3b96ccc4c4ed016b0a2ab4762554b9f8a14772be78cd83f0119eabea",
+        "reason": "Explicit editorial wording correction"
+      }
+    },
+    {
+      "name": "retention revision idempotent",
+      "operation": "retention_revision",
+      "actorId": "11111111-1111-4111-8111-111111111113",
+      "plan": {
+        "version": 1,
+        "revision": "parity-1",
+        "sourceVersionId": "90000000-0000-4000-8000-000000000002",
+        "nextVersionId": "1042c61d-d725-5f94-a913-894278b85b58",
+        "bodySha": "2d94d2315c72f927817867230d68820bb24f79466e0fee76c5551869cf48f1ce",
+        "structureSha": "c431a51ea51c67ae683b12730ea3974e3156a46f1f3683e60b4485e605a71322",
+        "start": 0,
+        "before": "The company",
+        "after": "A business",
+        "nextBodySha": "4ef10e1b3b96ccc4c4ed016b0a2ab4762554b9f8a14772be78cd83f0119eabea",
+        "reason": "Explicit editorial wording correction"
+      }
+    },
+    {
+      "name": "student cannot revise retention source",
+      "operation": "retention_revision",
+      "actorId": "11111111-1111-4111-8111-111111111110",
+      "plan": {
+        "version": 1,
+        "revision": "parity-1",
+        "sourceVersionId": "90000000-0000-4000-8000-000000000002",
+        "nextVersionId": "1042c61d-d725-5f94-a913-894278b85b58",
+        "bodySha": "2d94d2315c72f927817867230d68820bb24f79466e0fee76c5551869cf48f1ce",
+        "structureSha": "c431a51ea51c67ae683b12730ea3974e3156a46f1f3683e60b4485e605a71322",
+        "start": 0,
+        "before": "The company",
+        "after": "A business",
+        "nextBodySha": "4ef10e1b3b96ccc4c4ed016b0a2ab4762554b9f8a14772be78cd83f0119eabea",
+        "reason": "Explicit editorial wording correction"
+      }
+    },
+    {
+      "name": "Content author creates listening:full_test",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "listening",
+        "contentType": "full_test",
+        "sourceRef": "parity-author-listening-full_test",
+        "title": "Parity listening full_test",
+        "track": "academic",
+        "payload": {
+          "questions": [
+            {
+              "type": "mcq",
+              "questionText": "Choose the correct answer.",
+              "correctAnswer": "A",
+              "explanation": "A is correct.",
+              "options": [
+                "A",
+                "B"
+              ]
+            }
+          ]
+        }
+      },
+      "save": {
+        "DraftA": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft listening:full_test",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "listening",
+        "contentType": "full_test",
+        "sourceRef": "parity-author-listening-full_test",
+        "title": "Parity listening full_test",
+        "track": "academic",
+        "payload": {
+          "questions": [
+            {
+              "type": "mcq",
+              "questionText": "Choose the correct answer.",
+              "correctAnswer": "A",
+              "explanation": "A is correct.",
+              "options": [
+                "A",
+                "B"
+              ]
+            }
+          ]
+        },
+        "versionId": "$DraftA"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftA": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates listening:section",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "listening",
+        "contentType": "section",
+        "sourceRef": "parity-author-listening-section",
+        "title": "Parity listening section",
+        "track": "academic",
+        "payload": {
+          "questions": [
+            {
+              "type": "mcq",
+              "questionText": "Choose the correct answer.",
+              "correctAnswer": "A",
+              "explanation": "A is correct.",
+              "options": [
+                "A",
+                "B"
+              ]
+            }
+          ],
+          "sectionNo": 2
+        }
+      },
+      "save": {
+        "DraftB": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft listening:section",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "listening",
+        "contentType": "section",
+        "sourceRef": "parity-author-listening-section",
+        "title": "Parity listening section",
+        "track": "academic",
+        "payload": {
+          "questions": [
+            {
+              "type": "mcq",
+              "questionText": "Choose the correct answer.",
+              "correctAnswer": "A",
+              "explanation": "A is correct.",
+              "options": [
+                "A",
+                "B"
+              ]
+            }
+          ],
+          "sectionNo": 2
+        },
+        "versionId": "$DraftB"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftB": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates reading:general_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "reading",
+        "contentType": "general_set",
+        "sourceRef": "parity-author-reading-general_set",
+        "title": "Parity reading general_set",
+        "track": "academic",
+        "payload": {
+          "passages": [
+            {
+              "title": "The world of languages",
+              "bodyText": "People learn different languages for work and study. People learn different languages for work and study. People learn different languages for work and study. People learn different languages for work and study. ",
+              "questions": [
+                {
+                  "typeCode": "short_answer",
+                  "questionText": "What do people learn?",
+                  "correctAnswer": "languages"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "save": {
+        "DraftC": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft reading:general_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "reading",
+        "contentType": "general_set",
+        "sourceRef": "parity-author-reading-general_set",
+        "title": "Parity reading general_set",
+        "track": "academic",
+        "payload": {
+          "passages": [
+            {
+              "title": "The world of languages",
+              "bodyText": "People learn different languages for work and study. People learn different languages for work and study. People learn different languages for work and study. People learn different languages for work and study. ",
+              "questions": [
+                {
+                  "typeCode": "short_answer",
+                  "questionText": "What do people learn?",
+                  "correctAnswer": "languages"
+                }
+              ]
+            }
+          ]
+        },
+        "versionId": "$DraftC"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftC": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates reading:passage",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "reading",
+        "contentType": "passage",
+        "sourceRef": "parity-author-reading-passage",
+        "title": "Parity reading passage",
+        "track": "academic",
+        "payload": {
+          "passages": [
+            {
+              "title": "The world of languages",
+              "bodyText": "People learn different languages for work and study. People learn different languages for work and study. People learn different languages for work and study. People learn different languages for work and study. ",
+              "questions": [
+                {
+                  "typeCode": "short_answer",
+                  "questionText": "What do people learn?",
+                  "correctAnswer": "languages"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "save": {
+        "DraftD": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft reading:passage",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "reading",
+        "contentType": "passage",
+        "sourceRef": "parity-author-reading-passage",
+        "title": "Parity reading passage",
+        "track": "academic",
+        "payload": {
+          "passages": [
+            {
+              "title": "The world of languages",
+              "bodyText": "People learn different languages for work and study. People learn different languages for work and study. People learn different languages for work and study. People learn different languages for work and study. ",
+              "questions": [
+                {
+                  "typeCode": "short_answer",
+                  "questionText": "What do people learn?",
+                  "correctAnswer": "languages"
+                }
+              ]
+            }
+          ]
+        },
+        "versionId": "$DraftD"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftD": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates writing:task1",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "task1",
+        "sourceRef": "parity-author-writing-task1",
+        "title": "Parity writing task1",
+        "track": "academic",
+        "payload": {
+          "taskType": "task1",
+          "category": "academic",
+          "prompt": "Describe the chart and its trends.",
+          "targetWordCount": 150
+        }
+      },
+      "save": {
+        "DraftE": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft writing:task1",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "task1",
+        "sourceRef": "parity-author-writing-task1",
+        "title": "Parity writing task1",
+        "track": "academic",
+        "payload": {
+          "taskType": "task1",
+          "category": "academic",
+          "prompt": "Describe the chart and its trends.",
+          "targetWordCount": 150
+        },
+        "versionId": "$DraftE"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftE": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates writing:task2",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "task2",
+        "sourceRef": "parity-author-writing-task2",
+        "title": "Parity writing task2",
+        "track": "academic",
+        "payload": {
+          "taskType": "task2",
+          "category": "education",
+          "prompt": "Discuss the benefits of studying languages.",
+          "targetWordCount": 250
+        }
+      },
+      "save": {
+        "DraftF": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft writing:task2",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "task2",
+        "sourceRef": "parity-author-writing-task2",
+        "title": "Parity writing task2",
+        "track": "academic",
+        "payload": {
+          "taskType": "task2",
+          "category": "education",
+          "prompt": "Discuss the benefits of studying languages.",
+          "targetWordCount": 250
+        },
+        "versionId": "$DraftF"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftF": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates writing:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "lesson",
+        "sourceRef": "parity-author-writing-lesson",
+        "title": "Parity writing lesson",
+        "track": "academic",
+        "payload": {
+          "category": "structure",
+          "body": "An introduction states the topic and presents a clear position."
+        }
+      },
+      "save": {
+        "DraftG": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft writing:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "lesson",
+        "sourceRef": "parity-author-writing-lesson",
+        "title": "Parity writing lesson",
+        "track": "academic",
+        "payload": {
+          "category": "structure",
+          "body": "An introduction states the topic and presents a clear position."
+        },
+        "versionId": "$DraftG"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftG": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates writing:model_text",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "model_text",
+        "sourceRef": "parity-author-writing-model_text",
+        "title": "Parity writing model_text",
+        "track": "academic",
+        "payload": {
+          "taskType": "task1",
+          "topic": "Education",
+          "targetBand": 8.5,
+          "body": "A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence.",
+          "provenance": "An original parity fixture."
+        }
+      },
+      "save": {
+        "DraftH": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft writing:model_text",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "model_text",
+        "sourceRef": "parity-author-writing-model_text",
+        "title": "Parity writing model_text",
+        "track": "academic",
+        "payload": {
+          "taskType": "task1",
+          "topic": "Education",
+          "targetBand": 8.5,
+          "body": "A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence. A meaningful academic sentence explains evidence.",
+          "provenance": "An original parity fixture."
+        },
+        "versionId": "$DraftH"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftH": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates writing:pattern",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "pattern",
+        "sourceRef": "parity-author-writing-pattern",
+        "title": "Parity writing pattern",
+        "track": "academic",
+        "payload": {
+          "pattern": "It is widely believed that",
+          "function": "sentence_frame",
+          "taskType": "task2",
+          "example": "It is widely believed that education creates opportunities.",
+          "provenance": "An original parity fixture."
+        }
+      },
+      "save": {
+        "DraftI": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft writing:pattern",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "pattern",
+        "sourceRef": "parity-author-writing-pattern",
+        "title": "Parity writing pattern",
+        "track": "academic",
+        "payload": {
+          "pattern": "It is widely believed that",
+          "function": "sentence_frame",
+          "taskType": "task2",
+          "example": "It is widely believed that education creates opportunities.",
+          "provenance": "An original parity fixture."
+        },
+        "versionId": "$DraftI"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftI": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates writing:translation_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "translation_set",
+        "sourceRef": "parity-author-writing-translation_set",
+        "title": "Parity writing translation_set",
+        "track": "academic",
+        "payload": {
+          "topic": "Education",
+          "questionType": "opinion",
+          "targetBand": 7,
+          "promptText": "Discuss whether students should learn languages.",
+          "provenance": "An original parity fixture.",
+          "sentences": [
+            {
+              "position": 1,
+              "uzbekSource": "Men o‘qishni yoqtiraman.",
+              "modelEnglish": "I enjoy studying."
+            }
+          ]
+        }
+      },
+      "save": {
+        "DraftJ": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft writing:translation_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "writing",
+        "contentType": "translation_set",
+        "sourceRef": "parity-author-writing-translation_set",
+        "title": "Parity writing translation_set",
+        "track": "academic",
+        "payload": {
+          "topic": "Education",
+          "questionType": "opinion",
+          "targetBand": 7,
+          "promptText": "Discuss whether students should learn languages.",
+          "provenance": "An original parity fixture.",
+          "sentences": [
+            {
+              "position": 1,
+              "uzbekSource": "Men o‘qishni yoqtiraman.",
+              "modelEnglish": "I enjoy studying."
+            }
+          ]
+        },
+        "versionId": "$DraftJ"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftJ": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates speaking:part1_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "speaking",
+        "contentType": "part1_question",
+        "sourceRef": "parity-author-speaking-part1_question",
+        "title": "Parity speaking part1_question",
+        "track": "academic",
+        "payload": {
+          "part": "part1",
+          "category": "part1",
+          "promptText": "Do you enjoy studying?"
+        }
+      },
+      "save": {
+        "DraftK": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft speaking:part1_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "speaking",
+        "contentType": "part1_question",
+        "sourceRef": "parity-author-speaking-part1_question",
+        "title": "Parity speaking part1_question",
+        "track": "academic",
+        "payload": {
+          "part": "part1",
+          "category": "part1",
+          "promptText": "Do you enjoy studying?"
+        },
+        "versionId": "$DraftK"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftK": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates speaking:cue_card",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "speaking",
+        "contentType": "cue_card",
+        "sourceRef": "parity-author-speaking-cue_card",
+        "title": "Parity speaking cue_card",
+        "track": "academic",
+        "payload": {
+          "part": "part2",
+          "category": "part2",
+          "promptText": "Describe a useful lesson.",
+          "cueCard": "When was it and what did you learn?"
+        }
+      },
+      "save": {
+        "DraftL": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft speaking:cue_card",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "speaking",
+        "contentType": "cue_card",
+        "sourceRef": "parity-author-speaking-cue_card",
+        "title": "Parity speaking cue_card",
+        "track": "academic",
+        "payload": {
+          "part": "part2",
+          "category": "part2",
+          "promptText": "Describe a useful lesson.",
+          "cueCard": "When was it and what did you learn?"
+        },
+        "versionId": "$DraftL"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftL": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates speaking:part3_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "speaking",
+        "contentType": "part3_question",
+        "sourceRef": "parity-author-speaking-part3_question",
+        "title": "Parity speaking part3_question",
+        "track": "academic",
+        "payload": {
+          "part": "part3",
+          "category": "part3",
+          "promptText": "Why is education important?"
+        }
+      },
+      "save": {
+        "DraftM": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft speaking:part3_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "speaking",
+        "contentType": "part3_question",
+        "sourceRef": "parity-author-speaking-part3_question",
+        "title": "Parity speaking part3_question",
+        "track": "academic",
+        "payload": {
+          "part": "part3",
+          "category": "part3",
+          "promptText": "Why is education important?"
+        },
+        "versionId": "$DraftM"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftM": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates speaking:material",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "speaking",
+        "contentType": "material",
+        "sourceRef": "parity-author-speaking-material",
+        "title": "Parity speaking material",
+        "track": "academic",
+        "payload": {
+          "title": "Practice conversation",
+          "category": "general",
+          "primaryType": "link",
+          "primaryUrl": "https://example.test/practice"
+        }
+      },
+      "save": {
+        "DraftN": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft speaking:material",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "speaking",
+        "contentType": "material",
+        "sourceRef": "parity-author-speaking-material",
+        "title": "Parity speaking material",
+        "track": "academic",
+        "payload": {
+          "title": "Practice conversation",
+          "category": "general",
+          "primaryType": "link",
+          "primaryUrl": "https://example.test/practice"
+        },
+        "versionId": "$DraftN"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftN": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates grammar:topic",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "grammar",
+        "contentType": "topic",
+        "sourceRef": "parity-author-grammar-topic",
+        "title": "Parity grammar topic",
+        "track": "unspecified",
+        "payload": {
+          "title": "The present tense",
+          "explanation": "Use the present tense for habits.",
+          "exercises": [
+            {
+              "promptText": "She studies every day.",
+              "options": [
+                "studies",
+                "study"
+              ],
+              "correctOption": "studies",
+              "explanation": "A singular subject takes studies."
+            }
+          ]
+        }
+      },
+      "save": {
+        "DraftO": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft grammar:topic",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "grammar",
+        "contentType": "topic",
+        "sourceRef": "parity-author-grammar-topic",
+        "title": "Parity grammar topic",
+        "track": "unspecified",
+        "payload": {
+          "title": "The present tense",
+          "explanation": "Use the present tense for habits.",
+          "exercises": [
+            {
+              "promptText": "She studies every day.",
+              "options": [
+                "studies",
+                "study"
+              ],
+              "correctOption": "studies",
+              "explanation": "A singular subject takes studies."
+            }
+          ]
+        },
+        "versionId": "$DraftO"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftO": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates vocabulary:topic_pack",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "vocabulary",
+        "contentType": "topic_pack",
+        "sourceRef": "parity-author-vocabulary-topic_pack",
+        "title": "Parity vocabulary topic_pack",
+        "track": "unspecified",
+        "payload": {
+          "labelEn": "Academic learning",
+          "slug": "academic-learning",
+          "words": [
+            {
+              "term": "research",
+              "partOfSpeech": "noun",
+              "definitionEn": "A systematic investigation.",
+              "example": "The students completed their research."
+            }
+          ]
+        }
+      },
+      "save": {
+        "DraftP": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft vocabulary:topic_pack",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "vocabulary",
+        "contentType": "topic_pack",
+        "sourceRef": "parity-author-vocabulary-topic_pack",
+        "title": "Parity vocabulary topic_pack",
+        "track": "unspecified",
+        "payload": {
+          "labelEn": "Academic learning",
+          "slug": "academic-learning",
+          "words": [
+            {
+              "term": "research",
+              "partOfSpeech": "noun",
+              "definitionEn": "A systematic investigation.",
+              "example": "The students completed their research."
+            }
+          ]
+        },
+        "versionId": "$DraftP"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftP": "versionId"
+      }
+    },
+    {
+      "name": "Content author creates lesson:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "lesson",
+        "contentType": "lesson",
+        "sourceRef": "parity-author-lesson-lesson",
+        "title": "Parity lesson lesson",
+        "track": "unspecified",
+        "payload": {
+          "unitId": "e0000000-0000-4000-8000-000000000003",
+          "slug": "parity-lesson",
+          "learningArea": "general",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "This is a learning activity."
+            }
+          ]
+        }
+      },
+      "save": {
+        "DraftQ": "versionId"
+      },
+      "expectStatus": [
+        200,
+        201
+      ]
+    },
+    {
+      "name": "Content author updates draft lesson:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "lesson",
+        "contentType": "lesson",
+        "sourceRef": "parity-author-lesson-lesson",
+        "title": "Parity lesson lesson",
+        "track": "unspecified",
+        "payload": {
+          "unitId": "e0000000-0000-4000-8000-000000000003",
+          "slug": "parity-lesson",
+          "learningArea": "general",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "This is a learning activity."
+            }
+          ]
+        },
+        "versionId": "$DraftQ"
+      },
+      "expectStatus": [
+        200,
+        201
+      ],
+      "save": {
+        "DraftQ": "versionId"
+      }
+    },
+    {
+      "name": "Publish authored listening:full_test",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftA/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        422
+      ]
+    },
+    {
+      "name": "Publish authored listening:section",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftB/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored reading:general_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftC/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored reading:passage",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftD/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored writing:task1",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftE/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored writing:task2",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftF/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored writing:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftG/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored writing:model_text",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftH/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored writing:pattern",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftI/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored writing:translation_set",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftJ/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored speaking:part1_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftK/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored speaking:cue_card",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftL/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored speaking:part3_question",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftM/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored speaking:material",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftN/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored grammar:topic",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftO/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored vocabulary:topic_pack",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftP/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Publish authored lesson:lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/versions/$DraftQ/publication",
+      "body": {
+        "to": "published"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Published lesson revision is immutable",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "lesson",
+        "contentType": "lesson",
+        "sourceRef": "parity-author-lesson-lesson",
+        "title": "Parity lesson lesson",
+        "track": "unspecified",
+        "payload": {
+          "unitId": "e0000000-0000-4000-8000-000000000003",
+          "slug": "parity-lesson",
+          "learningArea": "general",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "A revised learning activity stays in draft until publication."
+            }
+          ]
+        },
+        "versionId": "$DraftQ"
+      },
+      "expectStatus": [
+        422
+      ]
+    },
+    {
+      "name": "Start a draft revision of a live lesson",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "lesson",
+        "contentType": "lesson",
+        "sourceRef": "parity-author-lesson-lesson",
+        "title": "Parity lesson lesson",
+        "track": "unspecified",
+        "payload": {
+          "unitId": "e0000000-0000-4000-8000-000000000003",
+          "slug": "parity-lesson",
+          "learningArea": "general",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "A revised learning activity stays in draft until publication."
+            }
+          ]
+        }
+      },
+      "save": {
+        "LessonRevision": "versionId"
+      },
+      "expectStatus": [
+        200
+      ]
+    },
+    {
+      "name": "Continue editing live lesson draft",
+      "actor": "admin",
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "body": {
+        "module": "lesson",
+        "contentType": "lesson",
+        "sourceRef": "parity-author-lesson-lesson",
+        "title": "Parity lesson lesson",
+        "track": "unspecified",
+        "payload": {
+          "unitId": "e0000000-0000-4000-8000-000000000003",
+          "slug": "parity-lesson",
+          "learningArea": "general",
+          "blocks": [
+            {
+              "type": "text",
+              "text": "A revised learning activity stays in draft until publication."
+            }
+          ]
+        },
+        "versionId": "$LessonRevision"
+      },
+      "expectStatus": [
+        200
+      ]
+    }
+  ],
+  "stateQueries": [
+    "SELECT user_id,exercise_id,activity,response_text,is_correct FROM grammar_attempts ORDER BY activity,response_text",
+    "SELECT user_id,passage_id,status,score FROM reading_attempts ORDER BY user_id",
+    "SELECT user_id,test_id,status,score FROM listening_attempts ORDER BY user_id",
+    "SELECT user_id,mastery,srs_stage,correct_count,incorrect_count,interval_days FROM user_vocabulary ORDER BY user_id",
+    "SELECT user_id,kind,points,dedupe_key FROM vocab_point_events ORDER BY kind",
+    "SELECT type,payload FROM activity_events WHERE type IN ('VOCAB_REVIEWED','GRAMMAR_PRACTICE_SUBMITTED','CONTENT_DELETED') ORDER BY type,payload::text",
+    "SELECT user_id,prompt_id,status,content,word_count FROM writing_submissions ORDER BY user_id",
+    "SELECT user_id,part,status,transcript,transcript_origin FROM speaking_attempts ORDER BY user_id",
+    "SELECT user_id,status,recall_text,score,evaluator_version FROM retention_attempts ORDER BY user_id",
+    "SELECT id,retention_text_id,version_number,body_text,word_count,scoring_structure FROM retention_text_versions ORDER BY id",
+    "SELECT source_type,passage_id,surface_form,start_char,end_char,resolution_status,resolution_source FROM lexical_occurrences WHERE source_type='reading' ORDER BY start_char",
+    "SELECT retention_text_version_id,start_char,end_char,surface_form,lexeme_id FROM lexical_occurrences WHERE source_type='retention' ORDER BY retention_text_version_id,start_char",
+    "SELECT action,target_id,metadata FROM audit_log WHERE action='retention_text.version_created' ORDER BY target_id",
+    "SELECT module,content_type,source_ref,version_no,status,change_kind,publication_state,title,track,CASE WHEN module='reading' THEN NULL ELSE content_hash END AS content_hash,semantic_hash,answer_key_hash,content_snapshot,provenance FROM content_versions WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref,version_no",
+    "SELECT source_ref,title,audio_type,audio_url,transcript,difficulty_level,publication_state FROM listening_tests WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref",
+    "SELECT t.source_ref,q.\"order\",q.type,q.type_code,q.question_text,q.options,q.correct_answer,q.explanation,q.keywords,q.paraphrases FROM listening_tests t JOIN listening_questions q ON q.test_id=t.id WHERE t.source_ref LIKE 'parity-author-%' ORDER BY t.source_ref,q.\"order\"",
+    "SELECT source_ref,passage_no,title,body_text,publication_state FROM reading_passages WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref,publication_state",
+    "SELECT source_ref,task_type,category,prompt,target_word_count,publication_state FROM writing_prompts WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref",
+    "SELECT source_ref,title,category,body,summary,duration_minutes,publication_state FROM writing_lessons WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref",
+    "SELECT source_ref,title,task_type,topic,target_band,body,word_count,provenance,publication_state FROM writing_model_texts WHERE source_ref LIKE 'parity-author-%' ORDER BY source_ref",
+    "SELECT v.source_ref,p.pattern,p.function,p.task_type,p.topic,p.target_band,p.example,p.provenance,p.publication_state FROM content_versions v JOIN writing_language_patterns p ON p.id=v.target_id WHERE v.source_ref LIKE 'parity-author-%' AND v.content_type='pattern' ORDER BY v.source_ref",
+    "SELECT t.source_ref,s.position,s.uzbek_source,s.model_english,s.accepted_alternatives,s.notes,s.target_lexical_items FROM writing_translation_sets t JOIN writing_translation_sentences s ON s.set_id=t.id WHERE t.source_ref LIKE 'parity-author-%' ORDER BY t.source_ref,s.position",
+    "SELECT external_id,part,category,prompt_text,cue_card,prep_seconds,answer_seconds,follow_ups,topic,publication_state FROM speaking_prompts WHERE external_id LIKE 'parity-author-%' ORDER BY external_id",
+    "SELECT v.source_ref,s.title,s.category,s.primary_type,s.primary_url,s.publication_state FROM content_versions v JOIN speaking_materials s ON s.id=v.target_id WHERE v.source_ref LIKE 'parity-author-%' ORDER BY v.source_ref",
+    "SELECT t.source_ref,t.title,t.skill_area,t.explanation,t.publication_state,e.\"order\",e.prompt_text,e.options,e.correct_option,e.explanation FROM grammar_topics t JOIN grammar_exercises e ON e.topic_id=t.id WHERE t.source_ref LIKE 'parity-author-%' ORDER BY t.source_ref,e.\"order\"",
+    "SELECT p.source_ref,p.slug,p.label_en,p.label_uz,p.position,p.publication_state,m.position,l.term,l.part_of_speech,l.definition_en,l.sense_key FROM vocabulary_topic_packs p JOIN vocabulary_topic_pack_words m ON m.pack_id=p.id JOIN lexemes l ON l.id=m.lexeme_id WHERE p.source_ref LIKE 'parity-author-%' ORDER BY p.source_ref,m.position",
+    "SELECT l.source_ref,l.title,l.slug,l.summary,l.learning_area,l.teacher_notes,l.estimated_minutes,l.publication_state,b.position,b.type,b.text_content FROM lessons l JOIN lesson_blocks b ON b.lesson_id=l.id WHERE l.source_ref LIKE 'parity-author-%' ORDER BY l.source_ref,b.position"
+  ]
+}

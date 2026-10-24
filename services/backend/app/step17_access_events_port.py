@@ -3,24 +3,13 @@
 One subscription per browser stream; the listener does not confer authorization.
 """
 import asyncio
-import json
 import os
-import re
 import time
 from fastapi import APIRouter, Request
 from fastapi.responses import StreamingResponse
 from . import main as core
 router=APIRouter()
-UUID=re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',re.I)
-
-
-def access_event_user_id(payload):
-    if not payload or len(payload)>256:return None
-    try:
-        value=json.loads(payload)
-        uid=value.get('userId') if isinstance(value,dict) else None
-        return uid if isinstance(uid,str) and UUID.fullmatch(uid) else None
-    except (ValueError,TypeError):return None
+from .access_events import bus, access_event_user_id
 
 @router.get('/api/auth/changes')
 async def changes(req:Request):
@@ -29,18 +18,13 @@ async def changes(req:Request):
     authority=await core.current_authority(req)
     if not authority or authority['user']['account_status']!='active':return core.j({'error':'unauthenticated'},401)
     async def stream():
-        import asyncpg
-        loop=asyncio.get_running_loop()
-        events=asyncio.Queue(maxsize=16)
-        client=None
-        def on_notification(_conn,pid,channel,payload):
-            if channel=='la_access_changed' and access_event_user_id(payload)==str(authority['user']['id']):
-                try:events.put_nowait(True)
-                except asyncio.QueueFull:pass
+        user_id=str(authority['user']['id'])
+        events=await bus.subscribe(user_id,dsn)
         try:
-            client=await asyncpg.connect(dsn,timeout=5)
-            await client.add_listener('la_access_changed',on_notification)
             yield b'retry: 5000\n\n'
+            if not await bus.ready(dsn):
+                yield b'event: unavailable\ndata: {}\n\n'
+                return
             yield b'event: access-changed\ndata: {}\n\n'
             while True:
                 expiry=authority['expiresAt']-time.time()
@@ -55,14 +39,8 @@ async def changes(req:Request):
                         yield b'event: access-changed\ndata: {}\n\n'
                         break
                     yield b': keep-alive\n\n'
-        except asyncio.CancelledError:
-            raise
-        except Exception:
-            yield b'event: unavailable\ndata: {}\n\n'
         finally:
-            if client:
-                try:await client.close()
-                except Exception:pass
+            await bus.unsubscribe(user_id,events)
     return StreamingResponse(stream(),media_type='text/event-stream',headers={
         'Cache-Control':'private, no-store, no-transform','X-Accel-Buffering':'no',
         'Content-Type':'text/event-stream; charset=utf-8'})

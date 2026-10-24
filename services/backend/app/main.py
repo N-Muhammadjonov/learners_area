@@ -6,6 +6,7 @@ import logging
 import os
 import re
 import uuid
+import asyncio
 from datetime import datetime, timezone
 from typing import Any
 from urllib.parse import urlsplit
@@ -15,6 +16,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, Response
 
 from .db import db_failure, pool, row_to_dict, close_pool
+from .auth_validation import validate as validate_auth
 from .rate_limit import client_key, counter, too_many, reset
 from .security import (SESSION_COOKIE, SESSION_TTL, add_security_headers,
                        check_origin, clear_session_cookie, issue_token, normalize_origin,
@@ -25,6 +27,8 @@ LOG = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app):
     yield
+    from .access_events import bus
+    await bus.close()
     await close_pool()
 
 app = FastAPI(title='Learners Area FastAPI', docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
@@ -159,14 +163,10 @@ async def theme(req: Request):
 async def _authenticate(req: Request, recovery_only: bool = False):
     if not recovery_only and not auth_policy()['passwordEnabled']:
         return auth_disabled()
-    body = await payload(req)
-    if not isinstance(body, dict): return j({'error': 'Invalid input'}, 400)
-    email = body.get('email')
-    password = body.get('password')
-    if isinstance(email, str): email = email.strip()
-    if not is_email(email): return j({'error': 'Enter a valid email'}, 400)
-    if not isinstance(password, str) or not password: return j({'error': 'Password is required'}, 400)
-    email = email.strip().lower()
+    body, error = validate_auth(await payload(req), 'login')
+    if error: return j({'error': error}, 400)
+    email = body['email']
+    password = body['password']
     k = email
     ip = client_key(req)
     delay = counter('login_account', k) or counter('login_ip', ip)
@@ -185,7 +185,7 @@ async def _authenticate(req: Request, recovery_only: bool = False):
     decoy = '$2a$12$NpanVw6DUsaA2WX2Obipc.94Av8DHYf.iT6gFPkLre9PfSqKIuYLe'
     stored = user['password_hash'] if user else None
     try:
-        valid = bcrypt.checkpw(password.encode('utf-8'), (stored or decoy).encode()) if len(password) <= 10000 else False
+        valid = await asyncio.to_thread(bcrypt.checkpw, password.encode('utf-8'), (stored or decoy).encode()) if len(password) <= 10000 else False
     except ValueError:
         valid = False
     valid = bool(valid and stored)
@@ -236,27 +236,15 @@ async def register(req: Request):
         return auth_disabled()
     delay = counter('register', client_key(req), consume=True)
     if delay: return too_many(delay)
-    body = await payload(req)
-    if not isinstance(body, dict): return j({'error': 'Invalid input'}, 400)
-    name = body.get('name')
-    email = body.get('email')
-    password = body.get('password')
-    gender = body.get('gender')
-    if not isinstance(name, str) or len(name.strip()) < 3 or len(name.strip()) > 200 or len(name.split()) < 2:
-        return j({'error': 'First and last name required'}, 400)
-    name = name.strip()
-    if isinstance(email, str): email = email.strip()
-    if not is_email(email): return j({'error': 'Enter a valid email'}, 400)
-    email = email.strip().lower()
-    if not isinstance(password, str) or len(password) < 8:
-        return j({'error': 'Password must be at least 8 characters'}, 400)
-    if gender not in ('male', 'female'): return j({'error': 'Invalid enum value'}, 400)
+    body, error = validate_auth(await payload(req), 'register')
+    if error: return j({'error': error}, 400)
+    name, email, password, gender = (body[key] for key in ('name', 'email', 'password', 'gender'))
     conn_pool = await pool()
     async with conn_pool.acquire() as conn:
         existing = await conn.fetchval('SELECT 1 FROM users WHERE email=$1', email)
         if existing: return j({'error': 'email_taken'}, 409)
         import bcrypt
-        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt(rounds=12)).decode()
+        pw_hash = (await asyncio.to_thread(bcrypt.hashpw, password.encode(), bcrypt.gensalt(rounds=12))).decode()
         locale = req.cookies.get('la_locale')
         locale = locale if locale in ('uz', 'en') else 'uz'
         try:

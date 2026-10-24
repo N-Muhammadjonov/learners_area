@@ -1,0 +1,2742 @@
+{
+  "sourceCommit": "b62b78f469e4f73aa80f441f630b012dc422af39",
+  "gitBlobAlgorithm": "sha1",
+  "files": [
+    {
+      "path": "src/app/api/admin/admission/[id]/decide/route.ts",
+      "sha": "9f31d1ee79b0d72f70dab458efcffdfa69bf4554"
+    },
+    {
+      "path": "src/app/api/admin/content/[type]/[id]/publication/route.ts",
+      "sha": "8184e3e9e41ab929d6af52d4f96f8f6bdaa04ef2"
+    },
+    {
+      "path": "src/app/api/admin/content/[type]/[id]/route.ts",
+      "sha": "b766f56046bf84510883b67742f0e9d84799f38c"
+    },
+    {
+      "path": "src/app/api/admin/content/authoring-capabilities/route.ts",
+      "sha": "407da7d165f1668ef4b6ac4947d5d3aba71f819c"
+    },
+    {
+      "path": "src/app/api/admin/content/bank/route.ts",
+      "sha": "369da3bc67a811eb231478ab277a25e19dd03056"
+    },
+    {
+      "path": "src/app/api/admin/content/drafts/route.ts",
+      "sha": "34fdb7d3c5263d4c481f4852ca39b4b61376ac39"
+    },
+    {
+      "path": "src/app/api/admin/content/import/route.ts",
+      "sha": "26172d9155fe364f5bdd55c5b13771f0306fca7e"
+    },
+    {
+      "path": "src/app/api/admin/content/items/[module]/[contentType]/[sourceRef]/route.ts",
+      "sha": "1dfef73c8bcb046bc9760ebd42761e7e28c53ee3"
+    },
+    {
+      "path": "src/app/api/admin/content/items/route.ts",
+      "sha": "c3c6190a2e08920496a7446df42d9d06e84d5eb2"
+    },
+    {
+      "path": "src/app/api/admin/content/lessons/[id]/edit/route.ts",
+      "sha": "6b087a947b99b23038eef39701cbb71330f5176a"
+    },
+    {
+      "path": "src/app/api/admin/content/lessons/[id]/revision/route.ts",
+      "sha": "ac29ccf423b884cda440696185b3e36033bd4286"
+    },
+    {
+      "path": "src/app/api/admin/content/previews/route.ts",
+      "sha": "97792d14ffd3e8db73c202f0377a73e64a0c5401"
+    },
+    {
+      "path": "src/app/api/admin/content/template/route.ts",
+      "sha": "a5cedb6896a0055cf85595b21d46314475131573"
+    },
+    {
+      "path": "src/app/api/admin/content/validate/route.ts",
+      "sha": "469c317781cb0b096dbd3839654604bf7815cd80"
+    },
+    {
+      "path": "src/app/api/admin/content/versions/[id]/preview/route.ts",
+      "sha": "4be01ee8d43eb272935301444c69d50ee3bcfd6b"
+    },
+    {
+      "path": "src/app/api/admin/content/versions/[id]/publication/route.ts",
+      "sha": "9d581b7f6eb297d130de11476e152befd47474a4"
+    },
+    {
+      "path": "src/app/api/admin/grammar/import/route.ts",
+      "sha": "182edd7a20f69ff35b9e4ed582da8c30e2da56a4"
+    },
+    {
+      "path": "src/app/api/admin/grammar/topics/[id]/exercises/route.ts",
+      "sha": "9f25b39858dcb0cd06be8b1077440a5f6d21c267"
+    },
+    {
+      "path": "src/app/api/admin/grammar/topics/route.ts",
+      "sha": "d0c42f37de3a17a4bc0929dbfb832c337231e3ee"
+    },
+    {
+      "path": "src/app/api/admin/listening/import/route.ts",
+      "sha": "33880dba325b5e8e836943ee5073c855899b8613"
+    },
+    {
+      "path": "src/app/api/admin/listening/tests/[id]/convert/route.ts",
+      "sha": "64775ff5bffb97b6462144ea4e4aa6adb8cd97d3"
+    },
+    {
+      "path": "src/app/api/admin/listening/tests/[id]/questions/route.ts",
+      "sha": "83341db399c8bb25e30cdd0cd2a2fd1bf1a27bac"
+    },
+    {
+      "path": "src/app/api/admin/listening/tests/[id]/route.ts",
+      "sha": "ccb892a42294d1b8f5f1c816d13a573f2af21ab6"
+    },
+    {
+      "path": "src/app/api/admin/listening/tests/route.ts",
+      "sha": "ef1201eea3641b9b59caab1bd6484861c90fbccd"
+    },
+    {
+      "path": "src/app/api/admin/people/refresh-telegram/route.ts",
+      "sha": "a3118819706b9f7d1b30574add5ba4acc2e55032"
+    },
+    {
+      "path": "src/app/api/admin/reading/import/route.ts",
+      "sha": "23f4a1be1785f5b206555ab83ce601e891e2ec24"
+    },
+    {
+      "path": "src/app/api/admin/reading/passages/[id]/questions/route.ts",
+      "sha": "f132a387b41eafe3fab1668bb5591f79a477551e"
+    },
+    {
+      "path": "src/app/api/admin/reading/passages/route.ts",
+      "sha": "ab5f8a8f2bbb35bd40f029ee26b36be5b0eff74e"
+    },
+    {
+      "path": "src/app/api/admin/retention/texts/[id]/route.ts",
+      "sha": "e34623842386acf5a5e35b155d0b7d0a27ca1909"
+    },
+    {
+      "path": "src/app/api/admin/retention/texts/[id]/versions/route.ts",
+      "sha": "9d78f5e8b7cf1ea83942f46a9fa2b0fc731f42f2"
+    },
+    {
+      "path": "src/app/api/admin/retention/texts/route.ts",
+      "sha": "c3e8f5090f1000cfbbdcf0a6c5fee95c1a55e244"
+    },
+    {
+      "path": "src/app/api/admin/retention/validate/route.ts",
+      "sha": "552fb6e6ce82733654a5893ca9437acd41a963ef"
+    },
+    {
+      "path": "src/app/api/admin/roster/route.ts",
+      "sha": "047eea11b2a5ee505cd6e301db76d8378f414fb3"
+    },
+    {
+      "path": "src/app/api/admin/uploads/cleanup/route.ts",
+      "sha": "3ba25b74e51e35df0945f09ac095a06065871455"
+    },
+    {
+      "path": "src/app/api/admin/users/[id]/role/route.ts",
+      "sha": "41b8bee6f982b70b930d708bc4287ef0164a158c"
+    },
+    {
+      "path": "src/app/api/admin/users/[id]/status/route.ts",
+      "sha": "480dc3087689cccfddbe0add892170985fbf1914"
+    },
+    {
+      "path": "src/app/api/admin/video-lessons/route.ts",
+      "sha": "4f6a961478c15fdab73ac1ba9bc494c67249f3f2"
+    },
+    {
+      "path": "src/app/api/admin/writing/[kind]/[id]/route.ts",
+      "sha": "a847be05c534e5f9b567375581818f6c65cc5a53"
+    },
+    {
+      "path": "src/app/api/admin/writing/[kind]/route.ts",
+      "sha": "255870cd8a8335996e23de6d03e4f8e918dae94d"
+    },
+    {
+      "path": "src/app/api/admin/writing-prompts/route.ts",
+      "sha": "b11dd1f398c7790f3fde675ea4fa3eb6542e3a8f"
+    },
+    {
+      "path": "src/app/api/admission/request/route.ts",
+      "sha": "6fb0657887dcdd578620c03f87c5504a7971a05f"
+    },
+    {
+      "path": "src/app/api/assignments/[id]/evaluate/route.ts",
+      "sha": "f9930c75275a645a9858cda1f4db680ca932537a"
+    },
+    {
+      "path": "src/app/api/assignments/assignable/route.ts",
+      "sha": "9a84e2987f7e7aa578778eddd1bbf9eeae9c203c"
+    },
+    {
+      "path": "src/app/api/assignments/route.ts",
+      "sha": "7bbf31239d41b35ed8d5ea757a462858594d6822"
+    },
+    {
+      "path": "src/app/api/auth/changes/route.ts",
+      "sha": "16c899aa757a3718c69cb0a1fc2205629b028786"
+    },
+    {
+      "path": "src/app/api/auth/google/callback/route.ts",
+      "sha": "4a57847fafedfebdebd60a9c003695153ea67a39"
+    },
+    {
+      "path": "src/app/api/auth/google/start/route.ts",
+      "sha": "5a22bc251e9ea072d8504af8886d4aadada78dc0"
+    },
+    {
+      "path": "src/app/api/auth/login/route.ts",
+      "sha": "5ca83551abe9f764ea7b031c0ab6296d2b04ddfd"
+    },
+    {
+      "path": "src/app/api/auth/logout/route.ts",
+      "sha": "471831b7ca1db25fa9572a308e8c18b7eb0662f6"
+    },
+    {
+      "path": "src/app/api/auth/recovery/login/route.ts",
+      "sha": "f798f665c1450ade4a2fc7e7774123d7fbdebd03"
+    },
+    {
+      "path": "src/app/api/auth/register/route.ts",
+      "sha": "731e930d9cd382b0e4d2a3179f093b8936cb1d15"
+    },
+    {
+      "path": "src/app/api/auth/reset/confirm/route.ts",
+      "sha": "f32c68088dc8ab33e4d8c4b7d79a218faf7c707f"
+    },
+    {
+      "path": "src/app/api/auth/reset/request/route.ts",
+      "sha": "b333370106f2119851c96d6bd19e1282db340fd0"
+    },
+    {
+      "path": "src/app/api/auth/state/route.ts",
+      "sha": "d029058f2d03528ba40ee4bd26f56599c3ba603e"
+    },
+    {
+      "path": "src/app/api/auth/telegram/callback/route.ts",
+      "sha": "1e98422a3d94792ca0d524479f4d53ff626e8aa4"
+    },
+    {
+      "path": "src/app/api/auth/telegram/intent/cancel/route.ts",
+      "sha": "6cefef174a5f8372864139c2c673d8e209ddf216"
+    },
+    {
+      "path": "src/app/api/auth/telegram/intent/exchange/route.ts",
+      "sha": "6c9b914b3538376600e06d2cd1c1c5f32146348f"
+    },
+    {
+      "path": "src/app/api/auth/telegram/intent/route.ts",
+      "sha": "35c2186c90aed9f02382967faf26aa032f934d26"
+    },
+    {
+      "path": "src/app/api/auth/telegram/intent/status/route.ts",
+      "sha": "c73a0041b69ddf65c84ad8a030d7c5a12144276a"
+    },
+    {
+      "path": "src/app/api/dictionary/entries/[lexemeId]/route.ts",
+      "sha": "64dabb0607fa0cc923dc632c21e2aa2eace4d223"
+    },
+    {
+      "path": "src/app/api/dictionary/recent/route.ts",
+      "sha": "b90aa17474240734120b584e27ec226b562d7032"
+    },
+    {
+      "path": "src/app/api/dictionary/save/route.ts",
+      "sha": "70dab974f9ea1681c58c8ae9af0a26a9b37b9a6a"
+    },
+    {
+      "path": "src/app/api/dictionary/search/route.ts",
+      "sha": "b3c970a1449084318c4e626c029fb13d41015a37"
+    },
+    {
+      "path": "src/app/api/grammar/exercises/[id]/practice/route.ts",
+      "sha": "817f593097d6cff7ce77a08b124677307063f873"
+    },
+    {
+      "path": "src/app/api/grammar/exercises/[id]/produce/route.ts",
+      "sha": "092dc07cbf8b39407ec0a5d7f4bfafb7200a13be"
+    },
+    {
+      "path": "src/app/api/grammar/topics/[id]/submit/route.ts",
+      "sha": "7be13e363b94d0685638d5bf707e6d945b823d36"
+    },
+    {
+      "path": "src/app/api/history/route.ts",
+      "sha": "089f021c4b1302493ca8946d129bab52a617dc68"
+    },
+    {
+      "path": "src/app/api/internal/telegram/admins/[telegramUserId]/route.ts",
+      "sha": "3ef66a321317b3378edcff59999c93f5c7c98064"
+    },
+    {
+      "path": "src/app/api/internal/telegram/admins/route.ts",
+      "sha": "cb92f961563b6acc3a17bb8b7205986360e0a977"
+    },
+    {
+      "path": "src/app/api/internal/telegram/admission/decide/route.ts",
+      "sha": "3784141d451e66d6b60da934980268f02b158463"
+    },
+    {
+      "path": "src/app/api/internal/telegram/admission/pending/route.ts",
+      "sha": "31810359f9544b305215b66be2c2c6c20ca078e0"
+    },
+    {
+      "path": "src/app/api/internal/telegram/admission/request/route.ts",
+      "sha": "f5cf43a92871bbfba5d8c22bb2638282ea9d47ac"
+    },
+    {
+      "path": "src/app/api/internal/telegram/auth/confirm/route.ts",
+      "sha": "4ed37a33f20336f31624a0146230db3dc841ecf4"
+    },
+    {
+      "path": "src/app/api/internal/telegram/broadcasts/[id]/route.ts",
+      "sha": "1853abdfb32eae76908da52ae45ca16505e05723"
+    },
+    {
+      "path": "src/app/api/internal/telegram/broadcasts/claim/route.ts",
+      "sha": "f43f3b50b96c43f5c95e05b665e10db9ab1def21"
+    },
+    {
+      "path": "src/app/api/internal/telegram/broadcasts/route.ts",
+      "sha": "d4cb50bd383472d2a95efcd8a5e45f872a6367aa"
+    },
+    {
+      "path": "src/app/api/internal/telegram/contacts/[telegramUserId]/route.ts",
+      "sha": "7885285893597617d995f213846962ead6687da5"
+    },
+    {
+      "path": "src/app/api/internal/telegram/contacts/phone/route.ts",
+      "sha": "54e3c04ee883c5b142250286f04bffb1b4b43e21"
+    },
+    {
+      "path": "src/app/api/internal/telegram/contacts/route.ts",
+      "sha": "0a793385cd7823831186e052c68db0a4c4d2cb53"
+    },
+    {
+      "path": "src/app/api/internal/telegram/directory/[userId]/delete/route.ts",
+      "sha": "bdcda2b62fc127058bc804cf7d714865f0e5c411"
+    },
+    {
+      "path": "src/app/api/internal/telegram/directory/[userId]/message/route.ts",
+      "sha": "0a4900b33fa432c28035035d28b6af4bb671e63a"
+    },
+    {
+      "path": "src/app/api/internal/telegram/directory/[userId]/remove/route.ts",
+      "sha": "08e91d8265b6373cd72cedd195b1c607c9664b7d"
+    },
+    {
+      "path": "src/app/api/internal/telegram/directory/[userId]/route.ts",
+      "sha": "235e04886fe6d83c78b471188ef498320e0ae7f6"
+    },
+    {
+      "path": "src/app/api/internal/telegram/directory/[userId]/status/route.ts",
+      "sha": "88d4db891d3dd7419ea133fb9b088ec8d046eb2e"
+    },
+    {
+      "path": "src/app/api/internal/telegram/directory/[userId]/unlink/route.ts",
+      "sha": "7f364c88c2937cadda4e006f7e9a8ea3aeb06b44"
+    },
+    {
+      "path": "src/app/api/internal/telegram/directory/route.ts",
+      "sha": "e14a1cda74be93fa655922d4c436d888f9ef13c8"
+    },
+    {
+      "path": "src/app/api/internal/telegram/drafts/route.ts",
+      "sha": "93fd458c62428ffcaf2e7ded65f31183a3f4b7ab"
+    },
+    {
+      "path": "src/app/api/internal/telegram/notifications/route.ts",
+      "sha": "44435a13a0b31c1d40b0c5b3c731dfbff48d30ac"
+    },
+    {
+      "path": "src/app/api/internal/telegram/ops/route.ts",
+      "sha": "8b0631130bfdd981cd5b27780799dd950878c3c9"
+    },
+    {
+      "path": "src/app/api/internal/telegram/owner/handover/route.ts",
+      "sha": "42a1c66563fdfb9f2549d33697e3275b0eefb73e"
+    },
+    {
+      "path": "src/app/api/internal/telegram/owner/route.ts",
+      "sha": "4f4434c16a15849a0f4c08af52af43f1427c353e"
+    },
+    {
+      "path": "src/app/api/internal/telegram/owner/transfer/route.ts",
+      "sha": "364c90290bfb845d7d560844227199221c6539a5"
+    },
+    {
+      "path": "src/app/api/internal/telegram/ready/route.ts",
+      "sha": "85a6637e4dbbfa5e5e17843092f13dd8a153d230"
+    },
+    {
+      "path": "src/app/api/internal/telegram/required-channels/route.ts",
+      "sha": "315daf61ce4ac727c2a2bb8b7d1d74f36dda9bb0"
+    },
+    {
+      "path": "src/app/api/internal/telegram/support/threads/[id]/actions/route.ts",
+      "sha": "4d31569c186a6ec19fcc8bc4cc2d45017fbc051b"
+    },
+    {
+      "path": "src/app/api/internal/telegram/support/threads/[id]/messages/route.ts",
+      "sha": "bc5e691379d20d98ec11178553d5e5f4d7a17e36"
+    },
+    {
+      "path": "src/app/api/internal/telegram/support/threads/[id]/route.ts",
+      "sha": "98e722003f7afb5f83bb93d99b0d86355c2836c7"
+    },
+    {
+      "path": "src/app/api/internal/telegram/support/threads/route.ts",
+      "sha": "4c99e2e3832d2e0311e2815eb276d72adfbbcde4"
+    },
+    {
+      "path": "src/app/api/internal/telegram/updates/route.ts",
+      "sha": "8a5096424424e439af9dc062c15e5d2ebd079867"
+    },
+    {
+      "path": "src/app/api/internal/telegram/users/[telegramUserId]/route.ts",
+      "sha": "5ec7abc9c6ce731bda6ff7f51e711b195170461f"
+    },
+    {
+      "path": "src/app/api/lessons/[id]/notes/route.ts",
+      "sha": "e5cb21295b7de922334504e19c264b2e49f76b27"
+    },
+    {
+      "path": "src/app/api/lessons/[id]/route.ts",
+      "sha": "4a45be954619135983583fce545ce825b8576875"
+    },
+    {
+      "path": "src/app/api/lessons/[id]/state/route.ts",
+      "sha": "6d8e25261586db421e1333eaaf6a0294cb9e3a14"
+    },
+    {
+      "path": "src/app/api/lessons/blocks/[blockId]/answer/route.ts",
+      "sha": "a51f4935a789ab11b3c50291c4faff54be69b39b"
+    },
+    {
+      "path": "src/app/api/lessons/units/route.ts",
+      "sha": "01e8fa2781b61d72cf9934a1b1cbe1e2942e69cb"
+    },
+    {
+      "path": "src/app/api/listening/attempts/[id]/draft/route.ts",
+      "sha": "e99b86964657c50c6629012dddfbd91f241daf05"
+    },
+    {
+      "path": "src/app/api/listening/attempts/[id]/submit/route.ts",
+      "sha": "e0375b2faae541dab97ed1504da6d4803d4b41f5"
+    },
+    {
+      "path": "src/app/api/listening/attempts/route.ts",
+      "sha": "0af9173f1cb6fb129e96febd251400ef532fee03"
+    },
+    {
+      "path": "src/app/api/listening/full/[id]/activity/route.ts",
+      "sha": "318f7822c11b0d0e4bab5374f189bbf992e11944"
+    },
+    {
+      "path": "src/app/api/listening/full/[id]/authored/route.ts",
+      "sha": "f574bea73d2ddf0c57cb0c4c7c0ead915ea2c9ec"
+    },
+    {
+      "path": "src/app/api/listening/full/[id]/authored-state/route.ts",
+      "sha": "f8fdeffc2934324659278970deb9fb14c5bbc52b"
+    },
+    {
+      "path": "src/app/api/listening/full/[id]/practice/route.ts",
+      "sha": "276f150f4ce444eb8f52e31da8430f0b27c7ce5b"
+    },
+    {
+      "path": "src/app/api/listening/full/[id]/progress/route.ts",
+      "sha": "de68712bf8f802d2f6c8df5528a33ccf3cd2d338"
+    },
+    {
+      "path": "src/app/api/listening/full/[id]/sandbox/route.ts",
+      "sha": "b436a9ee67084326bd7e18b2b90df72a97133fad"
+    },
+    {
+      "path": "src/app/api/listening/full/[id]/start/route.ts",
+      "sha": "135972a9691af7e0cd9b0cebcdd287c9b73bca23"
+    },
+    {
+      "path": "src/app/api/listening/full/[id]/study/route.ts",
+      "sha": "dc5d29a64e298786e12b463138ea24ad4cbe6e97"
+    },
+    {
+      "path": "src/app/api/listening/mcq/[id]/route.ts",
+      "sha": "edf225dd74ea5ed5f27f2668c746c87b680b948f"
+    },
+    {
+      "path": "src/app/api/listening/mcq/route.ts",
+      "sha": "c76742d38ad002f613639c06c673774f3a273930"
+    },
+    {
+      "path": "src/app/api/live-classes/[id]/join/route.ts",
+      "sha": "be97ff562df91b1a1e50b9a6ba9eae66749874e7"
+    },
+    {
+      "path": "src/app/api/live-partner/route.ts",
+      "sha": "33940394e4f0b0600c9c1ad74c80af5f5a2c2ed8"
+    },
+    {
+      "path": "src/app/api/locale/route.ts",
+      "sha": "c53aa168f476a0559131c4b229cef62265625a67"
+    },
+    {
+      "path": "src/app/api/materials/[type]/[id]/route.ts",
+      "sha": "af54c0f70414a74fbcef8902b9aee443e68e4087"
+    },
+    {
+      "path": "src/app/api/media/authorize/route.ts",
+      "sha": "8244dd594ccda475b332fc6b23e2768529ddff6d"
+    },
+    {
+      "path": "src/app/api/notifications/route.ts",
+      "sha": "ec3c4a6a56542cf582b477b19129d375d73e3b0c"
+    },
+    {
+      "path": "src/app/api/onboarding/route.ts",
+      "sha": "a371a782aafebc5cb9302dd680871829ea66e8ad"
+    },
+    {
+      "path": "src/app/api/owner/ai-control/route.ts",
+      "sha": "92064c8db12cbbd75fef0121fc0c72feb6d899c2"
+    },
+    {
+      "path": "src/app/api/owner/dictionary/[...action]/route.ts",
+      "sha": "8bac1bb54fd9559373b41d95e4a8806ceea99601"
+    },
+    {
+      "path": "src/app/api/owner/retention/route.ts",
+      "sha": "679549731d5589c995205092cd954d3e55efd5a0"
+    },
+    {
+      "path": "src/app/api/owner/student-export/route.ts",
+      "sha": "ec1f135ea102f9c3a36dfe143217d59abf049260"
+    },
+    {
+      "path": "src/app/api/owner/transfer/route.ts",
+      "sha": "bb454e4ccb665431ceeb2bf2e28ab17cd900af8e"
+    },
+    {
+      "path": "src/app/api/presence/route.ts",
+      "sha": "83d5c03b0b2663e6a63214e906cebc0852f61496"
+    },
+    {
+      "path": "src/app/api/profile/photo/[id]/route.ts",
+      "sha": "bd0435d7fab928dcdf1f8d4139d5b522091d3643"
+    },
+    {
+      "path": "src/app/api/profile/photo/route.ts",
+      "sha": "6d08096cdd3892213a156bc76eba2fb253871dbe"
+    },
+    {
+      "path": "src/app/api/profile/route.ts",
+      "sha": "a105fbb7db7ef0d5cd3a7b534d134178390bc2ae"
+    },
+    {
+      "path": "src/app/api/profile/study/route.ts",
+      "sha": "bd14e1fec481ed3cc6839516c102fe4fcb2bf581"
+    },
+    {
+      "path": "src/app/api/reading/academic/route.ts",
+      "sha": "f95ae0cc7e745f5cc5741e4f30d5f1d3ebd8dc6a"
+    },
+    {
+      "path": "src/app/api/reading/attempts/[id]/route.ts",
+      "sha": "00f67e4fce9a520952a29a554df462d2e7b7205d"
+    },
+    {
+      "path": "src/app/api/reading/attempts/[id]/submit/route.ts",
+      "sha": "c115a23337c9b2b6c6d1f3cecd2d805a1e99b4de"
+    },
+    {
+      "path": "src/app/api/reading/attempts/route.ts",
+      "sha": "0fffc79c3081d9cee1227aea11f5185a259763bb"
+    },
+    {
+      "path": "src/app/api/reading/general/progress/route.ts",
+      "sha": "7898bfb1ee08ba443481cbec1059982c3cc17993"
+    },
+    {
+      "path": "src/app/api/reports/route.ts",
+      "sha": "a2e02fd30e49e387e4933dc6baab05eaaf655b50"
+    },
+    {
+      "path": "src/app/api/resources/[...key]/route.ts",
+      "sha": "c9bc5b3864d13ebbc7d6041ec8c0c87300e3e0de"
+    },
+    {
+      "path": "src/app/api/retention/attempts/[id]/draft/route.ts",
+      "sha": "17ede8732834afcf475d508810beedd49c9abb22"
+    },
+    {
+      "path": "src/app/api/retention/attempts/[id]/finish-reading/route.ts",
+      "sha": "e3b03bf6297f3e4d224ae6962c7f268339e5f9ec"
+    },
+    {
+      "path": "src/app/api/retention/attempts/[id]/route.ts",
+      "sha": "784d867aa4a6f58d326194877e7f96788e23cd90"
+    },
+    {
+      "path": "src/app/api/retention/attempts/[id]/submit/route.ts",
+      "sha": "89f5326ad795f1d3cd356a8706c8f286bc5c884f"
+    },
+    {
+      "path": "src/app/api/retention/attempts/route.ts",
+      "sha": "a70424bdf01d5143e4e84c9d8a5b964d34455644"
+    },
+    {
+      "path": "src/app/api/retention/history/route.ts",
+      "sha": "471beebc492fe25af716aa284119151b1d22048d"
+    },
+    {
+      "path": "src/app/api/retention/summary/route.ts",
+      "sha": "ed557e7616a86e79290d892a618a39637bd76106"
+    },
+    {
+      "path": "src/app/api/search/route.ts",
+      "sha": "8f1d06c89b563c29f5375275eda96ddf0fbf4cd8"
+    },
+    {
+      "path": "src/app/api/speaking/ai/script/route.ts",
+      "sha": "a5065b99b0126337049bc34c9916b7e61c743f87"
+    },
+    {
+      "path": "src/app/api/speaking/attempts/[id]/route.ts",
+      "sha": "66c7badf04e940e4ddcdab06a67e32d701affbba"
+    },
+    {
+      "path": "src/app/api/speaking/attempts/[id]/submit/route.ts",
+      "sha": "d97a0c94983788b53af123180f111756532f4159"
+    },
+    {
+      "path": "src/app/api/speaking/attempts/[id]/transcript/route.ts",
+      "sha": "356001ff0c6986bd3e55784b059b5175f39ab971"
+    },
+    {
+      "path": "src/app/api/speaking/attempts/route.ts",
+      "sha": "67df7d6854122a21044f883e0868853b59fc07a1"
+    },
+    {
+      "path": "src/app/api/speaking/live-partner/questions/route.ts",
+      "sha": "9d87c593037cce31c9ba655bd81e2a4a2351fbc8"
+    },
+    {
+      "path": "src/app/api/speaking/materials/[id]/route.ts",
+      "sha": "64f73e9dd355d33d4b4eb33f5d5162c93cdb6d0b"
+    },
+    {
+      "path": "src/app/api/speaking/materials/route.ts",
+      "sha": "df6c2937515128e429502b6377985d8ba3f565e8"
+    },
+    {
+      "path": "src/app/api/speaking/practice/facets/route.ts",
+      "sha": "1ef91982e25788ceb5ce5e2dd29753ed48e94cda"
+    },
+    {
+      "path": "src/app/api/speaking/practice/questions/route.ts",
+      "sha": "4c603f89ebb9ae55f7c345301388cac9546781a4"
+    },
+    {
+      "path": "src/app/api/speaking/prompts/[id]/support/route.ts",
+      "sha": "491ae277b29fc69c353c68c812a9554edbd75bf6"
+    },
+    {
+      "path": "src/app/api/speaking/prompts/route.ts",
+      "sha": "92c7fa232aa2e7ef44fbd121520d121d3dd3d151"
+    },
+    {
+      "path": "src/app/api/speaking/prompts/vocabulary/route.ts",
+      "sha": "0ac1604cdef7d06f2c748a6fcda057424528f0aa"
+    },
+    {
+      "path": "src/app/api/speaking/topics/route.ts",
+      "sha": "7da74fa70dab95059b496420fbde45723d49923d"
+    },
+    {
+      "path": "src/app/api/support/reports/[id]/route.ts",
+      "sha": "531fabb6de602619ecaed1b7eac7710fcc1fae3f"
+    },
+    {
+      "path": "src/app/api/support/reports/route.ts",
+      "sha": "ca35ddb6646717b9537af38be763d9a0196be8a1"
+    },
+    {
+      "path": "src/app/api/teacher/feedback/route.ts",
+      "sha": "62e84ed072c9627958aeb521904ab72143ffc576"
+    },
+    {
+      "path": "src/app/api/teacher/live-classes/[id]/route.ts",
+      "sha": "5b4a334c2fe7056b1f15949b5781807d189255cf"
+    },
+    {
+      "path": "src/app/api/teacher/live-classes/route.ts",
+      "sha": "cb647ce1a136b321fe89178d93b373f52481442a"
+    },
+    {
+      "path": "src/app/api/theme/route.ts",
+      "sha": "6f5bae7e8416cf85598b09534d22d783b60e5850"
+    },
+    {
+      "path": "src/app/api/uploads/[id]/route.ts",
+      "sha": "f81f6374ca9b832a5109468f3d89a35dfe0c3875"
+    },
+    {
+      "path": "src/app/api/uploads/finalize/route.ts",
+      "sha": "0fa7f235debfe1753b68f56130e5d5c1a7fa3030"
+    },
+    {
+      "path": "src/app/api/uploads/intent/route.ts",
+      "sha": "d750a2ae44f33332b982bf1276c11da00396169b"
+    },
+    {
+      "path": "src/app/api/uploads/route.ts",
+      "sha": "f9a8b8e491bbdcd119177441792347252c3d6776"
+    },
+    {
+      "path": "src/app/api/version/route.ts",
+      "sha": "2864d08f20bd4850691132ac315d54e785bdb792"
+    },
+    {
+      "path": "src/app/api/video-lessons/[id]/answers/route.ts",
+      "sha": "81985347f826b0469517d05cfb200f0887539015"
+    },
+    {
+      "path": "src/app/api/video-lessons/[id]/progress/route.ts",
+      "sha": "0b66751d4adc92e25c357c2c56824fdbf3f62c90"
+    },
+    {
+      "path": "src/app/api/video-lessons/[id]/response/route.ts",
+      "sha": "6e5d02b15f3b45ea28bb26da3089e34703cd8836"
+    },
+    {
+      "path": "src/app/api/video-lessons/[id]/vocabulary/route.ts",
+      "sha": "2c583b18b325042197834594a6f9d413b6210f7c"
+    },
+    {
+      "path": "src/app/api/vocabulary/[id]/contexts/route.ts",
+      "sha": "98a6967d9056c7996f31f2271efa947070c14e5e"
+    },
+    {
+      "path": "src/app/api/vocabulary/[id]/review/route.ts",
+      "sha": "015eff8446e5e698c25c47371e9b3fe537612bbf"
+    },
+    {
+      "path": "src/app/api/vocabulary/[id]/use/route.ts",
+      "sha": "48034512ec69221bac423b0097c9b39fad131e9e"
+    },
+    {
+      "path": "src/app/api/vocabulary/due/route.ts",
+      "sha": "d51869170137c6d2e0ad56eb781b7972347fba10"
+    },
+    {
+      "path": "src/app/api/vocabulary/folders/route.ts",
+      "sha": "ee75fb5a39d868f2c17207765f1dd15a11f76ad7"
+    },
+    {
+      "path": "src/app/api/vocabulary/games/route.ts",
+      "sha": "9a6b397b1bc80a4fa198443764412fd76e1c3967"
+    },
+    {
+      "path": "src/app/api/vocabulary/leaderboard/route.ts",
+      "sha": "14476b1143bc036bb48a95198c9c9629aa40266c"
+    },
+    {
+      "path": "src/app/api/vocabulary/lookup/route.ts",
+      "sha": "bb21857eae2ac74a70ac01ed50493ee4f7f0b07f"
+    },
+    {
+      "path": "src/app/api/vocabulary/meaning/route.ts",
+      "sha": "0266547fd89eeed9bd6111739dcd4b261d618788"
+    },
+    {
+      "path": "src/app/api/vocabulary/packs/route.ts",
+      "sha": "92bc727b337a8467ae9a2fdc9066ecacce30cf91"
+    },
+    {
+      "path": "src/app/api/vocabulary/route.ts",
+      "sha": "211c5bcb9afa9877b1e360c7b1d8e6ff719dd003"
+    },
+    {
+      "path": "src/app/api/vocabulary/search/route.ts",
+      "sha": "b9d2ee97a64c49532d62e6d6f670187cd7a78c1b"
+    },
+    {
+      "path": "src/app/api/vocabulary/sentences/route.ts",
+      "sha": "a496a4e166f31b8d14f70a5b35dc3a5cd0ea6661"
+    },
+    {
+      "path": "src/app/api/vocabulary/summary/route.ts",
+      "sha": "46ae1cd2baf94926a19ea9eb94d6a5f70296f8d3"
+    },
+    {
+      "path": "src/app/api/writing/activation/check/route.ts",
+      "sha": "22aeb073143c3e104019b72c96615a4ceab3cc84"
+    },
+    {
+      "path": "src/app/api/writing/activation/items/route.ts",
+      "sha": "22e70df279dbbc2a75cca5d1a2782859a8f59a57"
+    },
+    {
+      "path": "src/app/api/writing/exam/[id]/draft/route.ts",
+      "sha": "7a432191621253c4bf7b319645d3256f869724fe"
+    },
+    {
+      "path": "src/app/api/writing/exam/[id]/finalize/route.ts",
+      "sha": "a51206cd05e4154256dbadc1990d4d09bb29a14f"
+    },
+    {
+      "path": "src/app/api/writing/exam/[id]/route.ts",
+      "sha": "ca769548732c3890a6a1fc97bbe5a7cf30b7ec9e"
+    },
+    {
+      "path": "src/app/api/writing/exam/route.ts",
+      "sha": "c94520e0a4f5398893a23e0de3164b2073b610e4"
+    },
+    {
+      "path": "src/app/api/writing/grade/[id]/route.ts",
+      "sha": "7732c20481055838d7f3547f80ecbc25109ee019"
+    },
+    {
+      "path": "src/app/api/writing/grade/route.ts",
+      "sha": "69cda931bd660c18dd9eb8f50adddf9fdb85a002"
+    },
+    {
+      "path": "src/app/api/writing/lessons/[id]/route.ts",
+      "sha": "c75388002262a591a278a432dd1e35766f60a8a2"
+    },
+    {
+      "path": "src/app/api/writing/patterns/[id]/route.ts",
+      "sha": "3fd8072d49735d28914a4233428efafc0c609367"
+    },
+    {
+      "path": "src/app/api/writing/stealing/practice/route.ts",
+      "sha": "876febe31ea951449dbcb09ec0057d7527dfa814"
+    },
+    {
+      "path": "src/app/api/writing/stealing/sessions/[id]/route.ts",
+      "sha": "b8c0adaedcee67097ba3755e1d91fe08f8ce0496"
+    },
+    {
+      "path": "src/app/api/writing/stealing/sessions/route.ts",
+      "sha": "944b66b0e1ecc79dd86c56c3a36eca704e7d6464"
+    },
+    {
+      "path": "src/app/api/writing/submissions/[id]/route.ts",
+      "sha": "eb23d741542aea97efa1997b146d5ad1ca2c857a"
+    },
+    {
+      "path": "src/app/api/writing/submissions/[id]/submit/route.ts",
+      "sha": "2fc891c6aad895b5587a3d78d549c2e981e64412"
+    },
+    {
+      "path": "src/app/api/writing/submissions/route.ts",
+      "sha": "ea762e17c70bf895438da96d6f5d9559df940a35"
+    },
+    {
+      "path": "src/app/api/writing/translation/[id]/answer/route.ts",
+      "sha": "4e4f596f79c8c7db981ffa8efa7ffdf70811f5a3"
+    },
+    {
+      "path": "src/app/api/writing/translation/[id]/route.ts",
+      "sha": "70c76b0d94f1c0395c9ee060b0cdf58cd1e48455"
+    },
+    {
+      "path": "src/app/api/writing/translation/route.ts",
+      "sha": "7687a7ec3d34daa81d23d4714d26dce565819708"
+    },
+    {
+      "path": "src/app/api/writing/typing/finish/route.ts",
+      "sha": "d61ec720633226d8c922158850f3b2679988bdb2"
+    },
+    {
+      "path": "src/app/api/writing/typing/pause/route.ts",
+      "sha": "620c3d6f14148acf317ff1c8e1c5592185019543"
+    },
+    {
+      "path": "src/app/api/writing/typing/prepare/route.ts",
+      "sha": "91dc4f330b9c605033a80c3f882a8f83d3ed9b42"
+    },
+    {
+      "path": "src/app/api/writing/typing/resume/route.ts",
+      "sha": "a9e046193f305cdc1d10033e113aee62ad82ae00"
+    },
+    {
+      "path": "src/app/api/writing/typing/route.ts",
+      "sha": "904e52f2a810e4a662fe39dbbaa5630b8fc80e39"
+    },
+    {
+      "path": "src/app/api/writing/typing/start/route.ts",
+      "sha": "2690e83279b3833c007b9051d461e94ebb98f043"
+    },
+    {
+      "path": "src/lib/a11y/tablist.ts",
+      "sha": "4f2ed22531cf51aa75e1fcf28ca1872efaaa318e"
+    },
+    {
+      "path": "src/lib/api-error-message.ts",
+      "sha": "2a8c1de1bb9ab2c71f7adaae52a4665e9ed63de8"
+    },
+    {
+      "path": "src/lib/audio/recorder.ts",
+      "sha": "f06ccbd7fb9d8d506fd0f8cd4d441c784a229b20"
+    },
+    {
+      "path": "src/lib/auth/access-change-bus.ts",
+      "sha": "b35fa857fcf91a417a940d7de76bad594ae01dc4"
+    },
+    {
+      "path": "src/lib/auth/access-change-event.ts",
+      "sha": "fb687167f557f7a3b292d4390b4aaff75cfc3607"
+    },
+    {
+      "path": "src/lib/auth/access-event-config.ts",
+      "sha": "4b8bd27ffebc6eadb9593f11d4950b40acce0e88"
+    },
+    {
+      "path": "src/lib/auth/account-status.ts",
+      "sha": "4bda870938ec917a6a3abc31f1e84db855ef5913"
+    },
+    {
+      "path": "src/lib/auth/cookie-policy.ts",
+      "sha": "75a2a6a3a6271875718097ea65cda4170561cfbb"
+    },
+    {
+      "path": "src/lib/auth/current-user.ts",
+      "sha": "451515a3c04292979325f694f48cd0b5af2fcebf"
+    },
+    {
+      "path": "src/lib/auth/google-account.ts",
+      "sha": "fb99b44c29e7b413565c062c3cdd8f1598950f07"
+    },
+    {
+      "path": "src/lib/auth/google-flow.ts",
+      "sha": "374a904dc2f29b050d3b26c5a41c7e3bb5d7eaa8"
+    },
+    {
+      "path": "src/lib/auth/internal-service.ts",
+      "sha": "677cef62443c67f97b6793f60edd3b35fc1689f0"
+    },
+    {
+      "path": "src/lib/auth/owner-challenge.ts",
+      "sha": "7e0a35b020ec70e6871081785f6147d21586f1ac"
+    },
+    {
+      "path": "src/lib/auth/owner-invariant.ts",
+      "sha": "e22aec4ed04c4a4c18ede8a9608b4ef50ab23751"
+    },
+    {
+      "path": "src/lib/auth/owner-transfer.ts",
+      "sha": "0bee054ed6de923dda898f1234588c125a2dc5b3"
+    },
+    {
+      "path": "src/lib/auth/ownership.ts",
+      "sha": "dffb3bf344947e247aea649d27369dffd2d5575a"
+    },
+    {
+      "path": "src/lib/auth/password-login-columns.ts",
+      "sha": "9d5677bfd65291ac12410a2e3cd301570e25914d"
+    },
+    {
+      "path": "src/lib/auth/password-sign-in.ts",
+      "sha": "d29d87d408ae51e6b37d8e89f3ec159aa511bd1d"
+    },
+    {
+      "path": "src/lib/auth/password.ts",
+      "sha": "9f8bcfd834fc8a1e5fc5c75809d7c4c08f0226fe"
+    },
+    {
+      "path": "src/lib/auth/providers/google-config.ts",
+      "sha": "1168d137d829b091ff8027bc7e7e7a9c39d4644f"
+    },
+    {
+      "path": "src/lib/auth/providers/google.ts",
+      "sha": "0e5ae7141bc13f4ce78757d9fae5389597a81c53"
+    },
+    {
+      "path": "src/lib/auth/providers/telegram.ts",
+      "sha": "03d4e642b414c1e02447ace205680629c3896e8d"
+    },
+    {
+      "path": "src/lib/auth/public-auth-policy.ts",
+      "sha": "9801ae2fbaa7b04e3c0d92209c51acff935d11ba"
+    },
+    {
+      "path": "src/lib/auth/publish-access-change.ts",
+      "sha": "5c16a27f3fbeafa5249a6442e9c3a550be0d77f7"
+    },
+    {
+      "path": "src/lib/auth/roles.ts",
+      "sha": "2a7e7de49feba56743621bf512d886f26c87a9c7"
+    },
+    {
+      "path": "src/lib/auth/safe-redirect.ts",
+      "sha": "762a712bd06eb102219d802b574ebb6daec92aab"
+    },
+    {
+      "path": "src/lib/auth/session-authority.ts",
+      "sha": "3a1fc74ce2bd100b8ac757fd30cb7e4c5eb88c20"
+    },
+    {
+      "path": "src/lib/auth/session.ts",
+      "sha": "020146cc0968bb6e72f42b10b911da0d8b8ba41d"
+    },
+    {
+      "path": "src/lib/auth/telegram-exchange.ts",
+      "sha": "bfe1be90c4c46bea202a8c5b4f4a2243e02e9fbd"
+    },
+    {
+      "path": "src/lib/auth/telegram-intent-config.ts",
+      "sha": "e0b114734d6c0fa77d92c671d34ee822a719131d"
+    },
+    {
+      "path": "src/lib/auth/telegram-intent.ts",
+      "sha": "ead45775c0e0b40157437505e5b9e70d1fddc5e5"
+    },
+    {
+      "path": "src/lib/auth/writing-admin.ts",
+      "sha": "d6e73bd1cf796974c4a5a2042bde2b663b47b97a"
+    },
+    {
+      "path": "src/lib/client/authored-media-controller.ts",
+      "sha": "4d6a47e6d791f4c60e7dfac69f596529504e8671"
+    },
+    {
+      "path": "src/lib/client/listening-checkpoint.ts",
+      "sha": "617521e9dbbee33907a4f0786b28398e13fb61cb"
+    },
+    {
+      "path": "src/lib/client/private-resource.ts",
+      "sha": "ee10a1d49d0fb08ce32c4489f4beec0b22e1ad7a"
+    },
+    {
+      "path": "src/lib/config/brand.ts",
+      "sha": "a4943aa65a61491dde144a54c0eb2bf5cf61bbdf"
+    },
+    {
+      "path": "src/lib/config/flags.ts",
+      "sha": "6056361c9dfb8afa9945f697e86763496093de7c"
+    },
+    {
+      "path": "src/lib/config/site.ts",
+      "sha": "8a3b3e51c280544add8a924f43540872a4253f00"
+    },
+    {
+      "path": "src/lib/content/assignments.ts",
+      "sha": "6f05ffe588f8dc63c13e41afc8696fb2ddb155be"
+    },
+    {
+      "path": "src/lib/content/attempt-binding.ts",
+      "sha": "6a39929fdf8e97a37a02c881e71bd1f3101eba7a"
+    },
+    {
+      "path": "src/lib/content/authoring-access.ts",
+      "sha": "a964d9242ff06c499659ac4b643ae3f925ad25bc"
+    },
+    {
+      "path": "src/lib/content/authoring-capabilities.ts",
+      "sha": "eb7fadd01b76bbb7f1fad0841a61117fc8ca4b62"
+    },
+    {
+      "path": "src/lib/content/authoring.ts",
+      "sha": "ace5e6aa4b5ec278bd525ed087965476e7587f24"
+    },
+    {
+      "path": "src/lib/content/authors.ts",
+      "sha": "ae0889719636bdc7332c70ca444b0d98bd2525d1"
+    },
+    {
+      "path": "src/lib/content/bank.ts",
+      "sha": "a5eeaf442ec8b46594b439ab3f3c89a594460aa2"
+    },
+    {
+      "path": "src/lib/content/blocks.ts",
+      "sha": "6ca77196d8f037fac09b73c17c5f2cc95a811fda"
+    },
+    {
+      "path": "src/lib/content/delete-material.ts",
+      "sha": "d701178ab73ec00939b663bb1f5c97d471ed0643"
+    },
+    {
+      "path": "src/lib/content/deletion-filter.ts",
+      "sha": "54866e542bba804fa13c2f10d75bfbdff12f6233"
+    },
+    {
+      "path": "src/lib/content/identity.ts",
+      "sha": "99051233d0dd4cdecd91286044f6ef7311319bef"
+    },
+    {
+      "path": "src/lib/content/learning-areas.ts",
+      "sha": "d44907a3ed583d66b5906ebff37b4da6a0f31f7b"
+    },
+    {
+      "path": "src/lib/content/lesson-edit-shape.ts",
+      "sha": "2bc9903c55c9ea7263e4d58b732623ae0830f7d2"
+    },
+    {
+      "path": "src/lib/content/lesson-edit.ts",
+      "sha": "cc9383fc133d59087fd832922e22f9588e652289"
+    },
+    {
+      "path": "src/lib/content/lesson-library.ts",
+      "sha": "3fdd98f1e6dfe215ca6b5948cf780363513a29bb"
+    },
+    {
+      "path": "src/lib/content/lesson-staff.ts",
+      "sha": "aadcb4d6dca35e25f6b659d418ecbdf5d117ae5e"
+    },
+    {
+      "path": "src/lib/content/lessons.ts",
+      "sha": "13ef283df53787a45e90b5ea50d42c86da80f133"
+    },
+    {
+      "path": "src/lib/content/mocks.ts",
+      "sha": "9f491fcd0a7baba3131ddcffd30c9dc3a707a891"
+    },
+    {
+      "path": "src/lib/content/preview.ts",
+      "sha": "8770a37057e2b7aabe33db752fe32af0899ad281"
+    },
+    {
+      "path": "src/lib/content/question-types.ts",
+      "sha": "9f82ae1edb3fd7b38aa8043a6387a784c87e0a0a"
+    },
+    {
+      "path": "src/lib/content/score-policy.ts",
+      "sha": "cfed4eca9a404bc1ccd70862fa43e484e6b4e559"
+    },
+    {
+      "path": "src/lib/content/taxonomy.ts",
+      "sha": "0ed8d8ba14af0b5d8511691329bef3fd248c3c20"
+    },
+    {
+      "path": "src/lib/content/versions.ts",
+      "sha": "115dcf4cdaeb4aecf799cc1802a6c8171b5b5220"
+    },
+    {
+      "path": "src/lib/content/vocabulary-packs.ts",
+      "sha": "a5cb05d8885d4fe5ff5436e775ee628c658cb0cb"
+    },
+    {
+      "path": "src/lib/data/admission.ts",
+      "sha": "fb4db5f7da0de5aca2dbb3a73f443cf9886ce228"
+    },
+    {
+      "path": "src/lib/data/attempt-timeline.ts",
+      "sha": "9a6548c3e512208ca0537b9cc7b692b9638c72d6"
+    },
+    {
+      "path": "src/lib/data/audit.ts",
+      "sha": "3bd5d298c39a495c2a8dc8793b956ca34dd15d03"
+    },
+    {
+      "path": "src/lib/data/coach-artifacts.ts",
+      "sha": "4ff181467e714fc1f6c60c51085899ff618d42c9"
+    },
+    {
+      "path": "src/lib/data/coach-dashboard.ts",
+      "sha": "dfae83156799f211600e678fc6aa675d6e6be96e"
+    },
+    {
+      "path": "src/lib/data/content-inventory.ts",
+      "sha": "58c48a9941e98de7dfdddc4ba1f306d39841a520"
+    },
+    {
+      "path": "src/lib/data/dashboard.ts",
+      "sha": "c9edc68c4291b1ee541be91e1d15a0ef357854fa"
+    },
+    {
+      "path": "src/lib/data/evaluations.ts",
+      "sha": "abdb41a758665026655d787af90d6c345c0349ba"
+    },
+    {
+      "path": "src/lib/data/full-listening.ts",
+      "sha": "5eddbb2d7502481f76fe7dcbc1f247c020522d2e"
+    },
+    {
+      "path": "src/lib/data/general-reading.ts",
+      "sha": "90f95c6c97676977b94d807d7b6f1501aa36f68f"
+    },
+    {
+      "path": "src/lib/data/grammar-import.ts",
+      "sha": "026d27d180da71352393b6ec05ebc3e5d1f9060a"
+    },
+    {
+      "path": "src/lib/data/grammar.ts",
+      "sha": "d3d90c206058830f116519e692a9f4ddc3b73bd3"
+    },
+    {
+      "path": "src/lib/data/keyset-cursor.ts",
+      "sha": "7c2ba01e9d23f2c43e01d425fd9c669c4f68d139"
+    },
+    {
+      "path": "src/lib/data/listening-academic.ts",
+      "sha": "d043e5103b792225701af9820e389edf027fcfa4"
+    },
+    {
+      "path": "src/lib/data/listening-attempt-write.ts",
+      "sha": "6c60df777f3c900a23a3bb71b542036a845cbdb1"
+    },
+    {
+      "path": "src/lib/data/listening-course.ts",
+      "sha": "baf848ee901dbefcb5481acd057fe819cad2f8ba"
+    },
+    {
+      "path": "src/lib/data/listening-general.ts",
+      "sha": "63ebd928ee6a500bd15683c387a3c98b87626cdb"
+    },
+    {
+      "path": "src/lib/data/listening-mcq.ts",
+      "sha": "87c53ec6812f18a1031e0102e748c1cd7d56a61f"
+    },
+    {
+      "path": "src/lib/data/listening-original-state.ts",
+      "sha": "65e342fffc95bf15b70ce6d33404e0a4ad4f50c2"
+    },
+    {
+      "path": "src/lib/data/listening-product.ts",
+      "sha": "cd23cb41c025688c9058a815afca93036ef28d61"
+    },
+    {
+      "path": "src/lib/data/listening-schema-ready.ts",
+      "sha": "91b72ccb215907b6a0634202526288241374883b"
+    },
+    {
+      "path": "src/lib/data/listening-sequence.ts",
+      "sha": "4a5f2c5a0990a3f5fb6920a607ca50d47851f62d"
+    },
+    {
+      "path": "src/lib/data/listening.ts",
+      "sha": "1b2e64b405bad97052891de9137ef74298b1574d"
+    },
+    {
+      "path": "src/lib/data/live-classes.ts",
+      "sha": "0b68bad77f02a8f698ddfd91a21024a58176c3c5"
+    },
+    {
+      "path": "src/lib/data/live-partner.ts",
+      "sha": "269c0e55431db25ce4e7be2b9175b623390fdd91"
+    },
+    {
+      "path": "src/lib/data/management-statistics.ts",
+      "sha": "817f9ce4d24bc397808de2b19f32807bce3a213e"
+    },
+    {
+      "path": "src/lib/data/mocks.ts",
+      "sha": "afa955af1ba1bcafcd7fb2ac1f0eeb33a828bcb3"
+    },
+    {
+      "path": "src/lib/data/notifications.ts",
+      "sha": "5864f6ef558aee203fc99910f22feef6468197de"
+    },
+    {
+      "path": "src/lib/data/people.ts",
+      "sha": "5634f24abde5415b3ae97207375ad65a8921f754"
+    },
+    {
+      "path": "src/lib/data/progress-trends.ts",
+      "sha": "90ef270304c5dcfe0f013f3038dd9ee75f8761f0"
+    },
+    {
+      "path": "src/lib/data/progress.ts",
+      "sha": "e34a35181b9fb1d23cbae6de8e34e8d87ef7bd68"
+    },
+    {
+      "path": "src/lib/data/reading-assessments.ts",
+      "sha": "2533c16a2a0474aba6bc39b888648ff1e9622aca"
+    },
+    {
+      "path": "src/lib/data/reading-library.ts",
+      "sha": "1d5f23a72332a7639e37c739f674ff0a9fbd7ae3"
+    },
+    {
+      "path": "src/lib/data/reading-type-index.ts",
+      "sha": "d83e8777ed819676cd5dccc14a71eaa159e7140e"
+    },
+    {
+      "path": "src/lib/data/reading.ts",
+      "sha": "357d8e1a50f2133e7ae4f59c144991a5b41bd8c9"
+    },
+    {
+      "path": "src/lib/data/resources.ts",
+      "sha": "a6004b92d7bd55192cf207fa89ccf33aab019d10"
+    },
+    {
+      "path": "src/lib/data/retention-attempts.ts",
+      "sha": "b77fe4015115efcd5911d15b2f3a819b9bc14c8a"
+    },
+    {
+      "path": "src/lib/data/retention-bank.ts",
+      "sha": "1819b72675ae0f4e2f0baae8be1d82e3781d5e99"
+    },
+    {
+      "path": "src/lib/data/roadmap.ts",
+      "sha": "887ea0129d93b095275815c9e6fb6150c08df83c"
+    },
+    {
+      "path": "src/lib/data/schema-requirements.ts",
+      "sha": "f16d9afbe9e1d461708174c686a169aea87b68cb"
+    },
+    {
+      "path": "src/lib/data/speaking-practice.ts",
+      "sha": "4a7c032d8a6dad1b3f49caaf43367766ee7d7a4d"
+    },
+    {
+      "path": "src/lib/data/speaking.ts",
+      "sha": "65f153cc9111d0569c9200b0231eaa6b207e82d3"
+    },
+    {
+      "path": "src/lib/data/study-profile.ts",
+      "sha": "aece622777719a7ca1fcd589bcc382d3c57181b4"
+    },
+    {
+      "path": "src/lib/data/support.ts",
+      "sha": "f7352577f88f6a10c19532e4ce4bb730f37b21bc"
+    },
+    {
+      "path": "src/lib/data/teacher.ts",
+      "sha": "5bfdb85703aec22ca9b02f8897d6cfb8ef1a3a5e"
+    },
+    {
+      "path": "src/lib/data/uploads.ts",
+      "sha": "dcdc6f2e7b0727e905a2d1c721dd42730da9ff27"
+    },
+    {
+      "path": "src/lib/data/video-lessons.ts",
+      "sha": "bd661e09beb67ae82c4c054f1d52ff13790fed1a"
+    },
+    {
+      "path": "src/lib/data/writing-workspace.ts",
+      "sha": "28457de9343ef2a2dc9234dfc4300dc808202252"
+    },
+    {
+      "path": "src/lib/data/writing.ts",
+      "sha": "0030b46e65739d2918e16a17aabb27d2c53b8d4b"
+    },
+    {
+      "path": "src/lib/dictionary/activation.ts",
+      "sha": "d9be7c1f7ccf6c47135b124195c04d5f2962bcfd"
+    },
+    {
+      "path": "src/lib/dictionary/api.ts",
+      "sha": "80a0b31a4f02461320b5a29fef9adea03d00deca"
+    },
+    {
+      "path": "src/lib/dictionary/build-index.ts",
+      "sha": "760ad8660f8b932614c10954513f509b38ed2ae8"
+    },
+    {
+      "path": "src/lib/dictionary/casefold.ts",
+      "sha": "9617123dab484d3c1e0ad3324a21389a1319cf98"
+    },
+    {
+      "path": "src/lib/dictionary/context-bindings.ts",
+      "sha": "db7dd2b44a049d5bcc4050ad02c8597633a98f2d"
+    },
+    {
+      "path": "src/lib/dictionary/context-form.ts",
+      "sha": "a133ef64c535e42c09e710e05a671e6aaa571f7f"
+    },
+    {
+      "path": "src/lib/dictionary/course-corrections.ts",
+      "sha": "77c15b93017adbe327a3a5d401b45cc047492674"
+    },
+    {
+      "path": "src/lib/dictionary/editorial-audit.ts",
+      "sha": "ee168912b7bd2759dd4277c802d8d9a7459b51b2"
+    },
+    {
+      "path": "src/lib/dictionary/example-match.ts",
+      "sha": "76f45f4090f6ba2731ebde55c9cad7173d66a9f1"
+    },
+    {
+      "path": "src/lib/dictionary/index-thread.ts",
+      "sha": "78b92f1d4433b13d252bcb62501c9e0392f5d1e4"
+    },
+    {
+      "path": "src/lib/dictionary/labels.ts",
+      "sha": "5bb9cddd34809564daef0396b3c145713704e8cd"
+    },
+    {
+      "path": "src/lib/dictionary/materialize-sense.ts",
+      "sha": "30657c955812c8c6e7d1e7eb3ec4356bb647fef0"
+    },
+    {
+      "path": "src/lib/dictionary/model.ts",
+      "sha": "33fd61221ff6ffe358c21215cc2d7f36ce848502"
+    },
+    {
+      "path": "src/lib/dictionary/object-store.ts",
+      "sha": "b6a65791ea931ef0347f69455618140ad4862562"
+    },
+    {
+      "path": "src/lib/dictionary/occurrence-corrections.ts",
+      "sha": "94729d1ce60c826abf0239b626ed2a2f3ff3f253"
+    },
+    {
+      "path": "src/lib/dictionary/offload.ts",
+      "sha": "6d654c90e64c8651b5cbd6ebbe1cba86e12da2bf"
+    },
+    {
+      "path": "src/lib/dictionary/presentation-types.ts",
+      "sha": "5e0b399897bd7a233e9bdd4402e1e7937486c1d9"
+    },
+    {
+      "path": "src/lib/dictionary/presentation.ts",
+      "sha": "a9dd92b06bd3516081fd26f705265823d2c6d730"
+    },
+    {
+      "path": "src/lib/dictionary/publish-worker-index.ts",
+      "sha": "83cd0f91024088919b89343b2396bc8021155940"
+    },
+    {
+      "path": "src/lib/dictionary/publish.ts",
+      "sha": "8bd2cceae817ea5267c50cd13a30ccfdf46aeee7"
+    },
+    {
+      "path": "src/lib/dictionary/repair-app-examples.ts",
+      "sha": "7d3cb84a582eb7656676e4783c7bfbe5d51e6ee4"
+    },
+    {
+      "path": "src/lib/dictionary/retire.ts",
+      "sha": "317faefd4039b4cd4acd6066617781ee472368ab"
+    },
+    {
+      "path": "src/lib/dictionary/save.ts",
+      "sha": "0db5c579b5d9d0f94834d7bbdcd2fe30ffe35da8"
+    },
+    {
+      "path": "src/lib/dictionary/search-index.ts",
+      "sha": "aa3eb44f45087bc12b0f307921f7553612bd5752"
+    },
+    {
+      "path": "src/lib/dictionary/shard-cache.ts",
+      "sha": "59244ddbe5d56c300454c19f4e88b58a8a20a802"
+    },
+    {
+      "path": "src/lib/dictionary/shards.ts",
+      "sha": "ebe7d1678b3d4a91948809fc0723ad23d9d1ff23"
+    },
+    {
+      "path": "src/lib/dictionary/spelling-variants.ts",
+      "sha": "cb8652f21eaeab9bd22b9f8220d55497b860fc47"
+    },
+    {
+      "path": "src/lib/dictionary/store.ts",
+      "sha": "6f636a312b4ecc9eb05ddf5040e7a2da7988b289"
+    },
+    {
+      "path": "src/lib/dictionary/text-meanings.ts",
+      "sha": "d38532161d513ac1b64708a932655fd4c83fc909"
+    },
+    {
+      "path": "src/lib/dictionary/translation-revisions.ts",
+      "sha": "c4119fc742bf8cc0b06409191cc58f41edd3794f"
+    },
+    {
+      "path": "src/lib/dictionary/worker-gateway.ts",
+      "sha": "5c1905a0a094c6d786085dc9042996268ab78393"
+    },
+    {
+      "path": "src/lib/dictionary/worker-protocol.ts",
+      "sha": "d17a75e62ca9bcd30c5bd7f70d5d3797580ef81a"
+    },
+    {
+      "path": "src/lib/embed.ts",
+      "sha": "a897e01d638a716e909df73dc8b62a5adfc07360"
+    },
+    {
+      "path": "src/lib/grammar/import-schema.ts",
+      "sha": "f43f4e41b839c70bc9a96048db53c82cc00373bc"
+    },
+    {
+      "path": "src/lib/http/client-request.ts",
+      "sha": "d6a961f67568e663f8cfc3cc0f7e00790f737d9a"
+    },
+    {
+      "path": "src/lib/http/database-errors.ts",
+      "sha": "1946aebb37f086c11f00c34cd4a0ba8387e4a5f2"
+    },
+    {
+      "path": "src/lib/http/rate-limit.ts",
+      "sha": "5869421645683c716f88d1740a8fee4e5d1f5f1f"
+    },
+    {
+      "path": "src/lib/http/request-origin.ts",
+      "sha": "f59f6389d525959e753ff693b855b1e4389fbd36"
+    },
+    {
+      "path": "src/lib/http/security-headers.ts",
+      "sha": "d4e25ed44346efd85f2d6c32d967774f6428dc5d"
+    },
+    {
+      "path": "src/lib/http/use-scoped-request.ts",
+      "sha": "c976f936f3ba62f84ee611861940b07f51d2c3d9"
+    },
+    {
+      "path": "src/lib/http/use-scoped-response.ts",
+      "sha": "76fb2408c8ad800eb4bd6651387014e9c798ea03"
+    },
+    {
+      "path": "src/lib/i18n/client.ts",
+      "sha": "c66d861190bfa7a072d365be39b58b0a1cd0c4c5"
+    },
+    {
+      "path": "src/lib/i18n/en.ts",
+      "sha": "c6a896cb117b8a3912528340105158d208b8e013"
+    },
+    {
+      "path": "src/lib/i18n/index.ts",
+      "sha": "bc472feca94bef4e4275cb05986f76406a6b3822"
+    },
+    {
+      "path": "src/lib/i18n/uz.ts",
+      "sha": "a8c346dc23cbf52007ddb7d02d406eba19353b55"
+    },
+    {
+      "path": "src/lib/import/archive.ts",
+      "sha": "6d6eb44fd8072d99eb22f467821c44df600e7f65"
+    },
+    {
+      "path": "src/lib/import/capabilities.ts",
+      "sha": "7ed66ee4113f23a49b4ef1f11a07d44d9cdba09b"
+    },
+    {
+      "path": "src/lib/import/core/assets.ts",
+      "sha": "48fc2c62bc7e3908d28e0aa19d13fe73e4652ad7"
+    },
+    {
+      "path": "src/lib/import/core/dry-run.ts",
+      "sha": "dbb3431ab05da053d3fd7e29ea3b19d1c6156ab3"
+    },
+    {
+      "path": "src/lib/import/core/envelope.ts",
+      "sha": "fec053f6911405fad0dcb3f43c3466393be0b0a1"
+    },
+    {
+      "path": "src/lib/import/core/identity.ts",
+      "sha": "d46e2e65e2aa80bef758d43fc1e5dfb04046aa6b"
+    },
+    {
+      "path": "src/lib/import/core/parse.ts",
+      "sha": "741c9324857027e150e70128df880caffaad5988"
+    },
+    {
+      "path": "src/lib/import/core/permissions.ts",
+      "sha": "a66f45122e60d81c3cde7404e951fe1d0f2b5584"
+    },
+    {
+      "path": "src/lib/import/core/pipeline.ts",
+      "sha": "17c58115d71be364d7961eedb9fe13e62b7d5be6"
+    },
+    {
+      "path": "src/lib/import/core/provenance.ts",
+      "sha": "24bc705ed88d7879af0e8745c6806e9b194589b8"
+    },
+    {
+      "path": "src/lib/import/core/readiness.ts",
+      "sha": "acce47e5fefdec4abe5ff7db965f95485a89743e"
+    },
+    {
+      "path": "src/lib/import/core/registry.ts",
+      "sha": "ed8577f251d216c354b545b53db900e942fa0f31"
+    },
+    {
+      "path": "src/lib/import/core/server-registry.ts",
+      "sha": "5b6452668cb8957f8e4453f84be4472421cbebda"
+    },
+    {
+      "path": "src/lib/import/core/types.ts",
+      "sha": "79b3cbea0b4771ec254ff1c13b74f24c60d65f5f"
+    },
+    {
+      "path": "src/lib/import/core/validation.ts",
+      "sha": "37ba712b8cde3f1659a788f864a4b89a5e17a851"
+    },
+    {
+      "path": "src/lib/import/listening/canonical.ts",
+      "sha": "4f6a904b67a0ac5b5ebb40e08603ac23f5c16415"
+    },
+    {
+      "path": "src/lib/import/listening/importer.ts",
+      "sha": "98f74c79a6080e18c629642554d6dbc6378a036a"
+    },
+    {
+      "path": "src/lib/import/listening/index.ts",
+      "sha": "204f2913a182496250876f20ca5884d89c4dda81"
+    },
+    {
+      "path": "src/lib/import/listening/legacy.ts",
+      "sha": "0d1bb3727289479cd87857ffa8ab4b36aff92338"
+    },
+    {
+      "path": "src/lib/import/pdf-text.ts",
+      "sha": "6a83f485c58a3ee84feadd221a7a3a614b0598bd"
+    },
+    {
+      "path": "src/lib/import/reading/canonical.ts",
+      "sha": "6aea73cdfddce52822dbcb1ad249139fca67a373"
+    },
+    {
+      "path": "src/lib/import/reading/importer.ts",
+      "sha": "72e710a8f04a327e4fdaa4fd9fd38508b79b3568"
+    },
+    {
+      "path": "src/lib/import/reading/index.ts",
+      "sha": "e9479afa484bb35d50831eb31050f8d7c76da374"
+    },
+    {
+      "path": "src/lib/import/reading-source.ts",
+      "sha": "b134427bfe4e709b4e408b77800129674c5b3e50"
+    },
+    {
+      "path": "src/lib/import/server.ts",
+      "sha": "29a68b2b52735c5ba9ebace6c878d92bac04dd1f"
+    },
+    {
+      "path": "src/lib/import/zip-transport.ts",
+      "sha": "e83b9c9eb430f5c9430b00017349c3b2af625425"
+    },
+    {
+      "path": "src/lib/interaction/focus-entry.ts",
+      "sha": "729bad5606f0e7d5a9a3e62c7b3b2c3ca862a31c"
+    },
+    {
+      "path": "src/lib/interaction/intent-prefetch.ts",
+      "sha": "54375dbacf1fc34085cc19bac6b666b03efdd3db"
+    },
+    {
+      "path": "src/lib/interaction/navigation.ts",
+      "sha": "dbd3277a40e89ef1c35a69d13d77cfbeb477dc29"
+    },
+    {
+      "path": "src/lib/interaction/section-entry.ts",
+      "sha": "80482c849dee8c3fca5db1da167e24e648fcb41e"
+    },
+    {
+      "path": "src/lib/listening/activities.ts",
+      "sha": "f37c9e046f5ecb22206f12005b1950ba46064983"
+    },
+    {
+      "path": "src/lib/listening/attempt-local-state.ts",
+      "sha": "119679d670da225806fbcf4b0c07e5a6d64bda45"
+    },
+    {
+      "path": "src/lib/listening/authored-media-bridge.ts",
+      "sha": "2069a0a0d915f8228edd6d7e54a3a8eb52183abd"
+    },
+    {
+      "path": "src/lib/listening/authored-sandbox.ts",
+      "sha": "0c05c9cfe4c47f051a4524dcfbe65b1eea3f55da"
+    },
+    {
+      "path": "src/lib/listening/authored-text-lookup.ts",
+      "sha": "c36495070a960c360e0e1794e7aeb1e691f501ce"
+    },
+    {
+      "path": "src/lib/listening/authored-word-target.ts",
+      "sha": "300ed00f7241e45c052e9a00ae7493c600b26d22"
+    },
+    {
+      "path": "src/lib/listening/classification-triage.ts",
+      "sha": "bbe02da147f5b00497843ae91164d23526b1a3a1"
+    },
+    {
+      "path": "src/lib/listening/course-progress.ts",
+      "sha": "fd97cbe2e1e013f77274b4d1560f29dbab1576dc"
+    },
+    {
+      "path": "src/lib/listening/discover.ts",
+      "sha": "12c707557968db80e411fa19d75f31a8ecdd8f9d"
+    },
+    {
+      "path": "src/lib/listening/embedded-media.ts",
+      "sha": "f6f248433ac35e2ee618d51a3e254c84732f3b9d"
+    },
+    {
+      "path": "src/lib/listening/inspect.ts",
+      "sha": "e35e14e33c6e7358b354bc5d5971b66f59d0ffd4"
+    },
+    {
+      "path": "src/lib/listening/lexical-policy.ts",
+      "sha": "1fdb131af94d74a326b6eaa5946ecd7171077565"
+    },
+    {
+      "path": "src/lib/listening/map-diagram.ts",
+      "sha": "3ee5ea99d26b60dff7a43fdda5a65ab16409b78e"
+    },
+    {
+      "path": "src/lib/listening/mcq-choice.ts",
+      "sha": "46771509be5cc9a78b2c53519b9b947a96cece29"
+    },
+    {
+      "path": "src/lib/listening/mcq-program.ts",
+      "sha": "b121bf39076c57e51cfdb3516b013afadcc75015"
+    },
+    {
+      "path": "src/lib/listening/original-course-hooks.ts",
+      "sha": "f4afa54f2e2b1806996cdadde21cfdc4ebf4ddfc"
+    },
+    {
+      "path": "src/lib/listening/original-listening-catalogue.json",
+      "sha": "3c9c4c1ba0a6cfd5d33c7c58f52b77a2b8ad260d"
+    },
+    {
+      "path": "src/lib/listening/original-listening-course.json",
+      "sha": "ba54b2aa20970273365ec2d00a527b0ead82e6c9"
+    },
+    {
+      "path": "src/lib/listening/original-listening.ts",
+      "sha": "ca3164cca16832f344030111f87838982dfd729d"
+    },
+    {
+      "path": "src/lib/listening/original-mcq-catalogue.json",
+      "sha": "093dd06d17730eee382dab0998c565bbe8f50d38"
+    },
+    {
+      "path": "src/lib/listening/original-mcq.ts",
+      "sha": "a785471231b96869f7e697e56eff5e4c449deb56"
+    },
+    {
+      "path": "src/lib/listening/original-test-one-hooks.ts",
+      "sha": "a29ce8b2733ce219988d66f813300f6fc2b5ac8c"
+    },
+    {
+      "path": "src/lib/listening/original-test-one.ts",
+      "sha": "a00242ae97c95a86a619d0867e59beaf7e20ae3a"
+    },
+    {
+      "path": "src/lib/listening/package.ts",
+      "sha": "21177668e24effd5d4986d33f517da28e08eaf20"
+    },
+    {
+      "path": "src/lib/listening/permissions.ts",
+      "sha": "fd6dc5bff897f625e00c1793992922b98d4e3f8d"
+    },
+    {
+      "path": "src/lib/listening/product.ts",
+      "sha": "650f61a49eee93dfade689a03bd02b78ef950aa6"
+    },
+    {
+      "path": "src/lib/listening/publication-guards.ts",
+      "sha": "57890d297465a7a61b852d798554210351028040"
+    },
+    {
+      "path": "src/lib/listening/question-control.ts",
+      "sha": "5069c6190ad77d4acaf8116c71d406790b689956"
+    },
+    {
+      "path": "src/lib/listening/question-identity.ts",
+      "sha": "f5b4e864f70b3225dc332b67b07c636b596ba585"
+    },
+    {
+      "path": "src/lib/listening/question-set.ts",
+      "sha": "2fd1f089a70cf9596d9020472e5034827ededea3"
+    },
+    {
+      "path": "src/lib/listening/section-exercise.ts",
+      "sha": "0e812a6732b8929f489cb11f4376c4962be57966"
+    },
+    {
+      "path": "src/lib/listening/source-parser.ts",
+      "sha": "ab9e3e72106b79c14f4c7f30d264a0db06cf3d04"
+    },
+    {
+      "path": "src/lib/listening/study-segments.ts",
+      "sha": "98c6a05248b055b27981d1c23a0ca4da11270c90"
+    },
+    {
+      "path": "src/lib/listening/zip.ts",
+      "sha": "5af553d2db6cb8d583fd882052d7f6fc783cb70f"
+    },
+    {
+      "path": "src/lib/live-partner/call-engine.ts",
+      "sha": "6dfbf21c53966df8a95eaad3f5636a934b8e05f1"
+    },
+    {
+      "path": "src/lib/live-partner/questions.ts",
+      "sha": "466718be9fcc8a4baaa1987d765eaa07c2a1dce7"
+    },
+    {
+      "path": "src/lib/live-partner/rules.ts",
+      "sha": "73a5adf3d568b8bb5141c95b254635a5171befa4"
+    },
+    {
+      "path": "src/lib/live-partner/signal-token.ts",
+      "sha": "3b9b7766dbcbe615b6961feb3d6f61b908149485"
+    },
+    {
+      "path": "src/lib/media/config.ts",
+      "sha": "2931737b3e3886e5d9459425e64c7721f2a9f301"
+    },
+    {
+      "path": "src/lib/media/protocol.ts",
+      "sha": "0486e011937704aed3c80391104ae335f557041a"
+    },
+    {
+      "path": "src/lib/nav/mode.ts",
+      "sha": "5176e479b7d85e7ee3894477b6480dcefce7df45"
+    },
+    {
+      "path": "src/lib/nav/module-sections.ts",
+      "sha": "2303522bc49d0b579397ef2e1e902415e0e51708"
+    },
+    {
+      "path": "src/lib/nav/private-modules.d.mts",
+      "sha": "6309a3c70413208687e4162c440199d7dabb830b"
+    },
+    {
+      "path": "src/lib/nav/private-modules.mjs",
+      "sha": "c4fa4d68e200ddaafe3c77ce8d20fb8ffb449094"
+    },
+    {
+      "path": "src/lib/nav/progress.ts",
+      "sha": "49ff3736855ea9bc8a707527d625dab961bef293"
+    },
+    {
+      "path": "src/lib/nav/routes.ts",
+      "sha": "d66b91eced5df0a26527aed1a1524dc4cde90d6e"
+    },
+    {
+      "path": "src/lib/nav/uuid-page-routes.d.mts",
+      "sha": "eb88a959189e6fe5254954a317ef20e2f39ee643"
+    },
+    {
+      "path": "src/lib/nav/uuid-page-routes.mjs",
+      "sha": "c956470652f992f582c74596b2d0726a35ba31b9"
+    },
+    {
+      "path": "src/lib/nav/vocabulary.ts",
+      "sha": "d365341c61b6b9777fc97e024a753b39be56c04d"
+    },
+    {
+      "path": "src/lib/navigation/back.ts",
+      "sha": "7a25dbd8469222bdf2ef6f18aa1c48a33d09b385"
+    },
+    {
+      "path": "src/lib/observability/errors.ts",
+      "sha": "433c4dd4d5e7604dad62385973ce7141aa3406b0"
+    },
+    {
+      "path": "src/lib/observability/timing.ts",
+      "sha": "e0ec6c9441419360870377de0a2315f96cbf0ed8"
+    },
+    {
+      "path": "src/lib/profile/photo.ts",
+      "sha": "c8c65a41e2459c0124d6f955178b44781ea80e72"
+    },
+    {
+      "path": "src/lib/progress/mock-summary.ts",
+      "sha": "ebb99f10b22c6f2653e36958d3654bdc516ff36b"
+    },
+    {
+      "path": "src/lib/progress/streak.ts",
+      "sha": "a929425937565bc50598a92c723ddb86a0f34f19"
+    },
+    {
+      "path": "src/lib/progress/trends.ts",
+      "sha": "8fbeacc4a1a889821d98b6f23f23ab0718474078"
+    },
+    {
+      "path": "src/lib/reading/academic-selection.ts",
+      "sha": "05e6af8fb52016aac0220c4dbc9b12bacf923cbf"
+    },
+    {
+      "path": "src/lib/reading/destinations.ts",
+      "sha": "00be591346f44fe566ad82531b89b91659623b23"
+    },
+    {
+      "path": "src/lib/reading/dropdowns.ts",
+      "sha": "666832d7f0146bbae980a2594bd6b6dec9ad3027"
+    },
+    {
+      "path": "src/lib/reading/feedback.ts",
+      "sha": "bcb88bbd53016a4f0ada397feebe6e01ffdd5b6d"
+    },
+    {
+      "path": "src/lib/reading/import-schema.ts",
+      "sha": "9135dc7ff2b52e876bd362b92e1cec280d594d8b"
+    },
+    {
+      "path": "src/lib/reading/lexical-policy.ts",
+      "sha": "fd4bb6e06b154840e964dc1821b8ecd62dd8266d"
+    },
+    {
+      "path": "src/lib/reading/permissions.ts",
+      "sha": "dc3791423ec16f3b250fdb1347071d614827b5c8"
+    },
+    {
+      "path": "src/lib/reading/question-model.ts",
+      "sha": "7ea05dc9d171c37f412744909e705d55ea32b3e7"
+    },
+    {
+      "path": "src/lib/reading/stimulus.ts",
+      "sha": "faba4520e98c3a1fc16ff99e8d332c5d2162a2bb"
+    },
+    {
+      "path": "src/lib/reading/submission.ts",
+      "sha": "f9bd65b6b66f2f48365386de1bab159064045518"
+    },
+    {
+      "path": "src/lib/reading/tabs.ts",
+      "sha": "5c091a683b6d50551b46b11996ba0237599da581"
+    },
+    {
+      "path": "src/lib/reading/timer.ts",
+      "sha": "75255621d86a4e88c0e4189e58131de6b7cc8033"
+    },
+    {
+      "path": "src/lib/reading/unstated.ts",
+      "sha": "a4a06522aea4c8f5ff406fdc3027726b5f77a6c9"
+    },
+    {
+      "path": "src/lib/reading-choices.ts",
+      "sha": "8e6f34c2365762a6adcfe59215f61d2d7f5f2df9"
+    },
+    {
+      "path": "src/lib/reading-labels.ts",
+      "sha": "916132d810af069ba5f56b7c92d247395ca3710c"
+    },
+    {
+      "path": "src/lib/reporter/access.ts",
+      "sha": "04f3d76cd489091050eaf41ae241a19f88df5310"
+    },
+    {
+      "path": "src/lib/reporter/exports.ts",
+      "sha": "5546973af6764e14fa80f90ce21adca51bef9b5e"
+    },
+    {
+      "path": "src/lib/reporter/period.ts",
+      "sha": "71c3f7619f840a63fcbff10d6974f73b032d01b6"
+    },
+    {
+      "path": "src/lib/reporter/roster.ts",
+      "sha": "c7ba69d4c22cf4e9887413e40adcb75edd187bcd"
+    },
+    {
+      "path": "src/lib/reporter/service.ts",
+      "sha": "57710abb71f2a834829831ccbfacb33bb6c01f67"
+    },
+    {
+      "path": "src/lib/reporter/snapshot.ts",
+      "sha": "4e39c65edd2d9981045280089889d0cf7537ed65"
+    },
+    {
+      "path": "src/lib/retention/admin.ts",
+      "sha": "7d1ceb0de5aa6e5d97b1c45d01acbc66e18f77fd"
+    },
+    {
+      "path": "src/lib/retention/errors.ts",
+      "sha": "2a5038d7eced7027f5a0b40fa45e513625c08096"
+    },
+    {
+      "path": "src/lib/retention/evaluator.ts",
+      "sha": "9dea8a9a80ff1b322e4bbdf2974dd204efc6efb7"
+    },
+    {
+      "path": "src/lib/retention/http.ts",
+      "sha": "5648b8ccb1a5b0b3d0a0f7d93779c429c4518c2c"
+    },
+    {
+      "path": "src/lib/retention/levels.ts",
+      "sha": "e6855461b66415ad5c8aa4bfffaaeaef316ffac7"
+    },
+    {
+      "path": "src/lib/retention/measurement-draft.ts",
+      "sha": "18aa14c9053d58bcbc812adaeeed21cfefe06124"
+    },
+    {
+      "path": "src/lib/retention/measurement.ts",
+      "sha": "5c436efba34fdae4e18f056f1d40411ac7e5b2f8"
+    },
+    {
+      "path": "src/lib/retention/normalize.ts",
+      "sha": "da1683d4ac2a33bfaeaa60a07cd452250872fec1"
+    },
+    {
+      "path": "src/lib/retention/payload.ts",
+      "sha": "438eb8a79af273bc5861098e93f95730d4bc7afb"
+    },
+    {
+      "path": "src/lib/retention/phase.ts",
+      "sha": "5a597a80f32589daaa2a3db868aaf020d254953c"
+    },
+    {
+      "path": "src/lib/retention/rotation.ts",
+      "sha": "6892584d565b31830bc8a8244c467e1d2b5274de"
+    },
+    {
+      "path": "src/lib/retention/source-revision.ts",
+      "sha": "14134487528ab85282e041be3af609ffa39d6172"
+    },
+    {
+      "path": "src/lib/retention/staged-review.ts",
+      "sha": "27720a46039c718b46c73be0f6919cb4c8b64f47"
+    },
+    {
+      "path": "src/lib/retention/types.ts",
+      "sha": "8d323f7d67c5b5d547490ebf508458b17ab5f41b"
+    },
+    {
+      "path": "src/lib/retention/word-count.ts",
+      "sha": "c00b23b67ebae7398f72212e173509483a933343"
+    },
+    {
+      "path": "src/lib/search/content.ts",
+      "sha": "cf729ef455a9ce97fcdb00e809a2ee69ca5244cd"
+    },
+    {
+      "path": "src/lib/search/navigation.ts",
+      "sha": "9397685236f8aaa3b3226f66c183ca079080b8a4"
+    },
+    {
+      "path": "src/lib/services/activity.ts",
+      "sha": "b71a9822c83915cdd746140d316d38e7ffb748e3"
+    },
+    {
+      "path": "src/lib/services/cms/publication.ts",
+      "sha": "2d3646beefffaf39403b89e22aef0a0e57f4a111"
+    },
+    {
+      "path": "src/lib/services/coach/assignment.ts",
+      "sha": "614128f70a9424da86a740530bb479c4af14bd51"
+    },
+    {
+      "path": "src/lib/services/coach/attribution.ts",
+      "sha": "890e38b6992034a3ceb5bb02b59c0b3bc5401a9b"
+    },
+    {
+      "path": "src/lib/services/coach/capability-readiness.ts",
+      "sha": "54b276ba0cef6283a77ec561b23de69d028f33d2"
+    },
+    {
+      "path": "src/lib/services/coach/categories.ts",
+      "sha": "b76b2c02cca4d1dae4e9d0864fbefaafd4af7c13"
+    },
+    {
+      "path": "src/lib/services/coach/config.ts",
+      "sha": "9a439da9a8a99960a0e569967d182bf83404c426"
+    },
+    {
+      "path": "src/lib/services/coach/grammar.ts",
+      "sha": "9dce9250f5ce87b1e65e65d826d36204f9f73d06"
+    },
+    {
+      "path": "src/lib/services/coach/index.ts",
+      "sha": "a37217d181e1e431db49ab23fa5b67ef8e8140d9"
+    },
+    {
+      "path": "src/lib/services/coach/owner-control.ts",
+      "sha": "8ae4ef59155a3fef332aaab6c866c58be96fb0d1"
+    },
+    {
+      "path": "src/lib/services/coach/pronunciation.ts",
+      "sha": "add75891d344291c06e38edecab90e38723bd89d"
+    },
+    {
+      "path": "src/lib/services/coach/providers/anthropic/index.ts",
+      "sha": "5ef84eea885333cab7fa28cac55cfaa4a7addea0"
+    },
+    {
+      "path": "src/lib/services/coach/providers/compatible/index.ts",
+      "sha": "e03734f6c46c1eceee012323eb58e927d4d6febe"
+    },
+    {
+      "path": "src/lib/services/coach/providers/index.ts",
+      "sha": "a0f8870154da8c4e02c9e779ec8f229668a0d499"
+    },
+    {
+      "path": "src/lib/services/coach/providers/openai/index.ts",
+      "sha": "5a842acfdb9a6599317597931b852e2e7ab9c35e"
+    },
+    {
+      "path": "src/lib/services/coach/providers/riwi/assignment.ts",
+      "sha": "1afa290f733d081092f4213fe7055df0f3aad713"
+    },
+    {
+      "path": "src/lib/services/coach/providers/riwi/grammar.ts",
+      "sha": "76b66b94a27cb67029b0e1474cf470a8e99a699a"
+    },
+    {
+      "path": "src/lib/services/coach/providers/riwi/index.ts",
+      "sha": "627e9419f65e2b4afa86f4cce08701b3dfe0d0ab"
+    },
+    {
+      "path": "src/lib/services/coach/providers/riwi/speaking.ts",
+      "sha": "03f74a821796d6cb6e5ebf31984f72ae9417072a"
+    },
+    {
+      "path": "src/lib/services/coach/providers/riwi/text.ts",
+      "sha": "2819e3eac4ed791f1e78a8a3fb0a50ad4c992820"
+    },
+    {
+      "path": "src/lib/services/coach/providers/riwi/vocabulary.ts",
+      "sha": "354d56417c5e654ed2a4e468835c8cd359dc0fd2"
+    },
+    {
+      "path": "src/lib/services/coach/providers/riwi/writing.ts",
+      "sha": "6a5f352905964eea2f0fe3ef85245e7201bb85c8"
+    },
+    {
+      "path": "src/lib/services/coach/providers/shared/llm-provider.ts",
+      "sha": "b50cdb3e3424a8ba77debac87c848a9eac7cfcd4"
+    },
+    {
+      "path": "src/lib/services/coach/providers/shared/prompts.ts",
+      "sha": "4f645a7158428e47d4bef8b86fdd3a9e74c6fed9"
+    },
+    {
+      "path": "src/lib/services/coach/providers/shared/ssrf.ts",
+      "sha": "20f028c9c25f0cbbf676d0a4b1ee380d098871e3"
+    },
+    {
+      "path": "src/lib/services/coach/recommendations.ts",
+      "sha": "519d9b6885e099253306eb225620e3e1130f2d4f"
+    },
+    {
+      "path": "src/lib/services/coach/registry.ts",
+      "sha": "462ac5941135c2670057cf469fdf69f452bc5960"
+    },
+    {
+      "path": "src/lib/services/coach/resolver.ts",
+      "sha": "991a451cb7a043df373a587e27f683fef96c3b2d"
+    },
+    {
+      "path": "src/lib/services/coach/rubric.ts",
+      "sha": "c45ef0e31ca36f0c8a41b157af94c7bbe626d686"
+    },
+    {
+      "path": "src/lib/services/coach/schema.ts",
+      "sha": "9c0eb108babdf961df3f58fbcbf51819caadc49b"
+    },
+    {
+      "path": "src/lib/services/coach/service.ts",
+      "sha": "b5d10c917f8fc8276c842a1e9ea442d6fc2cd6bb"
+    },
+    {
+      "path": "src/lib/services/coach/speaking.ts",
+      "sha": "785aae84e8da381106365cbd41642f2c9865b0c3"
+    },
+    {
+      "path": "src/lib/services/coach/stt/index.ts",
+      "sha": "c0f9315cacff2cec2a736d7504e7e8a0d5ff928d"
+    },
+    {
+      "path": "src/lib/services/coach/stt/openai.ts",
+      "sha": "d88b755ff3d79d6e85b6407d14041a30789c4113"
+    },
+    {
+      "path": "src/lib/services/coach/stt/registry.ts",
+      "sha": "254e7fc40161e7617565b01d26c6911acf9599dd"
+    },
+    {
+      "path": "src/lib/services/coach/stt/types.ts",
+      "sha": "a493c568f528d465f3be7583dd34d457d668f0e0"
+    },
+    {
+      "path": "src/lib/services/coach/types.ts",
+      "sha": "49e04562ef7f6f21fdac01f9a1baed2c2ff4ed98"
+    },
+    {
+      "path": "src/lib/services/coach/vocabulary.ts",
+      "sha": "8d0965c20d89135b4f36c3ff04d9363fb9046e1d"
+    },
+    {
+      "path": "src/lib/services/coach/writing.ts",
+      "sha": "06d8d73f61442a84f8b2ea88f58d7e4c8bb27ab3"
+    },
+    {
+      "path": "src/lib/services/grammar/mastery.ts",
+      "sha": "0f65de0118ce2dd987f6ab9ae1b148b120ed0a17"
+    },
+    {
+      "path": "src/lib/services/integrations.ts",
+      "sha": "1a908c4127ec05b6d90f8a3e5ab366d52f98ec2e"
+    },
+    {
+      "path": "src/lib/services/lessons/state.ts",
+      "sha": "25ce8ca84662e600d712227b5c9fd15921ed807e"
+    },
+    {
+      "path": "src/lib/services/lexical/context.ts",
+      "sha": "4937fdd041cc4053d648bce7ac6c2d12f383f6e3"
+    },
+    {
+      "path": "src/lib/services/lexical/enrichment.ts",
+      "sha": "61357b6a05526a9b64c270dc2928d3d4afff2419"
+    },
+    {
+      "path": "src/lib/services/lexical/forms.ts",
+      "sha": "2a90cac2875f6ca06ed0ad342e1e012dd35ced62"
+    },
+    {
+      "path": "src/lib/services/lexical/listening-occurrences.ts",
+      "sha": "e6e19b950add3a2341c1ba1dcc0143e4f231b8bd"
+    },
+    {
+      "path": "src/lib/services/lexical/occurrence-spans.ts",
+      "sha": "dac4b88dcab4ea37a9c90bf73bc29cd40d3e0228"
+    },
+    {
+      "path": "src/lib/services/lexical/phrase-target.ts",
+      "sha": "b94068bd45d2b1ee96ccdc484b760cea6f80be77"
+    },
+    {
+      "path": "src/lib/services/lexical/reading-occurrences.ts",
+      "sha": "c7671adf22b5e2bbac41259c5aba07fdaf1e8f97"
+    },
+    {
+      "path": "src/lib/services/lexical/recover-reading-offset.ts",
+      "sha": "b76ce03d48dae58542ed4c40e404a7187f62bc21"
+    },
+    {
+      "path": "src/lib/services/lexical/retention-occurrences.ts",
+      "sha": "0e8a094359a9227b8cc7c4011a9e245d4d5650ce"
+    },
+    {
+      "path": "src/lib/services/lexical/source-access.ts",
+      "sha": "70dfe955b1d8fed5fe54e5b24458dc54fa829319"
+    },
+    {
+      "path": "src/lib/services/lexical/units.ts",
+      "sha": "3fe5d90b6f0cfc86e932476d0470ff4f32e9d57c"
+    },
+    {
+      "path": "src/lib/services/lexical/video-vocabulary.ts",
+      "sha": "c0113618b183d6b3f03342e24f9694ca14535e43"
+    },
+    {
+      "path": "src/lib/services/listening/grading.ts",
+      "sha": "4674ec86d04fe0e1e81458f2c5365fa9c1f050e9"
+    },
+    {
+      "path": "src/lib/services/listening/mcq-access.ts",
+      "sha": "487a38b5e08ea0142dcf54a5be44961b50914f3c"
+    },
+    {
+      "path": "src/lib/services/listening/mcq-mastery.ts",
+      "sha": "6c15f3d2e60ce56ea723a2faf8df8d0bd8b6da9f"
+    },
+    {
+      "path": "src/lib/services/listening/mcq-payload.ts",
+      "sha": "4844fab5512c1cde4be36b4257fb3f3d498f72ea"
+    },
+    {
+      "path": "src/lib/services/listening/speed-training.ts",
+      "sha": "57ef46d90b1658ab0d9d680c740ff3e383463140"
+    },
+    {
+      "path": "src/lib/services/live-classes/attendance.ts",
+      "sha": "9d31e57966894dd1f30ad49507e5e39cae007df2"
+    },
+    {
+      "path": "src/lib/services/live-classes/window.ts",
+      "sha": "7616a7fc7256b342fb19816089f041889f4297c6"
+    },
+    {
+      "path": "src/lib/services/notes/lesson-notes.ts",
+      "sha": "e208d3e0b13f3feecec69c594f18b2c02e29b53e"
+    },
+    {
+      "path": "src/lib/services/presence.ts",
+      "sha": "2527f88c45a78d5ea08dabb8851efc9a15d068cc"
+    },
+    {
+      "path": "src/lib/services/reading/authoring-guard.ts",
+      "sha": "c8a823ad05dc30d166347f4123878f6da37e8860"
+    },
+    {
+      "path": "src/lib/services/reading/general-import.ts",
+      "sha": "5950c36b253ddb0c39f7a54e2e1c47236f2ae36d"
+    },
+    {
+      "path": "src/lib/services/reading/grading.ts",
+      "sha": "6711553f8637660bf11210f06aa72da070154c63"
+    },
+    {
+      "path": "src/lib/services/reading/schedules.ts",
+      "sha": "a3f4bc2e8b9c734156c1dc4442f2d47b9ff3c437"
+    },
+    {
+      "path": "src/lib/services/reading/source-revision.ts",
+      "sha": "ddf84a218fa26287d3ec20d44987d450be813a69"
+    },
+    {
+      "path": "src/lib/services/reading/submit.ts",
+      "sha": "a0425627eee8eba51437c645b7c07d989ef60de2"
+    },
+    {
+      "path": "src/lib/services/resources/labels.ts",
+      "sha": "12c9362933bfb482a400bf94891b77c0be02b6a6"
+    },
+    {
+      "path": "src/lib/services/resources/owners.ts",
+      "sha": "f90910f099de1caec89049c4bc0201b44c12c9a9"
+    },
+    {
+      "path": "src/lib/services/retention.ts",
+      "sha": "a498a684329de35c0640bd568db4ccfe8a2daa33"
+    },
+    {
+      "path": "src/lib/services/speaking/attempts.ts",
+      "sha": "1765c2c6c17ada2e7bd53bd72f14689f01fec8e8"
+    },
+    {
+      "path": "src/lib/services/speaking/materials.ts",
+      "sha": "a6027d4a284a8300d6022118378f0eb6a8c72eb9"
+    },
+    {
+      "path": "src/lib/services/speaking/submission.ts",
+      "sha": "880b15dd36d9ea13278cacbe624caa3164051288"
+    },
+    {
+      "path": "src/lib/services/storage/index.ts",
+      "sha": "842f0b80724b2b8f6cac9fba4be5facb5acb6a49"
+    },
+    {
+      "path": "src/lib/services/storage/local-provider.ts",
+      "sha": "13c7f5cbeb2918f6b70a18e63d74732495030e4b"
+    },
+    {
+      "path": "src/lib/services/storage/s3-provider.ts",
+      "sha": "eaeaf3fb90fa621d76b66dc14434cc137f578865"
+    },
+    {
+      "path": "src/lib/services/storage/types.ts",
+      "sha": "5d44e8766cd3743b8f5efbd25febfb2e58202a53"
+    },
+    {
+      "path": "src/lib/services/video/direct.ts",
+      "sha": "b5d4107d16bc9f746b910b75b0afbf4bffe7aa3c"
+    },
+    {
+      "path": "src/lib/services/video/embed-origin.ts",
+      "sha": "587dc6bae8581e32781f320a98cb26b9a042937f"
+    },
+    {
+      "path": "src/lib/services/video/provider.ts",
+      "sha": "838519b70b385623f312fca53006e17e12da1cd1"
+    },
+    {
+      "path": "src/lib/services/video/transcript.ts",
+      "sha": "1d759ae26d1c338bc81ca7127470e6f8adb78e95"
+    },
+    {
+      "path": "src/lib/services/vocabulary/dedupe.ts",
+      "sha": "0747f973202eb7476ab9ffade9366ce16cc53513"
+    },
+    {
+      "path": "src/lib/services/vocabulary/engine.ts",
+      "sha": "1848b2f55c17d389497259d32f1e83aa9035df28"
+    },
+    {
+      "path": "src/lib/services/vocabulary/game-round.ts",
+      "sha": "70b36f99bbd0aebbbaba878ffb2a6c75a5519a5a"
+    },
+    {
+      "path": "src/lib/services/vocabulary/game-routes.ts",
+      "sha": "1a2d1040848e065fe7f92e56587355fbd4482789"
+    },
+    {
+      "path": "src/lib/services/vocabulary/grading.ts",
+      "sha": "d1a307ee37167fe54699ec5cf22e3e95f5e2591f"
+    },
+    {
+      "path": "src/lib/services/vocabulary/import-keys.ts",
+      "sha": "a487fbcd317185de8e42c907dc9980cb71ddadb1"
+    },
+    {
+      "path": "src/lib/services/vocabulary/packs.ts",
+      "sha": "45cb467d4efb88659e38e1000e19022b4e6f9c69"
+    },
+    {
+      "path": "src/lib/services/vocabulary/points.ts",
+      "sha": "673f3699159b5e4bbd8932ef28103412e19528a2"
+    },
+    {
+      "path": "src/lib/services/vocabulary/search.ts",
+      "sha": "a45ea7747d1ff9c8c9ee6a1463733ace6ec2b0ed"
+    },
+    {
+      "path": "src/lib/services/vocabulary/srs.ts",
+      "sha": "ed61c5c04aaf90a6694365dd4bd7d1fc46a1116b"
+    },
+    {
+      "path": "src/lib/services/writing/activation.ts",
+      "sha": "ab0b065743de8c0bc0107451ae7633516e3536e1"
+    },
+    {
+      "path": "src/lib/services/writing/admin.ts",
+      "sha": "fd0c2bc1a207359ce54a7f9a2d2a98a98e706d70"
+    },
+    {
+      "path": "src/lib/services/writing/check.ts",
+      "sha": "34e537256565487f3953239f017ffb00f4b84d73"
+    },
+    {
+      "path": "src/lib/services/writing/exam.ts",
+      "sha": "2dd2ea3d697372b48f5f8ddaab1cb96604adad31"
+    },
+    {
+      "path": "src/lib/services/writing/grade.ts",
+      "sha": "5080a0796dd492c9b044973b8ed8995cb53d65aa"
+    },
+    {
+      "path": "src/lib/services/writing/stealing.ts",
+      "sha": "8408ee78edb4db8ed52029020106ac27692c9bf4"
+    },
+    {
+      "path": "src/lib/services/writing/topic-vocabulary.ts",
+      "sha": "adf3238dcdfbc6b723c6fd66403cb88289782e39"
+    },
+    {
+      "path": "src/lib/services/writing/translation.ts",
+      "sha": "26b2edfa9a9ce4d7355e8282b25b5b114a5cd0c3"
+    },
+    {
+      "path": "src/lib/services/writing/typing-corpus.ts",
+      "sha": "79d8aac140aac0fa4df80a7216e048326bb9bfd9"
+    },
+    {
+      "path": "src/lib/services/writing/typing-keystrokes.ts",
+      "sha": "1ba49ca469f4ede7205cbfcedb217d5d2c7e073c"
+    },
+    {
+      "path": "src/lib/services/writing/typing-lines.ts",
+      "sha": "41fd90f523bad46113bfefbe3e9f1ac8df06c34b"
+    },
+    {
+      "path": "src/lib/services/writing/typing-metrics.ts",
+      "sha": "2c74b0b074fce25b4d79475ec698a1ef7570c12a"
+    },
+    {
+      "path": "src/lib/services/writing/typing-runs.ts",
+      "sha": "f3f94373c472de7680492354463f1770d056c977"
+    },
+    {
+      "path": "src/lib/services/writing/typing.ts",
+      "sha": "f616793ea5d533a4a7b39624981f59de70fcdb43"
+    },
+    {
+      "path": "src/lib/services/writing-evaluation/heuristics.ts",
+      "sha": "70ea3e82662d9d621d2a150c321c93c3b1b7407d"
+    },
+    {
+      "path": "src/lib/speaking/ai-readiness.ts",
+      "sha": "bc806b5b657fcec3c097e73f68ad29074d69b43a"
+    },
+    {
+      "path": "src/lib/speaking/ai-session.ts",
+      "sha": "b776997379ce5ca08588dcab09ec55f07f764aa8"
+    },
+    {
+      "path": "src/lib/speaking/hub.ts",
+      "sha": "c3c26b6e855b552ef981d46bcd492cfdc1e5b225"
+    },
+    {
+      "path": "src/lib/speaking/manage-topic.ts",
+      "sha": "10e6a006479984d2050372791fa42cac86087ac9"
+    },
+    {
+      "path": "src/lib/speaking/practice-browse.ts",
+      "sha": "fbd64985ec8585e4f19880603659cac8ad5620bc"
+    },
+    {
+      "path": "src/lib/speaking/rich-text.ts",
+      "sha": "f2b5f4271a0688c934af22ae39ba2194a9996e24"
+    },
+    {
+      "path": "src/lib/speaking/study-support.ts",
+      "sha": "b19b3859e806c3e517fbb27682eb99595ce2893a"
+    },
+    {
+      "path": "src/lib/speaking/topic-draft.ts",
+      "sha": "cee60d6f7abf0fb1e29fc23cd58ee0ad1ec5faad"
+    },
+    {
+      "path": "src/lib/student-export/format.ts",
+      "sha": "133d371fb539d2dde8097930c50d4a28cc581df4"
+    },
+    {
+      "path": "src/lib/student-export/pdf.ts",
+      "sha": "8cdebfe9ea619118f5779617d759e6043264d237"
+    },
+    {
+      "path": "src/lib/telegram/access-gates.ts",
+      "sha": "23b872e24f6727a385cd3af2c50ffa444f86495a"
+    },
+    {
+      "path": "src/lib/telegram/actor.ts",
+      "sha": "499cc040f541d349213f132c641ebb40ace9ed9f"
+    },
+    {
+      "path": "src/lib/telegram/admins.ts",
+      "sha": "1a5486de3c6fcd53ff4d365a2e3207040792d2cb"
+    },
+    {
+      "path": "src/lib/telegram/admission-bridge.ts",
+      "sha": "094fc91533fabedf8f837cc11e41908e2e962fc4"
+    },
+    {
+      "path": "src/lib/telegram/audiences.ts",
+      "sha": "e1eec840387556b14c4500b7f2aa1a5ef4cb469b"
+    },
+    {
+      "path": "src/lib/telegram/broadcast.ts",
+      "sha": "bded6fd81b6eb575eaf80ef435ca791325ebd498"
+    },
+    {
+      "path": "src/lib/telegram/contacts.ts",
+      "sha": "7828fc4ed109bf7879a3198788046fc1b7b27131"
+    },
+    {
+      "path": "src/lib/telegram/directory.ts",
+      "sha": "15f508909f8dc4a61a9e3cbebc26ecf15be38015"
+    },
+    {
+      "path": "src/lib/telegram/flow-drafts.ts",
+      "sha": "b7a866df6bccda3d4009e5c509b8f6e8a2198f29"
+    },
+    {
+      "path": "src/lib/telegram/guard.ts",
+      "sha": "f73f59649965ad81f20abc618e37d85f81296916"
+    },
+    {
+      "path": "src/lib/telegram/http.ts",
+      "sha": "3cefc4f23bd03a76d5cb87a08e758a3c3c25207b"
+    },
+    {
+      "path": "src/lib/telegram/identity.ts",
+      "sha": "05471dd35cb62e53165bb309f1222dc2d6fda199"
+    },
+    {
+      "path": "src/lib/telegram/ids.ts",
+      "sha": "6452dc5a69602c7868f450b46867784764c7f979"
+    },
+    {
+      "path": "src/lib/telegram/intent-purpose.ts",
+      "sha": "08957578be0a3ce3c37bf01b29a621f5fa3691bf"
+    },
+    {
+      "path": "src/lib/telegram/messages.ts",
+      "sha": "0cbf52217648c18d804d358c78421192df299f2e"
+    },
+    {
+      "path": "src/lib/telegram/notifications.ts",
+      "sha": "df3bedf38da2a9154c02915ffb0ebe25f5fe8906"
+    },
+    {
+      "path": "src/lib/telegram/ops.ts",
+      "sha": "441215b1c89144a8206438349d07ce4fd3a5b681"
+    },
+    {
+      "path": "src/lib/telegram/owner-authority.ts",
+      "sha": "988088962f0c35733ef713df0825e23ae535e852"
+    },
+    {
+      "path": "src/lib/telegram/owner-handover.ts",
+      "sha": "226c8f7089faf6069f864f627dc7962b27c2ce8e"
+    },
+    {
+      "path": "src/lib/telegram/owner-store.ts",
+      "sha": "72ee79615c9fbe241ecac23e0d2f036d45a79ad8"
+    },
+    {
+      "path": "src/lib/telegram/people-refresh.ts",
+      "sha": "8e57a3a6a9ab8c6a3d131494e37c36da113ea7c8"
+    },
+    {
+      "path": "src/lib/telegram/permissions.ts",
+      "sha": "865347655e694b566ed1cfd40c13573ddf32a3ad"
+    },
+    {
+      "path": "src/lib/telegram/required-channels.ts",
+      "sha": "6430bd07f0a886e727045ed432c797f96bd16833"
+    },
+    {
+      "path": "src/lib/telegram/retention.ts",
+      "sha": "3abeefd13142b78566dd0e5625f8a6d91ad8f764"
+    },
+    {
+      "path": "src/lib/telegram/support.ts",
+      "sha": "def9135447aa5953209961854ef66a15459f9178"
+    },
+    {
+      "path": "src/lib/text/lexical-normalize.ts",
+      "sha": "1e512da6150fc49f450522d45da47232cac051e8"
+    },
+    {
+      "path": "src/lib/theme.ts",
+      "sha": "f9f34243ce8c89f806d46783a2497fca67df5380"
+    },
+    {
+      "path": "src/lib/time.ts",
+      "sha": "5ea65b98049f8c0c5fb0668ff4164324384a3324"
+    },
+    {
+      "path": "src/lib/ui/background-assets.ts",
+      "sha": "2cbbcb751a261999fb23d5c3272b81c96a5bfbe8"
+    },
+    {
+      "path": "src/lib/ui/fonts.ts",
+      "sha": "1e56d521897977e4a6ff22f371fa4c6392c35f70"
+    },
+    {
+      "path": "src/lib/uploads/client.ts",
+      "sha": "700eb1ffcfd763c99e7e5096c833e83a109da154"
+    },
+    {
+      "path": "src/lib/uploads/errors.ts",
+      "sha": "098f7d20affd26b50e939a00f322cf827a73f614"
+    },
+    {
+      "path": "src/lib/uploads/format.ts",
+      "sha": "4698583d0f8cc67ff780a1f11d4d307dde99559b"
+    },
+    {
+      "path": "src/lib/uploads/keys.ts",
+      "sha": "b2bfd1a48dcb31e9fd1ba588d9f5ed30a43dc2f0"
+    },
+    {
+      "path": "src/lib/uploads/material-type.ts",
+      "sha": "789e3c29e69deaebe950b433038a162eea674a7b"
+    },
+    {
+      "path": "src/lib/uploads/server-errors.ts",
+      "sha": "203ea76be8b5d0491f2c29131377ccb125da21a8"
+    },
+    {
+      "path": "src/lib/uploads/signature.ts",
+      "sha": "f6f2f0eab5aad373b5190dc86f0b6a6fd9e8d51e"
+    },
+    {
+      "path": "src/lib/validation/admin.ts",
+      "sha": "d31e61d8e5d0a5982220ca3a93ccb1f461c1fb69"
+    },
+    {
+      "path": "src/lib/validation/auth.ts",
+      "sha": "9f6d0e4dcc3354f88664deecf6cbc88e2709054d"
+    },
+    {
+      "path": "src/lib/validation/content-authoring.ts",
+      "sha": "9c0f0bfc53f90be83cb19691ad0d81edf77d356b"
+    },
+    {
+      "path": "src/lib/validation/ids.ts",
+      "sha": "fa2d301ebb3249e8b0265c344d8ade028e76caab"
+    },
+    {
+      "path": "src/lib/validation/like.ts",
+      "sha": "3834040e56d68f5066b24c64865c9465c5b98e8f"
+    },
+    {
+      "path": "src/lib/validation/live-classes.ts",
+      "sha": "b25edb2fe887b1e1c9f67c39621598bb385cf862"
+    },
+    {
+      "path": "src/lib/validation/onboarding.ts",
+      "sha": "84668cc17d5328410142544a98355a2c719fa3e5"
+    },
+    {
+      "path": "src/lib/validation/profile.ts",
+      "sha": "86fb6c649627a72404924f3bce6ba65f3d0dc79d"
+    },
+    {
+      "path": "src/lib/validation/retention.ts",
+      "sha": "0ee0c52b9df62f313f55b7eecc6cf0253b5ab38d"
+    },
+    {
+      "path": "src/lib/validation/speaking-practice.ts",
+      "sha": "8dd4c8b1be9ce64dccbe29e18f3ca99ef09d4eba"
+    },
+    {
+      "path": "src/lib/validation/speaking.ts",
+      "sha": "8cc97161fde68930f55634aeffe42403e14f93d0"
+    },
+    {
+      "path": "src/lib/validation/uploads.ts",
+      "sha": "e752ffb9db1908a90987d9856d98c7ce8e2a5239"
+    },
+    {
+      "path": "src/lib/validation/writing.ts",
+      "sha": "79cef4be9359d314baec988de1026d8632b6995c"
+    },
+    {
+      "path": "src/lib/video/ted-study-pack.json",
+      "sha": "49e0fa79e4f1013f600c600c578313f4fb2ad977"
+    },
+    {
+      "path": "src/lib/writing/activation-rules.ts",
+      "sha": "cc89542cdb1ae848f66cfc3692e238f3edacd4be"
+    },
+    {
+      "path": "src/lib/writing/activation-schema.ts",
+      "sha": "0b61e7bb5bb41784ab8e864de3bd8d1a9277e975"
+    },
+    {
+      "path": "src/lib/writing/admin-schemas.ts",
+      "sha": "df2c2d00184fbb47eb840526972f902d476aea54"
+    },
+    {
+      "path": "src/lib/writing/ai-readiness.ts",
+      "sha": "72c8c3c5afb9a866b2024c2aa1ecf494feef39b8"
+    },
+    {
+      "path": "src/lib/writing/annotate.ts",
+      "sha": "14adda7d71cbb618786a798034ec83d02d2ef1b3"
+    },
+    {
+      "path": "src/lib/writing/exam-modes.ts",
+      "sha": "541e2e1e032c70f3ba12cf123b7cbb31f62b1388"
+    },
+    {
+      "path": "src/lib/writing/grade-criteria.ts",
+      "sha": "5dbee89a947d6001bb3ffdda1091940c94b81bd3"
+    },
+    {
+      "path": "src/lib/writing/pattern-functions.ts",
+      "sha": "98dabe96973feda3093abff12e948c9e363dc5ab"
+    },
+    {
+      "path": "src/lib/writing/safe-query.ts",
+      "sha": "a4d5add88d1f65f73d6a408e018798ec2ca24c63"
+    },
+    {
+      "path": "src/lib/writing/stealing-rules.ts",
+      "sha": "319e76877d2c105a4234ae76e7e5b295eaa97484"
+    },
+    {
+      "path": "src/lib/writing/tabs.ts",
+      "sha": "a3045711590a74fdbc3588d035ef365bf61b5c3c"
+    },
+    {
+      "path": "src/lib/writing/translation-rules.ts",
+      "sha": "4f42382ecda4aaaf81f13ffc61e988817d4b9572"
+    },
+    {
+      "path": "src/db/client.ts",
+      "sha": "2e50761b15c8a50366243635c06b27465e91f412"
+    },
+    {
+      "path": "src/db/postgres-connection.ts",
+      "sha": "335868690704adaafcf08971c7a50e1ac5eb815b"
+    },
+    {
+      "path": "src/db/schema.ts",
+      "sha": "e6b2ae2f73eb6fddfd29b961cea8e5bb8b1596fc"
+    },
+    {
+      "path": "src/db/seed.ts",
+      "sha": "57cbf02f1dabef43b7778140691ce586485c71af"
+    },
+    {
+      "path": "src/db/supabase-root-ca.ts",
+      "sha": "b9a190612b3a305879de0ae5ba393720ce640a48"
+    }
+  ]
+}

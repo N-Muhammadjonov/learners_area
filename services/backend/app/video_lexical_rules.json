@@ -293,6 +293,10 @@
     "low": [
       "lower",
       "lowest"
+    ],
+    "long": [
+      "longer",
+      "longest"
     ]
   },
   "adjectives": {
@@ -387,6 +391,7 @@
     "should",
     "may",
     "might",
-    "must"
+    "must",
+    "cannot"
   ]
 }

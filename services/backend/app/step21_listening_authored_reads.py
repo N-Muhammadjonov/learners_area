@@ -1,9 +1,4 @@
-"""Original Listening authored runtime and checkpoint hydration GET endpoints.
-
-External versioned source.html files are NOT supplied in the original backend
-archive. The renderer therefore follows the original's error path (503) if a
-legacy native runtime is requested without those assets. No HTML is fabricated.
-"""
+"""Main-compatible Listening runtimes and checkpoint hydration GET endpoints."""
 from __future__ import annotations
 import json
 from pathlib import Path
@@ -12,7 +7,8 @@ from . import main as core
 from .step17_listening_start_port import test_detail
 from .step17_listening_course_port import (CATALOGUE,SPEC,COURSE_KEY,ORIGINAL1,course_status,current_work,read_work,
                                             runtime_source,state_key)
-from .step21_vocab_batch import normalize_term,normalize_pos,sense_key
+from .step21_vocab_batch import normalize_term,normalize_pos,sense_key,legacy_sense_key
+from .step30_video_lexical import is_function
 router=APIRouter()
 PRIVATE={'Cache-Control':'private, no-store'}
 AUTHOR_HEADERS={**PRIVATE,'X-Content-Type-Options':'nosniff'}
@@ -26,31 +22,35 @@ async def get_context(con,user,testid):
     return {**pkg,'payload':payload},None
 
 async def vocabulary_session(con,testid,items):
-    # Preserve curated package order; mapping is exact by POS and sense definition.
+    # One indexed candidate read resolves all curated entries; preserve authored
+    # order and duplicate indexes. No user-specific cache crosses requests.
+    items=items if isinstance(items,list) else []
+    candidates=[];keys=set();terms=set()
+    for item in items:
+        data={'term':item['word'],'partOfSpeech':item['pos'],'definitionEn':item['def']}
+        key=sense_key(data);legacy=legacy_sense_key(data)
+        candidates.append((item,key))
+        if not is_function(item['word']):
+            keys.update((key,legacy));terms.update((item['word'].strip(),item['word'].strip().lower()))
+    rows=await con.fetch("""SELECT l.*,u.lexical_type AS unit_type,p.ipa AS unit_ipa,o.id AS occurrence_id
+        FROM lexemes l LEFT JOIN lexical_units u ON u.id=l.lexical_unit_id
+        LEFT JOIN LATERAL (SELECT ipa FROM lexical_unit_pronunciations WHERE lexical_unit_id=u.id LIMIT 1) p ON true
+        LEFT JOIN LATERAL (SELECT id FROM lexical_occurrences WHERE listening_test_id=$3 AND lexeme_id=l.id
+            AND resolution_status='resolved' ORDER BY section_number,start_char LIMIT 1) o ON true
+        WHERE l.sense_key=ANY($1::text[]) OR l.term=ANY($2::text[]) ORDER BY l.ctid""",list(keys),list(terms),core.uuid_value(testid)) if keys else []
     result=[]
-    for item in items if isinstance(items,list) else []:
-        if not isinstance(item,dict):continue
-        term=item.get('word','');pos=item.get('pos','');meaning=item.get('def','')
-        sense=await con.fetchrow('''SELECT * FROM lexemes WHERE sense_key=$1 OR
-             (lower(term)=$2 AND lower(coalesce(part_of_speech,''))=$3 AND lower(definition_en)=$4)
-             ORDER BY CASE WHEN sense_key=$1 THEN 0 ELSE 1 END LIMIT 1''',
-             sense_key({'term':term,'partOfSpeech':pos,'definitionEn':meaning}),normalize_term(term),normalize_pos(pos),meaning.lower())
-        lex=dict(sense) if sense else None
-        unit=None;occ=None;ipa=None
-        if lex:
-            if lex.get('lexical_unit_id'):
-                unit=await con.fetchrow('SELECT lexical_type FROM lexical_units WHERE id=$1',lex['lexical_unit_id'])
-                p=await con.fetchrow('SELECT ipa FROM lexical_unit_pronunciations WHERE lexical_unit_id=$1 LIMIT 1',lex['lexical_unit_id'])
-                ipa=p['ipa'] if p else None
-            o=await con.fetchrow('''SELECT id FROM lexical_occurrences WHERE listening_test_id=$1 AND lexeme_id=$2
-               AND resolution_status='resolved' ORDER BY section_number,start_char LIMIT 1''',core.uuid_value(testid),lex['id'])
-            occ=str(o['id']) if o else None
-        result.append({'senseId':str(lex['id']) if lex else None,'occurrenceId':occ,
-                       'term':lex['term'] if lex else term,'partOfSpeech':lex['part_of_speech'] if lex else pos or None,
-                       'definitionEn':lex['definition_en'] if lex else meaning,
-                       'translationUz':lex['translation_uz'] if lex else item.get('uz') or None,
-                       'lexicalType':unit['lexical_type'] if unit else None,'ipa':ipa,
-                       'example':item.get('ex'), 'also':item.get('also',[]),'quiz':item.get('quiz')})
+    for item,key in candidates:
+        lex=None
+        if not is_function(item['word']):
+            legacy=legacy_sense_key({'term':item['word'],'partOfSpeech':item['pos'],'definitionEn':item['def']})
+            allowed={key,legacy};names={item['word'].strip(),item['word'].strip().lower()}
+            lex=next((row for row in rows if (row['sense_key'] in allowed or row['term'] in names) and
+                (row['sense_key']==key or sense_key({'term':row['term'],'partOfSpeech':row['part_of_speech'],'definitionEn':row['definition_en']})==key)),None)
+        presentation={target:item[source] for source,target in [('ex','example'),('also','also'),('quiz','quiz')] if source in item}
+        result.append({'senseId':str(lex['id']) if lex else None,'occurrenceId':str(lex['occurrence_id']) if lex and lex['occurrence_id'] else None,
+            'term':lex['term'] if lex else item['word'],'partOfSpeech':lex['part_of_speech'] if lex else item['pos'] or None,
+            'definitionEn':lex['definition_en'] if lex else item['def'],'translationUz':lex['translation_uz'] if lex else item['uz'] or None,
+            'lexicalType':lex['unit_type'] if lex else None,'ipa':lex['unit_ipa'] if lex else None,**presentation})
     return result
 
 @router.get('/api/listening/full/{id}/authored')
@@ -64,35 +64,27 @@ async def authored(req:Request,id:str):
             pkg,err=await get_context(con,user,id)
             if err:return err
             content=pkg['payload'];source=pkg['source_id']
-            from .preview_contract import current_preview
-            if current_preview.get():
-                runtime=content.get('authoredRuntime')
-                if not runtime:return core.j({'error':'not_found'},404,AUTHOR_HEADERS)
-                vocabulary=[]
-                try:vocabulary=await vocabulary_session(con,id,content.get('vocabulary',[]))
-                except Exception:pass
-                audio=content.get('audio') or {}
-                audio_key=pkg.get('audio_object_key')
-                image_key=pkg.get('image_object_key')
-                return core.j({'runtime':runtime,'audioUrl':f'/api/resources/{audio_key}' if audio_key else None,
-                    'audioPath':audio.get('path'),'imageUrl':f'/api/resources/{image_key}' if image_key else None,
-                    'imagePath':content.get('imagePath'),'vocabulary':vocabulary},headers=AUTHOR_HEADERS)
             if req.query_params.get('vocabulary')=='1':
                 return core.j({'vocabulary':await vocabulary_session(con,id,content.get('vocabulary',[]))},headers=AUTHOR_HEADERS)
             original=(source in CATALOGUE or source=='listening-test-1' and id==ORIGINAL1)
+            definition=CATALOGUE.get(source) if original else None
             if original:
-                # Source snapshots are external to the user-provided archive, so this
-                # route must refuse rather than substitute a different HTML runtime.
-                return core.j({'error':'temporarily_unavailable'},503,AUTHOR_HEADERS)
-            runtime=content.get('authoredRuntime')
+                from .listening_runtime import runtime as native_runtime
+                if source=='listening-test-1':
+                    definition={'number':1,'storageKey':'la_listening_test_1_v2','media':[{'path':'audio/full.mp3','objectKey':'listening/academic/test-01/full.mp3','contentType':'audio/mpeg'}]}
+                runtime=native_runtime(definition['number'])
+            else:runtime=content.get('authoredRuntime')
             if not runtime:return core.j({'error':'not_found'},404,AUTHOR_HEADERS)
             audio_key=pkg.get('audio_object_key')
             image_key=pkg.get('image_object_key')
             audio=content.get('audio') or {}
             out={'course':None,'runtime':runtime,'audioUrl':f'/api/resources/{audio_key}?download=1',
-                 'nativePersistence':False,'additionalAudio':[],
-                 'audioPath':audio.get('path'),'imageUrl':f'/api/resources/{image_key}?download=1' if image_key else None,
-                 'imagePath':content.get('imagePath'),'vocabulary':[]}
+                 'nativePersistence':original,'additionalAudio':[{'path':m['path'],'url':f'/api/resources/{m["objectKey"]}?download=1'} for m in definition['media'][1:] if m['contentType'].startswith('audio/')] if definition else [],
+                 'imageUrl':f'/api/resources/{image_key}?download=1' if image_key else None,'vocabulary':[]}
+            if definition:out['storageKey']=definition['storageKey']
+            if definition and definition['media']:out['audioPath']=definition['media'][0]['path']
+            elif 'path' in audio:out['audioPath']=audio['path']
+            if 'imagePath' in content:out['imagePath']=content['imagePath']
             return core.j(out,headers=AUTHOR_HEADERS)
     except Exception:return core.j({'error':'temporarily_unavailable'},503,AUTHOR_HEADERS)
 

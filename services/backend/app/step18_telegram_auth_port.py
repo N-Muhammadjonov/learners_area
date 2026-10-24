@@ -37,14 +37,6 @@ async def telegram_callback(req:Request):
     async with db.acquire() as con:
         row=await con.fetchrow('''SELECT id,auth_version,role,name,locale,onboarding_completed_at
           FROM users WHERE telegram_id=$1 LIMIT 1''',str(int(params['id'])))
-    from .preview_contract import current_preview
-    if not row and current_preview.get():
-        name=' '.join(str(params.get(k) or '').strip() for k in ('first_name','last_name')).strip() or 'Telegram user'
-        async with db.acquire() as con:
-            row=await con.fetchrow("""INSERT INTO users(name,telegram_id,role,locale) VALUES($1,$2,'student',$3)
-                ON CONFLICT(telegram_id) DO UPDATE SET telegram_id=EXCLUDED.telegram_id
-                RETURNING id,auth_version,role,name,locale,onboarding_completed_at""",
-                name,str(int(params['id'])),'en' if req.cookies.get('la_locale')=='en' else 'uz')
     if not row:return redirect('/register?error=telegram_no_account')
     token=core.issue_token({'id':row['id'],'auth_version':row['auth_version'],'role':row['role'],
        'name':row['name'],'locale':row['locale'],'onboarding_completed_at':row['onboarding_completed_at']})

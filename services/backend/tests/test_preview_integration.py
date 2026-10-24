@@ -11,7 +11,6 @@ from app import main as core
 from app.asgi import application
 from app import db as database
 from app.frontend import input_value, pg_text, parse_pg_array
-from app.preview_contract import current_preview
 
 TOKEN = 'unit-test-renderer-token-with-more-than-32-characters'
 UID = UUID('11111111-1111-4111-8111-111111111111')
@@ -70,6 +69,8 @@ class Connection:
     async def fetchrow(self, sql, *args):
         self.calls.append((sql, args))
         return {'id': args[0]}
+    async def fetch(self, sql, *args):
+        self.calls.append((sql, args));return []
     async def fetchval(self, sql, *args):
         self.calls.append((sql, args));return None
     async def execute(self, sql, *args):self.calls.append((sql, args))
@@ -108,7 +109,7 @@ def test_private_reads_use_a_database_read_only_transaction_and_unnamed_statemen
     assert response.json()['rows'] == [['42']]
 
 
-def test_current_listening_inline_runtime_and_vocabulary_are_not_replaced_by_missing_later_assets(client, monkeypatch):
+def test_main_listening_uses_the_exact_native_runtime_and_media_contract(client, monkeypatch):
     from app import step21_listening_authored_reads as authored
     connection = Connection()
     async def pool():return connection
@@ -120,10 +121,12 @@ def test_current_listening_inline_runtime_and_vocabulary_are_not_replaced_by_mis
     monkeypatch.setattr(authored, 'get_context', context)
     response = client.get('/api/listening/full/e44e3d4b-3af6-41a9-b465-7d4bc21e1019/authored')
     assert response.status_code == 200
-    assert response.json()['runtime'] == '<main>existing course</main>'
+    from app.listening_runtime import runtime
+    assert response.json()['runtime'] == runtime(1)
+    assert response.json()['nativePersistence'] is True
+    assert response.json()['storageKey'] == 'la_listening_test_1_v2'
     assert response.json()['vocabulary'] == []
-    assert response.json()['audioUrl'] == '/api/resources/audio/lesson.mp3'
-    assert current_preview.get() is False, 'compatibility context must not leak into later requests'
+    assert response.json()['audioUrl'] == '/api/resources/audio/lesson.mp3?download=1'
 
 
 def test_sandbox_csp_keeps_the_inline_launcher_and_opaque_origin(client, monkeypatch):
@@ -137,16 +140,17 @@ def test_sandbox_csp_keeps_the_inline_launcher_and_opaque_origin(client, monkeyp
     assert "connect-src 'none'" in csp
 
 
-def test_current_listening_delete_is_the_same_reversible_archive(client, monkeypatch):
+def test_main_listening_delete_preserves_results_and_hides_the_material(client, monkeypatch):
     async def admin(req, active=False):return {**USER, 'role': 'admin'}
     connection = Connection()
     async def pool():return connection
     monkeypatch.setattr(core, 'current_user', admin)
     monkeypatch.setattr(core, 'pool', pool)
     response = client.delete('/api/admin/listening/tests/' + str(UID))
-    assert response.status_code == 200 and response.json() == {'ok': True}
-    assert any("publication_state='archived'" in sql for sql, _ in connection.calls)
-    assert not any('CONTENT_DELETED' in sql or sql.startswith('DELETE') for sql, _ in connection.calls)
+    assert response.status_code == 200 and response.json() == {'ok': True, 'action': 'deleted', 'resultsPreserved': True}
+    assert any("publication_state='draft'" in sql for sql, _ in connection.calls)
+    assert any('CONTENT_DELETED' in sql for sql, _ in connection.calls)
+    assert not any(sql.startswith('DELETE') for sql, _ in connection.calls)
 
 
 def test_writing_expiration_cannot_name_another_learners_paper(client, monkeypatch):

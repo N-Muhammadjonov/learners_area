@@ -95,7 +95,7 @@ def test_reading_answer_normalization_and_nonempty_answers():
     assert norm('  The   Book. ')=='the book'
     assert matches('A - Paris','a')
     assert not matches('','anything')
-    question={'correct_answer':'B','accepted_answers':['b - bird'],'answer_constraint':{},'type_code':'mcq_single','type':None}
+    question={'correct_answer':'B','accepted_answers':['b - bird'],'answer_constraint':{},'type_code':'multiple_choice','type':None}
     assert correct(question,'B') is True
     assert correct(question,'A') is False
     question.update(type_code='mcq_multi',correct_answer='A, C',accepted_answers=[],answer_constraint={'selection_count':2})
@@ -108,8 +108,8 @@ def test_reading_question_selection_40_or_specific_41_only():
     assert assessment_question_selection('other',rows+[{'id':40,'external_id':'unused','question_no':40}]) is None
 
 def test_dictionary_presentation_never_assigns_unrelated_example():
-    entry={'display_lemma':'run','forms':[],
-           'senses':[{'sense_id':'s1','examples':[{'text_en':'I run every morning.'},{'text_en':'A random sentence.'}]}],
+    entry={'lexeme_id':'00000000-0000-4000-8000-000000000001','display_lemma':'run','part_of_speech':'verb','lexical_type':'word','forms':[],
+           'senses':[{'sense_id':'s1','definition_en':'To move quickly','examples':[{'text_en':'I run every morning.'},{'text_en':'A random sentence.'}]}],
            'relations':[],'collocations':[]}
     p=present(entry)
     assert p['senses']['s1']['examples']==[{'text_en':'I run every morning.'}]

@@ -4,12 +4,12 @@ Source: src/app/api/admin/content/drafts/route.ts, lib/content/authoring.ts,
 lib/content/authors.ts. All DB changes take place in a single transaction.
 """
 from __future__ import annotations
-import json,re,uuid,hashlib,unicodedata
+import json,re,uuid
 from urllib.parse import urlparse
 from pathlib import Path
 from fastapi import APIRouter,Request
 from . import main as core
-from .step25_content_version import version_hashes,encoded
+from .step25_content_version import version_hashes
 from .step34_reading_import import TYPE_MAP
 from .step29_lesson_revision import validate_blocks
 
@@ -36,7 +36,7 @@ TRANSLATION_TYPES={'opinion','discussion','problem_solution','advantages_disadva
 # Frozen canonical question registry extracted from src/lib/content/question-types.ts.
 _LISTENING_QUESTION_TYPES = json.loads(Path(__file__).with_name('listening_authored_question_types.json').read_text())
 _LISTENING_ALIASES = {alias.lower(): entry for entry in _LISTENING_QUESTION_TYPES
-                      for alias in [entry['id'], *entry['aliases']]}
+                      for alias in entry['aliases']}
 
 def resolve_listening_type(value):
     return _LISTENING_ALIASES.get(value.strip().lower()) if isinstance(value,str) else None
@@ -111,6 +111,7 @@ def validate(module,typ,p):
                 require_str(q,'typeCode',1);require_str(q,'questionText',3);require_str(q,'correctAnswer',1)
                 if q['typeCode'].lower() not in TYPE_MAP:raise DraftInvalid(f'passages.{i}.questions.{j}.typeCode',f'Unknown Reading question type "{q["typeCode"]}".')
                 if q.get('groupKey') and q['groupKey'] not in keys:raise DraftInvalid(f'passages.{i}.questions.{j}.groupKey','Unknown question group')
+                q.setdefault('explanation','')
     elif module=='writing':
         if typ in ('task1','task2'):
             require_choice(p,'taskType',('task1','task2'));require_str(p,'category',2,60);require_str(p,'prompt',10)
@@ -323,7 +324,7 @@ async def persist(con,module,typ,p,ctx):
         return 'general_reading_set' if set_id else 'reading_passage',set_id or ids[0],content,f'Reading item with {len(ids)} passage(s) and {count} question(s)'
     if module=='vocabulary':
         # Identity of a sense uses term + POS + full meaning, not only spelling.
-        clean=lambda v: ' '.join(unicodedata.normalize('NFKC',v or '').lower().replace('’',"'").split()).strip().rstrip('.')
+        from .step21_vocab_batch import sense_key
         existing=await con.fetchrow('SELECT id,publication_state FROM vocabulary_topic_packs WHERE source_ref=$1',source)
         if existing and existing['publication_state']=='published':
             raise DraftInvalid('','A published pack is frozen: revise it into a draft first.')
@@ -332,26 +333,30 @@ async def persist(con,module,typ,p,ctx):
         ident=await upsert(con,'vocabulary_topic_packs','source_ref',source,vals,{'created_by_user_id':actor})
         await con.execute('DELETE FROM vocabulary_topic_pack_words WHERE pack_id=$1',ident)
         for i,w in enumerate(p['words']):
-            norm_term=clean(w['term']);norm_pos=clean(w['partOfSpeech']);norm_meaning=clean(w['definitionEn'])
-            sk='v2:'+hashlib.sha256(json.dumps([norm_term,norm_pos,norm_meaning],ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
+            sk=sense_key(w)
             lid=await con.fetchval('SELECT id FROM lexemes WHERE sense_key=$1',sk)
             if not lid:
                 lid=await con.fetchval('''INSERT INTO lexemes(term,part_of_speech,definition_en,translation_uz,example_sentence,collocations,sense_key,provenance)
                    VALUES($1,$2,$3,$4,$5,$6,$7,'topic_pack') RETURNING id''',w['term'],w['partOfSpeech'],w['definitionEn'],w['translationUz'],w['example'],w.get('collocations'),sk)
             await con.execute('INSERT INTO vocabulary_topic_pack_words(pack_id,lexeme_id,position) VALUES($1,$2,$3)',ident,lid,i+1)
+        pack_content={'labelEn':p['labelEn'].strip(),'labelUz':p.get('labelUz'),'topicCode':p.get('topicCode'),'level':p.get('level'),
+          'words':[{k:w[k] for k in ('term','partOfSpeech','definitionEn')} for w in p['words']]}
+        await pin_draft(con,{**ctx,'title':p['labelEn'].strip(),'track':'unspecified','_provenance':{'origin':'authored','words':len(p['words'])}},pack_content,'vocabulary_topic_pack',ident,'')
         return 'vocabulary_topic_pack',ident,{'labelEn':p['labelEn'],
           'words':[{'term':w['term'],'partOfSpeech':w['partOfSpeech'],'definitionEn':w['definitionEn']} for w in p['words']]},f'Vocabulary pack with {len(p["words"])} word(s)'
     if module=='lesson':
-        prev=await con.fetchrow('SELECT id,publication_state FROM lessons WHERE source_ref=$1',source)
+        from .step21_reading_port import is_live
+        prev=await con.fetchrow('SELECT id,publication_state,publish_at FROM lessons WHERE source_ref=$1',source)
+        row_is_live=is_live(prev)
         vals={'unit_id':uuid.UUID(p['unitId']),'slug':p['slug'],'title':title,'summary':p.get('summary'),
          'learning_area':p['learningArea'],'teacher_notes':p.get('teacherNotes') or None,'estimated_minutes':p.get('estimatedMinutes')}
         if prev:
             ident=prev['id']
-            if prev['publication_state'] not in ('published','scheduled'):
+            if not row_is_live:
                 sets=','.join(f'{k}=${i+2}' for i,k in enumerate(vals))
                 await con.execute(f'UPDATE lessons SET {sets} WHERE id=$1',ident,*vals.values())
-                await con.execute('DELETE FROM lesson_blocks WHERE lesson_id=$1',ident)
-                await write_lesson_blocks(con,ident,p['blocks'])
+                from .step29_lesson_revision_blocks import reconcile_blocks
+                await reconcile_blocks(con,ident,p['blocks'])
         else:
             ident=await con.fetchval('''INSERT INTO lessons(unit_id,slug,title,summary,learning_area,teacher_notes,estimated_minutes,"order",source_ref,publication_state,created_by_user_id,default_state)
                  VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,'draft',$10,'locked') RETURNING id''',
@@ -363,25 +368,29 @@ async def persist(con,module,typ,p,ctx):
               'objectKey':b.get('objectKey'),'originalName':b.get('originalName'),'mimeType':b.get('mimeType'),'size':b.get('size'),
               'ref':b.get('ref'),'quiz':b.get('quiz')})
         content={'unitId':p['unitId'],'slug':p['slug'],'order':p.get('order'),'learningArea':p['learningArea'],
-         'summary':p.get('summary'),'teacherNotes':p.get('teacherNotes') or None,
+         'summary':p.get('summary'),'teacherNotes':p.get('teacherNotes') if isinstance(p.get('teacherNotes'),str) and p['teacherNotes'].strip() else None,
          'estimatedMinutes':p.get('estimatedMinutes'),'blocks':snap}
+        await pin_draft(con,{**ctx,'track':'unspecified','_updateVersionId':ctx.get('versionId'),
+          '_forceNewVersion':row_is_live,
+          '_provenance':{'origin':'authored','blockCount':len(snap),'learningArea':p['learningArea']}},content,'lesson',ident,'')
         return 'lesson',ident,content,f'Lesson with {len(snap)} block(s)'
     # Complex author families must be implemented through the canonical domain service
     # rather than writing a parallel generic JSON-only store.
     raise NotImplementedError(f'Canonical {module}:{typ} author service is not ported')
 
 async def pin_draft(con,ctx,content,target_type,target_id,summary):
-    from .step25_content_version import version_hashes
     module,typ,source,title,track=ctx['module'],ctx['contentType'],ctx['sourceRef'],ctx['title'],ctx['track']
     latest=await con.fetchrow('''SELECT * FROM content_versions WHERE module=$1 AND content_type=$2 AND source_ref=$3
       ORDER BY version_no DESC LIMIT 1 FOR UPDATE''',module,typ,source)
     hashes=version_hashes(module,typ,content)
-    if ctx.get('versionId') and latest and str(latest['id'])==ctx['versionId'] and latest['status']=='draft' and latest['publication_state']=='draft':
-        await con.execute('''UPDATE content_versions SET title=$2,track=$3,content_hash=$4,semantic_hash=$5,answer_key_hash=$6,
-          content_snapshot=$7::jsonb,provenance=$8::jsonb,note=$9 WHERE id=$1''',latest['id'],title,track,*hashes.values(),encoded(content),json.dumps({'origin':'authored','summary':summary}),ctx.get('note'))
-        return latest['id'],latest['version_no'],False
+    provenance=ctx.get('_provenance',{'origin':'authored','summary':summary})
     semantic=not latest or latest['semantic_hash']!=hashes['semantic_hash']
-    force=module=='reading'
+    kind='created' if not latest else 'metadata' if not semantic else 'answer_key' if latest['answer_key_hash']!=hashes['answer_key_hash'] else 'semantic'
+    if ctx.get('_updateVersionId') and latest and str(latest['id'])==ctx['_updateVersionId'] and latest['status']=='draft' and latest['publication_state']=='draft':
+        await con.execute('''UPDATE content_versions SET title=$2,track=$3,content_hash=$4,semantic_hash=$5,answer_key_hash=$6,
+          content_snapshot=$7::jsonb,provenance=$8::jsonb,note=$9,change_kind=$10 WHERE id=$1''',latest['id'],title,track,*hashes.values(),json.dumps(content,ensure_ascii=False),json.dumps(provenance),ctx.get('note'),kind)
+        return latest['id'],latest['version_no'],False
+    force=module=='reading' or ctx.get('_forceNewVersion',False)
     if latest and not semantic and not force:
         await con.execute('''UPDATE content_versions SET title=$2,track=$3,publication_state='draft',note=$4 WHERE id=$1''',latest['id'],title,track,ctx.get('note'))
         return latest['id'],latest['version_no'],False
@@ -389,9 +398,9 @@ async def pin_draft(con,ctx,content,target_type,target_id,summary):
     row=await con.fetchrow('''INSERT INTO content_versions(module,content_type,source_ref,version_no,status,title,track,content_hash,semantic_hash,
         answer_key_hash,content_snapshot,publication_state,target_type,target_id,created_by_user_id,change_kind,provenance,note)
         VALUES($1,$2,$3,$4,'draft',$5,$6,$7,$8,$9,$10::jsonb,'draft',$11,$12,$13,$14,$15::jsonb,$16) RETURNING id''',
-        module,typ,source,num,title,track,*hashes.values(),encoded(content),target_type,target_id,ctx['actor'],
-        'created' if not latest else 'answer_key' if latest['answer_key_hash']!=hashes['answer_key_hash'] else 'semantic',
-        json.dumps({'origin':'authored','summary':summary}),ctx.get('note'))
+        module,typ,source,num,title,track,*hashes.values(),json.dumps(content,ensure_ascii=False),target_type,target_id,ctx['actor'],
+        kind,
+        json.dumps(provenance),ctx.get('note'))
     return row['id'],num,True
 
 @router.post('/api/admin/content/drafts')

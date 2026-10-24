@@ -36,10 +36,10 @@ async def review(req:Request,id:str):
             if not entry:return core.j({'error':'not_found'},404)
             if entry['next_review_at']>now:return core.j({'error':'not_due','nextReviewAt':iso(entry['next_review_at'])},409)
             state=advance(entry,body['outcome'],now)
-            await con.execute('''UPDATE user_vocabulary SET srs_stage=$2,mastery=$3,
+            await con.execute('''UPDATE user_vocabulary SET srs_stage=$2,mastery=$3::text,
                correct_count=$4,incorrect_count=$5,interval_days=$6,next_review_at=$7,
-               last_reviewed_at=$8,mastered_at=CASE WHEN $3='mastered' THEN $8 ELSE mastered_at END,
-               state=CASE WHEN $3='new' THEN 'new' WHEN $3='learning' THEN 'learning' ELSE 'review' END
+               last_reviewed_at=$8,mastered_at=CASE WHEN $3::text='mastered' THEN $8 ELSE mastered_at END,
+               state=(CASE WHEN $3::text='new' THEN 'new' WHEN $3::text='learning' THEN 'learning' ELSE 'review' END)::vocab_state
                WHERE id=$1''',id,state['srsStage'],state['mastery'],state['correctCount'],
                state['incorrectCount'],state['intervalDays'],state['nextReviewAt'],now)
             await con.execute('''UPDATE users SET last_meaningful_activity_at=GREATEST(last_meaningful_activity_at,$2)

@@ -22,7 +22,8 @@
     "backend:setup": "python3 -m venv services/backend/.venv && services/backend/.venv/bin/python -m pip install -r services/backend/requirements-dev.txt",
     "backend:check": "node scripts/run-with-backend.mjs check",
     "backend:test": "cd services/backend && .venv/bin/python -m pytest",
-    "backend:test:postgres": "node --import tsx scripts/verify-fastapi-postgres.mjs"
+    "backend:test:postgres": "node --import tsx scripts/verify-fastapi-postgres.mjs",
+    "backend:test:main": "node scripts/run-main-parity.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1136.0",

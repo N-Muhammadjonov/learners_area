@@ -93,6 +93,9 @@ async def entry(con,lexeme_id,release):
         ret=await worker(q)
         got=ret.get('entry') if isinstance(ret,dict) else None
         if not got or got.get('lexeme_id')!=str(row['lexeme_id']):raise ValueError('dictionary_entry_checksum_mismatch')
+        from .dictionary_canonical import stable
+        content_sha=hashlib.sha256(stable({k:v for k,v in got.items() if k!='release_id'}).encode()).hexdigest()
+        if content_sha!=row['content_sha']:raise ValueError('dictionary_entry_checksum_mismatch')
         if source!=release:got={**got,'release_id':release}
         return got
     if row['storage_shard'] and row['storage_release']:
