@@ -133,7 +133,13 @@ export function mount(context){
  const {root,url,signal,dict,navigate,session,locale}=context;
  const t=dict.listening.lessons.authoring,issueText=dict.listening.lessons.authoringIssues,messages=dict.uploadErrors;
  const routePath=url.pathname;
- const host=el('div',{'data-listening-lesson-authoring':''});root.append(host);
+ const authorArea=routePath==='/app/grammar/lessons/author'?'grammar':routePath==='/app/reading/lessons/author'?'reading':routePath==='/app/listening/lessons/author'?'listening':null;
+ if(!authorArea)throw Error('Unknown lesson authoring area');
+ if(!['teacher','admin','owner'].includes(session?.user?.role)){void navigate('/app',{replace:true});return;}
+ const lessonListHref='/app/'+authorArea+'/lessons';
+ const lessonBackLabel=authorArea==='grammar'?dict.grammar.lessonBack:authorArea==='reading'?dict.readingV4.lessonBack:dict.listening.lessons.backToList;
+ const lessonListLabel=authorArea==='grammar'?dict.grammar.lessonsTitle:authorArea==='reading'?dict.readingV4.products.lessons.title:dict.listening.lessons.title;
+ const host=el('div',{'data-listening-lesson-authoring':'','data-lesson-authoring-area':authorArea});root.append(host);
  const lang=locale==='uz'?'uz':'en';
  const areaLabel=value=>LEARNING_AREA_LABELS[value]?.[lang]??value;
  const pending=new Set();const xhrs=new Set();
@@ -464,7 +470,7 @@ export function mount(context){
  }
  function startNew(){
   if(dirty&&!window.confirm(t.discardConfirm))return;
-  selection='new';model=null;form=blankForm('listening',unitOptions()[0]?.id??'');issues=[];notice=null;dirty=false;loading=false;loadToken++;
+  selection='new';model=null;form=blankForm(authorArea,unitOptions()[0]?.id??'');issues=[];notice=null;dirty=false;loading=false;loadToken++;
   renderList();renderMain();
  }
 
@@ -539,6 +545,7 @@ export function mount(context){
  function parseProjection(raw){
   requireFields(raw,['authorized','canPublish','lessons','units']);
   if(!Array.isArray(raw.lessons)||!Array.isArray(raw.units))throw new Error('invalid lesson authoring projection');
+  if(raw.lessons.some(l=>!l||l.learningArea!=null&&l.learningArea!==authorArea))throw new Error('cross-area lesson authoring projection');
   return {authorized:raw.authorized===true,canPublish:raw.canPublish===true,lessons:raw.lessons.map(l=>({id:String(l.id),title:String(l.title),slug:String(l.slug),sourceRef:String(l.sourceRef??''),learningArea:typeof l.learningArea==='string'?l.learningArea:null,publicationState:String(l.publicationState??''),draft:l.draft??null,published:l.published??null})),units:raw.units.map(u=>({id:String(u.id),label:String(u.label),course:String(u.course??'')}))};
  }
 
@@ -562,12 +569,12 @@ export function mount(context){
  function renderPage(){
   const children=[
    el('div',{},
-    BackLink({fallbackHref:'/app/listening/lessons',label:dict.listening.lessons.backToList,'data-lesson-authoring-back':''}),
+    BackLink({fallbackHref:lessonListHref,label:lessonBackLabel,'data-lesson-authoring-back':''}),
     el('h1',{class:'mt-2 font-display text-2xl text-ink-900'},t.title),
     el('p',{class:'mt-1 text-sm text-ink-500'},t.subtitle))];
   if(units.length===0)children.push(el('div',{class:'card p-5','data-lesson-authoring-no-structure':''},el('h2',{class:'font-display text-lg text-ink-900'},t.noUnitsTitle),el('p',{class:'mt-1 text-sm text-ink-500'},t.noUnitsHint)));
   else{children.push(desk);}
-  children.push(el('p',{class:'text-xs text-ink-300'},`${t.footer} `,el('a',{class:'underline',href:'/app/listening/lessons'},dict.listening.lessons.title)));
+  children.push(el('p',{class:'text-xs text-ink-300'},`${t.footer} `,el('a',{class:'underline',href:lessonListHref},lessonListLabel)));
   host2.replaceChildren(el('div',{class:'mx-auto flex max-w-6xl flex-col gap-5','data-route-usable':'lesson-authoring'},...children));
   renderList();
   renderMain();
