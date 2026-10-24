@@ -1,0 +1,1 @@
+ALTER TABLE "lexemes" ADD COLUMN "accepted_translations" jsonb DEFAULT '[]'::jsonb NOT NULL;

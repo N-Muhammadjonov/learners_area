@@ -1,0 +1,1 @@
+ALTER TABLE "lexemes" ADD COLUMN "collocations" text;

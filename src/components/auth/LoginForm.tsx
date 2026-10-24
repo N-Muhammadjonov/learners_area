@@ -104,6 +104,7 @@ export function LoginForm({
       </div>
       {googleConfigured && (
         // A plain top-level navigation: the OIDC redirect chain must not be prefetched or fetched.
+        // eslint-disable-next-line @next/next/no-html-link-for-pages -- OAuth starts a full document redirect, not client routing.
         <a href="/api/auth/google/start" className="btn-secondary w-full justify-center" data-google-login>
           {dict.auth.continueWithGoogle}
         </a>

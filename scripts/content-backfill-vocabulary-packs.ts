@@ -20,7 +20,7 @@
  *   node --conditions=react-server --import tsx scripts/content-backfill-vocabulary-packs.ts --publish
  */
 import { eq } from "drizzle-orm";
-import { db } from "../src/db/client";
+import { db } from "../src/db/tooling-client";
 import { vocabularyTopicPacks } from "../src/db/schema";
 import { saveTopicPack } from "../src/lib/content/vocabulary-packs";
 import { TOPIC_PACKS } from "../src/lib/services/vocabulary/packs";

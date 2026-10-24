@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { db } from "./client";
+import { db } from "./tooling-client";
 import { evaluateWritingSubmission } from "@/lib/services/coach";
 import {
   users,

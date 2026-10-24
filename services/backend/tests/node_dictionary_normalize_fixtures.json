@@ -1,0 +1,146 @@
+[
+  {
+    "input": "Kitob",
+    "normalized": "kitob"
+  },
+  {
+    "input": "  HELLO  ",
+    "normalized": "hello"
+  },
+  {
+    "input": "‘Hi’",
+    "normalized": "'hi'"
+  },
+  {
+    "input": "salom﻿ dunyo",
+    "normalized": "salom dunyo"
+  },
+  {
+    "input": "\u001cWord\u001c",
+    "normalized": "\u001cword\u001c"
+  },
+  {
+    "input": " Word",
+    "normalized": " word"
+  },
+  {
+    "input": "İ",
+    "normalized": "i̇"
+  },
+  {
+    "input": "İstanbul",
+    "normalized": "i̇stanbul"
+  },
+  {
+    "input": "Ǻ",
+    "normalized": "ǻ"
+  },
+  {
+    "input": "é",
+    "normalized": "é"
+  },
+  {
+    "input": "école",
+    "normalized": "école"
+  },
+  {
+    "input": "مرحبا",
+    "normalized": "مرحبا"
+  },
+  {
+    "input": "ß",
+    "normalized": "ss"
+  },
+  {
+    "input": "ﬁ",
+    "normalized": "fi"
+  },
+  {
+    "input": "ﬂ",
+    "normalized": "fl"
+  },
+  {
+    "input": "gʻ",
+    "normalized": "g'"
+  },
+  {
+    "input": " oʻ",
+    "normalized": "o'"
+  },
+  {
+    "input": "‘OʻZBEK’",
+    "normalized": "'o'zbek'"
+  },
+  {
+    "input": "x–y",
+    "normalized": "x-y"
+  },
+  {
+    "input": "i j",
+    "normalized": "i j"
+  },
+  {
+    "input": "É TEST",
+    "normalized": "é test"
+  },
+  {
+    "input": "a\t\nb",
+    "normalized": "a b"
+  },
+  {
+    "input": "ƏĞİ",
+    "normalized": "əği̇"
+  },
+  {
+    "input": "Ᲊ",
+    "normalized": "ᲊ"
+  },
+  {
+    "input": "Ɤ",
+    "normalized": "ɤ"
+  },
+  {
+    "input": "Ꟍ",
+    "normalized": "ꟍ"
+  },
+  {
+    "input": "Ꟛ",
+    "normalized": "ꟛ"
+  },
+  {
+    "input": "Ƛ",
+    "normalized": "ƛ"
+  },
+  {
+    "input": "𐵐",
+    "normalized": "𐵰"
+  },
+  {
+    "input": "𜳖",
+    "normalized": "a"
+  },
+  {
+    "input": "𜳰",
+    "normalized": "0"
+  },
+  {
+    "input": "x﻿y",
+    "normalized": "x y"
+  },
+  {
+    "input": "x\u001cy",
+    "normalized": "x\u001cy"
+  },
+  {
+    "input": "❤️",
+    "normalized": "❤️"
+  },
+  {
+    "input": " 　 word　 ",
+    "normalized": "word"
+  },
+  {
+    "input": "ā Ğı ʹ ",
+    "normalized": "ā ğı ʹ"
+  }
+]

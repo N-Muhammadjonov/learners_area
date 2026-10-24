@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@/db/client": [
+        "src/db/tooling-client.ts"
+      ],
+      "@/*": [
+        "src/*"
+      ]
+    }
+  }
+}

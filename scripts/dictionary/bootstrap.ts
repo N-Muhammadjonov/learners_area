@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import { sql } from "drizzle-orm";
-import { db } from "../../src/db/client";
+import { db } from "../../src/db/tooling-client";
 import { BASE_RELEASE, entrySchema, normalizeSearch, sha, stableJson, type Entry } from "../../src/lib/dictionary/model";
 import { releaseManifest, rows, writeEntries, writeTerms } from "../../src/lib/dictionary/store";
 import { senseKeyOf } from "../../src/lib/services/vocabulary/dedupe";

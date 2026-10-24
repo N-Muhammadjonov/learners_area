@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import bcrypt from "bcryptjs";
 import { eq, inArray } from "drizzle-orm";
-import { db } from "../src/db/client";
+import { db } from "../src/db/tooling-client";
 import { auditLog, lexemes, listeningAttempts, listeningQuestions, listeningTests, users } from "../src/db/schema";
 import { monthsAgo, runRetention } from "../src/lib/services/retention";
 

@@ -1,7 +1,8 @@
+import { backendAction } from "@/lib/backend/server";
 import { sql } from "drizzle-orm";
 import "server-only";
 import { and, eq } from "drizzle-orm";
-import { db } from "@/db/client";
+import { db, FRONTEND_DATABASE } from "@/db/client";
 import { listeningPackages, activityEvents, listeningAnswers, listeningAttempts, listeningQuestions, users } from "@/db/schema";
 import { gradePackage } from "@/lib/listening/package";
 import { gradeAnswer } from "@/lib/services/listening/grading";
@@ -11,6 +12,7 @@ import { listeningQuestionsForAttempt } from "@/lib/listening/question-set";
 
 /** Serialize starts for one authenticated account; retries resume an existing attempt. */
 export async function startListeningAttempt(userId: string, testId: string, database = db) {
+  if (FRONTEND_DATABASE && database === db) return backendAction<string | null>("listening.start", { id: testId });
   return database.transaction(async (tx) => {
     const [user] = await tx.select({ id: users.id }).from(users).where(eq(users.id, userId)).for("update");
     if (!user) return null;

@@ -1,10 +1,6 @@
 import "server-only";
 import { cache } from "react";
-import { eq } from "drizzle-orm";
-import { db } from "@/db/client";
-import { users } from "@/db/schema";
-import { getSession } from "./session";
-import { timed } from "@/lib/observability/timing";
+import { backendSession } from "@/lib/backend/server";
 import { hasPrivateAccess, type AccountStatus } from "./account-status";
 import { isAdministrator, isStaff, roleAtLeast, type Role } from "./roles";
 import type { Actor } from "./ownership";
@@ -34,41 +30,7 @@ export type CurrentUser = {
 };
 
 export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
-  const session = await getSession();
-  if (!session) return null;
-
-  /*
-   * The first query of every private page, and therefore the first thing a
-   * database problem breaks. It is timed so a slow or failing identity lookup is
-   * visible in the log *before* it shows up as an error boundary.
-   */
-  const row = await timed("auth.currentUser", () =>
-    db.query.users.findFirst({
-      where: eq(users.id, session.sub),
-      columns: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        accountStatus: true,
-        locale: true,
-        onboardingCompletedAt: true,
-        statusReason: true,
-      },
-    })
-  );
-  if (!row) return null;
-
-  return {
-    id: row.id,
-    name: row.name,
-    email: row.email,
-    role: row.role,
-    accountStatus: row.accountStatus,
-    locale: row.locale,
-    onboarded: Boolean(row.onboardingCompletedAt),
-    statusReason: row.statusReason,
-  };
+  return (await backendSession()).user;
 });
 
 /** A signed-in account, whatever its admission state. */

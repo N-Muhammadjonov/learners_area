@@ -12,7 +12,7 @@
 import { randomUUID } from "node:crypto";
 import pg from "pg";
 import { createSessionToken } from "../src/lib/auth/session";
-import { db } from "../src/db/client";
+import { db } from "../src/db/tooling-client";
 import { importGeneralReadingSet } from "../src/lib/services/reading/general-import";
 import { ingestListeningOccurrences, listeningVocabularySession } from "../src/lib/services/lexical/listening-occurrences";
 

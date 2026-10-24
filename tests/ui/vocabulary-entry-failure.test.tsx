@@ -370,15 +370,16 @@ test("recent point history failure leaves the standing panel usable and retries 
 test("Vocabulary route has no pre-frame DB data fanout; core library failures are local, authenticated, and paginated", () => {
   const page = read("src/app/app/(shell)/vocabulary/page.tsx");
   const studio = read("src/components/vocabulary/VocabStudio.tsx");
-  const libraryApi = read("src/app/api/vocabulary/route.ts");
+  assert.match(read("src/app/api/vocabulary/route.ts"), /forwardToBackend as GET/);
+  const libraryApi = read("services/backend/app/step16_vocab_library_port.py");
   assert.match(page, /Promise\.all\(\[requireActiveUser\(\), getLocale\(\), searchParams\]\)/);
   assert.doesNotMatch(page, /listLibrary|listDue|listFolders|getStanding|listSentenceBank/);
   assert.match(studio, /if \(tab === "words"\)[\s\S]*?void loadLibrary\(\)[\s\S]*?void loadSummary\(\)[\s\S]*?void loadFolders\(\)/);
   assert.match(studio, /else if \(tab === "revision"\)[\s\S]*?void loadDue\(\)/);
   assert.match(studio, /libraryStatus === "error"[\s\S]*?loadLibrary\(true\)/);
-  assert.match(libraryApi, /requireActiveUser\(\)/);
-  assert.match(libraryApi, /listLibrary\(user\.id, \{ limit: limit \+ 1, offset \}\)/);
-  assert.match(libraryApi, /status: 503/);
+  assert.match(libraryApi, /core\.current_user\(req,active=True\)/);
+  assert.match(libraryApi, /user\['id'\],limit\+1,offset/);
+  assert.match(libraryApi, /503,PRIVATE/);
   assert.match(libraryApi, /Cache-Control.*private, no-store/);
   assert.match(studio, /LIBRARY_PAGE_SIZE = 50/);
 });
@@ -392,9 +393,10 @@ test("Vocabulary APIs re-authorize, no-store, and isolate secondary query failur
     "src/app/api/vocabulary/leaderboard/route.ts",
   ]) {
     const route = read(path);
-    assert.match(route, /requireActiveUser\(\)/, `${path} must authorize on the server`);
-    assert.match(route, /status: 503/, `${path} must report query failure as a region response`);
+    assert.match(route, /forwardToBackend as GET/, `${path} must delegate to Python`);
   }
+  // Runtime authorization, 503 isolation and pagination are covered by
+  // test_preview_integration.py against the actual ASGI application.
   const engine = read("src/lib/services/vocabulary/engine.ts");
   assert.match(engine, /groupBy\(userVocabulary\.mastery, userVocabulary\.sourceType\)/);
   assert.match(engine, /function buildEffectivePointRows\(\)/);

@@ -264,9 +264,11 @@ export function ListeningImport({ dict }: { dict: Dictionary }) {
       <p>{t.intro}</p>
 
       <div className="flex flex-wrap gap-2">
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- API download must use document navigation. */}
         <a className="btn-secondary" href="/api/admin/content/template?module=listening&contentType=full_test&kind=template">
           {t.downloadTemplate}
         </a>
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- API download must use document navigation. */}
         <a className="btn-secondary" href="/api/admin/content/template?module=listening&contentType=full_test&kind=example">
           {t.downloadExample}
         </a>

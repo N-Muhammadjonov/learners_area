@@ -1,0 +1,274 @@
+{
+  "learner": [
+    {
+      "key": "learners.active",
+      "section": "learning",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Active learners",
+        "uz": "Faol o'quvchilar"
+      },
+      "sql": "select count(distinct user_id)::int as v from activity_events where {{LEARNERS}} and created_at >= :from and created_at < :to"
+    },
+    {
+      "key": "reading.completed",
+      "section": "learning",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Reading attempts completed",
+        "uz": "Yakunlangan Reading urinishlari"
+      },
+      "sql": "select count(*)::int as v from reading_attempts where {{LEARNERS}} and status = 'completed' and submitted_at >= :from and submitted_at < :to"
+    },
+    {
+      "key": "reading.accuracy",
+      "section": "results",
+      "unit": "ratio",
+      "basis": "window",
+      "label": {
+        "en": "Reading accuracy",
+        "uz": "Reading aniqligi"
+      },
+      "sql": "select case when sum(total_questions) > 0 then sum(score)::float8 / sum(total_questions) end as v from reading_attempts where {{LEARNERS}} and status = 'completed' and total_questions > 0 and submitted_at >= :from and submitted_at < :to"
+    },
+    {
+      "key": "listening.completed",
+      "section": "learning",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Listening attempts completed",
+        "uz": "Yakunlangan Listening urinishlari"
+      },
+      "sql": "select count(*)::int as v from listening_attempts where {{LEARNERS}} and status = 'completed' and submitted_at >= :from and submitted_at < :to"
+    },
+    {
+      "key": "listening.accuracy",
+      "section": "results",
+      "unit": "ratio",
+      "basis": "window",
+      "label": {
+        "en": "Listening accuracy",
+        "uz": "Listening aniqligi"
+      },
+      "sql": "select case when sum(total_questions) > 0 then sum(score)::float8 / sum(total_questions) end as v from listening_attempts where {{LEARNERS}} and status = 'completed' and total_questions > 0 and submitted_at >= :from and submitted_at < :to"
+    },
+    {
+      "key": "writing.submitted",
+      "section": "learning",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Writing essays submitted",
+        "uz": "Topshirilgan Writing insholari"
+      },
+      "sql": "select count(*)::int as v from writing_submissions where {{LEARNERS}} and status in ('submitted', 'evaluated') and submitted_at >= :from and submitted_at < :to"
+    },
+    {
+      "key": "writing.band",
+      "section": "results",
+      "unit": "band",
+      "basis": "window",
+      "label": {
+        "en": "Average Writing band (checked)",
+        "uz": "O'rtacha Writing bali (tekshirilgan)"
+      },
+      "sql": "select round(avg(overall_estimate)::numeric, 2)::float8 as v from evaluations where {{LEARNERS}} and source_type in ('writing_submission', 'writing_grade') and overall_estimate is not null and created_at >= :from and created_at < :to"
+    },
+    {
+      "key": "speaking.submitted",
+      "section": "learning",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Speaking recordings submitted",
+        "uz": "Topshirilgan Speaking yozuvlari"
+      },
+      "sql": "select count(*)::int as v from speaking_attempts where {{LEARNERS}} and status in ('submitted', 'reviewed') and submitted_at >= :from and submitted_at < :to"
+    },
+    {
+      "key": "speaking.band",
+      "section": "results",
+      "unit": "band",
+      "basis": "window",
+      "label": {
+        "en": "Average Speaking band (checked)",
+        "uz": "O'rtacha Speaking bali (tekshirilgan)"
+      },
+      "sql": "select round(avg(overall_estimate)::numeric, 2)::float8 as v from evaluations where {{LEARNERS}} and source_type = 'speaking_attempt' and overall_estimate is not null and created_at >= :from and created_at < :to"
+    },
+    {
+      "key": "retention.completed",
+      "section": "learning",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Retention texts completed",
+        "uz": "Yakunlangan Retention matnlari"
+      },
+      "sql": "select count(*)::int as v from retention_attempts where {{LEARNERS}} and status = 'completed' and completed_at >= :from and completed_at < :to"
+    },
+    {
+      "key": "retention.score",
+      "section": "results",
+      "unit": "score",
+      "basis": "window",
+      "label": {
+        "en": "Average Retention score",
+        "uz": "O'rtacha Retention natijasi"
+      },
+      "sql": "select round(avg(score)::numeric, 2)::float8 as v from retention_attempts where {{LEARNERS}} and status = 'completed' and score is not null and completed_at >= :from and completed_at < :to"
+    },
+    {
+      "key": "grammar.attempts",
+      "section": "learning",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Grammar exercise attempts",
+        "uz": "Grammatika mashqi urinishlari"
+      },
+      "sql": "select count(*)::int as v from grammar_attempts where {{LEARNERS}} and attempted_at >= :from and attempted_at < :to"
+    },
+    {
+      "key": "grammar.accuracy",
+      "section": "results",
+      "unit": "ratio",
+      "basis": "window",
+      "label": {
+        "en": "Grammar accuracy",
+        "uz": "Grammatika aniqligi"
+      },
+      "sql": "select case when count(*) filter (where is_correct is not null) > 0 then (count(*) filter (where is_correct))::float8 / count(*) filter (where is_correct is not null) end as v from grammar_attempts where {{LEARNERS}} and attempted_at >= :from and attempted_at < :to"
+    },
+    {
+      "key": "video.completed",
+      "section": "learning",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Video (TED) lessons completed",
+        "uz": "Yakunlangan video (TED) darslar"
+      },
+      "sql": "select count(*)::int as v from video_lesson_progress where {{LEARNERS}} and completed_at >= :from and completed_at < :to"
+    },
+    {
+      "key": "vocabulary.added",
+      "section": "learning",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Words added to vocabulary",
+        "uz": "Lug'atga qo'shilgan so'zlar"
+      },
+      "sql": "select count(*)::int as v from user_vocabulary where {{LEARNERS}} and created_at >= :from and created_at < :to"
+    }
+  ],
+  "cohort": [
+    {
+      "key": "people.students",
+      "section": "people",
+      "unit": "count",
+      "basis": "as_of_end",
+      "label": {
+        "en": "Approved student accounts",
+        "uz": "Tasdiqlangan talaba hisoblari"
+      },
+      "sql": "select count(*)::int as v from users where role = 'student' and account_status = 'active' and created_at < :to"
+    },
+    {
+      "key": "people.registered",
+      "section": "people",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "New student registrations",
+        "uz": "Yangi talaba ro'yxatdan o'tishlari"
+      },
+      "sql": "select count(*)::int as v from users where role = 'student' and created_at >= :from and created_at < :to"
+    }
+  ],
+  "roster": [
+    {
+      "key": "people.assigned",
+      "section": "people",
+      "unit": "count",
+      "basis": "as_of_end",
+      "label": {
+        "en": "Students assigned to this teacher",
+        "uz": "Ushbu o'qituvchiga biriktirilgan talabalar"
+      },
+      "sql": "select count(*)::int as v from teacher_student_links l join users u on u.id = l.student_user_id where l.teacher_user_id = :teacher and u.role = 'student' and u.account_status = 'active' and l.created_at < :to"
+    }
+  ],
+  "owner": [
+    {
+      "key": "people.staff",
+      "section": "people",
+      "unit": "count",
+      "basis": "as_of_end",
+      "label": {
+        "en": "Approved staff accounts",
+        "uz": "Tasdiqlangan xodim hisoblari"
+      },
+      "sql": "select count(*)::int as v from users where role in ('teacher', 'admin', 'owner') and account_status = 'active' and created_at < :to"
+    },
+    {
+      "key": "people.pending",
+      "section": "people",
+      "unit": "count",
+      "basis": "as_of_end",
+      "label": {
+        "en": "Accounts awaiting approval (current status)",
+        "uz": "Tasdiq kutayotgan hisoblar (joriy holat)"
+      },
+      "sql": "select count(*)::int as v from users where account_status = 'pending' and created_at < :to"
+    },
+    {
+      "key": "operations.problemReports",
+      "section": "operations",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Problem reports received",
+        "uz": "Qabul qilingan muammo xabarlari"
+      },
+      "sql": "select count(*)::int as v from problem_reports where created_at >= :from and created_at < :to"
+    },
+    {
+      "key": "operations.checksExternal",
+      "section": "operations",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Checks by an external AI provider",
+        "uz": "Tashqi AI provayderi tekshiruvlari"
+      },
+      "sql": "select count(*)::int as v from evaluations where provider_type = 'external' and created_at >= :from and created_at < :to"
+    },
+    {
+      "key": "operations.checksInternal",
+      "section": "operations",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Checks by RIWI's own checker",
+        "uz": "RIWI'ning o'z tekshiruvlari"
+      },
+      "sql": "select count(*)::int as v from evaluations where provider_type = 'internal' and created_at >= :from and created_at < :to"
+    },
+    {
+      "key": "operations.checksFallback",
+      "section": "operations",
+      "unit": "count",
+      "basis": "window",
+      "label": {
+        "en": "Checks that used a fallback",
+        "uz": "Zaxira yo'li ishlatilgan tekshiruvlar"
+      },
+      "sql": "select count(*)::int as v from evaluations where fallback_used = true and created_at >= :from and created_at < :to"
+    }
+  ]
+}

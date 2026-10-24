@@ -1,0 +1,392 @@
+{
+  "verbs": {
+    "be": [
+      "was",
+      "been"
+    ],
+    "become": [
+      "became",
+      "become"
+    ],
+    "begin": [
+      "began",
+      "begun"
+    ],
+    "break": [
+      "broke",
+      "broken"
+    ],
+    "bring": [
+      "brought",
+      "brought"
+    ],
+    "build": [
+      "built",
+      "built"
+    ],
+    "buy": [
+      "bought",
+      "bought"
+    ],
+    "catch": [
+      "caught",
+      "caught"
+    ],
+    "choose": [
+      "chose",
+      "chosen"
+    ],
+    "come": [
+      "came",
+      "come"
+    ],
+    "cost": [
+      "cost",
+      "cost"
+    ],
+    "cut": [
+      "cut",
+      "cut"
+    ],
+    "do": [
+      "did",
+      "done"
+    ],
+    "draw": [
+      "drew",
+      "drawn"
+    ],
+    "drink": [
+      "drank",
+      "drunk"
+    ],
+    "drive": [
+      "drove",
+      "driven"
+    ],
+    "eat": [
+      "ate",
+      "eaten"
+    ],
+    "fall": [
+      "fell",
+      "fallen"
+    ],
+    "feel": [
+      "felt",
+      "felt"
+    ],
+    "find": [
+      "found",
+      "found"
+    ],
+    "fly": [
+      "flew",
+      "flown"
+    ],
+    "forget": [
+      "forgot",
+      "forgotten"
+    ],
+    "get": [
+      "got",
+      "got"
+    ],
+    "give": [
+      "gave",
+      "given"
+    ],
+    "go": [
+      "went",
+      "gone"
+    ],
+    "grow": [
+      "grew",
+      "grown"
+    ],
+    "have": [
+      "had",
+      "had"
+    ],
+    "hear": [
+      "heard",
+      "heard"
+    ],
+    "hold": [
+      "held",
+      "held"
+    ],
+    "keep": [
+      "kept",
+      "kept"
+    ],
+    "know": [
+      "knew",
+      "known"
+    ],
+    "lead": [
+      "led",
+      "led"
+    ],
+    "leave": [
+      "left",
+      "left"
+    ],
+    "lend": [
+      "lent",
+      "lent"
+    ],
+    "let": [
+      "let",
+      "let"
+    ],
+    "lose": [
+      "lost",
+      "lost"
+    ],
+    "make": [
+      "made",
+      "made"
+    ],
+    "mean": [
+      "meant",
+      "meant"
+    ],
+    "meet": [
+      "met",
+      "met"
+    ],
+    "pay": [
+      "paid",
+      "paid"
+    ],
+    "put": [
+      "put",
+      "put"
+    ],
+    "read": [
+      "read",
+      "read"
+    ],
+    "ride": [
+      "rode",
+      "ridden"
+    ],
+    "rise": [
+      "rose",
+      "risen"
+    ],
+    "run": [
+      "ran",
+      "run"
+    ],
+    "say": [
+      "said",
+      "said"
+    ],
+    "see": [
+      "saw",
+      "seen"
+    ],
+    "sell": [
+      "sold",
+      "sold"
+    ],
+    "send": [
+      "sent",
+      "sent"
+    ],
+    "set": [
+      "set",
+      "set"
+    ],
+    "shed": [
+      "shed",
+      "shed"
+    ],
+    "show": [
+      "showed",
+      "shown"
+    ],
+    "sit": [
+      "sat",
+      "sat"
+    ],
+    "sleep": [
+      "slept",
+      "slept"
+    ],
+    "speak": [
+      "spoke",
+      "spoken"
+    ],
+    "spend": [
+      "spent",
+      "spent"
+    ],
+    "stand": [
+      "stood",
+      "stood"
+    ],
+    "take": [
+      "took",
+      "taken"
+    ],
+    "teach": [
+      "taught",
+      "taught"
+    ],
+    "tell": [
+      "told",
+      "told"
+    ],
+    "think": [
+      "thought",
+      "thought"
+    ],
+    "throw": [
+      "threw",
+      "thrown"
+    ],
+    "understand": [
+      "understood",
+      "understood"
+    ],
+    "wake": [
+      "woke",
+      "woken"
+    ],
+    "wear": [
+      "wore",
+      "worn"
+    ],
+    "win": [
+      "won",
+      "won"
+    ],
+    "write": [
+      "wrote",
+      "written"
+    ]
+  },
+  "nouns": {
+    "child": "children",
+    "person": "people",
+    "man": "men",
+    "woman": "women",
+    "foot": "feet",
+    "tooth": "teeth",
+    "mouse": "mice",
+    "goose": "geese",
+    "phenomenon": "phenomena",
+    "criterion": "criteria",
+    "analysis": "analyses",
+    "crisis": "crises",
+    "thesis": "theses",
+    "datum": "data"
+  },
+  "adverbs": {
+    "high": [
+      "higher",
+      "highest"
+    ],
+    "low": [
+      "lower",
+      "lowest"
+    ]
+  },
+  "adjectives": {
+    "high": [
+      "higher",
+      "highest"
+    ],
+    "low": [
+      "lower",
+      "lowest"
+    ],
+    "old": [
+      "older",
+      "oldest"
+    ]
+  },
+  "functionWords": [
+    "a",
+    "an",
+    "the",
+    "and",
+    "or",
+    "but",
+    "nor",
+    "so",
+    "yet",
+    "of",
+    "to",
+    "in",
+    "on",
+    "at",
+    "by",
+    "for",
+    "from",
+    "with",
+    "into",
+    "onto",
+    "about",
+    "as",
+    "than",
+    "that",
+    "this",
+    "these",
+    "those",
+    "it",
+    "its",
+    "is",
+    "are",
+    "was",
+    "were",
+    "be",
+    "been",
+    "am",
+    "do",
+    "does",
+    "did",
+    "have",
+    "has",
+    "had",
+    "i",
+    "you",
+    "he",
+    "she",
+    "we",
+    "they",
+    "me",
+    "him",
+    "her",
+    "us",
+    "them",
+    "my",
+    "your",
+    "his",
+    "our",
+    "their",
+    "not",
+    "no",
+    "if",
+    "then",
+    "there",
+    "here",
+    "what",
+    "which",
+    "who",
+    "whom",
+    "whose",
+    "will",
+    "would",
+    "can",
+    "could",
+    "shall",
+    "should",
+    "may",
+    "might",
+    "must"
+  ]
+}
