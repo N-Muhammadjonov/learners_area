@@ -1,12 +1,14 @@
 /** Bilingual keys from current main; Arena's older extracted dictionaries do not yet include them. */
 const COPY={
  en:{
+  deleteAction:'Delete permanently',
   confirmPermanentDelete:"Permanently delete {label} and all its authored versions? Learners' completed answers, scores and results remain, but the source cannot be restored.",
   confirmDeleteLabel:'Type {label} to confirm permanent deletion:',
   deleteFailed:'Could not permanently delete the text. Learner history was not intentionally changed.',
   deleteBlocked:'A learner is still using this text. Finish the active session before permanent deletion.'
  },
  uz:{
+  deleteAction:"Butunlay o'chirish",
   confirmPermanentDelete:"{label} va uning barcha matn versiyalari butunlay o'chirilsinmi? O'quvchilarning tugallangan javoblari, ballari va natijalari saqlanadi, lekin matnni tiklab bo'lmaydi.",
   confirmDeleteLabel:"Butunlay o'chirishni tasdiqlash uchun {label} ni kiriting:",
   deleteFailed:"Matnni butunlay o'chirib bo'lmadi. O'quvchi natijalarini o'chirishga urinilmadi.",

@@ -10,7 +10,7 @@ export function moduleCards(t,summary,selected,baseHref){
   const a=el('a',{href:`${baseHref}?module=${r.module}#result-history`,class:'card flex flex-col gap-2 p-4','data-result-module':r.module},
    el('h3',{class:'font-semibold'},t.modules[r.module]),
    el('p',{},`${t.completed}: ${r.completed} / ${r.started}`),
-   el('p',{},`${t.learners}: ${r.learners} · ${t.rate}: ${r.started?Math.round(r.completed/r.started*100):0}%`),
+   el('p',{},`${t.learners}: ${r.learners} · ${t.rate}: ${r.started?Math.round(r.completed/r.started*100)+'%':'—'}`),
    el('p',{},`${t.accuracy}: ${r.accuracy==null?'—':num(r.accuracy)+'%'}`),
    el('p',{},`${t.band}: ${num(r.band)}`));
   if(selected===r.module)a.setAttribute('aria-current','page');return a;

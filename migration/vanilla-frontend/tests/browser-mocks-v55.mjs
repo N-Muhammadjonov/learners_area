@@ -320,7 +320,8 @@ await check('back navigation and repeat visits render one Mock Tests page each t
     await until(async () => (await count(f, '[data-route-usable="mocks"]')) === 0, 'back did not leave mocks', 8000);
     await f.page.goForward();
     await until(async () => (await count(f, '[data-route-usable="mocks"]')) === 1, 'forward did not render mocks');
-    assert.equal(await count(f, '[data-mock-attempt]'), 6);
+    // Forward re-renders the page shell before its region data resolves: wait for the rows (bounded), do not assume.
+    await until(async () => (await count(f, '[data-mock-attempt]')) === 6, 'forward did not restore attempt rows', 8000);
   } finally { await f.close(); }
 });
 
