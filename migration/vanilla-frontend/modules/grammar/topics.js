@@ -28,7 +28,8 @@ export function mount(context) {
   }
 
   function row({topic, totalExercises, mastery}) {
-    return h('a', {href: `/app/grammar/${topic.id}`, class: 'block', 'data-topic-link': topic.id},
+    // Same DOM as the original <Link>: a bare anchor with no class (display:block here shifted nothing but was not in main).
+    return h('a', {href: `/app/grammar/${topic.id}`, 'data-topic-link': topic.id},
       h(Card, {className: 'hover:border-signal-400', 'data-topic-row': topic.id},
         h('div', {class: 'mb-2 flex items-center justify-between'},
           h('p', {class: 'text-sm font-medium text-ink-900'}, topic.title),
@@ -37,8 +38,11 @@ export function mount(context) {
               ? h('span', {class: 'badge bg-band-good/10 text-band-good', 'data-topic-mastered': topic.id}, t.masteryMastered)
               : null,
             mastery
+              // Separate text nodes, in the order React emits them for the original JSX; one merged string
+              // shapes differently at subpixel level and fails the pixel-parity gate.
               ? h('span', {'data-topic-score': topic.id},
-                `${t.masteryScore}: ${mastery.scorePercent}% · ${mastery.sessions}/${MASTERY_SESSIONS_DISPLAY} ${t.masterySessions.toLowerCase()}`)
+                t.masteryScore, ': ', String(mastery.scorePercent), '% · ',
+                String(mastery.sessions), '/', String(MASTERY_SESSIONS_DISPLAY), ' ', t.masterySessions.toLowerCase())
               : h('span', {'data-topic-mastery-unavailable': topic.id}, '—'))),
         mastery ? h(ProgressBar, {value: mastery.scorePercent}) : null,
         h('p', {class: 'mt-1 text-xs text-ink-300'}, `${t.masteryActivities}: ${totalExercises} ${t.exercises}`)));

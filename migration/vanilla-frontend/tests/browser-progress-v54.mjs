@@ -313,7 +313,11 @@ await check('course: lesson, task and mock figures, roadmap link and unavailable
     await open(f);
     assert.equal(await attr(f, '[data-lessons-completed]', 'data-lessons-completed'), '5');
     assert.equal(await attr(f, '[data-assignments-open]', 'data-assignments-open'), '1');
-    assert.equal(await f.page.locator('a[href="/app/courses/ielts"]').count(), 1);
+    // Original source (app/(shell)/progress/page.tsx): the course card button links to /app, labelled courseRoadmap.open.
+    const roadmap = f.page.locator('[data-progress-course] a[href="/app"]');
+    assert.equal(await roadmap.count(), 1);
+    assert.equal((await roadmap.textContent()).trim(), `${en.courseRoadmap.open} →`);
+    assert.equal(await f.page.locator('[data-progress-course] a[href="/app/courses/ielts"]').count(), 0);
   } finally { await f.close(); }
   const g = await fixture({regions: {progressSummary: {...summaryFull, lessons: {total: null, open: null, inProgress: null, completed: null}, assignments: null, mocks: null}}});
   try {

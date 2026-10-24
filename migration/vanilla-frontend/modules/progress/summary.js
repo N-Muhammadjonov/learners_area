@@ -42,7 +42,7 @@ export function courseCard(s, dict) {
       dlRow(t.assignmentsOpen, h('span', {'data-assignments-open': a?.open ?? undefined},
         a ? `${a.open} / ${a.total}` : '—')),
       dlRow(t.mocksTaken, m ? `${m.finished}${m.bestBand === null ? '' : ` · ${t.bestBand} ${m.bestBand}`}` : '—')),
-    h('a', {class: 'btn-secondary mt-3 w-fit', href: '/app/courses/ielts'}, `${dict.courseRoadmap.open} →`));
+    h('a', {class: 'btn-secondary mt-3 w-fit', href: '/app'}, `${dict.courseRoadmap.open} →`));
 }
 
 /** Streak (own region) plus due and total vocabulary (summary region). Loading shows a status
