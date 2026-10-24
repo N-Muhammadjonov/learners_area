@@ -1,4 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "regions": ["sin1"]
+  "regions": ["sin1"],
+  "framework": "fastapi",
+  "buildCommand": "npm ci --ignore-scripts && node scripts/build-native-assets.mjs",
+  "functions": {
+    "server.py": {
+      "includeFiles": "{services/backend/app/**,services/backend/assets/**,frontend/vanilla/build/**,src/assets/fonts/**}",
+      "excludeFiles": "{node_modules/**,.next/**,tests/**,docs/**,frontend/vanilla/tests/**,frontend/vanilla/docs/**,frontend/vanilla/scripts/**,frontend/vanilla/node_modules/**,services/backend/tests/**}"
+    }
+  }
 }

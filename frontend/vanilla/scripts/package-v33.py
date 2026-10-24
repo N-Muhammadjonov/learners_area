@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+"""Deterministic source package only; no application/Python backend."""
+import hashlib
+import pathlib
+import sys
+import zipfile
+BASE = pathlib.Path(__file__).resolve().parents[1]
+EXCLUDED = {'node_modules', 'build', '.git', 'deliverables', '__pycache__'}
+GENERATED = {'docs/FILE_MANIFEST.md', 'SHA256SUMS'}
+ARCHIVE = BASE / 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V33.zip'
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+def files():
+    result = []
+    for f in BASE.rglob('*'):
+        r = f.relative_to(BASE)
+        if any(part in EXCLUDED for part in r.parts) or not f.is_file():
+            continue
+        if f.is_symlink() or any(part.startswith('.env') for part in r.parts) or f.suffix in {'.key', '.pem'}:
+            raise SystemExit(f'Unsafe archive member: {r}')
+        if r.as_posix() not in GENERATED:
+            result.append(f)
+    return sorted(result, key=lambda f: f.relative_to(BASE).as_posix())
+def verify():
+    expected = {}
+    for line in (BASE / 'SHA256SUMS').read_text().splitlines():
+        sha, name = line.split('  ', 1)
+        expected[name] = sha
+        assert digest((BASE / name).read_bytes()) == sha, f'Changed file: {name}'
+    assert set(expected) == {f.relative_to(BASE).as_posix() for f in files()}, 'File set changed'
+    with zipfile.ZipFile(ARCHIVE) as z:
+        assert set(z.namelist()) == set(expected) | GENERATED, 'Archive member mismatch'
+        for name, sha in expected.items():
+            assert digest(z.read(name)) == sha, f'Archive checksum mismatch: {name}'
+        for name in GENERATED:
+            assert z.read(name) == (BASE / name).read_bytes(), f'Generated metadata mismatch: {name}'
+        assert z.testzip() is None
+    sha = digest(ARCHIVE.read_bytes())
+    assert (ARCHIVE.with_suffix('.zip.sha256')).read_text() == sha + '  ' + ARCHIVE.name + '\n'
+    print(f'VERIFIED {len(expected)} source files + 2 manifest files; ZIP SHA256 {sha}')
+if '--v18' in sys.argv:
+    if '--verify' not in sys.argv:
+        raise SystemExit('Historical V18 is immutable; verification only')
+    old=BASE/'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V18.zip'
+    assert digest(old.read_bytes())=='0d39557329c86971a90608dc8bf68af15d21d84189a61356ec8ba9b6fc913e7f'
+    with zipfile.ZipFile(old) as z:
+        assert z.testzip() is None
+        for line in z.read('SHA256SUMS').decode().splitlines():
+            sha,name=line.split('  ',1)
+            assert digest(z.read(name))==sha
+    assert old.with_suffix('.zip.sha256').read_text()==digest(old.read_bytes())+'  '+old.name+'\n'
+    print('Immutable V18 archive and all members verified')
+    sys.exit(0)
+if '--v16' in sys.argv:
+    if '--verify' not in sys.argv:
+        raise SystemExit('Historical V16 is immutable; verification only')
+    old=BASE/'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V16.zip'
+    assert digest(old.read_bytes())=='5bfaa2b173340b83e5f674858c80872ba4e3d2d827639c994209ccf12b5c2d0b'
+    with zipfile.ZipFile(old) as z:
+        for line in z.read('SHA256SUMS').decode().splitlines():
+            sha,name=line.split('  ',1)
+            assert digest(z.read(name))==sha
+        assert z.testzip() is None
+    assert old.with_suffix('.zip.sha256').read_text()==digest(old.read_bytes())+'  '+old.name+'\n'
+    print('Immutable V16 archive and all members verified')
+    sys.exit(0)
+if '--v15' in sys.argv or '--v14' in sys.argv or '--v13' in sys.argv or '--v12' in sys.argv or '--v11' in sys.argv or '--v10' in sys.argv or '--v9' in sys.argv or '--legacy' in sys.argv or '--v2' in sys.argv or '--v3' in sys.argv or '--v4' in sys.argv or '--v5' in sys.argv or '--v6' in sys.argv or '--v7' in sys.argv or '--v8' in sys.argv:
+    if '--verify' not in sys.argv:
+        raise SystemExit('Historical archives are immutable; use --legacy --verify or --v2 --verify only')
+    old = BASE / ('deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V15.zip' if '--v15' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V14.zip' if '--v14' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V13.zip' if '--v13' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V12.zip' if '--v12' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V11.zip' if '--v11' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V10.zip' if '--v10' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V9.zip' if '--v9' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V8.zip' if '--v8' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V7.zip' if '--v7' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V6.zip' if '--v6' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V5.zip' if '--v5' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V4.zip' if '--v4' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V3.zip' if '--v3' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip' if '--v2' in sys.argv else 'deliverables/LEARNERS_AREA_VANILLA_FRONTEND_PARTIAL.zip')
+    with zipfile.ZipFile(old) as z:
+        for line in z.read('SHA256SUMS').decode().splitlines():
+            sha, name = line.split('  ', 1)
+            assert digest(z.read(name)) == sha, name
+        assert z.testzip() is None
+    assert old.with_suffix('.zip.sha256').read_text() == digest(old.read_bytes()) + '  ' + old.name + '\n'
+    print(old.name + ' internally verified and sidecar matched: ' + digest(old.read_bytes()))
+    sys.exit(0)
+if '--verify' in sys.argv:
+    verify()
+else:
+    source = files()
+    rows = [(f.relative_to(BASE).as_posix(), len(f.read_bytes()), digest(f.read_bytes())) for f in source]
+    (BASE / 'docs/FILE_MANIFEST.md').write_text(
+        '# File manifest — CHECKPOINT V33 (PARTIAL)\n\n'
+        'Generated by scripts/package-v33.py. Hashes cover every packaged source/evidence/asset file.\n'
+        'This manifest and SHA256SUMS exclude themselves to avoid recursive hashes; archive verification\n'
+        'checks their exact bytes separately. deliverables/, node_modules/, build/, .git and environments\n'
+        'are excluded. The ZIP has fixed member ordering, timestamps and permissions.\n\n'
+        '| Path | Bytes | SHA256 |\n|---|---:|---|\n' +
+        '\n'.join(f'| {name} | {size} | {sha} |' for name, size, sha in rows) + '\n')
+    (BASE / 'SHA256SUMS').write_text(''.join(f'{sha}  {name}\n' for name, _, sha in rows))
+    ARCHIVE.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(ARCHIVE, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+        for f in sorted(source + [BASE / n for n in GENERATED], key=lambda p: p.relative_to(BASE).as_posix()):
+            info = zipfile.ZipInfo(f.relative_to(BASE).as_posix(), date_time=(2026, 10, 21, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.create_system = 3
+            info.external_attr = 0o100644 << 16
+            z.writestr(info, f.read_bytes(), compresslevel=9)
+    ARCHIVE.with_suffix('.zip.sha256').write_text(digest(ARCHIVE.read_bytes()) + '  ' + ARCHIVE.name + '\n')
+    verify()

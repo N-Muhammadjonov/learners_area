@@ -1,0 +1,1047 @@
+TAP version 13
+# Subtest: every FINAL30 route loads a module exporting mount() and targets a pattern owned by the 35-route scope
+ok 1 - every FINAL30 route loads a module exporting mount() and targets a pattern owned by the 35-route scope
+  ---
+  duration_ms: 37.866723
+  type: 'test'
+  ...
+# Subtest: patterns are unique, match their own example path, and exist in the V4 route table (so they replace, never add)
+ok 2 - patterns are unique, match their own example path, and exist in the V4 route table (so they replace, never add)
+  ---
+  duration_ms: 0.861477
+  type: 'test'
+  ...
+# Subtest: no staff module touches browser storage, innerHTML, eval or dangerous URL schemes
+ok 3 - no staff module touches browser storage, innerHTML, eval or dangerous URL schemes
+  ---
+  duration_ms: 4.221816
+  type: 'test'
+  ...
+# Subtest: admissions: renders queue, escapes applicant text, shows recent with em dash for missing date
+ok 4 - admissions: renders queue, escapes applicant text, shows recent with em dash for missing date
+  ---
+  duration_ms: 65.280165
+  type: 'test'
+  ...
+# Subtest: admissions: approve needs confirmation, trims note, posts exact body then refetches quietly
+ok 5 - admissions: approve needs confirmation, trims note, posts exact body then refetches quietly
+  ---
+  duration_ms: 36.71069
+  type: 'test'
+  ...
+# Subtest: admissions: rejection with empty note sends null; server 409 shows localized conflict and keeps card
+ok 6 - admissions: rejection with empty note sends null; server 409 shows localized conflict and keeps card
+  ---
+  duration_ms: 30.393873
+  type: 'test'
+  ...
+# Subtest: admissions: students/teachers are redirected to /app; 401 goes to /login; 403 goes to /app; malformed DTO fails closed with retry
+ok 7 - admissions: students/teachers are redirected to /app; 401 goes to /login; 403 goes to /app; malformed DTO fails closed with retry
+  ---
+  duration_ms: 47.453492
+  type: 'test'
+  ...
+# Subtest: admissions: disconnected backend (503) never fabricates a queue
+ok 8 - admissions: disconnected backend (503) never fabricates a queue
+  ---
+  duration_ms: 11.524305
+  type: 'test'
+  ...
+# Subtest: people: sanitizes URL filters, locks self/owner rows, owner/admin options respect grantable roles
+ok 9 - people: sanitizes URL filters, locks self/owner rows, owner/admin options respect grantable roles
+  ---
+  duration_ms: 37.413853
+  type: 'test'
+  ...
+# Subtest: people: owner may grant admin and owner options; select reverts until server acceptance
+ok 10 - people: owner may grant admin and owner options; select reverts until server acceptance
+  ---
+  duration_ms: 38.862567
+  type: 'test'
+  ...
+# Subtest: people: cancelled role change sends nothing; outranked 403 keeps old role and explains
+ok 11 - people: cancelled role change sends nothing; outranked 403 keeps old role and explains
+  ---
+  duration_ms: 103.121008
+  type: 'test'
+  ...
+# Subtest: people: suspend asks for optional reason, posts trimmed reason, reactivate requires confirmation
+ok 12 - people: suspend asks for optional reason, posts trimmed reason, reactivate requires confirmation
+  ---
+  duration_ms: 75.761266
+  type: 'test'
+  ...
+# Subtest: people: search submits URL state, clear link, empty state, pagination hrefs keep filters; locale UZ labels
+ok 13 - people: search submits URL state, clear link, empty state, pagination hrefs keep filters; locale UZ labels
+  ---
+  duration_ms: 15.466423
+  type: 'test'
+  ...
+# Subtest: people: names containing markup render as text; 100-char search cap enforced client-side
+ok 14 - people: names containing markup render as text; 100-char search cap enforced client-side
+  ---
+  duration_ms: 14.332646
+  type: 'test'
+  ...
+# Subtest: student results: summary math matches source, unavailable state, not found, role gate
+ok 15 - student results: summary math matches source, unavailable state, not found, role gate
+  ---
+  duration_ms: 0.345928
+  type: 'test'
+  ...
+# Subtest: student results: renders cards, svg trend, Telegram fallback, raw score fallback, practice counts
+ok 16 - student results: renders cards, svg trend, Telegram fallback, raw score fallback, practice counts
+  ---
+  duration_ms: 24.905576
+  type: 'test'
+  ...
+# Subtest: student results: unavailable flag shows alert only; non-UUID id is not-found and issues no request; 404 shows not found
+ok 17 - student results: unavailable flag shows alert only; non-UUID id is not-found and issues no request; 404 shows not found
+  ---
+  duration_ms: 22.806534
+  type: 'test'
+  ...
+# Subtest: student results: out-of-range band rejected by adapter (no silent re-grading)
+ok 18 - student results: out-of-range band rejected by adapter (no silent re-grading)
+  ---
+  duration_ms: 7.094141
+  type: 'test'
+  ...
+# Subtest: roster: keeps native source form posts (hidden fields), status banner, chooser navigation
+ok 19 - roster: keeps native source form posts (hidden fields), status banner, chooser navigation
+  ---
+  duration_ms: 10.735564
+  type: 'test'
+  ...
+# Subtest: roster: no teachers, capped candidates notice, full roster hides assign form, ignores forged status words
+ok 20 - roster: no teachers, capped candidates notice, full roster hides assign form, ignores forged status words
+  ---
+  duration_ms: 25.269613
+  type: 'test'
+  ...
+# Subtest: roster: teacher role cannot open the admin roster screen
+ok 21 - roster: teacher role cannot open the admin roster screen
+  ---
+  duration_ms: 6.684647
+  type: 'test'
+  ...
+# Subtest: transcript parser: empty / timed (mm:ss and h:mm:ss) / plain paragraphs / mixed refused with line numbers
+ok 22 - transcript parser: empty / timed (mm:ss and h:mm:ss) / plain paragraphs / mixed refused with line numbers
+  ---
+  duration_ms: 1.403188
+  type: 'test'
+  ...
+# Subtest: questions + vocabulary parsers follow the source rules; vocabulary examples must occur in transcript or notes
+ok 23 - questions + vocabulary parsers follow the source rules; vocabulary examples must occur in transcript or notes
+  ---
+  duration_ms: 0.498944
+  type: 'test'
+  ...
+# Subtest: list: standalone badge vs lesson title, transcript source/notes flags; publication control only for admin/owner (teacher sees none)
+ok 24 - list: standalone badge vs lesson title, transcript source/notes flags; publication control only for admin/owner (teacher sees none)
+  ---
+  duration_ms: 101.072777
+  type: 'test'
+  ...
+# Subtest: form: transcript source select appears only with a transcript; exact POST body for timed transcript + questions + vocabulary; success clears fields and refreshes list
+ok 25 - form: transcript source select appears only with a transcript; exact POST body for timed transcript + questions + vocabulary; success clears fields and refreshes list
+  ---
+  duration_ms: 46.077114
+  type: 'test'
+  ...
+# Subtest: form: mixed transcript and vocabulary without context are refused locally (no request); transcript text untouched
+ok 26 - form: mixed transcript and vocabulary without context are refused locally (no request); transcript text untouched
+  ---
+  duration_ms: 43.678961
+  type: 'test'
+  ...
+# Subtest: form: server refusal reason (unsupported host) and error codes are localized; vocabulary_context_required override; network failure generic; double submit once
+ok 27 - form: server refusal reason (unsupported host) and error codes are localized; vocabulary_context_required override; network failure generic; double submit once
+  ---
+  duration_ms: 94.067845
+  type: 'test'
+  ...
+# Subtest: word counter: contractions/hyphens are one word, grouped digits one number, curly apostrophe equals straight, punctuation splits, NFKC
+ok 28 - word counter: contractions/hyphens are one word, grouped digits one number, curly apostrophe equals straight, punctuation splits, NFKC
+  ---
+  duration_ms: 1.988387
+  type: 'test'
+  ...
+# Subtest: measurement rules: valid passes; sums, duplicates, bad kind, unknown fields, empty alternatives, non-integer points and float totals are refused; draft decoder keeps raw on unknown shape
+ok 29 - measurement rules: valid passes; sums, duplicates, bad kind, unknown fields, empty alternatives, non-integer points and float totals are refused; draft decoder keeps raw on unknown shape
+  ---
+  duration_ms: 1.352069
+  type: 'test'
+  ...
+# Subtest: bank: query sanitised; inventory counts + target text; filter/sort tabs keep level; rows with status, uses, preview (text only); empty and unknown-level fallbacks
+ok 30 - bank: query sanitised; inventory counts + target text; filter/sort tabs keep level; rows with status, uses, preview (text only); empty and unknown-level fallbacks
+  ---
+  duration_ms: 95.652529
+  type: 'test'
+  ...
+# Subtest: pagination: previous disabled on page 1, next link keeps filter/sort; status text
+ok 31 - pagination: previous disabled on page 1, next link keeps filter/sort; status text
+  ---
+  duration_ms: 17.412966
+  type: 'test'
+  ...
+# Subtest: row menu: ArrowDown opens, items roving with Arrow/Home/End, Escape closes and returns focus, Tab closes, outside press closes
+ok 32 - row menu: ArrowDown opens, items roving with Arrow/Home/End, Escape closes and returns focus, Tab closes, outside press closes
+  ---
+  duration_ms: 38.202541
+  type: 'test'
+  ...
+# Subtest: archive: native confirm declined => no request; accepted => PATCH {active:false} then list refresh; failure keeps screen + message; restore needs no confirm; busy locks other rows
+ok 33 - archive: native confirm declined => no request; accepted => PATCH {active:false} then list refresh; failure keeps screen + message; restore needs no confirm; busy locks other rows
+  ---
+  duration_ms: 85.939156
+  type: 'test'
+  ...
+# Subtest: editor (add): live count and range flag; JSON invalid is reported locally with no request; Save disabled until the server says valid
+ok 34 - editor (add): live count and range flag; JSON invalid is reported locally with no request; Save disabled until the server says valid
+  ---
+  duration_ms: 97.383182
+  type: 'test'
+  ...
+# Subtest: editor: stale validation answers are ignored (newer keystroke wins); server invalid shows path:code issues; 400 => not ready; 503 => unavailable message, text kept
+ok 35 - editor: stale validation answers are ignored (newer keystroke wins); server invalid shows path:code issues; 400 => not ready; 503 => unavailable message, text kept
+  ---
+  duration_ms: 166.022926
+  type: 'test'
+  ...
+# Subtest: editor save (add): exact body, Save locked against double click, server word-count error shows range text, timeout => unknown-outcome message with NO retry, success closes editor + refreshes
+ok 36 - editor save (add): exact body, Save locked against double click, server word-count error shows range text, timeout => unknown-outcome message with NO retry, success closes editor + refreshes
+  ---
+  duration_ms: 281.792014
+  type: 'test'
+  ...
+# Subtest: editor save failure keeps the text and shows saveFailed; 409 shows the conflict banner with reload
+ok 37 - editor save failure keeps the text and shows saveFailed; 409 shows the conflict banner with reload
+  ---
+  duration_ms: 121.975023
+  type: 'test'
+  ...
+# Subtest: editor (change): loads the CURRENT version (body + structure), failure shows Retry and NO form; save posts a new version with expectedCurrentVersionId
+ok 38 - editor (change): loads the CURRENT version (body + structure), failure shows Retry and NO form; save posts a new version with expectedCurrentVersionId
+  ---
+  duration_ms: 109.200971
+  type: 'test'
+  ...
+# Subtest: measurement builder: form edits write canonical JSON; group points sum into the claim; add/remove claim and group; raw unknown JSON shows the warning and is preserved
+ok 39 - measurement builder: form edits write canonical JSON; group points sum into the claim; add/remove claim and group; raw unknown JSON shows the warning and is preserved
+  ---
+  duration_ms: 68.631499
+  type: 'test'
+  ...
+# Subtest: staged review: hold banner and counts, level nav, items with scores, missing groups, escaped body, UZ strings; read-only (no writes); unknown level falls back to A2
+ok 40 - staged review: hold banner and counts, level nav, items with scores, missing groups, escaped body, UZ strings; read-only (no writes); unknown level falls back to A2
+  ---
+  duration_ms: 27.127769
+  type: 'test'
+  ...
+# Subtest: bank: loads rows + capabilities, identity line, state counts, filters build the exact query (dates -> ISO, version digits only, invalid date skipped)
+ok 41 - bank: loads rows + capabilities, identity line, state counts, filters build the exact query (dates -> ISO, version digits only, invalid date skipped)
+  ---
+  duration_ms: 178.980445
+  type: 'test'
+  ...
+# Subtest: bank: empty state, failure message, pagination (next disabled at end, offset steps by 25), clear resets filters; students/teachers redirected
+ok 42 - bank: empty state, failure message, pagination (next disabled at end, offset steps by 25), clear resets filters; students/teachers redirected
+  ---
+  duration_ms: 225.723412
+  type: 'test'
+  ...
+# Subtest: item panel: versions, publish/schedule/archive visible per state; publish posts {to} then refreshes; scheduled sends ISO publishAt; 403 shows forbidden; preview renders TEXT only with answer-key and problems
+ok 43 - item panel: versions, publish/schedule/archive visible per state; publish posts {to} then refreshes; scheduled sends ISO publishAt; 403 shows forbidden; preview renders TEXT only with answer-key and problems
+  ---
+  duration_ms: 219.631999
+  type: 'test'
+  ...
+# Subtest: item panel: server refusal 403 => forbidden text and nothing changes; teacher-less roles cannot publish (buttons disabled for non-admin by mirror)
+ok 44 - item panel: server refusal 403 => forbidden text and nothing changes; teacher-less roles cannot publish (buttons disabled for non-admin by mirror)
+  ---
+  duration_ms: 91.092888
+  type: 'test'
+  ...
+# Subtest: revise: loads CANONICAL snapshot into the editor, invalid JSON blocked, validate shows valid/invalid, save posts versionId + note; executable (canonical null) is withheld
+ok 45 - revise: loads CANONICAL snapshot into the editor, invalid JSON blocked, validate shows valid/invalid, save posts versionId + note; executable (canonical null) is withheld
+  ---
+  duration_ms: 201.902797
+  type: 'test'
+  ...
+# Subtest: new item: module/type cascade, template fills sourceRef+title, import link only for importable types with a surface, non-authorable blocks save, validate/save bodies exact, save closes and refreshes
+ok 46 - new item: module/type cascade, template fills sourceRef+title, import link only for importable types with a surface, non-authorable blocks save, validate/save bodies exact, save closes and refreshes
+  ---
+  duration_ms: 175.554608
+  type: 'test'
+  ...
+# Subtest: new item: invalid JSON => invalid message and no request; failed save keeps the form and says nothing was saved
+ok 47 - new item: invalid JSON => invalid message and no request; failed save keeps the form and says nothing was saved
+  ---
+  duration_ms: 81.706166
+  type: 'test'
+  ...
+# Subtest: schema parity: defaults, aliases (TFNG), stripping, group rules, duplicates, limits, first-issue path
+ok 48 - schema parity: defaults, aliases (TFNG), stripping, group rules, duplicates, limits, first-issue path
+  ---
+  duration_ms: 2.248238
+  type: 'test'
+  ...
+# Subtest: archive path rules and jsonLiteral never evaluate code
+ok 49 - archive path rules and jsonLiteral never evaluate code
+  ---
+  duration_ms: 1.380585
+  type: 'test'
+  ...
+# Subtest: source reader: JSON, fenced JSON, plain text -> supplemental preview, HTML JSON block, controls+KEY with content-hash sourceRef, ambiguous blocks refused, unsupported kinds are supplemental, scripts never run
+ok 50 - source reader: JSON, fenced JSON, plain text -> supplemental preview, HTML JSON block, controls+KEY with content-hash sourceRef, ambiguous blocks refused, unsupported kinds are supplemental, scripts never run
+  ---
+  duration_ms: 76.801815
+  type: 'test'
+  ...
+# Subtest: ZIP: bundle found in a zip (deflate and stored), macOS junk ignored, two bundles refused, docx text layer, path traversal/duplicates/encrypted/zip-bomb/too-many refused
+ok 51 - ZIP: bundle found in a zip (deflate and stored), macOS junk ignored, two bundles refused, docx text layer, path traversal/duplicates/encrypted/zip-bomb/too-many refused
+  ---
+  duration_ms: 41.789948
+  type: 'test'
+  ...
+# Subtest: screen: choose JSON -> tryout + Import enabled; invalid file -> invalid_bundle message and Import disabled; non-bundle -> supplemental notice with materials link; teacher redirected
+ok 52 - screen: choose JSON -> tryout + Import enabled; invalid file -> invalid_bundle message and Import disabled; non-bundle -> supplemental notice with materials link; teacher redirected
+  ---
+  duration_ms: 60.595457
+  type: 'test'
+  ...
+# Subtest: tryout: local-only check/reset, option letter values, alternates and NFKC folding; nothing is sent while trying
+ok 53 - tryout: local-only check/reset, option letter values, alternates and NFKC folding; nothing is sent while trying
+  ---
+  duration_ms: 33.082856
+  type: 'test'
+  ...
+# Subtest: import: POST exact body (publish:true because dryRun:false, as in the source), result shown, button locks; server codes mapped (forbidden/schema_not_ready/unknown); double click sends once
+ok 54 - import: POST exact body (publish:true because dryRun:false, as in the source), result shown, button locks; server codes mapped (forbidden/schema_not_ready/unknown); double click sends once
+  ---
+  duration_ms: 105.333401
+  type: 'test'
+  ...
+# Subtest: stale/abort: choosing a second file cancels the first read; source timeout shows the generic failure; leaving the page aborts
+ok 55 - stale/abort: choosing a second file cancels the first read; source timeout shows the generic failure; leaving the page aborts
+  ---
+  duration_ms: 103.031506
+  type: 'test'
+  ...
+# Subtest: embed resolver: only YouTube is framed (nocookie host, validated id); direct media native; everything else is an external link; DTO rejects javascript:/data:/http: read URLs
+ok 56 - embed resolver: only YouTube is framed (nocookie host, validated id); direct media native; everything else is an external link; DTO rejects javascript:/data:/http: read URLs
+  ---
+  duration_ms: 1.923413
+  type: 'test'
+  ...
+# Subtest: payload builders: create requires uploadId only; edit sends retained objectKey, omits unfinished media and invalid primary; empty text/link dropped
+ok 57 - payload builders: create requires uploadId only; edit sends retained objectKey, omits unfinished media and invalid primary; empty text/link dropped
+  ---
+  duration_ms: 0.761437
+  type: 'test'
+  ...
+# Subtest: list: cards with category/author, inactive dimmed, expand shows blocks (youtube iframe, image, safe file link), no private keys in the DOM text; admin sees composer slot; student redirected
+ok 58 - list: cards with category/author, inactive dimmed, expand shows blocks (youtube iframe, image, safe file link), no private keys in the DOM text; admin sees composer slot; student redirected
+  ---
+  duration_ms: 101.561295
+  type: 'test'
+  ...
+# Subtest: card actions: rename PATCH {title}; deactivate PATCH {isActive}; delete only after confirm (declined => no request) with count; failure shown localized and card stays; non-managers see no actions
+ok 59 - card actions: rename PATCH {title}; deactivate PATCH {isActive}; delete only after confirm (declined => no request) with count; failure shown localized and card stays; non-managers see no actions
+  ---
+  duration_ms: 67.12785
+  type: 'test'
+  ...
+# Subtest: draft store: media upload states + progress, completion keeps uploadId/objectKey, failure keeps the block with Retry, cancel, replace, remove cancels handle, reorder (buttons + drag target), preflight failure reported, dispose cancels everything
+ok 60 - draft store: media upload states + progress, completion keeps uploadId/objectKey, failure keeps the block with Retry, cancel, replace, remove cancels handle, reorder (buttons + drag target), preflight failure reported, dispose cancels everything
+  ---
+  duration_ms: 20.170152
+  type: 'test'
+  ...
+# Subtest: create form: needs title AND a finished primary (or http link); link path posts exact body incl. trimmed title, text+link blocks; success closes and refreshes; server error localized and form kept
+ok 61 - create form: needs title AND a finished primary (or http link); link path posts exact body incl. trimmed title, text+link blocks; success closes and refreshes; server error localized and form kept
+  ---
+  duration_ms: 71.652796
+  type: 'test'
+  ...
+# Subtest: create form with an uploaded primary: Submit stays disabled while uploading, enabled only on complete; payload carries uploadId only; cancel/remove returns to empty; bad file reports the localized reason
+ok 62 - create form with an uploaded primary: Submit stays disabled while uploading, enabled only on complete; payload carries uploadId only; cancel/remove returns to empty; bad file reports the localized reason
+  ---
+  duration_ms: 15.546357
+  type: 'test'
+  ...
+# Subtest: edit form: seeded from stored data (title, retained primary "kept as-is", blocks in order with kept labels); saving WITHOUT touching anything re-sends retained objectKeys and never re-uploads; reorder via ▲▼ and drag change only the order
+ok 63 - edit form: seeded from stored data (title, retained primary "kept as-is", blocks in order with kept labels); saving WITHOUT touching anything re-sends retained objectKeys and never re-uploads; reorder via ▲▼ and drag change only the order
+  ---
+  duration_ms: 31.524622
+  type: 'test'
+  ...
+# Subtest: edit form: reorder buttons and drag-drop, remove a block, replace link primary; save disabled while a block uploads; failed upload block is omitted from the payload and can be retried; server error shown, form kept
+ok 64 - edit form: reorder buttons and drag-drop, remove a block, replace link primary; save disabled while a block uploads; failed upload block is omitted from the payload and can be retried; server error shown, form kept
+  ---
+  duration_ms: 131.804296
+  type: 'test'
+  ...
+# Subtest: edit form: a link-primary material opens on the Link tab (source bug: it opened on an empty Upload tab); cancel leaves data untouched
+ok 65 - edit form: a link-primary material opens on the Link tab (source bug: it opened on an empty Upload tab); cancel leaves data untouched
+  ---
+  duration_ms: 30.161383
+  type: 'test'
+  ...
+# Subtest: study HTML sanitizer: scripts/iframes/handlers/URLs removed, unknown tags unwrapped (text kept), allowed formatting + safe styles kept, unsafe styles dropped, font/colspan attrs kept
+ok 66 - study HTML sanitizer: scripts/iframes/handlers/URLs removed, unknown tags unwrapped (text kept), allowed formatting + safe styles kept, unsafe styles dropped, font/colspan attrs kept
+  ---
+  duration_ms: 28.93209
+  type: 'test'
+  ...
+# Subtest: topic composer: lists existing topics (grouped by part/topic/bank) with search; load fills the form, locks the part, shows only non-archived questions; study support editors open on demand with sanitized stored HTML
+ok 67 - topic composer: lists existing topics (grouped by part/topic/bank) with search; load fills the form, locks the part, shows only non-archived questions; study support editors open on demand with sanitized stored HTML
+  ---
+  duration_ms: 35.463394
+  type: 'test'
+  ...
+# Subtest: topic publish: new part-1 topic with two questions posts {original:null,questions[…availableIn shared channels…]}; part-2 uses topic as the question when blank and offers the cue card but no "next question"; 409 => conflict text; 400 => invalid; saved prompts replace the form state
+ok 68 - topic publish: new part-1 topic with two questions posts {original:null,questions[…availableIn shared channels…]}; part-2 uses topic as the question when blank and offers the cue card but no "next question"; 409 => conflict text; 400 => invalid; saved prompts replace the form state
+  ---
+  duration_ms: 116.001204
+  type: 'test'
+  ...
+# Subtest: topic composer errors: 409 and 400 map to localized text, network failure to saveFailed; module AI sets channel ai only; lessons module reuses the create-material form; archive needs the explicit confirm then DELETEs the original identity
+ok 69 - topic composer errors: 409 and 400 map to localized text, network failure to saveFailed; module AI sets channel ai only; lessons module reuses the create-material form; archive needs the explicit confirm then DELETEs the original identity
+  ---
+  duration_ms: 106.933643
+  type: 'test'
+  ...
+# Subtest: regression: no form renders stray "null"/"undefined"/"[object …]" text (native append() used to stringify null and arrays)
+ok 70 - regression: no form renders stray "null"/"undefined"/"[object …]" text (native append() used to stringify null and arrays)
+  ---
+  duration_ms: 91.803301
+  type: 'test'
+  ...
+# Subtest: library: collection tabs with counts (uncatalogued only when needed), filtering by tab/search/section, card labels and links per kind (full, section, legacy, authored)
+ok 71 - library: collection tabs with counts (uncatalogued only when needed), filtering by tab/search/section, card labels and links per kind (full, section, legacy, authored)
+  ---
+  duration_ms: 87.899739
+  type: 'test'
+  ...
+# Subtest: library: unavailable alert, paging links (?page), non-admin redirected, malformed card fails closed
+ok 72 - library: unavailable alert, paging links (?page), non-admin redirected, malformed card fails closed
+  ---
+  duration_ms: 53.319905
+  type: 'test'
+  ...
+# Subtest: test actions: details menu, rename PATCH {title:trimmed}, delete confirm then DELETE, failure => generic message (409 learner history included) and card stays
+ok 73 - test actions: details menu, rename PATCH {title:trimmed}, delete confirm then DELETE, failure => generic message (409 learner history included) and card stays
+  ---
+  duration_ms: 49.712016
+  type: 'test'
+  ...
+# Subtest: legacy desk: audio player, the set learners get with answers for staff, escaped title; canonical test redirects to the learner page; no audio message; 404/non-uuid
+ok 74 - legacy desk: audio player, the set learners get with answers for staff, escaped title; canonical test redirects to the learner page; no audio message; 404/non-uuid
+  ---
+  duration_ms: 66.219735
+  type: 'test'
+  ...
+# Subtest: manifest discovery/archive lookup helpers and validation DTO parser follow the source
+ok 75 - manifest discovery/archive lookup helpers and validation DTO parser follow the source
+  ---
+  duration_ms: 1.068978
+  type: 'test'
+  ...
+# Subtest: import not ready (schema): shows the migration notice and NO importer; non-admin redirected
+ok 76 - import not ready (schema): shows the migration notice and NO importer; non-admin redirected
+  ---
+  duration_ms: 15.365648
+  type: 'test'
+  ...
+# Subtest: import flow: JSON -> validate -> summary/assets/warnings; dry run blocked until every declared asset is chosen; uploads then dry run then import with exact bodies and upload ids (never keys); result link; checkboxes sent
+ok 77 - import flow: JSON -> validate -> summary/assets/warnings; dry run blocked until every declared asset is chosen; uploads then dry run then import with exact bodies and upload ids (never keys); result link; checkboxes sent
+  ---
+  duration_ms: 85.642269
+  type: 'test'
+  ...
+# Subtest: import errors: invalid JSON, unknown server code => unknown, server issues listed (max 8), upload failure localized, preflight failure, import failure code shown; undeclared required asset blocks
+ok 78 - import errors: invalid JSON, unknown server code => unknown, server issues listed (max 8), upload failure localized, preflight failure, import failure code shown; undeclared required asset blocks
+  ---
+  duration_ms: 113.244875
+  type: 'test'
+  ...
+# Subtest: ZIP transport: manifest + declared assets extracted (assets pre-filled), path traversal / no manifest refused as invalid_input; nothing inside is executed
+ok 79 - ZIP transport: manifest + declared assets extracted (assets pre-filled), path traversal / no manifest refused as invalid_input; nothing inside is executed
+  ---
+  duration_ms: 66.21821
+  type: 'test'
+  ...
+# Subtest: import hygiene: template links are native downloads; legacy section is a labelled slot; double click on dry run sends once; leaving the page cancels uploads
+ok 80 - import hygiene: template links are native downloads; legacy section is a labelled slot; double click on dry run sends once; leaving the page cancels uploads
+  ---
+  duration_ms: 71.735082
+  type: 'test'
+  ...
+# Subtest: pos labels
+ok 81 - pos labels
+  ---
+  duration_ms: 0.748829
+  type: 'test'
+  ...
+# Subtest: panel: empty prompt state, debounced search with direction, escaped hits, empty-results text, clear, direction toggle re-searches and drops the release pin
+ok 82 - panel: empty prompt state, debounced search with direction, escaped hits, empty-results text, clear, direction toggle re-searches and drops the release pin
+  ---
+  duration_ms: 162.138467
+  type: 'test'
+  ...
+# Subtest: panel: keyboard (Arrow/Enter) opens the active hit; stale search responses never overwrite a newer query
+ok 83 - panel: keyboard (Arrow/Enter) opens the active hit; stale search responses never overwrite a newer query
+  ---
+  duration_ms: 90.842216
+  type: 'test'
+  ...
+# Subtest: entry: lemma as text, pronunciation, pos, lexical type, senses collapsed/expanded, first 2 examples + "more", tags, forms/collocations/synonyms/relations, attribution; expand-all toggles; back returns to search
+ok 84 - entry: lemma as text, pronunciation, pos, lexical type, senses collapsed/expanded, first 2 examples + "more", tags, forms/collocations/synonyms/relations, attribution; expand-all toggles; back returns to search
+  ---
+  duration_ms: 80.646797
+  type: 'test'
+  ...
+# Subtest: entry: custom entries are labelled custom; relation buttons open the related entry; open failure => localized alert with Retry that returns to search; owner actions call back with entry+sense
+ok 85 - entry: custom entries are labelled custom; relation buttons open the related entry; open failure => localized alert with Retry that returns to search; owner actions call back with entry+sense
+  ---
+  duration_ms: 201.095701
+  type: 'test'
+  ...
+# Subtest: search failure shows the localized alert and no results; custom (Learners Area) entry is labelled custom
+ok 86 - search failure shows the localized alert and no results; custom (Learners Area) entry is labelled custom
+  ---
+  duration_ms: 109.629294
+  type: 'test'
+  ...
+# Subtest: owner dictionary page uses the panel by default: edit on an upstream sense opens the draft editor read-only on English; add new word opens a blank editor
+ok 87 - owner dictionary page uses the panel by default: edit on an upstream sense opens the draft editor read-only on English; add new word opens a blank editor
+  ---
+  duration_ms: 132.226876
+  type: 'test'
+  ...
+# Subtest: REAL FILE parity: 40 questions with the proven type of every item, Choose-TWO pairs with A–E options, map, script gaps, vocabulary, part ranges, activities
+ok 88 - REAL FILE parity: 40 questions with the proven type of every item, Choose-TWO pairs with A–E options, map, script gaps, vocabulary, part ranges, activities
+  ---
+  duration_ms: 130.892782
+  type: 'test'
+  ...
+# Subtest: embedded media: the recording is extracted once and the HTML keeps only a marker; scripts in the source are never executed
+ok 89 - embedded media: the recording is extracted once and the HTML keeps only a marker; scripts in the source are never executed
+  ---
+  duration_ms: 6.661141
+  type: 'test'
+  ...
+# Subtest: problems are explicit: no audio, signature mismatch, ambiguous/missing referenced recording, unreadable duration, no question source, unsupported exam page, broken DATA
+ok 90 - problems are explicit: no audio, signature mismatch, ambiguous/missing referenced recording, unreadable duration, no question source, unsupported exam page, broken DATA
+  ---
+  duration_ms: 158.786779
+  type: 'test'
+  ...
+# Subtest: canonical data/package.json inside a legacy-looking bundle wins; an invalid one falls back to the exam page and says so
+ok 91 - canonical data/package.json inside a legacy-looking bundle wins; an invalid one falls back to the exam page and says so
+  ---
+  duration_ms: 86.693068
+  type: 'test'
+  ...
+# Subtest: package schema rules (zod port): evidence inside audio, unique numbers, answer pairs, section references, clip bounds, unsafe asset paths
+ok 92 - package schema rules (zod port): evidence inside audio, unique numbers, answer pairs, section references, clip bounds, unsafe asset paths
+  ---
+  duration_ms: 77.836763
+  type: 'test'
+  ...
+# Subtest: map diagram renders as inert SVG built from validated coordinates only (no script, no foreign attributes)
+ok 93 - map diagram renders as inert SVG built from validated coordinates only (no script, no foreign attributes)
+  ---
+  duration_ms: 59.18056
+  type: 'test'
+  ...
+# Error: Not implemented: HTMLMediaElement.prototype.pause
+#     at module.exports (/home/claude/tools/node_modules/jsdom/lib/jsdom/browser/not-implemented.js:9:17)
+#     at HTMLAudioElementImpl.pause (/home/claude/tools/node_modules/jsdom/lib/jsdom/living/nodes/HTMLMediaElement-impl.js:121:5)
+#     at HTMLAudioElement.pause (/home/claude/tools/node_modules/jsdom/lib/jsdom/living/generated/HTMLMediaElement.js:160:34)
+#     at btn.data-tryout-activity (file:///home/claude/vf/modules/staff-final30/listening-legacy-import.js:28:243)
+#     at HTMLButtonElement.callTheUserObjectsOperation (/home/claude/tools/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+#     at innerInvokeEventListeners (/home/claude/tools/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+#     at invokeEventListeners (/home/claude/tools/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+#     at HTMLButtonElementImpl._dispatch (/home/claude/tools/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+#     at HTMLButtonElementImpl.dispatchEvent (/home/claude/tools/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+#     at HTMLButtonElement.dispatchEvent (/home/claude/tools/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34) undefined
+# Subtest: screen: choose the real HTML -> summary, family, audio used, title, collection, full preview with map in Part 2; tryout answers are graded locally and nothing is sent
+ok 94 - screen: choose the real HTML -> summary, family, audio used, title, collection, full preview with map in Part 2; tryout answers are graded locally and nothing is sent
+  ---
+  duration_ms: 146.814071
+  type: 'test'
+  ...
+# Subtest: upload: audio (and map if any) uploaded by id, then POST /api/admin/listening/import with the edited title + chosen collection; success link; failures localized; double click once; abort cancels
+ok 95 - upload: audio (and map if any) uploaded by id, then POST /api/admin/listening/import with the edited title + chosen collection; success link; failures localized; double click once; abort cancels
+  ---
+  duration_ms: 136.310242
+  type: 'test'
+  ...
+# Subtest: screen problems: ambiguous recordings show a chooser that re-inspects with the chosen file; unreadable zip / unsafe / too large mapped; unknown family explained; non-package files ignored
+ok 96 - screen problems: ambiguous recordings show a chooser that re-inspects with the chosen file; unreadable zip / unsafe / too large mapped; unknown family explained; non-package files ignored
+  ---
+  duration_ms: 141.420369
+  type: 'test'
+  ...
+# Subtest: ZIP transport: the same real test inside a ZIP (with a __MACOSX junk entry and a folder root) imports identically; path traversal refused
+ok 97 - ZIP transport: the same real test inside a ZIP (with a __MACOSX junk entry and a folder root) imports identically; path traversal refused
+  ---
+  duration_ms: 85.422201
+  type: 'test'
+  ...
+# Subtest: import page now hosts the legacy importer by default (no empty slot) and keeps it inside the labelled legacy section
+ok 98 - import page now hosts the legacy importer by default (no empty slot) and keeps it inside the labelled legacy section
+  ---
+  duration_ms: 11.133723
+  type: 'test'
+  ...
+# Subtest: owner overview: stats computed from counts, links, brand preview; admin/teacher redirected
+ok 99 - owner overview: stats computed from counts, links, brand preview; admin/teacher redirected
+  ---
+  duration_ms: 88.099648
+  type: 'test'
+  ...
+# Subtest: owner overview: path traversal / foreign brand paths rejected (fail closed)
+ok 100 - owner overview: path traversal / foreign brand paths rejected (fail closed)
+  ---
+  duration_ms: 29.312495
+  type: 'test'
+  ...
+# Subtest: transfer: button disabled until email+password; exact body; success wipes password and refreshes; no dialog invented
+ok 101 - transfer: button disabled until email+password; exact body; success wipes password and refreshes; no dialog invented
+  ---
+  duration_ms: 21.854253
+  type: 'test'
+  ...
+# Subtest: transfer: wrong password (401 invalid_credentials) shows form error and does NOT trigger global logout; fields kept
+ok 102 - transfer: wrong password (401 invalid_credentials) shows form error and does NOT trigger global logout; fields kept
+  ---
+  duration_ms: 21.636573
+  type: 'test'
+  ...
+# Subtest: transfer: a genuine expired session (401 unauthenticated) still signals logout; password cleared on abort; double click sends once
+ok 103 - transfer: a genuine expired session (401 unauthenticated) still signals logout; password cleared on abort; double click sends once
+  ---
+  duration_ms: 34.520991
+  type: 'test'
+  ...
+# Subtest: transfer: adapter rejects invalid keepRole (owner) and empty password locally
+ok 104 - transfer: adapter rejects invalid keepRole (owner) and empty password locally
+  ---
+  duration_ms: 0.684765
+  type: 'test'
+  ...
+# Subtest: retention: policy rows, native export form, preview sends dryRun:true, run sends dryRun:false, results rendered
+ok 105 - retention: policy rows, native export form, preview sends dryRun:true, run sends dryRun:false, results rendered
+  ---
+  duration_ms: 27.451588
+  type: 'test'
+  ...
+# Subtest: retention: failure shows generic error; malformed result fails closed; buttons recover
+ok 106 - retention: failure shows generic error; malformed result fails closed; buttons recover
+  ---
+  duration_ms: 19.04496
+  type: 'test'
+  ...
+# Subtest: integrations: states and badges, AI panel renders secrets-missing names only (no values), ceiling-off note, unavailable alert
+ok 107 - integrations: states and badges, AI panel renders secrets-missing names only (no values), ceiling-off note, unavailable alert
+  ---
+  duration_ms: 14.008974
+  type: 'test'
+  ...
+# Subtest: integrations: saving AI control sends exact body, maps nested error codes, updates effective state
+ok 108 - integrations: saving AI control sends exact body, maps nested error codes, updates effective state
+  ---
+  duration_ms: 93.383307
+  type: 'test'
+  ...
+# Subtest: integrations: AI status with secret-like extra fields is not rendered; malformed status fails closed
+ok 109 - integrations: AI status with secret-like extra fields is not rendered; malformed status fails closed
+  ---
+  duration_ms: 0.469379
+  type: 'test'
+  ...
+# Subtest: owner dictionary: overview, drafts, slot-missing marker, add word posts add_lexeme draft; duplicate maps to localized text
+ok 110 - owner dictionary: overview, drafts, slot-missing marker, add word posts add_lexeme draft; duplicate maps to localized text
+  ---
+  duration_ms: 73.155404
+  type: 'test'
+  ...
+# Subtest: owner dictionary: publish polls until complete; failure shows unavailable; rollback disabled without previous release; discard calls DELETE
+ok 111 - owner dictionary: publish polls until complete; failure shows unavailable; rollback disabled without previous release; discard calls DELETE
+  ---
+  duration_ms: 77.425926
+  type: 'test'
+  ...
+# Subtest: owner dictionary: any endpoint failing yields generic unavailable region; non-owner redirected without any request
+ok 112 - owner dictionary: any endpoint failing yields generic unavailable region; non-owner redirected without any request
+  ---
+  duration_ms: 15.97706
+  type: 'test'
+  ...
+# Subtest: students list: renders rows with onboarded flag, Telegram fallback, empty state; student role redirected; teacher allowed
+ok 113 - students list: renders rows with onboarded flag, Telegram fallback, empty state; student role redirected; teacher allowed
+  ---
+  duration_ms: 75.490109
+  type: 'test'
+  ...
+# Subtest: student detail: sections render; draft submission has no feedback form; evaluation shows top-2 weaknesses; markup escaped
+ok 114 - student detail: sections render; draft submission has no feedback form; evaluation shows top-2 weaknesses; markup escaped
+  ---
+  duration_ms: 18.139932
+  type: 'test'
+  ...
+# Subtest: student detail: invalid id and 404 (not on roster) show not-found with no data leak; admin can open
+ok 115 - student detail: invalid id and 404 (not on roster) show not-found with no data leak; admin can open
+  ---
+  duration_ms: 34.855346
+  type: 'test'
+  ...
+# Subtest: feedback: required comment, optional band sent as number, success shows sent and refreshes; failure alert; double submit once
+ok 116 - feedback: required comment, optional band sent as number, success shows sent and refreshes; failure alert; double submit once
+  ---
+  duration_ms: 71.262012
+  type: 'test'
+  ...
+# Subtest: feedback adapter: rejects out-of-range band, empty/oversized comment, non-uuid
+ok 117 - feedback adapter: rejects out-of-range band, empty/oversized comment, non-uuid
+  ---
+  duration_ms: 1.008017
+  type: 'test'
+  ...
+# Subtest: assignment: loads assignable lazily once; canonical choice pins revision and DROPS prompt link; free-form sends prompt; title min 3
+ok 118 - assignment: loads assignable lazily once; canonical choice pins revision and DROPS prompt link; free-form sends prompt; title min 3
+  ---
+  duration_ms: 148.510605
+  type: 'test'
+  ...
+# Subtest: assignment: assignable endpoint failure keeps free-form path and shows unavailable; API 403 shows localized message
+ok 119 - assignment: assignable endpoint failure keeps free-form path and shows unavailable; API 403 shows localized message
+  ---
+  duration_ms: 58.756861
+  type: 'test'
+  ...
+# Subtest: support inbox: open/resolved states, details line, escaped message, empty state, EN/UZ
+ok 120 - support inbox: open/resolved states, details line, escaped message, empty state, EN/UZ
+  ---
+  duration_ms: 27.031367
+  type: 'test'
+  ...
+# Subtest: support resolve: PATCH without body then quiet refetch; 409 already resolved refreshes silently; 500 shows error and allows retry
+ok 121 - support resolve: PATCH without body then quiet refetch; 409 already resolved refreshes silently; 500 shows error and allows retry
+  ---
+  duration_ms: 32.610656
+  type: 'test'
+  ...
+# Subtest: support: malformed report row fails closed; student redirected without request
+ok 122 - support: malformed report row fails closed; student redirected without request
+  ---
+  duration_ms: 16.311495
+  type: 'test'
+  ...
+# Subtest: list: rows, centre-time, attendee count, per-status controls (upcoming/live/completed/cancelled)
+ok 123 - list: rows, centre-time, attendee count, per-status controls (upcoming/live/completed/cancelled)
+  ---
+  duration_ms: 71.875562
+  type: 'test'
+  ...
+# Subtest: status controls: PATCH exact bodies, refresh after; failure shows alert and allows retry; recording requires https URL
+ok 124 - status controls: PATCH exact bodies, refresh after; failure shows alert and allows retry; recording requires https URL
+  ---
+  duration_ms: 74.405417
+  type: 'test'
+  ...
+# Subtest: patch adapter: rejects javascript: recording URL, empty body, unknown status, non-uuid
+ok 125 - patch adapter: rejects javascript: recording URL, empty body, unknown status, non-uuid
+  ---
+  duration_ms: 1.444061
+  type: 'test'
+  ...
+# Subtest: new class form: opens, validates, POSTs UTC ISO + string duration, closes and refreshes; server message shown; double submit once
+ok 126 - new class form: opens, validates, POSTs UTC ISO + string duration, closes and refreshes; server message shown; double submit once
+  ---
+  duration_ms: 47.338663
+  type: 'test'
+  ...
+# Subtest: create adapter: invalid date/duration/title/url fail before any request (source would throw RangeError on bad date)
+ok 127 - create adapter: invalid date/duration/title/url fail before any request (source would throw RangeError on bad date)
+  ---
+  duration_ms: 0.806291
+  type: 'test'
+  ...
+# Subtest: detail: facts, join window state from server, link flags never expose URLs, roster count and escaped text
+ok 128 - detail: facts, join window state from server, link flags never expose URLs, roster count and escaped text
+  ---
+  duration_ms: 14.693192
+  type: 'test'
+  ...
+# Subtest: detail: empty roster message; bad id/404 not found; malformed join state fails closed; student redirected
+ok 129 - detail: empty roster message; bad id/404 not found; malformed join state fails closed; student redirected
+  ---
+  duration_ms: 55.774124
+  type: 'test'
+  ...
+# Subtest: bundle parser (zod port): accepts valid, trims, rejects unknown keys, dup options, correct not in options, dup topics, bad version, bounds, bad JSON
+ok 130 - bundle parser (zod port): accepts valid, trims, rejects unknown keys, dup options, correct not in options, dup topics, bad version, bounds, bad JSON
+  ---
+  duration_ms: 1.443019
+  type: 'test'
+  ...
+# Subtest: grammar list: topics, empty, new topic form posts exact body and navigates to the new id; server error localized
+ok 131 - grammar list: topics, empty, new topic form posts exact body and navigates to the new id; server error localized
+  ---
+  duration_ms: 90.811792
+  type: 'test'
+  ...
+# Subtest: grammar import: Apply hidden until the SAME text validated; edit invalidates; invalid JSON blocked locally; dry-run then apply refreshes
+ok 132 - grammar import: Apply hidden until the SAME text validated; edit invalidates; invalid JSON blocked locally; dry-run then apply refreshes
+  ---
+  duration_ms: 58.750748
+  type: 'test'
+  ...
+# Subtest: grammar import: server 409 shows conflict and drops the preview; role gate
+ok 133 - grammar import: server 409 shows conflict and drops the preview; role gate
+  ---
+  duration_ms: 28.772733
+  type: 'test'
+  ...
+# Subtest: topic detail: exercises + correct option for staff, escaped text, 404/invalid id
+ok 134 - topic detail: exercises + correct option for staff, escaped text, 404/invalid id
+  ---
+  duration_ms: 44.297601
+  type: 'test'
+  ...
+# Subtest: new exercise: correct-option select tracks typed options live; posts trimmed options; needs one of options; refresh adds it
+ok 135 - new exercise: correct-option select tracks typed options live; posts trimmed options; needs one of options; refresh adds it
+  ---
+  duration_ms: 31.640099
+  type: 'test'
+  ...
+# Subtest: exercise/topic adapters reject invalid input before any request
+ok 136 - exercise/topic adapters reject invalid input before any request
+  ---
+  duration_ms: 1.828167
+  type: 'test'
+  ...
+# Subtest: publication control: state badge, schedule field only for scheduled, exact body with UTC instant, saved message + onSaved
+ok 137 - publication control: state badge, schedule field only for scheduled, exact body with UTC instant, saved message + onSaved
+  ---
+  duration_ms: 28.652011
+  type: 'test'
+  ...
+# Subtest: publication control: non-scheduled sends publishAt null; refusal shows localized issues (MCQ day, listening blockers, writing codes); never raw codes
+ok 138 - publication control: non-scheduled sends publishAt null; refusal shows localized issues (MCQ day, listening blockers, writing codes); never raw codes
+  ---
+  duration_ms: 69.102845
+  type: 'test'
+  ...
+# Subtest: publication control: network failure shows failed and re-enables; double click sends once; scheduled without a moment is sent as null (server refuses, as in source)
+ok 139 - publication control: network failure shows failed and re-enables; double click sends once; scheduled without a moment is sent as null (server refuses, as in source)
+  ---
+  duration_ms: 23.13165
+  type: 'test'
+  ...
+# Subtest: reading list: card per passage, link and publication control are siblings, retention/import links, state badge
+ok 140 - reading list: card per passage, link and publication control are siblings, retention/import links, state badge
+  ---
+  duration_ms: 58.306625
+  type: 'test'
+  ...
+# Subtest: reading list: publishing from the list refreshes the list; teacher redirected
+ok 141 - reading list: publishing from the list refreshes the list; teacher redirected
+  ---
+  duration_ms: 42.326789
+  type: 'test'
+  ...
+# Subtest: new passage: defaults B2/15, posts exact body, navigates to new id; failure shows generic error and keeps text; short body blocked before request
+ok 142 - new passage: defaults B2/15, posts exact body, navigates to new id; failure shows generic error and keeps text; short body blocked before request
+  ---
+  duration_ms: 42.229906
+  type: 'test'
+  ...
+# Subtest: passage detail: body and answers for staff, escaped, real composer by default, overridable via ctx, 404/invalid id
+ok 143 - passage detail: body and answers for staff, escaped, real composer by default, overridable via ctx, 404/invalid id
+  ---
+  duration_ms: 49.815254
+  type: 'test'
+  ...
+# Subtest: new question: type switch resets correct answer (true/yes/empty); MCQ correct select follows typed options; posts options only for MCQ; evidence omitted when empty
+ok 144 - new question: type switch resets correct answer (true/yes/empty); MCQ correct select follows typed options; posts options only for MCQ; evidence omitted when empty
+  ---
+  duration_ms: 118.242438
+  type: 'test'
+  ...
+# Subtest: new question: revision_managed 409 shows the localized refusal and keeps the form; adapters validate before request
+ok 145 - new question: revision_managed 409 shows the localized refusal and keeps the form; adapters validate before request
+  ---
+  duration_ms: 57.61326
+  type: 'test'
+  ...
+# Subtest: section parsing: exam alias, topic, unknown falls back to lesson
+ok 146 - section parsing: exam alias, topic, unknown falls back to lesson
+  ---
+  duration_ms: 1.179621
+  type: 'test'
+  ...
+# Subtest: list: section cards with counts, active aria-current, rows with edit link + publication control using writing type
+ok 147 - list: section cards with counts, active aria-current, rows with edit link + publication control using writing type
+  ---
+  duration_ms: 65.639394
+  type: 'test'
+  ...
+# Subtest: list: publishing uses the kind-specific type and shows LOCALIZED writing issues (task1_visual_missing), never raw codes
+ok 148 - list: publishing uses the kind-specific type and shows LOCALIZED writing issues (task1_visual_missing), never raw codes
+  ---
+  duration_ms: 41.311529
+  type: 'test'
+  ...
+# Subtest: list: empty state, topic section (no rows, link to vocabulary), unavailable (not migrated) alert, unknown section label; teacher redirected
+ok 149 - list: empty state, topic section (no rows, link to vocabulary), unavailable (not migrated) alert, unknown section label; teacher redirected
+  ---
+  duration_ms: 39.768915
+  type: 'test'
+  ...
+# Subtest: payload builder equals source mapping for every kind (empty->null, numeric coercion, multiline split, targetBand optional)
+ok 150 - payload builder equals source mapping for every kind (empty->null, numeric coercion, multiline split, targetBand optional)
+  ---
+  duration_ms: 1.817826
+  type: 'test'
+  ...
+# Subtest: new lesson: defaults task2/0, POST exact body, navigates (replace) to the edit page; form state cleaned
+ok 151 - new lesson: defaults task2/0, POST exact body, navigates (replace) to the edit page; form state cleaned
+  ---
+  duration_ms: 39.481559
+  type: 'test'
+  ...
+# Subtest: new form: required fields block submit (no request); unknown kind => not found without request; pattern offers source list
+ok 152 - new form: required fields block submit (no request); unknown kind => not found without request; pattern offers source list
+  ---
+  duration_ms: 43.655874
+  type: 'test'
+  ...
+# Subtest: translation form: add/remove sentences with next position, posts parsed sentences; model-text shows live word count
+ok 153 - translation form: add/remove sentences with next position, posts parsed sentences; model-text shows live word count
+  ---
+  duration_ms: 71.936423
+  type: 'test'
+  ...
+# Subtest: save failure: server issues localized, unknown code falls back to write_failed, network failure => write_failed; form values kept; no raw codes
+ok 154 - save failure: server issues localized, unknown code falls back to write_failed, network failure => write_failed; form values kept; no raw codes
+  ---
+  duration_ms: 86.457645
+  type: 'test'
+  ...
+# Subtest: edit: PUT to the item, publication section with kind type, saved message; prompt kind shows visuals slot; others do not
+ok 155 - edit: PUT to the item, publication section with kind type, saved message; prompt kind shows visuals slot; others do not
+  ---
+  duration_ms: 50.18958
+  type: 'test'
+  ...
+# Subtest: edit: 404, non-uuid id, translation sentences prefilled (lines joined); adapter rejects bad kind/id
+ok 156 - edit: 404, non-uuid id, translation sentences prefilled (lines joined); adapter rejects bad kind/id
+  ---
+  duration_ms: 34.945983
+  type: 'test'
+  ...
+# Subtest: policy: allowed/unknown/dangerous/oversize/empty/svg, generic MIME accepted for allow-listed extension, mismatched known MIME refused
+ok 157 - policy: allowed/unknown/dangerous/oversize/empty/svg, generic MIME accepted for allow-listed extension, mismatched known MIME refused
+  ---
+  duration_ms: 2.025917
+  type: 'test'
+  ...
+# Subtest: signature: renamed files refused (pdf that is a zip; png that is text), executables refused by magic regardless of name, empty refused
+ok 158 - signature: renamed files refused (pdf that is a zip; png that is text), executables refused by magic regardless of name, empty refused
+  ---
+  duration_ms: 0.403648
+  type: 'test'
+  ...
+# Subtest: error mapping: JSON codes, aliases, HTML 500/413/504 by status, retryability, localized text never raw code, {max}/{ref} filled
+ok 159 - error mapping: JSON codes, aliases, HTML 500/413/504 by status, retryability, localized text never raw code, {max}/{ref} filled
+  ---
+  duration_ms: 0.425534
+  type: 'test'
+  ...
+# Subtest: engine: intent -> PUT (presigned https) -> finalize, real progress, states in order, headers use the server-signed content type
+ok 160 - engine: intent -> PUT (presigned https) -> finalize, real progress, states in order, headers use the server-signed content type
+  ---
+  duration_ms: 1.071465
+  type: 'test'
+  ...
+# Subtest: engine: refuses spoofed bytes BEFORE any request; unsafe upload URL refused; storage 4xx without JSON => storage_rejected; proxy mode posts form to /api/uploads
+ok 161 - engine: refuses spoofed bytes BEFORE any request; unsafe upload URL refused; storage 4xx without JSON => storage_rejected; proxy mode posts form to /api/uploads
+  ---
+  duration_ms: 10.340613
+  type: 'test'
+  ...
+# Subtest: engine: cancel aborts the transfer and asks the server to drop the intent; intent errors classified by status (HTML 502 => server_error)
+ok 162 - engine: cancel aborts the transfer and asks the server to drop the intent; intent errors classified by status (HTML 502 => server_error)
+  ---
+  duration_ms: 15.822845
+  type: 'test'
+  ...
+# Subtest: engine: in-flight dedupe — the same file started twice joins ONE intent
+ok 163 - engine: in-flight dedupe — the same file started twice joins ONE intent
+  ---
+  duration_ms: 0.484399
+  type: 'test'
+  ...
+# Subtest: composer: loads existing blocks sorted by position from GET; shows empty state; load failure disables Save and offers retry (no wipe risk)
+ok 164 - composer: loads existing blocks sorted by position from GET; shows empty state; load failure disables Save and offers retry (no wipe risk)
+  ---
+  duration_ms: 100.188803
+  type: 'test'
+  ...
+# Subtest: composer: add text/link blocks, move/remove, save sends retained key for stored files and exact payload; server answer replaces list; saved state
+ok 165 - composer: add text/link blocks, move/remove, save sends retained key for stored files and exact payload; server answer replaces list; saved state
+  ---
+  duration_ms: 54.589454
+  type: 'test'
+  ...
+# Subtest: composer: failed save keeps the draft and shows localized error; invalid PUT answer is an error, not success
+ok 166 - composer: failed save keeps the draft and shows localized error; invalid PUT answer is an error, not success
+  ---
+  duration_ms: 56.105167
+  type: 'test'
+  ...
+# Subtest: composer uploads: preflight failure shows localized reason and never starts; success completes then saves uploadId (not key); failed upload offers Retry and blocks nothing else; unfinished uploads are not saved
+ok 167 - composer uploads: preflight failure shows localized reason and never starts; success completes then saves uploadId (not key); failed upload offers Retry and blocks nothing else; unfinished uploads are not saved
+  ---
+  duration_ms: 66.281684
+  type: 'test'
+  ...
+# Subtest: composer: aborting the route cancels in-flight uploads; drop zone sends dropped files through the same preflight
+ok 168 - composer: aborting the route cancels in-flight uploads; drop zone sends dropped files through the same preflight
+  ---
+  duration_ms: 26.074337
+  type: 'test'
+  ...
+# Subtest: kind list: label from dictionary, rows link to editor with visibility text, empty state; unknown kind 404 without request; teachers allowed, students redirected
+ok 169 - kind list: label from dictionary, rows link to editor with visibility text, empty state; unknown kind 404 without request; teachers allowed, students redirected
+  ---
+  duration_ms: 100.543219
+  type: 'test'
+  ...
+# Subtest: editor: heading with owner name, kind/visibility line, composer for the SAME ownerType loads existing blocks; save PUTs to /api/materials/:type/:id
+ok 170 - editor: heading with owner name, kind/visibility line, composer for the SAME ownerType loads existing blocks; save PUTs to /api/materials/:type/:id
+  ---
+  duration_ms: 36.513261
+  type: 'test'
+  ...
+# Subtest: editor: not manageable/not found => not-found with NO composer and no materials request; bad uuid/type never reach the API
+ok 171 - editor: not manageable/not found => not-found with NO composer and no materials request; bad uuid/type never reach the API
+  ---
+  duration_ms: 23.643056
+  type: 'test'
+  ...
+1..171
+# tests 171
+# suites 0
+# pass 171
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 15450.394121

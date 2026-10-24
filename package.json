@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node scripts/run-with-backend.mjs dev",
-    "build": "next build",
-    "start": "node scripts/run-with-backend.mjs start",
+    "dev": "python3 scripts/serve.py --reload",
+    "build": "node scripts/build-native-assets.mjs",
+    "start": "python3 scripts/serve.py",
     "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
@@ -20,10 +20,15 @@
     "qa:gate": "bash scripts/qa-forensic-gate.sh",
     "test:qa2": "node --conditions=react-server --import tsx --test --test-concurrency=1 tests/*.test.ts",
     "backend:setup": "python3 -m venv services/backend/.venv && services/backend/.venv/bin/python -m pip install -r services/backend/requirements-dev.txt",
-    "backend:check": "node scripts/run-with-backend.mjs check",
+    "backend:check": "python3 scripts/serve.py --check",
     "backend:test": "cd services/backend && .venv/bin/python -m pytest",
     "backend:test:postgres": "node --import tsx scripts/verify-fastapi-postgres.mjs",
-    "backend:test:main": "node scripts/run-main-parity.mjs"
+    "backend:test:main": "node scripts/run-main-parity.mjs",
+    "legacy:dev": "node scripts/run-with-backend.mjs dev",
+    "legacy:build": "next build",
+    "legacy:start": "node scripts/run-with-backend.mjs start",
+    "test:frontend": "cd frontend/vanilla && node --test tests/*.test.mjs tests/staff-final30/*.test.mjs",
+    "test:integration": "node --import tsx scripts/verify-vanilla-fastapi.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1136.0",

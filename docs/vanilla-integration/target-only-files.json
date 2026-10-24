@@ -1,0 +1,5462 @@
+[
+  {
+    "path": ".dockerignore",
+    "mainBlob": null,
+    "targetBlob": "37cc3022ad9b4e79987a36cb238dd2a3f6dce925"
+  },
+  {
+    "path": ".env.example",
+    "mainBlob": "752dc5e32174eb0d36ef00f99ed1d3097e7f41ba",
+    "targetBlob": "4abfec5ef746821d17c67567112555fa0ecf6088"
+  },
+  {
+    "path": ".gitignore",
+    "mainBlob": "e7bec315de97e365eae3dd0d0ee7f4badec88529",
+    "targetBlob": "026197494747190d3fe2a6eefebe9cc9035d3de5"
+  },
+  {
+    "path": "Dockerfile.frontend",
+    "mainBlob": null,
+    "targetBlob": "88649b747fe5da59b323772c4512ed405bbe8a24"
+  },
+  {
+    "path": "README.md",
+    "mainBlob": "9265a5fb15a1fe095b9172ef282cb0965938a634",
+    "targetBlob": "78659315c86356d2b75ed0f82ad3277a78a1f4c0"
+  },
+  {
+    "path": "compose.preview.yml",
+    "mainBlob": null,
+    "targetBlob": "e4faf8779c37fdaeabd444200cda10b1a990bcce"
+  },
+  {
+    "path": "docs/CAMPUS-RECOVERY-STATUS.md",
+    "mainBlob": null,
+    "targetBlob": "3412e9cd3ae6a440dc0f22377b2265b541c6018a"
+  },
+  {
+    "path": "docs/RETENTION_AUTHORING_FORMAT.md",
+    "mainBlob": "cab6f8fb0e98d21624b9ee6eebbaa517fc2f7c73",
+    "targetBlob": "72a536ae5a32795d3ee1c6d65dc72192cdfc0490"
+  },
+  {
+    "path": "next.config.mjs",
+    "mainBlob": "637f2590e3380417c94eab2a16319520a9e7fe74",
+    "targetBlob": "a55e48bc9f00dab7604c71a2edaca9a29fac389b"
+  },
+  {
+    "path": "package-lock.json",
+    "mainBlob": "468313eaef985f28ff63a3fae9d0a8789ad29db3",
+    "targetBlob": "279377b78e341049ff0bf7a658960e43bfa6d285"
+  },
+  {
+    "path": "package.json",
+    "mainBlob": "e91e4b56ae4eb4473b26a6c2dfbd7223fd472a58",
+    "targetBlob": "cad5a60f2b3be74e0f072d493b31d53168c2b3e1"
+  },
+  {
+    "path": "public/campus/campus.js",
+    "mainBlob": null,
+    "targetBlob": "b62b7717a3d8c688e5378659367d444f6a163a85"
+  },
+  {
+    "path": "public/campus/v2/MANUAL_QA.md",
+    "mainBlob": null,
+    "targetBlob": "df023d6a00f974c654e8b456bde09675c770faee"
+  },
+  {
+    "path": "public/campus/v2/src/campus-camera.js",
+    "mainBlob": null,
+    "targetBlob": "09713f93cd9236d6c796eb351ed31708a874e9c6"
+  },
+  {
+    "path": "public/campus/v2/src/campus-circuits.js",
+    "mainBlob": null,
+    "targetBlob": "704f2e3aea365d7ce77978060c40c1a5a772856a"
+  },
+  {
+    "path": "public/campus/v2/src/campus-config.js",
+    "mainBlob": null,
+    "targetBlob": "f631affeb7173e18371aa7723dbc39079be54165"
+  },
+  {
+    "path": "public/campus/v2/src/campus-geometry.js",
+    "mainBlob": null,
+    "targetBlob": "505a113464cf60acead73afcb1b7466932654cca"
+  },
+  {
+    "path": "public/campus/v2/src/campus-label-anchors.js",
+    "mainBlob": null,
+    "targetBlob": "24c36969e312f22d34d97a9f8aa386b9f8b305bf"
+  },
+  {
+    "path": "public/campus/v2/src/campus-labels.js",
+    "mainBlob": null,
+    "targetBlob": "bd7a2f0e8b4e9e951141e4402324b05d05d901ad"
+  },
+  {
+    "path": "public/campus/v2/src/campus-management.js",
+    "mainBlob": null,
+    "targetBlob": "ac6e477b2323278ef93c417ba2f70ebb75f33803"
+  },
+  {
+    "path": "public/campus/v2/src/campus-materials.js",
+    "mainBlob": null,
+    "targetBlob": "53f1f27412f417dea8a41c311cc732e84c759ae1"
+  },
+  {
+    "path": "public/campus/v2/src/campus-motion.js",
+    "mainBlob": null,
+    "targetBlob": "9f3ed53495c201f6ec8ef932f775f2dc2957f660"
+  },
+  {
+    "path": "public/campus/v2/src/campus-neon.js",
+    "mainBlob": null,
+    "targetBlob": "527046db3ed3fbb157af3d6e12f9b241fdc03180"
+  },
+  {
+    "path": "public/campus/v2/src/campus-scene.js",
+    "mainBlob": null,
+    "targetBlob": "d8d068e72f97a589d8b79d035abc830aeada5a3c"
+  },
+  {
+    "path": "public/campus/v2/vendor/LICENSE.three",
+    "mainBlob": null,
+    "targetBlob": "8ada2a5f982916b0ba4b7a0aa7de347587e745d7"
+  },
+  {
+    "path": "public/campus/v2/vendor/README.md",
+    "mainBlob": null,
+    "targetBlob": "23dc4954c16735194d74f0e514a7909b98789b8b"
+  },
+  {
+    "path": "public/campus/v2/vendor/three-runtime.js",
+    "mainBlob": null,
+    "targetBlob": "96be14ed8ef903083e5f7745542821f8ef020026"
+  },
+  {
+    "path": "scripts/backfill-vocabulary-0029.ts",
+    "mainBlob": "f48524ac868aa489b05b550f907e614d318502a5",
+    "targetBlob": "cba15b4ac3e6e159a23a1e2e81024bab032ce64f"
+  },
+  {
+    "path": "scripts/content-backfill-imported-versions.ts",
+    "mainBlob": "e1ae74b2dc5d9d53c3f9a4ee7ead68d47e87d145",
+    "targetBlob": "b8d89a71ad11eae8f8196ff748b7bc4b934b63cb"
+  },
+  {
+    "path": "scripts/content-backfill-vocabulary-packs.ts",
+    "mainBlob": "2be1a4760bf296b4fc65daadd706392a3734e22f",
+    "targetBlob": "1201ca88207450ea716ac17a1386e1044a804211"
+  },
+  {
+    "path": "scripts/content-legacy-inventory.ts",
+    "mainBlob": "6622c6271169c019e624bd1ba94dca0583db3405",
+    "targetBlob": "76cf1715e813b65f3bfb70325f30184141898cc3"
+  },
+  {
+    "path": "scripts/dictionary/bootstrap.ts",
+    "mainBlob": "afe73cd06505866293234f100db9eb2256340e41",
+    "targetBlob": "652ec0cb31f30e8493f8e03e5c915371d1c00499"
+  },
+  {
+    "path": "scripts/import-general-reading.ts",
+    "mainBlob": "66a42aa9769e074401df80176926120707d7497b",
+    "targetBlob": "b3a070761121912e72b4551744f16cae6e729743"
+  },
+  {
+    "path": "scripts/listening-content-migration.ts",
+    "mainBlob": "05b5ae09a66e01ce807667b1c409c90c09cebc45",
+    "targetBlob": "26e9194862b87fb519320b4658dce3ba51498dec"
+  },
+  {
+    "path": "scripts/qa2-vocabulary-acceptance-e2e.ts",
+    "mainBlob": "1941aaf6c8e70175759afe387caa626bafb4f652",
+    "targetBlob": "ada736303aa7813bd34d75cd8558419b6c82540f"
+  },
+  {
+    "path": "scripts/run-main-parity.mjs",
+    "mainBlob": null,
+    "targetBlob": "f5602ca4f5c858308e54341a9d89f99440f622e2"
+  },
+  {
+    "path": "scripts/run-with-backend.mjs",
+    "mainBlob": null,
+    "targetBlob": "d8a3c3a8207d099bde1c5e88f637def0002a1f1f"
+  },
+  {
+    "path": "scripts/verify-activity.ts",
+    "mainBlob": "1ff7c8bdcc3b5bdf5392dbeafd005367dec071f7",
+    "targetBlob": "aea72c49b62d2a5ccd8ad4bf793c8f66fdc27765"
+  },
+  {
+    "path": "scripts/verify-fastapi-postgres.mjs",
+    "mainBlob": null,
+    "targetBlob": "b8a63839e6d057af9c5e7f1019035785eb545bf3"
+  },
+  {
+    "path": "scripts/verify-grammar-privacy.ts",
+    "mainBlob": "396fc3945d3e179d70be3881b61aa2b3cdd44dfe",
+    "targetBlob": "a5aedf4d75c781ee00132a177d1e51597b6af2cd"
+  },
+  {
+    "path": "scripts/verify-lexical-context.ts",
+    "mainBlob": "405e614dbcbefc55f1600cb048ce963ba73a6e26",
+    "targetBlob": "de73c457247e47906f19cab56ada6b6ccb3cbfa2"
+  },
+  {
+    "path": "scripts/verify-listening-classification.ts",
+    "mainBlob": "cf6e59a8185270a753f873a9b7fa637560f9eaac",
+    "targetBlob": "23e7bd31462c0905f639c4c23c71a5b28512f5ce"
+  },
+  {
+    "path": "scripts/verify-main-http-parity.mjs",
+    "mainBlob": null,
+    "targetBlob": "982209e89f9aee0f9974e62daa4fdc7f8b5d3546"
+  },
+  {
+    "path": "services/backend/.env.example",
+    "mainBlob": null,
+    "targetBlob": "8f0d968e32da54e01a910cda7d43505c961f36fc"
+  },
+  {
+    "path": "services/backend/Dockerfile",
+    "mainBlob": null,
+    "targetBlob": "36d81fecfbcb7ca00850ba691eebe7b5b3de85e2"
+  },
+  {
+    "path": "services/backend/MIGRATION_AUDIT_260.json",
+    "mainBlob": null,
+    "targetBlob": "08f6246828395cc189ec369b7d691564476a8ab9"
+  },
+  {
+    "path": "services/backend/MIGRATION_AUDIT_265.json",
+    "mainBlob": null,
+    "targetBlob": "820711d83cb223fe547ffbd9d9b27f932ee4e346"
+  },
+  {
+    "path": "services/backend/PORT_STATUS.json",
+    "mainBlob": null,
+    "targetBlob": "36420d4595ea495c9df9aa48a8d80f9d03c0efa9"
+  },
+  {
+    "path": "services/backend/README.md",
+    "mainBlob": null,
+    "targetBlob": "3fb671cbef7ec76c753346255a6134092555f88c"
+  },
+  {
+    "path": "services/backend/app/__init__.py",
+    "mainBlob": null,
+    "targetBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+  },
+  {
+    "path": "services/backend/app/access_events.py",
+    "mainBlob": null,
+    "targetBlob": "e714b7f24d8ee786221ffded7d4791067771295f"
+  },
+  {
+    "path": "services/backend/app/accounts_extra_port.py",
+    "mainBlob": null,
+    "targetBlob": "b41cbc2b59974b3d468bcd60122c5bac9c6a3058"
+  },
+  {
+    "path": "services/backend/app/admin_authoring_port.py",
+    "mainBlob": null,
+    "targetBlob": "f7ef8575282ca9ea407de58013c7ad4dcb4e2dc0"
+  },
+  {
+    "path": "services/backend/app/admin_validation.py",
+    "mainBlob": null,
+    "targetBlob": "5c5ab191a633fdcd600fc161c23323e2837f8f33"
+  },
+  {
+    "path": "services/backend/app/admission_decision_port.py",
+    "mainBlob": null,
+    "targetBlob": "3c7953877b3b427c6b423ab941bd6162b3676e45"
+  },
+  {
+    "path": "services/backend/app/asgi.py",
+    "mainBlob": null,
+    "targetBlob": "89d64e2d01007913ddeb2bde0b6b19f934b9da1d"
+  },
+  {
+    "path": "services/backend/app/assignable_content_port.py",
+    "mainBlob": null,
+    "targetBlob": "1a553de1094b83e08fa7a725a9d88f725e33926c"
+  },
+  {
+    "path": "services/backend/app/auth_google_start_port.py",
+    "mainBlob": null,
+    "targetBlob": "ca7d1edc9b7a32f902abd5241b287220c5c9be71"
+  },
+  {
+    "path": "services/backend/app/auth_validation.py",
+    "mainBlob": null,
+    "targetBlob": "f01a9887d4d87d5199f5fe311f6fd8e52dd88e72"
+  },
+  {
+    "path": "services/backend/app/bot_operations_port.py",
+    "mainBlob": null,
+    "targetBlob": "425e0efebcdf539f2880d65b9033653f2075b4bb"
+  },
+  {
+    "path": "services/backend/app/center_admin_port.py",
+    "mainBlob": null,
+    "targetBlob": "3b626743ce720b18a0e655724d75fa213d7d8350"
+  },
+  {
+    "path": "services/backend/app/content_capabilities_port.py",
+    "mainBlob": null,
+    "targetBlob": "340cf9c1c077ba856094061e975e0481f7009e42"
+  },
+  {
+    "path": "services/backend/app/content_import_catalog_port.py",
+    "mainBlob": null,
+    "targetBlob": "7db6d1561d23df78f3fda10abda5d0c5fc8ff34e"
+  },
+  {
+    "path": "services/backend/app/db.py",
+    "mainBlob": null,
+    "targetBlob": "eff50da8ddc5869aec0b9bc31185e865cf4307d6"
+  },
+  {
+    "path": "services/backend/app/dictionary_canonical.py",
+    "mainBlob": null,
+    "targetBlob": "e90fbc20dcc22a23c6e71be46281615677a70ff5"
+  },
+  {
+    "path": "services/backend/app/dictionary_collation.py",
+    "mainBlob": null,
+    "targetBlob": "69bf6056ed9b04e284bdcc890100ba4682954527"
+  },
+  {
+    "path": "services/backend/app/dictionary_context.py",
+    "mainBlob": null,
+    "targetBlob": "06ca97e1c9ccb98ca9455b2d280aa1ba131cfa18"
+  },
+  {
+    "path": "services/backend/app/dictionary_frozen_casefold.json",
+    "mainBlob": null,
+    "targetBlob": "b1b16fa69024af58914db60633017f466c1c0b0e"
+  },
+  {
+    "path": "services/backend/app/dictionary_materialize.py",
+    "mainBlob": null,
+    "targetBlob": "414b4d987d0d4a95310c70a5c26ef2bf06634cbf"
+  },
+  {
+    "path": "services/backend/app/dictionary_presentation.py",
+    "mainBlob": null,
+    "targetBlob": "30a5b39db50bfbea17c42814cee46dfc2843e42b"
+  },
+  {
+    "path": "services/backend/app/dictionary_unicode16_overrides.json",
+    "mainBlob": null,
+    "targetBlob": "9923dea7334154cc826abf5517c3a6c28c7bf512"
+  },
+  {
+    "path": "services/backend/app/editorial_revisions.py",
+    "mainBlob": null,
+    "targetBlob": "b0f14cdaa143317a2324a2f7622b11164cd8a9cd"
+  },
+  {
+    "path": "services/backend/app/exam_lifecycle_port.py",
+    "mainBlob": null,
+    "targetBlob": "7835b6ac44e75629fec0d5e7b07ee3a4a7de58f5"
+  },
+  {
+    "path": "services/backend/app/frontend.py",
+    "mainBlob": null,
+    "targetBlob": "3bb605a9ca320db73766e30fe9f64ee343e9fe37"
+  },
+  {
+    "path": "services/backend/app/grammar_bundle_import_port.py",
+    "mainBlob": null,
+    "targetBlob": "ab271d821c66743d281ef9658445c22b0bf5f10c"
+  },
+  {
+    "path": "services/backend/app/import_templates_source.json",
+    "mainBlob": null,
+    "targetBlob": "ff8c1fadfcb8fdf8b32b675468a6f100241d6f0e"
+  },
+  {
+    "path": "services/backend/app/internal_bot_ready_port.py",
+    "mainBlob": null,
+    "targetBlob": "1854f274f3f364100660acbcdc1dd58acb08bc00"
+  },
+  {
+    "path": "services/backend/app/js_text.py",
+    "mainBlob": null,
+    "targetBlob": "da537269cc810960c23f56f2bafb56aaf090b1ce"
+  },
+  {
+    "path": "services/backend/app/learner_admin_port.py",
+    "mainBlob": null,
+    "targetBlob": "64e371094cb796a4032d84ec61ae781aaf7f6835"
+  },
+  {
+    "path": "services/backend/app/lesson_question_models.json",
+    "mainBlob": null,
+    "targetBlob": "c9014cc6ce67c74e1c87a4ec4413782f50c45bbb"
+  },
+  {
+    "path": "services/backend/app/lesson_writing_port.py",
+    "mainBlob": null,
+    "targetBlob": "8915d767f2355bb6f645bacaa7f4f788a56eeb1b"
+  },
+  {
+    "path": "services/backend/app/listening_authored_question_types.json",
+    "mainBlob": null,
+    "targetBlob": "a724e8ce7bed017f6d6649dfadd74bd146dfdeb4"
+  },
+  {
+    "path": "services/backend/app/listening_runtime.py",
+    "mainBlob": null,
+    "targetBlob": "f71672a19f323a23beb0857baef2b89eb5383325"
+  },
+  {
+    "path": "services/backend/app/main.py",
+    "mainBlob": null,
+    "targetBlob": "701d632a22debb942da39572e1758e729474b422"
+  },
+  {
+    "path": "services/backend/app/migration_phase2.py",
+    "mainBlob": null,
+    "targetBlob": "f246b7e420b9afddcaf81567646c8fcf9e277489"
+  },
+  {
+    "path": "services/backend/app/original_listening_catalogue.json",
+    "mainBlob": null,
+    "targetBlob": "3c9c4c1ba0a6cfd5d33c7c58f52b77a2b8ad260d"
+  },
+  {
+    "path": "services/backend/app/original_listening_course.json",
+    "mainBlob": null,
+    "targetBlob": "ba54b2aa20970273365ec2d00a527b0ead82e6c9"
+  },
+  {
+    "path": "services/backend/app/owner_ai_control_port.py",
+    "mainBlob": null,
+    "targetBlob": "c10f4ef81ac6aa9d6bc42caa9dffcfa623478428"
+  },
+  {
+    "path": "services/backend/app/rate_limit.py",
+    "mainBlob": null,
+    "targetBlob": "5651b220183353ddaaf3c7133d18a5463b397baa"
+  },
+  {
+    "path": "services/backend/app/reading_feedback_port.py",
+    "mainBlob": null,
+    "targetBlob": "1355037095b31daadc183706644e6f976ffa9b82"
+  },
+  {
+    "path": "services/backend/app/reading_question_types.json",
+    "mainBlob": null,
+    "targetBlob": "836bfd7489c50199b1b7eb76c09a0cf39c40016b"
+  },
+  {
+    "path": "services/backend/app/report_metric_specs.json",
+    "mainBlob": null,
+    "targetBlob": "d7f2d2045cd1cfbb53fc7fa779b7ebc170741364"
+  },
+  {
+    "path": "services/backend/app/retention_admin_port.py",
+    "mainBlob": null,
+    "targetBlob": "8a37830a21ffe2fa844a1047b9a2da7736a79e5a"
+  },
+  {
+    "path": "services/backend/app/retention_authoring_port.py",
+    "mainBlob": null,
+    "targetBlob": "079c84e690d46344a47b5fda1702acdfa57a8cab"
+  },
+  {
+    "path": "services/backend/app/search_nav_i18n.json",
+    "mainBlob": null,
+    "targetBlob": "27c17e67e3d3892aa963320f7baa5a7af005cafb"
+  },
+  {
+    "path": "services/backend/app/security.py",
+    "mainBlob": null,
+    "targetBlob": "fc602464f10c51640ebcefef68ee7c69815d58db"
+  },
+  {
+    "path": "services/backend/app/speaking_catalog_port.py",
+    "mainBlob": null,
+    "targetBlob": "b411e40786ecee76d5a79e6049609597e2bfe6d5"
+  },
+  {
+    "path": "services/backend/app/speaking_workflow_port.py",
+    "mainBlob": null,
+    "targetBlob": "52ad62cadadd921d0e264866529ff641bbec93cf"
+  },
+  {
+    "path": "services/backend/app/step15_basic_port.py",
+    "mainBlob": null,
+    "targetBlob": "627178f2a9f95f79d0377c0f6cfa238ead741c0c"
+  },
+  {
+    "path": "services/backend/app/step16_bank_port.py",
+    "mainBlob": null,
+    "targetBlob": "f0ba335f37eea6e80e45bea315a2876419646b0a"
+  },
+  {
+    "path": "services/backend/app/step16_leaderboard_port.py",
+    "mainBlob": null,
+    "targetBlob": "95ba6385f090956ad3e2063be388f40885f5681d"
+  },
+  {
+    "path": "services/backend/app/step16_lessons_port.py",
+    "mainBlob": null,
+    "targetBlob": "6c89dda277a4a59d97ef1395b2ab0c2da29526af"
+  },
+  {
+    "path": "services/backend/app/step16_stealing_port.py",
+    "mainBlob": null,
+    "targetBlob": "2a6383f621c5378cf02f72adf06e187b1db4f3b3"
+  },
+  {
+    "path": "services/backend/app/step16_telegram_user_port.py",
+    "mainBlob": null,
+    "targetBlob": "bd4aaa4356547e5c2a2e401552b37983fa188fa2"
+  },
+  {
+    "path": "services/backend/app/step16_units_prompts_port.py",
+    "mainBlob": null,
+    "targetBlob": "92cc7a005c75b5ea7afc615fac62d96f5f3acb53"
+  },
+  {
+    "path": "services/backend/app/step16_vocab_library_port.py",
+    "mainBlob": null,
+    "targetBlob": "bf57d92ab35f8a87dae53312bd53274c1d071d59"
+  },
+  {
+    "path": "services/backend/app/step17_access_events_port.py",
+    "mainBlob": null,
+    "targetBlob": "7a35d5f0cbfeb1ba175c913771493d2d7e6f8219"
+  },
+  {
+    "path": "services/backend/app/step17_admin_safe_port.py",
+    "mainBlob": null,
+    "targetBlob": "01a83ac19246f74dca99b3230231f66a25ad9c24"
+  },
+  {
+    "path": "services/backend/app/step17_dictionary_read_port.py",
+    "mainBlob": null,
+    "targetBlob": "a5205a1e4fe31226e0b13e1d68394fea8391cdbb"
+  },
+  {
+    "path": "services/backend/app/step17_listening_course_port.py",
+    "mainBlob": null,
+    "targetBlob": "767d1c403a9f6fff1b9b18443256610adee4fc8f"
+  },
+  {
+    "path": "services/backend/app/step17_listening_start_port.py",
+    "mainBlob": null,
+    "targetBlob": "9243d861e513a7cf26fafe9b3c1ea6cc14dc0339"
+  },
+  {
+    "path": "services/backend/app/step17_listening_work_port.py",
+    "mainBlob": null,
+    "targetBlob": "466a5bf21f094444b78810b4d5c779644e7b2a36"
+  },
+  {
+    "path": "services/backend/app/step17_mcq_port.py",
+    "mainBlob": null,
+    "targetBlob": "34925606cb7bd4c78df976cc6ec9ad8260585659"
+  },
+  {
+    "path": "services/backend/app/step17_speaking_write_port.py",
+    "mainBlob": null,
+    "targetBlob": "13849f70c72440ee200d3594c54a1103d3eacfd9"
+  },
+  {
+    "path": "services/backend/app/step17_stealing_workflow_port.py",
+    "mainBlob": null,
+    "targetBlob": "ada721a1b8a344999f8678bd4986e69f709f1c75"
+  },
+  {
+    "path": "services/backend/app/step18_telegram_admission_port.py",
+    "mainBlob": null,
+    "targetBlob": "d6b7ccfc5d88299505f3eca9bf74d01297e45f1c"
+  },
+  {
+    "path": "services/backend/app/step18_telegram_auth_port.py",
+    "mainBlob": null,
+    "targetBlob": "313a96e4c9045f6135d9612ece90c6077819a5ba"
+  },
+  {
+    "path": "services/backend/app/step19_bot_delete_port.py",
+    "mainBlob": null,
+    "targetBlob": "ce4d02df6eb18db6d7ba582b051a137de2758d95"
+  },
+  {
+    "path": "services/backend/app/step19_storage.py",
+    "mainBlob": null,
+    "targetBlob": "2468d17cab32859bed642107ea29bff81a8aa0dc"
+  },
+  {
+    "path": "services/backend/app/step19_telegram_exchange_port.py",
+    "mainBlob": null,
+    "targetBlob": "446243546732b845f8c043c7e9545408b86a0f37"
+  },
+  {
+    "path": "services/backend/app/step19_uploads_speaking_port.py",
+    "mainBlob": null,
+    "targetBlob": "520ab43f08dd5dfc803470d4952f67cbb49da4fb"
+  },
+  {
+    "path": "services/backend/app/step19_vocab_games_port.py",
+    "mainBlob": null,
+    "targetBlob": "7fca5ac539ab421ab38d452a6ec1e214aed91065"
+  },
+  {
+    "path": "services/backend/app/step19_vocab_srs_port.py",
+    "mainBlob": null,
+    "targetBlob": "111b8e1ea9fd195f2b8f2a8cfd779d66d8448061"
+  },
+  {
+    "path": "services/backend/app/step20_lesson_editor_port.py",
+    "mainBlob": null,
+    "targetBlob": "ef1ec6683e5a1f0ca363357f68063509525dca38"
+  },
+  {
+    "path": "services/backend/app/step20_media_port.py",
+    "mainBlob": null,
+    "targetBlob": "5ea70c3d309ac152bdfa1efdb3eed3303a2a2809"
+  },
+  {
+    "path": "services/backend/app/step20_retention_transitions_port.py",
+    "mainBlob": null,
+    "targetBlob": "77cfec9eb9547b717a306749e9e6efaad038e474"
+  },
+  {
+    "path": "services/backend/app/step20_upload_finalize_port.py",
+    "mainBlob": null,
+    "targetBlob": "40c991a4808969b33522b839bbc800ad01d31fdf"
+  },
+  {
+    "path": "services/backend/app/step21_academic_start_port.py",
+    "mainBlob": null,
+    "targetBlob": "c267e4d164502cc41bc3161f925e9a22c4ea8f9b"
+  },
+  {
+    "path": "services/backend/app/step21_assignments_create.py",
+    "mainBlob": null,
+    "targetBlob": "302ef306fa1c94c9e50df0726f88c430f342a342"
+  },
+  {
+    "path": "services/backend/app/step21_dictionary_entry_save.py",
+    "mainBlob": null,
+    "targetBlob": "0a667773e51d832d678be66048245ab37f03622b"
+  },
+  {
+    "path": "services/backend/app/step21_history_port.py",
+    "mainBlob": null,
+    "targetBlob": "06daf27df08ad35b525c7db10a6cf4c977604fc0"
+  },
+  {
+    "path": "services/backend/app/step21_lesson_reads_port.py",
+    "mainBlob": null,
+    "targetBlob": "c28e46d0d5954c0c276b71e995d4afbfe34a84b1"
+  },
+  {
+    "path": "services/backend/app/step21_listening_authored_reads.py",
+    "mainBlob": null,
+    "targetBlob": "1d0448f2335ee9d209b9fc532f4f6286070eb124"
+  },
+  {
+    "path": "services/backend/app/step21_meaning_access.py",
+    "mainBlob": null,
+    "targetBlob": "d535fd04eba00033ed41398db0340c4a145e661e"
+  },
+  {
+    "path": "services/backend/app/step21_packs_port.py",
+    "mainBlob": null,
+    "targetBlob": "6d52ba313a53d946272b9e270924245f6419dbe6"
+  },
+  {
+    "path": "services/backend/app/step21_reading_port.py",
+    "mainBlob": null,
+    "targetBlob": "2fe7a44d2b31815ef10fe33eaadf875be08800ff"
+  },
+  {
+    "path": "services/backend/app/step21_retention_reads.py",
+    "mainBlob": null,
+    "targetBlob": "1dc1e520676a6fc0574e612829610fb0bf3ae961"
+  },
+  {
+    "path": "services/backend/app/step21_safe_reads_port.py",
+    "mainBlob": null,
+    "targetBlob": "2ce71e041a545bf19c26bf94bd7504cdf76af1a7"
+  },
+  {
+    "path": "services/backend/app/step21_sourced_vocab.py",
+    "mainBlob": null,
+    "targetBlob": "2d247be4adbdf95767a44593a4ef23ed3fceb921"
+  },
+  {
+    "path": "services/backend/app/step21_vocab_batch.py",
+    "mainBlob": null,
+    "targetBlob": "04ac8c87ce293b7f5ad6628bb58bce99f4317f53"
+  },
+  {
+    "path": "services/backend/app/step21_vocabulary_create.py",
+    "mainBlob": null,
+    "targetBlob": "b4ed6bc7e390ab395e1ac07bd515d3fba2b2eb9d"
+  },
+  {
+    "path": "services/backend/app/step22_listening_submit.py",
+    "mainBlob": null,
+    "targetBlob": "3a9ae39861aa3cc1447f0f986067a79cc0db4f11"
+  },
+  {
+    "path": "services/backend/app/step22_resources_port.py",
+    "mainBlob": null,
+    "targetBlob": "b2e3fc4f527549ea875eb15a6b226ec832ee4a8a"
+  },
+  {
+    "path": "services/backend/app/step22_speaking_deletion.py",
+    "mainBlob": null,
+    "targetBlob": "b7468200108a08f3c68b5b2d35b834b7e1f29ddd"
+  },
+  {
+    "path": "services/backend/app/step22_speaking_patch.py",
+    "mainBlob": null,
+    "targetBlob": "24ddabce61dd9f8dcc1dc6de60faf340d1d2bf52"
+  },
+  {
+    "path": "services/backend/app/step22_study_writes.py",
+    "mainBlob": null,
+    "targetBlob": "e1dec77335ad4eef3676258188a21f1999e76141"
+  },
+  {
+    "path": "services/backend/app/step22_upload_port.py",
+    "mainBlob": null,
+    "targetBlob": "98cc04a3f6ea862f254a2335e23f37a1e0296223"
+  },
+  {
+    "path": "services/backend/app/step23_activation_check.py",
+    "mainBlob": null,
+    "targetBlob": "b2b962b191aa11578270eabc53090e16ab0e8348"
+  },
+  {
+    "path": "services/backend/app/step23_grade.py",
+    "mainBlob": null,
+    "targetBlob": "4f70ba53ea3d577ec46b237415e0a4b32a65b0f9"
+  },
+  {
+    "path": "services/backend/app/step23_stealing_practice.py",
+    "mainBlob": null,
+    "targetBlob": "9c087871ca81e803ad8326144853a6f31d8f9bf2"
+  },
+  {
+    "path": "services/backend/app/step23_translation_answer.py",
+    "mainBlob": null,
+    "targetBlob": "d9b035d5e1c2b9759414718c61f2fe7ed2949be5"
+  },
+  {
+    "path": "services/backend/app/step23_typing.py",
+    "mainBlob": null,
+    "targetBlob": "258b117b86657725ebece1d95059f729b85128a2"
+  },
+  {
+    "path": "services/backend/app/step23_typing_legacy.py",
+    "mainBlob": null,
+    "targetBlob": "ec0895b34a0cdfd32a6318d082ebf3e39fb617f5"
+  },
+  {
+    "path": "services/backend/app/step23_version_preview.py",
+    "mainBlob": null,
+    "targetBlob": "e8ae572f9403141a5dd8e653902803337330e7cf"
+  },
+  {
+    "path": "services/backend/app/step23_vocab_lookup.py",
+    "mainBlob": null,
+    "targetBlob": "141551f039e27facf9262d8c8a981ebdc6ce7207"
+  },
+  {
+    "path": "services/backend/app/step23_writing_provider.py",
+    "mainBlob": null,
+    "targetBlob": "6c2c35527c082b201c1d6f7f0e3280a623de4bcf"
+  },
+  {
+    "path": "services/backend/app/step24_live_partner.py",
+    "mainBlob": null,
+    "targetBlob": "de175ca862ff199951652464de9d618e44a0e616"
+  },
+  {
+    "path": "services/backend/app/step25_content_version.py",
+    "mainBlob": null,
+    "targetBlob": "735c4c2f769dc4f6a19aaf6ead05f622e56adde9"
+  },
+  {
+    "path": "services/backend/app/step25_google_callback.py",
+    "mainBlob": null,
+    "targetBlob": "3c6efa42c763528221c1f237829b59767907e699"
+  },
+  {
+    "path": "services/backend/app/step25_speaking_material_create.py",
+    "mainBlob": null,
+    "targetBlob": "10aba1fffba44532adfb515d367c227c23fa78bb"
+  },
+  {
+    "path": "services/backend/app/step26_dictionary_discard.py",
+    "mainBlob": null,
+    "targetBlob": "d7e4290c3a78dc61549eac941eb4c4ef8568f76e"
+  },
+  {
+    "path": "services/backend/app/step26_dictionary_owner_read.py",
+    "mainBlob": null,
+    "targetBlob": "e9539eb341bf19198979580cc057fe21ef9559bb"
+  },
+  {
+    "path": "services/backend/app/step26_listening_convert.py",
+    "mainBlob": null,
+    "targetBlob": "215048d4ff417bfcd8ea7aba91bd3aad00a9c4ca"
+  },
+  {
+    "path": "services/backend/app/step26_owner_handover.py",
+    "mainBlob": null,
+    "targetBlob": "23a0198a932a06f4e6a5a85a20a4eb615448e3d3"
+  },
+  {
+    "path": "services/backend/app/step26_owner_transfer.py",
+    "mainBlob": null,
+    "targetBlob": "1cc12b84af09a1f4a497b3880d356cb1440e9c51"
+  },
+  {
+    "path": "services/backend/app/step27_dictionary_edit.py",
+    "mainBlob": null,
+    "targetBlob": "fc7a0e72eb067435e5d97ece59f34b7e14d0dec0"
+  },
+  {
+    "path": "services/backend/app/step27_listening_authored_write.py",
+    "mainBlob": null,
+    "targetBlob": "1ab82fa026e7fee7b4f7889144c377573be714e6"
+  },
+  {
+    "path": "services/backend/app/step27_publication.py",
+    "mainBlob": null,
+    "targetBlob": "96176f7dc8cbb02397acefc44e0375fb9e43ccde"
+  },
+  {
+    "path": "services/backend/app/step27_retention_policy.py",
+    "mainBlob": null,
+    "targetBlob": "e0cdabbfd4ae802ccaa25d922bd5dfa2effd777b"
+  },
+  {
+    "path": "services/backend/app/step28_search.py",
+    "mainBlob": null,
+    "targetBlob": "eba87cbab003f7e791345de077d657d04503fa81"
+  },
+  {
+    "path": "services/backend/app/step29_lesson_revision.py",
+    "mainBlob": null,
+    "targetBlob": "bf8b7b253e014555942e3df663e56ae94cf6b492"
+  },
+  {
+    "path": "services/backend/app/step29_lesson_revision_blocks.py",
+    "mainBlob": null,
+    "targetBlob": "4b5353b5af18d05895c3366b3c630547b95dcd8f"
+  },
+  {
+    "path": "services/backend/app/step30_admin_video_lessons.py",
+    "mainBlob": null,
+    "targetBlob": "47120f0c05d523307167c3b2b68b1c77c3138b03"
+  },
+  {
+    "path": "services/backend/app/step30_video_lexical.py",
+    "mainBlob": null,
+    "targetBlob": "2f3ac70f6958e72489abdcffe427131edd50104d"
+  },
+  {
+    "path": "services/backend/app/step31_coach.py",
+    "mainBlob": null,
+    "targetBlob": "8e67edb985da4fd641b999e9b83533b8cf3d3816"
+  },
+  {
+    "path": "services/backend/app/step31_learning_production.py",
+    "mainBlob": null,
+    "targetBlob": "e598d6e556be5c1953b583250c0a3e31714470f8"
+  },
+  {
+    "path": "services/backend/app/step31_riwi_evaluators.py",
+    "mainBlob": null,
+    "targetBlob": "ca64c515a3c6dcfe15a41b57898609b31ef9daf6"
+  },
+  {
+    "path": "services/backend/app/step31_riwi_text.py",
+    "mainBlob": null,
+    "targetBlob": "18bdba5ca73111d8b52d16d90a7d4023ad65c4c6"
+  },
+  {
+    "path": "services/backend/app/step31_version_publication.py",
+    "mainBlob": null,
+    "targetBlob": "53ffd2e6d1adfce9535ee4f6be05ef4c977b2734"
+  },
+  {
+    "path": "services/backend/app/step32_grammar_practice.py",
+    "mainBlob": null,
+    "targetBlob": "e790825130037cb0845a7dfc71c09e7f9aa24a62"
+  },
+  {
+    "path": "services/backend/app/step32_speaking_submit.py",
+    "mainBlob": null,
+    "targetBlob": "3ecb7fc91ce85b1f40f08d8a5bd8f1c799a79c5e"
+  },
+  {
+    "path": "services/backend/app/step32_writing_riwi.py",
+    "mainBlob": null,
+    "targetBlob": "7b2c346ef0cccd34c37eaab127fb8d259ef602d4"
+  },
+  {
+    "path": "services/backend/app/step32_writing_submit.py",
+    "mainBlob": null,
+    "targetBlob": "5262c61b0191bf02364aae18ef845bd55227f655"
+  },
+  {
+    "path": "services/backend/app/step33_assignment.py",
+    "mainBlob": null,
+    "targetBlob": "a1c99c5abac9638f4b0371fc140eb68aa57d4bbb"
+  },
+  {
+    "path": "services/backend/app/step34_reading_import.py",
+    "mainBlob": null,
+    "targetBlob": "75eef69c7ad76bed466476ba2b71e35cb40416d7"
+  },
+  {
+    "path": "services/backend/app/step35_retention_attempts.py",
+    "mainBlob": null,
+    "targetBlob": "9d9b8e2404ebb0953f2bfe748d319a8c2081ad70"
+  },
+  {
+    "path": "services/backend/app/step35_retention_scoring.py",
+    "mainBlob": null,
+    "targetBlob": "bfba0e0849b5edc7bdaec0a02324ef171d8e0d47"
+  },
+  {
+    "path": "services/backend/app/step36_student_export.py",
+    "mainBlob": null,
+    "targetBlob": "d05e6da6d95f2b785fa5f6c4c42a9d5bdeaefdce"
+  },
+  {
+    "path": "services/backend/app/step37_report_exports.py",
+    "mainBlob": null,
+    "targetBlob": "5a9f8bbbb75e23961efa4d88f10c2e376c906c13"
+  },
+  {
+    "path": "services/backend/app/step37_reports.py",
+    "mainBlob": null,
+    "targetBlob": "44f25e993bb9ee7b89ab4018d579c9729936b46f"
+  },
+  {
+    "path": "services/backend/app/step38_content_validate.py",
+    "mainBlob": null,
+    "targetBlob": "b16874d058027c771adf0591ad7c40c7f2a3a3ba"
+  },
+  {
+    "path": "services/backend/app/step38_content_validation.py",
+    "mainBlob": null,
+    "targetBlob": "062fa510c71871e2b5bf40b559cbe07614b7b971"
+  },
+  {
+    "path": "services/backend/app/step39_content_import.py",
+    "mainBlob": null,
+    "targetBlob": "258de90c13816be52824700373a02c701dc6d90f"
+  },
+  {
+    "path": "services/backend/app/step39_dictionary_publish.py",
+    "mainBlob": null,
+    "targetBlob": "aebb138866ca47be477e3e11f15715e11449dedc"
+  },
+  {
+    "path": "services/backend/app/step39_listening_conversion.py",
+    "mainBlob": null,
+    "targetBlob": "a39511a8c8cd5c105dcbb215b14e1a7d3d2b8e97"
+  },
+  {
+    "path": "services/backend/app/step40_content_drafts.py",
+    "mainBlob": null,
+    "targetBlob": "c017368e92f3639abdc364659654f3c69b0016fc"
+  },
+  {
+    "path": "services/backend/app/step40_dictionary_index.py",
+    "mainBlob": null,
+    "targetBlob": "d1a8c1cfda9e273ee49688a285b62c86f28c66eb"
+  },
+  {
+    "path": "services/backend/app/step40_dictionary_storage.py",
+    "mainBlob": null,
+    "targetBlob": "8485ad059c23ebbc18a8ddca748ea3668870c546"
+  },
+  {
+    "path": "services/backend/app/step40_listening_legacy.py",
+    "mainBlob": null,
+    "targetBlob": "de3f2f09050dbde5056d5a457704214e1388c066"
+  },
+  {
+    "path": "services/backend/app/supabase_root_ca.pem",
+    "mainBlob": null,
+    "targetBlob": "3d693669b23c340c57a3457bdc8b6fefe1806cc5"
+  },
+  {
+    "path": "services/backend/app/support_reports_port.py",
+    "mainBlob": null,
+    "targetBlob": "628bd6bd619620e29cd9b93388239ed5a3724098"
+  },
+  {
+    "path": "services/backend/app/telegram_admins_port.py",
+    "mainBlob": null,
+    "targetBlob": "f83b22607c61a1b365df6758fef3e11d84454ff9"
+  },
+  {
+    "path": "services/backend/app/telegram_broadcast_port.py",
+    "mainBlob": null,
+    "targetBlob": "e16fae7f8f17340c66382f7dd88434f9f8b3369d"
+  },
+  {
+    "path": "services/backend/app/telegram_directory_port.py",
+    "mainBlob": null,
+    "targetBlob": "e60d7b8883f72e340988212294e02c7eb4e8e810"
+  },
+  {
+    "path": "services/backend/app/telegram_extra_port.py",
+    "mainBlob": null,
+    "targetBlob": "1ac4373ef76337b2305761ec6d4b17f349444380"
+  },
+  {
+    "path": "services/backend/app/telegram_notification_queue_port.py",
+    "mainBlob": null,
+    "targetBlob": "1595803ef09c067aab031c98cf0488f8f22628c0"
+  },
+  {
+    "path": "services/backend/app/telegram_ops_port.py",
+    "mainBlob": null,
+    "targetBlob": "a88ca07328814e20f29403b55230e9e49addc9c2"
+  },
+  {
+    "path": "services/backend/app/telegram_preferences_port.py",
+    "mainBlob": null,
+    "targetBlob": "c4f0350b780ee27b4e5c81625c261a9e2b1d9d46"
+  },
+  {
+    "path": "services/backend/app/telegram_settings_port.py",
+    "mainBlob": null,
+    "targetBlob": "5431fd722a0221ff26c9f12bf5f267661b43923e"
+  },
+  {
+    "path": "services/backend/app/telegram_support_drafts_port.py",
+    "mainBlob": null,
+    "targetBlob": "eecd3590f32a296bb1ace1aa9e08b93898a85dc4"
+  },
+  {
+    "path": "services/backend/app/typing_corpus_original.json",
+    "mainBlob": null,
+    "targetBlob": "db29c79cb3fd07fd2f7c4e4f3fe220e760a19843"
+  },
+  {
+    "path": "services/backend/app/video_answers_join_port.py",
+    "mainBlob": null,
+    "targetBlob": "b3d8c96c30b42c64dd389afe004a6ef67650154f"
+  },
+  {
+    "path": "services/backend/app/video_lexical_rules.json",
+    "mainBlob": null,
+    "targetBlob": "7459710c380f4430351b3d574d290197d71663f2"
+  },
+  {
+    "path": "services/backend/app/video_progress_port.py",
+    "mainBlob": null,
+    "targetBlob": "977902a7f0e422c04cab56221fcc7ce37c81c6a0"
+  },
+  {
+    "path": "services/backend/app/vocabulary_builtin_packs.json",
+    "mainBlob": null,
+    "targetBlob": "d5a6909849a28d18abf4027643a97d672563ef4c"
+  },
+  {
+    "path": "services/backend/app/vocabulary_packs_port.py",
+    "mainBlob": null,
+    "targetBlob": "8e36f7c9b31c57f79c28f5506fb7152fca0e61d2"
+  },
+  {
+    "path": "services/backend/app/writing_admin_content_port.py",
+    "mainBlob": null,
+    "targetBlob": "686a782cded8b6179447433cb102cab9f1ea01bb"
+  },
+  {
+    "path": "services/backend/app/writing_exam_read_port.py",
+    "mainBlob": null,
+    "targetBlob": "b980b971b769b222dda9a649786ade1a49408857"
+  },
+  {
+    "path": "services/backend/app/writing_submissions_port.py",
+    "mainBlob": null,
+    "targetBlob": "4c6bdb00c4a9035de300f5f46ab896169fcbcd06"
+  },
+  {
+    "path": "services/backend/app/writing_translation_port.py",
+    "mainBlob": null,
+    "targetBlob": "ba8064c312b2f60f4f4ad011977bf566d764fa37"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/00.json.gz",
+    "mainBlob": null,
+    "targetBlob": "d8f859c56802accbe10bd3e0095b914dde2d9124"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/01.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a0a9f7d80d4e4c115f37d4335b60883c496e5631"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/02.json.gz",
+    "mainBlob": null,
+    "targetBlob": "40f005cb713e72c0b43f84938b386b8a70237a8a"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/03.json.gz",
+    "mainBlob": null,
+    "targetBlob": "5d5ef731b51428a1bd03b7d8dc1566e5123cbab7"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/04.json.gz",
+    "mainBlob": null,
+    "targetBlob": "5f40481dbb394a2daff589b455dbafe934540526"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/05.json.gz",
+    "mainBlob": null,
+    "targetBlob": "d1cc9f3addf4abeb73a409324633bdd7dd1ed4ef"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/06.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e5c84fbf156472a5276dc4b8e34f495e70d729dc"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/07.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e969efde0f2b6dd42b211032a398c07b46b4507b"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/08.json.gz",
+    "mainBlob": null,
+    "targetBlob": "261104d8b21dbb5bb0c262b612271e9d6ebdc21e"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/09.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a3f361e18c83d9a60cb756a9471d753442ef0037"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/0a.json.gz",
+    "mainBlob": null,
+    "targetBlob": "463db0722306e23545798b2231eeeb1b16c95fc6"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/0b.json.gz",
+    "mainBlob": null,
+    "targetBlob": "31b44459d75271733216a57405876663e459a776"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/0c.json.gz",
+    "mainBlob": null,
+    "targetBlob": "72f00ca2a8fed99632f525fbd8fc7f8e01c23aad"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/0d.json.gz",
+    "mainBlob": null,
+    "targetBlob": "2d2c10c9411c07b3ccf4ede3411561fc329d52d6"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/0e.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e0cd47e033f795152cf724fe0119e486d34ccdc1"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/0f.json.gz",
+    "mainBlob": null,
+    "targetBlob": "85e595599a2cc2499eb90a488c2d34fb7c95819c"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/10.json.gz",
+    "mainBlob": null,
+    "targetBlob": "5eacd5b1700df96e45817078b297fb25ce4a3bb6"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/11.json.gz",
+    "mainBlob": null,
+    "targetBlob": "8e06d248aaf3413458fb611d7b9e351e619e97a4"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/12.json.gz",
+    "mainBlob": null,
+    "targetBlob": "fc47d31538126eb6fc04ae01dcefa7a3f75ed697"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/13.json.gz",
+    "mainBlob": null,
+    "targetBlob": "59807dd593fd0181e0fb39a3df03b691a4db5bc0"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/14.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a4c045c914d12240c0b80e87ecd7958745dad209"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/15.json.gz",
+    "mainBlob": null,
+    "targetBlob": "1f979b31b818e407f1b5a8af064363096c9770f3"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/16.json.gz",
+    "mainBlob": null,
+    "targetBlob": "d4e25337246bc1ebd1eb1e48b978902053c73e5f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/17.json.gz",
+    "mainBlob": null,
+    "targetBlob": "08614fb5721a156838600d3c00980cdd8b0d855d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/18.json.gz",
+    "mainBlob": null,
+    "targetBlob": "0cbeec66f632ab495954cde55c75a7f5e994ac73"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/19.json.gz",
+    "mainBlob": null,
+    "targetBlob": "1f916081d23186273568316ca8c1d61f2e2cea13"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/1a.json.gz",
+    "mainBlob": null,
+    "targetBlob": "494f6cc6ad392ddd2ea5ff4c3ec38eade5d25692"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/1b.json.gz",
+    "mainBlob": null,
+    "targetBlob": "0662c56eab53d67db5cc800b62ddbcdfc9a22e36"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/1c.json.gz",
+    "mainBlob": null,
+    "targetBlob": "5e2f093a37679fe50608b6022beecddc581a2c64"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/1d.json.gz",
+    "mainBlob": null,
+    "targetBlob": "d29857bebc2b00982f2e24e270f4ce7a3aa46292"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/1e.json.gz",
+    "mainBlob": null,
+    "targetBlob": "3e8d514690ae1a5ffd3ce97c3bf4b93cae7c5a1a"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/1f.json.gz",
+    "mainBlob": null,
+    "targetBlob": "70f9aa31f56d43fa61d1d13e00246985f1c8ea0e"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/20.json.gz",
+    "mainBlob": null,
+    "targetBlob": "756f0683735861d9a83c025b50a0790c70a10f6b"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/21.json.gz",
+    "mainBlob": null,
+    "targetBlob": "9c64dce1f9a9f9a131f4b1fb52ffa4af9b931704"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/22.json.gz",
+    "mainBlob": null,
+    "targetBlob": "522eb885ee5a4e56b76ea3a9cb03e66f8e7a647d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/23.json.gz",
+    "mainBlob": null,
+    "targetBlob": "b520cad4e9266c9ad5ca38dc6aec918043a254f8"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/24.json.gz",
+    "mainBlob": null,
+    "targetBlob": "b41f55e71f52efa84b971a5f041d15937f6e4d07"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/25.json.gz",
+    "mainBlob": null,
+    "targetBlob": "76c9343dd834bbcc01988eb74d1ed209f22dd0e5"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/26.json.gz",
+    "mainBlob": null,
+    "targetBlob": "eda7e4631bf1c302ea0b54387b2c8c693099d1d3"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/27.json.gz",
+    "mainBlob": null,
+    "targetBlob": "bb7afce94cc4d33f68c08e76819d93e18e835ef6"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/28.json.gz",
+    "mainBlob": null,
+    "targetBlob": "2f8e53919129d2ab7da047363e75f21e1bcf87be"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/29.json.gz",
+    "mainBlob": null,
+    "targetBlob": "17262b2f8cb069b3cb76f3c4a94a0b247493443e"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/2a.json.gz",
+    "mainBlob": null,
+    "targetBlob": "8f7a6987c94e0c68ff768d6eb94770c4aa9c5689"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/2b.json.gz",
+    "mainBlob": null,
+    "targetBlob": "3da6493b99094edf9adb1e02bfd1a8430fdd96a0"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/2c.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ffbb044f5079c5ac9caeafb48eb8841970082e50"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/2d.json.gz",
+    "mainBlob": null,
+    "targetBlob": "c2edcac56007fa026105776d683f99e5c5ce10e1"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/2e.json.gz",
+    "mainBlob": null,
+    "targetBlob": "d273ba7cf77d41d1de58250f0fa4aa41817619d8"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/2f.json.gz",
+    "mainBlob": null,
+    "targetBlob": "35ba52e8a7cf84a46eb42cb3ee9c3e0bdf9dc8a3"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/30.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a34a30916723484977f489efc5675716752c0aae"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/31.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4e6fcea4160e644dd660de3cca97d2e67d730b10"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/32.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ec3c964a4a5491ac2ab693536410d683e80d39b5"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/33.json.gz",
+    "mainBlob": null,
+    "targetBlob": "9139c691ced2e83a108b7e096a929cb86081baf5"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/34.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a00b54b52d8a78a2ad0cee66bdb8b81ecdee2eb1"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/35.json.gz",
+    "mainBlob": null,
+    "targetBlob": "95fbc90ca2bd7e59105e9d5eb9ab272dd844c11e"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/36.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ad3dd859a464d0638c6bf2b9a390eb706428ea17"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/37.json.gz",
+    "mainBlob": null,
+    "targetBlob": "7f2b6b70a7cf74576406524031f20d45a5ddb492"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/38.json.gz",
+    "mainBlob": null,
+    "targetBlob": "761e04d7d0f38d1d6a9970199307bf31e69a07be"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/39.json.gz",
+    "mainBlob": null,
+    "targetBlob": "c4e43fa481b45928107edf43432f0648cc3a6249"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/3a.json.gz",
+    "mainBlob": null,
+    "targetBlob": "206c71be77fec405485867e5d8f9f5f7494063e3"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/3b.json.gz",
+    "mainBlob": null,
+    "targetBlob": "edd8de529d178095ba1ad6f04d1be011b31c5b38"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/3c.json.gz",
+    "mainBlob": null,
+    "targetBlob": "5fb017e978775a58666855bcf7787e1e2a714f44"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/3d.json.gz",
+    "mainBlob": null,
+    "targetBlob": "b178acd0a93f69a98be51f8a1dc30edfd723bc23"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/3e.json.gz",
+    "mainBlob": null,
+    "targetBlob": "30afa075f95701670fed4f839a678c008111a7e3"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/3f.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4bde09a0ef0ccf05b625653c3877620dd7f34581"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/40.json.gz",
+    "mainBlob": null,
+    "targetBlob": "5ed570f953842fc617c355fe218152fcec79a7f1"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/41.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a69ab044cffac9c736934b1a7389ff0f04759317"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/42.json.gz",
+    "mainBlob": null,
+    "targetBlob": "c5b1eda22429cc0df7d812ec3c22aa72b4394828"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/43.json.gz",
+    "mainBlob": null,
+    "targetBlob": "bbde3c45382ea6af30def7ade7df92ba47fb9971"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/44.json.gz",
+    "mainBlob": null,
+    "targetBlob": "32ae715cd8c285a02638f1e527ae96dbe658842a"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/45.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4d7eabcfae371e1217eabf1ebd5eba9bc8cd65ff"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/46.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a86011352c10442c8972610e8f9abfff90d543ef"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/47.json.gz",
+    "mainBlob": null,
+    "targetBlob": "0030da234d429b7793c71c6ea7847607e5f15810"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/48.json.gz",
+    "mainBlob": null,
+    "targetBlob": "64c224ccd568f0dc0fdb9364078787bfa96f60be"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/49.json.gz",
+    "mainBlob": null,
+    "targetBlob": "598613264e244baba00ca2c22085662d08d19354"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/4a.json.gz",
+    "mainBlob": null,
+    "targetBlob": "d47c4145cf581a4e46bee1bcbd9e845a983d8925"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/4b.json.gz",
+    "mainBlob": null,
+    "targetBlob": "9ad2a826caabb7e5bb72844626617b19268ae95f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/4c.json.gz",
+    "mainBlob": null,
+    "targetBlob": "8803dc552da63e3a92b42e319947a617f01008dc"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/4d.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4db740d129d689672ba189bd85e8fd558e0d2903"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/4e.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e704dd6a33fe3d614f932d0b7656881bfe455970"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/4f.json.gz",
+    "mainBlob": null,
+    "targetBlob": "f73d9df1d0c682b9105067c2a94179855c4c4568"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/50.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4ed0a44fcf920231fc99862809a39a6cfa82114f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/51.json.gz",
+    "mainBlob": null,
+    "targetBlob": "b6e205861493cdf97919764b0f9568e12c1aceb8"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/52.json.gz",
+    "mainBlob": null,
+    "targetBlob": "532e9d4ea49d4802e348984b2b303fb3d9fbc539"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/53.json.gz",
+    "mainBlob": null,
+    "targetBlob": "6351cedf6b9a24ea2304c4d06c731e7db2942bec"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/54.json.gz",
+    "mainBlob": null,
+    "targetBlob": "17e9cf87f5fa583fbf35e53f371de88c17b42e6c"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/55.json.gz",
+    "mainBlob": null,
+    "targetBlob": "163c13b3f2ccf10f4145d58caa605fedc5ff09dc"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/56.json.gz",
+    "mainBlob": null,
+    "targetBlob": "7a554f9eac7be9f6ec369e4470360baa0fd3cf38"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/57.json.gz",
+    "mainBlob": null,
+    "targetBlob": "f5dc96ee6785974b852060970e3023635a608023"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/58.json.gz",
+    "mainBlob": null,
+    "targetBlob": "daa53093f281cf0501c35313c7c14f3f8338cd34"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/59.json.gz",
+    "mainBlob": null,
+    "targetBlob": "36e0a454ff839b393256fad0a81c38464a0639b3"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/5a.json.gz",
+    "mainBlob": null,
+    "targetBlob": "dd26aa73d886f3f1ea05d83f5dc9a0c1381eecbc"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/5b.json.gz",
+    "mainBlob": null,
+    "targetBlob": "602ea76f19c8b00fe7660f1cbe37adbc4c88afe1"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/5c.json.gz",
+    "mainBlob": null,
+    "targetBlob": "d264ea13cbbc07f5df58449917e4ee975265a518"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/5d.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e09a11b3368ed7c5d6fadfdb9c0ef73d92c9d088"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/5e.json.gz",
+    "mainBlob": null,
+    "targetBlob": "6e5c6402b8ab1b11d4bea77a12d574559c03465c"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/5f.json.gz",
+    "mainBlob": null,
+    "targetBlob": "188e1408faed44681ace08542a9140cf855f6e71"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/60.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ce4e33ac33cbb784c9a367346cc757b034345457"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/61.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4275c65470552c6e008c3d67e21ff2efe3c2b720"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/62.json.gz",
+    "mainBlob": null,
+    "targetBlob": "c5cf6e72290578348380bdb664d4d60e0e6ada5b"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/63.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ccef37f3e150b717d80585e07a21838272d40902"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/64.json.gz",
+    "mainBlob": null,
+    "targetBlob": "1ecbdc4775cd8c43bc259bee62bce3abcde9ad6c"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/65.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4bf0f945fadbb620533aa9fd38d4ff0035130e63"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/66.json.gz",
+    "mainBlob": null,
+    "targetBlob": "8265a49202fe2a11f2ce13fa5a72785047560953"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/67.json.gz",
+    "mainBlob": null,
+    "targetBlob": "592afa4b6cad048dccbdb14358e75e06bcb177f9"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/68.json.gz",
+    "mainBlob": null,
+    "targetBlob": "5539c9a726871c59c33b81c0793fa2160f609f80"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/69.json.gz",
+    "mainBlob": null,
+    "targetBlob": "bcfe543b969f78eb2c1ae794c10da8a39b87c4d5"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/6a.json.gz",
+    "mainBlob": null,
+    "targetBlob": "05674ebc10efd352f544c3f6762f1c3ab2a8c9eb"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/6b.json.gz",
+    "mainBlob": null,
+    "targetBlob": "dfe374c6632eb80837a953c9dbcbfa4ad5d548e8"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/6c.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4ba37fba71328f9b15ab4fafdfaf00f09dc4a05e"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/6d.json.gz",
+    "mainBlob": null,
+    "targetBlob": "43e51288707720bc14f28b5902afc7e3a17538b1"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/6e.json.gz",
+    "mainBlob": null,
+    "targetBlob": "8a1cf6e1ea1295129e05941a85fce9bf80469bbf"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/6f.json.gz",
+    "mainBlob": null,
+    "targetBlob": "262aba06803d7e99c01994437bdbe0d09e0f59c0"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/70.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4116d124f682590b369e9059b08d1040256d1d21"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/71.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ae1df8c86a224cba90d76abd953260ebaa0ab425"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/72.json.gz",
+    "mainBlob": null,
+    "targetBlob": "fdb320694739217956fb51616e99e8e580c96928"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/73.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4bc81fbad1ea2131cf950123d0dd159e51d0e9b7"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/74.json.gz",
+    "mainBlob": null,
+    "targetBlob": "8034f64bf4e8715643e754e31cc880fdb2745407"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/75.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a8d99b3fb23ad7b67e8cd7175bdb130c9620bf31"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/76.json.gz",
+    "mainBlob": null,
+    "targetBlob": "f1a3d21a3e82c541924468e333af961f3a7ab74c"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/77.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4c95c5ab68b501c8dc86daabb4f675d60609bfc2"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/78.json.gz",
+    "mainBlob": null,
+    "targetBlob": "6f9ec720af2e4a07900aa0f1c1f63b8ccbd7e3cb"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/79.json.gz",
+    "mainBlob": null,
+    "targetBlob": "cc6aa47c26d70f8e18b93713ac734bb3605d5077"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/7a.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e417405e6d28832cfb4e21edb670e5ccd07d7bfe"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/7b.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ba0e91f11a0bad1f85a29fb1bcea24fd0baf2411"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/7c.json.gz",
+    "mainBlob": null,
+    "targetBlob": "5c4865519091436abbde7092b754f69c5b8872e9"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/7d.json.gz",
+    "mainBlob": null,
+    "targetBlob": "20d3e1acad8936b817ac33d562f6b9d1b9ad219d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/7e.json.gz",
+    "mainBlob": null,
+    "targetBlob": "69b230155fb511345d14b89e9cd18baf6fc4da3e"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/7f.json.gz",
+    "mainBlob": null,
+    "targetBlob": "10f383b6ad72a3bfdd3812c3a516bffe5a18405d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/80.json.gz",
+    "mainBlob": null,
+    "targetBlob": "003e0ac8802e5217656cffbde8a65544553df458"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/81.json.gz",
+    "mainBlob": null,
+    "targetBlob": "80b0c1e76e3f3809a6862200297c2e93e804ab27"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/82.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a6e06f1d35f857661cafe5a61f412f5bc72b3e88"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/83.json.gz",
+    "mainBlob": null,
+    "targetBlob": "09ee3e756c0dd88cfcc3d2a8ddaf549eb79ba117"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/84.json.gz",
+    "mainBlob": null,
+    "targetBlob": "adcc179f8c7bb27118c60f01cfe5a842947d0c0f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/85.json.gz",
+    "mainBlob": null,
+    "targetBlob": "44cdfc2318fca3412a4c2c7a1a8eb4d87232e02d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/86.json.gz",
+    "mainBlob": null,
+    "targetBlob": "375cfe2cf35cbe58bfdeee82be27688cf00cbb7a"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/87.json.gz",
+    "mainBlob": null,
+    "targetBlob": "36860cd43a33a7fc2c58b5755f45e872e13871a4"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/88.json.gz",
+    "mainBlob": null,
+    "targetBlob": "51c28862fb72d953565bf072210f30218fb92982"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/89.json.gz",
+    "mainBlob": null,
+    "targetBlob": "05d27cf5b37402c18e03d3976dbce14abb36481d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/8a.json.gz",
+    "mainBlob": null,
+    "targetBlob": "2f2a64f248e91ece4fcffab553e3d60193f4655f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/8b.json.gz",
+    "mainBlob": null,
+    "targetBlob": "62f686281c8fb5bb9e0b884245e15e3fb7046293"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/8c.json.gz",
+    "mainBlob": null,
+    "targetBlob": "6b05785dd1ab20e5b909bce7cdaab26ebc0a7ac1"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/8d.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ef35efeac29ee7a5210c9a3cf16cf02dd75be4b8"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/8e.json.gz",
+    "mainBlob": null,
+    "targetBlob": "222c0e3f53a77befe41c4e06e352d5446507549e"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/8f.json.gz",
+    "mainBlob": null,
+    "targetBlob": "cddb1f29898744a4af939933e7c5a461a586b8be"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/90.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e27bf35ed8c4c39ee3a0152b455afa1c7b63b932"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/91.json.gz",
+    "mainBlob": null,
+    "targetBlob": "c186cbb2f70ac2231efd8312aba9698471c2ba4b"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/92.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e183ec456362be9d2ceaf5e8320f10d6a4d36eb3"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/93.json.gz",
+    "mainBlob": null,
+    "targetBlob": "cbdc31f7b9cfd42581e0ed5275477413b9ee23fb"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/94.json.gz",
+    "mainBlob": null,
+    "targetBlob": "908283e429b87105af79ddf41ed78c18e2236e84"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/95.json.gz",
+    "mainBlob": null,
+    "targetBlob": "f59c9354c7bcce08e5399d8e4a89d65ebbb580a3"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/96.json.gz",
+    "mainBlob": null,
+    "targetBlob": "0f8b79de9e1020d99aae10089fd8ab7b2fd3ac44"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/97.json.gz",
+    "mainBlob": null,
+    "targetBlob": "974e2b38eca8a1cae65a19bc2cdfec3491d8b504"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/98.json.gz",
+    "mainBlob": null,
+    "targetBlob": "50c0d15895d964b1607ac9f4853607ef50a7b226"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/99.json.gz",
+    "mainBlob": null,
+    "targetBlob": "2ff747829c63f1f25db5f7507ad275ac640eb2f6"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/9a.json.gz",
+    "mainBlob": null,
+    "targetBlob": "8a3cd7159de7aae84121bfad367b7487563f76f7"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/9b.json.gz",
+    "mainBlob": null,
+    "targetBlob": "79c12ef646b166345e059927a757be7954c14509"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/9c.json.gz",
+    "mainBlob": null,
+    "targetBlob": "f7e0d3127646adac70c3f14e4db76dac9a99e4e4"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/9d.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4bda2142195ffa8887b2f12748eae27ac78faf0c"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/9e.json.gz",
+    "mainBlob": null,
+    "targetBlob": "41051c8acd6bdf91c718add78534a0d4368f670f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/9f.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a6a62fcf426425551261a2565e5e5bc50bbadb14"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/a0.json.gz",
+    "mainBlob": null,
+    "targetBlob": "be67f18d50f5ec801b2ab348e2dee14ec94b5847"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/a1.json.gz",
+    "mainBlob": null,
+    "targetBlob": "cd586185b6d87a2753ad6b5070a54cabf3dd9003"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/a2.json.gz",
+    "mainBlob": null,
+    "targetBlob": "28f22036ae20b177f8291306c21cb243bc25a471"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/a3.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e60674577c68b95937826af58be923a5fee32850"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/a4.json.gz",
+    "mainBlob": null,
+    "targetBlob": "f35f901a712c447b8963d8bad62322a8e8828b42"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/a5.json.gz",
+    "mainBlob": null,
+    "targetBlob": "323636ddbcf0db906a7eecf2a64e205138fa776f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/a6.json.gz",
+    "mainBlob": null,
+    "targetBlob": "3c269ace8eb6e78dea916d76f177c0a7e1cac9f6"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/a7.json.gz",
+    "mainBlob": null,
+    "targetBlob": "70d1950257df069e064ff779ab40ec1e93506afd"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/a8.json.gz",
+    "mainBlob": null,
+    "targetBlob": "5c10199a5e899c6ff6418d8756ce6a6f132d9ec0"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/a9.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e442aeb8011cf014e4de28640027ed6a24381970"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/aa.json.gz",
+    "mainBlob": null,
+    "targetBlob": "37dc64dc00b2fbccfe91a13c2199575227af06db"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ab.json.gz",
+    "mainBlob": null,
+    "targetBlob": "b2b50fa4f47bd71ad6173ed69a172cec0d2c4235"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ac.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e06a6864032ceba74d2bed3556cf8e0c6b929010"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ad.json.gz",
+    "mainBlob": null,
+    "targetBlob": "bbf3d34e446a58f0d1200f3cbf9e630b34dc8bb9"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ae.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ff4aaca2a8d464d04a5867979296deb12852e68f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/af.json.gz",
+    "mainBlob": null,
+    "targetBlob": "804c763b1bdf5e5432b43e1b0cdce7c4c9b38497"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/b0.json.gz",
+    "mainBlob": null,
+    "targetBlob": "19c05839c99b5c9fe3e45fc59a9f7d37c31ab9ac"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/b1.json.gz",
+    "mainBlob": null,
+    "targetBlob": "2d0e83364c74ffbed761134350414e4be7fa8963"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/b2.json.gz",
+    "mainBlob": null,
+    "targetBlob": "536b8474032ed37c3cab1c142541d4da134b4652"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/b3.json.gz",
+    "mainBlob": null,
+    "targetBlob": "00f807b577bd151ac85176e9acb2d96f324f5427"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/b4.json.gz",
+    "mainBlob": null,
+    "targetBlob": "411d337429d006d62988af1a50dde1a0672e67ef"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/b5.json.gz",
+    "mainBlob": null,
+    "targetBlob": "0af92cc534f22db210be80d9d7abeb5f3e847194"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/b6.json.gz",
+    "mainBlob": null,
+    "targetBlob": "1c426249063338de7ce2425f0cc5b28bd7777a0d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/b7.json.gz",
+    "mainBlob": null,
+    "targetBlob": "89a97f33a4374352e902c97b6a54940bdf5d6589"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/b8.json.gz",
+    "mainBlob": null,
+    "targetBlob": "37a6732039d478b6b38493aaa120422d17b4b9c4"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/b9.json.gz",
+    "mainBlob": null,
+    "targetBlob": "19587032a49980550afee184b0ad2104d45a6995"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ba.json.gz",
+    "mainBlob": null,
+    "targetBlob": "7f1e76363a08206a9986aef9db5697cccb6b21e2"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/bb.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a6277befb65aceac828246f39c585b2b87346924"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/bc.json.gz",
+    "mainBlob": null,
+    "targetBlob": "8858c19c42d45e56383d6ba773e12ac6b5d4b4be"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/bd.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e095cb41d5adfb4062460b53dd1c52e3d8e0b221"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/be.json.gz",
+    "mainBlob": null,
+    "targetBlob": "6b3084019757b4aeec90d1c11d2faab48ce36169"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/bf.json.gz",
+    "mainBlob": null,
+    "targetBlob": "df5a1bf87bf21f5b98aff91292e67cca934355bc"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/c0.json.gz",
+    "mainBlob": null,
+    "targetBlob": "0ac36429148a3139dbf25b9749381e38dcee5b82"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/c1.json.gz",
+    "mainBlob": null,
+    "targetBlob": "28733e2276d38aab19b2d598fef35b4b2955f387"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/c2.json.gz",
+    "mainBlob": null,
+    "targetBlob": "b1f229e89f8ff68c138ead34f313a133a6c94682"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/c3.json.gz",
+    "mainBlob": null,
+    "targetBlob": "59a1be23a6a9b28a942bbf8b2c6a76af987447c4"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/c4.json.gz",
+    "mainBlob": null,
+    "targetBlob": "87f5f43a6871c991f288d84abc428764781e5151"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/c5.json.gz",
+    "mainBlob": null,
+    "targetBlob": "385c0e009b7bbfcf7153ffb2b67184f9342f9ae0"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/c6.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4a504c2dc78957718600c4183243ae5e3271eb44"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/c7.json.gz",
+    "mainBlob": null,
+    "targetBlob": "a93264f841cddc15f5ecb841ba15bcdb011698c4"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/c8.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ccd67c94139d277c8ee69888f4aa6acaaccd4b16"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/c9.json.gz",
+    "mainBlob": null,
+    "targetBlob": "57abe31b12f0228778d30e16ee0448d5405dcf4d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ca.json.gz",
+    "mainBlob": null,
+    "targetBlob": "17403342be74cc85fd18a6700d208dd8609971c4"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/cb.json.gz",
+    "mainBlob": null,
+    "targetBlob": "be2ed768b16b41b95c5085489111ab8ce187adba"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/cc.json.gz",
+    "mainBlob": null,
+    "targetBlob": "7ac9015d020ff62c7cb435ed1918c68a3054e5fb"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/cd.json.gz",
+    "mainBlob": null,
+    "targetBlob": "09f99a995b1dedc25f9c60d710c3acb4a1c07fa3"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ce.json.gz",
+    "mainBlob": null,
+    "targetBlob": "03298b18b5caefd1d7e42ec06243c66aba216295"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/cf.json.gz",
+    "mainBlob": null,
+    "targetBlob": "b18047be72728619444b5500a2136f843d16ba6d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/d0.json.gz",
+    "mainBlob": null,
+    "targetBlob": "dfd0c9d37e8b64b421b95f2b766449509911b950"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/d1.json.gz",
+    "mainBlob": null,
+    "targetBlob": "fa7053fdb2dee6280b6e82cef74f391efad611e9"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/d2.json.gz",
+    "mainBlob": null,
+    "targetBlob": "51016846b84a80c97d88cd889cdf377f05e1618b"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/d3.json.gz",
+    "mainBlob": null,
+    "targetBlob": "262f19cd8b9c1e7d0a95619ae079bace176cff3c"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/d4.json.gz",
+    "mainBlob": null,
+    "targetBlob": "944b5a00d4afb0181ea5db6f34bc6a1d1617d2e1"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/d5.json.gz",
+    "mainBlob": null,
+    "targetBlob": "1575bc0ea3b5e84e0f8460632aec0d98c13f350f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/d6.json.gz",
+    "mainBlob": null,
+    "targetBlob": "82b3100e5d91a0be77d5e05e687163e21d3351e7"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/d7.json.gz",
+    "mainBlob": null,
+    "targetBlob": "d530eb245f52a6b67684abb8c4ca52a174d5347f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/d8.json.gz",
+    "mainBlob": null,
+    "targetBlob": "8ccb3a6c55e4035b34e30fa21d4bd7becc983f91"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/d9.json.gz",
+    "mainBlob": null,
+    "targetBlob": "83216e0791ef5973b5f07063735eba709f819681"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/da.json.gz",
+    "mainBlob": null,
+    "targetBlob": "f0b173f9fc640731ff43464ff78709ba6a386efa"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/db.json.gz",
+    "mainBlob": null,
+    "targetBlob": "4dc456be758c1bcb6cf6f17a8cec838814f5b48c"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/dc.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e2ce0163eee0ce48080e50c911a7dde2861192a0"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/dd.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e3b4c86e7150a237f04ee28d234244f9326f9508"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/de.json.gz",
+    "mainBlob": null,
+    "targetBlob": "3687393c32689d94089f0f657c99d114bda65529"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/df.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ab3215db80c487614cedb98459ca018b8d43935b"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/e0.json.gz",
+    "mainBlob": null,
+    "targetBlob": "c77e5de651d65e41a073f8ceca33388d07aa49ef"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/e1.json.gz",
+    "mainBlob": null,
+    "targetBlob": "222c222cfe9921434a6c36fbe08d999dee0b227d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/e2.json.gz",
+    "mainBlob": null,
+    "targetBlob": "d90d8eae905d95e79eab1d2e578c999a121a08c6"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/e3.json.gz",
+    "mainBlob": null,
+    "targetBlob": "c0b5cf9850a9c62761f453dab79238ad337b7e90"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/e4.json.gz",
+    "mainBlob": null,
+    "targetBlob": "60745df0e8ee34a639652c4277fe570c447c3fa4"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/e5.json.gz",
+    "mainBlob": null,
+    "targetBlob": "33a7fd44013480c8e25b5f1c3fed06ccb844b2f3"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/e6.json.gz",
+    "mainBlob": null,
+    "targetBlob": "1ac8ef7dc615506a0955eecfb7b2b88293e8fbd7"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/e7.json.gz",
+    "mainBlob": null,
+    "targetBlob": "6f1e77799961f659a4ea1fa85bd2f0d6d81683b9"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/e8.json.gz",
+    "mainBlob": null,
+    "targetBlob": "e45006bb534653be558e36929266dd8c589dd79d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/e9.json.gz",
+    "mainBlob": null,
+    "targetBlob": "0462ff3b45e2d460d410068231cf6482cb82e92f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ea.json.gz",
+    "mainBlob": null,
+    "targetBlob": "6f687e72c745f505d02d2ca999f162710957d451"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/eb.json.gz",
+    "mainBlob": null,
+    "targetBlob": "054774e26d717cb5c7af1a15cf037d098d9f2f49"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ec.json.gz",
+    "mainBlob": null,
+    "targetBlob": "b1be0a45926bd6f4ab45b9664bdc3776c01bae6f"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ed.json.gz",
+    "mainBlob": null,
+    "targetBlob": "0d85030a226b73665495efeddf973081d1f31055"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ee.json.gz",
+    "mainBlob": null,
+    "targetBlob": "2145b5f2a83a41f94a4cc5498087c43ea5f445d5"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ef.json.gz",
+    "mainBlob": null,
+    "targetBlob": "7a910d62264978c1d8d7859e340b491c0154d956"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/f0.json.gz",
+    "mainBlob": null,
+    "targetBlob": "eb1fd02d9d0525e8916b415ac3a7745e59ece2b2"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/f1.json.gz",
+    "mainBlob": null,
+    "targetBlob": "c2b19a53bd69d3b2b54f4828dd42abdfeb30dda7"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/f2.json.gz",
+    "mainBlob": null,
+    "targetBlob": "99de7cc36dc87135c2623b2153b448e431592c39"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/f3.json.gz",
+    "mainBlob": null,
+    "targetBlob": "2c4e147ca5c4c5afab00726d14ad1f44acc3513d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/f4.json.gz",
+    "mainBlob": null,
+    "targetBlob": "c2d5ae062e5bae17ad645c74eacd82e92fed198a"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/f5.json.gz",
+    "mainBlob": null,
+    "targetBlob": "47824ccf7bb491851587cf4282e7b233bc5454b3"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/f6.json.gz",
+    "mainBlob": null,
+    "targetBlob": "7a0ee0cccbf955da81ad33ebed849841e370f618"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/f7.json.gz",
+    "mainBlob": null,
+    "targetBlob": "3fcdb511c8ffd9268950ee9136f130fb354ae03d"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/f8.json.gz",
+    "mainBlob": null,
+    "targetBlob": "631bd99419c0fbc5afa5d33be312041c75d5d2b4"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/f9.json.gz",
+    "mainBlob": null,
+    "targetBlob": "ef59fd1fe3f0107683c8d396ccfbded74cef3939"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/fa.json.gz",
+    "mainBlob": null,
+    "targetBlob": "443ff2e957ef37c9134a0c944ccf39b213d47754"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/fb.json.gz",
+    "mainBlob": null,
+    "targetBlob": "c4146ecbdf8f0c37ff571c3f71c8243048366a7b"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/fc.json.gz",
+    "mainBlob": null,
+    "targetBlob": "650804066a3d23f01a8f58f95ada44e14519d842"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/fd.json.gz",
+    "mainBlob": null,
+    "targetBlob": "42d9c7abe204f3dc0823f2d4f972b376df332dd9"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/fe.json.gz",
+    "mainBlob": null,
+    "targetBlob": "bb8e7118138a564978d1a783495ea8761a0bac5b"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/ff.json.gz",
+    "mainBlob": null,
+    "targetBlob": "23c15f0536c73864e218209a69fbf9c322b458bf"
+  },
+  {
+    "path": "services/backend/assets/dictionary/presentation/manifest.json",
+    "mainBlob": null,
+    "targetBlob": "834e14d3eeb3a3fd746a9eff4b13087bb13c610b"
+  },
+  {
+    "path": "services/backend/assets/listening/manifest.json",
+    "mainBlob": null,
+    "targetBlob": "ee4a59b6c80293f04598a2e90512118bbaad22d0"
+  },
+  {
+    "path": "services/backend/assets/listening/test-01.json",
+    "mainBlob": null,
+    "targetBlob": "37235e0920575240956f3e0b20637beae3515436"
+  },
+  {
+    "path": "services/backend/assets/listening/test-02.json",
+    "mainBlob": null,
+    "targetBlob": "6d0b4a78c6cf2a5415069fa057131e6479cfce4b"
+  },
+  {
+    "path": "services/backend/assets/listening/test-03.json",
+    "mainBlob": null,
+    "targetBlob": "79f10304465d0f5a33b946041323bbb46f6a3e09"
+  },
+  {
+    "path": "services/backend/assets/listening/test-04.json",
+    "mainBlob": null,
+    "targetBlob": "d9dbe1e7381d8b41fc250d04cbb4473f83739c63"
+  },
+  {
+    "path": "services/backend/assets/listening/test-05.json",
+    "mainBlob": null,
+    "targetBlob": "0f5df5c8775c649d5e58369cfd47d0c1ed8d44e1"
+  },
+  {
+    "path": "services/backend/assets/listening/test-06.json",
+    "mainBlob": null,
+    "targetBlob": "9cfa3591df4272e4be65f9b79f250d4b0e85eb53"
+  },
+  {
+    "path": "services/backend/assets/listening/test-07.json",
+    "mainBlob": null,
+    "targetBlob": "7d02f0872ea5d6a1815340c85651f2cefda46c57"
+  },
+  {
+    "path": "services/backend/assets/listening/test-08.json",
+    "mainBlob": null,
+    "targetBlob": "45457776c5ec8ce6ffd7a4f69a2bc249a73aa5d0"
+  },
+  {
+    "path": "services/backend/assets/listening/test-09.json",
+    "mainBlob": null,
+    "targetBlob": "0478626f5d5d18cb7cc625d8010930661fe7c29a"
+  },
+  {
+    "path": "services/backend/assets/listening/test-10.json",
+    "mainBlob": null,
+    "targetBlob": "96fce9c226899665f59ce6457c03eb8e8221ec73"
+  },
+  {
+    "path": "services/backend/assets/listening/test-11.json",
+    "mainBlob": null,
+    "targetBlob": "895c943e05784910e1043f902838a04491eaf7ed"
+  },
+  {
+    "path": "services/backend/assets/listening/test-12.json",
+    "mainBlob": null,
+    "targetBlob": "870186132614d44f93684747b0b6a4234019a906"
+  },
+  {
+    "path": "services/backend/assets/listening/test-13.json",
+    "mainBlob": null,
+    "targetBlob": "9fd2c5cc8090598d8960c4b9eaf7ff3924ea2f9a"
+  },
+  {
+    "path": "services/backend/assets/listening/test-14.json",
+    "mainBlob": null,
+    "targetBlob": "860c48c72c7a3d4ad72308650f196abd2ded3afd"
+  },
+  {
+    "path": "services/backend/assets/listening/test-15.json",
+    "mainBlob": null,
+    "targetBlob": "b47c846cfa598bbbdf430cecd10ccb27060103d5"
+  },
+  {
+    "path": "services/backend/assets/listening/test-16.json",
+    "mainBlob": null,
+    "targetBlob": "f4791250f9f871c02d62f17ee36382770b97fdf2"
+  },
+  {
+    "path": "services/backend/assets/listening/test-17.json",
+    "mainBlob": null,
+    "targetBlob": "176c04f39998b850df139c07b6fcb92865d46c53"
+  },
+  {
+    "path": "services/backend/assets/listening/test-18.json",
+    "mainBlob": null,
+    "targetBlob": "f8ff7fa6cd4fd35c0ebf98d776cb4ac636b47a5b"
+  },
+  {
+    "path": "services/backend/assets/listening/test-19.json",
+    "mainBlob": null,
+    "targetBlob": "c8085b7cc8feacc5822c649544b7370dbb635e2e"
+  },
+  {
+    "path": "services/backend/assets/listening/test-20.json",
+    "mainBlob": null,
+    "targetBlob": "f108d00cd0a4782782a5d46f77ac6e18ee0cd3c8"
+  },
+  {
+    "path": "services/backend/assets/listening/test-21.json",
+    "mainBlob": null,
+    "targetBlob": "7c09ae170d7dea5d4e296b0dcf6ab7e08bca015b"
+  },
+  {
+    "path": "services/backend/assets/listening/test-22.json",
+    "mainBlob": null,
+    "targetBlob": "c8928820ab3d02981e5439a6cc0f1879223768d6"
+  },
+  {
+    "path": "services/backend/assets/listening/test-23.json",
+    "mainBlob": null,
+    "targetBlob": "abe33c8cc4ba5eb403de2633f2975ab643f95d95"
+  },
+  {
+    "path": "services/backend/assets/listening/test-24.json",
+    "mainBlob": null,
+    "targetBlob": "c69b3485de15af590eea3e739bd2813bc17a11e3"
+  },
+  {
+    "path": "services/backend/assets/listening/test-25.json",
+    "mainBlob": null,
+    "targetBlob": "083d576bb2c4974246662245e913e7e67b3684d2"
+  },
+  {
+    "path": "services/backend/assets/listening/test-26.json",
+    "mainBlob": null,
+    "targetBlob": "53d5b047f48328853a60a8e45ccf8ec3c30fa5cd"
+  },
+  {
+    "path": "services/backend/assets/listening/test-27.json",
+    "mainBlob": null,
+    "targetBlob": "162cdf5c2f1389e45fc2b8788637efefd843738d"
+  },
+  {
+    "path": "services/backend/assets/listening/test-28.json",
+    "mainBlob": null,
+    "targetBlob": "e59e32b185d3ddb4b6c3cfa3bbdbaf06d151275a"
+  },
+  {
+    "path": "services/backend/assets/listening/test-29.json",
+    "mainBlob": null,
+    "targetBlob": "09619fc302229395dd45d1bcc0399338797718ca"
+  },
+  {
+    "path": "services/backend/assets/listening/test-30.json",
+    "mainBlob": null,
+    "targetBlob": "23a04ad5b64c0d3e6ababb4668583da60fe00e5d"
+  },
+  {
+    "path": "services/backend/assets/listening/test-31.json",
+    "mainBlob": null,
+    "targetBlob": "0ea2b8fc4a727040b4d5c5da5e27f6db8f796062"
+  },
+  {
+    "path": "services/backend/assets/listening/test-32.json",
+    "mainBlob": null,
+    "targetBlob": "584fd8dd3901eb6788b5de91bfcc635e2d0df144"
+  },
+  {
+    "path": "services/backend/contracts/main-http-parity.json",
+    "mainBlob": null,
+    "targetBlob": "d9a54a77879e744cc16bcf7e0497f8b478a38270"
+  },
+  {
+    "path": "services/backend/contracts/main-listening-sources.json",
+    "mainBlob": null,
+    "targetBlob": "7883d2c72c4bceda3e0fafb87392f40fd9a4b547"
+  },
+  {
+    "path": "services/backend/contracts/main-parity.json",
+    "mainBlob": null,
+    "targetBlob": "022070c51373917b79ed5cd81dce677ea50bd568"
+  },
+  {
+    "path": "services/backend/contracts/main-reference.json",
+    "mainBlob": null,
+    "targetBlob": "36e4274b163a4e6962245780f405178658f08d1c"
+  },
+  {
+    "path": "services/backend/contracts/main-workflow-parity.json",
+    "mainBlob": null,
+    "targetBlob": "0121a0004f3990574497f54aa12a244658901297"
+  },
+  {
+    "path": "services/backend/contracts/next-routes.json",
+    "mainBlob": null,
+    "targetBlob": "df3f777b6ec00b381d53af42ba698d0960705d45"
+  },
+  {
+    "path": "services/backend/contracts/preview-adaptation.json",
+    "mainBlob": null,
+    "targetBlob": "e0d3ea42b4a51c90cd1e411b58bfdffbf2b6c1c7"
+  },
+  {
+    "path": "services/backend/contracts/read-wire-fixture.json",
+    "mainBlob": null,
+    "targetBlob": "73d481ddca60e0c013c2070378ee65f8b9bcb816"
+  },
+  {
+    "path": "services/backend/migrations/0000_upload_intents.sql",
+    "mainBlob": null,
+    "targetBlob": "417707f480b07ddc9efae39ff7ff82e5fa2c922d"
+  },
+  {
+    "path": "services/backend/migrations/0001_speaking_practice.sql",
+    "mainBlob": null,
+    "targetBlob": "245435d8c107afc5f8d2a65124771250cadc7ac7"
+  },
+  {
+    "path": "services/backend/migrations/0002_coach_evaluations.sql",
+    "mainBlob": null,
+    "targetBlob": "5a5f182dd37acd46321d86c9145a474ed2c6944c"
+  },
+  {
+    "path": "services/backend/migrations/0003_phase1_access_control.sql",
+    "mainBlob": null,
+    "targetBlob": "7c33446fed3d1b5b0f2e0745537a1f27eb3e853d"
+  },
+  {
+    "path": "services/backend/migrations/0004_vocabulary_engine.sql",
+    "mainBlob": null,
+    "targetBlob": "a84e95702b63babb0ee08a285dbede928bf1612a"
+  },
+  {
+    "path": "services/backend/migrations/0005_lexeme_sense_key.sql",
+    "mainBlob": null,
+    "targetBlob": "6902a1d533a8182592c6b514c77c51f0e0fddc37"
+  },
+  {
+    "path": "services/backend/migrations/0006_lexeme_collocations.sql",
+    "mainBlob": null,
+    "targetBlob": "347c930b7ab27ad793bd41ed9c013772c9d0f76f"
+  },
+  {
+    "path": "services/backend/migrations/0007_listening_mcq_mastery.sql",
+    "mainBlob": null,
+    "targetBlob": "c4424c289f9de55856dcab527f3632d95fdd568f"
+  },
+  {
+    "path": "services/backend/migrations/0008_typing_runs.sql",
+    "mainBlob": null,
+    "targetBlob": "e907e56184785ed02b62cd34fb27e89c716b437b"
+  },
+  {
+    "path": "services/backend/migrations/0009_grammar_activities.sql",
+    "mainBlob": null,
+    "targetBlob": "0cb8ef30dc6dacb8b1b836824644a20bd36cbca7"
+  },
+  {
+    "path": "services/backend/migrations/0010_problem_reports.sql",
+    "mainBlob": null,
+    "targetBlob": "2674b4c8bc74dce374307bb55e92d4fef13a7b9f"
+  },
+  {
+    "path": "services/backend/migrations/0011_lesson_recording.sql",
+    "mainBlob": null,
+    "targetBlob": "d3e7f5f932a4868d817e515c46c838ac61b8d35a"
+  },
+  {
+    "path": "services/backend/migrations/0012_goofy_beast.sql",
+    "mainBlob": null,
+    "targetBlob": "88ecefe544a9b6ed7ab25c94bf4278bfa80cc715"
+  },
+  {
+    "path": "services/backend/migrations/0013_gifted_shotgun.sql",
+    "mainBlob": null,
+    "targetBlob": "8c3f28b1e8f255faa88d96e7e2c5a183af5a3e33"
+  },
+  {
+    "path": "services/backend/migrations/0014_mighty_sway.sql",
+    "mainBlob": null,
+    "targetBlob": "105f71412b279631003463b8e15b4305cf26856a"
+  },
+  {
+    "path": "services/backend/migrations/0015_polite_archangel.sql",
+    "mainBlob": null,
+    "targetBlob": "abdb14cbbe004a4715cfd3cb0bd0e4fc27baadc5"
+  },
+  {
+    "path": "services/backend/migrations/0016_publication_state.sql",
+    "mainBlob": null,
+    "targetBlob": "782cf795b7e2429612dfea393ae01462c227154a"
+  },
+  {
+    "path": "services/backend/migrations/0017_reading_105_library.sql",
+    "mainBlob": null,
+    "targetBlob": "22bcb860e01ef3b7ffb4532607a515cfdf786c85"
+  },
+  {
+    "path": "services/backend/migrations/0018_resource_blocks.sql",
+    "mainBlob": null,
+    "targetBlob": "3f75585e0eae1df5114997b669af0ca10b291411"
+  },
+  {
+    "path": "services/backend/migrations/0019_grammar_source_privacy.sql",
+    "mainBlob": null,
+    "targetBlob": "5199acda554a0bc85df3274ef821d6b774b44ab9"
+  },
+  {
+    "path": "services/backend/migrations/0020_lexical_source_snapshot.sql",
+    "mainBlob": null,
+    "targetBlob": "c9cd4d29dd9707f25bed06903cd9f29367ddc88c"
+  },
+  {
+    "path": "services/backend/migrations/0021_registration_gender.sql",
+    "mainBlob": null,
+    "targetBlob": "06a0e8834473233e340c6638e3bcafbd782dc235"
+  },
+  {
+    "path": "services/backend/migrations/0022_retention_bank.sql",
+    "mainBlob": null,
+    "targetBlob": "8d69b7cd94df84609a5dfb39e10deaf67a499af1"
+  },
+  {
+    "path": "services/backend/migrations/0023_video_lesson_notes.sql",
+    "mainBlob": null,
+    "targetBlob": "4eb863cf2e8c5087c210a7c497a0bf63e584a321"
+  },
+  {
+    "path": "services/backend/migrations/0024_video_lessons_standalone.sql",
+    "mainBlob": null,
+    "targetBlob": "113a96942e1e935f1d9956ac62aa13552577b2bb"
+  },
+  {
+    "path": "services/backend/migrations/0025_speaking_bank_identity.sql",
+    "mainBlob": null,
+    "targetBlob": "31d35778187bdf882cebdaa6858bbcae276165c4"
+  },
+  {
+    "path": "services/backend/migrations/0026_google_identity.sql",
+    "mainBlob": null,
+    "targetBlob": "30218d4cc9ef826b6e8efb81b66f3bdbc8024d8e"
+  },
+  {
+    "path": "services/backend/migrations/0027_live_partner.sql",
+    "mainBlob": null,
+    "targetBlob": "ae26ef022eebf28516a1e18f3c4e6562874f1110"
+  },
+  {
+    "path": "services/backend/migrations/0028_full_listening.sql",
+    "mainBlob": null,
+    "targetBlob": "9287acaa58ff22fa8d79ba28fbcdc58b788d8786"
+  },
+  {
+    "path": "services/backend/migrations/0029_vocabulary_architecture.sql",
+    "mainBlob": null,
+    "targetBlob": "9f1cc0d2b82fb791228bc0adfc25f570d9fc4a1d"
+  },
+  {
+    "path": "services/backend/migrations/0030_general_reading.sql",
+    "mainBlob": null,
+    "targetBlob": "4940401509ee98b5227e3059686522b8f8781513"
+  },
+  {
+    "path": "services/backend/migrations/0031_writing_workspace.sql",
+    "mainBlob": null,
+    "targetBlob": "60e8ec2b5ca81c598b8a0022b758206aa2bbd558"
+  },
+  {
+    "path": "services/backend/migrations/0032_writing_exam_papers.sql",
+    "mainBlob": null,
+    "targetBlob": "977804ce5f7e7cec1087d73bbee67faa65beb9ea"
+  },
+  {
+    "path": "services/backend/migrations/0033_writing_language_stealing.sql",
+    "mainBlob": null,
+    "targetBlob": "77a6afada6620475d67596f0f7d20738b72d200c"
+  },
+  {
+    "path": "services/backend/migrations/0034_typing_duration_presets.sql",
+    "mainBlob": null,
+    "targetBlob": "687cd15d82be3c19bb41774a997c0db024eb16ca"
+  },
+  {
+    "path": "services/backend/migrations/0035_teacher_student_links.sql",
+    "mainBlob": null,
+    "targetBlob": "04a1a14e7bbf83f312bd5ca959d13266fb928873"
+  },
+  {
+    "path": "services/backend/migrations/0036_speaking_study_support.sql",
+    "mainBlob": null,
+    "targetBlob": "4c7b7a0b5ac9ef7686550f2aff71767ee12a0df6"
+  },
+  {
+    "path": "services/backend/migrations/0037_profile_photos.sql",
+    "mainBlob": null,
+    "targetBlob": "7ba4be2b2bb3c93546602cac89db642e65203d24"
+  },
+  {
+    "path": "services/backend/migrations/0038_dictionary_releases.sql",
+    "mainBlob": null,
+    "targetBlob": "9dce0fbeb3a60d0d157e0852a447d4430997ef6a"
+  },
+  {
+    "path": "services/backend/migrations/0039_academic_reading_sets.sql",
+    "mainBlob": null,
+    "targetBlob": "fa01100b84c1b92cb4ac1bb3ce249bb3d9717ebc"
+  },
+  {
+    "path": "services/backend/migrations/0040_content_imports.sql",
+    "mainBlob": null,
+    "targetBlob": "0793c50224859b0564f6b919ae1f15ff312a7acd"
+  },
+  {
+    "path": "services/backend/migrations/0041_content_versions.sql",
+    "mainBlob": null,
+    "targetBlob": "d6fea7a58690db4dde301ff7aa5153201056268f"
+  },
+  {
+    "path": "services/backend/migrations/0042_mock_composition.sql",
+    "mainBlob": null,
+    "targetBlob": "6004bfe944c1dc796b893fb34d137b0f5d04b4bb"
+  },
+  {
+    "path": "services/backend/migrations/0043_authoring_identity.sql",
+    "mainBlob": null,
+    "targetBlob": "c251e100302b140b51c501281c2cdf16e61b726f"
+  },
+  {
+    "path": "services/backend/migrations/0044_lesson_blocks.sql",
+    "mainBlob": null,
+    "targetBlob": "fe196aeb5cd3ff09ed05dfc8399463b52d8536bd"
+  },
+  {
+    "path": "services/backend/migrations/0045_media_lessons.sql",
+    "mainBlob": null,
+    "targetBlob": "b9bc1e0d6b1ceaa77a626e8961bfe0bdcbe1acc7"
+  },
+  {
+    "path": "services/backend/migrations/0046_vocabulary_topic_packs.sql",
+    "mainBlob": null,
+    "targetBlob": "ffe4d39dc9c55632685076b8dfddf598a7daa3ea"
+  },
+  {
+    "path": "services/backend/migrations/0047_assignments_canonical.sql",
+    "mainBlob": null,
+    "targetBlob": "b8b73e1bbc2e7b1d5cfb5d8a2587e47b22ea4d04"
+  },
+  {
+    "path": "services/backend/migrations/0048_typing_trainer.sql",
+    "mainBlob": null,
+    "targetBlob": "b8850d5429c8b691c5ab3b1b750d0ef39b127a97"
+  },
+  {
+    "path": "services/backend/migrations/0049_lesson_notes.sql",
+    "mainBlob": null,
+    "targetBlob": "835e45d33e3a686c8dd55014a30f41b927cfd067"
+  },
+  {
+    "path": "services/backend/migrations/0050_lesson_learning_area.sql",
+    "mainBlob": null,
+    "targetBlob": "484b8fbae31c2e07ec8fcef64edb68a9c4c905a0"
+  },
+  {
+    "path": "services/backend/migrations/0051_listening_question_revision.sql",
+    "mainBlob": null,
+    "targetBlob": "856ec4787bf0dd8ad46b9d78457e6027807e722f"
+  },
+  {
+    "path": "services/backend/migrations/0052_listening_mcq_program_days.sql",
+    "mainBlob": null,
+    "targetBlob": "703324abd93a3674359c12366829e3d5c786b395"
+  },
+  {
+    "path": "services/backend/migrations/0053_telegram_bot_foundation.sql",
+    "mainBlob": null,
+    "targetBlob": "aa2db6914221964b62d678a926f567bdecb3e6e8"
+  },
+  {
+    "path": "services/backend/migrations/0054_telegram_bot_integrity.sql",
+    "mainBlob": null,
+    "targetBlob": "7ee3204fcb385385e36693e1c3a0f88b42bd7b5c"
+  },
+  {
+    "path": "services/backend/migrations/0055_telegram_intent_purpose.sql",
+    "mainBlob": null,
+    "targetBlob": "ed1014da9a07f41f92e93315845fe8cee7a4ec3d"
+  },
+  {
+    "path": "services/backend/migrations/0056_telegram_owner_authority.sql",
+    "mainBlob": null,
+    "targetBlob": "7a3358a85909e738d236068b8dab222ffa170163"
+  },
+  {
+    "path": "services/backend/migrations/0057_telegram_contact_phone.sql",
+    "mainBlob": null,
+    "targetBlob": "819ebba8a54057f7cc1e50f36b621feff979ed96"
+  },
+  {
+    "path": "services/backend/migrations/0058_telegram_private_tables.sql",
+    "mainBlob": null,
+    "targetBlob": "af4bf34692114e2b7ae353a291cacb939fd7d95f"
+  },
+  {
+    "path": "services/backend/migrations/0059_listening_authored_checkpoints.sql",
+    "mainBlob": null,
+    "targetBlob": "862e222d785039e2864785e62754f31654ec8fed"
+  },
+  {
+    "path": "services/backend/migrations/0060_auth_session_revocation.sql",
+    "mainBlob": null,
+    "targetBlob": "7b5c4ff553fef06ade439a6031044eae97b117bd"
+  },
+  {
+    "path": "services/backend/migrations/0061_retention_permanent_delete.sql",
+    "mainBlob": null,
+    "targetBlob": "d0cdafc1f8d012c2a6b91d21bd57a5e08e1b9fc1"
+  },
+  {
+    "path": "services/backend/migrations/0062_reading_assessment_questions.sql",
+    "mainBlob": null,
+    "targetBlob": "41a5584d271f244bc7da373bb8c644e0de56d06f"
+  },
+  {
+    "path": "services/backend/migrations/0063_retention_vocabulary.sql",
+    "mainBlob": null,
+    "targetBlob": "b9fc3a46adde2db8e325ece28f0d527cdf60528e"
+  },
+  {
+    "path": "services/backend/migrations/0064_dictionary_r2.sql",
+    "mainBlob": null,
+    "targetBlob": "1f2db6c0cc22b0bfce809c3babfee7f153ee56dc"
+  },
+  {
+    "path": "services/backend/migrations/0065_dictionary_worker_index.sql",
+    "mainBlob": null,
+    "targetBlob": "7b90bbe6124cd46e61a01fec2e69094c3a920343"
+  },
+  {
+    "path": "services/backend/pytest.ini",
+    "mainBlob": null,
+    "targetBlob": "c7b23ecb1408be49fb2fa8ef77ffa48640681e34"
+  },
+  {
+    "path": "services/backend/requirements-dev.txt",
+    "mainBlob": null,
+    "targetBlob": "6fa88ab7d3a8596bfc83eab7cda90c4f59a21734"
+  },
+  {
+    "path": "services/backend/requirements.txt",
+    "mainBlob": null,
+    "targetBlob": "de87879a08ca6c650fc7db71cb28acad4fdf83b5"
+  },
+  {
+    "path": "services/backend/tests/_parity_fixture.py",
+    "mainBlob": null,
+    "targetBlob": "1a5f3eb109dd0be85b6cb907bf9bfc95057903f2"
+  },
+  {
+    "path": "services/backend/tests/main-function-fixtures.json",
+    "mainBlob": null,
+    "targetBlob": "eb706ce4d69b57799ab2b88236630a82027acf23"
+  },
+  {
+    "path": "services/backend/tests/main-workflows.json",
+    "mainBlob": null,
+    "targetBlob": "f08d0a850a4e3e190de38e44731cee93248b95d0"
+  },
+  {
+    "path": "services/backend/tests/node_dictionary_normalize_fixtures.json",
+    "mainBlob": null,
+    "targetBlob": "c3e9f016d5834a7712bfe474a8efad7639bd1d75"
+  },
+  {
+    "path": "services/backend/tests/node_source_parity_fixtures.json",
+    "mainBlob": null,
+    "targetBlob": "c70e74b7158dc0d3f26e2218c709b20104cc3372"
+  },
+  {
+    "path": "services/backend/tests/parity_http_peer.py",
+    "mainBlob": null,
+    "targetBlob": "964b716ec75be1f5e2d7d738da8b0435c0967587"
+  },
+  {
+    "path": "services/backend/tests/pglite_http_probe.py",
+    "mainBlob": null,
+    "targetBlob": "40bc844fdfd630753dc08bb5eb26eb0a11f4e886"
+  },
+  {
+    "path": "services/backend/tests/stdio_postgres.py",
+    "mainBlob": null,
+    "targetBlob": "dc7aa6222f564aad9dbc5c40909634d8269d1543"
+  },
+  {
+    "path": "services/backend/tests/test_access_events_shared.py",
+    "mainBlob": null,
+    "targetBlob": "7031b098dc35ad309c37dd39a80e9e92a7db022e"
+  },
+  {
+    "path": "services/backend/tests/test_admin_authoring_port.py",
+    "mainBlob": null,
+    "targetBlob": "c7ed11ffac6cc70c740cf1293492dd66bde2d182"
+  },
+  {
+    "path": "services/backend/tests/test_exam_lifecycle_port.py",
+    "mainBlob": null,
+    "targetBlob": "f10fd75bf42f502573b4194eae0f95f669626867"
+  },
+  {
+    "path": "services/backend/tests/test_http_contracts.py",
+    "mainBlob": null,
+    "targetBlob": "093016c18b415a4fb3e51170da964a21a16fb067"
+  },
+  {
+    "path": "services/backend/tests/test_learner_admin_port.py",
+    "mainBlob": null,
+    "targetBlob": "c36a74af41ae50eee01f53cc1d68d75e436e80da"
+  },
+  {
+    "path": "services/backend/tests/test_lesson_writing_port.py",
+    "mainBlob": null,
+    "targetBlob": "744994b6305d8bb81abe8f5c90fe422c1ff10472"
+  },
+  {
+    "path": "services/backend/tests/test_main_assets.py",
+    "mainBlob": null,
+    "targetBlob": "33c3c1e33dc3c5b2ba9ba44c0226520f3d1352bb"
+  },
+  {
+    "path": "services/backend/tests/test_main_function_parity.py",
+    "mainBlob": null,
+    "targetBlob": "90a8665c8d8eecf628998b451458ebb9f8c7ac92"
+  },
+  {
+    "path": "services/backend/tests/test_main_runtime_hardening.py",
+    "mainBlob": null,
+    "targetBlob": "000024cf4ded704621b8f724b85a51a2aa6be472"
+  },
+  {
+    "path": "services/backend/tests/test_migration_phase2.py",
+    "mainBlob": null,
+    "targetBlob": "03c64d6c9550fb5e401a17883a996b66bcc91222"
+  },
+  {
+    "path": "services/backend/tests/test_parity_qa_fixes.py",
+    "mainBlob": null,
+    "targetBlob": "f2cf8568f9eb17c4f8523ffe4e2b5ad93477224d"
+  },
+  {
+    "path": "services/backend/tests/test_preview_integration.py",
+    "mainBlob": null,
+    "targetBlob": "3ff485f57321a56aeaec2d45a73253ff8cf73dc7"
+  },
+  {
+    "path": "services/backend/tests/test_source_differential_round2.py",
+    "mainBlob": null,
+    "targetBlob": "cdbd678f72238de4a2a676e7ad5f156c469c2d23"
+  },
+  {
+    "path": "services/backend/tests/test_speaking_catalog_port.py",
+    "mainBlob": null,
+    "targetBlob": "03d83fcb55c0b1e84a370718045f366b2697a6f7"
+  },
+  {
+    "path": "services/backend/tests/test_step11_phase2.py",
+    "mainBlob": null,
+    "targetBlob": "f3eaade7b3b4cbde6712206a62a5892bae2b6e70"
+  },
+  {
+    "path": "services/backend/tests/test_step12_100_methods.py",
+    "mainBlob": null,
+    "targetBlob": "9844d24c9a4501514c3183088de4e387147130d0"
+  },
+  {
+    "path": "services/backend/tests/test_step13_125_methods.py",
+    "mainBlob": null,
+    "targetBlob": "be251202943abdadcc9ceeb12617106d175eeb23"
+  },
+  {
+    "path": "services/backend/tests/test_step14_132_methods.py",
+    "mainBlob": null,
+    "targetBlob": "48a80173ad9e6edef5e895189499306bc4e38cc7"
+  },
+  {
+    "path": "services/backend/tests/test_step15_writing_retention_translation.py",
+    "mainBlob": null,
+    "targetBlob": "69e19491721d2a4e60fc7a20f5f7c2f353345a7f"
+  },
+  {
+    "path": "services/backend/tests/test_step16_new_routes.py",
+    "mainBlob": null,
+    "targetBlob": "ca78a5b5315676be1d8c4a4cbf99efbf67ad1e3c"
+  },
+  {
+    "path": "services/backend/tests/test_step17_170_methods.py",
+    "mainBlob": null,
+    "targetBlob": "2f92b39d9e5da28333bfb045221b5b82d7383cdf"
+  },
+  {
+    "path": "services/backend/tests/test_step20_190_methods.py",
+    "mainBlob": null,
+    "targetBlob": "026988f21ffb95af873a4849cf1ff1efe55a2905"
+  },
+  {
+    "path": "services/backend/tests/test_step21_210_methods.py",
+    "mainBlob": null,
+    "targetBlob": "68c18dd77e492c1d8b532cd6cfcff09662fbccda"
+  },
+  {
+    "path": "services/backend/tests/test_step22_new_methods.py",
+    "mainBlob": null,
+    "targetBlob": "ca3cf4ad8a9f9be521555350464788b98dd46829"
+  },
+  {
+    "path": "services/backend/tests/test_step23_219_methods.py",
+    "mainBlob": null,
+    "targetBlob": "ba8bcc68c65b19a11264fec500e1b337bf77c3df"
+  },
+  {
+    "path": "services/backend/tests/test_step23_230_methods.py",
+    "mainBlob": null,
+    "targetBlob": "9964505107d2614fba404d5cac1365c3464027f7"
+  },
+  {
+    "path": "services/backend/tests/test_step23_typing.py",
+    "mainBlob": null,
+    "targetBlob": "02d9aba5529f2be9a3738bdfd583d23de7b41031"
+  },
+  {
+    "path": "services/backend/tests/test_step25_google_material.py",
+    "mainBlob": null,
+    "targetBlob": "66e7025b3b8b6cc7eadfc752f272d8c948f9b4b5"
+  },
+  {
+    "path": "services/backend/tests/test_step26_owner_dictionary.py",
+    "mainBlob": null,
+    "targetBlob": "f2b46b2db53118561e997f2f89a3f237f48a6ba6"
+  },
+  {
+    "path": "services/backend/tests/test_step27_dictionary_edit.py",
+    "mainBlob": null,
+    "targetBlob": "32c0bce83a3732a8a12d923005f51957a2b22e2c"
+  },
+  {
+    "path": "services/backend/tests/test_step27_listening_authored_write.py",
+    "mainBlob": null,
+    "targetBlob": "0559334b3563aa94b7d31003600aa03ef99a0a84"
+  },
+  {
+    "path": "services/backend/tests/test_step27_publication.py",
+    "mainBlob": null,
+    "targetBlob": "13fc232b7f0d7a06ebdfeca731705e746db0cbdf"
+  },
+  {
+    "path": "services/backend/tests/test_step27_retention_policy.py",
+    "mainBlob": null,
+    "targetBlob": "a22102b976a5de95a61600052ac3d81c9c1091ef"
+  },
+  {
+    "path": "services/backend/tests/test_step28_search.py",
+    "mainBlob": null,
+    "targetBlob": "a8c44155bd6bad142533adce8a7c6616441a7fd7"
+  },
+  {
+    "path": "services/backend/tests/test_step29_lesson_revision.py",
+    "mainBlob": null,
+    "targetBlob": "78e3684df199a182e8fe2fad7f2d1f18baf3f4fd"
+  },
+  {
+    "path": "services/backend/tests/test_step30_admin_video_lessons.py",
+    "mainBlob": null,
+    "targetBlob": "c92e1228cb7dcb3267c17cb112f51c4409132404"
+  },
+  {
+    "path": "services/backend/tests/test_step31_learning_production.py",
+    "mainBlob": null,
+    "targetBlob": "430fa085cf9adc2e9ce9ed4daf1045a0de764794"
+  },
+  {
+    "path": "services/backend/tests/test_step31_release_invariants.py",
+    "mainBlob": null,
+    "targetBlob": "c1b0b752cc5dac34e7f71eba8a6284cefe59db1e"
+  },
+  {
+    "path": "services/backend/tests/test_step38_content_validate.py",
+    "mainBlob": null,
+    "targetBlob": "75ce5c73694aec8ff27d879a0dc2d9dac7f3e188"
+  },
+  {
+    "path": "services/backend/tests/test_step38_new_routes_regression.py",
+    "mainBlob": null,
+    "targetBlob": "ce0b76137cb34f8f59559fa24e0a6f86cb21fa54"
+  },
+  {
+    "path": "services/backend/tests/test_step40_265_methods.py",
+    "mainBlob": null,
+    "targetBlob": "a4e6e9a06374757903bd4ac050a9fa75f5b10e54"
+  },
+  {
+    "path": "services/backend/tests/test_step41_dictionary_r2_publish.py",
+    "mainBlob": null,
+    "targetBlob": "62b29a75396f37d7aa1f8fc8648ffba1ad568455"
+  },
+  {
+    "path": "services/backend/tests/test_telegram_batch_80.py",
+    "mainBlob": null,
+    "targetBlob": "f170c3ae9c2b336097c40e2f7b320fd9b606b253"
+  },
+  {
+    "path": "services/backend/tests/test_vocabulary_packs_port.py",
+    "mainBlob": null,
+    "targetBlob": "f3c284e9c43554fd7a486c8ee0e491537547a0b4"
+  },
+  {
+    "path": "services/backend/tests/test_writing_exam_read_port.py",
+    "mainBlob": null,
+    "targetBlob": "b8429a4030c66cb23770192cc4771fe400662e80"
+  },
+  {
+    "path": "services/backend/tools/__init__.py",
+    "mainBlob": null,
+    "targetBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+  },
+  {
+    "path": "services/backend/tools/build-main-listening.mjs",
+    "mainBlob": null,
+    "targetBlob": "39f3947434e2e08ad3bbb35f7e1589597e8fe068"
+  },
+  {
+    "path": "services/backend/tools/generate-main-fixtures.mjs",
+    "mainBlob": null,
+    "targetBlob": "249fb471adaa2b2174e85b9a02760aca98f3718c"
+  },
+  {
+    "path": "services/backend/tools/inspect_api.py",
+    "mainBlob": null,
+    "targetBlob": "bc1fa24c972bb8f8bfcfc92e69c3777b949d5221"
+  },
+  {
+    "path": "services/live-signal/server.mjs",
+    "mainBlob": "6390cd546d2891a5b52f21868b659ad145ff88bd",
+    "targetBlob": "7dcc10e18b4bcf5fe04646a52614c3cd9758753a"
+  },
+  {
+    "path": "src/app/api/[...path]/route.ts",
+    "mainBlob": null,
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/admission/[id]/decide/route.ts",
+    "mainBlob": "9f31d1ee79b0d72f70dab458efcffdfa69bf4554",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/[type]/[id]/publication/route.ts",
+    "mainBlob": "8184e3e9e41ab929d6af52d4f96f8f6bdaa04ef2",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/authoring-capabilities/route.ts",
+    "mainBlob": "407da7d165f1668ef4b6ac4947d5d3aba71f819c",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/bank/route.ts",
+    "mainBlob": "369da3bc67a811eb231478ab277a25e19dd03056",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/drafts/route.ts",
+    "mainBlob": "34fdb7d3c5263d4c481f4852ca39b4b61376ac39",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/import/route.ts",
+    "mainBlob": "26172d9155fe364f5bdd55c5b13771f0306fca7e",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/items/[module]/[contentType]/[sourceRef]/route.ts",
+    "mainBlob": "1dfef73c8bcb046bc9760ebd42761e7e28c53ee3",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/items/route.ts",
+    "mainBlob": "c3c6190a2e08920496a7446df42d9d06e84d5eb2",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/lessons/[id]/edit/route.ts",
+    "mainBlob": "6b087a947b99b23038eef39701cbb71330f5176a",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/lessons/[id]/revision/route.ts",
+    "mainBlob": "ac29ccf423b884cda440696185b3e36033bd4286",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/previews/route.ts",
+    "mainBlob": "97792d14ffd3e8db73c202f0377a73e64a0c5401",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/template/route.ts",
+    "mainBlob": "a5cedb6896a0055cf85595b21d46314475131573",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/validate/route.ts",
+    "mainBlob": "469c317781cb0b096dbd3839654604bf7815cd80",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/versions/[id]/preview/route.ts",
+    "mainBlob": "4be01ee8d43eb272935301444c69d50ee3bcfd6b",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/content/versions/[id]/publication/route.ts",
+    "mainBlob": "9d581b7f6eb297d130de11476e152befd47474a4",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/grammar/import/route.ts",
+    "mainBlob": "182edd7a20f69ff35b9e4ed582da8c30e2da56a4",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/grammar/topics/[id]/exercises/route.ts",
+    "mainBlob": "9f25b39858dcb0cd06be8b1077440a5f6d21c267",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/grammar/topics/route.ts",
+    "mainBlob": "d0c42f37de3a17a4bc0929dbfb832c337231e3ee",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/listening/import/route.ts",
+    "mainBlob": "33880dba325b5e8e836943ee5073c855899b8613",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/listening/tests/[id]/convert/route.ts",
+    "mainBlob": "64775ff5bffb97b6462144ea4e4aa6adb8cd97d3",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/listening/tests/[id]/questions/route.ts",
+    "mainBlob": "83341db399c8bb25e30cdd0cd2a2fd1bf1a27bac",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/listening/tests/[id]/route.ts",
+    "mainBlob": "ccb892a42294d1b8f5f1c816d13a573f2af21ab6",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/listening/tests/route.ts",
+    "mainBlob": "ef1201eea3641b9b59caab1bd6484861c90fbccd",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/reading/import/route.ts",
+    "mainBlob": "23f4a1be1785f5b206555ab83ce601e891e2ec24",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/reading/passages/[id]/questions/route.ts",
+    "mainBlob": "f132a387b41eafe3fab1668bb5591f79a477551e",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/reading/passages/route.ts",
+    "mainBlob": "ab5f8a8f2bbb35bd40f029ee26b36be5b0eff74e",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/retention/texts/[id]/route.ts",
+    "mainBlob": "e34623842386acf5a5e35b155d0b7d0a27ca1909",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/retention/texts/[id]/versions/route.ts",
+    "mainBlob": "9d78f5e8b7cf1ea83942f46a9fa2b0fc731f42f2",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/retention/texts/route.ts",
+    "mainBlob": "c3e8f5090f1000cfbbdcf0a6c5fee95c1a55e244",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/retention/validate/route.ts",
+    "mainBlob": "552fb6e6ce82733654a5893ca9437acd41a963ef",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/roster/route.ts",
+    "mainBlob": "047eea11b2a5ee505cd6e301db76d8378f414fb3",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/uploads/cleanup/route.ts",
+    "mainBlob": "3ba25b74e51e35df0945f09ac095a06065871455",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/users/[id]/role/route.ts",
+    "mainBlob": "41b8bee6f982b70b930d708bc4287ef0164a158c",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/users/[id]/status/route.ts",
+    "mainBlob": "480dc3087689cccfddbe0add892170985fbf1914",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/video-lessons/route.ts",
+    "mainBlob": "4f6a961478c15fdab73ac1ba9bc494c67249f3f2",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/writing-prompts/route.ts",
+    "mainBlob": "b11dd1f398c7790f3fde675ea4fa3eb6542e3a8f",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/writing/[kind]/[id]/route.ts",
+    "mainBlob": "a847be05c534e5f9b567375581818f6c65cc5a53",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admin/writing/[kind]/route.ts",
+    "mainBlob": "255870cd8a8335996e23de6d03e4f8e918dae94d",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/admission/request/route.ts",
+    "mainBlob": "6fb0657887dcdd578620c03f87c5504a7971a05f",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/assignments/[id]/evaluate/route.ts",
+    "mainBlob": "f9930c75275a645a9858cda1f4db680ca932537a",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/assignments/assignable/route.ts",
+    "mainBlob": "9a84e2987f7e7aa578778eddd1bbf9eeae9c203c",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/assignments/route.ts",
+    "mainBlob": "7bbf31239d41b35ed8d5ea757a462858594d6822",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/auth/google/callback/route.ts",
+    "mainBlob": "4a57847fafedfebdebd60a9c003695153ea67a39",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/auth/google/start/route.ts",
+    "mainBlob": "5a22bc251e9ea072d8504af8886d4aadada78dc0",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/auth/login/route.ts",
+    "mainBlob": "5ca83551abe9f764ea7b031c0ab6296d2b04ddfd",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/auth/logout/route.ts",
+    "mainBlob": "471831b7ca1db25fa9572a308e8c18b7eb0662f6",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/auth/register/route.ts",
+    "mainBlob": "731e930d9cd382b0e4d2a3179f093b8936cb1d15",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/auth/reset/confirm/route.ts",
+    "mainBlob": "f32c68088dc8ab33e4d8c4b7d79a218faf7c707f",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/auth/reset/request/route.ts",
+    "mainBlob": "b333370106f2119851c96d6bd19e1282db340fd0",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/auth/telegram/callback/route.ts",
+    "mainBlob": "1e98422a3d94792ca0d524479f4d53ff626e8aa4",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/dictionary/entries/[lexemeId]/route.ts",
+    "mainBlob": "64dabb0607fa0cc923dc632c21e2aa2eace4d223",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/dictionary/recent/route.ts",
+    "mainBlob": "b90aa17474240734120b584e27ec226b562d7032",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/dictionary/save/route.ts",
+    "mainBlob": "70dab974f9ea1681c58c8ae9af0a26a9b37b9a6a",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/dictionary/search/route.ts",
+    "mainBlob": "b3c970a1449084318c4e626c029fb13d41015a37",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/grammar/exercises/[id]/practice/route.ts",
+    "mainBlob": "817f593097d6cff7ce77a08b124677307063f873",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/grammar/exercises/[id]/produce/route.ts",
+    "mainBlob": "092dc07cbf8b39407ec0a5d7f4bfafb7200a13be",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/grammar/topics/[id]/submit/route.ts",
+    "mainBlob": "7be13e363b94d0685638d5bf707e6d945b823d36",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/history/route.ts",
+    "mainBlob": "089f021c4b1302493ca8946d129bab52a617dc68",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/lessons/[id]/notes/route.ts",
+    "mainBlob": "e5cb21295b7de922334504e19c264b2e49f76b27",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/lessons/[id]/route.ts",
+    "mainBlob": "4a45be954619135983583fce545ce825b8576875",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/lessons/[id]/state/route.ts",
+    "mainBlob": "6d8e25261586db421e1333eaaf6a0294cb9e3a14",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/lessons/blocks/[blockId]/answer/route.ts",
+    "mainBlob": "a51f4935a789ab11b3c50291c4faff54be69b39b",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/lessons/units/route.ts",
+    "mainBlob": "01e8fa2781b61d72cf9934a1b1cbe1e2942e69cb",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/listening/attempts/[id]/draft/route.ts",
+    "mainBlob": "e99b86964657c50c6629012dddfbd91f241daf05",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/listening/attempts/[id]/submit/route.ts",
+    "mainBlob": "e0375b2faae541dab97ed1504da6d4803d4b41f5",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/listening/attempts/route.ts",
+    "mainBlob": "0af9173f1cb6fb129e96febd251400ef532fee03",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/listening/full/[id]/activity/route.ts",
+    "mainBlob": "318f7822c11b0d0e4bab5374f189bbf992e11944",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/listening/full/[id]/authored/route.ts",
+    "mainBlob": "f574bea73d2ddf0c57cb0c4c7c0ead915ea2c9ec",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/listening/full/[id]/practice/route.ts",
+    "mainBlob": "276f150f4ce444eb8f52e31da8430f0b27c7ce5b",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/listening/full/[id]/sandbox/route.ts",
+    "mainBlob": "b436a9ee67084326bd7e18b2b90df72a97133fad",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/listening/full/[id]/start/route.ts",
+    "mainBlob": "135972a9691af7e0cd9b0cebcdd287c9b73bca23",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/listening/full/[id]/study/route.ts",
+    "mainBlob": "dc5d29a64e298786e12b463138ea24ad4cbe6e97",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/listening/mcq/[id]/route.ts",
+    "mainBlob": "edf225dd74ea5ed5f27f2668c746c87b680b948f",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/listening/mcq/route.ts",
+    "mainBlob": "c76742d38ad002f613639c06c673774f3a273930",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/live-classes/[id]/join/route.ts",
+    "mainBlob": "be97ff562df91b1a1e50b9a6ba9eae66749874e7",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/live-partner/route.ts",
+    "mainBlob": "33940394e4f0b0600c9c1ad74c80af5f5a2c2ed8",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/locale/route.ts",
+    "mainBlob": "c53aa168f476a0559131c4b229cef62265625a67",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/materials/[type]/[id]/route.ts",
+    "mainBlob": "af54c0f70414a74fbcef8902b9aee443e68e4087",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/notifications/route.ts",
+    "mainBlob": "ec3c4a6a56542cf582b477b19129d375d73e3b0c",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/onboarding/route.ts",
+    "mainBlob": "a371a782aafebc5cb9302dd680871829ea66e8ad",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/owner/ai-control/route.ts",
+    "mainBlob": "92064c8db12cbbd75fef0121fc0c72feb6d899c2",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/owner/dictionary/[...action]/route.ts",
+    "mainBlob": "8bac1bb54fd9559373b41d95e4a8806ceea99601",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/owner/retention/route.ts",
+    "mainBlob": "679549731d5589c995205092cd954d3e55efd5a0",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/owner/student-export/route.ts",
+    "mainBlob": "ec1f135ea102f9c3a36dfe143217d59abf049260",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/owner/transfer/route.ts",
+    "mainBlob": "bb454e4ccb665431ceeb2bf2e28ab17cd900af8e",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/profile/photo/[id]/route.ts",
+    "mainBlob": "bd0435d7fab928dcdf1f8d4139d5b522091d3643",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/profile/photo/route.ts",
+    "mainBlob": "6d08096cdd3892213a156bc76eba2fb253871dbe",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/profile/route.ts",
+    "mainBlob": "a105fbb7db7ef0d5cd3a7b534d134178390bc2ae",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/reading/academic/route.ts",
+    "mainBlob": "f95ae0cc7e745f5cc5741e4f30d5f1d3ebd8dc6a",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/reading/attempts/[id]/route.ts",
+    "mainBlob": "00f67e4fce9a520952a29a554df462d2e7b7205d",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/reading/attempts/[id]/submit/route.ts",
+    "mainBlob": "c115a23337c9b2b6c6d1f3cecd2d805a1e99b4de",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/reading/attempts/route.ts",
+    "mainBlob": "0fffc79c3081d9cee1227aea11f5185a259763bb",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/reading/general/progress/route.ts",
+    "mainBlob": "7898bfb1ee08ba443481cbec1059982c3cc17993",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/reports/route.ts",
+    "mainBlob": "a2e02fd30e49e387e4933dc6baab05eaaf655b50",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/resources/[...key]/route.ts",
+    "mainBlob": "c9bc5b3864d13ebbc7d6041ec8c0c87300e3e0de",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/retention/attempts/[id]/draft/route.ts",
+    "mainBlob": "17ede8732834afcf475d508810beedd49c9abb22",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/retention/attempts/[id]/finish-reading/route.ts",
+    "mainBlob": "e3b03bf6297f3e4d224ae6962c7f268339e5f9ec",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/retention/attempts/[id]/route.ts",
+    "mainBlob": "784d867aa4a6f58d326194877e7f96788e23cd90",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/retention/attempts/[id]/submit/route.ts",
+    "mainBlob": "89f5326ad795f1d3cd356a8706c8f286bc5c884f",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/retention/attempts/route.ts",
+    "mainBlob": "a70424bdf01d5143e4e84c9d8a5b964d34455644",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/retention/history/route.ts",
+    "mainBlob": "471beebc492fe25af716aa284119151b1d22048d",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/retention/summary/route.ts",
+    "mainBlob": "ed557e7616a86e79290d892a618a39637bd76106",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/search/route.ts",
+    "mainBlob": "8f1d06c89b563c29f5375275eda96ddf0fbf4cd8",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/ai/script/route.ts",
+    "mainBlob": "a5065b99b0126337049bc34c9916b7e61c743f87",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/attempts/[id]/route.ts",
+    "mainBlob": "66c7badf04e940e4ddcdab06a67e32d701affbba",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/attempts/[id]/submit/route.ts",
+    "mainBlob": "d97a0c94983788b53af123180f111756532f4159",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/attempts/[id]/transcript/route.ts",
+    "mainBlob": "356001ff0c6986bd3e55784b059b5175f39ab971",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/attempts/route.ts",
+    "mainBlob": "67df7d6854122a21044f883e0868853b59fc07a1",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/live-partner/questions/route.ts",
+    "mainBlob": "9d87c593037cce31c9ba655bd81e2a4a2351fbc8",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/materials/[id]/route.ts",
+    "mainBlob": "64f73e9dd355d33d4b4eb33f5d5162c93cdb6d0b",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/materials/route.ts",
+    "mainBlob": "df6c2937515128e429502b6377985d8ba3f565e8",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/practice/facets/route.ts",
+    "mainBlob": "1ef91982e25788ceb5ce5e2dd29753ed48e94cda",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/practice/questions/route.ts",
+    "mainBlob": "4c603f89ebb9ae55f7c345301388cac9546781a4",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/prompts/[id]/support/route.ts",
+    "mainBlob": "491ae277b29fc69c353c68c812a9554edbd75bf6",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/prompts/route.ts",
+    "mainBlob": "92c7fa232aa2e7ef44fbd121520d121d3dd3d151",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/prompts/vocabulary/route.ts",
+    "mainBlob": "0ac1604cdef7d06f2c748a6fcda057424528f0aa",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/speaking/topics/route.ts",
+    "mainBlob": "7da74fa70dab95059b496420fbde45723d49923d",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/support/reports/[id]/route.ts",
+    "mainBlob": "531fabb6de602619ecaed1b7eac7710fcc1fae3f",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/support/reports/route.ts",
+    "mainBlob": "ca35ddb6646717b9537af38be763d9a0196be8a1",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/teacher/feedback/route.ts",
+    "mainBlob": "62e84ed072c9627958aeb521904ab72143ffc576",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/teacher/live-classes/[id]/route.ts",
+    "mainBlob": "5b4a334c2fe7056b1f15949b5781807d189255cf",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/teacher/live-classes/route.ts",
+    "mainBlob": "cb647ce1a136b321fe89178d93b373f52481442a",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/theme/route.ts",
+    "mainBlob": "6f5bae7e8416cf85598b09534d22d783b60e5850",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/uploads/[id]/route.ts",
+    "mainBlob": "f81f6374ca9b832a5109468f3d89a35dfe0c3875",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/uploads/finalize/route.ts",
+    "mainBlob": "0fa7f235debfe1753b68f56130e5d5c1a7fa3030",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/uploads/intent/route.ts",
+    "mainBlob": "d750a2ae44f33332b982bf1276c11da00396169b",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/uploads/route.ts",
+    "mainBlob": "f9a8b8e491bbdcd119177441792347252c3d6776",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/version/route.ts",
+    "mainBlob": "2864d08f20bd4850691132ac315d54e785bdb792",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/video-lessons/[id]/answers/route.ts",
+    "mainBlob": "81985347f826b0469517d05cfb200f0887539015",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/video-lessons/[id]/progress/route.ts",
+    "mainBlob": "0b66751d4adc92e25c357c2c56824fdbf3f62c90",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/video-lessons/[id]/response/route.ts",
+    "mainBlob": "6e5d02b15f3b45ea28bb26da3089e34703cd8836",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/video-lessons/[id]/vocabulary/route.ts",
+    "mainBlob": "2c583b18b325042197834594a6f9d413b6210f7c",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/[id]/contexts/route.ts",
+    "mainBlob": "98a6967d9056c7996f31f2271efa947070c14e5e",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/[id]/review/route.ts",
+    "mainBlob": "015eff8446e5e698c25c47371e9b3fe537612bbf",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/[id]/use/route.ts",
+    "mainBlob": "48034512ec69221bac423b0097c9b39fad131e9e",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/due/route.ts",
+    "mainBlob": "d51869170137c6d2e0ad56eb781b7972347fba10",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/folders/route.ts",
+    "mainBlob": "ee75fb5a39d868f2c17207765f1dd15a11f76ad7",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/games/route.ts",
+    "mainBlob": "9a6b397b1bc80a4fa198443764412fd76e1c3967",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/leaderboard/route.ts",
+    "mainBlob": "14476b1143bc036bb48a95198c9c9629aa40266c",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/lookup/route.ts",
+    "mainBlob": "bb21857eae2ac74a70ac01ed50493ee4f7f0b07f",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/meaning/route.ts",
+    "mainBlob": "0266547fd89eeed9bd6111739dcd4b261d618788",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/packs/route.ts",
+    "mainBlob": "92bc727b337a8467ae9a2fdc9066ecacce30cf91",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/route.ts",
+    "mainBlob": "211c5bcb9afa9877b1e360c7b1d8e6ff719dd003",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/search/route.ts",
+    "mainBlob": "b9d2ee97a64c49532d62e6d6f670187cd7a78c1b",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/sentences/route.ts",
+    "mainBlob": "a496a4e166f31b8d14f70a5b35dc3a5cd0ea6661",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/vocabulary/summary/route.ts",
+    "mainBlob": "46ae1cd2baf94926a19ea9eb94d6a5f70296f8d3",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/activation/check/route.ts",
+    "mainBlob": "22aeb073143c3e104019b72c96615a4ceab3cc84",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/activation/items/route.ts",
+    "mainBlob": "22e70df279dbbc2a75cca5d1a2782859a8f59a57",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/exam/[id]/draft/route.ts",
+    "mainBlob": "7a432191621253c4bf7b319645d3256f869724fe",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/exam/[id]/finalize/route.ts",
+    "mainBlob": "a51206cd05e4154256dbadc1990d4d09bb29a14f",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/exam/[id]/route.ts",
+    "mainBlob": "ca769548732c3890a6a1fc97bbe5a7cf30b7ec9e",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/exam/route.ts",
+    "mainBlob": "c94520e0a4f5398893a23e0de3164b2073b610e4",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/grade/[id]/route.ts",
+    "mainBlob": "7732c20481055838d7f3547f80ecbc25109ee019",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/grade/route.ts",
+    "mainBlob": "69cda931bd660c18dd9eb8f50adddf9fdb85a002",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/lessons/[id]/route.ts",
+    "mainBlob": "c75388002262a591a278a432dd1e35766f60a8a2",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/patterns/[id]/route.ts",
+    "mainBlob": "3fd8072d49735d28914a4233428efafc0c609367",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/stealing/practice/route.ts",
+    "mainBlob": "876febe31ea951449dbcb09ec0057d7527dfa814",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/stealing/sessions/[id]/route.ts",
+    "mainBlob": "b8c0adaedcee67097ba3755e1d91fe08f8ce0496",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/stealing/sessions/route.ts",
+    "mainBlob": "944b66b0e1ecc79dd86c56c3a36eca704e7d6464",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/submissions/[id]/route.ts",
+    "mainBlob": "eb23d741542aea97efa1997b146d5ad1ca2c857a",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/submissions/[id]/submit/route.ts",
+    "mainBlob": "2fc891c6aad895b5587a3d78d549c2e981e64412",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/submissions/route.ts",
+    "mainBlob": "ea762e17c70bf895438da96d6f5d9559df940a35",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/translation/[id]/answer/route.ts",
+    "mainBlob": "4e4f596f79c8c7db981ffa8efa7ffdf70811f5a3",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/translation/[id]/route.ts",
+    "mainBlob": "70c76b0d94f1c0395c9ee060b0cdf58cd1e48455",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/translation/route.ts",
+    "mainBlob": "7687a7ec3d34daa81d23d4714d26dce565819708",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/typing/finish/route.ts",
+    "mainBlob": "d61ec720633226d8c922158850f3b2679988bdb2",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/typing/pause/route.ts",
+    "mainBlob": "620c3d6f14148acf317ff1c8e1c5592185019543",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/typing/prepare/route.ts",
+    "mainBlob": "91dc4f330b9c605033a80c3f882a8f83d3ed9b42",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/typing/resume/route.ts",
+    "mainBlob": "a9e046193f305cdc1d10033e113aee62ad82ae00",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/typing/route.ts",
+    "mainBlob": "904e52f2a810e4a662fe39dbbaa5630b8fc80e39",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/api/writing/typing/start/route.ts",
+    "mainBlob": "2690e83279b3833c007b9051d461e94ebb98f043",
+    "targetBlob": "e67908798793016e9017f4d69641812a91a3b291"
+  },
+  {
+    "path": "src/app/app/(focus)/listening/layout.tsx",
+    "mainBlob": "2ebef4bdce1c89c115391fd8cd045ddd96317e10",
+    "targetBlob": "25e399a8d9afcd2bb975677384b6c5a9a1775e4c"
+  },
+  {
+    "path": "src/app/app/(focus)/listening/tests/[id]/[activity]/page.tsx",
+    "mainBlob": "a6897b467621848088a21664f1ee48a1a34aaf0c",
+    "targetBlob": "b2499729fb66608426ee6c99fc43023310e55317"
+  },
+  {
+    "path": "src/app/app/(focus)/listening/tests/[id]/mcq/page.tsx",
+    "mainBlob": "bea5ff0148fd498b83ab43f08ea82e8e9b2c73f7",
+    "targetBlob": "8fa231dc9edc5698c77b79b6996128598a2a30f0"
+  },
+  {
+    "path": "src/app/app/(focus)/listening/tests/[id]/page.tsx",
+    "mainBlob": "c6509d1847a807d80a8a0d1c6c1f28be47a5bc69",
+    "targetBlob": "d5e4ff4ed82da575004645d58e0ea1c4d6b5d626"
+  },
+  {
+    "path": "src/app/app/(focus)/listening/tests/[id]/study/page.tsx",
+    "mainBlob": "8469fe9eb9b11ebadd3952a13d264a1d10590544",
+    "targetBlob": "159b6e468c98925d2687f95c88ebf3613dacc392"
+  },
+  {
+    "path": "src/app/app/(shell)/admin/admissions/page.tsx",
+    "mainBlob": "333e2f8e6b8aef9c47965e852deb4f59a9e8a3fb",
+    "targetBlob": "75119c41b6afba3c6da7c9a7043e3b3db7b96342"
+  },
+  {
+    "path": "src/app/app/(shell)/admin/content/page.tsx",
+    "mainBlob": "210a49296454647d1b03c4d8c8da3331c30015de",
+    "targetBlob": "f2eacd38c05ec218479f934d14afb3b07791444b"
+  },
+  {
+    "path": "src/app/app/(shell)/admin/materials/[type]/[id]/page.tsx",
+    "mainBlob": "d3c84d960ad8d0c8773289744d1318973efe8fec",
+    "targetBlob": "84b80c9ac7f434789f472f87543da9c35288d393"
+  },
+  {
+    "path": "src/app/app/(shell)/admin/materials/page.tsx",
+    "mainBlob": "b9338dc1bdc9609817a2f7f529f1119cff89489d",
+    "targetBlob": "bb5aec8c10f316e03c00d9e61ce28072b2612b21"
+  },
+  {
+    "path": "src/app/app/(shell)/admin/people/[id]/page.tsx",
+    "mainBlob": "7027e0664fd08bd951b2f2b4043e14530bf01c33",
+    "targetBlob": "e5418ab6b8305b956bd49933ef5785af381fd27f"
+  },
+  {
+    "path": "src/app/app/(shell)/admin/people/page.tsx",
+    "mainBlob": "734e9768bf76fca20d0bf58109d4eded88c2861d",
+    "targetBlob": "2a76959633c820847fd962efa1c28029109aff32"
+  },
+  {
+    "path": "src/app/app/(shell)/admin/reading/page.tsx",
+    "mainBlob": "aa838684ba09cd51eaf0814282f4f8a39c52d752",
+    "targetBlob": "2312ec1a99423538e5c6e13851cf1fc066470a24"
+  },
+  {
+    "path": "src/app/app/(shell)/admin/reading/retention/page.tsx",
+    "mainBlob": "0eb2ba9aeb502c0a71b9e5ab9b384dcb1b4d72e9",
+    "targetBlob": "38fbbe66cdd4ea0fc305858e89f6001d9154d905"
+  },
+  {
+    "path": "src/app/app/(shell)/dashboard/page.tsx",
+    "mainBlob": null,
+    "targetBlob": "804785e21b64192aee20f77b96cbd7f13ccdb2f0"
+  },
+  {
+    "path": "src/app/app/(shell)/grammar/layout.tsx",
+    "mainBlob": "780dbb38e1d913f2d4f5551a474ea4e1eeb60c16",
+    "targetBlob": "14f75a88fea6e87842e0bb2b481889ea6ee5acd8"
+  },
+  {
+    "path": "src/app/app/(shell)/grammar/lessons/page.tsx",
+    "mainBlob": "58f3cfaccf19b7868434c60ad6600774232f5ec9",
+    "targetBlob": "d9cd302b3728e621665de084aa50c8afd2aeba5b"
+  },
+  {
+    "path": "src/app/app/(shell)/grammar/page.tsx",
+    "mainBlob": "98535b35a02771ebd2acaeff0f5e58a93fc3ffd1",
+    "targetBlob": "1fe98c499030ba8bb1ac8d931b751f4e6ee3210a"
+  },
+  {
+    "path": "src/app/app/(shell)/layout.tsx",
+    "mainBlob": "9816768a598e26c2c7d59dfe92733777b57dd114",
+    "targetBlob": "5baae53419d974f96321501d897a0ac8002c76c5"
+  },
+  {
+    "path": "src/app/app/(shell)/listening/academic/[testId]/page.tsx",
+    "mainBlob": "a51ea3c1f3cb2013de8bcf755624ed34aca70390",
+    "targetBlob": "3640877c9bb1a0c8c1e728d6f07cc65a9921c27a"
+  },
+  {
+    "path": "src/app/app/(shell)/listening/academic/page.tsx",
+    "mainBlob": "2211bf1375d880d8db1f84830cf740a2d3842300",
+    "targetBlob": "fe8affa8b9be8d6322d4d6fcbdb0a76e5b99c207"
+  },
+  {
+    "path": "src/app/app/(shell)/listening/general/page.tsx",
+    "mainBlob": "fc904a329ccf4708c3fec70382bff73e5b4a0cd2",
+    "targetBlob": "16242c526dbff98c7119828ee31dc6c5f0fcf72f"
+  },
+  {
+    "path": "src/app/app/(shell)/listening/layout.tsx",
+    "mainBlob": "fa17ff7247038309b42801956fa64580df09e7d2",
+    "targetBlob": "d5090ff38890a7328a6c06211c29f6992d3eaef4"
+  },
+  {
+    "path": "src/app/app/(shell)/listening/lessons/page.tsx",
+    "mainBlob": "18e4589da4274e823589c105d27fc037da7e20af",
+    "targetBlob": "89bb60da4ca0b25633bc38993b04c157669ea642"
+  },
+  {
+    "path": "src/app/app/(shell)/listening/mcq/day/[day]/page.tsx",
+    "mainBlob": "2d1afa139f4dc5f8b47a74490fb6123320e86393",
+    "targetBlob": "e4733ab51589044d1925e43371fc1ab0d8cd22df"
+  },
+  {
+    "path": "src/app/app/(shell)/listening/mcq/page.tsx",
+    "mainBlob": "2e2908e1bb77c70156f09258ac33791cd2a54b0d",
+    "targetBlob": "9e09d28cd8e55ac04f80bccbe4d653874f1bee4f"
+  },
+  {
+    "path": "src/app/app/(shell)/listening/page.tsx",
+    "mainBlob": "28545af944773bcc827f29527a71700f79498a55",
+    "targetBlob": "c0ea04ebab9ee743dc85abaf94c736603d2bf954"
+  },
+  {
+    "path": "src/app/app/(shell)/management/page.tsx",
+    "mainBlob": "3c9dbef09587df58ef642f8c0de6332c3b165df9",
+    "targetBlob": "7929c1b8ea04cde42e6944a0fb0e9c67271a660e"
+  },
+  {
+    "path": "src/app/app/(shell)/owner/page.tsx",
+    "mainBlob": "4c24baf8b77b226e0f942315b388aa3d721e677c",
+    "targetBlob": "8e6bc220c8650d49e801cba586be2ba497cc9da0"
+  },
+  {
+    "path": "src/app/app/(shell)/page.tsx",
+    "mainBlob": "bfd684f28f0b570c8f9984b44605fdfc5f46af19",
+    "targetBlob": "0f21a33558bae8da7cce5530dde96bdcaac30e40"
+  },
+  {
+    "path": "src/app/app/(shell)/profile/page.tsx",
+    "mainBlob": "c4bcfbfc09d2b8c192b12aa39bc582bba70dfa19",
+    "targetBlob": "1c0add9ac763af07a0ec375790c5f5a09c2e417a"
+  },
+  {
+    "path": "src/app/app/(shell)/reading/academic/[setId]/page.tsx",
+    "mainBlob": null,
+    "targetBlob": "7275c36c75b98ff3fbf3d84c83d569e677f6a980"
+  },
+  {
+    "path": "src/app/app/(shell)/reading/academic/page.tsx",
+    "mainBlob": "534c98dc1b69810e6bc8deb55ceff9c6c82ff1d1",
+    "targetBlob": "e17befcdcda5e8ed120cc3367d2e04a7317e77ec"
+  },
+  {
+    "path": "src/app/app/(shell)/reading/attempts/[id]/page.tsx",
+    "mainBlob": null,
+    "targetBlob": "25071c9f0505d630a493f6234ecf73b9aeee9786"
+  },
+  {
+    "path": "src/app/app/(shell)/reading/general/[setId]/page.tsx",
+    "mainBlob": null,
+    "targetBlob": "2dab734c89c935a26845b9bf9bc6216382ed5eae"
+  },
+  {
+    "path": "src/app/app/(shell)/reading/general/page.tsx",
+    "mainBlob": "f2009116a4b6a8d40532462aa768f3194417e1b6",
+    "targetBlob": "b4b0f6ad19b44a32603e738cbfb64b052c87b585"
+  },
+  {
+    "path": "src/app/app/(shell)/reading/layout.tsx",
+    "mainBlob": "b8e76596158d1c5f88684c06271066c94d985d65",
+    "targetBlob": "9a0afd8a1df54feb2f3b36622a7d5b8dcff4212c"
+  },
+  {
+    "path": "src/app/app/(shell)/reading/lessons/page.tsx",
+    "mainBlob": "47f174a6cf02f9f74e94fdf35304938daa415ea3",
+    "targetBlob": "60f615624923e0e34fb75f34c2890ecd94d3a319"
+  },
+  {
+    "path": "src/app/app/(shell)/reading/page.tsx",
+    "mainBlob": "5bfafd7d30dd30e734563fbe79184bb59e9dcc68",
+    "targetBlob": "a438319708168bd0ad5d0dfd91c251dda1a622df"
+  },
+  {
+    "path": "src/app/app/(shell)/reading/question-types/page.tsx",
+    "mainBlob": "450545ed22e005879f705380e80b7b856e417a98",
+    "targetBlob": "4be4aab2846020606651bd421a3a2d11bb99a84c"
+  },
+  {
+    "path": "src/app/app/(shell)/reading/retention/page.tsx",
+    "mainBlob": "3c0037bf724e9000ca3c117ca9cad23ec0484548",
+    "targetBlob": "327b534a03b351d8adde082ae5fe329adade375f"
+  },
+  {
+    "path": "src/app/app/(shell)/speaking/lessons/page.tsx",
+    "mainBlob": "e7dcfd7c01b26fceb1fd2f9ff5bf8f2460ae2b12",
+    "targetBlob": "622c7c08bf27f2374719716d9d117c939ac9068e"
+  },
+  {
+    "path": "src/app/app/(shell)/speaking/page.tsx",
+    "mainBlob": "96ba542c2929b3b157f455bdd75f5d8a61464de4",
+    "targetBlob": "9d13f5a9ef31420cd5deeee373aa8511e05e46f4"
+  },
+  {
+    "path": "src/app/app/(shell)/teacher/speaking/page.tsx",
+    "mainBlob": "6fc5f075bee6d369805930be0949f94629926072",
+    "targetBlob": "9aaa138f1c806130058053561a7dced410e0c793"
+  },
+  {
+    "path": "src/app/app/(shell)/teacher/students/[id]/page.tsx",
+    "mainBlob": "7b8542e4145b183cc0aa3134fdda4febc3928fa1",
+    "targetBlob": "49ca893e7b5688ac36db00e8a90bbac4c929f43e"
+  },
+  {
+    "path": "src/app/app/(shell)/teacher/students/page.tsx",
+    "mainBlob": "e1f1180c4cfe0c8c0de4653af20f3c69f8cf11af",
+    "targetBlob": "b9ddb14254778b2cc0838c1a5304052267b246d3"
+  },
+  {
+    "path": "src/app/app/(shell)/teacher/support/page.tsx",
+    "mainBlob": "10829fcd4c01aed636b2eeb9e6e991f74850be57",
+    "targetBlob": "e7c49373fe3fa8a0cea85d4534632d5b59fa63cb"
+  },
+  {
+    "path": "src/app/app/(shell)/video-lessons/page.tsx",
+    "mainBlob": "a6c9249ae5a747f5229421223957efc6de986723",
+    "targetBlob": "1e526746ae8d785c9bbf1e016eb299401fa04254"
+  },
+  {
+    "path": "src/app/app/(shell)/vocabulary/games/[gameId]/page.tsx",
+    "mainBlob": "16a42a0b47b4b666efaeab6a9e7a22bd71176efd",
+    "targetBlob": "a33f7f2f949a4e61151ef862e176674e7d48344a"
+  },
+  {
+    "path": "src/app/app/(shell)/vocabulary/games/page.tsx",
+    "mainBlob": "5af46758ebfc21a5bf2e92235a2a8cd9bfa5d372",
+    "targetBlob": "77eb32c4290fb23dceb78933edfda67fa7684870"
+  },
+  {
+    "path": "src/app/app/(shell)/vocabulary/layout.tsx",
+    "mainBlob": "3a66920117a336695d30f1c9d652d19fd0a6a709",
+    "targetBlob": "aaf58774404b230952aaf6d13d8cc0058157c712"
+  },
+  {
+    "path": "src/app/app/(shell)/vocabulary/page.tsx",
+    "mainBlob": "032a90f3f1742f95fb49bfa0e8a4a0df00468c1e",
+    "targetBlob": "a6202b852813b2b08bda8923f6dc9981e812fbd3"
+  },
+  {
+    "path": "src/app/app/(shell)/writing/page.tsx",
+    "mainBlob": "91c40664c01c6c15fcb70d2bf33b8a3071f05e65",
+    "targetBlob": "a8d145eeb9e424ed08bc896036316136a739a165"
+  },
+  {
+    "path": "src/app/app/layout.tsx",
+    "mainBlob": "bf5c59b08f5bdd5e895fa4ff22b0cc7d91783c91",
+    "targetBlob": "d88e1f98584a2312ece7d34b29a69d19ecde1863"
+  },
+  {
+    "path": "src/app/globals.css",
+    "mainBlob": "1ebfeaae8a569807749457f8b50bd377cb98f9a7",
+    "targetBlob": "aef584bb687cced1eca6986c0309dfd72c05d56a"
+  },
+  {
+    "path": "src/app/layout.tsx",
+    "mainBlob": "0482e94c0d7d4caf138485ab0cf6b7005d83d2c3",
+    "targetBlob": "434736da842e27bdc4b05e84a0c017a615fefda6"
+  },
+  {
+    "path": "src/app/login/page.tsx",
+    "mainBlob": "c3828679737521a6598b37e2cffe831362e2939c",
+    "targetBlob": "c262a86ddf58b070124fc14ab297b7e87b2b5239"
+  },
+  {
+    "path": "src/app/onboarding/page.tsx",
+    "mainBlob": "a4cb3760f839401dc3aee35559892a21b903b8f7",
+    "targetBlob": "6da610586c74778c05e25c4a06d704978cc53401"
+  },
+  {
+    "path": "src/app/page.tsx",
+    "mainBlob": "f80c8fc3d9546d107ae42a4a8cca0311879122bf",
+    "targetBlob": "0143686ec9e4518afba22ca1ded72bb955289b5a"
+  },
+  {
+    "path": "src/app/register/page.tsx",
+    "mainBlob": "f9fe8286cbfc2eddbbf00e9f1c685ca8054126af",
+    "targetBlob": "f54514a36ca8ddb342e0400dfc5cb87930daa746"
+  },
+  {
+    "path": "src/app/reset-password/confirm/page.tsx",
+    "mainBlob": "67a16704bf45df0578df59b9fac71a3d37a5a0e8",
+    "targetBlob": "462779d7796c25fcdb4eaa9ee999750ded04d1e2"
+  },
+  {
+    "path": "src/app/reset-password/page.tsx",
+    "mainBlob": "f22f2f19e1df32e2959f4002fb9654c762201b84",
+    "targetBlob": "55daddf4381049db1f3404c78bce94bd5c559fa8"
+  },
+  {
+    "path": "src/components/admin/ContentWorkspace.tsx",
+    "mainBlob": "02bcc2a28513c0ad06079d9bba3a23eff8fd1531",
+    "targetBlob": "3dc0619d7cf3a1a76f201103cf52bdb33c624f5d"
+  },
+  {
+    "path": "src/components/admin/NewVideoLessonForm.tsx",
+    "mainBlob": "a4c8980f2face287b23c3ccfb07edca7f26b7722",
+    "targetBlob": "aa6b2e4fa7a2a2ef84d7ded473ea2f1cfcfe8f59"
+  },
+  {
+    "path": "src/components/admin/PeopleTable.tsx",
+    "mainBlob": "b5ffdd042bbebeaadc63787043926ab8e582c690",
+    "targetBlob": "cdcaba91ff880565026078568434513d5d0aabfd"
+  },
+  {
+    "path": "src/components/admin/PublicationControl.tsx",
+    "mainBlob": "474a03b214dc46229f126f0258364565fdfcabc8",
+    "targetBlob": "5521e3d5d27dfc5709aa6eefe8e14089dcd8aded"
+  },
+  {
+    "path": "src/components/admin/RetentionBankPanel.tsx",
+    "mainBlob": "1e034c7fcd30ff5ba31d9672e90ec1985657202b",
+    "targetBlob": "8905b22c88e4172eca0b5e472cb7e07e9ca033a9"
+  },
+  {
+    "path": "src/components/admin/StudentResults.tsx",
+    "mainBlob": "777e1a1a0c92ead76c3db0c12d63213a70486167",
+    "targetBlob": "d145074796b484a0b45ab242e70c342005031204"
+  },
+  {
+    "path": "src/components/audio/LocalReflectionRecorder.tsx",
+    "mainBlob": "2f016084fa11fa31e5f68322aceaf96c738041ab",
+    "targetBlob": "99edb152a264b8c3aebb6d80398427ea7bdec5ff"
+  },
+  {
+    "path": "src/components/auth/AuthShell.tsx",
+    "mainBlob": "880544285436fd612dfb64bf39d541f5bc57e858",
+    "targetBlob": "83997c2f93631e9b7bfa32f8382d506d6eee465f"
+  },
+  {
+    "path": "src/components/auth/LoginForm.tsx",
+    "mainBlob": "0e350adf78a166fac2eb5fc8e300b911a26a9536",
+    "targetBlob": "946cf1370a1ad927c46d2416a15e00ce862ea67a"
+  },
+  {
+    "path": "src/components/auth/RegisterForm.tsx",
+    "mainBlob": "59128f69098960c1db3c64aa9969f769a415685c",
+    "targetBlob": "bdd932cf1173992b9136f583f80f6c105576fcea"
+  },
+  {
+    "path": "src/components/auth/TelegramButton.tsx",
+    "mainBlob": "705b3b3e15d017c42d0c303928b11f5359b33cde",
+    "targetBlob": "0fc439f419d78c828b6f9283f976f11e8cb7c0d3"
+  },
+  {
+    "path": "src/components/campus/BackToCampus.tsx",
+    "mainBlob": null,
+    "targetBlob": "626c62a468b400af0ad0ab79439349d103e65ae7"
+  },
+  {
+    "path": "src/components/campus/CampusTopbarBrand.tsx",
+    "mainBlob": null,
+    "targetBlob": "d513a8e3cc91dbe5e69bc2f2defcd60817d38fc8"
+  },
+  {
+    "path": "src/components/campus/CampusWorld.tsx",
+    "mainBlob": null,
+    "targetBlob": "ef6a3b192327967c5b0ae5c1f600c03ed0e9b621"
+  },
+  {
+    "path": "src/components/campus/campus.css",
+    "mainBlob": null,
+    "targetBlob": "9f87b8edde4ec436be98947112b3812dec897c03"
+  },
+  {
+    "path": "src/components/courses/VideoLessonStudio.tsx",
+    "mainBlob": "0001c0409ae311ec584de423179ac9d5c05241a0",
+    "targetBlob": "5e55fe0221e4ab2461fbb92634d0869a955c5d03"
+  },
+  {
+    "path": "src/components/interaction/InstantLink.tsx",
+    "mainBlob": "45c36d83b305a380e168e730b32e1e0a32507ded",
+    "targetBlob": "565dd3992bf309e5439022496341305ffde01ab0"
+  },
+  {
+    "path": "src/components/interaction/InstantWorkspaceOutlet.tsx",
+    "mainBlob": "68d4487fd9a821149024bef7e6844d8ade77ce6d",
+    "targetBlob": "1120465028748616fbbb6c451bd062c4ff29caaf"
+  },
+  {
+    "path": "src/components/listening/AuthoredListeningFrame.tsx",
+    "mainBlob": "0b62c9616e404352155a9333520e78e21092641d",
+    "targetBlob": "d8385e46bdcb9e077d0c2da619880dcd50afbf05"
+  },
+  {
+    "path": "src/components/listening/FullListeningLibrary.tsx",
+    "mainBlob": "66f2300bb4401231db29a18dbdab8ca128b49ed6",
+    "targetBlob": "f6abd4d22c4504d85de9964a87a28158b2049083"
+  },
+  {
+    "path": "src/components/listening/ListeningImport.tsx",
+    "mainBlob": "8987c81f286462901e0918953f6aa40467cad7df",
+    "targetBlob": "a01c05b4ec83f92f727a9c5553d3a255a3a77aaf"
+  },
+  {
+    "path": "src/components/listening/ListeningLegacyImport.tsx",
+    "mainBlob": "c52bf9c3a3d1e5be4eb1ac48d6d0cf521c659654",
+    "targetBlob": "54998269d50cc45ce30836d452ab4a1bdb989cc1"
+  },
+  {
+    "path": "src/components/navigation/ModuleNavigation.tsx",
+    "mainBlob": "306c93a1cddc436b4740f744a08881b4bc695740",
+    "targetBlob": "7bfb6f4fc64bcc50d6cae083341b1a717dcc41cf"
+  },
+  {
+    "path": "src/components/navigation/ModuleSectionNav.tsx",
+    "mainBlob": "bab4b1283a43769b835e7e1ff3d93ae2f07d31f0",
+    "targetBlob": "5b2b7105220b898c009e1c60b92c0d74c2c868bf"
+  },
+  {
+    "path": "src/components/onboarding/OnboardingForm.tsx",
+    "mainBlob": "b8001cc18f902e3d999613b25f567d6afe2fc162",
+    "targetBlob": "35ea189d85f3a9bfed67dd3930c2cff0ea1bc60e"
+  },
+  {
+    "path": "src/components/reading/GeneralReadingSession.tsx",
+    "mainBlob": "d1426c281303126a00767400529fe011e99f49b3",
+    "targetBlob": "285185a8401a90332b42361c21471defbd604d6a"
+  },
+  {
+    "path": "src/components/reading/GeneralReadingSets.tsx",
+    "mainBlob": "6b7e7334b2c9426c1f3ec0b7754af8ca644aaf89",
+    "targetBlob": "7bcf9a6c565a2be14af93abb7ca7837f47e01aee"
+  },
+  {
+    "path": "src/components/reading/ReadingAnalysis.tsx",
+    "mainBlob": "956ba8f75c4b0c8ae8afc9bbcfa0a73235db752f",
+    "targetBlob": "1c181373575183dd437f47d21fb22123beb56726"
+  },
+  {
+    "path": "src/components/reading/ReadingEvidence.tsx",
+    "mainBlob": "7440bc8dddc4587eebdcce55ad7ff35f9a303696",
+    "targetBlob": "fb3094fd9c87d78c65eb58788a8be14d43f5fd62"
+  },
+  {
+    "path": "src/components/reading/ReadingExam.tsx",
+    "mainBlob": "87a4f21bdceaf5837f76735da090dd4f1afd41e2",
+    "targetBlob": "1cbd0a90e71d2c848a1fbd3b026eba734b6bc319"
+  },
+  {
+    "path": "src/components/reading/ReadingFilters.tsx",
+    "mainBlob": "1216052c3471b427922c5dd8a703e5aa334efb51",
+    "targetBlob": "cd509560040fc7b817c0a25993519b220ebe7317"
+  },
+  {
+    "path": "src/components/reading/ReadingHighlights.tsx",
+    "mainBlob": "fd13d172a7ebed24b4693a5ee7552b07962888dd",
+    "targetBlob": "dc2414403fc9ff51b5b8fa0496ed9b93987b4b1c"
+  },
+  {
+    "path": "src/components/reading/ReadingLearningLibrary.tsx",
+    "mainBlob": "f3b5338e2ca9aa8c3f03d993fba8f0509edb588c",
+    "targetBlob": "430ee855316fff488c8628ea40037488afbd1988"
+  },
+  {
+    "path": "src/components/reading/ReadingPassageCard.tsx",
+    "mainBlob": "384fd396aa8deee5f605d412db18c312c84e6622",
+    "targetBlob": "a2bd985f727c1717f9786a9fe6c494b071debc9c"
+  },
+  {
+    "path": "src/components/reading/RetentionSession.tsx",
+    "mainBlob": "4e479598ff63b4810711da1f3b060b2186191f16",
+    "targetBlob": "1f61e885117d776b5e1513c5bc6c522f36950df5"
+  },
+  {
+    "path": "src/components/reading/StartPassageButton.tsx",
+    "mainBlob": "be5b28d7ac143dc87e041d1db9990fca64b80966",
+    "targetBlob": "a750df020aaa961a5bb71cda41358a4b4b74c3e4"
+  },
+  {
+    "path": "src/components/shell/BrandBlock.tsx",
+    "mainBlob": "252566aeafefb691c7329d0dbf755dfd2a0e7fa5",
+    "targetBlob": "070790a6d2c53d67917d87e5e89eaf53331353e1"
+  },
+  {
+    "path": "src/components/shell/GlobalSearch.tsx",
+    "mainBlob": "191b07fe13c577db1ac91af60567401499187a4b",
+    "targetBlob": "b5dcc05812fe0ace5c7195dc84862403c14045f3"
+  },
+  {
+    "path": "src/components/shell/MobileNav.tsx",
+    "mainBlob": "3238c51a1102ff5df537f9f15e4baf8ce5f30106",
+    "targetBlob": "85c314b080fc93154f3a2a1b8027a925a58c14f4"
+  },
+  {
+    "path": "src/components/shell/ShellUtilities.tsx",
+    "mainBlob": "4ee0ecac317c37fca4f97baed2387ffa3bee6ce0",
+    "targetBlob": "ca4b684170354b891aaef77cdf7fd98529128f9f"
+  },
+  {
+    "path": "src/components/shell/Sidebar.tsx",
+    "mainBlob": "b484cbf7ea7d6820adc0133081bf5b2c298131f8",
+    "targetBlob": "ab8b016fb8275c64cae9e5e834c7cdbaac8bad2e"
+  },
+  {
+    "path": "src/components/shell/SidebarNav.tsx",
+    "mainBlob": "c9940a9863f5170d6c0217fe8006e423180c4b01",
+    "targetBlob": "5fb11c8054d7b872e2fd429f2c36ebd8971c89b3"
+  },
+  {
+    "path": "src/components/shell/Topbar.tsx",
+    "mainBlob": "c2eb65d2037ab3b88a1f80ec3943141c840aa782",
+    "targetBlob": "27cadefec6d32446aac93c43fd441f81016982ed"
+  },
+  {
+    "path": "src/components/speaking/SpeakingPromptComposer.tsx",
+    "mainBlob": "93e53f76c87cba0c9cd280b3d6986c075ce0c6ee",
+    "targetBlob": "9bb2f43a30802319653d8cc4f9f78e528051a12f"
+  },
+  {
+    "path": "src/components/vocabulary/ClickableText.tsx",
+    "mainBlob": "a7a9a4c6706da439d55c621fa6544844fe46397d",
+    "targetBlob": "0317b7130346c986d7e33d92f8dac656886451e5"
+  },
+  {
+    "path": "src/components/vocabulary/DictionaryFolderDialog.tsx",
+    "mainBlob": "d930e994e933322e17da2ece45957f6279d86980",
+    "targetBlob": "0b21aaa9fb1c92201f98bf51425038531c7868cb"
+  },
+  {
+    "path": "src/components/vocabulary/DictionaryPanel.tsx",
+    "mainBlob": "3681829a8ccfc0a98ecf310e4bed73b68c881337",
+    "targetBlob": "444099b78cc4056bf9e804963b4840c78bd635c5"
+  },
+  {
+    "path": "src/components/vocabulary/DictionaryRecentSearches.tsx",
+    "mainBlob": "2812f0c3500fc2639d95ba520a6c8fb7c00aec56",
+    "targetBlob": "73cc052d046f00d6444d21389ba8f3cd979311ed"
+  },
+  {
+    "path": "src/components/vocabulary/OwnerDictionary.tsx",
+    "mainBlob": "b65f4b5e38076bc498ecd6ca9397067f8fdfebe0",
+    "targetBlob": "8ebe2633ae2477c9867504bb7e40c288a87e8a35"
+  },
+  {
+    "path": "src/components/vocabulary/VocabBoardPanel.tsx",
+    "mainBlob": "31435e3f9afa5ca5d08337a0f6e6912bffa5f363",
+    "targetBlob": "a913b098c69a56b174940e9525b16e0fb4bbb5a7"
+  },
+  {
+    "path": "src/components/vocabulary/VocabGamesPanel.tsx",
+    "mainBlob": "fc14e7d901be9d6bfc773b630c310c8c3469cfce",
+    "targetBlob": "bf8f4c1d6562f3daab145704c9992b9dbbcde724"
+  },
+  {
+    "path": "src/components/vocabulary/VocabRevisionPanel.tsx",
+    "mainBlob": "9cb005fb1edba23092f94755b3921c41205dc113",
+    "targetBlob": "ba916cf799bcb9058e43f45e61c46b6ac9f8e82f"
+  },
+  {
+    "path": "src/components/vocabulary/VocabStudio.tsx",
+    "mainBlob": "5cb9758258a2bfd9a0b9ff84f38ae3643f15f34e",
+    "targetBlob": "af2ca421bce44c0788928d274ccca0caf17b5a8b"
+  },
+  {
+    "path": "src/components/vocabulary/types.ts",
+    "mainBlob": "8dc6c82dedd6d2c89b79b4640013eb9291345368",
+    "targetBlob": "5272c6ecbb02cd65faeda65ba2066e43279aa4a0"
+  },
+  {
+    "path": "src/components/writing/workspace/WritingNav.tsx",
+    "mainBlob": "18e5b3fddc7b43081ca5b5d2ab2fafbeec173714",
+    "targetBlob": "156c6a3bd721893fa71aa4140ea5f633d4726eeb"
+  },
+  {
+    "path": "src/db/client.ts",
+    "mainBlob": "2e50761b15c8a50366243635c06b27465e91f412",
+    "targetBlob": "4a5a93afac2ac737482192f8be7bd5ef3980a888"
+  },
+  {
+    "path": "src/db/seed.ts",
+    "mainBlob": "57cbf02f1dabef43b7778140691ce586485c71af",
+    "targetBlob": "359f21887a411dc26ab62542faab9f7a3fc1c202"
+  },
+  {
+    "path": "src/db/tooling-client.ts",
+    "mainBlob": null,
+    "targetBlob": "8b7a3b7d7a14382a164ca0b0bea812280b8172c6"
+  },
+  {
+    "path": "src/lib/auth/current-user.ts",
+    "mainBlob": "451515a3c04292979325f694f48cd0b5af2fcebf",
+    "targetBlob": "ff9faacb78d28e652f7243020a4569c30233409f"
+  },
+  {
+    "path": "src/lib/auth/password-login-columns.ts",
+    "mainBlob": "9d5677bfd65291ac12410a2e3cd301570e25914d",
+    "targetBlob": "3cdaa5098d9ddb9f00ccddafbc7bca74b1b5405d"
+  },
+  {
+    "path": "src/lib/auth/providers/telegram.ts",
+    "mainBlob": "03d4e642b414c1e02447ace205680629c3896e8d",
+    "targetBlob": "0320b57b639a19951a9628d174939ebef3ce7e9d"
+  },
+  {
+    "path": "src/lib/auth/session.ts",
+    "mainBlob": "020146cc0968bb6e72f42b10b911da0d8b8ba41d",
+    "targetBlob": "f402898afbff30322756cf77c2019843eb381996"
+  },
+  {
+    "path": "src/lib/backend/origin.ts",
+    "mainBlob": null,
+    "targetBlob": "c8de93b4c1d8a8c4ff640457a3e3b8f9c22dad20"
+  },
+  {
+    "path": "src/lib/backend/proxy.ts",
+    "mainBlob": null,
+    "targetBlob": "0317304de091d28cf0e3100d1bb0c0bb87ed46c8"
+  },
+  {
+    "path": "src/lib/backend/read-client.ts",
+    "mainBlob": null,
+    "targetBlob": "da385ed276b10955019f7542ccdf8ba19cd80503"
+  },
+  {
+    "path": "src/lib/backend/server.ts",
+    "mainBlob": null,
+    "targetBlob": "eb2a9834a837d9ec3b300a3b4a327fb5c843a5a0"
+  },
+  {
+    "path": "src/lib/config/site.ts",
+    "mainBlob": "8a3b3e51c280544add8a924f43540872a4253f00",
+    "targetBlob": "ae92a4d1acf5538877eb50e607d2764bc3bff193"
+  },
+  {
+    "path": "src/lib/content/authoring.ts",
+    "mainBlob": "ace5e6aa4b5ec278bd525ed087965476e7587f24",
+    "targetBlob": "90208e00295eb0b2b3d767a99b59e17456fa9b37"
+  },
+  {
+    "path": "src/lib/content/bank.ts",
+    "mainBlob": "a5eeaf442ec8b46594b439ab3f3c89a594460aa2",
+    "targetBlob": "c0eaee64b50cddf1bf34d5230761c44f37428672"
+  },
+  {
+    "path": "src/lib/content/lesson-library.ts",
+    "mainBlob": "3fdd98f1e6dfe215ca6b5948cf780363513a29bb",
+    "targetBlob": "0acf9e9d98891aafe92f8acaa202b874a5e06903"
+  },
+  {
+    "path": "src/lib/content/question-types.ts",
+    "mainBlob": "9f82ae1edb3fd7b38aa8043a6387a784c87e0a0a",
+    "targetBlob": "6138c7f7e60e29bafb8b52bad956676f34092b12"
+  },
+  {
+    "path": "src/lib/content/vocabulary-packs.ts",
+    "mainBlob": "a5cb05d8885d4fe5ff5436e775ee628c658cb0cb",
+    "targetBlob": "c336ee56ecb1aaec71a63235fb9c05b3cbfbd9a0"
+  },
+  {
+    "path": "src/lib/data/admission.ts",
+    "mainBlob": "fb4db5f7da0de5aca2dbb3a73f443cf9886ce228",
+    "targetBlob": "704bf083f684c7df1e5e1e2a5f4b50d4fb6103f6"
+  },
+  {
+    "path": "src/lib/data/audit.ts",
+    "mainBlob": "3bd5d298c39a495c2a8dc8793b956ca34dd15d03",
+    "targetBlob": "f2055088c0e23ad76d988012464a4df932bec52d"
+  },
+  {
+    "path": "src/lib/data/dashboard.ts",
+    "mainBlob": "c9edc68c4291b1ee541be91e1d15a0ef357854fa",
+    "targetBlob": "94d6a9079374c881af0b48a22d2f9ca7ee8845b8"
+  },
+  {
+    "path": "src/lib/data/full-listening.ts",
+    "mainBlob": "5eddbb2d7502481f76fe7dcbc1f247c020522d2e",
+    "targetBlob": "9094263749b7e4508d1d5135f32fe364754e06ea"
+  },
+  {
+    "path": "src/lib/data/general-reading.ts",
+    "mainBlob": "90f95c6c97676977b94d807d7b6f1501aa36f68f",
+    "targetBlob": "d7753e260078c933e593e189a07f760feb197fd9"
+  },
+  {
+    "path": "src/lib/data/grammar.ts",
+    "mainBlob": "d3d90c206058830f116519e692a9f4ddc3b73bd3",
+    "targetBlob": "af614db98d7340c754b2bc1918bee33cb62f556f"
+  },
+  {
+    "path": "src/lib/data/listening-academic.ts",
+    "mainBlob": "d043e5103b792225701af9820e389edf027fcfa4",
+    "targetBlob": "3e5a723ec6ad810f48760bc711859a2359c3acaf"
+  },
+  {
+    "path": "src/lib/data/listening-attempt-write.ts",
+    "mainBlob": "6c60df777f3c900a23a3bb71b542036a845cbdb1",
+    "targetBlob": "c6f665a0e621eafc135983f9d51a43bcaa37d2af"
+  },
+  {
+    "path": "src/lib/data/listening-general.ts",
+    "mainBlob": "63ebd928ee6a500bd15683c387a3c98b87626cdb",
+    "targetBlob": "ae4ebf623f3b7cfef506e6b5b2466fb24057edbe"
+  },
+  {
+    "path": "src/lib/data/listening-mcq.ts",
+    "mainBlob": "87c53ec6812f18a1031e0102e748c1cd7d56a61f",
+    "targetBlob": "3132f4b83a47b16dec345859f85ffc2a0ad96e3b"
+  },
+  {
+    "path": "src/lib/data/listening.ts",
+    "mainBlob": "1b2e64b405bad97052891de9137ef74298b1574d",
+    "targetBlob": "ecc860b6d1730763764433a357e401dd2f91ec99"
+  },
+  {
+    "path": "src/lib/data/people.ts",
+    "mainBlob": "5634f24abde5415b3ae97207375ad65a8921f754",
+    "targetBlob": "3b2d7899de5e7d1d5e05d8c3493dab8fb2a0f52f"
+  },
+  {
+    "path": "src/lib/data/reading-assessments.ts",
+    "mainBlob": "2533c16a2a0474aba6bc39b888648ff1e9622aca",
+    "targetBlob": "755ce862fd070b53c12f76498db300a8152988f9"
+  },
+  {
+    "path": "src/lib/data/reading-library.ts",
+    "mainBlob": "1d5f23a72332a7639e37c739f674ff0a9fbd7ae3",
+    "targetBlob": "12e280638922263453a2918cef3580e3271e936e"
+  },
+  {
+    "path": "src/lib/data/reading-type-index.ts",
+    "mainBlob": "d83e8777ed819676cd5dccc14a71eaa159e7140e",
+    "targetBlob": "2c238d5fd14e27e9960e5076c42ef73104d9873f"
+  },
+  {
+    "path": "src/lib/data/reading.ts",
+    "mainBlob": "357d8e1a50f2133e7ae4f59c144991a5b41bd8c9",
+    "targetBlob": "b529f025b058a5cbf37361688fe17c8ec6729f5e"
+  },
+  {
+    "path": "src/lib/data/retention-attempts.ts",
+    "mainBlob": "b77fe4015115efcd5911d15b2f3a819b9bc14c8a",
+    "targetBlob": "3a1b1dad0ff9b31ac34a9056870039bbd06e5c31"
+  },
+  {
+    "path": "src/lib/data/retention-bank.ts",
+    "mainBlob": "1819b72675ae0f4e2f0baae8be1d82e3781d5e99",
+    "targetBlob": "037551e9fcd35ad536fc6371f0ab75a0131c015e"
+  },
+  {
+    "path": "src/lib/data/speaking.ts",
+    "mainBlob": "65f153cc9111d0569c9200b0231eaa6b207e82d3",
+    "targetBlob": "f92e8641f234c09bbe8297b5472118fbc35ac8e4"
+  },
+  {
+    "path": "src/lib/data/teacher.ts",
+    "mainBlob": "5bfdb85703aec22ca9b02f8897d6cfb8ef1a3a5e",
+    "targetBlob": "863b2481bc39c8ffc32890de2e28d93269b24307"
+  },
+  {
+    "path": "src/lib/data/uploads.ts",
+    "mainBlob": "dcdc6f2e7b0727e905a2d1c721dd42730da9ff27",
+    "targetBlob": "4ac39be3ca768b553b1bbf563182567176507647"
+  },
+  {
+    "path": "src/lib/data/video-lessons.ts",
+    "mainBlob": "bd661e09beb67ae82c4c054f1d52ff13790fed1a",
+    "targetBlob": "9425c73e10ec684fa8d4f7434032a55673b2e5a1"
+  },
+  {
+    "path": "src/lib/dictionary/api.ts",
+    "mainBlob": "80a0b31a4f02461320b5a29fef9adea03d00deca",
+    "targetBlob": "07ff7956fcfbe46aa7540854d86e494673c975f5"
+  },
+  {
+    "path": "src/lib/dictionary/model.ts",
+    "mainBlob": "33fd61221ff6ffe358c21215cc2d7f36ce848502",
+    "targetBlob": "ce32d8b90c1bae96fa3ab644e204fdbd1215baa5"
+  },
+  {
+    "path": "src/lib/dictionary/publish.ts",
+    "mainBlob": "8bd2cceae817ea5267c50cd13a30ccfdf46aeee7",
+    "targetBlob": "31d665dd36b8107cca0df9c008710b298df52d9f"
+  },
+  {
+    "path": "src/lib/dictionary/save.ts",
+    "mainBlob": "0db5c579b5d9d0f94834d7bbdcd2fe30ffe35da8",
+    "targetBlob": "f74e256f0167128da4a1013c234bcc982a10535d"
+  },
+  {
+    "path": "src/lib/dictionary/store.ts",
+    "mainBlob": "6f636a312b4ecc9eb05ddf5040e7a2da7988b289",
+    "targetBlob": "f761bd988b03cc3c46feed6aa9304b4f87bff614"
+  },
+  {
+    "path": "src/lib/http/rate-limit.ts",
+    "mainBlob": "5869421645683c716f88d1740a8fee4e5d1f5f1f",
+    "targetBlob": "a586dfe106f0b1ed4e361b4fd1802d4332db23eb"
+  },
+  {
+    "path": "src/lib/http/security-headers.ts",
+    "mainBlob": "d4e25ed44346efd85f2d6c32d967774f6428dc5d",
+    "targetBlob": "9c32fd76031ff5f5cdaed781a0f2755bda24d320"
+  },
+  {
+    "path": "src/lib/i18n/en.ts",
+    "mainBlob": "c6a896cb117b8a3912528340105158d208b8e013",
+    "targetBlob": "2a4201805ad5b8ed2d7f796c7a90f3ff6731992e"
+  },
+  {
+    "path": "src/lib/i18n/uz.ts",
+    "mainBlob": "a8c346dc23cbf52007ddb7d02d406eba19353b55",
+    "targetBlob": "7155aab5f73c1da245eae6b4cb89f1089ba5f6ed"
+  },
+  {
+    "path": "src/lib/import/listening/canonical.ts",
+    "mainBlob": "4f6a904b67a0ac5b5ebb40e08603ac23f5c16415",
+    "targetBlob": "a782eae760608aa35d71c44191158770a6ca76e8"
+  },
+  {
+    "path": "src/lib/import/listening/importer.ts",
+    "mainBlob": "98f74c79a6080e18c629642554d6dbc6378a036a",
+    "targetBlob": "d5921e72f5aa6f09429906810ec93f94a81bfa80"
+  },
+  {
+    "path": "src/lib/interaction/intent-prefetch.ts",
+    "mainBlob": "54375dbacf1fc34085cc19bac6b666b03efdd3db",
+    "targetBlob": "d977cdca39f306ebb910e7062925ccd02521a132"
+  },
+  {
+    "path": "src/lib/interaction/section-entry.ts",
+    "mainBlob": "80482c849dee8c3fca5db1da167e24e648fcb41e",
+    "targetBlob": "af5534a91d7c4b651b25f58736001a54a39ded0e"
+  },
+  {
+    "path": "src/lib/listening/authored-sandbox.ts",
+    "mainBlob": "0c05c9cfe4c47f051a4524dcfbe65b1eea3f55da",
+    "targetBlob": "2f5c07ff46f0d28733b68a76c1bb0afd2a025e0e"
+  },
+  {
+    "path": "src/lib/listening/inspect.ts",
+    "mainBlob": "e35e14e33c6e7358b354bc5d5971b66f59d0ffd4",
+    "targetBlob": "b8086899522e60b3087e7ad0934db899f77af29d"
+  },
+  {
+    "path": "src/lib/listening/package.ts",
+    "mainBlob": "21177668e24effd5d4986d33f517da28e08eaf20",
+    "targetBlob": "8586d972e518e4334f885985f22e7a5cc7246e65"
+  },
+  {
+    "path": "src/lib/listening/question-set.ts",
+    "mainBlob": "2fd1f089a70cf9596d9020472e5034827ededea3",
+    "targetBlob": "4b74ac1b6b868842addd3c397b96f002568cee2d"
+  },
+  {
+    "path": "src/lib/listening/source-parser.ts",
+    "mainBlob": "ab9e3e72106b79c14f4c7f30d264a0db06cf3d04",
+    "targetBlob": "80f74cb3d05c584edc59cb1645660e632e21f627"
+  },
+  {
+    "path": "src/lib/nav/private-modules.mjs",
+    "mainBlob": "c4fa4d68e200ddaafe3c77ce8d20fb8ffb449094",
+    "targetBlob": "e9cf40db91da5507e348df27f02b25b4fdb03600"
+  },
+  {
+    "path": "src/lib/nav/routes.ts",
+    "mainBlob": "d66b91eced5df0a26527aed1a1524dc4cde90d6e",
+    "targetBlob": "9c81a5da47caaf254b88319de54afd30e1aacac2"
+  },
+  {
+    "path": "src/lib/nav/uuid-page-routes.mjs",
+    "mainBlob": "c956470652f992f582c74596b2d0726a35ba31b9",
+    "targetBlob": "367c5b6b06cedcfaaaf3c7125edce5a970c67d8f"
+  },
+  {
+    "path": "src/lib/profile/photo.ts",
+    "mainBlob": "c8c65a41e2459c0124d6f955178b44781ea80e72",
+    "targetBlob": "54b226709f8c2b02656d42b2527d03f28b04e3f5"
+  },
+  {
+    "path": "src/lib/reading/destinations.ts",
+    "mainBlob": "00be591346f44fe566ad82531b89b91659623b23",
+    "targetBlob": "8d83c133f27f3b8552efb5d58db9cb0c87263000"
+  },
+  {
+    "path": "src/lib/reading/question-model.ts",
+    "mainBlob": "7ea05dc9d171c37f412744909e705d55ea32b3e7",
+    "targetBlob": "ad8baf4b15d2975c6c108dcebc175f5c27a891ba"
+  },
+  {
+    "path": "src/lib/retention/measurement-draft.ts",
+    "mainBlob": "18aa14c9053d58bcbc812adaeeed21cfefe06124",
+    "targetBlob": "797af763035e2fab0eb570fc29ad3a9ce5e97543"
+  },
+  {
+    "path": "src/lib/retention/measurement.ts",
+    "mainBlob": "5c436efba34fdae4e18f056f1d40411ac7e5b2f8",
+    "targetBlob": "839d1968cc3642ccefa4f99d1eb58db42bf24d90"
+  },
+  {
+    "path": "src/lib/retention/payload.ts",
+    "mainBlob": "438eb8a79af273bc5861098e93f95730d4bc7afb",
+    "targetBlob": "67ac1ef14ae90ff2de1f48a00a7f3deca61c9bcf"
+  },
+  {
+    "path": "src/lib/retention/types.ts",
+    "mainBlob": "8d323f7d67c5b5d547490ebf508458b17ab5f41b",
+    "targetBlob": "0cd6493cf01df875be94516e52c139815b798358"
+  },
+  {
+    "path": "src/lib/services/cms/publication.ts",
+    "mainBlob": "2d3646beefffaf39403b89e22aef0a0e57f4a111",
+    "targetBlob": "66eb832ee09619ae157498ae453afc888a1c3a41"
+  },
+  {
+    "path": "src/lib/services/lexical/context.ts",
+    "mainBlob": "4937fdd041cc4053d648bce7ac6c2d12f383f6e3",
+    "targetBlob": "78ef810a7e581c292c13e2cd8e3306cfc02b0bdf"
+  },
+  {
+    "path": "src/lib/services/lexical/forms.ts",
+    "mainBlob": "2a90cac2875f6ca06ed0ad342e1e012dd35ced62",
+    "targetBlob": "42712775953523382b00726a3fe1637383c71161"
+  },
+  {
+    "path": "src/lib/services/lexical/listening-occurrences.ts",
+    "mainBlob": "e6e19b950add3a2341c1ba1dcc0143e4f231b8bd",
+    "targetBlob": "bc8c0b33939a9d51cf6fdc8f9bdfd1d336383242"
+  },
+  {
+    "path": "src/lib/services/lexical/reading-occurrences.ts",
+    "mainBlob": "c7671adf22b5e2bbac41259c5aba07fdaf1e8f97",
+    "targetBlob": "7ea90c4339a123b9f0ba1316a0e5255865ade874"
+  },
+  {
+    "path": "src/lib/services/lexical/video-vocabulary.ts",
+    "mainBlob": "c0113618b183d6b3f03342e24f9694ca14535e43",
+    "targetBlob": "d72bb852f2dd6f8a4c3b0a5639c944457b39e0ad"
+  },
+  {
+    "path": "src/lib/services/listening/mcq-access.ts",
+    "mainBlob": "487a38b5e08ea0142dcf54a5be44961b50914f3c",
+    "targetBlob": "1ca935976b951186df4aa54ec2a4797fe316e724"
+  },
+  {
+    "path": "src/lib/services/reading/schedules.ts",
+    "mainBlob": "a3f4bc2e8b9c734156c1dc4442f2d47b9ff3c437",
+    "targetBlob": "467c0b6415b45b61714c33e9e5d3f65b067fa2ed"
+  },
+  {
+    "path": "src/lib/services/reading/submit.ts",
+    "mainBlob": "a0425627eee8eba51437c645b7c07d989ef60de2",
+    "targetBlob": "aec6d5c7e6acfd19256f30bd7a70b461141bc76d"
+  },
+  {
+    "path": "src/lib/services/resources/owners.ts",
+    "mainBlob": "f90910f099de1caec89049c4bc0201b44c12c9a9",
+    "targetBlob": "183936a555261d86ad216cb08f6ec6185d09fd3d"
+  },
+  {
+    "path": "src/lib/services/storage/local-provider.ts",
+    "mainBlob": "13c7f5cbeb2918f6b70a18e63d74732495030e4b",
+    "targetBlob": "2b81e536655bfd92782220f27eb3f0572f9f4366"
+  },
+  {
+    "path": "src/lib/services/storage/s3-provider.ts",
+    "mainBlob": "eaeaf3fb90fa621d76b66dc14434cc137f578865",
+    "targetBlob": "c12beea6b325e4d5931db164402518fdea18f739"
+  },
+  {
+    "path": "src/lib/services/storage/types.ts",
+    "mainBlob": "5d44e8766cd3743b8f5efbd25febfb2e58202a53",
+    "targetBlob": "50651994251e504f6655e00d802b0fc9e756b2e6"
+  },
+  {
+    "path": "src/lib/services/vocabulary/engine.ts",
+    "mainBlob": "1848b2f55c17d389497259d32f1e83aa9035df28",
+    "targetBlob": "14f2e89b03f49306bee31809ae4be560c47b236c"
+  },
+  {
+    "path": "src/lib/services/writing/admin.ts",
+    "mainBlob": "fd0c2bc1a207359ce54a7f9a2d2a98a98e706d70",
+    "targetBlob": "b65f3e20e8edbd6603bc4c2a640fde64c3b0107c"
+  },
+  {
+    "path": "src/lib/services/writing/exam.ts",
+    "mainBlob": "2dd2ea3d697372b48f5f8ddaab1cb96604adad31",
+    "targetBlob": "a98d2ec1c5da4b98a0d92fffc9ad82c8a2b2d487"
+  },
+  {
+    "path": "src/lib/speaking/manage-topic.ts",
+    "mainBlob": "10e6a006479984d2050372791fa42cac86087ac9",
+    "targetBlob": "07b188f6168fcdde977110817be1d6406f78694a"
+  },
+  {
+    "path": "src/lib/text/lexical-normalize.ts",
+    "mainBlob": "1e512da6150fc49f450522d45da47232cac051e8",
+    "targetBlob": "3511b5065d44b187df652519191f95d0f7af42c5"
+  },
+  {
+    "path": "src/lib/validation/auth.ts",
+    "mainBlob": "9f6d0e4dcc3354f88664deecf6cbc88e2709054d",
+    "targetBlob": "1163fbe4a0a1d6c4e2b820985f176350314c1e50"
+  },
+  {
+    "path": "src/lib/validation/onboarding.ts",
+    "mainBlob": "84668cc17d5328410142544a98355a2c719fa3e5",
+    "targetBlob": "97225ec313ef6949432d40adf0a356e7c5ab527e"
+  },
+  {
+    "path": "src/lib/validation/uploads.ts",
+    "mainBlob": "e752ffb9db1908a90987d9856d98c7ce8e2a5239",
+    "targetBlob": "a621e749724ccd18c305d836e7b9b4f779204c24"
+  },
+  {
+    "path": "src/middleware.ts",
+    "mainBlob": "d8ce97df801edb45d8eb508a5e941151f98944d3",
+    "targetBlob": "98fae819adacbe4d2295fae3b0ed7a95cca236e8"
+  },
+  {
+    "path": "tests/access-control.test.ts",
+    "mainBlob": "a14f44e5dfe8c9eb268e16ec9195f09815d366f9",
+    "targetBlob": "0e972fe65427d0b77654f8e9cf4fce94dac902e2"
+  },
+  {
+    "path": "tests/app-namespace.test.ts",
+    "mainBlob": "138dbdb4661955737da27118fd02bc5e88c4e09b",
+    "targetBlob": "48207b92d19b4f7c5a10f8ea2ee3032cd3856a37"
+  },
+  {
+    "path": "tests/back-link.test.ts",
+    "mainBlob": "0dded3ba27ccd54021cdfcfada72cc322c2820af",
+    "targetBlob": "f4f77a66a91b30bcb80b11c57ace9e0acfbfe932"
+  },
+  {
+    "path": "tests/backend-proxy.test.ts",
+    "mainBlob": null,
+    "targetBlob": "0a1bc3b11d1980b4f14f7669459b4580207f8a3c"
+  },
+  {
+    "path": "tests/backend-read-client.test.ts",
+    "mainBlob": null,
+    "targetBlob": "bbfde21b3b868967a9e24e5b6450b695e7262ad4"
+  },
+  {
+    "path": "tests/background-first-paint.test.ts",
+    "mainBlob": "1ad07069e224d40af35ae30aa88223f53787a8c7",
+    "targetBlob": "5aa29fd079c6f9513dcfd2ca003479511049632b"
+  },
+  {
+    "path": "tests/brand-assets.test.ts",
+    "mainBlob": "e99d14064c511cc39492d00f265c998956e7ad87",
+    "targetBlob": "e44d121c464919573fafcd3e10c12b527ab1a47e"
+  },
+  {
+    "path": "tests/campus-management-access.test.ts",
+    "mainBlob": null,
+    "targetBlob": "5a30a86f8a670984fec8c681074e4a3f5b0518d2"
+  },
+  {
+    "path": "tests/campus-management.test.ts",
+    "mainBlob": null,
+    "targetBlob": "f7fc845dab57ed320cf2dcfd405f971fa3d37861"
+  },
+  {
+    "path": "tests/campus-recovered.test.ts",
+    "mainBlob": null,
+    "targetBlob": "dc2863798bd17e35b5a6d3336e68757b054aa7a6"
+  },
+  {
+    "path": "tests/campus-runtime.test.ts",
+    "mainBlob": null,
+    "targetBlob": "9d4408762163c4f7d1641850727c746b0c85e5d2"
+  },
+  {
+    "path": "tests/campus-visual-contract.test.ts",
+    "mainBlob": null,
+    "targetBlob": "49bac6ae900d5d7556de164c1829666a3beba048"
+  },
+  {
+    "path": "tests/content-migration-journal.test.ts",
+    "mainBlob": "b86c44f6525b5619d129bb2300c7ac7425dfe2a9",
+    "targetBlob": "7f7d42bd0af5299439ce00f03796a0d4ba6f8c24"
+  },
+  {
+    "path": "tests/grammar-lessons.test.ts",
+    "mainBlob": "f66b6466b672c8fc476aaeb3437b69c41d6ba917",
+    "targetBlob": "93aba8b557bdd3cb12f1ac8d224aff0896dd9c52"
+  },
+  {
+    "path": "tests/i18n-uz-apostrophe.test.ts",
+    "mainBlob": "f098badb1c5f4d474d8bf60b61abbb789d232c89",
+    "targetBlob": "90d3a77fb37700e8e10010b84926c67db2992635"
+  },
+  {
+    "path": "tests/lesson-authoring-revision.test.ts",
+    "mainBlob": "d20944e29c2452b705fed14bae24e9f74e0fe283",
+    "targetBlob": "9cc990856d174dc05256a448e7da8149a4be6aed"
+  },
+  {
+    "path": "tests/listening-academic-hub.test.ts",
+    "mainBlob": "4acb1d56059d918562a9abb25a75732822ecf954",
+    "targetBlob": "a2f6470ec7f88f27d98cbe653bd48040152b34f6"
+  },
+  {
+    "path": "tests/listening-authored-sandbox.test.ts",
+    "mainBlob": "a039c72a8c25435fa3ed3cfdcf3fc29e6b75338c",
+    "targetBlob": "5636166afdd9a19d96cfb18c880f3e509f0869a5"
+  },
+  {
+    "path": "tests/listening-focus-layout-contract.test.ts",
+    "mainBlob": "f818ff12b2ae53e53ec73bf72c99263c2539b62b",
+    "targetBlob": "4ffd762cc2fb9980591381cc29423a2b841ad6ce"
+  },
+  {
+    "path": "tests/listening-mcq-day-surface.test.ts",
+    "mainBlob": "bd7d72275e914679513c7341ffa0b2d6b71db64d",
+    "targetBlob": "3946584904916dabbede71a4781a941e81f28a5d"
+  },
+  {
+    "path": "tests/listening-mcq-hub.test.ts",
+    "mainBlob": "f43b30e123bf7f479cfca5f51429295bb08033f2",
+    "targetBlob": "ff4fb6ac80aee3c36f044a99bcbce5ba02076beb"
+  },
+  {
+    "path": "tests/listening-mcq-program-db.test.ts",
+    "mainBlob": "02b2f0201a6e0c515ff306aa001c1a0f2d3ea881",
+    "targetBlob": "d22cc6350a53f354ee2a15c76f3517810712cd19"
+  },
+  {
+    "path": "tests/listening-mcq-program-scale-db.test.ts",
+    "mainBlob": "17c59318cf6cbf6e0e72e0edeacac5a98f529fc6",
+    "targetBlob": "acbef3738387681e8bd0b7a1612e1c3290887f22"
+  },
+  {
+    "path": "tests/listening-regression-contract.test.ts",
+    "mainBlob": "0a90b99f3e7c55636ab8c5fd4e9053181c6420f1",
+    "targetBlob": "f209f5675955a46d55cb745cb7a3496155db5602"
+  },
+  {
+    "path": "tests/listening-structured-map.test.ts",
+    "mainBlob": "6c8b34d004a07857eb8dee27c056f0822ad91a60",
+    "targetBlob": "130fdbdfe5108567274b8b47e4559f617ee1cefd"
+  },
+  {
+    "path": "tests/login-enumeration-timing.test.ts",
+    "mainBlob": "700f26c0e5c2f373559b7baed0e23d607034ceb5",
+    "targetBlob": "9e893920720a954d9e8ffc7d4233e624949c07f7"
+  },
+  {
+    "path": "tests/navigation-performance.test.ts",
+    "mainBlob": "d2a751fcfa5eba016ecf11e1e4510656a2570a16",
+    "targetBlob": "f495a45a15489d5ef92a7308981f9a395668d4c8"
+  },
+  {
+    "path": "tests/part1-interaction-closure.test.ts",
+    "mainBlob": "01f2a969decd277a89d2ca51888135ed91f027da",
+    "targetBlob": "7cfd88f9914be8194c5aca9439bd71a9a703be88"
+  },
+  {
+    "path": "tests/part1-ux-closure.test.ts",
+    "mainBlob": "16319b0ea8c4935e51d4544e7eb350bd8af19810",
+    "targetBlob": "9f3629cdd130f7b40633eeeccaf022852f206608"
+  },
+  {
+    "path": "tests/preview-qa-migrate.test.ts",
+    "mainBlob": "7b507055ee832f208d5b25c5f6dc72a5f271744d",
+    "targetBlob": "692ed0be715cb58d8ce8cbda432f1c8041f2cfac"
+  },
+  {
+    "path": "tests/reading-management-import.test.ts",
+    "mainBlob": "5ac3a9f0c9e3317ce86411b39b9e10ac82fbc89a",
+    "targetBlob": "5b6b9ffc17b5d231758eaf99f61b8ac602410c5d"
+  },
+  {
+    "path": "tests/reading-tab-swap.test.ts",
+    "mainBlob": "2e57bcb5ab582381c88828d8a8a1a3575e3defcf",
+    "targetBlob": "ecbbfc012bcadf0b6ab72ed864b76991edbebfcd"
+  },
+  {
+    "path": "tests/reading-v4-catalogue.test.ts",
+    "mainBlob": "311d54372f4519d62a994b2f347c60ec5523fe1e",
+    "targetBlob": "0a49b51c00a0b03fc96e4536ebbbcfdb05bb4dfb"
+  },
+  {
+    "path": "tests/reading-v4-exam-seal.test.ts",
+    "mainBlob": "c4fa9e931c24ec97a7c6e2218e1c5dfcca252895",
+    "targetBlob": "629f9af8bec634a4e70e1867bf6e87c70e0e4300"
+  },
+  {
+    "path": "tests/reading-v4-general-check.test.ts",
+    "mainBlob": "d3f84ca40af777786f3971e4bc4449f9cc485a6b",
+    "targetBlob": "d6afee3506f4fa857ea9ae7ba9691ff8ddc862fe"
+  },
+  {
+    "path": "tests/reading-v4-general-review.test.ts",
+    "mainBlob": "b0e9ac4ff2f13a2eeac4b90b3993b5c988c6208a",
+    "targetBlob": "8a6d71363e7e1ccfb9d56ce7708642f5d9db1f1b"
+  },
+  {
+    "path": "tests/reading-v4-history-invariants.test.ts",
+    "mainBlob": "fae2d8023491b9fe0c378440279faf6822ccca25",
+    "targetBlob": "5b0b07376bc31be8d7df2670f406f081c1b0947c"
+  },
+  {
+    "path": "tests/reading-v4-lessons.test.ts",
+    "mainBlob": "761662a1a48f4ee1442d375561f8b19dc45f5c3f",
+    "targetBlob": "ce579eca3672a1ab287bbe807dcd49947773d244"
+  },
+  {
+    "path": "tests/reading-v4-review-access.test.ts",
+    "mainBlob": "ce61a26c9487b81f6fb411a2fdaf57a858095d49",
+    "targetBlob": "4d0bb9589698f4b2cd2a1bfdfd20daa5ce2894f9"
+  },
+  {
+    "path": "tests/reading-v4-routes.test.ts",
+    "mainBlob": "0d844eddc420e69ef6d26602f113c8113c339495",
+    "targetBlob": "43b028c44061507382d01b442b77f3eac3ae2f76"
+  },
+  {
+    "path": "tests/reading-v4-type-index.test.ts",
+    "mainBlob": "276c6c9bd454b34170aa1489991cbb2a205e229d",
+    "targetBlob": "4f0207c451125000aeba4bcf39d1544cb50f892b"
+  },
+  {
+    "path": "tests/reference-package-policy.test.ts",
+    "mainBlob": "51eca2e189d4e44323e565e0dc5c46d61b37a12c",
+    "targetBlob": "c7c0159f0ce0866883a9d336f002038b8f0fc6d5"
+  },
+  {
+    "path": "tests/retention-api-contract.test.ts",
+    "mainBlob": "dcde0bc0a9af8195eadc8ba9d30aef649a690dc0",
+    "targetBlob": "0d4934ff6a04c2a15195efd0afb7b22591cd429e"
+  },
+  {
+    "path": "tests/retention-authoring-docs.test.ts",
+    "mainBlob": "a36704a84063ce1a40d81b187d64121c8e11d84a",
+    "targetBlob": "64d6f01062dfe2080f2c69f01e356432e58b15c9"
+  },
+  {
+    "path": "tests/retention-data-db.test.ts",
+    "mainBlob": "ce0f15909fff1098eb77baf4c55852bd7ba2cb27",
+    "targetBlob": "572549d5b140fb5d459a05ea7134973eb73e6c56"
+  },
+  {
+    "path": "tests/retention-durability-db.test.ts",
+    "mainBlob": "a60f48a51464b34689aad669db35c1188789ad06",
+    "targetBlob": "5c56efb8968073ef210af11527a1b23b7399fe7b"
+  },
+  {
+    "path": "tests/runtime-stability.test.ts",
+    "mainBlob": "4f9956be8c3cb33aecaea6eff5f3294c3a78c90e",
+    "targetBlob": "e2c687bb4988aca430d2744d7a32ad878a69d713"
+  },
+  {
+    "path": "tests/section-entry-loading.test.ts",
+    "mainBlob": "00f0d32065f1c449db995ce053703cda9363391f",
+    "targetBlob": "e0b858bd77778ac26e30cf2c282a567f354b5634"
+  },
+  {
+    "path": "tests/section-failure-isolation.test.ts",
+    "mainBlob": "42f82e263feae0e5c23fa2022cd39f58bd9d8358",
+    "targetBlob": "8965f87e8da66fa6b3c90ac0fb40a95964380d43"
+  },
+  {
+    "path": "tests/speaking-topic-management.test.ts",
+    "mainBlob": "cb4a08b46efd3b0717f28964945dad47d63459a4",
+    "targetBlob": "a25c83c3483b613fcfe4980abe5883e53e108cd5"
+  },
+  {
+    "path": "tests/ui/campus-management.test.tsx",
+    "mainBlob": null,
+    "targetBlob": "b79e5db7940936db2d7d45e024e2499709a902c7"
+  },
+  {
+    "path": "tests/ui/campus-module-shell.test.tsx",
+    "mainBlob": null,
+    "targetBlob": "7fa8308fe0f3125a9e378c183af8f0eae72806b1"
+  },
+  {
+    "path": "tests/ui/content-workspace.test.tsx",
+    "mainBlob": "097dd267ffc8b66862906df088c17d63545fc84a",
+    "targetBlob": "576fa5eb4d8fd64353fb30d2e2b2a333dd59ea2c"
+  },
+  {
+    "path": "tests/ui/dictionary-panel.test.tsx",
+    "mainBlob": "95118c56c622668b99ba15cdd3b1a6ae2566fc6b",
+    "targetBlob": "aa7b181fb3f1efaed1a85f4874cb4511db2dc44e"
+  },
+  {
+    "path": "tests/ui/dictionary-recent.test.tsx",
+    "mainBlob": "41e44b2f53c0a823dbadf799b4e25914fd96051c",
+    "targetBlob": "74a75d074355386a7ceb6e7c3ddb4f00960e1c70"
+  },
+  {
+    "path": "tests/ui/focus-entry.test.tsx",
+    "mainBlob": "dc06f2307f4ef8f8705733fb5171a2be2423d0fd",
+    "targetBlob": "b910d231fad9fd0f0239e868dd2aea6010b27ad7"
+  },
+  {
+    "path": "tests/ui/full-listening-controls.test.tsx",
+    "mainBlob": "6ffedd5f965ae5d026373cff002f1f86696a8a68",
+    "targetBlob": "460ee2d4d6a7b0b6e0f7f3569ebfda562731554c"
+  },
+  {
+    "path": "tests/ui/general-reading.test.tsx",
+    "mainBlob": "b30385ec27473ab09930e1296a533718df8578ad",
+    "targetBlob": "9c99d8a98f48f14ace347ffa175575891f62a6d5"
+  },
+  {
+    "path": "tests/ui/listening-section-highlight.test.tsx",
+    "mainBlob": "736f83514141e9bd7cb8844892c2b38a8895c1fa",
+    "targetBlob": "00a5b02f385ade24de8295cf1e6c60d931318dd9"
+  },
+  {
+    "path": "tests/ui/module-section-navigation.test.tsx",
+    "mainBlob": "caaf0922d659a8e237b3b272368fca820cfdeafb",
+    "targetBlob": "f988a34da9dbd65771da1764ea460c42318d856b"
+  },
+  {
+    "path": "tests/ui/reading-mode-separation.test.tsx",
+    "mainBlob": "bf41bf80e314d9a94807924444c435127574f0ba",
+    "targetBlob": "bd62a0776e1d50bb846d22dcce17842a2c36e0de"
+  },
+  {
+    "path": "tests/ui/reference-package-dom.test.tsx",
+    "mainBlob": "ede359fed24cffdd09b89ddb3e99896ccde337e2",
+    "targetBlob": "cd8f48b34512558a2d042bb8cc726589f95e82b6"
+  },
+  {
+    "path": "tests/ui/retention-bank-panel.test.tsx",
+    "mainBlob": "f830e4d744d02b8d4e1ce073824906603a1a70dd",
+    "targetBlob": "231d70f5342a2063e44849adbf5e31e68be00630"
+  },
+  {
+    "path": "tests/ui/ted-podcast-closure.test.tsx",
+    "mainBlob": "a31c78bf8b6e75b5aed4fa27e6b99d5342cff523",
+    "targetBlob": "68a57a6112869cd5f3370b5d6ee6e7be7879e106"
+  },
+  {
+    "path": "tests/ui/use-folder-video-controls.test.tsx",
+    "mainBlob": "8bfab18eb49e7730f5954416066700477f89c6e8",
+    "targetBlob": "27863f4a502ad5e081cc94c78aebacc1f76cc066"
+  },
+  {
+    "path": "tests/ui/vocabulary-entry-failure.test.tsx",
+    "mainBlob": "45ee08a49e020a51da606a1f6de0bd1754d284dc",
+    "targetBlob": "1e4996a4942e47b532a8d3b33f07688123acd9af"
+  },
+  {
+    "path": "tests/ui/word-popover.test.tsx",
+    "mainBlob": "74c9d09ab86bda70d15572ca6b2f32ccd595da9c",
+    "targetBlob": "eb41b59ab512f36622f2c0835c044295c8efe6ef"
+  },
+  {
+    "path": "tests/uuid-page-routes.test.ts",
+    "mainBlob": "147373d4fea89404282e9a8170f2b01561de45d1",
+    "targetBlob": "203da31aa4968b3150309dba615278dafd5b9568"
+  },
+  {
+    "path": "tests/vocabulary-ui-contract.test.ts",
+    "mainBlob": "434cd28c4c3bc05902aeed071de6ca1bdde76ce4",
+    "targetBlob": "1c9b927b8a62bd177eee2137464899c717458dd5"
+  },
+  {
+    "path": "tsconfig.tooling.json",
+    "mainBlob": null,
+    "targetBlob": "55b1b1475885b9d513df54016bd846881ce8f038"
+  }
+]

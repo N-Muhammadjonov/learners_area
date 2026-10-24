@@ -10,35 +10,40 @@ without ever routing them through the app server. It is not a finished product
 
 ## Stack
 
-Next.js 15 / React 19 / TypeScript for pages and UI; Python 3.14 / FastAPI /
-asyncpg for the API, authentication, lifecycle writes and PostgreSQL connections.
+HTML5 / CSS3 / Vanilla JavaScript in `frontend/vanilla` for pages and UI;
+Python 3.14 / FastAPI / asyncpg for static serving, browser read contracts,
+authentication, lifecycle writes and PostgreSQL connections.
 PostgreSQL schema and migration tooling remain Drizzle. Upload signing and AI
 provider integrations run in the Python service.
 
-This branch uses `services/backend/app/asgi.py:application`. All Next `/api/*`
-routes are streaming relays. Existing typed server-rendered selectors use a
-private Python read adapter, with PostgreSQL-enforced read-only transactions;
-they do not connect to PostgreSQL from Node. Legacy TypeScript domain helpers
-remain for CLI maintenance, injected unit-test databases and view types.
+This branch uses `app.asgi:application` from `services/backend`. The production
+application needs one Python process. Node is an asset-build/test tool only.
+Next/React source and dependencies remain as reference and rollback tooling;
+the default build/start and Python Docker image do not execute them. The
+token-protected `/_frontend/*` adapter remains separate from the browser-facing
+`/api/frontend/*` read contracts.
 
-See [the backend setup and comparison report](services/backend/README.md) before
-deploying this branch. Vercel's Next.js deployment needs a separately hosted
-Python service; pushing this code does not provision one.
+See [the integration runtime guide](docs/vanilla-integration/README.md) for
+startup, security boundaries, verification evidence and deployment limits.
+Existing backend contracts and database operations remain documented in
+[the backend setup and comparison report](services/backend/README.md).
 
 ## Run locally
 
 ```bash
 cp .env.example .env        # configure the existing database and AUTH_SECRET
-npm ci
+npm ci --ignore-scripts
 npm run backend:setup      # Python 3.14 with ICU available; Docker also provided
+npm run build              # emits only static native assets
 npm run backend:check
-npm run db:migrate         # 66 migrations, 0000 through 0065; review the target DB first
-npm run db:seed            # optional, fresh development databases only
-npm run dev               # starts Python on 8000, then Next on 3000
+npm run dev               # Python on 8000 with reload
 ```
 
-`npm run build` builds the frontend. `npm start` starts both services locally,
-or connects to the configured external backend when `BACKEND_MANAGED=external`.
+Use the existing 66-migration database. Migration and seed commands remain
+available for explicitly chosen development databases; startup never runs them.
+`npm start` launches Python on port 8000. After the asset build, you can run
+`services/backend/.venv/bin/python scripts/serve.py` directly without Node.
+`compose.preview.yml` exposes the same Python application on port 3000.
 Use `npm run backend:test`, `npm run backend:test:postgres`, `npm run test:ui`,
 `npm run typecheck` and `npm run lint` for the migration checks. The backend README
 lists the transport tests and the limits of the checks. `npm run backend:test:main`

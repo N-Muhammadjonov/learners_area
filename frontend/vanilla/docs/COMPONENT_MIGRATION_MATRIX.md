@@ -1,0 +1,234 @@
+# V3 continuation notice — current status PARTIAL
+
+Current source-file stages:50 IN PROGRESS,156 NOT STARTED,0 accepted (206 files). Newly touched section navigation/heading/transition/prewarm/retry/confirmation primitives are partial candidates, not completion. Use route-ledger-v3.json; do not treat the historical component matrix below as current.
+
+Authoritative current record: [CHECKPOINT_V3.md](CHECKPOINT_V3.md); evidence: `evidence/v3/`. Implementation / functional-security / visual-integration percentages remain UNDETERMINED. No production replacement without owner approval.
+
+---
+
+## Historical V2/foundation record — retained, superseded above
+
+# V2 continuation notice — current status PARTIAL
+
+Current source-file component denominator: 206. 41 partially touched native candidates, 165 NOT STARTED, 0 fully accepted. Per-file current statuses are in route-ledger-v2.json → components. An icon file counts once, not per export. Historical rows below are not the current implementation ledger.
+
+Full V2 record: [CHECKPOINT_V2.md](CHECKPOINT_V2.md). Archive: `LEARNERS_AREA_VANILLA_FRONTEND_CHECKPOINT_V2.zip`. See final response/sidecar/validation for exact hashes and local/remote HEAD. A file cannot include its own commit hash.
+
+Implementation%: UNDETERMINED (active denominator unconfirmed; 27 partial/115 page records). Functional/security%: UNDETERMINED (subset probes, not full acceptance). Visual/integration%: UNDETERMINED (0 baseline comparisons / 0 live accepted).
+
+---
+
+## Historical foundation record (22560b7) — retained for continuity, superseded above
+
+# Component migration matrix
+
+206 component source files. Discovery is NOT conversion.
+
+| Source | Conversion status |
+|---|---|
+| src/components/admin/AdmissionQueue.tsx | NOT CONVERTED |
+| src/components/admin/ContentWorkspace.tsx | NOT CONVERTED |
+| src/components/admin/GrammarImport.tsx | NOT CONVERTED |
+| src/components/admin/NewExerciseForm.tsx | NOT CONVERTED |
+| src/components/admin/NewListeningQuestionForm.tsx | NOT CONVERTED |
+| src/components/admin/NewPassageForm.tsx | NOT CONVERTED |
+| src/components/admin/NewPromptForm.tsx | NOT CONVERTED |
+| src/components/admin/NewQuestionForm.tsx | NOT CONVERTED |
+| src/components/admin/NewTestForm.tsx | NOT CONVERTED |
+| src/components/admin/NewTopicForm.tsx | NOT CONVERTED |
+| src/components/admin/NewVideoLessonForm.tsx | NOT CONVERTED |
+| src/components/admin/PeopleTable.tsx | NOT CONVERTED |
+| src/components/admin/PublicationControl.tsx | NOT CONVERTED |
+| src/components/admin/ReadingImport.tsx | NOT CONVERTED |
+| src/components/admin/RetentionBankPanel.tsx | NOT CONVERTED |
+| src/components/admin/RetentionMeasurementEditor.tsx | NOT CONVERTED |
+| src/components/admin/RoleSelect.tsx | NOT CONVERTED |
+| src/components/admin/StudentResults.tsx | NOT CONVERTED |
+| src/components/admin/writing/WritingContentForm.tsx | NOT CONVERTED |
+| src/components/admission/AccessRequestForm.tsx | NOT CONVERTED |
+| src/components/audio/LocalReflectionRecorder.tsx | NOT CONVERTED |
+| src/components/auth/AuthShell.tsx | PARTIAL candidate in js/components or modules; no full parity acceptance |
+| src/components/auth/LoginForm.tsx | PARTIAL candidate in js/components or modules; no full parity acceptance |
+| src/components/auth/RegisterForm.tsx | NOT CONVERTED |
+| src/components/auth/ResetConfirmForm.tsx | NOT CONVERTED |
+| src/components/auth/ResetRequestForm.tsx | NOT CONVERTED |
+| src/components/auth/TelegramButton.tsx | NOT CONVERTED |
+| src/components/auth/TelegramIntentLogin.tsx | NOT CONVERTED |
+| src/components/brand/BrandLogo.tsx | NOT CONVERTED |
+| src/components/brand/DesktopIntro.tsx | PARTIAL candidate in js/components or modules; no full parity acceptance |
+| src/components/coach/AssignmentBoard.tsx | NOT CONVERTED |
+| src/components/coach/EvaluationView.tsx | NOT CONVERTED |
+| src/components/coach/ManualTranscriptForm.tsx | NOT CONVERTED |
+| src/components/courses/DirectMediaPlayer.tsx | NOT CONVERTED |
+| src/components/courses/LessonWorkspace.tsx | NOT CONVERTED |
+| src/components/courses/TedStudyPractice.tsx | NOT CONVERTED |
+| src/components/courses/VideoLessonStudio.tsx | NOT CONVERTED |
+| src/components/courses/VideoVocabulary.tsx | NOT CONVERTED |
+| src/components/diagnostics/PerformanceDiagnostics.tsx | NOT CONVERTED |
+| src/components/grammar/GrammarQuiz.tsx | NOT CONVERTED |
+| src/components/grammar/PracticeActivities.tsx | NOT CONVERTED |
+| src/components/grammar/ProductionAnswer.tsx | NOT CONVERTED |
+| src/components/grammar/TopicMasteryCard.tsx | NOT CONVERTED |
+| src/components/import/ListeningTryout.tsx | NOT CONVERTED |
+| src/components/import/ReadingTryout.tsx | NOT CONVERTED |
+| src/components/interaction/AccessChangeListener.tsx | NOT CONVERTED |
+| src/components/interaction/GlobalControlDiagnostics.tsx | NOT CONVERTED |
+| src/components/interaction/IdleShellPrefetch.tsx | NOT CONVERTED |
+| src/components/interaction/InstantInteractionProvider.tsx | NOT CONVERTED |
+| src/components/interaction/InstantLink.tsx | NOT CONVERTED |
+| src/components/interaction/InstantWorkspaceOutlet.tsx | NOT CONVERTED |
+| src/components/interaction/InteractionPrimitives.tsx | NOT CONVERTED |
+| src/components/interaction/PrivateResourceScope.tsx | NOT CONVERTED |
+| src/components/interaction/RegionFailureNotice.tsx | NOT CONVERTED |
+| src/components/interaction/RegionRetryButton.tsx | NOT CONVERTED |
+| src/components/interaction/RouteEntryLoading.tsx | NOT CONVERTED |
+| src/components/interaction/SectionEntryFrame.tsx | NOT CONVERTED |
+| src/components/interaction/TestFocusEntry.tsx | NOT CONVERTED |
+| src/components/lessons/LessonAuthoringDesk.tsx | NOT CONVERTED |
+| src/components/listening/AuthoredListeningFrame.tsx | NOT CONVERTED |
+| src/components/listening/FullExamStart.tsx | NOT CONVERTED |
+| src/components/listening/FullListeningActivity.tsx | NOT CONVERTED |
+| src/components/listening/FullListeningLibrary.tsx | NOT CONVERTED |
+| src/components/listening/FullListeningStudy.tsx | NOT CONVERTED |
+| src/components/listening/LessonQuizBlock.tsx | NOT CONVERTED |
+| src/components/listening/ListeningAnalysis.tsx | NOT CONVERTED |
+| src/components/listening/ListeningExam.tsx | NOT CONVERTED |
+| src/components/listening/ListeningImport.tsx | NOT CONVERTED |
+| src/components/listening/ListeningLegacyImport.tsx | NOT CONVERTED |
+| src/components/listening/ListeningLessonBody.tsx | NOT CONVERTED |
+| src/components/listening/ListeningMap.tsx | NOT CONVERTED |
+| src/components/listening/ListeningPractice.tsx | NOT CONVERTED |
+| src/components/listening/ListeningSectionHeading.tsx | NOT CONVERTED |
+| src/components/listening/ListeningSequenceLocked.tsx | NOT CONVERTED |
+| src/components/listening/ListeningSpeedPractice.tsx | NOT CONVERTED |
+| src/components/listening/ListeningTestActions.tsx | NOT CONVERTED |
+| src/components/listening/McqMastery.tsx | NOT CONVERTED |
+| src/components/listening/NativeListeningExam.tsx | NOT CONVERTED |
+| src/components/listening/SectionListeningActivity.tsx | NOT CONVERTED |
+| src/components/listening/SectionRetakeButton.tsx | NOT CONVERTED |
+| src/components/listening/SpeedTrainer.tsx | NOT CONVERTED |
+| src/components/listening/StartTestButton.tsx | NOT CONVERTED |
+| src/components/listening/audio-probe.ts | NOT CONVERTED |
+| src/components/live-classes/ClassStatusControls.tsx | NOT CONVERTED |
+| src/components/live-classes/JoinButton.tsx | NOT CONVERTED |
+| src/components/live-classes/NewLiveClassForm.tsx | NOT CONVERTED |
+| src/components/navigation/ModuleNavigation.tsx | NOT CONVERTED |
+| src/components/navigation/ModuleSectionNav.tsx | NOT CONVERTED |
+| src/components/notes/LessonNotesPanel.tsx | NOT CONVERTED |
+| src/components/onboarding/OnboardingForm.tsx | NOT CONVERTED |
+| src/components/owner/AiControlPanel.tsx | NOT CONVERTED |
+| src/components/owner/OwnershipTransferForm.tsx | NOT CONVERTED |
+| src/components/owner/RetentionRunner.tsx | NOT CONVERTED |
+| src/components/profile/ProfileNameForm.tsx | NOT CONVERTED |
+| src/components/profile/ProfilePhoto.tsx | NOT CONVERTED |
+| src/components/progress/MockBandPanel.tsx | NOT CONVERTED |
+| src/components/progress/MockProgressOverview.tsx | NOT CONVERTED |
+| src/components/progress/ProgressTrends.tsx | NOT CONVERTED |
+| src/components/reading/GeneralReadingSession.tsx | NOT CONVERTED |
+| src/components/reading/GeneralReadingSets.tsx | NOT CONVERTED |
+| src/components/reading/ReadAloud.tsx | NOT CONVERTED |
+| src/components/reading/ReadingAnalysis.tsx | NOT CONVERTED |
+| src/components/reading/ReadingEvidence.tsx | NOT CONVERTED |
+| src/components/reading/ReadingExam.tsx | NOT CONVERTED |
+| src/components/reading/ReadingFilters.tsx | NOT CONVERTED |
+| src/components/reading/ReadingHighlights.tsx | NOT CONVERTED |
+| src/components/reading/ReadingLearningLibrary.tsx | NOT CONVERTED |
+| src/components/reading/ReadingPassageCard.tsx | NOT CONVERTED |
+| src/components/reading/RetentionCheck.tsx | NOT CONVERTED |
+| src/components/reading/RetentionHistory.tsx | NOT CONVERTED |
+| src/components/reading/RetentionResultStandalone.tsx | NOT CONVERTED |
+| src/components/reading/RetentionSession.tsx | NOT CONVERTED |
+| src/components/reading/RetentionWorkspace.tsx | NOT CONVERTED |
+| src/components/reading/StartPassageButton.tsx | NOT CONVERTED |
+| src/components/resources/OwnerMaterialBlocks.tsx | NOT CONVERTED |
+| src/components/resources/ResourceBlocks.tsx | NOT CONVERTED |
+| src/components/resources/ResourceComposer.tsx | NOT CONVERTED |
+| src/components/shell/BrandBlock.tsx | PARTIAL candidate in js/components or modules; no full parity acceptance |
+| src/components/shell/Breadcrumbs.tsx | NOT CONVERTED |
+| src/components/shell/FocusToggle.tsx | NOT CONVERTED |
+| src/components/shell/GlobalSearch.tsx | NOT CONVERTED |
+| src/components/shell/LinkPending.tsx | NOT CONVERTED |
+| src/components/shell/LocaleSwitcher.tsx | PARTIAL candidate in js/components or modules; no full parity acceptance |
+| src/components/shell/LogoutButton.tsx | NOT CONVERTED |
+| src/components/shell/MobileNav.tsx | NOT CONVERTED |
+| src/components/shell/ModuleContextHeading.tsx | NOT CONVERTED |
+| src/components/shell/NotificationBell.tsx | NOT CONVERTED |
+| src/components/shell/NotificationRead.tsx | NOT CONVERTED |
+| src/components/shell/ProfileMenu.tsx | NOT CONVERTED |
+| src/components/shell/ShellUtilities.tsx | NOT CONVERTED |
+| src/components/shell/Sidebar.tsx | NOT CONVERTED |
+| src/components/shell/SidebarNav.tsx | NOT CONVERTED |
+| src/components/shell/ThemeToggle.tsx | PARTIAL candidate in js/components or modules; no full parity acceptance |
+| src/components/shell/Topbar.tsx | NOT CONVERTED |
+| src/components/speaking/AiExaminerSession.tsx | NOT CONVERTED |
+| src/components/speaking/BlockComposer.tsx | NOT CONVERTED |
+| src/components/speaking/BlockRenderer.tsx | NOT CONVERTED |
+| src/components/speaking/EditMaterialForm.tsx | NOT CONVERTED |
+| src/components/speaking/LivePartnerClient.tsx | NOT CONVERTED |
+| src/components/speaking/LocalAnswerRecorder.tsx | NOT CONVERTED |
+| src/components/speaking/ManagedMaterialCard.tsx | NOT CONVERTED |
+| src/components/speaking/MaterialPlayer.tsx | NOT CONVERTED |
+| src/components/speaking/MicrophoneTest.tsx | NOT CONVERTED |
+| src/components/speaking/NewMaterialForm.tsx | NOT CONVERTED |
+| src/components/speaking/PracticeStudio.tsx | NOT CONVERTED |
+| src/components/speaking/PrimaryFileField.tsx | NOT CONVERTED |
+| src/components/speaking/QuestionRecorder.tsx | NOT CONVERTED |
+| src/components/speaking/SpeakingPromptComposer.tsx | NOT CONVERTED |
+| src/components/speaking/StudySupportPanel.tsx | NOT CONVERTED |
+| src/components/speaking/useBlockDrafts.ts | NOT CONVERTED |
+| src/components/support/ReportProblem.tsx | NOT CONVERTED |
+| src/components/support/ResolveReportButton.tsx | NOT CONVERTED |
+| src/components/teacher/NewAssignmentForm.tsx | NOT CONVERTED |
+| src/components/teacher/TeacherFeedbackForm.tsx | NOT CONVERTED |
+| src/components/ui/BackLink.tsx | NOT CONVERTED |
+| src/components/ui/Badge.tsx | NOT CONVERTED |
+| src/components/ui/Button.tsx | NOT CONVERTED |
+| src/components/ui/Card.tsx | NOT CONVERTED |
+| src/components/ui/EmptyState.tsx | NOT CONVERTED |
+| src/components/ui/Input.tsx | NOT CONVERTED |
+| src/components/ui/ModuleEmoji.tsx | PARTIAL candidate in js/components or modules; no full parity acceptance |
+| src/components/ui/ProgressBar.tsx | NOT CONVERTED |
+| src/components/ui/StudyRichEditor.tsx | NOT CONVERTED |
+| src/components/ui/icons.tsx | NOT CONVERTED |
+| src/components/video/VideoLessonCard.tsx | NOT CONVERTED |
+| src/components/video/VideoThumbnail.tsx | NOT CONVERTED |
+| src/components/vocabulary/ClickableText.tsx | NOT CONVERTED |
+| src/components/vocabulary/DictionaryFolderDialog.tsx | NOT CONVERTED |
+| src/components/vocabulary/DictionaryPanel.tsx | NOT CONVERTED |
+| src/components/vocabulary/DictionaryRecentSearches.tsx | NOT CONVERTED |
+| src/components/vocabulary/OwnerDictionary.tsx | NOT CONVERTED |
+| src/components/vocabulary/VocabBoardPanel.tsx | NOT CONVERTED |
+| src/components/vocabulary/VocabGamesPanel.tsx | NOT CONVERTED |
+| src/components/vocabulary/VocabRevisionPanel.tsx | NOT CONVERTED |
+| src/components/vocabulary/VocabStudio.tsx | NOT CONVERTED |
+| src/components/vocabulary/VocabUsePanel.tsx | NOT CONVERTED |
+| src/components/vocabulary/VocabWordsPanel.tsx | NOT CONVERTED |
+| src/components/vocabulary/types.ts | NOT CONVERTED |
+| src/components/writing/AddVocabQuick.tsx | NOT CONVERTED |
+| src/components/writing/Editor.tsx | NOT CONVERTED |
+| src/components/writing/FeedbackView.tsx | NOT CONVERTED |
+| src/components/writing/StartPromptButton.tsx | NOT CONVERTED |
+| src/components/writing/TypingTrainer.tsx | NOT CONVERTED |
+| src/components/writing/activation/ActivationLab.tsx | NOT CONVERTED |
+| src/components/writing/activation/WritingActivationTab.tsx | NOT CONVERTED |
+| src/components/writing/exam/ExamGradeButton.tsx | NOT CONVERTED |
+| src/components/writing/exam/ExamRunner.tsx | NOT CONVERTED |
+| src/components/writing/exam/StartExamButton.tsx | NOT CONVERTED |
+| src/components/writing/exam/WritingExamHome.tsx | NOT CONVERTED |
+| src/components/writing/stealing/PatternPractice.tsx | NOT CONVERTED |
+| src/components/writing/stealing/StartStealingButton.tsx | NOT CONVERTED |
+| src/components/writing/stealing/StealingFlow.tsx | NOT CONVERTED |
+| src/components/writing/stealing/WritingLanguageStealingTab.tsx | NOT CONVERTED |
+| src/components/writing/topic/SaveButtons.tsx | NOT CONVERTED |
+| src/components/writing/topic/WritingTopicVocabularyTab.tsx | NOT CONVERTED |
+| src/components/writing/translation/TranslationResultView.tsx | NOT CONVERTED |
+| src/components/writing/translation/TranslationRunner.tsx | NOT CONVERTED |
+| src/components/writing/translation/TranslationStartForm.tsx | NOT CONVERTED |
+| src/components/writing/translation/WritingTranslationTab.tsx | NOT CONVERTED |
+| src/components/writing/workspace/GradeForm.tsx | NOT CONVERTED |
+| src/components/writing/workspace/GradeRetryButton.tsx | NOT CONVERTED |
+| src/components/writing/workspace/LessonCompleteButton.tsx | NOT CONVERTED |
+| src/components/writing/workspace/NotMigrated.tsx | NOT CONVERTED |
+| src/components/writing/workspace/WritingContentTabs.tsx | NOT CONVERTED |
+| src/components/writing/workspace/WritingGradeTab.tsx | NOT CONVERTED |
+| src/components/writing/workspace/WritingNav.tsx | NOT CONVERTED |

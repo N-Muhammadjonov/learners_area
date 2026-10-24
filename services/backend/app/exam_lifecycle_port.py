@@ -64,7 +64,7 @@ async def exam_start(req:Request):
             prompt_ids.append(prompt)
         async def insert_paper(connection):
             paper_id=await connection.fetchval('''INSERT INTO writing_exam_papers
-              (user_id,mode,duration_seconds,started_at,expires_at) VALUES($1,$2,$3,NOW(),NOW()+make_interval(secs=>$3)) RETURNING id''',user['id'],mode,duration)
+              (user_id,mode,duration_seconds,started_at,expires_at) VALUES($1,$2,$3,NOW(),NOW()+make_interval(secs=>$3::integer)) RETURNING id''',user['id'],mode,duration)
             for i,(task,prompt) in enumerate(zip(tasks,prompt_ids),1):
                 submission=await connection.fetchval('''INSERT INTO writing_submissions(user_id,prompt_id,content,word_count,status)
                    VALUES($1,$2,'',0,'draft') RETURNING id''',user['id'],prompt)

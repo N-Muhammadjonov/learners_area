@@ -1,0 +1,1067 @@
+{
+  "expectedMethods": 265,
+  "actualMethods": 265,
+  "missing": [],
+  "routes": [
+    {
+      "method": "DELETE",
+      "path": "/api/admin/content/{type}/{id}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/listening/tests/{id}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/retention/texts/{id}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/dictionary/recent"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/internal/telegram/admins/{telegramUserId}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/owner/dictionary/{action:path}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/profile/photo"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/speaking/attempts/{id}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/speaking/materials/{id}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/speaking/topics"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/uploads/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/authoring-capabilities"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/bank"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/import"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/items"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/items/{module}/{contentType}/{sourceRef}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/lessons/{id}/edit"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/previews"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/template"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/versions/{id}/preview"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/listening/tests/{id}/convert"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/retention/texts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/retention/texts/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/video-lessons"
+    },
+    {
+      "method": "GET",
+      "path": "/api/assignments"
+    },
+    {
+      "method": "GET",
+      "path": "/api/assignments/assignable"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/changes"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/google/callback"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/google/start"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/telegram/callback"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/telegram/intent/status"
+    },
+    {
+      "method": "GET",
+      "path": "/api/dictionary/entries/{lexemeId}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/dictionary/recent"
+    },
+    {
+      "method": "GET",
+      "path": "/api/dictionary/search"
+    },
+    {
+      "method": "GET",
+      "path": "/api/history"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/admins"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/admission/pending"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/broadcasts/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/contacts/{telegramUserId}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/directory"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/directory/{userId}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/notifications"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/ops"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/owner"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/ready"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/required-channels"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/support/threads"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/support/threads/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/users/{telegramUserId}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/lessons/units"
+    },
+    {
+      "method": "GET",
+      "path": "/api/lessons/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/lessons/{id}/notes"
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/authored"
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/authored-state"
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/progress"
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/sandbox"
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/mcq/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/live-partner"
+    },
+    {
+      "method": "GET",
+      "path": "/api/materials/{type}/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/notifications"
+    },
+    {
+      "method": "GET",
+      "path": "/api/owner/ai-control"
+    },
+    {
+      "method": "GET",
+      "path": "/api/owner/dictionary/{action:path}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/owner/student-export"
+    },
+    {
+      "method": "GET",
+      "path": "/api/profile/photo/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/reports"
+    },
+    {
+      "method": "GET",
+      "path": "/api/resources/{key:path}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/attempts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/attempts/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/history"
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/summary"
+    },
+    {
+      "method": "GET",
+      "path": "/api/search"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/ai/script"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/attempts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/attempts/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/live-partner/questions"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/practice/facets"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/practice/questions"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/prompts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/prompts/{id}/support"
+    },
+    {
+      "method": "GET",
+      "path": "/api/support/reports"
+    },
+    {
+      "method": "GET",
+      "path": "/api/version"
+    },
+    {
+      "method": "GET",
+      "path": "/api/video-lessons/{id}/progress"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/due"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/folders"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/games"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/leaderboard"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/lookup"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/meaning"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/packs"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/search"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/sentences"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/summary"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/{id}/contexts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/activation/items"
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/exam/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/stealing/practice"
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/translation/{id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/typing"
+    },
+    {
+      "method": "HEAD",
+      "path": "/api/resources/{key:path}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/listening/tests/{id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/retention/texts/{id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/users/{id}/role"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/internal/telegram/admins/{telegramUserId}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/internal/telegram/ops"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/listening/mcq/{id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/owner/dictionary/{action:path}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/profile"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/profile/study"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/reading/attempts/{id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/retention/attempts/{id}/draft"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/speaking/attempts/{id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/speaking/materials/{id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/support/reports/{id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/teacher/live-classes/{id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/writing/submissions/{id}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/admission/{id}/decide"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/drafts"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/import"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/lessons/{id}/revision"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/validate"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/versions/{id}/publication"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/{type}/{id}/publication"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/grammar/import"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/grammar/topics"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/grammar/topics/{id}/exercises"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/import"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/tests"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/tests/{id}/convert"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/tests/{id}/questions"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/people/refresh-telegram"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/reading/import"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/reading/passages"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/reading/passages/{id}/questions"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/retention/texts"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/retention/texts/{id}/versions"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/retention/validate"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/roster"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/uploads/cleanup"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/users/{id}/status"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/video-lessons"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/writing-prompts"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/writing/{kind}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admission/request"
+    },
+    {
+      "method": "POST",
+      "path": "/api/assignments"
+    },
+    {
+      "method": "POST",
+      "path": "/api/assignments/{id}/evaluate"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/recovery/login"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/reset/confirm"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/reset/request"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/telegram/intent"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/telegram/intent/cancel"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/telegram/intent/exchange"
+    },
+    {
+      "method": "POST",
+      "path": "/api/dictionary/entries/{lexemeId}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/dictionary/save"
+    },
+    {
+      "method": "POST",
+      "path": "/api/grammar/exercises/{id}/practice"
+    },
+    {
+      "method": "POST",
+      "path": "/api/grammar/exercises/{id}/produce"
+    },
+    {
+      "method": "POST",
+      "path": "/api/grammar/topics/{id}/submit"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/admins"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/admission/decide"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/admission/request"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/auth/confirm"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/broadcasts"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/broadcasts/claim"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/broadcasts/{id}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/contacts"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/contacts/phone"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/delete"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/message"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/remove"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/status"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/unlink"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/drafts"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/notifications"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/owner/handover"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/owner/transfer"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/required-channels"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/support/threads"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/support/threads/{id}/actions"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/support/threads/{id}/messages"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/updates"
+    },
+    {
+      "method": "POST",
+      "path": "/api/lessons/blocks/{blockId}/answer"
+    },
+    {
+      "method": "POST",
+      "path": "/api/lessons/{id}/notes"
+    },
+    {
+      "method": "POST",
+      "path": "/api/lessons/{id}/state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/attempts"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/attempts/{id}/submit"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/activity"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/practice"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/progress"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/start"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/study"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/mcq"
+    },
+    {
+      "method": "POST",
+      "path": "/api/live-classes/{id}/join"
+    },
+    {
+      "method": "POST",
+      "path": "/api/live-partner"
+    },
+    {
+      "method": "POST",
+      "path": "/api/locale"
+    },
+    {
+      "method": "POST",
+      "path": "/api/media/authorize"
+    },
+    {
+      "method": "POST",
+      "path": "/api/notifications"
+    },
+    {
+      "method": "POST",
+      "path": "/api/onboarding"
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/ai-control"
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/dictionary/{action:path}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/retention"
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/transfer"
+    },
+    {
+      "method": "POST",
+      "path": "/api/presence"
+    },
+    {
+      "method": "POST",
+      "path": "/api/profile/photo"
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/academic"
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/attempts"
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/attempts/{id}/submit"
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/general/progress"
+    },
+    {
+      "method": "POST",
+      "path": "/api/retention/attempts"
+    },
+    {
+      "method": "POST",
+      "path": "/api/retention/attempts/{id}/finish-reading"
+    },
+    {
+      "method": "POST",
+      "path": "/api/retention/attempts/{id}/submit"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/attempts"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/attempts/{id}/submit"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/attempts/{id}/transcript"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/materials"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/prompts"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/prompts/vocabulary"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/topics"
+    },
+    {
+      "method": "POST",
+      "path": "/api/support/reports"
+    },
+    {
+      "method": "POST",
+      "path": "/api/teacher/feedback"
+    },
+    {
+      "method": "POST",
+      "path": "/api/teacher/live-classes"
+    },
+    {
+      "method": "POST",
+      "path": "/api/theme"
+    },
+    {
+      "method": "POST",
+      "path": "/api/uploads"
+    },
+    {
+      "method": "POST",
+      "path": "/api/uploads/finalize"
+    },
+    {
+      "method": "POST",
+      "path": "/api/uploads/intent"
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/answers"
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/progress"
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/response"
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/vocabulary"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/folders"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/games"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/packs"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/{id}/review"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/{id}/use"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/activation/check"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/activation/items"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/exam"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/exam/{id}/finalize"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/grade"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/grade/{id}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/lessons/{id}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/practice"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/sessions"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/sessions/{id}"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/submissions"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/submissions/{id}/submit"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/translation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/translation/{id}/answer"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/finish"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/pause"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/prepare"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/resume"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/start"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/writing/{kind}/{id}"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/internal/telegram/notifications"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/listening/attempts/{id}/draft"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/listening/full/{id}/authored-state"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/materials/{type}/{id}"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/writing/exam/{id}/draft"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/writing/patterns/{id}"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+import {anySignal} from '../../js/signals.js';
+import {render} from '../../js/generated/LessonNotesPanel-v10.js';import {privateScope} from '../../js/private-scope.js';
+/** One serialized/coalescing writer, including exit; NEVER abort a previous write just
+ * because a newer edit arrived. Authority change DOES revoke/cancel this owner. */
+export function lessonNotes(context,{lessonId,initialNotes,maxLength=4000}){const {dict,signal}=context,host=document.createElement('div'),generation=privateScope.generation,identity=privateScope.scope,controller=new AbortController();let text=initialNotes,ack=initialNotes,pending=null,busy=false,state='idle',timer,keepalive=false,closed=false,revoked=false,flight=null;
+ const authorized=()=>!revoked&&privateScope.generation===generation&&privateScope.scope===identity;
+ const release=privateScope.own(()=>{revoked=true;clearTimeout(timer);pending=null;controller.abort();});
+ function draw(){if(closed||signal.aborted)return;const old=host.querySelector('textarea');const next=render({dict,lessonId,text,state,maxLength,setText:v=>{text=v;if(pending!==null)pending=v.length>maxLength?null:v;if(busy&&v===ack)pending=v;if(v===flight)pending=null;state=v.length>maxLength?'tooLong':busy?'saving':v===ack?'saved':'unsaved';clearTimeout(timer);if(v.length<=maxLength&&v!==ack)timer=setTimeout(()=>flushLatest(false),900);draw();},flushLatest});if(old){
+ // Moving even the SAME focused textarea to a detached tree fires blur in real
+ // browsers, flushing every keystroke. Update only its sibling status row.
+ if(old.value!==text)old.value=text;host.firstElementChild.lastElementChild.replaceWith(next.lastElementChild);
+ }else host.replaceChildren(next);}
+
+ async function pump(){if(busy||!authorized())return;busy=true;try{while(pending!==null&&authorized()){const value=pending,exit=keepalive;pending=null;keepalive=false;if(value===ack)continue;if(value.length>maxLength){state='tooLong';continue;}state='saving';flight=value;draw();try{const response=await fetch(`/api/lessons/${lessonId}/notes`,{method:'POST',credentials:'same-origin',cache:'no-store',redirect:'error',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({notes:value}),keepalive:exit,signal:anySignal([controller.signal,AbortSignal.timeout(12000)])});if(response.status===401)window.dispatchEvent(new Event('learners-area:auth-failure'));const result=await response.json();if(!response.ok||result.ok!==true||!authorized())throw Error();ack=value;state=text===ack?'saved':'unsaved';}catch{if(!authorized())break;if(pending!==null)continue;pending=value;state='failed';break;}finally{flight=null;}draw();}}finally{busy=false;draw();if(closed){pending=null;release();}}}
+ function flushLatest(exit){clearTimeout(timer);if(busy&&text===flight){pending=null;return;}if(!authorized()||text===ack&&!busy||text.length>maxLength){if(text.length>maxLength){state='tooLong';draw();}return;}pending=text;keepalive||=exit;void pump();}
+ const hide=()=>flushLatest(true),visible=()=>{if(document.visibilityState==='hidden')hide();};window.addEventListener('pagehide',hide);document.addEventListener('visibilitychange',visible);
+ signal.addEventListener('abort',()=>{window.removeEventListener('pagehide',hide);document.removeEventListener('visibilitychange',visible);flushLatest(true);closed=true;if(!busy)release();host.replaceChildren();},{once:true});draw();return host;}

@@ -1,28 +1,13 @@
 services:
-  backend:
+  app:
     build:
       context: .
       dockerfile: services/backend/Dockerfile
     env_file: .env
     environment:
-      BACKEND_SERVICE_TOKEN: ${BACKEND_SERVICE_TOKEN:?Set BACKEND_SERVICE_TOKEN in .env}
       STORAGE_LOCAL_DIR: /data/uploads
     volumes:
       - ./.data/uploads:/data/uploads
-    expose:
-      - "8000"
-    restart: unless-stopped
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    env_file: .env
-    environment:
-      BACKEND_MANAGED: external
-      BACKEND_INTERNAL_URL: http://backend:8000
-      BACKEND_SERVICE_TOKEN: ${BACKEND_SERVICE_TOKEN:?Set BACKEND_SERVICE_TOKEN in .env}
     ports:
-      - "3000:3000"
-    depends_on:
-      - backend
+      - "3000:8000"
     restart: unless-stopped

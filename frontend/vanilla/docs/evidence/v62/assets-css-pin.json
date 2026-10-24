@@ -1,0 +1,5 @@
+{
+  "reason": "V61/V62 native frontend integration: 0 added selector rules; 0 removed from docs/evidence/v58/assets-css-pin.json. Tailwind safelist restores none.",
+  "compiledCssSha256": "e11338961f86c4005ede71c6eb8ee20aacaab76792dcac7e07d6120564963324",
+  "previousPin": "docs/evidence/v58/assets-css-pin.json"
+}

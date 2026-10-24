@@ -1,0 +1,19 @@
+{
+  "result": "passed",
+  "targetCommit": "5016012c9fae3cc59ba27d011f45ed0bda7e0a0c",
+  "targetTree": "d5bba5e60dac00e15efc17c19566a278eee9521e",
+  "sourceCommit": "669a5ab5da9fccc2f39d2473d70b35e85c9f5d36",
+  "baselineFiles": 2423,
+  "unchangedOriginalFiles": 2414,
+  "intentionalExistingChanges": 9,
+  "unexpectedChanges": [],
+  "backendOriginalFiles": 601,
+  "backendOriginalFilesUnchanged": 598,
+  "migrationsUnchanged": 66,
+  "sourceRuntimeFilesPresent": 1032,
+  "campusV2ByteIdentical": true,
+  "originalHttpMethodsPresent": 265,
+  "mainMerged": false,
+  "sourceBranchMerged": false,
+  "productionDataModified": false
+}

@@ -1,0 +1,1029 @@
+{
+  "baseline": "62076acc0178602c0bd87025f5c542510242bc1e",
+  "scope": "Listening-only migration; dependency closure of existing native learner entries, not authorization to integrate whole Arena branch",
+  "counts": {
+    "listeningCanonicalRoutes": 16,
+    "learnerRoutes": 15,
+    "historicalCodeCompleteLearnerRoutes": 9,
+    "partialLearnerRoutes": 6,
+    "staffAuthorRoutes": 1,
+    "listeningComponents": 24,
+    "componentsCodeComplete": 9,
+    "componentsPartial": 10,
+    "staffComponentsNotStarted": 5
+  },
+  "priority": "Complete ordinary Listening work independently of unapproved Review Phase2 release. Video/Grammar are not this turn\u2019s priority.",
+  "roots": [
+    "modules/listening/route-v7.js",
+    "modules/listening/authored.js",
+    "modules/listening/hub.js",
+    "modules/listening/mcq-day.js",
+    "modules/listening/catalogue-v9.js",
+    "modules/listening/catalogue-v10.js",
+    "modules/listening/lessons.js"
+  ],
+  "nativeDependencies": [
+    {
+      "path": "js/adapters/account.js",
+      "sha256": "f162d2e02cdff80e5a23c75a1f9750391e5f588b01d56938118fc9ff25c1ea2a",
+      "localDependencies": [
+        "js/api-client.js"
+      ]
+    },
+    {
+      "path": "js/adapters/authored-v7.js",
+      "sha256": "61d39f762b3f0a6783b35ae1d7ec81e690a6f9cf9d31f9227de1b44c0c0d4543",
+      "localDependencies": [
+        "js/api-client.js",
+        "js/adapters/listening-v7.js"
+      ]
+    },
+    {
+      "path": "js/adapters/frontend.js",
+      "sha256": "0669cc5ade4bb9724e09ff13741a63a6798a230d72cf37923da44e109905cce7",
+      "localDependencies": [
+        "js/api-client.js"
+      ]
+    },
+    {
+      "path": "js/adapters/listening-activity-v8.js",
+      "sha256": "7e6ad27d76d4dc5bfc8004893d16464eefa7f3ec286138d2df1535f57dd18cac",
+      "localDependencies": [
+        "js/adapters/media-v9.js",
+        "js/api-client.js",
+        "js/adapters/listening-v7.js"
+      ]
+    },
+    {
+      "path": "js/adapters/listening-lessons-v10.js",
+      "sha256": "d6dd163b2957be62830059b53077fc9925737585d4024f99289671253a61e778",
+      "localDependencies": [
+        "js/api-client.js",
+        "js/adapters/listening-v7.js"
+      ]
+    },
+    {
+      "path": "js/adapters/listening-v10.js",
+      "sha256": "3747d749ba064950b8a08679fa06890dc89254a206879efc1c5b4646f8636905",
+      "localDependencies": [
+        "js/api-client.js",
+        "js/adapters/listening-v7.js",
+        "js/adapters/listening-v9.js"
+      ]
+    },
+    {
+      "path": "js/adapters/listening-v7.js",
+      "sha256": "52ac482cb5e2896ed5c01d68e8082afd6e960518f4e7ca8b099b6ce50024cef2",
+      "localDependencies": [
+        "js/api-client.js"
+      ]
+    },
+    {
+      "path": "js/adapters/listening-v9.js",
+      "sha256": "a7c90d7b1bcf6d10dd3ded94097c108ac6f74668d87f1fdaae9dcbe656a4ed50",
+      "localDependencies": [
+        "js/api-client.js",
+        "js/adapters/listening-v7.js",
+        "js/adapters/listening-activity-v8.js"
+      ]
+    },
+    {
+      "path": "js/adapters/mcq.js",
+      "sha256": "947e0439211cbd1ee0eaa6ca1f3a2e0681180f7451ce4e97c8967b9285054764",
+      "localDependencies": [
+        "js/api-client.js"
+      ]
+    },
+    {
+      "path": "js/adapters/media-v9.js",
+      "sha256": "04c21cd7a295253244ab5799ecfdd3efcf41baafc536767676acf506c54624dd",
+      "localDependencies": [
+        "js/api-client.js",
+        "js/adapters/listening-v7.js"
+      ]
+    },
+    {
+      "path": "js/api-client.js",
+      "sha256": "9e053a4c37348c1a4b92aab850dc6cbc31864720705bc15b2399bb2d16245c77",
+      "localDependencies": []
+    },
+    {
+      "path": "js/dom.js",
+      "sha256": "aa5fd95e10ad44fb16bde45a65f1d11559a15707574e8ccda0d4e848b297906b",
+      "localDependencies": []
+    },
+    {
+      "path": "js/focus-restore.js",
+      "sha256": "73f601a1eeb3a1eb94df21cafafa70992f9c2d5e22996f9472326ae812fe8f32",
+      "localDependencies": []
+    },
+    {
+      "path": "js/generated/AcademicListeningTestPage-v9.js",
+      "sha256": "0034ce6ea1d9f2957109de469b446748f2c18f8e30c1e8bdd6e229f4c0740898",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "js/generated/listening-analysis.js",
+        "modules/shared/presentation.js"
+      ]
+    },
+    {
+      "path": "js/generated/FullExamStart-v7.js",
+      "sha256": "c3cff52351a3fbfbfc8b107a4f5336436fd8a682f73303a1c3e1ac6175c4847d",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "js/generated/listening-map.js"
+      ]
+    },
+    {
+      "path": "js/generated/FullListeningActivity-v8.js",
+      "sha256": "5dff2309f59a14478486cd0a72767c1d5d30472231a8bf29ca804e9ff84c539c",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/listening-map.js",
+        "js/generated/listening-occurrence-spans.js"
+      ]
+    },
+    {
+      "path": "js/generated/FullListeningStudy-v8.js",
+      "sha256": "d218e1e026469ab6a7b1c1352c073f84f3d794c4e28aa184cde27d8bff5e4f37",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/listening-map.js",
+        "js/generated/listening-occurrence-spans.js"
+      ]
+    },
+    {
+      "path": "js/generated/GeneralListeningSectionPage-v9.js",
+      "sha256": "166c6dbfc3ec34d47b8bf7d3b2a467aba58eb3a6bf546ccab43b8ed36126ecd7",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "js/generated/listening-analysis.js",
+        "modules/shared/presentation.js"
+      ]
+    },
+    {
+      "path": "js/generated/LessonNotesPanel-v10.js",
+      "sha256": "d338eb3a52b2d98a2152017565e70aaf09ccbc13d91f470548999dfcb50f1f62",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/shared/inputs.js"
+      ]
+    },
+    {
+      "path": "js/generated/LessonQuizBlock-v10.js",
+      "sha256": "927d9cc83ba65b075f2015a505bdd6a53b331f7ee143e7da61bb08834f6305b7",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/shared/inputs.js"
+      ]
+    },
+    {
+      "path": "js/generated/ListeningAttemptPage-v8.js",
+      "sha256": "df55dec51cec7e678713a8522c91cc1df6eb3f4b73506b32987cb5ec45c3a4eb",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/listening-map.js",
+        "js/generated/listening-occurrence-spans.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/shared/inputs.js"
+      ]
+    },
+    {
+      "path": "js/generated/ListeningExam-v8.js",
+      "sha256": "3e8b2eaeb5492a0d96397cb508b231f7fbc070b446bc0b69362dcf2d3b7a50e8",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/listening-map.js",
+        "js/generated/listening-occurrence-spans.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/shared/inputs.js"
+      ]
+    },
+    {
+      "path": "js/generated/ListeningLessonBody-v10.js",
+      "sha256": "fc33868adb1c6568b30ca71fd8c8c7428f7874bd815a34b76ea880467dd19b69",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/shared/inputs.js"
+      ]
+    },
+    {
+      "path": "js/generated/ListeningLessonPage-v10.js",
+      "sha256": "a37e230e2086b03691802b618ae496993a1eea6b19aaeb9b367c7bd2ec9faf18",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/shared/inputs.js"
+      ]
+    },
+    {
+      "path": "js/generated/ListeningMcqDayPage.js",
+      "sha256": "18541fd4d7bae281b79e30ab51a1dc96364f8978cf3b17bbcda3856546b7efa4",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "js/generated/icons.js",
+        "js/generated/module-emoji.js"
+      ]
+    },
+    {
+      "path": "js/generated/ListeningPractice-v7.js",
+      "sha256": "2042a0cdc933f246235f7322addb93163c836dc30b62fc1964d55319e86a090e",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "js/generated/listening-map.js"
+      ]
+    },
+    {
+      "path": "js/generated/ListeningRevisionPage-v8.js",
+      "sha256": "204f0903a4a075f37336f6579bbaba5128dedd42484394ad8999bc5328d84c37",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/listening-map.js",
+        "js/generated/listening-occurrence-spans.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/shared/inputs.js"
+      ]
+    },
+    {
+      "path": "js/generated/ListeningSpeedPractice-v8.js",
+      "sha256": "3e0828a48b5f03b3887b4c7ec141377a512d47d0554d70902f78d485af9d666e",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/listening-map.js",
+        "js/generated/listening-occurrence-spans.js"
+      ]
+    },
+    {
+      "path": "js/generated/McqMastery.js",
+      "sha256": "2e844c189774927aa37b823cd665f1e4bcc99649f85e7f43b6627b1ef70c5f2c",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "js/generated/icons.js",
+        "js/generated/module-emoji.js"
+      ]
+    },
+    {
+      "path": "js/generated/NativeListeningExam-v7.js",
+      "sha256": "ee927188b42b4c4044aa8c4c7bce7936f395811724f7cb041d6af0202d2cc2dd",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "js/generated/listening-map.js"
+      ]
+    },
+    {
+      "path": "js/generated/ResourceBlocks-v8.js",
+      "sha256": "9572bc04369e802b61211f0b19d1989a9db86322192757219b1433f2e56a7d6f",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/listening-map.js",
+        "js/generated/listening-occurrence-spans.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/shared/inputs.js",
+        "js/generated/icons.js"
+      ]
+    },
+    {
+      "path": "js/generated/SpeedTrainer-v8.js",
+      "sha256": "866599aaaffa3b77f8d1db24ec9ebf8f83b5c4c18de260b71f8ceeaf9d2a9521",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/listening-map.js",
+        "js/generated/listening-occurrence-spans.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/shared/inputs.js"
+      ]
+    },
+    {
+      "path": "js/generated/authored-helpers.js",
+      "sha256": "7f28eae434cb1b81f9242e9f6c4ee40eee1f37f4da407035329f3a8d8491928a",
+      "localDependencies": []
+    },
+    {
+      "path": "js/generated/authored-media-bridge.js",
+      "sha256": "feb5a5a03a8bfaabf8d085a55e1cf84096dc0c71b9eca8b437259177b35f9350",
+      "localDependencies": []
+    },
+    {
+      "path": "js/generated/authored-media-controller.js",
+      "sha256": "a17893e2e024a40a5c29b379c3ba559ffcb959f3ecccf1a1888f15ccd0377684",
+      "localDependencies": []
+    },
+    {
+      "path": "js/generated/authored-sandbox.js",
+      "sha256": "acf14e1286b5fa74ce91f514470cb570ffa49f01fe4046c84dfd8e39d9590a39",
+      "localDependencies": []
+    },
+    {
+      "path": "js/generated/icons.js",
+      "sha256": "f036d0054e8b67941977c46635967d4ba150bfd0985834676a5bbf36dee6336d",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/. */\nexport function IconBack({ className, title }) {\n    return (h(Icon, { className: className, title: title },\n        h("
+      ]
+    },
+    {
+      "path": "js/generated/lexical-text-helpers.js",
+      "sha256": "7cdf96c99a44c472d40a1bcde69a4d7511c059b21bad8edeff56e80bc67f095d",
+      "localDependencies": []
+    },
+    {
+      "path": "js/generated/listening-analysis.js",
+      "sha256": "2ef3f4794c6f8338b0723922a533cdb8a23c9e6be9d67602207344a8cb7c959d",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "js/generated/listening-map.js"
+      ]
+    },
+    {
+      "path": "js/generated/listening-attempt-local.js",
+      "sha256": "5aee4208d08b028481983730c7d006ad06b4f87efc6afbd67f76f069e6385439",
+      "localDependencies": []
+    },
+    {
+      "path": "js/generated/listening-hub.js",
+      "sha256": "28ac1387b81975fb7803d34e72766bc8c5536fdba3d50662c0916739d44f2d46",
+      "localDependencies": [
+        "js/native.js"
+      ]
+    },
+    {
+      "path": "js/generated/listening-locked.js",
+      "sha256": "f0344d14ac6013a839974a5fd449985ef7c51d0e9ccc823b6ed6bfd85ff71089",
+      "localDependencies": [
+        "js/native.js"
+      ]
+    },
+    {
+      "path": "js/generated/listening-map.js",
+      "sha256": "f38c0a82e3ba6075899736fa1730ccd55f5f7f83af8cc88493d9b97ca55b54f1",
+      "localDependencies": [
+        "js/native.js"
+      ]
+    },
+    {
+      "path": "js/generated/listening-occurrence-spans.js",
+      "sha256": "b600556b6cf8c0c754a6ea2b646972d17e19de61e7dfac8365dd96f648d97bc3",
+      "localDependencies": []
+    },
+    {
+      "path": "js/generated/mcq-position.js",
+      "sha256": "61d41a92b092caaae2f94312e5d96ce0e1b7ba56fe7ce1cb72de282b9bdaffe1",
+      "localDependencies": []
+    },
+    {
+      "path": "js/generated/module-emoji.js",
+      "sha256": "8dea9a5b6d8dcd9eb641b70050ccd5a0305bb3a5fd1555c696cdc416b02f6575",
+      "localDependencies": [
+        "js/native.js"
+      ]
+    },
+    {
+      "path": "js/generated/ui.js",
+      "sha256": "3e24f22a9ad676a4e3c62df0cd1d5283edc0eac2033361d34a736a31e7d735f5",
+      "localDependencies": [
+        "js/native.js"
+      ]
+    },
+    {
+      "path": "js/generated/views/listening-academic.js",
+      "sha256": "6bb82a9c94bfe85a17effe900906c57429e4f6788a88db1c9ac656caf7c45b88",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/speaking/microphone.js",
+        "modules/shared/notification-read.js",
+        "js/generated/icons.js"
+      ]
+    },
+    {
+      "path": "js/generated/views/listening-general.js",
+      "sha256": "9c66dd61cc4b102d2a9f261971e2d267acfe3aac3af0b95ed86f163a1869f801",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/speaking/microphone.js",
+        "modules/shared/notification-read.js",
+        "js/generated/icons.js"
+      ]
+    },
+    {
+      "path": "js/generated/views/listening-history.js",
+      "sha256": "f64a08679043202b10a093658171be1a04445ee8f51ef570dfa0ec1001389c65",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/speaking/microphone.js",
+        "modules/shared/notification-read.js",
+        "js/generated/icons.js"
+      ]
+    },
+    {
+      "path": "js/generated/views/listening-lessons.js",
+      "sha256": "9097485371658bdf538449b699b29d7762462fee346d237d5b322f53f632b93f",
+      "localDependencies": [
+        "js/native.js",
+        "js/generated/ui.js",
+        "modules/shared/presentation.js",
+        "modules/speaking/microphone.js",
+        "modules/shared/notification-read.js",
+        "js/generated/icons.js"
+      ]
+    },
+    {
+      "path": "js/generated/word-popover.js",
+      "sha256": "45aca6ac40a939b126e0b32c125df76b3046a85f625f79031ff8ff00e662e600",
+      "localDependencies": [
+        "js/native.js"
+      ]
+    },
+    {
+      "path": "js/native.js",
+      "sha256": "2416b2a730042bf615e589c9d83e927d26f4e7fb40fe765389c2b06744312ba5",
+      "localDependencies": []
+    },
+    {
+      "path": "js/preferences.js",
+      "sha256": "d9d6326eae5b54d2feaf7155b6ee32d5f9519134e724877eaf8e28f15c6ad24f",
+      "localDependencies": [
+        "js/adapters/account.js",
+        "js/api-client.js"
+      ]
+    },
+    {
+      "path": "js/private-scope.js",
+      "sha256": "571af7eee7d500df7884047340f92f84bc7a7f7b12b04c47262e62882b9c9968",
+      "localDependencies": []
+    },
+    {
+      "path": "js/request-errors.js",
+      "sha256": "0b87186996216df3860e1c8f228814f7c96d0fda084815eb28906bb8e6212606",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/authored-errors-v15.js",
+      "sha256": "278ea4f4e1a89e155976a19c8b206e47a7e694413cce067c4679a4df687e0c12",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/authored-progressive.js",
+      "sha256": "ca2f55b369fef8f0e78060f84baa39a661aac316025028966edd809097c53c1f",
+      "localDependencies": [
+        "js/generated/authored-helpers.js"
+      ]
+    },
+    {
+      "path": "modules/listening/authored.js",
+      "sha256": "8883e188e3941d21899a78bc379d7f1d1fc3168e73c8fce306298d4163d76bdf",
+      "localDependencies": [
+        "modules/listening/script-v37.js",
+        "modules/listening/review-modal-v26.js",
+        "modules/listening/review-navigation-v21.js",
+        "modules/listening/review-authority-v20.js",
+        "js/adapters/frontend.js",
+        "modules/listening/review-discovery-v19.js",
+        "modules/listening/review-recovery-v17.js",
+        "modules/listening/review-lexical-v17.js",
+        "modules/listening/review-v16.js",
+        "modules/listening/authored-errors-v15.js",
+        "modules/listening/original-review-v15.js",
+        "modules/listening/draft-scope-v15.js",
+        "modules/listening/exam-tools-v15.js",
+        "modules/listening/exam-validation-v15.js",
+        "modules/listening/checkpoint-v14.js",
+        "modules/listening/checkpoint-notice-v14.js",
+        "modules/listening/original-exam-v13.js",
+        "modules/listening/original-retry-v12.js",
+        "js/adapters/listening-v7.js",
+        "modules/listening/media/range-v11.js",
+        "modules/listening/media/opaque-range-v11.js",
+        "modules/listening/original-policy-v11.js",
+        "modules/listening/original-practice-v11.js",
+        "modules/listening/authored-progressive.js",
+        "js/adapters/authored-v7.js",
+        "js/dom.js",
+        "js/api-client.js",
+        "js/private-scope.js",
+        "js/generated/authored-sandbox.js",
+        "js/generated/authored-helpers.js",
+        "modules/listening/media/shared-v11.js",
+        "modules/listening/media/shared-v11.js",
+        "modules/vocabulary/word-popover.js"
+      ]
+    },
+    {
+      "path": "modules/listening/catalogue-v10.js",
+      "sha256": "713a8810e5a3edf50d031da8e9390620ec8e071a840716bdf754ccb80fbb152f",
+      "localDependencies": [
+        "js/dom.js",
+        "js/adapters/frontend.js",
+        "js/adapters/listening-v10.js",
+        "js/generated/views/listening-academic.js",
+        "js/generated/views/listening-history.js",
+        "modules/shared/presentation.js"
+      ]
+    },
+    {
+      "path": "modules/listening/catalogue-v9.js",
+      "sha256": "0ef5eb98376668d2b98f2ab6313da802f5477b6464accfd2a1639bd561d5f536",
+      "localDependencies": [
+        "js/adapters/listening-v10.js",
+        "js/dom.js",
+        "js/adapters/frontend.js",
+        "js/adapters/listening-v9.js",
+        "js/adapters/listening-v7.js",
+        "modules/shared/presentation.js",
+        "js/generated/listening-locked.js",
+        "js/generated/views/listening-general.js",
+        "js/generated/AcademicListeningTestPage-v9.js",
+        "modules/listening/section.js"
+      ]
+    },
+    {
+      "path": "modules/listening/checkpoint-notice-v14.js",
+      "sha256": "a2dedb96d3ba6473613b5b361974e7300d6dcc9e85e97c1899b5e5291104ce4c",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/checkpoint-v14.js",
+      "sha256": "4c00705ffd43aa5f4c3c3b8c281b40815db3fde39df27a0cf0c906e879888461",
+      "localDependencies": [
+        "modules/listening/exam-validation-v15.js",
+        "modules/listening/original-policy-v11.js"
+      ]
+    },
+    {
+      "path": "modules/listening/draft-scope-v15.js",
+      "sha256": "749967c177655bb394c60b1cbad08cfeb965d6b7919f5ad5a6c4781d151af9a0",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/exam-start.js",
+      "sha256": "df6f658257df6755ba51d694fd3b9dade9e6b280bb6ff86429427ae719728e9f",
+      "localDependencies": [
+        "js/api-client.js",
+        "js/adapters/listening-v7.js",
+        "js/generated/FullExamStart-v7.js"
+      ]
+    },
+    {
+      "path": "modules/listening/exam-tools-v15.js",
+      "sha256": "56a9b9c887c6f4f0e9a6e1519000f7c4493e3ac0ecd9a895f9cb6e69754fc2e6",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/exam-validation-v15.js",
+      "sha256": "9cededcf1dfabcc41136f53c521e17a295211f49bbd6b282bd95f7ae4057f3c8",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/exam.js",
+      "sha256": "b7480ad7afc127cad2328742a9c50cb9eef9272759e28f3f9f514534bf7dc8f1",
+      "localDependencies": [
+        "js/native.js",
+        "js/api-client.js",
+        "js/focus-restore.js",
+        "js/generated/NativeListeningExam-v7.js",
+        "js/generated/listening-attempt-local.js",
+        "js/adapters/listening-v7.js"
+      ]
+    },
+    {
+      "path": "modules/listening/full-activity.js",
+      "sha256": "770749aab1bd1657ec365616f071fd2e4b66be4b72605d2acca95ad25709a1d6",
+      "localDependencies": [
+        "js/api-client.js",
+        "js/generated/FullListeningActivity-v8.js",
+        "js/generated/listening-occurrence-spans.js",
+        "js/adapters/listening-activity-v8.js",
+        "modules/listening/view-lifetime.js",
+        "modules/listening/speed-practice.js",
+        "modules/listening/mcq.js"
+      ]
+    },
+    {
+      "path": "modules/listening/hub.js",
+      "sha256": "b5a5657a685661df8a2b762a42ec8f2e48e0d737459b76134c32b434f8c5c6a3",
+      "localDependencies": [
+        "js/adapters/listening-v10.js",
+        "js/adapters/listening-v7.js",
+        "modules/listening/catalogue-v9.js",
+        "modules/shared/presentation.js",
+        "js/dom.js",
+        "modules/shared/presentation.js",
+        "js/adapters/frontend.js",
+        "modules/listening/authored.js",
+        "js/generated/listening-hub.js",
+        "js/generated/listening-locked.js"
+      ]
+    },
+    {
+      "path": "modules/listening/legacy.js",
+      "sha256": "2d91d891026eafbb7a7ea357c33640be6d695fadd83063a897a3d5341b2b9e46",
+      "localDependencies": [
+        "modules/media/material-player.js",
+        "js/native.js",
+        "js/api-client.js",
+        "js/generated/ListeningExam-v8.js",
+        "js/generated/ListeningAttemptPage-v8.js",
+        "js/generated/listening-analysis.js",
+        "js/generated/ResourceBlocks-v8.js",
+        "js/adapters/listening-activity-v8.js",
+        "modules/listening/view-lifetime.js"
+      ]
+    },
+    {
+      "path": "modules/listening/lesson-quiz.js",
+      "sha256": "6707a0c138184c302e42b78dc918ccf1dfe63bd00138c5bad0be0685addbe20e",
+      "localDependencies": [
+        "js/generated/LessonQuizBlock-v10.js",
+        "js/api-client.js",
+        "js/adapters/listening-lessons-v10.js",
+        "js/focus-restore.js"
+      ]
+    },
+    {
+      "path": "modules/listening/lessons.js",
+      "sha256": "a9c83a52f819897bf998ef7bac59322c6d77a24a1d479d1d67f5b1c58666d1b3",
+      "localDependencies": [
+        "js/dom.js",
+        "js/adapters/frontend.js",
+        "js/adapters/listening-v7.js",
+        "js/adapters/listening-lessons-v10.js",
+        "js/generated/views/listening-lessons.js",
+        "js/generated/ListeningLessonPage-v10.js",
+        "js/generated/ListeningLessonBody-v10.js",
+        "modules/listening/lesson-quiz.js",
+        "modules/notes/lesson-notes.js",
+        "modules/listening/catalogue-v9.js",
+        "modules/shared/presentation.js"
+      ]
+    },
+    {
+      "path": "modules/listening/mcq-day.js",
+      "sha256": "e8cf14aee22fc82ed069e1077f0d14cd34fab625f9dcc75fcece0098f454b6e7",
+      "localDependencies": [
+        "js/dom.js",
+        "js/adapters/frontend.js",
+        "js/adapters/mcq.js",
+        "js/generated/ListeningMcqDayPage.js",
+        "js/generated/mcq-position.js",
+        "modules/listening/mcq.js",
+        "js/generated/listening-locked.js",
+        "modules/shared/presentation.js",
+        "modules/not-found.js"
+      ]
+    },
+    {
+      "path": "modules/listening/mcq.js",
+      "sha256": "5a015886bfa182fb7b12ed0e92095efb21eb79b675386ed53380381bb83bb57d",
+      "localDependencies": [
+        "js/dom.js",
+        "js/api-client.js",
+        "js/generated/McqMastery.js",
+        "js/adapters/mcq.js"
+      ]
+    },
+    {
+      "path": "modules/listening/media/opaque-range-v11.js",
+      "sha256": "3f9cdf9913a926cac876753a6f66b4903488659c78e1854a2eea87aa64f82788",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/media/range-v11.js",
+      "sha256": "52ff18602aed7f2644b6489bb46e72163598b8a6ae194fb1d7597800bc6e226a",
+      "localDependencies": [
+        "js/adapters/listening-v7.js"
+      ]
+    },
+    {
+      "path": "modules/listening/media/seek-ready-v16.js",
+      "sha256": "1f8fc3e7dcdca7f8be18811b26cd358d23b227017d4ed0a06e0a140090f4331a",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/media/shared-v11.js",
+      "sha256": "323499db31d9db2480d76f632b1fc68b6a8dae9cc2ae11b384c35d69939f11bc",
+      "localDependencies": [
+        "modules/listening/media/seek-ready-v16.js",
+        "js/generated/authored-media-controller.js",
+        "js/generated/authored-media-bridge.js"
+      ]
+    },
+    {
+      "path": "modules/listening/original-exam-v13.js",
+      "sha256": "331341d53df70f05d3338dcd23855142c1e869def6f89dc1e15fe62a25f82684",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/original-policy-v11.js",
+      "sha256": "7d2548d767661944aa5fb2420966b7c83b53deda53589b85e63d5aaddde88ea6",
+      "localDependencies": [
+        "modules/listening/exam-validation-v15.js"
+      ]
+    },
+    {
+      "path": "modules/listening/original-practice-v11.js",
+      "sha256": "2b543c9c1d7af2350c39d0de0d6402771ffb93db8f4c40ea65aa1d91a6a7d1d9",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/original-retry-v11.js",
+      "sha256": "298a6157ef4f72994ee2031d3a3a64f7e492beee08beacc80f7037d734692b07",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/original-retry-v12.js",
+      "sha256": "24d3cff58f686952a74e2ef6f4179864bad2ba2a8c2f2f606faa6578a47dfc3b",
+      "localDependencies": [
+        "modules/listening/original-retry-v11.js"
+      ]
+    },
+    {
+      "path": "modules/listening/original-review-v15.js",
+      "sha256": "433a9c675fb9941832f8b38e98ecd6eac9d45402e7ba9bf056de138a137919bf",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/practice.js",
+      "sha256": "41c8b84bd338802bd240f4fae1e85e85d0754db9a3c8cbddbd5d01ebb2d3fd3f",
+      "localDependencies": [
+        "js/api-client.js",
+        "js/native.js",
+        "js/generated/ListeningPractice-v7.js",
+        "js/adapters/listening-v7.js",
+        "js/focus-restore.js",
+        "modules/vocabulary/word-popover.js",
+        "modules/vocabulary/clickable-text.js"
+      ]
+    },
+    {
+      "path": "modules/listening/review-authority-v20.js",
+      "sha256": "a106c45b894e334b0d15d17301e19ceeaa4c6e726d2268fb4967ae998ae01f6b",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/review-discovery-v19.js",
+      "sha256": "8814d95200f3a2558be73e740ab276098b04030a7f2ba334b6ca3575eab7c247",
+      "localDependencies": [
+        "modules/listening/review-recovery-v17.js"
+      ]
+    },
+    {
+      "path": "modules/listening/review-lexical-v17.js",
+      "sha256": "31a219178b79c947716f79b19e899be4a56e19ad8c2955501aabb8673d9bb158",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/review-modal-v26.js",
+      "sha256": "7f8cf47ad13070ddb9614f052ee42db1cd08567904e36002dc6e9f59770b11c9",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/review-navigation-v21.js",
+      "sha256": "beb76adf3b27cccc28d67d50165c65c8dbeed98378ae597a3308919a4333e059",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/review-recovery-v17.js",
+      "sha256": "d48346e0358b735b3bae344b0b6f82920f3d589732e4f3f3b6e8e00ddcfec345",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/review-v16.js",
+      "sha256": "7cd21a8b6f58a59c5b7ef575c756a434cddb87c25b998a76b07ca167d83da892",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/revision.js",
+      "sha256": "86720770d494b1fb9025cc18c58685bb610bfad76293266d237242976e0ebce0",
+      "localDependencies": [
+        "js/adapters/media-v9.js",
+        "js/generated/SpeedTrainer-v8.js",
+        "js/generated/ListeningRevisionPage-v8.js",
+        "js/adapters/listening-activity-v8.js",
+        "modules/listening/view-lifetime.js",
+        "modules/listening/mcq.js"
+      ]
+    },
+    {
+      "path": "modules/listening/route-v7.js",
+      "sha256": "3c86d4f0277c76cf2b1178db6254d965fcb2bc927ffa285404ecb7cbed4136e0",
+      "localDependencies": [
+        "modules/listening/section.js",
+        "modules/listening/catalogue-v9.js",
+        "modules/listening/legacy.js",
+        "modules/listening/revision.js",
+        "modules/listening/test-mcq.js",
+        "modules/listening/full-activity.js",
+        "modules/listening/study.js",
+        "modules/listening/mcq.js",
+        "js/dom.js",
+        "js/adapters/frontend.js",
+        "js/generated/listening-locked.js",
+        "modules/shared/presentation.js",
+        "modules/listening/exam.js",
+        "modules/listening/practice.js",
+        "modules/listening/exam-start.js",
+        "js/adapters/listening-v7.js"
+      ]
+    },
+    {
+      "path": "modules/listening/script-v37.js",
+      "sha256": "733b543ba12187922fea8b2f86c18934e60a377f19b94292d3238c9af099c8f1",
+      "localDependencies": []
+    },
+    {
+      "path": "modules/listening/section-activity.js",
+      "sha256": "e6d1d47e65e2d5eef4c91891a00dc8720a2f0b4bc187e7c2c8a6db0f856bb8f8",
+      "localDependencies": [
+        "modules/listening/exam.js",
+        "modules/vocabulary/clickable-text.js",
+        "js/generated/listening-attempt-local.js",
+        "js/adapters/listening-v7.js"
+      ]
+    },
+    {
+      "path": "modules/listening/section.js",
+      "sha256": "12ff860ec3688e8567185be0c3438be66c3e958ba3fda47fadd254476f6a5ac0",
+      "localDependencies": [
+        "js/generated/GeneralListeningSectionPage-v9.js",
+        "js/adapters/listening-v9.js",
+        "modules/listening/section-activity.js",
+        "modules/listening/start-attempt.js"
+      ]
+    },
+    {
+      "path": "modules/listening/speed-practice.js",
+      "sha256": "8c1d5cbff2376c5e9de05f6e6331eabb4ae32d7836898d1b1e6257543a4d4bb2",
+      "localDependencies": [
+        "js/api-client.js",
+        "js/generated/ListeningSpeedPractice-v8.js",
+        "js/adapters/listening-activity-v8.js",
+        "modules/listening/view-lifetime.js"
+      ]
+    },
+    {
+      "path": "modules/listening/start-attempt.js",
+      "sha256": "dc7713893288fda0fe40bd23a1f407ae8aebfc99007c4b7a8c264e458cc7061e",
+      "localDependencies": [
+        "js/dom.js",
+        "js/api-client.js",
+        "js/adapters/listening-v7.js"
+      ]
+    },
+    {
+      "path": "modules/listening/study.js",
+      "sha256": "a75957a82bc053280e36f2ebbf09c4d7b4a1cb8305b32aa4f2968704b2f41a21",
+      "localDependencies": [
+        "js/api-client.js",
+        "js/generated/FullListeningStudy-v8.js",
+        "js/adapters/listening-activity-v8.js",
+        "modules/listening/view-lifetime.js"
+      ]
+    },
+    {
+      "path": "modules/listening/test-mcq.js",
+      "sha256": "16f4cbb666bec4c444b11375ab08e60e65e1fa7e09fb12e5b4723c95e4d4830f",
+      "localDependencies": [
+        "js/native.js",
+        "js/adapters/listening-activity-v8.js",
+        "modules/listening/mcq.js"
+      ]
+    },
+    {
+      "path": "modules/listening/view-lifetime.js",
+      "sha256": "fc3f2b7e6ae300e417a39feb689d5b9208d8727ca453dd526a6e59ac68d014f1",
+      "localDependencies": [
+        "js/focus-restore.js",
+        "modules/vocabulary/clickable-text.js"
+      ]
+    },
+    {
+      "path": "modules/media/material-player.js",
+      "sha256": "c9cee8aca9481575d8abe218d7cc1af6adb1524e0c49c048d0fcc09193612633",
+      "localDependencies": [
+        "js/dom.js",
+        "js/adapters/media-v9.js"
+      ]
+    },
+    {
+      "path": "modules/not-found.js",
+      "sha256": "7ed45f33d5397406f5d24a9f1c0bcba7285e8fe21cdfa1c17aa91f14e3f903d8",
+      "localDependencies": [
+        "js/dom.js",
+        "js/preferences.js"
+      ]
+    },
+    {
+      "path": "modules/notes/lesson-notes.js",
+      "sha256": "f447c25b3f9f212f338eeddb1115886e8b21f3cad5997cc9fff228447d843a7d",
+      "localDependencies": [
+        "js/generated/LessonNotesPanel-v10.js",
+        "js/private-scope.js"
+      ]
+    },
+    {
+      "path": "modules/shared/inputs.js",
+      "sha256": "51d62ff7df436c1d135089d27278a5944dbca7a3a72ea77c05d1b485960f9402",
+      "localDependencies": [
+        "js/native.js"
+      ]
+    },
+    {
+      "path": "modules/shared/notification-read.js",
+      "sha256": "1119814a231873e98ab0f318f785adfbd4126e604124d7c529a04165f13b961e",
+      "localDependencies": [
+        "js/dom.js",
+        "js/api-client.js",
+        "modules/shell/notifications.js"
+      ]
+    },
+    {
+      "path": "modules/shared/presentation.js",
+      "sha256": "86cc43647a187d18922c4f9f85d7efbb55ecc0accfac4ab5c6cbbe63d4fafaf5",
+      "localDependencies": [
+        "js/native.js"
+      ]
+    },
+    {
+      "path": "modules/shell/link-pending.js",
+      "sha256": "685e44749534b1c61b3f96ed6576b037410320a8cd44d6372d958a548bda98da",
+      "localDependencies": [
+        "js/dom.js"
+      ]
+    },
+    {
+      "path": "modules/shell/notifications.js",
+      "sha256": "b78e4f067b78af701d90de4ba2cd79b3ec51ca7d53f8fb5a3bad260892e69c3a",
+      "localDependencies": [
+        "modules/shell/link-pending.js",
+        "js/dom.js",
+        "js/generated/icons.js",
+        "js/api-client.js"
+      ]
+    },
+    {
+      "path": "modules/speaking/microphone.js",
+      "sha256": "997460b24c6a85c861ee7a39f6fdd9510f604596b92e99ad48a6bdc2a1a7b96a",
+      "localDependencies": [
+        "js/dom.js"
+      ]
+    },
+    {
+      "path": "modules/vocabulary/clickable-text.js",
+      "sha256": "0820f971c2bdafc2ffcc8dade7477d142d3f5f56e949da91a6723a32831842da",
+      "localDependencies": [
+        "js/dom.js",
+        "js/generated/lexical-text-helpers.js",
+        "modules/vocabulary/word-popover.js"
+      ]
+    },
+    {
+      "path": "modules/vocabulary/word-popover.js",
+      "sha256": "7f04a189967168452845267a129aff90d6e1a0f546728a4c3f39179ec55db1a6",
+      "localDependencies": [
+        "js/api-client.js",
+        "js/request-errors.js",
+        "js/generated/word-popover.js",
+        "js/private-scope.js"
+      ]
+    }
+  ],
+  "reserved": [
+    "FullListeningLibrary",
+    "ListeningTestActions",
+    "ListeningImport",
+    "ListeningLegacyImport",
+    "audio-probe (Staff upload metadata)"
+  ],
+  "integrationSelection": "Full IELTS Test is a candidate ONLY, human owner must select; separate branch-from-main workflow in integration handoff, no merge/deploy here"
+}
