@@ -5,7 +5,7 @@
  */
 
 import * as THREE from '../vendor/three-runtime.js';
-import {NeonCurrent,neonTube,neonMaterial,platformEdgeLoops,scaleNeonEmission} from './campus-neon.js';
+import {NeonCurrent,NeonDashLoop,neonTube,neonMaterial,platformEdgeLoops,scaleNeonEmission} from './campus-neon.js';
 import {dashboardRingAngle} from './campus-motion.js';
 
 // Street traces follow the blue/violet electrical network in the artwork.
@@ -116,10 +116,8 @@ export class CampusCircuits {
   buildPlatformNetwork(config){
     for(const [index,loop] of platformEdgeLoops(config).entries()){
       const color=index===0?0x00bdff:0x087bff;
-      // Solid round conduits remain continuous at shallow and side-on angles.
-      const conduit=new THREE.Group();conduit.name='platform_side_continuous_rim';
-      for(let i=1;i<loop.length;i++)conduit.add(neonTube(loop[i-1],loop[i],color,.18,3.2));
-      this.group.add(conduit);
+      const dashes=new NeonDashLoop(loop,color,{speed:index===0?29:-24,phase:index*.18});
+      this.group.add(dashes.group);this.sideLoops.push(dashes);
     }
     const p=config.platform.polygon;const top=p.map(([x,z])=>[x,.22,z]);top.push(top[0]);
     for(let i=1;i<top.length;i++)this.group.add(neonTube(top[i-1],top[i],0x007dff,.08,3.4));
@@ -212,4 +210,5 @@ export class CampusCircuits {
     }
   }
 }
+
 

@@ -39,6 +39,7 @@ export function managementAreas(dict,role){
   add('/app/admin/content',dict.nav.contentLibrary,dict.management.contentBody,IconContent);
  }
  add('/app/reports',dict.reporter.title,dict.reporter.managementBody,IconAudit);
+ add('/app/support',dict.nav.support,dict.support.subtitle,IconSupport);
  if(owner){
   add('/app/owner',dict.owner.title,dict.management.ownerBody,IconSettings);
   add('/app/owner/integrations',dict.owner.integrations,dict.management.integrationsBody,IconSettings);
@@ -52,8 +53,6 @@ export async function mount(ctx){
  const role=session?.user?.role;
  if(!['teacher','admin','owner'].includes(role)){void navigate('/app',{replace:true});return;}
  const link=(href,classes,...children)=>el('a',{href,class:classes},...children);
- const back=link('/app','mt-1 inline-flex w-fit min-h-[44px] items-center gap-2 rounded-[10px] border border-gold/45 bg-gold/10 px-3.5 text-[0.9375rem] font-medium text-ink-900 transition-colors hover:bg-gold/20',IconChevronRight({className:'rotate-180 text-[18px] text-gold'}),dict.management.backToLearning);
- back.setAttribute('data-management-back','');
  const areas=managementAreas(dict,role);
  const cards=areas.map(({href,title,body,icon})=>{
   const a=link(href,'panel group flex min-h-[150px] flex-col gap-3 transition-colors hover:border-gold/45 hover:bg-paper-sunken',
@@ -63,7 +62,6 @@ export async function mount(ctx){
   a.setAttribute('data-management-area',href);return a;
  });
  const host=el('div',{class:'flex flex-col gap-8','data-management-hub':''},
-  el('header',{class:'flex flex-col gap-2'},el('h1',{class:'page-title'},dict.management.title),el('p',{class:'page-subtitle'},dict.management.subtitle),back),
   areas.length?el('div',{class:'grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3'},cards):el('p',{},dict.management.emptyForRole));
  if(signal?.aborted)return;
  root.append(host);

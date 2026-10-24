@@ -5,7 +5,7 @@ export function navigationLinks({ module, dict }) {
     if (module === "listening") {
         links = [
             { key: "lessons", href: "/app/listening/lessons", label: dict.listening.lessons.title },
-            { key: "academic", href: "/app/listening/academic", label: dict.listening.academic.title },
+            { key: "tests", href: "/app/listening/tests", label: dict.listening.academic.title },
             { key: "mcq", href: "/app/listening/mcq", label: dict.listening.mcqProgram.title },
         ];
     }

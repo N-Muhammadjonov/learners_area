@@ -1,145 +1,78 @@
-/**
- * Learners Area 3D Campus Module Labels
- * Exact dark navy rounded pills positioned across building middle/front faces,
- * with glowing neon borders, crisp typography, and bidirectional interaction.
- */
-
 import * as THREE from '../vendor/three-runtime.js';
-import { orbitFacingAnchor } from './campus-label-anchors.js';
+import {orbitFacingAnchor} from './campus-label-anchors.js';
 
+export const moduleLabelScale=id=>.864*(id==='video_lessons'?.8:.9);
+
+/** World-anchored badges. Geometry in front of a building also hides its badge. */
 export class CampusLabels {
-  constructor(container, camera, onNavigate) {
-    this.container = container;
-    this.camera = camera;
-    this.onNavigate = onNavigate;
-    this.labels = [];
-    this.viewDirection=new THREE.Vector3();
-    this.overlay = document.createElement('div');
-    this.overlay.className = 'campus-labels-overlay';
-    this.overlay.style.zIndex = '20';
-    this.container.appendChild(this.overlay);
+ constructor(container,camera,onNavigate,buildings=new Map()){
+  Object.assign(this,{container,camera,onNavigate,buildings});this.labels=[];
+  this.viewDirection=new THREE.Vector3();this.raycaster=new THREE.Raycaster();
+  this.overlay=document.createElement('div');this.overlay.className='campus-labels-overlay';container.append(this.overlay);
+  this.lastCamera=new THREE.Matrix4();this.lastProjection=new THREE.Matrix4();this.nextOcclusion=0;
+ }
+ initLabels(modules,icons){
+  this.overlay.replaceChildren();this.labels=[];
+  for(const module of modules){
+   const el=document.createElement('button');el.type='button';el.className='campus-module-label';
+   el.style.setProperty('--module-accent',module.accentHex);el.dataset.moduleId=module.id;
+   el.setAttribute('aria-label',`Navigate to ${module.name}`);
+   const icon=document.createElement('span');icon.className='module-icon';icon.style.color=module.accentHex;
+   icon.innerHTML=icons[module.icon]||'';
+   const text=document.createElement('span');text.className='module-text';text.textContent=module.name;el.append(icon,text);
+   const p=module.labelPos||module.pos;
+   const item={el,module,anchorPos:new THREE.Vector3(p.x,p.y,p.z),active:false,occluded:false};
+   const hover=active=>{item.active=active;this.paint(item);window.dispatchEvent(new CustomEvent('campus-module-hover',{detail:{id:module.id,active}}));};
+   el.addEventListener('click',event=>{event.stopPropagation();this.onNavigate?.(module);});
+   el.addEventListener('mouseenter',()=>hover(true));el.addEventListener('mouseleave',()=>hover(false));
+   el.addEventListener('focus',()=>hover(true));el.addEventListener('blur',()=>hover(false));
+   this.paint(item);this.overlay.append(el);this.labels.push(item);
   }
-
-  initLabels(modules, iconSvgMap) {
-    // Clear previous
-    this.overlay.innerHTML = '';
-    this.labels = [];
-
-    modules.forEach(m => {
-      const el = document.createElement('button');
-      el.type = 'button';
-      el.className = 'campus-module-label';
-      el.style.setProperty('--module-accent',m.accentHex);
-      el.style.transform='translate(-50%, -50%) scale(.864)';
-      el.style.backgroundColor = 'rgba(8, 15, 29, 0.92)';
-      el.style.border = `1.5px solid ${m.accentHex}`;
-      el.style.boxShadow = `0 0 12px ${m.accentHex}66, inset 0 0 6px ${m.accentHex}33`;
-      el.setAttribute('aria-label', `Navigate to ${m.name}`);
-      el.setAttribute('data-module-id', m.id);
-
-      const iconSvg = iconSvgMap[m.icon] || '';
-      el.innerHTML = `
-        <span class="module-icon inline-flex shrink-0 w-3.5 h-3.5" style="color: ${m.accentHex}; fill: ${m.accentHex};">${iconSvg}</span>
-        <span class="module-text whitespace-nowrap text-[0.8125rem] font-medium leading-none">${m.name}</span>
-      `;
-
-      // 3D Anchor position: calibrated label position
-      const anchorPos = m.labelPos 
-        ? new THREE.Vector3(m.labelPos.x, m.labelPos.y, m.labelPos.z)
-        : new THREE.Vector3(m.pos.x + (m.labelOffset?.x || 0), m.pos.y + (m.labelOffset?.y || 0), m.pos.z + (m.labelOffset?.z || 0));
-
-      // Event handlers
-      el.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (this.onNavigate) this.onNavigate(m);
-      });
-
-      el.addEventListener('mouseenter', () => {
-        el.style.boxShadow = `0 0 20px ${m.accentHex}aa, inset 0 0 8px ${m.accentHex}66`;
-        el.style.transform = 'translate(-50%, -50%) scale(.93312)';
-        window.dispatchEvent(new CustomEvent('campus-module-hover', { detail: { id: m.id, active: true } }));
-      });
-
-      el.addEventListener('mouseleave', () => {
-        el.style.boxShadow = `0 0 12px ${m.accentHex}66, inset 0 0 6px ${m.accentHex}33`;
-        el.style.transform = 'translate(-50%, -50%) scale(.864)';
-        window.dispatchEvent(new CustomEvent('campus-module-hover', { detail: { id: m.id, active: false } }));
-      });
-
-      this.overlay.appendChild(el);
-      this.labels.push({ el, anchorPos, module: m });
-    });
+ }
+ paint(item){
+  const {el,module,active}=item;
+  el.style.transform=`translate(-50%,-50%) scale(${moduleLabelScale(module.id)*(active?1.08:1)})`;
+  el.style.boxShadow=active?`0 0 20px ${module.accentHex}aa, inset 0 0 8px ${module.accentHex}66`:`0 0 12px ${module.accentHex}66, inset 0 0 6px ${module.accentHex}33`;
+ }
+ blocked(point,moduleId,ndcX,ndcY,boxes){
+  this.raycaster.setFromCamera(new THREE.Vector2(ndcX,ndcY),this.camera);
+  const ray=this.raycaster.ray,limit=point.clone().sub(ray.origin).dot(ray.direction)-.18;
+  for(const [id,{building,box}] of boxes){
+   if(id===moduleId||!ray.intersectsBox(box))continue;
+   const hits=this.raycaster.intersectObject(building,true);
+   if(hits.some(hit=>hit.distance<limit&&hit.object.isMesh&&!hit.object.material?.transparent))return true;
   }
-
-  update(width, height) {
-    this.camera.updateMatrixWorld();
-    this.camera.getWorldDirection(this.viewDirection).negate();
-    const point=new THREE.Vector3();
-    const occupied=[];
-    // Keep every available label on screen. Previously a collision led to
-    // visibility:hidden and made buildings inaccessible when orbiting.
-    const ordered=[...this.labels].sort((a,b)=>{
-      if(a.module.isCenter)return -1;
-      if(b.module.isCenter)return 1;
-      return 0; // stable module order avoids collision-layout swaps while orbiting
-    });
-    for(const item of ordered){
-      const anchor=orbitFacingAnchor(item.anchorPos,item.module,this.camera.position,this.viewDirection,item.footprint);
-      point.set(anchor.x,anchor.y,anchor.z).project(this.camera);
-      const el=item.el;
-      if(!Number.isFinite(point.x)||!Number.isFinite(point.y)||point.z>1||point.z< -1){
-        el.style.visibility='hidden';
-        continue;
-      }
-      el.style.display='flex';
-      el.style.visibility='visible';
-      const halfW=Math.max(31,(el.offsetWidth||105)*.93312/2);
-      const halfH=Math.max(10,(el.offsetHeight||24)*.93312/2);
-      const margin=6;
-      const baseX=THREE.MathUtils.clamp((point.x*.5+.5)*width,halfW+margin,Math.max(halfW+margin,width-halfW-margin));
-      const baseY=THREE.MathUtils.clamp((-point.y*.5+.5)*height,halfH+margin,Math.max(halfH+margin,height-halfH-margin));
-      const rectAt=(x,y)=>({left:x-halfW,right:x+halfW,top:y-halfH,bottom:y+halfH});
-      const overlap=(a,b)=>Math.max(0,Math.min(a.right,b.right)-Math.max(a.left,b.left))*
-                           Math.max(0,Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top));
-      let selected=null;
-      let minimum=Infinity;
-      // Search nearby screen positions rather than dropping the label entirely.
-      const stride=halfH*2+8;
-      for(let ring=0;ring<=11;ring++){
-        const offsets=ring===0?[[0,0]]:
-          [[0,ring*stride],[-ring*18,0],[ring*18,0],
-           [-ring*12,ring*stride],[ring*12,ring*stride]];
-        for(const [ox,oy] of offsets){
-          const x=THREE.MathUtils.clamp(baseX+ox,halfW+margin,Math.max(halfW+margin,width-halfW-margin));
-          const y=THREE.MathUtils.clamp(baseY+oy,halfH+margin,Math.max(halfH+margin,height-halfH-margin));
-          const box=rectAt(x,y);
-          const total=occupied.reduce((cost,old)=>cost+overlap(box,old),0);
-          const cost=total*1000+Math.abs(ox)+Math.abs(oy);
-          if(cost<minimum){minimum=cost;selected={x,y,box};}
-          if(total===0)break;
-        }
-        if(minimum<1000)break;
-      }
-      if(!selected)continue;
-      occupied.push(selected.box);
-      el.style.left=`${selected.x.toFixed(1)}px`;
-      el.style.top=`${selected.y.toFixed(1)}px`;
-      el.style.zIndex=String(item.module.isCenter?3:2);
-    }
+  return false;
+ }
+ update(width,height){
+  this.camera.updateMatrixWorld();this.camera.getWorldDirection(this.viewDirection).negate();
+  const now=performance.now();
+  if(width!==this.lastWidth||height!==this.lastHeight){
+   for(const item of this.labels)item.screenSize={width:item.el.offsetWidth||105,height:item.el.offsetHeight||24};
+   this.lastWidth=width;this.lastHeight=height;
   }
-
-  setHighlight(moduleId, active) {
-    for (const item of this.labels) {
-      if (item.module.id === moduleId) {
-        if (active) {
-          item.el.style.boxShadow = `0 0 24px ${item.module.accentHex}cc, inset 0 0 10px ${item.module.accentHex}88`;
-          item.el.style.transform = 'translate(-50%, -50%) scale(.93312)';
-        } else {
-          item.el.style.boxShadow = `0 0 12px ${item.module.accentHex}66, inset 0 0 6px ${item.module.accentHex}33`;
-          item.el.style.transform = 'translate(-50%, -50%) scale(.864)';
-        }
-      }
-    }
+  const changed=!this.camera.matrixWorld.equals(this.lastCamera)||!this.camera.projectionMatrix.equals(this.lastProjection);
+  const checkOcclusion=changed||now>=this.nextOcclusion;
+  const boxes=new Map();
+  if(checkOcclusion){
+   for(const [id,building] of this.buildings){building.updateMatrixWorld(true);boxes.set(id,{building,box:new THREE.Box3().setFromObject(building)});}
+   this.lastCamera.copy(this.camera.matrixWorld);this.lastProjection.copy(this.camera.projectionMatrix);this.nextOcclusion=now+120;
   }
+  for(const item of this.labels){
+   const anchor=orbitFacingAnchor(item.anchorPos,item.module,this.camera.position,this.viewDirection,item.footprint);
+   const world=new THREE.Vector3(anchor.x,anchor.y,anchor.z),point=world.clone().project(this.camera);
+   if(checkOcclusion){
+    const scale=moduleLabelScale(item.module.id),halfW=item.screenSize.width*scale/2,halfH=item.screenSize.height*scale/2;
+    item.occluded=[[0,0],[-halfW*.8,0],[halfW*.8,0],[0,-halfH*.7],[0,halfH*.7]].some(([x,y])=>this.blocked(world,item.module.id,point.x+x*2/width,point.y-y*2/height,boxes));
+   }
+   const visible=Number.isFinite(point.x)&&Number.isFinite(point.y)&&Math.abs(point.x)<=1.2&&Math.abs(point.y)<=1.2&&point.z>=-1&&point.z<=1&&!item.occluded;
+   item.el.style.visibility=visible?'visible':'hidden';item.el.tabIndex=visible?0:-1;
+   if(!visible&&item.active){item.active=false;this.paint(item);window.dispatchEvent(new CustomEvent('campus-module-hover',{detail:{id:item.module.id,active:false}}));}
+   // No collision displacement or viewport clamping: the badge stays on its building.
+   item.el.style.left=`${((point.x*.5+.5)*width).toFixed(2)}px`;
+   item.el.style.top=`${((-point.y*.5+.5)*height).toFixed(2)}px`;
+   item.el.style.zIndex=String(Math.round((1-point.z)*10000));
+  }
+ }
+ setHighlight(id,active){const item=this.labels.find(item=>item.module.id===id);if(item){item.active=active;this.paint(item);}}
 }
-

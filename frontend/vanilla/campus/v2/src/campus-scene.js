@@ -121,7 +121,7 @@ export class LearnersAreaCampusScene {
     this.foundationGlows.push(dashboardGlow);
 
     // 8. Interactive Labels Overlay
-    this.labels = new CampusLabels(this.container, this.camera, this.onNavigate);
+    this.labels = new CampusLabels(this.container, this.camera, this.onNavigate, this.buildingMeshes);
     this.loadIconsAndInitLabels();
     for(const label of this.labels.labels){
       const building=this.buildingMeshes.get(label.module.id);
@@ -530,4 +530,5 @@ export class LearnersAreaCampusScene {
     canvas?.remove();
   }
 }
+
 

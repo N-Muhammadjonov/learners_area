@@ -172,19 +172,23 @@ test("side neon clears the bevel and volumetric currents advance with finite ins
   }
 });
 
-test("both platform side rows are solid conduits with no instanced LED gaps",()=>{
+test("two independent LED chase rows retain their gaps above the steady bottom rim",()=>{
   const doc=globalThis.document;
   globalThis.document={createElement:()=>({getContext:()=>({createRadialGradient:()=>({addColorStop(){}}),fillRect(){}})})} as unknown as Document;
   try{
     const scene=new THREE.Scene(),circuits=new CampusCircuits(scene,world.materials);
     circuits.buildPlatformNetwork(CAMPUS_CONFIG);
-    const rows=circuits.group.children.filter((o:typeof THREE.Group)=>o.name==='platform_side_continuous_rim');
-    assert.equal(rows.length,2);
-    for(const row of rows){
-      assert.equal(row.children.length,4);
-      row.traverse((mesh:typeof THREE.Mesh)=>{if(mesh.isMesh){assert.equal(mesh.isInstancedMesh,undefined);assert.equal(mesh.geometry.type,'CylinderGeometry');assert.ok(mesh.geometry.parameters.radiusTop>=.18);}});
+    assert.equal(circuits.sideLoops.length,2);
+    assert.ok(circuits.sideLoops[0].speed>0&&circuits.sideLoops[1].speed<0);
+    for(const leds of circuits.sideLoops){
+      const fixed=leds.core.instanceMatrix.array.slice(),before=leds.strengths.slice();
+      const matrix=new THREE.Matrix4();leds.core.getMatrixAt(0,matrix);
+      const dashLength=new THREE.Vector3().setFromMatrixScale(matrix).y;
+      assert.ok(leds.centers[1]-leds.centers[0]>dashLength,'real dark gaps between separate LEDs');
+      leds.update(2);assert.notDeepEqual(leds.strengths,before);assert.deepEqual(leds.core.instanceMatrix.array,fixed);
     }
-    assert.equal(circuits.sideLoops.length,0);
+    const bottom=circuits.lowerRim.children.map((o:typeof THREE.Group)=>o.clone());
+    circuits.update(.1,4);assert.equal(circuits.lowerRim.children.length,bottom.length);
   }finally{globalThis.document=doc;}
 });
 test("Dashboard radial dashes and ring bulbs both orbit instead of remaining fixed",()=>{
@@ -319,4 +323,5 @@ test("trackpad cross-axis noise cannot mix orbit and zoom within a gesture",()=>
     assert.ok(controller.camera.position.distanceTo(beforeZoom)<1e-8);
   }finally{clearTimeout(controller.pendingSave);}
 });
+
 

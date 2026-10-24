@@ -28,7 +28,7 @@ export function campusSceneConfig(management) {
 export function createManagementArea(config = MANAGEMENT_CASTLE) {
   const stone = new THREE.MeshStandardMaterial({ color: 0x8f9db7, roughness: .82, metalness: .12 });
   const edge = new THREE.MeshStandardMaterial({ color: 0xc6cedb, roughness: .7, metalness: .16 });
-  const roof = new THREE.MeshStandardMaterial({ color: 0x35284f, roughness: .56, metalness: .28 });
+  const roof = new THREE.MeshStandardMaterial({ color: 0x91a9cd, roughness: .7, metalness: .08 });
   const dark = new THREE.MeshStandardMaterial({ color: 0x172035, roughness: .92 });
   const gold = new THREE.MeshStandardMaterial({ color: 0xd8aa55, roughness: .4, metalness: .7 });
   const windowGlow = new THREE.MeshStandardMaterial({ color: 0xffd786, emissive: 0xffba52, emissiveIntensity: 1.4 });
@@ -79,15 +79,15 @@ export function createManagementArea(config = MANAGEMENT_CASTLE) {
     box(castle, 1.25, 1.35, 1.4, edge, x, 8.2, 10);
   }
   for (const x of [-13,13]) for (let z=-7;z<=7;z+=2.3) box(castle,1.4,1.35,1.25,edge,x,8.2,z);
-  // A tall four-sided pitched roof gives the central keep its castle silhouette.
-  const keepRoof=new THREE.ConeGeometry(12.2,9.5,4);
-  keepRoof.rotateY(Math.PI/4);keepRoof.scale(1,1,.88);
-  mesh(castle,keepRoof,roof,0,18.35,-3,'castle_keep_pitched_roof');
+  // A tall rounded conical roof gives the central keep its castle silhouette.
+  const keepRoof=new THREE.ConeGeometry(11.3,10.8,48);
+  keepRoof.scale(1,1,.88);
+  mesh(castle,keepRoof,roof,0,19,-3,'castle_keep_pitched_roof');
   for (const x of [-13,13]) for (const z of [-10,10]) {
     const tower = new THREE.Group(); tower.name = 'castle_turret'; tower.position.set(x,0,z); castle.add(tower);
     mesh(tower, new THREE.CylinderGeometry(2.6,3,13.4,10),stone,0,7.1,0);
     mesh(tower, new THREE.CylinderGeometry(3,3, .65,10),edge,0,13.6,0);
-    mesh(tower, new THREE.ConeGeometry(3.6,5.6,10),roof,0,16.7,0);
+    mesh(tower, new THREE.ConeGeometry(3.6,5.6,32),roof,0,16.7,0);
     mesh(tower, new THREE.SphereGeometry(.36,8,6),gold,0,19.6,0);
     for (const angle of [0,Math.PI/2,Math.PI,3*Math.PI/2]) {
       const pane=box(tower,.65,1.8,.14,windowGlow,Math.sin(angle)*2.63,9,Math.cos(angle)*2.63);
@@ -105,13 +105,13 @@ export function createManagementArea(config = MANAGEMENT_CASTLE) {
     box(castle,1.1,2,.15,windowGlow,x,8.4,3.58);
     box(castle,1.3,3.1,.18,violet,x,11,3.65,'castle_banner');
   }
-  mesh(castle,new THREE.CylinderGeometry(.12,.12,5.2,8),gold,0,25.7,-3,'castle_flagpole');
+  mesh(castle,new THREE.CylinderGeometry(.12,.12,5.2,8),gold,0,27,-3,'castle_flagpole');
   // Geometry, rather than a platform-dependent emoji, keeps 🇺🇿 recognizable.
-  const flag=new THREE.Group();flag.name='castle_flag';flag.position.set(.15,28,-3);
+  const flag=new THREE.Group();flag.name='castle_flag';flag.position.set(.15,29.3,-3);flag.scale.setScalar(2);
   flag.userData.country='UZ';castle.add(flag);
   const flagColors={blue:0x0099b5,white:0xffffff,green:0x1eb53a,red:0xce1126};
   const flagMats=Object.fromEntries(Object.entries(flagColors).map(([key,color])=>[key,new THREE.MeshBasicMaterial({color,side:THREE.DoubleSide})]));
-  const stripe=(name,y,height)=>mesh(flag,new THREE.PlaneGeometry(5,height),flagMats[name],2.5,y,0,'uzbekistan_'+name);
+  const stripe=(name,y,height)=>mesh(flag,new THREE.PlaneGeometry(5,height,32,4),flagMats[name],2.5,y,0,'uzbekistan_'+name);
   stripe('blue',-.4,.8);stripe('red',-.825,.05);stripe('white',-1.25,.8);
   stripe('red',-1.675,.05);stripe('green',-2.1,.8);
   mesh(flag,new THREE.CircleGeometry(.29,32),flagMats.white,.62,-.4,.01,'uzbekistan_crescent');
@@ -126,8 +126,14 @@ export function createManagementArea(config = MANAGEMENT_CASTLE) {
     star.closePath();
     mesh(flag,new THREE.ShapeGeometry(star),flagMats.white,1.1+(2-row)*.2+col*.25,-.16-row*.24,.01,'uzbekistan_star');
   }
+  flag.userData.fabric=flag.children.filter(item=>item.isMesh).map(item=>{
+    item.castShadow=false;
+    return {mesh:item,rest:item.geometry.attributes.position.array.slice()};
+  });
+  castle.userData.flag=flag;
   const light=new THREE.PointLight(0xffd484,2.6,28,1.7);light.position.set(0,5,12);castle.add(light);
   castle.userData.restingScale=castle.scale.clone();
   return { island, castle };
 }
+
 
