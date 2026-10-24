@@ -12,6 +12,8 @@ type SceneModule = {
   LearnersAreaCampusScene: new (el: HTMLElement, opts: {
     onNavigate: (module: Module) => void;
     motion: "on" | "off" | "auto";
+    management: boolean;
+    managementName: string;
   }) => CampusScene;
 };
 
@@ -32,7 +34,10 @@ const modules = [
 
 /** Only the exterior map is new. All existing Learners Area modules,
  * search, theme, locale, notifications and ShellUtilities stay intact. */
-export function CampusWorld() {
+export function CampusWorld({ showManagement = false, managementLabel = "Management" }: {
+  showManagement?: boolean;
+  managementLabel?: string;
+}) {
   const mountRef=useRef<HTMLDivElement>(null);
   const sceneRef=useRef<CampusScene|null>(null);
   const [state,setState]=useState<"loading"|"ready"|"error">("loading");
@@ -49,6 +54,8 @@ export function CampusWorld() {
         if(cancelled)return;
         const scene=new mod.LearnersAreaCampusScene(element,{
           motion: "on",
+          management: showManagement,
+          managementName: managementLabel,
           onNavigate(module){
             if(!module.route.startsWith("/app/"))return;
             sceneRef.current?.cameraController?.saveState();
@@ -67,7 +74,7 @@ export function CampusWorld() {
       sceneRef.current?.destroy();
       sceneRef.current=null;
     };
-  },[]);
+  },[showManagement, managementLabel]);
 
   return (
     <section data-campus-world className="la-campus" aria-label="Learners Area 3D campus">
@@ -80,6 +87,7 @@ export function CampusWorld() {
       {state==="error" && (
         <nav aria-label="Learning modules" className="la-campus-fallback">
           {modules.map(([id,name,route])=><Link key={id} href={route}>{name}</Link>)}
+          {showManagement && <Link href="/app/management">{managementLabel}</Link>}
         </nav>
       )}
     </section>

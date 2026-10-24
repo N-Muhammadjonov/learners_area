@@ -11,12 +11,17 @@ import { CampusCircuits } from './campus-circuits.js';
 import {setBuildingHover,updateCampusObjects,resolveReducedMotion} from './campus-motion.js';
 import { CampusLabels } from './campus-labels.js';
 import { CampusCameraController } from './campus-camera.js';
+import { MANAGEMENT_CASTLE, campusSceneConfig, createManagementArea } from './campus-management.js';
 
 export class LearnersAreaCampusScene {
   constructor(canvasContainer, options = {}) {
     this.container = canvasContainer;
     this.options = options;
     this.onNavigate = options.onNavigate || (() => {});
+    this.managementModule = options.management === true
+      ? { ...MANAGEMENT_CASTLE, name: options.managementName || MANAGEMENT_CASTLE.name } : null;
+    this.navigationModules = this.managementModule ? [...CAMPUS_CONFIG.modules, this.managementModule] : CAMPUS_CONFIG.modules;
+    this.config = campusSceneConfig(Boolean(this.managementModule));
 
     this.width = this.container.clientWidth || 1024;
     this.height = this.container.clientHeight || 571;
@@ -37,16 +42,17 @@ export class LearnersAreaCampusScene {
     // 2. Camera (Exact Isometric composition matching reference view)
     const aspect = this.width / this.height;
     // Actual 3D island with reference-style isometric orthographic framing.
-    const viewH=Math.max(CAMPUS_CONFIG.camera.orthoHeight,CAMPUS_CONFIG.camera.minWorldWidth/aspect);
+    const config = this.config;
+    const viewH=Math.max(config.camera.orthoHeight,config.camera.minWorldWidth/aspect);
     const viewW=viewH*aspect;
     this.camera = new THREE.OrthographicCamera(
       -viewW/2, viewW/2, viewH/2, -viewH/2,
-      CAMPUS_CONFIG.camera.near, CAMPUS_CONFIG.camera.far
+      config.camera.near, config.camera.far
     );
     this.camera.position.set(
-      CAMPUS_CONFIG.camera.position.x,
-      CAMPUS_CONFIG.camera.position.y,
-      CAMPUS_CONFIG.camera.position.z
+      config.camera.position.x,
+      config.camera.position.y,
+      config.camera.position.z
     );
 
     // 3. WebGL Renderer with High-DPI & ACESFilmic Tone Mapping
@@ -125,7 +131,7 @@ export class LearnersAreaCampusScene {
     }
 
     // 9. Camera Controls with state persistence
-    this.cameraController = new CampusCameraController(this.camera, this.renderer.domElement, CAMPUS_CONFIG);
+    this.cameraController = new CampusCameraController(this.camera, this.renderer.domElement, config);
 
     // 10. Raycasting for 3D clicks & hover
     this.setupRaycasting();
@@ -169,7 +175,8 @@ export class LearnersAreaCampusScene {
     dirLight.position.set(65, 95, 65);
     dirLight.castShadow=true;
     dirLight.shadow.mapSize.set(2048,2048);
-    Object.assign(dirLight.shadow.camera,{left:-95,right:95,top:95,bottom:-95,near:1,far:250});
+    const shadowExtent=this.managementModule?150:95;
+    Object.assign(dirLight.shadow.camera,{left:-shadowExtent,right:shadowExtent,top:shadowExtent,bottom:-shadowExtent,near:1,far:this.managementModule?300:250});
     dirLight.shadow.camera.updateProjectionMatrix();
     dirLight.shadow.bias=-.00015;
     dirLight.shadow.normalBias=.04;
@@ -250,6 +257,13 @@ export class LearnersAreaCampusScene {
         fLight.position.set(m.pos.x, 1.2, m.pos.z);
         this.scene.add(fLight);
       }
+    }
+
+    if (this.managementModule) {
+      const { island, castle } = createManagementArea(this.managementModule);
+      this.geometry.finishArchitecture(castle);
+      this.scene.add(island, castle);
+      this.buildingMeshes.set(this.managementModule.id, castle);
     }
 
     // 3. Environmental Objects (Trees, Benches, Streetlights)
@@ -333,7 +347,8 @@ export class LearnersAreaCampusScene {
       live_classes: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
     };
 
-    this.labels.initLabels(CAMPUS_CONFIG.modules, iconSvgs);
+    iconSvgs.management = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 21V4h4v4h3V3h4v5h3V4h4v17H3Z"/><path d="M10 21v-5a2 2 0 0 1 4 0v5"/></svg>`;
+    this.labels.initLabels(this.navigationModules || CAMPUS_CONFIG.modules, iconSvgs);
   }
 
   setupRaycasting() {
@@ -368,7 +383,7 @@ export class LearnersAreaCampusScene {
       this.pointerStart=null;
       const mod = getIntersectedModule(e);
       if (mod) {
-        const fullMod = CAMPUS_CONFIG.modules.find(m => m.id === mod.id);
+        const fullMod = (this.navigationModules || CAMPUS_CONFIG.modules).find(m => m.id === mod.id);
         if (fullMod && this.onNavigate) {
           this.cameraController?.saveState();
           this.onNavigate(fullMod);
@@ -431,7 +446,8 @@ export class LearnersAreaCampusScene {
     this.height = this.container.clientHeight || 571;
     // Preserve current orbit and zoom while fitting a wide island on narrow screens.
     const aspect=this.width/this.height;
-    const viewH=Math.max(CAMPUS_CONFIG.camera.orthoHeight,CAMPUS_CONFIG.camera.minWorldWidth/aspect);
+    const config=this.config || CAMPUS_CONFIG;
+    const viewH=Math.max(config.camera.orthoHeight,config.camera.minWorldWidth/aspect);
     this.camera.left=-viewH*aspect/2;
     this.camera.right=viewH*aspect/2;
     this.camera.top=viewH/2;
