@@ -31,7 +31,7 @@ export async function mount(context){
    const subtitleNode=telegramOnly&&!register
     ?el('p',{'data-auth-subtitle':'',class:'mt-1 text-sm text-ink-500'},
       isUz?"Maxfiylik sabab hozir faqatgina telegram bot orqali ro'yxatdan o'tishingiz mumkin. Muammo bo'lsa ":"For privacy reasons, registration is currently available only through our Telegram bot. If you need help, contact ",
-      el('a',{href:'https://t.me/uzriw',target:'_blank',rel:'noopener noreferrer',class:'auth-contact-link','data-auth-support-link':'','aria-label':isUz?'Nurmuhamad bilan Telegram orqali bog\'lanish':'Contact Nurmuhamad on Telegram'},'Nurmuhamad'),
+      el('a',{href:'https://t.me/uzriw',target:'_blank',rel:'noopener noreferrer',class:'auth-contact-link','data-auth-support-link':'','aria-label':isUz?'Nurmuhammad bilan Telegram orqali bog\'lanish':'Contact Nurmuhammad on Telegram'},'Nurmuhammad'),
       isUz?' ga yozing.':'.')
     :subtitle?el('p',{'data-auth-subtitle':'',class:'mt-1 text-sm text-ink-500'},subtitle):null;
    if(subtitleNode)shell.querySelector('.card h1').after(subtitleNode);
