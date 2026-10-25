@@ -1,5 +1,6 @@
 import {el} from '../../js/dom.js';
-import {captureAudioSession,prepareRecordingPlayback,releaseRecordingPlayback} from '../shared/recording-playback.js';
+import {captureAudioSession} from '../shared/recording-playback.js';
+import {createRecordingPreview} from '../shared/recording-preview.js';
 
 /** Local reflection recorder (original src/components/audio/LocalReflectionRecorder.tsx + src/lib/audio/recorder.ts).
  * Memory only: the clip is never uploaded or saved. Microphone access happens only after an explicit click.
@@ -187,7 +188,8 @@ export function createReflectionRecorder({ dict, signal }) {
  let tick = null;
  let deadline = null;
  let elapsedNode = null;
- let audioNode = null;
+ let preview = null;
+ let playbackBlob = null;
 
  const root = el('div', { class: 'space-y-3 rounded-xl border border-ink-100 p-4', 'data-local-reflection': '' });
  const slot = el('div', { class: 'flex flex-col gap-3' });
@@ -202,11 +204,9 @@ export function createReflectionRecorder({ dict, signal }) {
   deadline = null;
  }
  function discardPlayback() {
-  if (audioNode) {
-   releaseRecordingPlayback(audioNode);
-   audioNode.remove();
-   audioNode = null;
-  }
+  preview?.destroy();
+  preview = null;
+  playbackBlob = null;
   if (playbackUrl) URL.revokeObjectURL(playbackUrl);
   playbackUrl = null;
  }
@@ -244,10 +244,8 @@ export function createReflectionRecorder({ dict, signal }) {
     elapsed = 0;
     render();
    }, { signal });
-   const fresh=!audioNode;
-   audioNode ??= el('audio', { controls: '', preload: 'auto', 'aria-label': t.listen, class: 'w-full max-w-full', src: playbackUrl });
-   slot.append(remove, audioNode);
-   if(fresh)prepareRecordingPlayback(audioNode);
+   preview ??= createRecordingPreview({blob:playbackBlob,url:playbackUrl,dict,label:t.listen});
+   slot.append(remove, preview.node);
   }
   alertNode.textContent = errorText;
   alertNode.hidden = !errorText;
@@ -269,6 +267,7 @@ export function createReflectionRecorder({ dict, signal }) {
    if (!alive || token !== generation) return;
    discardPlayback();
    if (result?.size) {
+    playbackBlob = result.blob;
     playbackUrl = URL.createObjectURL(result.blob);
    } else {
     errorText = t.noAudio;
@@ -330,7 +329,7 @@ export function createReflectionRecorder({ dict, signal }) {
 
  // Hidden or leaving the Summary tab: never leave a microphone or a player running.
  function hide() {
-  audioNode?.pause();
+  preview?.pause();
   if (recorder) void stop();
   else if (busy) {
    generation++;

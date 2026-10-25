@@ -59,11 +59,8 @@ export function mount(context){
  function page(data){
   const standalone=data.standalone;
   const openable=data.course.filter(row=>isOpen(row.state));
-  const header=el('nav',{'aria-label':t.title,class:'flex min-w-0 gap-1 overflow-x-auto border-b border-ink-100','data-video-header-sections':''},
-   standalone.length>0?el('a',{href:'#video-standalone',class:'flex min-h-11 shrink-0 items-center px-3 text-sm'},t.standaloneHeading):null,
-   openable.length>0||!standalone.length?el('a',{href:'#video-course',class:'flex min-h-11 shrink-0 items-center px-3 text-sm'},t.courseHeading):null);
   const standaloneList=standalone.length>0?el('section',{id:'video-standalone',class:'flex flex-col gap-3','data-video-standalone-list':''},
-   el('h2',{class:'sr-only'},t.standaloneHeading),
+   el('h2',{class:'font-display text-lg text-ink-900'},t.standaloneHeading),
    el('ul',{class:GRID,'data-video-library-grid':''},standalone.map(row=>card({
     href:`/app/video-lessons/${row.id}`,title:row.title,provider:row.provider,videoId:row.videoId,durationSeconds:row.durationSeconds,
     state:row.state,minutesLabel:t.minutes,entryId:row.id,standalone:true,
@@ -76,10 +73,10 @@ export function mount(context){
     entryId:row.id,standalone:false,
    })));
   // Same branches as the original: with standalone items and no open course video, the course section is omitted.
-  if(openable.length===0&&standaloneList)return el('div',{class:'flex flex-col gap-4','data-async-content':'video-lessons'},header,standaloneList);
-  if(standaloneList)return el('div',{class:'flex flex-col gap-4','data-async-content':'video-lessons'},header,standaloneList,
-   el('section',{id:'video-course',class:'flex flex-col gap-3'},el('h2',{class:'sr-only'},t.courseHeading),courseList));
-  return el('div',{class:'flex flex-col gap-4','data-async-content':'video-lessons'},header,el('section',{id:'video-course','aria-label':t.courseHeading},courseList));
+  if(openable.length===0&&standaloneList)return el('div',{class:'flex flex-col gap-4','data-async-content':'video-lessons'},standaloneList);
+  if(standaloneList)return el('div',{class:'flex flex-col gap-4','data-async-content':'video-lessons'},standaloneList,
+   el('section',{id:'video-course',class:'flex flex-col gap-3'},el('h2',{class:'font-display text-lg text-ink-900'},t.courseHeading),courseList));
+  return el('div',{class:'flex flex-col gap-4','data-async-content':'video-lessons'},el('section',{id:'video-course','aria-label':t.courseHeading},courseList));
  }
 
  async function load(){
@@ -91,7 +88,7 @@ export function mount(context){
    const raw=await viewData(url.pathname+url.search,signal);
    if(signal.aborted)return;
    const data=videoLibraryDTO(raw);
-   host.replaceChildren(el('div',{class:'mx-auto flex w-full max-w-7xl flex-col gap-4','data-route-usable':'video-lessons'},page(data)));
+   host.replaceChildren(el('div',{class:'mx-auto flex w-full max-w-7xl flex-col gap-4','data-route-usable':'video-lessons'},el('p',{class:'mt-1 text-sm text-ink-500','data-video-library-intro':''},t.intro),page(data)));
   }catch{
    if(signal.aborted)return;
    host.replaceChildren(RegionFailureNotice({region:'video-lessons',message:dict.common.error,retryLabel:dict.globalDictionary.retry,refresh:load}));

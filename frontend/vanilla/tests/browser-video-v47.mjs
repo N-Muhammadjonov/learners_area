@@ -169,8 +169,8 @@ await check('library: Uzbek labels and responsive 390px layout without overflow'
  try{
   await f.page.goto(base+'/app/video-lessons');
   await f.page.locator('[data-video-lesson-entry]').first().waitFor();
-  const nav=await f.page.locator('[data-video-header-sections]').textContent();
-  assert(nav.includes(uz.videoLessons.standaloneHeading),'uz heading: '+nav);
+  const heading=await f.page.locator('[data-video-standalone-list] h2').textContent();
+  assert.equal(heading,uz.videoLessons.standaloneHeading);
   assert.equal(await f.page.locator('[data-video-library-grid]').first().evaluate(n=>getComputedStyle(n).gridTemplateColumns.split(' ').length),1,'one column on phones');
   await noOverflow(f);
  }finally{await close(f);}
@@ -202,8 +202,8 @@ await check('standalone detail: YouTube embed rules, resume start, no autoplay, 
   assert.equal(await frame.getAttribute('sandbox'),'allow-scripts allow-same-origin allow-presentation');
   assert.equal(await frame.getAttribute('allow'),'encrypted-media; picture-in-picture; fullscreen');
   assert.equal(await frame.getAttribute('referrerpolicy'),'strict-origin-when-cross-origin');
-  assert.deepEqual(await f.page.locator('[data-video-tab]').evaluateAll(ns=>ns.map(n=>n.getAttribute('data-video-tab'))),['notes','vocabulary','summary']);
-  assert.equal(await f.page.locator('[data-video-tab=comprehension],[data-video-tab=gap]').count(),0,'standalone shows no comprehension/gap tabs');
+  assert.deepEqual(await f.page.locator('[data-video-tab]').evaluateAll(ns=>ns.map(n=>n.getAttribute('data-video-tab'))),['before','transcript','notes','comprehension','gap','vocabulary','opinion','summary']);
+  await f.page.locator('[data-video-tab=notes]').click();
   assert.equal(await f.page.locator('[data-video-notes]').getAttribute('data-video-notes'),'hidden');
   await f.page.locator('[data-video-notes-reveal]').click();
   assert.equal(await f.page.locator('[data-video-notes]').getAttribute('data-video-notes'),'shown');
@@ -213,15 +213,13 @@ await check('standalone detail: YouTube embed rules, resume start, no autoplay, 
   assert.deepEqual(f.errors,[]);
  }finally{await close(f);}
 });
-await check('standalone: transcript dialog opens with lookup text, closes on Escape and removes itself',async()=>{
+await check('standalone: authored transcript uses the same Transcript tab as Main',async()=>{
  const f=await fixture({view:r=>r==='/app/video-lessons/'+SA1?standaloneDetail():undefined});
  try{
   await f.page.goto(base+'/app/video-lessons/'+SA1);
-  await f.page.locator('[data-video-open-transcript]').click();
-  await f.page.locator('dialog.video-transcript-dialog[open]').waitFor();
-  assert((await f.page.locator('dialog.video-transcript-dialog').textContent()).includes('Hello there synthetic.'));
-  await f.page.keyboard.press('Escape');
-  await until(async()=>(await f.page.locator('dialog.video-transcript-dialog').count())===0,'dialog not removed');
+  await f.page.locator('[data-video-tab=transcript]').click();
+  assert((await f.page.locator('[data-video-transcript-panel]').textContent()).includes('Hello there synthetic.'));
+  assert.equal(await f.page.locator('[data-video-open-transcript]').count(),0);
  }finally{await close(f);}
 });
 await check('standalone vocabulary: save posts only the occurrence id, saved state is final',async()=>{
@@ -253,7 +251,7 @@ await check('standalone vocabulary failure shows a localized alert and keeps the
   assert(!await f.page.locator('[data-video-vocabulary] button').isDisabled());
  }finally{await close(f);}
 });
-await check('standalone summary: saves summary only, server state decides the visible verdict',async()=>{
+await check('standalone summary: preserves opinion and summary, server state decides the visible verdict',async()=>{
  const f=await fixture({
   view:r=>r==='/app/video-lessons/'+SA1?standaloneDetail():undefined,
   api:(p,{method})=>p.endsWith('/response')&&method==='POST'?{state:'completed'}:undefined,
@@ -264,7 +262,7 @@ await check('standalone summary: saves summary only, server state decides the vi
   await f.page.locator('[data-video-summary-input]').fill('I learned about synthetic things.');
   await f.page.locator('[data-video-save-response]').click();
   await f.page.locator('[data-video-response-state=saved]').waitFor();
-  assert.deepEqual(posts(f,'/response')[0].body,{summaryText:'I learned about synthetic things.'});
+  assert.deepEqual(posts(f,'/response')[0].body,{responseText:'',summaryText:'I learned about synthetic things.'});
   assert.equal(await f.page.locator('[data-video-state]').first().getAttribute('data-video-state'),'completed');
   assert.equal(await f.page.locator('[data-video-progress-state]').textContent(),en.videoLesson.stateCompleted);
  }finally{await close(f);}

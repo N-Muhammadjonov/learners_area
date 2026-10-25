@@ -7,7 +7,7 @@ const WRITING=['lessons','exam','translation','typing','topic-vocabulary','grade
 export function sectionIdentity(url,dict){
  const path=url.pathname,module=path.split('/')[2],tab=url.searchParams.get('tab');
  if(!['listening','reading','grammar','writing','vocabulary','video-lessons'].includes(module))return null;
- if(module==='video-lessons')return {module,key:'library',title:dict.videoLessons.standaloneHeading,index:path==='/app/video-lessons'};
+ if(module==='video-lessons')return {module,key:'library',title:dict.videoLessons.title,index:path==='/app/video-lessons'};
  if(module==='vocabulary'){
   const key=path.startsWith('/app/vocabulary/games')?'games':path==='/app/vocabulary'?(['revision','use','board','dictionary'].includes(tab)?tab:'words'):null;
   return key?{module,key,title:dict.vocabulary.tab[key],index:path==='/app/vocabulary'||path==='/app/vocabulary/games'}:null;
@@ -19,7 +19,7 @@ export function sectionIdentity(url,dict){
  if(module==='grammar'&&path==='/app/grammar'){const key=tab==='speaking'?'speaking':'writing';return {module,key,title:key==='speaking'?dict.grammar.forSpeaking:dict.grammar.forWriting,index:true};}
  const normalized=path==='/app/listening/academic'?'/app/listening/tests':path;
  const links=navigationLinks({module,dict}),link=links.find(item=>normalized===item.href||normalized.startsWith(item.href+'/'));
- return link?{module,key:link.key,title:link.label,index:normalized===link.href}:null;
+ return link?{module,key:link.key,title:module==='listening'&&link.key==='mcq'?'🎯 '+link.label:link.label,index:normalized===link.href}:null;
 }
 
 export function sectionHeader(context){

@@ -3,7 +3,7 @@ import {api} from '../../js/api-client.js';
 import {viewData} from '../../js/adapters/frontend.js';
 import {BackLink,RegionFailureNotice} from '../shared/presentation.js';
 import {createRecorder,isSupported,duration,extensionForMime} from './recorder.js';
-import {prepareRecordingPlayback,releaseRecordingPlayback} from '../shared/recording-playback.js';
+import {createRecordingPreview} from '../shared/recording-preview.js';
 import {uploadRecording} from './upload.js';
 /** Original SpeakingAiPage and AiExaminerSession. No client-side script sampling,
  * grading, fake transcription or inferred provider readiness. */
@@ -63,7 +63,7 @@ export function questionRecorder(context,{prompt,index,onBusyChange=()=>{},onSub
  const prep=prompt.part==='part2'?60:Math.max(0,prompt.prepSeconds??0),limit=prompt.part==='part2'?120:Math.max(1,prompt.answerSeconds??30);
  const busy=()=>['starting','prepping','recording','uploading','submitting'].includes(phase);
  const clear=()=>{clearInterval(timer);timer=null;};
- const cleanup=()=>{epoch++;clear();rec?.cancel();rec=null;controller?.abort();controller=null;pending=false;releaseRecordingPlayback(preview);preview=null;if(url){URL.revokeObjectURL(url);url=null;}onBusyChange(false);};
+ const cleanup=()=>{epoch++;clear();rec?.cancel();rec=null;controller?.abort();controller=null;pending=false;preview?.destroy();preview=null;if(url){URL.revokeObjectURL(url);url=null;}onBusyChange(false);};
  signal.addEventListener('abort',cleanup,{once:true});
  const b=(label,fn,klass='btn-secondary',extra={})=>{const x=action(label,fn,{class:klass,attrs:extra});ctl.append(x);return x;};
  function render(){if(signal.aborted||stopped)return;host.dataset.questionPhase=phase;if(phase!=='reviewing')preview?.pause();ctl.replaceChildren();onBusyChange(busy());
@@ -71,7 +71,7 @@ export function questionRecorder(context,{prompt,index,onBusyChange=()=>{},onSub
   if(phase==='starting')ctl.append(el('span',{role:'status'},dict.common.loading));
   if(phase==='prepping'){ctl.append(el('span',{'data-speak-preparing':'',role:'status'},`${t.preparing} ${duration(prepEnd-Date.now())}`));b(dict.common.cancel,discard,'btn-ghost');}
   if(phase==='recording'){ctl.append(el('span',{'data-speak-recording':'',role:'status',class:'text-band-bad'},`${t.recording} ${duration(Date.now()-started)} / ${duration(limit*1000)}`));b(t.stop,()=>void finish(),'btn-secondary',{'data-speak-stop':''});b(dict.common.cancel,discard,'btn-ghost');}
-  if(phase==='reviewing'&&blob){if(url){const fresh=!preview;preview??=el('audio',{src:url,controls:'',preload:'auto',class:'w-full'});ctl.append(preview);if(fresh)prepareRecordingPlayback(preview);}ctl.append(el('div',{'data-speak-review':'','data-speak-size':blob.size,'data-speak-duration-ms':blob.durationMs},`${Math.ceil(blob.size/1024)} KB · ${duration(blob.durationMs)}`));b(t.submit,()=>void submit(),'btn-primary',{'data-speak-submit':''});b(t.recordAgain,discard,'btn-ghost');}
+  if(phase==='reviewing'&&blob){if(url){preview??=createRecordingPreview({blob:blob.blob,url,dict,label:dict.speakingStudy.playback});ctl.append(preview.node);}ctl.append(el('div',{'data-speak-review':'','data-speak-size':blob.size,'data-speak-duration-ms':blob.durationMs},`${Math.ceil(blob.size/1024)} KB · ${duration(blob.durationMs)}`));b(t.submit,()=>void submit(),'btn-primary',{'data-speak-submit':''});b(t.recordAgain,discard,'btn-ghost');}
   if(phase==='uploading')ctl.append(el('span',{role:'status'},t.uploading));
   if(phase==='submitting')ctl.append(el('span',{role:'status'},t.submitting));
   if(phase==='done')ctl.append(el('section',{class:'card flex flex-col gap-2 p-4','data-speak-done':''},el('p',{class:'text-band-good'},t.saved),el('p',{},t.savedBody),b(t.viewHistory,()=>void context.navigate('/app/speaking/history'),'btn-ghost')));

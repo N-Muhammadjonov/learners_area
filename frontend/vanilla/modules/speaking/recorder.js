@@ -1,5 +1,6 @@
 import {el,listen} from '../../js/dom.js';
-import {captureAudioSession,prepareRecordingPlayback,releaseRecordingPlayback} from '../shared/recording-playback.js';
+import {captureAudioSession} from '../shared/recording-playback.js';
+import {createRecordingPreview} from '../shared/recording-preview.js';
 /** Port of src/lib/audio/recorder.ts and LocalAnswerRecorder.tsx.
  * Local practice recordings never leave the browser. The stop/cancel methods
  * release media tracks even on cancellation, rejection and route exit. */
@@ -46,9 +47,9 @@ export function localAnswerRecorder(context,{id,part,lock}){
  const host=el('div',{class:'mt-3 space-y-3','data-local-recorder':id}),actions=el('div',{class:'flex flex-wrap gap-2'}),output=el('div',{}),err=el('p',{role:'alert',class:'text-band-bad'});
  host.append(actions,output,err);
  const limit=part==='part2'?120:part==='part3'?45:30;
- let phase='idle',epoch=0,record=null,media=null,objectURL=null,timer=null,started=0,prepStart=0,busy=false,getting=false;
+ let phase='idle',epoch=0,record=null,media=null,objectURL=null,timer=null,started=0,prepStart=0,busy=false,getting=false,preview=null;
  const clear=()=>{if(timer)clearInterval(timer);timer=null;};
- const releaseAudio=()=>{releaseRecordingPlayback(output.querySelector('audio'));if(objectURL)URL.revokeObjectURL(objectURL);objectURL=null;output.replaceChildren();};
+ const releaseAudio=()=>{preview?.destroy();preview=null;if(objectURL)URL.revokeObjectURL(objectURL);objectURL=null;output.replaceChildren();};
  const destroy=()=>{epoch++;clear();record?.cancel();record=null;releaseAudio();getting=false;busy=false;lock(id,false);};
  signal.addEventListener('abort',destroy,{once:true});
  function setBusy(v){if(busy!==v){busy=v;lock(id,v);}}
@@ -58,7 +59,7 @@ export function localAnswerRecorder(context,{id,part,lock}){
   if(phase==='preparing'){actions.append(el('span',{role:'status','data-prep-count':''},`${t.prepare} ${duration(Math.max(0,60000-(Date.now()-prepStart)))}`));b(`${t.talk} 2:00`,()=>void start(),'btn-primary');b(t.cancel,()=>{clear();phase='idle';setBusy(false);render();});}
   if(phase==='recording'){actions.append(el('span',{role:'status','data-record-count':''},`${duration(Date.now()-started)} / ${duration(limit*1000)}`));b('■ '+t.stop,()=>void stop(),'btn-primary');}
   if(phase==='starting'||phase==='stopping')actions.append(el('span',{role:'status'},phase==='starting'?t.openingMic:t.preparingRecording));
-  if(phase==='idle'&&objectURL){if(!output.querySelector('audio')){const audio=el('audio',{src:objectURL,controls:'',preload:'auto',class:'max-w-full','aria-label':t.playback});output.append(el('div',{class:'flex flex-wrap items-center gap-2'},audio));prepareRecordingPlayback(audio);}b(t.deleteRecording,()=>{releaseAudio();media=null;err.textContent='';render();},'btn-secondary',{'data-delete-recording':id});}
+  if(phase==='idle'&&objectURL){if(!output.querySelector('audio')){preview=createRecordingPreview({blob:media.blob,url:objectURL,dict:context.dict,label:t.playback});output.append(preview.node);}b(t.deleteRecording,()=>{releaseAudio();media=null;err.textContent='';render();},'btn-secondary',{'data-delete-recording':id});}
  }
  function startClock(){clear();timer=setInterval(()=>{if(phase==='preparing'){const left=60000-(Date.now()-prepStart);const n=actions.querySelector('[data-prep-count]');if(n)n.textContent=`${t.prepare} ${duration(left)}`;if(left<=0)void start();}if(phase==='recording'){const elapsed=Date.now()-started;const n=actions.querySelector('[data-record-count]');if(n)n.textContent=`${duration(elapsed)} / ${duration(limit*1000)}`;if(elapsed>=limit*1000)void stop();}},200);}
  async function start(){if(getting||signal.aborted)return;getting=true;const e=++epoch;clear();releaseAudio();media=null;setBusy(true);phase='starting';render();err.textContent='';

@@ -21,7 +21,7 @@ export function mount(context){
   try{
    const data=programDTO(await viewData(url.pathname+url.search,signal));if(signal.aborted)return;
    const p=data.progress;
-   const heading=el('header',{},BackLink({fallbackHref:'/app/listening',label:dict.listening.practiceTitle}),el('h1',{class:'page-title'},'🎯 '+t.title),el('p',{class:'body-text'},t.subtitle),el('p',{class:'text-sm text-ink-500','data-listening-mcq-days-published':p.daysPublished},t.daysPublished.replace('{published}',String(p.daysPublished))),p.daysPublished?el('p',{class:'text-sm text-ink-500','data-listening-mcq-days-completed':p.daysCompleted},t.daysCompleted.replace('{done}',String(p.daysCompleted)).replace('{available}',String(p.daysPublished))):null);
+   const heading=el('header',{},BackLink({fallbackHref:'/app/listening',label:dict.listening.practiceTitle}),el('p',{class:'body-text'},t.subtitle),el('p',{class:'text-sm text-ink-500','data-listening-mcq-days-published':p.daysPublished},t.daysPublished.replace('{published}',String(p.daysPublished))),p.daysPublished?el('p',{class:'text-sm text-ink-500','data-listening-mcq-days-completed':p.daysCompleted},t.daysCompleted.replace('{done}',String(p.daysCompleted)).replace('{available}',String(p.daysPublished))):null);
    const cards=render({...data,dict,user:context.session.user,context});
    const nav=el('nav',{class:'flex justify-between gap-3','aria-label':dict.common.next});
    if(data.page>1)nav.append(el('a',{class:'btn-secondary',href:`/app/listening/mcq?page=${data.page-1}`},dict.people.previousPage));

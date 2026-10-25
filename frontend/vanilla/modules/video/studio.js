@@ -1,9 +1,10 @@
 import {el} from '../../js/dom.js';
 import {embedUrlFor,safeEmbedOrigin,formatClock} from './provider.js';
 import {createVideoVocabulary} from './vocabulary.js';
+import {createTedStudyPractice,findTedStudyPack} from './study-practice.js';
 
 /** Shared TED / PODCAST studio (original src/components/courses/VideoLessonStudio.tsx).
- * mode "standalone": tabs notes?/vocabulary/summary, transcript as a dialog, reflection recorder on Summary.
+ * mode "standalone": authored stages and A–I TED study practice, reflection recorder on Summary.
  * mode "course":     tabs before?/transcript?/notes?/comprehension?/gap?/vocabulary?/opinion/summary, transcript as a tab.
  * Grading, completion and progress are decided by the server; the client sends text and displays what comes back.
  * Everything it starts (player listeners, timers, requests, recorder, dialog) is torn down by destroy() or the route signal. */
@@ -15,8 +16,7 @@ let studioSeq=0;
 
 const tabClass=(active)=>`rounded-sm px-3 py-1.5 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal-600 ${active?'bg-signal-600 text-white':'bg-ink-100 text-ink-700 hover:bg-ink-200'}`;
 
-function tabsFor(mode,lesson,{hasTranscript,notes,comprehension,gapFill,vocabulary}){
- if(mode==='standalone')return [...(notes?['notes']:[]),'vocabulary','summary'];
+function tabsFor(studyPack,lesson,{hasTranscript,notes,comprehension,gapFill,vocabulary}){
  const list=[];
  if(lesson.beforeYouWatch?.trim())list.push('before');
  if(hasTranscript)list.push('transcript');
@@ -24,7 +24,7 @@ function tabsFor(mode,lesson,{hasTranscript,notes,comprehension,gapFill,vocabula
  if(comprehension>0)list.push('comprehension');
  if(gapFill>0)list.push('gap');
  if(vocabulary>0)list.push('vocabulary');
- list.push('opinion','summary');
+ if(!studyPack)list.push('opinion','summary');
  return list;
 }
 
@@ -44,7 +44,8 @@ export function createVideoStudio(context,{mode,video}){
  const comprehension=questions.filter(q=>q.stage==='comprehension');
  const gapFill=questions.filter(q=>q.stage==='gap_fill');
  const vocabWords=video.vocabulary.items;
- const tabs=tabsFor(mode,lesson,{hasTranscript,notes:notes.length>0,comprehension:comprehension.length,gapFill:gapFill.length,vocabulary:vocabWords.length});
+ const studyPack=mode==='standalone'?findTedStudyPack(lesson.title):null;
+ const tabs=tabsFor(studyPack,lesson,{hasTranscript,notes:notes.length>0,comprehension:comprehension.length,gapFill:gapFill.length,vocabulary:vocabWords.length});
  const tabIdBase=`video-studio-${++studioSeq}`;
 
  // ---- Mutable state (plain variables: high-frequency player data never re-renders the tabs) ----
@@ -58,7 +59,7 @@ export function createVideoStudio(context,{mode,video}){
  let opinion=progress?.responseText??'', summary=progress?.summaryText??'';
  let saving=false, requestError=false, savedResponse=null, notesShown=false;
  let progressRequest=null, mutation=null;
- let frame=null, frameTeardown=null, directHandle=null, transcriptHandle=null, transcriptOpening=false, recorder=null, recorderLoading=false;
+ let frame=null, frameTeardown=null, directHandle=null, recorder=null, recorderLoading=false;
  let panelRefs={checkButtons:[],saveButton:null,responseStatus:null,questionList:null,questions:[]};
 
  // ---- DOM skeleton (built once; only the visible panel and small status nodes change later) ----
@@ -69,7 +70,6 @@ export function createVideoStudio(context,{mode,video}){
  const liveLabel=el('span',{class:'text-xs text-ink-500','data-video-live-transcript':'no'},t.liveTrackingOff);
  const stateLabel=el('span',{class:'text-xs font-medium text-ink-700','data-video-progress-state':''});
  const meta=el('div',{class:'flex flex-wrap items-center gap-2'},liveLabel,stateLabel);
- const transcriptButton=mode==='standalone'&&hasTranscript?el('button',{type:'button',class:'btn-secondary w-fit','data-video-open-transcript':''},t.tabs.transcript):null;
  const vocabStatus=el('p',{role:'status',class:'text-sm text-ink-500'},t.vocabularyUnavailable);
  vocabStatus.hidden=video.vocabulary.ready;
  const tablist=el('div',{class:'flex flex-wrap gap-2',role:'tablist','aria-label':t.stagesLabel,'data-video-tablist':''});
@@ -81,7 +81,8 @@ export function createVideoStudio(context,{mode,video}){
  const tabButtons=new Map();
 
  section.append(stage,blockedNote,meta);
- if(transcriptButton)section.append(transcriptButton);
+ if(studyPack)section.append(createTedStudyPractice({pack:studyPack,initial:opinion,dict,signal:life,save:text=>writeLesson('response',{responseText:text})}));
+ if(studyPack&&!tabs.length){vocabStatus.hidden=true;tablist.hidden=true;panel.hidden=true;}
  section.append(vocabStatus,tablist,requestErr,panel,recorderHost);
 
  // ---- Player ----
@@ -240,7 +241,6 @@ export function createVideoStudio(context,{mode,video}){
   await writeLesson('answers',{answers:payload});
  }
  function saveResponse(){
-  if(mode==='standalone')return writeLesson('response',{summaryText:summary});
   return writeLesson('response',{responseText:opinion,summaryText:summary});
  }
 
@@ -349,7 +349,7 @@ export function createVideoStudio(context,{mode,video}){
   }
  }
  function mountPanel(){
-  panel.replaceChildren(buildPanel(tab));
+  if(tabs.length)panel.replaceChildren(buildPanel(tab));
   panel.setAttribute('aria-labelledby',`${tabIdBase}-tab-${tab}`);
   panel.setAttribute('data-video-tab-active',tab);
   paint();
@@ -378,7 +378,7 @@ export function createVideoStudio(context,{mode,video}){
 
  // ---- Reflection recorder (standalone Summary only; loaded on first use) ----
  function syncRecorder(){
-  if(mode!=='standalone')return;
+  if(mode!=='standalone'||studyPack)return;
   if(tab==='summary'&&!recorder&&!recorderLoading)loadRecorder();
   recorder?.setActive(tab==='summary');
  }
@@ -394,22 +394,6 @@ export function createVideoStudio(context,{mode,video}){
    if(!destroyed)recorderHost.append(el('p',{role:'alert'},dict.videoLesson.voiceSummary.failed));
   }finally{recorderLoading=false;}
  }
-
- // ---- Transcript dialog (standalone; loaded on first open) ----
- async function openTranscript(){
-  if(transcriptHandle||transcriptOpening)return;
-  transcriptOpening=true;
-  try{
-   const {openTranscriptDialog}=await import('./transcript-dialog.js');
-   if(destroyed)return;
-   transcriptHandle=openTranscriptDialog({
-    context:{...context,signal:life},id:lesson.id,dict,
-    text:timed.length?timed.map(line=>line.text).join('\n'):plain,
-    onClose:()=>{transcriptHandle=null;},
-   });
-  }finally{transcriptOpening=false;}
- }
- transcriptButton?.addEventListener('click',()=>openTranscript(),{signal:life});
 
  // ---- Direct media (owner-authorised file) or blocked notice ----
  if(isDirect){
@@ -441,7 +425,6 @@ export function createVideoStudio(context,{mode,video}){
   unmountFrame();
   progressRequest?.abort();progressRequest=null;
   const pending=mutation;mutation=null;pending?.abort();
-  transcriptHandle?.close();transcriptHandle=null;
   recorder?.destroy();recorder=null;
   directHandle?.destroy();directHandle=null;
   own.abort();
