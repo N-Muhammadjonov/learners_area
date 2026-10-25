@@ -1,0 +1,252 @@
+[
+  {
+    "id": "mcq_single",
+    "label": "Multiple choice (single answer)",
+    "answerModel": {
+      "kind": "choice",
+      "min": 2,
+      "max": 8
+    }
+  },
+  {
+    "id": "mcq_multi",
+    "label": "Multiple choice (two or three answers)",
+    "answerModel": {
+      "kind": "choice_multi",
+      "count": 2
+    }
+  },
+  {
+    "id": "matching",
+    "label": "Matching",
+    "answerModel": {
+      "kind": "labels",
+      "poolRequired": true
+    }
+  },
+  {
+    "id": "classification",
+    "label": "Classification",
+    "answerModel": {
+      "kind": "labels",
+      "poolRequired": true
+    }
+  },
+  {
+    "id": "form_completion",
+    "label": "Form completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "note_completion",
+    "label": "Note completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "table_completion",
+    "label": "Table completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "flow_chart_completion",
+    "label": "Flow-chart completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "summary_completion",
+    "label": "Summary completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "sentence_completion",
+    "label": "Sentence completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "short_answer",
+    "label": "Short answer",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 4
+    }
+  },
+  {
+    "id": "plan_labeling",
+    "label": "Plan labelling",
+    "answerModel": {
+      "kind": "labels",
+      "poolRequired": true
+    }
+  },
+  {
+    "id": "map_labeling",
+    "label": "Map labelling",
+    "answerModel": {
+      "kind": "labels",
+      "poolRequired": true
+    }
+  },
+  {
+    "id": "diagram_labeling",
+    "label": "Diagram labelling",
+    "answerModel": {
+      "kind": "labels",
+      "poolRequired": true
+    }
+  },
+  {
+    "id": "true_false_not_given",
+    "label": "TRUE / FALSE / NOT GIVEN",
+    "answerModel": {
+      "kind": "ternary",
+      "choices": [
+        "TRUE",
+        "FALSE",
+        "NOT GIVEN"
+      ]
+    }
+  },
+  {
+    "id": "yes_no_not_given",
+    "label": "YES / NO / NOT GIVEN",
+    "answerModel": {
+      "kind": "ternary",
+      "choices": [
+        "YES",
+        "NO",
+        "NOT GIVEN"
+      ]
+    }
+  },
+  {
+    "id": "multiple_choice",
+    "label": "Multiple choice",
+    "answerModel": {
+      "kind": "choice",
+      "min": 2,
+      "max": 5
+    }
+  },
+  {
+    "id": "multiple_choice_multi",
+    "label": "Multiple choice (two answers)",
+    "answerModel": {
+      "kind": "choice_multi",
+      "count": 2
+    }
+  },
+  {
+    "id": "matching_headings",
+    "label": "Matching headings",
+    "answerModel": {
+      "kind": "labels",
+      "poolRequired": true
+    }
+  },
+  {
+    "id": "matching_information",
+    "label": "Matching information",
+    "answerModel": {
+      "kind": "labels",
+      "poolRequired": true
+    }
+  },
+  {
+    "id": "matching_features",
+    "label": "Matching features",
+    "answerModel": {
+      "kind": "labels",
+      "poolRequired": true
+    }
+  },
+  {
+    "id": "matching_sentence_endings",
+    "label": "Matching sentence endings",
+    "answerModel": {
+      "kind": "labels",
+      "poolRequired": true
+    }
+  },
+  {
+    "id": "sentence_completion",
+    "label": "Sentence completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "summary_completion",
+    "label": "Summary completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "note_completion",
+    "label": "Note completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "table_completion",
+    "label": "Table completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "flow_chart_completion",
+    "label": "Flow-chart completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "diagram_label_completion",
+    "label": "Diagram label completion",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 3
+    }
+  },
+  {
+    "id": "short_answer",
+    "label": "Short answer",
+    "answerModel": {
+      "kind": "text",
+      "wordLimit": 4
+    }
+  },
+  {
+    "id": "classification",
+    "label": "Classification",
+    "answerModel": {
+      "kind": "labels",
+      "poolRequired": true
+    }
+  }
+]

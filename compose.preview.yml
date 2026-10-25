@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: services/backend/Dockerfile
+    env_file: .env
+    environment:
+      STORAGE_LOCAL_DIR: /data/uploads
+    volumes:
+      - ./.data/uploads:/data/uploads
+    ports:
+      - "3000:8000"
+    restart: unless-stopped

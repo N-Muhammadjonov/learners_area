@@ -17,7 +17,6 @@ import { listeningLearnerFacts } from "../src/lib/data/full-listening";
 import { listeningProduct, productSql, type ListeningProductKind } from "../src/lib/listening/product";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { ORIGINAL_TEST_ONE_ID } from "../src/lib/listening/original-test-one";
 
 /**
  * ACADEMIC LISTENING — the catalogue and the per-test hub.
@@ -46,22 +45,6 @@ const OWNER = "11111111-1111-4111-8111-111111111111";
 const LEARNER = "22222222-2222-4222-8222-222222222222";
 const OTHER = "33333333-3333-4333-8333-333333333333";
 const STAFF = "44444444-4444-4444-8444-444444444444";
-
-test('owner batch timestamp ties preserve explicit Test 2–32 ordinals on one scrolling catalogue',async()=>{
- const database=await createTestDatabase();
- try{
-  await database.query("insert into users(id,name,role,account_status)values($1,'Owner fixture','owner','active'),($2,'Learner fixture','student','active')",[OWNER,LEARNER]);
-  const ids:Record<number,string>={};
-  for(const n of [1,...Array.from({length:31},(_,i)=>32-i)]){
-   const [row]=await database.db.insert(listeningTests).values({...(n===1?{id:ORIGINAL_TEST_ONE_ID}:{}),title:'Unrelated display label '+(33-n),audioType:'audio',publicationState:'published',createdByUserId:OWNER,createdAt:new Date(n===1?'2026-01-01':'2026-01-02')}).returning();
-   ids[n]=row!.id;const sourceId='listening-test-'+n;
-   await database.db.insert(listeningPackages).values({testId:row!.id,sourceId,payload:{...fixtureB(),testId:sourceId},audioObjectKey:'fixture/'+n+'.mp3',sourceHash:'0'.repeat(64)});
-  }
-  const first=await academicListeningCards(LEARNER,1,database.db),second=await academicListeningCards(LEARNER,2,database.db);
-  assert.equal(first.total,32);assert.equal(first.cards.length,32);assert.equal(first.hasMore,false);assert.equal(second.cards.length,32);assert.equal(second.hasMore,false);
-  assert.deepEqual(first.cards.map(c=>c.testId),Array.from({length:32},(_,i)=>ids[i+1]));
- }finally{await database.close();}
-});
 
 function section(number: number, transcript: string) {
   return { number, title: `Part ${number}`, transcript, reviewRequired: false };
@@ -299,31 +282,6 @@ async function submit(database: Awaited<ReturnType<typeof createTestDatabase>>, 
   return attempt!.id;
 }
 
-test("original Test 1 uses the same nine-activity destination from Academic for owner and student", async () => {
-  const database = await createTestDatabase();
-  try {
-    const ids = await seed(database);
-    const payload = fixtureA();
-    await database.db.insert(listeningTests).values({ id: ORIGINAL_TEST_ONE_ID, title: "Listening Test 1", audioType: "audio", publicationState: "published", publishAt: new Date(), createdByUserId: OWNER });
-    await database.db.insert(listeningPackages).values({ testId: ORIGINAL_TEST_ONE_ID, sourceId: "listening-test-1", payload, audioObjectKey: "qa/original.mp3", sourceHash: "0".repeat(64), legacyRuntime: false });
-    for (const user of [{ id: OWNER, role: "owner" as const }, { id: LEARNER, role: "student" as const }]) {
-      const hub = await academicListeningTest(ORIGINAL_TEST_ONE_ID, user, database.db);
-      assert.equal(hub?.originalRuntime, true, `${user.role} must enter the original renderer`);
-      const card = (await academicListeningCards(user.id, 1, database.db)).cards.find(row => row.testId === ORIGINAL_TEST_ONE_ID);
-      assert.equal(card?.activityCount, 9, "catalogue count agrees with the original HTML");
-      assert.equal((await academicListeningTest(ids.a, user, database.db))?.originalRuntime, false, "other tests keep their registry");
-    }
-    await database.db.update(listeningPackages).set({ sourceId: "another-source" }).where(eq(listeningPackages.testId, ORIGINAL_TEST_ONE_ID));
-    assert.equal((await academicListeningTest(ORIGINAL_TEST_ONE_ID, { id: OWNER, role: "owner" }, database.db))?.originalRuntime, false, "the UUID alone never substitutes another source");
-    await database.db.update(listeningPackages).set({ sourceId: "listening-test-1" }).where(eq(listeningPackages.testId, ORIGINAL_TEST_ONE_ID));
-    await database.db.update(listeningTests).set({ publicationState: "draft" }).where(eq(listeningTests.id, ORIGINAL_TEST_ONE_ID));
-    assert.equal(await academicListeningTest(ORIGINAL_TEST_ONE_ID, { id: LEARNER, role: "student" }, database.db), null, "the redirect never bypasses publication permissions");
-    assert.equal((await academicListeningTest(ORIGINAL_TEST_ONE_ID, { id: OWNER, role: "owner" }, database.db))?.originalRuntime, true);
-  } finally {
-    await database.close();
-  }
-});
-
 test("A1–A6 the catalogue offers ONLY formal Academic full tests: category, publication and compatibility", async () => {
   const database = await createTestDatabase();
   try {
@@ -393,7 +351,7 @@ test("A10 no answer key or hidden explanation is exposed by the catalogue or a h
   }
 });
 
-test("A7 seventy Academic test summaries share one scrolling catalogue without disappearance or duplication", async () => {
+test("A7 seventy Academic tests paginate without disappearance or duplication", async () => {
   const database = await createTestDatabase();
   try {
     const ids = await seed(database);
@@ -429,9 +387,9 @@ test("A7 seventy Academic test summaries share one scrolling catalogue without d
     assert.equal(new Set(seen).size, seen.length, "no test is repeated between pages");
     assert.deepEqual([...seen].sort(), [...expected].sort(), "no test disappears");
 
-    // Old page bookmarks now resolve to the same complete scrolling list.
+    // A page entirely past the end is empty rather than an error, and says so.
     const beyond = await academicListeningCards(LEARNER, 99, database.db);
-    assert.deepEqual(beyond.cards.map(card=>card.testId),seen,"old page links return the same complete catalogue");
+    assert.deepEqual(beyond.cards, []);
     assert.equal(beyond.hasMore, false);
     assert.equal(beyond.total, expected.length);
   } finally {

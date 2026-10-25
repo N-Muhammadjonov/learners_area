@@ -29,7 +29,7 @@ test("R-V4-18 General checked detail reload is read-only, owned, gated by persis
     assert.deepEqual(review,checked!.result,'reload restores the actual Check projection');
     assert.equal(review![0]!.isCorrect,true);
     assert.deepEqual(review![0]!.acceptedAnswers,['the loan']);
-    assert.match(review![0]!.explanation!,/quoted section.*loan/i,'source-supported feedback survives a read-only reload');
+    assert.equal(review![0]!.explanation,null,'missing explanation stays missing');
     assert.deepEqual(await generalProgress(a!.id,imported.setId,env.db),[saved],'reading review does not update progress');
     const [foreign] = await generalProgress(b!.id,imported.setId,env.db);
     assert.equal(foreign,undefined);

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BackLink } from "@/components/ui/BackLink";
 import { Card } from "@/components/ui/Card";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { isStaff } from "@/lib/auth/roles";
@@ -31,6 +32,12 @@ export default async function ListeningLessonsPage() {
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-lessons">
+      <div>
+        <BackLink fallbackHref="/app/listening" label={dict.listening.practiceTitle} data-listening-lessons-back />
+        <h1 className="mt-2 font-display text-2xl text-ink-900">🎧 {t.title}</h1>
+        <p className="mt-1 text-sm text-ink-500">{t.subtitle}</p>
+      </div>
+
       {library.rows.length === 0 ? (
         <Card data-listening-lessons-empty>
           <h2 className="font-display text-lg text-ink-900">{t.emptyTitle}</h2>

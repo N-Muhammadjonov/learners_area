@@ -40,20 +40,16 @@ const code = (path: string) =>
 
 const HUB = "src/app/app/(shell)/listening/page.tsx";
 
-test("F1 the hub opens the owner's three visible destinations — and lists no content of its own", () => {
+test("F1 the hub opens the owner's four destinations — and lists no content of its own", () => {
   const hub = code(HUB);
-  const navigation = code("src/lib/nav/module-sections.ts");
+  const navigation = code("src/components/navigation/ModuleNavigation.tsx");
   const routes = [...navigation.matchAll(/href: "(\/app\/listening\/[a-z]+)"/g)].map(match => match[1]);
-  assert.deepEqual(routes, ["/app/listening/lessons", "/app/listening/tests", "/app/listening/mcq"]);
-  assert.match(code("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
-  assert.doesNotMatch(code("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation/);
-  for (const product of ["lessons", "academic", "mcqProgram"])
+  assert.deepEqual(routes, ["/app/listening/lessons", "/app/listening/academic", "/app/listening/general", "/app/listening/mcq"]);
+  assert.match(code("src/app/app/(shell)/listening/layout.tsx"), /<ModuleNavigation module="listening"/);
+  for (const product of ["lessons", "academic", "general", "mcqProgram"])
     assert.ok(navigation.includes(`dict.listening.${product}.title`));
   const links = code("src/components/navigation/ModuleSectionNav.tsx");
-  assert.match(links, /<InstantLink key=\{link.key\} href=\{href\} scroll=\{false\} intentPrefetch/,
-    "the four destinations remain real native links with bounded intent prefetch");
-  assert.match(links, /aria-current=\{selected \? "page"/,
-    "the selected destination still follows the actual URL");
+  assert.match(links, /<Link key=\{link.key\} href=\{href\}/);
   assert.doesNotMatch(hub, /data-listening-destination|className="card/);
 
   // No catalogue, no library component, no data read: a hub that lists content is where the wrong
@@ -63,9 +59,7 @@ test("F1 the hub opens the owner's three visible destinations — and lists no c
   assert.doesNotMatch(hub, /<\s*audio|autoPlay/, "and it starts nothing by itself");
 
   // Old bookmarks and old paging links still land here, and every destination exists as a route.
-  assert.match(hub, /requireActiveUser\(\)/, "the module door is still server-gated");
-  assert.match(hub, /redirect\("\/app\/listening\/lessons"\)/, "old bookmarks and paging URLs lead to the real Lessons section");
-  assert.match(code("src/app/app/(shell)/listening/lessons/page.tsx"), /data-route-usable="listening-lessons"/);
+  assert.match(hub, /searchParams: Promise<\{ page\?: string \}>/, "an older ?page= link is still accepted");
   assert.doesNotMatch(hub, /searchParams.*parseInt\(query\.page/s, "…and is simply unused: the hub has no pages");
   for (const route of ["lessons", "academic", "general", "mcq", "history"])
     assert.ok(existsSync(new URL(`../src/app/app/(shell)/listening/${route}/page.tsx`, import.meta.url)), `/app/listening/${route} exists`);
@@ -74,7 +68,7 @@ test("F1 the hub opens the owner's three visible destinations — and lists no c
 test("F2 each destination reads its OWN catalogue — no page borrows another product's reader", () => {
   const expectations: [string, string][] = [
     ["lessons", "listLessonLibrary"],
-    ["tests", "academicListeningCards"],
+    ["academic", "academicListeningCards"],
     ["general", "generalListeningCards"],
     ["mcq", "mcqProgramDays"],
   ];
@@ -95,7 +89,7 @@ test("F2 each destination reads its OWN catalogue — no page borrows another pr
   const mcq = code("src/lib/data/listening-mcq.ts");
   assert.match(mcq, /eq\(listeningTests\.programRef, MCQ_PROGRAM_REF\)/, "membership is the relation");
   assert.match(mcq, /sql`\$\{listeningTests\.programOrdinal\} is not null`/, "at an explicit ordinal");
-  assert.doesNotMatch(mcq, /listeningPackages\.payload/, "per-question audio reads source identity without loading package content");
+  assert.ok(!mcq.includes("listeningPackages"), "and it never consults a package's collection");
   assert.ok(!/collection/i.test(mcq), "no collection string appears in the programme reads at all");
 });
 
@@ -231,7 +225,7 @@ test("F3 a day is invisible to Academic Listening and General Listening — the 
   }
 });
 
-test("F4 the three sections are stated once, and the day's own address is not the Academic hub", () => {
+test("F4 the four doors are stated once, and the day's own address is not the Academic hub", () => {
   // The day page lives under the MCQ destination and goes back there, never to a hub of another
   // product.
   const day = code("src/app/app/(shell)/listening/mcq/day/[day]/page.tsx");
@@ -243,8 +237,8 @@ test("F4 the three sections are stated once, and the day's own address is not th
   const en = read("src/lib/i18n/en.ts");
   const uz = read("src/lib/i18n/uz.ts");
   for (const source of [en, uz]) {
-    assert.match(source, /title: "MCQ mastery"/, "the MCQ destination is named as its own product");
-    assert.match(source, /subtitle: "Three destinations|subtitle: "Uchta bo'lim/);
+    assert.match(source, /title: "Listening MCQ"/, "the MCQ destination is named as its own product");
+    assert.match(source, /subtitle: "Four separate destinations|subtitle: "To'rt alohida yo'nalish/);
   }
   assert.ok(!/Listening MCQ[\s\S]{0,80}Academic Listening/.test(en.slice(en.indexOf("mcqProgram: {"), en.indexOf("mcqProgram: {") + 600)), "the MCQ copy never borrows Academic's name");
 

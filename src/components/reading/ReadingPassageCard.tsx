@@ -3,7 +3,7 @@ import { StartPassageButton } from "@/components/reading/StartPassageButton";
 import { IconChevronRight, IconReading } from "@/components/ui/icons";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { ReadingPassageCard as CardData } from "@/lib/data/reading-library";
-import { questionTypeLabel, topicLabel } from "@/lib/reading-labels";
+import { topicLabel } from "@/lib/reading-labels";
 
 /**
  * One passage in the library.
@@ -25,7 +25,12 @@ export function ReadingPassageCard({
   dict: Dictionary;
   lang: "uz" | "en";
 }) {
-  const position = passage.passageNo ? `Passage ${passage.passageNo}` : null;
+  const position =
+    passage.passageNo && passage.testNo
+      ? `Test ${passage.testNo} · Passage ${passage.passageNo}`
+      : passage.passageNo
+        ? `Passage ${passage.passageNo}`
+        : null;
 
   const statusLabel =
     passage.status === "completed"
@@ -68,7 +73,6 @@ export function ReadingPassageCard({
         {topic && <dd>{topic}</dd>}
       </dl>
 
-      {!!passage.questionTypes?.length && <ul className="flex flex-wrap gap-1.5" data-passage-question-types>{passage.questionTypes.map(type=><li key={type} className="rounded-md border border-ink-100 bg-paper-sunken px-2 py-1 text-xs text-ink-700">{questionTypeLabel(type,lang)??type}</li>)}</ul>}
       {passage.status === "completed" && passage.lastScore !== null && (
         <p className="text-[0.875rem] text-ink-700" data-passage-score>
           {dict.readingHub.scoreShort

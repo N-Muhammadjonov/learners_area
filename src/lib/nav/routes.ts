@@ -36,11 +36,10 @@ const ENTRIES: Entry[] = [
   { prefix: "/app/reading/attempts", build: (d) => [{ label: d.nav.reading, href: "/app/reading" }, { label: d.reading.analysisTitle, href: "/app/reading" }] },
   { prefix: "/app/reading", exact: true, build: (d) => [{ label: d.nav.reading, href: "/app/reading" }] },
 
-  // Listening Tests: the canonical catalogue and its test hubs. The hub's last crumb names
+  // Academic Listening: the catalogue, then one test's hub. The hub's last crumb names
   // the catalogue, so a reader who arrived from a link always has a way back up.
-  { prefix: "/app/listening/tests", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/tests" }] },
-  { prefix: "/app/listening/academic/", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/tests" }] },
-  { prefix: "/app/listening/academic", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/tests" }] },
+  { prefix: "/app/listening/academic/", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/academic" }] },
+  { prefix: "/app/listening/academic", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.academic.title, href: "/app/listening/academic" }] },
   // General Listening is a catalogue of SECTIONS, one level deep: the section opens directly
   // as an attempt, so the last crumb names the catalogue the learner came from.
   { prefix: "/app/listening/general/", build: (d) => [{ label: d.nav.listening, href: "/app/listening" }, { label: d.listening.general.title, href: "/app/listening/general" }] },
@@ -97,7 +96,6 @@ const ENTRIES: Entry[] = [
   // button, and a reader who opens it from a link has no way up.
   { prefix: "/app/admin/materials", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admin.materialsTitle, href: "/app/admin/materials" }] },
   { prefix: "/app/admin/roster", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.reporter.roster.title, href: "/app/admin/roster" }] },
-  { prefix: "/app/admin/statistics", build: (d) => [{label:d.nav.management,href:"/app/management"},{label:d.nav.statistics,href:"/app/admin/statistics"}] },
   { prefix: "/app/admin/people", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.nav.adminUsers, href: "/app/admin/people" }] },
   { prefix: "/app/admin/admissions", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.admission.title, href: "/app/admin/admissions" }] },
   { prefix: "/app/admin/content", build: (d) => [{ label: d.nav.management, href: "/app/management" }, { label: d.nav.contentLibrary, href: "/app/admin/content" }] },

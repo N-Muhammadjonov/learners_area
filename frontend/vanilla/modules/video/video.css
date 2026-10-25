@@ -1,0 +1,4 @@
+/* Original src/app/globals.css (.video-transcript-dialog): loaded only when the transcript dialog opens. */
+.video-transcript-dialog { width: min(800px,calc(100vw - 24px)); max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; border: 1px solid #416a96; border-radius: 20px; padding: 24px; background: #0b2347 !important; color: #f3eee5; }
+.video-transcript-dialog::backdrop { background: #00102dbb; }
+.video-transcript-dialog :is(h2,p,span,div) { color: inherit; }

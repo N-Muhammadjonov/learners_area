@@ -168,11 +168,7 @@ export async function inspectListeningPackage(input: InspectInput): Promise<Insp
       info: e instanceof Error ? e.message.slice(0, 300) : undefined,
     });
   }
-  // A successfully converted DATA/PARTS or canonical Listening package is
-  // NATIVE content. Do not attach the original author HTML runtime to it:
-  // doing so routes learners into the legacy sandbox instead of the real
-  // 40-question exam/study activities, and may expose answer keys in client JS.
-  // Only the explicit no-question-source fallback above creates authoredRuntime.
+  if (entryPath) payload.authoredRuntime = {entryPath,files:runtimeFiles};
   // The probed recording is the truth, not a claimed manifest duration.
   payload.audio.durationSec = duration;
   payload.audio.path = audio.path;

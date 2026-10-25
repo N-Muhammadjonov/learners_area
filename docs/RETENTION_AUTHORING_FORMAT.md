@@ -376,15 +376,11 @@ a solved problem.
 
 ## Editing and deleting
 
-* **Change** always writes a new version (v2, v3, …). Previously scored
-  attempts keep their saved results and their assigned version identity.
-* **Archive** removes the text from future rotation; its authored source
-  versions remain. An admin can **Restore** it without creating a version.
-* **Delete** is irreversible and owner-only; it requires confirming the exact
-  text label. It removes the authored text, its versions and measurement
-  structure. Existing completed attempt records, recall answers, scores,
-  claim breakdowns and historical labels remain accessible. A live learner
-  attempt blocks permanent deletion until it finishes.
+* **Change** always writes a new version (`v2`, `v3`, …). Attempts that were
+  already scored keep pointing at the exact version they were given.
+* **Delete** archives. The text leaves rotation, learners stop receiving it, and
+  every attempt, score and version stays in the database.
+* **Restore** puts an archived text back into rotation without creating a version.
 * The **Uses** column counts finished attempts on the current version; the
   **Lifetime** column counts all finished attempts across every version.
   In-progress attempts are never counted.

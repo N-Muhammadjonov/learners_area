@@ -1,0 +1,47 @@
+/** V6 Phase2 product journeys. No live acceptance.
+ * Chromium library setup matches the preserved original harness. */
+import {chromium as playwright} from 'playwright-core';
+import chromium from '@sparticuz/chromium';
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {brotliDecompressSync} from 'node:zlib';
+import {execFileSync} from 'node:child_process';
+import path from 'node:path';
+// Package-provided Linux shared libraries; no system installation or production access.
+const deps=path.resolve(import.meta.dirname,'../node_modules');
+if(process.platform==='linux'){const tar=path.join(deps,'al2023.tar');fs.writeFileSync(tar,brotliDecompressSync(fs.readFileSync(path.join(deps,'@sparticuz/chromium/bin/al2023.tar.br'))));execFileSync('tar',['xf',tar,'-C',deps]);process.env.LD_LIBRARY_PATH=path.join(deps,'lib')+':'+(process.env.LD_LIBRARY_PATH??'');}
+const browser=await playwright.launch({executablePath:await chromium.executablePath(),args:chromium.args.filter(a=>!a.includes("single-process")&&!a.includes("disable-web-security")&&!a.includes("allow-running-insecure-content")),headless:true});
+
+import {fixtureSession,publicPolicy,viewFixture} from './fixtures.mjs';
+import en from '../js/i18n/en.js';import uz from '../js/i18n/uz.js';
+async function fixture({width=1440,height=900,locale='en',theme='day',status='active',role='student',policy=publicPolicy,handler}={}){
+ const context=await browser.newContext({viewport:{width,height}});await context.addCookies([{name:'la_locale',value:locale,url:base},{name:'la_theme',value:theme,url:base}]);await context.addInitScript(()=>{window.open=()=>null;});const page=await context.newPage();page.setDefaultTimeout(8000);const state={status,onboarded:true,requests:[],openRequest:null};
+ await context.route('**/api/**',async route=>{const r=route.request(),u=new URL(r.url()),path=u.pathname,body=r.method()==='GET'||!(r.headers()['content-type']??'').includes('application/json')?null:r.postDataJSON();state.requests.push({path,body});if(handler&&await handler({route,r,u,path,body,state,context}))return;const json=value=>route.fulfill({json:value});
+ if(path==='/api/frontend/public')return json(policy);
+ if(path==='/api/frontend/session'){const value=fixtureSession(role);value.session.user.accountStatus=state.status;return json(value);}
+ if(path==='/api/frontend/view'){const key=u.searchParams.get('route');return json({version:1,route:key,region:u.searchParams.get('region')??undefined,data:key==='/pending'?{openRequest:state.openRequest}:viewFixture(key.split('?')[0])});}
+ if(path==='/api/auth/state')return json({ok:true,role,accountStatus:state.status,expiresAt:Math.floor(Date.now()/1000)+3600});
+ if(path==='/api/auth/login'||path==='/api/auth/recovery/login')return json({ok:true,onboarded:state.onboarded,accountStatus:state.status});
+ if(path==='/api/auth/register'){state.status='pending';return json({ok:true,onboarded:false,accountStatus:'pending'});}
+ if(path==='/api/auth/reset/request')return json({ok:true,devResetUrl:'/reset-password/confirm?token=synthetic-reset'});
+ if(path==='/api/auth/reset/confirm')return body.token==='synthetic-reset'?json({ok:true}):route.fulfill({status:400,json:{error:'invalid_or_expired_token'}});
+ if(path==='/api/admission/request'||path==='/api/onboarding'||path==='/api/auth/logout')return json({ok:true});
+ if(path==='/api/notifications')return json({notifications:[],unread:0});
+ if(path==='/api/locale'||path==='/api/theme'){const key=path.slice(5);await context.addCookies([{name:'la_'+key,value:body[key],url:base}]);return json({ok:true});}
+ return route.fulfill({status:503,json:{error:'isolated_unconfigured'}});
+ });return {context,page,state};
+}
+
+const student={id:'00000000-0000-4000-8000-000000000001',name:'Synthetic student'};
+const scopes=role=>role==='owner'?['owner','teacher','student']:role==='student'?['student']:['teacher','student'];
+const summary=()=>({...viewFixture('/app').dashboard,profile:{targetBand:7.5},streak:6,writingAttempts:3,vocabDueCount:4,lastActivity:{module:'reading',href:'/app/reading/lessons?fixture=continue#note',at:'2026-10-17T10:00:00Z'},openAssignments:[{id:'synthetic-task',title:'Synthetic task',dueAt:'2026-10-20T10:00:00Z'}],nextLiveClass:{id:'synthetic-class',title:'Synthetic class',scheduledAt:'2026-10-20T11:00:00Z'},latestEvaluation:{overallEstimate:7,weaknesses:['Synthetic feedback'],checkedByName:'Public fixture'},skillCounts:{reading:2,listening:null,writing:3,speaking:0}});
+const mocks=()=>({tests:[{id:'synthetic-full',title:'Synthetic full mock',skill:'full'}],attempts:[{id:'synthetic-finished',mockTestId:'synthetic-full',title:'Synthetic full mock',skill:'full',startedAt:'2026-10-17T10:00:00Z',finishedAt:'2026-10-17T11:00:00Z',estimatedBand:7,rawScore:30},{id:'synthetic-unfinished',mockTestId:null,title:null,skill:null,startedAt:null,finishedAt:null,estimatedBand:null,rawScore:null}],finishedCount:1,catalogueUnavailable:false,attemptsUnavailable:false,attemptTitlesUnavailable:false});
+const types={pdf:'application/pdf',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',csv:'text/csv',json:'application/json',zip:'application/zip'};
+
+import {installResourceProbeV28} from './resource-probe-v28.mjs';
+const base=process.env.PREVIEW_URL??'http://127.0.0.1:4173', out=new URL(process.env.V28_NO_INSPECT?'../docs/evidence/v28/ownership-uninspected-control/':'../docs/evidence/v28/ownership/',import.meta.url);fs.mkdirSync(out,{recursive:true});
+const {context,page}=await fixture({handler:async({route,path,u})=>{if(path!=='/api/frontend/view')return false;const key=u.searchParams.get('route'),data=key.startsWith('/app/reports')?{reporter:{query:'',scopes:['student'],students:[]}}:{dashboard:summary(),openLessonsResult:{ok:true,lessons:[]},mock:mocks()};await route.fulfill({json:{version:1,route:key,region:u.searchParams.get('region')??undefined,data}});return true;}});
+await page.addInitScript(installResourceProbeV28);const cdp=await context.newCDPSession(page);const samples=[];
+async function sample(stage){await cdp.send('HeapProfiler.collectGarbage');samples.push({stage,counts:await cdp.send('Memory.getDOMCounters'),parent:await page.evaluate(()=>window.__v27probe())});}
+async function inspect(stage){const chunks=[];const chunk=({chunk})=>chunks.push(chunk);cdp.on('HeapProfiler.addHeapSnapshotChunk',chunk);await cdp.send('HeapProfiler.takeHeapSnapshot',{reportProgress:false,exposeInternals:true});cdp.off('HeapProfiler.addHeapSnapshotChunk',chunk);const raw=chunks.join(''),file='/home/user/v28-work/'+(process.env.V28_NO_INSPECT?'control-':'')+stage+'.heapsnapshot';fs.writeFileSync(file,raw);if(process.env.V28_NO_INSPECT)return;const h=JSON.parse(raw),fields=h.snapshot.meta.node_fields,types=h.snapshot.meta.node_types[0],n=h.nodes,rows=[];for(let i=0;i<n.length;i+=fields.length){const row=Object.fromEntries(fields.map((key,k)=>[key,n[i+k]])),name=h.strings[row.name];if(types[row.type]!=='native'||row.detachedness!==2||!(name.startsWith('<')||['Text','HTMLDocument','DocumentFragment'].includes(name)))continue;const r={heapId:row.id,name};try{const {result}=await cdp.send('HeapProfiler.getObjectByHeapObjectId',{objectId:String(row.id),objectGroup:'v28-inspect'});if(result.objectId){const v=await cdp.send('Runtime.callFunctionOn',{objectId:result.objectId,functionDeclaration:'function(){return {nodeName:this.nodeName,connected:this.isConnected,ownerIsParent:this.ownerDocument===document,rootName:this.getRootNode?.().nodeName,parentName:this.parentNode?.nodeName}}',returnByValue:true});r.exposed=v.result.value;r.exception=v.exceptionDetails?.text;}else r.unavailable=result.description;}catch(e){r.unavailable=e.message;}rows.push(r);}await cdp.send('Runtime.releaseObjectGroup',{objectGroup:'v28-inspect'});let native;try{native=await cdp.send('DOM.getDetachedDomNodes');}catch(e){native={unsupported:e.message};}fs.writeFileSync(new URL(stage+'-inspection.json',out),JSON.stringify({scope:'Normal CDP parent-realm exposed node properties; no sandbox bypass; temporary remote objects released.',rows,native},null,2));}
+try{await page.goto(base+'/app/reports');await page.evaluate(()=>window.__v28documentMarker=true);await page.locator('[data-reporter-form]').waitFor();await sample('initial-report');for(let i=0;i<3;i++)for(const path of ['/app','/app/mocks','/app/reports']){await page.evaluate(p=>{const a=document.createElement('a');a.href=p;document.querySelector('[data-shell-main]').append(a);a.click();a.remove();},path);await page.locator(path==='/app'?'[data-dashboard-content]':path==='/app/mocks'?'[data-mocks-content]':'[data-reporter-form]').waitFor();}await sample('settled-report');await inspect('live-report');try{await cdp.send('DOM.disable');}catch(e){fs.writeFileSync(new URL('dom-disable-scope.txt',out),e.message);}await page.evaluate(()=>{history.pushState(null,'','/login');dispatchEvent(new PopStateEvent('popstate'));});await page.locator('[data-shell]').waitFor({state:'detached'});assert(await page.evaluate(()=>window.__v28documentMarker));await sample('shell-disposed');await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(resolve)));await sample('shell-disposed-frame');await inspect('shell-disposed');}finally{fs.writeFileSync(new URL('samples.json',out),JSON.stringify(samples,null,2));await context.close();await browser.close();}

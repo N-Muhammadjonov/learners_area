@@ -1,0 +1,10 @@
+import {ApiError} from '../api-client.js';import {uuid} from './listening-v7.js';import {materialBlocksDTO} from './listening-activity-v8.js';
+import {videoStudioDTO} from './video-v47.js';
+export const OPEN_STATES=Object.freeze(['available','assigned','in_progress']);export const isOpen=state=>OPEN_STATES.includes(state);
+const states=new Set(['locked','scheduled',...OPEN_STATES,'completed']),obj=v=>v!==null&&typeof v==='object'&&!Array.isArray(v),nullable=v=>v===null||typeof v==='string',bad=()=>{throw new ApiError(502,'invalid_course_lesson');};
+const media=v=>v===null||typeof v==='string'&&/^\/api\/resources\/[a-zA-Z0-9_./%-]+$/.test(v)&&!/[\\\u0000-\u001f]/.test(v)&&!decodeURIComponent(v).split('/').some(s=>s==='.'||s==='..');
+export function lessonDTO(data,id,userId){if(!obj(data)||!('detail'in data))bad();if(data.detail===null)return null;const p=data.detail,l=p?.lesson;if(!obj(p)||p.ownerId!==userId||!obj(l)||l.id!==id||!uuid(id)||typeof l.title!=='string'||!nullable(l.summary)||!media(l.recordingUrl)||!nullable(p.unitTitle)||!states.has(p.state)||!nullable(p.notes)||p.completedAt!==null&&!(typeof p.completedAt==='string'&&Number.isFinite(Date.parse(p.completedAt)))||typeof p.videoAvailable!=='boolean'||!Array.isArray(p.materialBlocks))bad();
+ if(!isOpen(p.state)&&(p.notes!==null||p.videoAvailable||p.video!=null||p.materialBlocks.length))bad();
+ if(p.video!=null&&!p.videoAvailable)bad();materialBlocksDTO(p.materialBlocks);const ids=new Set();const blocks=p.materialBlocks.map(b=>{if(ids.has(b.id))bad();ids.add(b.id);return {id:b.id,type:b.type,textContent:b.textContent??null,originalName:b.originalName??null,linkUrl:b.linkUrl??null,objectKey:b.objectKey??null};});
+ return {lesson:{id:l.id,title:l.title,summary:l.summary,recordingUrl:l.recordingUrl},unitTitle:p.unitTitle,state:p.state,notes:p.notes,completedAt:p.completedAt,videoAvailable:p.videoAvailable,video:p.video==null?null:videoStudioDTO(p.video),materialBlocks:blocks};}
+export function stateACK(body,next){if(!obj(body)||body.ok!==true||body.state!==next)throw new ApiError(502,'invalid_lesson_state');return body.state;}

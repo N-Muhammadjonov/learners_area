@@ -133,7 +133,6 @@ export type RetentionReadingPayload = RetentionAttemptMeta & {
   phase: "reading";
   wordCount: number;
   bodyText: string;
-  occurrences?: import("@/lib/services/lexical/occurrence-spans").OccurrenceSpan[];
 };
 
 export type RetentionRecallPayload = RetentionAttemptMeta & {

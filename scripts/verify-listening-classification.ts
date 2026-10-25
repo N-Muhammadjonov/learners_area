@@ -52,7 +52,7 @@ function ok(condition: boolean, label: string, detail = "") {
 }
 
 /** The catalogue reader runs through the application's own drizzle path. */
-const { db } = await import("../src/db/client").then((module) => ({ db: module.db }));
+const { db } = await import("../src/db/tooling-client").then((module) => ({ db: module.db }));
 process.env.DATABASE_URL = url;
 
 async function cleanup() {

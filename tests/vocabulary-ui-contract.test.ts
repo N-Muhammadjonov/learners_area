@@ -21,8 +21,7 @@ test("Games is a lightweight library with history-aware dedicated routes for all
   assert.ok(studio.includes("router.push(`/app/vocabulary"));
   assert.match(studio, /const requestedTab = query.get\("tab"\)/);
   assert.doesNotMatch(studio, /window.history.replaceState/);
-  assert.match(read("src/components/shell/Topbar.tsx"), /<ModuleHeaderNavigation dict=\{dict\}/);
-  assert.doesNotMatch(read("src/app/app/(shell)/vocabulary/layout.tsx"), /<ModuleNavigation/);
+  assert.match(read("src/app/app/(shell)/vocabulary/layout.tsx"), /<ModuleNavigation module="vocabulary"/);
   assert.doesNotMatch(studio, /<VocabGamesPanel/);
   const route = vocabPage.slice(vocabPage.indexOf("export default async function VocabularyPage"));
   assert.ok(route.indexOf('if (value === "games") redirect') < route.indexOf("<VocabStudio"), "the legacy Games query redirects before Studio data is rendered");

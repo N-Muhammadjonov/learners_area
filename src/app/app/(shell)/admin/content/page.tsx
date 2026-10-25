@@ -1,10 +1,18 @@
 import Link from "next/link";
-import { Suspense } from "react";
 import { redirect } from "next/navigation";
-import { contentInventory } from "@/lib/data/content-inventory";
+import { count } from "drizzle-orm";
+import { db } from "@/db/client";
+import {
+  grammarTopics,
+  listeningTests,
+  readingPassages,
+  videoLessons,
+  writingPrompts,
+} from "@/db/schema";
 import { requireAdministrator } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
+import { isLive } from "@/lib/services/cms/publication";
 import { writingContentTotals } from "@/lib/services/writing/admin";
 
 export const metadata = { title: "Content" };
@@ -24,18 +32,26 @@ export default async function AdminContentPage() {
   const administrator = await requireAdministrator();
   if (!administrator) redirect("/app");
   const dict = getDictionary(await getLocale());
-  return <Suspense fallback={<div role="status" aria-busy="true" aria-label={dict.common.loading} data-async-loading="management-content-library" className="h-40 animate-pulse rounded-xl bg-ink-50" />}>
-    <ContentLibraryResults dict={dict} />
-  </Suspense>;
-}
 
-async function ContentLibraryResults({ dict }: { dict: ReturnType<typeof getDictionary> }) {
-  // Inventory and auxiliary writing counts are independent reads. Start all of
-  // them before awaiting the first result, but only after Owner/Admin DB gate.
-  const writingOtherPromise = writingContentTotals().catch(() => ({ total: 0, live: 0 }));
-  const inventory = await contentInventory();
+  const [readingRows, listeningRows, writingRows, grammarRows, videoRows] = await Promise.all([
+    db
+      .select({ state: readingPassages.publicationState, publishAt: readingPassages.publishAt })
+      .from(readingPassages),
+    db
+      .select({ state: listeningTests.publicationState, publishAt: listeningTests.publishAt })
+      .from(listeningTests),
+    db
+      .select({ state: writingPrompts.publicationState, publishAt: writingPrompts.publishAt })
+      .from(writingPrompts),
+    db.select({ value: count() }).from(grammarTopics),
+    db
+      .select({ state: videoLessons.publicationState, publishAt: videoLessons.publishAt })
+      .from(videoLessons),
+  ]);
 
-  const writingOther = await writingOtherPromise;
+  const writingOther = await writingContentTotals().catch(() => ({ total: 0, live: 0 }));
+  const published = (rows: { state: typeof readingRows[number]["state"]; publishAt: Date | null }[]) =>
+    rows.filter((row) => isLive({ publicationState: row.state, publishAt: row.publishAt })).length;
 
   const sections = [
     {
@@ -43,16 +59,16 @@ async function ContentLibraryResults({ dict }: { dict: ReturnType<typeof getDict
       title: dict.admin.readingTitle,
       href: "/app/admin/reading",
       materialsType: "reading" as const,
-      total: inventory.reading.total,
-      live: inventory.reading.live,
+      total: readingRows.length,
+      live: published(readingRows),
     },
     {
       key: "listening",
       title: dict.admin.listeningTitle,
       href: "/app/admin/listening",
       materialsType: "listening" as const,
-      total: inventory.listening.total,
-      live: inventory.listening.live,
+      total: listeningRows.length,
+      live: published(listeningRows),
     },
     {
       key: "writing",
@@ -60,8 +76,8 @@ async function ContentLibraryResults({ dict }: { dict: ReturnType<typeof getDict
       title: dict.admin.writingAdmin.title,
       href: "/app/admin/writing",
       materialsType: "writing" as const,
-      total: inventory.writing.total + writingOther.total,
-      live: inventory.writing.live + writingOther.live,
+      total: writingRows.length + writingOther.total,
+      live: published(writingRows) + writingOther.live,
     },
     {
       key: "grammar",
@@ -70,15 +86,15 @@ async function ContentLibraryResults({ dict }: { dict: ReturnType<typeof getDict
       materialsType: "grammar" as const,
       // Grammar topics carry no publication state, so "live" and "total" are the
       // same number here rather than a second workflow invented for the count.
-      total: inventory.grammar.total,
-      live: inventory.grammar.live,
+      total: grammarRows[0]?.value ?? 0,
+      live: grammarRows[0]?.value ?? 0,
     },
     {
       key: "video",
       title: dict.admin.videoLessonTitle,
       href: "/app/admin/video-lessons",
-      total: inventory.video.total,
-      live: inventory.video.live,
+      total: videoRows.length,
+      live: published(videoRows),
     },
   ];
 

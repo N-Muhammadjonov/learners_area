@@ -1,18 +1,2 @@
-import { requireActiveUser } from "@/lib/auth/current-user";
-import { getRetentionSummary } from "@/lib/data/retention-attempts";
-import { retentionJson, unauthenticated } from "@/lib/retention/http";
-import { db } from "@/db/client";
-
-/**
- * GET /api/retention/summary — "My memory".
- *
- * Real numbers from real terminal attempts: completed count, best score, the mean
- * of the latest up to ten, and the same per level. Nothing is inferred from a
- * trend line, and a learner with fewer than ten results is told the count that
- * was actually averaged.
- */
-export async function GET() {
-  const user = await requireActiveUser();
-  if (!user) return unauthenticated();
-  return retentionJson(() => getRetentionSummary(user.id, db));
-}
+// Transport only: Python owns supported methods and all API business logic.
+export { forwardToBackend as GET, forwardToBackend as POST, forwardToBackend as PUT, forwardToBackend as PATCH, forwardToBackend as DELETE, forwardToBackend as HEAD, forwardToBackend as OPTIONS } from "@/lib/backend/proxy";

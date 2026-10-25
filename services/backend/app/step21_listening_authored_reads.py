@@ -1,0 +1,133 @@
+"""Main-compatible Listening runtimes and checkpoint hydration GET endpoints."""
+from __future__ import annotations
+import json
+from pathlib import Path
+from fastapi import APIRouter,Request
+from . import main as core
+from .step17_listening_start_port import test_detail
+from .step17_listening_course_port import (CATALOGUE,SPEC,COURSE_KEY,ORIGINAL1,course_status,current_work,read_work,
+                                            runtime_source,state_key)
+from .step21_vocab_batch import normalize_term,normalize_pos,sense_key,legacy_sense_key
+from .step30_video_lexical import is_function
+router=APIRouter()
+PRIVATE={'Cache-Control':'private, no-store'}
+AUTHOR_HEADERS={**PRIVATE,'X-Content-Type-Options':'nosniff'}
+
+async def get_context(con,user,testid):
+    detail=await test_detail(con,user,testid,requires_package=True)
+    if detail=='sequence_locked':return None,core.j({'error':'sequence_locked'},403,PRIVATE)
+    if not detail:return None,core.j({'error':'not_found'},404,PRIVATE)
+    pkg=dict(detail[1]);payload=pkg.get('payload') or {}
+    if isinstance(payload,str):payload=json.loads(payload)
+    return {**pkg,'payload':payload},None
+
+async def vocabulary_session(con,testid,items):
+    # One indexed candidate read resolves all curated entries; preserve authored
+    # order and duplicate indexes. No user-specific cache crosses requests.
+    items=items if isinstance(items,list) else []
+    candidates=[];keys=set();terms=set()
+    for item in items:
+        data={'term':item['word'],'partOfSpeech':item['pos'],'definitionEn':item['def']}
+        key=sense_key(data);legacy=legacy_sense_key(data)
+        candidates.append((item,key))
+        if not is_function(item['word']):
+            keys.update((key,legacy));terms.update((item['word'].strip(),item['word'].strip().lower()))
+    rows=await con.fetch("""SELECT l.*,u.lexical_type AS unit_type,p.ipa AS unit_ipa,o.id AS occurrence_id
+        FROM lexemes l LEFT JOIN lexical_units u ON u.id=l.lexical_unit_id
+        LEFT JOIN LATERAL (SELECT ipa FROM lexical_unit_pronunciations WHERE lexical_unit_id=u.id LIMIT 1) p ON true
+        LEFT JOIN LATERAL (SELECT id FROM lexical_occurrences WHERE listening_test_id=$3 AND lexeme_id=l.id
+            AND resolution_status='resolved' ORDER BY section_number,start_char LIMIT 1) o ON true
+        WHERE l.sense_key=ANY($1::text[]) OR l.term=ANY($2::text[]) ORDER BY l.ctid""",list(keys),list(terms),core.uuid_value(testid)) if keys else []
+    result=[]
+    for item,key in candidates:
+        lex=None
+        if not is_function(item['word']):
+            legacy=legacy_sense_key({'term':item['word'],'partOfSpeech':item['pos'],'definitionEn':item['def']})
+            allowed={key,legacy};names={item['word'].strip(),item['word'].strip().lower()}
+            lex=next((row for row in rows if (row['sense_key'] in allowed or row['term'] in names) and
+                (row['sense_key']==key or sense_key({'term':row['term'],'partOfSpeech':row['part_of_speech'],'definitionEn':row['definition_en']})==key)),None)
+        presentation={target:item[source] for source,target in [('ex','example'),('also','also'),('quiz','quiz')] if source in item}
+        result.append({'senseId':str(lex['id']) if lex else None,'occurrenceId':str(lex['occurrence_id']) if lex and lex['occurrence_id'] else None,
+            'term':lex['term'] if lex else item['word'],'partOfSpeech':lex['part_of_speech'] if lex else item['pos'] or None,
+            'definitionEn':lex['definition_en'] if lex else item['def'],'translationUz':lex['translation_uz'] if lex else item['uz'] or None,
+            'lexicalType':lex['unit_type'] if lex else None,'ipa':lex['unit_ipa'] if lex else None,**presentation})
+    return result
+
+@router.get('/api/listening/full/{id}/authored')
+async def authored(req:Request,id:str):
+    user=await core.current_user(req,active=True)
+    if not user:return core.j({'error':'unauthenticated'},401,AUTHOR_HEADERS)
+    if not core.uuid_value(id):return core.j({'error':'not_found'},404,AUTHOR_HEADERS)
+    try:
+        db=await core.pool()
+        async with db.acquire() as con:
+            pkg,err=await get_context(con,user,id)
+            if err:return err
+            content=pkg['payload'];source=pkg['source_id']
+            if req.query_params.get('vocabulary')=='1':
+                return core.j({'vocabulary':await vocabulary_session(con,id,content.get('vocabulary',[]))},headers=AUTHOR_HEADERS)
+            original=(source in CATALOGUE or source=='listening-test-1' and id==ORIGINAL1)
+            definition=CATALOGUE.get(source) if original else None
+            if original:
+                from .listening_runtime import runtime as native_runtime
+                if source=='listening-test-1':
+                    definition={'number':1,'storageKey':'la_listening_test_1_v2','media':[{'path':'audio/full.mp3','objectKey':'listening/academic/test-01/full.mp3','contentType':'audio/mpeg'}]}
+                runtime=native_runtime(definition['number'])
+            else:runtime=content.get('authoredRuntime')
+            if not runtime:return core.j({'error':'not_found'},404,AUTHOR_HEADERS)
+            audio_key=pkg.get('audio_object_key')
+            image_key=pkg.get('image_object_key')
+            audio=content.get('audio') or {}
+            out={'course':None,'runtime':runtime,'audioUrl':f'/api/resources/{audio_key}?download=1',
+                 'nativePersistence':original,'additionalAudio':[{'path':m['path'],'url':f'/api/resources/{m["objectKey"]}?download=1'} for m in definition['media'][1:] if m['contentType'].startswith('audio/')] if definition else [],
+                 'imageUrl':f'/api/resources/{image_key}?download=1' if image_key else None,'vocabulary':[]}
+            if definition:out['storageKey']=definition['storageKey']
+            if definition and definition['media']:out['audioPath']=definition['media'][0]['path']
+            elif 'path' in audio:out['audioPath']=audio['path']
+            if 'imagePath' in content:out['imagePath']=content['imagePath']
+            return core.j(out,headers=AUTHOR_HEADERS)
+    except Exception:return core.j({'error':'temporarily_unavailable'},503,AUTHOR_HEADERS)
+
+async def loaded_values(con,user,testid,source):
+    row=await con.fetchrow('''SELECT values FROM listening_authored_checkpoints WHERE user_id=$1 AND test_id=$2''',user['id'],core.uuid_value(testid))
+    if row:
+        values=row['values']
+        return json.loads(values) if isinstance(values,str) else dict(values)
+    # Original state getter hydrates from an existing canonical native attempt.
+    attempt=await con.fetchrow('''SELECT * FROM listening_attempts WHERE user_id=$1 AND test_id=$2 ORDER BY started_at DESC LIMIT 1''',user['id'],core.uuid_value(testid))
+    if not attempt:return {}
+    questions=await con.fetch('''SELECT id,"order" FROM listening_questions WHERE test_id=$1 ORDER BY "order"''',core.uuid_value(testid))
+    draft=await con.fetchrow('SELECT answers,audio_position FROM listening_drafts WHERE attempt_id=$1',attempt['id'])
+    saved=await con.fetch('SELECT question_id,user_answer,is_correct FROM listening_answers WHERE attempt_id=$1',attempt['id'])
+    d=(json.loads(draft['answers']) if isinstance(draft['answers'],str) else draft['answers']) if draft else {}
+    answer_index={str(r['question_id']):dict(r) for r in saved}
+    answers={str(q['order']): (d.get(str(q['id']),d.get(q['id'],'')) if attempt['status']=='in_progress' else (answer_index.get(str(q['id']),{}).get('user_answer') or '')) for q in questions}
+    complete=attempt['status']=='completed'
+    state={'answers':answers,'attemptStatus':'in_progress' if attempt['status']=='in_progress' else 'submitted',
+         'submitted':complete,'attemptKey':str(attempt['id']),
+         'audioPosition':draft['audio_position'] if draft else 0,
+         'lastResults':[{'q':q['order'],'user':answer_index.get(str(q['id']),{}).get('user_answer') or '',
+                         'ok':bool(answer_index.get(str(q['id']),{}).get('is_correct'))} for q in questions] if complete else []}
+    values={state_key(source):json.dumps(state,separators=(',',':'))}
+    await con.execute('''INSERT INTO listening_authored_checkpoints(user_id,test_id,values,attempt_id)
+      VALUES($1,$2,$3::jsonb,$4) ON CONFLICT(user_id,test_id) DO NOTHING''',user['id'],core.uuid_value(testid),json.dumps(values),attempt['id'])
+    refreshed=await con.fetchrow('SELECT values FROM listening_authored_checkpoints WHERE user_id=$1 AND test_id=$2',user['id'],core.uuid_value(testid))
+    return (json.loads(refreshed['values']) if isinstance(refreshed['values'],str) else dict(refreshed['values'])) if refreshed else values
+
+@router.get('/api/listening/full/{id}/authored-state')
+async def authored_state(req:Request,id:str):
+    user=await core.current_user(req,active=True)
+    if not user:return core.j({'error':'unauthenticated'},401,PRIVATE)
+    if not core.uuid_value(id):return core.j({'error':'not_found'},404,PRIVATE)
+    db=await core.pool()
+    async with db.acquire() as con:
+        pkg,err=await get_context(con,user,id)
+        if err:return err
+        source=pkg['source_id']
+        if not runtime_source(id,source):return core.j({'error':'not_found'},404,PRIVATE)
+        values=await loaded_values(con,user,id,source)
+        work=await current_work(con,user['id'],id,source,values)
+        course=course_status(SPEC[source],work) if source in SPEC else None
+        return core.j({'values':{k:v for k,v in values.items() if k!=COURSE_KEY},'course':course},headers=PRIVATE)
+
+def install():core.app.include_router(router)

@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Native selection is temporary; only saved learner marks remain yellow. */
-.lexical-text-region ::selection, .lexical-text-region::selection { background: #bae6fd; color: #0c3050; }
-.lexical-text-region [data-lookup-active="true"] { background: #bae6fd; color: #0c3050; border-radius: 2px; }
-
 /* ===================================================================}
 
    Design tokens — the ONLY place a colour is written down
@@ -72,9 +68,6 @@
 
   /* Text: warm off-white for content, muted grey for metadata. */
   --ink-950: 10 12 23; /* #0A0C17 — deepest surface */
-  --accent: 126 211 255; --accent-strong: 164 225 255;
-  --signal-600: 126 211 255; --signal-700: 164 225 255;
-  --ink-950: 243 238 229;
   --ink-900: 243 238 229; /* #F3EEE5 — primary text */
   --ink-700: 226 220 209; /* #E2DCD1 */
   --ink-500: 168 167 175; /* #A8A7AF — muted text */
@@ -200,38 +193,6 @@
     *::after {
       animation-duration: 0.001ms !important;
       transition-duration: 0.001ms !important;
-    }
-
-    /* Owner-requested continuously visible motion, scoped to the touch welcome
-       and /login brand. Other routes continue to respect reduced motion.
-       Scoped !important is necessary because this base-layer wildcard is
-       itself !important. */
-    [data-touch-welcome] .la-welcome-brand-link,
-    [data-touch-welcome] .la-welcome-brand-link .brand-mark {
-      animation-duration: 3.64s !important;
-    }
-    [data-touch-welcome] .la-welcome-chip {
-      animation-duration: 3.37s !important;
-    }
-    [data-touch-welcome] .la-welcome-heading,
-    [data-touch-welcome] .la-welcome-cta {
-      animation-duration: .5s !important;
-    }
-    [data-touch-welcome] .la-welcome-text {
-      animation-duration: 3.30s !important;
-    }
-    [data-touch-welcome] .la-welcome-ring-one {
-      animation-duration: 22s !important;
-    }
-    [data-touch-welcome] .la-welcome-ring-two {
-      animation-duration: 28s !important;
-    }
-    [data-touch-welcome] .la-welcome-aurora {
-      animation-duration: 16s !important;
-    }
-    [data-auth-shell] [data-login-brand],
-    [data-auth-shell] [data-login-brand] .brand-mark {
-      animation-duration: 3.85s !important;
     }
   }
 }
@@ -378,6 +339,14 @@
   max-width: none;
   margin-inline: 0;
   width: 100%;
+}
+
+/* Campus destinations use the full learning surface from their first render.
+   This route marker is also rendered on the server, so no sidebar flashes while
+   loading a module. Explicit Focus preferences and exam controls stay separate. */
+[data-shell]:has([data-back-to-campus]) > [data-shell-sidebar],
+[data-shell-topbar]:has([data-back-to-campus]) :is([data-mobile-nav-toggle], [data-mobile-nav-overlay], [data-breadcrumbs]) {
+  display: none !important;
 }
 
 /* ---------------------------------------------------------------------------
@@ -1127,7 +1096,7 @@
 .game-frame--compact .race-feedback-slot { height: 7.5rem; min-height: 0; overflow-y: auto; scrollbar-width: thin; }
 .game-frame--compact .race-feedback { padding: .5rem .7rem; border-width: 1px; }
 .game-frame--compact .race-feedback p { overflow-wrap: anywhere; }
-.game-frame--compact [data-race-answer-boxes] { column-gap: 1.5rem; row-gap: .75rem; }
+.game-frame--compact [data-race-answer-boxes] { gap: .5rem; }
 .game-frame--compact [data-race-input] { min-height: 44px; }
 .retention-hub-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(16rem, 1fr); gap: 1.25rem; align-items: start; }
 .retention-level-options { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .6rem; }
@@ -1162,18 +1131,14 @@
 .la-welcome-main { position: relative; isolation: isolate; }
 .la-welcome-main::before { content: ""; position: absolute; inset: 10% 12%; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at center, rgb(var(--gold) / .07), transparent 65%); }
 .la-welcome-orbit { display: flex; gap: clamp(.6rem, 3vw, 1.5rem); margin-bottom: 2rem; pointer-events: none; }
-/* Touch welcome only. Desktop intro remains the original untouched MP4. */
-.la-welcome-brand-link { transform-origin: left center; animation: la-welcome-brand-float 3.64s ease-in-out infinite; }
-.la-welcome-brand-link .brand-mark { animation: la-welcome-mark-rock 3.64s ease-in-out infinite; }
-.la-welcome-chip { animation: la-chip-float 3.37s ease-in-out infinite; }
-.la-welcome-chip-1 { animation-delay: -.62s; } .la-welcome-chip-2 { animation-delay: -1.24s; } .la-welcome-chip-3 { animation-delay: -1.86s; } .la-welcome-chip-4 { animation-delay: -2.48s; } .la-welcome-chip-5 { animation-delay: -3.10s; }
+.la-welcome-chip { animation: la-chip-float 6s ease-in-out infinite; }
+.la-welcome-chip-1 { animation-delay: -1s; } .la-welcome-chip-2 { animation-delay: -2s; } .la-welcome-chip-3 { animation-delay: -3s; } .la-welcome-chip-4 { animation-delay: -4s; } .la-welcome-chip-5 { animation-delay: -5s; }
 .la-welcome-heading { animation: la-welcome-enter .5s ease-out both; }
 .la-welcome-cta { animation: la-welcome-enter .5s .12s ease-out both; }
-@keyframes la-chip-float { 0%, 100% { transform: translate3d(0, 1px, 0) rotate(-2deg); } 50% { transform: translate3d(0, -17px, 0) rotate(4deg); } }
-@keyframes la-welcome-brand-float { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -15px, 0); } }
-@keyframes la-welcome-mark-rock { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-4deg); } }
+@keyframes la-chip-float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-6px) rotate(2deg); } }
 @keyframes la-welcome-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 420px) { .la-welcome-orbit { gap: .55rem; } .la-welcome-orbit .module-emoji { width: 1.9rem; height: 1.9rem; } }
+@media (prefers-reduced-motion: reduce) { .la-welcome-chip, .la-welcome-heading, .la-welcome-cta { animation: none; } }
 
 .race-answer-box { font-family: var(--font-technical), ui-monospace, monospace; font-variant-numeric: tabular-nums; }
 
@@ -1186,7 +1151,7 @@
 
 /* Original lightweight motion: transform-only loops, no animation library. */
 h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spacing: -0.01em; }
-.la-welcome { position: relative; isolation: isolate; background: #0a1a39; color-scheme: dark; }
+.la-welcome { position: relative; isolation: isolate; background: #080f21; }
 .la-welcome-cosmos { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
 .la-welcome-aurora { position: absolute; width: min(90vw, 1100px); height: 70vh; top: 5%; left: 5%; background: radial-gradient(ellipse, #30628b35, transparent 65%); animation: la-aurora-drift 16s ease-in-out infinite alternate; }
 .la-welcome-ring { position: absolute; width: min(80vw, 800px); aspect-ratio: 1; border: 1px solid #e5bf5a30; border-radius: 50%; box-shadow: inset 0 0 60px #d3a94308, 0 0 50px #d3a94308; }
@@ -1201,7 +1166,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .listening-library-card { border-radius: 1.4rem; border-color: rgb(var(--ink-100)); transition: border-color .2s, transform .2s; }
 .listening-library-card:hover { border-color: rgb(var(--gold) / .6); transform: translateY(-2px); }
 .listening-library-badge { width: 100%; border-radius: 999px; padding: .45rem .8rem; font-weight: 700; background: rgb(var(--gold) / .12); }
-@media (prefers-reduced-motion: reduce) { .la-welcome-cta:hover, .listening-library-card:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .la-welcome-ring, .la-welcome-aurora { animation: none; } .la-welcome-cta:hover, .listening-library-card:hover { transform: none; } }
 
 /* Collection navigation and real mock overview, using the existing theme. */
 .listening-collection-tabs { display:flex; gap:1rem; overflow-x:auto; border-bottom:1px solid rgb(var(--ink-100)); }
@@ -1210,10 +1175,10 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .listening-collection-tabs button:focus-visible { outline:2px solid currentColor; outline-offset:-3px; }
 .listening-summary { padding:1.5rem; border-radius:1.4rem; }
 .mock-progress-track { display:block; width:100%; height:.7rem; margin-top:.5rem; accent-color:rgb(var(--gold)); }
-.la-welcome-text { animation:la-text-rise 3.3s ease-in-out infinite; }
-.la-welcome-text-second { animation-delay:.22s; }
+.la-welcome-text { animation:la-text-rise 2.4s ease-in-out infinite; }
+.la-welcome-text-second { animation-delay:.16s; }
 @keyframes la-text-rise { 0%,100% { transform:translateY(0); } 45% { transform:translateY(-5px); } }
-
+@media (prefers-reduced-motion:reduce) { .la-welcome-text { animation:none; } }
 
 /* Motion system (§9): selective, transform/opacity only, never on reading,
    writing, question text, long forms or tables. Durations follow the owner's
@@ -1290,9 +1255,6 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .listening-full-focus [data-listening-focus-content] { min-height: calc(100dvh - var(--listening-focus-bar-h)); }
 .listening-full-focus .listening-workspace { min-height: calc(100dvh - var(--listening-focus-bar-h)); border-radius: 0; }
 .listening-full-focus [data-authored-listening] iframe { height: calc(100dvh - var(--listening-focus-bar-h)); min-height: 0; border-radius: 0; }
-/* Activities own their Activities control; the Listening control belongs to the hub. */
-.listening-full-focus:has([data-authored-listening][data-activity-active="true"]) { --listening-focus-bar-h: 0px; }
-.listening-full-focus:has([data-authored-listening][data-activity-active="true"]) [data-listening-focus-backbar] { display: none; }
 @media (max-width: 639px) {
   .listening-full-focus .listening-workspace { padding: 1rem; }
 }
@@ -1707,526 +1669,6 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   .typing-stack { transition: none !important; }
 }
 
-/* LEARNERS AREA NIGHT-ONLY / CYAN-WAVE v1; DAY REMAINS EXACTLY UNCHANGED. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] {
-  --la-night-wave-paper: #030827;
-  --la-night-nav-bg: rgba(8, 32, 68, 0.40);
-  --la-night-nav-border: rgba(58, 172, 232, 0.24);
-  --la-night-nav-hover-bg: rgba(12, 51, 98, 0.54);
-  --la-night-nav-active-bg: rgba(20, 47, 77, 0.62);
-  --la-night-nav-active-border: rgba(230, 185, 79, 0.60);
-  --la-night-card-bg: rgba(7, 24, 52, 0.67);
-  --la-night-card-border: rgba(70, 151, 209, 0.23);
-  --la-night-header-bg: rgba(5, 21, 47, 0.58);
-  --la-night-label: #F3EEE5;
-  --la-night-muted: #A8A7AF;
-  --la-night-gold: #E6B94F;
-  --la-night-nav-radius: 11px;
-  --la-night-nav-row-height: 46px;
-  --la-night-nav-row-gap: 7px;
-  --la-night-blur: 8px;
-
-  background-color: var(--la-night-wave-paper);
-  background-image: url("/images/night/LA_NIGHT_DESKTOP_BACKGROUND.8458b14681fa.webp"), url("data:image/webp;base64,UklGRiACAABXRUJQVlA4IBQCAAAwDgCdASpgADYAPt1mrE+opaQiJXgMYRAbiWoAzUYg3F5mUocYNG23h58XTSd6FOz8fEBdGcXcV2hDby2ZXxZVQn6z3ddlistKx8LT+/a+Lhak43m60XI5S/eUMs4k2fRy8J1e50l/J8XMHgEvSTn/GckMRP92vcBkAAD+9Vi50JX77DGjRKp4+iNpJ1IGQ+Ybr7ektzH9YQJw83XyHdbjViiHkv811UFDfP1LEg85f2vIUzE04NlzI6jEeb5jHga9cS/9MhPAcxcQwOrq7OttkkUAl+AKM6B19+m2nR3Ocrbz8ZT9PQOHNxxg40POB7iNA69R0SlSWOa+iJc12P8LbbJlE/+H1sSF0Rxeb+EziDbUx01y/h7AHSub+7ziYaeGXH0MKshB6g8OrwYya3+JDlci68AYtoL8KE2AfuugsowjGXdMLImr7gh8WNy+FGZP+0lb1hrBRgYTlIU0N4U5dWplujUcnveoYwVhpZj0vbEU2bL1b3/8Mh0f8sQbek/ACTCDyGS9BifuBpNMDt1JCCBGZUXBiNQNRq6skjh8mbxdYMpO1JOzZyKx0H3aCEc+WFQrZrbuIDkMHhF//O7H8BAxZGr5DNSGhQHT0C2sUcsQiIbuWdlDerD+hmZQFP5Ehx+T/GjkL/bPkgvodP66CaP2/CDAHmuqLvxDxH1uuHUG6/ZIF7GaqUBcumzs6eN5y8AA");
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-/* One wallpaper lives on persistent shell only; no wall/surface duplication. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell-sidebar],
-[data-theme="night"]:not([data-focus="on"]) [data-shell-main] {
-  background: transparent;
-}
-[data-theme="night"]:not([data-focus="on"]) [data-shell-sidebar] {
-  border-color: rgba(70, 151, 209, 0.10);
-}
-[data-theme="night"]:not([data-focus="on"]) [data-shell-topbar] {
-  background-color: var(--la-night-header-bg);
-  border-color: var(--la-night-card-border);
-}
-
-/* The heading is text only: not a button, capsule, or dark slab. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] .sidebar-group {
-  background: none;
-  border: 0;
-  box-shadow: none;
-  border-radius: 0;
-  opacity: 1;
-  color: var(--la-night-label);
-  font-weight: 800;
-  font-size: 12px;
-}
-
-/* COMMON rectangle style: each link has its OWN translucent rectangle. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  min-width: 0;
-  height: var(--la-night-nav-row-height);
-  min-height: var(--la-night-nav-row-height);
-  border: 1px solid var(--la-night-nav-border);
-  border-radius: var(--la-night-nav-radius);
-  background-color: var(--la-night-nav-bg);
-  color: var(--la-night-label);
-  opacity: 1; /* NEVER fade icons/text using parent opacity */
-  padding-inline: 10px 12px;
-  gap: 10px;
-  backdrop-filter: blur(var(--la-night-blur));
-  -webkit-backdrop-filter: blur(var(--la-night-blur));
-}
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link:hover {
-  background-color: var(--la-night-nav-hover-bg);
-}
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-active {
-  background-color: var(--la-night-nav-active-bg);
-  border-color: var(--la-night-nav-active-border);
-  color: var(--la-night-label);
-}
-
-/* Gold icon stays fully opaque in its OWN little framed square. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-icon {
-  display: inline-flex;
-  flex: 0 0 36px;
-  height: 36px;
-  width: 36px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(230, 185, 79, 0.27);
-  border-radius: 10px;
-  background-color: rgba(36, 48, 70, 0.35);
-  color: var(--la-night-gold);
-  opacity: 1;
-}
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-label {
-  flex: 1 1 auto;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: var(--la-night-label);
-  opacity: 1;
-}
-
-/* The category has no common rectangle behind all links.
-   Set separate rectangular gaps, not contiguous borders. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-group + ul {
-  display: flex;
-  flex-direction: column;
-  gap: var(--la-night-nav-row-gap);
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-}
-[data-theme="night"]:not([data-focus="on"]) [data-shell-sidebar] nav,
-[data-theme="night"]:not([data-focus="on"]) [data-shell-sidebar] nav > div {
-  background: transparent;
-}
-
-/* Dashboard card glass. Keep native grid, data, buttons and focus mechanisms. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell-main] .card,
-[data-theme="night"]:not([data-focus="on"]) [data-shell-main] .panel {
-  background-color: var(--la-night-card-bg);
-  border-color: var(--la-night-card-border);
-  backdrop-filter: blur(var(--la-night-blur));
-  -webkit-backdrop-filter: blur(var(--la-night-blur));
-}
-
-/* Below md the source is the approved 1080x1920 mobile wallpaper. */
-@media (max-width: 767.98px) {
-  [data-theme="night"]:not([data-focus="on"]) [data-shell] {
-    background-image: url("/images/night/LA_NIGHT_MOBILE_BACKGROUND.05afe51af964.webp"), url("data:image/webp;base64,UklGRuoDAABXRUJQVlA4IN4DAAAwGwCdASpgAKoAPt1mrVEopT+iptErY/AbiWQA0bRDDbycri30xIENvcSXcBvQB2YcwHwQfnXYwqZ1+aMIGopB/AAf/5cwNGB1eMxeUy4Kj2I5l7npO31RDiesl8IWGZWScRG86aLno3Be6GKVx3b/C5J6eCqSAPiV3fRZxObCnQg1VK8UzbpmmM5KMgemtvnKuDh+ECrESgqtj7uhbp1wi6UxHtLCaBpMt8lA7bjnXYZ4++l/0yHt3fEwjMc8l2oVE9AQEF5pIUxqFcG2vvRtMbsr1lvkl/i7tDhXBRHzt6AAAP70iIek2n70tNq5a3RoUnW2OPOigPQ0aDrnmBk4IBUtl5SP+EjmzlpbzonR9DSZip/oMqH8XPBV8Vu91RNgOTqrb4gM0rZE8j/m/yQU6yTr1SQ7E3kK5dBix39UvVxuXyDLrxP4R/fxUgBaNBIGI963ccAdtvO9cW9d94onk6ncCuhXqeI+4FnKr7l5XdZ5jzHu6BCgUo/y1hic+N9XHpAFNkUKM7oGozbzyU9OfEqLtfXIAbjALEXn272MTUPX/Z0kTov3dif6lwoLp1ZIEQ/ymLpzBhRcPkYzqZVPKhKsYgLZLn1qffTVL8boF5C/AfzaLHerD8PVRVmaRbWokgun3nS/wU7Xd9dhiCupl/KR47yBxMJct6qD222Ih7BO9A8mUMP8krUgl4VjDA86dEFEwUisivJQxTfvfO4U7h46rYZ2+va6U74g2Qg3QkS++/N5EHZrk88getmslTBWm29mo5zwJrvgm0rm0ho7qevr38lk21//fv4z9nwcfnz5IwqlT8LGy6EEPx/97GO7cRA7nQJMBV6+impoNyDTOXLyn8bExCR3qYJyLb337Mo36/tS4l0MdTOzUjIUuwwPwR5RacSoiTNSzs2PKBBaXHPFhDQ5+KOhEHDF1gNSmnwwV6rWXRV3xhv+9qDRy9LqxS/P/PgyyF4re+IWyS5Dxz7F/qyhtnmopPxLhzGMYpfCFIgpfkwCD6wOcLbMuI43MKh6nT+dLP4UZ48XA9tRiU/qoYpK5l/5P8+S6YhGq0DcY4Q8H3A+fn+By4UCWu8Cq1wAKZ/HlkWZk0hq8NDNCKfLzZNJu0DH0KZ0Rb98O2j4bo7y8Lfv3CFfzu1gHCWxZW2GPOkIvKCT+NHD3pwgDHYhhqnyIfV+h65kF33TiC+YOcBYqHhd0EGJZxO5FHvmQddUEScMWMiqnlTqaX3ezxVLBTpKoPMPLhYt8BdE/YT1H+M+brnzQFtNnlL8PpQv8iQ4JV9OD7krj+zQO0NDWQk/zcLcgFvV0XWAAAA=");
-    background-position: center bottom;
-    background-size: cover;
-  }
-  /* Mobile drawer is an overlay, not a permanently exposed desktop sidebar. */
-  [data-theme="night"]:not([data-focus="on"]) #mobile-nav-drawer {
-    /* Opaque drawer: passage/management text must not bleed through the menu. */
-    background: var(--la-night-wave-paper);
-    border-color: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-}
-
-/* No overrides of [data-theme="day"] or global `.sidebar-link` outside Night scope. */
-
-/* The existing module symbol already has a frame; retain only the outer frame. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-icon .module-emoji {
-  width: 32px;
-  height: 32px;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-/* Mobile links sit directly on one continuous wallpaper, without a drawer slab. */
-@media (max-width: 767.98px) {
-  [data-theme="night"]:not([data-focus="on"]) [data-mobile-nav-overlay] {
-    background: var(--la-night-wave-paper) url("/images/night/LA_NIGHT_MOBILE_BACKGROUND.05afe51af964.webp"), url("data:image/webp;base64,UklGRuoDAABXRUJQVlA4IN4DAAAwGwCdASpgAKoAPt1mrVEopT+iptErY/AbiWQA0bRDDbycri30xIENvcSXcBvQB2YcwHwQfnXYwqZ1+aMIGopB/AAf/5cwNGB1eMxeUy4Kj2I5l7npO31RDiesl8IWGZWScRG86aLno3Be6GKVx3b/C5J6eCqSAPiV3fRZxObCnQg1VK8UzbpmmM5KMgemtvnKuDh+ECrESgqtj7uhbp1wi6UxHtLCaBpMt8lA7bjnXYZ4++l/0yHt3fEwjMc8l2oVE9AQEF5pIUxqFcG2vvRtMbsr1lvkl/i7tDhXBRHzt6AAAP70iIek2n70tNq5a3RoUnW2OPOigPQ0aDrnmBk4IBUtl5SP+EjmzlpbzonR9DSZip/oMqH8XPBV8Vu91RNgOTqrb4gM0rZE8j/m/yQU6yTr1SQ7E3kK5dBix39UvVxuXyDLrxP4R/fxUgBaNBIGI963ccAdtvO9cW9d94onk6ncCuhXqeI+4FnKr7l5XdZ5jzHu6BCgUo/y1hic+N9XHpAFNkUKM7oGozbzyU9OfEqLtfXIAbjALEXn272MTUPX/Z0kTov3dif6lwoLp1ZIEQ/ymLpzBhRcPkYzqZVPKhKsYgLZLn1qffTVL8boF5C/AfzaLHerD8PVRVmaRbWokgun3nS/wU7Xd9dhiCupl/KR47yBxMJct6qD222Ih7BO9A8mUMP8krUgl4VjDA86dEFEwUisivJQxTfvfO4U7h46rYZ2+va6U74g2Qg3QkS++/N5EHZrk88getmslTBWm29mo5zwJrvgm0rm0ho7qevr38lk21//fv4z9nwcfnz5IwqlT8LGy6EEPx/97GO7cRA7nQJMBV6+impoNyDTOXLyn8bExCR3qYJyLb337Mo36/tS4l0MdTOzUjIUuwwPwR5RacSoiTNSzs2PKBBaXHPFhDQ5+KOhEHDF1gNSmnwwV6rWXRV3xhv+9qDRy9LqxS/P/PgyyF4re+IWyS5Dxz7F/qyhtnmopPxLhzGMYpfCFIgpfkwCD6wOcLbMuI43MKh6nT+dLP4UZ48XA9tRiU/qoYpK5l/5P8+S6YhGq0DcY4Q8H3A+fn+By4UCWu8Cq1wAKZ/HlkWZk0hq8NDNCKfLzZNJu0DH0KZ0Rb98O2j4bo7y8Lfv3CFfzu1gHCWxZW2GPOkIvKCT+NHD3pwgDHYhhqnyIfV+h65kF33TiC+YOcBYqHhd0EGJZxO5FHvmQddUEScMWMiqnlTqaX3ezxVLBTpKoPMPLhYt8BdE/YT1H+M+brnzQFtNnlL8PpQv8iQ4JV9OD7krj+zQO0NDWQk/zcLcgFvV0XWAAAA=") center bottom / cover no-repeat;
-  }
-  [data-theme="night"]:not([data-focus="on"]) [data-mobile-nav-overlay] > button {
-    background-color: rgba(3, 8, 39, 0.18);
-  }
-}
-
-
-/* LEARNERS AREA DAY-ONLY / CYAN-WAVE v1; separately authorized 2026-10-08. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] {
-  --la-day-wave-paper: #D9FBFF;
-  --la-day-nav-bg: rgba(8, 32, 68, 0.62);
-  --la-day-nav-border: rgba(58, 172, 232, 0.40);
-  --la-day-nav-hover-bg: rgba(12, 51, 98, 0.76);
-  --la-day-nav-active-bg: rgba(20, 47, 77, 0.78);
-  --la-day-nav-active-border: rgba(230, 185, 79, 0.60);
-  --la-day-card-bg: var(--la-day-nav-bg);
-  --la-day-card-border: var(--la-day-nav-border);
-  --la-day-header-bg: rgba(8, 32, 68, 0.62);
-  --la-day-label: #172B45;
-  --la-day-muted: #4F6077;
-  --la-day-gold: #E6B94F;
-  --la-day-nav-radius: 11px;
-  --la-day-nav-row-height: 46px;
-  --la-day-nav-row-gap: 7px;
-  --la-day-blur: 8px;
-
-  background-color: var(--la-day-wave-paper);
-  --la-day-wallpaper: url("/images/day/LA_DAY_DESKTOP_BACKGROUND.61b34a5a3a32.webp");
-    --la-day-wallpaper-preview: url("data:image/webp;base64,UklGRuYBAABXRUJQVlA4INoBAADQDACdASpgADYAPt1mq1AopaOiprM8MRAbiWYAxygOFXA1PIYX+Tn42UKfZYC9f6y9h7RxrU8xZCNjy4MEdx02mraNJtjy26jQ0BoXHRKh/9elxLAf0qVAT2Pqy8F0/yrfUxL+lMG25OhfyIkBxDwA/upJukH/zN72e9eP//r0f/89H//PR/PMPSXs8Z+aswkUeE3hBrMDpSNepYJfl3UL1eZYYVTna/3hyCHCznCqlNWe3yGX8qXNnydZcFzQu7/BwRW6CeIr9uLZGCtzyLG+NAcBpkNby5bBi1A0w+Rns6yrMfzj+BfDXgf/SopCRb6nOw0HogrvHIETKQrNw6tgCAeAbp71jkSqDfjClDCLyMQYhYH+Q61HtUUj+O27ZZMJyOEeX7pn7XFyWkyL4zk67tGfkEWmNVSHLEHBWraLHQ+lHJ8rGl4VeXuCCdp+++CdGXFZyc+42k5GXU4KV099ICqmPkMoXtufqFKTTDtjKTZxbBl3EqVeLReVwuv2qwbvN7hXJje79tD+Z+sEYgCXGwjZ1qxVlzw4m107Q0Jwh/+lvY5kUkqFj1fnTRRBQKLn2SY4XUM1XTwKyBOCjC7ncmx7ANUqb3NFS4Ym1vVcObVda1atBqIAAAA=");
-  background-image: var(--la-day-wallpaper), var(--la-day-wallpaper-preview);
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-/* One wallpaper lives on persistent shell only; no wall/surface duplication. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell-sidebar],
-[data-theme="day"]:not([data-focus="on"]) [data-shell-main] {
-  background: transparent;
-}
-[data-theme="day"]:not([data-focus="on"]) [data-shell-sidebar] {
-  border-color: rgba(32, 92, 145, 0.10);
-}
-[data-theme="day"]:not([data-focus="on"]) [data-shell-topbar] {
-  background-color: var(--la-day-header-bg);
-  border-color: var(--la-day-card-border);
-}
-
-/* The heading is text only: not a button, capsule, or dark slab. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] .sidebar-group {
-  background: none;
-  border: 0;
-  box-shadow: none;
-  border-radius: 0;
-  opacity: 1;
-  color: var(--la-day-label);
-  font-weight: 800;
-  font-size: 12px;
-}
-
-/* COMMON rectangle style: each link has its OWN translucent rectangle. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  min-width: 0;
-  height: var(--la-day-nav-row-height);
-  min-height: var(--la-day-nav-row-height);
-  border: 1px solid var(--la-day-nav-border);
-  border-radius: var(--la-day-nav-radius);
-  background-color: var(--la-day-nav-bg);
-  color: #F3EEE5;
-  opacity: 1; /* NEVER fade icons/text using parent opacity */
-  padding-inline: 10px 12px;
-  gap: 10px;
-  backdrop-filter: blur(var(--la-day-blur));
-  -webkit-backdrop-filter: blur(var(--la-day-blur));
-}
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link:hover {
-  background-color: var(--la-day-nav-hover-bg);
-}
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-active {
-  background-color: var(--la-day-nav-active-bg);
-  border-color: var(--la-day-nav-active-border);
-  color: #F3EEE5;
-}
-
-/* Gold icon stays fully opaque in its OWN little framed square. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-icon {
-  display: inline-flex;
-  flex: 0 0 36px;
-  height: 36px;
-  width: 36px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(230, 185, 79, 0.27);
-  border-radius: 10px;
-  background-color: rgba(36, 48, 70, 0.35);
-  color: var(--la-day-gold);
-  opacity: 1;
-}
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-label {
-  flex: 1 1 auto;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: #F3EEE5;
-  opacity: 1;
-}
-
-/* The category has no common rectangle behind all links.
-   Set separate rectangular gaps, not contiguous borders. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-group + ul {
-  display: flex;
-  flex-direction: column;
-  gap: var(--la-day-nav-row-gap);
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-}
-[data-theme="day"]:not([data-focus="on"]) [data-shell-sidebar] nav,
-[data-theme="day"]:not([data-focus="on"]) [data-shell-sidebar] nav > div {
-  background: transparent;
-}
-
-/* Dashboard card glass. Keep native grid, data, buttons and focus mechanisms. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell-main] .card,
-[data-theme="day"]:not([data-focus="on"]) [data-shell-main] .panel {
-  background-color: var(--la-day-card-bg);
-  border-color: var(--la-day-card-border);
-  backdrop-filter: blur(var(--la-day-blur));
-  -webkit-backdrop-filter: blur(var(--la-day-blur));
-}
-
-/* Compact devices inherit the orientation-specific Day wallpaper. */
-@media (max-width: 767.98px) {
-  [data-theme="day"]:not([data-focus="on"]) [data-shell] {
-    background-image: var(--la-day-wallpaper), var(--la-day-wallpaper-preview);
-    background-position: center bottom;
-    background-size: cover;
-  }
-  /* Mobile drawer is an overlay, not a permanently exposed desktop sidebar. */
-  [data-theme="day"]:not([data-focus="on"]) #mobile-nav-drawer {
-    /* Preserve the approved light wallpaper palette with an opaque layer. */
-    background: var(--la-day-wave-paper);
-    border-color: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-}
-
-/* All rules above are restricted to Day outside focus mode. */
-
-/* The existing module symbol already has a frame; retain only the outer frame. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is([data-sidebar-group="main"], [data-sidebar-group="modules"], [data-sidebar-group="progress"], [data-sidebar-group="support"], [data-sidebar-group="management"]) .sidebar-link-icon .module-emoji {
-  width: 32px;
-  height: 32px;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-/* Mobile links sit directly on one continuous wallpaper, without a drawer slab. */
-@media (max-width: 767.98px) {
-  [data-theme="day"]:not([data-focus="on"]) [data-mobile-nav-overlay] {
-    background-color: var(--la-day-wave-paper);
-    background-image: var(--la-day-wallpaper), var(--la-day-wallpaper-preview);
-    background-position: center bottom;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-  [data-theme="day"]:not([data-focus="on"]) [data-mobile-nav-overlay] > button {
-    background-color: rgba(255, 255, 255, 0.08);
-  }
-}
-
-/* Named image roles: portrait/landscape compact devices; desktop otherwise. */
-@media (max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
-  [data-theme="day"]:not([data-focus="on"]) [data-shell] {
-    --la-day-wallpaper: url("/images/day/LA_DAY_PORTRAIT_BACKGROUND.322ba8eda1f7.webp");
-    --la-day-wallpaper-preview: url("data:image/webp;base64,UklGRigEAABXRUJQVlA4IBwEAACQGQCdASpgAKsAPt1mrVAopbKxKTG6ulAbiWQAzQST1IfN+ddc3ChFA3E/PoaaBvPbATXsZAHNRFH80iVHH3yYqLj2WT51rBwhlR+5juqqnXKplxRUBg5UOhJpVkKc3i5nIZSVvmHBHi7TH/d1Vn3OplchROAenItUYCRQ62/zhQNx4/JDTEKHaBoHBmbcZq/UzpVaDkEwUuStvR9BmG5t9kDPjldylO4jhYYHNRJZtOAp1AlAR/e27YUOd8dzfGTc5lyqTqso5VpbBZmdUNKuLoR2mgAA/uaeJ/w4t6dar//U4/9Tj/1OP0kgGML93PVsV1rHTCcXJ+jgIAAAACCzhfr4wmzWABLczq5QeE6vtdVK6XmwG3DIYPrsLOkP8UopUlGj/zyqyfCgVamz4l3kkr3XKIscbp1EYu8FeNcNUeaOwYW5J25hpjhp7X51QEQt3uhyq0x8HVCTJ2DF3EnRAJwuIQ7BlY62Q3LHKktWeQptHFTJt4G7ZY5x0s+r3fs/knR2XJmoZDQiSOtCCY+BYacfPyAbM2nxEnTH8SFRw9OM8AMVDon4RpOqh9Pr0jVYFmufdzbRRVy0kwABmfG0qCUYX//Xe9TbnCq1nQGEF4ulvoGEqQUuBoGQBSsGjVWq3YZz9xk5N/NK9zC+sbRgBnOq2vwNSpp7MKSpBXrcaqW3dhQ3RwbqvEAVwWWx0AcQCYl8C2EHETn/oKwyvDzVAfcBV9J3JaRlRb6aRPpQSjrTUxeeS9+60+YPXXwdPp/qnMzkC+ySpcbXTGsL1wF8QTvFqWPK51XOsC8eg+RzS7w0AfRnulBSLYqMe4Uge4mZ9Wmb7WovnfUuGI3T9G3uyFYD1vuoF2C3PxCVGOi9JX89fhf1Fa5jhiQ78NIb4LTPOVkf1wL9u9m7pHMy62oJZDRp1o2RLZyjHNolYtfx41TRbKXQ0wADm8iW/Zg7+LqWwIqv0R52/K0lxMWga6kJn6fJW4nA+aPdIgVY3JrfAxdkXTnQd/edlSkh5QSBEeeg8QZ76IZmWaFQtdw+WZuvKHkulvWyI/pdHWZpWkx76xck2b6Ix6r0inDeTYgFEODnaL8YRSvPMoq/xrXreexXI7elduwdOj3acEEv5Tl25icOnafHP1q7HEZovv2Uc946DLwRznI4+oFBnt6WorQ/XgKogqfZfbMzZLfGXOIHzLMCCwqOU7BK43HdvALeu8HVmStEgRhmgjr4fgQJMpwn0KzUes092HvS0qP6DfH4eXGo+SAV9yFESs5qKDqAKZQNLFFrVbQSCXyEijBzIVHZk0HL/jTRbKi5bau+bHP3wzyvCHnxMR4ch/LXRW5Yo2vEQ+eUq92HTlTcWEMyhvstllrENtgoKh+3GOOq55l8pMVyYVTGa6P18YAAAA==");
-    background-position: center bottom;
-  }
-}
-@media (max-width: 1024px) and (orientation: landscape), (max-width: 1366px) and (hover: none) and (pointer: coarse) and (orientation: landscape) {
-  [data-theme="day"]:not([data-focus="on"]) [data-shell] {
-    --la-day-wallpaper: url("/images/day/LA_DAY_LANDSCAPE_BACKGROUND.2c17bc511a25.webp");
-    --la-day-wallpaper-preview: url("data:image/webp;base64,UklGRggCAABXRUJQVlA4IPwBAAAwDQCdASpgADYAPt1kq1AopSOipBVdURAbiWYAwYgwD0GPyho4BONjl8gTXprI/1DIVNPPiKT7Gd6WyA71D0WpS2mJTqgC4OBqV9IvrTtZk01bKQYY0DVfovqDrFL/I4+HK3h67UTTi6ELg8Vk/xhNuAAA/uPaKl/+q+dfiBsb/9NI/9ZX/+Tj9fY769huhz2VXpu6m/100nVt7hdVPOiwmuWWTFfBS7uv5vLq3al7sRc1MbbzbfIMs9zjs46Bv6oDl4JyZFAHiKf6iMGaa9LDmY6sUTKb8kLvsL29+/SE+RPy+s0rJwD4JHtrois7DmgC4obN7p5/D9tKvXGQk1dqmaPzKBWr+EPGiuK8MKA8E/rJRgk8cfpuTs5gTxtdrX48UjEfXLrqctBuuIFXC9EMzjaZFJivo2vI5HMEcIxNGmPBLHD9rIdTJJ8qEzTAivr38Y2teVhXursVLHxzg/zBwajG+1vD4DGFVSTNmrGG/fOCdBYPSyFbsMfPx4vgQDN38FcVuUhL/NK9PhQdBZNpBE0vTFHtHjGLC3mJiSVO9qAaMgPlAiJdhWQZWcsEpkL9gpoKu4QU8VUtaezZHTyE4kqkVR8sRzQTIKtI8ntJvPTjybwDvqtmgGLYNVTccxIeYJDcM8PPPB26NSUqkRTvlPxjLLteGbRIwAAA");
-  }
-}
-/* Plain headings remain readable over both cyan and navy portions, without boxes. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] .sidebar-group,
-[data-theme="day"]:not([data-focus="on"]) [data-shell-main] > div > div > h1 {
-  text-shadow: 0 1px 3px rgba(255,255,255,.95), 0 0 6px rgba(255,255,255,.9);
-}
-
-/* Day actions use blue glass, with brighter borders for active/primary actions.
-   Keep disabled opacity, focus rings and native control behavior. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid),
-[data-theme="day"]:not([data-focus="on"]) [data-shell-topbar] :is(button, a[href="/notifications"]):not([data-mobile-nav-overlay] > button) {
-  background-color: var(--la-day-nav-bg);
-  color: #F3EEE5;
-  border: 1px solid rgba(58, 172, 232, 0.40);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid):hover,
-[data-theme="day"]:not([data-focus="on"]) [data-shell-topbar] :is(button, a[href="/notifications"]):not([data-mobile-nav-overlay] > button):hover {
-  background-color: var(--la-day-nav-hover-bg);
-}
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.btn-primary, .btn-gold-solid, .btn[aria-pressed="true"], .btn[aria-selected="true"]) {
-  border-color: rgba(230, 185, 79, 0.60);
-}
-
-/* Unified glass surfaces throughout the app and authentication screens.
-   Focus mode retains its original tokens and all original surfaces. */
-[data-theme="day"]:not([data-focus="on"]) {
-  --paper-raised: 8 32 68;
-  --paper-sunken: 12 51 98;
-  --accent-soft: 20 47 77;
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) {
-  --la-surface-glass: rgba(8, 32, 68, .74);
-  --la-surface-border: rgba(58, 172, 232, .40);
-}
-[data-theme="night"]:not([data-focus="on"]) {
-  --la-surface-glass: rgba(8, 32, 68, .40);
-  --la-surface-border: rgba(58, 172, 232, .24);
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) :is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], .input, dialog, [role="dialog"]):not([data-shell]):not([data-shell-sidebar]):not([data-shell-main]):not([data-mobile-nav-overlay]):not(#mobile-nav-drawer) {
-  background-color: var(--la-surface-glass);
-  border-color: var(--la-surface-border);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) :is([data-shell-main], [data-auth-shell]) :is(.card, .panel) {
-  background-color: var(--la-surface-glass);
-  border-color: var(--la-surface-border);
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) :is(.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .theme-btn, [data-locale-switcher] button, [data-auth-controls] button) {
-  background-color: var(--la-surface-glass);
-  color: #F3EEE5;
-  border: 1px solid var(--la-surface-border);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) :is(.btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .theme-btn, [data-locale-switcher] button):hover {
-  background-color: rgba(12, 51, 98, .76);
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) :is(.btn-primary, .btn-gold-solid, [data-theme-option][aria-pressed="true"], [data-locale-switcher] button[aria-pressed="true"]) {
-  border-color: rgba(230, 185, 79, .60);
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) .input::placeholder {
-  color: rgb(var(--ink-500));
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) [data-auth-controls] {
-  background: transparent;
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) :is([data-auth-brand], [data-auth-shell] > div > div:last-child) {
-  color: #F3EEE5;
-  text-shadow: 0 1px 3px #082044;
-}
-[data-theme="day"]:not([data-focus="on"]) [data-shell-main] > div > div > h1 {
-  text-shadow: 0 1px 3px #082044;
-}
-
-/* Dark text on the bright Day wallpaper; light text inside blue glass.
-   Local text tokens follow each surface, including nested metadata and forms. */
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) :is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], .input, dialog, [role="dialog"], [data-shell-topbar]):not([data-shell]):not([data-shell-sidebar]):not([data-shell-main]):not([data-mobile-nav-overlay]):not(#mobile-nav-drawer) {
-  --accent: 126 211 255; --accent-strong: 164 225 255;
-  --signal-600: 126 211 255; --signal-700: 164 225 255;
-  --ink-950: 243 238 229;
-  --ink-900: 243 238 229;
-  --ink-700: 234 239 247;
-  --ink-500: 225 233 243;
-  --ink-300: 205 223 237;
-  --ink-100: 58 105 151;
-  color: rgb(var(--ink-900));
-}
-[data-theme="day"]:not([data-focus="on"]) :is([data-sidebar-brand], [data-auth-brand]) {
-  --ink-900: 16 39 64;
-  --ink-500: 30 56 82;
-  --ink-300: 30 56 82;
-  color: rgb(var(--ink-900));
-  text-shadow: 0 1px 2px rgba(255,255,255,.65);
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) .brand-tagline {
-  font-weight: 500;
-  opacity: 1;
-}
-[data-theme="day"]:not([data-focus="on"]) [data-shell-main] :is(.page-title, [data-section-entry-frame] h1) {
-  color: #102740;
-  text-shadow: 0 1px 2px rgba(255,255,255,.65);
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) [data-auth-controls] [data-locale-switcher] button {
-  min-width: 44px;
-  min-height: 44px;
-}
-
-[data-theme="night"]:not([data-focus="on"]) [data-sidebar-brand] {
-  --ink-300: 205 223 237;
-}
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) .brand-tagline {
-  font-size: .8125rem;
-  line-height: 1.45;
-}
-
-/* Keep wallpaper text crisp: no glow or shadow around small UI labels. */
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) :is(.sidebar-group, [data-sidebar-brand], [data-auth-brand], [data-auth-shell] > div > div:last-child),
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) [data-shell-main] :is(.page-title, [data-section-entry-frame] h1),
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) [data-shell-main] > div > div > h1 {
-  text-shadow: none;
-}
-[data-theme="day"]:not([data-focus="on"]) [data-shell-main] {
-  --ink-900: 16 39 64;
-  --ink-700: 24 47 73;
-  --ink-500: 30 56 82;
-  --ink-300: 40 64 90;
-  color: rgb(var(--ink-900));
-}
-
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) .link-inline {
-  color: #F3EEE5;
-  background-color: var(--la-surface-glass);
-  border-color: var(--la-surface-border);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-/* Keep the existing dark Day lettering without a contour or glow.
-   Keep glass contents and focus mode in their existing typography palettes. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell] [data-shell-main] :is(h1, h2, h3, h4, h5, h6, p, span, div, label, li, dt, dd, a, small, strong, em):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], dialog, [role="dialog"], button, .flashcard-face, .flashcard-queue, table, pre, code)):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], dialog, [role="dialog"], button, .flashcard-face, .flashcard-queue, table, pre, code) *),
-[data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.sidebar-group, .brand-name, .brand-tagline),
-[data-theme="day"]:not([data-focus="on"]) [data-auth-shell] > div > div:last-child {
-  color: #102740;
-  -webkit-text-stroke: 0;
-  text-shadow: none;
-}
-@media (forced-colors: active) {
-  [data-theme="day"]:not([data-focus="on"]) [data-shell] :is(h1, h2, h3, h4, h5, h6, p, span, label, li, dt, dd, a, small, strong, em),
-  [data-theme="day"]:not([data-focus="on"]) [data-auth-shell] > div > div:last-child {
-    -webkit-text-stroke: 0;
-  }
-}
-
-/* Never inherit an outline into rectangular controls. */
-[data-theme="day"]:not([data-focus="on"]) [data-shell-main] :is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-signal-50"], dialog, [role="dialog"], button, .flashcard-face, .flashcard-queue, table, pre, code) {
-  -webkit-text-stroke: 0;
-}
-
-/* Only muted text outside cards and controls follows the Night heading color.
-   Preserve every card/control palette, Day styling and focus mode. */
-[data-theme="night"]:not([data-focus="on"]) [data-shell] :is(.page-subtitle, .body-text, .text-ink-700, .text-ink-500, .text-ink-300, .brand-tagline):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .tab, .chip, .badge, .link-inline, button, dialog, [role="dialog"], [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-white"], [class~="bg-amber-50"], [class~="bg-yellow-50"])):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .tab, .chip, .badge, .link-inline, button, dialog, [role="dialog"], [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-white"], [class~="bg-amber-50"], [class~="bg-yellow-50"]) *) {
-  color: #F3EEE5;
-}
-
-/* Approved replacement: dedicated tablet Night wallpaper. */
-@media (min-width: 768px) and (max-width: 1023.98px) {
-  [data-theme="night"]:not([data-focus="on"]) [data-shell] {
-    background-image: url("/images/night/LA_NIGHT_TABLET_BACKGROUND.eb7a5b8ca300.webp"), url("data:image/webp;base64,UklGRq4CAABXRUJQVlA4IKICAABwEgCdASpgAEgAPt1mqk6opa0iKJYMuaAbiWoAyB4m2j6BUXknZDkK7cB+YDz1ejA6mvekV/dPid1OZexmMRhRJCduV8p/smdzWHjZVdFLJHaG89aaxCPSBVIne9ORvF1wMLBU4kOEwuNzqbUpdZBrh6gtvIsuO3lCdPRiU/KEalpSUZFFdCzqjIlYCUaE4IqzaNjGMIWeKaoXgAAA/vW9oramUls9iiESQ6YLXyTbDo3XgqO/PBV16pHe/LtAL8nuPG+p/OiGUg2BVAgfasP2BXwep+FzKBRUiUsIJUTIKyYWtDBeKJmYmBRumtw/iPlTArOp/zI4Z/abrMzBJGLDX0O/pfplzH8XXTt0Slwl94mKpraKKSiMgPtoD2ErtaBb3w4XDKF24GVB2NFW2juHxbkCt4bTH42+M5ifsjOUWqYDPyB0NeVg8Ll3NOIWy7oFWbwXNyeuRCAsMp7CKK0B9bN0vrdlBoqtpYY0bkWGSegfwUSVuJuUCvNxvIB68zOc9Vn/5XCKNaztO89ofrIoOb+Vt1q+MxoHfD6X8g4RF2SkkAwjU4OjfXMT4tt7MOEYFlct7RV9sX4f6lnBQNty/tPDo1s+6nhPC7k9mUvd4rrFODWYocWu2j17wR4KTfodlvxcVTIcbGmfqX2Fl/CY0GPFaodW4kZ0y/fpSkRHhPumOum9zmD2VZvoj2O4fyuLUQBV6sxHTPKM1HnN8yvMHnsTEVYR9II8raIUQvs0O2ofHIudFK/KmPJXtGGCfXsRmHKbEFrDP9mHL6tS3doS3Y3qstHALRijiv1ffaBvP9QY1KZq5tajTfH5EOrKJliR0UweZqWxXaB59h+r9HL0gcpbQrrfTl+9Qr2/RQymFATEVWzaAn2McA/k8M/SUmAAAA==");
-  }
-}
-
 .typing-graph .typing-raw-line { stroke: rgb(var(--ink-300)); stroke-width: 1.5; }
 .typing-chart-legend { display: flex; justify-content: flex-end; gap: 1rem; font-size: .75rem; }
 .typing-chart-legend span:first-child { color: rgb(var(--accent)); }
@@ -2249,208 +1691,6 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .typing-graph line { opacity: .35; }
 .typing-graph .typing-raw-line { stroke: rgb(var(--ink-300)); }
 
-[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) .typing-stage-wrap {
+[data-theme]:not([data-focus="on"]) .typing-stage-wrap {
   background-color: rgb(8 32 68);
 }
-
-/* Writing: Night-mode tabs and the typing instruction stay readable against
-   the dark wallpaper. Day-mode colors and typing accuracy logic are untouched. */
-[data-theme="night"] [data-shell] [data-writing-tablist] [role="tab"],
-[data-theme="night"] [data-shell] .typing-footer {
-  color: #ffffff;
-}
-
-/* Dictionary structure follows the owner's reference; its blue glass palette
-   follows the existing site wallpaper in both themes. */
-[data-global-dictionary], [data-global-dictionary] *,
-.dictionary-folder-dialog, .dictionary-folder-dialog * {
-  --ink-900: 243 238 229 !important;
-  --ink-700: 234 239 247 !important;
-  --ink-500: 205 223 237 !important;
-  --ink-300: 180 205 225 !important;
-  --ink-100: 58 105 151 !important;
-  --paper-raised: 8 32 68 !important;
-  --paper-sunken: 12 51 98 !important;
-  --la-surface-glass: rgba(8, 32, 68, .74) !important;
-  --la-surface-border: rgba(58, 172, 232, .4) !important;
-  text-shadow: none !important;
-  -webkit-text-stroke: 0 !important;
-}
-[data-global-dictionary].dictionary-reader {
-  color-scheme: dark;
-  color: #f3eee5 !important;
-  background: var(--la-surface-glass);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(58, 172, 232, .4);
-  border-radius: 24px;
-  padding: clamp(12px, 2.5vw, 28px);
-}
-[data-global-dictionary] :is(h2,h3,h4,p,span,strong,em,button,input,summary) { color: inherit !important; }
-[data-global-dictionary] button { font: inherit; cursor: pointer; }
-[data-global-dictionary] button:disabled { cursor: default; }
-[data-global-dictionary] :is(button,summary):focus-visible { outline: 2px solid #0ea5e9; outline-offset: 3px; }
-[data-global-dictionary] .dictionary-search { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 6px 8px; border: 2px solid rgba(58, 172, 232, .4); border-radius: 999px; background: rgba(8, 32, 68, .82); }
-[data-global-dictionary] .dictionary-search:focus-within { border-color: #38bdf8; }
-[data-global-dictionary] .dictionary-search input { width: 0; min-width: 0; min-height: 44px; flex: 1; border: 0; outline: 0; background: transparent; font-size: clamp(17px, 2.2vw, 22px); }
-[data-global-dictionary] .dictionary-search input::placeholder { color: #cbddec; }
-[data-global-dictionary] :is(.dictionary-search-submit,.dictionary-clear) { flex-shrink: 0; min-width: 40px; min-height: 44px; border: 0; border-radius: 50%; background: transparent; color: #8ddaff !important; font-size: 28px; }
-[data-global-dictionary] .dictionary-directions { display: flex; flex-shrink: 0; gap: 2px; padding: 3px; background: rgba(12, 51, 98, .7); border-radius: 999px; }
-[data-global-dictionary] .dictionary-directions button { min-width: 44px; min-height: 42px; border: 0; border-radius: 999px; background: transparent; font-weight: 700; color: #cbddec !important; }
-[data-global-dictionary] .dictionary-directions button[aria-pressed="true"] { background: #0ea5e9; color: #fff !important; }
-[data-global-dictionary] .dictionary-results-area { margin-top: 24px; }
-[data-global-dictionary] :is(.dictionary-list-title,[data-dictionary-recent] h2) { margin-bottom: 16px; font-size: clamp(21px, 2.6vw, 28px); font-weight: 700; }
-[data-global-dictionary] .dictionary-result-list { display: grid; gap: 12px; }
-[data-global-dictionary] :is(.dictionary-result-row,[data-dictionary-recent-row]) { display: block; width: 100%; min-width: 0; margin: 0; padding: 17px 22px; border: 1px solid rgba(58, 172, 232, .4); border-radius: 22px; background: rgba(8, 32, 68, .82) !important; text-align: left; }
-[data-global-dictionary] :is(.dictionary-result-row:hover,[data-dictionary-recent-row]:hover,.dictionary-result-row[data-active="true"]) { border-color: #38bdf8; background: rgba(12, 51, 98, .88) !important; }
-[data-global-dictionary] .dictionary-result-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 16px; font-size: 21px; }
-[data-global-dictionary] .dictionary-result-heading strong { overflow-wrap: anywhere; font-weight: 600; }
-[data-global-dictionary] .dictionary-pos { color: #8ddaff !important; font-size: .85em; font-weight: 600; }
-[data-global-dictionary] .dictionary-preview { display: block; overflow: hidden; margin-top: 4px; color: #cbddec !important; font-size: 18px; text-overflow: ellipsis; white-space: nowrap; }
-[data-global-dictionary] [data-dictionary-recent] { padding: 0; background: transparent; }
-[data-global-dictionary] [data-dictionary-recent] > div:first-child { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-[data-global-dictionary] [data-dictionary-recent] > button { margin-top: 12px; }
-[data-global-dictionary] [data-dictionary-recent] .dictionary-recent-clear { padding: 4px; border: 0; background: transparent !important; color: #8ddaff !important; font-size: 18px; }
-[data-global-dictionary] .dictionary-level { padding: 3px 9px; border-radius: 10px; background: rgba(14, 165, 233, .20); color: #8ddaff !important; font-size: 15px; font-weight: 700; }
-[data-global-dictionary] .dictionary-query { display: block; margin-top: 4px; color: #cbddec !important; font-size: 13px; }
-[data-global-dictionary] .dictionary-entry { margin-top: 14px; }
-[data-global-dictionary] .dictionary-entry-nav button { min-height: 40px; border: 0; background: transparent; color: #9bddff !important; font-size: 14px; }
-[data-global-dictionary] .dictionary-entry-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0 20px; }
-[data-global-dictionary] .dictionary-entry-heading h2 { font-size: clamp(28px, 4vw, 38px); font-weight: 700; overflow-wrap: anywhere; }
-[data-global-dictionary] .dictionary-word-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-[data-global-dictionary] .dictionary-pronunciation { display: inline-flex; align-items: center; gap: 8px; }
-[data-global-dictionary] .dictionary-pronunciation [role="status"] { max-width: 210px; font-size: 13px; }
-[data-global-dictionary] .dictionary-pronounce { display: grid; place-items: center; flex-shrink: 0; width: 44px; min-height: 44px; padding: 10px; border: 1px solid rgba(58, 172, 232, .5); border-radius: 50%; background: rgba(14, 165, 233, .20); color: #8ddaff !important; }
-[data-global-dictionary] .dictionary-pronounce svg { width: 24px; height: 24px; }
-[data-global-dictionary] .dictionary-pronounce[aria-pressed="true"] { background: #0ea5e9; color: #fff !important; }
-[data-global-dictionary] .dictionary-entry-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 5px; color: #cbddec !important; font-size: 17px; }
-[data-global-dictionary] .dictionary-expand-all { padding: 8px 0; border: 0; background: transparent; color: #9bddff !important; font-size: 14px; }
-[data-global-dictionary] .dictionary-meanings { display: grid; gap: 14px; }
-[data-global-dictionary] .dictionary-meaning { overflow: hidden; border: 1px solid rgba(58, 172, 232, .4); border-radius: 20px; background: rgba(8, 32, 68, .68); }
-[data-global-dictionary] .dictionary-meaning-header { display: flex; align-items: flex-start; gap: 15px; padding: 20px; }
-[data-global-dictionary] .dictionary-meaning-header h3 { flex: 1; min-width: 0; }
-[data-global-dictionary] .dictionary-add-meaning { display: grid; flex: 0 0 44px; place-items: center; width: 44px; min-height: 44px; border: 1px solid #38bdf8; border-radius: 50%; background: rgba(14, 165, 233, .20); color: #8ddaff !important; font-size: 27px; font-weight: 700; }
-[data-global-dictionary] .dictionary-add-meaning:disabled { opacity: .65; }
-[data-global-dictionary] .dictionary-meaning-toggle { display: flex; align-items: baseline; flex-wrap: wrap; gap: 7px 12px; width: 100%; min-height: 44px; padding: 5px 0; border: 0; background: transparent; text-align: left; }
-[data-global-dictionary] .dictionary-meaning-toggle strong { flex: 1 1 160px; min-width: 0; overflow-wrap: anywhere; font-size: 20px; line-height: 1.5; font-weight: 600; }
-[data-global-dictionary] .dictionary-meaning-toggle .dictionary-pos { padding: 2px 9px; border-radius: 8px; background: rgba(63, 134, 215, .30); }
-[data-global-dictionary] .dictionary-chevron { margin-left: auto; font-size: 25px; }
-[data-global-dictionary] .dictionary-meaning-body { display: grid; gap: 22px; padding: 5px 25px 28px; }
-[data-global-dictionary] .dictionary-definition { font-size: 18px; line-height: 1.65; }
-[data-global-dictionary] .dictionary-definition h4 { margin-bottom: 5px; font-weight: 700; }
-[data-global-dictionary] .dictionary-examples { display: grid; gap: 18px; font-size: 18px; line-height: 1.65; }
-[data-global-dictionary] .dictionary-examples blockquote { margin: 0; }
-[data-global-dictionary] .dictionary-examples [lang="uz"] { margin-top: 4px; font-style: italic; }
-[data-global-dictionary] .dictionary-word-details { margin-top: 14px; padding: 8px 24px; border: 1px solid rgba(58, 172, 232, .4); border-radius: 20px; background: rgba(8, 32, 68, .68); }
-[data-global-dictionary] .dictionary-disclosure summary { min-height: 52px; padding: 14px 0; color: #f3eee5 !important; cursor: pointer; font-size: 20px; font-weight: 700; }
-[data-global-dictionary] .dictionary-disclosure summary::marker { color: #0ea5e9; }
-[data-global-dictionary] :is(.dictionary-related-items,.dictionary-collocations) { display: flex; flex-wrap: wrap; gap: 10px; padding: 4px 0 18px; font-size: 17px; line-height: 1.6; }
-[data-global-dictionary] .dictionary-collocations { flex-direction: column; }
-[data-global-dictionary] :is(.dictionary-related-items,.dictionary-collocations) button { padding: 5px 10px; border: 1px solid rgba(58, 172, 232, .4); border-radius: 9px; background: rgba(8, 32, 68, .82); color: #9bddff !important; text-align: left; }
-[data-global-dictionary] :is(.dictionary-owner-action,.dictionary-owner-controls button,.dictionary-error button) { min-height: 44px; padding: 8px 15px; border: 1px solid rgba(58, 172, 232, .4); border-radius: 10px; background: rgba(8, 32, 68, .82); color: #9bddff !important; }
-[data-global-dictionary] .dictionary-owner-controls { font-size: 14px; }
-[data-global-dictionary] .dictionary-error { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 14px; padding: 15px; border: 1px solid #f0b4a8; border-radius: 14px; background: rgba(112, 33, 20, .85); }
-[data-global-dictionary] .dictionary-empty { padding: 32px 12px; text-align: center; line-height: 1.6; }
-[data-global-dictionary] .dictionary-empty h2 { margin-bottom: 8px; font-size: 21px; font-weight: 600; }
-[data-global-dictionary] .dictionary-loading { border-radius: 20px; background: rgba(8, 32, 68, .6); }
-.dictionary-folder-dialog { background: rgba(8, 32, 68, .82) !important; color: #f3eee5 !important; backdrop-filter: none !important; }
-.dictionary-folder-dialog :is(h2,p,span,strong,label,legend,input,button) { color: #f3eee5 !important; }
-.dictionary-folder-dialog .btn-primary { background: #0ea5e9 !important; color: #fff !important; }
-@media (max-width: 600px) {
-  [data-global-dictionary] .dictionary-search { gap: 3px; padding: 5px; }
-  [data-global-dictionary] .dictionary-search-submit { min-width: 44px; }
-  [data-global-dictionary] .dictionary-directions button { min-width: 44px; }
-  [data-global-dictionary] :is(.dictionary-result-row,[data-dictionary-recent-row]) { padding: 14px 16px; border-radius: 18px; }
-  [data-global-dictionary] .dictionary-meaning-header { gap: 10px; padding: 16px 13px; }
-  [data-global-dictionary] .dictionary-meaning-toggle strong { font-size: 18px; }
-  [data-global-dictionary] .dictionary-meaning-body { padding: 0 16px 22px; }
-  [data-global-dictionary] :is(.dictionary-definition,.dictionary-examples) { font-size: 16px; }
-}
-
-/* Context dictionaries stay in the viewport corner; passage scroll and word
-   position do not move the panel. Authored Listening uses the same dock. */
-.dictionary-context-panel {
-  --accent: 126 211 255; --accent-strong: 164 225 255;
-  --signal-600: 126 211 255; --signal-700: 164 225 255;
-  --ink-950: 243 238 229;
-  --ink-900: 243 238 229;
-  --ink-700: 234 239 247;
-  --ink-500: 205 223 237;
-  --ink-300: 180 205 225;
-  --ink-100: 58 105 151;
-  --paper-raised: 8 32 68;
-  color-scheme: dark;
-  z-index: var(--z-modal, 60);
-  top: max(12px, env(safe-area-inset-top));
-  right: max(12px, env(safe-area-inset-right));
-  left: auto;
-  max-height: calc(100dvh - max(12px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom)));
-  overscroll-behavior: contain;
-  background: rgba(8, 32, 68, .96) !important;
-  color: #f3eee5 !important;
-  border-color: rgba(58, 172, 232, .5) !important;
-}
-.dictionary-context-panel :is(p,span,strong,label,select,button,input) { color: inherit !important; }
-.dictionary-context-panel :is(button,input,select) { background: rgba(12, 51, 98, .9); border-color: rgba(58, 172, 232, .5); }
-.dictionary-translation-divider { width: 100%; margin-block: 10px; border: 0; border-top: 1px solid rgba(141, 218, 255, .6); }
-
-/* Topic menus open from their left edge; small-screen menus fill the field. */
-[data-reading-filter="topic"] .dropdown-menu { left: 0; right: auto; }
-@media (max-width: 639px) {
-  [data-reading-filters] .dropdown-menu {
-    left: 0;
-    right: auto;
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-  }
-}
-
-/* All custom blue controls share readable local tokens, including native dialogs. */
-[data-theme]:not(:has([data-reading-full-focus])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.typing-icon-button,.flashcard-flip-button,.flashcard-face,.flashcard-queue,dialog) {
-  --ink-950:243 238 229; --ink-900:243 238 229; --ink-700:234 239 247;
-  --ink-500:225 233 243; --ink-300:205 223 237; --signal-600:126 211 255; --accent-strong:164 225 255;
-  color:#f3eee5;
-}
-[data-theme]:not(:has([data-reading-full-focus])) :is(.typing-icon-button,.flashcard-flip-button,.flashcard-face,dialog) {background-color:rgba(8,32,68,.96);}
-[data-theme] dialog.interaction-confirm-dialog :is(h2,p,button) {color:#f3eee5;}
-[data-theme] [data-people-name] {color:inherit;text-decoration:none;}
-[data-theme] [data-people-name]:hover {text-decoration:underline;}
-
-/* Touch welcome is always navy even when the outer app theme is Day.
-   Override the Day shell's dark brand text only on this welcome lock-up. */
-.la-welcome [data-landing-brand-link] [data-sidebar-brand] {
-  --ink-900: 243 238 229;
-  color: #f3eee5;
-  text-shadow: none;
-}
-.la-welcome [data-landing-brand-link] .brand-name {
-  color: #f3eee5;
-  text-shadow: none;
-}
-
-/* Blue study surfaces own their text tokens in both Day and Night. */
-[data-theme] .flashcard-queue-item {
-  background: #0b2347; color: #f3eee5; border-color: #416a96;
-}
-[data-theme] .flashcard-queue-item.is-current { background: #123563; border-color: #e7c764; }
-[data-theme] .flashcard-queue-item :is(p,span) { color: #f3eee5; }
-[data-theme] :is([data-management-statistics],[data-learning-summary],[data-result-history]) :is(.chip,a.card) {
-  background: #0b2347; color: #f3eee5; border-color: #416a96;
-}
-[data-theme] :is([data-management-statistics],[data-result-history]) .chip-active { background: #205891; color: #fff; border-color: #8ddaff; }
-[data-theme] .race-answer-box--correct { border-color: #4ade80; background: #16a34a; color: #fff; }
-[data-theme] .race-feedback--correct { border-color: #4ade80; background: #103c30; }
-[data-theme] .race-feedback--correct .race-feedback__title { color: #86efac; }
-.revision-flip-scene { perspective: 1400px; }
-.revision-flip-card { position: relative; display: grid; min-height: 260px; transform-style: preserve-3d; transition: transform .52s cubic-bezier(.2,.7,.2,1); }
-.revision-flip-card[data-flipped="true"] { transform: rotateY(180deg); }
-.revision-flip-face { grid-area: 1/1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .75rem; padding: 1.5rem; background: #0b2347; color: #f3eee5; border: 1px solid #416a96; border-radius: 20px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-.revision-flip-back { transform: rotateY(180deg); }
-.revision-flip-face :is(p,span) { color: inherit; }
-.video-transcript-dialog { width: min(800px,calc(100vw - 24px)); max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; border: 1px solid #416a96; border-radius: 20px; padding: 24px; background: #0b2347 !important; color: #f3eee5; }
-.video-transcript-dialog::backdrop { background: #00102dbb; }
-.video-transcript-dialog :is(h2,p,span,div) { color: inherit; }
-.dictionary-folder-dialog { color-scheme: dark; }
-.dictionary-folder-dialog select { background: #0b2347 !important; color: #f3eee5 !important; min-height: 48px; }
-.dictionary-folder-dialog option { background: #0b2347; color: #f3eee5; }

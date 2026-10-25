@@ -105,7 +105,8 @@ export function VocabGamesPanel({
     <div className="flex flex-col gap-4" data-games-library>
       <Link href="/app/vocabulary" prefetch={false} className="btn-ghost w-fit" data-games-back-to-vocabulary>← {dict.nav.vocabulary}</Link>
       <header>
-        <p className="text-sm text-ink-500">{t.games.hint}</p>
+        <h1 className="font-display text-2xl text-ink-900">{t.games.title}</h1>
+        <p className="mt-1 text-sm text-ink-500">{t.games.hint}</p>
       </header>
       <section className="card p-4" aria-label={t.games.set.label}>
         <div className="grid gap-2 sm:grid-cols-2">

@@ -143,7 +143,6 @@ export type ListeningAuthoredRuntime = z.infer<typeof listeningAuthoredRuntimeSc
 
 /** Structural view the semantic pass needs; both schemas below satisfy it. */
 export type ListeningDomainCheck = {
-  collection?: string;
   audio: { path?: string | undefined; durationSec: number };
   imagePath?: string | null | undefined;
   sections: ListeningSection[];
@@ -161,7 +160,6 @@ export type ListeningDomainCheck = {
  */
 export function listeningDomainIssues(v: ListeningDomainCheck, ctx: z.RefinementCtx) {
   const fail = (message: string) => ctx.addIssue({ code: "custom", message });
-  if (v.collection !== "mcq" && v.audio.durationSec < 60) fail("A full Listening recording must be at least 60 seconds");
   if (!v.questions.length && !v.authoredRuntime) fail("Missing questions");
   if (v.authoredRuntime && (!safePackagePath(v.authoredRuntime.entryPath) || !v.authoredRuntime.files[v.authoredRuntime.entryPath] || Object.keys(v.authoredRuntime.files).some(path => !safePackagePath(path) || !/\.(html?|css|js)$/i.test(path)) || JSON.stringify(v.authoredRuntime.files).length > 6 * 1024 * 1024)) fail("Invalid authored runtime");
   if (v.studyPack) {
@@ -229,7 +227,7 @@ export const listeningPackageSchema = z
     provenance: text,
     audio: z.object({
       path: z.string().max(200),
-      durationSec: z.number().positive().max(7200),
+      durationSec: z.number().min(60).max(7200),
     }),
     imagePath: z.string().max(200).nullable(),
     mapDiagram: mapDiagramSchema.optional(),

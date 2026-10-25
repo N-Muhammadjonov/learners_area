@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import { db } from "@/db/client";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -11,7 +12,6 @@ import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotic
 import { timed } from "@/lib/observability/timing";
 
 export const metadata = { title: "Retention memory" };
-type RegionResult<T> = { ok: true; value: T } | { ok: false };
 
 function Failure({ dict, region }: { dict: Dictionary; region: string }) {
   return <RegionFailureNotice region={region} message={dict.retentionMemory.errors.retention_unavailable} retryLabel={dict.errorPage.retry} />;
@@ -22,17 +22,9 @@ function Loading({ region, label }: { region: string; label: string }) {
 
 async function SessionRegion({ userId, dict }: { userId: string; dict: Dictionary }) {
   const t = dict.retentionMemory;
-  // Independent overview reads can run while the authoritative live session is
-  // reconciled. Handle rejection now; the existing region still owns its error UI.
-  const summaryPromise = timed("retention.summary", () => getRetentionSummary(userId)).then(
-    value => ({ ok: true as const, value }), () => ({ ok: false as const }),
-  );
-  const historyPromise = timed("retention.history", () => listRetentionHistory({ userId, page: 1 })).then(
-    value => ({ ok: true as const, value }), () => ({ ok: false as const }),
-  );
   const overview = <aside className="flex flex-col gap-4">
     <Suspense fallback={<Loading region="retention-summary" label={dict.common.loading} />}>
-      <SummaryRegion summaryPromise={summaryPromise} dict={dict} />
+      <SummaryRegion userId={userId} dict={dict} />
     </Suspense>
     <section className="panel flex flex-col gap-3" data-retention-instructions>
       <h2 className="section-title">{t.howTitle}</h2>
@@ -44,7 +36,7 @@ async function SessionRegion({ userId, dict }: { userId: string; dict: Dictionar
   const history = <section className="flex flex-col gap-3" data-retention-history-section>
     <h2 className="section-title">{t.historyTitle}</h2>
     <Suspense fallback={<Loading region="retention-history" label={dict.common.loading} />}>
-      <HistoryRegion historyPromise={historyPromise} dict={dict} />
+      <HistoryRegion userId={userId} dict={dict} />
     </Suspense>
   </section>;
   try {
@@ -64,11 +56,9 @@ async function SessionRegion({ userId, dict }: { userId: string; dict: Dictionar
   }
 }
 
-async function SummaryRegion({ summaryPromise, dict }: { summaryPromise: Promise<RegionResult<Awaited<ReturnType<typeof getRetentionSummary>>>>; dict: Dictionary }) {
+async function SummaryRegion({ userId, dict }: { userId: string; dict: Dictionary }) {
   try {
-    const result = await summaryPromise;
-    if (!result.ok) return <Failure dict={dict} region="retention-summary" />;
-    const summary = result.value;
+    const summary = await timed("retention.summary", () => getRetentionSummary(userId));
     const t = dict.retentionMemory;
     return (
       <section className="panel flex flex-col gap-4" data-retention-summary data-async-content="retention-summary">
@@ -84,11 +74,9 @@ async function SummaryRegion({ summaryPromise, dict }: { summaryPromise: Promise
   } catch { return <Failure dict={dict} region="retention-summary" />; }
 }
 
-async function HistoryRegion({ historyPromise, dict }: { historyPromise: Promise<RegionResult<Awaited<ReturnType<typeof listRetentionHistory>>>>; dict: Dictionary }) {
+async function HistoryRegion({ userId, dict }: { userId: string; dict: Dictionary }) {
   try {
-    const result = await historyPromise;
-    if (!result.ok) return <Failure dict={dict} region="retention-history" />;
-    const history = result.value;
+    const history = await timed("retention.history", () => listRetentionHistory({ userId, page: 1 }));
     return <RetentionHistory dict={dict} initial={{ ...history, rows: history.rows.map((row) => ({
       attemptId: row.attemptId, level: row.level, score: row.score,
       status: row.status === "timed_out" ? "timed_out" as const : "completed" as const,
@@ -108,6 +96,7 @@ export default async function ReadingRetentionPage() {
       <header className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h1 className="page-title">{t.title}</h1>
+          <Link href="/app/reading" className="btn-secondary">{dict.readingHub.title}</Link>
         </div>
         <p className="page-subtitle">{t.subtitle}</p>
         <p className="body-text">{t.intro}</p>

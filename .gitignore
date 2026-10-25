@@ -47,5 +47,8 @@ coverage/
 .ruff_cache/
 .pytest_cache/
 
-# isolated browser QA build output
-.next-study-qa/
+# Python backend runtime artifacts
+__pycache__/
+*.py[cod]
+.venv/
+!services/backend/app/supabase_root_ca.pem

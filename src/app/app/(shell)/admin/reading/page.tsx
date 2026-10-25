@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { requireAdministrator } from "@/lib/auth/current-user";
-import { adminReadingCards } from "@/lib/data/content-inventory";
+import { db } from "@/db/client";
+import { desc } from "drizzle-orm";
+import { readingPassages } from "@/db/schema";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { Card } from "@/components/ui/Card";
 import { NewPassageForm } from "@/components/admin/NewPassageForm";
@@ -13,7 +15,7 @@ export default async function AdminReadingPage() {
   const administrator = await requireAdministrator();
   if (!administrator) redirect("/app");
   const dict = getDictionary(await getLocale());
-  const passages = await adminReadingCards();
+  const passages = await db.query.readingPassages.findMany({ orderBy: desc(readingPassages.createdAt) });
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">

@@ -199,7 +199,7 @@ test("a dedicated MCQ package is listed under its own collection, never as an Ac
       const tab = (label: string) =>
         Array.from(document.querySelectorAll("button")).find((b) => b.textContent?.includes(label))!;
       // The library opens on the academic tab and offers the formal test only.
-      assert.match(tab("🎧 Listening Tests").textContent!, /\(1\)/, "the academic tab counts only academic cards");
+      assert.match(tab("🎧 Academic Listening").textContent!, /\(1\)/, "the academic tab counts only academic cards");
       assert.ok(document.body.textContent?.includes("Formal Academic Test 1"));
       assert.equal(document.body.textContent?.includes("MCQ Mastery Pack"), false, "a dedicated MCQ package is not an academic full test");
       assert.equal(document.body.textContent?.includes("Question-type Pack"), false);

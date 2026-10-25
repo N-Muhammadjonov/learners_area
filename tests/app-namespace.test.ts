@@ -92,7 +92,7 @@ test("no two routes resolve to the same URL, and one parent never uses two slug 
 });
 
 test("every authenticated page lives under /app, and only the public pages do not", () => {
-  const PUBLIC_PREFIXES = ["/login", "/auth/recovery", "/register", "/reset-password", "/pending", "/onboarding", "/api", "/_not-found"];
+  const PUBLIC_PREFIXES = ["/login", "/register", "/reset-password", "/pending", "/onboarding", "/api", "/_not-found"];
   const offenders = ROUTES.filter(
     (r) =>
       r.url !== "/" &&
@@ -177,55 +177,24 @@ test("the middleware's coarse session check covers the canonical /app namespace 
   }
 });
 
-test("/app IS the dashboard: one implementation, two aliases, no duplicate page", async () => {
+test("/app opens campus and /app/dashboard preserves the real data dashboard", async () => {
   const rules = (await nextConfig.redirects!()) ?? [];
   const home = (await import("../src/lib/nav/private-modules.mjs")).APP_HOME as string;
   assert.equal(home, "/app");
-
-  // 1. `/app` resolves to the Dashboard — the namespace root IS the index page.
-  const index = join(APP_DIR, "app/(shell)/page.tsx");
-  assert.ok(existsSync(index), "/app must render the dashboard from (shell)/page.tsx");
-  const source = readFileSync(index, "utf8");
-  assert.match(source, /data-route-usable="dashboard"/, "/app must be the dashboard");
-  assert.match(source, /getDashboardData/, "/app must use the real dashboard data");
-  // 2. There is no second dashboard implementation anywhere.
-  assert.ok(!existsSync(join(APP_DIR, "app/(shell)/dashboard")), "no duplicate dashboard route may exist");
-  assert.ok(!ROUTES.some((r) => r.url === "/app/dashboard"), "/app/dashboard must not be a page");
-
-  // 3. `/dashboard` and `/app/dashboard` both canonicalize to `/app`.
-  for (const source_ of ["/dashboard", "/app/dashboard"]) {
-    const rule = rules.find((r) => r.source === source_);
-    assert.ok(rule, `${source_} has no redirect rule`);
-    assert.equal(rule.destination, "/app", `${source_} must canonicalize to /app`);
-    assert.equal(rule.permanent, false, `${source_} must stay a temporary redirect`);
-  }
-  // 4. A deeper legacy path keeps its shape under /app.
-  assert.equal(rules.find((r) => r.source === "/dashboard/:path*")?.destination, "/app/:path*");
-
-  // 5. No internal navigation may emit /app/dashboard as the canonical Home.
-  const offenders: string[] = [];
-  for (const file of allFiles(join(ROOT, "src"))) {
-    if (!/\.(ts|tsx|mjs)$/.test(file)) continue;
-    if (file.endsWith("nav/private-modules.mjs")) continue; // the alias table itself
-    for (const [index_, line] of readFileSync(file, "utf8").split("\n").entries()) {
-      if (line.includes("/app/dashboard")) offenders.push(`${relative(ROOT, file)}:${index_ + 1}`);
-    }
-  }
-  assert.deepEqual(offenders, [], "these source files still point at /app/dashboard instead of /app");
-
-  // 6. No redirect loop: no destination is another rule's source.
-  const sources = new Set(rules.map((r) => String(r.source)));
-  for (const rule of rules) {
-    assert.ok(!sources.has(String(rule.destination)), `${rule.source} -> ${rule.destination} is a loop`);
-  }
-  // 7. Query safety: no rule matches a query string, wildcards keep the path, and
-  //    nothing can rewrite an API request.
-  for (const rule of rules) {
-    assert.ok(!String(rule.source).includes("?"), `${rule.source} must not match on a query string`);
-    assert.ok(!String(rule.source).startsWith("/api"), `${rule.source} must never touch the API`);
-    if (String(rule.source).endsWith("/:path*")) {
-      assert.ok(String(rule.destination).endsWith("/:path*"), `${rule.source} would drop the path`);
-    }
+  const campus = readFileSync(join(APP_DIR, "app/(shell)/page.tsx"), "utf8");
+  assert.match(campus, /CampusWorld/);
+  const dashboard = readFileSync(join(APP_DIR, "app/(shell)/dashboard/page.tsx"), "utf8");
+  assert.match(dashboard, /getDashboardData/);
+  assert.match(dashboard, /data-route-usable="dashboard"/);
+  assert.ok(!rules.some((r)=>r.source === "/app/dashboard"),
+    "the dashboard page must not redirect back to the campus");
+  assert.equal(rules.find((r)=>r.source === "/dashboard")?.destination, "/app/dashboard");
+  assert.equal(rules.find((r)=>r.source === "/dashboard/:path*")?.destination, "/app/dashboard/:path*");
+  const sources = new Set(rules.map(r=>String(r.source)));
+  for(const rule of rules){
+    assert.ok(!sources.has(String(rule.destination)), `${rule.source} redirects into another redirect`);
+    assert.ok(!String(rule.source).includes("?"));
+    assert.ok(!String(rule.source).startsWith("/api"));
   }
 });
 

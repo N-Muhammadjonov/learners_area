@@ -1,7 +1,4 @@
-import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
-import {ListeningSequenceLocked} from "@/components/listening/ListeningSequenceLocked";
-import { hasOriginalListeningRuntime } from "@/lib/listening/original-listening";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { fullListeningDetail, listeningExamState } from "@/lib/data/full-listening";
@@ -14,10 +11,8 @@ export default async function McqPage({ params }: { params: Promise<{ id: string
   if (!user) return null;
   const { id } = await params;
   if (!isUuid(id)) notFound();
-  if(!await listeningSequenceAccess(user,id))return <ListeningSequenceLocked dict={getDictionary(await getLocale())}/>;
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
-  if (hasOriginalListeningRuntime(id,detail.pkg.sourceId)) redirect(`/app/listening/tests/${id}#mcq`);
   if ((await listeningExamState(user, id)).examInProgress) return <div className="listening-workspace"><Link className="btn-secondary" href={`/app/listening/tests/${id}`}>← Listening</Link><p role="status">{getDictionary(await getLocale()).fullListeningHub.research.examLocked}</p></div>;
   const [questions, sessions, locale] = await Promise.all([listMcqQuestions(id), listMcqSessions(user.id, id), getLocale()]);
   const dict = getDictionary(locale);

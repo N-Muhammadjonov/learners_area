@@ -1,0 +1,252 @@
+{
+  "status": "QA_HOLD_DO_NOT_PUBLISH",
+  "source": "production_evaluator_ci",
+  "description": "Exact known score mismatches between owner FINAL V2 rubric and current deterministic evaluator. This file is pinned by tests, not a waiver to publish incomplete rubrics.",
+  "anomalies": [
+    {
+      "sourceId": "A2-004",
+      "test": "canonical",
+      "got": 96
+    },
+    {
+      "sourceId": "A2-004",
+      "test": "source",
+      "got": 96
+    },
+    {
+      "sourceId": "A2-008",
+      "test": "canonical",
+      "got": 92
+    },
+    {
+      "sourceId": "B1-007",
+      "test": "canonical",
+      "got": 94
+    },
+    {
+      "sourceId": "B2-002",
+      "test": "canonical",
+      "got": 90
+    },
+    {
+      "sourceId": "B2-002",
+      "test": "source",
+      "got": 85
+    },
+    {
+      "sourceId": "B2-006",
+      "test": "source",
+      "got": 95
+    },
+    {
+      "sourceId": "B2-010",
+      "test": "source",
+      "got": 95
+    },
+    {
+      "sourceId": "B2-014",
+      "test": "canonical",
+      "got": 95
+    },
+    {
+      "sourceId": "B2-014",
+      "test": "source",
+      "got": 90
+    },
+    {
+      "sourceId": "C1-002",
+      "test": "source",
+      "got": 95
+    },
+    {
+      "sourceId": "C1-003",
+      "test": "canonical",
+      "got": 92
+    },
+    {
+      "sourceId": "C1-003",
+      "test": "source",
+      "got": 92
+    },
+    {
+      "sourceId": "C1-005",
+      "test": "canonical",
+      "got": 96
+    },
+    {
+      "sourceId": "C1-005",
+      "test": "source",
+      "got": 96
+    },
+    {
+      "sourceId": "C1-006",
+      "test": "source",
+      "got": 95
+    },
+    {
+      "sourceId": "C1-008",
+      "test": "canonical",
+      "got": 95
+    },
+    {
+      "sourceId": "C1-008",
+      "test": "source",
+      "got": 95
+    },
+    {
+      "sourceId": "C1-009",
+      "test": "canonical",
+      "got": 96
+    },
+    {
+      "sourceId": "C1-009",
+      "test": "source",
+      "got": 96
+    },
+    {
+      "sourceId": "C1-010",
+      "test": "source",
+      "got": 95
+    },
+    {
+      "sourceId": "C1-014",
+      "test": "source",
+      "got": 95
+    },
+    {
+      "sourceId": "C2-001",
+      "test": "canonical",
+      "got": 96
+    },
+    {
+      "sourceId": "C2-001",
+      "test": "source",
+      "got": 96
+    },
+    {
+      "sourceId": "C2-002",
+      "test": "canonical",
+      "got": 90
+    },
+    {
+      "sourceId": "C2-002",
+      "test": "source",
+      "got": 91
+    },
+    {
+      "sourceId": "C2-004",
+      "test": "canonical",
+      "got": 96
+    },
+    {
+      "sourceId": "C2-004",
+      "test": "source",
+      "got": 91
+    },
+    {
+      "sourceId": "C2-005",
+      "test": "canonical",
+      "got": 91
+    },
+    {
+      "sourceId": "C2-005",
+      "test": "source",
+      "got": 96
+    },
+    {
+      "sourceId": "C2-006",
+      "test": "canonical",
+      "got": 96
+    },
+    {
+      "sourceId": "C2-006",
+      "test": "source",
+      "got": 91
+    },
+    {
+      "sourceId": "C2-007",
+      "test": "canonical",
+      "got": 83
+    },
+    {
+      "sourceId": "C2-007",
+      "test": "source",
+      "got": 83
+    },
+    {
+      "sourceId": "C2-008",
+      "test": "canonical",
+      "got": 92
+    },
+    {
+      "sourceId": "C2-008",
+      "test": "source",
+      "got": 87
+    },
+    {
+      "sourceId": "C2-009",
+      "test": "canonical",
+      "got": 88
+    },
+    {
+      "sourceId": "C2-009",
+      "test": "source",
+      "got": 88
+    },
+    {
+      "sourceId": "C2-010",
+      "test": "canonical",
+      "got": 96
+    },
+    {
+      "sourceId": "C2-010",
+      "test": "source",
+      "got": 86
+    },
+    {
+      "sourceId": "C2-011",
+      "test": "canonical",
+      "got": 94
+    },
+    {
+      "sourceId": "C2-012",
+      "test": "canonical",
+      "got": 87
+    },
+    {
+      "sourceId": "C2-012",
+      "test": "source",
+      "got": 87
+    },
+    {
+      "sourceId": "C2-013",
+      "test": "canonical",
+      "got": 91
+    },
+    {
+      "sourceId": "C2-013",
+      "test": "source",
+      "got": 96
+    },
+    {
+      "sourceId": "C2-014",
+      "test": "canonical",
+      "got": 46
+    },
+    {
+      "sourceId": "C2-014",
+      "test": "source",
+      "got": 46
+    },
+    {
+      "sourceId": "C2-015",
+      "test": "canonical",
+      "got": 78
+    },
+    {
+      "sourceId": "C2-015",
+      "test": "source",
+      "got": 83
+    }
+  ]
+}

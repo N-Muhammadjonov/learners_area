@@ -13,7 +13,7 @@ test("Grammar lesson routes use canonical authoring permissions and classified p
   const detail = read("src/app/app/(shell)/grammar/lessons/[lessonId]/page.tsx");
   assert.match(library, /requireActiveUser\(\)/);
   assert.match(library, /listLessonLibrary\(\{ area: "grammar", limit: 24/);
-  assert.doesNotMatch(library, /data-grammar-lessons-empty|lessonsEmpty|authoringPath|className="link-inline"/, "the catalogue shows only its section title and actual published lessons");
+  assert.match(library, /data-grammar-lessons-empty/);
   assert.match(author, /requireStaff\(\)/);
   assert.match(author, /mayAuthorContent\(user\.role, "lesson", "lesson"\)/);
   assert.match(author, /listLessonsForStaff\("grammar"\)/);

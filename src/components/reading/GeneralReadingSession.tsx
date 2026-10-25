@@ -1,11 +1,11 @@
 "use client";
 
-import { isUnstatedAnswer } from "@/lib/reading/unstated";
 import { ReadingEvidence } from "@/components/reading/ReadingEvidence";
-import { ReadingWorkspace, focusReadingQuestion } from "@/components/reading/ReadingWorkspace";
+import Link from "next/link";
+import { useFocusEntry } from "@/lib/interaction/focus-entry";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { ReadingHighlightedText, useReadingHighlights } from "@/components/reading/ReadingHighlights";
+import { ReadAloud } from "@/components/reading/ReadAloud";
 import { GroupHeading, GroupQuestions, QuestionCard, type ExamGroup, type ExamQuestion } from "@/components/reading/ReadingExam";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import { occurrenceSpans, type OccurrenceSpan } from "@/lib/services/lexical/occurrence-spans";
@@ -13,8 +13,8 @@ import type { Dictionary } from "@/lib/i18n/en";
 
 /*
  * General Reading — LEARNING mode (develop reading). Vocabulary help is on from the
- * first second, for one passage: there is no Academic attempt or lock
- * and elapsed study time never decides permissions. The text uses the SAME ClickableText → occurrence
+ * first second, in every passage and in Full Reading: there is no attempt, no lock
+ * and no timer deciding permissions. The text uses the SAME ClickableText → occurrence
  * → canonical sense → popup → save path as every other contextual source; the
  * server re-derives the mode from the passage's persisted classification.
  */
@@ -33,70 +33,38 @@ export type GeneralPassage = {
 export type GeneralProgressView = { answers: Record<string, string>; score: number | null; total: number | null; checked: boolean; result?:CheckRow[]|null };
 type CheckRow = { questionId: string; isCorrect: boolean; correctAnswer: string; acceptedAnswers?:string[]; evidenceQuote: string | null; explanation: string | null };
 
-export function GeneralReadingSession({ dict, setId, passages, initialProgress, mode, userId }: {
+export function GeneralReadingSession({ dict, setId, setTitle, passages, initialProgress, mode, userId }: {
   dict: Dictionary;
   userId: string;
   setId: string;
   setTitle: string;
   passages: GeneralPassage[];
   initialProgress: Record<string, GeneralProgressView>;
-  /** Legacy "full" links fall back to the first passage; every session studies one only. */
+  /** "full" = all passages in one session; otherwise the single chosen passage number. */
   mode: "full" | 1 | 2 | 3;
 }) {
-  const studyPassages = passages.filter(p => p.passageNo === (mode === "full" ? passages[0]?.passageNo : mode)).slice(0,1);
-  const router=useRouter();
-  const openedPassageId=studyPassages[0]?.passageId;
-  const hasSavedProgress=!!openedPassageId&&Object.hasOwn(initialProgress,openedPassageId);
-  useEffect(()=>{
-    if(!openedPassageId||hasSavedProgress)return;
-    let current=true;
-    void requestJson("/api/reading/general/progress",{method:"POST",body:{passageId:openedPassageId,answers:{},check:false,start:true}})
-      .then(result=>{if(current&&result.ok)router.refresh();});
-    return()=>{current=false;};
-  },[openedPassageId,hasSavedProgress,router]);
-  const [elapsed, setElapsed] = useState(0);
-  useEffect(() => { const started=Date.now();setElapsed(0);const timer=setInterval(()=>setElapsed(Math.floor((Date.now()-started)/1000)),1000);return()=>clearInterval(timer); },[setId,mode]);
+  useFocusEntry(`general-reading:${setId}:${mode}`);
   const t = dict.generalReading;
   const highlightsFor=useReadingHighlights(`${userId}:${setId}`);
-  const [pane,setPane]=useState<"passage"|"questions">("passage");
-  const [pendingQuestion,setPendingQuestion]=useState<string|null>(null);
-  const active = studyPassages[0]?.passageNo ?? 1;
+  const [active, setActive] = useState(passages[0]?.passageNo ?? 1);
   const [answers, setAnswers] = useState<Record<string, Record<string, string>>>(() =>
-    Object.fromEntries(studyPassages.map((p) => [p.passageId, initialProgress[p.passageId]?.answers ?? {}])));
+    Object.fromEntries(passages.map((p) => [p.passageId, initialProgress[p.passageId]?.answers ?? {}])));
   const [status, setStatus] = useState<Record<string, "idle" | "saving" | "saved" | "error" | "checking">>({});
   const [checks, setChecks] = useState<Record<string, { rows: CheckRow[]; score: number | null; total: number | null }>>(() =>
-    Object.fromEntries(studyPassages.flatMap(p => {
+    Object.fromEntries(passages.flatMap(p => {
       const saved = initialProgress[p.passageId];
       return saved?.checked && saved.result ? [[p.passageId, { rows:saved.result, score:saved.score, total:saved.total }]] : [];
     })));
   const [errors, setErrors] = useState<Record<string, string | null>>({});
-  const [leaving, setLeaving] = useState(false);
   const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   const revisions=useRef<Record<string,number>>({});
   const queues=useRef<Record<string,Promise<void>>>({});
-  const lastSaveOk=useRef<Record<string,boolean>>({});
-  const pendingAnswers=useRef<Record<string,Record<string,string>>>({});
-  useEffect(() => {
-    const flush=()=>{
-      Object.values(timers.current).forEach(clearTimeout);
-      for(const [passageId,draft] of Object.entries(pendingAnswers.current)) {
-        delete pendingAnswers.current[passageId];
-        void fetch("/api/reading/general/progress",{method:"POST",headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({passageId,answers:draft,check:false}),keepalive:true}).catch(()=>{});
-      }
-    };
-    window.addEventListener("pagehide",flush);
-    return()=>{window.removeEventListener("pagehide",flush);flush();};
-  },[]);
+  useEffect(() => () => Object.values(timers.current).forEach(clearTimeout), []);
 
-  useEffect(() => { document.getElementById("reading-passage-pane")?.scrollTo?.({top:0}); },[active]);
-  useEffect(() => { if(pendingQuestion){focusReadingQuestion(pendingQuestion);setPendingQuestion(null);} },[active,pendingQuestion]);
-  const passage = studyPassages.find((p) => p.passageNo === active) ?? studyPassages[0];
+  const passage = passages.find((p) => p.passageNo === active) ?? passages[0];
   if (!passage) return null;
 
   async function persist(passageId: string, nextAnswers: Record<string, string>, check: boolean) {
-    clearTimeout(timers.current[passageId]);
-    delete pendingAnswers.current[passageId];
     const revision=revisions.current[passageId]??0;
     const previous=queues.current[passageId]??Promise.resolve();
     let release!:()=>void;
@@ -107,34 +75,16 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
     const result = await requestJson<{ ok: boolean; score: number | null; total: number | null; result: CheckRow[] | null }>("/api/reading/general/progress", {
       method: "POST", body: { passageId, answers: nextAnswers, check },
     });
-    if(revision!==(revisions.current[passageId]??0)) return false;
+    if(revision!==(revisions.current[passageId]??0)) return;
     if (!result.ok) {
-      lastSaveOk.current[passageId]=false;
       setStatus((s) => ({ ...s, [passageId]: "error" }));
       setErrors((e) => ({ ...e, [passageId]: failureMessage(result, dict.auth) || t.saveFailed }));
-      return false;
-    }
-    setErrors((e) => ({ ...e, [passageId]: null }));
-    lastSaveOk.current[passageId]=true;
-    setStatus((s) => ({ ...s, [passageId]: "saved" }));
-    if (check && result.data.result) setChecks((c) => ({ ...c, [passageId]: { rows: result.data.result!, score: result.data.score, total: result.data.total } }));
-    if(check)router.refresh();
-    return true;
-    } finally {release();}
-  }
-
-  async function leave() {
-    if (!passage || leaving) return;
-    setLeaving(true);
-    clearTimeout(timers.current[passage.passageId]);
-    await queues.current[passage.passageId];
-    // Leaving saves a draft; it never checks answers or releases the key.
-    const draft = pendingAnswers.current[passage.passageId];
-    if ((draft || lastSaveOk.current[passage.passageId]===false) && !(await persist(passage.passageId, draft ?? answers[passage.passageId] ?? {}, false))) {
-      setLeaving(false);
       return;
     }
-    router.push("/app/reading/general");
+    setErrors((e) => ({ ...e, [passageId]: null }));
+    setStatus((s) => ({ ...s, [passageId]: "saved" }));
+    if (check && result.data.result) setChecks((c) => ({ ...c, [passageId]: { rows: result.data.result!, score: result.data.score, total: result.data.total } }));
+    } finally {release();}
   }
 
   function setAnswer(passageId: string, questionId: string, value: string) {
@@ -142,7 +92,6 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
     setChecks(c=>{const next={...c};delete next[passageId];return next;});
     const next = { ...(answers[passageId] ?? {}), [questionId]: value };
     setAnswers((a) => ({ ...a, [passageId]: next }));
-    pendingAnswers.current[passageId]=next;
     clearTimeout(timers.current[passageId]);
     // Debounced autosave per passage: progress of each passage is independent.
     timers.current[passageId] = setTimeout(() => void persist(passageId, next, false), 700);
@@ -152,40 +101,101 @@ export function GeneralReadingSession({ dict, setId, passages, initialProgress, 
   const initial = initialProgress[passage.passageId];
   const shownScore = check ? { score: check.score, total: check.total } : initial?.checked && !revisions.current[passage.passageId] ? { score: initial.score, total: initial.total } : null;
 
-  const currentAnswers=answers[passage.passageId]??{};
-  const first=passage.questions[0]?.questionNo??1,last=passage.questions.at(-1)?.questionNo??first;
-  return <div className="reading-session" data-general-reading data-general-mode={mode} data-general-passage={passage.passageNo}>
-    <ReadingWorkspace brand={dict.marketing.title} title={passage.title} pane={pane} setPane={setPane} labels={dict.readingWorkspace}
-      tools={<><button type="button" className="reading-back" data-general-back disabled={leaving} aria-label={t.back} onClick={()=>void leave()}>← {dict.common.back}</button><output className="reading-elapsed" data-general-elapsed aria-label={dict.readingWorkspace.elapsed}>{`${String(Math.floor(elapsed/60)).padStart(2,"0")}:${String(elapsed%60).padStart(2,"0")}`}</output><span role="status" aria-live="polite" data-general-save-state={status[passage.passageId]??"idle"}>{status[passage.passageId]==="saving"?t.saving:status[passage.passageId]==="saved"?t.saved:""}</span></>}
-      passage={<><h2 className="reading-pane-heading">{dict.readingWorkspace.passageHeading.replace("{n}",String(passage.passageNo))}</h2><p className="reading-part-instruction">{dict.readingWorkspace.questionRange.replace("{from}",String(first)).replace("{to}",String(last))}</p><h3 className="reading-passage-title">{passage.title}</h3>
-        <div className="reading-passage-text" data-passage-body>
-          {passage.paragraphs.length ? passage.paragraphs.map(paragraph=><div key={paragraph.id} className="reading-paragraph">
-            {paragraph.label&&<strong className="reading-paragraph-label">{paragraph.label}</strong>}
-            <ReadingHighlightedText {...highlightsFor(paragraph.id,paragraph.text)} dict={dict} text={paragraph.text} occurrences={occurrenceSpans(passage.body,paragraph.text,passage.occurrences)} sourceType="reading" sourceId={passage.passageId} lexicalAssistance phraseAware className={`academic-text ${paragraph.isFootnote?"italic":""}`} />
-          </div>):<ReadingHighlightedText {...highlightsFor(passage.passageId,passage.body)} dict={dict} text={passage.body} occurrences={occurrenceSpans(passage.body,passage.body,passage.occurrences)} sourceType="reading" sourceId={passage.passageId} lexicalAssistance phraseAware className="academic-text"/>}
-        </div></>}
-      questions={<div data-general-questions><h2 className="reading-pane-heading">{dict.readingWorkspace.questionRange.replace("{from}",String(first)).replace("{to}",String(last))}</h2>
-        {!passage.questions.length&&<p>{t.noQuestions}</p>}
-        <fieldset className="reading-question-blocks" disabled={leaving}>
-          {(passage.groups??[]).map(group=><section key={group.id} className="reading-question-group"><GroupHeading dict={dict} group={group}/><GroupQuestions dict={dict} group={group} questions={passage.questions.filter(q=>q.groupId===group.id).map(examQuestion)} answers={currentAnswers} onChange={(id,value)=>setAnswer(passage.passageId,id,value)}/></section>)}
-          {passage.questions.filter(q=>!q.groupId||!passage.groups?.some(g=>g.id===q.groupId)).map(q=><QuestionCard key={q.id} dict={dict} question={examQuestion(q)} group={null} inputId={`answer-${q.id}`} value={currentAnswers[q.id]??""} onChange={value=>setAnswer(passage.passageId,q.id,value)}/>)}
-        </fieldset>
-        <ol className="reading-feedback">{check?.rows.map(row=><li key={row.questionId} data-general-question={row.questionId}><div data-general-result={row.isCorrect?"correct":"incorrect"}>
-          <p>{row.isCorrect?"✓":"✗"} {t.correctAnswer.replace("{answer}",row.correctAnswer)}</p>
-          {!!row.acceptedAnswers?.length&&<p data-general-accepted>{dict.readingPractice.acceptedAnswers}: {row.acceptedAnswers.join(" / ")}</p>}
-          {row.evidenceQuote?<p data-general-evidence>{t.evidence} {row.evidenceQuote}</p>:isUnstatedAnswer(row.correctAnswer)?null:<p data-general-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
-          {(row.evidenceQuote||isUnstatedAnswer(row.correctAnswer))&&<ReadingEvidence dict={dict} body={passage.body} title={passage.title} quote={row.evidenceQuote??""} unstated={isUnstatedAnswer(row.correctAnswer)}/>}
-          {row.explanation?<p data-general-explanation>{dict.reading.explanation}: {row.explanation}</p>:<p data-general-explanation-missing>{dict.readingV4.explanationMissing}</p>}
-        </div></li>)}</ol>
-        {errors[passage.passageId]&&<p role="alert" className="reading-error">{errors[passage.passageId]}</p>}
-      </div>}
-      navigation={<div className="reading-part-navigation" data-general-passage-tabs>{studyPassages.map(p=><div key={p.passageNo} className="reading-part-navigation">
-        <button type="button" className="reading-part-button" aria-pressed={p.passageNo===active} data-general-passage-tab={p.passageNo}>{t.passageN.replace("{n}",String(p.passageNo))}</button>
-        {p.passageNo===active&&<div className="reading-question-numbers">{p.questions.map(q=><button key={q.id} type="button" data-reading-question-nav={q.id} data-answered={!!currentAnswers[q.id]?.trim()} aria-label={`${dict.reading.yourAnswer} ${q.questionNo??q.order}`} onClick={()=>{setPane("questions");setPendingQuestion(q.id);}}>{q.questionNo??q.order}</button>)}</div>}
-      </div>)}</div>}
-      action={<>{shownScore&&shownScore.total!==null&&<span data-general-score>{t.score.replace("{score}",String(shownScore.score??0)).replace("{total}",String(shownScore.total))}</span>}{passage.questions.length>0&&<button type="button" className="btn-primary" disabled={leaving||status[passage.passageId]==="checking"} onClick={()=>{clearTimeout(timers.current[passage.passageId]);void persist(passage.passageId,currentAnswers,true);}} data-general-check>{status[passage.passageId]==="checking"?t.checking:t.check}</button>}</>}
-    />
-  </div>;
+  return (
+    <div className="mx-auto flex max-w-[1440px] flex-col gap-5" data-general-reading data-general-mode={mode}>
+      <header className="flex flex-col gap-2">
+        <Link href="/app/reading/general" prefetch={false} className="link-inline w-fit text-sm">{t.back}</Link>
+        <h1 className="section-title">{setTitle}</h1>
+        <p className="body-text text-sm" data-learning-note>{t.learningNote}</p>
+        <Link href={`/app/reading/general/${setId}`} prefetch={false} className="link-inline w-fit text-xs">{t.changeMode}</Link>
+      </header>
+
+      {mode === "full" && passages.length > 1 && (
+        <nav className="flex flex-wrap gap-2" aria-label={t.full} data-general-passage-tabs>
+          {passages.map((p) => (
+            <button key={p.passageNo} type="button" aria-pressed={p.passageNo === active}
+              className={p.passageNo === active ? "btn-primary" : "btn-secondary"} onClick={() => setActive(p.passageNo)} data-general-passage-tab={p.passageNo}>
+              {t.passageN.replace("{n}", String(p.passageNo))}
+            </button>
+          ))}
+        </nav>
+      )}
+
+      <div className="grid gap-5 lg:grid-cols-2" key={passage.passageId} data-general-passage={passage.passageNo}>
+        <section className="card flex flex-col gap-3 p-5">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 pb-3">
+            <h2 className="font-display text-base text-ink-900">
+              <span className="mr-2 text-ink-500">{t.passageN.replace("{n}", String(passage.passageNo))}</span>{passage.title}
+            </h2>
+            <ReadAloud dict={dict} text={`${passage.title}. ${passage.body}`} />
+          </div>
+          <div className="flex flex-col gap-4 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2" data-passage-body>
+            {passage.paragraphs.length > 0 ? passage.paragraphs.map((paragraph) => (
+              <div key={paragraph.id} className="flex gap-3">
+                {paragraph.label ? <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-paper-sunken text-xs font-semibold text-ink-700">{paragraph.label}</span> : null}
+                <ReadingHighlightedText {...highlightsFor(paragraph.id,paragraph.text)} dict={dict} text={paragraph.text} occurrences={occurrenceSpans(passage.body, paragraph.text, passage.occurrences)}
+                  sourceType="reading" sourceId={passage.passageId} lexicalAssistance
+                  className={`academic-text text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote ? "italic" : ""}`} />
+              </div>
+            )) : (
+              <ReadingHighlightedText {...highlightsFor(passage.passageId,passage.body)} dict={dict} text={passage.body} occurrences={occurrenceSpans(passage.body, passage.body, passage.occurrences)}
+                sourceType="reading" sourceId={passage.passageId} lexicalAssistance className="academic-text text-sm leading-relaxed text-ink-700" />
+            )}
+          </div>
+        </section>
+
+        <section className="card flex flex-col gap-4 p-5" data-general-questions>
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="card-title">{t.questions}</h2>
+            <span className="text-xs text-ink-500" role="status" aria-live="polite" data-general-save-state={status[passage.passageId] ?? "idle"}>
+              {status[passage.passageId] === "saving" ? t.saving : status[passage.passageId] === "saved" ? t.saved : ""}
+            </span>
+          </div>
+          {passage.questions.length === 0 && <p className="body-text text-sm">{t.noQuestions}</p>}
+          <div className="flex flex-col gap-4">
+            {(passage.groups??[]).map(group=><section key={group.id} className="flex flex-col gap-3">
+              <GroupHeading dict={dict} group={group}/>
+              <GroupQuestions dict={dict} group={group} questions={passage.questions.filter(q=>q.groupId===group.id).map(examQuestion)}
+                answers={answers[passage.passageId]??{}} onChange={(id,value)=>setAnswer(passage.passageId,id,value)}/>
+            </section>)}
+            {passage.questions.filter(q=>!q.groupId || !passage.groups?.some(g=>g.id===q.groupId)).map(q=><QuestionCard key={q.id} dict={dict} question={examQuestion(q)} group={null}
+              inputId={`answer-${q.id}`} value={answers[passage.passageId]?.[q.id]??""} onChange={value=>setAnswer(passage.passageId,q.id,value)}/>)}
+          </div>
+          <ol className="flex flex-col gap-4">
+            {passage.questions.map((question) => {
+              const row = check?.rows.find((r) => r.questionId === question.id);
+              return (
+                <li key={question.id} className="flex flex-col gap-2" data-general-question={question.id}>
+                  {row && (
+                    <div className={`rounded-sm p-2 text-xs ${row.isCorrect ? "bg-signal-50 text-ink-900" : "bg-paper-sunken text-ink-700"}`} data-general-result={row.isCorrect ? "correct" : "incorrect"}>
+                      <p>{row.isCorrect ? "✓" : "✗"} {t.correctAnswer.replace("{answer}", row.correctAnswer)}</p>
+                      {Boolean(row.acceptedAnswers?.length) && <p data-general-accepted>{dict.readingPractice.acceptedAnswers}: {row.acceptedAnswers!.join(" / ")}</p>}
+                      {/* Evidence is answer support, rendered as plain text: it never becomes a vocabulary target or selects a sense. */}
+                      {row.evidenceQuote ? <p className="mt-1 italic" data-general-evidence>{t.evidence} {row.evidenceQuote}</p> : <p data-general-evidence-missing>{dict.readingV4.evidenceMissing}</p>}
+                      {row.evidenceQuote && <ReadingEvidence dict={dict} body={passage.body} title={passage.title} quote={row.evidenceQuote} />}
+                      {row.explanation ? <p className="mt-1" data-general-explanation>{dict.reading.explanation}: {row.explanation}</p> : <p data-general-explanation-missing>{dict.readingV4.explanationMissing}</p>}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+          {passage.questions.length > 0 && (
+            <div className="flex flex-wrap items-center gap-3">
+              <button type="button" className="btn-primary" disabled={status[passage.passageId] === "checking"}
+                onClick={() => { clearTimeout(timers.current[passage.passageId]); void persist(passage.passageId, answers[passage.passageId] ?? {}, true); }} data-general-check>
+                {status[passage.passageId] === "checking" ? t.checking : t.check}
+              </button>
+              {shownScore && shownScore.total !== null && (
+                <span className="text-sm text-ink-700" data-general-score>{t.score.replace("{score}", String(shownScore.score ?? 0)).replace("{total}", String(shownScore.total))}</span>
+              )}
+            </div>
+          )}
+          {errors[passage.passageId] && <p role="alert" className="text-sm text-ink-900">{errors[passage.passageId]}</p>}
+        </section>
+      </div>
+    </div>
+  );
 }
 
 function examQuestion(q:GeneralQuestion):ExamQuestion {

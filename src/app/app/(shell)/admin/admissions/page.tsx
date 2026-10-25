@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { requireAdministrator } from "@/lib/auth/current-user";
 import { listPendingAccessRequests, listRecentDecisions } from "@/lib/data/admission";
@@ -20,19 +19,11 @@ export default async function AdminAdmissionsPage() {
   if (!actor) redirect("/app");
 
   const dict = getDictionary(await getLocale());
-  const requestsPromise = Promise.all([
+  const [pending, recent] = await Promise.all([
     listPendingAccessRequests(),
     listRecentDecisions(10),
   ]);
-  return <Suspense fallback={<div role="status" aria-busy="true" aria-label={dict.common.loading} data-async-loading="management-admissions" className="h-40 animate-pulse rounded-xl bg-ink-50" />}>
-    <AdmissionsResults requestsPromise={requestsPromise} dict={dict} />
-  </Suspense>;
-}
-async function AdmissionsResults({ requestsPromise, dict }: {
-  requestsPromise: Promise<[Awaited<ReturnType<typeof listPendingAccessRequests>>, Awaited<ReturnType<typeof listRecentDecisions>>]>;
-  dict: ReturnType<typeof getDictionary>;
-}) {
-  const [pending, recent] = await requestsPromise;
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
       <div>

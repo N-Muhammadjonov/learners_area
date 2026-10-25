@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import "./globals.css";
-import { BACKGROUND_ASSETS } from "@/lib/ui/background-assets";
 import { fontVariables } from "@/lib/ui/fonts";
 import { BRAND, BRAND_FAVICON } from "@/lib/config/brand";
 import { THEME_COOKIE, themeFromCookie } from "@/lib/theme";
@@ -60,11 +59,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const theme = await readTheme();
   return (
     <html className={fontVariables} lang={await getLocale()} data-theme={theme} data-focus="off">
-      <head>
-        {BACKGROUND_ASSETS.filter((asset) => asset.theme === theme).map((asset) => (
-          <link key={asset.href} rel="preload" as="image" type="image/webp" href={asset.href} media={asset.media} fetchPriority="high" />
-        ))}
-      </head>
       <body>
         {performanceDiagnosticsEnabled() && <GlobalControlDiagnostics />}
         {children}

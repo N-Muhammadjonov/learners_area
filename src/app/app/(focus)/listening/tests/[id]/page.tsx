@@ -1,6 +1,3 @@
-import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
-import {ListeningSequenceLocked} from "@/components/listening/ListeningSequenceLocked";
-import { hasOriginalListeningRuntime } from "@/lib/listening/original-listening";
 import { packageActivities, activityPath } from "@/lib/listening/activities";
 import { AuthoredListeningFrame } from "@/components/listening/AuthoredListeningFrame";
 import Link from "next/link";
@@ -16,11 +13,10 @@ export default async function Hub({ params }: { params: Promise<{ id: string }> 
   if (!user) return null;
   const { id } = await params;
   if (!isUuid(id)) notFound();
-  if(!await listeningSequenceAccess(user,id))return <ListeningSequenceLocked dict={getDictionary(await getLocale())}/>;
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
   const dict = getDictionary(await getLocale());
-  if (detail.pkg.payload.authoredRuntime || hasOriginalListeningRuntime(id, detail.pkg.sourceId)) return <div className="w-full"><AuthoredListeningFrame id={id} userId={user.id} dict={dict}/></div>;
+  if (detail.pkg.payload.authoredRuntime) return <div className="w-full"><AuthoredListeningFrame id={id} userId={user.id} dict={dict}/></div>;
   // The registry needs what is true about this learner, or "Review by Part" and "Retry Weak
   // Areas" would be hidden from the very people who have a result to review and mistakes to
   // retry. Both hubs ask this one function, so neither can disagree with the other.

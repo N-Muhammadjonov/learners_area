@@ -1,6 +1,5 @@
 "use client";
 
-import { DeleteMaterialButton } from "./DeleteMaterialButton";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { requestJson } from "@/lib/http/client-request";
@@ -247,7 +246,7 @@ export function ContentWorkspace({ dict, canPublish }: { dict: Dictionary; canPu
             <input className="w-full" data-bank-version inputMode="numeric" value={filters.versionNo} onChange={(event) => setFilter({ versionNo: event.target.value.replace(/\D/g, "") })} />
           </Field>
           <Field label={t.filterTrack}>
-            <input className="w-full" data-bank-track value={filters.module === "listening" && filters.track === "academic" ? dict.listening.academic.title : filters.track} onChange={(event) => setFilter({ track: filters.module === "listening" && event.target.value.toLowerCase() === dict.listening.academic.title.toLowerCase() ? "academic" : event.target.value })} placeholder={filters.module === "listening" ? dict.listening.academic.title : "academic"} />
+            <input className="w-full" data-bank-track value={filters.track} onChange={(event) => setFilter({ track: event.target.value })} placeholder="academic" />
           </Field>
           <Field label={t.filterFrom}>
             <input className="w-full" type="date" data-bank-from value={filters.from} onChange={(event) => setFilter({ from: event.target.value })} />
@@ -454,7 +453,6 @@ function ItemPanel({ dict, canPublish, item, onClose, onChanged }: { dict: Dicti
                   <button type="button" className="btn-secondary" data-version-revise onClick={() => void startRevise(version)}>{t.revise}</button>
                   {version.publicationState !== "published" ? <button type="button" className="btn-primary" data-version-publish disabled={!canPublish || busy} onClick={() => void move(version.id, "published")}>{t.publish}</button> : null}
                   {version.publicationState !== "scheduled" ? <button type="button" className="btn-secondary" data-version-schedule disabled={!canPublish || busy} onClick={() => void move(version.id, "scheduled")}>{t.schedule}</button> : null}
-                  {version.targetId && ({reading_passage:"reading",general_reading_set:"reading-set",listening_test:"listening",video_lesson:"video",writing_prompt:"writing",writing_lesson:"writing-lesson",writing_model_text:"writing-model-text",writing_pattern:"writing-pattern",writing_translation_set:"writing-translation",speaking_prompt:"speaking-prompt",speaking_material:"speaking"} as Record<string,string>)[version.targetType??""] && <DeleteMaterialButton dict={dict} id={version.targetId} type={({reading_passage:"reading",general_reading_set:"reading-set",listening_test:"listening",video_lesson:"video",writing_prompt:"writing",writing_lesson:"writing-lesson",writing_model_text:"writing-model-text",writing_pattern:"writing-pattern",writing_translation_set:"writing-translation",speaking_prompt:"speaking-prompt",speaking_material:"speaking"} as Record<string,string>)[version.targetType??""]!} backTo="/app/admin/content" />}
                   {version.publicationState !== "archived" ? <button type="button" className="btn-secondary" data-version-archive disabled={!canPublish || busy} onClick={() => void move(version.id, "archived")}>{t.archive}</button> : null}
                 </span>
               </td>
@@ -618,7 +616,7 @@ function NewItemButton({ dict, modules, onCreated }: { dict: Dictionary; modules
               <select className="w-full" data-new-track value={track} onChange={(event) => setTrack(event.target.value)}>
                 {/* Tracks are a fixed vocabulary in the taxonomy; the labels are terms of art. */}
                 <option value="unspecified">unspecified</option>
-                <option value="academic">{module === "listening" ? dict.listening.academic.title : "academic"}</option>
+                <option value="academic">academic</option>
                 <option value="general_training">general_training</option>
               </select>
             </Field>

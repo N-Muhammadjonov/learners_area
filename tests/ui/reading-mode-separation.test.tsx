@@ -60,26 +60,6 @@ const examProps = {
   questions: [], groups: [], paragraphs: [], savedAnswers: {}, startedAt: new Date().toISOString(), suggestedMinutes: 20, materials: [material],
 };
 
-test("General phrase: either word opens the full authored phrase and never its nested word sense", async () => {
-  const net=recordFetch();
-  const text="food poisoning";
-  try { await mount(React.createElement(ClickableText,{dict:en,text,sourceType:"reading",sourceId:"passage",phraseAware:true,occurrences:[{id:"word",startChar:0,endChar:4,surfaceForm:"food"},{id:"phrase",startChar:0,endChar:14,surfaceForm:text}]}),async()=>{
-    await act(async()=>{document.querySelector("[data-word=food]")!.dispatchEvent(new dom.window.MouseEvent("click",{bubbles:true,detail:0}));});
-    assert.equal(document.querySelector("[role=dialog]")?.getAttribute("aria-label"),text);
-    assert.ok(net.urls.some(url=>url.includes("occurrenceId=phrase")));
-    assert.ok(!net.urls.some(url=>url.includes("occurrenceId=word")));
-  }); } finally {net.restore();}
-});
-
-test("General phrase: find you out never displays the checked definition of the isolated word find", async () => {
-  const net=recordFetch();
-  try { await mount(React.createElement(ClickableText,{dict:en,text:"find you out",sourceType:"reading",sourceId:"passage",phraseAware:true,occurrences:[{id:"find-only",startChar:0,endChar:4,surfaceForm:"find"}]}),async()=>{
-    await act(async()=>{document.querySelector("[data-word=find]")!.dispatchEvent(new dom.window.MouseEvent("click",{bubbles:true,detail:0}));});
-    assert.equal(document.querySelector("[role=dialog]")?.getAttribute("aria-label"),"find you out");
-    assert.ok(!net.urls.some(url=>url.includes("/lookup")||url.includes("/search")),"no guessed spelling/single-word meaning");
-  }); } finally {net.restore();}
-});
-
 test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word target, popup, Add to Vocabulary, hint text or lookup request", async () => {
   const net = recordFetch();
   try {
@@ -115,14 +95,7 @@ test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word targe
       await act(async()=> (document.querySelector("[data-highlight-control] button") as HTMLButtonElement).click());
       assert.equal(surface.querySelector("mark")?.textContent,"bank");
       assert.equal(surface.textContent,body,"highlight does not change text offsets");
-      assert.equal(document.querySelector("[data-reading-remove-highlight]"),null,"there is no permanent remove-highlight button");
-      const highlighted=surface.querySelector("mark")!;
-      const selectedHighlight=document.createRange();selectedHighlight.setStart(highlighted.firstChild!,0);selectedHighlight.setEnd(highlighted.firstChild!,highlighted.textContent!.length);
-      window.getSelection()!.removeAllRanges();window.getSelection()!.addRange(selectedHighlight);
-      await act(async()=>surface.dispatchEvent(new dom.window.KeyboardEvent("keyup",{key:"Shift",bubbles:true})));
-      const remove=document.querySelector("[data-highlight-control] button") as HTMLButtonElement;
-      assert.equal(remove.textContent,en.listening.general.clearHighlight,"removal is offered only for the selected highlighted text");
-      await act(async()=>remove.click());
+      await act(async()=> (document.querySelector("[data-reading-remove-highlight]") as HTMLButtonElement).click());
       assert.equal(surface.querySelector("mark"),null);
       assert.equal(surface.textContent,body,"removal never deletes text");
       assert.deepEqual(net.urls.filter(url=>url.includes("/api/vocabulary")),[]);
@@ -134,7 +107,7 @@ test("ACADEMIC_EXAM (active test): the passage reveals nothing — no word targe
 test("ACADEMIC_EXAM: exam component cannot receive lexical data (no occurrences prop, no ClickableText import)", () => {
   const source = readFileSync("src/components/reading/ReadingExam.tsx", "utf8");
   for (const banned of ["ClickableText", "occurrenceSpans", "OccurrenceSpan", "occurrences", "wordSaveHint"]) assert.equal(source.includes(banned), false, banned);
-  const page = readFileSync("src/app/app/(focus)/reading/attempts/[id]/page.tsx", "utf8");
+  const page = readFileSync("src/app/app/(shell)/reading/attempts/[id]/page.tsx", "utf8");
   const examJsx = page.slice(page.indexOf("<ReadingExam"), page.indexOf("/>", page.indexOf("questions={questions.map")));
   assert.equal(examJsx.includes("occurrences"), false, "the page does not send occurrences to the exam");
 });

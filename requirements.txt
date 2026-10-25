@@ -1,0 +1,16 @@
+# Vercel deployment manifest. Keep these pins in sync with services/backend/requirements.txt.
+# List dependencies directly so framework detection does not need to resolve an included file.
+fastapi==0.121.3
+starlette==0.50.0
+uvicorn==0.54.0
+asyncpg==0.32.0
+bcrypt==4.3.0
+httpx==0.28.1
+python-multipart==0.0.32
+regex==2026.9.29
+bleach==6.4.0
+tinycss2==1.5.1
+boto3==1.43.103
+PyJWT[crypto]==2.15.1
+reportlab==4.5.1
+python-docx==1.2.0

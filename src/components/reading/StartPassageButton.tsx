@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useOptionalInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
+import { useInstantInteraction } from "@/components/interaction/InstantInteractionProvider";
 import { Button } from "@/components/ui/Button";
 import { requestJson, failureMessage } from "@/lib/http/client-request";
 import { dictionaryForDocument } from "@/lib/i18n/client";
@@ -28,8 +27,7 @@ export function StartPassageButton({
   requestedType?:string;
   variant?: "primary" | "secondary";
 }) {
-  const interaction = useOptionalInstantInteraction();
-  const router = useRouter();
+  const { navigate } = useInstantInteraction();
   const dict = dictionaryForDocument();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -49,9 +47,7 @@ export function StartPassageButton({
               body: setId ? { setId } : { passageId },
             });
             if (result.ok && result.data?.id) {
-              const href = `/app/reading/attempts/${result.data.id}${requestedType ? `?type=${encodeURIComponent(requestedType)}` : ""}`;
-              if (interaction) interaction.navigate(href);
-              else router.push(href);
+              navigate(`/app/reading/attempts/${result.data.id}${requestedType ? `?type=${encodeURIComponent(requestedType)}` : ""}`);
               return;
             }
             setError(

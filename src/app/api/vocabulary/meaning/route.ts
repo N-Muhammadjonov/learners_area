@@ -1,27 +1,2 @@
-import { NextRequest, NextResponse } from "next/server";
-import { requireActiveUser } from "@/lib/auth/current-user";
-import { textDictionaryAccess } from "@/lib/services/lexical/source-access";
-import { isUuid } from "@/lib/validation/ids";
-import { consume, RULES } from "@/lib/http/rate-limit";
-const headers = { "Cache-Control": "private, no-store" };
-
-/** Course text exposes only an authored occurrence meaning through /lookup.
- * A spelling by itself cannot identify which meaning the sentence uses. */
-export async function GET(req: NextRequest) {
-  const user = await requireActiveUser();
-  if (!user) return NextResponse.json({ error: "unauthenticated" }, { status: 401, headers });
-  const sourceType=req.nextUrl.searchParams.get("sourceType")??"listening";
-  const sourceId=req.nextUrl.searchParams.get("sourceId")??"";
-  const term=(req.nextUrl.searchParams.get("q")??"").trim();
-  if (!isUuid(sourceId)||!["reading","listening","retention"].includes(sourceType)||!term||term.length>80)
-    return NextResponse.json({error:"invalid_input"},{status:400,headers});
-  const limit=consume(RULES.vocabularySearch,"text-dictionary:"+user.id);
-  if (!limit.ok) return NextResponse.json({error:"rate_limited"},{status:429,headers:{...headers,"Retry-After":String(limit.retryAfterSeconds)}});
-  try {
-    const access=await textDictionaryAccess(user,sourceType,sourceId);
-    if(access!=="allowed")return NextResponse.json({error:access==="locked"?"lexical_assistance_locked":"source_not_found"},{status:access==="locked"?403:404,headers});
-    return NextResponse.json({status:"unresolved",contextual:null,known:null},{headers});
-  } catch {
-    return NextResponse.json({ error: "temporarily_unavailable" }, { status: 503, headers });
-  }
-}
+// Transport only: Python owns supported methods and all API business logic.
+export { forwardToBackend as GET, forwardToBackend as POST, forwardToBackend as PUT, forwardToBackend as PATCH, forwardToBackend as DELETE, forwardToBackend as HEAD, forwardToBackend as OPTIONS } from "@/lib/backend/proxy";

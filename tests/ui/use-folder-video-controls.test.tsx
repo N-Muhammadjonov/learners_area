@@ -106,16 +106,15 @@ test('Video network failure releases save and keeps the learner draft for a manu
   globalThis.fetch = (async () => { calls++; throw new TypeError('offline'); }) as typeof fetch;
   try {
     await mounted(<VideoLessonStudio mode="standalone" dict={en} lessonId="local" videoLesson={{id:'local',provider:'youtube',videoId:'dQw4w9WgXcQ',title:'QA video',beforeYouWatch:null,durationSeconds:null,transcript:null,transcriptSource:null,transcriptAttribution:null,notes:null}} questions={[]} initialProgress={null} />, async () => {
-      await act(async()=>q<HTMLButtonElement>('[data-video-tab="summary"]').click());
       await act(async () => {
-        const input=q<HTMLTextAreaElement>('[data-video-summary-input]');
+        const input=q<HTMLTextAreaElement>('[data-video-opinion-input]');
         Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype,'value')!.set!.call(input,'My retained draft.');
         input.dispatchEvent(new Event('input',{bubbles:true}));
       });
       await act(async () => q<HTMLButtonElement>('[data-video-save-response]').click());
       assert.equal(calls,1);
       assert.equal(q<HTMLButtonElement>('[data-video-save-response]').disabled,false);
-      assert.equal(q<HTMLTextAreaElement>('[data-video-summary-input]').value,'My retained draft.');
+      assert.equal(q<HTMLTextAreaElement>('[data-video-opinion-input]').value,'My retained draft.');
       assert.ok(q('[data-video-request-error]'));
       await act(async () => q<HTMLButtonElement>('[data-video-save-response]').click());
       assert.equal(calls,2);

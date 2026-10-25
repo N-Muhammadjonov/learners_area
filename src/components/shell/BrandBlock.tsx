@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { BRAND, BRAND_MARK } from "@/lib/config/brand";
 
 /**
@@ -25,14 +24,11 @@ export function BrandBlock({
   className = "",
   size = 44,
   withTagline = true,
-  nameSuffix,
 }: {
   className?: string;
   /** Display size of the mark in CSS pixels (40–44 on desktop). */
   size?: number;
   withTagline?: boolean;
-  /** Optional inline action icon next to the wordmark; only auth pages use it. */
-  nameSuffix?: ReactNode;
 }) {
   const day = BRAND_MARK.day;
   const night = BRAND_MARK.night;
@@ -65,7 +61,7 @@ export function BrandBlock({
         />
       </span>
       <span className="flex min-w-0 flex-col">
-        <span className="brand-name">{BRAND.siteName}{nameSuffix}</span>
+        <span className="brand-name">{BRAND.siteName}</span>
         {withTagline && <span className="brand-tagline">{BRAND.brandLine}</span>}
       </span>
     </span>

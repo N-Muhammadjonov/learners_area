@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Input";
-import { TelegramIntentLogin } from "./TelegramIntentLogin";
 import { TelegramButton } from "./TelegramButton";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -13,21 +12,13 @@ export function RegisterForm({
   dict,
   telegramConfigured,
   telegramBotUsername,
-  passwordEnabled = true,
-  telegramIntentEnabled = false,
-  nonce,
 }: {
   dict: Dictionary;
   telegramConfigured: boolean;
   telegramBotUsername?: string;
-  passwordEnabled?: boolean;
-  telegramIntentEnabled?: boolean;
-  nonce?: string;
 }) {
   const router = useRouter();
   const [name, setName] = useState("");
-  const [firstName,setFirstName]=useState(''),[lastName,setLastName]=useState('');
-  const nameRef=useRef<HTMLInputElement>(null);
   const [gender, setGender] = useState<"" | "male" | "female">("");
   const [genderError, setGenderError] = useState(false);
   const firstGender = useRef<HTMLInputElement>(null);
@@ -71,14 +62,12 @@ export function RegisterForm({
     }
   }
 
-  const telegram = telegramIntentEnabled ? (
-    <TelegramIntentLogin dict={dict} configured={telegramConfigured} botUsername={telegramBotUsername} purpose="register" registrationGender={gender} registrationName={passwordEnabled?name:`${firstName.trim()} ${lastName.trim()}`} onNameRequired={()=>nameRef.current?.focus()} onGenderRequired={() => { setGenderError(true); firstGender.current?.focus(); }} />
-  ) : (
-    <TelegramButton label={dict.auth.continueWithTelegram} unavailableLabel={dict.auth.telegramUnavailable}
-      configured={telegramConfigured} botUsername={telegramBotUsername} nonce={nonce} />
-  );
-
-  const genderField = (
+  return (
+    <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      <div>
+        <Label htmlFor="name">{dict.auth.name}</Label>
+        <Input id="name" required value={name} onChange={(e) => setName(e.target.value)} />
+      </div>
       <fieldset>
         <legend id="gender-label" className="mb-1.5 text-sm font-medium text-ink-700">{dict.auth.chooseGender}</legend>
         <div className="gender-segments" role="radiogroup" aria-labelledby="gender-label" aria-required="true" aria-invalid={genderError} aria-describedby={genderError ? "gender-error" : undefined}>
@@ -106,24 +95,6 @@ export function RegisterForm({
         </div>
         {genderError && <p id="gender-error" role="alert" className="mt-1 text-xs text-band-bad">{dict.auth.errorGenderRequired}</p>}
       </fieldset>
-  );
-
-  if (!passwordEnabled) return (
-    <div className="flex flex-col gap-4">
-      <div><Label htmlFor="first-name">{dict.profile.firstName}</Label><Input ref={nameRef} id="first-name" autoComplete="given-name" value={firstName} required maxLength={100} onChange={e=>setFirstName(e.target.value)}/></div>
-      <div><Label htmlFor="last-name">{dict.profile.lastName}</Label><Input id="last-name" autoComplete="family-name" value={lastName} required maxLength={99} onChange={e=>setLastName(e.target.value)}/></div>
-      {telegramIntentEnabled && genderField}
-      {telegram}
-    </div>
-  );
-
-  return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <div>
-        <Label htmlFor="name">{dict.auth.name}</Label>
-        <Input ref={nameRef} id="name" autoComplete="name" required value={name} onChange={(e) => setName(e.target.value)} />
-      </div>
-      {genderField}
       <div>
         <Label htmlFor="email">{dict.auth.email}</Label>
         <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -147,7 +118,12 @@ export function RegisterForm({
         <span className="relative bg-paper-raised px-2">{dict.auth.or}</span>
         <div className="absolute inset-x-0 top-1/2 -z-10 h-px bg-ink-100" />
       </div>
-      {telegram}
+      <TelegramButton
+        label={dict.auth.continueWithTelegram}
+        unavailableLabel={dict.auth.telegramUnavailable}
+        configured={telegramConfigured}
+        botUsername={telegramBotUsername}
+      />
     </form>
   );
 }

@@ -36,11 +36,13 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
   const [lessonId, setLessonId] = useState("");
   const [title, setTitle] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [before, setBefore] = useState("");
   const [duration, setDuration] = useState("");
   const [notes, setNotes] = useState("");
   const [transcriptText, setTranscriptText] = useState("");
   const [transcriptSource, setTranscriptSource] = useState("authored");
   const [vocabularyText, setVocabularyText] = useState("");
+  const [questionsText, setQuestionsText] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ tone: "ok" | "bad"; text: string } | null>(null);
 
@@ -53,6 +55,9 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       const [word = "", pos = "", def = "", uz = "", ex = ""] = line.split("||").map(part => part.trim());
       return {word, pos, def, uz, ex};
     }) : [];
+    if (vocabulary.some(entry => ![transcript.kind === "plain" ? transcript.text : transcript.kind === "timed" ? transcript.lines.map(line => line.text).join("\n") : "", notes].join("\n").includes(entry.ex) || !entry.ex)) {
+      setMessage({tone: "bad", text: t.vocabularyContextRequired}); return;
+    }
     submitting.current = true;
     setBusy(true);
     setMessage(null);
@@ -69,7 +74,7 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
         lessonId: lessonId || null,
         title,
         videoUrl,
-        beforeYouWatch: null,
+        beforeYouWatch: before || null,
         durationSeconds: duration ? Number(duration) : null,
         // Captions are supplied by the player; no transcript is scraped or invented.
         transcriptSource: transcript.kind === "empty" ? null : transcriptSource,
@@ -79,7 +84,7 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
         ...(vocabulary.length ? {vocabulary} : {}),
         notes: notes.trim() || null,
         // Both standalone and course items may carry authored exercises.
-        questions: [],
+        questions: parseQuestions(questionsText),
       }),
     });
     const body = await res.json().catch(() => ({}));
@@ -89,8 +94,9 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       setMessage({ tone: "ok", text: t.saved });
       setTitle("");
       setVideoUrl("");
+      setBefore("");
       setNotes("");
-      setTranscriptText(""); setVocabularyText("");
+      setQuestionsText(""); setTranscriptText(""); setVocabularyText("");
       router.refresh();
       return;
     }
@@ -176,6 +182,11 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       </label>
 
       <label className="flex flex-col gap-1 text-sm">
+        {t.beforeYouWatch}
+        <textarea className="input min-h-20" value={before} onChange={(e) => setBefore(e.target.value)} maxLength={2000} />
+      </label>
+
+      <label className="flex flex-col gap-1 text-sm">
         {t.durationSeconds}
         <Input
           type="number"
@@ -187,6 +198,18 @@ export function NewVideoLessonForm({ dict, lessons }: { dict: Dictionary; lesson
       </label>
 
 
+
+      <label className="flex flex-col gap-1 text-sm">
+        {t.questions}
+        <textarea
+          className="input min-h-28 font-mono text-xs"
+          value={questionsText}
+          onChange={(e) => setQuestionsText(e.target.value)}
+          placeholder={"What is the speaker's main point? || education matters | learning matters\ngap_fill The speaker says it is ___ || possible | achievable"}
+          data-video-questions-input
+        />
+        <span className="text-xs text-ink-500">{t.questionsHelp}</span>
+      </label>
 
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={busy}>

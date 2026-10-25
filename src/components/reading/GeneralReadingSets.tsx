@@ -5,7 +5,7 @@ import type { listGeneralSets } from "@/lib/data/general-reading";
 
 type GeneralSet = Awaited<ReturnType<typeof listGeneralSets>>[number];
 
-/** Legacy set links still open individual General passages; only Academic opens a full set. */
+/** General Reading set cards: every set offers Passage 1 / 2 / 3 and Full Reading. */
 export function GeneralReadingSets({ dict, sets, assessment = false }: { dict: Dictionary; sets: GeneralSet[]; assessment?: boolean }) {
   const t = dict.generalReading;
   if (sets.length === 0) return <EmptyState icon="◆" title={t.empty} body={t.emptyHint} />;
@@ -25,7 +25,7 @@ export function GeneralReadingSets({ dict, sets, assessment = false }: { dict: D
                 {t.passageN.replace("{n}", String(passage.passageNo))}
               </Link>
             ))}
-            {assessment && set.passages.length === 3 && (
+            {(assessment ? set.passages.length === 3 : set.passages.length > 1) && (
               <Link prefetch={false} className="btn-primary" href={assessment ? `/app/reading/academic/${set.id}` : `/app/reading/general/${set.id}?passage=full`} data-general-mode="full">{t.full}</Link>
             )}
           </div>

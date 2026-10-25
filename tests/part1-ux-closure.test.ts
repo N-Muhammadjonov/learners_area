@@ -16,14 +16,13 @@ test("Management People search is parameterized in SQL before a fixed, determini
   const page = buildPeopleListQuery(filters, 2).toSQL();
   const count = buildPeopleCountQuery(filters).toSQL();
 
+  assert.match(page.sql, /where \("users"\."role" = \$\d+ and "users"\."account_status" = \$\d+ and \("users"\."name" ilike \$\d+ or "users"\."email" ilike \$\d+\)\)/);
   assert.ok(page.sql.indexOf(" where ") < page.sql.indexOf(" limit "));
-  assert.match(page.sql, /telegram_contacts/);
-  assert.match(page.sql, /username.*ilike/);
-  assert.match(page.sql, /order by case/);
-  assert.ok(page.params.includes("%Ada 100\\%\\_\\\\%"));
-  assert.deepEqual(page.params.slice(-2), [25,25]);
-  assert.ok(!page.sql.includes(filters.q),"the query remains parameterized");
+  assert.match(page.sql, /order by "users"\."created_at" desc, "users"\."id" desc limit \$\d+ offset \$\d+$/);
+  assert.deepEqual(page.params, ["teacher", "active", "%Ada 100\\%\\_\\\\%", "%Ada 100\\%\\_\\\\%", 25, 25]);
+  assert.match(count.sql, /count\(\*\)::int from "users" where/);
   assert.doesNotMatch(count.sql, / limit | offset /);
+  assert.equal(count.params.length, 4);
 
   const directory = read("src/app/app/(shell)/admin/people/page.tsx");
   const table = read("src/components/admin/PeopleTable.tsx");
@@ -71,8 +70,7 @@ test("registration declares and persists a canonical gender while keeping legacy
   assert.equal(uz.auth.gender, "Jins");
   assert.equal(en.auth.genderMale, "Male");
   assert.equal(uz.auth.genderFemale, "Ayol");
-  assert.doesNotMatch(telegram, /\.insert\(users\)/);
-  assert.match(telegram, /\/register\?error=telegram_no_account/);
+  assert.match(telegram, /\.values\(\{ name, telegramId, role: "student"/);
   assert.doesNotMatch(telegram, /gender:/);
   assert.match(migration, /CREATE TYPE .*gender.*'male', 'female'/i);
   assert.match(migration, /ALTER TABLE "users" ADD COLUMN "gender" "gender"/);

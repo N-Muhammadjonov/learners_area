@@ -1,0 +1,1172 @@
+{
+  "listeningTemplate": {
+    "schemaVersion": 2,
+    "module": "listening",
+    "contentType": "full_test",
+    "sourceRef": "listening-test-example",
+    "title": "Listening Test Example",
+    "language": "en",
+    "provenance": {
+      "source": "ai_authoring",
+      "note": "Generated from the Learners Area Listening package spec."
+    },
+    "publication": {
+      "state": "draft"
+    },
+    "assets": [
+      {
+        "key": "audio.full",
+        "role": "audio",
+        "required": true,
+        "mimeTypes": [
+          "audio/mpeg",
+          "audio/mp4",
+          "audio/aac",
+          "audio/ogg",
+          "audio/wav",
+          "audio/x-wav",
+          "audio/webm",
+          "video/webm",
+          "audio/flac"
+        ],
+        "path": "audio/full.mp3"
+      }
+    ],
+    "content": {
+      "collection": "academic",
+      "audio": {
+        "durationSec": 600,
+        "assetKey": "audio.full",
+        "path": "audio/full.mp3"
+      },
+      "sections": [
+        {
+          "number": 1,
+          "title": "Part 1",
+          "transcript": "Write the full transcript of part 1 here."
+        },
+        {
+          "number": 2,
+          "title": "Part 2",
+          "transcript": ""
+        },
+        {
+          "number": 3,
+          "title": "Part 3",
+          "transcript": ""
+        },
+        {
+          "number": 4,
+          "title": "Part 4",
+          "transcript": ""
+        }
+      ],
+      "questions": [
+        {
+          "number": 1,
+          "section": 1,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD ONLY.",
+          "text": "The booking reference is [1] ………… .",
+          "options": [],
+          "answer": "HX492",
+          "alternatives": [
+            "HX 492"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 12.5,
+            "end": 16,
+            "why": "The receptionist reads the reference back."
+          }
+        },
+        {
+          "number": 2,
+          "section": 1,
+          "type": "mcq",
+          "instruction": "Choose the correct letter, A, B or C.",
+          "text": "What time does the tour start?",
+          "options": [
+            "A 9:00",
+            "B 10:30",
+            "C 11:15"
+          ],
+          "answer": "B 10:30",
+          "alternatives": [
+            "10:30",
+            "B"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 42,
+            "end": 47,
+            "why": "\"The tour leaves at half past ten\"."
+          }
+        }
+      ],
+      "keyword1": [],
+      "keyword2": [],
+      "vocabulary": [
+        {
+          "word": "reference",
+          "pos": "noun",
+          "uz": "ma'lumotnoma raqami",
+          "def": "A number that identifies a booking.",
+          "ex": "The booking reference is HX492.",
+          "also": [
+            "ref"
+          ]
+        }
+      ],
+      "studyPack": {
+        "kind": "research-practice",
+        "activities": [
+          "exam",
+          "review",
+          "vocab"
+        ],
+        "partRanges": {
+          "1": [
+            0,
+            300
+          ],
+          "2": [
+            300,
+            600
+          ]
+        },
+        "recall": [
+          {
+            "part": 1,
+            "title": "Booking",
+            "points": [
+              "Reference number",
+              "Tour time"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "listeningExample": {
+    "schemaVersion": 2,
+    "module": "listening",
+    "contentType": "full_test",
+    "sourceRef": "listening-qa-sample-v2",
+    "title": "Listening QA Sample (synthetic)",
+    "language": "en",
+    "provenance": {
+      "source": "owner_authored",
+      "note": "Synthetic QA fixture generated from the canonical Listening specification."
+    },
+    "publication": {
+      "state": "draft"
+    },
+    "assets": [
+      {
+        "key": "audio.full",
+        "role": "audio",
+        "required": true,
+        "mimeTypes": [
+          "audio/mpeg",
+          "audio/mp4",
+          "audio/aac",
+          "audio/ogg",
+          "audio/wav",
+          "audio/x-wav",
+          "audio/webm",
+          "video/webm",
+          "audio/flac"
+        ],
+        "path": "audio/full.mp3"
+      },
+      {
+        "key": "image.map",
+        "role": "image",
+        "required": true,
+        "mimeTypes": [
+          "image/png",
+          "image/jpeg",
+          "image/webp"
+        ],
+        "path": "images/map.webp"
+      }
+    ],
+    "content": {
+      "collection": "academic",
+      "audio": {
+        "durationSec": 1800,
+        "assetKey": "audio.full",
+        "path": "audio/full.mp3"
+      },
+      "image": {
+        "assetKey": "image.map"
+      },
+      "sections": [
+        {
+          "number": 1,
+          "title": "Part 1: Community Centre",
+          "transcript": "Part 1 line 1: this synthetic transcript exists for QA of the canonical Listening package. Part 1 line 2: this synthetic transcript exists for QA of the canonical Listening package. Part 1 line 3: this synthetic transcript exists for QA of the canonical Listening package. Part 1 line 4: this synthetic transcript exists for QA of the canonical Listening package."
+        },
+        {
+          "number": 2,
+          "title": "Part 2: City Library",
+          "transcript": "Part 2 line 1: this synthetic transcript exists for QA of the canonical Listening package. Part 2 line 2: this synthetic transcript exists for QA of the canonical Listening package. Part 2 line 3: this synthetic transcript exists for QA of the canonical Listening package. Part 2 line 4: this synthetic transcript exists for QA of the canonical Listening package."
+        },
+        {
+          "number": 3,
+          "title": "Part 3: Riverside Museum",
+          "transcript": "Part 3 line 1: this synthetic transcript exists for QA of the canonical Listening package. Part 3 line 2: this synthetic transcript exists for QA of the canonical Listening package. Part 3 line 3: this synthetic transcript exists for QA of the canonical Listening package. Part 3 line 4: this synthetic transcript exists for QA of the canonical Listening package."
+        },
+        {
+          "number": 4,
+          "title": "Part 4: Science Podcast",
+          "transcript": "Part 4 line 1: this synthetic transcript exists for QA of the canonical Listening package. Part 4 line 2: this synthetic transcript exists for QA of the canonical Listening package. Part 4 line 3: this synthetic transcript exists for QA of the canonical Listening package. Part 4 line 4: this synthetic transcript exists for QA of the canonical Listening package."
+        }
+      ],
+      "questions": [
+        {
+          "number": 1,
+          "section": 1,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 1: the value is [1] ………… .",
+          "options": [],
+          "answer": "answer1",
+          "alternatives": [
+            "answer 1"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 30,
+            "end": 35,
+            "why": "The speaker states answer1."
+          }
+        },
+        {
+          "number": 2,
+          "section": 1,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 2: the value is [2] ………… .",
+          "options": [],
+          "answer": "answer2",
+          "alternatives": [
+            "answer 2"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 70,
+            "end": 75,
+            "why": "The speaker states answer2."
+          }
+        },
+        {
+          "number": 3,
+          "section": 1,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 3: the value is [3] ………… .",
+          "options": [],
+          "answer": "answer3",
+          "alternatives": [
+            "answer 3"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 110,
+            "end": 115,
+            "why": "The speaker states answer3."
+          }
+        },
+        {
+          "number": 4,
+          "section": 1,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 4: the value is [4] ………… .",
+          "options": [],
+          "answer": "answer4",
+          "alternatives": [
+            "answer 4"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 150,
+            "end": 155,
+            "why": "The speaker states answer4."
+          }
+        },
+        {
+          "number": 5,
+          "section": 1,
+          "type": "matching",
+          "instruction": "Choose the correct letter, A–D.",
+          "text": "Synthetic QA question 5: which service does the speaker describe?",
+          "options": [
+            "A Service one",
+            "B Service two",
+            "C Service three",
+            "D Service four"
+          ],
+          "answer": "C Service three",
+          "alternatives": [
+            "C"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 190,
+            "end": 195,
+            "why": "The speaker describes service three for question 5."
+          }
+        },
+        {
+          "number": 6,
+          "section": 1,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 6: the value is [6] ………… .",
+          "options": [],
+          "answer": "answer6",
+          "alternatives": [
+            "answer 6"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 230,
+            "end": 235,
+            "why": "The speaker states answer6."
+          }
+        },
+        {
+          "number": 7,
+          "section": 1,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 7: the value is [7] ………… .",
+          "options": [],
+          "answer": "answer7",
+          "alternatives": [
+            "answer 7"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 270,
+            "end": 275,
+            "why": "The speaker states answer7."
+          }
+        },
+        {
+          "number": 8,
+          "section": 1,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 8: the value is [8] ………… .",
+          "options": [],
+          "answer": "answer8",
+          "alternatives": [
+            "answer 8"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 310,
+            "end": 315,
+            "why": "The speaker states answer8."
+          }
+        },
+        {
+          "number": 9,
+          "section": 1,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 9: the value is [9] ………… .",
+          "options": [],
+          "answer": "answer9",
+          "alternatives": [
+            "answer 9"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 350,
+            "end": 355,
+            "why": "The speaker states answer9."
+          }
+        },
+        {
+          "number": 10,
+          "section": 1,
+          "type": "mcq",
+          "instruction": "Choose the correct letter, A, B or C.",
+          "text": "Synthetic QA question 10: which option is correct?",
+          "options": [
+            "A first option",
+            "B second option",
+            "C third option"
+          ],
+          "answer": "B second option",
+          "alternatives": [
+            "B",
+            "second option"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 390,
+            "end": 396,
+            "why": "The speaker names the second option for question 10."
+          }
+        },
+        {
+          "number": 11,
+          "section": 2,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 11: the value is [11] ………… .",
+          "options": [],
+          "answer": "answer11",
+          "alternatives": [
+            "answer 11"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 430,
+            "end": 435,
+            "why": "The speaker states answer11."
+          }
+        },
+        {
+          "number": 12,
+          "section": 2,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 12: the value is [12] ………… .",
+          "options": [],
+          "answer": "answer12",
+          "alternatives": [
+            "answer 12"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 470,
+            "end": 475,
+            "why": "The speaker states answer12."
+          }
+        },
+        {
+          "number": 13,
+          "section": 2,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 13: the value is [13] ………… .",
+          "options": [],
+          "answer": "answer13",
+          "alternatives": [
+            "answer 13"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 510,
+            "end": 515,
+            "why": "The speaker states answer13."
+          }
+        },
+        {
+          "number": 14,
+          "section": 2,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 14: the value is [14] ………… .",
+          "options": [],
+          "answer": "answer14",
+          "alternatives": [
+            "answer 14"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 550,
+            "end": 555,
+            "why": "The speaker states answer14."
+          }
+        },
+        {
+          "number": 15,
+          "section": 2,
+          "type": "matching",
+          "instruction": "Choose the correct letter, A–D.",
+          "text": "Synthetic QA question 15: which service does the speaker describe?",
+          "options": [
+            "A Service one",
+            "B Service two",
+            "C Service three",
+            "D Service four"
+          ],
+          "answer": "C Service three",
+          "alternatives": [
+            "C"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 590,
+            "end": 595,
+            "why": "The speaker describes service three for question 15."
+          }
+        },
+        {
+          "number": 16,
+          "section": 2,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 16: the value is [16] ………… .",
+          "options": [],
+          "answer": "answer16",
+          "alternatives": [
+            "answer 16"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 630,
+            "end": 635,
+            "why": "The speaker states answer16."
+          }
+        },
+        {
+          "number": 17,
+          "section": 2,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 17: the value is [17] ………… .",
+          "options": [],
+          "answer": "answer17",
+          "alternatives": [
+            "answer 17"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 670,
+            "end": 675,
+            "why": "The speaker states answer17."
+          }
+        },
+        {
+          "number": 18,
+          "section": 2,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 18: the value is [18] ………… .",
+          "options": [],
+          "answer": "answer18",
+          "alternatives": [
+            "answer 18"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 710,
+            "end": 715,
+            "why": "The speaker states answer18."
+          }
+        },
+        {
+          "number": 19,
+          "section": 2,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 19: the value is [19] ………… .",
+          "options": [],
+          "answer": "answer19",
+          "alternatives": [
+            "answer 19"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 750,
+            "end": 755,
+            "why": "The speaker states answer19."
+          }
+        },
+        {
+          "number": 20,
+          "section": 2,
+          "type": "mcq",
+          "instruction": "Choose the correct letter, A, B or C.",
+          "text": "Synthetic QA question 20: which option is correct?",
+          "options": [
+            "A first option",
+            "B second option",
+            "C third option"
+          ],
+          "answer": "B second option",
+          "alternatives": [
+            "B",
+            "second option"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 790,
+            "end": 796,
+            "why": "The speaker names the second option for question 20."
+          }
+        },
+        {
+          "number": 21,
+          "section": 3,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 21: the value is [21] ………… .",
+          "options": [],
+          "answer": "answer21",
+          "alternatives": [
+            "answer 21"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 830,
+            "end": 835,
+            "why": "The speaker states answer21."
+          }
+        },
+        {
+          "number": 22,
+          "section": 3,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 22: the value is [22] ………… .",
+          "options": [],
+          "answer": "answer22",
+          "alternatives": [
+            "answer 22"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 870,
+            "end": 875,
+            "why": "The speaker states answer22."
+          }
+        },
+        {
+          "number": 23,
+          "section": 3,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 23: the value is [23] ………… .",
+          "options": [],
+          "answer": "answer23",
+          "alternatives": [
+            "answer 23"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 910,
+            "end": 915,
+            "why": "The speaker states answer23."
+          }
+        },
+        {
+          "number": 24,
+          "section": 3,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 24: the value is [24] ………… .",
+          "options": [],
+          "answer": "answer24",
+          "alternatives": [
+            "answer 24"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 950,
+            "end": 955,
+            "why": "The speaker states answer24."
+          }
+        },
+        {
+          "number": 25,
+          "section": 3,
+          "type": "matching",
+          "instruction": "Choose the correct letter, A–D.",
+          "text": "Synthetic QA question 25: which service does the speaker describe?",
+          "options": [
+            "A Service one",
+            "B Service two",
+            "C Service three",
+            "D Service four"
+          ],
+          "answer": "C Service three",
+          "alternatives": [
+            "C"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 990,
+            "end": 995,
+            "why": "The speaker describes service three for question 25."
+          }
+        },
+        {
+          "number": 26,
+          "section": 3,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 26: the value is [26] ………… .",
+          "options": [],
+          "answer": "answer26",
+          "alternatives": [
+            "answer 26"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1030,
+            "end": 1035,
+            "why": "The speaker states answer26."
+          }
+        },
+        {
+          "number": 27,
+          "section": 3,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 27: the value is [27] ………… .",
+          "options": [],
+          "answer": "answer27",
+          "alternatives": [
+            "answer 27"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1070,
+            "end": 1075,
+            "why": "The speaker states answer27."
+          }
+        },
+        {
+          "number": 28,
+          "section": 3,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 28: the value is [28] ………… .",
+          "options": [],
+          "answer": "answer28",
+          "alternatives": [
+            "answer 28"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1110,
+            "end": 1115,
+            "why": "The speaker states answer28."
+          }
+        },
+        {
+          "number": 29,
+          "section": 3,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 29: the value is [29] ………… .",
+          "options": [],
+          "answer": "answer29",
+          "alternatives": [
+            "answer 29"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1150,
+            "end": 1155,
+            "why": "The speaker states answer29."
+          }
+        },
+        {
+          "number": 30,
+          "section": 3,
+          "type": "mcq",
+          "instruction": "Choose the correct letter, A, B or C.",
+          "text": "Synthetic QA question 30: which option is correct?",
+          "options": [
+            "A first option",
+            "B second option",
+            "C third option"
+          ],
+          "answer": "B second option",
+          "alternatives": [
+            "B",
+            "second option"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1190,
+            "end": 1196,
+            "why": "The speaker names the second option for question 30."
+          }
+        },
+        {
+          "number": 31,
+          "section": 4,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 31: the value is [31] ………… .",
+          "options": [],
+          "answer": "answer31",
+          "alternatives": [
+            "answer 31"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1230,
+            "end": 1235,
+            "why": "The speaker states answer31."
+          }
+        },
+        {
+          "number": 32,
+          "section": 4,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 32: the value is [32] ………… .",
+          "options": [],
+          "answer": "answer32",
+          "alternatives": [
+            "answer 32"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1270,
+            "end": 1275,
+            "why": "The speaker states answer32."
+          }
+        },
+        {
+          "number": 33,
+          "section": 4,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 33: the value is [33] ………… .",
+          "options": [],
+          "answer": "answer33",
+          "alternatives": [
+            "answer 33"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1310,
+            "end": 1315,
+            "why": "The speaker states answer33."
+          }
+        },
+        {
+          "number": 34,
+          "section": 4,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 34: the value is [34] ………… .",
+          "options": [],
+          "answer": "answer34",
+          "alternatives": [
+            "answer 34"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1350,
+            "end": 1355,
+            "why": "The speaker states answer34."
+          }
+        },
+        {
+          "number": 35,
+          "section": 4,
+          "type": "matching",
+          "instruction": "Choose the correct letter, A–D.",
+          "text": "Synthetic QA question 35: which service does the speaker describe?",
+          "options": [
+            "A Service one",
+            "B Service two",
+            "C Service three",
+            "D Service four"
+          ],
+          "answer": "C Service three",
+          "alternatives": [
+            "C"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1390,
+            "end": 1395,
+            "why": "The speaker describes service three for question 35."
+          }
+        },
+        {
+          "number": 36,
+          "section": 4,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 36: the value is [36] ………… .",
+          "options": [],
+          "answer": "answer36",
+          "alternatives": [
+            "answer 36"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1430,
+            "end": 1435,
+            "why": "The speaker states answer36."
+          }
+        },
+        {
+          "number": 37,
+          "section": 4,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 37: the value is [37] ………… .",
+          "options": [],
+          "answer": "answer37",
+          "alternatives": [
+            "answer 37"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1470,
+            "end": 1475,
+            "why": "The speaker states answer37."
+          }
+        },
+        {
+          "number": 38,
+          "section": 4,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 38: the value is [38] ………… .",
+          "options": [],
+          "answer": "answer38",
+          "alternatives": [
+            "answer 38"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1510,
+            "end": 1515,
+            "why": "The speaker states answer38."
+          }
+        },
+        {
+          "number": 39,
+          "section": 4,
+          "type": "completion",
+          "instruction": "Complete the notes. Write ONE WORD AND/OR A NUMBER.",
+          "text": "Synthetic QA note 39: the value is [39] ………… .",
+          "options": [],
+          "answer": "answer39",
+          "alternatives": [
+            "answer 39"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1550,
+            "end": 1555,
+            "why": "The speaker states answer39."
+          }
+        },
+        {
+          "number": 40,
+          "section": 4,
+          "type": "mcq",
+          "instruction": "Choose the correct letter, A, B or C.",
+          "text": "Synthetic QA question 40: which option is correct?",
+          "options": [
+            "A first option",
+            "B second option",
+            "C third option"
+          ],
+          "answer": "B second option",
+          "alternatives": [
+            "B",
+            "second option"
+          ],
+          "pair": [],
+          "evidence": {
+            "at": 1590,
+            "end": 1596,
+            "why": "The speaker names the second option for question 40."
+          }
+        }
+      ],
+      "keyword1": [],
+      "keyword2": [],
+      "vocabulary": [
+        {
+          "word": "qa-word-1",
+          "pos": "noun",
+          "uz": "QA so'z",
+          "def": "Synthetic QA vocabulary item 1.",
+          "ex": "The synthetic transcript uses qa-word-1 once.",
+          "also": []
+        },
+        {
+          "word": "qa-word-2",
+          "pos": "noun",
+          "uz": "QA so'z",
+          "def": "Synthetic QA vocabulary item 2.",
+          "ex": "The synthetic transcript uses qa-word-2 once.",
+          "also": []
+        },
+        {
+          "word": "qa-word-3",
+          "pos": "noun",
+          "uz": "QA so'z",
+          "def": "Synthetic QA vocabulary item 3.",
+          "ex": "The synthetic transcript uses qa-word-3 once.",
+          "also": []
+        },
+        {
+          "word": "qa-word-4",
+          "pos": "noun",
+          "uz": "QA so'z",
+          "def": "Synthetic QA vocabulary item 4.",
+          "ex": "The synthetic transcript uses qa-word-4 once.",
+          "also": []
+        },
+        {
+          "word": "qa-word-5",
+          "pos": "noun",
+          "uz": "QA so'z",
+          "def": "Synthetic QA vocabulary item 5.",
+          "ex": "The synthetic transcript uses qa-word-5 once.",
+          "also": []
+        },
+        {
+          "word": "qa-word-6",
+          "pos": "noun",
+          "uz": "QA so'z",
+          "def": "Synthetic QA vocabulary item 6.",
+          "ex": "The synthetic transcript uses qa-word-6 once.",
+          "also": []
+        },
+        {
+          "word": "qa-word-7",
+          "pos": "noun",
+          "uz": "QA so'z",
+          "def": "Synthetic QA vocabulary item 7.",
+          "ex": "The synthetic transcript uses qa-word-7 once.",
+          "also": []
+        },
+        {
+          "word": "qa-word-8",
+          "pos": "noun",
+          "uz": "QA so'z",
+          "def": "Synthetic QA vocabulary item 8.",
+          "ex": "The synthetic transcript uses qa-word-8 once.",
+          "also": []
+        }
+      ],
+      "studyPack": {
+        "kind": "research-practice",
+        "activities": [
+          "exam",
+          "review",
+          "script",
+          "mcq",
+          "recall",
+          "vocab",
+          "matching",
+          "completion"
+        ],
+        "partRanges": {
+          "1": [
+            0,
+            450
+          ],
+          "2": [
+            450,
+            900
+          ],
+          "3": [
+            900,
+            1350
+          ],
+          "4": [
+            1350,
+            1800
+          ]
+        },
+        "recall": [
+          {
+            "part": 1,
+            "title": "Community Centre",
+            "points": [
+              "Community Centre detail one",
+              "Community Centre detail two"
+            ]
+          },
+          {
+            "part": 2,
+            "title": "City Library",
+            "points": [
+              "City Library detail one",
+              "City Library detail two"
+            ]
+          },
+          {
+            "part": 3,
+            "title": "Riverside Museum",
+            "points": [
+              "Riverside Museum detail one",
+              "Riverside Museum detail two"
+            ]
+          },
+          {
+            "part": 4,
+            "title": "Science Podcast",
+            "points": [
+              "Science Podcast detail one",
+              "Science Podcast detail two"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "readingTemplate": {
+    "schemaVersion": 1,
+    "module": "reading",
+    "contentType": "general_set",
+    "sourceRef": "general-reading-example",
+    "title": "General Reading Example",
+    "language": "en",
+    "provenance": {
+      "source": "teacher_authored"
+    },
+    "publication": {
+      "state": "draft"
+    },
+    "assets": [],
+    "content": {
+      "description": "Short description shown on the set card.",
+      "level": "B1",
+      "passages": [
+        {
+          "passageNo": 1,
+          "title": "Passage title",
+          "body": "The full passage text goes here.",
+          "questions": [
+            {
+              "questionNo": 1,
+              "type": "short_answer",
+              "text": "What is the passage mainly about?",
+              "answer": "A short answer",
+              "accepted": [
+                "short answer"
+              ],
+              "evidence": "The full passage text goes here.",
+              "explanation": "Optional explanation shown after checking."
+            }
+          ],
+          "vocabulary": [
+            {
+              "word": "passage",
+              "pos": "noun",
+              "def": "A section of a text.",
+              "uz": "",
+              "ex": "The full passage text goes here."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

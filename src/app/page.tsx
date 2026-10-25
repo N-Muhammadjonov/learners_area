@@ -45,10 +45,8 @@ export default async function Home() {
     <DesktopIntro destination={destination}>
     <div
       data-theme="night"
-      className="la-welcome flex min-h-dvh flex-col text-ink-900"
+      className="la-welcome flex min-h-dvh flex-col bg-paper text-ink-900"
       style={{
-        backgroundColor: "#0a1a39",
-        colorScheme: "dark",
         paddingLeft: "env(safe-area-inset-left)",
         paddingRight: "env(safe-area-inset-right)",
       }}
@@ -58,7 +56,7 @@ export default async function Home() {
         <span className="la-welcome-ring la-welcome-ring-two" />
         <span className="la-welcome-aurora" />
       </div>
-      <div className="px-6 pt-6"><a href="https://t.me/learners_area" target="_blank" rel="noopener noreferrer" aria-label={dict.shell.telegramBrand} data-landing-brand-link className="la-welcome-brand-link inline-flex rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"><BrandBlock size={44} /></a></div>
+      <div className="px-6 pt-6"><BrandBlock size={44} /></div>
       <main className="la-welcome-main flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
         <div className="la-welcome-orbit" aria-hidden="true">
           {ornaments.map((kind, index) => (

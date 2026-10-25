@@ -21,7 +21,7 @@
 // migration must take a fresh, larger `when`.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 
 const journal = JSON.parse(readFileSync("drizzle/meta/_journal.json", "utf8")) as {
   entries: { idx: number; version: string; when: number; tag: string; breakpoints: boolean }[];
@@ -39,10 +39,8 @@ function planned(appliedCount: number): { apply: string[]; skip: string[] } {
   return { apply, skip };
 }
 
-test("J1 the journal matches every SQL file: idx equals position, unique tags, strictly increasing when", () => {
-  const files=readdirSync("drizzle").filter(name=>name.endsWith(".sql")).sort();
-  assert.ok(journal.entries.length>=64,"the accepted lineage includes Retention vocabulary");
-  assert.deepEqual(journal.entries.map(entry=>`${entry.tag}.sql`),files,"each append has exactly one journal entry and SQL file");
+test("J1 the journal is well-formed: 53 entries, idx equals position, unique tags, strictly increasing when", () => {
+  assert.equal(journal.entries.length, 53, "0000…0052 — the 48 Content OS migrations, the typing trainer, private lesson notes, the lesson learning area + Teacher Notes, the Listening question revision set, and the dedicated MCQ programme's day relation");
   journal.entries.forEach((entry, index) => {
     assert.equal(entry.idx, index, `${entry.tag}: idx must equal its position in the journal`);
     assert.equal(entry.version, "7");
@@ -62,7 +60,7 @@ test("J2 the collision is resolved exactly once, and the migration that keeps 00
 
   assert.equal(journal.entries[40]!.tag, "0040_content_imports");
   assert.equal(journal.entries[48]!.tag, "0048_typing_trainer");
-  assert.equal(journal.entries.filter((e) => e.breakpoints).length, journal.entries.length);
+  assert.equal(journal.entries.filter((e) => e.breakpoints).length, 53);
 
   // The kept entry keeps its ORIGINAL `when` — that value is recorded in every database
   // that applied it, so changing it would make the migrator re-apply (or skip) it.
@@ -108,10 +106,10 @@ test("J4 the two source lines' own states stay safe under the merged journal", (
   assert.equal(after0039.apply[0], "0040_content_imports", "the next step after 0039 is the import ledger");
   // 0040…0052 — the MCQ programme's relation (0052) is additive on top of the accepted line and
   // never rewrites an earlier migration.
-  assert.equal(after0039.apply.length, journal.entries.length-40, "the entire appended tail after 0039 is pending");
+  assert.equal(after0039.apply.length, 13, "0040…0052 are pending");
 
   const after0047 = planned(48);
-  assert.deepEqual(after0047.apply.slice(0, 5), ["0048_typing_trainer", "0049_lesson_notes", "0050_lesson_learning_area", "0051_listening_question_revision", "0052_listening_mcq_program_days"], "the accepted schema needs the typing trainer, the private notes table, the lesson learning area, the Listening question-set revision column, then the MCQ programme's day relation");
+  assert.deepEqual(after0047.apply, ["0048_typing_trainer", "0049_lesson_notes", "0050_lesson_learning_area", "0051_listening_question_revision", "0052_listening_mcq_program_days"], "the accepted schema needs the typing trainer, the private notes table, the lesson learning area, the Listening question-set revision column, then the MCQ programme's day relation");
 
   // 0049 is hand-written too (the snapshot chain stops at 0027) and it is additive in
   // BOTH directions: it creates a table, and its backfill COPIES text into it before
@@ -168,59 +166,4 @@ test("J5 the journal never depends on a snapshot: the drizzle meta chain is unto
     JSON.parse(readFileSync(name, "utf8"));
   }
   assert.equal(existsSync("drizzle/meta/0028_snapshot.json"), false, "the snapshot chain still ends at 0027; the journal is hand-maintained (never drizzle-kit generate)");
-});
-
-
-test("Telegram migrations append after the complete approved website lineage", () => {
-  assert.deepEqual(journal.entries.slice(53,59).map(e => e.tag), ["0053_telegram_bot_foundation", "0054_telegram_bot_integrity", "0055_telegram_intent_purpose", "0056_telegram_owner_authority", "0057_telegram_contact_phone", "0058_telegram_private_tables"]);
-});
-
-// The source UI checkpoint is additive and private; existing attempts keep their IDs.
-test("Listening checkpoints append after Telegram without rewriting its lineage", () => {
-  assert.equal(journal.entries[59]!.tag, "0059_listening_authored_checkpoints");
-  const sql = readFileSync("drizzle/0059_listening_authored_checkpoints.sql", "utf8");
-  assert.match(sql, /CREATE TABLE IF NOT EXISTS "listening_authored_checkpoints"/);
-  assert.match(sql, /PRIMARY KEY \("user_id", "test_id"\)/);
-  assert.match(sql, /ENABLE ROW LEVEL SECURITY/);
-  assert.doesNotMatch(sql, /\b(?:UPDATE|DELETE FROM|DROP TABLE)\b/i);
-});
-
-// Authentication authority migration is already part of main and retains its historical ordinal.
-test("Auth session revocation stays at 0060, ahead of Retention", () => {
-  assert.equal(journal.entries[60]!.tag, "0060_auth_session_revocation");
-  const sql = readFileSync("drizzle/0060_auth_session_revocation.sql", "utf8");
-  assert.match(sql, /auth_session_revocations/);
-});
-
-// Permanent deletion is strictly additive after the accepted authority migration.
-test("Retention permanent deletion appends as 0061 after auth revocation", () => {
-  assert.equal(journal.entries[61]!.tag, "0061_retention_permanent_delete");
-  assert.ok(journal.entries[61]!.when > journal.entries[60]!.when);
-  const sql = readFileSync("drizzle/0061_retention_permanent_delete.sql", "utf8");
-  assert.match(sql, /retention_sequence_counters/);
-  assert.match(sql, /ON DELETE set null/i);
-});
-
-test("Academic question selections append privately at 0062 without changing prior content or attempts", () => {
-  assert.equal(journal.entries[62]!.tag,"0062_reading_assessment_questions");
-  assert.ok(journal.entries[62]!.when>journal.entries[61]!.when);
-  assert.equal(planned(62).apply[0],"0062_reading_assessment_questions");
-  const sql=readFileSync("drizzle/0062_reading_assessment_questions.sql","utf8");
-  assert.match(sql,/PRIMARY KEY\(attempt_id,position\)/);
-  assert.match(sql,/UNIQUE\(attempt_id,question_id\)/);
-  assert.match(sql,/position BETWEEN 1 AND 40/);
-  assert.match(sql,/ENABLE ROW LEVEL SECURITY/);
-  assert.doesNotMatch(sql,/\b(?:UPDATE|DELETE FROM|DROP TABLE)\b/i);
-});
-
-// Contextual Retention vocabulary is appended; every previous ordinal stays pinned.
-test("Retention vocabulary appends at 0063 without rewriting sources or results", () => {
-  assert.equal(journal.entries[63]!.tag,"0063_retention_vocabulary");
-  assert.ok(journal.entries[63]!.when>journal.entries[62]!.when);
-  assert.equal(planned(63).apply[0],"0063_retention_vocabulary");
-  const sql=readFileSync("drizzle/0063_retention_vocabulary.sql","utf8");
-  assert.match(sql,/ADD COLUMN retention_text_version_id uuid REFERENCES retention_text_versions/);
-  assert.match(sql,/lexical_occurrences_retention_offset_idx/);
-  assert.match(sql,/source_type = 'retention'/);
-  assert.doesNotMatch(sql,/\b(?:UPDATE|DELETE FROM|DROP TABLE)\b/i);
 });

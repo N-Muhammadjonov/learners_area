@@ -1,0 +1,1598 @@
+{
+  "total_route_files": 218,
+  "total_methods": 265,
+  "ported_methods": 265,
+  "unported_methods": 0,
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/api/admin/admission/{id}/decide",
+      "source": "src/app/api/admin/admission/[id]/decide/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/{type}/{id}/publication",
+      "source": "src/app/api/admin/content/[type]/[id]/publication/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/content/{type}/{id}",
+      "source": "src/app/api/admin/content/[type]/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/authoring-capabilities",
+      "source": "src/app/api/admin/content/authoring-capabilities/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/bank",
+      "source": "src/app/api/admin/content/bank/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/drafts",
+      "source": "src/app/api/admin/content/drafts/route.ts",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/import",
+      "source": "src/app/api/admin/content/import/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/import",
+      "source": "src/app/api/admin/content/import/route.ts",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/items/{module}/{contentType}/{sourceRef}",
+      "source": "src/app/api/admin/content/items/[module]/[contentType]/[sourceRef]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/items",
+      "source": "src/app/api/admin/content/items/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/lessons/{id}/edit",
+      "source": "src/app/api/admin/content/lessons/[id]/edit/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/lessons/{id}/revision",
+      "source": "src/app/api/admin/content/lessons/[id]/revision/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/previews",
+      "source": "src/app/api/admin/content/previews/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/template",
+      "source": "src/app/api/admin/content/template/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/validate",
+      "source": "src/app/api/admin/content/validate/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/content/versions/{id}/preview",
+      "source": "src/app/api/admin/content/versions/[id]/preview/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/content/versions/{id}/publication",
+      "source": "src/app/api/admin/content/versions/[id]/publication/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/grammar/import",
+      "source": "src/app/api/admin/grammar/import/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/grammar/topics/{id}/exercises",
+      "source": "src/app/api/admin/grammar/topics/[id]/exercises/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/grammar/topics",
+      "source": "src/app/api/admin/grammar/topics/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/import",
+      "source": "src/app/api/admin/listening/import/route.ts",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/listening/tests/{id}/convert",
+      "source": "src/app/api/admin/listening/tests/[id]/convert/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/tests/{id}/convert",
+      "source": "src/app/api/admin/listening/tests/[id]/convert/route.ts",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/tests/{id}/questions",
+      "source": "src/app/api/admin/listening/tests/[id]/questions/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/listening/tests/{id}",
+      "source": "src/app/api/admin/listening/tests/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/listening/tests/{id}",
+      "source": "src/app/api/admin/listening/tests/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/listening/tests",
+      "source": "src/app/api/admin/listening/tests/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/people/refresh-telegram",
+      "source": "src/app/api/admin/people/refresh-telegram/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/reading/import",
+      "source": "src/app/api/admin/reading/import/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/reading/passages/{id}/questions",
+      "source": "src/app/api/admin/reading/passages/[id]/questions/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/reading/passages",
+      "source": "src/app/api/admin/reading/passages/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/retention/texts/{id}",
+      "source": "src/app/api/admin/retention/texts/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/retention/texts/{id}",
+      "source": "src/app/api/admin/retention/texts/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/retention/texts/{id}",
+      "source": "src/app/api/admin/retention/texts/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/retention/texts/{id}/versions",
+      "source": "src/app/api/admin/retention/texts/[id]/versions/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/retention/texts",
+      "source": "src/app/api/admin/retention/texts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/retention/texts",
+      "source": "src/app/api/admin/retention/texts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/retention/validate",
+      "source": "src/app/api/admin/retention/validate/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/roster",
+      "source": "src/app/api/admin/roster/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/uploads/cleanup",
+      "source": "src/app/api/admin/uploads/cleanup/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/users/{id}/role",
+      "source": "src/app/api/admin/users/[id]/role/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/users/{id}/status",
+      "source": "src/app/api/admin/users/[id]/status/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/video-lessons",
+      "source": "src/app/api/admin/video-lessons/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/video-lessons",
+      "source": "src/app/api/admin/video-lessons/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/writing/{kind}/{id}",
+      "source": "src/app/api/admin/writing/[kind]/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/writing/{kind}",
+      "source": "src/app/api/admin/writing/[kind]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/writing-prompts",
+      "source": "src/app/api/admin/writing-prompts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admission/request",
+      "source": "src/app/api/admission/request/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/assignments/{id}/evaluate",
+      "source": "src/app/api/assignments/[id]/evaluate/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/assignments/assignable",
+      "source": "src/app/api/assignments/assignable/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/assignments",
+      "source": "src/app/api/assignments/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/assignments",
+      "source": "src/app/api/assignments/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/changes",
+      "source": "src/app/api/auth/changes/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/google/callback",
+      "source": "src/app/api/auth/google/callback/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/google/start",
+      "source": "src/app/api/auth/google/start/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "source": "src/app/api/auth/login/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "source": "src/app/api/auth/logout/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/recovery/login",
+      "source": "src/app/api/auth/recovery/login/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "source": "src/app/api/auth/register/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/reset/confirm",
+      "source": "src/app/api/auth/reset/confirm/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/reset/request",
+      "source": "src/app/api/auth/reset/request/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/state",
+      "source": "src/app/api/auth/state/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/telegram/callback",
+      "source": "src/app/api/auth/telegram/callback/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/telegram/intent/cancel",
+      "source": "src/app/api/auth/telegram/intent/cancel/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/telegram/intent/exchange",
+      "source": "src/app/api/auth/telegram/intent/exchange/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/telegram/intent",
+      "source": "src/app/api/auth/telegram/intent/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/telegram/intent/status",
+      "source": "src/app/api/auth/telegram/intent/status/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/dictionary/entries/{lexemeId}",
+      "source": "src/app/api/dictionary/entries/[lexemeId]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/dictionary/entries/{lexemeId}",
+      "source": "src/app/api/dictionary/entries/[lexemeId]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/dictionary/recent",
+      "source": "src/app/api/dictionary/recent/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/dictionary/recent",
+      "source": "src/app/api/dictionary/recent/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/dictionary/save",
+      "source": "src/app/api/dictionary/save/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/dictionary/search",
+      "source": "src/app/api/dictionary/search/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/grammar/exercises/{id}/practice",
+      "source": "src/app/api/grammar/exercises/[id]/practice/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/grammar/exercises/{id}/produce",
+      "source": "src/app/api/grammar/exercises/[id]/produce/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/grammar/topics/{id}/submit",
+      "source": "src/app/api/grammar/topics/[id]/submit/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/history",
+      "source": "src/app/api/history/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/internal/telegram/admins/{telegramUserId}",
+      "source": "src/app/api/internal/telegram/admins/[telegramUserId]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/internal/telegram/admins/{telegramUserId}",
+      "source": "src/app/api/internal/telegram/admins/[telegramUserId]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/admins",
+      "source": "src/app/api/internal/telegram/admins/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/admins",
+      "source": "src/app/api/internal/telegram/admins/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/admission/decide",
+      "source": "src/app/api/internal/telegram/admission/decide/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/admission/pending",
+      "source": "src/app/api/internal/telegram/admission/pending/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/admission/request",
+      "source": "src/app/api/internal/telegram/admission/request/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/auth/confirm",
+      "source": "src/app/api/internal/telegram/auth/confirm/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/broadcasts/{id}",
+      "source": "src/app/api/internal/telegram/broadcasts/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/broadcasts/{id}",
+      "source": "src/app/api/internal/telegram/broadcasts/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/broadcasts/claim",
+      "source": "src/app/api/internal/telegram/broadcasts/claim/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/broadcasts",
+      "source": "src/app/api/internal/telegram/broadcasts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/contacts/{telegramUserId}",
+      "source": "src/app/api/internal/telegram/contacts/[telegramUserId]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/contacts/phone",
+      "source": "src/app/api/internal/telegram/contacts/phone/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/contacts",
+      "source": "src/app/api/internal/telegram/contacts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/delete",
+      "source": "src/app/api/internal/telegram/directory/[userId]/delete/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/message",
+      "source": "src/app/api/internal/telegram/directory/[userId]/message/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/remove",
+      "source": "src/app/api/internal/telegram/directory/[userId]/remove/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/directory/{userId}",
+      "source": "src/app/api/internal/telegram/directory/[userId]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/status",
+      "source": "src/app/api/internal/telegram/directory/[userId]/status/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/directory/{userId}/unlink",
+      "source": "src/app/api/internal/telegram/directory/[userId]/unlink/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/directory",
+      "source": "src/app/api/internal/telegram/directory/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/drafts",
+      "source": "src/app/api/internal/telegram/drafts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/notifications",
+      "source": "src/app/api/internal/telegram/notifications/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/notifications",
+      "source": "src/app/api/internal/telegram/notifications/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/internal/telegram/notifications",
+      "source": "src/app/api/internal/telegram/notifications/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/ops",
+      "source": "src/app/api/internal/telegram/ops/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/internal/telegram/ops",
+      "source": "src/app/api/internal/telegram/ops/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/owner/handover",
+      "source": "src/app/api/internal/telegram/owner/handover/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/owner",
+      "source": "src/app/api/internal/telegram/owner/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/owner/transfer",
+      "source": "src/app/api/internal/telegram/owner/transfer/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/ready",
+      "source": "src/app/api/internal/telegram/ready/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/required-channels",
+      "source": "src/app/api/internal/telegram/required-channels/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/required-channels",
+      "source": "src/app/api/internal/telegram/required-channels/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/support/threads/{id}/actions",
+      "source": "src/app/api/internal/telegram/support/threads/[id]/actions/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/support/threads/{id}/messages",
+      "source": "src/app/api/internal/telegram/support/threads/[id]/messages/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/support/threads/{id}",
+      "source": "src/app/api/internal/telegram/support/threads/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/support/threads",
+      "source": "src/app/api/internal/telegram/support/threads/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/support/threads",
+      "source": "src/app/api/internal/telegram/support/threads/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/updates",
+      "source": "src/app/api/internal/telegram/updates/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/users/{telegramUserId}",
+      "source": "src/app/api/internal/telegram/users/[telegramUserId]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/lessons/{id}/notes",
+      "source": "src/app/api/lessons/[id]/notes/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/lessons/{id}/notes",
+      "source": "src/app/api/lessons/[id]/notes/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/lessons/{id}",
+      "source": "src/app/api/lessons/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/lessons/{id}/state",
+      "source": "src/app/api/lessons/[id]/state/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/lessons/blocks/{blockId}/answer",
+      "source": "src/app/api/lessons/blocks/[blockId]/answer/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/lessons/units",
+      "source": "src/app/api/lessons/units/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/listening/attempts/{id}/draft",
+      "source": "src/app/api/listening/attempts/[id]/draft/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/attempts/{id}/submit",
+      "source": "src/app/api/listening/attempts/[id]/submit/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/attempts",
+      "source": "src/app/api/listening/attempts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/activity",
+      "source": "src/app/api/listening/full/[id]/activity/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/authored",
+      "source": "src/app/api/listening/full/[id]/authored/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/authored-state",
+      "source": "src/app/api/listening/full/[id]/authored-state/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/listening/full/{id}/authored-state",
+      "source": "src/app/api/listening/full/[id]/authored-state/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/practice",
+      "source": "src/app/api/listening/full/[id]/practice/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/progress",
+      "source": "src/app/api/listening/full/[id]/progress/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/progress",
+      "source": "src/app/api/listening/full/[id]/progress/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/full/{id}/sandbox",
+      "source": "src/app/api/listening/full/[id]/sandbox/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/start",
+      "source": "src/app/api/listening/full/[id]/start/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/full/{id}/study",
+      "source": "src/app/api/listening/full/[id]/study/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/listening/mcq/{id}",
+      "source": "src/app/api/listening/mcq/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/listening/mcq/{id}",
+      "source": "src/app/api/listening/mcq/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/listening/mcq",
+      "source": "src/app/api/listening/mcq/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/live-classes/{id}/join",
+      "source": "src/app/api/live-classes/[id]/join/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/live-partner",
+      "source": "src/app/api/live-partner/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/live-partner",
+      "source": "src/app/api/live-partner/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/locale",
+      "source": "src/app/api/locale/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/materials/{type}/{id}",
+      "source": "src/app/api/materials/[type]/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/materials/{type}/{id}",
+      "source": "src/app/api/materials/[type]/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/media/authorize",
+      "source": "src/app/api/media/authorize/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/notifications",
+      "source": "src/app/api/notifications/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/notifications",
+      "source": "src/app/api/notifications/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/onboarding",
+      "source": "src/app/api/onboarding/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/owner/ai-control",
+      "source": "src/app/api/owner/ai-control/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/ai-control",
+      "source": "src/app/api/owner/ai-control/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/owner/dictionary/{action:path}",
+      "source": "src/app/api/owner/dictionary/[...action]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/owner/dictionary/{action:path}",
+      "source": "src/app/api/owner/dictionary/[...action]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/owner/dictionary/{action:path}",
+      "source": "src/app/api/owner/dictionary/[...action]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/dictionary/{action:path}",
+      "source": "src/app/api/owner/dictionary/[...action]/route.ts",
+      "status": "ported_code_parity_unverified"
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/retention",
+      "source": "src/app/api/owner/retention/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/owner/student-export",
+      "source": "src/app/api/owner/student-export/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/owner/transfer",
+      "source": "src/app/api/owner/transfer/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/presence",
+      "source": "src/app/api/presence/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/profile/photo/{id}",
+      "source": "src/app/api/profile/photo/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/profile/photo",
+      "source": "src/app/api/profile/photo/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/profile/photo",
+      "source": "src/app/api/profile/photo/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/profile",
+      "source": "src/app/api/profile/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/profile/study",
+      "source": "src/app/api/profile/study/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/academic",
+      "source": "src/app/api/reading/academic/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/reading/attempts/{id}",
+      "source": "src/app/api/reading/attempts/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/attempts/{id}/submit",
+      "source": "src/app/api/reading/attempts/[id]/submit/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/attempts",
+      "source": "src/app/api/reading/attempts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/general/progress",
+      "source": "src/app/api/reading/general/progress/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/reports",
+      "source": "src/app/api/reports/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/resources/{key:path}",
+      "source": "src/app/api/resources/[...key]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "HEAD",
+      "path": "/api/resources/{key:path}",
+      "source": "src/app/api/resources/[...key]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/retention/attempts/{id}/draft",
+      "source": "src/app/api/retention/attempts/[id]/draft/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/retention/attempts/{id}/finish-reading",
+      "source": "src/app/api/retention/attempts/[id]/finish-reading/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/attempts/{id}",
+      "source": "src/app/api/retention/attempts/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/retention/attempts/{id}/submit",
+      "source": "src/app/api/retention/attempts/[id]/submit/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/attempts",
+      "source": "src/app/api/retention/attempts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/retention/attempts",
+      "source": "src/app/api/retention/attempts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/history",
+      "source": "src/app/api/retention/history/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/retention/summary",
+      "source": "src/app/api/retention/summary/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/search",
+      "source": "src/app/api/search/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/ai/script",
+      "source": "src/app/api/speaking/ai/script/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/speaking/attempts/{id}",
+      "source": "src/app/api/speaking/attempts/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/attempts/{id}",
+      "source": "src/app/api/speaking/attempts/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/speaking/attempts/{id}",
+      "source": "src/app/api/speaking/attempts/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/attempts/{id}/submit",
+      "source": "src/app/api/speaking/attempts/[id]/submit/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/attempts/{id}/transcript",
+      "source": "src/app/api/speaking/attempts/[id]/transcript/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/attempts",
+      "source": "src/app/api/speaking/attempts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/attempts",
+      "source": "src/app/api/speaking/attempts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/live-partner/questions",
+      "source": "src/app/api/speaking/live-partner/questions/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/speaking/materials/{id}",
+      "source": "src/app/api/speaking/materials/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/speaking/materials/{id}",
+      "source": "src/app/api/speaking/materials/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/materials",
+      "source": "src/app/api/speaking/materials/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/practice/facets",
+      "source": "src/app/api/speaking/practice/facets/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/practice/questions",
+      "source": "src/app/api/speaking/practice/questions/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/prompts/{id}/support",
+      "source": "src/app/api/speaking/prompts/[id]/support/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/speaking/prompts",
+      "source": "src/app/api/speaking/prompts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/prompts",
+      "source": "src/app/api/speaking/prompts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/prompts/vocabulary",
+      "source": "src/app/api/speaking/prompts/vocabulary/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/speaking/topics",
+      "source": "src/app/api/speaking/topics/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/speaking/topics",
+      "source": "src/app/api/speaking/topics/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/support/reports/{id}",
+      "source": "src/app/api/support/reports/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/support/reports",
+      "source": "src/app/api/support/reports/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/support/reports",
+      "source": "src/app/api/support/reports/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/teacher/feedback",
+      "source": "src/app/api/teacher/feedback/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/teacher/live-classes/{id}",
+      "source": "src/app/api/teacher/live-classes/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/teacher/live-classes",
+      "source": "src/app/api/teacher/live-classes/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/theme",
+      "source": "src/app/api/theme/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/uploads/{id}",
+      "source": "src/app/api/uploads/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/uploads/finalize",
+      "source": "src/app/api/uploads/finalize/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/uploads/intent",
+      "source": "src/app/api/uploads/intent/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/uploads",
+      "source": "src/app/api/uploads/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/version",
+      "source": "src/app/api/version/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/answers",
+      "source": "src/app/api/video-lessons/[id]/answers/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/video-lessons/{id}/progress",
+      "source": "src/app/api/video-lessons/[id]/progress/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/progress",
+      "source": "src/app/api/video-lessons/[id]/progress/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/response",
+      "source": "src/app/api/video-lessons/[id]/response/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/video-lessons/{id}/vocabulary",
+      "source": "src/app/api/video-lessons/[id]/vocabulary/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/{id}/contexts",
+      "source": "src/app/api/vocabulary/[id]/contexts/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/{id}/review",
+      "source": "src/app/api/vocabulary/[id]/review/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/{id}/use",
+      "source": "src/app/api/vocabulary/[id]/use/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/due",
+      "source": "src/app/api/vocabulary/due/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/folders",
+      "source": "src/app/api/vocabulary/folders/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/folders",
+      "source": "src/app/api/vocabulary/folders/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/games",
+      "source": "src/app/api/vocabulary/games/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/games",
+      "source": "src/app/api/vocabulary/games/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/leaderboard",
+      "source": "src/app/api/vocabulary/leaderboard/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/lookup",
+      "source": "src/app/api/vocabulary/lookup/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/meaning",
+      "source": "src/app/api/vocabulary/meaning/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/packs",
+      "source": "src/app/api/vocabulary/packs/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary/packs",
+      "source": "src/app/api/vocabulary/packs/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary",
+      "source": "src/app/api/vocabulary/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/vocabulary",
+      "source": "src/app/api/vocabulary/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/search",
+      "source": "src/app/api/vocabulary/search/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/sentences",
+      "source": "src/app/api/vocabulary/sentences/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/vocabulary/summary",
+      "source": "src/app/api/vocabulary/summary/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/activation/check",
+      "source": "src/app/api/writing/activation/check/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/activation/items",
+      "source": "src/app/api/writing/activation/items/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/activation/items",
+      "source": "src/app/api/writing/activation/items/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/writing/exam/{id}/draft",
+      "source": "src/app/api/writing/exam/[id]/draft/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/exam/{id}/finalize",
+      "source": "src/app/api/writing/exam/[id]/finalize/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/exam/{id}",
+      "source": "src/app/api/writing/exam/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/exam",
+      "source": "src/app/api/writing/exam/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/grade/{id}",
+      "source": "src/app/api/writing/grade/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/grade",
+      "source": "src/app/api/writing/grade/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/lessons/{id}",
+      "source": "src/app/api/writing/lessons/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/writing/patterns/{id}",
+      "source": "src/app/api/writing/patterns/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/stealing/practice",
+      "source": "src/app/api/writing/stealing/practice/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/practice",
+      "source": "src/app/api/writing/stealing/practice/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/sessions/{id}",
+      "source": "src/app/api/writing/stealing/sessions/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/sessions",
+      "source": "src/app/api/writing/stealing/sessions/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/writing/submissions/{id}",
+      "source": "src/app/api/writing/submissions/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/submissions/{id}/submit",
+      "source": "src/app/api/writing/submissions/[id]/submit/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/submissions",
+      "source": "src/app/api/writing/submissions/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/translation/{id}/answer",
+      "source": "src/app/api/writing/translation/[id]/answer/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/translation/{id}",
+      "source": "src/app/api/writing/translation/[id]/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/translation",
+      "source": "src/app/api/writing/translation/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/finish",
+      "source": "src/app/api/writing/typing/finish/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/pause",
+      "source": "src/app/api/writing/typing/pause/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/prepare",
+      "source": "src/app/api/writing/typing/prepare/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/resume",
+      "source": "src/app/api/writing/typing/resume/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/typing",
+      "source": "src/app/api/writing/typing/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing",
+      "source": "src/app/api/writing/typing/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/typing/start",
+      "source": "src/app/api/writing/typing/start/route.ts",
+      "status": "ported_code_no_db_integration_test"
+    }
+  ]
+}

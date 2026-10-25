@@ -181,11 +181,6 @@ const ITEMS = [
  */
 export const TABLE_GROUPS: { group: string; reason: string; tables: readonly string[] }[] = [
   {
-    group: "Telegram authentication and bot operations",
-    reason: "private identity, one-time proofs, permissions and delivery state; never authored learning content",
-    tables: ["telegram_bot_admins", "telegram_broadcast_deliveries", "telegram_broadcasts", "telegram_contacts", "telegram_login_intents", "telegram_support_messages", "telegram_support_threads", "telegram_bot_settings", "telegram_deletion_intents", "telegram_direct_messages", "telegram_notifications", "telegram_processed_updates", "telegram_flow_drafts", "ownership_transfer_challenges", "telegram_owner_handovers"],
-  },
-  {
     group: "canonical content (authored or imported, versioned in content_versions)",
     reason:
       "the tables an author or an importer writes; identity, revisions and publication live here. " +
@@ -220,7 +215,7 @@ export const TABLE_GROUPS: { group: string; reason: string; tables: readonly str
       // progress read, a staff screen or the content pipeline (PHASE C, "Xulosangiz").
       "lesson_notes",
       "reading_attempts", "reading_answers", "listening_attempts", "listening_answers", "listening_mcq_sessions",
-      "listening_activity_runs", "listening_drafts", "listening_authored_checkpoints", "grammar_attempts", "speaking_attempts",
+      "listening_activity_runs", "listening_drafts", "grammar_attempts", "speaking_attempts",
       "writing_submissions", "writing_feedback", "writing_lesson_progress", "writing_translation_attempts",
       "writing_translation_answers", "writing_exam_sessions", "writing_grade_requests", "writing_stealing_sessions",
       "typing_runs", "mock_attempts", "lesson_progress", "lesson_block_responses", "assignment_responses",
@@ -238,8 +233,8 @@ export const TABLE_GROUPS: { group: string; reason: string; tables: readonly str
     group: "infrastructure, ownership, billing and media plumbing",
     reason: "not content: accounts, upload intents, attached-material blocks, ops and payment rows",
     tables: [
-      "upload_intents", "users", "access_requests", "notifications", "audit_log", "retention_sequence_counters", "ownership_transfers",
-      "password_reset_tokens", "auth_session_revocations", "onboarding_profiles", "resource_blocks", "material_blocks", "user_profile_photos",
+      "upload_intents", "users", "access_requests", "notifications", "audit_log", "ownership_transfers",
+      "password_reset_tokens", "onboarding_profiles", "resource_blocks", "material_blocks", "user_profile_photos",
       "problem_reports", "products", "plans", "prices", "subscriptions", "payments", "access_entitlements",
     ],
   },

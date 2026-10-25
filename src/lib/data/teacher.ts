@@ -23,13 +23,13 @@ export async function getStudentDetail(studentId: string) {
     .orderBy(desc(writingSubmissions.updatedAt));
 
   const feedbackBySubmission = new Map<string, (typeof writingFeedback.$inferSelect)[]>();
-  const ids = submissions.map(({ submission }) => submission.id);
-  const feedback = ids.length ? await db.query.writingFeedback.findMany({
-    where: inArray(writingFeedback.submissionId, ids),
-    orderBy: desc(writingFeedback.createdAt),
-  }) : [];
-  for (const id of ids) feedbackBySubmission.set(id, []);
-  for (const row of feedback) feedbackBySubmission.get(row.submissionId)!.push(row);
+  for (const { submission } of submissions) {
+    const rows = await db.query.writingFeedback.findMany({
+      where: eq(writingFeedback.submissionId, submission.id),
+      orderBy: desc(writingFeedback.createdAt),
+    });
+    feedbackBySubmission.set(submission.id, rows);
+  }
 
   return { student, submissions, feedbackBySubmission };
 }

@@ -1,0 +1,3 @@
+import {el} from '../js/dom.js';
+import {dictionary,readPreferences} from '../js/preferences.js';
+export async function mount({root}){const d=await dictionary(readPreferences().locale),t=d.notFoundPage;root.append(el('main',{class:'flex min-h-dvh flex-col items-center justify-center gap-5 px-6 text-center'},el('p',{class:'font-display text-[1.25rem] text-ink-900'},'Learners Area'),el('div',{class:'flex flex-col gap-2'},el('h1',{class:'font-display text-[1.75rem] leading-snug text-ink-900'},t.title),el('p',{class:'body-text max-w-[46ch]'},t.body)),el('div',{class:'flex flex-wrap items-center justify-center gap-3'},el('a',{href:'/app',class:'btn-primary'},t.dashboard),el('a',{href:'/',class:'btn-secondary'},t.back))));}

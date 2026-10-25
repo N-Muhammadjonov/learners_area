@@ -244,9 +244,10 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-4" data-vocabulary-workspace>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-sm text-ink-500">{tab === "dictionary" ? dict.globalDictionary.description : tab === "board" ? t.board.hint : t.search.hint}</p>
+          <h1 className="font-display text-2xl text-ink-900">{t.title}</h1>
+          <p className="mt-1 text-sm text-ink-500">{tab === "dictionary" ? dict.globalDictionary.description : t.search.hint}</p>
         </div>
-        {tab !== "dictionary" && tab !== "board" && <VocabSearch key={query.get("q")??""} dict={dict} onOpenWord={() => openTab("words")} />}
+        {tab !== "dictionary" && <VocabSearch dict={dict} onOpenWord={() => openTab("words")} />}
       </div>
 
       <div
@@ -256,8 +257,8 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
         className="flex flex-col gap-4"
         data-vocabulary-panel={tab}
       >
-      {tab === "dictionary" && <DictionaryPanel key={`${query.get("q")}:${query.get("entry")}:${query.get("direction")}`} dict={dict} initialQuery={query.get("q")??""} initialDirection={query.get("direction")==="UZ"?"UZ":"EN"} initialEntryId={query.get("entry")??undefined} />}
-      <div className={tab === "dictionary" ? "hidden" : tab === "board" ? "grid gap-4" : "grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]"}>
+      {tab === "dictionary" && <DictionaryPanel dict={dict} />}
+      <div className={tab === "dictionary" ? "hidden" : "grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]"}>
         <div className="flex min-w-0 flex-col gap-4">
           {tab === "words" && (
             <>
@@ -311,13 +312,13 @@ export function VocabStudio({ dict, initialTab, packs }: { dict: Dictionary; ini
           {tab === "board" && <VocabBoardPanel dict={dict} compact />}
         </div>
 
-        {tab !== "board" && <aside className="flex flex-col gap-4 lg:sticky lg:top-4 lg:self-start">
-          <VocabBoardPanel dict={dict} />
+        <aside className="flex flex-col gap-4 lg:sticky lg:top-4 lg:self-start">
+          {tab !== "board" && <VocabBoardPanel dict={dict} />}
           <div className="card p-4">
             <h2 className="text-sm font-medium text-ink-900">{t.games.casualNote}</h2>
             <p className="mt-2 text-xs text-ink-500">{t.games.hint}</p>
           </div>
-        </aside>}
+        </aside>
       </div>
       </div>
     </div>
@@ -335,8 +336,7 @@ function VocabSearch({ dict, onOpenWord }: { dict: Dictionary; onOpenWord: () =>
   const requestResponse = useScopedResponse(25000);
 
   const t = dict.vocabulary;
-  const params = useSearchParams();
-  const [query, setQuery] = useState(params.get("q")??"");
+  const [query, setQuery] = useState("");
   const [hits, setHits] = useState<SearchHit[]>([]);
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);

@@ -157,7 +157,7 @@ export function OwnerDictionary({ dict }: { dict: Dictionary }) {
       setEdit(null);
       await refresh();
     } catch (e) {
-      setError(e instanceof Error && e.message === "dictionary_capacity_exceeded" ? t.capacityExceeded : e instanceof Error && e.message === "duplicate_lexeme" ? t.duplicateWord : e instanceof Error && e.message === "duplicate_sense" ? t.duplicateSense : t.unavailable);
+      setError(e instanceof Error && e.message === "duplicate_lexeme" ? t.duplicateWord : e instanceof Error && e.message === "duplicate_sense" ? t.duplicateSense : t.unavailable);
     } finally {
       setBusy(false);
     }
@@ -168,7 +168,7 @@ export function OwnerDictionary({ dict }: { dict: Dictionary }) {
     setError("");
     try {
       let current = resume
-        ? (job?.phase==="failed"?(await api<{job:Job}>("publish/"+job.id+"/retry","POST")).job:job)
+        ? job
         : (await api<{ job: Job }>("publish", "POST")).job;
       if (!current) throw Error(t.unavailable);
       setJob(current);
@@ -176,13 +176,12 @@ export function OwnerDictionary({ dict }: { dict: Dictionary }) {
         current = (await api<{ job: Job }>("publish/" + current.id, "POST"))
           .job;
         setJob(current);
-        if(current.phase==="worker_index")await new Promise(resolve=>setTimeout(resolve,2000));
       }
       if (current.phase === "failed")
         throw Error(current.error || t.unavailable);
       await refresh();
     } catch (e) {
-      setError(e instanceof Error && e.message === "dictionary_capacity_exceeded" ? t.capacityExceeded : e instanceof Error && e.message === "duplicate_lexeme" ? t.duplicateWord : e instanceof Error && e.message === "duplicate_sense" ? t.duplicateSense : t.unavailable);
+      setError(e instanceof Error && e.message === "duplicate_lexeme" ? t.duplicateWord : e instanceof Error && e.message === "duplicate_sense" ? t.duplicateSense : t.unavailable);
     } finally {
       setBusy(false);
     }
@@ -447,7 +446,7 @@ export function OwnerDictionary({ dict }: { dict: Dictionary }) {
         >
           {t.publish}
         </button>
-        {job && (!["complete", "failed"].includes(job.phase)||job.error==="dictionary_index_build_failed") && (
+        {job && !["complete", "failed"].includes(job.phase) && (
           <button type="button"
             className="btn-secondary"
             disabled={busy}

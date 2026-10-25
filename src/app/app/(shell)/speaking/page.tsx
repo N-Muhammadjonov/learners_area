@@ -1,5 +1,5 @@
 import { MicrophoneTest } from "@/components/speaking/MicrophoneTest";
-import { InstantLink } from "@/components/interaction/InstantLink";
+import Link from "next/link";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { SPEAKING_HUB_CARDS } from "@/lib/speaking/hub";
@@ -18,7 +18,7 @@ export default async function SpeakingPage() {
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="speaking">
       <div>
-        <h1 className="font-display text-2xl text-ink-900">{dict.speakingPractice.title}</h1>
+        <h1 className="font-display text-2xl text-ink-900">{dict.speaking.title}</h1>
         <p className="mt-1 text-base text-ink-500">{t.intro}</p>
       </div>
       <ul className="motion-enter-stagger grid grid-cols-1 gap-4 md:grid-cols-2" data-speaking-hub-cards>
@@ -30,7 +30,7 @@ export default async function SpeakingPage() {
               <p className="text-base text-ink-500">{t.cards[key].body}</p>
               <div className="mt-auto flex flex-wrap items-start gap-3">
                 {key === "partner" && <MicrophoneTest dict={dict} />}
-                <InstantLink href={href} intentPrefetch data-speaking-card={key} className="btn-primary self-start">{t.cards[key].cta} <span aria-hidden>→</span></InstantLink>
+                <Link href={href} data-speaking-card={key} className="btn-primary self-start">{t.cards[key].cta} <span aria-hidden>→</span></Link>
               </div>
             </article>
           </li>

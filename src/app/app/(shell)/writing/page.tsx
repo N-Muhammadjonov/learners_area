@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Suspense } from "react";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -10,9 +11,10 @@ import { WritingTranslationTab } from "@/components/writing/translation/WritingT
 import { RegionFailureNotice } from "@/components/interaction/RegionFailureNotice";
 import { WritingActivationTab } from "@/components/writing/activation/WritingActivationTab";
 import { WritingLanguageStealingTab } from "@/components/writing/stealing/WritingLanguageStealingTab";
+import { WritingNav } from "@/components/writing/workspace/WritingNav";
 import { WritingGradeTab } from "@/components/writing/workspace/WritingGradeTab";
 import { WritingLessonsTab, WritingContentTab } from "@/components/writing/workspace/WritingContentTabs";
-import { parseWritingTab, type WritingTab } from "@/lib/writing/tabs";
+import { parseWritingTab, WRITING_TABS, type WritingTab } from "@/lib/writing/tabs";
 
 async function WritingTypingRegion({ typingPromise, dict }: {
   typingPromise: Promise<
@@ -78,9 +80,18 @@ export default async function WritingPage({ searchParams }: { searchParams: Prom
   if (!user) return null;
   const dict = getDictionary(locale);
   const tab: WritingTab = parseWritingTab(sp.tab);
+  const labels = Object.fromEntries(WRITING_TABS.map((k) => [k, dict.writingWorkspace.tabs[k]])) as Record<WritingTab, string>;
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-5" data-route-usable="writing" data-writing-active-tab={tab}>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="font-display text-2xl text-ink-900">{dict.writingWorkspace.title}</h1>
+          <p className="mt-1 text-base text-ink-500">{dict.writingWorkspace.intro}</p>
+        </div>
+        <Link href="/app/writing/history" className="btn-secondary" data-writing-history-link>{dict.writing.historyTitle} →</Link>
+      </div>
+      <WritingNav active={tab} labels={labels} label={dict.writingWorkspace.tabsLabel} />
       <div role="tabpanel" id="writing-panel" aria-labelledby={`writing-tab-${tab}`} className="motion-tab-panel" key={tab}>
         {tab === "grade" ? (
           <WritingGradeTab dict={dict} userId={user.id} view={sp.view === "essays" ? "essays" : "new"} locale={locale} />

@@ -1,0 +1,11 @@
+/** Extract only the original JSX presentation. No server functions, data, or exercises. */
+import fs from 'node:fs';import path from 'node:path';import ts from 'typescript';
+const base=path.resolve(import.meta.dirname,'..'),root=path.resolve(base,'../..');
+if(!fs.existsSync(path.join(root,'src')))process.exit(0); // standalone build uses sealed extracted JS
+const compile=text=>ts.transpileModule(text,{fileName:'entry.tsx',compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022,jsx:ts.JsxEmit.React,jsxFactory:'h',jsxFragmentFactory:'fragment'}}).outputText;
+function expression(file,name){const text=fs.readFileSync(path.join(root,file),'utf8'),ast=ts.createSourceFile('page.tsx',text,ts.ScriptTarget.Latest,true),fn=ast.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name);if(!fn)throw Error(name);return fn.body.statements.filter(ts.isReturnStatement).at(-1).expression.getText(ast);}
+const header="// Source-extracted pure UI. No React/Next/server runtime.\nimport {h,fragment,Link} from '../native.js';import {Card,ProgressBar} from './ui.js';import {StateBadge} from './badges.js';\n";
+fs.writeFileSync(path.join(base,'js/generated/course-roadmap-v35.js'),header+compile(`export function render({roadmap,dict}){return ${expression('src/app/app/(shell)/courses/ielts/page.tsx','IeltsRoadmapPage')};}`));
+const mastery=fs.readFileSync(path.join(root,'src/lib/services/grammar/mastery.ts'),'utf8').match(/export const MASTERY_SESSIONS = (\d+);/);if(!mastery)throw Error('Missing original display constant');
+fs.writeFileSync(path.join(base,'js/generated/grammar-topics-v35.js'),header+"import {RegionFailureNotice as Notice} from '../../modules/shared/presentation.js';\n"+compile(`const MASTERY_SESSIONS=${mastery[1]};export function render({rows,dict,area,refresh}){const RegionFailureNotice=props=>Notice({...props,refresh});const selectedRows=rows.filter(row=>row.topic.skillArea===area);const masteryUnavailable=selectedRows.some(row=>row.masteryUnavailable);return ${expression('src/app/app/(shell)/grammar/page.tsx','GrammarTopics')};}export function loading(){return ${expression('src/app/app/(shell)/grammar/page.tsx','GrammarTopicsSkeleton')};}`));
+console.log('V35: extracted original roadmap and Grammar topic UI, no educational assets changed');

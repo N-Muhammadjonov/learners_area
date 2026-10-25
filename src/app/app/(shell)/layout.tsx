@@ -8,7 +8,6 @@ import { hasProfilePhoto } from "@/lib/profile/photo";
 import { ShellUtilities } from "@/components/shell/ShellUtilities";
 import { InstantInteractionProvider } from "@/components/interaction/InstantInteractionProvider";
 import { InstantWorkspaceOutlet } from "@/components/interaction/InstantWorkspaceOutlet";
-import { IdleShellPrefetch } from "@/components/interaction/IdleShellPrefetch";
 import { sectionEntryFrames } from "@/lib/interaction/section-entry";
 
 /**
@@ -30,7 +29,7 @@ import { sectionEntryFrames } from "@/lib/interaction/section-entry";
  *   html/body            h-dvh, overflow hidden
  *   ├─ aside (sidebar)   h-full, overflow-y auto   ← its own scrollbar
  *   └─ column            min-h-0, flex-1
- *      ├─ header         pinned controls, plus module links where requested
+ *      ├─ header         fixed height (--shell-topbar-h)
  *      └─ main           min-h-0, flex-1, overflow-y auto  ← its own scrollbar
  *
  * This is the fix for the defect the owner reported: the shell used to be
@@ -61,7 +60,6 @@ export default async function ShellLayout({ children }: { children: React.ReactN
       retryLabel={dict.errorPage.retry}
     >
       <div className="flex h-dvh overflow-hidden bg-paper" data-shell>
-        <IdleShellPrefetch />
         {diagnostics && <PerformanceDiagnostics />}
         {/*
           The rail is visible from 768px up and replaced by the drawer below that

@@ -128,10 +128,11 @@ test("S6 changing the course link preserves the authored draft and submits it in
   assert.equal((sent[0]!.questions as {prompt: string}[])[0]!.prompt, "What is the speaker's main point?");
 });
 test("S7 the admin API validates optional authored exercises for both modes", () => {
-  const route = read("src/app/api/admin/video-lessons/route.ts");
+  assert.match(read("src/app/api/admin/video-lessons/route.ts"), /forwardToBackend as POST/);
+  const route = read("services/backend/app/step30_admin_video_lessons.py");
   assert.doesNotMatch(route, /standalone_questions_not_allowed/);
   assert.match(route, /acceptedAnswers/);
-  assert.match(route, /requireStaff/);
+  assert.match(route, /staff\['role'\] not in \('teacher','admin','owner'\)/);
 });
 
 // ---------- Final flush races ----------

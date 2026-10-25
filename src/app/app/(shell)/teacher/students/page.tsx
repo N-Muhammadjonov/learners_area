@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { requireStaff } from "@/lib/auth/current-user";
@@ -13,16 +12,8 @@ export default async function TeacherStudentsPage() {
   const staff = await requireStaff();
   if (!staff) redirect("/app");
   const dict = getDictionary(await getLocale());
-  const studentsPromise = listStudents(staff.role === "teacher" ? staff.id : undefined);
-  return <Suspense fallback={<div role="status" aria-busy="true" aria-label={dict.common.loading} data-async-loading="management-students" className="h-36 animate-pulse rounded-xl bg-ink-50" />}>
-    <StudentsResults studentsPromise={studentsPromise} dict={dict} />
-  </Suspense>;
-}
-async function StudentsResults({ studentsPromise, dict }: {
-  studentsPromise: ReturnType<typeof listStudents>;
-  dict: ReturnType<typeof getDictionary>;
-}) {
-  const students = await studentsPromise;
+  const students = await listStudents(staff.role === "teacher" ? staff.id : undefined);
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <h1 className="font-display text-2xl text-ink-900">{dict.nav.people}</h1>

@@ -1,0 +1,594 @@
+{
+  "listening-test-2": {
+    "number": 2,
+    "storageKey": "la_listening_test_2_v2",
+    "durationSeconds": 1964.773878,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-02/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 15718544,
+        "sha256": "c7860b1c9de8b195e884fbe45323a42388042b6f43010234d07fc504de7a1dc2",
+        "durationSeconds": 1964.773878
+      }
+    ]
+  },
+  "listening-test-3": {
+    "number": 3,
+    "storageKey": "la_listening_test_3_v2",
+    "durationSeconds": 1680.039184,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-03/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 21516210,
+        "sha256": "eb088159e41cbadccfcb4aacde706f7764941c61fe9db04a6a5e02cd3c5e3617",
+        "durationSeconds": 1680.039184
+      }
+    ]
+  },
+  "listening-test-4": {
+    "number": 4,
+    "storageKey": "la_listening_test_4_v2",
+    "durationSeconds": 2299.95102,
+    "activityCount": 9,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-04/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 17379064,
+        "sha256": "8822ddab3326c220aa58377731394fbee3a2748a4d2112ce59052c080c2b0b85",
+        "durationSeconds": 2299.95102
+      }
+    ]
+  },
+  "listening-test-5": {
+    "number": 5,
+    "storageKey": "la_listening_test_5_v2",
+    "durationSeconds": 1640.333061,
+    "activityCount": 9,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-05/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 16065178,
+        "sha256": "81534b674b7fdf7e94710c0cec999abf59ca1385c2973eb20b39c5a73efa25dd",
+        "durationSeconds": 1640.333061
+      }
+    ]
+  },
+  "listening-test-6": {
+    "number": 6,
+    "storageKey": "la_listening_test_6_v2",
+    "durationSeconds": 1509.642449,
+    "activityCount": 9,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-06/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 13868002,
+        "sha256": "c992b48e5d8d63ab8a89ec76485f2e17c8a52ce0a1c74a72a1ddf2fe9c55ea4c",
+        "durationSeconds": 1509.642449
+      }
+    ]
+  },
+  "listening-test-7": {
+    "number": 7,
+    "storageKey": "la_listening_test_7_v2",
+    "durationSeconds": 1680.53551,
+    "activityCount": 9,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-07/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 16912133,
+        "sha256": "695f4a911371473e887aded0f7b2c484befa7f17fd54d4000575d6366af5a1d8",
+        "durationSeconds": 1680.53551
+      }
+    ]
+  },
+  "listening-test-8": {
+    "number": 8,
+    "storageKey": "la_listening_test_8_v2",
+    "durationSeconds": 1572.59755,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/part-1.mp3",
+        "objectKey": "listening/academic/test-08/part-1.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 4350215,
+        "sha256": "9ab275dd0ab7d1bbc2f5db374bb58a2bb3908955a254efe1e26f66dad9b1671e",
+        "durationSeconds": 434.99102
+      },
+      {
+        "path": "audio/part-2.mp3",
+        "objectKey": "listening/academic/test-08/part-2.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 4088730,
+        "sha256": "c34facf9cfd9e97975599e406008f74abc12a47b65765fd9cce94ca1d474504e",
+        "durationSeconds": 408.842449
+      },
+      {
+        "path": "audio/part-3.mp3",
+        "objectKey": "listening/academic/test-08/part-3.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 3969611,
+        "sha256": "6fc200131e25be358083376487c7edb576a9d4e36bf62b1a21f1421a5f37f2e5",
+        "durationSeconds": 396.930612
+      },
+      {
+        "path": "audio/part-4.mp3",
+        "objectKey": "listening/academic/test-08/part-4.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 3318640,
+        "sha256": "e87009af72b236c1f7c1ef83ee0c5315fbb09bbd9d79e1ddab333902e4a7e122",
+        "durationSeconds": 331.833469
+      }
+    ]
+  },
+  "listening-test-9": {
+    "number": 9,
+    "storageKey": "la_listening_test_9_v2",
+    "durationSeconds": 1650.195737,
+    "activityCount": 10,
+    "media": [
+      {
+        "path": "audio/full.m4a",
+        "objectKey": "listening/academic/test-09/full.m4a",
+        "contentType": "audio/mp4",
+        "bytes": 26688515,
+        "sha256": "f8e597592a8a20f04706eff0097fda06540cfd9aa7158bae6fb62b7c9504e38d",
+        "durationSeconds": 1650.195737
+      },
+      {
+        "path": "images/map.png",
+        "objectKey": "listening/academic/test-09/images/map.png",
+        "contentType": "image/png",
+        "bytes": 16374,
+        "sha256": "8a098d5febd0a55e17874dd923d50bad33994b0dea31d4ef3fe9edee6bc382d9",
+        "durationSeconds": 0
+      }
+    ]
+  },
+  "listening-test-10": {
+    "number": 10,
+    "storageKey": "la_listening_test_10_v2",
+    "durationSeconds": 1677.766531,
+    "activityCount": 9,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-10/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 16777971,
+        "sha256": "fd68203deb686675805ce706fe7068ead29d680c3441da5098269f828c62bade",
+        "durationSeconds": 1677.766531
+      }
+    ]
+  },
+  "listening-test-11": {
+    "number": 11,
+    "storageKey": "la_listening_test_11_v2",
+    "durationSeconds": 1650.964898,
+    "activityCount": 9,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-11/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 16509954,
+        "sha256": "39dc7e45666d43585fc5841afed3d33d3ef2e3788b42e28e5693a7c769a64660",
+        "durationSeconds": 1650.964898
+      }
+    ]
+  },
+  "listening-test-12": {
+    "number": 12,
+    "storageKey": "la_listening_test_12_v2",
+    "durationSeconds": 1539.422041,
+    "activityCount": 9,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-12/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 15394691,
+        "sha256": "5fed59864b56d7afecfcbc1d7d8b2e6af87fa77c6b52c343b216732f562fe810",
+        "durationSeconds": 1539.422041
+      },
+      {
+        "path": "images/map.png",
+        "objectKey": "listening/academic/test-12/images/map.png",
+        "contentType": "image/png",
+        "bytes": 1249425,
+        "sha256": "da0ecfe7db25179f87b3a24193ad8bf33c4c5a0093ece7ebe0432e33eee1b1e6",
+        "durationSeconds": 0
+      }
+    ]
+  },
+  "listening-test-13": {
+    "number": 13,
+    "storageKey": "la_listening_test_13_v2",
+    "durationSeconds": 1870.236735,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-13/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 18703214,
+        "sha256": "40a38f54f71288b9a03417e4d75f197f2ad888b0cc397bcb776493968e45d4aa",
+        "durationSeconds": 1870.236735
+      }
+    ]
+  },
+  "listening-test-14": {
+    "number": 14,
+    "storageKey": "la_listening_test_14_v2",
+    "durationSeconds": 1392.74449,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-14/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 13927789,
+        "sha256": "d733ebf63e3e4b7d4c0e3457b9c23661bc830539b753fd78e0a09895e36015b9",
+        "durationSeconds": 1392.74449
+      }
+    ]
+  },
+  "listening-test-15": {
+    "number": 15,
+    "storageKey": "la_listening_test_15_v2",
+    "durationSeconds": 1480.124082,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-15/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 14801546,
+        "sha256": "1604526c0cd7ff88ae6cf1965d4bc29f2d6c75f74a958aceb8c7a2ee3e4a1bf9",
+        "durationSeconds": 1480.124082
+      }
+    ]
+  },
+  "listening-test-16": {
+    "number": 16,
+    "storageKey": "la_listening_test_16_v2",
+    "durationSeconds": 1683.173878,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-16/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 16832044,
+        "sha256": "2cb53526b9869d6666c43944246787ccc328404bd12eb8b23927a5f47e713ed5",
+        "durationSeconds": 1683.173878
+      }
+    ]
+  },
+  "listening-test-17": {
+    "number": 17,
+    "storageKey": "la_listening_test_17_v2",
+    "durationSeconds": 1514.527347,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-17/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 15145678,
+        "sha256": "44eb12017692a3a34da5b5e639f7c8b838f26d036624de453c224b177cfba1b6",
+        "durationSeconds": 1514.527347
+      }
+    ]
+  },
+  "listening-test-18": {
+    "number": 18,
+    "storageKey": "la_listening_test_18_v2",
+    "durationSeconds": 1437.33551,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-18/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 14373798,
+        "sha256": "648b451046af6c96a059539e39b5ee39c3203fc6edbcd4bb0a09c1e75934cc96",
+        "durationSeconds": 1437.33551
+      }
+    ]
+  },
+  "listening-test-19": {
+    "number": 19,
+    "storageKey": "la_listening_test_19_v2",
+    "durationSeconds": 1632.20898,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-19/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 16322587,
+        "sha256": "078de481a852f08302a2a2f251c41998c10be54a10813cf82a41378c0ca3db6f",
+        "durationSeconds": 1632.20898
+      }
+    ]
+  },
+  "listening-test-20": {
+    "number": 20,
+    "storageKey": "la_listening_test_20_v2",
+    "durationSeconds": 1821.413878,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-20/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 18214493,
+        "sha256": "784d359f2969aa898a11bd507e71ebd58d7b6799834593801482a98ed2094472",
+        "durationSeconds": 1821.413878
+      }
+    ]
+  },
+  "listening-test-21": {
+    "number": 21,
+    "storageKey": "la_listening_test_21_v2",
+    "durationSeconds": 1645.087347,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-21/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 16451272,
+        "sha256": "d30b8ce61fcc0658e2141c56fc3385fe4d1cf37e259c29e815712f4165f90c3f",
+        "durationSeconds": 1645.087347
+      },
+      {
+        "path": "images/map.jpg",
+        "objectKey": "listening/academic/test-21/images/map.jpg",
+        "contentType": "image/jpeg",
+        "bytes": 21267,
+        "sha256": "0b9c6717611ff36d3c0b152b94a526aa7a1d5c9c388cd5a0202b3abddd5787ee",
+        "durationSeconds": 0
+      }
+    ]
+  },
+  "listening-test-22": {
+    "number": 22,
+    "storageKey": "la_listening_test_22_v2",
+    "durationSeconds": 1744.953469,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-22/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 17449841,
+        "sha256": "96e96de4e4aef4cf56228a1d588afab4dc78397acf2610a0f5a84d0045bf5220",
+        "durationSeconds": 1744.953469
+      },
+      {
+        "path": "images/map.jpg",
+        "objectKey": "listening/academic/test-22/images/map.jpg",
+        "contentType": "image/jpeg",
+        "bytes": 43299,
+        "sha256": "25d0c2693409f1b0fd78a66085ae34ffd78d1b9bd23395335869ddfe35d86d57",
+        "durationSeconds": 0
+      }
+    ]
+  },
+  "listening-test-23": {
+    "number": 23,
+    "storageKey": "la_listening_test_23_v2",
+    "durationSeconds": 1525.106939,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-23/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 9150935,
+        "sha256": "ed6e945b2dc9e3291f1f317ce55a76c0739379ff00ed2bb0844a50187200a8b8",
+        "durationSeconds": 1525.106939
+      }
+    ]
+  },
+  "listening-test-24": {
+    "number": 24,
+    "storageKey": "la_listening_test_24_v3",
+    "durationSeconds": 1756.395102,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-24/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 8782235,
+        "sha256": "cb9c0dcc0e6302cc885786523a08f6c94ab7b3aea9f9dab35624d3f4c757312a",
+        "durationSeconds": 1756.395102
+      },
+      {
+        "path": "images/map.png",
+        "objectKey": "listening/academic/test-24/images/map.png",
+        "contentType": "image/png",
+        "bytes": 57506,
+        "sha256": "09c1b757957715253de91c61032e2e6ac282dd378d33a463906f02c97b2f0627",
+        "durationSeconds": 0
+      }
+    ]
+  },
+  "listening-test-25": {
+    "number": 25,
+    "storageKey": "la_listening_test_25_v3",
+    "durationSeconds": 1559.457959,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-25/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 15594885,
+        "sha256": "a0b24cebb4f08cd58ac89018c1edb997faac4d01595f26c1dea60dfa0ad8dac3",
+        "durationSeconds": 1559.457959
+      }
+    ]
+  },
+  "listening-test-26": {
+    "number": 26,
+    "storageKey": "la_listening_test_26_v3",
+    "durationSeconds": 1740.277551,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-26/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 17403213,
+        "sha256": "2fb0b732da00d531561ef98d2c67a1fcb86202aee2b9789d91d27757bb8b429c",
+        "durationSeconds": 1740.277551
+      }
+    ]
+  },
+  "listening-test-27": {
+    "number": 27,
+    "storageKey": "la_listening_test_27_v3",
+    "durationSeconds": 1697.568,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-27/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 16976110,
+        "sha256": "272ce88dd76eb847deada1b225598104da75bda867e0807b667a52806f48dbd5",
+        "durationSeconds": 1697.568
+      }
+    ]
+  },
+  "listening-test-28": {
+    "number": 28,
+    "storageKey": "la_listening_test_28_v3",
+    "durationSeconds": 1588.344,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-28/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 17083068,
+        "sha256": "a4001c25d3f7bf835582ccf4a48125d01dae64d0b41974bc52974d1e63fee531",
+        "durationSeconds": 1588.344
+      }
+    ]
+  },
+  "listening-test-29": {
+    "number": 29,
+    "storageKey": "la_listening_test_29_v3",
+    "durationSeconds": 1473.768,
+    "activityCount": 9,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-29/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 15937301,
+        "sha256": "77e7d71b382da8ed8e31705f3a2d804a3a6f3a0eb45f9b632858a5dd2fc68f0f",
+        "durationSeconds": 1473.768
+      },
+      {
+        "path": "images/map.png",
+        "objectKey": "listening/academic/test-29/images/map.png",
+        "contentType": "image/png",
+        "bytes": 463271,
+        "sha256": "993d820b7820e4819b9774b475b3950075e20e40a47cc48372b29728f1254a37",
+        "durationSeconds": 0
+      }
+    ]
+  },
+  "listening-test-30": {
+    "number": 30,
+    "storageKey": "la_listening_test_30_v3",
+    "durationSeconds": 1506.6,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-30/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 16265631,
+        "sha256": "5df80627dd4b5d05e6451e8a026836ecf4a4bfdc53aae7d9448e3e397a39c91b",
+        "durationSeconds": 1506.6
+      },
+      {
+        "path": "images/map.png",
+        "objectKey": "listening/academic/test-30/images/map.png",
+        "contentType": "image/png",
+        "bytes": 309688,
+        "sha256": "b5c690370bb856e2220d0fb1bf5bfdcfe0aa5a3f7b9ee1208529540436e188c5",
+        "durationSeconds": 0
+      }
+    ]
+  },
+  "listening-test-31": {
+    "number": 31,
+    "storageKey": "la_listening_test_31_v3",
+    "durationSeconds": 1515.048,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-31/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 16350111,
+        "sha256": "826db1074af8b84e77afacaf56baac70d7ea4cb80fc25e79988c69c36a1742fa",
+        "durationSeconds": 1515.048
+      },
+      {
+        "path": "images/map.png",
+        "objectKey": "listening/academic/test-31/images/map.png",
+        "contentType": "image/png",
+        "bytes": 487727,
+        "sha256": "62b97330570719aebb8d91764ea8e48bf7160ca4570cce67c38faf429f76d204",
+        "durationSeconds": 0
+      }
+    ]
+  },
+  "listening-test-32": {
+    "number": 32,
+    "storageKey": "la_listening_test_32_v3",
+    "durationSeconds": 1506.432,
+    "activityCount": 8,
+    "media": [
+      {
+        "path": "audio/full.mp3",
+        "objectKey": "listening/academic/test-32/full.mp3",
+        "contentType": "audio/mpeg",
+        "bytes": 15064707,
+        "sha256": "28dc4e6aa7ce406241888af7c06716cd48aaf9c8aac075652709c3986be7de17",
+        "durationSeconds": 1506.432
+      },
+      {
+        "path": "images/map.jpg",
+        "objectKey": "listening/academic/test-32/images/map.jpg",
+        "contentType": "image/jpeg",
+        "bytes": 92720,
+        "sha256": "f54918fc4924024617fb8bbc2d632120b04232594af1ec992f42bdfcff60c8f3",
+        "durationSeconds": 0
+      }
+    ]
+  }
+}

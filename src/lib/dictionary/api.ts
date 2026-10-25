@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 export const privateHeaders = { "Cache-Control": "private, no-store" };
 const allowed = new Set([
   "dictionary_unavailable",
-  "dictionary_capacity_exceeded",
   "release_mismatch",
   "sense_not_found",
   "entry_not_found",

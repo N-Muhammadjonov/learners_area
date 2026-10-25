@@ -1,5 +1,5 @@
+import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
-import { Suspense } from "react";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { generalListeningCards } from "@/lib/data/listening-general";
@@ -27,29 +27,23 @@ export default async function GeneralListeningPage({
   const [user, locale, query] = await Promise.all([requireActiveUser(), getLocale(), searchParams]);
   if (!user) return null;
   const dict = getDictionary(locale);
-  const page = Math.max(1, Math.min(10000, Number.parseInt(query.page ?? "1", 10) || 1));
-  // Start the read immediately but DO NOT block the route frame on PostgreSQL.
-  // The Suspense region streams the same rows, paging and per-user progress.
-  const cataloguePromise = generalListeningCards(user.id, page);
-  return (
-    <Suspense fallback={<div aria-busy="true" data-async-loading="listening-general-catalogue" className="grid gap-4" role="status" aria-label={dict.common.loading}>
-      <div className="h-12 animate-pulse rounded bg-ink-50" />
-      <div className="h-28 animate-pulse rounded bg-ink-50" />
-    </div>}>
-      <GeneralCatalogueRegion cataloguePromise={cataloguePromise} page={page} dict={dict} />
-    </Suspense>
-  );
-}
-
-async function GeneralCatalogueRegion({ cataloguePromise, page, dict }: {
-  cataloguePromise: ReturnType<typeof generalListeningCards>;
-  page: number;
-  dict: ReturnType<typeof getDictionary>;
-}) {
-  const { cards, hasMore, total } = await cataloguePromise;
   const t = dict.listening.general;
+  const page = Math.max(1, Math.min(10000, Number.parseInt(query.page ?? "1", 10) || 1));
+  const { cards, hasMore, total } = await generalListeningCards(user.id, page);
+
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6" data-route-usable="listening-general">
+      <div>
+        <BackLink fallbackHref="/app/listening" label={dict.listening.practiceTitle} data-listening-general-back />
+        <h1 className="mt-2 font-display text-2xl text-ink-900">🎙️ {t.title}</h1>
+        <p className="mt-1 text-sm text-ink-500">{t.subtitle}</p>
+        {total > 0 && (
+          <p className="mt-1 text-xs text-ink-300" data-listening-general-count data-listening-general-total={total}>
+            {t.catalogueCount.replace("{n}", String(total))}
+          </p>
+        )}
+      </div>
+
       {cards.length === 0 ? (
         <section className="card space-y-2 p-6" data-listening-general-empty>
           <h2 className="font-display text-lg text-ink-900">{t.emptyTitle}</h2>

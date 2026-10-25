@@ -1,6 +1,3 @@
-import { deleteMaterialIn } from "@/lib/content/delete-material";
-import { notDeleted } from "@/lib/content/deletion-filter";
-import type { Actor } from "@/lib/auth/ownership";
 import { and, eq, inArray, isNull, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { speakingPrompts } from "@/db/schema";
@@ -11,22 +8,18 @@ import type { z } from "zod";
 export class SpeakingTopicConflict extends Error {}
 type Identity = z.infer<typeof speakingTopicIdentity>;
 function scope(identity: Omit<Identity, "ids">) {
-  return and(notDeleted(speakingPrompts.id), eq(speakingPrompts.part, identity.part), identity.topic === null ? isNull(speakingPrompts.topic) : eq(speakingPrompts.topic, identity.topic),
+  return and(eq(speakingPrompts.part, identity.part), identity.topic === null ? isNull(speakingPrompts.topic) : eq(speakingPrompts.topic, identity.topic),
     identity.bank === "shared" ? sql`(${speakingPrompts.availableIn} @> '["practice_alone"]'::jsonb OR ${speakingPrompts.availableIn} @> '["live_partner"]'::jsonb)` : sql`NOT (${speakingPrompts.availableIn} @> '["practice_alone"]'::jsonb OR ${speakingPrompts.availableIn} @> '["live_partner"]'::jsonb)`);
 }
 /** Serialize owner topic writes, then validate the full group before any mutation. */
-export async function manageSpeakingTopic(input: z.infer<typeof speakingTopicDraft> | { archive: Identity; actor: Actor }) {
+export async function manageSpeakingTopic(input: z.infer<typeof speakingTopicDraft> | { archive: Identity }) {
   return db.transaction(async tx => {
     await tx.execute(sql`select pg_advisory_xact_lock(76432109)`);
     const original = "archive" in input ? input.archive : input.original;
     const existing = original ? await tx.select().from(speakingPrompts).where(scope(original)).for("update") : [];
     if (original && (existing.length !== original.ids.length || existing.some(q => !original.ids.includes(q.id)))) throw new SpeakingTopicConflict("Topic changed. Reload it before saving.");
     if ("archive" in input) {
-      for (const id of original!.ids) {
-        const result=await deleteMaterialIn(tx,input.actor,"speaking-prompt",id);
-        if(result!=="deleted")throw new SpeakingTopicConflict("Topic unavailable.");
-      }
-      return [];
+      return tx.update(speakingPrompts).set({publicationState: "archived"}).where(inArray(speakingPrompts.id, original!.ids)).returning();
     }
     const first = input.questions[0]!;
     const target = {part: first.part, topic: first.topic, bank: usesSharedSpeakingBank(first.availableIn) ? "shared" as const : "ai" as const};

@@ -2,8 +2,7 @@ import type { Dictionary } from '@/lib/i18n/en';
 
 /** Exact authored evidence located ONLY in the question's own passage.
  * No fuzzy search, inferred answer, invented rationale or lexical target. */
-export function ReadingEvidence({dict, body, title, quote,unstated=false}:{dict:Dictionary;body:string;title:string;quote:string;unstated?:boolean}) {
-  if (unstated && !quote.trim()) return <details data-reading-evidence-absence><summary className="cursor-pointer text-xs">{dict.reading.evidence}: {title}</summary><p className="mt-2 text-sm">{dict.readingV4.unstatedEvidence}</p><p className="mt-2 whitespace-pre-line text-sm" data-reading-evidence-context>{body}</p></details>;
+export function ReadingEvidence({dict, body, title, quote}:{dict:Dictionary;body:string;title:string;quote:string}) {
   const start = quote.trim() ? body.indexOf(quote) : -1;
   if (start < 0) return <p data-reading-evidence-unlocated>{dict.readingPractice.evidenceMissing}</p>;
   const end = start + quote.length;

@@ -18,7 +18,7 @@ export const metadata = { title: "Retention" };
  *
  * The level grid answers "how full is the bank?" (X / 15, with the honest 15 as a
  * target rather than a cap), and the panel below it is the whole authoring
- * workflow: Add, Change (new version), Archive, Restore, owner-only Delete, and usage
+ * workflow: Add, Change (new version), Delete (archive), Restore, and both usage
  * counts. Back-navigation goes to Reading, one step up, through the same crumb
  * table the topbar uses.
  */
@@ -32,14 +32,14 @@ export default async function AdminRetentionPage({ searchParams }: {
     <div className="flex flex-col gap-4" data-route-usable="retention-admin">
       <h1 className="page-title">{dict.retentionMemory.admin.title}</h1>
       <Suspense fallback={<p className="panel" role="status" data-async-loading="retention-admin">{dict.common.loading}</p>}>
-        <RetentionBankContent dict={dict} params={params} canPermanentlyDelete={administrator.role === "owner"} />
+        <RetentionBankContent dict={dict} params={params} />
       </Suspense>
     </div>
   );
 }
 
-async function RetentionBankContent({ dict, params, canPermanentlyDelete }: {
-  dict: Dictionary; params: Record<string, string | string[] | undefined>; canPermanentlyDelete: boolean;
+async function RetentionBankContent({ dict, params }: {
+  dict: Dictionary; params: Record<string, string | string[] | undefined>;
 }) {
   const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
   const requestedLevel = first(params.level);
@@ -66,9 +66,6 @@ async function RetentionBankContent({ dict, params, canPermanentlyDelete }: {
       <header className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <BackLink fallbackHref="/app/admin/reading" label={dict.retentionMemory.admin.backToReading} data-retention-back />
-          <Link href="/app/admin/reading/retention/staged" className="link-inline" data-retention-staged-review-link>
-            Retention FINAL V2 · QA Review
-          </Link>
         </div>
         <p className="page-subtitle">{dict.retentionMemory.admin.subtitle}</p>
       </header>
@@ -105,7 +102,6 @@ async function RetentionBankContent({ dict, params, canPermanentlyDelete }: {
 
       <RetentionBankPanel
         dict={dict}
-        canPermanentlyDelete={canPermanentlyDelete}
         level={level}
         filter={filter}
         sort={sort}

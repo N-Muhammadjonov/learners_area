@@ -1,0 +1,18 @@
+/* Scoped Speaking presentation. Reuse original global CSS3 typography, theme and
+ * utilities rather than adding a second design system or JS-computed styles. */
+[data-route-usable^="speaking"], [data-route-usable="live-partner"] { min-width:0; }
+[data-route-usable^="speaking"] :is(input, textarea, button, select, audio) { max-width:100%; }
+[data-speaking-hub-cards] > li { min-width:0; }
+[data-practice-question-column], [data-practice-support-column] { min-width:0; }
+[data-practice-question-column] :is(p, h2, button), [data-practice-support-column] :is(p, h2, button) { overflow-wrap:anywhere; }
+[data-study-support] [role="tablist"] { align-items:stretch; }
+[data-study-support] [role="tab"] { min-height:44px; }
+[data-live-partner-state] .lp-panel { min-width:0; }
+[data-live-partner-state] input[type="search"] { min-width:0; }
+@media (max-width:768px) {
+ [data-route-usable="live-partner"] .lp-panel { width:100%; }
+ [data-practice-question-column], [data-practice-support-column] { max-height:none; }
+}
+@media (prefers-reduced-motion:reduce) {
+ [data-route-usable^="speaking"] *,[data-route-usable="live-partner"] * { scroll-behavior:auto; }
+}

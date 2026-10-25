@@ -1,0 +1,23 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {setup,tick,api} from './staff-final30/harness.mjs';
+import {createRouter,compilePattern} from '../js/router.js';import {navigationIntent} from '../js/navigation-intent.js';import {readCatalogue} from '../js/catalogue-cache.js';import {privateScope} from '../js/private-scope.js';import {createApi} from '../js/api-client.js';
+
+test('exact route uses its map without walking regexes, preserves shell and applies requested keyboard focus',async()=>{
+ const h=setup({path:'/app/writing',role:'student'});let checks=0,loads=0;
+ const load=async()=>({mount:ctx=>{loads++;const b=document.createElement('button');b.dataset.writingTab='exam';ctx.root.append(b);}}),routes=[{pattern:'/app/writing',match:{test(){checks++;throw Error('static regex walked');}},load},{pattern:'/app/writing/exam/:id',match:compilePattern('/app/writing/exam/:id'),load}];
+ const router=createRouter({root:h.ctx.root,routes,window,notFound:load,onError:e=>{throw e;}});
+ try{await router.start();await router.navigate('/app/writing?tab=exam',{scroll:false,focus:'[data-writing-tab=exam]'});assert.equal(checks,0);assert.equal(document.activeElement,h.q('button'));await router.navigate('/app/writing/exam/example');assert.equal(loads,3);assert.equal(h.calls.length,0);}finally{router.destroy();h.dispose();}
+});
+test('delegated intent works on native tab controls and ignores movement within one control',()=>{
+ const h=setup({path:'/app/writing',role:'student'}),hints=[];try{globalThis.CustomEvent=window.CustomEvent;h.ctx.root.innerHTML='<button data-navigation-route="/app/writing?tab=exam"><span>Exam</span></button>';h.ctx.root.addEventListener('learners-area:prefetch-intent',e=>hints.push(e.detail));navigationIntent({root:h.ctx.root,signal:h.ctx.signal});const b=h.q('button'),s=h.q('span');s.dispatchEvent(new window.MouseEvent('pointerover',{bubbles:true}));assert.deepEqual(hints,[{action:'prepare',delay:90}]);s.dispatchEvent(new window.MouseEvent('pointerover',{bubbles:true,relatedTarget:b}));assert.equal(hints.length,1);s.dispatchEvent(new window.MouseEvent('pointerdown',{bubbles:true,button:0}));assert.equal(hints.at(-1).delay,0);h.controller.abort();s.dispatchEvent(new window.MouseEvent('focusin',{bubbles:true}));assert.equal(hints.length,2);}finally{h.dispose();}
+});
+test('metadata snapshots clone values, exclude queues and reject stale identity or mutation completions',async()=>{
+ const h=setup({role:'student'});try{privateScope.setScope('alice');let reads=0,release;h.stub({'/api/vocabulary/folders':()=>({ok:true,folders:[{name:String(++reads)}]}),'/api/vocabulary/due':()=>({ok:true,due:[++reads]})});const first=await readCatalogue('/api/vocabulary/folders');first.folders[0].name='changed';assert.equal((await readCatalogue('/api/vocabulary/folders')).folders[0].name,'1');assert.equal(reads,1);await readCatalogue('/api/vocabulary/due');await readCatalogue('/api/vocabulary/due');assert.equal(reads,3);
+  privateScope.invalidate('catalogue:');h.stub({'/api/vocabulary/folders':()=>new Promise(r=>release=r)});const stale=readCatalogue('/api/vocabulary/folders');privateScope.setScope('bob');release({folders:[{name:'alice'}]});await stale;assert.equal(privateScope.size,0);const beforeWrite=readCatalogue('/api/vocabulary/folders');privateScope.invalidate('catalogue:');release({folders:[{name:'old'}]});await beforeWrite;assert.equal(privateScope.size,0);
+ }finally{h.dispose();}
+});
+test('writes invalidate catalogue at dispatch and completion and prevent shared old reads',async()=>{
+ const pending=[],phases=[];privateScope.setScope('alice');privateScope.put('catalogue:folders',{old:true});
+ const client=createApi((path,options)=>new Promise(resolve=>pending.push({path,options,resolve})),()=>{},()=>{phases.push('change');privateScope.invalidate('catalogue:');});
+ try{const old=client.request('/api/vocabulary/folders'),write=client.request('/api/vocabulary',{method:'POST',body:{items:[]}});assert.equal(privateScope.size,0);privateScope.put('catalogue:folders',{during:true});pending[1].resolve(new Response('{"ok":true}',{headers:{'Content-Type':'application/json'}}));await write;assert.equal(privateScope.size,0);const fresh=client.request('/api/vocabulary/folders');assert.equal(pending.length,3);pending[0].resolve(new Response('{"version":1}',{headers:{'Content-Type':'application/json'}}));pending[2].resolve(new Response('{"version":2}',{headers:{'Content-Type':'application/json'}}));assert.equal((await old).version,1);assert.equal((await fresh).version,2);assert.equal(phases.length,2);}finally{client.clear();privateScope.setScope(null);}
+});

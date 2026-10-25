@@ -25,12 +25,12 @@ test("page and API enforce the same rule; dry run never commits", () => {
 });
 
 test("Reading import stays Management-only; lesson authoring is independently staff-gated", () => {
-  const files = [...walk("src/app/app/(shell)/reading"), ...walk("src/app/app/(focus)/reading"), ...walk("src/components/reading")].filter((f) => /\.tsx?$/.test(f));
+  const files = [...walk("src/app/app/(shell)/reading"), ...walk("src/components/reading")].filter((f) => /\.tsx?$/.test(f));
   for (const f of files) {
     const src = readFileSync(f, "utf8");
     assert.doesNotMatch(src, /\/admin\/reading|reading\/import|startUpload\(|NewPassageForm|isAdministrator\(/, f);
-    assert.doesNotMatch(src,/isStaff\(/,f);
-    if(f.endsWith("reading/lessons/page.tsx")) assert.doesNotMatch(src,/href="\/app\/reading\/lessons\/author"/,"Lessons catalogue has no author action");
+    if(f.endsWith("reading/lessons/page.tsx")) assert.match(src,/isStaff\(user.role\) && <Link[^>]*href="\/app\/reading\/lessons\/author"/);
+    else assert.doesNotMatch(src,/isStaff\(/,f);
     if(f.endsWith("reading/lessons/author/page.tsx")) {
       assert.match(src,/requireStaff\(\)/);assert.match(src,/if \(!user\) redirect/);
       assert.match(src,/if \(!mayAuthorContent\(user.role, "lesson", "lesson"\)\) redirect/);

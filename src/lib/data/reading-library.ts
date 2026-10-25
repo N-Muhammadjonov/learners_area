@@ -1,5 +1,4 @@
 import { activateReadingSchedules } from "@/lib/services/reading/schedules";
-import { notDeleted } from "@/lib/content/deletion-filter";
 import { readingCanonicalTypeSql } from "@/lib/data/reading-type-index";
 import { readingQuestionType } from "@/lib/reading/question-model";
 import { and, asc, count, desc, eq, ilike, inArray, sql } from "drizzle-orm";
@@ -63,8 +62,6 @@ export type ReadingLibraryFilter = {
 export type ReadingPassageCard = {
   id: string;
   setId?: string;
-  questionTypes?: string[];
-  difficultyLevel?: string;
   title: string;
   testNo: number | null;
   passageNo: number | null;
@@ -270,25 +267,19 @@ export async function listLibrary(
  * already knows it, and asking twice was one of the round trips that made the
  * page slow.
  */
-export async function listLibraryFacets(learning = false, executor: typeof db = db) {
-  await activateReadingSchedules(executor);
+export async function listLibraryFacets(learning = false) {
+  await activateReadingSchedules();
   return timed("reading.facets", async () => {
     const live = learning ? and(liveWhere({publicationState:readingPassages.publicationState,publishAt:readingPassages.publishAt}),sql`exists(select 1 from general_reading_passages g join general_reading_sets s on s.id=g.set_id where g.passage_id=${readingPassages.id} and (s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now())))`) : await liveClause();
 
-    // General uses the same canonical types as its cards and type-filter query.
-    // Count passages once even when a type appears in multiple question groups.
     const [topics, types] = await Promise.all([
-      executor
+      db
         .select({ topicCode: readingPassages.topicCode, value: count() })
         .from(readingPassages)
         .where(and(live, sql`${readingPassages.topicCode} is not null`))
         .groupBy(readingPassages.topicCode)
         .orderBy(desc(count())),
-      learning ? executor.execute<{typeCode:string|null;value:number}>(sql`
-        select ${readingCanonicalTypeSql()} as "typeCode", count(distinct ${readingPassages.id})::int as value
-        from ${readingQuestions} q join ${readingPassages} on ${readingPassages.id}=q.passage_id
-        where ${live} group by 1 order by count(distinct ${readingPassages.id}) desc
-      `).then(result=>result.rows) : executor
+      db
         .select({ typeCode: readingQuestions.typeCode, value: count() })
         .from(readingQuestions)
         .innerJoin(readingPassages, eq(readingPassages.id, readingQuestions.passageId))
@@ -338,9 +329,9 @@ export async function readingHubCounts(userId: string) {
 
 /** General learning cards use the same published passages as full Academic sets,
  * but read per-passage learning progress and always link into the General session. */
-export async function listLearningLibrary(userId: string, filter: ReadingLibraryFilter = {}, executor: typeof db = db) {
-  await activateReadingSchedules(executor);
-  const clauses = [notDeleted(sql`p.id`),notDeleted(sql`s.id`),sql`(p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now()))`,sql`(s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now()))`];
+export async function listLearningLibrary(userId: string, filter: ReadingLibraryFilter = {}) {
+  await activateReadingSchedules();
+  const clauses = [sql`(p.publication_state='published' or (p.publication_state='scheduled' and p.publish_at<=now()))`,sql`(s.publication_state='published' or (s.publication_state='scheduled' and s.publish_at<=now()))`];
   const number = {passage1:1,passage2:2,passage3:3}[filter.status ?? ""];
   if(number)clauses.push(sql`g.passage_no=${number}`);
   if(text(filter.query))clauses.push(sql`p.title ilike ${`%${text(filter.query)!.replace(/[%_\\]/g,m=>"\\"+m)}%`}`);
@@ -353,7 +344,10 @@ export async function listLearningLibrary(userId: string, filter: ReadingLibrary
   if(filter.status==='in_progress')clauses.push(sql`r.passage_id is not null and r.checked_at is null`);
   if(filter.status==='not_started')clauses.push(sql`r.passage_id is null`);
   const from=sql`from general_reading_passages g join general_reading_sets s on s.id=g.set_id join reading_passages p on p.id=g.passage_id left join general_reading_progress r on r.passage_id=p.id and r.user_id=${userId}::uuid where ${sql.join(clauses,sql` and `)}`;
-  const result=await executor.execute<{id:string;title:string;test_no:number|null;passage_no:number;topic_code:string|null;suggested_minutes:number;set_id:string;question_count:number;question_types:string[];difficulty_level:string;score:number|null;checked_at:string|null;started:boolean}>(sql`select p.id,p.title,p.test_no,g.passage_no,p.topic_code,p.suggested_minutes,g.set_id,p.difficulty_level,(select array_agg(distinct ${readingCanonicalTypeSql()}) from reading_questions q where q.passage_id=p.id) question_types,(select count(*)::int from reading_questions q where q.passage_id=p.id) question_count,r.score,r.checked_at,r.passage_id is not null as started ${from} order by p.test_no asc nulls last,case when p.test_no is null then p.external_id end asc nulls last,s.created_at,s.id,g.passage_no,p.id`);
-  const items=result.rows.map(row=>({id:row.id,title:row.title,testNo:row.test_no,passageNo:row.passage_no,topicCode:row.topic_code,suggestedMinutes:row.suggested_minutes,questionCount:row.question_count,status:row.checked_at?'completed' as const:row.started?'in_progress' as const:'not_started' as const,lastScore:row.checked_at?row.score:null,lastAttemptId:null,setId:row.set_id,questionTypes:(row.question_types??[]).filter(Boolean),difficultyLevel:row.difficulty_level}));
-  return {items,total:items.length,page:1,pageCount:1};
+  const [countRow]=(await db.execute<{total:number}>(sql`select count(*)::int total ${from}`)).rows;
+  const total=countRow?.total??0, pageCount=Math.max(1,Math.ceil(total/READING_PAGE_SIZE));
+  const page=Math.min(pageCount,Math.max(1,Math.floor(filter.page??1)));
+  const result=await db.execute<{id:string;title:string;test_no:number|null;passage_no:number;topic_code:string|null;suggested_minutes:number;set_id:string;question_count:number;score:number|null;checked_at:string|null;started:boolean}>(sql`select p.id,p.title,p.test_no,g.passage_no,p.topic_code,p.suggested_minutes,g.set_id,(select count(*)::int from reading_questions q where q.passage_id=p.id) question_count,r.score,r.checked_at,r.passage_id is not null as started ${from} order by s.created_at,g.passage_no,p.id limit ${READING_PAGE_SIZE} offset ${(page-1)*READING_PAGE_SIZE}`);
+  const items=result.rows.map(row=>({id:row.id,title:row.title,testNo:row.test_no,passageNo:row.passage_no,topicCode:row.topic_code,suggestedMinutes:row.suggested_minutes,questionCount:row.question_count,status:row.checked_at?'completed' as const:row.started?'in_progress' as const:'not_started' as const,lastScore:row.checked_at?row.score:null,lastAttemptId:null,setId:row.set_id}));
+  return {items,total,page,pageCount};
 }

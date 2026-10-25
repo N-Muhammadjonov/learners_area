@@ -1,0 +1,33 @@
+import {el,listen} from '../../js/dom.js';
+
+/** The learner's folder picker is a modal operation, separate from expanding a sense. */
+export function dictionaryFolderDialog(ctx,{entry,sense,folders,onSave,onCreate,onClose}){
+ const {dict,signal}=ctx,t=dict.globalDictionary,life=new window.AbortController();let pending=false,folder='',creating=false;
+ const dialog=el('dialog',{class:'dictionary-folder-dialog','aria-labelledby':'dictionary-folder-title'}),body=el('div',{class:'flex flex-col gap-4 p-5 sm:p-6'}),error=el('p',{role:'alert',class:'text-sm',hidden:true});dialog.append(body);
+ function close(){if(pending)return;stop();onClose?.();}
+ function stop(){life.abort();dialog.close?.();dialog.remove();signal.removeEventListener('abort',stop);}
+ const button=(label,action,attrs={})=>{const node=el('button',{type:'button',class:'btn-secondary',...attrs},label);listen(node,'click',action,life.signal);return node;};
+ function paint(){
+  const title=el('header',{class:'flex items-center justify-between gap-3'},el('h2',{id:'dictionary-folder-title',class:'font-display text-xl font-semibold'},t.folder),button('×',close,{class:'btn-ghost min-h-11 min-w-11','aria-label':t.close,disabled:pending}));
+  const info=el('div',{class:'rounded-xl border border-ink-100 p-3'},el('strong',{class:'text-xl'},entry.display_lemma),el('p',{class:'mt-1 text-sm text-ink-500'},[...(entry.pronunciations??[]).map(p=>p.ipa),({n:'noun',v:'verb',a:'adjective',s:'adjective',r:'adverb'}[entry.part_of_speech]??entry.part_of_speech),entry.lexical_type,sense.cefr].filter(Boolean).join(' · ')),el('p',{class:'mt-2 text-sm'},(sense.translations??[]).map(x=>x.text).join(' · ')));
+  const choices=el('fieldset',{class:'max-h-[38vh] overflow-y-auto'},el('legend',{class:'sr-only'},t.folder));
+  for(const f of [{id:'',name:t.defaultFolder},...folders]){const radio=el('input',{type:'radio',name:'dictionary-folder',value:f.id,checked:folder===f.id,disabled:pending});listen(radio,'change',()=>folder=f.id,life.signal);choices.append(el('label',{class:'flex min-h-12 cursor-pointer items-center gap-3 rounded-lg px-2 py-3 hover:bg-paper-sunken'},el('span',{'aria-hidden':'true',class:'text-sky-600'},'▣'),el('span',{class:'min-w-0 flex-1 break-words'},f.name),f.id?el('span',{class:'text-sm text-ink-500'},String(f.count??0)):null,radio));}
+  let create;
+  if(creating){const input=el('input',{class:'input mt-1 w-full',maxlength:80,'data-dictionary-folder-name':''}),submit=el('button',{type:'submit',class:'btn-secondary',disabled:true},t.createFolder);create=el('form',{class:'space-y-2'},el('label',{class:'block text-sm'},t.folderName,input),submit);listen(input,'input',()=>submit.disabled=pending||!input.value.trim(),life.signal);listen(create,'submit',async event=>{event.preventDefault();if(pending||!input.value.trim())return;pending=true;submit.disabled=true;error.hidden=true;try{const f=await onCreate(input.value.trim());if(signal.aborted)return;if(!folders.some(x=>x.id===f.id))folders.push({...f,count:0});folder=f.id;creating=false;}catch{error.textContent=t.unavailable;error.hidden=false;}finally{pending=false;if(!signal.aborted)paint();}},life.signal);}
+  else create=button('＋ '+t.newFolder,()=>{creating=true;paint();dialog.querySelector('input:not([type=radio])')?.focus();},{class:'btn-secondary justify-start',disabled:pending});
+  const save=button(pending?dict.common.loading:t.confirmFolder,async()=>{if(pending)return;pending=true;paint();error.hidden=true;try{await onSave(folder||null);if(!signal.aborted){pending=false;close();}}catch{error.textContent=t.unavailable;error.hidden=false;}finally{pending=false;if(dialog.isConnected&&!signal.aborted)paint();}},{class:'btn-primary min-h-11 w-full',disabled:pending,'data-dictionary-confirm-folder':''});
+  body.replaceChildren(title,info,choices,create,error,save);
+ }
+ listen(dialog,'cancel',event=>{event.preventDefault();close();},life.signal);listen(dialog,'click',event=>{if(event.target===dialog)close();},life.signal);signal.addEventListener('abort',stop,{once:true});paint();document.body.append(dialog);if(dialog.showModal)dialog.showModal();else dialog.setAttribute('open','');return {close,stop};
+}
+
+export function dictionaryRecent(ctx,rows,{onOpen,onClear,pos}){
+ const {dict,signal}=ctx,t=dict.globalDictionary,node=el('div',{'data-dictionary-recent':'',class:'rounded-2xl bg-sky-50/70 dark:bg-signal-50/50 p-3 sm:p-5'}),life=new window.AbortController();let limit=5,observer,frame;
+ const button=(text,action,attrs)=>{const b=el('button',{type:'button',...attrs},text);listen(b,'click',action,life.signal);return b;};
+ function paint(){node.replaceChildren(el('div',{class:'mb-4 flex items-center justify-between gap-3'},el('h2',{class:'font-display text-xl font-semibold'},t.recent),rows.length?button(t.clear,onClear,{class:'btn-ghost shrink-0 text-sky-600 dark:text-sky-400'}):null),...rows.slice(0,limit).map(row=>button('',()=>onOpen(row),{'data-dictionary-recent-row':'',class:'mt-2 block w-full rounded-2xl border border-ink-100 bg-paper-raised p-4 text-left'})));
+  for(const [i,b]of [...node.querySelectorAll('[data-dictionary-recent-row]')].entries()){const r=rows[i];b.append(el('span',{class:'flex items-start justify-between gap-2'},el('span',{class:'flex min-w-0 flex-wrap gap-x-4'},el('strong',{class:'text-lg'},r.query_display??r.query??''),el('strong',{class:'text-lg text-sky-600 dark:text-sky-400'},r.display_lemma??r.term??''),r.part_of_speech?el('span',{class:'rounded-md bg-sky-50 px-2 py-1 text-xs text-sky-700'},pos(r.part_of_speech)):null),r.cefr?el('span',{class:'shrink-0 rounded-lg bg-sky-50 dark:bg-signal-50 px-2 py-1 text-sm font-semibold text-sky-600 dark:text-sky-400'},r.cefr):null),el('span',{class:'mt-1 block truncate text-ink-500'},r.translation_uz??''));}
+ }
+ function measure(){const row=node.querySelector('[data-dictionary-recent-row]');if(!row||!node.isConnected)return;const box=row.getBoundingClientRect(),available=(window.visualViewport?.height??window.innerHeight)-box.top-24,next=Math.max(1,Math.min(5,Math.floor((available+8)/(Math.max(88,box.height)+8))));if(next!==limit){limit=next;paint();}}
+ function dispose(){life.abort();observer?.disconnect();if(frame)window.cancelAnimationFrame?.(frame);signal.removeEventListener('abort',dispose);}
+ paint();if(window.requestAnimationFrame)frame=window.requestAnimationFrame(measure);if(typeof ResizeObserver!=='undefined'){observer=new ResizeObserver(measure);observer.observe(node);}listen(window,'resize',measure,life.signal);if(window.visualViewport)listen(window.visualViewport,'resize',measure,life.signal);signal.addEventListener('abort',dispose,{once:true});return {node,dispose};
+}

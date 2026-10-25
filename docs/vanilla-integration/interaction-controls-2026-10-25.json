@@ -1,0 +1,264 @@
+{
+  "referenceCommit": "b62b78f469e4f73aa80f441f630b012dc422af39",
+  "scope": "Rendered control order, accessible names, CSS classes and disabled states. Not browser geometry/paint.",
+  "results": [
+    {
+      "name": "game:cards",
+      "referenceControls": 5,
+      "nativeControls": 5,
+      "differences": []
+    },
+    {
+      "name": "game:cards:flipped",
+      "referenceControls": 5,
+      "nativeControls": 5,
+      "differences": []
+    },
+    {
+      "name": "game:choice",
+      "referenceControls": 2,
+      "nativeControls": 2,
+      "differences": []
+    },
+    {
+      "name": "game:match",
+      "referenceControls": 3,
+      "nativeControls": 3,
+      "differences": []
+    },
+    {
+      "name": "game:gap",
+      "referenceControls": 4,
+      "nativeControls": 4,
+      "differences": []
+    },
+    {
+      "name": "game:race",
+      "referenceControls": 4,
+      "nativeControls": 4,
+      "differences": []
+    },
+    {
+      "name": "game:translation",
+      "referenceControls": 3,
+      "nativeControls": 3,
+      "differences": []
+    },
+    {
+      "name": "game:builder",
+      "referenceControls": 7,
+      "nativeControls": 7,
+      "differences": []
+    },
+    {
+      "name": "dictionary:empty",
+      "referenceControls": 3,
+      "nativeControls": 3,
+      "differences": []
+    },
+    {
+      "name": "vocabulary:words",
+      "referenceControls": 23,
+      "nativeControls": 23,
+      "differences": []
+    },
+    {
+      "name": "vocabulary:revision",
+      "referenceControls": 1,
+      "nativeControls": 1,
+      "differences": []
+    },
+    {
+      "name": "vocabulary:revision:revealed",
+      "referenceControls": 2,
+      "nativeControls": 2,
+      "differences": []
+    },
+    {
+      "name": "vocabulary:use",
+      "referenceControls": 4,
+      "nativeControls": 4,
+      "differences": []
+    },
+    {
+      "name": "vocabulary:board",
+      "referenceControls": 0,
+      "nativeControls": 0,
+      "differences": []
+    },
+    {
+      "name": "writing:typing",
+      "referenceControls": 7,
+      "nativeControls": 7,
+      "differences": []
+    },
+    {
+      "name": "writing:nav",
+      "referenceControls": 8,
+      "nativeControls": 8,
+      "differences": []
+    },
+    {
+      "name": "writing:translation-setup",
+      "referenceControls": 13,
+      "nativeControls": 13,
+      "differences": []
+    },
+    {
+      "name": "writing:translation-setup:topic-picker",
+      "referenceControls": 13,
+      "nativeControls": 13,
+      "differences": []
+    },
+    {
+      "name": "writing:activation-setup",
+      "referenceControls": 16,
+      "nativeControls": 16,
+      "differences": []
+    },
+    {
+      "name": "writing:activation-setup:session",
+      "referenceControls": 3,
+      "nativeControls": 3,
+      "differences": []
+    },
+    {
+      "name": "writing:translation-runner",
+      "referenceControls": 2,
+      "nativeControls": 2,
+      "differences": []
+    },
+    {
+      "name": "writing:exam-runner",
+      "referenceControls": 3,
+      "nativeControls": 3,
+      "differences": []
+    },
+    {
+      "name": "writing:stealing-step-1",
+      "referenceControls": 1,
+      "nativeControls": 1,
+      "differences": []
+    },
+    {
+      "name": "writing:stealing-step-2",
+      "referenceControls": 2,
+      "nativeControls": 2,
+      "differences": []
+    },
+    {
+      "name": "writing:stealing-step-4",
+      "referenceControls": 2,
+      "nativeControls": 2,
+      "differences": []
+    },
+    {
+      "name": "writing:stealing-step-6",
+      "referenceControls": 2,
+      "nativeControls": 2,
+      "differences": []
+    },
+    {
+      "name": "writing:stealing-step-7",
+      "referenceControls": 0,
+      "nativeControls": 0,
+      "differences": []
+    },
+    {
+      "name": "speaking:practice-parts",
+      "referenceControls": 4,
+      "nativeControls": 4,
+      "differences": []
+    },
+    {
+      "name": "speaking:ai-setup",
+      "referenceControls": 4,
+      "nativeControls": 4,
+      "differences": []
+    },
+    {
+      "name": "grammar:correct-it",
+      "referenceControls": 5,
+      "nativeControls": 5,
+      "differences": []
+    },
+    {
+      "name": "grammar:translate-activate",
+      "referenceControls": 4,
+      "nativeControls": 4,
+      "differences": []
+    },
+    {
+      "name": "reading:academic-exam",
+      "referenceControls": 5,
+      "nativeControls": 5,
+      "differences": []
+    },
+    {
+      "name": "listening:academic-exam",
+      "referenceControls": 11,
+      "nativeControls": 11,
+      "differences": []
+    },
+    {
+      "name": "listening:general-exam",
+      "referenceControls": 7,
+      "nativeControls": 7,
+      "differences": []
+    },
+    {
+      "name": "writing:grade-form",
+      "referenceControls": 5,
+      "nativeControls": 5,
+      "differences": []
+    },
+    {
+      "name": "writing:grade-form:task1",
+      "referenceControls": 7,
+      "nativeControls": 7,
+      "differences": []
+    },
+    {
+      "name": "writing:grade-form:published",
+      "referenceControls": 8,
+      "nativeControls": 8,
+      "differences": []
+    },
+    {
+      "name": "writing:save-topic-word",
+      "referenceControls": 1,
+      "nativeControls": 1,
+      "differences": []
+    },
+    {
+      "name": "writing:save-topic-word:saved",
+      "referenceControls": 0,
+      "nativeControls": 0,
+      "differences": []
+    },
+    {
+      "name": "writing:save-pattern",
+      "referenceControls": 1,
+      "nativeControls": 1,
+      "differences": []
+    },
+    {
+      "name": "writing:save-pattern:saved",
+      "referenceControls": 1,
+      "nativeControls": 1,
+      "differences": []
+    },
+    {
+      "name": "writing:save-pattern:unsaved",
+      "referenceControls": 1,
+      "nativeControls": 1,
+      "differences": []
+    },
+    {
+      "name": "speaking:microphone",
+      "referenceControls": 1,
+      "nativeControls": 1,
+      "differences": []
+    }
+  ]
+}

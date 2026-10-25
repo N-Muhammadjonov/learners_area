@@ -1,7 +1,6 @@
 "use client";
 import { useScopedResponse } from "@/lib/http/use-scoped-response";
 
-import { DeleteMaterialButton } from "./DeleteMaterialButton";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/en";
@@ -135,7 +134,6 @@ export function PublicationControl({
       >
         {busy ? t.saving : t.save}
       </button>
-      {type !== "course" && <DeleteMaterialButton type={type} id={id} dict={dict} />}
       {message === "saved" && (
         <span className="text-xs text-band-good" data-publication-result="saved">
           {t.saved}

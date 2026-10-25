@@ -1,0 +1,28 @@
+/* Original src/app/globals.css: dictionary context panel (main). Loaded on every Reading route; the popover is portalled to body. */
+.dictionary-context-panel {
+  --accent: 126 211 255; --accent-strong: 164 225 255;
+  --signal-600: 126 211 255; --signal-700: 164 225 255;
+  --ink-950: 243 238 229;
+  --ink-900: 243 238 229;
+  --ink-700: 234 239 247;
+  --ink-500: 205 223 237;
+  --ink-300: 180 205 225;
+  --ink-100: 58 105 151;
+  --paper-raised: 8 32 68;
+  color-scheme: dark;
+  z-index: var(--z-modal, 60);
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  left: auto;
+  max-height: calc(100dvh - max(12px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom)));
+  overscroll-behavior: contain;
+  background: rgba(8, 32, 68, .96) !important;
+  color: #f3eee5 !important;
+  border-color: rgba(58, 172, 232, .5) !important;
+}
+.dictionary-context-panel :is(p,span,strong,label,select,button,input) { color: inherit !important; }
+.dictionary-context-panel :is(button,input,select) { background: rgba(12, 51, 98, .9); border-color: rgba(58, 172, 232, .5); }
+.dictionary-translation-divider { width: 100%; margin-block: 10px; border: 0; border-top: 1px solid rgba(141, 218, 255, .6); }
+/* Original ClickableText panel width (fixed w-[min(20rem,calc(100vw-24px))]); kept here so the global Tailwind CSS identity stays pinned. */
+.dictionary-context-panel { width: min(20rem, calc(100vw - 24px)); }
+.dictionary-context-panel ul { list-style-position: inside; }

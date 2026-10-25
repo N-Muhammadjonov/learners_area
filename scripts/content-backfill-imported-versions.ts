@@ -23,7 +23,7 @@
  * the backfill: a revision always records who produced it.
  */
 import { eq } from "drizzle-orm";
-import { db } from "../src/db/client";
+import { db } from "../src/db/tooling-client";
 import {
   contentVersions,
   generalReadingPassages,

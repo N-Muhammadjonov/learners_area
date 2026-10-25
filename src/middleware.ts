@@ -65,12 +65,6 @@ export async function middleware(req: NextRequest) {
   const host = req.headers.get("x-forwarded-host")?.split(",")[0]?.trim() ?? req.nextUrl.host;
   const headerOptions = { nonce, secure, dev, hsts: secure && !dev, host };
 
-  // The capability Worker supersedes legacy presigned R2 rewrites. Reject old
-  // transport links at cutover so they cannot bypass per-read revocation.
-  if (process.env.MEDIA_WORKER_URL && (pathname === '/__storage-read' || pathname.startsWith('/__storage-read/'))) {
-    return applySecurityHeaders(new NextResponse(null,{status:404,headers:{'Cache-Control':'private, no-store'}}),headerOptions);
-  }
-
   // 1. State-changing API calls must come from this deployment.
   if (pathname.startsWith("/api/")) {
     const origin = checkRequestOrigin(req);
@@ -159,10 +153,10 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * Every route except Next.js build output and static files, so the security
-     * headers and the origin check cover APIs and public pages too — not only
-     * the private pages the original matcher listed.
+     * FastAPI owns API origin/security checks. Excluding the relay also avoids
+     * Next middleware's cloned-body limit truncating streamed multipart uploads.
+     * Page routing and page CSP nonces remain in this middleware.
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|ico|webp|txt|xml|woff2?)$).*)",
+    "/((?!api/|_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|ico|webp|txt|xml|woff2?)$).*)",
   ],
 };

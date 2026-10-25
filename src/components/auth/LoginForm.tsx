@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Input";
-import { TelegramIntentLogin } from "./TelegramIntentLogin";
 import { TelegramButton } from "./TelegramButton";
 import { safeNextPath } from "@/lib/auth/safe-redirect";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
@@ -17,20 +16,12 @@ export function LoginForm({
   telegramBotUsername,
   googleConfigured = false,
   diagnostics = false,
-  passwordEnabled = true,
-  telegramIntentEnabled = false,
-  recovery = false,
-  nonce,
 }: {
   dict: Dictionary;
   telegramConfigured: boolean;
   telegramBotUsername?: string;
   googleConfigured?: boolean;
   diagnostics?: boolean;
-  passwordEnabled?: boolean;
-  telegramIntentEnabled?: boolean;
-  recovery?: boolean;
-  nonce?: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -53,7 +44,7 @@ export function LoginForm({
     setError("");
     try {
       const result = await requestJson<{ accountStatus?: string; onboarded?: boolean; role?: string }>(
-        recovery ? "/api/auth/recovery/login" : "/api/auth/login",
+        "/api/auth/login",
         { body: { email, password } }
       );
       if (!result.ok) {
@@ -88,17 +79,6 @@ export function LoginForm({
     }
   }
 
-  const telegram = telegramIntentEnabled ? (
-    <TelegramIntentLogin dict={dict} configured={telegramConfigured} botUsername={telegramBotUsername} purpose="login" />
-  ) : (
-    <TelegramButton label={dict.auth.continueWithTelegram} unavailableLabel={dict.auth.telegramUnavailable}
-      configured={telegramConfigured} botUsername={telegramBotUsername} nonce={nonce} />
-  );
-
-  if (!passwordEnabled) return (
-    telegram
-  );
-
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <div>
@@ -113,7 +93,6 @@ export function LoginForm({
       <Button type="submit" disabled={pending}>
         {pending ? dict.common.loading : dict.auth.loginCta}
       </Button>
-      {!recovery && <>
       <div className="text-right text-sm">
         <Link href="/reset-password" className="btn-secondary ">
           {dict.auth.forgotPassword}
@@ -125,12 +104,17 @@ export function LoginForm({
       </div>
       {googleConfigured && (
         // A plain top-level navigation: the OIDC redirect chain must not be prefetched or fetched.
+        // eslint-disable-next-line @next/next/no-html-link-for-pages -- OAuth starts a full document redirect, not client routing.
         <a href="/api/auth/google/start" className="btn-secondary w-full justify-center" data-google-login>
           {dict.auth.continueWithGoogle}
         </a>
       )}
-      {telegram}
-      </>}
+      <TelegramButton
+        label={dict.auth.continueWithTelegram}
+        unavailableLabel={dict.auth.telegramUnavailable}
+        configured={telegramConfigured}
+        botUsername={telegramBotUsername}
+      />
     </form>
   );
 }

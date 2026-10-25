@@ -29,7 +29,7 @@ const PUBLIC_DIR = join(process.cwd(), "public");
 const EXPECTED_FILES = [
   "learners-area-logo-master-dark.png",
   "Learners_Area_V11_Exact_Cutout_Logo.png",
-  "owner-neon-day.png",
+  "learners-area-logo-mark-light.png",
   "learners-area-logo-horizontal-dark.png",
   "learners-area-logo-horizontal-light.png",
   "learners-area-favicon.png",

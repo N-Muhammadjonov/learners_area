@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { requireActiveUser } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { listFolders } from "@/lib/services/vocabulary/engine";
-import { listTopicPackSummariesForLearner } from "@/lib/content/vocabulary-packs";
+import { findTopicPackForLearner, listTopicPacksForLearner } from "@/lib/content/vocabulary-packs";
 import { isUuid } from "@/lib/validation/ids";
 import type { GameSetKey, VocabFolder, VocabPack } from "@/components/vocabulary/types";
 import { VocabGameView } from "@/components/vocabulary/VocabGamesPanel";
@@ -35,8 +35,8 @@ async function GameContent({ gameId, query, userId, locale, dict }: {
   query: { set?: string; folderId?: string; topicPack?: string };
   userId: string; locale: Locale; dict: Dictionary;
 }) {
-  const [folders, summaries] = await Promise.all([listFolders(userId), listTopicPackSummariesForLearner(locale)]);
-  const packs: VocabPack[] = summaries.map((pack) => ({ id: pack.id, label: pack.label, wordCount: pack.wordCount }));
+  const folders = await listFolders(userId);
+  const packs: VocabPack[] = (await listTopicPacksForLearner(locale)).map((pack) => ({ id: pack.id, label: pack.label, wordCount: pack.words.length }));
   const requestedSet = query.set ?? "";
   let setKey: GameSetKey = isGameSetKey(requestedSet) ? requestedSet : "due";
   let folderId = query.folderId && isUuid(query.folderId) ? query.folderId : undefined;

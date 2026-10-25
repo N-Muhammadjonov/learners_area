@@ -1,0 +1,22 @@
+# V29 —16-node slope attributed to inspector frame-element handles
+
+Sequence respected: after the actual403 harness repair, complete418-source suite passed before this investigation. Existing authority/media/writer/lexical/modal owners unchanged.
+
+## Matched stages and causal finding
+Plain and inspected six-cycle runs both keep connected parent DOM291 nodes at every route-disposed/observed-settled sample, while allocated nodes reach444. Listener settlement184; occasional186 transient remains recorded. Both runs retain native/frame/network/media observations and controller metadata; full samples, not cherry-picked endpoints, in resources-*.json. Source replacement means old frame destroyed/new source ready; source-view-exited is not mislabelled source destruction. Public login readiness now observed via its real password control rather than shell removal alone.
+
+Offline route0→5 native heaps add10 detached iframe nodes plus70 Attr nodes =80 DOM nodes across5 additional cycles. The route0 raw counter had two additional transient DOM nodes; the native name delta also records their removal, rather than forcing every sample to an exact16 difference. Seven attributes per iframe plus the element account for8 nodes each; two disposed iframe elements per cycle account for16. All12 final iframe objects have DIRECT Global handles edges labelled DevTools console. Shortest path alone is not an exclusive-owner proof.
+
+Runtime.discardConsoleEntries and Log.clear had NO effect:444 stayed444. Thus console message buffering is not established by that label. Negative control retained in resources-console-control.json and console-entries.json.
+
+Installed Playwright1.51.1 _checkFrameIsHitTarget acquires frame.frameElement() handles without disposing them. Its Chromium getFrameElement obtains DOM.getFrameOwner/DOM.resolveNode handles in the parent world. Source SHA/line evidence in driver-provenance.json. A scoped test-process wrapper records ONLY those handles with WeakRefs, protocol IDs and allocation stacks—no strong ElementHandle or website DOM reference added. Fifteen acquisitions were recorded. Releasing those owned inspector handles after6 cycles changes allocated nodes444→348, connected DOM291→291 and listeners184→184.12 iframe elements +84 attributes explain the96-node reduction, including the initial pair of frames. Public-ready sample then125 allocated/100 connected/37 listeners, versus222 or inspector-sensitive475 before cleanup. Exact extracted execution has its own raw results.
+
+This causal intervention attributes the measured slope to orphaned inspector handles at these stages: without them, those96 objects are collectible while application state is unchanged. It is not a claim that every retaining path/native allocation is understood. No app DOM removal, animation cancellation, media workaround, CSP change, runtime GC or changed Phase2 assertion was shipped. The scoped release exists only in explicit diagnostic control mode, not normal website code or mandatory Phase2.
+
+## Preserved legitimate owners and boundary
+Route/shell/authority/notification controllers remain; authority-expiry/module-prewarm timers have shell lifetimes. The Playwright observer is not removed from website code. Sandbox remains allow-scripts ONLY, parent contentDocument null. No authored content access through a weakened parent boundary. Normal CDP execution-context creation/destruction is recorded, not universal opaque/OOPIF process-memory proof.
+
+Native Audio Range terminal observations, controlled RangeMedia body-reader tests, and original encoded MSE/Blob/quota regression remain distinct resource scopes. Media.enable exposes only its events/properties; native decoder/GPU allocations and every SourceBuffer job are not universally observable. No private audio bytes captured/packaged. Existing256KiB chunks/8MiBLRU/two-transport contract unchanged. Native/callback settlement means observed fetch/RAF/media/source cleanup, not arbitrary sleeps or universal native-idle.
+
+## Phase2 and historical targets
+No repeated blank-page animation research. Mandatory499-case regression retains the original +50nodes/+5listeners immediate assertion. V28 four-run4PASS remains preserved, both historical3PASS/1FAIL series remain failed. Phase2 acceptance OPEN, Review PARTIAL. Historical13 target identities cannot be recovered from absent historical raw heap; V29 does not invent them. Existing native/opaque/visual/live/hardware scope limits still apply.

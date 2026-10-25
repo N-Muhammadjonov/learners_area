@@ -1,7 +1,4 @@
-import {listeningSequenceAccess} from "@/lib/data/listening-sequence";
-import {ListeningSequenceLocked} from "@/components/listening/ListeningSequenceLocked";
-import { hasOriginalListeningRuntime } from "@/lib/listening/original-listening";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { db } from "@/db/client";
 import { listeningOccurrenceSpans, listeningSegmentSpans } from "@/lib/services/lexical/listening-occurrences";
 import { requireActiveUser } from "@/lib/auth/current-user";
@@ -22,10 +19,8 @@ export default async function Study({
   if (!user) return null;
   const { id } = await params;
   if (!isUuid(id)) notFound();
-  if(!await listeningSequenceAccess(user,id))return <ListeningSequenceLocked dict={getDictionary(await getLocale())}/>;
   const detail = await fullListeningDetail(id, user.role);
   if (!detail) notFound();
-  if (hasOriginalListeningRuntime(id,detail.pkg.sourceId)) redirect(`/app/listening/tests/${id}#review`);
   const p = detail.pkg.payload;
   // Study help is available while no full exam attempt is open.
   const lexicalAssistance = lexicalAssistanceAllowed("REVIEW_CONTROL", await listeningExamState(user, id));

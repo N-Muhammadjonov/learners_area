@@ -3,8 +3,8 @@ import { getDictionary, getLocale } from "@/lib/i18n";
 
 /**
  * Listening tests and attempts own the viewport. The ordinary application sidebar/topbar
- * never mount on this route tree. The hub's BackLink returns to the Listening
- * library; an authored activity uses its own Activities control instead.
+ * never mount on this route tree, while one consistent BackLink remains
+ * reachable at the top-left and falls back to the Listening library.
  */
 export default async function ListeningFocusLayout({
   children,
@@ -30,8 +30,8 @@ export default async function ListeningFocusLayout({
         data-listening-focus-backbar
       >
         <BackLink
-          fallbackHref="/app/listening/tests"
-          label={dict.listening.academic.title}
+          fallbackHref="/app/listening"
+          label={dict.nav.listening}
           className="btn-secondary inline-flex min-h-11 w-fit items-center gap-1"
         />
       </div>

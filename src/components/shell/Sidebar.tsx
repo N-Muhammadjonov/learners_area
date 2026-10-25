@@ -14,9 +14,7 @@ import type { Role } from "@/lib/auth/roles";
 export function Sidebar({ dict, role, email }: { dict: Dictionary; role: Role; email: string }) {
   return (
     <div className="flex h-full flex-col gap-6">
-      <a href="https://t.me/learners_area" target="_blank" rel="noopener noreferrer" aria-label={dict.shell.telegramBrand} className="block rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal-600" data-sidebar-brand-link>
-        <BrandBlock className="px-1" />
-      </a>
+      <BrandBlock className="px-1" />
       <div className="flex min-h-0 flex-1 flex-col">
         <SidebarNav dict={dict} role={role} email={email} />
       </div>

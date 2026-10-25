@@ -1,4 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "regions": ["sin1"]
+  "regions": [
+    "sin1"
+  ],
+  "framework": "fastapi",
+  "buildCommand": "python3 scripts/build_native_assets.py",
+  "functions": {
+    "server.py": {
+      "includeFiles": "{services/backend/app/**,services/backend/assets/**,frontend/vanilla/build/**}",
+      "excludeFiles": "{node_modules/**,.next/**,src/**,tests/**,docs/**,frontend/vanilla/tests/**,frontend/vanilla/docs/**,frontend/vanilla/scripts/**,frontend/vanilla/node_modules/**,services/backend/tests/**,scripts/**}"
+    }
+  },
+  "installCommand": "python3 -m pip install -r requirements.txt"
 }

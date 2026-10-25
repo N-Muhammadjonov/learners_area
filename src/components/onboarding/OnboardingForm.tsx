@@ -7,28 +7,25 @@ import { FieldError, Input, Label } from "@/components/ui/Input";
 import { failureMessage, requestJson } from "@/lib/http/client-request";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Locale } from "@/lib/i18n";
-import { StudyDateInput } from './StudyDateInput';
-export type StudyProfileValues={currentLevel:string|null;currentBand:number|null;targetBand:number|null;examDate:string|null;dailyStudyMinutes:number|null;strongestSkill:string|null;weakestSkill:string|null};
 
 const SKILLS = ["listening", "reading", "writing", "speaking"] as const;
 const LEVELS = ["A2", "B1", "B2", "C1", "C2"];
 
-export function OnboardingForm({ dict, locale,initial,profile=false }: { dict: Dictionary; locale: Locale;initial?:StudyProfileValues;profile?:boolean }) {
+export function OnboardingForm({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   // The form had no error surface at all: a failed request used to end silently,
   // leaving a button that looked like it had done something. It now says so.
   const [error, setError] = useState("");
-  const [saved,setSaved]=useState(false);
   const [form, setForm] = useState({
     preferredLanguage: locale,
-    currentLevel: initial?.currentLevel??"B1",
-    currentBand: initial?.currentBand==null?"":String(initial.currentBand),
-    targetBand: String(initial?.targetBand??7),
-    examDate: initial?.examDate??"",
-    dailyStudyMinutes: String(initial?.dailyStudyMinutes??60),
-    strongestSkill: (initial?.strongestSkill??"reading") as (typeof SKILLS)[number],
-    weakestSkill: (initial?.weakestSkill??"writing") as (typeof SKILLS)[number],
+    currentLevel: "B1",
+    currentBand: "",
+    targetBand: "7",
+    examDate: "",
+    dailyStudyMinutes: "60",
+    strongestSkill: "reading" as (typeof SKILLS)[number],
+    weakestSkill: "writing" as (typeof SKILLS)[number],
   });
 
   async function onSubmit(e: React.FormEvent) {
@@ -36,8 +33,7 @@ export function OnboardingForm({ dict, locale,initial,profile=false }: { dict: D
     setPending(true);
     setError("");
     try {
-      const result = await requestJson(profile?"/api/profile/study":"/api/onboarding", {
-        method:profile?"PATCH":"POST",
+      const result = await requestJson("/api/onboarding", {
         body: {
           ...form,
           currentBand: form.currentBand || undefined,
@@ -48,7 +44,7 @@ export function OnboardingForm({ dict, locale,initial,profile=false }: { dict: D
         setError(failureMessage(result, dict.auth));
         return;
       }
-      if(profile)setSaved(true);else router.push("/app");
+      router.push("/app");
       router.refresh();
     } finally {
       setPending(false);
@@ -56,7 +52,7 @@ export function OnboardingForm({ dict, locale,initial,profile=false }: { dict: D
   }
 
   return (
-    <form onSubmit={onSubmit} onChange={()=>setSaved(false)} className="grid grid-cols-1 gap-5 sm:grid-cols-2" data-study-profile={profile||undefined}>
+    <form onSubmit={onSubmit} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
       <div>
         <Label htmlFor="preferredLanguage">{dict.onboarding.preferredLanguage}</Label>
         <select
@@ -111,7 +107,15 @@ export function OnboardingForm({ dict, locale,initial,profile=false }: { dict: D
         />
       </div>
 
-      <StudyDateInput dict={dict} value={form.examDate} onChange={examDate=>setForm({...form,examDate})}/>
+      <div>
+        <Label htmlFor="examDate">{dict.onboarding.examDate}</Label>
+        <Input
+          id="examDate"
+          type="date"
+          value={form.examDate}
+          onChange={(e) => setForm({ ...form, examDate: e.target.value })}
+        />
+      </div>
 
       <div>
         <Label htmlFor="dailyStudyMinutes">{dict.onboarding.dailyStudyMinutes}</Label>
@@ -156,9 +160,8 @@ export function OnboardingForm({ dict, locale,initial,profile=false }: { dict: D
 
       <div className="sm:col-span-2">
         <FieldError>{error}</FieldError>
-        {saved&&<p role="status">{dict.profile.studySaved}</p>}
         <Button type="submit" disabled={pending} className="w-full">
-          {pending ? dict.common.loading : profile?dict.profile.saveStudy:dict.onboarding.finish}
+          {pending ? dict.common.loading : dict.onboarding.finish}
         </Button>
       </div>
     </form>

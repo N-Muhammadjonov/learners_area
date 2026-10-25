@@ -1,0 +1,9 @@
+/** Run preserved harnesses without overwriting immutable checkpoint evidence. */
+import fs from 'node:fs';import path from 'node:path';import {spawnSync} from 'node:child_process';
+const base=path.resolve(import.meta.dirname,'..'),out=path.join(base,'docs/evidence/v4');fs.mkdirSync(out,{recursive:true});
+// Preserve bytes present at invocation, including standalone archives without historical ZIPs.
+const evidence=path.join(base,'docs/evidence'),snapshot=new Map();
+function capture(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(p===out)continue;if(e.isDirectory())capture(p);else snapshot.set(p,fs.readFileSync(p));}}capture(evidence);
+const specs=[['browser.mjs','docs/evidence','browser-results.json',27,'foundation'],['browser-v2.mjs','docs/evidence/v2','browser-v2-results.json',14,'v2'],['browser-v3.mjs','docs/evidence/v3','browser-v3-results.json',49,'v3']];
+try{for(const [script,folder,name,count,label]of specs){const log=fs.openSync(path.join(out,label+'-browser-output.txt'),'w'),result=spawnSync(process.execPath,['tests/'+script],{cwd:base,stdio:['ignore',log,log]});fs.closeSync(log);const report=JSON.parse(fs.readFileSync(path.join(base,folder,name),'utf8')),dest=path.join(out,label+'-regression');fs.mkdirSync(dest,{recursive:true});fs.copyFileSync(path.join(base,folder,name),path.join(dest,name));for(const n of fs.readdirSync(path.join(base,folder)))if(n.endsWith('.png')||n==='shell-performance.json')fs.copyFileSync(path.join(base,folder,n),path.join(dest,n));console.log(label,report.counts);if(result.status!==0||report.counts.PASS!==count||report.counts.FAIL)throw Error('Regression failed: '+label);}}
+finally{for(const [file,bytes]of snapshot)fs.writeFileSync(file,bytes);}

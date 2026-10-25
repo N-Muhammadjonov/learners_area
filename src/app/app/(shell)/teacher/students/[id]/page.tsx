@@ -18,7 +18,7 @@ import { isUuid } from "@/lib/validation/ids";
 import { liveWhere } from "@/lib/services/cms/publication";
 import { activationOverview } from "@/lib/services/writing/activation";
 
-export default async function StudentDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams:Promise<{module?:string;page?:string}> }) {
+export default async function StudentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await requireStaff();
   if (!user) redirect("/app");
@@ -32,12 +32,12 @@ export default async function StudentDetailPage({ params, searchParams }: { para
   // The Coach's evaluation is shown to the teacher as a separate, read-only
   // block: a teacher reviews automated feedback, adds their own, and never has
   // their own feedback overwritten by it.
-  const [evaluations, prompts, activation] = await Promise.all([findEvaluationsForSources({
+  const evaluations = await findEvaluationsForSources({
     sourceType: "writing_submission",
     sourceIds: detail.submissions.map(({ submission }) => submission.id),
-  }),
+  });
 
-  db
+  const prompts = await db
     .select({ id: writingPrompts.id, category: writingPrompts.category, taskType: writingPrompts.taskType })
     .from(writingPrompts)
     // A teacher may only set work on a prompt that is live for students.
@@ -46,10 +46,9 @@ export default async function StudentDetailPage({ params, searchParams }: { para
         publicationState: writingPrompts.publicationState,
         publishAt: writingPrompts.publishAt,
       }),
-    ),
+    );
 
-  activationOverview(detail.student.id).catch(() => ({ wordsActivated: 0, averageActivation: null, dayStreak: 0, lastSession: null })),
-  ]);
+  const activation = await activationOverview(detail.student.id).catch(() => ({ wordsActivated: 0, averageActivation: null, dayStreak: 0, lastSession: null }));
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
@@ -70,7 +69,7 @@ export default async function StudentDetailPage({ params, searchParams }: { para
         />
       </div>
 
-      <StudentResults studentId={id} dict={dict} filter={await searchParams} baseHref={`/app/teacher/students/${id}`} />
+      <StudentResults studentId={id} dict={dict} />
 
       {/* Mentor visibility (§43/W5): read-only Activation Lab summary from the student's stored check events. */}
       <Card className="flex flex-col gap-2" data-teacher-activation>

@@ -1,0 +1,27 @@
+import assert from "node:assert/strict";
+import { readFileSync, existsSync } from "node:fs";
+import test from "node:test";
+const text=(p: string)=>readFileSync(p,"utf8");
+test("Recovered 3D campus modules, safe routing, and interaction code",()=>{
+  const base="public/campus/v2/src/";
+  const config=text(base+"campus-config.js");
+  const keys=[...config.matchAll(/\bid: '([a-z_]+)'/g)].map(x=>x[1]);
+  assert.equal(keys.length,12);
+  assert.equal(new Set(keys).size,12);
+  assert.ok(config.includes("route: '/app/dashboard'"));
+  assert.ok(config.includes("route: '/app/listening/lessons'"));
+  const camera=text(base+"campus-camera.js");
+  assert.match(camera,/event\.deltaX/);
+  assert.match(camera,/event\.deltaY/);
+  assert.match(camera,/stopImmediatePropagation/);
+  assert.match(camera,/sessionStorage/);
+  const scene=text(base+"campus-scene.js");
+  assert.match(scene,/cameraController\?\.saveState/);
+  assert.match(scene,/cameraController\?\.dispose/);
+  const geometry=text(base+"campus-geometry.js");
+  const logo=geometry.match(/textureLoader\.load\('([^']+)'\)/)?.[1];
+  assert.equal(logo,"/brand/derived/mark-day-cutout-192.png");
+  const bytes=readFileSync("public"+logo);
+  assert.deepEqual([...bytes.subarray(0,8)],[137,80,78,71,13,10,26,10]);
+  assert.ok(existsSync("src/components/campus/CampusWorld.tsx"));
+});

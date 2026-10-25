@@ -6,9 +6,9 @@ import uz from "../../src/lib/i18n/uz";
 
 /*
  * General Reading (learning mode) — real interaction in the rendered session:
- * vocabulary is ON from the first second for the selected passage,
+ * vocabulary is ON from the first second, in single-passage AND Full Reading,
  * clicks resolve BY OCCURRENCE ID against the passage id, answers autosave per
- * passage and "Check answers" shows learning results. The stopwatch never locks answers.
+ * passage and "Check answers" shows learning results. No timer anywhere.
  */
 const dom = new JSDOM('<html><body><div id="root"></div></body></html>', { url: "http://localhost/reading/general/x" });
 for (const k of ["window", "document", "navigator", "HTMLElement", "HTMLButtonElement", "HTMLInputElement", "HTMLSelectElement", "HTMLTextAreaElement", "HTMLAnchorElement", "Element", "Node", "Event", "MouseEvent", "KeyboardEvent", "localStorage", "sessionStorage", "getComputedStyle"] as const)
@@ -23,7 +23,7 @@ const { AppRouterContext } = await import("next/dist/shared/lib/app-router-conte
 const { GeneralReadingSession } = await import("../../src/components/reading/GeneralReadingSession");
 const { GeneralReadingSets } = await import("../../src/components/reading/GeneralReadingSets");
 
-const router = { back() {}, forward() {}, refresh() {}, push(_path:string) {}, replace() {}, prefetch() {} };
+const router = { back() {}, forward() {}, refresh() {}, push() {}, replace() {}, prefetch() {} };
 const SET = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
 const pid = (n: number) => `0000000${n}-0000-4000-8000-000000000000`;
 const passage = (n: number, body: string) => ({
@@ -72,7 +72,7 @@ async function openWord(region: HTMLElement) {
   await tick();
 }
 
-test("General single passage: vocabulary is ON immediately — click resolves by occurrence id with the passage id, Add to Vocabulary shown, elapsed time counts up", async () => {
+test("General single passage: vocabulary is ON immediately — click resolves by occurrence id with the passage id, Add to Vocabulary shown, no timer", async () => {
   const n = net();
   try {
     await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages: [passages[0]!], initialProgress: {}, mode: 1 }), async () => {
@@ -86,29 +86,32 @@ test("General single passage: vocabulary is ON immediately — click resolves by
       assert.ok(!/mode=|general/i.test(lookup), "the client never claims a mode");
       assert.ok(document.querySelector("[data-word-save]"));
       for (const timer of ["[data-exam-timer]", "[data-timer]", "[role=timer]"]) assert.equal(document.querySelector(timer), null, timer);
-      assert.equal(document.querySelector("[data-read-aloud]"),null);
-      assert.equal(document.querySelector("[data-general-elapsed]")?.textContent,"00:00");
-      await tick(1100);
-      assert.equal(document.querySelector("[data-general-elapsed]")?.textContent,"00:01");
+      assert.ok(document.querySelector("[data-read-aloud]"), "Read Aloud remains");
     });
   } finally { n.restore(); }
 });
 
-test("each selected General passage has its own vocabulary source and no sibling passage tabs", async () => {
+test("Full Reading: all three passages reachable by tabs and vocabulary stays ON in each (P3 resolves with P3's passage id)", async () => {
   const n = net();
   try {
-    for (const no of [1,2,3] as const) await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: no }), async () => {
-      const tabs = Array.from(document.querySelectorAll("[data-general-passage-tab]"));
-      assert.deepEqual(tabs.map(t=>t.getAttribute("data-general-passage-tab")),[String(no)]);
-      const region=document.querySelector(`[data-general-passage='${no}'] [data-clickable-text]`) as HTMLElement;
-      await openWord(region);
-      const last=n.calls.filter(c=>c.url.includes("/api/vocabulary/lookup")).at(-1)!.url;
-      assert.ok(last.includes(`occurrenceId=occ-${no}`) && last.includes(`sourceId=${pid(no)}`),last);
+    await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: {}, mode: "full" }), async () => {
+      const tabs = Array.from(document.querySelectorAll("[data-general-passage-tab]")) as HTMLButtonElement[];
+      assert.deepEqual(tabs.map((t) => t.textContent), ["Passage 1", "Passage 2", "Passage 3"].map((s) => en.generalReading.passageN.replace("{n}", s.slice(-1))));
+      for (const no of [2, 3]) {
+        await act(async () => tabs[no - 1]!.click());
+        assert.equal(tabs[no - 1]!.getAttribute("aria-pressed"), "true");
+        const region = document.querySelector(`[data-general-passage='${no}'] [data-clickable-text]`) as HTMLElement;
+        assert.ok(region, `vocabulary on in passage ${no}`);
+        await openWord(region);
+        const last = n.calls.filter((c) => c.url.includes("/api/vocabulary/lookup")).at(-1)!.url;
+        assert.ok(last.includes(`occurrenceId=occ-${no}`) && last.includes(`sourceId=${pid(no)}`), last);
+        await act(async () => { document.activeElement!.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Escape", bubbles: true })); });
+      }
     });
-  } finally {n.restore();}
+  } finally { n.restore(); }
 });
 
-test("answers autosave for the chosen passage and Check shows learning results with evidence", async () => {
+test("answers autosave per passage, Check shows learning results with evidence; Full mode keeps each passage's answers", async () => {
   const n = net();
   try {
     await mount(React.createElement(GeneralReadingSession, { userId: "test-user", dict: en, setId: SET, setTitle: "Set one", passages, initialProgress: { [pid(3)]: { answers: { q3a: "false" }, score: null, total: null, checked: false } }, mode: "full" }), async () => {
@@ -118,9 +121,7 @@ test("answers autosave for the chosen passage and Check shows learning results w
       await act(async () => radio.click());
       await tick(800);
       // API path, not a page URL: the endpoint is /api/reading/general/progress.
-      const start = n.calls.find((c) => (c.body as {start?:boolean})?.start);
-      assert.deepEqual(start?.body,{passageId:pid(1),answers:{},check:false,start:true});
-      const save = n.calls.find((c) => c.url.includes("/api/reading/general/progress") && !(c.body as {start?:boolean})?.start)!;
+      const save = n.calls.find((c) => c.url.includes("/api/reading/general/progress"))!;
       assert.deepEqual(save.body, { passageId: pid(1), answers: { q1a: "true" }, check: false });
       await act(async () => (document.querySelector("input[name='answer-q1b'][value='A shop']") as HTMLInputElement).click());
       await act(async () => (document.querySelector("[data-general-check]") as HTMLButtonElement).click());
@@ -134,9 +135,12 @@ test("answers autosave for the chosen passage and Check shows learning results w
       assert.equal(document.querySelector("[data-general-evidence]")?.textContent?.includes("The bank approved the loan."), true);
       assert.equal(document.querySelector("[data-general-evidence] [data-clickable-text]"), null, "evidence is not a vocabulary target");
       assert.ok(document.querySelector("[data-general-score]")?.textContent?.includes("1"));
+      // Switch to P3: its restored answer is intact; back to P1 keeps P1's answers.
+      const tabs = Array.from(document.querySelectorAll("[data-general-passage-tab]")) as HTMLButtonElement[];
+      await act(async () => tabs[2]!.click());
+      assert.equal((document.querySelector("[data-question='q3a'] [data-answer-option='false']") as HTMLElement).getAttribute("aria-checked"), "true");
+      await act(async () => tabs[0]!.click());
       assert.equal((document.querySelector("[data-question='q1a'] [data-answer-option='true']") as HTMLElement).getAttribute("aria-checked"), "true");
-      assert.equal(document.querySelector("[data-question='q3a']"),null);
-
     });
   } finally { n.restore(); }
 });
@@ -151,8 +155,7 @@ test("learner-facing text shows no internal ids or enum names (en + uz Latin)", 
   }
   await mount(React.createElement(GeneralReadingSets, { dict: en, sets: [{ id: SET, title: "Set one", description: null, level: "B1", passages: [{ passageNo: 1, title: "A" }, { passageNo: 2, title: "B" }, { passageNo: 3, title: "C" }], started: 0, checked: 0 }] }), async () => {
     const hrefs = Array.from(document.querySelectorAll("a")).map((a) => a.getAttribute("href"));
-    for (const p of ["1", "2", "3"]) assert.ok(hrefs.includes(`/app/reading/general/${SET}?passage=${p}`), p);
-    assert.equal(hrefs.some(href=>href?.includes("passage=full")),false);
+    for (const p of ["1", "2", "3", "full"]) assert.ok(hrefs.includes(`/app/reading/general/${SET}?passage=${p}`), p);
   });
 });
 
@@ -173,7 +176,7 @@ test("VD-003 XSS: HTML-like source, question and popup strings render as literal
       const region = document.querySelector("[data-clickable-text]") as HTMLElement;
       const bank = Array.from(region.querySelectorAll("[data-token]")).find((el) => el.textContent === "bank") as HTMLElement;
       region.focus();
-      for (let i = 0; i < 40 && region.querySelector("[data-lookup-active]")?.textContent !== "bank"; i += 1)
+      for (let i = 0; i < 40 && region.querySelector(".bg-signal-50")?.textContent !== "bank"; i += 1)
         await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true })); });
       assert.ok(bank, "bank token exists");
       await act(async () => { region.dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true })); });
@@ -259,19 +262,4 @@ test("GEN-06 a late Check response that was overtaken by an edit cannot restore 
       assert.ok(calls.some((c) => c.body.check === true), "a real Check request was actually issued");
     });
   } finally { globalThis.fetch = original; }
-});
-
-test('General Back saves the pending draft and leaves without checking or revealing answers',async()=>{
- const n=net(),oldPush=router.push;const destinations:string[]=[];router.push=(path:string)=>{destinations.push(path);};
- try{
-  await mount(React.createElement(GeneralReadingSession,{userId:'test-user',dict:en,setId:SET,setTitle:'Set',passages:[passages[0]!],initialProgress:{[pid(1)]:{answers:{},score:null,total:null,checked:false}},mode:1}),async()=>{
-   const choice=document.querySelector<HTMLElement>('[role="radio"]')!;
-   await act(async()=>choice.click());
-   await act(async()=>document.querySelector<HTMLButtonElement>('[data-general-back]')!.click());
-   assert.deepEqual(destinations,['/app/reading/general']);
-   const writes=n.calls.filter(c=>c.url.includes('/progress')).map(c=>c.body as {check:boolean;answers:Record<string,string>});
-   assert.ok(writes.length>0);assert.ok(writes.every(w=>w.check===false));assert.ok(writes.some(w=>Object.values(w.answers).some(Boolean)));
-   assert.equal(document.querySelector('[data-general-result]'),null);
-  });
- }finally{router.push=oldPush;n.restore();}
 });

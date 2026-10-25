@@ -484,29 +484,6 @@ export async function importCanonicalListeningPackage(
       })
       .where(eq(listeningPackages.testId, existing.testId));
     warnings.push(...(await reconcileListeningQuestions(tx, existing.testId, payload)));
-    // A versioned Listening update can switch to an owner-uploaded R2 audio key.
-    // Preserve previous blocks for historical attempts, and ensure the newly
-    // referenced private asset has its own authorized resource block. Without
-    // it /api/resources/<key> denies playback even when the package import succeeds.
-    const blocks = await tx.select({ position: resourceBlocks.position, objectKey: resourceBlocks.objectKey })
-      .from(resourceBlocks)
-      .where(and(eq(resourceBlocks.ownerType, "listening"), eq(resourceBlocks.ownerId, existing.testId)));
-    const knownKeys = new Set(blocks.map(block => block.objectKey).filter(Boolean));
-    let nextPosition = Math.max(-1, ...blocks.map(block => block.position)) + 1;
-    const missingAssets = options.assets.filter(asset => !knownKeys.has(asset.objectKey));
-    if (missingAssets.length) {
-      await tx.insert(resourceBlocks).values(missingAssets.map(asset => ({
-        ownerType: "listening" as const,
-        ownerId: existing.testId,
-        position: nextPosition++,
-        type: asset.role === "audio" ? ("audio" as const) : asset.role === "image" ? ("image" as const) : ("file" as const),
-        objectKey: asset.objectKey,
-        originalName: asset.originalName,
-        mimeType: asset.mimeType,
-        size: asset.size,
-        createdByUserId: options.actorUserId,
-      })));
-    }
     await attachClaimedAssets(tx, options.assets);
     const [record] = await tx
       .insert(contentImports)

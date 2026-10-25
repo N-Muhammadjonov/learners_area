@@ -42,17 +42,16 @@ import {
  * row, whose URL is the namespace root `/app`. Without it, `/app/reading` would
  * light up "Dashboard" as well as "Reading".
  */
-type NavItem = { href: string; label: string; icon: React.ReactNode; exact?: boolean; activePrefix?: string };
+type NavItem = { href: string; label: string; icon: React.ReactNode; exact?: boolean };
 
-function Group({ title, items, pathname, loading, groupKey }: { groupKey?: "main" | "modules" | "progress" | "support" | "management"; title: string; items: NavItem[]; pathname: string; loading: string }) {
+function Group({ title, items, pathname, loading, groupKey }: { groupKey?: "main" | "modules" | "progress" | "support"; title: string; items: NavItem[]; pathname: string; loading: string }) {
   if (items.length === 0) return null;
   return (
     <div className="flex flex-col gap-1" data-sidebar-group={groupKey}>
       <p className="sidebar-group">{title}</p>
       <ul className="flex flex-col gap-0.5">
         {items.map((item) => {
-          const canonical = item.activePrefix ?? item.href.split("?")[0]!;
-          const active = pathname === canonical || (!item.exact && pathname.startsWith(`${canonical}/`));
+          const active = pathname === item.href || (!item.exact && pathname.startsWith(`${item.href}/`));
           return (
             <li key={item.href}>
               <InstantLink
@@ -101,12 +100,12 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
    * does not need a name.
    */
   const modules: NavItem[] = [
-    { href: "/app/listening/lessons", activePrefix: "/app/listening", label: nav.listening, icon: <IconListening /> },
+    { href: "/app/listening", label: nav.listening, icon: <IconListening /> },
     { href: "/app/video-lessons", label: nav.videoLessons, icon: <IconVideo /> },
-    { href: "/app/reading/lessons", activePrefix: "/app/reading", label: nav.reading, icon: <IconReading /> },
+    { href: "/app/reading", label: nav.reading, icon: <IconReading /> },
     { href: "/app/writing", label: nav.writing, icon: <IconWriting /> },
     { href: "/app/speaking", label: nav.speaking, icon: <IconSpeaking /> },
-    { href: "/app/grammar/lessons", activePrefix: "/app/grammar", label: nav.grammar, icon: <IconGrammar /> },
+    { href: "/app/grammar", label: nav.grammar, icon: <IconGrammar /> },
     { href: "/app/vocabulary", label: nav.vocabulary, icon: <IconVocabulary /> },
   ];
 
@@ -119,7 +118,6 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
   if (role === "admin" || role === "owner") {
     managementItems.push(
       { href: "/app/admin/people", label: nav.people, icon: <IconPeople /> },
-      { href: "/app/admin/statistics", label: nav.statistics, icon: <IconProgress /> },
       { href: "/app/admin/admissions", label: nav.admissions, icon: <IconAdmissions /> }
     );
   }
@@ -152,8 +150,8 @@ export function SidebarNav({ dict, role, email }: { dict: Dictionary; role: Role
             {nav.backToLearning}
           </InstantLink>
           <p className="sidebar-mode">{dict.shell.managementMode}</p>
-          <Group groupKey="management" title={nav.groupMain} items={[{ href: "/app/management", label: dict.shell.management, icon: <IconDashboard /> }]} pathname={activePath} loading={dict.common.loading} />
-          <Group groupKey="management" title={dict.shell.management} items={managementItems} pathname={activePath} loading={dict.common.loading} />
+          <Group title={nav.groupMain} items={[{ href: "/app/management", label: dict.shell.management, icon: <IconDashboard /> }]} pathname={activePath} loading={dict.common.loading} />
+          <Group title={dict.shell.management} items={managementItems} pathname={activePath} loading={dict.common.loading} />
         </div>
       ) : (
         <div className="flex flex-col gap-6 pb-4">

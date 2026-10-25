@@ -1,0 +1,81 @@
+{
+  "frontendCodeComplete": 2,
+  "comprehensiveOriginalBehaviorComplete": 0,
+  "liveAccepted": 0,
+  "activities": [
+    {
+      "id": "exam",
+      "name": "Full IELTS Test",
+      "frontend": "CODE COMPLETE",
+      "fixture": "VERIFIED supported client gates: preserved64 actual-source journeys plus34 V15 Full cases; independent exact-ZIP report is delivery authority.",
+      "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
+      "live": "UNVERIFIED",
+      "remaining": "No known ordinary supported Full frontend defect. Backend cross-device/noncooperating GET-to-PUT atomic ordering unresolved; real recording/provider/Safari/hardware/live acceptance separate UNVERIFIED."
+    },
+    {
+      "id": "review",
+      "name": "Review & Revision",
+      "frontend": "PARTIAL",
+      "fixture": "V16 supported Review slices: source feedback/full transcript and exact evidence navigation; preserved trainer across Check; typed single-flight manual course retry; independent final report is execution authority.",
+      "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
+      "live": "UNVERIFIED",
+      "remaining": "PARTIAL: complete authorized selected-word/popup/focus lifecycle, durable pending course-work/retry recovery after reload, complete Review-specific held-authority/reentry/media/foreign-feedback contract sweep. No Script work until genuine Review closure."
+    },
+    {
+      "id": "script",
+      "name": "Script Completion",
+      "frontend": "PARTIAL",
+      "fixture": "VERIFIED V11 focused subset only",
+      "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
+      "live": "UNVERIFIED"
+    },
+    {
+      "id": "mcq",
+      "name": "MCQ Mastery",
+      "frontend": "PARTIAL",
+      "fixture": "VERIFIED V11 focused subset only",
+      "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
+      "live": "UNVERIFIED"
+    },
+    {
+      "id": "map",
+      "name": "Map Mastery",
+      "frontend": "PARTIAL",
+      "fixture": "VERIFIED V11 focused subset only",
+      "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
+      "live": "UNVERIFIED"
+    },
+    {
+      "id": "multi",
+      "name": "Choose TWO Mastery",
+      "frontend": "PARTIAL",
+      "fixture": "VERIFIED V11 focused subset only",
+      "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
+      "live": "UNVERIFIED"
+    },
+    {
+      "id": "completion",
+      "name": "Completion Mastery",
+      "frontend": "PARTIAL",
+      "fixture": "VERIFIED V11 focused subset only",
+      "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
+      "live": "UNVERIFIED"
+    },
+    {
+      "id": "vocab",
+      "name": "Vocabulary Builder",
+      "frontend": "PARTIAL",
+      "fixture": "VERIFIED V11 focused subset only",
+      "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
+      "live": "UNVERIFIED"
+    },
+    {
+      "id": "retry",
+      "name": "Retry Weak Areas",
+      "frontend": "CODE COMPLETE (existing original shared-audio contract)",
+      "fixture": "VERIFIED full retry input/feedback/recovery workflow",
+      "originalBehavior": "PARTIAL: actual read-only HTML under isolated API/media fixtures; not full private recording/live services",
+      "live": "UNVERIFIED"
+    }
+  ]
+}

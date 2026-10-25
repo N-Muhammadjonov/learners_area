@@ -219,7 +219,7 @@ export function ListeningLegacyImport({ dict }: { dict: Dictionary }) {
           onChange={(e) => setCollection(e.target.value as NonNullable<ListeningPackage["collection"]>)}
         >
           <option value="essential">Essential Recordings</option>
-          <option value="academic">{dict.listening.academic.title}</option>
+          <option value="academic">Academic Listening</option>
           <option value="general">General Listening</option>
         </select>
       </label>

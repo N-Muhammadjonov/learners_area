@@ -1,0 +1,3 @@
+/** Source-only legacy destinations; no reconstructed privileged/data screen. */
+export function destination(path,role){const admin=['admin','owner'].includes(role);switch(path){case '/app/admin/users':return admin?'/app/admin/people':'/app';case '/app/admin/writing-prompts':return admin?'/app/admin/writing?section=exam':'/app';case '/app/listening/import':return admin?'/app/admin/listening/import':'/app/listening';case '/app/vocabulary/review':return '/app/vocabulary?tab=revision';default:throw Error('Unknown legacy route');}}
+export function mount(context){void context.navigate(destination(context.url.pathname,context.session.user.role),{replace:true});}

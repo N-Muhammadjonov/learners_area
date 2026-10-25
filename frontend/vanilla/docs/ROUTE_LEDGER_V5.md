@@ -1,0 +1,125 @@
+# V5 route ledger — overall PARTIAL
+
+Phase 1 is ordinary frontend CODE COMPLETE / FIXTURE VERIFIED: `/` (touch CTA + desktop intro states), `/login`, `/register`, `/auth/recovery`, `/reset-password`, `/reset-password/confirm`, `/onboarding`, `/pending`, `/app/profile`, `/app/notifications`. This includes Telegram confirmation presentation within login/profile; there is no invented confirmation page. Server callbacks are existing backend routes, not counted as new pages.
+
+108 canonical inventory candidates: **10 CODE COMPLETE, 18 IN PROGRESS, 80 NOT STARTED**. Separate: 6 redirect-only CODE COMPLETE, 1 retired = 115 records. No accepted visual/live/production page. Profile was NOT STARTED in V4; six prior partials are promoted, one newly implemented profile route is closed, not left as a partial. Preserved V4 three recovery/reset closures.
+
+Machine authority: [route-ledger-v5.json](route-ledger-v5.json). Source-state proof: [SOURCE_STATE_INVENTORY_V5](SOURCE_STATE_INVENTORY_V5.md). All states below remain frontend statuses only.
+
+| Pattern | Frontend | Visual/live/product |
+|---|---|---|
+| `/app/listening/attempts/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/listening/attempts/:id/revision` | NOT STARTED | NOT ACCEPTED |
+| `/app/listening/tests/:id/:activity` | NOT STARTED | NOT ACCEPTED |
+| `/app/listening/tests/:id/mcq` | NOT STARTED | NOT ACCEPTED |
+| `/app/listening/tests/:id` | IN PROGRESS | NOT ACCEPTED |
+| `/app/listening/tests/:id/study` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/admissions` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/content` | IN PROGRESS | NOT ACCEPTED |
+| `/app/admin/content/workspace` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/grammar/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/grammar` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/listening/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/listening/import` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/listening` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/materials/:type/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/materials/:type` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/materials` | IN PROGRESS | NOT ACCEPTED |
+| `/app/admin/people/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/people` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/reading/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/reading/import` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/reading` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/reading/retention` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/reading/retention/staged` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/roster` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/users` | CODE COMPLETE | NOT ACCEPTED |
+| `/app/admin/video-lessons` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/writing-prompts` | CODE COMPLETE | NOT ACCEPTED |
+| `/app/admin/writing/:kind/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/writing/:kind/new` | NOT STARTED | NOT ACCEPTED |
+| `/app/admin/writing` | NOT STARTED | NOT ACCEPTED |
+| `/app/assignments` | NOT STARTED | NOT ACCEPTED |
+| `/app/coach` | NOT STARTED | NOT ACCEPTED |
+| `/app/courses/ielts/lessons/:lessonId` | NOT STARTED | NOT ACCEPTED |
+| `/app/courses/ielts` | NOT STARTED | NOT ACCEPTED |
+| `/app/grammar/:topicId` | NOT STARTED | NOT ACCEPTED |
+| `/app/grammar/lessons/:lessonId` | NOT STARTED | NOT ACCEPTED |
+| `/app/grammar/lessons/author` | NOT STARTED | NOT ACCEPTED |
+| `/app/grammar/lessons` | IN PROGRESS | NOT ACCEPTED |
+| `/app/grammar` | NOT STARTED | NOT ACCEPTED |
+| `/app/listening/academic/:testId` | NOT STARTED | NOT ACCEPTED |
+| `/app/listening/academic` | IN PROGRESS | NOT ACCEPTED |
+| `/app/listening/general/:sectionId` | NOT STARTED | NOT ACCEPTED |
+| `/app/listening/general` | IN PROGRESS | NOT ACCEPTED |
+| `/app/listening/history` | IN PROGRESS | NOT ACCEPTED |
+| `/app/listening/import` | CODE COMPLETE | NOT ACCEPTED |
+| `/app/listening/lessons/:lessonId` | NOT STARTED | NOT ACCEPTED |
+| `/app/listening/lessons/author` | NOT STARTED | NOT ACCEPTED |
+| `/app/listening/lessons` | IN PROGRESS | NOT ACCEPTED |
+| `/app/listening/mcq/day/:day` | IN PROGRESS | NOT ACCEPTED |
+| `/app/listening/mcq` | IN PROGRESS | NOT ACCEPTED |
+| `/app/listening` | CODE COMPLETE | NOT ACCEPTED |
+| `/app/live-classes` | NOT STARTED | NOT ACCEPTED |
+| `/app/management` | IN PROGRESS | NOT ACCEPTED |
+| `/app/mocks` | IN PROGRESS | NOT ACCEPTED |
+| `/app/notifications` | CODE COMPLETE | NOT ACCEPTED |
+| `/app/owner/audit` | IN PROGRESS | NOT ACCEPTED |
+| `/app/owner/dictionary` | NOT STARTED | NOT ACCEPTED |
+| `/app/owner/integrations` | NOT STARTED | NOT ACCEPTED |
+| `/app/owner` | NOT STARTED | NOT ACCEPTED |
+| `/app/owner/retention` | NOT STARTED | NOT ACCEPTED |
+| `/app/owner/transfer` | NOT STARTED | NOT ACCEPTED |
+| `/app` | IN PROGRESS | NOT ACCEPTED |
+| `/app/profile` | CODE COMPLETE | NOT ACCEPTED |
+| `/app/progress` | NOT STARTED | NOT ACCEPTED |
+| `/app/reading/academic/:setId` | NOT STARTED | NOT ACCEPTED |
+| `/app/reading/academic` | IN PROGRESS | NOT ACCEPTED |
+| `/app/reading/attempts/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/reading/general/:setId` | NOT STARTED | NOT ACCEPTED |
+| `/app/reading/general` | NOT STARTED | NOT ACCEPTED |
+| `/app/reading/history` | IN PROGRESS | NOT ACCEPTED |
+| `/app/reading/lessons/:lessonId` | NOT STARTED | NOT ACCEPTED |
+| `/app/reading/lessons/author` | NOT STARTED | NOT ACCEPTED |
+| `/app/reading/lessons` | IN PROGRESS | NOT ACCEPTED |
+| `/app/reading` | CODE COMPLETE | NOT ACCEPTED |
+| `/app/reading/question-types` | NOT STARTED | NOT ACCEPTED |
+| `/app/reading/retention` | NOT STARTED | NOT ACCEPTED |
+| `/app/reading/retention/results/:attemptId` | NOT STARTED | NOT ACCEPTED |
+| `/app/reports` | NOT STARTED | NOT ACCEPTED |
+| `/app/speaking/ai` | NOT STARTED | NOT ACCEPTED |
+| `/app/speaking/history` | NOT STARTED | NOT ACCEPTED |
+| `/app/speaking/lessons` | NOT STARTED | NOT ACCEPTED |
+| `/app/speaking/live-partner` | NOT STARTED | NOT ACCEPTED |
+| `/app/speaking` | IN PROGRESS | NOT ACCEPTED |
+| `/app/speaking/practice` | NOT STARTED | NOT ACCEPTED |
+| `/app/speaking/shadowing` | RETIRED-N/A | NOT ACCEPTED |
+| `/app/support` | NOT STARTED | NOT ACCEPTED |
+| `/app/teacher/live-classes/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/teacher/live-classes` | NOT STARTED | NOT ACCEPTED |
+| `/app/teacher/speaking` | NOT STARTED | NOT ACCEPTED |
+| `/app/teacher/students/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/teacher/students` | NOT STARTED | NOT ACCEPTED |
+| `/app/teacher/support` | NOT STARTED | NOT ACCEPTED |
+| `/app/video-lessons/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/video-lessons` | NOT STARTED | NOT ACCEPTED |
+| `/app/vocabulary/games/:gameId` | NOT STARTED | NOT ACCEPTED |
+| `/app/vocabulary/games` | NOT STARTED | NOT ACCEPTED |
+| `/app/vocabulary` | NOT STARTED | NOT ACCEPTED |
+| `/app/vocabulary/review` | CODE COMPLETE | NOT ACCEPTED |
+| `/app/writing/exam/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/writing/grade/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/writing/history` | NOT STARTED | NOT ACCEPTED |
+| `/app/writing/language-stealing/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/writing/lessons/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/writing` | NOT STARTED | NOT ACCEPTED |
+| `/app/writing/submissions/:id` | NOT STARTED | NOT ACCEPTED |
+| `/app/writing/translation/:id` | NOT STARTED | NOT ACCEPTED |
+| `/auth/recovery` | CODE COMPLETE | NOT ACCEPTED |
+| `/login` | CODE COMPLETE | NOT ACCEPTED |
+| `/onboarding` | CODE COMPLETE | NOT ACCEPTED |
+| `/` | CODE COMPLETE | NOT ACCEPTED |
+| `/pending` | CODE COMPLETE | NOT ACCEPTED |
+| `/register` | CODE COMPLETE | NOT ACCEPTED |
+| `/reset-password/confirm` | CODE COMPLETE | NOT ACCEPTED |
+| `/reset-password` | CODE COMPLETE | NOT ACCEPTED |

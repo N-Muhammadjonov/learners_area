@@ -23,7 +23,7 @@ export function ReadingLearningLibrary({userId,lang,dict,filter}: {
   const facetsPromise = captureRegion(listLibraryFacets(true));
   const libraryPromise = captureRegion(listLearningLibrary(userId,filter));
   return <section className="flex flex-col gap-5" data-reading-library>
-    <h2 className="sr-only">{dict.readingHub.library}</h2>
+    <h2 className="section-title">{dict.readingHub.library}</h2>
     <Suspense fallback={<ReadingFiltersSkeleton dict={dict} />}><ReadingFiltersRegion dict={dict} lang={lang} filter={filter} facetsPromise={facetsPromise} /></Suspense>
     <Suspense fallback={<ReadingLibrarySkeleton />}><ReadingLibraryRegion dict={dict} lang={lang} filter={filter} libraryPromise={libraryPromise} /></Suspense>
   </section>;
@@ -123,7 +123,9 @@ function LearningLibraryCards({
         />
       ) : (
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {library.items.map(passage => <ReadingPassageCard key={passage.id} passage={passage} dict={dict} lang={lang}/>)}
+          {library.items.map((passage) => (
+            <ReadingPassageCard key={passage.id} passage={passage} dict={dict} lang={lang} />
+          ))}
         </div>
       )}
 

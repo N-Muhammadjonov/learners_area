@@ -44,19 +44,6 @@ const IRREGULAR_NOUNS: Record<string, string> = {
   crisis: "crises", thesis: "theses", datum: "data",
 };
 
-// Authored degree forms for adverbs that also occur as adjective heads. This
-// admits "rose higher" as a form of adverb high; it does not choose a sense.
-const ADVERB_DEGREE_FORMS: Record<string, string[]> = {
-  high: ["higher", "highest"],
-  low: ["lower", "lowest"],
-  long: ["longer", "longest"],
-};
-const ADJECTIVE_DEGREE_FORMS: Record<string, string[]> = {
-  high: ["higher", "highest"],
-  low: ["lower", "lowest"],
-  old: ["older", "oldest"],
-};
-
 const VOWEL = /[aeiou]/;
 
 function vowelGroups(word: string): number {
@@ -133,9 +120,5 @@ export function formsOf(term: string, partOfSpeech: string | null | undefined): 
   const verbal = pos === "verb" || type === "verb_phrase" || type === "phrasal_verb";
   if (verbal) for (const f of verbForms(head)) add(join(f.form), f.formType);
   else if (pos === "noun" && words.length === 1) add(plural(lemma), IRREGULAR_NOUNS[lemma] ? "irregular" : "regular");
-  else if ((pos === "adjective" || pos === "a") && words.length === 1)
-    for (const form of ADJECTIVE_DEGREE_FORMS[lemma] ?? []) add(form, "regular");
-  else if ((pos === "adverb" || pos === "r") && words.length === 1)
-    for (const form of ADVERB_DEGREE_FORMS[lemma] ?? []) add(form, "regular");
   return [...out.values()];
 }

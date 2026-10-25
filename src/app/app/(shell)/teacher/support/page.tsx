@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { requireStaff } from "@/lib/auth/current-user";
 import { getDictionary, getLocale } from "@/lib/i18n";
@@ -24,17 +23,8 @@ export default async function SupportInboxPage() {
   const locale = await getLocale();
   const dict = getDictionary(locale);
 
-  const reportsPromise = listReports();
-  return <Suspense fallback={<div role="status" aria-busy="true" aria-label={dict.common.loading} data-async-loading="management-support" className="h-36 animate-pulse rounded-xl bg-ink-50" />}>
-    <SupportResults reportsPromise={reportsPromise} dict={dict} locale={locale} />
-  </Suspense>;
-}
-async function SupportResults({ reportsPromise, dict, locale }: {
-  reportsPromise: ReturnType<typeof listReports>;
-  dict: ReturnType<typeof getDictionary>;
-  locale: Awaited<ReturnType<typeof getLocale>>;
-}) {
-  const reports = await reportsPromise;
+  const reports = await listReports();
+
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-4">
       <div>

@@ -10,36 +10,47 @@ without ever routing them through the app server. It is not a finished product
 
 ## Stack
 
-Next.js 15 (App Router) · React 19 · TypeScript · PostgreSQL · Drizzle ORM ·
-Tailwind CSS · Zod · bcrypt · jose · AWS S3 SDK (used against Cloudflare R2)
+HTML5 / CSS3 / Vanilla JavaScript in `frontend/vanilla` for pages and UI;
+Python 3.14 / FastAPI / asyncpg for static serving, browser read contracts,
+authentication, lifecycle writes and PostgreSQL connections.
+PostgreSQL schema and migration tooling remain Drizzle. Upload signing and AI
+provider integrations run in the Python service.
 
-Drizzle was used instead of Prisma because Prisma's engine binaries are
-fetched from a CDN at `generate`/`migrate` time; Drizzle needs no binary
-download and talks to Postgres directly through `pg`. Both were acceptable
-choices going in — this was an environment-driven decision, not a quality one.
+This branch uses `app.asgi:application` from `services/backend`. The production
+application and asset build use Python only. Browser assets are plain HTML5, CSS3
+and JavaScript; no framework compilation, hydration or Node service is required.
+Historical source is retained for parity tests and is excluded from deployment. The
+token-protected `/_frontend/*` adapter remains separate from the browser-facing
+`/api/frontend/*` read contracts.
 
-The toolchain is held at the current patched line on purpose: `next` 15.5.26,
-`react`/`react-dom` 19.3.0, `drizzle-orm` 0.45.3 and `drizzle-kit` 0.31.11 were
-chosen to clear the advisories `npm audit --omit=dev` reported against the
-previous versions (Next 14 cache poisoning, SSRF and an unauthenticated RCE in
-its internal paths; a drizzle-orm identifier-escaping SQL injection). `npm audit`
-is part of the release check, and one finding is knowingly left: the `postcss`
-copy that ships *inside* next, which is exercised by Tailwind at build time and
-cannot be reached from request input. The only fix npm offers for it is a Next 16
-major, so it is recorded here rather than forced.
+See [the integration runtime guide](docs/vanilla-integration/README.md) for
+startup, security boundaries, verification evidence and deployment limits.
+Existing backend contracts and database operations remain documented in
+[the backend setup and comparison report](services/backend/README.md).
 
 ## Run locally
 
 ```bash
-cp .env.example .env        # fill in DATABASE_URL and a real AUTH_SECRET
-npm install
-npm run db:migrate          # apply the SQL migrations in drizzle/ (0000…0016)
-npm run db:seed             # demo data — safe to run once on a fresh DB
-npm run dev                 # http://localhost:3000
+cp .env.example .env        # configure the existing database and AUTH_SECRET
+python3 -m venv services/backend/.venv
+services/backend/.venv/bin/pip install -r services/backend/requirements-dev.txt
+python3 scripts/build_native_assets.py
+services/backend/.venv/bin/python scripts/serve.py --check
+services/backend/.venv/bin/python scripts/serve.py --reload
 ```
 
-Other scripts: `npm run build`, `npm start` (production server), `npm run
-lint`, `npm run typecheck`, `npm test` (Node's built-in test runner via tsx).
+Use the existing 66-migration database. Migration and seed commands remain
+available for explicitly chosen development databases; startup never runs them.
+`npm start` launches Python on port 8000. After the asset build, you can run
+`services/backend/.venv/bin/python scripts/serve.py` directly without Node.
+`compose.preview.yml` exposes the same Python application on port 3000.
+Use `npm test` for the native frontend suite (optional Node developer tooling),
+and run `(cd services/backend && .venv/bin/python -m pytest tests)` for the
+Python suite. The backend README
+lists the transport tests and the limits of the checks. `npm run backend:test:main`
+compares the real pinned main handlers with FastAPI using isolated PostgreSQL
+databases; set `MAIN_REFERENCE_ROOT` as described there. The current parity
+record is `services/backend/contracts/main-parity.json`.
 
 ## Demo accounts
 
@@ -103,7 +114,7 @@ or served from a static path again.
 
 ### Choosing a provider
 
-`STORAGE_PROVIDER` (see `src/lib/services/storage/index.ts`):
+`STORAGE_PROVIDER` (see `services/backend/app/step19_storage.py`):
 
 | value    | provider                     | browser uploads directly? |
 |----------|------------------------------|---------------------------|

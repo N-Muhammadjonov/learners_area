@@ -34,10 +34,13 @@ test("all required destinations have localized, route-shaped entry frames", () =
     assert.ok(uzbek[key]?.title, `${key} has an Uzbek title`);
     assert.ok(english[key]?.shape, `${key} has a route-specific skeleton shape`);
   }
-  // Lessons, Academic, single-passage General Reading and Retention.
-  // Question-type selection lives inside General Reading, not a hub tab.
-  assert.equal(english.reading?.tabs?.length, 4);
-  assert.equal(uzbek.reading?.tabs?.length, 4);
+  // PART 1 FINAL RETENTION ARCHITECTURE OVERRIDE V2 moves TED / PODCAST out of
+  // the Reading hub into its own standalone section, so the Reading entry frame
+  // has four tabs (academic, general, types, retention) — not five. The identity
+  // of the removed tab is asserted too, so a silent re-add cannot pass.
+  // Academic, General Reading (practice), IELTS General, Question types, Retention.
+  assert.equal(english.reading?.tabs?.length, 5);
+  assert.equal(uzbek.reading?.tabs?.length, 5);
   assert.ok(!english.reading?.tabs?.some((tab) => /TED|PODCAST/i.test(tab)));
   assert.ok(!uzbek.reading?.tabs?.some((tab) => /TED|PODCAST/i.test(tab)));
   assert.equal(english.vocabulary?.tabs?.length, 5);

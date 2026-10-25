@@ -78,7 +78,7 @@ export const FUNCTION_WORDS: ReadonlySet<string> = new Set([
   "it", "its", "is", "are", "was", "were", "be", "been", "am", "do", "does", "did", "have", "has",
   "had", "i", "you", "he", "she", "we", "they", "me", "him", "her", "us", "them", "my", "your",
   "his", "our", "their", "not", "no", "if", "then", "there", "here", "what", "which", "who",
-  "whom", "whose", "will", "would", "can", "cannot", "could", "shall", "should", "may", "might", "must",
+  "whom", "whose", "will", "would", "can", "could", "shall", "should", "may", "might", "must",
 ]);
 
 export function isFunctionWord(term: string): boolean {

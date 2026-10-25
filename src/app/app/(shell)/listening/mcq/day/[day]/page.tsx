@@ -1,5 +1,3 @@
-import {ListeningSequenceLocked} from "@/components/listening/ListeningSequenceLocked";
-import {mcqProgramDays} from "@/lib/data/listening-mcq";
 import { BackLink } from "@/components/ui/BackLink";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -39,7 +37,6 @@ export default async function ListeningMcqDayPage({
 
   const dayNumber = Number.parseInt(route.day ?? "", 10);
   const staff = isStaff(user.role);
-  if(!staff){const catalogue=await mcqProgramDays(user);if(catalogue.days.find(card=>card.day===dayNumber)?.locked)return <ListeningSequenceLocked dict={getDictionary(locale)} mcq/>;}
   const day = await mcqDayFor(dayNumber, user, { includeDrafts: staff });
   if (!day) notFound();
 
@@ -144,7 +141,7 @@ export default async function ListeningMcqDayPage({
             dict={dict}
             questions={[{ id: active.id, order: activeIndex + 1, questionText: active.questionText, stage: (active.stage ?? "listen") as McqStage }]}
             dayNavigation={{currentHref: `/app/listening/mcq/day/${day.day}?q=${activeIndex + 1}`, nextHref: activeIndex + 1 < questions.length ? `/app/listening/mcq/day/${day.day}?q=${activeIndex + 2}` : null}}
-            audioUrl={active.audioUrl ?? day.audioUrl}
+            audioUrl={day.audioUrl}
           />
 
           <p className="text-xs text-ink-300">{t.practiceOnly}</p>

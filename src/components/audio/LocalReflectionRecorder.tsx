@@ -97,7 +97,6 @@ export function LocalReflectionRecorder({ dict, active }: { dict: Dictionary; ac
     {phase === "requesting" && <p role="status">{t.requesting}</p>}
     {phase === "recording" && <div className="flex flex-wrap items-center gap-3"><span role="status">{t.recording} {formatDuration(elapsed)}</span><button className="btn-primary min-h-11" type="button" onClick={() => void stop()}>{t.stop}</button></div>}
     {phase === "stopping" && <p role="status">{t.preparing}</p>}
-    {playback && <button type="button" className="btn-secondary" onClick={()=>{discardPlayback();setPlayback(null);setElapsed(0);}}>{dict.common.delete}</button>}
     {playback && <audio ref={node => { if (node) audio.current = node; }} src={playback} controls preload="metadata" aria-label={t.listen} className="w-full max-w-full" />}
     {error && <p role="alert">{error}</p>}
   </div>;

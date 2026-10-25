@@ -8,7 +8,6 @@ import {
   userVocabulary,
   userVocabularyContexts,
   users,
-  onboardingProfiles,
   vocabFolders,
   vocabPointEvents,
   vocabularyUsages,
@@ -362,8 +361,8 @@ export async function addVocabularyBatch(input: {
     }
 
     let destinationFolderId = input.folderId ?? null;
-    if (!destinationFolderId && ["listening", "reading", "retention"].includes(input.sourceType ?? "")) {
-      const name = input.sourceType === "listening" ? "Listening" : input.sourceType === "retention" ? "Retention" : "Reading";
+    if (!destinationFolderId && (input.sourceType === "listening" || input.sourceType === "reading")) {
+      const name = input.sourceType === "listening" ? "Listening" : "Reading";
       const [created] = await tx.insert(vocabFolders).values({ userId: input.userId, name })
         .onConflictDoNothing({ target: [vocabFolders.userId, vocabFolders.name] }).returning({ id: vocabFolders.id });
       const existing = created ?? await tx.query.vocabFolders.findFirst({ where: and(eq(vocabFolders.userId, input.userId), eq(vocabFolders.name, name)) });
@@ -1183,14 +1182,12 @@ export function buildStandingQueries(userId: string) {
       .select({
         userId: effectiveRows.userId,
         name: users.name,
-        level: onboardingProfiles.currentLevel,
         points: sql<number>`coalesce(sum(${effectiveRows.effectivePoints}), 0)::int`,
       })
       .from(effectiveRows)
       .innerJoin(users, eq(users.id, effectiveRows.userId))
-      .leftJoin(onboardingProfiles,eq(onboardingProfiles.userId,users.id))
       .where(eq(users.role, "student"))
-      .groupBy(effectiveRows.userId, users.name,onboardingProfiles.currentLevel)
+      .groupBy(effectiveRows.userId, users.name)
       .having(sql`sum(${effectiveRows.effectivePoints}) > 0`)
       .orderBy(desc(sql`sum(${effectiveRows.effectivePoints})`), asc(users.name), asc(effectiveRows.userId)),
     streakDays: () => db.with(effectiveRows)
@@ -1217,17 +1214,15 @@ export async function getStanding(userId: string) {
     rank: 0,
   };
   const streak = streakFromDays(days.map((row) => dayKey(row.createdAt)), new Date());
-  const [profile]=await db.select({name:users.name,level:onboardingProfiles.currentLevel}).from(users).leftJoin(onboardingProfiles,eq(onboardingProfiles.userId,users.id)).where(eq(users.id,userId));
-  const top = ranked.slice(0, 15).map((row) => ({
+  const top = ranked.slice(0, 10).map((row) => ({
     rank: row.rank,
     userId: row.userId,
     name: row.name ?? "—",
     points: row.points,
-    level: row.level,
     isMe: row.userId === userId,
   }));
 
-  return { points: mine.points, rank: mine.rank, streak, top, name:profile?.name??mine.name,level:profile?.level??null };
+  return { points: mine.points, rank: mine.rank, streak, top };
 }
 
 /** Recent provenance with current effective values, not obsolete stored amounts. */

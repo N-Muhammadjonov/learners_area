@@ -1,15 +1,18 @@
 import { redirect } from "next/navigation";
+import { getSession } from "@/lib/auth/session";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { hasPrivateAccess } from "@/lib/auth/account-status";
 import { getDictionary, getLocale } from "@/lib/i18n";
 import { OnboardingForm } from "@/components/onboarding/OnboardingForm";
 
 export default async function OnboardingPage() {
+  const session = await getSession();
+  if (!session) redirect("/login");
+
   // Onboarding belongs to approved students: a pending or suspended account is
   // sent to the waiting room rather than shown a form it cannot submit.
   const user = await getCurrentUser();
-  if (!user) redirect("/login");
-  if (!hasPrivateAccess(user.accountStatus)) redirect("/pending");
+  if (!user || !hasPrivateAccess(user.accountStatus)) redirect("/pending");
 
   const locale = await getLocale();
   const dict = getDictionary(locale);

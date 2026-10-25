@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { eq, inArray } from "drizzle-orm";
 import { db } from "../src/db/client";
-import { speakingPrompts, users } from "../src/db/schema";
+import { speakingPrompts } from "../src/db/schema";
 import { speakingTopicDraft } from "../src/lib/speaking/topic-draft";
 import { manageSpeakingTopic, SpeakingTopicConflict } from "../src/lib/speaking/manage-topic";
 import { listActivePrompts, listLivePartnerQuestions } from "../src/lib/data/speaking-practice";
@@ -53,14 +53,12 @@ test("native topic authoring publishes one bank, edits atomically, removes and r
     assert.equal(edited[0]!.id,ids[0]);
     const removed = await db.query.speakingPrompts.findFirst({where:eq(speakingPrompts.id,ids[1]!)});
     assert.equal(removed?.publicationState,"archived"); assert.equal(removed?.topic,topic);
-    const [owner]=await db.select().from(users).where(eq(users.role,"owner")).limit(1);
-    assert.ok(owner);
-    await manageSpeakingTopic({archive:original,actor:{id:owner.id,role:"owner"}});
+    await manageSpeakingTopic({archive:original});
     assert.equal((await listActivePrompts()).filter(q => ids.includes(q.id)).length,0);
     assert.equal((await listLivePartnerQuestions()).questions.filter(q => ids.includes(q.id)).length,0);
-    await assert.rejects(manageSpeakingTopic(speakingTopicDraft.parse({original,questions:rows.map(q => ({...question(topic),id:q.id,promptText:q.promptText}))})),SpeakingTopicConflict);
+    await manageSpeakingTopic(speakingTopicDraft.parse({original,questions:rows.map(q => ({...question(topic),id:q.id,promptText:q.promptText}))}));
     const partner = (await listLivePartnerQuestions()).questions.filter(q => ids.includes(q.id));
-    assert.equal(partner.length,0);assert.ok(partner.every(q => !("studySupport" in q)));
+    assert.equal(partner.length,2);assert.ok(partner.every(q => !("studySupport" in q)));
     for (const part of ["part2","part3"] as const) {
       const q = await manageSpeakingTopic(speakingTopicDraft.parse({questions:[question(`${topic} ${part}`,part)]}));ids.push(q[0]!.id);
       assert.equal(q[0]!.cueCard,"who this person is\nhow you met\nPart 3 – Making friends");

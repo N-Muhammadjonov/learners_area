@@ -61,7 +61,6 @@ export type ReadResult = {
   body: Buffer;
   contentType: string;
 };
-export type StreamResult = {body:ReadableStream<Uint8Array>;contentType:string};
 
 export interface StorageService {
   /** Provider identity — used for logging and diagnostics only. */
@@ -91,8 +90,6 @@ export interface StorageService {
    * URL (local disk); S3/R2 implement it too, as a fallback delivery path.
    */
   read(key: ObjectKey): Promise<ReadResult | null>;
-  /** Bounded-memory delivery; ranges are inclusive, already validated by caller. */
-  stream?(key:ObjectKey,range?:{start:number;end:number}):Promise<StreamResult|null>;
   /**
    * The first `maxBytes` of an object (bounded: S3/R2 use a Range GET, local
    * disk reads only the prefix). Used by finalize to verify the stored bytes —

@@ -1,0 +1,164 @@
+/* A single row of native controls on every private workspace. */
+[data-campus-shell] [data-shell-topbar]{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;flex:none;min-height:68px;padding:6px 14px;isolation:isolate;z-index:50}
+[data-campus-shell] [data-shell-topbar][data-campus-home=true]{background:#09172d!important;background-image:none!important}
+[data-campus-topbar-brand],[data-campus-return-link]{flex:none;order:0}
+[data-campus-topbar-brand][hidden],[data-campus-return-link][hidden],[data-campus-module-name][hidden]{display:none!important}
+[data-campus-topbar-brand]{min-width:0;max-width:235px;text-decoration:none}
+[data-campus-topbar-brand] [data-sidebar-brand]{gap:8px}
+[data-campus-shell] [data-campus-topbar-brand] .brand-name{font-size:14px;color:#fff!important}
+[data-campus-shell] [data-campus-topbar-brand] .brand-tagline{display:block!important;max-width:170px;color:#fff!important;font-size:10px;line-height:1.3;text-shadow:none}
+[data-campus-return-link]{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:6px 12px;white-space:nowrap;width:auto!important}
+[data-campus-module-name]{order:0;min-width:0;max-width:220px;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:16px}
+[data-campus-header-search]{flex:1 1 clamp(140px,28vw,480px);min-width:70px;max-width:480px;order:1;margin-left:auto;container-type:inline-size}
+[data-campus-header-preferences]{display:flex;align-items:center;gap:5px;flex:none;order:2}
+[data-campus-header-profile]{display:flex;align-items:center;gap:5px;flex:none;order:3}
+[data-campus-shell] [data-global-search]{width:100%;max-width:none}
+[data-campus-shell] [data-global-search-trigger]{display:none!important}
+[data-campus-shell] [data-global-search-field]{display:flex!important;position:relative!important;inset:auto!important;width:100%!important;height:40px;gap:7px;padding-inline:10px}
+[data-campus-shell] [data-global-search-field] input{width:100%;min-width:0}
+[data-campus-shell] [data-global-search-field]>span{width:auto;flex:none}
+[data-campus-shell] [data-global-search-field]>span>button:last-of-type{display:none}
+[data-campus-shell] [data-global-search-dialog]{position:fixed;max-height:65dvh}
+@container(max-width:240px){[data-campus-shell] [data-global-search-field] kbd{display:none}}
+[data-campus-shell] [data-shell-topbar] :is([data-mobile-nav-toggle],[data-mobile-nav-overlay],[data-breadcrumbs]){display:none!important}
+[data-campus-shell]:has([data-campus-world]) [data-shell-main]{overflow:hidden;background:#081528}
+[data-shell-main]:has([data-campus-world])>div{max-width:none!important;height:100%;padding:0!important;min-height:0}
+[data-shell-main]:has([data-campus-world]) :is([data-workspace-transition],[data-outgoing-workspace],[data-workspace-content]){height:100%;min-height:0}
+.la-campus{height:100%;min-height:0;isolation:isolate;position:relative;overflow:hidden;background:#08172c}
+.la-campus-canvas{position:absolute;inset:0;touch-action:none;min-height:0}
+.la-campus-canvas canvas{display:block;width:100%;height:100%;touch-action:none}
+.la-campus-caption{position:absolute;bottom:14px;left:18px;font-size:12px;color:#bdcde2;z-index:27;pointer-events:none}
+.la-campus-fallback{position:absolute;inset:70px 15px 40px;z-index:29;display:flex;align-content:center;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
+.la-campus-fallback a{color:#fff;background:#17375a;border:1px solid #3c7ab5;padding:8px 12px;border-radius:8px}
+.la-campus .campus-labels-overlay{position:absolute;inset:0;overflow:hidden;z-index:24;pointer-events:none}
+.la-campus .campus-module-label{position:absolute;pointer-events:auto;display:flex;align-items:center;gap:7px;padding:6px 10px;color:#f9fcff;white-space:nowrap;font:600 clamp(10px,1.02vw,17px)/1.1 system-ui,sans-serif;cursor:pointer;width:max-content;box-sizing:border-box;border:2px solid var(--module-accent)!important;border-radius:13px!important;background:rgba(5,14,31,.96)!important;box-shadow:0 0 13px color-mix(in srgb,var(--module-accent) 55%,transparent),inset 0 0 6px color-mix(in srgb,var(--module-accent) 18%,transparent)!important}
+.la-campus .campus-module-label .module-icon{display:inline-flex;width:20px;height:20px;flex:none}
+.la-campus .campus-module-label svg{width:100%;height:100%}
+.la-campus .campus-module-label .module-text{font-size:inherit;line-height:inherit;white-space:nowrap}
+.la-campus .campus-module-label:is(:hover,:focus-visible){outline:2px solid var(--module-accent);outline-offset:2px;background:#10223c!important}
+[data-campus-shell]:has([data-campus-world]) [data-utilities-launcher]{transform:scale(.9);transform-origin:bottom right}
+@media(max-width:1000px){
+ [data-campus-shell] [data-shell-topbar]{gap:6px;padding-inline:8px}
+ [data-campus-topbar-brand]{max-width:200px}
+ [data-campus-topbar-brand] [data-sidebar-brand]{flex-direction:column;gap:2px;align-items:flex-start}
+ [data-campus-shell] [data-campus-topbar-brand] .brand-name{display:none}
+ [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{font-size:8px;max-width:200px;white-space:nowrap}
+ [data-campus-shell] [data-global-search-field] kbd{display:none}
+ [data-campus-shell] [data-campus-header-profile] [data-profile-menu-trigger]>span:not(:first-child){display:none}
+ .la-campus .campus-module-label{font-size:10px;padding:4px 6px;gap:5px}
+ .la-campus .campus-module-label .module-icon{width:14px;height:14px}
+}
+@media(max-width:650px){
+ [data-campus-shell] [data-shell-topbar]{--icon-btn:36px;min-height:68px;gap:4px;padding-inline:6px}
+ [data-campus-topbar-brand]{max-width:180px;flex:0 1 180px}
+ [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{max-width:180px;white-space:normal}
+ [data-campus-module-name]{max-width:150px;font-size:14px}
+ [data-campus-header-search]{flex-basis:clamp(70px,24vw,155px)}
+ [data-campus-header-preferences],[data-campus-header-profile]{gap:3px}
+ [data-campus-shell] .theme-btn{width:36px;height:40px;min-width:36px}
+ [data-campus-shell] [data-locale-switcher] button{min-width:30px;min-height:36px;padding-inline:5px}
+ [data-campus-shell] [data-profile-menu-trigger]{width:36px!important;min-width:36px;height:40px!important;padding:3px!important}
+ [data-campus-return-link]{font-size:14px;min-height:40px;padding-inline:7px}
+ [data-campus-shell] [data-global-search-field]{gap:4px;padding-inline:6px}
+ [data-campus-shell] [data-global-search-field] input{font-size:12px}
+}
+@media(max-width:430px){
+ [data-campus-shell] [data-shell-topbar]{--icon-btn:28px;gap:3px;padding-inline:4px}
+ [data-campus-header-search]{min-width:45px}
+ [data-campus-module-name]{max-width:100px;font-size:12px}
+ [data-campus-topbar-brand]{max-width:76px}
+ [data-campus-shell] [data-campus-topbar-brand] .brand-tagline{font-size:7px;max-width:76px}
+ [data-campus-shell] .theme-btn{width:28px;height:36px;min-width:28px}
+ [data-campus-shell] [data-locale-switcher] button{min-width:25px;min-height:32px;padding-inline:3px;font-size:11px}
+ [data-campus-shell] [data-profile-menu-trigger]{width:28px!important;min-width:28px;height:36px!important;padding:1px!important}
+ [data-campus-shell] [data-profile-menu-trigger] img,[data-campus-shell] [data-profile-menu-trigger]>span:first-child{width:24px;height:24px}
+ [data-campus-return-link]{gap:3px;font-size:12px;padding-inline:5px}
+ [data-campus-shell] [data-global-search-field]{padding-inline:4px}
+ [data-campus-shell] [data-global-search-field]>svg{width:12px}
+}
+
+/* Section headings and tabs share Main's pinned blue band below the controls. */
+[data-native-module-header]{flex:none;min-width:0;padding:0 20px;background:var(--la-surface-glass,#0b2347);border-bottom:1px solid rgb(var(--ink-100));color:#f3eee5;z-index:40}
+[data-native-module-header][hidden]{display:none}
+.native-module-title{display:block;padding:8px 0 12px;font-family:var(--font-display);font-size:30px;font-weight:600;line-height:1.2;color:#f3eee5}
+[data-native-module-header] [data-module-sections]{margin-inline:-4px}
+[data-native-module-header] .writing-tabs{margin:0}
+[data-campus-shell] [data-vocabulary-workspace]>nav,[data-campus-shell] [data-vocabulary-workspace]>div:first-child:has(>h1){display:none}
+[data-campus-shell] [data-listening-section-heading]{display:none}
+@media(max-width:650px){[data-native-module-header]{padding-inline:12px}.native-module-title{font-size:24px}}
+
+[data-campus-shell] [data-shell-main]:focus{outline:none}
+
+[data-native-module-header]{--ink-900:243 238 229;--ink-700:234 239 247;--ink-500:205 223 237;--ink-300:205 223 237;--ink-100:58 105 151}
+
+.la-welcome-heading:focus{outline:none}
+
+#root h1[tabindex="-1"]:focus{outline:none}
+
+/* Phones (including landscape) and portrait tablets keep an icon-only Back.
+   Main keeps its label; desktop and landscape tablets show the Back label. */
+@media(max-width:767px),(max-width:1024px) and (orientation:portrait),(max-width:950px) and (max-height:500px){
+ [data-campus-back-link] .native-return-label{display:none}
+ [data-campus-back-link]{width:40px!important;min-width:40px;padding-inline:0}
+}
+@media(max-width:430px){[data-campus-back-link]{width:32px!important;min-width:32px}}
+
+/* One route return in the pinned topbar. Local game controls, cancel/leave,
+   breadcrumbs and in-panel question navigation retain their own actions. */
+[data-campus-shell] [data-shell-main] :is([data-back-link],[data-game-back],[data-games-back-to-vocabulary]){display:none!important}
+[data-campus-shell] [data-vocabulary-title]{display:none}
+
+/* Match the border hue of this module's campus sign in every theme/Focus mode.
+   Keep answer verdicts and selected tabs distinguishable from ordinary controls. */
+[data-campus-shell]:not(:has([data-campus-world])) :is(.card,.panel,.lp-panel,.practice-part-card,.flashcard-face,.flashcard-queue,.typing-stage-wrap,.typing-result,.typing-error-panel,.input,textarea,select,[role="dialog"],dialog,.dropdown-menu,[class~="border"][class*="rounded"],[class*="rounded"]:is([class~="bg-paper-raised"],[class~="bg-paper-sunken"],[class~="bg-paper"],[class~="bg-ink-950"])){
+ border:1px solid var(--workspace-accent,#00e5ff);
+ border-color:var(--workspace-accent,#00e5ff)!important;
+ box-shadow:0 0 10px color-mix(in srgb,var(--workspace-accent,#00e5ff) 14%,transparent);
+}
+[data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.chip,.badge,.theme-btn,[data-locale-switcher] button,button:not([role="tab"]):not([role="radio"])):not([data-state="right"]):not([data-state="wrong"]){
+ border:1px solid var(--workspace-accent,#00e5ff);
+ border-color:var(--workspace-accent,#00e5ff)!important;
+ box-shadow:0 0 8px color-mix(in srgb,var(--workspace-accent,#00e5ff) 20%,transparent);
+}
+[data-campus-shell] [data-native-module-header] :is(a[aria-current="page"],[aria-selected="true"]){border-bottom-color:var(--workspace-accent,#00e5ff)!important}
+[data-campus-shell]:not(:has([data-campus-world])) :is(button,a,input,textarea,select):focus-visible{outline-color:var(--workspace-accent,#00e5ff)}
+
+/* Focus removes wallpaper/glass and uses Main's flat themed section band. */
+[data-theme][data-focus="on"] [data-native-module-header]{
+ background:rgb(var(--paper-raised));color:rgb(var(--ink-900));
+ --ink-900:inherit;--ink-700:inherit;--ink-500:inherit;--ink-300:inherit;--ink-100:inherit;
+}
+[data-theme][data-focus="on"] [data-native-module-header] .native-module-title{color:rgb(var(--ink-900))}
+
+[data-focus-workspace] [data-reading-full-focus]{height:100%;min-height:0}
+
+[data-theme]:not([data-focus="on"]) [data-focus-workspace] [data-shell-topbar]{
+ background:#0b2347!important;color:#f3eee5;
+ --ink-900:243 238 229;--ink-700:234 239 247;--ink-500:205 223 237;--ink-300:180 205 225;
+ --accent:126 211 255;--accent-strong:164 225 255;--accent-contrast:8 32 68;
+}
+[data-theme]:not([data-focus="on"]) [data-focus-workspace] [data-shell-topbar] [data-locale-switcher] .bg-signal-600.text-signal-contrast{background-color:#12345a!important;color:#f3eee5!important}
+
+/* Action controls follow the supplied Start reference; navigation tabs and
+   answer/state selectors keep their own selected/correct/incorrect states. */
+[data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button){
+ border-radius:9999px!important;background:#3d50fa!important;color:#fff!important;
+ font-weight:600;border-width:1px;box-shadow:0 5px 14px rgb(61 80 250 / .2);
+}
+[data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button):hover:not(:disabled){background:#3042dc!important}
+[data-campus-shell] :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.typing-icon-button) :is(span,small,strong){color:inherit!important}
+[data-campus-shell] .typing-presets button{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:rgb(var(--ink-500))}
+[data-campus-shell] .typing-presets button[aria-checked="true"]{color:rgb(var(--ink-900));text-decoration:underline;text-decoration-color:var(--workspace-accent);text-underline-offset:8px;text-decoration-thickness:2px}
+/* Wallpaper workspaces are dark even when Day is selected. Native number/date
+   controls must use that surface's scheme rather than the document's scheme. */
+[data-theme]:not([data-focus="on"]) [data-campus-shell] :is(input,select,textarea){color-scheme:dark}
+[data-people-directory]{width:100%;max-width:none}
+[data-people-directory] [data-people-search-form]{display:grid;grid-template-columns:minmax(12rem,1fr) auto minmax(9rem,14rem) minmax(9rem,14rem) auto;align-items:end}
+[data-people-directory] [data-people-search-form]>div{min-width:0}
+[data-people-directory] td{padding-block:12px;vertical-align:middle}
+[data-people-directory] [data-people-name]{color:rgb(var(--ink-900));text-decoration:none}
+[data-people-directory] [data-people-name]:hover{text-decoration:underline}
+@media(max-width:1100px){[data-people-directory] [data-people-search-form]{grid-template-columns:minmax(0,1fr) auto}[data-people-directory] [data-people-search-form]>:first-child{grid-column:1/-1}}
+@media(max-width:600px){[data-people-directory] [data-people-search-form]{grid-template-columns:minmax(0,1fr)}[data-people-directory] [data-people-search-form]>*{width:100%}}
+/* Dialogs mounted on body share the same action style as workspace actions. */
+[data-theme] :is(.dictionary-folder-dialog,.dictionary-context-panel,dialog.interaction-confirm-dialog,[data-global-search-dialog]) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold){border-radius:9999px!important;background:#3d50fa!important;color:#fff!important;font-weight:600}

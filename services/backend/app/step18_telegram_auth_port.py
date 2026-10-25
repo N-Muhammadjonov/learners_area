@@ -1,0 +1,82 @@
+"""Two legacy Telegram auth routes. Direct conversion of callback and bot confirmation.
+
+Do not treat browser-provided Telegram fields as authenticated; HMAC signature required.
+"""
+from __future__ import annotations
+import os,re,json,hashlib,hmac,time
+from fastapi import APIRouter, Request
+from fastapi.responses import RedirectResponse
+from . import main as core
+from .internal_bot_ready_port import verify_bot
+router=APIRouter()
+
+
+def telegram_verified(p):
+    token=os.environ.get('TELEGRAM_BOT_TOKEN')
+    if not token:return False
+    try:
+        uid=int(p['id']);ts=int(p['auth_date']);digest=p.get('hash','')
+        if uid<=0 or ts<=0 or uid>2**53-1 or ts>2**53-1 or not re.fullmatch('[a-f0-9]{64}',digest):return False
+        delta=time.time()-ts
+        if not (-30<=delta<300):return False
+        # Callback query strings are strings but the TS handler casts id/auth_date to numbers.
+        values={**p,'id':uid,'auth_date':ts};values.pop('hash',None)
+        check='\n'.join(f'{k}={values[k]}' for k in sorted(values))
+        secret=hashlib.sha256(token.encode()).digest()
+        expected=hmac.new(secret,check.encode(),hashlib.sha256).hexdigest()
+        return hmac.compare_digest(expected,digest)
+    except (ValueError,TypeError,KeyError):return False
+
+@router.get('/api/auth/telegram/callback')
+async def telegram_callback(req:Request):
+    params=dict(req.query_params)
+    root=str(req.base_url).rstrip('/')
+    def redirect(path):return RedirectResponse(root+path,status_code=307)
+    if not telegram_verified(params):return redirect('/login?error=telegram')
+    db=await core.pool()
+    async with db.acquire() as con:
+        row=await con.fetchrow('''SELECT id,auth_version,role,name,locale,onboarding_completed_at
+          FROM users WHERE telegram_id=$1 LIMIT 1''',str(int(params['id'])))
+    if not row:return redirect('/register?error=telegram_no_account')
+    token=core.issue_token({'id':row['id'],'auth_version':row['auth_version'],'role':row['role'],
+       'name':row['name'],'locale':row['locale'],'onboarding_completed_at':row['onboarding_completed_at']})
+    resp=redirect('/app' if row['onboarding_completed_at'] else '/onboarding')
+    core.clear_session_cookie(resp,req)
+    core.write_cookie(resp,req,core.SESSION_COOKIE,token,core.SESSION_TTL,http_only=True)
+    return resp
+
+@router.post('/api/internal/telegram/auth/confirm')
+async def telegram_auth_confirm(req:Request):
+    err=verify_bot(req)
+    if err is not None:return err
+    try:
+        b=await core.payload(req)
+        b=b if isinstance(b,dict) else {}
+        token=b.get('token') if isinstance(b.get('token'),str) else ''
+        tg=b.get('telegramUserId') if isinstance(b.get('telegramUserId'),str) else ''
+        from .telegram_preferences_port import valid_actor
+        if not token or len(token)>200 or not valid_actor(tg):return core.j({'error':'invalid_input'},400)
+        name=b.get('displayName','')
+        name=(name.strip()[:200] if isinstance(name,str) else '')
+        lang=b.get('languageCode') if b.get('languageCode') in ('en','uz') else None
+        hashed=hashlib.sha256(token.encode()).hexdigest()
+        db=await core.pool()
+        async with db.acquire() as con:
+            pending=await con.fetchrow('''SELECT id,user_id FROM telegram_login_intents
+              WHERE token_hash=$1 AND status='pending' AND expires_at>NOW() LIMIT 1''',hashed)
+            if not pending:return core.j({'error':'intent_invalid'},404)
+            if pending['user_id']:
+                target=await con.fetchrow('SELECT id,telegram_id FROM users WHERE id=$1',pending['user_id'])
+                taken=await con.fetchrow('SELECT id FROM users WHERE telegram_id=$1',tg)
+                if not target:return core.j({'error':'missing_user'},404)
+                if (target['telegram_id'] and target['telegram_id']!=tg) or (taken and taken['id']!=target['id']):
+                    return core.j({'error':'telegram_already_linked'},409)
+            updated=await con.fetchval('''UPDATE telegram_login_intents
+              SET status='confirmed',telegram_user_id=$2,display_name=$3,language_code=$4,confirmed_at=NOW()
+              WHERE id=$1 AND status='pending' AND expires_at>NOW() RETURNING id''',pending['id'],tg,name or None,lang)
+            if not updated:return core.j({'error':'intent_invalid'},409)
+        return core.j({'success':True,'intentId':str(updated)})
+    except Exception:
+        return core.j({'error':'internal_error'},500)
+
+def install():core.app.include_router(router)
