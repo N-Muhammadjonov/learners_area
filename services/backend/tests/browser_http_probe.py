@@ -63,6 +63,11 @@ def check(path, status=200):
 check('/api/frontend/public')
 check('/api/frontend/session')
 check('/api/assignments')
+for vocab_path in ('/api/vocabulary?limit=50&offset=0','/api/vocabulary/summary','/api/vocabulary/folders','/api/vocabulary/packs','/api/vocabulary/leaderboard','/api/vocabulary/leaderboard?view=standing','/api/vocabulary/sentences?view=words&limit=100&offset=0','/api/vocabulary/sentences?view=history','/api/vocabulary/due?limit=40','/api/vocabulary/games?set=due&limit=1'):
+    check(vocab_path)
+check('/api/dictionary/recent',409)  # No active dictionary release is seeded in this isolated database.
+for game in ('cards','choice','match','gap','race','translation','builder'):
+    check('/api/vocabulary/games?set=all&limit=24&random=1&game='+game)
 check('/api/vocabulary/due')
 check('/api/vocabulary/due?limit=10')
 check('/api/frontend/view?route=/app/grammar%3Ftab%3Dwriting')

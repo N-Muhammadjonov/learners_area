@@ -38,4 +38,4 @@ export function createApi(fetcher=globalThis.fetch.bind(globalThis),onUnauthoriz
  async function bounded(path,options){const timeout=AbortSignal.timeout(options.timeoutMs??25000);const signal=options.signal?anySignal([options.signal,timeout]):timeout;return execute(path,{...options,signal});}
  return {request,clear(){epoch++;for(const e of pending.values())e.controller.abort();pending.clear();}};
 }
-export const api=createApi(globalThis.fetch.bind(globalThis),()=>{if(typeof window!=='undefined')window.dispatchEvent(new Event('learners-area:auth-failure'));},()=>privateScope.invalidate('view:'));
+export const api=createApi(globalThis.fetch.bind(globalThis),()=>{if(typeof window!=='undefined')window.dispatchEvent(new Event('learners-area:auth-failure'));},()=>{privateScope.invalidate('view:');privateScope.invalidate('catalogue:');});

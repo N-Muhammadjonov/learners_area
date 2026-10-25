@@ -6,14 +6,14 @@ import {readingDurationSeconds,readingRemainingSeconds} from '../../js/generated
 import {readingHighlighted} from './lesson-text.js';
 import {groupHeading,groupQuestions,questionCard} from './questions.js';
 import {Button} from '../shared/presentation.js';
-import {createWorkspace} from './workspace.js';
+import {academicWorkspace} from './academic-workspace.js';
 const SAVE_DEBOUNCE_MS=900;
 const formatDuration=ms=>{const total=Math.max(0,Math.floor(ms/1000)),h=Math.floor(total/3600),m=Math.floor((total%3600)/60),s=total%60,pad=n=>String(n).padStart(2,'0');return h>0?`${h}:${pad(m)}:${pad(s)}`:`${pad(m)}:${pad(s)}`;};
 /** Original ReadingExam.tsx + ReadingWorkspace.tsx as one native controller. Nothing here grades: the server does
  * that once, on submit. Autosave: one PATCH in flight, a change during a save is saved right after, a 409 locks the
  * screen, a 410 freezes it as expired, and the last change is sent with keepalive when the page is hidden. */
 export function mountExam(context,p){
- const {root,signal,dict}=context,t=dict.readingPractice,host=el('div',{'data-native-view':'reading-attempt',class:'reading-session','data-reading-practice':true,'data-attempt':p.attemptId});
+ const {root,signal,dict}=context,t=dict.readingPractice,host=el('div',{'data-native-view':'reading-attempt',class:'flex flex-col gap-4','data-reading-practice':true,'data-attempt':p.attemptId});
  root.append(host);
  const durationSeconds=readingDurationSeconds(p.suggestedMinutes);
  const startedMs=Date.parse(p.startedAt);
@@ -93,47 +93,19 @@ export function mountExam(context,p){
  function draw(){
   if(signal.aborted)return;
   const expired=timeExpired();
-  const first=visibleQuestions()[0]?.questionNo??1,last=visibleQuestions().at(-1)?.questionNo??first;
-  const range=t=>dict.readingWorkspace.questionRange.replace('{from}',String(first)).replace('{to}',String(last));
-  const navParts=parts.length?parts:[{title:p.passageTitle,questionIds:p.questions.map(q=>q.id)}];
   const shownParagraphs=parts[state.activePart]?.paragraphs??p.paragraphs,shownBody=parts[state.activePart]?.body??p.passageBody,shownTitle=parts[state.activePart]?.title??p.passageTitle;
   const highlightOpts={scope:p.attemptId};
-  const buildPassage=()=>el('div',{},
-   el('h2',{class:'reading-pane-heading'},dict.readingWorkspace.passageHeading.replace('{n}',String(state.activePart+1))),
-   el('p',{class:'reading-part-instruction'},range()),
-   el('h3',{class:'reading-passage-title'},shownTitle),
-   el('div',{class:'reading-passage-text','data-passage-body':true},
-    shownParagraphs.length>0
-     ?shownParagraphs.map(paragraph=>el('div',{class:'reading-paragraph','data-paragraph':paragraph.label??'none'},
-        paragraph.label?el('strong',{class:'reading-paragraph-label'},paragraph.label):null,
-        el('div',{'data-exam-passage-text':true},readingHighlighted(context,{...highlightOpts,textKey:paragraph.id,text:paragraph.text,className:`academic-text ${paragraph.isFootnote?'italic':''}`}))))
-     :el('div',{'data-exam-passage-text':true},readingHighlighted(context,{...highlightOpts,textKey:`part:${state.activePart}`,text:shownBody,className:'academic-text'}))));
+  const buildPassage=()=>el('div',{class:'contents'},el('div',{class:'flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 pb-3'},el('h2',{class:'font-display text-base text-ink-900'},shownTitle)),el('div',{class:'flex flex-col gap-4 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2','data-passage-body':true},shownParagraphs.length?shownParagraphs.map(paragraph=>el('div',{class:'flex gap-3','data-paragraph':paragraph.label??'none'},paragraph.label?el('span',{class:'mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-paper-sunken text-xs font-semibold text-ink-700'},paragraph.label):el('span',{class:'w-7 shrink-0','aria-hidden':'true'}),el('div',{'data-exam-passage-text':true},readingHighlighted(context,{...highlightOpts,textKey:paragraph.id,text:paragraph.text,className:`academic-text text-sm leading-relaxed text-ink-700 ${paragraph.isFootnote?'italic':''}`})))):el('div',{'data-exam-passage-text':true},readingHighlighted(context,{...highlightOpts,textKey:`part:${state.activePart}`,text:shownBody,className:'academic-text text-sm leading-relaxed text-ink-700'}))));
   // The passage text is rebuilt only when the part changes; an answer or a save never rebuilds it.
   const passagePane=passageCache?.part===state.activePart?passageCache.node:(passageCache={part:state.activePart,node:buildPassage()}).node;
   const orderedNow=orderedBlocks();
   const answered=p.questions.filter(q=>(state.answers[q.id]??'').trim()!=='').length;
-  const questionsPane=el('div',{},
-   el('h2',{class:'reading-pane-heading'},range()),
-   expired?el('p',{role:'status','data-attempt-expired':true},t.timeExpired):null,
-   el('fieldset',{class:'reading-question-blocks',disabled:expired?true:null},
-    orderedNow.blocks.map(({group,questions})=>el('div',{class:'reading-question-group','data-question-group':group.position},
-      groupHeading(dict,group),
-      groupQuestions(context,{dict,group,questions,answers:state.answers,onChange:setAnswer}))),
-    orderedNow.orphan.map(question=>questionCard(context,{dict,question,group:null,value:state.answers[question.id]??'',onChange:v=>setAnswer(question.id,v),inputId:`answer-${question.id}`}))),
-   state.error?el('p',{role:'alert',class:'reading-error'},state.error):null);
-  const navigation=navParts.map((part,index)=>el('div',{class:'reading-part-navigation','data-academic-parts':true},
-   (()=>{const b=el('button',{type:'button',class:'reading-part-button','aria-pressed':state.activePart===index?'true':'false'},dict.generalReading.passageN.replace('{n}',String(index+1)));b.addEventListener('click',()=>{state.activePart=index;draw();});return b;})(),
-   state.activePart===index
-    ?el('div',{class:'reading-question-numbers'},p.questions.filter(q=>part.questionIds.includes(q.id)).map(q=>{
-       const b=el('button',{type:'button','data-reading-question-nav':q.id,'data-answered':(state.answers[q.id]??'').trim()?'true':'false','aria-label':`${dict.reading.yourAnswer} ${q.questionNo??q.order}`},String(q.questionNo??q.order));
-       b.addEventListener('click',()=>{state.activePart=index;state.pane='questions';draw();requestAnimationFrame(()=>focusQuestion(q.id));});return b;}))
-    :el('span',{class:'reading-part-count'},`${p.questions.filter(q=>part.questionIds.includes(q.id)&&(state.answers[q.id]??'').trim()).length} / ${part.questionIds.length}`)));
+  const questionsPane=el('div',{class:'contents'},expired?el('p',{role:'status','data-attempt-expired':true,class:'rounded-[12px] border border-band-warn/40 bg-band-warn/10 px-3 py-2 text-sm text-ink-700'},t.timeExpired):null,el('div',{class:'flex flex-col gap-3 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-2'},el('fieldset',{class:'flex min-w-0 flex-col gap-3 border-0 p-0',disabled:expired?true:null},orderedNow.blocks.map(({group,questions})=>el('div',{class:'flex flex-col gap-3','data-question-group':group.position},groupHeading(dict,group),groupQuestions(context,{dict,group,questions,answers:state.answers,onChange:setAnswer}))),orderedNow.orphan.length?el('div',{class:'flex flex-col gap-3','data-question-group':'ungrouped'},orderedNow.orphan.map(question=>questionCard(context,{dict,question,group:null,value:state.answers[question.id]??'',onChange:v=>setAnswer(question.id,v),inputId:`answer-${question.id}`}))):null)));
   const submitButton=Button({variant:'primary',disabled:state.submitting||state.saveState==='locked','data-submit-attempt':true,children:state.submitting?dict.common.loading:dict.reading.submit});
   submitButton.addEventListener('click',()=>void submit());
-  const action=[el('span',{class:'reading-answered','aria-live':'polite'},t.answered.replace('{answered}',String(answered)).replace('{total}',String(p.questions.length))),submitButton];
-  ws.update({title:p.passageTitle,passagePane,
-   tools:[el('span',{class:'reading-timer','data-practice-timer':true},el('span',{class:'sr-only'},t.timerLabel),(()=>{timerNode.textContent=formatDuration(remaining()*1000);timerNode.dataset.timeRemaining=String(remaining());return timerNode;})()),saveBadge()],
-   questionsPane,navigation,action,pane:state.pane});
+  const progress=t.answered.replace('{answered}',String(answered)).replace('{total}',String(p.questions.length));
+  const action=el('div',{class:'flex flex-col gap-2 rounded-[16px] border border-ink-100 bg-paper-raised p-4'},el('div',{class:'flex items-center justify-between text-sm text-ink-700'},el('span',{},progress),state.saveState==='error'?el('span',{class:'text-band-bad'},t.unsavedWarning):null),el('p',{class:'text-xs text-ink-300'},t.submitHint),state.error?el('p',{role:'alert',class:'text-sm text-band-bad'},state.error):null,submitButton);
+  ws.update({passagePane,questionsPane,action,tools:[el('span',{class:'flex items-center gap-2 text-sm text-ink-700','data-practice-timer':true},el('span',{class:'text-ink-300'},t.timerLabel),(()=>{timerNode.textContent=formatDuration(remaining()*1000);timerNode.dataset.timeRemaining=String(remaining());return timerNode;})()),saveBadge()]});
  }
  function focusQuestion(questionId){
   const input=document.getElementById(`answer-${questionId}`);
@@ -141,8 +113,7 @@ export function mountExam(context,p){
   target?.scrollIntoView?.({block:'center',behavior:'smooth'});
   if(input instanceof HTMLElement)input.focus({preventScroll:true});
  }
- const ws=createWorkspace({labels:dict.readingWorkspace,title:p.passageTitle,brand:dict.marketing.title,state,
-  setPane:v=>{state.pane=v;ws.update({pane:v});},setFont:f=>{state.fontSize=f;ws.update({});}});
+ const ws=academicWorkspace(context,p,state,v=>{state.pane=v;draw();},index=>{state.activePart=index;draw();});
  host.replaceChildren(ws.root);
  draw();
 }

@@ -1,10 +1,13 @@
+import {api} from '../../js/api-client.js';
+import {privateScope} from '../../js/private-scope.js';
+import {dictionaryFolderDialog,dictionaryRecent} from '../vocabulary/dictionary-learner-ui.js';
 import {anySignal} from '../../js/signals.js';
 import {el,listen,put,setChildren} from './kit.js';
 import {dictCall} from '../../js/adapters/staff-final30/dictionary.js';
 import {isObj,bad,str,arr} from '../../js/adapters/staff-final30/core.js';
 /**
- * components/vocabulary/DictionaryPanel.tsx — OWNER mode only (search -> entry -> sense actions). The student mode (recent searches,
- * folders, save) belongs to the vocabulary module and is intentionally not part of the staff slice. Owner reads use the existing
+ * Shared native Dictionary presentation. Owner mode adds editing; learner mode
+ * adds recent searches and a sense-specific folder dialog. Owner reads use the existing
  * /api/owner/dictionary/{search,entries/:id}; responses are validated, text is rendered as text, and a late response never
  * overwrites a newer search (request counter + abort).
  */
@@ -21,31 +24,33 @@ function entryOf(d){
   attribution:arr(e.attribution??[],50).map(a=>({snapshot_id:t0(a?.snapshot_id,100),source_name:t0(a?.source_name,200),attribution_text:t0(a?.attribution_text,5000)}))};
 }
 function hitsOf(d){return {release:t0(d?.release_id,100),results:arr(d?.results??[],200).map(h=>{if(!isObj(h)||typeof h.lexeme_id!=='string')throw bad();return {lexeme_id:h.lexeme_id,display_lemma:t0(h.display_lemma,300),part_of_speech:t0(h.part_of_speech,40),translation_uz:t0(h.translation_uz,500)};})};}
-export function dictionaryPanel(ctx,{onEdit,onAddSense,onAddWord}){
- const {dict,signal}=ctx,t=dict.globalDictionary,S={query:'',direction:'EN',hits:[],release:'',entry:null,expanded:[],error:'',loading:false,active:-1,retry:0},debounce=ctx.dictionaryDebounceMs??220;
- const node=el('section',{class:'mx-auto w-full max-w-[1120px] space-y-4','data-global-dictionary':''});let stamp=0,abort=null,timer=null;
- signal.addEventListener('abort',()=>{abort?.abort();clearTimeout(timer);},{once:true});
+export function dictionaryPanel(ctx,{owner=true,onEdit,onAddSense,onAddWord}={}){
+ const {dict,signal}=ctx,t=dict.globalDictionary,S={query:owner?'':(ctx.url?.searchParams.get('q')??'').slice(0,80),direction:ctx.url?.searchParams.get('direction')==='UZ'?'UZ':'EN',saved:[],folders:[],recent:[],hits:[],release:'',entry:null,expanded:[],error:'',loading:false,active:-1,retry:0},debounce=ctx.dictionaryDebounceMs??220;
+ const node=el('section',{class:'mx-auto w-full max-w-[1120px] space-y-4','data-global-dictionary':''});let stamp=0,abort=null,timer=null,recentView,folderDialog;
+ signal.addEventListener('abort',()=>{abort?.abort();clearTimeout(timer);recentView?.dispose();folderDialog?.stop();},{once:true});
  const alive=()=>!signal.aborted;
- async function read(path,sig){try{return await dictCall(path,'GET',undefined,sig);}catch(e){if(sig?.aborted||signal.aborted)throw e;throw new Error(t.unavailable);}}
+ async function read(path,sig){try{return owner?await dictCall(path,'GET',undefined,sig):await api.request('/api/dictionary/'+path,{signal:sig});}catch(e){if(sig?.aborted||signal.aborted)throw e;throw new Error(t.unavailable);}}
  function runSearch(){
   abort?.abort();clearTimeout(timer);const my=++stamp;S.entry=null;S.active=-1;S.hits=[];S.error='';
   if(!S.query.trim()){S.loading=false;paintBody();return;}
   S.loading=true;paintBody();abort=new AbortController();const sig=anySignal([signal,abort.signal]);
   timer=setTimeout(()=>{void read(`search?q=${encodeURIComponent(S.query)}&direction=${S.direction}`,sig).then(d=>{if(my!==stamp||!alive())return;const r=hitsOf(d);S.hits=r.results;S.release=r.release;}).catch(()=>{if(my===stamp&&alive()&&!sig.aborted)S.error=t.unavailable;}).finally(()=>{if(my===stamp&&alive()){S.loading=false;paintBody();}});},debounce);
  }
- async function open(hit){
+ async function open(hit,query=S.query,lang=S.direction){
   const my=++stamp;S.loading=true;S.error='';paintAll();
-  try{const pin=S.release?`?release_id=${encodeURIComponent(S.release)}`:'';const d=await read(`entries/${encodeURIComponent(hit.lexeme_id)}${pin}`,signal);if(my!==stamp||!alive())return;S.entry=entryOf(d);S.release=S.entry.release_id;S.expanded=[];}
+  try{const pin=S.release?`?release_id=${encodeURIComponent(S.release)}`:'';const d=await read(`entries/${encodeURIComponent(hit.lexeme_id)}${pin}`,signal);if(my!==stamp||!alive())return;S.entry=entryOf(d);S.release=S.entry.release_id;S.expanded=[];S.saved=Array.isArray(d.saved)?d.saved:[];
+   if(!owner){S.loading=false;paintAll();try{await api.request('/api/dictionary/entries/'+encodeURIComponent(hit.lexeme_id),{method:'POST',body:{query:query||hit.display_lemma,direction:lang,releaseId:S.entry.release_id},signal});await metadata(true);}catch{if(my===stamp&&alive())S.error=t.unavailable;}}
+  }
   catch{if(my===stamp&&alive())S.error=t.unavailable;}
   finally{if(my===stamp&&alive()){S.loading=false;paintAll();}}
  }
  const btn=(text,cls,fn,attrs={})=>{const b=el('button',{type:'button',class:cls,...attrs},text);listen(b,'click',fn,signal);return b;};
  const bodyHost=el('div',{class:'min-w-0'}),errHost=el('div'),barHost=el('div');
  function bar(){
-  const i=el('input',{class:'min-h-11 min-w-0 flex-1 bg-transparent px-1 text-base outline-none','aria-label':t.search,placeholder:t.search,maxlength:'80',role:'combobox','aria-autocomplete':'list','aria-controls':'dictionary-results','aria-expanded':String(S.hits.length>0),'data-dictionary-search':'','data-focus-key':'dp-search'});i.value=S.query;
-  listen(i,'input',()=>{S.query=i.value;runSearch();},signal);
+  const i=el('input',{class:'min-h-11 min-w-0 flex-1 bg-transparent px-1 text-base outline-none focus-visible:ring-2 focus-visible:ring-signal-600','aria-label':t.search,placeholder:t.search,maxlength:'80',role:'combobox','aria-autocomplete':'list','aria-controls':'dictionary-results','aria-expanded':String(S.hits.length>0),'data-dictionary-search':'','data-focus-key':'dp-search'});i.value=S.query;
+  listen(i,'input',()=>{S.query=i.value.slice(0,80);runSearch();const clear=barHost.querySelector('[data-dictionary-clear]');if(clear)clear.hidden=!S.query;},signal);
   listen(i,'keydown',e=>{if(!S.hits.length)return;if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();S.active=e.key==='ArrowDown'?Math.min(S.active+1,S.hits.length-1):Math.max(0,S.active-1);paintBody();}if(e.key==='Enter'&&S.hits[S.active>=0?S.active:0]){e.preventDefault();void open(S.hits[S.active>=0?S.active:0]);}},signal);
-  return el('div',{class:'flex min-w-0 items-center gap-2 rounded-xl border border-ink-100 bg-paper-raised p-2'},el('span',{'aria-hidden':'true',class:'pl-1 text-ink-500'},'⌕'),i,S.query?btn('×','btn-ghost min-h-11 min-w-11 px-2',()=>{S.query='';runSearch();paintAll();},{'aria-label':t.clear,'data-dictionary-clear':''}):null,
+  return el('div',{class:'flex min-w-0 items-center gap-2 rounded-xl border border-ink-100 bg-paper-raised p-2'},el('span',{'aria-hidden':'true',class:'pl-1 text-ink-500'},'⌕'),i,btn('×','btn-ghost min-h-11 min-w-11 px-2',()=>{S.query='';runSearch();paintAll();},{'aria-label':t.clear,'data-dictionary-clear':'',hidden:!S.query}),
    el('div',{class:'flex shrink-0 gap-1',role:'group','aria-label':t.search},['EN','UZ'].map(l=>btn(l,`${S.direction===l?'btn-primary':'btn-secondary'} min-h-11 px-3`,()=>{S.direction=l;S.release='';runSearch();paintAll();},{'aria-pressed':String(S.direction===l),'data-dictionary-direction':l}))));
  }
  function hitList(){
@@ -67,15 +72,15 @@ export function dictionaryPanel(ctx,{onEdit,onAddSense,onAddWord}){
    el('div',{class:'max-w-[70ch] space-y-4'},el('div',{},el('h4',{class:'mb-1 text-sm font-semibold'},t.english),el('p',{class:'text-base leading-relaxed'},s.definition_en)),el('div',{},el('h4',{class:'mb-1 text-sm font-semibold text-sky-700'},t.definition),el('p',{class:'text-base leading-relaxed'},s.definition_uz)),
     s.examples.length?el('div',{},el('h4',{class:'mb-2 text-sm font-semibold'},t.examples),el('div',{class:'space-y-2'},s.examples.slice(0,2).map(ex))):null,
     s.examples.length>2?el('details',{class:'rounded-lg border border-ink-100 p-3'},el('summary',{class:'min-h-11 cursor-pointer py-2 font-semibold'},t.moreExamples),s.examples.slice(2).map(x=>el('div',{class:'mt-2'},ex(x)))):null),
-   el('div',{class:'space-y-3'},el('p',{class:'text-sm text-ink-500'},custom?t.custom:t.upstream),btn(t.edit,'btn-primary w-full',()=>onEdit?.(e,s),{'data-dictionary-edit':s.sense_id}),el('div',{class:'flex flex-wrap gap-2'},tags.map(x=>el('span',{class:'rounded-lg bg-paper-sunken px-2 py-1 text-xs text-ink-700'},x))))):null);
+   el('div',{class:'space-y-3'},owner?el('p',{class:'text-sm text-ink-500'},custom?t.custom:t.upstream):null,owner?btn(t.edit,'btn-primary w-full',()=>onEdit?.(e,s),{'data-dictionary-edit':s.sense_id}):btn(S.saved.includes(s.sense_id)?t.saved:t.save,'btn-primary min-h-11 w-full',()=>pickFolder(e,s),{disabled:S.saved.includes(s.sense_id),'data-dictionary-save':s.sense_id}),el('div',{class:'flex flex-wrap gap-2'},tags.map(x=>el('span',{class:'rounded-lg bg-paper-sunken px-2 py-1 text-xs text-ink-700'},x))))):null);
  }
  function entryView(){
   const e=S.entry,all=e.senses.every(s=>S.expanded.includes(s.sense_id)),syn=e.relations.filter(r=>['synonym','synonymy'].includes(r.relation_type.toLowerCase())),rel=e.relations.filter(r=>!['synonym','synonymy'].includes(r.relation_type.toLowerCase()));
-  const relBtn=r=>btn('','btn-secondary',()=>void open({lexeme_id:r.target_lexeme_id,display_lemma:r.display_lemma}),{'data-dictionary-relation':r.target_lexeme_id});
+  const relBtn=r=>btn('','btn-secondary',()=>void open({lexeme_id:r.target_lexeme_id,display_lemma:r.display_lemma},r.display_lemma,'EN'),{'data-dictionary-relation':r.target_lexeme_id});
   const section=(label,rows)=>rows.length?el('details',{class:'card p-4'},el('summary',{class:'min-h-11 cursor-pointer py-2 font-semibold'},label),el('div',{class:'flex flex-wrap gap-2'},rows.map(r=>{const b=relBtn(r);put(b,r.display_lemma+' ',el('span',{class:'text-xs'},dictionaryPos(r.part_of_speech)));return b;}))):null;
   return el('article',{class:'space-y-4','data-dictionary-entry':e.lexeme_id},el('nav',{class:'flex min-h-11 items-center gap-2 text-sm','aria-label':t.allSenses},btn(t.back,'btn-ghost',()=>{stamp++;S.entry=null;S.loading=false;paintAll();},{'data-dictionary-back':''}),el('span',{'aria-hidden':'true'},'›'),el('span',{class:'truncate'},e.display_lemma)),
    el('header',{class:'flex flex-wrap items-start justify-between gap-4'},el('div',{class:'min-w-0'},el('h2',{class:'break-words text-3xl font-bold sm:text-4xl'},e.display_lemma),el('div',{class:'mt-2 flex flex-wrap items-center gap-2 text-sm'},e.pronunciations.map(p=>el('span',{class:'text-ink-500'},`/${p.ipa}/`)),el('span',{class:'rounded-lg bg-sky-50 px-2 py-1 text-sky-700'},dictionaryPos(e.part_of_speech)),el('span',{class:'rounded-lg bg-paper-sunken px-2 py-1 text-ink-700'},e.lexical_type.replaceAll('_',' ')))),btn(all?t.collapseAll:t.expandAll,'btn-primary min-h-11',()=>{S.expanded=all?[]:e.senses.map(s=>s.sense_id);paintAll();},{'data-dictionary-expand-all':''})),
-   el('div',{class:'space-y-3'},e.senses.map((s,i)=>senseView(e,s,i))),btn(t.addSense,'btn-secondary',()=>onAddSense?.(e),{'data-dictionary-add-sense':''}),
+   el('div',{class:'space-y-3'},e.senses.map((s,i)=>senseView(e,s,i))),owner?btn(t.addSense,'btn-secondary',()=>onAddSense?.(e),{'data-dictionary-add-sense':''}):null,
    e.forms.length?el('details',{class:'card p-4'},el('summary',{class:'min-h-11 cursor-pointer py-2 font-semibold'},t.forms),el('p',{class:'leading-relaxed'},e.forms.map(f=>f.surface_form).join(' · '))):null,
    e.collocations.length?el('details',{class:'card p-4'},el('summary',{class:'min-h-11 cursor-pointer py-2 font-semibold'},t.collocations),el('div',{class:'flex flex-wrap gap-2'},e.collocations.map(c=>el('span',{class:'rounded-lg bg-paper-sunken px-3 py-2'},c.text)))):null,
    section(t.synonyms,syn),section(t.relations,rel),el('details',{class:'text-xs text-ink-500'},el('summary',{class:'min-h-11 cursor-pointer py-3'},t.attribution),e.attribution.map(a=>el('p',{class:'mb-2 max-w-[85ch] break-words leading-relaxed'},a.attribution_text))));
@@ -83,9 +88,16 @@ export function dictionaryPanel(ctx,{onEdit,onAddSense,onAddWord}){
  function paintBody(){
   const inp=barHost.querySelector('[data-dictionary-search]');if(inp){inp.setAttribute('aria-expanded',String(S.hits.length>0));if(S.active>=0)inp.setAttribute('aria-activedescendant',`dictionary-hit-${S.active}`);else inp.removeAttribute('aria-activedescendant');}
   setChildren(errHost,S.error?el('div',{role:'alert',class:'card flex flex-wrap items-center gap-3 p-4','data-dictionary-error':''},el('p',{},S.error),btn(t.retry,'btn-secondary',()=>{S.entry=null;S.release='';S.retry++;runSearch();paintAll();},{'data-dictionary-retry':''})):null);
-  setChildren(bodyHost,S.entry?entryView():hitList());
+  recentView?.dispose();recentView=null;
+  if(!S.entry&&!owner){recentView=dictionaryRecent(ctx,S.recent,{pos:dictionaryPos,onOpen:r=>void open(r,r.query_display,r.direction),onClear:async()=>{try{await api.request('/api/dictionary/recent',{method:'DELETE',signal});if(alive()){S.recent=[];paintBody();}}catch{if(alive()){S.error=t.unavailable;paintBody();}}}});setChildren(bodyHost,el('div',{class:'grid min-w-0 gap-4 lg:grid-cols-[240px_minmax(0,1fr)]'},el('aside',{class:S.query.trim()?'hidden lg:block':''},recentView.node),el('div',{class:'min-w-0'},hitList())));}
+  else setChildren(bodyHost,S.entry?entryView():hitList());
  }
  function paintAll(){setChildren(barHost,S.entry?null:bar());paintBody();}
- setChildren(node,barHost,errHost,bodyHost,btn(t.custom,'btn-secondary',()=>onAddWord?.(),{'data-dictionary-add-word':''}));paintAll();
+ async function metadata(recentOnly=false){
+  const values=await Promise.all([api.request('/api/dictionary/recent',{signal}),recentOnly?Promise.resolve(null):api.request('/api/vocabulary/folders',{signal})]);if(!alive())return;S.recent=arr(values[0].recent??[],100);if(values[1])S.folders=arr(values[1].folders??[],1000);paintBody();
+ }
+ function pickFolder(entry,sense){folderDialog?.stop();folderDialog=dictionaryFolderDialog(ctx,{entry,sense,folders:S.folders,onSave:async folderId=>{await api.request('/api/dictionary/save',{method:'POST',body:{lexemeId:entry.lexeme_id,senseId:sense.sense_id,releaseId:entry.release_id,folderId},signal});if(alive()){S.saved=[...new Set([...S.saved,sense.sense_id])];privateScope.invalidate('vocabulary:');paintBody();}},onCreate:async name=>{const result=await api.request('/api/vocabulary/folders',{method:'POST',body:{name},signal});if(!result.folder||typeof result.folder.id!=='string')throw bad();privateScope.invalidate('vocabulary:');return result.folder;}});}
+ setChildren(node,barHost,errHost,bodyHost,owner?btn(t.custom,'btn-secondary',()=>onAddWord?.(),{'data-dictionary-add-word':''}):null);paintAll();
+ if(!owner){void metadata().catch(()=>{if(alive()){S.error=t.unavailable;paintBody();}});if(S.query)runSearch();}
  return node;
 }

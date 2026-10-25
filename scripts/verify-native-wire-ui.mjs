@@ -18,10 +18,12 @@ for(const [path,value] of Object.entries(wire)){
 }
 const routeFor=path=>routes.find(r=>new RegExp('^'+r.pattern.split('/').map(p=>p.startsWith(':')?'[^/]+':p.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('/')+'$').test(path));
 const selected=new Set(['/app/dashboard','/app/progress','/app/mocks','/app/coach','/app/assignments','/app/profile',
+ '/app/vocabulary','/app/vocabulary?tab=revision','/app/vocabulary?tab=use','/app/vocabulary?tab=board','/app/vocabulary/games',
  '/app/grammar','/app/grammar/lessons','/app/listening/lessons','/app/reading/lessons','/app/courses/ielts',
  '/app/video-lessons','/app/reading/academic','/app/reading/general','/app/listening/academic','/app/listening/general',
  '/app/listening/mcq','/app/management','/app/admin/content','/app/admin/materials','/app/owner/audit',
  '/app/teacher/students','/app/owner','/app/admin/statistics']);
+for(const game of ['cards','choice','match','gap','race','translation','builder'])selected.add('/app/vocabulary/games/'+game+'?set=all');
 selected.add('/app/grammar?tab=writing');
 for(const raw of samples.values())if(raw.route){const p=new URL(raw.route,'http://preview.test');
  if(p.pathname==='/app/writing'||/^\/app\/writing\/(exam|translation|grade|language-stealing|lessons)\//.test(p.pathname))selected.add(raw.route);
@@ -53,6 +55,7 @@ for(const path of selected)for(const locale of ['en','uz']){
   if(path==='/app/grammar')assert.equal(h.nav[0]?.path,'/app/grammar/lessons');
   else assert.ok(h.ctx.root.textContent.trim(),'Empty native screen');
   assert.equal(h.qa('[data-integration-required],[data-region-failure],[data-writing-not-found],[data-staff-not-found]').length,0,'Native contract rejected the Python response');
+  assert.equal(h.qa('[data-vocabulary-region-error]').length,0,'Vocabulary server response was not accepted');
   assert.equal(h.qa('[data-async-loading],[aria-busy="true"]').length,0,'Native screen still loading');
   assert.doesNotMatch(h.ctx.root.textContent,/\bundefined\b|\[object Object\]/);
   checks++;

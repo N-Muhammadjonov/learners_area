@@ -1,0 +1,16 @@
+{
+  "scope": "Actual native router/module DOM with captured ASGI JSON served from memory. Imports warmed, JSDOM, one local machine. Excludes browser paint, network, database and serverless cold starts.",
+  "samples": 32,
+  "warmDomReadyMs": {
+    "p50": 6.17,
+    "p95": 17.71,
+    "max": 19.9
+  },
+  "dispatch": {
+    "iterations": 200000,
+    "staticRoutes": 82,
+    "mapMs": 10.28,
+    "regexScanMs": 177.82
+  },
+  "authStateRequests": 0
+}

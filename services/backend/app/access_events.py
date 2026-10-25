@@ -2,6 +2,7 @@
 import asyncio
 import json
 import re
+import uuid
 import asyncpg
 from .db import connection_settings
 
@@ -17,7 +18,7 @@ def access_event_user_id(payload):
 
 class AccessChangeBus:
     def __init__(self):
-        self.listeners={};self.connection=None;self.connecting=None;self.reconnecting=None
+        self.listeners={};self.versions={};self.connection=None;self.connecting=None;self.reconnecting=None
 
     def notify(self,user_id=None):
         targets=self.listeners.values() if user_id is None else [self.listeners.get(user_id,set())]
@@ -40,7 +41,15 @@ class AccessChangeBus:
         try:
             while self.listeners and not self.connection:
                 await asyncio.sleep(5)
-                if await self.ready(self.dsn):self.notify();return
+                if await self.ready(self.dsn):
+                    try:
+                        await self.reconcile_versions()
+                        return
+                    except (OSError,asyncpg.PostgresError,asyncpg.InterfaceError):
+                        connection=self.connection;self.connection=None
+                        if connection:
+                            try:await connection.close()
+                            except (OSError,asyncpg.PostgresError,asyncpg.InterfaceError):pass
         finally:self.reconnecting=None
 
     async def connect(self,dsn):
@@ -71,17 +80,40 @@ class AccessChangeBus:
         finally:
             if task.done() and self.connecting is task:self.connecting=None
 
-    async def subscribe(self,user_id,dsn):
+    async def reconcile_versions(self):
+        """A recovered LISTEN reads durable epochs and wakes only changed users."""
+        connection=self.connection
+        if connection is None:raise ConnectionError('LISTEN connection was lost during reconciliation')
+        ids=list(self.listeners)
+        for offset in range(0,len(ids),500):
+            batch=ids[offset:offset+500]
+            known=[user_id for user_id in batch if user_id in self.versions]
+            current={}
+            if known:
+                rows=await connection.fetch('''SELECT u.id,u.auth_version,
+                    EXISTS(SELECT 1 FROM auth_session_revocations r
+                      WHERE r.user_id=u.id AND r.expires_at>NOW()) AS has_revocations
+                    FROM users u WHERE u.id=ANY($1::uuid[])''',
+                                                 [uuid.UUID(user_id) for user_id in known])
+                current={str(row['id']):(row['auth_version'],row.get('has_revocations',False)) for row in rows}
+            for user_id in batch:
+                version,revoked=current.get(user_id,(None,False))
+                if user_id not in self.versions or any(version!=seen for seen in self.versions[user_id].values()) or revoked:
+                    self.notify(user_id)
+
+    async def subscribe(self,user_id,dsn,version=None):
         queue=asyncio.Queue(maxsize=16)
         self.dsn=dsn
         self.listeners.setdefault(user_id,set()).add(queue)
+        if isinstance(version,int):self.versions.setdefault(user_id,{})[queue]=version
         return queue
 
     async def unsubscribe(self,user_id,queue):
         bucket=self.listeners.get(user_id)
         if bucket:
             bucket.discard(queue)
-            if not bucket:self.listeners.pop(user_id,None)
+            self.versions.get(user_id,{}).pop(queue,None)
+            if not bucket:self.listeners.pop(user_id,None);self.versions.pop(user_id,None)
         if not self.listeners:await self.close()
 
     async def close(self):

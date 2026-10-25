@@ -31,7 +31,7 @@ export function mount(context){
   if(bankMatching===0){region.append(el('p',{class:'text-sm text-ink-500'},dict.speakingPractice.bankEmpty));return;}
   if(state.phase==='choose'){
    const modes=el('div',{class:'grid gap-3 sm:grid-cols-2','data-ai-modes':''});
-   for(const mode of MODES)modes.append(action('',()=>void start(mode),{class:'card flex min-h-24 flex-col items-start gap-1 p-5 text-left hover:bg-paper-sunken disabled:opacity-50',attrs:{'data-ai-mode':mode,...(state.waiting?{disabled:''}:{})}}));
+   for(const mode of MODES)modes.append(action('',()=>void start(mode),{class:'card flex min-h-24 flex-col items-start gap-1 p-5 text-left hover:bg-paper-sunken disabled:cursor-not-allowed disabled:opacity-50',attrs:{'data-ai-mode':mode,...(state.waiting?{disabled:''}:{})}}));
    for(const b of modes.children){const key=b.dataset.aiMode;b.append(el('span',{class:'font-display text-lg text-ink-900'},t.mode[key]),el('span',{class:'text-sm text-ink-500'},t.modeBody[key]));}
    region.append(modes);
    if(state.waiting)region.append(el('p',{'data-ai-loading':'',role:'status'},dict.common.loading));

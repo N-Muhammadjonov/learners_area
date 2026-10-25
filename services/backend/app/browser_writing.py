@@ -27,7 +27,7 @@ async def packs(con):
         return json.loads(Path(__file__).with_name('vocabulary_builtin_packs.json').read_text())
     result = []
     for p in rows:
-        words = [camel(r) for r in await con.fetch('''SELECT l.term,l.part_of_speech,l.definition_en,l.translation_uz,l.example_sentence
+        words = [camel(r) for r in await con.fetch('''SELECT l.term,l.part_of_speech,l.definition_en,l.translation_uz,l.example_sentence AS example,l.collocations
           FROM vocabulary_topic_pack_words w JOIN lexemes l ON l.id=w.lexeme_id WHERE w.pack_id=$1 ORDER BY w.position''', p['id'])]
         result.append({'id': p['slug'], 'label': {'en': p['label_en'], 'uz': p['label_uz'] or p['label_en']}, 'words': words})
     return result
@@ -83,6 +83,19 @@ async def patterns(con, uid, q, library=False):
     return {'patterns':rows,'hasMore':has_more,'nextCursor':encoded,'matching':total,'pageSize':300,'topics':[r['topic'] for r in topics],'bands':[r['target_band'] for r in bands],'savedCount':await con.fetchval('SELECT count(*)::int FROM writing_pattern_bank WHERE user_id=$1',uid)}
 
 
+async def prompt_materials(con, prompt_ids):
+    if not prompt_ids:
+        return {}
+    rows = await con.fetch("""SELECT id,owner_id,type,position,text_content,link_url,object_key,original_name,mime_type,size
+        FROM resource_blocks WHERE owner_type='writing' AND owner_id=ANY($1::uuid[]) ORDER BY position,id""",
+        [identifier(str(id)) for id in prompt_ids])
+    result = {}
+    for row in rows:
+        item = camel(row)
+        result.setdefault(item.pop('ownerId'), []).append(item)
+    return result
+
+
 async def read(req, user, path, q, region):
     uid = user['id']
     # Reuse existing guarded lifecycle reads without nesting pool acquisitions.
@@ -95,12 +108,15 @@ async def read(req, user, path, q, region):
         db = await core.pool()
         async with db.acquire() as con:
             grades = {}
+            prompt_blocks = await prompt_materials(con, [e['promptId'] for e in paper['paper']['entries']])
+            materials = {}
             for entry in paper['paper']['entries']:
+                materials[str(entry['position'])] = prompt_blocks.get(entry['promptId'], [])
                 row = await con.fetchrow('SELECT id,status FROM writing_grade_requests WHERE user_id=$1 AND idempotency_key=$2', uid, f'exam_{id}_{entry["position"]}')
                 if row:
                     ev = await evaluation(con,uid,'writing_grade',row['id'],True)
                     grades[str(entry['position'])] = {'requestId':str(row['id']),'status':row['status'],'overall':ev['overallEstimate'] if ev else None}
-        return {**paper,'grades':grades,'aiReady':await ai_ready()}
+        return {**paper,'grades':grades,'materials':materials,'aiReady':await ai_ready()}
     db = await core.pool()
     async with db.acquire() as con:
         parts = path.split('/')
@@ -139,14 +155,16 @@ async def read(req, user, path, q, region):
             return {'lessons':[camel(r) for r in await con.fetch(f'''SELECT l.id,l.title,l.category,l.summary,l.duration_minutes,p.completed_at FROM writing_lessons l
               LEFT JOIN writing_lesson_progress p ON p.lesson_id=l.id AND p.user_id=$1 WHERE {live('l')} ORDER BY l.position,l.created_at''',uid)]}
         if tab == 'translation':
-            return {'sets':[camel(r) for r in await con.fetch(f'SELECT id,title,topic,question_type,target_band FROM writing_translation_sets WHERE {live()} ORDER BY title')]}
+            return {'sets':[camel(r) for r in await con.fetch(f'SELECT s.id,s.title,s.topic,s.question_type,s.target_band,(SELECT count(*)::int FROM writing_translation_sentences ts WHERE ts.set_id=s.id) sentences FROM writing_translation_sets s WHERE {live()} ORDER BY title')]}
         if tab == 'grade':
             rows = await con.fetch('SELECT id,task_type,left(question_text,160) question_text,word_count,status,created_at FROM writing_grade_requests WHERE user_id=$1 ORDER BY created_at DESC LIMIT 50',uid)
             essays = []
             for r in rows:
                 ev = await evaluation(con,uid,'writing_grade',r['id'],True) if r['status']=='evaluated' else None
                 essays.append({**camel(r),'overall':ev['overallEstimate'] if ev else None})
-            return {'essays':essays,'task1Prompts':[camel(r) for r in await con.fetch(f"SELECT id,category,prompt FROM writing_prompts WHERE task_type='task1' AND {live()} ORDER BY created_at DESC")]}
+            prompts = [camel(r) for r in await con.fetch(f"SELECT id,category,prompt FROM writing_prompts WHERE task_type='task1' AND {live()} ORDER BY created_at DESC")]
+            blocks = await prompt_materials(con, [p['id'] for p in prompts])
+            return {'essays':essays,'task1Prompts':[{**p, 'materials':blocks.get(p['id'], [])} for p in prompts]}
         if tab == 'exam':
             counts = {r['task_type']:r['n'] for r in await con.fetch(f'SELECT task_type,count(*)::int n FROM writing_prompts WHERE {live()} GROUP BY task_type')}
             papers = [camel(r) for r in await con.fetch('SELECT id,mode,started_at,expires_at,finalized_at,finalize_reason FROM writing_exam_papers WHERE user_id=$1 ORDER BY started_at DESC LIMIT 20',uid)]
@@ -160,7 +178,7 @@ async def read(req, user, path, q, region):
                 if p['topic']: topics.setdefault(slug(p['topic']),{'id':slug(p['topic']),'label':{'en':p['topic'],'uz':p['topic']}})
             if q.get('topic'): rows = [r for r in rows if not r['topic'] or slug(r['topic'])==q['topic']]
             saved = {r['term'] for r in await con.fetch('SELECT lower(l.term) term FROM user_vocabulary u JOIN lexemes l ON l.id=u.lexeme_id WHERE u.user_id=$1',uid)}
-            words = [{**w,'packId':p['id'],'saved':w['term'].lower() in saved} for p in canonical if not q.get('topic') or p['id']==q['topic'] for w in p['words']] if q.get('fn') in (None,'','collocation') else []
+            words = [{**w,'example':w.get('example',w.get('exampleSentence','')),'packId':p['id'],'saved':w['term'].lower() in saved} for p in canonical if not q.get('topic') or p['id']==q['topic'] for w in p['words']] if q.get('fn') in (None,'','collocation') else []
             return {'topics':list(topics.values()),'words':words,'patterns':rows}
         if tab == 'language-stealing':
             sources = [camel(r) for r in await con.fetch(f'''SELECT t.id,t.title,t.task_type,t.topic,t.target_band,

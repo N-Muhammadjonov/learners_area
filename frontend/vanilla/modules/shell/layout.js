@@ -1,3 +1,4 @@
+import {navigationIntent} from '../../js/navigation-intent.js';
 import {viewPrewarm} from '../../js/view-prewarm.js';
 import {campusHeader} from '../campus/chrome.js';
 import {enableDiagnostics,rootDiagnosticsEnabled} from '../../js/diagnostics.js';
@@ -38,7 +39,7 @@ export function createShell(context){
  let stopPending=()=>{};
  function end(committed=false){stopPending(committed===true);transition.end();}
  signal.addEventListener('abort',()=>stopPending(),{once:true});
- modulePrewarm({root:host,routes,signal});viewPrewarm({root:host,signal});update(context.url);
+ modulePrewarm({root:host,routes,signal});viewPrewarm({root:host,signal});navigationIntent({root:host,signal});update(context.url);
  return {host,outlet:transition.content,main,sidebar,attachModuleHeader:sections.attach,preferenceFocus:()=>pref.preferenceFocus?.(),update,
   begin:(url,flight,source)=>{end();profile.close();search.close(false);
    const anchor=source?.isConnected?source:null;const stop=beginLinkPending(anchor,flight);

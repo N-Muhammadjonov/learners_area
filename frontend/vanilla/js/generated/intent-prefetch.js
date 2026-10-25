@@ -6,6 +6,12 @@
 const SAFE_INDEX_ROUTES = new Set([
     "/app",
     "/app/dashboard",
+    "/app/management",
+    "/app/assignments",
+    "/app/live-classes",
+    "/app/mocks",
+    "/app/notifications",
+    "/app/support",
     "/app/listening/lessons",
     "/app/listening/academic",
     "/app/listening/general",

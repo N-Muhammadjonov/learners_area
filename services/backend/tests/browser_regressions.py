@@ -20,6 +20,31 @@ def run(con,client,check,uid,password):
         checks+=1
         return r.json()
 
+    # Real Vocabulary writes, folder ownership, all seven games, and independent SRS progression.
+    added=call('POST','/api/vocabulary',{'sourceType':'manual','items':[
+        {'term':'run','definitionEn':'move quickly','translationUz':'yugurmoq','exampleSentence':'I run every day.'},
+        {'term':'walk','definitionEn':'move on foot','translationUz':'yurmoq','exampleSentence':'We walk to school.'}]})
+    assert added['added']==2
+    library=check('/api/vocabulary?limit=50&offset=0')['words'];assert len(library)==2
+    word=next(w for w in library if w['term']=='run');other=next(w for w in library if w['term']=='walk')
+    folder=call('POST','/api/vocabulary/folders',{'name':'Practice'})['folder']
+    assert call('POST','/api/vocabulary/folders',{'entryIds':[word['id']],'folderId':folder['id']})['moved']==1
+    assert check('/api/vocabulary/sentences?view=words&limit=100&offset=0&folderId='+folder['id'])['words'][0]['id']==word['id']
+    stage=asyncio.run(con.fetchval('SELECT srs_stage FROM user_vocabulary WHERE id=$1',word['id']))
+    for game in ('cards','choice','match','gap','race','translation','builder'):
+        dataset=check('/api/vocabulary/games?set=all&limit=24&random=1&game='+game)
+        assert len(dataset['words'])==2
+        submission=({'kind':'self','known':True} if game=='cards' else {'kind':'pair','pairEntryId':word['id']} if game=='match' else {'kind':'sentence','text':'I run every day.'} if game=='builder' else {'kind':'spelling','text':'run'})
+        result=call('POST','/api/vocabulary/games',{'entryId':word['id'],'set':'all','gameId':game,'submission':submission})
+        assert result['correct'] is True and result['verified']==(game!='cards')
+        assert asyncio.run(con.fetchval('SELECT srs_stage FROM user_vocabulary WHERE id=$1',word['id']))==stage
+    reviewed=call('POST','/api/vocabulary/'+word['id']+'/review',{'outcome':'correct'})
+    assert reviewed['srsStage']==stage+1 and reviewed['intervalDays']>1
+    assert call('POST','/api/vocabulary/'+other['id']+'/review',{'outcome':'incorrect'})['srsStage']==0
+    check('/api/vocabulary/summary');check('/api/vocabulary/folders');check('/api/vocabulary/leaderboard');check('/api/vocabulary/leaderboard?view=standing')
+    check('/api/vocabulary/due?limit=40');check('/api/vocabulary/sentences?view=words&limit=100&offset=0')
+    checks+=6
+
     # More than one 60-card lesson page, with many newer rows in another area.
     sql('''INSERT INTO lessons(id,unit_id,slug,title,"order",learning_area,publication_state,default_state,updated_at)
       SELECT ('10000000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid,$1,'page-fixture-'||n,'Page lesson '||n,n,
@@ -73,9 +98,18 @@ def run(con,client,check,uid,password):
     check('/api/frontend/view?'+urlencode({'route':'/app/writing?'+urlencode({'tab':'language-stealing','fn':'trend','cursor':cursor})}),400)
     checks+=4
 
+    # Prompt visuals must travel with the authorized paper and Grade setup.
+    sql("INSERT INTO resource_blocks(owner_type,owner_id,type,position,object_key,original_name,created_by_user_id) VALUES('writing',$1,'image',0,'writing/fixture-chart.png','Fixture chart',$2)",id('writing-prompt'),id('teacher'))
+    sql("INSERT INTO writing_prompts(id,task_type,category,prompt,target_word_count,publication_state) VALUES($1,'task1','Chart','Summarise this authored chart.',150,'published')",id('task1-prompt'))
+    sql("INSERT INTO resource_blocks(owner_type,owner_id,type,position,object_key,original_name,created_by_user_id) VALUES('writing',$1,'image',0,'writing/fixture-task1.png','Task 1 chart',$2)",id('task1-prompt'),id('teacher'))
+    setup=view('/app/writing?tab=grade')
+    assert setup['task1Prompts'][0]['materials'][0]['objectKey']=='writing/fixture-task1.png';checks+=1
+
     # Native exam read matches the existing revision-safe write lifecycle.
     exam=call('POST','/api/writing/exam',{'mode':'task2'})['id']
-    assert view('/app/writing/exam/'+exam)['paper']['entries'][0]['content']==''
+    loaded_paper=view('/app/writing/exam/'+exam)
+    assert loaded_paper['paper']['entries'][0]['content']==''
+    assert loaded_paper['materials']['1'][0]['objectKey']=='writing/fixture-chart.png'
     call('PUT','/api/writing/exam/'+exam+'/draft',{'position':1,'revision':2,'content':'A saved examination draft.'})
     assert call('PUT','/api/writing/exam/'+exam+'/draft',{'position':1,'revision':1,'content':'Stale overwrite'})['stale']
     assert view('/app/writing/exam/'+exam)['paper']['entries'][0]['content']=='A saved examination draft.'
@@ -87,6 +121,7 @@ def run(con,client,check,uid,password):
       VALUES($1,'Authored translation','education','opinion',8,'An authored question.','isolated test','published')''',id('translation'))
     sql('''INSERT INTO writing_translation_sentences(id,set_id,position,uzbek_source,model_english)
       VALUES($1,$2,1,'Men kitob o‘qiyman.','I read books.')''',id('sentence'),id('translation'))
+    assert view('/app/writing?tab=translation')['sets'][0]['sentences']==1;checks+=1
     translation=call('POST','/api/writing/translation',{'setId':id('translation')})['id']
     before=view('/app/writing/translation/'+translation)['view']
     assert 'model' not in before['current'] and before['finished']==[]

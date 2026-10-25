@@ -48,7 +48,7 @@ export async function mount(context){
   if(/^\/app\/reading\/general\/[^/]+$/.test(path)){ensureFocusStyles();return (await import('./general-session.js')).mountGeneralSession(focusContext(ctx));}
  if(path==='/app/reading/academic')return (await import('./academic.js')).mountAcademicCatalogue(ctx);
   if(/^\/app\/reading\/academic\/[^/]+$/.test(path)){ensureFocusStyles();return (await import('./academic.js')).mountAcademicSet(focusContext(ctx));}
-  if(/^\/app\/reading\/attempts\/[^/]+$/.test(path)){ensureFocusStyles();return (await import('./attempt.js')).mountAttempt(focusContext(ctx));}
+  if(/^\/app\/reading\/attempts\/[^/]+$/.test(path))return (await import('./attempt.js')).mountAttempt(ctx);
  const {mount:notFound}=await import('../not-found.js');
  return notFound(ctx);
 }

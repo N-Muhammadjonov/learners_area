@@ -1,3 +1,4 @@
+function microphoneIcon(){const span=document.createElement('span');span.className='practice-part-mic';span.setAttribute('aria-hidden','true');const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');for(const [k,v]of Object.entries({width:'32',height:'32',viewBox:'0 0 24 24',fill:'none',stroke:'currentColor','stroke-width':'2'}))svg.setAttribute(k,v);for(const [tag,attrs]of [['rect',{x:9,y:2,width:6,height:12,rx:3}],['path',{d:'M5 10v2a7 7 0 0 0 14 0v-2M12 19v3'}]]){const node=document.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))node.setAttribute(k,String(v));svg.append(node);}span.append(svg);return span;}
 import {el,listen} from '../../js/dom.js';
 import {api} from '../../js/api-client.js';
 import {localAnswerRecorder} from './recorder.js';
@@ -23,14 +24,14 @@ export function mount(context){
  const msg=el('p',{role:'status','aria-live':'polite',class:'sr-only','data-practice-status':''});
  const breadcrumb=el('nav',{'aria-label':t.stepsLabel,class:'flex flex-wrap items-center gap-2 text-sm text-ink-500'});
  const body=el('div',{});studio.append(msg,breadcrumb,body);
- breadcrumb.append(button(t.choosePart,()=>go(null,null),{class:'min-h-11 rounded-md px-2 hover:text-ink-900','data-practice-crumb':'part'}));
- if(part)breadcrumb.append(el('span',{'aria-hidden':'true'},'›'),button(t.part[part],()=>go(part,null),{class:'min-h-11 rounded-md px-2 hover:text-ink-900','data-practice-crumb':'topic'}));
+ breadcrumb.append(button(t.choosePart,()=>go(null,null),{class:'min-h-11 rounded-md px-2 hover:text-ink-900 disabled:opacity-50','data-practice-crumb':'part'}));
+ if(part)breadcrumb.append(el('span',{'aria-hidden':'true'},'›'),button(t.part[part],()=>go(part,null),{class:'min-h-11 rounded-md px-2 hover:text-ink-900 disabled:opacity-50','data-practice-crumb':'topic'}));
  function showPart(){
   studio.dataset.practiceStep='part';msg.textContent=t.choosePart;
   const list=el('div',{class:'motion-enter-stagger grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4','data-practice-parts':''});
   for(const [i,p] of PARTS.entries()){
-   list.append(button('',()=>go(p,null),{class:'practice-part-card motion-lift relative flex min-h-64 flex-col items-start gap-3 overflow-hidden rounded-3xl border p-6 text-left','data-practice-part':p}));
-   list.lastChild.append(el('span',{'aria-hidden':'true',class:'practice-part-number'},String(i+1)),el('span',{'aria-hidden':'true',class:'practice-part-mic'},'🎙'),el('span',{class:'practice-part-label text-sm font-bold uppercase tracking-widest'},t.part[p]),el('span',{class:'relative font-display text-3xl font-bold text-ink-900'},t.partTitle[p]),el('span',{class:'relative text-base text-ink-500'},t.partBody[p]),el('span',{class:'mt-auto text-xs text-ink-500','data-practice-part-count':p},dict.common.loading));
+   list.append(button('',()=>go(p,null),{class:'practice-part-card motion-lift relative flex min-h-64 flex-col items-start gap-3 overflow-hidden rounded-3xl border p-6 text-left disabled:cursor-not-allowed disabled:opacity-50','data-practice-part':p}));
+   list.lastChild.append(el('span',{'aria-hidden':'true',class:'practice-part-number'},String(i+1)),microphoneIcon(),el('span',{class:'practice-part-label text-sm font-bold uppercase tracking-widest'},t.part[p]),el('span',{class:'relative font-display text-3xl font-bold text-ink-900'},t.partTitle[p]),el('span',{class:'relative text-base text-ink-500'},t.partBody[p]),el('span',{class:'mt-auto text-xs text-ink-500','data-practice-part-count':p},dict.common.loading));
   }
   body.replaceChildren(list);
   const token=++state.token;

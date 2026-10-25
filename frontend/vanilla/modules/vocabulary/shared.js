@@ -1,3 +1,4 @@
+import {readCatalogue} from '../../js/catalogue-cache.js';
 /** Source-led, native DOM Vocabulary presentation; no Next/React, HTML injection, or private persistent storage. */
 import {h} from '../../js/native.js';
 import {api,ApiError} from '../../js/api-client.js';
@@ -23,9 +24,9 @@ export const parseBulk=s=>String(s).split(/\n+/).map(v=>v.trim()).filter(Boolean
 export const truth=x=>x&&typeof x==='object'&&!Array.isArray(x);
 export function inputLabel(label,opts={}){return h('label',{class:'flex min-w-0 flex-col gap-1 text-xs text-ink-500'},label,h('input',{class:'input w-full',...opts}));}
 /** Strict JSON transport, server-owned score; no silent optimistic success. */
-export async function request(path,{method='GET',body,signal}={}){
+export async function request(path,{method='GET',body,signal,timeoutMs}={}){
  if(!/^\/api\/[A-Za-z0-9/?%=&._-]+$/.test(path))throw new TypeError('Invalid API path');
- const result=await api.request(path,{method,body,signal});
+ const result=await (method==='GET'?readCatalogue(path,{signal,timeoutMs}):api.request(path,{method,body,signal,timeoutMs}));
  if(!truth(result)||result.ok===false||result.error)throw new ApiError(502,typeof result?.error==='string'?result.error:'invalid_response');
  return result;
 }

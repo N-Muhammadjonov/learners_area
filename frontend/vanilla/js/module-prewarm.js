@@ -5,7 +5,7 @@ export function modulePrewarm({root,routes,signal,window:win=window,document:doc
  if(signal.aborted)return {warm:async()=>false,dispose(){}};
  const budget=new IntentPrefetchBudget();let timer,index=0,inflight=0,stopped=false;
  const allowed=()=>!stopped&&!signal.aborted&&nav.onLine!==false&&doc.visibilityState==='visible'&&!nav.connection?.saveData&&!['2g','slow-2g'].includes(nav.connection?.effectiveType);
- async function warm(raw){if(!allowed()||inflight>=2)return false;const target=eligibleIntentTarget(raw,win.location.origin,win.location.href),route=routes.find(r=>r.pattern===target&&r.protected&&!r.redirectOnly);if(!target||!route||!budget.take(target,clock()))return false;inflight++;
+ async function warm(raw){if(!allowed()||inflight>=2)return false;let target=eligibleIntentTarget(raw,win.location.origin,win.location.href);if(!target){try{const u=new URL(raw,win.location.origin);if(u.origin===win.location.origin&&u.pathname==='/app/writing'&&u.searchParams.size===1&&['lessons','exam','translation','typing','topic-vocabulary','grade','activation','language-stealing'].includes(u.searchParams.get('tab'))&&!u.hash)target=u.pathname+u.search;}catch{}}const route=routes.find(r=>r.pattern===(target?.split('?')[0])&&r.protected&&!r.redirectOnly);if(!target||!route||!budget.take(target,clock()))return false;inflight++;
   try{const module=await route.load();if(allowed())await module.preload?.(new URL(target,win.location.origin));}catch{ /* A prewarm failure never blocks deliberate navigation. */ }finally{inflight--;}
   return true;
  }

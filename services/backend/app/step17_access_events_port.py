@@ -19,13 +19,20 @@ async def changes(req:Request):
     if not authority or authority['user']['account_status']!='active':return core.j({'error':'unauthenticated'},401)
     async def stream():
         user_id=str(authority['user']['id'])
-        events=await bus.subscribe(user_id,dsn)
+        events=await bus.subscribe(user_id,dsn,authority['authVersion'])
         try:
             yield b'retry: 5000\n\n'
             if not await bus.ready(dsn):
                 yield b'event: unavailable\ndata: {}\n\n'
                 return
-            yield b'event: access-changed\ndata: {}\n\n'
+            # LISTEN is established before this second snapshot, closing the
+            # gap between the first access check and the event subscription.
+            core.forget_authority(req)
+            latest=await core.current_authority(req)
+            if not latest or latest['user']['account_status']!='active':
+                yield b'event: session-revoked\ndata: {}\n\n'
+                return
+            yield b'event: ready\ndata: {}\n\n'
             while True:
                 expiry=authority['expiresAt']-time.time()
                 if expiry<=0:

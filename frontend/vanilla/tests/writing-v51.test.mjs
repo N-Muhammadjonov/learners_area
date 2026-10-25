@@ -5,7 +5,7 @@ import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import assert from 'node:assert/strict';
 const root=resolve(import.meta.dirname,'../modules/writing');
-const modules=['shared','index','home','lessons','exam','translation','typing','topic','grade','activation','stealing','submissions'];
+const modules=['shared','index','home','lessons','exam','translation','typing','topic','grade','activation','stealing','submissions','grade-form','activation-ui','typing-controls','pattern-actions'];
 for(const name of modules){
  const file=join(root,`${name}.js`);
  assert.ok(existsSync(file),`Missing ${name}.js`);
@@ -17,7 +17,7 @@ for(const name of modules){
 const source=name=>readFileSync(join(root,`${name}.js`),'utf8');
 assert.match(source('shared'),/data\?\.error\?\.code/);
 assert.match(source('shared'),/!res\.ok/);
-assert.match(source('grade'),/if\(!uuid\(res\.id\)\)/);
+assert.match(source('grade-form'),/if\(!uuid\(result\.id\)\)/);
 assert.match(source('typing'),/starting=false;finishing=false/);
 assert.match(source('typing'),/generation!==requestGeneration/);
 assert.match(source('typing'),/function graphSvg\(/);
@@ -31,4 +31,4 @@ assert.match(source('topic'),/sentence_frame:'frames'/);
 assert.match(source('topic'),/data-topic-patterns/);
 assert.match(source('lessons'),/\/api\/writing\/lessons\/\$\{id\}`,[^\n]+,'POST'/);
 assert.ok(existsSync(join(root,'writing.css')));
-console.log('V50: 12/12 JavaScript files pass strict ESM parsing; focused source contracts PASS.');
+console.log(`Writing: ${modules.length}/${modules.length} JavaScript files pass strict ESM parsing; focused source contracts PASS.`);

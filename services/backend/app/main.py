@@ -70,7 +70,7 @@ def auth_disabled():
     return j({'error': 'authentication_method_disabled'}, 403, {'Cache-Control': 'no-store'})
 
 
-async def current_authority(req: Request):
+async def _load_authority(req: Request):
     token = verify_token(req.cookies.get(SESSION_COOKIE))
     if not token: return None
     identifier = uuid_value(token['sub'])
@@ -88,6 +88,26 @@ async def current_authority(req: Request):
     if not row: return None
     user = dict(row)
     return {'user': user, 'expiresAt': token['expiresAt'], 'sessionKey': token['sessionKey'], 'authVersion': token['authVersion']}
+
+
+def forget_authority(req: Request):
+    """Long-lived event handshakes can explicitly request a fresh snapshot."""
+    state = req.scope.setdefault('state', {})
+    state.pop('_la_authority', None)
+
+
+async def current_authority(req: Request):
+    """Deduplicate identity reads inside ONE HTTP request; never across requests."""
+    scope = getattr(req, 'scope', None)
+    if not isinstance(scope, dict):
+        return await _load_authority(req)
+    state = scope.setdefault('state', {})
+    cookie = req.cookies.get(SESSION_COOKIE)
+    cached = state.get('_la_authority')
+    if cached is None or cached[0] != cookie:
+        cached = (cookie, asyncio.create_task(_load_authority(req)))
+        state['_la_authority'] = cached
+    return await cached[1]
 
 
 async def current_user(req: Request, active=False):
