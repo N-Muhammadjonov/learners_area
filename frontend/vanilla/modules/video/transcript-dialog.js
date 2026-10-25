@@ -12,7 +12,7 @@ function ensureStyles(){
  document.head.append(link);
 }
 
-export function openTranscriptDialog({context,id,text,dict,onClose}){
+export function openTranscriptDialog({context,id,text,dict,attribution,onClose}){
  ensureStyles();
  const t=dict.videoLesson;
  let done=false;
@@ -20,7 +20,7 @@ export function openTranscriptDialog({context,id,text,dict,onClose}){
  const close=el('button',{type:'button',class:'btn-secondary'},dict.globalDictionary.close);
  const dialog=el('dialog',{class:'video-transcript-dialog','aria-labelledby':'video-transcript-heading'},
   el('header',{class:'flex items-center justify-between gap-4'},el('h2',{id:'video-transcript-heading',class:'text-xl font-semibold'},t.tabs.transcript),close),
-  body.node);
+  body.node,attribution?el('p',{class:'mt-3 text-xs text-ink-500'},`${t.transcriptProvenance}: ${attribution}`):null);
  function finish(){
   if(done)return;
   done=true;

@@ -2487,3 +2487,11 @@ dialog {
 [data-theme] :is(.race-feedback--correct,.race-feedback--incorrect){--ink-900:243 238 229;--ink-700:234 239 247;--ink-500:205 223 237;color:#f3eee5}
 [data-theme] .race-feedback--incorrect{background:#471c29;border-color:#ff998f;--band-bad:255 153 143}
 [data-theme] .race-answer-box--incorrect{background:#7f1d1d;color:#fff;border-color:#ff998f}
+
+/* Focus Mode night background sampled from the approved colour swatch. */
+[data-theme="night"][data-focus="on"] {
+  --paper: 20 23 52;
+}
+[data-theme="night"][data-focus="on"] .focus-surface {
+  background-color: #141734;
+}

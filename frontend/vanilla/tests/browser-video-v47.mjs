@@ -1,5 +1,5 @@
 /** V47 TED / PODCAST browser checks: library states, standalone and course studio, YouTube message protocol with a
- * local fake player (served by route interception), progress and END writes, direct media, recorder permission path,
+ * local fake player (served by route interception), progress and END writes, direct media, student notes and transcript modal,
  * navigation teardown, responsive layout and EN/UZ labels. Synthetic fixtures only; no network to real providers. */
 import {chromium as playwright} from 'playwright-core';
 import chromium from '@sparticuz/chromium';
@@ -202,10 +202,8 @@ await check('standalone detail: YouTube embed rules, resume start, no autoplay, 
   assert.equal(await frame.getAttribute('sandbox'),'allow-scripts allow-same-origin allow-presentation');
   assert.equal(await frame.getAttribute('allow'),'encrypted-media; picture-in-picture; fullscreen');
   assert.equal(await frame.getAttribute('referrerpolicy'),'strict-origin-when-cross-origin');
-  assert.deepEqual(await f.page.locator('[data-video-tab]').evaluateAll(ns=>ns.map(n=>n.getAttribute('data-video-tab'))),['before','transcript','notes','comprehension','gap','vocabulary','opinion','summary']);
+  assert.deepEqual(await f.page.locator('[data-video-tab]').evaluateAll(ns=>ns.map(n=>n.getAttribute('data-video-tab'))),['description','notes','vocabulary','ownNotes']);
   await f.page.locator('[data-video-tab=notes]').click();
-  assert.equal(await f.page.locator('[data-video-notes]').getAttribute('data-video-notes'),'hidden');
-  await f.page.locator('[data-video-notes-reveal]').click();
   assert.equal(await f.page.locator('[data-video-notes]').getAttribute('data-video-notes'),'shown');
   assert.equal(await f.page.locator('[data-video-notes]').textContent(),'Synthetic notes text');
   assert.equal(await f.page.locator('[data-video-detail-meta]').textContent(),'18 min');
@@ -213,12 +211,12 @@ await check('standalone detail: YouTube embed rules, resume start, no autoplay, 
   assert.deepEqual(f.errors,[]);
  }finally{await close(f);}
 });
-await check('standalone: authored transcript uses the same Transcript tab as Main',async()=>{
+await check('standalone: Transcript button opens a modal while Description remains selected',async()=>{
  const f=await fixture({view:r=>r==='/app/video-lessons/'+SA1?standaloneDetail():undefined});
  try{
   await f.page.goto(base+'/app/video-lessons/'+SA1);
-  await f.page.locator('[data-video-tab=transcript]').click();
-  assert((await f.page.locator('[data-video-transcript-panel]').textContent()).includes('Hello there synthetic.'));
+  await f.page.locator('[data-video-transcript-button]').click();
+  assert((await f.page.locator('.video-transcript-dialog').textContent()).includes('Hello there synthetic.'));
   assert.equal(await f.page.locator('[data-video-open-transcript]').count(),0);
  }finally{await close(f);}
 });
@@ -251,34 +249,29 @@ await check('standalone vocabulary failure shows a localized alert and keeps the
   assert(!await f.page.locator('[data-video-vocabulary] button').isDisabled());
  }finally{await close(f);}
 });
-await check('standalone summary: preserves opinion and summary, server state decides the visible verdict',async()=>{
+await check('standalone own notes save without overwriting older responses; server decides progress',async()=>{
  const f=await fixture({
   view:r=>r==='/app/video-lessons/'+SA1?standaloneDetail():undefined,
   api:(p,{method})=>p.endsWith('/response')&&method==='POST'?{state:'completed'}:undefined,
  });
  try{
   await f.page.goto(base+'/app/video-lessons/'+SA1);
-  await f.page.locator('[data-video-tab=summary]').click();
-  await f.page.locator('[data-video-summary-input]').fill('I learned about synthetic things.');
+  await f.page.locator('[data-video-tab=ownNotes]').click();
+  await f.page.locator('[data-video-own-notes-input]').fill('I learned about synthetic things.');
   await f.page.locator('[data-video-save-response]').click();
   await f.page.locator('[data-video-response-state=saved]').waitFor();
-  assert.deepEqual(posts(f,'/response')[0].body,{responseText:'',summaryText:'I learned about synthetic things.'});
+  assert.deepEqual(posts(f,'/response')[0].body,{summaryText:'I learned about synthetic things.'});
   assert.equal(await f.page.locator('[data-video-state]').first().getAttribute('data-video-state'),'completed');
   assert.equal(await f.page.locator('[data-video-progress-state]').textContent(),en.videoLesson.stateCompleted);
  }finally{await close(f);}
 });
-await check('standalone recorder: no microphone before a click; permission denial is shown and nothing is recorded',async()=>{
+await check('standalone: removed exercises and recorder never render or request the microphone',async()=>{
  const f=await fixture({view:r=>r==='/app/video-lessons/'+SA1?standaloneDetail():undefined});
  try{
-  await f.page.goto(base+'/app/video-lessons/'+SA1);
-  await f.page.locator('[data-video-tab=summary]').click();
-  await f.page.locator('[data-local-reflection]').waitFor();
-  assert.equal(await f.page.evaluate(()=>window.__gum),0,'no microphone request before a click');
-  await f.page.locator('[data-local-reflection] button').first().click();
-  await f.page.locator('[data-local-reflection] [role=alert]').waitFor();
-  assert.equal(await f.page.locator('[data-local-reflection] [role=alert]').textContent(),en.videoLesson.voiceSummary.permissionDenied);
-  assert.equal(await f.page.evaluate(()=>window.__gum),1);
-  assert.equal(await f.page.locator('[data-local-reflection] audio').count(),0);
+  await f.page.goto(base+'/app/video-lessons/'+SA1);await f.page.locator('[data-video-description]').waitFor();
+  for(const name of ['notes','vocabulary','ownNotes'])await f.page.locator('[data-video-tab='+name+']').click();
+  assert.equal(await f.page.locator('[data-video-answer-input],[data-local-reflection],[data-ted-study-pack]').count(),0);
+  assert.equal(await f.page.evaluate(()=>window.__gum),0);
  }finally{await close(f);}
 });
 await check('YouTube progress: periodic write after 5 new seconds, one END write, replay without resume offset',async()=>{
@@ -381,46 +374,26 @@ await check('detail responsive 390px: no horizontal overflow, tabs wrap',async()
 });
 
 // ---------- Course mode ----------
-await check('course studio: course tabs, transcript as a tab, no recorder, Comprehension verdict from server only',async()=>{
- const f=await fixture({
-  view:r=>r==='/app/courses/ielts/lessons/'+L1?courseLessonDetail(courseVideo()):undefined,
-  api:(p,{method,body})=>p.endsWith('/answers')&&method==='POST'?{graded:{[QC1]:{answer:body.answers[QC1],correct:true}},state:'completed',completedAt:null}:undefined,
- });
+await check('course studio: Description opens first and only learning materials remain',async()=>{
+ const f=await fixture({view:r=>r==='/app/courses/ielts/lessons/'+L1?courseLessonDetail(courseVideo()):undefined});
  try{
-  await f.page.goto(base+'/app/courses/ielts/lessons/'+L1);
-  await f.page.locator('[data-video-lesson]').waitFor();
-  assert.deepEqual(await f.page.locator('[data-video-tab]').evaluateAll(ns=>ns.map(n=>n.getAttribute('data-video-tab'))),['transcript','notes','comprehension','gap','opinion','summary']);
-  assert.equal(await f.page.locator('[data-video-open-transcript]').count(),0);
-  assert.equal(await f.page.locator('[data-local-reflection]').count(),0);
+  await f.page.goto(base+'/app/courses/ielts/lessons/'+L1);await f.page.locator('[data-video-lesson]').waitFor();
+  assert.deepEqual(await f.page.locator('[data-video-tab]').evaluateAll(ns=>ns.map(n=>n.getAttribute('data-video-tab'))),['description','notes','vocabulary']);
+  assert.equal(await f.page.locator('[data-video-tab-active]').getAttribute('data-video-tab-active'),'description');
+  assert.equal(await f.page.locator('[data-video-answer-input],[data-local-reflection]').count(),0);
   assert.equal(await f.page.locator('iframe[data-video-frame]').count(),1);
-  await f.page.locator('[data-video-tab=comprehension]').click();
-  await f.page.locator(`[data-video-answer-input="${QC1}"]`).fill('water');
-  await f.page.locator('[data-video-comprehension] button').click();
-  await f.page.locator('[data-video-answer=correct]').waitFor();
-  assert.deepEqual(posts(f,'/answers')[0].body,{answers:{[QC1]:'water'}});
-  assert.equal(await f.page.locator('[data-video-state]').first().getAttribute('data-video-state'),'completed');
-  assert.equal(f.state.requests.filter(r=>r.path.endsWith('/answers')).length,1);
-  // Empty drafts send nothing.
-  await f.page.locator('[data-video-tab=gap]').click();
-  await f.page.locator('[data-video-gap] button').click();
-  await f.page.waitForTimeout(200);
-  assert.equal(posts(f,'/answers').length,1,'empty check must not send a request');
+  assert.equal(await f.page.locator('[data-lesson-notes-panel]').count(),1);
  }finally{await close(f);}
 });
-await check('course studio: opinion and summary save together; plain transcript shows its text',async()=>{
- const f=await fixture({
-  view:r=>r==='/app/courses/ielts/lessons/'+L1?courseLessonDetail(courseVideo()):undefined,
-  api:(p,{method})=>p.endsWith('/response')&&method==='POST'?{state:'in_progress'}:undefined,
- });
+await check('course studio: plain transcript opens from a button and course notes stay available',async()=>{
+ const f=await fixture({view:r=>r==='/app/courses/ielts/lessons/'+L1?courseLessonDetail(courseVideo()):undefined});
  try{
-  await f.page.goto(base+'/app/courses/ielts/lessons/'+L1);
-  await f.page.locator('[data-video-tab=transcript]').click();
-  assert.equal((await f.page.locator('[data-video-transcript-text]').textContent()),'Plain transcript paragraph.');
-  await f.page.locator('[data-video-tab=opinion]').click();
-  await f.page.locator('[data-video-opinion-input]').fill('My opinion.');
-  await f.page.locator('[data-video-save-response]').click();
-  await f.page.locator('[data-video-response-state=saved]').waitFor();
-  assert.deepEqual(posts(f,'/response')[0].body,{responseText:'My opinion.',summaryText:''});
+  await f.page.goto(base+'/app/courses/ielts/lessons/'+L1);await f.page.locator('[data-video-transcript-button]').click();
+  await f.page.locator('.video-transcript-dialog').waitFor();
+  assert((await f.page.locator('.video-transcript-dialog').textContent()).includes('Plain transcript paragraph.'));
+  await f.page.locator('.video-transcript-dialog button').first().click();
+  assert.equal(await f.page.locator('.video-transcript-dialog').count(),0);
+  assert.equal(await f.page.locator('[data-lesson-notes-panel]').count(),1);
  }finally{await close(f);}
 });
 await check('course studio retry does not leave a second player behind',async()=>{

@@ -1,13 +1,12 @@
 import {el} from '../../js/dom.js';
 import {embedUrlFor,safeEmbedOrigin,formatClock} from './provider.js';
 import {createVideoVocabulary} from './vocabulary.js';
-import {createTedStudyPractice,findTedStudyPack} from './study-practice.js';
+import packs from './study-pack-data.js';
 
-/** Shared TED / PODCAST studio (original src/components/courses/VideoLessonStudio.tsx).
- * mode "standalone": authored stages and A–I TED study practice, reflection recorder on Summary.
- * mode "course":     tabs before?/transcript?/notes?/comprehension?/gap?/vocabulary?/opinion/summary, transcript as a tab.
- * Grading, completion and progress are decided by the server; the client sends text and displays what comes back.
- * Everything it starts (player listeners, timers, requests, recorder, dialog) is torn down by destroy() or the route signal. */
+/** Shared TED / PODCAST player and learning materials. Description opens first.
+ * Course lessons retain their existing existing lesson-notes panel; standalone
+ * notes use the existing summaryText field without overwriting older responses.
+ * Player listeners, requests and dialogs belong to the studio lifetime. */
 
 const YOUTUBE_ORIGIN='https://www.youtube-nocookie.com';
 const PROGRESS_STEP=5;      // at least 5 new watched seconds before a periodic write
@@ -16,22 +15,10 @@ let studioSeq=0;
 
 const tabClass=(active)=>`rounded-sm px-3 py-1.5 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal-600 ${active?'bg-signal-600 text-white':'bg-ink-100 text-ink-700 hover:bg-ink-200'}`;
 
-function tabsFor(studyPack,lesson,{hasTranscript,notes,comprehension,gapFill,vocabulary}){
- const list=[];
- if(lesson.beforeYouWatch?.trim())list.push('before');
- if(hasTranscript)list.push('transcript');
- if(notes)list.push('notes');
- if(comprehension>0)list.push('comprehension');
- if(gapFill>0)list.push('gap');
- if(vocabulary>0)list.push('vocabulary');
- if(!studyPack)list.push('opinion','summary');
- return list;
-}
-
 /** `video`: { videoLesson, questions, progress, vocabulary, directMedia, embedOrigin } (video-v47.js videoStudioDTO). */
 export function createVideoStudio(context,{mode,video}){
  const {dict,signal}=context,t=dict.videoLesson;
- const lesson=video.videoLesson,questions=video.questions,progress=video.progress;
+ const lesson=video.videoLesson,progress=video.progress;
  const isDirect=lesson.provider==='direct';
  const own=new AbortController(),life=own.signal;
  let destroyed=false;
@@ -41,26 +28,23 @@ export function createVideoStudio(context,{mode,video}){
  const timed=(lesson.transcript??[]).filter(line=>line.text.trim().length>0);
  const plain=(lesson.transcriptText??'').trim();
  const hasTranscript=timed.length>0||plain.length>0;
- const comprehension=questions.filter(q=>q.stage==='comprehension');
- const gapFill=questions.filter(q=>q.stage==='gap_fill');
  const vocabWords=video.vocabulary.items;
- const studyPack=mode==='standalone'?findTedStudyPack(lesson.title):null;
- const tabs=tabsFor(studyPack,lesson,{hasTranscript,notes:notes.length>0,comprehension:comprehension.length,gapFill:gapFill.length,vocabulary:vocabWords.length});
+ const normalize=value=>value.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+ const glossary=mode==='standalone'?packs.find(pack=>normalize(pack.title)===normalize(lesson.title))?.glossary:null;
+ const tabs=['description','notes','vocabulary',...(mode==='standalone'?['ownNotes']:[])];
  const tabIdBase=`video-studio-${++studioSeq}`;
 
  // ---- Mutable state (plain variables: high-frequency player data never re-renders the tabs) ----
  let state=progress?.state??'not_started';
- let tab=tabs[0]??'opinion';
+ let tab='description';
  let tracking=false, liveTime=null, blocked=false, ended=false, generation=0, finalizedGeneration=-1;
  let restartAt=progress&&progress.state!=='completed'&&Number.isFinite(progress.watchedSeconds)&&progress.watchedSeconds>=5?Math.floor(progress.watchedSeconds):0;
  let reported=progress?.watchedSeconds??0;
- let graded={...(progress?.answers??{})};
- const drafts=new Map();
- let opinion=progress?.responseText??'', summary=progress?.summaryText??'';
- let saving=false, requestError=false, savedResponse=null, notesShown=false;
+ let ownNotes=progress?.summaryText??'';
+ let saving=false, requestError=false, savedResponse=null;
  let progressRequest=null, mutation=null;
- let frame=null, frameTeardown=null, directHandle=null, recorder=null, recorderLoading=false;
- let panelRefs={checkButtons:[],saveButton:null,responseStatus:null,questionList:null,questions:[]};
+ let frame=null, frameTeardown=null, directHandle=null, transcriptDialog=null, transcriptLoading=false;
+ let panelRefs={saveButton:null,responseStatus:null};
 
  // ---- DOM skeleton (built once; only the visible panel and small status nodes change later) ----
  const section=el('section',{class:'flex flex-col gap-4','data-video-lesson':lesson.id,'data-video-state':state});
@@ -70,20 +54,27 @@ export function createVideoStudio(context,{mode,video}){
  const liveLabel=el('span',{class:'text-xs text-ink-500','data-video-live-transcript':'no'},t.liveTrackingOff);
  const stateLabel=el('span',{class:'text-xs font-medium text-ink-700','data-video-progress-state':''});
  const meta=el('div',{class:'flex flex-wrap items-center gap-2'},liveLabel,stateLabel);
- const vocabStatus=el('p',{role:'status',class:'text-sm text-ink-500'},t.vocabularyUnavailable);
- vocabStatus.hidden=video.vocabulary.ready;
  const tablist=el('div',{class:'flex flex-wrap gap-2',role:'tablist','aria-label':t.stagesLabel,'data-video-tablist':''});
  const requestErr=el('p',{role:'alert','data-video-request-error':''},dict.common.error);
  requestErr.hidden=true;
  const panel=el('div',{class:'motion-tab-panel rounded-lg border border-ink-200 bg-paper-50 p-4',role:'tabpanel',id:`${tabIdBase}-panel`,tabindex:'0','data-video-tabpanel':''});
- const recorderHost=el('div',{'data-video-recorder-host':''});
- recorderHost.hidden=mode!=='standalone';
  const tabButtons=new Map();
+ const transcriptButton=el('button',{type:'button',class:'btn-secondary','data-video-transcript-button':'',disabled:!hasTranscript,'aria-haspopup':'dialog'},t.tabs.transcript);
+ if(!hasTranscript)transcriptButton.title=t.transcriptUnavailable;
+ transcriptButton.addEventListener('click',showTranscript,{signal:life});
+ section.append(stage,blockedNote,meta,el('div',{class:'flex flex-wrap items-center justify-between gap-2'},tablist,transcriptButton),requestErr,panel);
 
- section.append(stage,blockedNote,meta);
- if(studyPack)section.append(createTedStudyPractice({pack:studyPack,initial:opinion,dict,signal:life,save:text=>writeLesson('response',{responseText:text})}));
- if(studyPack&&!tabs.length){vocabStatus.hidden=true;tablist.hidden=true;panel.hidden=true;}
- section.append(vocabStatus,tablist,requestErr,panel,recorderHost);
+ async function showTranscript(){
+  if(!hasTranscript||transcriptLoading||transcriptDialog)return;
+  transcriptLoading=true;transcriptButton.disabled=true;
+  try{
+   const {openTranscriptDialog}=await import('./transcript-dialog.js');
+   if(destroyed)return;
+   const text=timed.length?timed.map(line=>`${formatClock(line.startSeconds)} ${line.text}`).join('\n'):plain;
+   transcriptDialog=openTranscriptDialog({context:{...context,signal:life},id:lesson.id,text,dict,attribution:lesson.transcriptAttribution,onClose:()=>{transcriptDialog=null;if(!destroyed)transcriptButton.focus();}});
+  }catch{if(!destroyed){requestError=true;paint();}}
+  finally{transcriptLoading=false;if(!destroyed)transcriptButton.disabled=false;}
+ }
 
  // ---- Player ----
  const frameBox=el('div',{class:'relative aspect-video w-full'});
@@ -159,14 +150,6 @@ export function createVideoStudio(context,{mode,video}){
   generation++;
   startFrame();
  }
- function seekTo(seconds){
-  if(directHandle){directHandle.seekTo(seconds);return;}
-  if(ended){restartAt=seconds;generation++;startFrame();return;}
-  if(!frame)return;
-  postTo(frame,{event:'command',func:'seekTo',args:[seconds,true]});
-  postTo(frame,{event:'command',func:'playVideo',args:[]});
- }
-
  // ---- Progress (monotonic, server-decided) ----
  function applyServer(body){
   if(!body||destroyed)return;
@@ -207,7 +190,7 @@ export function createVideoStudio(context,{mode,video}){
    .finally(()=>clearTimeout(deadline));
  }
 
- // ---- Writes (answers / response): one in flight, verdicts only from the server ----
+ // ---- Student notes: one write in flight, state only from the server ----
  async function writeLesson(kind,payload){
   if(mutation)return false;
   const ctl=new AbortController();
@@ -221,9 +204,8 @@ export function createVideoStudio(context,{mode,video}){
    if(!res.ok)throw new Error('Video lesson write failed');
    const body=await res.json();
    if(mutation!==ctl||ctl.signal.aborted||destroyed)return false;
-   if(kind==='answers'&&body.graded){graded={...graded,...body.graded};renderQuestions();}
    if(body.state)setState(body.state);
-   if(kind==='response')savedResponse=true;
+   if(kind==='response')savedResponse=payload.summaryText===ownNotes?true:null;
    return true;
   }catch{
    if(mutation===ctl&&!destroyed){requestError=true;if(kind==='response')savedResponse=false;}
@@ -233,21 +215,9 @@ export function createVideoStudio(context,{mode,video}){
    if(mutation===ctl){mutation=null;saving=false;paint();}
   }
  }
- async function checkAnswers(stage){
-  const list=stage==='comprehension'?comprehension:gapFill;
-  const payload={};
-  for(const q of list){const value=drafts.get(q.id)?.trim();if(value)payload[q.id]=value;}
-  if(Object.keys(payload).length===0)return;
-  await writeLesson('answers',{answers:payload});
- }
- function saveResponse(){
-  return writeLesson('response',{responseText:opinion,summaryText:summary});
- }
-
  function paint(){
   if(destroyed)return;
   requestErr.hidden=!requestError;
-  for(const b of panelRefs.checkButtons){b.disabled=saving;b.textContent=saving?t.checking:t.checkAnswers;}
   if(panelRefs.saveButton){panelRefs.saveButton.disabled=saving;panelRefs.saveButton.textContent=saving?t.saving:t.save;}
   const status=panelRefs.responseStatus;
   if(status){
@@ -259,85 +229,29 @@ export function createVideoStudio(context,{mode,video}){
   }
  }
 
- // ---- Exercises ----
- function questionItem(q){
-  const verdict=graded[q.id];
-  const prompt=el('span',{class:'text-sm text-ink-800'},q.prompt);
-  if(q.atSeconds!==null&&q.atSeconds!==undefined){
-   prompt.append(el('button',{type:'button',class:'ml-2 rounded-sm border border-signal-600/40 px-1.5 py-0.5 text-xs text-signal-700 hover:bg-signal-50','data-video-question-seek':''},formatClock(q.atSeconds)));
-   prompt.querySelector('[data-video-question-seek]').addEventListener('click',()=>seekTo(q.atSeconds),{signal:life});
-  }
-  const top=el('div',{class:'flex items-start justify-between gap-3'},prompt);
-  if(verdict){
-   top.append(el('span',{class:verdict.correct?'text-xs font-medium text-band-700':'text-xs font-medium text-warn-700','data-video-answer':verdict.correct?'correct':'wrong'},verdict.correct?t.answerCorrect:t.answerWrong));
-  }
-  const input=el('input',{class:'input',placeholder:t.answerPlaceholder,'data-video-answer-input':q.id});
-  input.value=drafts.get(q.id)??verdict?.answer??'';
-  input.addEventListener('input',()=>drafts.set(q.id,input.value),{signal:life});
-  return el('li',{class:'flex flex-col gap-2 border-b border-ink-200/60 py-3 last:border-0'},top,el('div',{class:'flex gap-2'},input));
- }
- function renderQuestions(){
-  if(!panelRefs.questionList)return;
-  panelRefs.questionList.replaceChildren(...panelRefs.questions.map(questionItem));
- }
- function questionsPanel(list,stage){
-  const wrap=el('div',stage==='comprehension'?{'data-video-comprehension':''}:{'data-video-gap':''});
-  const ul=el('ul');
-  const check=el('button',{type:'button',class:'btn-primary mt-3'},t.checkAnswers);
-  check.addEventListener('click',()=>checkAnswers(stage),{signal:life});
-  panelRefs.questionList=ul;panelRefs.questions=list;panelRefs.checkButtons=[check];
-  renderQuestions();
-  wrap.append(ul,check);
-  return wrap;
- }
-
- // ---- Panels ----
- function responseBlock(kind){
-  const input=el('textarea',{class:'input min-h-28',['data-video-'+kind+'-input']:'',placeholder:kind==='opinion'?t.opinionPlaceholder:t.summaryPlaceholder});
-  input.value=kind==='opinion'?opinion:summary;
-  input.addEventListener('input',()=>{if(kind==='opinion')opinion=input.value;else summary=input.value;},{signal:life});
-  const hint=el('p',{class:'text-sm text-ink-600'},kind==='opinion'?t.opinionHint:t.summaryHint);
+ // ---- Learning materials ----
+ function ownNotesPanel(){
+  const input=el('textarea',{class:'input min-h-28',id:`${tabIdBase}-own-notes`,maxlength:'4000','data-video-own-notes-input':'',placeholder:dict.courseRoadmap.notesPlaceholder});
+  input.value=ownNotes;
+  input.addEventListener('input',()=>{ownNotes=input.value;savedResponse=null;paint();},{signal:life});
   const save=el('button',{type:'button',class:'btn-primary','data-video-save-response':''},t.save);
-  save.addEventListener('click',()=>saveResponse(),{signal:life});
-  const status=el('span',{'data-video-response-state':'idle','data-video-response-verdict':state});
+  save.addEventListener('click',()=>writeLesson('response',{summaryText:ownNotes}),{signal:life});
+  const status=el('span',{role:'status','data-video-response-state':'idle','data-video-response-verdict':state});
   panelRefs.saveButton=save;panelRefs.responseStatus=status;
-  return el('div',{},
-   el('div',{class:'flex flex-col gap-3',['data-video-'+kind]:''},hint,input),
-   el('div',{class:'mt-3 flex items-center gap-3'},save,status),
-   el('p',{class:'mt-3 text-xs text-ink-500','data-video-feedback-note':''},t.feedbackNote));
+  return el('div',{class:'flex flex-col gap-3','data-video-own-notes':''},
+   el('label',{for:input.id,class:'text-sm font-medium text-ink-700'},t.tabs.ownNotes),
+   el('p',{class:'text-xs text-ink-500'},t.ownNotesHelp),input,
+   el('div',{class:'flex items-center gap-3'},save,status));
  }
-
- function notesPanel(){
-  const toggle=el('button',{type:'button',class:'btn-secondary w-fit','data-video-notes-reveal':'','aria-controls':`${tabIdBase}-notes`,'aria-expanded':String(notesShown)},notesShown?t.hideNotes:t.revealNotes);
-  const text=el('p',{id:`${tabIdBase}-notes`,class:`whitespace-pre-line text-sm text-ink-700 ${notesShown?'':'hidden'}`,'data-video-notes':notesShown?'shown':'hidden'},notes);
-  toggle.addEventListener('click',()=>{
-   notesShown=!notesShown;
-   toggle.textContent=notesShown?t.hideNotes:t.revealNotes;
-   toggle.setAttribute('aria-expanded',String(notesShown));
-   text.className=`whitespace-pre-line text-sm text-ink-700 ${notesShown?'':'hidden'}`;
-   text.setAttribute('data-video-notes',notesShown?'shown':'hidden');
-  },{signal:life});
-  return el('div',{class:'flex flex-col gap-2','data-video-notes-panel':''},toggle,text);
- }
-
- function transcriptPanel(){
-  const body=timed.length>0
-   ? el('ol',{class:'flex flex-col gap-1.5'},timed.map((line,index)=>el('li',{class:'flex gap-3 text-sm text-ink-700'},el('span',{class:'shrink-0 font-mono text-xs leading-5 text-ink-500'},formatClock(line.startSeconds)),el('span',{},line.text))))
-   : el('p',{class:'whitespace-pre-line text-sm text-ink-700','data-video-transcript-text':''},plain);
-  return el('div',{class:'flex flex-col gap-2','data-video-transcript-panel':''},body,
-   lesson.transcriptAttribution?el('p',{class:'text-xs text-ink-500'},`${t.transcriptProvenance}: ${lesson.transcriptAttribution}`):null);
- }
-
  function buildPanel(name){
-  panelRefs={checkButtons:[],saveButton:null,responseStatus:null,questionList:null,questions:[]};
-  if(name==='vocabulary')return createVideoVocabulary({context:{...context,signal:life},id:lesson.id,words:vocabWords,dict});
-  if(name==='before')return el('p',{class:'whitespace-pre-line text-sm text-ink-700','data-video-before':''},lesson.beforeYouWatch);
-  if(name==='transcript')return transcriptPanel();
-  if(name==='notes')return notesPanel();
-  if(name==='comprehension')return questionsPanel(comprehension,'comprehension');
-  if(name==='gap')return questionsPanel(gapFill,'gap_fill');
-  if(name==='opinion')return el('div',{},responseBlock('opinion'));
-  return el('div',{},responseBlock('summary'));
+  panelRefs={saveButton:null,responseStatus:null};
+  if(name==='description')return el('p',{class:'whitespace-pre-line text-sm text-ink-700','data-video-description':''},lesson.beforeYouWatch?.trim()||t.descriptionEmpty);
+  if(name==='notes')return el('p',{class:'whitespace-pre-line text-sm text-ink-700','data-video-notes':'shown'},notes||t.notesEmpty);
+  if(name==='ownNotes')return ownNotesPanel();
+  const vocabulary=createVideoVocabulary({context:{...context,signal:life},id:lesson.id,words:vocabWords,dict});
+  if(glossary)vocabulary.append(el('p',{class:'whitespace-pre-line text-sm leading-6','data-video-glossary':''},glossary));
+  if(!video.vocabulary.ready)vocabulary.prepend(el('p',{role:'status',class:'text-sm text-ink-500'},t.vocabularyUnavailable));
+  return vocabulary;
  }
 
  function paintTabs(){
@@ -353,7 +267,6 @@ export function createVideoStudio(context,{mode,video}){
   panel.setAttribute('aria-labelledby',`${tabIdBase}-tab-${tab}`);
   panel.setAttribute('data-video-tab-active',tab);
   paint();
-  syncRecorder();
  }
  function selectTab(name){
   if(!tabs.includes(name))return;
@@ -374,25 +287,6 @@ export function createVideoStudio(context,{mode,video}){
   },{signal:life});
   tabButtons.set(name,button);
   tablist.append(button);
- }
-
- // ---- Reflection recorder (standalone Summary only; loaded on first use) ----
- function syncRecorder(){
-  if(mode!=='standalone'||studyPack)return;
-  if(tab==='summary'&&!recorder&&!recorderLoading)loadRecorder();
-  recorder?.setActive(tab==='summary');
- }
- async function loadRecorder(){
-  recorderLoading=true;
-  try{
-   const {createReflectionRecorder}=await import('./reflection-recorder.js');
-   if(destroyed)return;
-   recorder=createReflectionRecorder({dict,signal:life});
-   recorderHost.append(recorder.node);
-   recorder.setActive(tab==='summary');
-  }catch{
-   if(!destroyed)recorderHost.append(el('p',{role:'alert'},dict.videoLesson.voiceSummary.failed));
-  }finally{recorderLoading=false;}
  }
 
  // ---- Direct media (owner-authorised file) or blocked notice ----
@@ -425,7 +319,7 @@ export function createVideoStudio(context,{mode,video}){
   unmountFrame();
   progressRequest?.abort();progressRequest=null;
   const pending=mutation;mutation=null;pending?.abort();
-  recorder?.destroy();recorder=null;
+  transcriptDialog?.close();transcriptDialog=null;
   directHandle?.destroy();directHandle=null;
   own.abort();
   section.remove();

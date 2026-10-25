@@ -551,12 +551,16 @@ export default {
         "standaloneHeading": "Talks and podcasts",
         "courseHeading": "From your roadmap",
         "title": "TED / PODCAST",
-        "intro": "Watch or listen, open the transcript and teacher's notes, learn vocabulary, then write or record your own summary.",
+        "intro": "Watch or listen, read the description, open the transcript and teacher's notes, learn vocabulary, and save your own notes.",
         "none": "No video lesson is open right now.",
         "open": "Open the lesson",
         "minutes": "{n} min"
     },
     "videoLesson": {
+        "ownNotesHelp": "Your notes are saved with this video lesson.",
+        "descriptionEmpty": "No description has been added yet.",
+        "notesEmpty": "No teacher’s notes have been added yet.",
+        "transcriptUnavailable": "No transcript has been added yet.",
         "voiceSummary": {
             "record": "Record summary",
             "recording": "Recording",
@@ -597,6 +601,8 @@ export default {
         "replay": "Replay",
         "tabs": {
             "vocabulary": "Vocabulary",
+            "description": "Description",
+            "ownNotes": "Student’s own notes",
             "before": "Before you watch",
             "transcript": "Transcript",
             "comprehension": "Comprehension",
@@ -642,6 +648,7 @@ export default {
         "feedbackNote": "Your teacher reads this and replies. It is not scored automatically."
     },
     "videoLessonAdmin": {
+        "description": "Description",
         "vocabulary": "Authored vocabulary (optional)",
         "vocabularyHelp": "One per line: word || POS || English meaning || Uzbek || optional example. Words may be outside the transcript.",
         "vocabularyContextRequired": "Every vocabulary example must occur in the authored transcript or notes.",
@@ -658,7 +665,7 @@ export default {
         "transcriptDetectedTimed": "Timed transcript: {n} line(s).",
         "openStandalone": "Open",
         "notes": "Teacher's notes (optional)",
-        "notesHelp": "Study notes the learner can reveal on the lesson page. Leave empty and no notes control appears.",
+        "notesHelp": "Teacher’s notes shown on the lesson page.",
         "notesPresent": "added",
         "notesAbsent": "none",
         "title": "TED / PODCAST",

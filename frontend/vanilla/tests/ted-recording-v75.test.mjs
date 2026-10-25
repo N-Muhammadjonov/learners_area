@@ -60,9 +60,52 @@ test('study response validation retains supported drafts; oversized payload neve
  const h=setup();try{let count=0;const initial=JSON.stringify({kind:'ted-study-pack-v1',answers:{A:'a'.repeat(1000),B:'b'.repeat(1000),C:'c'.repeat(1000),F:'f'.repeat(1000)}});const n=createTedStudyPractice({pack:packs[0],initial,dict:h.ctx.dict,signal:h.ctx.signal,save:async()=>{count++;return true;}});h.ctx.root.append(n);h.click([...n.querySelectorAll('button')].find(b=>b.textContent===h.ctx.dict.videoLesson.save));await tick();assert.equal(count,0);assert(n.textContent.includes(h.ctx.dict.videoLesson.studyPack.tooLong));}finally{h.dispose();}
 });
 const video=(title='Custom lesson')=>({videoLesson:{id:ID(10),title,provider:'youtube',videoId:'abcdefghijk',beforeYouWatch:'Predict',notes:'Notes',transcript:[{startSeconds:0,text:'Transcript'}],transcriptText:null,transcriptAttribution:null,durationSeconds:100},questions:[{id:ID(11),stage:'comprehension',prompt:'Why?',atSeconds:5},{id:ID(12),stage:'gap_fill',prompt:'Fill ___',atSeconds:null}],progress:null,vocabulary:{ready:true,items:[]},embedOrigin:null,directMedia:null});
-test('standalone authored stages and response POST match Main, and built-in TED packs use the same API',async()=>{
- const h=setup({path:'/app/video-lessons/'+ID(10)}),oldAbort=globalThis.AbortController,oldFetch=globalThis.fetch;globalThis.AbortController=window.AbortController;window.HTMLMediaElement.prototype.pause=function(){};
- try{let sent;globalThis.fetch=async(url,opts)=>{sent={url,body:JSON.parse(opts.body)};return {ok:true,json:async()=>({state:'in_progress'})};};const s=createVideoStudio(h.ctx,{mode:'standalone',video:video()});h.ctx.root.append(s.node);assert.deepEqual([...s.node.querySelectorAll('[data-video-tab]')].map(b=>b.dataset.videoTab),['before','transcript','notes','comprehension','gap','opinion','summary']);h.click(s.node.querySelector('[data-video-tab=opinion]'));h.input(s.node.querySelector('textarea'),'My opinion');h.click(s.node.querySelector('[data-video-save-response]'));await tick();assert.deepEqual(sent.body,{responseText:'My opinion',summaryText:''});s.destroy();const built=createVideoStudio(h.ctx,{mode:'standalone',video:video(packs[0].title)});h.ctx.root.append(built.node);assert(built.node.querySelector('[data-ted-study-pack]'));assert.equal(built.node.querySelector('[data-video-tab=opinion]'),null);const save=[...built.node.querySelectorAll('[data-ted-study-pack] button')].find(b=>b.textContent===h.ctx.dict.videoLesson.save);h.click(save);await tick();assert.equal(sent.url,`/api/video-lessons/${ID(10)}/response`);assert.equal(JSON.parse(sent.body.responseText).kind,'ted-study-pack-v1');built.destroy();}finally{globalThis.fetch=oldFetch;globalThis.AbortController=oldAbort;h.dispose();}
+for(const locale of ['en','uz'])test(`${locale}: custom and built-in TED lessons open Description and show only the requested materials`,()=>{
+ const h=setup({locale}),oldAbort=globalThis.AbortController;globalThis.AbortController=window.AbortController;let studio;
+ try{for(const title of ['Custom lesson',...packs.map(p=>p.title)]){
+  studio=createVideoStudio(h.ctx,{mode:'standalone',video:video(title)});h.ctx.root.append(studio.node);
+  assert.deepEqual([...studio.node.querySelectorAll('[data-video-tab]')].map(b=>b.dataset.videoTab),['description','notes','vocabulary','ownNotes']);
+  assert.equal(studio.node.querySelector('[data-video-tab-active]').dataset.videoTabActive,'description');
+  assert.equal(studio.node.querySelector('[data-video-description]').textContent,'Predict');
+  assert.equal(studio.node.querySelector('[data-video-transcript-button]').disabled,false);
+  assert.equal(studio.node.querySelector('[data-ted-study-pack],[data-video-answer-input],[data-local-reflection]'),null);
+  h.click(studio.node.querySelector('[data-video-tab=notes]'));assert.equal(studio.node.querySelector('[data-video-notes]').textContent,'Notes');
+  h.click(studio.node.querySelector('[data-video-tab=vocabulary]'));assert(studio.node.querySelector('[data-video-vocabulary]'));if(title!=='Custom lesson')assert(studio.node.querySelector('[data-video-glossary]').textContent.includes(packs.find(p=>p.title===title).glossary));
+  for(const b of studio.node.querySelectorAll('[data-video-tab]'))assert(b.textContent.trim());
+  studio.destroy();studio=null;
+ }}finally{studio?.destroy();globalThis.AbortController=oldAbort;h.dispose();}
+});
+test('standalone own notes restore existing text, retain drafts across tabs and save without overwriting older responses',async()=>{
+ const h=setup(),oldAbort=globalThis.AbortController,oldFetch=globalThis.fetch;globalThis.AbortController=window.AbortController;let studio;
+ try{
+  const data=video();data.progress={state:'in_progress',watchedSeconds:10,summaryText:'Existing notes',responseText:'Older response'};
+  let sent,resolve;globalThis.fetch=async(url,opts)=>{sent={url,body:JSON.parse(opts.body)};await new Promise(r=>{resolve=r;});return {ok:true,json:async()=>({state:'in_progress'})};};
+  studio=createVideoStudio(h.ctx,{mode:'standalone',video:data});h.ctx.root.append(studio.node);
+  h.click(studio.node.querySelector('[data-video-tab=ownNotes]'));assert.equal(studio.node.querySelector('textarea').value,'Existing notes');
+  h.input(studio.node.querySelector('textarea'),'My own notes');h.click(studio.node.querySelector('[data-video-tab=description]'));h.click(studio.node.querySelector('[data-video-tab=ownNotes]'));assert.equal(studio.node.querySelector('textarea').value,'My own notes');
+  h.click(studio.node.querySelector('[data-video-save-response]'));assert.equal(studio.node.querySelector('[data-video-save-response]').disabled,true);
+  assert.deepEqual(sent,{url:`/api/video-lessons/${ID(10)}/response`,body:{summaryText:'My own notes'}});
+  h.input(studio.node.querySelector('textarea'),'Newer unsaved edit');resolve();await tick();assert.equal(studio.node.querySelector('[data-video-response-state]').dataset.videoResponseState,'idle');
+  h.click(studio.node.querySelector('[data-video-save-response]'));resolve();await tick();assert.equal(studio.node.querySelector('[data-video-response-state]').dataset.videoResponseState,'saved');
+ }finally{studio?.destroy();globalThis.fetch=oldFetch;globalThis.AbortController=oldAbort;h.dispose();}
+});
+test('course materials preserve the existing external student-notes panel, and empty content has usable states',()=>{
+ const h=setup(),oldAbort=globalThis.AbortController;globalThis.AbortController=window.AbortController;let studio;
+ try{const data=video();Object.assign(data.videoLesson,{beforeYouWatch:null,notes:null,transcript:null,transcriptText:null});
+  studio=createVideoStudio(h.ctx,{mode:'course',video:data});h.ctx.root.append(studio.node);
+  assert.deepEqual([...studio.node.querySelectorAll('[data-video-tab]')].map(b=>b.dataset.videoTab),['description','notes','vocabulary']);
+  assert.equal(studio.node.querySelector('[data-video-description]').textContent,h.ctx.dict.videoLesson.descriptionEmpty);
+  assert.equal(studio.node.querySelector('[data-video-transcript-button]').disabled,true);
+  h.click(studio.node.querySelector('[data-video-tab=notes]'));assert.equal(studio.node.querySelector('[data-video-notes]').textContent,h.ctx.dict.videoLesson.notesEmpty);
+ }finally{studio?.destroy();globalThis.AbortController=oldAbort;h.dispose();}
+});
+test('Transcript button opens a single modal without replacing Description and teardown closes it',async()=>{
+ const h=setup(),oldAbort=globalThis.AbortController;globalThis.AbortController=window.AbortController;let studio;
+ try{studio=createVideoStudio(h.ctx,{mode:'standalone',video:video()});h.ctx.root.append(studio.node);
+  const button=studio.node.querySelector('[data-video-transcript-button]');h.click(button);h.click(button);await tick(12);
+  assert.equal(document.querySelectorAll('dialog').length,1);assert(document.querySelector('dialog').textContent.includes('Transcript'));assert.equal(studio.node.querySelector('[data-video-tab-active]').dataset.videoTabActive,'description');
+  studio.destroy();studio=null;assert.equal(document.querySelector('dialog'),null);
+ }finally{studio?.destroy();globalThis.AbortController=oldAbort;h.dispose();}
 });
 test('library keeps Main introduction and visible grouping headings, without invented local tabs',async()=>{
  const h=setup({path:'/app/video-lessons'});try{h.stub({'/api/frontend/view':{version:1,route:'/app/video-lessons',data:{standalone:[{id:ID(10),title:'A talk',provider:'youtube',videoId:'abcdefghijk',durationSeconds:120,progressState:'not_started'}],course:[]}}});await h.mount({mount:library});assert(h.q('[data-video-library-intro]'));assert.equal(h.q('h2').textContent,h.ctx.dict.videoLessons.standaloneHeading);assert.equal(h.q('h2').classList.contains('sr-only'),false);assert.equal(h.q('[data-video-header-sections]'),null);}finally{h.dispose();}

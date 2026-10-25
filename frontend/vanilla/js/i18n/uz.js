@@ -551,12 +551,16 @@ export default {
         "standaloneHeading": "Nutqlar va podkastlar",
         "courseHeading": "Yo'l xaritangizdan",
         "title": "TED / PODCAST",
-        "intro": "Videoni ko'ring yoki tinglang, transkript va o'qituvchi qaydlarini oching, so'zlarni o'rganing hamda xulosangizni yozing yoki ovozga yozib oling.",
+        "intro": "Video yoki podkastni tomosha qiling. Tavsif, transkript va o‘qituvchi izohlarini o‘qing, lug‘atni o‘rganing va shaxsiy qaydlaringizni saqlang.",
         "none": "Hozircha ochiq video dars yo'q.",
         "open": "Darsni ochish",
         "minutes": "{n} daqiqa"
     },
     "videoLesson": {
+        "ownNotesHelp": "Qaydlaringiz shu video dars bilan saqlanadi.",
+        "descriptionEmpty": "Tavsif hali qo‘shilmagan.",
+        "notesEmpty": "O‘qituvchi izohlari hali qo‘shilmagan.",
+        "transcriptUnavailable": "Transkript hali qo‘shilmagan.",
         "voiceSummary": {
             "record": "Xulosani ovozga yozish",
             "recording": "Yozilmoqda",
@@ -596,6 +600,8 @@ export default {
         "ended": "Video tugadi",
         "replay": "Qayta ko'rish",
         "tabs": {
+            "description": "Tavsif",
+            "ownNotes": "Shaxsiy qaydlarim",
             "vocabulary": "Lug'at",
             "before": "Ko'rishdan oldin",
             "transcript": "Transkript",
@@ -642,6 +648,7 @@ export default {
         "feedbackNote": "Buni o'qituvchingiz o'qib javob beradi. Avtomatik baholanmaydi."
     },
     "videoLessonAdmin": {
+        "description": "Tavsif",
         "vocabulary": "Muallif kiritgan lug'at (ixtiyoriy)",
         "vocabularyHelp": "Har qatorda: so'z || turkum || inglizcha ma'no || o'zbekcha || ixtiyoriy misol. So'z transkriptda bo'lishi shart emas.",
         "vocabularyContextRequired": "Har bir lug'at misoli muallif transkripti yoki qaydlarida bo'lishi kerak.",
@@ -658,7 +665,7 @@ export default {
         "transcriptDetectedTimed": "Vaqtli transkript: {n} ta qator.",
         "openStandalone": "Ochish",
         "notes": "Eslatmalar (majburiy emas)",
-        "notesHelp": "O'quvchi dars sahifasida ko'rsatishi mumkin bo'lgan eslatmalar. Bo'sh qoldirilsa, eslatma tugmasi umuman chiqmaydi.",
+        "notesHelp": "Dars sahifasida ko‘rsatiladigan o‘qituvchi izohlari.",
         "notesPresent": "qo'shilgan",
         "notesAbsent": "yo'q",
         "title": "TED / PODCAST",
