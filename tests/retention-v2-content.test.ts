@@ -5,6 +5,8 @@ import { RETENTION_LEVELS, RETENTION_TARGET_PER_LEVEL, isWordCountInRange } from
 import { countWords } from "../src/lib/retention/word-count";
 import { validateMeasurementStructure, MEASUREMENT_LIMITS } from "../src/lib/retention/measurement";
 import { evaluateRecall } from "../src/lib/retention/evaluator";
+import { tokens, splitEvidenceUnits } from "../src/lib/retention/normalize";
+import { loadCalibratedRetentionV2 } from "../scripts/retention-v2/calibration";
 
 /**
  * Approved author source V2, distinct from historical N14 unapproved drafts.
@@ -19,9 +21,7 @@ type Item = {
 };
 
 function allItems(): Item[] {
-  return RETENTION_LEVELS.flatMap(level =>
-    readFileSync(`content/retention-v2/${level}.jsonl`, "utf8")
-      .trim().split("\n").filter(Boolean).map(line => JSON.parse(line) as Item));
+  return loadCalibratedRetentionV2();
 }
 
 test("Retention FINAL V2: precisely 75 authored texts, 15 for each CEFR level, no duplicate IDs/bodies", () => {
@@ -71,33 +71,61 @@ test("Retention FINAL V2: every score structure satisfies strict production cont
   assert.deepEqual(invalid, [], "author-provided structures must pass the production validator");
 });
 
-test("Retention FINAL V2: production evaluator discrepancies are explicitly pinned as publication blockers", () => {
-  const anomalies: Array<{ sourceId: string; test: string; got: number }> = [];
+test("Retention FINAL V2: calibrated author source and every canonical factual recall grade exactly 100", () => {
   for (const item of allItems()) {
-    let structure;
-    try { structure = validateMeasurementStructure(item.scoringStructure); }
-    catch { continue; } // Invalid structures are reported in the previous test.
+    const structure = validateMeasurementStructure(item.scoringStructure);
     const canonical = structure.claims.map(c => c.label).join("\n");
-    for (const [name, answer, target] of [
-      ["canonical", canonical, 100],
-      ["source", item.bodyText, 100],
-      ["empty", "", 0],
-      ["unrelated", "The sun is shining on an unrelated mountain.", 0],
-    ] as const) {
-      const got = evaluateRecall(answer, structure).score;
-      if (got !== target) anomalies.push({ sourceId: item.sourceId, test: name, got });
+    assert.equal(evaluateRecall(canonical, structure).score, 100, item.sourceId + " canonical");
+    assert.equal(evaluateRecall(item.bodyText, structure).score, 100, item.sourceId + " source");
+    assert.equal(evaluateRecall("", structure).score, 0, item.sourceId + " empty");
+    assert.equal(evaluateRecall("The sun is shining on an unrelated mountain.", structure).score, 0, item.sourceId + " unrelated");
+    const isolated = structure.claims.map(c => c.groups[0]!.anyOf[0]!).join(", ");
+    assert.ok(evaluateRecall(isolated, structure).score < 100, item.sourceId + " keyword stuffing");
+  }
+});
+
+test("Retention FINAL V2: original owner corpus stays byte-for-byte immutable and corrections use only grounded phrases", () => {
+  const original = RETENTION_LEVELS.flatMap(level =>
+    readFileSync(`content/retention-v2/${level}.jsonl`, "utf8")
+      .trim().split("\n").map(line => JSON.parse(line) as Item));
+  const fixed = allItems();
+  const raw = JSON.parse(readFileSync("content/retention-v2/calibration-gaps.json", "utf8")) as {
+    status: string; anomalies: Array<{ sourceId: string; test: string; got: number }>;
+  };
+  assert.equal(raw.status, "QA_HOLD_DO_NOT_PUBLISH", "old source mismatch receipt must not be rewritten");
+  assert.equal(raw.anomalies.length, 49, "historical 49 source-score mismatches remain auditable");
+  assert.equal(fixed.length, original.length);
+  for (let i = 0; i < fixed.length; i++) {
+    assert.equal(fixed[i]!.bodyText, original[i]!.bodyText);
+    assert.equal(fixed[i]!.sourceId, original[i]!.sourceId);
+    // Compare canonical validated structures on both sides. The production
+    // validator materialises absent optional "critical" as false; comparing
+    // raw author JSON with that normalised shape is a false mutation alarm.
+    const before = validateMeasurementStructure(original[i]!.scoringStructure);
+    const after = fixed[i]!.scoringStructure as ReturnType<typeof validateMeasurementStructure>;
+    assert.equal(before.claims.length, after.claims.length);
+    for (let j = 0; j < before.claims.length; j++) {
+      const claim = before.claims[j]!;
+      const actual = after.claims[j]!;
+      assert.deepEqual(claim.groups, actual.groups, "no weights, critical anchors or alternatives changed");
+      assert.deepEqual(claim.rejectPhrases, actual.rejectPhrases, "no contradiction guards changed");
+      assert.equal(claim.points, actual.points);
+      assert.equal(claim.label, actual.label);
     }
   }
-  // Authoring FINAL V2 claimed 75/75 exact recall PASS, but the actual
-  // production evaluator returned these 49 mismatches in 29 items. Preserve
-  // the original source; pin each discrepancy so the bank stays QA-HOLD and
-  // a future calibration cannot silently change scoring in either direction.
-  // Never activate this source bank until the fixture is empty after review.
-  const evidence = JSON.parse(readFileSync("content/retention-v2/calibration-gaps.json", "utf8")) as {
-    status: string;
-    anomalies: Array<{ sourceId: string; test: string; got: number }>;
-  };
-  assert.equal(evidence.status, "QA_HOLD_DO_NOT_PUBLISH");
-  assert.deepEqual(anomalies, evidence.anomalies, "any scoring improvement or regression must be audited and recorded");
-  assert.equal(new Set(anomalies.map(x => x.sourceId)).size, 29, "expected 29 source items held for rubric review");
+});
+
+test("Retention FINAL V2: negation, comparative opposites and critical dates still defeat full credit", () => {
+  const items = new Map(allItems().map(item => [item.sourceId, item]));
+  const year = items.get("A2-004")!;
+  const recall = (i: Item) => (i.scoringStructure as ReturnType<typeof validateMeasurementStructure>).claims.map(c => c.label).join("\n");
+  assert.ok(evaluateRecall(recall(year).replace("2024", "2025"), validateMeasurementStructure(year.scoringStructure)).score < 100, "wrong year");
+  const c2 = items.get("C2-014")!;
+  assert.equal(evaluateRecall(c2.bodyText, validateMeasurementStructure(c2.scoringStructure)).score, 100, "Dr. must remain part of a single fact");
+  assert.ok(evaluateRecall(recall(c2).replace("2020", "2021"), validateMeasurementStructure(c2.scoringStructure)).score < 100, "C2 wrong year");
+  assert.ok(evaluateRecall(recall(c2).replace("fewer projects qualified", "more projects qualified"), validateMeasurementStructure(c2.scoringStructure)).score < 100, "more and fewer are opposite meanings");
+  assert.deepEqual(tokens("more projects"), ["more", "projects"]);
+  assert.deepEqual(tokens("most projects"), ["most", "projects"]);
+  assert.equal(splitEvidenceUnits("Dr. Pavel Orlov started the review in 2020. It succeeded.").length, 2);
+  assert.ok(evaluateRecall("Daniel started the bicycle repair table in 2024. But this was not true.", validateMeasurementStructure(year.scoringStructure)).breakdown.claims[0]!.awardedPoints === 0, "explicit factual denial");
 });
