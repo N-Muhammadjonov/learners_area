@@ -1,5 +1,5 @@
 /* A single row of native controls on every private workspace. */
-[data-campus-shell] [data-shell-topbar]{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;flex:none;min-height:68px;padding:6px 14px;isolation:isolate;z-index:50}
+[data-campus-shell] [data-shell-topbar]{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;flex:none;min-height:68px;padding:6px 14px;position:relative;isolation:isolate;z-index:50;overflow:visible}
 [data-campus-shell] [data-shell-topbar][data-campus-home=true]{background:#09172d!important;background-image:none!important}
 [data-campus-topbar-brand],[data-campus-return-link]{flex:none;order:0}
 [data-campus-topbar-brand][hidden],[data-campus-return-link][hidden],[data-campus-module-name][hidden]{display:none!important}
@@ -21,6 +21,8 @@
 [data-campus-shell] [data-global-search-dialog]{position:fixed;max-height:65dvh}
 @container(max-width:240px){[data-campus-shell] [data-global-search-field] kbd{display:none}}
 [data-campus-shell] [data-shell-topbar] :is([data-mobile-nav-toggle],[data-mobile-nav-overlay],[data-breadcrumbs]){display:none!important}
+/* Keep the entire header band above the map, including its WebGL labels. */
+[data-campus-shell] [data-shell-main]{position:relative;z-index:0}
 [data-campus-shell]:has([data-campus-world]) [data-shell-main]{overflow:hidden;background:#081528}
 [data-shell-main]:has([data-campus-world])>div{max-width:none!important;height:100%;padding:0!important;min-height:0}
 [data-shell-main]:has([data-campus-world]) :is([data-workspace-transition],[data-outgoing-workspace],[data-workspace-content]){height:100%;min-height:0}
@@ -94,10 +96,13 @@
 .la-welcome-heading:focus{outline:none}
 
 /* Welcome stays visible at every size; only its background changes with the viewport. */
-[data-root-entry]{min-height:100dvh;background:#0a1a39}
+[data-root-entry]{min-height:100dvh;background:#0e1a37}
 [data-root-entry] [data-touch-welcome]{display:block}
-.la-public-background{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;background:#0a1a39}
-.la-blue-backdrop{position:absolute;inset:0;z-index:0;background:#0a1a39}
+.la-public-background{position:fixed;inset:0;overflow:hidden;pointer-events:none;isolation:isolate;z-index:0;background:#0e1a37}
+.la-blue-backdrop{position:absolute;inset:0;z-index:0;background:#0e1a37}
+/* Public artwork keeps its gold lines; workspace control borders stay green. */
+#root .la-public-background .la-welcome-ring{border-color:#e5bf5a30!important}
+#root [data-touch-welcome] .la-welcome-orbit .module-emoji{border-color:rgb(var(--gold)/.3)!important}
 .la-landscape{display:none;position:absolute;inset:0;overflow:hidden;pointer-events:none;background:#101010}
 .la-landscape img{position:absolute;left:50%;top:50%;width:100dvh;height:100vw;max-width:none;object-fit:cover;transform:translate(-50%,-50%) rotate(-90deg)}
 .la-landscape:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgb(0 0 0/.52),rgb(0 0 0/.22) 60%,rgb(0 0 0/.46))}
@@ -116,7 +121,7 @@
 [data-auth-shell] [data-auth-controls]{position:absolute}
 
 /* The module identity, controls and tabs form one uninterrupted header. */
-[data-workspace-header]{flex:none;background:var(--la-surface-glass,#0b2347)}
+[data-workspace-header]{position:relative;z-index:50;overflow:visible;flex:none;background:var(--la-surface-glass,#0b2347)}
 [data-workspace-header] [data-shell-topbar],[data-workspace-header] [data-native-module-header]{background:transparent!important;border:0!important;box-shadow:none}
 [data-workspace-header] [data-module-sections],[data-workspace-header] [data-writing-tablist]{border-bottom:0}
 [data-focus="on"] [data-workspace-header]{background:rgb(var(--paper-raised))}
@@ -273,3 +278,4 @@ body :is(dialog,[role="dialog"],.dictionary-context-panel,.dictionary-folder-dia
   outline:3px solid #e5fff3;
   outline-offset:3px;
 }
+
