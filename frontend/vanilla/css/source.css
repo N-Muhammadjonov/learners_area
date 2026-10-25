@@ -27,7 +27,7 @@
   --ink-900: 30 27 46; /* #1E1B2E */
   --ink-700: 58 53 85; /* #3A3555 */
   --ink-500: 99 92 130; /* #635C82 */
-  --ink-300: 166 160 194; /* #A6A0C2 */
+  --ink-300: 99 92 130; /* Quiet text must remain readable on light cards. */
   --ink-100: 232 230 242; /* #E8E6F2 */
   /*
    * §15 — `--ink-50` was referenced by `bg-ink-50` across 22 files but defined nowhere in the root
@@ -51,8 +51,8 @@
   --gold: 230 185 79; /* #E6B94F */
   --gold-light: 242 210 127; /* #F2D27F */
 
-  --band-good: 30 127 92; /* #1E7F5C */
-  --band-warn: 180 117 14; /* #B4750E */
+  --band-good: 20 110 75;
+  --band-warn: 134 85 8;
   --band-bad: 194 73 45; /* #C2492D */
 
   --shadow-card: 0 1px 2px rgba(30, 27, 46, 0.06), 0 1px 1px rgba(30, 27, 46, 0.04);
@@ -74,7 +74,7 @@
   --ink-900: 243 238 229; /* #F3EEE5 — primary text */
   --ink-700: 226 220 209; /* #E2DCD1 */
   --ink-500: 168 167 175; /* #A8A7AF — muted text */
-  --ink-300: 124 123 133; /* #7C7B85 — quiet text */
+  --ink-300: 168 167 175; /* Quiet text on dark cards and recessed panels. */
   --ink-100: 41 45 60; /* #292D3C — primary border */
   /* §15 — see the Day block: mapped to the approved Night recessed surface, not an invented colour. */
   --ink-50: 21 24 39; /* #151827 — recessed surface, = --paper-sunken */
@@ -83,10 +83,10 @@
   --paper-raised: 17 20 33; /* #111421 — cards */
   --paper-sunken: 21 24 39; /* #151827 — secondary surface / inputs */
 
-  --accent: 99 102 241; /* #6366F1 */
-  --accent-strong: 79 70 229; /* #4F46E5 */
+  --accent: 129 140 248;
+  --accent-strong: 165 180 252;
   --accent-soft: 30 29 60;
-  --accent-contrast: 255 255 255;
+  --accent-contrast: 10 12 23;
 
   --gold: 230 185 79;
   --gold-light: 240 204 116;
@@ -2083,11 +2083,11 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   --accent-soft: 20 47 77;
 }
 [data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) {
-  --la-surface-glass: rgba(8, 32, 68, .74);
+  --la-surface-glass: rgba(8, 32, 68, .88);
   --la-surface-border: rgba(58, 172, 232, .40);
 }
 [data-theme="night"]:not([data-focus="on"]) {
-  --la-surface-glass: rgba(8, 32, 68, .40);
+  --la-surface-glass: rgba(8, 32, 68, .88);
   --la-surface-border: rgba(58, 172, 232, .24);
 }
 [data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) :is([data-shell-main], [data-auth-shell]) :is(.card, .panel) {
@@ -2236,6 +2236,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 }
 [data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) :is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], .input, dialog, [role="dialog"], [data-shell-topbar]):not([data-shell]):not([data-shell-sidebar]):not([data-shell-main]):not([data-mobile-nav-overlay]):not(#mobile-nav-drawer) {
   --accent: 126 211 255; --accent-strong: 164 225 255;
+  --accent-contrast: 8 32 68;
   --signal-600: 126 211 255; --signal-700: 164 225 255;
   --ink-950: 243 238 229;
   --ink-900: 243 238 229;
@@ -2243,16 +2244,19 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   --ink-500: 225 233 243;
   --ink-300: 205 223 237;
   --ink-100: 58 105 151;
+  --band-good: 119 213 154;
+  --band-warn: 240 204 116;
+  --band-bad: 255 153 143;
   color: rgb(var(--ink-900));
 }
-[data-theme="day"]:not([data-focus="on"]) [data-shell] [data-shell-main] :is(h1, h2, h3, h4, h5, h6, p, span, div, label, li, dt, dd, a, small, strong, em):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], dialog, [role="dialog"], button, .flashcard-face, .flashcard-queue, table, pre, code)):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], dialog, [role="dialog"], button, .flashcard-face, .flashcard-queue, table, pre, code) *),
+[data-theme="day"]:not([data-focus="on"]) [data-shell] [data-shell-main] :is(h1, h2, h3, h4, h5, h6, p, span, div, label, li, dt, dd, a, small, strong, em):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], dialog, [role="dialog"], button, [class~="bg-ink-950"], .focus-surface, .dictionary-context-panel, .race-feedback, .race-answer-box--correct, .race-answer-box--incorrect, .flashcard-face, .flashcard-queue, table, pre, code)):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .btn-primary, .btn-secondary, .btn-ghost, .btn-gold, .btn-gold-solid, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-paper"], [class~="bg-signal-50"], dialog, [role="dialog"], button, [class~="bg-ink-950"], .focus-surface, .dictionary-context-panel, .race-feedback, .race-answer-box--correct, .race-answer-box--incorrect, .flashcard-face, .flashcard-queue, table, pre, code) *),
 [data-theme="day"]:not([data-focus="on"]) [data-shell] :is(.sidebar-group, .brand-name, .brand-tagline),
 [data-theme="day"]:not([data-focus="on"]) [data-auth-shell] > div > div:last-child {
   color: #102740;
   -webkit-text-stroke: 0;
   text-shadow: none;
 }
-[data-theme="day"]:not([data-focus="on"]) [data-shell-main] :is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-signal-50"], dialog, [role="dialog"], button, .flashcard-face, .flashcard-queue, table, pre, code) {
+[data-theme="day"]:not([data-focus="on"]) [data-shell-main] :is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .tab, .chip, .badge, .link-inline, [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-signal-50"], dialog, [role="dialog"], button, [class~="bg-ink-950"], .focus-surface, .dictionary-context-panel, .race-feedback, .race-answer-box--correct, .race-answer-box--incorrect, .flashcard-face, .flashcard-queue, table, pre, code) {
   -webkit-text-stroke: 0;
 }
 [data-theme="night"]:not([data-focus="on"]) [data-shell] :is(.page-subtitle, .body-text, .text-ink-700, .text-ink-500, .text-ink-300, .brand-tagline):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .tab, .chip, .badge, .link-inline, button, dialog, [role="dialog"], [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-white"], [class~="bg-amber-50"], [class~="bg-yellow-50"])):not(:is(.card, .panel, .typing-stage-wrap, .typing-result, .typing-error-panel, .input, .btn, .tab, .chip, .badge, .link-inline, button, dialog, [role="dialog"], [class~="bg-paper-raised"], [class~="bg-paper-sunken"], [class~="bg-white"], [class~="bg-amber-50"], [class~="bg-yellow-50"]) *) {
@@ -2387,7 +2391,8 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .dictionary-context-panel :is(button,input,select) { background: rgba(12, 51, 98, .9); border-color: rgba(58, 172, 232, .5); }
 .dictionary-translation-divider { width: 100%; margin-block: 10px; border: 0; border-top: 1px solid rgba(141, 218, 255, .6); }
 [data-reading-filter="topic"] .dropdown-menu { left: 0; right: auto; }
-[data-theme]:not(:has([data-reading-full-focus])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.typing-icon-button,.flashcard-flip-button,.flashcard-face,.flashcard-queue,dialog) {
+[data-theme]:not([data-focus="on"]):not(:has([data-reading-full-focus])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost),
+[data-theme]:not(:has([data-reading-full-focus])) :is(.typing-icon-button,.flashcard-flip-button,.flashcard-face,.flashcard-queue,dialog) {
   --ink-950:243 238 229; --ink-900:243 238 229; --ink-700:234 239 247;
   --ink-500:225 233 243; --ink-300:205 223 237; --signal-600:126 211 255; --accent-strong:164 225 255;
   color:#f3eee5;
@@ -2414,7 +2419,7 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
   background: #0b2347; color: #f3eee5; border-color: #416a96;
 }
 [data-theme] :is([data-management-statistics],[data-result-history]) .chip-active { background: #205891; color: #fff; border-color: #8ddaff; }
-[data-theme] .race-answer-box--correct { border-color: #4ade80; background: #16a34a; color: #fff; }
+[data-theme] .race-answer-box--correct { border-color: #4ade80; background: #166534; color: #fff; }
 [data-theme] .race-feedback--correct { border-color: #4ade80; background: #103c30; }
 [data-theme] .race-feedback--correct .race-feedback__title { color: #86efac; }
 .revision-flip-scene { perspective: 1400px; }
@@ -2429,3 +2434,56 @@ h1.font-display, h2.font-display, h3.font-display { font-weight: 650; letter-spa
 .dictionary-folder-dialog { color-scheme: dark; }
 .dictionary-folder-dialog select { background: #0b2347 !important; color: #f3eee5 !important; min-height: 48px; }
 .dictionary-folder-dialog option { background: #0b2347; color: #f3eee5; }
+
+/* Surface foregrounds belong to their painted surface, including Focus mode.
+   Dictionary and native modal/media islands intentionally keep a dark surface. */
+[data-global-dictionary] :is(.card,[class~="bg-paper-raised"],[class~="bg-paper-sunken"]),
+.dictionary-folder-dialog,
+.dictionary-context-panel,
+dialog {
+  --ink-900: 243 238 229;
+  --ink-700: 234 239 247;
+  --ink-500: 205 223 237;
+  --ink-300: 180 205 225;
+  --ink-100: 58 105 151;
+  --paper-raised: 8 32 68;
+  --paper-sunken: 12 51 98;
+  --accent-soft: 20 47 77;
+  --band-good: 119 213 154;
+  --band-warn: 240 204 116;
+  --band-bad: 255 153 143;
+  color: rgb(var(--ink-900));
+}
+[data-global-dictionary] :is(.card,[class~="bg-paper-raised"],[class~="bg-paper-sunken"]){color:#f3eee5}
+:is([data-global-dictionary],.dictionary-folder-dialog,.dictionary-context-panel,dialog) :is(.btn-secondary,.btn-ghost,.btn-gold){background-color:#12345a;color:#eaf3ff!important}
+:is([data-global-dictionary],.dictionary-folder-dialog,.dictionary-context-panel,dialog) .btn-primary{background-color:#075985!important;color:#fff!important}
+:is([data-global-dictionary],.dictionary-folder-dialog,.dictionary-context-panel,dialog) [class*="bg-sky-50"]{background-color:#123b64;color:#eaf3ff!important}
+:is([data-global-dictionary],.dictionary-folder-dialog,.dictionary-context-panel,dialog) [class*="bg-sky-50"] :is(span,strong,p){color:inherit!important}
+[data-global-dictionary] [data-dictionary-search]::placeholder{color:#cbddec;opacity:1}
+[data-global-dictionary] [data-dictionary-search]{color:#f3eee5!important}
+/* Semantic ink text tokens must not turn a video/player background white. */
+.bg-ink-950{background-color:#0a0c17;color:#f3eee5;--ink-900:243 238 229;--ink-700:234 239 247;--ink-500:205 223 237}
+.focus-surface{background-color:#0a0c17;color:#f3eee5;--ink-900:243 238 229;--ink-700:234 239 247;--ink-500:205 223 237;--ink-100:180 205 225}
+
+/* Focus controls use the original light/dark form surfaces, not the glass skin. */
+[data-theme="night"][data-focus="on"] :is(.btn-secondary,.btn-ghost,.btn-gold){color:#c7d2fe}
+[data-theme="night"][data-focus="on"] :is(.btn-primary,.btn-gold-solid){background-color:#4f46e5;color:#fff}
+
+/* Availability badges use a dark inset surface outside a card as well. */
+[data-theme]:not([data-focus="on"]) .bg-signal-100{--accent-strong:164 225 255}
+
+[data-theme] :is(.bg-signal-100,.bg-signal-50).text-signal-700{color:rgb(var(--accent-strong))!important}
+
+[data-theme] .bg-signal-600.text-signal-contrast{color:rgb(var(--accent-contrast))!important}
+
+[data-theme]:not(:has([data-reading-full-focus])) .flashcard-queue{background-color:#082044}
+[data-theme] .flashcard-mark-button{background-color:#12345a;color:#eaf3ff}
+[data-theme="day"]:not([data-focus="on"]) [data-auth-shell]>div>div:last-child{color:#102740!important}
+[data-theme]:not([data-focus="on"]) :is([data-locale-switcher],[data-auth-controls]) .bg-signal-600.text-signal-contrast{color:#f3eee5!important}
+
+[data-theme] .flashcard-face{--band-good:119 213 154;--band-bad:255 153 143}
+[data-theme] .flashcard-mark-button:is([data-mark="known"],[data-mark="notYet"])[aria-pressed="true"]{color:#082044}
+
+[data-theme] :is(.race-feedback--correct,.race-feedback--incorrect){--ink-900:243 238 229;--ink-700:234 239 247;--ink-500:205 223 237;color:#f3eee5}
+[data-theme] .race-feedback--incorrect{background:#471c29;border-color:#ff998f;--band-bad:255 153 143}
+[data-theme] .race-answer-box--incorrect{background:#7f1d1d;color:#fff;border-color:#ff998f}

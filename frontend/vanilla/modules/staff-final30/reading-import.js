@@ -35,7 +35,7 @@ export const mount=mountStaff({name:'reading-import',roles:['admin','owner'],loa
    const r=W.result;
    setChildren(body,W.name?el('p',{class:'text-sm','data-reading-import-name':''},W.name):null,
     W.source?.kind==='supplemental'?el('div',{role:'status',class:'space-y-2','data-reading-import-supplemental':''},el('p',{},t.supplemental),el('a',{class:'btn-secondary',href:'/app/admin/materials'},t.manageMaterials),W.source.textPreview?el('pre',{class:'max-h-48 overflow-auto rounded bg-paper-sunken p-2 text-xs whitespace-pre-wrap'},W.source.textPreview):null):null,
-    W.source?.kind==='structured'?tryout(dict,W.source.bundle,signal):null,W.error?el('p',{role:'alert',class:'text-red-700','data-reading-import-error':''},W.error):null,
+    W.source?.kind==='structured'?tryout(dict,W.source.bundle,signal):null,W.error?el('p',{role:'alert',class:'text-band-bad','data-reading-import-error':''},W.error):null,
     el('div',{class:'flex flex-wrap gap-2'},importBtn),
     r?el('div',{role:'status','data-reading-import-result':''},el('p',{},r.dryRun?t.checked:r.created?t.created:t.exists),el('ul',{class:'text-sm'},r.passages.map(p=>el('li',{},t.passageLine.replace('{n}',String(p.passageNo)).replace('{resolved}',String(p.resolved)).replace('{unresolved}',String(p.unresolved))))),!r.dryRun?el('a',{class:'btn-secondary',href:'/app/admin/reading'},t.backToList):null):null);
   }

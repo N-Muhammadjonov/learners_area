@@ -1,5 +1,6 @@
+import {previousAppPath,plainPrimaryClick} from '../../js/return-navigation.js';
 import {h} from '../../js/native.js';
-export function BackLink({fallbackHref,label,className,...data}){const a=h('a',{...data,href:fallbackHref,className:className??'btn-ghost inline-flex min-h-11 w-fit items-center gap-1','data-back-link':true},h('span',{'aria-hidden':true},'←'),label);a.addEventListener('click',e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||history.length<=1)return;try{if(new URL(document.referrer).origin!==location.origin)return;}catch{return;}e.preventDefault();history.back();});return a;}
+export function BackLink({fallbackHref,label,className,...data}){const a=h('a',{...data,href:fallbackHref,className:className??'btn-ghost inline-flex min-h-11 w-fit items-center gap-1','data-back-link':true},h('span',{'aria-hidden':true},'←'),label);a.addEventListener('click',e=>{if(!plainPrimaryClick(e)||!previousAppPath(window)||window.history.length<=1)return;e.preventDefault();window.history.back();});return a;}
 export function Button({variant='primary',children,...props}){return h('button',{type:'button',...props,className:`btn-${variant} ${props.className??''}`},children);}
 export function RegionFailureNotice({region,message,retryLabel,refresh}){
  const b=h('button',{type:'button',className:'btn-secondary shrink-0','data-region-retry':region},retryLabel);
