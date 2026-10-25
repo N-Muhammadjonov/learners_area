@@ -46,7 +46,6 @@ def pdf_bytes(title,lines,id):
     import os
     from pathlib import Path
     candidates = [Path(__file__).resolve().parents[1]/'assets/fonts/DejaVuSans.ttf',
-                  Path(__file__).resolve().parents[3]/'src/assets/fonts/DejaVuSans.ttf',
                   Path('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf')]
     path=os.environ.get('LEARNERS_PDF_UNICODE_FONT') or str(next((p for p in candidates if p.is_file()), candidates[0]))
     pdfmetrics.registerFont(TTFont('LA-DejaVuSans',path))

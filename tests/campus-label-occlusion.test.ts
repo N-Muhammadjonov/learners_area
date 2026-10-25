@@ -53,3 +53,20 @@ test('central roof is a light rounded cone and the doubled Uzbekistan flag waves
  const rest=flag.userData.fabric.find((item:{mesh:typeof THREE.Mesh})=>item.mesh===mesh).rest;
  for(let i=0;i<mesh.geometry.attributes.position.count;i++)if(Math.abs(rest[i*3]+mesh.position.x)<1e-6)assert.equal(after[i*3+2],rest[i*3+2]);
 });
+
+test('a roof at a badge edge does not hide its unblocked world anchor',()=>{
+ const dom=new JSDOM('<div id="map"></div>');const prior=globalThis.document;globalThis.document=dom.window.document;
+ try{
+  const camera=new THREE.OrthographicCamera(-20,20,20,-20,.1,100);camera.position.set(0,3,25);camera.lookAt(0,3,0);camera.updateMatrixWorld();
+  const blocker=new THREE.Mesh(new THREE.BoxGeometry(1,10,2),new THREE.MeshBasicMaterial());blocker.position.set(2.5,3,12);
+  const labels=new CampusLabels(document.querySelector('#map'),camera,()=>{},new Map([['neighbour',blocker]]));labels.initLabels([{id:'reading',name:'Reading',route:'/app/reading',accentHex:'#fff',pos:{x:0,y:0,z:0},labelPos:{x:0,y:3,z:0}}],{});
+  labels.update(600,500);assert.equal(labels.labels[0].el.style.visibility,'visible');
+  blocker.position.x=0;labels.nextOcclusion=0;labels.update(600,500);assert.equal(labels.labels[0].el.style.visibility,'hidden');
+ }finally{globalThis.document=prior;dom.window.close();}
+});
+test('the taller central roof leaves a visible length of freestanding flagpole below the flag',()=>{
+ const {castle}=createManagementArea(),roof=castle.getObjectByName('castle_keep_pitched_roof'),pole=castle.getObjectByName('castle_flagpole'),flag=castle.userData.flag;
+ const apex=roof.position.y+roof.geometry.parameters.height/2;
+ assert.ok(roof.geometry.parameters.height>12);assert.ok(pole.position.y-pole.geometry.parameters.height/2>=apex-.01);
+ assert.ok(flag.position.y-2.5*flag.scale.y>apex+2);
+});

@@ -10,7 +10,7 @@ export function modulePrewarm({root,routes,signal,window:win=window,document:doc
   return true;
  }
  const intents=new Map();
- const intent=e=>{const a=e.target.closest?.('a[href]');if(!a)return;clearTimer(intents.get(a));intents.delete(a);if(e.detail?.action!=='prepare'||![0,90].includes(e.detail.delay)||a.hasAttribute('download')||a.target&&a.target!=='_self'||!allowed())return;const timer=setTimer(()=>{intents.delete(a);if(a.isConnected&&root.contains(a))void warm(a.href);},e.detail.delay);intents.set(a,timer);};
+ const intent=e=>{const a=e.target.closest?.('a[href],[data-navigation-route]');if(!a)return;clearTimer(intents.get(a));intents.delete(a);if(e.detail?.action!=='prepare'||![0,90].includes(e.detail.delay)||a.hasAttribute('download')||a.target&&a.target!=='_self'||!allowed())return;const timer=setTimer(()=>{intents.delete(a);if(a.isConnected&&root.contains(a))void warm(a.dataset.navigationRoute||a.href);},e.detail.delay);intents.set(a,timer);};
  root.addEventListener('learners-area:prefetch-intent',intent);
  function idle(){if(!allowed())return;const target=IDLE_SHELL_PREFETCH_ROUTES[index++];if(target)void warm(target);if(index<IDLE_SHELL_PREFETCH_ROUTES.length)timer=setTimer(idle,1100);}
  if(allowed())timer=setTimer(idle,2500);

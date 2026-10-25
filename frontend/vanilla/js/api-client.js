@@ -1,10 +1,11 @@
+import {privateScope} from './private-scope.js';
 import {anySignal} from './signals.js';
 export class ApiError extends Error {
  constructor(status,code){super(code);this.status=status;this.code=code;}
 }
-/** Same-origin only, no persistent/private cache, no mutation retries. */
-export function createApi(fetcher=globalThis.fetch.bind(globalThis),onUnauthorized=()=>{}){
- const pending=new Map();
+/** Same-origin transport only, no persistent cache or mutation retries. */
+export function createApi(fetcher=globalThis.fetch.bind(globalThis),onUnauthorized=()=>{},onMutation=()=>{}){
+ const pending=new Map();let epoch=0;
  async function execute(path,{method='GET',body,signal}={}){
   if(!path.startsWith('/api/')||/[\\\u0000-\u001f]/.test(path))throw new TypeError('Only same-origin /api paths accepted');
   const multipart=typeof FormData!=='undefined'&&body instanceof FormData;
@@ -20,20 +21,21 @@ export function createApi(fetcher=globalThis.fetch.bind(globalThis),onUnauthoriz
  // Only identical concurrent GETs share a transport. Every consumer can cancel
  // independently; the last departure aborts the shared network request.
  function request(path,options={}){
+  if((options.method??'GET')!=='GET'){epoch++;onMutation(path);return bounded(path,options).finally(()=>{epoch++;onMutation(path);});}
   // `fresh` is for a re-read that must reflect a mutation made after an identical request started: it never joins
   // an in-flight GET (which may predate the change) and is not shared with later callers.
-  if((options.method??'GET')!=='GET'||options.fresh===true)return bounded(path,options);
+  if(options.fresh===true)return bounded(path,options);
   if(options.signal?.aborted)return Promise.reject(new DOMException('Aborted','AbortError'));
-  let entry=pending.get(path);
-  if(!entry){const controller=new AbortController();entry={controller,users:0};entry.promise=bounded(path,{...options,signal:controller.signal}).finally(()=>{if(pending.get(path)===entry)pending.delete(path);});pending.set(path,entry);}
+  const key=epoch+':'+path;let entry=pending.get(key);
+  if(!entry){const controller=new AbortController();entry={controller,users:0};entry.promise=bounded(path,{...options,signal:controller.signal}).finally(()=>{if(pending.get(key)===entry)pending.delete(key);});pending.set(key,entry);}
   entry.users++;
   return new Promise((resolve,reject)=>{let ended=false;
-   const finish=(fn,value)=>{if(ended)return;ended=true;options.signal?.removeEventListener('abort',abort);if(--entry.users===0){entry.controller.abort();if(pending.get(path)===entry)pending.delete(path);}fn(value);};
+   const finish=(fn,value)=>{if(ended)return;ended=true;options.signal?.removeEventListener('abort',abort);if(--entry.users===0){entry.controller.abort();if(pending.get(key)===entry)pending.delete(key);}fn(value);};
    const abort=()=>finish(reject,new DOMException('Aborted','AbortError'));
    options.signal?.addEventListener('abort',abort,{once:true});entry.promise.then(v=>finish(resolve,v),e=>finish(reject,e));
   });
  }
  async function bounded(path,options){const timeout=AbortSignal.timeout(options.timeoutMs??25000);const signal=options.signal?anySignal([options.signal,timeout]):timeout;return execute(path,{...options,signal});}
- return {request,clear(){for(const e of pending.values())e.controller.abort();pending.clear();}};
+ return {request,clear(){epoch++;for(const e of pending.values())e.controller.abort();pending.clear();}};
 }
-export const api=createApi(globalThis.fetch.bind(globalThis),()=>{if(typeof window!=='undefined')window.dispatchEvent(new Event('learners-area:auth-failure'));});
+export const api=createApi(globalThis.fetch.bind(globalThis),()=>{if(typeof window!=='undefined')window.dispatchEvent(new Event('learners-area:auth-failure'));},()=>privateScope.invalidate('view:'));

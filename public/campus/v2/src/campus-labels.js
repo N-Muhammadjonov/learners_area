@@ -15,7 +15,11 @@ export class CampusLabels {
   this.overlay.replaceChildren();this.labels=[];
   for(const module of modules){
    const el=document.createElement('button');el.type='button';el.className='campus-module-label';
-   el.style.setProperty('--module-accent',module.accentHex);el.dataset.moduleId=module.id;
+   el.style.setProperty('--module-accent',module.accentHex);el.dataset.moduleId=module.id;el.dataset.navigationRoute=module.route;
+   const hint=(action,delay=90)=>el.dispatchEvent(new CustomEvent('learners-area:prefetch-intent',{bubbles:true,detail:{action,delay}}));
+   el.addEventListener('mouseenter',()=>hint('prepare'));el.addEventListener('mouseleave',()=>hint('cancel'));
+   el.addEventListener('focus',()=>hint('prepare'));el.addEventListener('blur',()=>hint('cancel'));
+   el.addEventListener('pointerdown',()=>hint('prepare',0));
    el.setAttribute('aria-label',`Navigate to ${module.name}`);
    const icon=document.createElement('span');icon.className='module-icon';icon.style.color=module.accentHex;
    icon.innerHTML=icons[module.icon]||'';
@@ -62,8 +66,9 @@ export class CampusLabels {
    const anchor=orbitFacingAnchor(item.anchorPos,item.module,this.camera.position,this.viewDirection,item.footprint);
    const world=new THREE.Vector3(anchor.x,anchor.y,anchor.z),point=world.clone().project(this.camera);
    if(checkOcclusion){
-    const scale=moduleLabelScale(item.module.id),halfW=item.screenSize.width*scale/2,halfH=item.screenSize.height*scale/2;
-    item.occluded=[[0,0],[-halfW*.8,0],[halfW*.8,0],[0,-halfH*.7],[0,halfH*.7]].some(([x,y])=>this.blocked(world,item.module.id,point.x+x*2/width,point.y-y*2/height,boxes));
+    // A neighbouring roof touching the badge edge must not hide its visible facade.
+    // Cast through the actual world anchor; screen-edge rays have a different depth.
+    item.occluded=this.blocked(world,item.module.id,point.x,point.y,boxes);
    }
    const visible=Number.isFinite(point.x)&&Number.isFinite(point.y)&&Math.abs(point.x)<=1.2&&Math.abs(point.y)<=1.2&&point.z>=-1&&point.z<=1&&!item.occluded;
    item.el.style.visibility=visible?'visible':'hidden';item.el.tabIndex=visible?0:-1;

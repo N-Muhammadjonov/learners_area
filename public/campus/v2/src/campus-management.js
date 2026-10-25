@@ -80,9 +80,9 @@ export function createManagementArea(config = MANAGEMENT_CASTLE) {
   }
   for (const x of [-13,13]) for (let z=-7;z<=7;z+=2.3) box(castle,1.4,1.35,1.25,edge,x,8.2,z);
   // A tall rounded conical roof gives the central keep its castle silhouette.
-  const keepRoof=new THREE.ConeGeometry(11.3,10.8,48);
+  const keepRoof=new THREE.ConeGeometry(11.3,13,48);
   keepRoof.scale(1,1,.88);
-  mesh(castle,keepRoof,roof,0,19,-3,'castle_keep_pitched_roof');
+  mesh(castle,keepRoof,roof,0,20.1,-3,'castle_keep_pitched_roof');
   for (const x of [-13,13]) for (const z of [-10,10]) {
     const tower = new THREE.Group(); tower.name = 'castle_turret'; tower.position.set(x,0,z); castle.add(tower);
     mesh(tower, new THREE.CylinderGeometry(2.6,3,13.4,10),stone,0,7.1,0);
@@ -105,9 +105,9 @@ export function createManagementArea(config = MANAGEMENT_CASTLE) {
     box(castle,1.1,2,.15,windowGlow,x,8.4,3.58);
     box(castle,1.3,3.1,.18,violet,x,11,3.65,'castle_banner');
   }
-  mesh(castle,new THREE.CylinderGeometry(.12,.12,5.2,8),gold,0,27,-3,'castle_flagpole');
+  mesh(castle,new THREE.CylinderGeometry(.12,.12,8,8),gold,0,30.6,-3,'castle_flagpole');
   // Geometry, rather than a platform-dependent emoji, keeps 🇺🇿 recognizable.
-  const flag=new THREE.Group();flag.name='castle_flag';flag.position.set(.15,29.3,-3);flag.scale.setScalar(2);
+  const flag=new THREE.Group();flag.name='castle_flag';flag.position.set(.15,34.3,-3);flag.scale.setScalar(2);
   flag.userData.country='UZ';castle.add(flag);
   const flagColors={blue:0x0099b5,white:0xffffff,green:0x1eb53a,red:0xce1126};
   const flagMats=Object.fromEntries(Object.entries(flagColors).map(([key,color])=>[key,new THREE.MeshBasicMaterial({color,side:THREE.DoubleSide})]));

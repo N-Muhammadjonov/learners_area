@@ -1,3 +1,4 @@
+import {viewPrewarm} from '../../js/view-prewarm.js';
 import {campusHeader} from '../campus/chrome.js';
 import {enableDiagnostics,rootDiagnosticsEnabled} from '../../js/diagnostics.js';
 import {beginLinkPending} from './link-pending.js';
@@ -26,7 +27,7 @@ export function createShell(context){
  pref.setAttribute('data-campus-header-preferences','');
  top.append(el('div',{'data-campus-header-search':''},search.node),pref,
   el('div',{'data-campus-header-profile':''},notificationBell(context),profile.node));
- const chrome=campusHeader(top);
+ const chrome=campusHeader(top,context);
  const main=el('main',{id:'main-content',tabindex:-1,'data-shell-main':'',class:'min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-paper'});
  const outlet=el('div',{class:'mx-auto w-full',style:{maxWidth:'var(--shell-content-max)',paddingInline:'calc(var(--shell-pad-x) + env(safe-area-inset-left)) calc(var(--shell-pad-x) + env(safe-area-inset-right))',paddingBlock:'var(--shell-pad-y)',paddingBottom:'calc(var(--shell-pad-y) + env(safe-area-inset-bottom))'}});
  const transition=workspaceTransition(context);outlet.append(transition.node);main.append(outlet);
@@ -37,7 +38,7 @@ export function createShell(context){
  let stopPending=()=>{};
  function end(committed=false){stopPending(committed===true);transition.end();}
  signal.addEventListener('abort',()=>stopPending(),{once:true});
- modulePrewarm({root:host,routes,signal});update(context.url);
+ modulePrewarm({root:host,routes,signal});viewPrewarm({root:host,signal});update(context.url);
  return {host,outlet:transition.content,main,sidebar,attachModuleHeader:sections.attach,preferenceFocus:()=>pref.preferenceFocus?.(),update,
   begin:(url,flight,source)=>{end();profile.close();search.close(false);
    const anchor=source?.isConnected?source:null;const stop=beginLinkPending(anchor,flight);

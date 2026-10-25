@@ -126,7 +126,7 @@ test("all eleven pavilions grow a further ten percent without changing proportio
   const a=world.buildingMeshes.get('assignments').position,l=world.buildingMeshes.get('live_classes').position;
   assert.ok(a.length()>75);assert.ok(a.distanceTo(l)<35);assert.ok(a.x>45&&a.z<-50);
   const rocket=world.buildingMeshes.get('dashboard').userData.rocket;
-  assert.deepEqual(rocket.scale.toArray(),[1.1,1.1,1.1]);
+  assert.deepEqual(rocket.scale.toArray(),[1.32,1.32,1.32]);
 });
 test("Listening headphones and the enlarged assignment board clear their roofs, with a slightly upright white book",()=>{
   const hp=world.buildingMeshes.get('listening').userData.landmark;

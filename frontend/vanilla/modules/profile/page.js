@@ -1,3 +1,4 @@
+import {studyForm} from '../auth/study-form.js';
 import {anySignal} from '../../js/signals.js';
 import {restoreWhenAttached,fieldSelection} from '../../js/focus-restore.js';
 import {publishSessionEvent} from '../../js/session-events.js';
@@ -30,6 +31,12 @@ export function profileName(context){const {dict,session,signal}=context,initial
  listen(toggle,'click',()=>{draft.editing=!draft.editing;if(!draft.editing){draft.name=draft.savedName;draft.saved=false;}draw();if(draft.editing)form.querySelector('input')?.focus();},signal);signal.addEventListener('abort',()=>{const input=form?.querySelector('input');if(signal.reason==='route-refresh'&&input===document.activeElement)draft.focus=fieldSelection(input);else delete draft.focus;life?.abort();},{once:true});draw();return card;
 }
 export async function mount(context){const {root,dict,signal}=context;const profile=validateProfile(await viewData('/app/profile',signal));if(signal.aborted)return;
- const page=el('div',{class:'mx-auto flex max-w-3xl flex-col gap-4','data-profile-page':''},el('header',{},el('h1',{class:'font-display text-2xl text-ink-900'},dict.profile.title),el('p',{class:'text-sm text-ink-500'},dict.profile.subtitle)),profilePhoto(context),profileName(context));
- if(profile.telegramIntentEnabled)page.append(el('section',{class:'rounded-xl border border-ink-100 bg-paper-raised p-4'},telegram(context,{telegramConfigured:true,telegramIntentEnabled:true,botUsername:profile.botUsername},'link')));root.append(page);
+ const page=el('div',{class:'mx-auto flex max-w-3xl flex-col gap-4','data-profile-page':''},el('header',{},el('h1',{class:'font-display text-2xl text-ink-900'},dict.profile.title),el('p',{class:'text-sm text-ink-500'},dict.profile.subtitle)),profilePhoto(context),profileName(context),el('section',{class:'panel space-y-4','data-profile-study':''},el('h2',{class:'text-xl font-semibold'},dict.profile.studyTitle),studyForm(context,{profile:true,initial:profile.study??{}})));
+ if(profile.telegramIntentEnabled){
+  const linked=profile.telegram?.linked,card=el('section',{class:'panel space-y-4','data-profile-telegram':''}),title=el('h2',{class:'text-xl font-semibold'},dict.profile.telegramAccount);let changing=false,widgetLife;signal.addEventListener('abort',()=>widgetLife?.abort(),{once:true});
+  function paint(){widgetLife?.abort();widgetLife=new window.AbortController();const widgetContext={...context,signal:anySignal([signal,widgetLife.signal])};card.replaceChildren(title);if(linked)card.append(el('div',{class:'space-y-2'},el('p',{},profile.telegram.username?'@'+profile.telegram.username.replace(/^@/,''):'Telegram'),el('p',{},profile.telegram.phone??'—')));
+   if(!linked||changing){if(linked)card.append(el('p',{class:'text-sm'},dict.profile.telegramChangeHint));card.append(telegram(widgetContext,{telegramConfigured:true,telegramIntentEnabled:true,botUsername:profile.botUsername},linked?'replace':'link'));if(changing){const cancel=el('button',{type:'button',class:'btn-secondary'},dict.common.cancel);listen(cancel,'click',()=>{changing=false;paint();},signal);card.append(cancel);}}
+   else{const student=context.session.user.role==='student',change=el('button',{type:'button',class:'btn-secondary',disabled:!student},dict.profile.telegramChange);listen(change,'click',()=>{changing=true;paint();},signal);card.append(change);if(!student)card.append(el('p',{class:'text-sm'},dict.profile.telegramStaffChange));}
+  }paint();page.append(card);
+ }root.append(page);
 }

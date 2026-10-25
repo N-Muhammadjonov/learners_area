@@ -1,4 +1,4 @@
-"""Single-process Python application launcher. Node is used only for asset builds."""
+"""Single-process Python application launcher. Assets are packaged with Python."""
 import argparse
 import os
 from pathlib import Path
@@ -46,7 +46,7 @@ def main():
     sys.path.insert(0,str(ROOT/'services/backend'))
     from app.frontend_static import StaticFrontend
     if not StaticFrontend().build():
-        raise SystemExit('Static frontend missing. Run npm run build first.')
+        raise SystemExit('Static frontend missing. Run python3 scripts/build_native_assets.py first.')
     if args.check:
         import app.asgi,asyncpg,bcrypt,reportlab,docx,jwt
         print('Python ASGI + allowlisted static frontend ready; no Node server required')

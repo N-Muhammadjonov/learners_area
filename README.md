@@ -17,9 +17,9 @@ PostgreSQL schema and migration tooling remain Drizzle. Upload signing and AI
 provider integrations run in the Python service.
 
 This branch uses `app.asgi:application` from `services/backend`. The production
-application needs one Python process. Node is an asset-build/test tool only.
-Next/React source and dependencies remain as reference and rollback tooling;
-the default build/start and Python Docker image do not execute them. The
+application and asset build use Python only. Browser assets are plain HTML5, CSS3
+and JavaScript; no framework compilation, hydration or Node service is required.
+Historical source is retained for parity tests and is excluded from deployment. The
 token-protected `/_frontend/*` adapter remains separate from the browser-facing
 `/api/frontend/*` read contracts.
 
@@ -32,11 +32,11 @@ Existing backend contracts and database operations remain documented in
 
 ```bash
 cp .env.example .env        # configure the existing database and AUTH_SECRET
-npm ci --ignore-scripts
-npm run backend:setup      # Python 3.14 with ICU available; Docker also provided
-npm run build              # emits only static native assets
-npm run backend:check
-npm run dev               # Python on 8000 with reload
+python3 -m venv services/backend/.venv
+services/backend/.venv/bin/pip install -r services/backend/requirements-dev.txt
+python3 scripts/build_native_assets.py
+services/backend/.venv/bin/python scripts/serve.py --check
+services/backend/.venv/bin/python scripts/serve.py --reload
 ```
 
 Use the existing 66-migration database. Migration and seed commands remain
@@ -44,8 +44,9 @@ available for explicitly chosen development databases; startup never runs them.
 `npm start` launches Python on port 8000. After the asset build, you can run
 `services/backend/.venv/bin/python scripts/serve.py` directly without Node.
 `compose.preview.yml` exposes the same Python application on port 3000.
-Use `npm run backend:test`, `npm run backend:test:postgres`, `npm run test:ui`,
-`npm run typecheck` and `npm run lint` for the migration checks. The backend README
+Use `npm test` for the native frontend suite (optional Node developer tooling),
+and run `(cd services/backend && .venv/bin/python -m pytest tests)` for the
+Python suite. The backend README
 lists the transport tests and the limits of the checks. `npm run backend:test:main`
 compares the real pinned main handlers with FastAPI using isolated PostgreSQL
 databases; set `MAIN_REFERENCE_ROOT` as described there. The current parity

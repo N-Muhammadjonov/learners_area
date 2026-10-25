@@ -5,6 +5,7 @@
 // existing server-authoritative /app access gate. No blanket Next prefetch.
 const SAFE_INDEX_ROUTES = new Set([
     "/app",
+    "/app/dashboard",
     "/app/listening/lessons",
     "/app/listening/academic",
     "/app/listening/general",

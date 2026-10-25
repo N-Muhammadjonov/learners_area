@@ -188,7 +188,7 @@ export class CampusGeometry {
 
     // The rocket is an independent 3D object; the official LA emblem floats above it.
     const rocket=new THREE.Group();rocket.name='campus_rocket';
-    rocket.scale.setScalar(1.1);
+    rocket.scale.setScalar(1.32);
     const rocketMat=new THREE.MeshStandardMaterial({color:0xfff0c6,roughness:.44,metalness:.12,emissive:0xffc46b,emissiveIntensity:.32});
     const rocketAccent=new THREE.MeshStandardMaterial({color:0xff862e,roughness:.48,metalness:.1,emissive:0xff6218,emissiveIntensity:.28});
     const body=new THREE.Mesh(new THREE.CylinderGeometry(1.45,1.7,4.8,32),rocketMat);
@@ -230,7 +230,7 @@ export class CampusGeometry {
       alphaTest: 0.03,
     });
     const logoMesh = new THREE.Sprite(logoMat);
-    logoMesh.position.set(0, 14.8, 0);
+    logoMesh.position.set(0, 18.2, 0);
     logoMesh.scale.set(11.2, 11.2, 1);
     group.add(logoMesh);
     group.userData.logo = logoMesh;

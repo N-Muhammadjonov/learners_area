@@ -20,7 +20,18 @@ async def read_view(req, user, path, search, region):
     if path == '/app/profile':
         from .browser import public_config
         auth = public_config()['public']['auth']
-        return {'profile':{'telegramIntentEnabled': auth['telegramIntentEnabled'], 'botUsername': auth['botUsername']}}
+        db = await core.pool()
+        async with db.acquire() as con:
+            study = await con.fetchrow('''SELECT current_level,current_band,target_band,exam_date,
+                daily_study_minutes,strongest_skill,weakest_skill FROM onboarding_profiles WHERE user_id=$1 LIMIT 1''', user['id'])
+            telegram = await con.fetchrow('''SELECT u.telegram_id,t.username,t.phone_number,t.phone_verified_at
+                FROM users u LEFT JOIN telegram_contacts t ON u.telegram_id=t.telegram_user_id WHERE u.id=$1 LIMIT 1''', user['id'])
+        initial = camel(study)
+        if initial and initial.get('examDate'): initial['examDate'] = initial['examDate'][:10]
+        return {'profile':{'telegramIntentEnabled': auth['telegramIntentEnabled'], 'botUsername': auth['botUsername'],
+            'study': initial, 'telegram': {'linked': bool(telegram and telegram['telegram_id']),
+            'username': telegram['username'] if telegram else None,
+            'phone': telegram['phone_number'] if telegram and telegram['phone_verified_at'] else None}}}
     if re.fullmatch(r'/app/(listening|reading|grammar)/lessons(?:/[^/]+)?', path):
         from .browser_curriculum import lessons
         return await lessons(req, user, path, q)

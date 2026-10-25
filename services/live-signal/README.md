@@ -1,7 +1,7 @@
 # Live Partner signalling service
 
 A long-running WebSocket relay for WebRTC offer/answer/ICE between the **two**
-participants of a Live Partner session. Zero dependencies (Node ≥ 22). It
+participants of a Live Partner session. Python FastAPI with Uvicorn/wsproto. It
 never receives audio, and it stores and logs nothing about calls (just in-memory
 rooms and counters).
 
@@ -22,9 +22,12 @@ Suspended/inactive accounts cannot obtain a token: the app route requires an act
 
 ## Run
 
+Install `requirements.txt` in a Python virtual environment. The relay is now Python;
+rebuild/restart any existing standalone relay host from this directory to use it.
+
 ```sh
-LIVE_PARTNER_SIGNAL_SECRET=<≥32 random chars> ALLOWED_ORIGINS=https://<app-origin> PORT=8787 node server.mjs
-npm test          # 4 integration tests over real sockets
+LIVE_PARTNER_SIGNAL_SECRET=<≥32 random chars> ALLOWED_ORIGINS=https://<app-origin> PORT=8787 python server.py
+python -m pytest test_server.py  # auth, peer relay, reconnect and rejection checks
 ```
 
 Put it behind TLS (`wss://`). Any always-on host works: a small VM, Fly.io, Railway or a container.
