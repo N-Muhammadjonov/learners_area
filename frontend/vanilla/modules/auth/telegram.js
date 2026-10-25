@@ -19,7 +19,6 @@ export function telegram(context,auth,purpose){
  let controller,pending,revision=0,waiting=false,link=null,error='';const now=context.now??Date.now,sleep=context.sleep??delay;
  const known={telegram_already_linked:t.telegramConflict,no_linked_account:t.telegramNoAccount,already_signed_in:t.telegramAlreadySignedIn,already_consumed:t.telegramExpired,expired:t.telegramExpired,intent_not_confirmed:t.telegramExpired};
  function paint(){if(signal.aborted)return;button.disabled=waiting;button.textContent=waiting?(purpose==='register'?t.telegramRegisterWaiting:t.telegramWaiting):label;holder.replaceChildren(button);
-  if(link)holder.append(el('a',{class:'text-center text-sm text-signal-600 hover:underline',href:link,target:'_blank',rel:'noopener noreferrer'},t.telegramOpen));
   if(waiting){const cancel=el('button',{type:'button',class:'text-xs text-ink-400 hover:underline'},t.telegramCancel);listen(cancel,'click',cancelIntent,signal);holder.append(cancel);}
   if(error){errorNode.textContent=error;holder.append(errorNode);}
  }
