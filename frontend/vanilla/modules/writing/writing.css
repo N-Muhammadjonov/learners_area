@@ -1,5 +1,5 @@
 /* Writing-only CSS3. Preserve shell theme variables; do not change css/global.css. */
-[data-writing-native] { min-width:0; max-width:100%; }
+[data-writing-native] { min-width:0; }
 [data-writing-native] textarea, [data-writing-native] input, [data-writing-native] select { max-width:100%; }
 [data-writing-native] textarea { resize:vertical; line-height:1.7; }
 [data-writing-native] .writing-tabs { display:flex; gap:.25rem; overflow-x:auto; scrollbar-width:thin; border-bottom:1px solid rgb(var(--ink-100)/1); }

@@ -117,6 +117,7 @@ async def read(req, user, path, q, region):
                     ev = await evaluation(con,uid,'writing_grade',row['id'],True)
                     grades[str(entry['position'])] = {'requestId':str(row['id']),'status':row['status'],'overall':ev['overallEstimate'] if ev else None}
         return {**paper,'grades':grades,'materials':materials,'aiReady':await ai_ready()}
+    grade_ready = await ai_ready() if path.rstrip('/') == '/app/writing' and q.get('tab') == 'grade' else None
     db = await core.pool()
     async with db.acquire() as con:
         parts = path.split('/')
@@ -164,11 +165,13 @@ async def read(req, user, path, q, region):
                 essays.append({**camel(r),'overall':ev['overallEstimate'] if ev else None})
             prompts = [camel(r) for r in await con.fetch(f"SELECT id,category,prompt FROM writing_prompts WHERE task_type='task1' AND {live()} ORDER BY created_at DESC")]
             blocks = await prompt_materials(con, [p['id'] for p in prompts])
-            return {'essays':essays,'task1Prompts':[{**p, 'materials':blocks.get(p['id'], [])} for p in prompts]}
+            return {'aiReady':grade_ready,'essays':essays,'task1Prompts':[{**p, 'materials':blocks.get(p['id'], [])} for p in prompts]}
         if tab == 'exam':
             counts = {r['task_type']:r['n'] for r in await con.fetch(f'SELECT task_type,count(*)::int n FROM writing_prompts WHERE {live()} GROUP BY task_type')}
             papers = [camel(r) for r in await con.fetch('SELECT id,mode,started_at,expires_at,finalized_at,finalize_reason FROM writing_exam_papers WHERE user_id=$1 ORDER BY started_at DESC LIMIT 20',uid)]
             opened = next((p for p in papers if not p['finalizedAt'] and datetime.fromisoformat(p['expiresAt'].replace('Z','+00:00'))>=datetime.now(timezone.utc)),None)
+            if opened:
+                opened = {**opened, 'remainingSeconds': max(0, int((datetime.fromisoformat(opened['expiresAt'].replace('Z','+00:00')) - datetime.now(timezone.utc)).total_seconds()))}
             return {'exam':{'availability':{'task1':counts.get('task1',0),'task2':counts.get('task2',0)},'open':opened,'recent':papers}}
         if tab == 'topic-vocabulary':
             canonical = await packs(con)

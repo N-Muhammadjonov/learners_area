@@ -18,7 +18,7 @@ export function render(scope) {
         scriptChunks.push({ text: scriptPart.transcript.slice(cursor) });
     }
     return (h("div", { className: "listening-workspace mx-auto max-w-[1600px] space-y-6" },
-        h(Link, { className: "btn-secondary", href: `/app/listening/tests/${id}` }, "\u2190 Test hub"),
+        h(Link, { "data-back-link": true, className: "btn-secondary", href: `/app/listening/tests/${id}` }, "\u2190 Test hub"),
         h("h1", { className: "font-display text-3xl" },
             title,
             " \u00B7 ",

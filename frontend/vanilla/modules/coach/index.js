@@ -19,7 +19,7 @@ export function mount(ctx) {
   const coachHost = h('div', {class: 'flex flex-col gap-6 min-w-0', 'data-coach-content': '', 'data-async-content': 'coach'});
   const dueHost = h('div', {class: 'min-w-0', 'data-coach-due-host': ''});
   root.append(h('div', {class: 'mx-auto flex w-full min-w-0 max-w-4xl flex-col gap-6', 'data-route-usable': 'coach'},
-    h('a', {href: '/app', class: 'text-sm text-ink-500 underline w-fit'}, `← ${dict.common.back}`),
+    h('a', {href: '/app', 'data-back-link': true, class: 'text-sm text-ink-500 underline w-fit'}, `← ${dict.common.back}`),
     h('div', {},
       h('h1', {class: 'font-display text-2xl text-ink-900'}, t.dashboardTitle),
       h('p', {class: 'text-sm text-ink-500'}, t.dashboardSubtitle)),

@@ -24,13 +24,13 @@ export function colorCascade(document,styles,{width=1200,height=900}={}){
  const winners=new WeakMap(),computed=new WeakMap(),unknown=new Set();let order=0;
  const put=(element,prop,entry)=>{let map=winners.get(element);if(!map){map=new Map();winners.set(element,map);}const old=map.get(prop);if(!old||Number(entry.important)>Number(old.important)||entry.important===old.important&&(cmp(entry.specificity,old.specificity)>0||cmp(entry.specificity,old.specificity)===0&&entry.order>=old.order))map.set(prop,entry);};
  function walk(container,active=true){for(const rule of container.nodes??[]){if(rule.type==='atrule'){if(rule.name.includes('keyframes'))continue;walk(rule,active&&(rule.name!=='media'||mediaMatches(rule.params,width,height)));continue;}if(!active||rule.type!=='rule')continue;
-  const declarations=(rule.nodes??[]).filter(d=>d.type==='decl'&&(d.prop.startsWith('--')||['color','background','background-color','display','visibility','opacity','font-size','font-weight'].includes(d.prop)));if(!declarations.length)continue;
+  const declarations=(rule.nodes??[]).filter(d=>d.type==='decl'&&(d.prop.startsWith('--')||['max-width','border-color','color','background','background-color','display','visibility','opacity','font-size','font-weight'].includes(d.prop)));if(!declarations.length)continue;
   let selectors;try{selectors=selectorParser().astSync(rule.selector).nodes;}catch{continue;}
   for(const ast of selectors){const selector=ast.toString();if(/::|:(?:hover|active|visited|focus-visible)(?![\w-])/.test(selector))continue;let matches;try{matches=document.querySelectorAll(selector);}catch{continue;}const rank=specificity(ast);for(const element of matches)for(const decl of declarations){const entry={value:decl.value,important:!!decl.important,specificity:rank,order:order++,selector};put(element,decl.prop==='background'?'background-color':decl.prop,entry);}}
  }}
  for(const css of styles)walk(postcss.parse(css));
  for(const element of document.querySelectorAll('[style]'))for(const prop of Array.from({length:element.style.length},(_,i)=>element.style.item(i))){if(prop.startsWith('--')||['color','background-color','display','visibility','opacity'].includes(prop))put(element,prop,{value:element.style.getPropertyValue(prop),important:element.style.getPropertyPriority(prop)==='important',specificity:[100000,0,0],order:order++});}
- function property(element,name){for(let node=element;node;node=node.parentElement){const own=winners.get(node)?.get(name);if(own)return {node,...own};}return null;}
+ function property(element,name){for(let node=element;node;node=node.parentElement){const own=winners.get(node)?.get(name);if(own&&!['inherit','unset'].includes(own.value.trim()))return own.value.trim()==='initial'?null:{node,...own};}return null;}
  function substitute(value,element,depth=0){
   if(depth>15)return '';let start;
   while((start=value.indexOf('var('))!==-1){let end=start+4,nesting=1;for(;end<value.length&&nesting;end++){if(value[end]==='(')nesting++;else if(value[end]===')')nesting--;}if(nesting)return '';

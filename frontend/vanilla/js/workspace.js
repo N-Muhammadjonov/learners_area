@@ -9,7 +9,7 @@ import {privateScope} from './private-scope.js';
 import {api} from './api-client.js';
 import {watchAuthority} from './authority.js';
 import {moduleLayout} from '../modules/shell/module-layout.js';
-import {createShell} from '../modules/shell/layout.js';
+import {createShell,focusFrame} from '../modules/shell/layout.js';
 /** Shell and authority are separate lifetimes: focus routes retain the access gate. */
 export function createWorkspace(root){let pendingScroll,lastPresentation,announced=false;let shell,shellController,session,key,locationKey,authorityController,authorityKey,release;const scroll=new Map();
  function closeShell(){shellController?.abort();shell=null;shellController=null;key=null;locationKey=null;pendingScroll=undefined;}
@@ -34,7 +34,7 @@ export function createWorkspace(root){let pendingScroll,lastPresentation,announc
  function commit(staging,context){const {url}=context,protectedRoute=!!context.session;const ordinary=protectedRoute&&url.pathname.startsWith('/app')&&context.route?.layout!=='focus';
   if(!protectedRoute){closeShell();closeAuthority();session=null;privateScope.setScope(null);scroll.clear();root.replaceChildren(...staging.childNodes);return;}
   ensureAuthority(context);if(context.session.diagnostics)void enableDiagnostics(context.signal);
-  if(!ordinary){closeShell();root.replaceChildren(...staging.childNodes);return;}
+  if(!ordinary){closeShell();const frame=context.route?.layout==='focus'?focusFrame(context,staging):staging;root.replaceChildren(...(frame===staging?staging.childNodes:[frame]));return;}
   const nextKey=context.session.user.id+':'+context.session.user.role+':'+context.locale;
   const priorScroll=pendingScroll??shell?.main.scrollTop??0;pendingScroll=undefined;shell?.end(true);
   if(shell&&locationKey)scroll.set(locationKey,priorScroll);while(scroll.size>40)scroll.delete(scroll.keys().next().value);

@@ -1,6 +1,7 @@
 import {navigationIntent} from '../../js/navigation-intent.js';
 import {viewPrewarm} from '../../js/view-prewarm.js';
 import {campusHeader} from '../campus/chrome.js';
+import {workspaceAccent} from '../campus/workspace-palette.js';
 import {enableDiagnostics,rootDiagnosticsEnabled} from '../../js/diagnostics.js';
 import {beginLinkPending} from './link-pending.js';
 import {workspaceTransition} from './transition.js';
@@ -14,6 +15,28 @@ import {shellUtilities} from './utilities.js';
 import {sectionHeader} from './section-header.js';
 import {notificationBell} from './notifications.js';
 
+/** Shared controls for ordinary workspaces and detached focus route frames. */
+export function createTopbar(context){
+ const top=el('header',{'data-shell-topbar':'',class:'native-topbar border-b border-ink-100 bg-paper-raised'});
+ const search=globalSearch(context),profile=profileMenu(context),pref=controls(context);
+ pref.className='native-topbar-preferences';pref.removeAttribute('data-auth-controls');
+ pref.setAttribute('data-campus-header-preferences','');
+ top.append(el('div',{'data-campus-header-search':''},search.node),pref,
+  el('div',{'data-campus-header-profile':''},notificationBell(context),profile.node));
+ const chrome=campusHeader(top,context);
+ chrome.update(context.url);return {top,chrome,search,profile,pref};
+}
+
+/** Reading's timed exam already owns its viewport/header; other focus details
+ * get the same topbar without remounting their data, media, timers or drafts. */
+export function focusFrame(context,staging){
+ if(staging.querySelector('.reading-workspace-header'))return staging;
+ const frame=el('div',{'data-shell':'','data-campus-shell':'','data-focus-workspace':'',class:'flex h-dvh min-h-0 flex-col overflow-hidden bg-paper'});
+ frame.style.setProperty('--workspace-accent',workspaceAccent(context.url));
+ const {top}=createTopbar(context),body=el('div',{'data-shell-main':'',class:'min-h-0 flex-1 overflow-auto'});
+ body.append(...staging.childNodes);frame.append(top,body);return frame;
+}
+
 /** Persistent native controls. Navigation lives in the campus and Management cards. */
 export function createShell(context){
  const {signal}=context;
@@ -22,20 +45,14 @@ export function createShell(context){
  // Kept detached for the workspace scroll-state contract; no sidebar is rendered.
  const sidebar=el('aside');
  const column=el('div',{class:'flex min-h-0 min-w-0 flex-1 flex-col'});
- const top=el('header',{'data-shell-topbar':'',class:'native-topbar border-b border-ink-100 bg-paper-raised'});
- const search=globalSearch(context),profile=profileMenu(context),pref=controls(context);
- pref.className='native-topbar-preferences';pref.removeAttribute('data-auth-controls');
- pref.setAttribute('data-campus-header-preferences','');
- top.append(el('div',{'data-campus-header-search':''},search.node),pref,
-  el('div',{'data-campus-header-profile':''},notificationBell(context),profile.node));
- const chrome=campusHeader(top,context);
+ const {top,chrome,search,profile,pref}=createTopbar(context);
  const main=el('main',{id:'main-content',tabindex:-1,'data-shell-main':'',class:'min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-paper'});
  const outlet=el('div',{class:'mx-auto w-full',style:{maxWidth:'var(--shell-content-max)',paddingInline:'calc(var(--shell-pad-x) + env(safe-area-inset-left)) calc(var(--shell-pad-x) + env(safe-area-inset-right))',paddingBlock:'var(--shell-pad-y)',paddingBottom:'calc(var(--shell-pad-y) + env(safe-area-inset-bottom))'}});
  const transition=workspaceTransition(context);outlet.append(transition.node);main.append(outlet);
  const sections=sectionHeader(context);
  column.append(top,sections.node,main);host.append(column);
  const utilities=shellUtilities(context);host.append(utilities.node);
- function update(url,user,state){chrome.update(url);sections.update(url);if(state)pref.updateState?.(state);if(user)profile.update(user);profile.close();search.close(false);utilities.update(url);}
+ function update(url,user,state){host.style.setProperty('--workspace-accent',workspaceAccent(url));chrome.update(url);sections.update(url);if(state)pref.updateState?.(state);if(user)profile.update(user);profile.close();search.close(false);utilities.update(url);}
  let stopPending=()=>{};
  function end(committed=false){stopPending(committed===true);transition.end();}
  signal.addEventListener('abort',()=>stopPending(),{once:true});

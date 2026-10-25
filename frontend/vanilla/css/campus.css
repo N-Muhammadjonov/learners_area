@@ -101,3 +101,39 @@
  [data-campus-back-link]{width:40px!important;min-width:40px;padding-inline:0}
 }
 @media(max-width:430px){[data-campus-back-link]{width:32px!important;min-width:32px}}
+
+/* One route return in the pinned topbar. Local game controls, cancel/leave,
+   breadcrumbs and in-panel question navigation retain their own actions. */
+[data-campus-shell] [data-shell-main] :is([data-back-link],[data-game-back],[data-games-back-to-vocabulary]){display:none!important}
+[data-campus-shell] [data-vocabulary-title]{display:none}
+
+/* Match the border hue of this module's campus sign in every theme/Focus mode.
+   Keep answer verdicts and selected tabs distinguishable from ordinary controls. */
+[data-campus-shell]:not(:has([data-campus-world])) :is(.card,.panel,.lp-panel,.practice-part-card,.flashcard-face,.flashcard-queue,.typing-stage-wrap,.typing-result,.typing-error-panel,.input,textarea,select,[role="dialog"],dialog,.dropdown-menu,[class~="border"][class*="rounded"],[class*="rounded"]:is([class~="bg-paper-raised"],[class~="bg-paper-sunken"],[class~="bg-paper"],[class~="bg-ink-950"])){
+ border:1px solid var(--workspace-accent,#00e5ff);
+ border-color:var(--workspace-accent,#00e5ff)!important;
+ box-shadow:0 0 10px color-mix(in srgb,var(--workspace-accent,#00e5ff) 14%,transparent);
+}
+[data-campus-shell]:not(:has([data-campus-world])) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold,.btn-gold-solid,.chip,.badge,.theme-btn,[data-locale-switcher] button,button:not([role="tab"])):not([data-state="right"]):not([data-state="wrong"]){
+ border:1px solid var(--workspace-accent,#00e5ff);
+ border-color:var(--workspace-accent,#00e5ff)!important;
+ box-shadow:0 0 8px color-mix(in srgb,var(--workspace-accent,#00e5ff) 20%,transparent);
+}
+[data-campus-shell] [data-native-module-header] :is(a[aria-current="page"],[aria-selected="true"]){border-bottom-color:var(--workspace-accent,#00e5ff)!important}
+[data-campus-shell]:not(:has([data-campus-world])) :is(button,a,input,textarea,select):focus-visible{outline-color:var(--workspace-accent,#00e5ff)}
+
+/* Focus removes wallpaper/glass and uses Main's flat themed section band. */
+[data-theme][data-focus="on"] [data-native-module-header]{
+ background:rgb(var(--paper-raised));color:rgb(var(--ink-900));
+ --ink-900:inherit;--ink-700:inherit;--ink-500:inherit;--ink-300:inherit;--ink-100:inherit;
+}
+[data-theme][data-focus="on"] [data-native-module-header] .native-module-title{color:rgb(var(--ink-900))}
+
+[data-focus-workspace] [data-reading-full-focus]{height:100%;min-height:0}
+
+[data-theme]:not([data-focus="on"]) [data-focus-workspace] [data-shell-topbar]{
+ background:#0b2347!important;color:#f3eee5;
+ --ink-900:243 238 229;--ink-700:234 239 247;--ink-500:205 223 237;--ink-300:180 205 225;
+ --accent:126 211 255;--accent-strong:164 225 255;--accent-contrast:8 32 68;
+}
+[data-theme]:not([data-focus="on"]) [data-focus-workspace] [data-shell-topbar] [data-locale-switcher] .bg-signal-600.text-signal-contrast{background-color:#12345a!important;color:#f3eee5!important}

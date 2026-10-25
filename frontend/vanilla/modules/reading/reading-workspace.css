@@ -93,3 +93,8 @@
 /* A General session wraps the workspace in flex columns so the passage and question panes scroll inside the focus screen. */
 .reading-fill { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; min-height: 0; overflow: hidden; }
 .reading-fill > .reading-workspace { flex: 1 1 auto; height: auto; min-height: 0; }
+/* The exam intro stays a white reading surface under the shared return bar. */
+[data-theme] [data-focus-workspace] .reading-exam-intro .card{background:#fff!important;color:#0f172a}
+[data-theme] [data-focus-workspace] .reading-exam-intro :is(.body-text,.meta-text){color:#475569!important}
+[data-theme] [data-focus-workspace] .reading-exam-intro .card-title{color:#0f172a!important}
+[data-theme] [data-focus-workspace] .reading-exam-intro .btn-primary{background:#2064b4!important;color:#fff!important}

@@ -4,7 +4,7 @@ export function render(scope) {
     const HISTORICAL_MAP_PART = 2, Image = ({ unoptimized, ...p }) => h('img', p), mapDiagramSections = d => [...new Set((d.questions ?? []).filter(q => q.kind === 'map').map(q => q.section))].sort((a, b) => a - b).length ? [...new Set((d.questions ?? []).filter(q => q.kind === 'map').map(q => q.section))].sort((a, b) => a - b) : [2];
     const textProps = { dict, sourceType: "listening", sourceId: id, catalogueLookup: true, lexicalAssistance };
     return (h("main", { className: "listening-workspace mx-auto max-w-[1600px] space-y-6", "data-listening-study": true },
-        h(Link, { className: "btn-secondary", href: `/app/listening/tests/${id}` }, "\u2190 Test hub"),
+        h(Link, { "data-back-link": true, className: "btn-secondary", href: `/app/listening/tests/${id}` }, "\u2190 Test hub"),
         h("header", { className: "card space-y-3" },
             h("h1", { className: "font-display text-3xl font-bold" },
                 "\uD83C\uDFA7 ",

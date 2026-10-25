@@ -1,19 +1,34 @@
+import {formatDateTime} from '../../js/generated/time.js';
 import {resourceBlocks} from '../live-classes/resources.js';
 import {el,button,card,navBack,link,viewRegion,post,state,safeArray,txt,label,words,uuid,missing,errMessage,fill} from './shared.js';
 const modes=['task1','task2','full'];
 const clock=n=>{const s=Math.max(0,Math.floor(n)),h=Math.floor(s/3600),m=String(Math.floor((s%3600)/60)).padStart(2,'0'),sec=String(s%60).padStart(2,'0');return h?`${h}:${m}:${sec}`:`${m}:${sec}`;};
 /** V49: original WritingExamHome, ExamRunner, exam final result. */
-export function mountTab(ctx,root){const host=el('div',{'data-writing-exam-home':'',class:'flex flex-col gap-5'});root.append(host);viewRegion(ctx,host,'writing-exam-home',data=>{
- const t=ctx.dict.writingWorkspace.exam;const d=data.exam??data,avail=d.availability??{},open=d.open??null;
- const main=el('section',{class:'writing-groups'},modes.map(m=>{
-  const n=m==='full'?Math.min(avail.task1??0,avail.task2??0):(avail[m]??0);
-  const start=button(open?.mode===m?t.resume:t.start,async()=>{if(open?.mode===m){void ctx.navigate(`/app/writing/exam/${open.id}`);return;}start.disabled=true;msg.textContent='';try{const body=await post(ctx,'/api/writing/exam',{mode:m});if(!uuid(body.id))throw Error('Missing id');void ctx.navigate(`/app/writing/exam/${body.id}`);}catch(e){msg.textContent=e.code==='other_paper_open'?t.otherOpen:t.startError;start.disabled=false;}},{signal:ctx.signal,attrs:{'data-exam-start':m}});
-  start.disabled=n===0||Boolean(open&&open.mode!==m);const msg=el('p',{role:'alert',class:'writing-error'});
-  return card(el('h3',{class:'font-display text-lg'},t.modes?.[m]?.title??m),el('p',{class:'text-base text-ink-500'},t.modes?.[m]?.body??''),el('p',{class:'text-sm text-ink-500'},n>0?`${n} ${t.promptsAvailable}`:t.noPrompts),start,msg);
- }));const resume=open?card(el('p',{},t.resumeTitle),link(`/app/writing/exam/${open.id}`,t.resume,'btn-primary')):null;
- const recent=safeArray(d.recent).map(p=>el('li',{},link(`/app/writing/exam/${p.id}`,`${t.modeLabel?.[p.mode]??p.mode} · ${p.finalizeReason?t.reason?.[p.finalizeReason]:t.inProgress}`,'card flex min-h-11 items-center p-4')));
- host.replaceChildren(el('header',{},el('h2',{class:'font-display text-xl'},t.title),el('p',{class:'text-base text-ink-500'},t.body)),resume,main,recent.length?el('ul',{class:'flex flex-col gap-2','data-exam-recent':''},recent):null);
- });}
+export function mountTab(ctx,root){
+ const host=el('section',{'data-writing-exam-home':'',class:'flex flex-col gap-5'});root.append(host);
+ viewRegion(ctx,host,'writing-exam-home',data=>{
+  const t=ctx.dict.writingWorkspace.exam,d=data.exam??data,avail=d.availability??{},open=d.open??null;
+  const intro=el('header',{},el('p',{class:'text-xs font-semibold uppercase tracking-[0.14em] text-signal-600 dark:text-signal-400'},t.eyebrow),el('h2',{class:'font-display text-xl text-ink-900'},t.title),el('p',{class:'mt-1 max-w-3xl text-base text-ink-500'},t.body));
+  const grid=el('div',{class:'grid gap-4 md:grid-cols-3'});
+  for(const mode of modes){
+   const tasks=mode==='full'?['task1','task2']:[mode],minutes=mode==='task1'?20:mode==='task2'?40:60,n=Math.min(...tasks.map(task=>avail[task]??0));
+   const message=el('p',{role:'alert',class:'writing-error',hidden:true});
+   const start=button(open?.mode===mode?t.resume:t.start,async()=>{
+    if(open?.mode===mode){void ctx.navigate(`/app/writing/exam/${open.id}`);return;}
+    start.disabled=true;message.hidden=true;
+    try{const result=await post(ctx,'/api/writing/exam',{mode});if(!uuid(result.id))throw Error('Missing id');void ctx.navigate(`/app/writing/exam/${result.id}`);}
+    catch(error){message.textContent=error.code==='other_paper_open'?t.otherOpen:t.startError;message.hidden=false;start.disabled=false;}
+   },{signal:ctx.signal,attrs:{'data-exam-start':mode}});
+   start.disabled=n===0||Boolean(open&&open.mode!==mode);
+   const metric=(label,value)=>el('div',{},el('dt',{class:'text-ink-500'},label),el('dd',{class:'font-semibold text-ink-900'},value));
+   grid.append(el('article',{class:'card motion-lift flex flex-col gap-3 p-5','data-exam-mode-card':mode},el('h3',{class:'font-display text-lg text-ink-900'},t.modes[mode].title),el('p',{class:'text-base text-ink-500'},t.modes[mode].body),el('dl',{class:'mt-auto grid grid-cols-2 gap-2 text-sm'},metric(t.timeLeft,`${minutes} ${t.minutes}`),metric(t.minWords,tasks.map(task=>task==='task1'?'150+':'250+').join(' / '))),el('p',{class:'text-sm text-ink-500'},n>0?`${n} ${t.promptsAvailable}`:t.noPrompts),start,message));
+  }
+  host.replaceChildren(intro);
+  if(open){const info=el('div',{},el('p',{class:'font-semibold text-ink-900'},`${t.resumeTitle} · ${t.modeLabel[open.mode]}`),el('p',{class:'text-sm text-ink-500'},t.resumeBody,' ',t.timeLeft,': ',clock(open.remainingSeconds??Math.max(0,Math.floor((Date.parse(open.expiresAt)-Date.now())/1000)))));host.append(el('div',{class:'card flex flex-wrap items-center justify-between gap-3 border-signal-300 p-4',role:'status','data-exam-resume':''},info,link(`/app/writing/exam/${open.id}`,t.resume,'btn-primary min-h-11')));}
+  host.append(grid);
+  if(safeArray(d.recent).length)host.append(el('div',{},el('h3',{class:'mb-2 text-sm font-semibold text-ink-900'},t.recent),el('ul',{class:'flex flex-col gap-2','data-exam-recent':''},d.recent.map(p=>el('li',{},el('a',{href:`/app/writing/exam/${p.id}`,class:'card flex min-h-11 flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm'},el('span',{class:'font-semibold text-ink-900'},t.modeLabel[p.mode]),el('span',{class:'text-ink-500'},formatDateTime(p.startedAt,ctx.locale)),el('span',{class:'text-ink-500'},p.finalizeReason?t.reason[p.finalizeReason]:t.inProgress)))))));
+ });
+}
 export function mount(ctx){const id=ctx.url.pathname.split('/')[4],host=el('main',{'data-writing-native':'','data-route-usable':'writing-exam',class:'mx-auto flex max-w-6xl flex-col gap-4'});ctx.root.append(host);if(!uuid(id)){host.append(missing(ctx));return;}viewRegion(ctx,host,'writing-exam',data=>{const p=data.paper??data.exam??data;if(p.id!==id||!Array.isArray(p.entries)){host.replaceChildren(missing(ctx));return;}if(p.finalizedAt)result(ctx,host,p,data);else runner(ctx,host,p,data.materials??{});});}
 function runner(ctx,host,paper,materials={}){const t=ctx.dict.writingWorkspace.exam,signal=ctx.signal;
  const values=new Map(),server=new Map(),positions=paper.entries.map(e=>e.position),backups=pos=>`la:writing-exam:${paper.id}:${pos}`;
