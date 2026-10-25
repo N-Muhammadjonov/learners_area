@@ -8,7 +8,7 @@
   "functions": {
     "server.py": {
       "includeFiles": "{services/backend/app/**,services/backend/assets/**,frontend/vanilla/build/**}",
-      "excludeFiles": "{node_modules/**,.next/**,src/**,tests/**,docs/**,frontend/vanilla/tests/**,frontend/vanilla/docs/**,frontend/vanilla/scripts/**,frontend/vanilla/node_modules/**,services/backend/tests/**,scripts/**,content/**,data/**,reference/**,workers/**,public/**,drizzle/**,services/telegram-bot/**,services/live-signal/**,frontend/vanilla/js/**,frontend/vanilla/modules/**,frontend/vanilla/css/**,frontend/vanilla/campus/**,frontend/vanilla/fonts/**,frontend/vanilla/brand/**,frontend/vanilla/images/**,frontend/vanilla/deliverables/**}"
+      "excludeFiles": "{node_modules,.next,src,tests,docs,scripts,content,data,reference,workers,public,drizzle,services/{telegram-bot,live-signal,backend/tests},frontend/vanilla/{js,modules,css,campus,fonts,brand,images,tests,docs,scripts,node_modules,deliverables}}/**"
     }
   }
 }
