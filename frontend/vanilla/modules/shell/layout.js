@@ -17,7 +17,7 @@ import {notificationBell} from './notifications.js';
 
 /** Shared controls for ordinary workspaces and detached focus route frames. */
 export function createTopbar(context){
- const top=el('header',{'data-shell-topbar':'',class:'native-topbar border-b border-ink-100 bg-paper-raised'});
+ const top=el('header',{'data-shell-topbar':'',class:'native-topbar bg-paper-raised'});
  const search=globalSearch(context),profile=profileMenu(context),pref=controls(context);
  pref.className='native-topbar-preferences';pref.removeAttribute('data-auth-controls');
  pref.setAttribute('data-campus-header-preferences','');
@@ -50,7 +50,7 @@ export function createShell(context){
  const outlet=el('div',{class:'mx-auto w-full',style:{maxWidth:'var(--shell-content-max)',paddingInline:'calc(var(--shell-pad-x) + env(safe-area-inset-left)) calc(var(--shell-pad-x) + env(safe-area-inset-right))',paddingBlock:'var(--shell-pad-y)',paddingBottom:'calc(var(--shell-pad-y) + env(safe-area-inset-bottom))'}});
  const transition=workspaceTransition(context);outlet.append(transition.node);main.append(outlet);
  const sections=sectionHeader(context);
- column.append(top,sections.node,main);host.append(column);
+ const band=el('div',{'data-workspace-header':''},top,sections.node);column.append(band,main);host.append(column);
  const utilities=shellUtilities(context);host.append(utilities.node);
  function update(url,user,state){host.style.setProperty('--workspace-accent',workspaceAccent(url));chrome.update(url);sections.update(url);if(state)pref.updateState?.(state);if(user)profile.update(user);profile.close();search.close(false);utilities.update(url);}
  let stopPending=()=>{};

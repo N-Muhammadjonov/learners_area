@@ -44,8 +44,8 @@ export function tokenise(text) {
             tokens.push({ value: text.slice(lastIndex, match.index), clean: "", isWord: false, start: lastIndex, end: match.index });
         }
         const value = match[0];
-        // Single letters are not worth a popover.
-        tokens.push({ value, clean: value, isWord: value.length > 1, start: match.index, end: match.index + value.length });
+        // Every English word, including I and a, supports lookup.
+        tokens.push({ value, clean: value, isWord: value.length > 0, start: match.index, end: match.index + value.length });
         lastIndex = match.index + value.length;
     }
     if (lastIndex < text.length) {

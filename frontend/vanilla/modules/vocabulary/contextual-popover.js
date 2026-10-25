@@ -14,8 +14,8 @@ import {privateScope} from '../../js/private-scope.js';
 const enc=encodeURIComponent;
 function speak(word){if(!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(word);u.lang='en-GB';speechSynthesis.cancel();speechSynthesis.speak(u);}
 export function contextualWordPopover(context,props){
- const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId,onClose}=props,t=dict.vocabulary;
- let contextual=null,unresolved=false,known=null,loading=true,saved=false,needsMeaning=false,busy=false,error=null,folders=[],folderId='',position=null,popup=null,version=0,stopped=false,focused=false;
+ const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,onClose}=props,t=dict.vocabulary;
+ let occurrenceId=initialOccurrenceId,alternatives=[],contextual=null,unresolved=false,known=null,loading=true,saved=false,needsMeaning=false,busy=false,error=null,folders=[],folderId='',position=null,popup=null,version=0,stopped=false,focused=false;
  const controller=new AbortController(),localSignal=anySignal([signal,controller.signal]);
  let observer=null;
  function place(){
@@ -42,29 +42,34 @@ export function contextualWordPopover(context,props){
   const current=++version;loading=true;error=null;unresolved=false;contextual=null;known=null;saved=false;draw();
   const url=occurrenceId
    ?`/api/vocabulary/lookup?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&occurrenceId=${enc(occurrenceId)}`
-   :`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}`;
+   :`/api/vocabulary/meaning?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&q=${enc(word)}${sourceType==='retention'?`&startChar=${startChar}&endChar=${endChar}`:''}`;
   try{
    const [lookupResult,folderResult]=await Promise.allSettled([api.request(url,{signal:localSignal}),api.request('/api/vocabulary/folders',{signal:localSignal})]);
    if(localSignal.aborted||current!==version)return;
    if(lookupResult.status==='rejected')error=failure(lookupResult.reason,dict);
    else{
-    const data=lookupResult.value;
+    let data=lookupResult.value;
+    if(sourceType==='retention'&&data?.status==='unresolved'&&occurrenceId){data=await api.request(`/api/vocabulary/meaning?sourceType=retention&sourceId=${enc(sourceId)}&q=${enc(word)}&startChar=${startChar}&endChar=${endChar}`,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
+    alternatives=Array.isArray(data?.alternatives)?data.alternatives:[];
     if(data?.status==='unresolved')unresolved=true;
-    else if(occurrenceId&&typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.known)known={...data.known,...data.contextual};}
+    else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};}
     else if(data?.contextual===null)unresolved=true;
     else error=dict.auth.errorServer;
    }
    if(folderResult.status==='fulfilled'&&Array.isArray(folderResult.value?.folders))folders=folderResult.value.folders.filter(f=>typeof f?.id==='string'&&typeof f.name==='string');
    else error=folderResult.status==='rejected'?failure(folderResult.reason,dict):dict.auth.errorServer;
+  }catch(e){if(!localSignal.aborted&&current===version)error=failure(e,dict);
   }finally{
    if(!localSignal.aborted&&current===version){loading=false;draw();}
   }
  }
  async function save(){
-  if(busy||!contextual||!occurrenceId)return;
+  if(busy||!contextual||(!occurrenceId&&!contextual.dictionary))return;
   busy=true;error=null;needsMeaning=false;draw();
   try{
-   const result=await api.request('/api/vocabulary',{method:'POST',body:{items:[{term:word,translationUz:null}],sourceType,sourceId,occurrenceId,folderId:folderId||null},signal:localSignal});
+   const result=contextual.dictionary
+    ?await api.request('/api/dictionary/save',{method:'POST',body:{...contextual.dictionary,folderId:folderId||null},signal:localSignal})
+    :await api.request('/api/vocabulary',{method:'POST',body:{items:[{term:word,translationUz:null}],sourceType,sourceId,occurrenceId,folderId:folderId||null},signal:localSignal});
    if(localSignal.aborted)return;
    if(result?.ok===true){privateScope.invalidate('vocabulary:');saved=true;}
    else error=dict.auth.errorServer;
@@ -113,7 +118,7 @@ export function contextualWordPopover(context,props){
    loading?el('p',{class:'mt-2 text-xs text-ink-300'},dict.common.loading):null,
    !loading&&known?knownBlock():null,
    !loading&&!known&&!saved?el('div',{class:'mt-2 flex flex-col gap-2'},
-    unresolved?el('div',{role:'status',class:'text-xs text-ink-500','data-word-unresolved':true},el('p',{},t.contextMissing)):null,
+    unresolved?el('div',{role:'status',class:'text-xs text-ink-500','data-word-unresolved':true},alternatives.length?el('div',{class:'space-y-2'},el('p',{},context.locale==='uz'?"Matnga mos ma’noni tanlang:":'Choose the meaning used here:'),alternatives.map(candidate=>button('w-full rounded-md border p-2 text-left',{'data-context-alternative':''},candidate.definitionEn+(candidate.translationUz?' · '+candidate.translationUz:''),()=>{contextual=candidate;unresolved=false;draw();}))):el('a',{class:'link-inline',href:'/app/vocabulary?tab=dictionary&q='+enc(word)},dict.globalDictionary.search)):null,
     contextual?[contextualBlock(),...folderAndSave()]:null):null,
    study?studyBlock(study):null,
    saved?el('p',{class:'mt-2 text-xs text-band-good','data-word-saved':true},`${t.add.added} · ${t.tab.words}`):null,

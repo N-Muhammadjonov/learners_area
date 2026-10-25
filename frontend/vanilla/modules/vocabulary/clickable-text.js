@@ -34,7 +34,7 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
   const hits=occurrences.filter(r=>r.startChar<=selected.start&&r.endChar>=selected.end),occurrence=hits.length===1?hits[0]:undefined;
   return {word:occurrence?.surfaceForm??selected.clean,occurrence};
  }
- function open(i){if(!lexicalAssistance||signal.aborted)return;if(active===i){close();return;}close();const anchor=wordNodes.get(i);if(!anchor)return;active=i;paint();const {word,occurrence}=target(i);const popover=CONTEXTUAL_SOURCES.has(sourceType)?contextualWordPopover:wordPopover;popup=popover({...context,signal},{anchor,dict,word,sourceType,sourceId,occurrenceId:occurrence?.id,catalogueLookup,onClose:()=>close(true)});}
+ function open(i){if(!lexicalAssistance||signal.aborted)return;if(active===i){close();return;}close();const anchor=wordNodes.get(i);if(!anchor)return;active=i;paint();const {word,occurrence}=target(i);const popover=CONTEXTUAL_SOURCES.has(sourceType)?contextualWordPopover:wordPopover;popup=popover({...context,signal},{anchor,dict,word,sourceType,sourceId,occurrenceId:occurrence?.id,startChar:occurrence?.startChar??tokens[i].start,endChar:occurrence?.endChar??tokens[i].end,catalogueLookup,onClose:()=>close(true)});}
  function cancelHold(){clearTimeout(hold);hold=null;}
  listen(region,'pointerdown',e=>{clearTimeout(pending);cancelHold();close();gesture={x:e.clientX,y:e.clientY,started:Date.now(),cancelled:e.button!==0};
   const pressed=e.target instanceof Element?e.target.closest('[data-token]'):null;

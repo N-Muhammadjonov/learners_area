@@ -1,4 +1,4 @@
-import {el} from '../../js/dom.js';
+import {el,listen} from '../../js/dom.js';
 import {viewData} from '../../js/adapters/frontend.js';
 import {readingRetentionDTO} from '../../js/adapters/reading-v44.js';
 import {api} from '../../js/api-client.js';
@@ -15,6 +15,13 @@ const remaining=(iso,skew)=>iso?Math.ceil((Date.parse(iso)-(Date.now()+skew))/10
 export function mountRetention(context){
  const {root,url,signal,dict,locale}=context,t=dict.retentionMemory,host=el('div',{class:'mx-auto flex max-w-6xl flex-col gap-6','data-retention-page':true,'data-route-usable':'retention','data-native-view':'retention'});
  root.append(host);let busy=false;
+ const rootElement=document.documentElement;let previousFocus,ownsFocus=false;
+ const retentionActive=active=>{
+  if(active){if(!ownsFocus){previousFocus=rootElement.dataset.focus;ownsFocus=true;}rootElement.dataset.retentionFocus='on';rootElement.dataset.focus='on';}
+  else if(ownsFocus){delete rootElement.dataset.retentionFocus;if(previousFocus===undefined)delete rootElement.dataset.focus;else rootElement.dataset.focus=previousFocus;ownsFocus=false;}
+ };
+ context={...context,retentionActive};
+ signal.addEventListener('abort',()=>retentionActive(false),{once:true});
  // The summary and history nodes shown beside the session. A finished attempt re-reads only these two (the original router.refresh()),
  // so the learner keeps the result on screen and the overview is current.
  const overview={summary:null,history:null};
@@ -31,11 +38,11 @@ export function mountRetention(context){
  }
  async function load(){
   if(busy||signal.aborted)return;busy=true;
-  host.replaceChildren(el('header',{class:'flex flex-col gap-2'},el('h1',{class:'page-title'},t.title),el('p',{class:'page-subtitle'},t.subtitle),el('p',{class:'body-text'},t.intro)),el('p',{class:'panel meta-text',role:'status','aria-busy':'true'},dict.common.loading));
+  host.replaceChildren(el('p',{class:'panel meta-text',role:'status','aria-busy':'true'},dict.common.loading));
   try{
    const raw=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;
    const data=readingRetentionDTO(raw);
-   host.replaceChildren(el('header',{class:'flex flex-col gap-2'},el('h1',{class:'page-title'},t.title),el('p',{class:'page-subtitle'},t.subtitle),el('p',{class:'body-text'},t.intro)),session(context,data,{overview,refreshOverview}));
+   host.replaceChildren(session(context,data,{overview,refreshOverview}));
   }catch(e){
    if(signal.aborted)return;
    host.replaceChildren(RegionFailureNotice({region:'retention',message:dict.auth.errorServer,retryLabel:dict.globalDictionary.retry,refresh:load}));
@@ -174,7 +181,7 @@ function retentionSession(context,initial,onTerminal){
   if(!alive())return;
   const active=host.contains(document.activeElement)?document.activeElement:null;const focusId=active?.id??null;
   const caret=active&&typeof active.selectionStart==='number'?{start:active.selectionStart,end:active.selectionEnd}:null;
-  const p=state.payload;let node;
+  const p=state.payload;context.retentionActive?.(isActive(p));let node;
   if(!p){node=entry();}
   else if(p.phase==='reading')node=readingPhase(p);
   else if(p.phase==='awaiting_recall')node=awaitingPhase(p);
@@ -182,6 +189,7 @@ function retentionSession(context,initial,onTerminal){
   else node=resultPhase(p);
   for(const old of host.querySelectorAll('[data-highlight-host]'))old.stop?.();
   host.replaceChildren(node);
+  const source=host.querySelector('[data-retention-source]');if(source)source.dataset.highlightHost='';
   if(focusId){const n=document.getElementById(focusId);n?.focus?.({preventScroll:true});if(caret&&n&&typeof n.setSelectionRange==='function')try{n.setSelectionRange(caret.start,caret.end);}catch{}}
  }
  function entry(){
@@ -201,11 +209,14 @@ function retentionSession(context,initial,onTerminal){
   const timer=el('span',{class:'tab',role:'timer','aria-live':'off','data-retention-reading-timer':String(s)},`${t.readingTimeLeft} ${clock(s)}`);
   const finish=el('button',{type:'button',class:'btn-primary','data-retention-finish-reading':true,disabled:s<=0?true:null},t.finishReading);
   finish.addEventListener('click',()=>void finishReading());
-  return el('div',{class:'flex flex-col gap-4','data-retention-phase':'reading','data-retention-attempt':p.attemptId},
+  const reading=el('div',{class:'flex flex-col gap-4','data-retention-phase':'reading','data-retention-attempt':p.attemptId},
    el('div',{class:'flex flex-wrap items-center justify-between gap-3'},el('h2',{class:'section-title'},t.readingTitle),timer),
    el('p',{class:'body-text'},t.readingHint),
-   s>0?el('article',{class:'academic-text panel whitespace-pre-line text-[1.05rem] leading-8 text-ink-800','data-retention-source':true},clickableText(context,{text:p.bodyText,sourceType:'retention',sourceId:p.attemptId,occurrences:p.occurrences??[],phraseAware:true,doubleClickLookup:true}).node):el('p',{class:'panel',role:'status','data-retention-phase-pending':true},dict.common.loading),
+   s>0?el('article',{class:'academic-text retention-source whitespace-pre-line text-[1.05rem] leading-8 text-ink-800','data-retention-source':true},retentionText(context,{text:p.bodyText,sourceType:'retention',sourceId:p.attemptId,occurrences:p.occurrences??[],phraseAware:true,doubleClickLookup:false}).node):el('p',{class:'panel',role:'status','data-retention-phase-pending':true},dict.common.loading),
    el('div',{class:'flex items-center justify-between gap-3'},el('span',{class:'meta-text'},t.readingWords.replace('{n}',String(p.wordCount))),el('div',{class:'flex flex-wrap gap-2'},finish)));
+  const article=reading.querySelector('[data-retention-source]');
+  if(article){for(const event of ['copy','cut','dragstart','contextmenu'])listen(article,event,e=>e.preventDefault(),signal);}
+  return reading;
  }
  function awaitingPhase(p){
   if(!poll_started){poll_started=true;void refreshPhase();}
@@ -278,6 +289,13 @@ function retentionSession(context,initial,onTerminal){
 export function mountRetentionResult(context){
  const {root,url,signal,dict}=context,t=dict.retentionMemory,id=url.pathname.split('/')[5],host=el('div',{class:'mx-auto flex max-w-4xl flex-col gap-6','data-retention-result-page':true,'data-route-usable':'retention-result'});
  root.append(host);let busy=false;
+ const rootElement=document.documentElement;let previousFocus,ownsFocus=false;
+ const retentionActive=active=>{
+  if(active){if(!ownsFocus){previousFocus=rootElement.dataset.focus;ownsFocus=true;}rootElement.dataset.retentionFocus='on';rootElement.dataset.focus='on';}
+  else if(ownsFocus){delete rootElement.dataset.retentionFocus;if(previousFocus===undefined)delete rootElement.dataset.focus;else rootElement.dataset.focus=previousFocus;ownsFocus=false;}
+ };
+ context={...context,retentionActive};
+ signal.addEventListener('abort',()=>retentionActive(false),{once:true});
  async function load(){
   if(busy||signal.aborted)return;busy=true;host.replaceChildren(el('p',{role:'status'},dict.common.loading));
   try{
@@ -296,3 +314,7 @@ export function mountRetentionResult(context){
  void load();
 }
 function BackLinkLocal(label,href){return el('a',{class:'btn-ghost inline-flex min-h-11 w-fit items-center gap-1',href,'data-back-link':true},el('span',{'aria-hidden':'true'},'←'),label);}
+
+function retentionText(context,props){
+ const value=clickableText(context,props);value.node.setAttribute('data-highlight-host','');value.node.stop=value.stop;return value;
+}

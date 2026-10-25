@@ -29,9 +29,7 @@ export function mount(context) {
       h('a', {class: 'btn-primary', href: `/app/grammar/lessons/${lesson.id}`}, dict.listening.hub.open)));
     return h('div', {class: 'mx-auto flex max-w-5xl flex-col gap-5', 'data-route-usable': 'grammar-lessons'},
       h('div', {class: 'grid gap-4 sm:grid-cols-2'}, cards),
-      h('nav', {class: 'flex gap-3', 'aria-label': dict.readingHub.page},
-        page > 1 ? h('a', {class: 'btn-secondary', href: pageHref(page - 1), rel: 'prev'}, dict.readingHub.prevPage) : null,
-        p.library.hasMore ? h('a', {class: 'btn-secondary', href: pageHref(page + 1), rel: 'next'}, dict.readingHub.nextPage) : null));
+      null);
   }
 
   async function load() {

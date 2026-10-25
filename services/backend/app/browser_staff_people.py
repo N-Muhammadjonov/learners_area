@@ -54,17 +54,29 @@ async def read(req, user, kind, q):
             args,conds = [],[]
             query = q.get('q','').strip()[:100]
             role,status = q.get('role'),q.get('status')
+            online_only = q.get('online')=='1'
             if role and role not in ('student','teacher','admin','owner'): raise HTTPException(400,'invalid_filter')
             if status and status not in ('pending','active','rejected','suspended'): raise HTTPException(400,'invalid_filter')
+            online = "coalesce(a.created_at>now()-interval '90 seconds' AND u.account_status='active',false)"
+            source = " FROM users u LEFT JOIN activity_events a ON a.id=md5('site-presence:'||u.id::text)::uuid AND a.type='SITE_PRESENCE' LEFT JOIN telegram_contacts tc ON tc.telegram_user_id=u.telegram_id AND (tc.linked_user_id IS NULL OR tc.linked_user_id=u.id)"
             if query:
-                args.append('%'+re_escape_like(query)+'%');conds.append('(name ILIKE $1 OR email ILIKE $1)')
-            for value,column in ((role,'role'),(status,'account_status')):
+                args.append('%'+re_escape_like(query.lstrip('@'))+'%')
+                conds.append('(u.name ILIKE $1 OR u.email ILIKE $1 OR tc.username ILIKE $1)')
+            for value,column in ((role,'u.role'),(status,'u.account_status')):
                 if value: args.append(value);conds.append(f'{column}=${len(args)}')
+            if not status:conds.append("u.account_status<>'rejected'")
+            if online_only:conds.append(online)
             where = ' WHERE '+' AND '.join(conds) if conds else ''
-            total = await con.fetchval('SELECT count(*)::int FROM users'+where,*args)
+            total = await con.fetchval('SELECT count(*)::int'+source+where,*args)
+            online_count = await con.fetchval('SELECT count(*)::int'+source+' WHERE '+online)
             pages = max(1,math.ceil(total/25));page = min(pages,number(q.get('page'),maximum=100000))
-            rows = await con.fetch('SELECT id,name,email,role,account_status,status_reason,created_at,last_active_at,telegram_id IS NOT NULL AS telegram_linked FROM users'+where+f' ORDER BY created_at DESC,id LIMIT 25 OFFSET {(page-1)*25}',*args)
-            return {'people':[camel(r) for r in rows],'filters':{'q':query,'role':role or None,'status':status or None},'page':page,'pageSize':25,'total':total,'totalPages':pages,'actorId':str(user['id']),'actorRole':user['role'],'grantableRoles':['student','teacher','admin','owner'] if user['role']=='owner' else ['student','teacher']}
+            # Verified phone numbers are visible to the owner only, matching the original directory.
+            phone = "CASE WHEN tc.phone_verified_at IS NOT NULL THEN tc.phone_number END" if user['role']=='owner' else 'NULL::text'
+            rows = await con.fetch(f"""SELECT u.id,u.name,u.email,u.role,u.account_status,u.status_reason,u.created_at,u.last_active_at,
+              u.telegram_id IS NOT NULL AS telegram_linked,tc.username,{phone} AS phone_number,{online} AS online,
+              a.created_at AS seen_at,(a.payload->>'visitSeconds')::int AS visit_seconds,
+              (a.payload->>'totalSeconds')::bigint AS total_seconds"""+source+where+f" ORDER BY CASE u.role WHEN 'owner' THEN 0 WHEN 'teacher' THEN 1 WHEN 'admin' THEN 2 ELSE 3 END,{online} DESC,coalesce(a.created_at,u.last_active_at) DESC,u.id DESC LIMIT 25 OFFSET {(page-1)*25}",*args)
+            return {'people':[camel(r) for r in rows],'filters':{'q':query,'role':role or None,'status':status or None,'online':online_only},'page':page,'pageSize':25,'total':total,'totalPages':pages,'onlineCount':online_count,'actorId':str(user['id']),'actorRole':user['role'],'grantableRoles':['student','teacher','admin','owner'] if user['role']=='owner' else ['student','teacher']}
         if kind == 'roster':
             teachers = [camel(r) for r in await con.fetch("SELECT id,name FROM users WHERE role='teacher' ORDER BY name,id LIMIT 1000")]
             selected = next((t for t in teachers if t['id']==q.get('teacher')),teachers[0] if teachers else None)

@@ -59,11 +59,11 @@ def error_response(exc):
 
 async def worker(input):
     import httpx
-    target=os.environ.get('DICTIONARY_WORKER_URL','')
+    target=os.environ.get('DICTIONARY_WORKER_URL','').strip()
     secret=os.environ.get('DICTIONARY_SIGNING_SECRET','')
     parsed=urlparse(target)
     if (not target or len(secret)<32 or parsed.username or parsed.password or parsed.query or parsed.fragment or
-        parsed.path!='/' or not (parsed.scheme=='https' or (os.environ.get('NODE_ENV')!='production' and parsed.scheme=='http' and parsed.hostname=='127.0.0.1'))):
+        parsed.path not in ('','/') or not (parsed.scheme=='https' or (os.environ.get('NODE_ENV')!='production' and parsed.scheme=='http' and parsed.hostname=='127.0.0.1'))):
         raise ValueError('dictionary_worker_unavailable')
     content=json.dumps(input,separators=(',',':'),ensure_ascii=False)
     now=int(time.time())
@@ -71,7 +71,7 @@ async def worker(input):
     digest=hmac.new(secret.encode(),message.encode(),hashlib.sha256).digest()
     sig=base64.urlsafe_b64encode(digest).decode().rstrip('=')
     async with httpx.AsyncClient(timeout=10,follow_redirects=False) as client:
-        resp=await client.post(target+'v1/dictionary',content=content.encode(),headers={'Content-Type':'application/json','X-LA-Dictionary-Proof':f'{now}:{sig}'})
+        resp=await client.post(target.rstrip('/')+'/v1/dictionary',content=content.encode(),headers={'Content-Type':'application/json','X-LA-Dictionary-Proof':f'{now}:{sig}'})
     if resp.status_code!=200 or len(resp.content)>2*1024*1024:raise ValueError('dictionary_worker_unavailable')
     return resp.json()
 

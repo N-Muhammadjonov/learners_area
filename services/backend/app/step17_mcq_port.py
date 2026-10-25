@@ -50,16 +50,39 @@ async def available_set(con,test):
     rows=await con.fetch('SELECT id FROM listening_questions WHERE test_id=$1 AND content_version_id IS NULL ORDER BY "order"',test)
     if not rows:rows=await con.fetch('SELECT id FROM listening_questions WHERE test_id=$1 ORDER BY "order"',test)
     return {str(r['id']) for r in rows}
-async def sequence(con,user,test):
+async def programme_snapshot(con,user,include_drafts=False):
+    condition="t.program_ref='listening-mcq-program' AND t.program_ordinal IS NOT NULL AND NOT EXISTS(SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:'||t.id::text)::uuid AND d.type='CONTENT_DELETED')"
+    if not include_drafts:condition+=" AND (t.publication_state='published' OR (t.publication_state='scheduled' AND t.publish_at<=now()))"
+    tests=await con.fetch('SELECT t.* FROM listening_tests t WHERE '+condition+' ORDER BY t.program_ordinal,t.id')
+    if not tests:return []
+    ids=[r['id'] for r in tests]
+    questions=await con.fetch("""WITH latest AS (SELECT DISTINCT ON (target_id) target_id,id FROM content_versions
+      WHERE target_type='listening_test' AND target_id=ANY($2::uuid[]) AND status='published' ORDER BY target_id,version_no DESC)
+      SELECT q.test_id,q.id,s.stage FROM listening_questions q LEFT JOIN latest v ON v.target_id=q.test_id
+      LEFT JOIN listening_mcq_sessions s ON s.question_id=q.id AND s.user_id=$1
+      WHERE q.test_id=ANY($2::uuid[]) AND CASE
+       WHEN EXISTS(SELECT 1 FROM listening_questions x WHERE x.test_id=q.test_id AND x.content_version_id=v.id) THEN q.content_version_id=v.id
+       WHEN EXISTS(SELECT 1 FROM listening_questions x WHERE x.test_id=q.test_id AND x.content_version_id IS NULL) THEN q.content_version_id IS NULL
+       ELSE true END""",user['id'],ids)
+    grouped={id:[] for id in ids}
+    for question in questions:grouped[question['test_id']].append(question)
+    result=[]
+    for test in tests:
+        values=grouped[test['id']];total=len(values);completed=sum(q['stage']=='reasoned' for q in values)
+        result.append({**dict(test),'status':{'state':'completed' if total and completed==total else 'in_progress' if any(q['stage'] for q in values) else 'not_started','total':total,'completed':completed}})
+    return result
+
+async def sequence(con,user,test,cache=None):
     if staff(user):return True
+    if cache is None:cache={}
     if test['program_ref']=='listening-mcq-program':
-        rows=await con.fetch("""SELECT id,program_ordinal FROM listening_tests WHERE program_ref='listening-mcq-program' AND (publication_state='published' OR (publication_state='scheduled' AND publish_at<=now())) AND NOT EXISTS (SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:' || listening_tests.id::text)::uuid AND d.type='CONTENT_DELETED') ORDER BY program_ordinal""")
-        for x in rows:
-            if x['id']==test['id']:return True
-            live_ids=await available_set(con,x['id'])
-            complete=await con.fetch('SELECT question_id FROM listening_mcq_sessions WHERE user_id=$1 AND test_id=$2 AND stage=$3',user['id'],x['id'],'reasoned')
-            if not live_ids or len({str(r['question_id']) for r in complete}&live_ids)<len(live_ids):return False
-        return False
+        if 'programme' not in cache:
+            snapshot=await programme_snapshot(con,user);access={};previous=True
+            for row in snapshot:
+                access[row['id']]=previous;previous=previous and row['status']['state']=='completed'
+            cache['programme']=access
+        return cache['programme'].get(test['id'],False)
+    if 'course' in cache:return cache['course'].get(test['id'],True)
     # The original course sequence is ordered by authored batch numbers and
     # persisted per-user checkpoints, never by the displayed title.
     from .step17_listening_course_port import CATALOGUE,SPEC,COURSE_KEY,read_work,course_status,runtime_source,state_key
@@ -72,7 +95,7 @@ async def sequence(con,user,test):
       WHERE (t.publication_state='published' OR (t.publication_state='scheduled' AND t.publish_at<=now()))
       AND NOT EXISTS(SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:' || t.id::text)::uuid AND d.type='CONTENT_DELETED')
       ORDER BY t.created_at,CASE {cases} ELSE NULL END,t.source_ref,t.id""",*arguments)
-    previous_complete=True
+    previous_complete=True;access={}
     for row in rows:
         if not runtime_source(str(row['id']),row['source_id']):continue
         source=row['source_id'];spec=SPEC.get(source)
@@ -87,9 +110,10 @@ async def sequence(con,user,test):
             if state.get('attemptStatus')=='submitted' and isinstance(results,list) and len(results)==40:
                 work={**work,'exam':True,'retry':[str(r.get('q')) for r in results if r.get('ok') is False]}
         complete=course_status(spec,work)['complete']
-        if row['id']==test['id']:return previous_complete
+        access[row['id']]=previous_complete
         previous_complete=previous_complete and complete
-    return True
+    cache['course']=access
+    return access.get(test['id'],True)
 async def access(con,user,q):
     test=await con.fetchrow('SELECT * FROM listening_tests WHERE id=$1',q['test_id'])
     if not test or (not staff(user) and not live(test)):return 'not_found'

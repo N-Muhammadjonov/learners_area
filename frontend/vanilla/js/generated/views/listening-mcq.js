@@ -13,7 +13,7 @@ export function render(scope) {
     const kindLabel = (dict, type) => dict.admin[({ lesson: 'materialsKindLesson', reading: 'materialsKindReading', listening: 'materialsKindListening', writing: 'materialsKindWriting', speaking: 'materialsKindSpeaking', grammar: 'materialsKindGrammar', assignment: 'materialsKindAssignment', live_class: 'materialsKindLiveClass' })[type]];
     const t = dict.listening.mcqProgram;
     const staff = isStaff(user.role);
-    return (h("div", { className: "mx-auto flex max-w-5xl flex-col gap-6", "data-route-usable": "listening-mcq" }, days.length === 0 ? (h("section", { className: "card space-y-2 p-6", "data-listening-mcq-empty": true },
+    return (h("div", { className: "mx-auto flex w-full min-w-0 flex-col gap-6", "data-route-usable": "listening-mcq" }, days.length === 0 ? (h("section", { className: "card space-y-2 p-6", "data-listening-mcq-empty": true },
         h("h2", { className: "font-display text-lg text-ink-900" }, t.emptyTitle),
         h("p", { className: "text-sm text-ink-500" }, t.emptyHint),
         staff && h("p", { className: "text-sm text-ink-300", "data-listening-mcq-staff-hint": true }, t.staffHint))) : (h("div", { className: "grid grid-cols-1 gap-4 sm:grid-cols-2", "data-listening-mcq-grid": true }, days.map((card) => (h("section", { key: card.testId, className: "card flex flex-col gap-3 p-5", "data-listening-mcq-card": card.day },

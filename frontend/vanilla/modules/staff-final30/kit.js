@@ -59,7 +59,7 @@ export function pageParam(url,key='page'){const n=Number(url.searchParams.get(ke
  * protection and abort cleanup. `render(ctx,data,api)` returns a Node; api.reload({quiet}) refetches
  * (router.refresh() equivalent) and api.rerender() repaints from current data.
  */
-export function mountStaff({name,roles,load,render,notFoundBack}){
+export function mountStaff({name,roles,load,render,notFoundBack,pollMs=0}){
  return async function mount(ctx){
   const {root,signal,dict,session,navigate}=ctx;
   if(!roles.includes(session.user.role)){void navigate('/app',{replace:true});return;}
@@ -79,6 +79,7 @@ export function mountStaff({name,roles,load,render,notFoundBack}){
   const api={reload,rerender:()=>{if(data!==undefined&&!signal.aborted)paint();},get data(){return data;}};
   signal.addEventListener('abort',()=>{serial++;host.remove();},{once:true});
   await reload();
+  if(pollMs&&!signal.aborted){const timer=setInterval(()=>{if(document.visibilityState!=='hidden'&&!(host.contains(document.activeElement)&&document.activeElement.matches('input,textarea,select,[contenteditable=true]'))&&!host.querySelector('dialog[open],[aria-busy=true]'))void reload({quiet:true});},pollMs);signal.addEventListener('abort',()=>clearInterval(timer),{once:true});}
  };
 }
 /**

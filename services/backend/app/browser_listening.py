@@ -5,7 +5,7 @@ import re
 from fastapi import HTTPException
 from . import main as core
 from .browser_common import camel, identifier, live, number, safe_resource
-from .step17_mcq_port import available_set, sequence, staff, live as is_live
+from .step17_mcq_port import available_set, sequence, programme_snapshot, staff, live as is_live
 from .step17_listening_course_port import runtime_source, SPEC, current_work, course_status
 
 PRODUCT_SQL = """CASE WHEN t.program_ref IS NOT NULL THEN 'mcq_programme'
@@ -85,16 +85,16 @@ async def days(con, user, q, ordinal=None):
         if not await sequence(con,user,t): raise HTTPException(403,'sequence_locked')
         questions = await mcq_rows(con,user['id'],t['id'])
         return {'day':ordinal,'testId':str(t['id']),'title':t['title'],'audioUrl':t['audio_url'],'draft':not is_live(t),'questions':questions,'status':day_status(questions)}
-    page = number(q.get('page'))
-    visible = await con.fetchval(f'SELECT count(*)::int FROM listening_tests t WHERE {condition}')
-    progress = await programme_progress(con,user['id'])
-    rows = await con.fetch(f'SELECT t.* FROM listening_tests t WHERE {condition} ORDER BY program_ordinal LIMIT 25 OFFSET $1',(page-1)*24)
-    cards = []
-    for t in rows[:24]:
-        questions = await mcq_rows(con,user['id'],t['id'])
-        status = day_status(questions)
-        cards.append({'day':t['program_ordinal'],'testId':str(t['id']),'title':t['title'],'questionCount':len(questions),'status':status,'draft':not is_live(t),'locked':not await sequence(con,user,t)})
-    return {'days':cards,'progress':progress,'page':page,'pageSize':24,'hasNextPage':len(rows)>24,'visibleDays':visible}
+    snapshot = await programme_snapshot(con,user,include_drafts=staff(user))
+    cards=[];previous_complete=True
+    for row in snapshot:
+        status=row['status'];draft=not is_live(row)
+        cards.append({'day':row['program_ordinal'],'testId':str(row['id']),'title':row['title'],
+          'questionCount':status['total'],'status':status,'draft':draft,'locked':not staff(user) and not previous_complete})
+        if not draft:previous_complete=previous_complete and status['state']=='completed'
+    progress={'daysPublished':sum(not c['draft'] for c in cards),'daysCompleted':sum(not c['draft'] and c['status']['state']=='completed' for c in cards),
+      'questionsPublished':sum(c['questionCount'] for c in cards if not c['draft']),'questionsCompleted':sum(c['status']['completed'] for c in cards if not c['draft'])}
+    return {'days':cards,'progress':progress,'page':1,'pageSize':max(1,len(cards)),'hasNextPage':False,'visibleDays':len(cards)}
 
 
 async def facts(con, uid, id, p):
@@ -127,9 +127,9 @@ async def facts(con, uid, id, p):
 async def catalogue(con, user, product, q):
     where = f'{live("t")} AND {NOT_DELETED} AND ({PRODUCT_SQL})=$1'
     total = await con.fetchval(f'SELECT count(*)::int FROM listening_tests t LEFT JOIN listening_packages p ON p.test_id=t.id WHERE {where}',product)
-    page = number(q.get('page'))
+    access_cache = {}
     rows = await con.fetch(f'''SELECT t.*,p.payload,p.source_id,p.audio_object_key,p.image_object_key FROM listening_tests t
-      LEFT JOIN listening_packages p ON p.test_id=t.id WHERE {where} ORDER BY t.created_at,t.source_ref,t.id LIMIT 24 OFFSET $2''',product,(page-1)*24)
+      LEFT JOIN listening_packages p ON p.test_id=t.id WHERE {where} ORDER BY t.created_at,t.source_ref,t.id''',product)
     cards = []
     for t in rows:
         p = payload(t); id = t['id']
@@ -151,8 +151,8 @@ async def catalogue(con, user, product, q):
                 status = course_status(SPEC[t['source_id']],await current_work(con,user['id'],str(id),t['source_id'],values))
                 completed,count = status['completed'],status['total']
                 started = started or bool(values)
-            cards.append({'testId':str(id),'title':t['title'],'parts':len(p.get('sections',[])),'questions':len(p.get('questions',[])) or len(await available_set(con,id)),'minutes':math.floor(p['audio']['durationSec']/60+.5) if p.get('audio',{}).get('durationSec') else None,'completed':completed,'activityCount':count,'started':started,'locked':not await sequence(con,user,t),'exam':{'score':exam['score'],'total':exam['total_questions']} if exam else None})
-    return {'cards':cards,'total':total,'page':page,'pageSize':24,'hasMore':page*24<total}
+            cards.append({'testId':str(id),'title':t['title'],'parts':len(p.get('sections',[])),'questions':len(p.get('questions',[])) or len(await available_set(con,id)),'minutes':math.floor(p['audio']['durationSec']/60+.5) if p.get('audio',{}).get('durationSec') else None,'completed':completed,'activityCount':count,'started':started,'locked':not await sequence(con,user,t,access_cache),'exam':{'score':exam['score'],'total':exam['total_questions']} if exam else None})
+    return {'cards':cards,'total':total,'page':1,'pageSize':max(1,len(cards)),'hasMore':False}
 
 
 async def read(req, user, path, q):

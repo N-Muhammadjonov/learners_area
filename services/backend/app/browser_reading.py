@@ -23,13 +23,33 @@ def academic_question_count():
       AND NOT coalesce(CASE s.source_ref {cases} ELSE false END,false))=40))'''
 
 
+async def academic_catalogue(con,user):
+    rows=await con.fetch(f"""SELECT s.id,s.title,s.created_at FROM general_reading_sets s WHERE {live('s')}
+      AND (SELECT count(*) FROM general_reading_passages g WHERE g.set_id=s.id)=3
+      AND NOT EXISTS(SELECT 1 FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=s.id AND (g.passage_no NOT IN (1,2,3) OR NOT {live('p')} OR NOT EXISTS(SELECT 1 FROM reading_questions q WHERE q.passage_id=p.id)))
+      AND {academic_question_count()}
+      AND NOT EXISTS(SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:'||s.id::text)::uuid AND d.type='CONTENT_DELETED')
+      ORDER BY (SELECT min(p.test_no) FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=s.id) NULLS LAST,
+        (SELECT min(p.external_id) FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=s.id) NULLS LAST,s.created_at,s.id""")
+    if not rows:return []
+    ids=[r['id'] for r in rows]
+    slots=await con.fetch('SELECT g.set_id,g.passage_no,p.title FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=ANY($1::uuid[]) ORDER BY g.passage_no',ids)
+    states=await con.fetch("""SELECT DISTINCT ON (a.set_id) a.set_id,r.id,r.status,
+      EXISTS(SELECT 1 FROM reading_assessments done JOIN reading_attempts x ON x.id=done.attempt_id WHERE done.set_id=a.set_id AND x.user_id=$1 AND x.status='completed') completed
+      FROM reading_assessments a JOIN reading_attempts r ON r.id=a.attempt_id
+      WHERE r.user_id=$1 AND a.set_id=ANY($2::uuid[]) ORDER BY a.set_id,r.started_at DESC,r.id DESC""",user['id'],ids)
+    by_id={r['set_id']:r for r in states};previous=True;result=[]
+    for row in rows:
+        state=by_id.get(row['id'])
+        result.append({'id':str(row['id']),'title':row['title'],'locked':not staff(user) and not previous,
+          'assessmentStatus':state['status'] if state else 'not_started','attemptId':str(state['id']) if state else None,
+          'passages':[camel({k:s[k] for k in ('passage_no','title')}) for s in slots if s['set_id']==row['id']]})
+        previous=previous and bool(state and state['completed'])
+    return result
+
 async def academic_locked(con,user,row):
-    if staff(user): return False
-    return await con.fetchval('''SELECT EXISTS(SELECT 1 FROM general_reading_sets s
-      WHERE (s.publication_state='published' OR (s.publication_state='scheduled' AND s.publish_at<=now()))
-      AND (s.created_at,s.id)<($1,$2) AND NOT EXISTS(SELECT 1 FROM reading_assessments a
-        JOIN reading_attempts r ON r.id=a.attempt_id WHERE a.set_id=s.id AND r.user_id=$3 AND r.status='completed'))''',
-      row['created_at'],row['id'],user['id'])
+    if staff(user):return False
+    return next((item['locked'] for item in await academic_catalogue(con,user) if item['id']==str(row['id'])),True)
 
 
 def public_question(row, reveal=False):
@@ -115,11 +135,11 @@ async def library(con, uid, q):
     if status == 'not_started': conds.append('r.passage_id IS NULL')
     source = ' FROM general_reading_passages g JOIN general_reading_sets s ON s.id=g.set_id JOIN reading_passages p ON p.id=g.passage_id LEFT JOIN general_reading_progress r ON r.passage_id=p.id AND r.user_id=$1 WHERE '+' AND '.join(conds)
     total = await con.fetchval('SELECT count(*)::int'+source,*args)
-    pages = max(1,math.ceil(total/24)); page = min(pages,number(q.get('page')))
+    pages = 1; page = 1
     rows = await con.fetch('''SELECT p.id,p.title,p.test_no,g.passage_no,p.topic_code,p.suggested_minutes,g.set_id,
       (SELECT count(*)::int FROM reading_questions q WHERE q.passage_id=p.id) question_count,
       CASE WHEN r.checked_at IS NOT NULL THEN 'completed' WHEN r.passage_id IS NOT NULL THEN 'in_progress' ELSE 'not_started' END status,
-      CASE WHEN r.checked_at IS NOT NULL THEN r.score END last_score,NULL::uuid last_attempt_id'''+source+f' ORDER BY s.created_at,g.passage_no,p.id LIMIT 24 OFFSET {(page-1)*24}',*args)
+      CASE WHEN r.checked_at IS NOT NULL THEN r.score END last_score,NULL::uuid last_attempt_id'''+source+f' ORDER BY p.test_no NULLS LAST,p.external_id NULLS LAST,s.created_at,g.passage_no,p.id',*args)
     topics = await con.fetch(f'SELECT p.topic_code code,count(*)::int count FROM reading_passages p WHERE {live("p")} AND p.topic_code IS NOT NULL GROUP BY p.topic_code ORDER BY p.topic_code')
     types = await con.fetch(f'SELECT {canonical_sql()} code,count(DISTINCT p.id)::int count FROM reading_passages p JOIN reading_questions q ON q.passage_id=p.id WHERE {live("p")} GROUP BY code')
     return {'filter':{'query':q.get('q',''),'topic':q.get('topic',''),'type':q.get('type',''),'status':status},'facets':{'topics':[dict(r) for r in topics],'types':[dict(r) for r in types if r['code']]},'library':{'items':[camel(r) for r in rows],'total':total,'page':page,'pageCount':pages},'facetsUnavailable':False,'libraryUnavailable':False}
@@ -162,19 +182,7 @@ async def read(req, user, path, q):
         if path == '/app/reading/general':
             return await library(con,uid,q)
         if path == '/app/reading/academic':
-            rows = await con.fetch(f'''SELECT s.id,s.title,s.created_at FROM general_reading_sets s WHERE {live('s')}
-              AND (SELECT count(*) FROM general_reading_passages g WHERE g.set_id=s.id)=3
-              AND NOT EXISTS(SELECT 1 FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=s.id AND (g.passage_no NOT IN (1,2,3) OR NOT {live('p')} OR NOT EXISTS(SELECT 1 FROM reading_questions q WHERE q.passage_id=p.id)))
-              AND {academic_question_count()}
-              AND NOT EXISTS(SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:'||s.id::text)::uuid AND d.type='CONTENT_DELETED')
-              ORDER BY s.created_at,s.id LIMIT 25 OFFSET $1''',(number(q.get('page'))-1)*24)
-            sets = []
-            for row in rows:
-                slots = [camel(r) for r in await con.fetch('SELECT g.passage_no,p.title FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=$1 ORDER BY g.passage_no',row['id'])]
-                state = await con.fetchrow('SELECT r.id,r.status FROM reading_assessments a JOIN reading_attempts r ON r.id=a.attempt_id WHERE a.set_id=$1 AND r.user_id=$2 ORDER BY r.started_at DESC,r.id DESC LIMIT 1',row['id'],uid)
-                sets.append({'id':str(row['id']),'title':row['title'],'locked':bool(await academic_locked(con,user,row)),
-                  'assessmentStatus':state['status'] if state else 'not_started','attemptId':str(state['id']) if state else None,'passages':slots})
-            return {'sets':sets}
+            return {'sets':await academic_catalogue(con,user)}
         if path.startswith(('/app/reading/general/','/app/reading/academic/')):
             id = identifier(path.rsplit('/',1)[1]); academic = '/academic/' in path
             row = await con.fetchrow(f'''SELECT id,title,description,source_ref,created_at FROM general_reading_sets WHERE id=$1 AND {live()}

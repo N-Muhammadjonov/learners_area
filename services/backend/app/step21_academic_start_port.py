@@ -46,16 +46,8 @@ async def start(req:Request):
             set_row=await con.fetchrow('''SELECT * FROM general_reading_sets WHERE id=$1 AND
             NOT EXISTS(SELECT 1 FROM activity_events a WHERE a.id=md5('deleted-content:' || general_reading_sets.id::text)::uuid AND a.type='CONTENT_DELETED') FOR SHARE''',key)
             if not set_row or not live(set_row):return core.j({'error':'not_found'},404)
-            if not staff(user):
-                # The academic catalogue's source order is chronological within the published collection.
-                before=await con.fetch('''SELECT s.id FROM general_reading_sets s WHERE (s.publication_state='published' OR
-                   (s.publication_state='scheduled' AND s.publish_at<=now()))
-                   AND (s.created_at,s.id)<($1,$2) ORDER BY s.created_at,s.id''',set_row['created_at'],set_row['id'])
-                for prev in before:
-                    if not await con.fetchval('''SELECT EXISTS(SELECT 1 FROM reading_assessments a
-                        JOIN reading_attempts x ON x.id=a.attempt_id
-                        WHERE a.set_id=$1 AND x.user_id=$2 AND x.status='completed')''',prev['id'],user['id']):
-                        return core.j({'error':'not_found'},404)
+            from .browser_reading import academic_locked
+            if await academic_locked(con,user,set_row):return core.j({'error':'sequence_locked'},403)
             chosen=await eligible(con,set_row)
             if not chosen:return core.j({'error':'not_found'},404)
             slots,questions=chosen

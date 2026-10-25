@@ -5,7 +5,7 @@ import {ROLES,STATUSES,ROLE_LABELS,STATUS_LABELS} from '../../js/adapters/staff-
 /** Source: admin/people/page.tsx + PeopleTable.tsx + RoleSelect.tsx. Roles: admin, owner. */
 export function peopleHref(filters,page){const p=new URLSearchParams();if(filters.q)p.set('q',filters.q);if(filters.role)p.set('role',filters.role);if(filters.status)p.set('status',filters.status);if(filters.online)p.set('online','1');if(page>1)p.set('page',String(page));const q=p.toString();return q?`/app/admin/people?${q}`:'/app/admin/people';}
 export const queryOf=url=>{const g=k=>url.searchParams.get(k)??'';const role=g('role'),status=g('status');return {q:g('q').trim().slice(0,100),role:ROLES.includes(role)?role:'',status:STATUSES.includes(status)?status:'',online:g('online')==='1',page:pageParam(url)};};
-export const mount=mountStaff({name:'management-people',roles:['admin','owner'],
+export const mount=mountStaff({name:'management-people',roles:['admin','owner'],pollMs:30000,
  load:ctx=>directory(queryOf(ctx.url),ctx.signal),
  render(ctx,data,view){
   const {dict,locale,signal,navigate}=ctx,t={...(locale==='uz'?{notTracked:'Kuzatilmagan',visitTime:'Tashrif',totalTime:'Jami vaqt',presenceNote:'Faollik 90 soniya ichida yangilanadi.'}:{notTracked:'Not tracked',visitTime:'Visit time',totalTime:'Total time',presenceNote:'Online activity is refreshed from the server.'}),...dict.people},L=locale==='en'?'en':'uz',S=(ctx.state.people??={busy:null,error:null,askId:null,reason:''});
@@ -38,12 +38,13 @@ export const mount=mountStaff({name:'management-people',roles:['admin','owner'],
   const you=p=>p.id===data.actorId?el('span',{class:'ml-2 badge bg-signal-100 text-signal-700'},t.you):null;
   const contact=p=>el('span',{class:'block text-xs text-ink-500'},el('span',{class:'block'},p.username?'@'+p.username:p.email??(p.telegramLinked?'Telegram':'—')),p.phoneNumber?el('span',{class:'block'},p.phoneNumber):null);
   const presence=p=>{
-   const duration=secs=>secs==null?'—':`${Math.floor(secs/3600)}${L==='uz'?' soat':'h'} ${Math.floor(secs%3600/60)}${L==='uz'?' daq.':'m'}`;
-   const at=p.seenAt instanceof Date?centreDateTime(p.seenAt,locale):null;
+   const duration=secs=>secs==null?'—':`${Math.floor(secs/3600)}${L==='uz'?' soat':'h'} ${Math.floor(secs%3600/60)}${L==='uz'?' daq.':'m'} ${Math.floor(secs%60)}s`;
+   const at=centreDateTime(p.seenAt??p.lastActiveAt,locale);
    return el('div',{'data-person-presence':'',class:'space-y-1 text-xs'},
-    el('p',{},p.online===true?'● Online':t.notTracked),
-    p.online!==true?el('p',{},`${L==='uz'?"So'nggi tashrif":'Last visit'}: ${at??'—'}`):null,
-    p.online!==true?el('p',{},`${t.totalTime}: ${duration(p.totalSeconds)}`):null);
+    el('p',{'data-presence-state':p.online===true?'online':'offline'},p.online===true?'● Online':p.seenAt?'○ Offline':t.notTracked),
+    el('p',{},`${L==='uz'?"So'nggi faollik":'Last activity'}: ${at||'—'}`),
+    el('p',{},`${p.online?(L==='uz'?'Hozirgi tashrif':'Current visit'):t.visitTime}: ${duration(p.visitSeconds)}`),
+    el('p',{},`${t.totalTime}: ${duration(p.totalSeconds)}`));
   };
   const attrs=p=>({'data-person-id':p.id,'data-person-role':p.role,'data-person-status':p.accountStatus});
   const f=data.filters;

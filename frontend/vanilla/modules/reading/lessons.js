@@ -11,7 +11,7 @@ import {missing} from '../listening/catalogue-v9.js';
 import {RegionFailureNotice,BackLink} from '../shared/presentation.js';
 import {readingLessonText} from './lesson-text.js';
 
-/** Original src/app/app/(shell)/reading/lessons/page.tsx: the Reading catalogue, 24 per page. */
+/** Original src/app/app/(shell)/reading/lessons/page.tsx: the full Reading catalogue. */
 export function mountLessons(context){
  const {root,url,signal,dict}=context,page=Math.max(1,Math.min(10000,Number.parseInt(url.searchParams.get('page')??'1',10)||1));
  const host=el('div',{'data-native-view':'reading-lessons'});root.append(host);let busy=false;
@@ -27,9 +27,7 @@ export function mountLessons(context){
      el('h2',{class:'card-title'},lesson.title),
      lesson.summary?el('p',{class:'body-text'},lesson.summary):null,
      el('a',{class:'btn-primary',href:`/app/reading/lessons/${lesson.id}`},dict.readingV4.open)))),
-    el('nav',{class:'flex gap-3','aria-label':dict.readingHub.page},
-     page>1?el('a',{href:`?page=${page-1}`},dict.readingHub.prevPage):null,
-     library.hasMore?el('a',{href:`?page=${page+1}`},dict.readingHub.nextPage):null)));
+    null));
   }catch(e){
    if(signal.aborted)return;
    if(e.status===404){host.replaceChildren(missing(dict));return;}
