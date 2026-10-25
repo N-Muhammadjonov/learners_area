@@ -93,12 +93,20 @@
 
 .la-welcome-heading:focus{outline:none}
 
-/* Shared welcome/login landscape. The original file stores the horizon vertically. */
-.la-landscape{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;background:#101010}
+/* Welcome stays visible at every size; only its background changes with the viewport. */
+[data-root-entry]{min-height:100dvh;background:#0a1a39}
+[data-root-entry] [data-touch-welcome]{display:block}
+.la-public-background{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;background:#0a1a39}
+.la-blue-backdrop{position:absolute;inset:0;z-index:0;background:#0a1a39}
+.la-landscape{display:none;position:absolute;inset:0;overflow:hidden;pointer-events:none;background:#101010}
 .la-landscape img{position:absolute;left:50%;top:50%;width:100dvh;height:100vw;max-width:none;object-fit:cover;transform:translate(-50%,-50%) rotate(-90deg)}
 .la-landscape:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgb(0 0 0/.52),rgb(0 0 0/.22) 60%,rgb(0 0 0/.46))}
+@media (min-width:768px) and (min-height:600px) and (orientation:landscape),(min-width:1024px) and (orientation:landscape) and (hover:hover) and (pointer:fine){
+ .la-landscape{display:block}
+ .la-blue-backdrop{display:none}
+}
 .la-welcome{position:relative;isolation:isolate;background:transparent!important}
-.la-welcome>:not(.la-landscape),[data-auth-shell]>:not(.la-landscape){position:relative;z-index:1}
+.la-welcome>:not(.la-public-background),[data-auth-shell]>:not(.la-public-background){position:relative;z-index:1}
 .la-welcome-main{min-height:0}
 .la-welcome-heading{font-size:clamp(2.2rem,5.5vw,5.8rem);overflow-wrap:anywhere;text-shadow:0 2px 24px #000}
 .la-welcome-text-second{font-size:clamp(1.7rem,4.2vw,4.4rem)}

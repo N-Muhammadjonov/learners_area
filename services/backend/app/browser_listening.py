@@ -7,6 +7,7 @@ from . import main as core
 from .browser_common import camel, identifier, live, number, safe_resource
 from .step17_mcq_port import available_set, sequence, programme_snapshot, staff, live as is_live
 from .step17_listening_course_port import runtime_source, SPEC, current_work, course_status
+from .listening_order import material_order
 
 PRODUCT_SQL = """CASE WHEN t.program_ref IS NOT NULL THEN 'mcq_programme'
  WHEN p.payload->>'collection'='mcq' THEN 'mcq_programme'
@@ -129,9 +130,9 @@ async def catalogue(con, user, product, q):
     total = await con.fetchval(f'SELECT count(*)::int FROM listening_tests t LEFT JOIN listening_packages p ON p.test_id=t.id WHERE {where}',product)
     access_cache = {}
     rows = await con.fetch(f'''SELECT t.*,p.payload,p.source_id,p.audio_object_key,p.image_object_key FROM listening_tests t
-      LEFT JOIN listening_packages p ON p.test_id=t.id WHERE {where} ORDER BY t.created_at,t.source_ref,t.id''',product)
+      LEFT JOIN listening_packages p ON p.test_id=t.id WHERE {where} ORDER BY t.source_ref,t.id''',product)
     cards = []
-    for t in rows:
+    for t in sorted(rows,key=material_order):
         p = payload(t); id = t['id']
         exam = await con.fetchrow("SELECT score,total_questions FROM listening_attempts WHERE user_id=$1 AND test_id=$2 AND status='completed' ORDER BY submitted_at DESC NULLS LAST LIMIT 1",user['id'],id)
         started = bool(await con.fetchval('SELECT 1 FROM listening_attempts WHERE user_id=$1 AND test_id=$2 LIMIT 1',user['id'],id))

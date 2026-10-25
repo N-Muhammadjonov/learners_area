@@ -3,6 +3,7 @@ from __future__ import annotations
 import json,re
 from fastapi import APIRouter,Request
 from . import main as core
+from .listening_order import material_order
 router=APIRouter()
 PRIVATE={'Cache-Control':'private, no-store'}
 FLOW=[('listen','notes','notes',3),('notes','committed','own_answer',1),('committed','revealed',None,0),('revealed','chosen','chosen_answer',1),('chosen','reasoned','reasoning',10)]
@@ -54,6 +55,7 @@ async def programme_snapshot(con,user,include_drafts=False):
     condition="t.program_ref='listening-mcq-program' AND t.program_ordinal IS NOT NULL AND NOT EXISTS(SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:'||t.id::text)::uuid AND d.type='CONTENT_DELETED')"
     if not include_drafts:condition+=" AND (t.publication_state='published' OR (t.publication_state='scheduled' AND t.publish_at<=now()))"
     tests=await con.fetch('SELECT t.* FROM listening_tests t WHERE '+condition+' ORDER BY t.program_ordinal,t.id')
+    tests=sorted(tests,key=material_order)
     if not tests:return []
     ids=[r['id'] for r in tests]
     questions=await con.fetch("""WITH latest AS (SELECT DISTINCT ON (target_id) target_id,id FROM content_versions
@@ -83,20 +85,17 @@ async def sequence(con,user,test,cache=None):
             cache['programme']=access
         return cache['programme'].get(test['id'],False)
     if 'course' in cache:return cache['course'].get(test['id'],True)
-    # The original course sequence is ordered by authored batch numbers and
-    # persisted per-user checkpoints, never by the displayed title.
-    from .step17_listening_course_port import CATALOGUE,SPEC,COURSE_KEY,read_work,course_status,runtime_source,state_key
-    cases=' '.join('WHEN p.source_id=$'+str(i+2)+' THEN '+str(value.get('number',9999)) for i,(key,value) in enumerate(CATALOGUE.items()))
-    arguments=[user['id'],*CATALOGUE.keys()]
-    rows=await con.fetch(f"""SELECT t.id,p.source_id,c.values,
+    # Cards and direct access share numbered material order, even after a replacement upload.
+    from .step17_listening_course_port import SPEC,read_work,course_status,runtime_source,state_key
+    rows=await con.fetch(f"""SELECT t.id,t.title,t.source_ref,p.source_id,c.values,
       EXISTS(SELECT 1 FROM listening_attempts a WHERE a.test_id=t.id AND a.user_id=$1 AND a.status='completed') AS original_exam_submitted
       FROM listening_packages p JOIN listening_tests t ON t.id=p.test_id
       LEFT JOIN listening_authored_checkpoints c ON c.test_id=t.id AND c.user_id=$1
       WHERE (t.publication_state='published' OR (t.publication_state='scheduled' AND t.publish_at<=now()))
       AND NOT EXISTS(SELECT 1 FROM activity_events d WHERE d.id=md5('deleted-content:' || t.id::text)::uuid AND d.type='CONTENT_DELETED')
-      ORDER BY t.created_at,CASE {cases} ELSE NULL END,t.source_ref,t.id""",*arguments)
+      ORDER BY t.source_ref,t.id""",user['id'])
     previous_complete=True;access={}
-    for row in rows:
+    for row in sorted(rows,key=material_order):
         if not runtime_source(str(row['id']),row['source_id']):continue
         source=row['source_id'];spec=SPEC.get(source)
         if not spec:continue

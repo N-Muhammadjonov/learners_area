@@ -21,7 +21,7 @@ const response=data=>new Response(JSON.stringify(data),{status:200,headers:{'con
 test('welcome has the same immediate CTA and horizontal landscape at desktop sizes; login shares the image',async()=>{
  const h=setup({path:'/'});globals(h);h.dom.window.matchMedia=()=>({matches:true,addEventListener(){},removeEventListener(){}});globalThis.matchMedia=h.dom.window.matchMedia;
  h.stub({'/api/auth/state':new ApiError(401,'unauthenticated')});
- try{await welcome(h.ctx);await tick();assert.equal(h.qa('video').length,0);assert.equal(h.q('.la-landscape img').getAttribute('src'),'/brand/welcome-landscape.jpg');assert.equal(h.q('[data-landing-cta]').getAttribute('href'),'/login');const auth=authShell(h.ctx,{title:'Login',children:document.createElement('div')});assert.equal(auth.querySelector('.la-landscape img').getAttribute('src'),'/brand/welcome-landscape.jpg');assert.equal(h.nav.length,0);}finally{globalThis.fetch=originalFetch;h.dispose();}
+ try{await welcome(h.ctx);await tick();assert.equal(h.qa('video').length,0);assert.equal(h.q('.la-landscape img').getAttribute('src'),'/brand/welcome-landscape.jpg');assert.equal(h.q('[data-landing-cta]').getAttribute('href'),'/login');const auth=authShell(h.ctx,{title:'Login',children:document.createElement('div')});assert.equal(auth.querySelector('.la-landscape img').getAttribute('src'),'/brand/welcome-landscape.jpg');assert(h.q('.la-blue-backdrop .la-welcome-ring'));assert.equal(h.nav.length,0);h.click(h.q('[data-landing-cta]'));await tick();assert.equal(h.nav[0].path,'/login');}finally{globalThis.fetch=originalFetch;h.dispose();}
 });
 
 test('MCQ accepts and renders all days with learner locks after the old 24-card boundary',()=>{
