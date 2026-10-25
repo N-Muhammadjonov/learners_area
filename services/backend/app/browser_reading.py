@@ -132,10 +132,21 @@ def re_escape_like(s):
 async def read(req, user, path, q):
     uid = user['id']
     if path == '/app/reading/retention':
-        session = await existing(req,'/api/retention/attempts')
-        summary = await existing(req,'/api/retention/summary')
-        history = await existing(req,'/api/retention/history')
-        return {'initial':session['active'],'sessionFailed':False,'summary':summary,'history':history}
+        # Each read owns one region. A history/summary outage must not remove
+        # the level selector or the learner's still valid reading session.
+        values = {}
+        for region, endpoint in (('session','attempts'),('summary','summary'),('history','history')):
+            try:
+                values[region] = await existing(req, '/api/retention/'+endpoint)
+            except Exception as error:
+                if isinstance(error, HTTPException) and error.status_code in (401,403):
+                    raise
+                import logging
+                logging.getLogger(__name__).warning('Retention %s read failed', region, exc_info=True)
+                values[region] = None
+        session = values['session']
+        return {'initial':session.get('active') if session else None,
+                'sessionFailed':session is None,'summary':values['summary'],'history':values['history']}
     if path.startswith('/app/reading/retention/results/'):
         id = identifier(path.rsplit('/',1)[1])
         data = await existing(req,f'/api/retention/attempts/{id}')

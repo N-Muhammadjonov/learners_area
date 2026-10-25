@@ -11,9 +11,13 @@ router=APIRouter()
 async def projection(con,row):
     now=datetime.now(timezone.utc)
     if phase(row,now)=='timed_out' and row['status'] not in ('timed_out','completed'):
-        # Never return a guessed score; this case requires the evaluator and
-        # persisted terminal breakdown from the exact original scoring engine.
-        return None
+        # Use the same locked deterministic evaluator as submit. Previously an
+        # expired live row returned 500 forever, preventing the hub from opening.
+        from .step35_retention_attempts import finalize
+        async with con.transaction():
+            current=await con.fetchrow('SELECT * FROM retention_attempts WHERE id=$1 AND user_id=$2 FOR UPDATE',row['id'],row['user_id'])
+            if not current:return None
+            row=await finalize(con,current,now,'timed_out')
     return await learner_payload(con,row,now)
 
 @router.get('/api/retention/attempts/{id}')

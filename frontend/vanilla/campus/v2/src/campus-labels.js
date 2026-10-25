@@ -1,7 +1,7 @@
 import * as THREE from '../vendor/three-runtime.js';
 import {orbitFacingAnchor} from './campus-label-anchors.js';
 
-export const moduleLabelScale=id=>.864*(id==='video_lessons'?.8:.9);
+export const moduleLabelScale=id=>.8*.864*(id==='video_lessons'?.8:.9);
 
 /** World-anchored badges. Geometry in front of a building also hides its badge. */
 export class CampusLabels {

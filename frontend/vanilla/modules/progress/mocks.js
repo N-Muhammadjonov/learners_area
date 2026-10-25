@@ -1,5 +1,6 @@
 import {h} from '../../js/native.js';
 import {summarizeMocks} from './mock-summary.js';
+import {bandAxis} from '../shared/band-axis.js';
 
 /** Port of MockProgressOverview + MockBandPanel (non-dashboard). Presentation only: estimates are
  * server-stored; the summary is arithmetic over them. Trend is FULL mocks only. */
@@ -15,7 +16,7 @@ const show = n => (n === null ? '—' : n.toFixed(1));
 function bandPanel(summary, uz) {
   const points = summary.points.slice(-12);
   const x = i => (points.length < 2 ? 330 : 45 + (i * 565) / (points.length - 1));
-  const y = band => 215 - (band / 9) * 185;
+  const axis=bandAxis(points.map(p=>p.estimatedBand),{top:30,bottom:215}),y=axis.y;
   const tiles = [
     [uz ? 'Tugallangan urinishlar' : 'Completed attempts', String(summary.attempts)],
     [uz ? "So'nggi band" : 'Latest band', show(summary.latest)],
@@ -47,7 +48,7 @@ function bandPanel(summary, uz) {
     viewBox: '0 0 660 265', class: 'w-full', role: 'img',
     'aria-label': uz ? 'Haqiqiy tugallangan full mock bandlari' : 'Completed full mock band estimates',
   },
-  [0, 3, 6, 9].map(n => h('g', {},
+  axis.ticks.map(n => h('g', {'data-band-tick':n.toFixed(1)},
     h('line', {x1: 45, x2: 610, y1: y(n), y2: y(n), stroke: 'currentColor', opacity: '.15'}),
     h('text', {x: 10, y: y(n) + 4, fill: 'currentColor', fontSize: 12}, n.toFixed(1)))),
   points.length > 1 ? h('polyline', {

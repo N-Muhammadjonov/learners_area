@@ -2,6 +2,7 @@ import {el,mountStaff,BackLink,dateOnly,put} from './kit.js';
 import {studentResults} from '../../js/adapters/staff-final30/people.js';
 import {UUID} from '../../js/adapters/staff-final30/core.js';
 import {studentLearningPanel} from './learning-results.js';
+import {bandAxis} from '../shared/band-axis.js';
 export {summarize} from './mock-summary.js';
 import {summarize} from './mock-summary.js';
 /** Source: admin/people/[id]/page.tsx + components/admin/StudentResults.tsx. Roles: admin, owner. */
@@ -12,9 +13,9 @@ const fmt=v=>v===null||v===undefined?'—':v.toFixed(1);
 const NS='http://www.w3.org/2000/svg';
 const svg=(tag,attrs={},...kids)=>{const n=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,String(v));for(const k of kids.flat())if(k!=null)put(n,k instanceof Node?k:document.createTextNode(String(k)));return n;};
 function trend(chart,t){
- const x=i=>chart.length===1?480:40+i*880/(chart.length-1),y=v=>285-v/9*250;
+ const x=i=>chart.length===1?480:40+i*880/(chart.length-1),axis=bandAxis(chart.map(r=>r.value),{top:35,bottom:285}),y=axis.y;
  const root=svg('svg',{viewBox:'0 0 960 345',role:'img','aria-label':t.trend,class:'w-full','data-full-mock-trend':''});
- for(const v of [0,3,6,9]){put(root,svg('line',{x1:40,x2:920,y1:y(v),y2:y(v),stroke:'currentColor',opacity:'0.12'}),svg('text',{x:5,y:y(v)+5,fill:'currentColor','font-size':14},`${v}.0`));}
+ for(const v of axis.ticks){put(root,svg('line',{x1:40,x2:920,y1:y(v),y2:y(v),stroke:'currentColor',opacity:'0.12'}),svg('text',{x:5,y:y(v)+5,fill:'currentColor','font-size':14,'data-band-tick':v.toFixed(1)},v.toFixed(1)));}
  put(root,svg('polyline',{points:chart.map((r,i)=>`${x(i)},${y(r.value)}`).join(' '),fill:'none',stroke:'rgb(var(--accent))','stroke-width':3}));
  chart.forEach((r,i)=>{if(i===0||i===chart.length-1||i%Math.ceil(chart.length/6)===0)put(root,svg('text',{x:x(i),y:322,'text-anchor':'middle',fill:'currentColor','font-size':12},r.date.toISOString().slice(5,10)));
   put(root,svg('circle',{cx:x(i),cy:y(r.value),r:6,fill:'rgb(var(--accent))'},svg('title',{},`${dateOnly(r.date)} · ${r.skill??''} · ${r.title??''}: ${fmt(r.value)}`)),svg('text',{x:x(i),y:y(r.value)-14,'text-anchor':'middle',fill:'currentColor','font-size':16},fmt(r.value)));});

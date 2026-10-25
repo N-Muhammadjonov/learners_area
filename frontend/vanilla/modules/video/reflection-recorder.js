@@ -1,4 +1,5 @@
 import {el} from '../../js/dom.js';
+import {captureAudioSession,prepareRecordingPlayback,releaseRecordingPlayback} from '../shared/recording-playback.js';
 
 /** Local reflection recorder (original src/components/audio/LocalReflectionRecorder.tsx + src/lib/audio/recorder.ts).
  * Memory only: the clip is never uploaded or saved. Microphone access happens only after an explicit click.
@@ -98,8 +99,10 @@ export async function createRecorder({ signal, permissionTimeoutMs = 30000, onEr
  const chunks = [];
  const startedAt = Date.now();
  let stoppedAt = null;
+ let releaseSession=()=>{};
  const releaseStream = () => {
   for (const track of stream.getTracks()) track.stop();
+  releaseSession();
  };
  recorder.addEventListener('dataavailable', (event) => {
   if (event.data && event.data.size > 0) chunks.push(event.data);
@@ -116,7 +119,8 @@ export async function createRecorder({ signal, permissionTimeoutMs = 30000, onEr
 
  return {
   async start() {
-   recorder.start(250); // short timeslices: several chunks rather than one large buffer
+   releaseSession=captureAudioSession();
+   try{recorder.start(250);}catch(error){releaseStream();throw error;}
   },
   stop() {
    if (recorder.state === 'inactive') {
@@ -199,9 +203,7 @@ export function createReflectionRecorder({ dict, signal }) {
  }
  function discardPlayback() {
   if (audioNode) {
-   audioNode.pause();
-   audioNode.removeAttribute('src');
-   audioNode.load();
+   releaseRecordingPlayback(audioNode);
    audioNode.remove();
    audioNode = null;
   }
@@ -242,8 +244,10 @@ export function createReflectionRecorder({ dict, signal }) {
     elapsed = 0;
     render();
    }, { signal });
-   audioNode = el('audio', { controls: '', preload: 'metadata', 'aria-label': t.listen, class: 'w-full max-w-full', src: playbackUrl });
+   const fresh=!audioNode;
+   audioNode ??= el('audio', { controls: '', preload: 'auto', 'aria-label': t.listen, class: 'w-full max-w-full', src: playbackUrl });
    slot.append(remove, audioNode);
+   if(fresh)prepareRecordingPlayback(audioNode);
   }
   alertNode.textContent = errorText;
   alertNode.hidden = !errorText;

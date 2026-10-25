@@ -72,7 +72,7 @@ function summaryPanel(context,data){
 }
 function historySection(context,history){
  const {dict}=context,t=dict.retentionMemory;
- return el('section',{class:'flex flex-col gap-3','data-retention-history-section':true},el('h2',{class:'section-title'},t.historyTitle),historyList(context,history));
+ return el('section',{class:'flex flex-col gap-3','data-retention-history-section':true},el('h2',{class:'section-title'},t.historyTitle),history?historyList(context,history):RegionFailureNotice({region:'retention-history',message:t.errors.retention_unavailable,retryLabel:dict.errorPage.retry,refresh:()=>context.refresh()}));
 }
 /** Original RetentionHistory: bounded, owner-scoped pages; "load more" appends by attempt id. */
 function historyList(context,initial){

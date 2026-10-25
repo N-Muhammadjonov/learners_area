@@ -1,4 +1,5 @@
 import {el,listen} from '../../js/dom.js';
+import {captureAudioSession,prepareRecordingPlayback,releaseRecordingPlayback} from '../shared/recording-playback.js';
 /** Port of src/lib/audio/recorder.ts and LocalAnswerRecorder.tsx.
  * Local practice recordings never leave the browser. The stop/cancel methods
  * release media tracks even on cancellation, rejection and route exit. */
@@ -24,12 +25,13 @@ export async function createRecorder({signal,permissionTimeoutMs=30000}={}){
   throw new RecorderError(['NotAllowedError','SecurityError'].includes(e?.name)?'permission_denied':['NotFoundError','OverconstrainedError'].includes(e?.name)?'no_microphone':'unknown');
  }finally{clearTimeout(timeout);signal?.removeEventListener('abort',abort);}
  let mr;try{mr=new MediaRecorder(tracks,pair[0]?{mimeType:pair[0]}:undefined);}catch{tracks.getTracks().forEach(t=>t.stop());throw new RecorderError('unknown');}
- const pieces=[];let started=Date.now(),stopped=false;
+ const pieces=[];let started=Date.now(),stopped=false,releaseSession=()=>{};
  mr.addEventListener('dataavailable',e=>{if(e.data?.size)pieces.push(e.data);});
- const release=()=>tracks.getTracks().forEach(t=>t.stop());
+ const release=()=>{tracks.getTracks().forEach(t=>t.stop());releaseSession();};
+ mr.addEventListener('error',release);
  const cancel=()=>{if(stopped)return;stopped=true;try{if(mr.state!=='inactive')mr.stop();}catch{}release();};
  return {
-  async start(){if(stopped)throw new RecorderError('unknown');mr.start(250);started=Date.now();},
+  async start(){if(stopped)throw new RecorderError('unknown');releaseSession=captureAudioSession();try{mr.start(250);started=Date.now();}catch(e){release();throw e;}},
   stop(){if(stopped)return Promise.resolve(null);stopped=true;return new Promise(resolve=>{
    const timer=setTimeout(()=>{release();resolve(null);},5000);
    mr.addEventListener('stop',()=>{clearTimeout(timer);release();if(!pieces.length){resolve(null);return;}
@@ -46,7 +48,7 @@ export function localAnswerRecorder(context,{id,part,lock}){
  const limit=part==='part2'?120:part==='part3'?45:30;
  let phase='idle',epoch=0,record=null,media=null,objectURL=null,timer=null,started=0,prepStart=0,busy=false,getting=false;
  const clear=()=>{if(timer)clearInterval(timer);timer=null;};
- const releaseAudio=()=>{output.querySelector('audio')?.pause();if(objectURL)URL.revokeObjectURL(objectURL);objectURL=null;output.replaceChildren();};
+ const releaseAudio=()=>{releaseRecordingPlayback(output.querySelector('audio'));if(objectURL)URL.revokeObjectURL(objectURL);objectURL=null;output.replaceChildren();};
  const destroy=()=>{epoch++;clear();record?.cancel();record=null;releaseAudio();getting=false;busy=false;lock(id,false);};
  signal.addEventListener('abort',destroy,{once:true});
  function setBusy(v){if(busy!==v){busy=v;lock(id,v);}}
@@ -56,7 +58,7 @@ export function localAnswerRecorder(context,{id,part,lock}){
   if(phase==='preparing'){actions.append(el('span',{role:'status','data-prep-count':''},`${t.prepare} ${duration(Math.max(0,60000-(Date.now()-prepStart)))}`));b(`${t.talk} 2:00`,()=>void start(),'btn-primary');b(t.cancel,()=>{clear();phase='idle';setBusy(false);render();});}
   if(phase==='recording'){actions.append(el('span',{role:'status','data-record-count':''},`${duration(Date.now()-started)} / ${duration(limit*1000)}`));b('■ '+t.stop,()=>void stop(),'btn-primary');}
   if(phase==='starting'||phase==='stopping')actions.append(el('span',{role:'status'},phase==='starting'?t.openingMic:t.preparingRecording));
-  if(phase==='idle'&&objectURL){output.replaceChildren(el('div',{class:'flex flex-wrap items-center gap-2'},el('audio',{src:objectURL,controls:'',preload:'metadata',class:'max-w-full','aria-label':t.playback})));b(t.deleteRecording,()=>{releaseAudio();media=null;err.textContent='';render();},'btn-secondary',{'data-delete-recording':id});}
+  if(phase==='idle'&&objectURL){if(!output.querySelector('audio')){const audio=el('audio',{src:objectURL,controls:'',preload:'auto',class:'max-w-full','aria-label':t.playback});output.append(el('div',{class:'flex flex-wrap items-center gap-2'},audio));prepareRecordingPlayback(audio);}b(t.deleteRecording,()=>{releaseAudio();media=null;err.textContent='';render();},'btn-secondary',{'data-delete-recording':id});}
  }
  function startClock(){clear();timer=setInterval(()=>{if(phase==='preparing'){const left=60000-(Date.now()-prepStart);const n=actions.querySelector('[data-prep-count]');if(n)n.textContent=`${t.prepare} ${duration(left)}`;if(left<=0)void start();}if(phase==='recording'){const elapsed=Date.now()-started;const n=actions.querySelector('[data-record-count]');if(n)n.textContent=`${duration(elapsed)} / ${duration(limit*1000)}`;if(elapsed>=limit*1000)void stop();}},200);}
  async function start(){if(getting||signal.aborted)return;getting=true;const e=++epoch;clear();releaseAudio();media=null;setBusy(true);phase='starting';render();err.textContent='';
