@@ -162,3 +162,52 @@
 @media(max-width:600px){[data-people-directory] [data-people-search-form]{grid-template-columns:minmax(0,1fr)}[data-people-directory] [data-people-search-form]>*{width:100%}}
 /* Dialogs mounted on body share the same action style as workspace actions. */
 [data-theme] :is(.dictionary-folder-dialog,.dictionary-context-panel,dialog.interaction-confirm-dialog,[data-global-search-dialog]) :is(.btn,.btn-primary,.btn-secondary,.btn-ghost,.btn-gold){border-radius:9999px!important;background:#3d50fa!important;color:#fff!important;font-weight:600}
+
+
+/* Public login/register only: rounded Telegram CTA and outlined route switch.
+   Global auth flows, other modules, focus mode and Worker contracts stay unchanged. */
+[data-auth-shell] .auth-telegram-pill {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:54px;
+  padding:12px 22px;
+  border:2px solid #ff8ba5!important;
+  border-radius:999px!important;
+  background-color:#4051f5!important;
+  color:#ffffff!important;
+  font-size:clamp(1rem,1.8vw,1.125rem);
+  font-weight:650;
+  line-height:1.4;
+  text-align:center;
+  box-shadow:0 5px 16px rgba(36,52,189,.16);
+  transition:background-color .15s ease,box-shadow .15s ease;
+}
+[data-auth-shell] .auth-telegram-pill:not(:disabled):hover {
+  background-color:#3242df!important;
+  box-shadow:0 6px 18px rgba(36,52,189,.25);
+}
+[data-auth-shell] .auth-telegram-pill:disabled {cursor:not-allowed;box-shadow:none}
+[data-auth-shell] .auth-switch-pill {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:50px;
+  padding:10px 24px;
+  border:2px solid #b9f5d8!important;
+  border-radius:999px!important;
+  /* Intentionally preserve the existing btn-secondary background and text colour. */
+}
+[data-auth-shell] .auth-switch-pill:hover {border-color:#e7fff3!important}
+[data-auth-shell] .auth-contact-link {
+  color:#8de4ee!important;
+  font-weight:650;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+[data-auth-shell] .auth-contact-link:hover {color:#c5f6fa!important}
+[data-auth-shell] :is(.auth-telegram-pill,.auth-switch-pill,.auth-contact-link):focus-visible {
+  outline:3px solid #e5fff3;
+  outline-offset:3px;
+}

@@ -10,11 +10,12 @@ export function telegram(context,auth,purpose){
  const {dict,signal,navigate,url}=context,t=dict.auth;
  if(signal.aborted)return el('div');
  const providerLabel=purpose==='register'&&auth.telegramIntentEnabled?t.continueWithTelegramRegister:t.continueWithTelegram;
- const unavailable=()=>el('div',{},el('button',{type:'button',disabled:true,class:'btn-secondary w-full opacity-50'},providerLabel),el('p',{class:'mt-1.5 text-xs text-ink-300'},t.telegramUnavailable));
+ const buttonClass=['login','register'].includes(purpose)?'btn-secondary auth-telegram-pill':'btn-secondary';
+ const unavailable=()=>el('div',{},el('button',{type:'button',disabled:true,class:buttonClass+' w-full opacity-50'},providerLabel),el('p',{class:'mt-1.5 text-xs text-ink-300'},t.telegramUnavailable));
  if(!auth.telegramConfigured||!auth.botUsername)return unavailable();
  if(!auth.telegramIntentEnabled){const target=el('div',{'aria-label':t.continueWithTelegram,'data-telegram-widget':''});const script=el('script',{src:'https://telegram.org/js/telegram-widget.js?22',async:true,'data-telegram-login':auth.botUsername,'data-size':'large','data-auth-url':'/api/auth/telegram/callback','data-request-access':'write',nonce:auth.nonce});listen(script,'error',()=>{if(!signal.aborted)target.replaceChildren(unavailable());},signal);target.append(script);signal.addEventListener('abort',()=>target.replaceChildren(),{once:true});return target;}
  const label=['link','replace'].includes(purpose)?t.telegramLink:purpose==='register'?t.continueWithTelegramRegister:t.continueWithTelegram;
- const holder=el('div',{class:'flex flex-col gap-2'}),button=el('button',{type:'button',class:'btn-secondary'},label),errorNode=el('p',{role:'alert',class:'text-xs text-band-bad'});
+ const holder=el('div',{class:'flex flex-col gap-2'}),button=el('button',{type:'button',class:buttonClass},label),errorNode=el('p',{role:'alert',class:'text-xs text-band-bad'});
  let controller,pending,revision=0,waiting=false,link=null,error='';const now=context.now??Date.now,sleep=context.sleep??delay;
  const known={telegram_already_linked:t.telegramConflict,no_linked_account:t.telegramNoAccount,already_signed_in:t.telegramAlreadySignedIn,already_consumed:t.telegramExpired,expired:t.telegramExpired,intent_not_confirmed:t.telegramExpired};
  function paint(){if(signal.aborted)return;button.disabled=waiting;button.textContent=waiting?(purpose==='register'?t.telegramRegisterWaiting:t.telegramWaiting):label;holder.replaceChildren(button);
