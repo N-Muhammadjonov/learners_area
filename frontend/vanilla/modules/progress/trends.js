@@ -82,7 +82,7 @@ function retentionCard(t, retention) {
   const table = h('table', {class: 'w-full text-left text-sm', 'data-retention-trend-table': ''},
     h('caption', {class: 'sr-only'}, t.retentionTitle),
     h('thead', {}, h('tr', {}, ...headers)),
-    h('tbody', {}, retention.map(retentionRow)));
+    h('tbody', {}, (retention??[]).map(retentionRow)));
   const body = retention === null
     ? h('p', {class: 'meta-text', 'data-trend-unavailable': ''}, t.unavailable)
     : h('div', {class: 'overflow-x-auto'}, table);

@@ -14,3 +14,5 @@ boto3==1.43.103
 PyJWT[crypto]==2.15.1
 reportlab==4.5.1
 python-docx==1.2.0
+rjsmin==1.2.5
+rcssmin==1.2.2

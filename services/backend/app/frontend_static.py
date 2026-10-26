@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import mimetypes
 import os
 import re
 import secrets
@@ -89,12 +90,34 @@ class StaticFrontend:
                     params=dict(parse_qsl(req.url.query));params.update(dict(parse_qsl(search)))
                     response=RedirectResponse(target_path+('?' + urlencode(params) if params else ''),307,headers=core.PRIVATE)
                 name = path.lstrip('/')
+                versioned = False
+                if name.startswith('assets/'):
+                    parts = name.split('/',2)
+                    if len(parts)!=3 or parts[1]!=manifest.get('revision'):
+                        response = core.j({'error':'asset_version_changed'},404,
+                            {'Cache-Control':'no-store','X-Learners-Asset-Version':manifest.get('revision','')})
+                    else:
+                        name=parts[2];versioned=True
                 if response is not None:
                     pass
                 elif name in manifest['files'] and name != 'index.html':
                     target = (root / name).resolve()
                     if target.is_relative_to(root) and target.is_file() and not target.is_symlink():
-                        response = FileResponse(target, headers={'Cache-Control': 'public, max-age=0, must-revalidate'})
+                        row=manifest['files'][name]
+                        cache='public, max-age=31536000, immutable' if versioned else 'public, max-age=0, must-revalidate'
+                        accepts={part.split(';',1)[0].strip():part for part in req.headers.get('accept-encoding','').lower().split(',')}
+                        gzip_allowed='gzip' in accepts and not re.search(r'q\s*=\s*0(?:\.0*)?\s*(?:;|$)',accepts['gzip'])
+                        compressed=root/row['gzip'] if row.get('gzip') and gzip_allowed and 'range' not in req.headers else None
+                        if compressed and (not compressed.resolve().is_relative_to(root) or not compressed.is_file() or compressed.is_symlink()):
+                            compressed=None
+                        etag='"'+(row.get('gzipSha256',row['sha256']+'-gzip') if compressed else row['sha256'])+'"'
+                        headers={'Cache-Control':cache,'ETag':etag,'Vary':'Accept-Encoding','X-Learners-Asset-Version':manifest.get('revision','')}
+                        if etag in [value.strip() for value in req.headers.get('if-none-match','').split(',')]:
+                            response=Response(status_code=304,headers=headers)
+                        elif compressed:
+                            response=FileResponse(compressed,media_type=mimetypes.guess_type(name)[0] or 'application/octet-stream',headers={**headers,'Content-Encoding':'gzip'})
+                        else:
+                            response=FileResponse(target,headers=headers)
                 else:
                     matched = path in PUBLIC_PAGES or any(
                         re.fullmatch(pattern, path) for pattern in manifest['routes'])

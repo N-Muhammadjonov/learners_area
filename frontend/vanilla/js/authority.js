@@ -17,7 +17,7 @@ export function watchAuthority(session,{navigate,refresh,signal,window:win=windo
  }
  function connect(){if(!live()||!session.accessEventsEnabled||eventsUnavailable||stream||!Events)return;
   stream=new Events('/api/auth/changes',{withCredentials:true});
-  stream.addEventListener('access-changed',()=>{needsReconcile=true;win.dispatchEvent(new win.Event('learners-area:authority-hint'));void update(true);});
+  stream.addEventListener('access-changed',()=>{scope.invalidate('view:');scope.invalidate('catalogue:');needsReconcile=true;win.dispatchEvent(new win.Event('learners-area:authority-hint'));void update(true);});
   stream.addEventListener('session-revoked',logout);
   stream.addEventListener('ready',()=>{connected=true;needsReconcile=false;checkedDisconnect=false;});
   stream.addEventListener('open',()=>{connected=true;if(opened&&needsReconcile&&!checkedDisconnect)void update();opened=true;});

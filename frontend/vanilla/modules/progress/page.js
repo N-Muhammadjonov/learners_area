@@ -41,7 +41,7 @@ export async function mount(context) {
   const renderStats = () => statsHost.replaceChildren(statCards(state, dict, () => refreshStreak()));
 
   const refreshSummary = projection({
-    route, region: 'progressSummary', signal, parse: progressSummaryDTO,
+    lifecycle:context, route, region: 'progressSummary', signal, parse: progressSummaryDTO,
     loading() {
       state.summary = {state: 'loading'};
       renderStats();
@@ -66,14 +66,14 @@ export async function mount(context) {
   });
 
   const refreshStreak = projection({
-    route, region: 'progressStreak', signal, parse: progressStreakDTO,
+    lifecycle:context, route, region: 'progressStreak', signal, parse: progressStreakDTO,
     loading() { state.streak = {state: 'loading'}; renderStats(); },
     ready(streak) { state.streak = {state: 'ready', data: streak}; renderStats(); },
     failed() { state.streak = {state: 'error'}; renderStats(); },
   });
 
   const refreshTrends = projection({
-    route, region: 'progressTrends', signal, parse: progressTrendsDTO,
+    lifecycle:context, route, region: 'progressTrends', signal, parse: progressTrendsDTO,
     loading() { trendsHost.replaceChildren(loadingNode(dict, 'progress-trends')); },
     ready(trends) { trendsHost.replaceChildren(trendCards(trends, dict)); },
     failed(refresh) {
@@ -83,7 +83,7 @@ export async function mount(context) {
 
   const mockFailure = refresh => failureNode({region: 'mock-overview', message: mockMessage, retry: mockRetry, refresh});
   const refreshMocks = projection({
-    route, region: 'progressMocks', signal, parse: progressMocksDTO,
+    lifecycle:context, route, region: 'progressMocks', signal, parse: progressMocksDTO,
     loading() { mocksHost.replaceChildren(loadingNode(dict, 'progress-mocks')); },
     ready(dto) {
       if (dto.attemptsUnavailable || dto.attemptTitlesUnavailable) {
@@ -95,6 +95,7 @@ export async function mount(context) {
     failed(refresh) { mocksHost.replaceChildren(mockFailure(refresh)); },
   });
 
+  context.onResume?.(()=>{for(const refresh of [refreshSummary,refreshStreak,refreshTrends,refreshMocks])void refresh({background:true});});
   renderStats();
   void refreshSummary();
   void refreshStreak();

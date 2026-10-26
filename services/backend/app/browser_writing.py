@@ -12,6 +12,10 @@ from .step31_coach import decoded
 
 async def evaluation(con, uid, source, id, external=False):
     row = await con.fetchrow('SELECT * FROM evaluations WHERE user_id=$1 AND source_type=$2 AND source_id=$3', uid, source, id)
+    return evaluation_result(row, external)
+
+
+def evaluation_result(row, external=False):
     if not row or external and (row['provider_type'] != 'external' or row['fallback_used']):
         return None
     keys = ('id','evaluation_type','overall_estimate','confidence','verdict','criteria','strengths','weaknesses','issues','next_actions','recommended_exercises','created_at')
