@@ -1,8 +1,10 @@
 # Dictionary optimization review tools
 
+Current production continuation: [PRODUCTION_VERIFICATION_20261026.md](PRODUCTION_VERIFICATION_20261026.md). The Retention context-selection fix and legacy fallback guard are deployed on main as 4c3a3f6. All protected R2 object bytes and database identities were verified, authenticated API baselines were measured, and a private full database archive was captured. Full restore/rehearsal, complete multi-user/module QA, paired performance and production Cloudflare administration evidence remain open. Cleanup is still BLOCKED; see evidence/production-gates.json. Historical evidence below is retained.
+
 The owner authorized merging this prepared code into main on 26 October 2026. Production database cleanup remains BLOCKED by the open backup, live parity, performance and approval gates.
 
-The application change is in the learner and owner dictionary read adapters. They allow legacy SQL fallback only for a validated legacy release when no Worker index exists. The healthy Worker path is unchanged. The two backend test files cover that guard and the operator tools.
+The original learner and owner read guards remain. The production follow-up extends the same protection to Retention and fixes the missing word argument in contextual sense selection. SQL fallback requires an explicitly validated legacy release. Healthy Worker reads add no registry query. Backend tests cover delivery guards, context selection and operator integrity.
 
 Run operator commands from this directory in a full repository checkout using the existing backend dependency environment. The script locates the repository's native ICU canonicalizer automatically; LA_REPO can override the checkout path. No command in the script executes cleanup SQL or changes an R2 object.
 

@@ -1,5 +1,7 @@
 # Learners Area dictionary optimization engineering report
 
+Current follow-up: [production verification continuation](PRODUCTION_VERIFICATION_20261026.md). Runtime fixes are deployed on main, live protected R2 bytes and current baselines are verified, and a full private archive was captured. Restore and destructive cleanup remain blocked. The report below preserves the earlier audit snapshot.
+
 Prepared 26 October 2026. Final read at 22:04:33 Asia/Tashkent, UTC+5. Decision: production cleanup is BLOCKED. Audit, a minimal runtime patch, regression tests and a guarded operations package are ready for review. Storage reclaimed by this task: 0 bytes.
 
 ## DONE

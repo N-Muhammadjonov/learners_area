@@ -1,0 +1,7 @@
+{
+  "anonymousSearchStatus": 401,
+  "body": {
+    "error": "unauthenticated"
+  },
+  "cacheControl": "private, no-store"
+}

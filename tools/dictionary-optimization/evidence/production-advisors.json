@@ -1,0 +1,350 @@
+[
+  {
+    "type": "security",
+    "lints": [
+      {
+        "name": "rls_enabled_no_policy",
+        "count": 140,
+        "level": "INFO",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+        "dictionaryFindings": [
+          {
+            "detail": "Table \\`public.dictionary_channels\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "dictionary_channels",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_drafts\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "dictionary_drafts",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_entries\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "dictionary_entries",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_owner_events\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "dictionary_owner_events",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_publish_jobs\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "dictionary_publish_jobs",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_r2_shards\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "dictionary_r2_shards",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_recent_searches\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "dictionary_recent_searches",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_releases\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "dictionary_releases",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_search_indexes\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "dictionary_search_indexes",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_search_terms\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "dictionary_search_terms",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_sense_mappings\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "dictionary_sense_mappings",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          }
+        ]
+      },
+      {
+        "name": "function_search_path_mutable",
+        "count": 3,
+        "level": "WARN",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+        "dictionaryFindings": [
+          {
+            "detail": "Function \\`public.dictionary_immutable_release\\` has a role mutable search_path",
+            "metadata": {
+              "name": "dictionary_immutable_release",
+              "type": "function",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          },
+          {
+            "detail": "Function \\`public.dictionary_immutable_registry\\` has a role mutable search_path",
+            "metadata": {
+              "name": "dictionary_immutable_registry",
+              "type": "function",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-26T19:00:58.109Z"
+          }
+        ]
+      },
+      {
+        "name": "anon_security_definer_function_executable",
+        "count": 1,
+        "level": "WARN",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+        "dictionaryFindings": []
+      },
+      {
+        "name": "authenticated_security_definer_function_executable",
+        "count": 1,
+        "level": "WARN",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+        "dictionaryFindings": []
+      }
+    ]
+  },
+  {
+    "type": "performance",
+    "lints": [
+      {
+        "name": "unindexed_foreign_keys",
+        "count": 138,
+        "level": "INFO",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys",
+        "dictionaryFindings": [
+          {
+            "detail": "Table \\`public.dictionary_channels\\` has a foreign key \\`dictionary_channels_active_release_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_channels",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_channels_active_release_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_channels\\` has a foreign key \\`dictionary_channels_previous_release_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_channels",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_channels_previous_release_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_drafts\\` has a foreign key \\`dictionary_drafts_base_release_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_drafts",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_drafts_base_release_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_drafts\\` has a foreign key \\`dictionary_drafts_owner_user_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_drafts",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_drafts_owner_user_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_drafts\\` has a foreign key \\`dictionary_drafts_result_release_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_drafts",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_drafts_result_release_id_fkey",
+              "fkey_columns": [
+                6
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_entries\\` has a foreign key \\`dictionary_entries_storage_release_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_entries",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_entries_storage_release_fkey",
+              "fkey_columns": [
+                9
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_owner_events\\` has a foreign key \\`dictionary_owner_events_owner_user_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_owner_events",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_owner_events_owner_user_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_publish_jobs\\` has a foreign key \\`dictionary_publish_jobs_base_release_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_publish_jobs",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_publish_jobs_base_release_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_publish_jobs\\` has a foreign key \\`dictionary_publish_jobs_candidate_release_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_publish_jobs",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_publish_jobs_candidate_release_id_fkey",
+              "fkey_columns": [
+                4
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_publish_jobs\\` has a foreign key \\`dictionary_publish_jobs_owner_user_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_publish_jobs",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_publish_jobs_owner_user_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_releases\\` has a foreign key \\`dictionary_releases_base_release_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_releases",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_releases_base_release_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_releases\\` has a foreign key \\`dictionary_releases_created_by_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_releases",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_releases_created_by_fkey",
+              "fkey_columns": [
+                6
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          },
+          {
+            "detail": "Table \\`public.dictionary_sense_mappings\\` has a foreign key \\`dictionary_sense_mappings_app_unit_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "dictionary_sense_mappings",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "dictionary_sense_mappings_app_unit_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-26T19:00:58.637Z"
+          }
+        ]
+      },
+      {
+        "name": "no_primary_key",
+        "count": 1,
+        "level": "INFO",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0004_no_primary_key",
+        "dictionaryFindings": []
+      },
+      {
+        "name": "unused_index",
+        "count": 18,
+        "level": "INFO",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index",
+        "dictionaryFindings": []
+      }
+    ]
+  }
+]

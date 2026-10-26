@@ -1,0 +1,23 @@
+{
+  "measuredAt": "2026-10-26T19:13:18Z",
+  "status": "MANIFEST_BYTES_PASS",
+  "workerUrl": "https://learnersarea-dictionary.owneruchunla.workers.dev",
+  "bucket": "learners-area",
+  "r2AccountMatchesBrowser": false,
+  "objects": [
+    {
+      "release": "rel-v1-977bce7f8dab7e773955238e",
+      "bytes": 488334,
+      "sha256": "3e2f1638bc4127da5fb359093ea97aeacdeebdc2d4d293dc161e174be4ad845c",
+      "entryCount": 65056,
+      "identityMatches": true
+    },
+    {
+      "release": "rel-v1-cfadf47e87701f627f3270ce",
+      "bytes": 487613,
+      "sha256": "756134d493381bae1bbf66f3c910f3590da1ef0ad2a8b1b92fcede2229eedfdf",
+      "entryCount": 64938,
+      "identityMatches": true
+    }
+  ]
+}

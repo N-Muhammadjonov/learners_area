@@ -1,0 +1,55 @@
+{
+  "status": "PARTIAL",
+  "runtimeCommit": "4c3a3f632b962361d322636304a046a4add94f2e",
+  "checks": {
+    "dictionaryQualityTime": {
+      "status": "PASS",
+      "en": "time spent giving someone undivided attention",
+      "uz": "Kimdirga butun e’tiborini berib birga o‘tkaziladigan vaqt.",
+      "pairedExamples": true
+    },
+    "bank": {
+      "status": "PASS",
+      "nounSenses": 10,
+      "riverDefinition": "sloping land (especially the slope beside a body of water)",
+      "riverTranslation": "Qiya yer, ayniqsa suv havzasi yonidagi qiyalik.",
+      "pairedExamples": 2,
+      "synonymsVisible": true
+    },
+    "reading": {
+      "status": "PASS_FOR_ONE_AUTHORED_OCCURRENCE",
+      "term": "malnourished",
+      "definition": "not receiving enough food or nutrients to remain healthy",
+      "translation": "to‘yib ovqatlanmagan",
+      "occurrenceId": "e8852499-0238-41a8-a0e5-4fd1a6633d56"
+    },
+    "retention": {
+      "status": "PASS_FOR_SCOPED_LIVE_SMOKE",
+      "authoredWord": "fuel",
+      "definition": "a substance burned to power a vehicle",
+      "translation": "yoqilg'i",
+      "authoredPhrase": "filled the tank",
+      "phraseDefinition": "put fuel into the car's fuel container",
+      "phraseTranslation": "mashina bakiga yoqilg'i quyishdi",
+      "unlinkedWord": "family",
+      "unlinkedResult": "existing dictionary alternatives; no 503",
+      "userSelect": "none",
+      "copyShortcutBlocked": true
+    },
+    "invalidDirection": "invalid_input",
+    "staleRelease": "release_mismatch"
+  },
+  "notCompleted": [
+    "listening live source integration",
+    "speaking live integration",
+    "writing live integration",
+    "vocabulary save/SRS workflow",
+    "two-identity isolation"
+  ],
+  "productionQaFootprint": {
+    "retentionAttemptsCreated": 2,
+    "savedDictionaryMeanings": 0,
+    "definitionsChanged": 0,
+    "deletionPerformed": false
+  }
+}

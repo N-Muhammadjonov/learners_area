@@ -1,0 +1,8 @@
+{
+  "migrations": [
+    {
+      "version": "20261026143610",
+      "name": "dictionary_remove_redundant_identity_index"
+    }
+  ]
+}

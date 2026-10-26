@@ -1,0 +1,42 @@
+[
+  {
+    "word": "fair",
+    "id": "25673211-ddf1-5aa9-8ea3-e8e63ee276fa",
+    "status": 200,
+    "error": null,
+    "identityMatches": true,
+    "serverTiming": "dictionary;dur=90.00"
+  },
+  {
+    "word": "fair",
+    "id": "c7bfff1e-11a0-592a-b328-237b66dbfb59",
+    "status": 200,
+    "error": null,
+    "identityMatches": true,
+    "serverTiming": "dictionary;dur=79.00"
+  },
+  {
+    "word": "fair",
+    "id": "a6f86bb4-be49-5613-9fd8-1a260242dc1c",
+    "status": 200,
+    "error": null,
+    "identityMatches": true,
+    "serverTiming": "dictionary;dur=75.00"
+  },
+  {
+    "word": "fair",
+    "id": "619d12d9-2285-5727-998b-1183518401da",
+    "status": 200,
+    "error": null,
+    "identityMatches": true,
+    "serverTiming": "dictionary;dur=63.00"
+  },
+  {
+    "word": "quality time",
+    "id": "5561cf13-87b5-59b6-863b-3016face65e5",
+    "status": 200,
+    "error": null,
+    "identityMatches": true,
+    "serverTiming": "dictionary;dur=55.00"
+  }
+]

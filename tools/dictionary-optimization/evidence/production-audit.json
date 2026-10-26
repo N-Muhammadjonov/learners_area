@@ -1,0 +1,136 @@
+{
+  "baseline": {
+    "time": "2026-10-26T19:53:40.627743+00:00",
+    "databaseBytes": 467676307,
+    "channels": [
+      {
+        "name": "stable",
+        "updated_at": "2026-10-26T15:57:02.185233+00:00",
+        "active_release_id": "rel-v1-977bce7f8dab7e773955238e",
+        "previous_release_id": "rel-v1-cfadf47e87701f627f3270ce"
+      }
+    ],
+    "jobs": [
+      {
+        "id": "392432e0-332c-505d-b3b4-41ce5dc947d5",
+        "phase": "complete",
+        "updated_at": "2026-10-26T15:57:02.185233+00:00",
+        "base_release_id": "rel-v1-cfadf47e87701f627f3270ce",
+        "worker_lease_until": null,
+        "candidate_release_id": "rel-v1-977bce7f8dab7e773955238e"
+      }
+    ]
+  },
+  "termAudit": {
+    "terms": [
+      {
+        "release_id": "rel-v1-a834010a6ccc72c8b3cd8db9",
+        "direction": "EN",
+        "terms": 65669
+      },
+      {
+        "release_id": "rel-v1-a834010a6ccc72c8b3cd8db9",
+        "direction": "UZ",
+        "terms": 1135487
+      }
+    ],
+    "constraints": [
+      {
+        "name": "dictionary_search_terms_direction_check",
+        "type": "c",
+        "referenced": "-",
+        "definition": "CHECK ((direction = ANY (ARRAY['EN'::text, 'UZ'::text])))"
+      },
+      {
+        "name": "dictionary_search_terms_rank_check",
+        "type": "c",
+        "referenced": "-",
+        "definition": "CHECK (((rank >= 0) AND (rank <= 2)))"
+      },
+      {
+        "name": "dictionary_search_terms_pkey",
+        "type": "p",
+        "referenced": "-",
+        "definition": "PRIMARY KEY (release_id, lexeme_id, direction, term)"
+      },
+      {
+        "name": "dictionary_search_terms_release_id_lexeme_id_fkey",
+        "type": "f",
+        "referenced": "dictionary_entries",
+        "definition": "FOREIGN KEY (release_id, lexeme_id) REFERENCES dictionary_entries(release_id, lexeme_id)"
+      }
+    ]
+  },
+  "dependencyAudit": {
+    "legacyReferencedByChannels": 0,
+    "legacyReferencedByJobs": 0,
+    "rls": [
+      {
+        "table": "dictionary_channels",
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_drafts",
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_entries",
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_owner_events",
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_publish_jobs",
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_r2_shards",
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_recent_searches",
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_releases",
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_search_indexes",
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_search_terms",
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      },
+      {
+        "table": "dictionary_sense_mappings",
+        "enabled": true,
+        "anonSelect": false,
+        "authenticatedSelect": false
+      }
+    ]
+  }
+}

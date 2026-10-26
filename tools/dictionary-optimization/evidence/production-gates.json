@@ -1,0 +1,36 @@
+{
+  "status": "BLOCKED",
+  "checks": {
+    "metadata_integrity": true,
+    "no_running_publish": true,
+    "all_terms_legacy_only": true,
+    "legacy_not_protected": true,
+    "no_inbound_fk": true,
+    "rls_preserved": true,
+    "current_r2_object_checks": true,
+    "functional_en_uz": false,
+    "authenticated_api_parity": false,
+    "comparable_performance": false,
+    "actual_cold_start": false,
+    "worker_error_rate": false,
+    "private_backup_restore": false,
+    "worker_version_config_snapshot": false,
+    "legacy_reader_decommission": false,
+    "maintenance_rehearsal": false,
+    "explicit_cleanup_approval": false
+  },
+  "blocked": [
+    "functional_en_uz",
+    "authenticated_api_parity",
+    "comparable_performance",
+    "actual_cold_start",
+    "worker_error_rate",
+    "private_backup_restore",
+    "worker_version_config_snapshot",
+    "legacy_reader_decommission",
+    "maintenance_rehearsal",
+    "explicit_cleanup_approval"
+  ],
+  "productionMutationPerformed": false,
+  "note": "This tool never executes SQL. Receipts must be independently reviewed before any cleanup."
+}

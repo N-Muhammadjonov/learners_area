@@ -1,0 +1,31 @@
+{
+  "capturedAt": "2026-10-26T19:23:14Z",
+  "project": "tuoeabrrnsiuxpjmslxp",
+  "status": "BACKUP_CAPTURED_RESTORE_UNVERIFIED",
+  "restoreVerified": false,
+  "credentialsWritten": false,
+  "files": [
+    {
+      "name": "database.dump",
+      "bytes": 58276845,
+      "sha256": "3c18ee44845dfc23d55727c37dfd2ab988b38b3276426681ed07fd7c7028f17d"
+    },
+    {
+      "name": "roles.sql",
+      "bytes": 6173,
+      "sha256": "14dfcfc5a4c4575ae29cfafd5505a059fc4934bfcb9189f216175e7bcdcb2b60"
+    }
+  ],
+  "archiveReadable": true,
+  "archiveChecks": {
+    "TABLE DATA public dictionary_entries": true,
+    "TABLE DATA public dictionary_search_terms": true,
+    "TABLE DATA auth users": true,
+    "FUNCTION public dictionary_immutable_registry": true,
+    "ROW SECURITY public dictionary_entries": true
+  },
+  "fullArchiveDecompression": "PASS",
+  "rolePasswordsIncluded": false,
+  "sslMode": "verify-full",
+  "transport": "existing_configured_proxy"
+}

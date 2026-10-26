@@ -1,0 +1,29 @@
+{
+  "branch": "main",
+  "runtimeCommit": "4c3a3f632b962361d322636304a046a4add94f2e",
+  "statuses": [
+    {
+      "context": "Learners-area - learners_area",
+      "description": "Success",
+      "url": "https://railway.com/project/fa66cadd-5364-47bd-95f9-0689b0562269/service/68f0cfac-8723-40e7-9c3c-52856dc06786?id=e14b5939-e2c4-4c09-b01e-39039b7923f0&environmentId=032e2321-8ac4-4b6d-8f6a-937d22001a61"
+    },
+    {
+      "context": "Learners-area - learners_area",
+      "description": "Success - learnersarea.uz",
+      "url": "https://railway.com/project/fa66cadd-5364-47bd-95f9-0689b0562269/service/68f0cfac-8723-40e7-9c3c-52856dc06786?id=f0a721f3-e12d-4d72-90bc-6dbe04e49b23&environmentId=e3d24c78-ca7e-4e3b-89cf-aeb76eaa079a"
+    },
+    {
+      "context": "Vercel",
+      "description": "Deployment has completed",
+      "url": "https://vercel.com/learners-area/learners-area/7UphHNrBxkVkayLDxACMkETtHCD4"
+    },
+    {
+      "context": "Learners-area - learners-area-telegram-bot",
+      "description": "No deployment needed - watched paths not modified",
+      "url": "https://railway.com/project/fa66cadd-5364-47bd-95f9-0689b0562269/service/28a82914-9b2f-4cb9-bed7-f46bc013e2f8"
+    }
+  ],
+  "smokeTested": true,
+  "cloudflareWorkerChanged": false,
+  "supabaseSchemaChanged": false
+}
