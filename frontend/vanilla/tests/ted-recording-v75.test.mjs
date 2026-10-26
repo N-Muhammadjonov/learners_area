@@ -75,6 +75,23 @@ for(const locale of ['en','uz'])test(`${locale}: custom and built-in TED lessons
   studio.destroy();studio=null;
  }}finally{studio?.destroy();globalThis.AbortController=oldAbort;h.dispose();}
 });
+test('published lesson vocabulary takes precedence over an older built-in glossary for the same talk',()=>{
+ const h=setup(),oldAbort=globalThis.AbortController;globalThis.AbortController=window.AbortController;let studio;
+ try{
+  const data=video('How to Make Stress Your Friend');
+  data.videoLesson.beforeYouWatch='UNDERSTANDING THE TALK / 4 QUESTIONS\n01. A question?\n02. Another?\n03. Why?\n04. How?';
+  data.videoLesson.notes='Lesson focus\nStress and connection\n\nKey ideas to explain to learners\n• Reinterpret stress.';
+  data.vocabulary.items=[{occurrenceId:ID(21),id:ID(22),term:'stress resilience',partOfSpeech:null,definitionEn:'the ability to adapt and recover under pressure',translationUz:null,exampleSentence:null}];
+  studio=createVideoStudio(h.ctx,{mode:'standalone',video:data});h.ctx.root.append(studio.node);
+  assert.equal(studio.node.querySelector('[data-video-description]').textContent,data.videoLesson.beforeYouWatch);
+  h.click(studio.node.querySelector('[data-video-tab=notes]'));
+  assert.equal(studio.node.querySelector('[data-video-notes]').textContent,data.videoLesson.notes);
+  h.click(studio.node.querySelector('[data-video-tab=vocabulary]'));
+  assert.equal(studio.node.querySelectorAll('[data-video-vocabulary] article').length,1);
+  assert(studio.node.querySelector('[data-video-vocabulary]').textContent.includes('the ability to adapt and recover under pressure'));
+  assert.equal(studio.node.querySelector('[data-video-glossary]'),null);
+ }finally{studio?.destroy();globalThis.AbortController=oldAbort;h.dispose();}
+});
 test('standalone own notes restore existing text, retain drafts across tabs and save without overwriting older responses',async()=>{
  const h=setup(),oldAbort=globalThis.AbortController,oldFetch=globalThis.fetch;globalThis.AbortController=window.AbortController;let studio;
  try{

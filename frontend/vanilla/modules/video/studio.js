@@ -30,7 +30,7 @@ export function createVideoStudio(context,{mode,video}){
  const hasTranscript=timed.length>0||plain.length>0;
  const vocabWords=video.vocabulary.items;
  const normalize=value=>value.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
- const glossary=mode==='standalone'?packs.find(pack=>normalize(pack.title)===normalize(lesson.title))?.glossary:null;
+ const glossary=mode==='standalone'&&vocabWords.length===0?packs.find(pack=>normalize(pack.title)===normalize(lesson.title))?.glossary:null;
  const tabs=['description','notes','vocabulary',...(mode==='standalone'?['ownNotes']:[])];
  const tabIdBase=`video-studio-${++studioSeq}`;
 
