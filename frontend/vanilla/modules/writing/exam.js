@@ -8,6 +8,7 @@ export function mountTab(ctx,root){
  const host=el('section',{'data-writing-exam-home':'',class:'flex flex-col gap-5'});root.append(host);
  viewRegion(ctx,host,'writing-exam-home',data=>{
   const t=ctx.dict.writingWorkspace.exam,d=data.exam??data,avail=d.availability??{},open=d.open??null;
+  const source=d.sourceMaterials??{},fullTests=safeArray(source.fullTests);let fullChoice=null;
   const intro=el('header',{},el('p',{class:'text-xs font-semibold uppercase tracking-[0.14em] text-signal-600 dark:text-signal-400'},t.eyebrow),el('h2',{class:'font-display text-xl text-ink-900'},t.title),el('p',{class:'mt-1 max-w-3xl text-base text-ink-500'},t.body));
   const grid=el('div',{class:'grid gap-4 md:grid-cols-3'});
   for(const mode of modes){
@@ -16,7 +17,7 @@ export function mountTab(ctx,root){
    const start=button(open?.mode===mode?t.resume:t.start,async()=>{
     if(open?.mode===mode){void ctx.navigate(`/app/writing/exam/${open.id}`);return;}
     start.disabled=true;message.hidden=true;
-    try{const result=await post(ctx,'/api/writing/exam',{mode});if(!uuid(result.id))throw Error('Missing id');void ctx.navigate(`/app/writing/exam/${result.id}`);}
+    try{const result=await post(ctx,'/api/writing/exam',mode==='full'&&fullChoice?.value?{mode,fullTest:fullChoice.value}:{mode});if(!uuid(result.id))throw Error('Missing id');void ctx.navigate(`/app/writing/exam/${result.id}`);}
     catch(error){message.textContent=error.code==='other_paper_open'?t.otherOpen:t.startError;message.hidden=false;start.disabled=false;}
    },{signal:ctx.signal,attrs:{'data-exam-start':mode}});
    start.disabled=n===0||Boolean(open&&open.mode!==mode);
@@ -26,6 +27,8 @@ export function mountTab(ctx,root){
   host.replaceChildren(intro);
   if(open){const info=el('div',{},el('p',{class:'font-semibold text-ink-900'},`${t.resumeTitle} · ${t.modeLabel[open.mode]}`),el('p',{class:'text-sm text-ink-500'},t.resumeBody,' ',t.timeLeft,': ',clock(open.remainingSeconds??Math.max(0,Math.floor((Date.parse(open.expiresAt)-Date.now())/1000)))));host.append(el('div',{class:'card flex flex-wrap items-center justify-between gap-3 border-signal-300 p-4',role:'status','data-exam-resume':''},info,link(`/app/writing/exam/${open.id}`,t.resume,'btn-primary min-h-11')));}
   host.append(grid);
+  if(fullTests.length){fullChoice=el('select',{class:'input min-w-0 w-full','data-writing-full-test':'','aria-label':ctx.locale==='uz'?'To‘liq test':'Full test'},fullTests.map(x=>el('option',{value:x.code},x.title)));const fullCard=grid.querySelector('[data-exam-mode-card="full"]');fullCard.insertBefore(fullChoice,fullCard.querySelector('[data-exam-start]'));}
+  for(const task of ['task1','task2']){const rows=safeArray(source[task]);if(!rows.length)continue;host.append(el('details',{class:'card p-5','data-writing-source-practice':task},el('summary',{class:'cursor-pointer font-semibold'},task==='task1'?'Task 1 · Visual drills':'Task 2 · Argument drills'),el('ul',{class:'mt-3 flex flex-col gap-2'},rows.map(x=>el('li',{},link(`/app/writing/prompts/${x.id}`,x.title,'block min-h-11 rounded-sm border border-signal-300 px-3 py-2'))))));}
   if(safeArray(d.recent).length)host.append(el('div',{},el('h3',{class:'mb-2 text-sm font-semibold text-ink-900'},t.recent),el('ul',{class:'flex flex-col gap-2','data-exam-recent':''},d.recent.map(p=>el('li',{},el('a',{href:`/app/writing/exam/${p.id}`,class:'card flex min-h-11 flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm'},el('span',{class:'font-semibold text-ink-900'},t.modeLabel[p.mode]),el('span',{class:'text-ink-500'},formatDateTime(p.startedAt,ctx.locale)),el('span',{class:'text-ink-500'},p.finalizeReason?t.reason[p.finalizeReason]:t.inProgress)))))));
  });
 }
