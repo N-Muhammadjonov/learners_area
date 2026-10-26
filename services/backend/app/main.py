@@ -26,22 +26,10 @@ LOG = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app):
-    from .dictionary_part2_import_20261026 import production_target, run_approved_import
-    maintenance = None
-    if production_target(os.environ):
-        maintenance = asyncio.create_task(run_approved_import(), name='approved-part2-dictionary-import')
-    try:
-        yield
-    finally:
-        if maintenance is not None:
-            maintenance.cancel()
-            try:
-                await maintenance
-            except asyncio.CancelledError:
-                pass
-        from .access_events import bus
-        await bus.close()
-        await close_pool()
+    yield
+    from .access_events import bus
+    await bus.close()
+    await close_pool()
 
 app = FastAPI(title='Learners Area FastAPI', docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
 
