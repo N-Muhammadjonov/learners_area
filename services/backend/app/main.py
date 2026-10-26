@@ -26,9 +26,9 @@ LOG = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app):
+    from .dictionary_part2_import_20261026 import production_target, run_approved_import
     maintenance = None
-    if os.getenv('APP_ENV') == 'production' and os.getenv('RAILWAY_PROJECT_ID'):
-        from .dictionary_part2_import_20261026 import run_approved_import
+    if production_target(os.environ):
         maintenance = asyncio.create_task(run_approved_import(), name='approved-part2-dictionary-import')
     try:
         yield

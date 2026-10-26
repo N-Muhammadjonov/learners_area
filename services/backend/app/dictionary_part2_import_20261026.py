@@ -16,6 +16,7 @@ import time
 import uuid
 from contextvars import ContextVar
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from .db import pool
 from .dictionary_canonical import stable
@@ -43,6 +44,18 @@ ALIASES = {
     'powerbank': ['power bank'],
     'box ticking': ['box-ticking'],
 }
+
+
+def production_target(env):
+    """Use the app's existing environment precedence and the approved origin."""
+    mode = env.get('APP_ENV') or env.get('VERCEL_ENV')
+    if mode not in ('production', 'preview', 'development'):
+        mode = 'production' if env.get('NODE_ENV') == 'production' else 'development'
+    origin = urlsplit(env.get('PUBLIC_BASE_URL', '').strip())
+    return (mode == 'production' and origin.scheme == 'https'
+            and origin.hostname == 'learnersarea.uz' and origin.port in (None, 443)
+            and not origin.username and not origin.password
+            and origin.path in ('', '/') and not origin.query and not origin.fragment)
 
 
 def load_plan(path=SOURCE):
@@ -436,10 +449,10 @@ async def run_approved_import():
         raise
     except Exception as exc:
         # Do not print exception text: provider errors can include connection data.
-        LOG.error('Approved dictionary import stopped (%s)', type(exc).__name__)
         message = str(exc)
         error_code = message if (len(message) <= 100 and message.replace('_', '').isascii()
                                 and message.replace('_', '').isalpha()) else type(exc).__name__
+        LOG.error('Approved dictionary import stopped (%s)', error_code)
         try:
             db = await pool()
             async with db.acquire() as con:
@@ -454,6 +467,17 @@ async def run_approved_import():
                     row.update(status='failed', errorType=type(exc).__name__, errorCode=error_code)
                     await con.execute('UPDATE audit_log SET metadata=$2::jsonb WHERE id=$1',
                                       EVENT_ID, json.dumps(row))
+                elif not row:
+                    owners = await con.fetch(
+                        """SELECT DISTINCT d.owner_user_id FROM dictionary_drafts d
+                        JOIN dictionary_owner_events e ON e.entity_id=d.id::text
+                        JOIN users u ON u.id=d.owner_user_id
+                        WHERE e.validation_result->'import'->>'libraryFileId'=$1
+                        AND d.state='draft' AND u.role='owner' AND u.account_status='active'""", SOURCE_ID)
+                    if len(owners) == 1:
+                        await progress(con, owners[0]['owner_user_id'],
+                                       candidate_id(load_plan()[1]), 'failed',
+                                       errorType=type(exc).__name__, errorCode=error_code)
         except Exception:
             LOG.error('Approved dictionary import could not save its status')
     finally:

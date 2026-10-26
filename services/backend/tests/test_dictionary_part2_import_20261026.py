@@ -22,6 +22,22 @@ def source():
     return additions, retained
 
 
+@pytest.mark.parametrize('env,expected', [
+    ({'APP_ENV': 'production', 'PUBLIC_BASE_URL': 'https://learnersarea.uz'}, True),
+    ({'NODE_ENV': 'production', 'PUBLIC_BASE_URL': 'https://learnersarea.uz/'}, True),
+    ({'APP_ENV': 'preview', 'NODE_ENV': 'production', 'PUBLIC_BASE_URL': 'https://learnersarea.uz'}, False),
+    ({'APP_ENV': 'development', 'PUBLIC_BASE_URL': 'https://learnersarea.uz'}, False),
+    ({'APP_ENV': 'production', 'PUBLIC_BASE_URL': 'https://preview.example.com'}, False),
+    ({'APP_ENV': 'production', 'PUBLIC_BASE_URL': 'http://learnersarea.uz'}, False),
+    ({'APP_ENV': 'production', 'PUBLIC_BASE_URL': 'https://user@learnersarea.uz'}, False),
+    ({'APP_ENV': 'production', 'PUBLIC_BASE_URL': 'https://learnersarea.uz/another'}, False),
+    ({'APP_ENV': 'production', 'PUBLIC_BASE_URL': 'https://learnersarea.uz?redirect=1'}, False),
+    ({}, False),
+])
+def test_only_the_approved_production_origin_can_start(env, expected):
+    assert subject.production_target(env) is expected
+
+
 def test_source_rejects_modified_file(tmp_path):
     changed = tmp_path / 'changed.json'
     changed.write_bytes(subject.SOURCE.read_bytes() + b' ')
