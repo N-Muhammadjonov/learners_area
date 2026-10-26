@@ -26,10 +26,22 @@ LOG = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app):
-    yield
-    from .access_events import bus
-    await bus.close()
-    await close_pool()
+    maintenance = None
+    if os.getenv('APP_ENV') == 'production' and os.getenv('RAILWAY_PROJECT_ID'):
+        from .dictionary_part2_import_20261026 import run_approved_import
+        maintenance = asyncio.create_task(run_approved_import(), name='approved-part2-dictionary-import')
+    try:
+        yield
+    finally:
+        if maintenance is not None:
+            maintenance.cancel()
+            try:
+                await maintenance
+            except asyncio.CancelledError:
+                pass
+        from .access_events import bus
+        await bus.close()
+        await close_pool()
 
 app = FastAPI(title='Learners Area FastAPI', docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
 
