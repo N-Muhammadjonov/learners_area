@@ -8,6 +8,7 @@ from fastapi import HTTPException
 from . import main as core
 from .browser_common import camel, existing, identifier, live
 from .step31_coach import decoded
+from .writing_source_materials import catalogue,live_inventory,metadata_for_prompt
 
 
 async def evaluation(con, uid, source, id, external=False):
@@ -142,15 +143,17 @@ async def read(req, user, path, q, region):
             if not row: raise HTTPException(404,'not_found')
             return {'view':await session_view(con,row,datetime.now(timezone.utc))}
         if kind == 'prompts' and id:
-            row = await con.fetchrow(f'SELECT id,task_type,category,prompt,target_word_count FROM writing_prompts WHERE id=$1 AND {live()}',id)
+            row = await con.fetchrow(f'SELECT id,task_type,category,prompt,target_word_count,source_ref FROM writing_prompts WHERE id=$1 AND {live()}',id)
             if not row: raise HTTPException(404,'not_found')
-            return {'prompt':camel(row)}
+            blocks = await prompt_materials(con,[id])
+            return {'prompt':{**camel(row),'materials':blocks.get(str(id),[]),'practice':metadata_for_prompt(row)}}
         if kind == 'submissions' and id:
             row = await con.fetchrow('SELECT * FROM writing_submissions WHERE id=$1 AND user_id=$2',id,uid)
             if not row: raise HTTPException(404,'not_found')
-            prompt = await con.fetchrow('SELECT id,task_type,category,prompt,target_word_count FROM writing_prompts WHERE id=$1',row['prompt_id'])
+            prompt = await con.fetchrow('SELECT id,task_type,category,prompt,target_word_count,source_ref FROM writing_prompts WHERE id=$1',row['prompt_id'])
             feedback = await con.fetchrow('SELECT * FROM writing_feedback WHERE submission_id=$1 ORDER BY created_at DESC LIMIT 1',id)
-            return {'submission':camel(row),'prompt':camel(prompt),'feedback':camel(feedback),'evaluation':await evaluation(con,uid,'writing_submission',id)}
+            blocks = await prompt_materials(con,[row['prompt_id']])
+            return {'submission':camel(row),'prompt':{**camel(prompt),'materials':blocks.get(str(row['prompt_id']),[]),'practice':metadata_for_prompt(prompt)},'feedback':camel(feedback),'evaluation':await evaluation(con,uid,'writing_submission',id)}
         if kind == 'history':
             rows = await con.fetch('SELECT s.id,s.prompt_id,s.status,s.word_count,s.submitted_at,p.task_type,p.category FROM writing_submissions s JOIN writing_prompts p ON p.id=s.prompt_id WHERE s.user_id=$1 ORDER BY s.updated_at DESC',uid)
             return {'rows':[{'submission':camel({k:r[k] for k in ('id','status','word_count','submitted_at')}),'prompt':camel({k:r[k] for k in ('task_type','category')}),'evaluation':await evaluation(con,uid,'writing_submission',r['id'])} for r in rows]}
@@ -176,7 +179,7 @@ async def read(req, user, path, q, region):
             opened = next((p for p in papers if not p['finalizedAt'] and datetime.fromisoformat(p['expiresAt'].replace('Z','+00:00'))>=datetime.now(timezone.utc)),None)
             if opened:
                 opened = {**opened, 'remainingSeconds': max(0, int((datetime.fromisoformat(opened['expiresAt'].replace('Z','+00:00')) - datetime.now(timezone.utc)).total_seconds()))}
-            return {'exam':{'availability':{'task1':counts.get('task1',0),'task2':counts.get('task2',0)},'open':opened,'recent':papers}}
+            return {'exam':{'availability':{'task1':counts.get('task1',0),'task2':counts.get('task2',0)},'open':opened,'recent':papers,'sourceMaterials':catalogue(await live_inventory(con))}}
         if tab == 'topic-vocabulary':
             canonical = await packs(con)
             rows = await patterns(con,uid,q)

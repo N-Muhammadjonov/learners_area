@@ -11,6 +11,8 @@ from . import main as core
 from .writing_exam_read_port import writing_exam_read
 from .lesson_writing_port import is_js_uuid, js_length
 from .db import row_to_dict
+from .writing_source_materials import FULL_TESTS,live_inventory,catalogue
+import random
 
 router = APIRouter()
 MODES = {'task1': (1200, ['task1']), 'task2': (2400, ['task2']), 'full': (3600, ['task1', 'task2'])}
@@ -39,22 +41,44 @@ async def open_paper(conn, user_id):
         WHERE id=$1 AND user_id=$2 AND finalized_at IS NULL''',row['id'],user_id)
     return dict(row) if still else None
 
+async def same_pair(conn,paper_id,pair):
+    entries=await conn.fetch('SELECT prompt_id FROM writing_exam_paper_entries WHERE paper_id=$1 ORDER BY position',paper_id)
+    return [str(e['prompt_id']) for e in entries]==pair['promptIds']
+
 @router.post('/api/writing/exam')
 async def exam_start(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return err('unauthenticated','Sign in again.',401)
     body=await core.payload(req)
-    if not isinstance(body,dict) or set(body)!={'mode'} or body['mode'] not in MODES:
+    if (not isinstance(body,dict) or not {'mode'}<=set(body)<={'mode','fullTest'}
+        or not isinstance(body['mode'],str) or body['mode'] not in MODES):
         return err('invalid_input','Choose Task 1, Task 2 or Full Writing.',400,field='mode')
     mode=body['mode']; duration,tasks=MODES[mode]
+    selected=None
+    if 'fullTest' in body:
+        code=body['fullTest']
+        if mode!='full' or not isinstance(code,str) or code not in FULL_TESTS or not FULL_TESTS[code]['ready']:
+            return err('invalid_input','Choose an available full test.',400,field='fullTest')
+        selected=FULL_TESTS[code]
     db=await core.pool()
     async with db.acquire() as conn:
         existing=await open_paper(conn,user['id'])
         if existing:
-            if existing['mode']==mode:return core.j({'ok':True,'id':str(existing['id']),'resumed':True})
+            if existing['mode']==mode and (not selected or await same_pair(conn,existing['id'],selected)):
+                return core.j({'ok':True,'id':str(existing['id']),'resumed':True})
             return core.j({'error':{'code':'other_paper_open','message':'Another exam is open.','retryable':False},'openPaperId':str(existing['id'])},409)
         prompt_ids=[]
-        for task in tasks:
+        if mode=='full':
+            inventory=await live_inventory(conn)
+            pairs=catalogue(inventory)['fullTests']
+            if selected and selected not in pairs:
+                return err('no_prompts','This full test is not published.',404)
+            if selected or pairs:
+                pair=selected or random.choice(pairs)
+                prompt_ids=[core.uuid_value(id) for id in pair['promptIds']]
+            elif inventory:
+                return err('no_prompts','No complete published test pair is available.',404)
+        for task in tasks if not prompt_ids else []:
             prompt=await conn.fetchval('''SELECT id FROM writing_prompts
                 WHERE task_type=$1 AND (publication_state='published'
                 OR (publication_state='scheduled' AND publish_at<=NOW()))
@@ -77,7 +101,7 @@ async def exam_start(req:Request):
         except Exception:
             winner=await open_paper(conn,user['id'])
             if not winner: raise
-            if winner['mode']!=mode:
+            if winner['mode']!=mode or (selected and not await same_pair(conn,winner['id'],selected)):
                 return core.j({'error':{'code':'other_paper_open','message':'Another exam is open.','retryable':False},'openPaperId':str(winner['id'])},409)
             return core.j({'ok':True,'id':str(winner['id']),'resumed':True})
     return core.j({'ok':True,'id':str(pid),'resumed':False})

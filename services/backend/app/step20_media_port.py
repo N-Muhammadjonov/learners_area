@@ -11,6 +11,7 @@ from fastapi import APIRouter,Request
 from fastapi.responses import Response,RedirectResponse
 from . import main as core
 from .step19_storage import valid_key,head_object,read_object
+from .writing_source_materials import graph_bytes,GRAPHS
 
 router=APIRouter()
 PRIVATE={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'}
@@ -148,6 +149,23 @@ async def deliver(req,key,head):
         async with db.acquire() as con:
             allowed=await allow_resource(con,authority['user'],key)
             if allowed!='allowed':return core.j({'error':allowed},403 if allowed=='forbidden' else 404,PRIVATE)
+        graph=graph_bytes(key)
+        if graph is not None:
+            if req.query_params.get('capability')=='1':
+                from urllib.parse import urlsplit,urlunsplit
+                u=urlsplit(str(req.url))
+                url=urlunsplit((u.scheme,u.netloc,u.path,'stream=1',''))
+                return core.j({'url':url,'expiresAt':min(int(time.time()*1000)+120000,int(authority['expiresAt'])*1000),'key':key},headers=PRIVATE)
+            size=len(graph);etag='"'+GRAPHS[key]['sha256']+'"'
+            h={**PRIVATE,'Content-Type':'image/png','Accept-Ranges':'bytes','ETag':etag,'Content-Disposition':'inline; filename="'+GRAPHS[key]['originalName']+'"'}
+            header=None if head else req.headers.get('range')
+            if req.headers.get('if-range') not in (None,etag):header=None
+            span=media_range(header,size) if header else None
+            if header and span is None:
+                return Response(status_code=416,headers={**h,'Content-Range':f'bytes */{size}'})
+            h['Content-Length']=str(span[1]-span[0]+1 if span else size)
+            if span:h['Content-Range']=f'bytes {span[0]}-{span[1]}/{size}'
+            return Response(None if head else graph[span[0]:span[1]+1] if span else graph,status_code=206 if span else 200,headers=h)
         secret=media_conf()
         want_cap=req.query_params.get('capability')=='1'
         if secret:
