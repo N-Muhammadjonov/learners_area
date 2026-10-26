@@ -84,3 +84,19 @@ def test_unauthenticated_ready_pack_add_does_not_touch_the_database():
         assert response.status_code==401
         assert pool.await_count==0
     asyncio.run(run())
+
+def test_uploaded_ready_packs_keep_all_eight_names_and_source_counts():
+    from pathlib import Path
+    from app.vocabulary_packs_port import built_in_summaries
+    expected={'Food':144,'Health':225,'Shopping':97,'Sports':125,
+        'Technology':266,'Fashion':152,'Work':308,'Housing':181}
+    summaries=built_in_summaries()
+    assert {p['label']:p['wordCount'] for p in summaries}==expected
+    assert all(p['labelUz']==p['label'] for p in summaries)
+    path=Path(port.__file__).with_name('vocabulary_builtin_packs.json')
+    packs=json.loads(path.read_text(encoding='utf-8'))
+    assert len(packs)==8 and sum(len(p['words']) for p in packs)==1498
+    assert {p['id'] for p in packs}=={name.lower() for name in expected}
+    for pack in packs:
+        for word in pack['words']:
+            assert word['term'] and word['definitionEn'] and word['translationUz'] and word['example']
