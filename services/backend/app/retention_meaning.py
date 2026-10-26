@@ -82,12 +82,17 @@ async def lookup(con,user,attempt_id,word,start,end):
     index=await con.fetchrow("""SELECT coalesce(descriptor->'routes'->$2,descriptor->'routes'->'EN:*',
       CASE WHEN descriptor->'routes' IS NULL THEN descriptor->'directory' END) directory
       FROM dictionary_search_indexes WHERE release_id=$1""",release,'EN:'+norm[0])
-    if index and index['directory']:
-        result=await worker({'action':'search','release':release,'directory':index['directory'],'query':word,'direction':'EN'})
-        if result.get('release_id')!=release:raise ValueError('release_mismatch')
-        hits=result.get('results',[])
-        hits=[h for h in hits if h.get('match_type') in ('exact_lemma','canonical_normalized','form')]
+    if index:
+        hits=[]
+        if index['directory']:
+            result=await worker({'action':'search','release':release,'directory':index['directory'],'query':word,'direction':'EN'})
+            if result.get('release_id')!=release:raise ValueError('release_mismatch')
+            hits=result.get('results',[])
+            hits=[h for h in hits if h.get('match_type') in ('exact_lemma','canonical_normalized','form')]
     else:
+        registry=await con.fetchrow('SELECT state,delivery FROM dictionary_releases WHERE id=$1',release)
+        if not registry or registry['state']!='validated' or registry['delivery']!='legacy':
+            raise ValueError('dictionary_worker_unavailable')
         hits=[dict(r) for r in await con.fetch('''SELECT DISTINCT lexeme_id FROM dictionary_search_terms
           WHERE release_id=$1 AND direction='EN' AND term=$2 LIMIT 3''',release,norm)]
     candidates=[]
@@ -96,7 +101,7 @@ async def lookup(con,user,attempt_id,word,start,end):
         if value:
             candidates.extend({'entry':value,'sense':sense} for sense in value['senses'] if sense.get('definition_en'))
     body=row['body_text'];prefix=js_slice(body,max(0,start-240),start);suffix=js_slice(body,end,min(length(body),end+240))
-    selected=await select_sense(prefix+'[['+word+']]'+suffix,candidates[:40]) if candidates else None
+    selected=await select_sense(prefix+'[['+word+']]'+suffix,word,candidates[:40]) if candidates else None
     result={'contextual':presentation(selected,release),'occurrenceId':None} if selected else {
       'contextual':None,'known':None,'alternatives':[presentation(c,release) for c in candidates[:12]]}
     _cache[key]=(time.monotonic(),result)
