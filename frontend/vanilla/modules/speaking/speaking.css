@@ -7,6 +7,10 @@
 [data-practice-question-column] :is(p, h2, button), [data-practice-support-column] :is(p, h2, button) { overflow-wrap:anywhere; }
 [data-study-support] [role="tablist"] { align-items:stretch; }
 [data-study-support] [role="tab"] { min-height:44px; }
+.situation-picture { display:block; width:100%; height:auto; object-fit:contain; }
+.situation-reveal { touch-action:none; -webkit-touch-callout:none; }
+[data-situations] :is(select, option, dd) { overflow-wrap:anywhere; }
+[data-situation-vocabulary] dd { margin-inline-start:0; }
 [data-live-partner-state] .lp-panel { min-width:0; }
 [data-live-partner-state] input[type="search"] { min-width:0; }
 @media (max-width:768px) {
