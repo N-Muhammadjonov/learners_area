@@ -4,6 +4,7 @@ import {api} from '../../js/api-client.js';
 import {localAnswerRecorder} from './recorder.js';
 import {studyRich} from './study-rich.js';
 import {BackLink} from '../shared/presentation.js';
+import {mountSituations,situationTopics,situationLabels} from './situations.js';
 /** Source: SpeakingPracticePage + PracticeStudio. Uses bounded original GET endpoints,
  * never loads or constructs the complete question bank in the browser. */
 const PARTS=['part1','part2','part3'];
@@ -12,6 +13,7 @@ const urlFor=(part,topic)=>'/app/speaking/practice'+(part?'?'+new URLSearchParam
 function button(label,fn,attrs={}){const b=el('button',{type:'button',...attrs},label);b.addEventListener('click',fn);return b;}
 function reportError(host,dict,retry,label){host.replaceChildren(el('p',{class:'text-sm text-ink-500',role:'alert'},dict.common.error,' ',button(dict.errorPage.retry,retry,{class:'min-h-11 rounded-md underline','data-practice-retry':label})));}
 export function mount(context){
+ if(context.url.searchParams.get('part')==='situations')return mountSituations(context);
  const {root,url,dict,signal,navigate}=context,t=dict.speakingPractice,study=dict.speakingStudy;
  const host=el('div',{class:'mx-auto flex max-w-7xl flex-col gap-6','data-route-usable':'speaking-practice'}),studio=el('div',{class:'flex flex-col gap-5'});
  root.append(host);
@@ -33,9 +35,13 @@ export function mount(context){
    list.append(button('',()=>go(p,null),{class:'practice-part-card motion-lift relative flex min-h-64 flex-col items-start gap-3 overflow-hidden rounded-3xl border p-6 text-left disabled:cursor-not-allowed disabled:opacity-50','data-practice-part':p}));
    list.lastChild.append(el('span',{'aria-hidden':'true',class:'practice-part-number'},String(i+1)),microphoneIcon(),el('span',{class:'practice-part-label text-sm font-bold uppercase tracking-widest'},t.part[p]),el('span',{class:'relative font-display text-3xl font-bold text-ink-900'},t.partTitle[p]),el('span',{class:'relative text-base text-ink-500'},t.partBody[p]),el('span',{class:'mt-auto text-xs text-ink-500','data-practice-part-count':p},dict.common.loading));
   }
+  const s=situationLabels(context.locale),count=situationTopics.reduce((n,topic)=>n+topic.count,0);
+  const situations=button('',()=>go('situations',null),{class:'practice-part-card motion-lift relative flex min-h-64 flex-col items-start gap-3 overflow-hidden rounded-3xl border p-6 text-left','data-practice-part':'situations'});
+  situations.append(el('span',{'aria-hidden':'true',class:'practice-part-number'},'4'),microphoneIcon(),el('span',{class:'practice-part-label text-sm font-bold uppercase tracking-widest'},s.pictures),el('span',{class:'relative font-display text-3xl font-bold text-ink-900'},'Explain situations'),el('span',{class:'relative text-base text-ink-500'},s.intro),el('span',{class:'mt-auto text-xs text-ink-500'},s.count(count)));
+  list.append(situations);
   body.replaceChildren(list);
   const token=++state.token;
-  api.request('/api/speaking/practice/facets?channel=practice_alone',{signal}).then(d=>{if(signal.aborted||token!==state.token)return;for(const row of d.parts??[]){const label=list.querySelector(`[data-practice-part-count="${row.part}"]`);if(label)label.textContent=t.questionCount.replace('{n}',String(row.count));}},()=>{if(!signal.aborted&&token===state.token)reportError(body,dict,showPart,'parts');});
+  api.request('/api/speaking/practice/facets?channel=practice_alone',{signal}).then(d=>{if(signal.aborted||token!==state.token)return;for(const row of d.parts??[]){const label=list.querySelector(`[data-practice-part-count="${row.part}"]`);if(label)label.textContent=t.questionCount.replace('{n}',String(row.count));}},()=>{if(!signal.aborted&&token===state.token){for(const label of list.querySelectorAll('[data-practice-part-count]'))label.textContent='—';const error=el('div',{});body.append(error);reportError(error,dict,showPart,'parts');}});
  }
  async function topicsLoad(more=false){
   if(state.topicBusy||signal.aborted)return;state.topicBusy=true;

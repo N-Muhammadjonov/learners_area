@@ -42,11 +42,11 @@ export async function createRecorder({signal,permissionTimeoutMs=30000}={}){
  };
 }
 /** Native local-only Practice answer recording. Mirrors preparation and answer limits. */
-export function localAnswerRecorder(context,{id,part,lock}){
+export function localAnswerRecorder(context,{id,part,lock,answerSeconds}){
  const t=context.dict.speakingStudy,{signal}=context;
  const host=el('div',{class:'mt-3 space-y-3','data-local-recorder':id}),actions=el('div',{class:'flex flex-wrap gap-2'}),output=el('div',{}),err=el('p',{role:'alert',class:'text-band-bad'});
  host.append(actions,output,err);
- const limit=part==='part2'?120:part==='part3'?45:30;
+ const limit=answerSeconds??(part==='part2'?120:part==='part3'?45:30);
  let phase='idle',epoch=0,record=null,media=null,objectURL=null,timer=null,started=0,prepStart=0,busy=false,getting=false,preview=null;
  const clear=()=>{if(timer)clearInterval(timer);timer=null;};
  const releaseAudio=()=>{preview?.destroy();preview=null;if(objectURL)URL.revokeObjectURL(objectURL);objectURL=null;output.replaceChildren();};
