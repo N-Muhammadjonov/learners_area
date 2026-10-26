@@ -9,6 +9,7 @@ from . import main as core
 from .browser_common import camel, existing, identifier, live
 from .step31_coach import decoded
 from .writing_source_materials import catalogue,live_inventory,metadata_for_prompt
+from .writing_stealing_collection import metadata_for_model,collection_info
 
 
 async def evaluation(con, uid, source, id, external=False):
@@ -45,6 +46,9 @@ def slug(s):
 async def patterns(con, uid, q, library=False):
     args = [uid]
     conds = [live('p')]
+    if not library:
+        # Linked study chunks belong to Language Stealing, not Topic Vocabulary.
+        conds.append("NOT EXISTS (SELECT 1 FROM writing_model_texts ls_model WHERE ls_model.id::text=p.source_ref AND ls_model.source_ref LIKE 'writing-stealing-docx:%')")
     saved = q.get('bank') in ('1','saved')
     for key, col in (('task','task_type'),('fn','function'),('band','target_band')):
         if q.get(key):
@@ -191,11 +195,18 @@ async def read(req, user, path, q, region):
             words = [{**w,'example':w.get('example',w.get('exampleSentence','')),'packId':p['id'],'saved':w['term'].lower() in saved} for p in canonical if not q.get('topic') or p['id']==q['topic'] for w in p['words']] if q.get('fn') in (None,'','collocation') else []
             return {'topics':list(topics.values()),'words':words,'patterns':rows}
         if tab == 'language-stealing':
-            sources = [camel(r) for r in await con.fetch(f'''SELECT t.id,t.title,t.task_type,t.topic,t.target_band,
+            source_rows = await con.fetch(f'''SELECT t.id,t.title,t.task_type,t.topic,t.target_band,t.source_ref,t.body,
               (SELECT count(*)::int FROM writing_language_patterns p WHERE p.source_ref=t.id::text AND {live('p')}) pattern_count
-              FROM writing_model_texts t WHERE {live('t')} ORDER BY t.title''')]
+              FROM writing_model_texts t WHERE {live('t')} ORDER BY t.title''')
+            sources = []
+            for r in source_rows:
+                metadata=metadata_for_model(r)
+                sources.append({**camel({k:v for k,v in dict(r).items() if k not in ('body','source_ref')}),**({k:metadata[k] for k in ('estimatedBand','sourceNumber')} if metadata else {})})
+            sources.sort(key=lambda s:(0,s['sourceNumber']) if s.get('estimatedBand') else (1,s['title']))
             sessions = [camel(r) for r in await con.fetch('SELECT id,model_text_id,step,completed_at,rewrite_available_at FROM writing_stealing_sessions WHERE user_id=$1 ORDER BY updated_at DESC',uid)]
             result = {'library':await patterns(con,uid,q,True),'sources':[r for r in sources if r['patternCount']>0],'sessions':sessions}
+            if any(s.get('estimatedBand') and s['patternCount']>0 for s in sources):
+                result['sourceCollection']=collection_info()
         elif tab == 'activation':
             from .step23_activation_check import stats
             rows = await con.fetch("SELECT payload,created_at FROM activity_events WHERE user_id=$1 AND type='WRITING_ACTIVATION_CHECK' ORDER BY created_at DESC LIMIT 2000",uid)

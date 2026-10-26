@@ -7,6 +7,7 @@ from datetime import datetime,timezone,timedelta
 from fastapi import APIRouter,Request
 from . import main as core
 from .db import row_to_dict
+from .writing_stealing_collection import metadata_for_model
 router=APIRouter()
 LIVE="(publication_state='published' OR (publication_state='scheduled' AND publish_at<=now()))"
 STEPS={'read':1,'brainstorm':2,'draft':3,'analyse':4,'compare':5,'recall':6,'rewrite':7}
@@ -55,7 +56,7 @@ def uses(text,pattern):
     return False
 
 async def session_view(con,s,now):
-    t=await con.fetchrow('''SELECT id,title,task_type,topic,target_band,body FROM writing_model_texts WHERE id=$1''',s['model_text_id'])
+    t=await con.fetchrow('''SELECT id,title,task_type,topic,target_band,body,source_ref FROM writing_model_texts WHERE id=$1''',s['model_text_id'])
     if not t:raise ValueError('source_not_found')
     patterns=[]
     if s['step']>=4:
@@ -76,13 +77,18 @@ async def session_view(con,s,now):
         selected.append(data)
     show=s['step']==1 or 4<=s['step']<7 or bool(s['completed_at'])
     dt=lambda x:x.astimezone(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z') if x else None
-    return {'id':str(s['id']),'step':s['step'],'source':{'id':str(t['id']),'title':t['title'],'taskType':t['task_type'],'topic':t['topic'],'targetBand':float(t['target_band'])},
+    view={'id':str(s['id']),'step':s['step'],'source':{'id':str(t['id']),'title':t['title'],'taskType':t['task_type'],'topic':t['topic'],'targetBand':float(t['target_band'])},
       'brainstorm':s['brainstorm'],'draft':s['draft'],'comparison':s['comparison'],'rewrite':s['rewrite'],
       'modelBody':t['body'] if show else None,'patterns':selected if s['step']>=4 else None,
       'selectedPatternIds':chosen,'memorisedPatternIds':memorised,'rewritePatternIds':s['rewrite_pattern_ids'] or [],
       'rewriteAvailableAt':dt(s['rewrite_available_at']),
       'rewriteUnlocked':bool(s['rewrite_available_at'] and s['rewrite_available_at']<=now),
       'completedAt':dt(s['completed_at'])}
+    metadata=metadata_for_model(t)
+    if metadata:
+        view['source'].update({k:v for k,v in metadata.items() if k!='feedback'})
+        view['modelFeedback']=metadata['feedback'] if show and (s['step']>=4 or s['completed_at']) else None
+    return view
 
 
 def validate(b):
@@ -93,7 +99,7 @@ def validate(b):
         return set(b)=={'action','text'} and isinstance(b.get('text'),str) and len(b['text'])<=6000
     if a=='analyse':
         ids=b.get('patternIds')
-        return set(b)=={'action','patternIds'} and isinstance(ids,list) and 1<=len(ids)<=30 and all(isinstance(x,str) and core.uuid_value(x) for x in ids)
+        return set(b)=={'action','patternIds'} and isinstance(ids,list) and 1<=len(ids)<=70 and all(isinstance(x,str) and core.uuid_value(x) for x in ids)
     if a=='recall':
         return set(b)=={'action','patternId','attempt'} and isinstance(b.get('patternId'),str) and core.uuid_value(b['patternId']) and isinstance(b.get('attempt'),str) and len(b['attempt'])<=300
     return False

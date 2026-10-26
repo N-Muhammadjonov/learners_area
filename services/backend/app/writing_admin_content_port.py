@@ -156,7 +156,9 @@ async def save_content(kind,ident,raw,user):
                         await con.execute('''INSERT INTO writing_translation_sentences(set_id,position,uzbek_source,model_english,
                              accepted_alternatives,notes,target_lexical_items) VALUES($1,$2,$3,$4,$5::jsonb,$6::jsonb,$7::jsonb)''',
                              saved_id,item['position'],item['uzbekSource'],item['modelEnglish'],json.dumps(item['acceptedAlternatives']),json.dumps(item['notes']),json.dumps(item['targetLexicalItems']))
-        except Exception:
+        except Exception as exc:
+            if getattr(exc,'constraint_name',None)=='writing_language_patterns_model_capacity':
+                return {'ok':False,'issues':['Bitta essayga ko‘pi bilan 70 ta ibora bog‘lash mumkin.' if user.get('locale')=='uz' else 'One essay can contain at most 70 chunks.']}
             return {'ok':False,'issues':['write_failed']}
         await con.execute('''INSERT INTO audit_log(actor_user_id,action,target_type,target_id,metadata)
           VALUES($1,'content.updated',$2,$3,$4::jsonb)''',user['id'],'writing_'+kind.replace('-','_'),saved_id,

@@ -2691,8 +2691,13 @@ export const writingLanguagePatterns = pgTable("writing_language_patterns", {
   publicationState: publicationStateEnum("publication_state").notNull().default("draft"),
   publishAt: timestamp("publish_at", { withTimezone: true }),
   sourceRef: varchar("source_ref", { length: 80 }),
+  // A linked essay can contain up to 70 reusable chunks.
+  modelSlot: smallint("model_slot"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-});
+}, (table) => [
+  uniqueIndex("writing_language_patterns_model_slot_idx").on(table.sourceRef, table.modelSlot),
+  check("writing_language_patterns_model_slot_check", sql`(${table.sourceRef} IS NULL AND ${table.modelSlot} IS NULL) OR (${table.sourceRef} IS NOT NULL AND ${table.modelSlot} IS NOT NULL AND ${table.modelSlot} BETWEEN 1 AND 70)`),
+]);
 
 /** Language Stealing 7-step workflow (0032). One resumable row per learner per model text. */
 export const writingStealingSessions = pgTable("writing_stealing_sessions", {
