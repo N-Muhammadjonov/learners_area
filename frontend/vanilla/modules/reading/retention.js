@@ -212,7 +212,7 @@ function retentionSession(context,initial,onTerminal){
   const reading=el('div',{class:'flex flex-col gap-4','data-retention-phase':'reading','data-retention-attempt':p.attemptId},
    el('div',{class:'flex flex-wrap items-center justify-between gap-3'},el('h2',{class:'section-title'},t.readingTitle),timer),
    el('p',{class:'body-text'},t.readingHint),
-   s>0?el('article',{class:'academic-text retention-source whitespace-pre-line text-[1.05rem] leading-8 text-ink-800','data-retention-source':true},retentionText(context,{text:p.bodyText,sourceType:'retention',sourceId:p.attemptId,occurrences:p.occurrences??[],phraseAware:true,doubleClickLookup:false}).node):el('p',{class:'panel',role:'status','data-retention-phase-pending':true},dict.common.loading),
+   s>0?el('article',{class:'academic-text retention-source whitespace-pre-line text-[1.05rem] leading-8 text-ink-800','data-retention-source':true},retentionText(context,{text:p.bodyText,sourceType:'retention',sourceId:p.attemptId,occurrences:p.occurrences??[],phraseAware:true,doubleClickLookup:true}).node):el('p',{class:'panel',role:'status','data-retention-phase-pending':true},dict.common.loading),
    el('div',{class:'flex items-center justify-between gap-3'},el('span',{class:'meta-text'},t.readingWords.replace('{n}',String(p.wordCount))),el('div',{class:'flex flex-wrap gap-2'},finish)));
   const article=reading.querySelector('[data-retention-source]');
   if(article){for(const event of ['copy','cut','dragstart','contextmenu'])listen(article,event,e=>e.preventDefault(),signal);}

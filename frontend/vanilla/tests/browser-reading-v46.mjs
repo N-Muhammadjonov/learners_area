@@ -80,7 +80,7 @@ await check('General start failure: the mapped message is shown, typed answers s
  }finally{await context.close();}
 });
 
-await check('Retention phrase lookup: a double-click on a word of an authored phrase looks up the whole phrase by its occurrence',async()=>{
+await check('Retention phrase lookup: double-click opens the authored meaning while copying stays blocked',async()=>{
  const RBODY='Synthetic source. The team had to look up the answer quickly.';
  const start=RBODY.indexOf('look up'),end=start+'look up'.length;
  let phase='none';
@@ -96,11 +96,15 @@ await check('Retention phrase lookup: a double-click on a word of an authored ph
   await page.locator('[data-retention-level="B1"]').click();
   await page.locator('[data-retention-start="B1"]').click();
   await page.locator('[data-retention-source] [data-word="look"]').first().waitFor();
+  assert.equal(await page.locator('[data-retention-source]').evaluate(n=>getComputedStyle(n).userSelect),'none','the source remains non-selectable');
+  const protectedEvents=await page.locator('[data-retention-source] [data-word="look"]').first().evaluate(n=>Object.fromEntries(['copy','cut','dragstart','contextmenu'].map(type=>{const event=new Event(type,{bubbles:true,cancelable:true});n.dispatchEvent(event);return [type,event.defaultPrevented];})));
+  assert.deepEqual(protectedEvents,{copy:true,cut:true,dragstart:true,contextmenu:true},'dictionary access must not enable copying or dragging the source');
   await page.locator('[data-retention-source] [data-word="look"]').first().click();
   await page.waitForTimeout(400);
-  assert.equal(await page.locator('[data-word-popover]').count(),0,'a single click only selects');
+  assert.equal(await page.locator('[data-word-popover]').count(),0,'a single click does not open the dictionary');
   await page.locator('[data-retention-source] [data-word="up"]').first().dblclick();
   await page.locator('[data-word-popover]').waitFor();
+  assert.equal(await page.evaluate(()=>window.getSelection().toString()),'','double-click lookup works without selecting the source');
   assert.equal(await page.locator('[data-word-popover]').getAttribute('aria-label'),'look up','the popover names the phrase');
   assert.ok((await page.locator('[data-word-popover]').innerText()).includes('to search for something'),'the authored definition is shown');
   const look=state.requests.find(r=>r.path==='/api/vocabulary/lookup');
