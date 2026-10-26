@@ -1,6 +1,8 @@
-"""Package reviewed HTML5/CSS3/browser JavaScript using only Python's stdlib."""
+"""Package versioned browser assets with Python-only build/runtime dependencies."""
 from __future__ import annotations
 import hashlib
+import gzip
+from importlib.metadata import version
 import json
 from pathlib import Path
 import re
@@ -14,6 +16,46 @@ ALLOWED = ('index.html', 'js', 'modules', 'css/global.css', 'css/fonts.css',
 EXTENSIONS = {'.html','.js','.mjs','.css','.json','.woff','.woff2','.ttf','.png','.jpg',
               '.jpeg','.webp','.svg','.avif','.ico','.mp4','.webm','.mp3','.ogg','.wav','.m4a'}
 FORBIDDEN = {'package.json','package-lock.json','node_modules','scripts','tests','docs'}
+
+
+def optimize(temporary, files):
+    from rcssmin import cssmin
+    from rjsmin import jsmin
+    # The revision names the whole ESM graph, including dynamically loaded children.
+    signature={'files':files,'builder':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'rjsmin':version('rjsmin'),'rcssmin':version('rcssmin')}
+    revision = hashlib.sha256(json.dumps(signature,sort_keys=True).encode()).hexdigest()[:20]
+    prefix = '/assets/' + revision
+    original = sum(row['bytes'] for row in files.values())
+    compressed = 0
+    minified = 0
+    for name, row in files.items():
+        target = temporary / name
+        content = target.read_bytes()
+        if target.suffix in ('.js','.mjs','.css','.html'):
+            text = content.decode('utf-8')
+            if target.suffix in ('.js','.mjs') and not name.startswith('campus/') and '`' not in text:
+                # rJSmin's documented template support is deliberately not used on
+                # template-bearing modules. Keep all templates exactly as authored.
+                text = jsmin(text,keep_bang_comments=True);minified += 1
+            elif target.suffix == '.css':
+                text = cssmin(text,keep_bang_comments=True);minified += 1
+            # Only literal public runtime prefixes change. API/Worker URLs never do.
+            text = re.sub(r'''(["'`])/(js|modules|css|fonts|brand|images|campus)/''',
+                lambda match: match[1]+prefix+'/'+match[2]+'/',text)
+            if name == 'index.html':
+                text = text.replace('<head>', '<head>\n<meta name="la-build" content="'+revision+'">')
+            content = text.encode('utf-8');target.write_bytes(content)
+        row.update(sha256=hashlib.sha256(content).hexdigest(),bytes=len(content))
+        if name != 'index.html' and target.suffix in ('.js','.mjs','.css','.svg','.json') and len(content)>=256:
+            packed=gzip.compress(content,compresslevel=9,mtime=0)
+            if len(packed)<len(content)*.9:
+                packed_name='.gzip/'+name+'.gz'
+                packed_path=temporary/packed_name;packed_path.parent.mkdir(parents=True,exist_ok=True);packed_path.write_bytes(packed)
+                row['gzip']=packed_name;row['gzipBytes']=len(packed);row['gzipSha256']=hashlib.sha256(packed).hexdigest();compressed += len(packed)
+                continue
+        compressed += len(content)
+    return revision,{'inputBytes':original,'transferBytes':compressed,'minifiedFiles':minified}
 
 
 def build(base=BASE):
@@ -40,14 +82,15 @@ def build(base=BASE):
                     raise ValueError('Server/framework dependency in browser asset: '+str(relative))
                 target=temporary/relative;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(file,target)
                 content=target.read_bytes();files[relative.as_posix()]={'sha256':hashlib.sha256(content).hexdigest(),'bytes':len(content)}
-        manifest={'version':1,'files':files,'routes':routes['routes'],'redirects':routes['redirects']}
+        revision,stats=optimize(temporary,files)
+        manifest={'version':1,'revision':revision,'files':files,'routes':routes['routes'],'redirects':routes['redirects'],'optimization':stats}
         (temporary/'asset-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
         target=base/'build'
         if target.exists(): shutil.rmtree(target)
         temporary.rename(target)
     finally:
         if temporary.exists(): shutil.rmtree(temporary)
-    return {'staticBuild':True,'runtime':'Python FastAPI','files':len(files),'routes':len(routes['routes']),'nodeRequired':False}
+    return {'staticBuild':True,'runtime':'Python FastAPI','files':len(files),'routes':len(routes['routes']),'nodeRequired':False,'revision':revision,**stats}
 
 
 if __name__=='__main__': print(json.dumps(build()))

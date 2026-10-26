@@ -37,7 +37,7 @@ test('view cache is cloned, identity scoped and invalidated without admitting ol
  try{privateScope.setScope('alice');h.stub({'/api/frontend/view':async()=>({version:1,route:'/app/writing',data:{catalogue:++version}})});
   const first=await viewData('/app/writing');first.catalogue=999;assert.equal((await viewData('/app/writing')).catalogue,1);assert.equal(h.calls.length,1);
   privateScope.invalidate('view:');assert.equal((await viewData('/app/writing')).catalogue,2);
-  privateScope.invalidate('view:');h.stub({'/api/frontend/view':()=>new Promise(r=>release=r)});const old=viewData('/app/writing');privateScope.setScope('bob');release({version:1,route:'/app/writing',data:{catalogue:'alice'}});await old;assert.equal(privateScope.size,0);
+  privateScope.invalidate('view:');h.stub({'/api/frontend/view':()=>new Promise(r=>release=r)});const old=viewData('/app/writing');privateScope.setScope('bob');release({version:1,route:'/app/writing',data:{catalogue:'alice'}});await assert.rejects(old,e=>e.name==='AbortError');assert.equal(privateScope.size,0);
   privateScope.setScope('alice');const pending=viewData('/app/writing');privateScope.invalidate('view:');release({version:1,route:'/app/writing',data:{catalogue:'pre-mutation'}});await pending;assert.equal(privateScope.size,0);
  }finally{h.dispose();}
 });

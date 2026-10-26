@@ -1,6 +1,7 @@
 """A deployment can package the site with no Node/npm binaries on PATH."""
 import importlib.util
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -28,7 +29,7 @@ def test_build_excludes_symlinks_and_rejects_framework_import(tmp_path):
 
 
 def test_real_build_without_node(monkeypatch):
-    result=subprocess.run([sys.executable,str(ROOT/'scripts/build_native_assets.py')],cwd=ROOT,env={'PATH':'/nonexistent'},check=True,capture_output=True,text=True)
+    result=subprocess.run([sys.executable,str(ROOT/'scripts/build_native_assets.py')],cwd=ROOT,env={'PATH':'/nonexistent','PYTHONPATH':os.pathsep.join(str(Path(item).resolve()) for item in sys.path if item)},check=True,capture_output=True,text=True)
     summary=json.loads(result.stdout)
     assert summary['nodeRequired'] is False and summary['routes']>100
     manifest=json.loads((ROOT/'frontend/vanilla/build/asset-manifest.json').read_text())

@@ -51,5 +51,12 @@ export function sectionHeader(context){
  observer=new MutationObserver(()=>{if(content)attach(content);});
  function watch(root){observer.disconnect();attach(root);observer.observe(root,{childList:true,subtree:true});}
  signal.addEventListener('abort',()=>{observer.disconnect();node.remove();},{once:true});
- update(context.url);return {node,update,attach:watch};
+ function updateLocation(next){
+  const nextIdentity=sectionIdentity(next,dict);
+  if(next.pathname.split('/')[2]!==activeModule){update(next);return;}
+  url=next;identity=nextIdentity;title.replaceChildren();
+  if(identity)title.append(el(identity.index?'h1':'span',{'data-module-section-heading':identity.module+':'+identity.key,class:'native-module-title'},identity.title));
+  if(activeModule==='vocabulary'){const refs={current:[]},menu=sectionNav({module:activeModule,label:dict.nav[activeModule],links:navigationLinks({module:activeModule,dict}),pathname:next.pathname,query:next.searchParams,refs});if(menu)nav.replaceChildren(menu);}
+ }
+ update(context.url);return {node,update,updateLocation,attach:watch};
 }

@@ -7,15 +7,8 @@ from .browser_common import camel, existing, material_blocks
 
 
 async def streak(con, uid):
-    days = {str(r['day']) for r in await con.fetch("SELECT DISTINCT to_char(created_at AT TIME ZONE 'Asia/Tashkent','YYYY-MM-DD') AS day FROM activity_events WHERE user_id=$1", uid)}
-    day = datetime.now(ZoneInfo('Asia/Tashkent')).date()
-    if day.isoformat() not in days:
-        day -= timedelta(days=1)
-    count = 0
-    while day.isoformat() in days:
-        count += 1
-        day -= timedelta(days=1)
-    return count
+    from .browser_summary import STREAK_SQL
+    return await con.fetchval(STREAK_SQL, uid, datetime.now(ZoneInfo('Asia/Tashkent')).date())
 
 
 async def mocks(con, uid):
@@ -37,6 +30,15 @@ async def mocks(con, uid):
 
 
 async def summary(con, uid):
+    from .browser_summary import summary_snapshot
+    try:
+        return await summary_snapshot(con, uid)
+    except Exception:
+        # Preserve existing per-widget degradation when an optional table is unavailable.
+        return await summary_sequential(con, uid)
+
+
+async def summary_sequential(con, uid):
     from .browser_optional import OptionalReads
     read=OptionalReads();result={}
     for skill in ('reading','listening'):
@@ -72,13 +74,20 @@ async def dashboard(req, con, uid):
     profile=await read.read('profile',lambda:con.fetchrow('SELECT target_band FROM onboarding_profiles WHERE user_id=$1',uid))
     evaluation=await read.read('latestEvaluation',lambda:con.fetchrow('SELECT overall_estimate,weaknesses FROM evaluations WHERE user_id=$1 ORDER BY created_at DESC LIMIT 1',uid))
     counts={}
-    for skill,table in (('reading','reading_attempts'),('listening','listening_attempts'),('speaking','speaking_attempts'),('writing','writing_submissions')):
-        counts[skill]=await read.read(skill+'Attempts',lambda table=table,skill=skill:con.fetchval(f'SELECT count(*)::int FROM {table} WHERE user_id=$1'+(' AND word_count>0' if skill=='writing' else ''),uid))
+    try:
+        counts=dict(await con.fetchrow("""SELECT
+          (SELECT count(*)::int FROM reading_attempts WHERE user_id=$1) reading,
+          (SELECT count(*)::int FROM listening_attempts WHERE user_id=$1) listening,
+          (SELECT count(*)::int FROM speaking_attempts WHERE user_id=$1) speaking,
+          (SELECT count(*)::int FROM writing_submissions WHERE user_id=$1 AND word_count>0) writing""",uid))
+    except Exception:
+        for skill,table in (('reading','reading_attempts'),('listening','listening_attempts'),('speaking','speaking_attempts'),('writing','writing_submissions')):
+            counts[skill]=await read.read(skill+'Attempts',lambda table=table,skill=skill:con.fetchval(f'SELECT count(*)::int FROM {table} WHERE user_id=$1'+(' AND word_count>0' if skill=='writing' else ''),uid))
     upcoming=await read.read('nextLiveClass',lambda:con.fetchrow("SELECT l.id,l.title,l.scheduled_at FROM live_classes l JOIN courses c ON c.id=l.course_id WHERE c.slug='ielts' AND l.status='upcoming' ORDER BY l.scheduled_at LIMIT 1"))
     assignments=await read.read('assignments',lambda:con.fetch("SELECT id,title,status,due_at FROM assignments WHERE target_user_id=$1 AND status<>'completed' ORDER BY due_at",uid))
     due=await read.read('vocabDue',lambda:con.fetchval('SELECT count(*)::int FROM user_vocabulary WHERE user_id=$1 AND next_review_at<=now()',uid))
     active_streak=await read.read('streak',lambda:streak(con,uid))
-    async def last_activity():
+    async def legacy_last_activity():
         from .step21_history_port import SQL,build
         candidates=[]
         for skill in counts:
@@ -89,6 +98,18 @@ async def dashboard(req, con, uid):
         if vocabulary:candidates.append({'module':'vocabulary','at':camel(vocabulary)['createdAt'],'href':'/app/vocabulary'})
         candidates.sort(key=lambda r:r['at'],reverse=True)
         return candidates[0] if candidates else None
+    async def last_activity():
+        try:
+            row=await con.fetchrow("""SELECT module,at,href FROM (
+              (SELECT 'reading' module,started_at at,'/app/reading/attempts/'||id::text href FROM reading_attempts WHERE user_id=$1 ORDER BY started_at DESC LIMIT 1)
+              UNION ALL (SELECT 'listening',started_at,'/app/listening/attempts/'||id::text FROM listening_attempts WHERE user_id=$1 ORDER BY started_at DESC LIMIT 1)
+              UNION ALL (SELECT 'writing',updated_at,'/app/writing/submissions/'||id::text FROM writing_submissions WHERE user_id=$1 ORDER BY updated_at DESC LIMIT 1)
+              UNION ALL (SELECT 'speaking',started_at,'/app/speaking/history' FROM speaking_attempts WHERE user_id=$1 ORDER BY created_at DESC LIMIT 1)
+              UNION ALL (SELECT 'vocabulary',created_at,'/app/vocabulary' FROM user_vocabulary WHERE user_id=$1 ORDER BY created_at DESC LIMIT 1)
+              ) latest ORDER BY at DESC LIMIT 1""",uid)
+            return camel(row) if row else None
+        except Exception:
+            return await legacy_last_activity()
     last=await read.read('lastActivity',last_activity)
     return {'profile':camel(profile),'latestEvaluation':{**camel(evaluation),'weaknesses':decoded(evaluation['weaknesses']),'checkedByName':PUBLIC} if evaluation else None,
       'vocabDueCount':due,'streak':active_streak,'writingAttempts':counts['writing'],'skillCounts':counts,

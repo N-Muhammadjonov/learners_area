@@ -1,5 +1,11 @@
 import {readingDictionary} from './dictionary.js';
 import {readingLegacyDestination} from '../../js/generated/reading-destinations.js';
+/** Code-only prewarm of the selected entry; no lesson, answer or active-session reads. */
+export async function preload(url){
+ const path=url.pathname;
+ const file=path==='/app/reading/lessons'?'./lessons.js':path==='/app/reading/academic'?'./academic.js':path==='/app/reading/general'?'./general.js':null;
+ if(file)await import(file);
+}
 /** One entry for every learner Reading route. Each original page maps to one native module below; the Reading
  * dictionary overlay is loaded once per locale. Unknown Reading paths use the shared not-found presentation. */
 /** Original (focus)/reading/reading-workspace.css: loaded once for every Reading focus screen, scoped to .reading-focus. */
