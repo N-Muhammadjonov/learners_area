@@ -313,10 +313,26 @@ async def publish_approved(con):
     if sum(d['entries'] for d in descriptors) != before['base_rows']:
         raise ValueError('base_shard_inventory_mismatch')
     prefixes = sorted(set(by_prefix) | {ident[:2] for ident in new})
+    checkpoints = {r['shard']: decoded(r['descriptor']) for r in await con.fetch(
+        'SELECT shard,descriptor FROM dictionary_r2_shards WHERE release_id=$1', candidate)}
+    checkpoint_counts = {r['prefix']: r['n'] for r in await con.fetch(
+        """SELECT left(lexeme_id::text,2) prefix,count(*) n FROM dictionary_entries
+        WHERE release_id=$1 GROUP BY left(lexeme_id::text,2)""", candidate)}
     await progress(con, owner, candidate, 'shards', completed=0, total=len(prefixes))
 
     for i, prefix in enumerate(prefixes):
         await authority(con, owner)
+        expected_count = by_prefix.get(prefix, {}).get('entries', 0) + sum(
+            ident[:2] == prefix for ident in new)
+        checkpoint = checkpoints.get(prefix)
+        if (checkpoint and checkpoint.get('entries') == expected_count
+                and checkpoint_counts.get(prefix) == expected_count):
+            # Native write_shard commits a descriptor only after its immutable
+            # bytes and projection succeed. The full index build and final
+            # verify_release_objects still read/checksum every resumed shard.
+            if (i + 1) % 8 == 0 or i + 1 == len(prefixes):
+                await progress(con, owner, candidate, 'shards', completed=i + 1, total=len(prefixes))
+            continue
         old = await read_shard(BASE, by_prefix[prefix]) if prefix in by_prefix else []
         merged = merge_shard(old, [e for ident, e in new.items() if ident[:2] == prefix], candidate)
         await write_shard(con, merged, False)
@@ -440,11 +456,18 @@ async def run_approved_import():
     """Temporary deployment hook; no public endpoint and no credentials in source."""
     try:
         db = await pool()
-        async with db.acquire() as con:
-            async with asyncio.timeout(2700):
-                await publish_approved(con)
-    except ImportRunning:
-        LOG.info('Approved dictionary import is already running')
+        async with asyncio.timeout(2700):
+            while True:
+                try:
+                    async with db.acquire() as con:
+                        await publish_approved(con)
+                    break
+                except ImportRunning:
+                    # Rolling deployments can stop the previous holder after
+                    # this instance becomes ready. Take over when its lease
+                    # expires, or observe its completed receipt.
+                    LOG.info('Waiting for the approved dictionary import lease')
+                    await asyncio.sleep(10)
     except asyncio.CancelledError:
         raise
     except Exception as exc:

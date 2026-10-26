@@ -121,7 +121,11 @@ class Preflight:
         if 'SELECT d.id,d.changes' in sql:
             return self.drafts
         if 'dictionary_r2_shards' in sql:
+            if 'SELECT shard,descriptor' in sql:
+                return []
             return [{'descriptor': {'shard': 'aa', 'entries': 1}}]
+        if 'GROUP BY left(lexeme_id' in sql:
+            return []
         raise AssertionError(sql)
 
     async def fetchrow(self, sql, *args):
@@ -219,3 +223,39 @@ async def test_worker_checks_all_123_candidates_with_bounded_concurrency(monkeyp
     assert await subject.verify_worker('rel-v1-' + 'a' * 24,
                                       {'routes': {'EN:p': {'name': 'directory'}}}, targets) == 123
     assert peak == 4
+
+
+@pytest.mark.asyncio
+async def test_new_server_takes_over_after_the_previous_import_lease(monkeypatch):
+    class ConnectionContext:
+        async def __aenter__(self):
+            return object()
+
+        async def __aexit__(self, *args):
+            return False
+
+    class Pool:
+        def acquire(self):
+            return ConnectionContext()
+
+    calls = 0
+    waits = []
+
+    async def fake_pool():
+        return Pool()
+
+    async def publish(con):
+        nonlocal calls
+        calls += 1
+        if calls == 1:
+            raise subject.ImportRunning()
+        return {'added': 118}
+
+    async def pause(seconds):
+        waits.append(seconds)
+
+    monkeypatch.setattr(subject, 'pool', fake_pool)
+    monkeypatch.setattr(subject, 'publish_approved', publish)
+    monkeypatch.setattr(subject.asyncio, 'sleep', pause)
+    await subject.run_approved_import()
+    assert calls == 2 and waits == [10]
