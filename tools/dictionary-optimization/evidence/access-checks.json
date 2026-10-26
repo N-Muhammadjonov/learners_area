@@ -1,0 +1,10 @@
+{
+  "productionAnonymousSearch": {"status": 401, "error": "unauthenticated"},
+  "railwayExistingConnection": {"authenticated": false, "accessTokenExpired": true},
+  "localShellNetwork": "DNS resolution unavailable",
+  "postgresClientServerTools": "unavailable",
+  "dockerRestoreAccess": "denied",
+  "productionDatabaseWrites": false,
+  "githubRefWrites": false,
+  "cloudflareWrites": false
+}

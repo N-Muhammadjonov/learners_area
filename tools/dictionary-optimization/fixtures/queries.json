@@ -1,0 +1,140 @@
+[
+  {
+    "category": "idiom",
+    "direction": "EN",
+    "query": "put your feet up",
+    "expectedId": "edb1facf-24c6-5b3d-a549-6f0996af1a14"
+  },
+  {
+    "category": "idiom",
+    "direction": "EN",
+    "query": "hang in the balance",
+    "expectedId": "6e12117a-6400-555f-933b-fabd8c222101"
+  },
+  {
+    "category": "noun_phrase",
+    "direction": "EN",
+    "query": "quality time",
+    "expectedId": "5561cf13-87b5-59b6-863b-3016face65e5"
+  },
+  {
+    "category": "noun_phrase",
+    "direction": "EN",
+    "query": "learning curve",
+    "expectedId": "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+  },
+  {
+    "category": "idiom",
+    "direction": "EN",
+    "query": "pay it forward",
+    "expectedId": "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+  },
+  {
+    "category": "idiom",
+    "direction": "EN",
+    "query": "make matters worse",
+    "expectedId": "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+  },
+  {
+    "category": "idiom",
+    "direction": "EN",
+    "query": "come face to face with",
+    "expectedId": "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+  },
+  {
+    "category": "idiom",
+    "direction": "EN",
+    "query": "ring true",
+    "expectedId": "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+  },
+  {
+    "category": "UZ exact",
+    "direction": "UZ",
+    "query": "taqdiri noaniq bo‘lmoq",
+    "expectedId": "6e12117a-6400-555f-933b-fabd8c222101"
+  },
+  {
+    "category": "UZ exact",
+    "direction": "UZ",
+    "query": "yaqinlarga to‘liq e’tibor qaratilgan vaqt",
+    "expectedId": "5561cf13-87b5-59b6-863b-3016face65e5"
+  },
+  {
+    "category": "UZ exact",
+    "direction": "UZ",
+    "query": "yangi ko‘nikmani o‘zlashtirish jarayoni",
+    "expectedId": "52e3bf2a-3653-5285-bc0a-ca800806c6ed"
+  },
+  {
+    "category": "UZ exact",
+    "direction": "UZ",
+    "query": "ko‘rilgan yaxshilikni boshqalarga o‘tkazmoq",
+    "expectedId": "0fe0a466-a2a2-5b39-ad15-e4bead993c15"
+  },
+  {
+    "category": "UZ exact",
+    "direction": "UZ",
+    "query": "vaziyatni yanada yomonlashtirmoq",
+    "expectedId": "ced9b5c8-a3ae-590e-b961-aed95cc7a57a"
+  },
+  {
+    "category": "UZ exact",
+    "direction": "UZ",
+    "query": "bevosita duch kelmoq",
+    "expectedId": "4d246846-f4a9-55a3-bfcf-537a18b6425a"
+  },
+  {
+    "category": "UZ exact",
+    "direction": "UZ",
+    "query": "haqiqatdek tuyulmoq",
+    "expectedId": "52ea08a5-fae8-527f-9d95-c72fe2f752cf"
+  },
+  {
+    "category": "case",
+    "direction": "EN",
+    "query": "QUALITY TIME",
+    "expectedId": "5561cf13-87b5-59b6-863b-3016face65e5"
+  },
+  {
+    "category": "EN prefix",
+    "direction": "EN",
+    "query": "qual"
+  },
+  {
+    "category": "UZ prefix",
+    "direction": "UZ",
+    "query": "yangi ko‘nik"
+  },
+  {
+    "category": "empty",
+    "direction": "EN",
+    "query": "",
+    "empty": true
+  },
+  {
+    "category": "absent",
+    "direction": "UZ",
+    "query": "zzzxqv271828",
+    "empty": true
+  },
+  {
+    "category": "phrasal verb",
+    "direction": "EN",
+    "query": "freeze up"
+  },
+  {
+    "category": "Unicode apostrophe",
+    "direction": "EN",
+    "query": "get on someone’s nerves"
+  },
+  {
+    "category": "spelling form",
+    "direction": "EN",
+    "query": "power bank"
+  },
+  {
+    "category": "Unicode hyphen",
+    "direction": "EN",
+    "query": "noise‑cancelling"
+  }
+]

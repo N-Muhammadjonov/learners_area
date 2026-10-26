@@ -173,6 +173,9 @@ async def dictionary_search(req:Request):
                         if response.get('release_id')!=release:raise ValueError('dictionary_worker_unavailable')
                         results=response['results']
                 else:
+                    registry=await con.fetchrow('SELECT state,delivery FROM dictionary_releases WHERE id=$1',release)
+                    if not registry or registry['state']!='validated' or registry['delivery']!='legacy':
+                        raise ValueError('dictionary_worker_unavailable')
                     prefix=re.sub(r'([\\%_])',r'\\\1',norm)+'%'
                     rows=await con.fetch('''WITH hits AS (
                       SELECT lexeme_id,min(CASE WHEN term=$3 THEN rank ELSE 3 END) AS score

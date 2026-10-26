@@ -1,0 +1,26 @@
+{
+  "time": "2026-10-26T17:04:33.817391+00:00",
+  "terms": 1201156,
+  "channels": [
+    {
+      "name": "stable",
+      "updated_at": "2026-10-26T15:57:02.185233+00:00",
+      "active_release_id": "rel-v1-977bce7f8dab7e773955238e",
+      "previous_release_id": "rel-v1-cfadf47e87701f627f3270ce"
+    }
+  ],
+  "databaseBytes": 467856531,
+  "runningPublishJobs": 0,
+  "earlierImportReceipt": {
+    "added": 118,
+    "status": "complete",
+    "entries": 65056,
+    "retained": 5,
+    "baseRelease": "rel-v1-cfadf47e87701f627f3270ce",
+    "sourceSha256": "fa88431ed60cf7b14cd2a41d2a9f3d969d2e927bc61217c9ec704a8bd1c4bbae",
+    "candidateRelease": "rel-v1-977bce7f8dab7e773955238e",
+    "exactSearchChecks": 123,
+    "preservedExisting": 64938,
+    "sourceLibraryFileId": "libfile_c67d5096ccb48191b38c6677e7e694ab"
+  }
+}

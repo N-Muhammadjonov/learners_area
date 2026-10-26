@@ -27,6 +27,9 @@ async def search(con,q,direction,release):
             return p.get('results',[])
         if not isinstance(p,list):raise ValueError('dictionary_worker_unavailable')
         return p
+    registry=await con.fetchrow('SELECT state,delivery FROM dictionary_releases WHERE id=$1',release)
+    if not registry or registry['state']!='validated' or registry['delivery']!='legacy':
+        raise ValueError('dictionary_worker_unavailable')
     pat=re.sub(r'([\\%_])',r'\\\1',norm)+'%'
     rows=await con.fetch('''WITH hits AS (
      SELECT lexeme_id,min(CASE WHEN term=$3 THEN rank ELSE 3 END) score
