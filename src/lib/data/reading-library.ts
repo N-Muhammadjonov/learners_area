@@ -48,6 +48,19 @@ import { timed } from "@/lib/observability/timing";
 
 export const READING_PAGE_SIZE = 24;
 
+/**
+ * Fixed, display-only permutation of the 33 complete General Reading test rows.
+ * Apply BEFORE pagination; passage numbering, membership, questions and Academic
+ * ordering remain unchanged. An unstable per-request shuffle would repeat/skip
+ * passages as learners navigate between pages.
+ */
+const GENERAL_READING_TEST_ROW_ORDER = [
+  17, 33, 12, 15, 20, 29, 27, 4, 3, 11, 32,
+  9, 22, 7, 28, 2, 13, 18, 5, 23, 10, 14,
+  19, 16, 8, 1, 24, 30, 6, 31, 25, 26, 21,
+] as const;
+const generalReadingTestRanks = sql.join(GENERAL_READING_TEST_ROW_ORDER.map((n) => sql`${n}`), sql`, `);
+
 export type ReadingLibraryFilter = {
   /** all | passage1 | passage2 | passage3 | completed | in_progress | not_started */
   status?: string;
@@ -347,7 +360,14 @@ export async function listLearningLibrary(userId: string, filter: ReadingLibrary
   const [countRow]=(await db.execute<{total:number}>(sql`select count(*)::int total ${from}`)).rows;
   const total=countRow?.total??0, pageCount=Math.max(1,Math.ceil(total/READING_PAGE_SIZE));
   const page=Math.min(pageCount,Math.max(1,Math.floor(filter.page??1)));
-  const result=await db.execute<{id:string;title:string;test_no:number|null;passage_no:number;topic_code:string|null;suggested_minutes:number;set_id:string;question_count:number;score:number|null;checked_at:string|null;started:boolean}>(sql`select p.id,p.title,p.test_no,g.passage_no,p.topic_code,p.suggested_minutes,g.set_id,(select count(*)::int from reading_questions q where q.passage_id=p.id) question_count,r.score,r.checked_at,r.passage_id is not null as started ${from} order by s.created_at,g.passage_no,p.id limit ${READING_PAGE_SIZE} offset ${(page-1)*READING_PAGE_SIZE}`);
+  const result=await db.execute<{id:string;title:string;test_no:number|null;passage_no:number;topic_code:string|null;suggested_minutes:number;set_id:string;question_count:number;score:number|null;checked_at:string|null;started:boolean}>(sql`select p.id,p.title,p.test_no,g.passage_no,p.topic_code,p.suggested_minutes,g.set_id,(select count(*)::int from reading_questions q where q.passage_id=p.id) question_count,r.score,r.checked_at,r.passage_id is not null as started ${from} order by
+    case when p.test_no between 1 and 33 then 0 else 1 end,
+    case when p.test_no between 1 and 33
+      then array_position(ARRAY[${generalReadingTestRanks}]::integer[], p.test_no)
+      else row_number() over (partition by (p.test_no is null), g.passage_no order by p.id)
+    end,
+    g.passage_no, p.id
+    limit ${READING_PAGE_SIZE} offset ${(page-1)*READING_PAGE_SIZE}`);
   const items=result.rows.map(row=>({id:row.id,title:row.title,testNo:row.test_no,passageNo:row.passage_no,topicCode:row.topic_code,suggestedMinutes:row.suggested_minutes,questionCount:row.question_count,status:row.checked_at?'completed' as const:row.started?'in_progress' as const:'not_started' as const,lastScore:row.checked_at?row.score:null,lastAttemptId:null,setId:row.set_id}));
   return {items,total,page,pageCount};
 }
