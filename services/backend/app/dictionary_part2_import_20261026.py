@@ -23,10 +23,11 @@ from .dictionary_canonical import stable
 from .step17_dictionary_read_port import normalize_search, worker
 from .step27_dictionary_edit import draft_schema
 from .step39_dictionary_publish import apply_draft, content_hash, make_manifest
+from . import step40_dictionary_index as index_tools
 from .step40_dictionary_index import build_index
 from .step40_dictionary_storage import (
-    manifest_key, put_immutable, read_shard, validate_entry,
-    verify_release_objects, write_shard,
+    SHARD_LIMIT, checksum, index_key, manifest_key, put_immutable, read_immutable,
+    read_shard, validate_entry, write_shard,
 )
 
 LOG = logging.getLogger(__name__)
@@ -134,6 +135,87 @@ def decoded(value):
 
 class ImportRunning(Exception):
     pass
+
+
+class BoundedIndexWriter:
+    """Keep descriptor identity while overlapping independent immutable uploads."""
+    def __init__(self, concurrency=8):
+        self.limit = concurrency * 2
+        self.semaphore = asyncio.Semaphore(concurrency)
+        self.pending = set()
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, kind, error, traceback):
+        if kind is not None:
+            for task in self.pending:
+                task.cancel()
+            await asyncio.gather(*self.pending, return_exceptions=True)
+        else:
+            await self.drain()
+
+    async def write(self, release, name, content):
+        # The descriptor object is shared by the leaf/branch maps. A native
+        # retry may reuse older gzip bytes; update that same object before the
+        # build_index barriers serialize parent directories or the manifest.
+        _, descriptor = index_tools.encode(name, content)
+
+        async def upload():
+            async with self.semaphore:
+                actual = await index_tools.write_index_object(release, name, content)
+                descriptor.clear()
+                descriptor.update(actual)
+
+        task = asyncio.create_task(upload())
+        self.pending.add(task)
+        if len(self.pending) >= self.limit:
+            done, self.pending = await asyncio.wait(self.pending, return_when=asyncio.FIRST_COMPLETED)
+            await asyncio.gather(*done)
+        return descriptor
+
+    async def drain(self):
+        if self.pending:
+            pending = set(self.pending)
+            try:
+                await asyncio.gather(*pending)
+            except BaseException:
+                for task in pending:
+                    task.cancel()
+                await asyncio.gather(*pending, return_exceptions=True)
+                raise
+            finally:
+                self.pending.difference_update(pending)
+
+
+async def parallel_shards(release, descriptors):
+    # Preserve the original descriptor/entry order while prefetching four
+    # bounded shards; this does not change the logical index or its hashes.
+    for start in range(0, len(descriptors), 4):
+        batch = descriptors[start:start + 4]
+        records = await asyncio.gather(*(read_shard(release, d) for d in batch))
+        for descriptor, values in zip(batch, records):
+            yield descriptor, values
+
+
+async def verify_objects_bounded(release, manifest):
+    storage = manifest['storage']
+    shards = storage['shards']
+    for start in range(0, len(shards), 8):
+        await asyncio.gather(*(read_shard(release, d) for d in shards[start:start + 8]))
+
+    async def check_index(descriptor):
+        body = await read_immutable(index_key(release, descriptor['name']),
+                                    descriptor['compressed_bytes'])
+        if checksum(body) != descriptor['sha256']:
+            raise ValueError('dictionary_index_checksum_mismatch')
+
+    objects = storage['search']['objects']
+    for start in range(0, len(objects), 8):
+        await asyncio.gather(*(check_index(d) for d in objects[start:start + 8]))
+    body = await read_immutable(manifest_key(release), SHARD_LIMIT)
+    if checksum(body) != checksum(stable(manifest).encode()):
+        raise ValueError('manifest_validation_failed')
 
 
 async def pulse_lease(owner, token, stopped):
@@ -371,7 +453,9 @@ async def publish_approved(con):
             last_beat = time.monotonic()
 
     await heartbeat()
-    index = await build_index(candidate, candidate_shards, order, heartbeat)
+    async with BoundedIndexWriter() as writer:
+        index = await build_index(candidate, candidate_shards, order, heartbeat,
+                                  writer=writer, shard_reader=parallel_shards)
     await con.execute(
         """INSERT INTO dictionary_search_indexes(release_id,descriptor) VALUES($1,$2::jsonb)
         ON CONFLICT(release_id) DO UPDATE SET descriptor=EXCLUDED.descriptor""",
@@ -379,7 +463,7 @@ async def publish_approved(con):
     manifest = await make_manifest(con, candidate)
     await put_immutable(manifest_key(candidate), stable(manifest).encode())
     await progress(con, owner, candidate, 'verification', entries=count)
-    await verify_release_objects(candidate, manifest)
+    await verify_objects_bounded(candidate, manifest)
 
     targets = [(r['changes']['lemma'], apply_draft([], r['changes'], candidate)['lexeme_id'])
                for r in additions]

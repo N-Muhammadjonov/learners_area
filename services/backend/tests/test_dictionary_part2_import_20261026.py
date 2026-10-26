@@ -1,6 +1,8 @@
 """Safety and content checks for the approved, bounded Part 2 import."""
 import copy
 import asyncio
+import gzip
+import hashlib
 import importlib.util
 import json
 import uuid
@@ -259,3 +261,80 @@ async def test_new_server_takes_over_after_the_previous_import_lease(monkeypatch
     monkeypatch.setattr(subject.asyncio, 'sleep', pause)
     await subject.run_approved_import()
     assert calls == 2 and waits == [10]
+
+
+@pytest.mark.asyncio
+async def test_parallel_index_matches_serial_including_reused_gzip_descriptors(monkeypatch):
+    additions, _ = source()
+    release = subject.candidate_id(additions)
+    values = list(subject.prepare_additions(additions, release).values())[:2]
+    by_prefix = {}
+    for value in values:
+        by_prefix.setdefault(value['lexeme_id'][:2], []).append(value)
+    descriptors = [{'shard': prefix} for prefix in sorted(by_prefix)]
+    order = {e['lexeme_id']: i for i, e in enumerate(values)}
+    objects = {}
+    actual = {}
+
+    async def read(release_id, descriptor):
+        return copy.deepcopy(by_prefix[descriptor['shard']])
+
+    async def upload(release_id, name, content):
+        await asyncio.sleep(0)
+        frozen = copy.deepcopy(content)
+        for child in frozen.get('objects', []):
+            assert child == actual[child['name']]
+        raw = subject.stable(frozen).encode()
+        # Simulate an immutable object written by a different gzip version.
+        body = gzip.compress(raw, compresslevel=1, mtime=0)
+        descriptor = {
+            'name': name, 'sha256': hashlib.sha256(body).hexdigest(),
+            'raw_sha256': hashlib.sha256(raw).hexdigest(),
+            'compressed_bytes': len(body), 'raw_bytes': len(raw),
+        }
+        objects[name] = frozen
+        actual[name] = copy.deepcopy(descriptor)
+        return descriptor
+
+    async def heartbeat():
+        return None
+
+    monkeypatch.setattr(subject.index_tools, 'read_shard', read)
+    monkeypatch.setattr(subject, 'read_shard', read)
+    monkeypatch.setattr(subject.index_tools, 'write_index_object', upload)
+    serial = await subject.index_tools.build_index(release, descriptors, order, heartbeat)
+    serial_objects = copy.deepcopy(objects)
+    objects.clear()
+    actual.clear()
+    async with subject.BoundedIndexWriter(2) as writer:
+        parallel = await subject.index_tools.build_index(
+            release, descriptors, order, heartbeat, writer=writer,
+            shard_reader=subject.parallel_shards)
+    assert parallel == serial
+    assert objects == serial_objects
+
+
+@pytest.mark.asyncio
+async def test_parallel_verification_keeps_every_checksum_check(monkeypatch):
+    release = 'rel-v1-' + 'a' * 24
+    visited = []
+    body = b'valid index'
+    descriptor = {'name': 'directory', 'compressed_bytes': len(body),
+                  'sha256': hashlib.sha256(body).hexdigest()}
+    manifest = {'storage': {'shards': [{'shard': 'aa'}, {'shard': 'bb'}],
+                            'search': {'objects': [descriptor]}}}
+
+    async def shard(rel, item):
+        visited.append(item['shard'])
+        return []
+
+    async def read(key, limit):
+        if key.endswith('manifest.json'):
+            return subject.stable(manifest).encode()
+        return b'corrupt index'
+
+    monkeypatch.setattr(subject, 'read_shard', shard)
+    monkeypatch.setattr(subject, 'read_immutable', read)
+    with pytest.raises(ValueError, match='dictionary_index_checksum_mismatch'):
+        await subject.verify_objects_bounded(release, manifest)
+    assert visited == ['aa', 'bb']
