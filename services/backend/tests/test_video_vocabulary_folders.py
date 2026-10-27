@@ -10,7 +10,7 @@ from starlette.requests import Request
 USER,VIDEO,FOLDER,ENTRY,LEXEME=[UUID(int=i) for i in range(1,6)]
 
 class Connection:
-    def __init__(self,owned=True):self.owned=owned;self.calls=[]
+    def __init__(self,owned=True,title='How to Make Stress Your Friend'):self.owned=owned;self.title=title;self.calls=[]
     async def fetchrow(self,sql,*args):
         self.calls.append((sql,args))
         if 'FROM users' in sql:return {'id':USER}
@@ -21,7 +21,8 @@ class Connection:
         if 'SELECT id FROM vocab_folders' in sql:
             assert args==(FOLDER,USER);return FOLDER if self.owned else None
         if 'SELECT title FROM video_lessons' in sql:
-            assert args==(VIDEO,);return 'How to Make Stress Your Friend'
+            assert args==(VIDEO,) and "publication_state='published'" in sql and 'publish_at<=NOW()' in sql
+            return self.title
         if 'INSERT INTO vocab_folders' in sql:
             assert args==(USER,'TED : How to Make Stress Your Friend');return FOLDER
         raise AssertionError(sql)
@@ -54,6 +55,12 @@ def test_selected_owned_folder_does_not_create_default_or_move_existing_filed_wo
 def test_foreign_folder_is_rejected_before_word_or_folder_writes():
     con,r=run(FOLDER,False)
     assert r=={'ok':False,'error':'folder_not_found'}
+    assert not any('INSERT' in sql or 'UPDATE user_vocabulary' in sql for sql,_ in con.calls)
+
+def test_unpublished_video_cannot_reveal_title_through_an_automatic_folder():
+    con=Connection(title=None)
+    result=asyncio.run(batch.add_batch(con,USER,[{'term':'word','definitionEn':'A meaning'}],source_type='video',source_id=VIDEO))
+    assert result=={'ok':False,'error':'source_not_found'}
     assert not any('INSERT' in sql or 'UPDATE user_vocabulary' in sql for sql,_ in con.calls)
 
 def test_video_save_uses_requested_occurrence_and_preserves_authoritative_meaning(monkeypatch):

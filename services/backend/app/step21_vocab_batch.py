@@ -33,7 +33,8 @@ async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',sou
         if not await con.fetchval('SELECT id FROM vocab_folders WHERE id=$1 AND user_id=$2',folder_id,user_id):
             return {'ok':False,'error':'folder_not_found'}
     if not folder_id and source_type=='video':
-        title=await con.fetchval('SELECT title FROM video_lessons WHERE id=$1',source_id)
+        title=await con.fetchval("""SELECT title FROM video_lessons WHERE id=$1
+          AND (publication_state='published' OR (publication_state='scheduled' AND publish_at<=NOW()))""",source_id)
         if not title:return {'ok':False,'error':'source_not_found'}
         folder_id=await con.fetchval('''INSERT INTO vocab_folders(user_id,name) VALUES($1,$2)
            ON CONFLICT(user_id,name) DO UPDATE SET name=excluded.name RETURNING id''',user_id,'TED : '+title)
