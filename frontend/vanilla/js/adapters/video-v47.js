@@ -50,7 +50,7 @@ export function videoStudioDTO(data){
  if(!Array.isArray(data.questions)||!data.questions.every(q=>obj(q)&&uuid(q.id)&&STAGES.has(q.stage)&&str(q.prompt)&&nnum(q.atSeconds)))bad('invalid_video_lesson');
  const progress=data.progress??null;
  if(progress!==null){
-  if(!obj(progress)||!PROGRESS_STATES.has(progress.state)||!num(progress.watchedSeconds)||!nstr(progress.responseText??null)||!nstr(progress.summaryText??null))bad('invalid_video_lesson');
+  if(!obj(progress)||!PROGRESS_STATES.has(progress.state)||!num(progress.watchedSeconds)||!nnum(progress.playbackDurationSeconds??null)||!nstr(progress.responseText??null)||!nstr(progress.summaryText??null))bad('invalid_video_lesson');
   const answers=progress.answers??{};
   if(!obj(answers)||!Object.values(answers).every(a=>obj(a)&&str(a.answer)&&typeof a.correct==='boolean'))bad('invalid_video_lesson');
  }
@@ -59,7 +59,7 @@ export function videoStudioDTO(data){
  const directMedia=v.provider==='direct'?(data.directMedia==null?null:safeDirectMedia(data.directMedia)):null;
  return {
   videoLesson:{
-   id:v.id,provider:v.provider,videoId:v.videoId,title:v.title,beforeYouWatch:v.beforeYouWatch,durationSeconds:v.durationSeconds,
+   id:v.id,provider:v.provider,videoId:v.videoId,title:v.title,beforeYouWatch:v.beforeYouWatch,durationSeconds:v.durationSeconds>0?v.durationSeconds:progress?.playbackDurationSeconds??v.durationSeconds,
    transcript:transcript?transcript.map(line=>({startSeconds:line.startSeconds,text:line.text})):null,
    transcriptSource:v.transcriptSource??null,transcriptAttribution:v.transcriptAttribution??null,transcriptText:v.transcriptText??null,notes:v.notes??null,
   },

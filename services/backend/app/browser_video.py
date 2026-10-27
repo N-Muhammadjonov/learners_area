@@ -21,7 +21,7 @@ async def studio(con, user, video, req):
     video_id=video['id']
     questions=await con.fetch('''SELECT id,stage,prompt,at_seconds FROM video_lesson_questions
         WHERE video_lesson_id=$1 ORDER BY position,id''',video_id)
-    progress=await con.fetchrow('''SELECT state,watched_seconds,answers,response_text,summary_text
+    progress=await con.fetchrow('''SELECT state,watched_seconds,answers,response_text,summary_text,playback_duration_seconds
         FROM video_lesson_progress WHERE video_lesson_id=$1 AND user_id=$2''',video_id,user['id'])
     # Occurrence binding is authoritative. No spelling search substitutes for a missing binding.
     words=await con.fetch('''SELECT o.id AS "occurrenceId",o.lexeme_id AS id,s.term,
@@ -46,10 +46,10 @@ async def read(req,user,path,q):
     db=await core.pool()
     async with db.acquire() as con:
         if path=='/app/video-lessons':
-            standalone=await con.fetch(f'''SELECT v.id,v.title,v.provider,v.video_id,v.duration_seconds,p.state AS "progressState",p.watched_seconds
+            standalone=await con.fetch(f'''SELECT v.id,v.title,v.provider,v.video_id,coalesce(nullif(v.duration_seconds,0),p.playback_duration_seconds) AS duration_seconds,p.state AS "progressState",p.watched_seconds
                 FROM video_lessons v LEFT JOIN video_lesson_progress p ON p.video_lesson_id=v.id AND p.user_id=$1
                 WHERE v.lesson_id IS NULL AND {live('v')} ORDER BY v.created_at,v.id''',user['id'])
-            course=await con.fetch(f'''SELECT v.id,v.title,v.provider,v.video_id,v.duration_seconds,l.id AS "lessonId",
+            course=await con.fetch(f'''SELECT v.id,v.title,v.provider,v.video_id,coalesce(nullif(v.duration_seconds,0),vp.playback_duration_seconds) AS duration_seconds,l.id AS "lessonId",
                 c.slug AS "courseSlug",c.title AS "courseTitle",u.title AS "unitTitle",coalesce(p.state,l.default_state) AS state,vp.state AS "progressState",vp.watched_seconds
                 FROM video_lessons v JOIN lessons l ON l.id=v.lesson_id JOIN units u ON u.id=l.unit_id
                 JOIN course_modules m ON m.id=u.module_id JOIN courses c ON c.id=m.course_id

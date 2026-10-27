@@ -4,7 +4,7 @@ import {setup,tick,ID} from './staff-final30/harness.mjs';
 import {createVideoStudio} from '../modules/video/studio.js';
 import {createVideoVocabulary} from '../modules/video/vocabulary.js';
 import {progressRatio,videoProgressText} from '../modules/shared/progress.js';
-import {videoLibraryDTO} from '../js/adapters/video-v47.js';
+import {videoLibraryDTO,videoStudioDTO} from '../js/adapters/video-v47.js';
 import {render as listeningCatalogue} from '../js/generated/views/listening-academic.js';
 
 const fixture=()=>({videoLesson:{id:ID(2),provider:'youtube',videoId:'abcdefghijk',title:'A TED talk',beforeYouWatch:'Description',durationSeconds:600,transcript:[],transcriptText:'A useful word.',notes:'Teacher notes'},questions:[],progress:{state:'in_progress',watchedSeconds:120,summaryText:'Saved summary'},vocabulary:{ready:true,items:[]},embedOrigin:'http://fixture.invalid'});
@@ -33,6 +33,28 @@ test('progress shows saved counts/time only in progress, and never guesses an un
  assert.equal(videoProgressText('not_started',0,600,'Not started'),'Not started');
  assert.equal(videoProgressText('completed',600,600,'Finished'),'Finished');
  assert.equal(videoProgressText('in_progress',30,null,'In progress'),'In progress · 0:30');
+});
+
+test('a saved provider duration restores missing metadata without changing authored duration',()=>{
+ const data=fixture();data.videoLesson.durationSeconds=null;data.progress.playbackDurationSeconds=1000;
+ assert.equal(videoStudioDTO(data).videoLesson.durationSeconds,1000);
+ data.videoLesson.durationSeconds=600;assert.equal(videoStudioDTO(data).videoLesson.durationSeconds,600);
+ data.progress.playbackDurationSeconds='untrusted';assert.throws(()=>videoStudioDTO(data));
+});
+
+test('trusted provider duration supplies percent and is sent as display telemetry for unknown video length',async()=>{
+ const h=setup({role:'student'});globalThis.AbortController=window.AbortController;
+ const original=globalThis.fetch,requests=[];
+ globalThis.fetch=async(p,o)=>{requests.push(JSON.parse(o.body));return {ok:true,json:async()=>({state:'in_progress',watchedSeconds:200,durationSeconds:1000})};};
+ let studio;
+ try{
+  const data=fixture();data.videoLesson.durationSeconds=null;
+  studio=createVideoStudio(h.ctx,{mode:'standalone',video:data});h.ctx.root.append(studio.node);
+  const frame=h.q('iframe');
+  window.dispatchEvent(new window.MessageEvent('message',{source:frame.contentWindow,origin:'https://www.youtube-nocookie.com',data:JSON.stringify({event:'infoDelivery',info:{duration:1000,currentTime:200,playerState:1}})}));
+  await tick();assert.deepEqual(requests[0],{watchedSeconds:200,durationSeconds:1000});
+  assert(h.q('[data-video-progress-state]').textContent.endsWith('20%'));assert.equal(data.videoLesson.durationSeconds,null);
+ }finally{studio?.destroy();globalThis.fetch=original;h.dispose();}
 });
 
 test('transcript is inline and exclusive, player and draft survive tab switches, microphone is restored',async()=>{

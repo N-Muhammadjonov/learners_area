@@ -41,6 +41,7 @@ export function createVideoStudio(context,{mode,video}){
  let tracking=false, liveTime=null, blocked=false, playbackStarted=false, generation=0, finalizedGeneration=-1;
  let restartAt=progress&&progress.state!=='completed'&&Number.isFinite(progress.watchedSeconds)&&progress.watchedSeconds>=5?Math.floor(progress.watchedSeconds):0;
  let reported=progress?.watchedSeconds??0;
+ let playbackDuration=lesson.durationSeconds>0?lesson.durationSeconds:null;
  let ownNotes=progress?.summaryText??'';
  let saving=false, requestError=false, savedResponse=null;
  let progressRequest=null, mutation=null;
@@ -86,7 +87,7 @@ export function createVideoStudio(context,{mode,video}){
   if(typeof next!=='string')return;
   state=next;
   section.setAttribute('data-video-state',next);
-  stateLabel.textContent=videoProgressText(next,reported,lesson.durationSeconds,next==='completed'?t.stateCompleted:next==='in_progress'?t.stateInProgress:t.stateNotStarted);
+  stateLabel.textContent=videoProgressText(next,reported,playbackDuration,next==='completed'?t.stateCompleted:next==='in_progress'?t.stateInProgress:t.stateNotStarted);
   if(panelRefs.responseStatus)panelRefs.responseStatus.setAttribute('data-video-response-verdict',next);
  }
 
@@ -125,6 +126,9 @@ export function createVideoStudio(context,{mode,video}){
    try{data=typeof event.data==='string'?JSON.parse(event.data):event.data;}catch{return;}
    if(!data||typeof data!=='object')return;
    const info=data.info;
+   if(!(lesson.durationSeconds>0)&&typeof info?.duration==='number'&&Number.isFinite(info.duration)&&info.duration>=1&&info.duration<=43200){
+    playbackDuration=Math.ceil(info.duration);setState(state);
+   }
    if(info&&typeof info.currentTime==='number'&&Number.isFinite(info.currentTime)&&info.currentTime>=0)onPosition(info.currentTime);
    const reachedEnd=(data.event==='onStateChange'&&data.info===0)||(data.event==='infoDelivery'&&info?.playerState===0);
    const playerState=data.event==='onStateChange'?data.info:info?.playerState;
@@ -142,6 +146,7 @@ export function createVideoStudio(context,{mode,video}){
  function applyServer(body){
   if(!body||destroyed)return;
   if(typeof body.watchedSeconds==='number'&&Number.isFinite(body.watchedSeconds))reported=Math.max(reported,body.watchedSeconds);
+  if(typeof body.durationSeconds==='number'&&Number.isFinite(body.durationSeconds)&&body.durationSeconds>0)playbackDuration=body.durationSeconds;
   if(typeof body.state==='string')setState(body.state);
  }
  function progressUrl(){return `/api/video-lessons/${lesson.id}/progress`;}
@@ -151,7 +156,7 @@ export function createVideoStudio(context,{mode,video}){
   const ctl=new AbortController();
   progressRequest=ctl;
   const deadline=setTimeout(()=>ctl.abort(),REQUEST_LIMIT);
-  fetch(progressUrl(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({watchedSeconds:seconds}),signal:ctl.signal,credentials:'same-origin',cache:'no-store',redirect:'error'})
+  fetch(progressUrl(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({watchedSeconds:seconds,...(playbackDuration?{durationSeconds:playbackDuration}:{})}),signal:ctl.signal,credentials:'same-origin',cache:'no-store',redirect:'error'})
    .then(res=>res.ok?res.json():null)
    .then(body=>{if(progressRequest!==ctl||ctl.signal.aborted)return;applyServer(body);})
    .catch(()=>{})
@@ -165,13 +170,13 @@ export function createVideoStudio(context,{mode,video}){
  // One final write per playback generation. keepalive, and not cancelled by navigation or replay.
  function flushFinalProgress(){
   if(finalizedGeneration===generation)return;
-  const duration=lesson.durationSeconds&&lesson.durationSeconds>0?lesson.durationSeconds:null;
+  const duration=playbackDuration;
   const seconds=duration??liveTime??(reported>0?reported:null);
   if(seconds===null)return;
   finalizedGeneration=generation;
   const ctl=new AbortController();
   const deadline=setTimeout(()=>ctl.abort(),REQUEST_LIMIT);
-  fetch(progressUrl(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({watchedSeconds:seconds,ended:true}),keepalive:true,signal:ctl.signal,credentials:'same-origin',cache:'no-store',redirect:'error'})
+  fetch(progressUrl(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({watchedSeconds:seconds,ended:true,...(playbackDuration?{durationSeconds:playbackDuration}:{})}),keepalive:true,signal:ctl.signal,credentials:'same-origin',cache:'no-store',redirect:'error'})
    .then(res=>res.ok?res.json():null)
    .then(applyServer)
    .catch(()=>{})

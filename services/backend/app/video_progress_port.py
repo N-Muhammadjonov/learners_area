@@ -14,11 +14,11 @@ async def _video(conn,id):
             WHERE id=$1 LIMIT 1''',id)
 
 async def _progress(conn,uid,id,create):
-    row=await conn.fetchrow('''SELECT id,state,watched_seconds,answers,response_text,summary_text,completed_at
+    row=await conn.fetchrow('''SELECT id,state,watched_seconds,answers,response_text,summary_text,completed_at,playback_duration_seconds
         FROM video_lesson_progress WHERE user_id=$1 AND video_lesson_id=$2 LIMIT 1''',uid,id)
     if not row and create:
         row=await conn.fetchrow('''INSERT INTO video_lesson_progress(user_id,video_lesson_id,state)
-          VALUES($1,$2,'not_started') RETURNING id,state,watched_seconds,answers,response_text,summary_text,completed_at''',uid,id)
+          VALUES($1,$2,'not_started') RETURNING id,state,watched_seconds,answers,response_text,summary_text,completed_at,playback_duration_seconds''',uid,id)
     return row
 
 @router.get('/api/video-lessons/{id}/progress')
@@ -43,6 +43,7 @@ async def get_progress(req:Request,id:str):
         if not video['lesson_id'] and target!=id:return core.j({'error':'not_found'},404)
         return core.j({'state':p['state'] if p else 'not_started',
                        'watchedSeconds':p['watched_seconds'] if p else 0,
+                       'durationSeconds':video['duration_seconds'] or (p.get('playback_duration_seconds') if p else None),
                        'answers':p['answers'] or {} if p else {}})
 
 @router.post('/api/video-lessons/{id}/progress')
@@ -53,8 +54,10 @@ async def watched_progress(req:Request,id:str):
     b=await core.payload(req)
     seconds=b.get('watchedSeconds') if isinstance(b,dict) else None
     ended=b.get('ended') if isinstance(b,dict) else None
+    duration=b.get('durationSeconds') if isinstance(b,dict) else None
     if (type(seconds) not in (int,float) or not math.isfinite(seconds) or not 0<=seconds<=43200 or
-        ('ended' in b and type(ended) is not bool)):
+        ('ended' in b and type(ended) is not bool) or
+        (duration is not None and (type(duration) not in (int,float) or not math.isfinite(duration) or not 1<=duration<=43200))):
         return core.j({'error':'invalid_input'},400)
     db=await core.pool()
     async with db.acquire() as conn:
@@ -62,6 +65,14 @@ async def watched_progress(req:Request,id:str):
         if not lesson_live(video):return core.j({'error':'not_found'},404)
         p=await _progress(conn,u['id'],id,True)
         if not p:return core.j({'error':'not_found'},404)
+        playback_duration=p.get('playback_duration_seconds')
+        # This is private playback telemetry, never an edit to the authored
+        # duration or an input to the completion threshold below.
+        if not video['duration_seconds'] and duration is not None:
+            playback_duration=math.ceil(duration)
+            if playback_duration!=p.get('playback_duration_seconds'):
+                await conn.execute('''UPDATE video_lesson_progress SET playback_duration_seconds=$3,updated_at=NOW()
+                   WHERE user_id=$1 AND video_lesson_id=$2''',u['id'],id,playback_duration)
         seconds=int(seconds)
         cap=min(seconds,video['duration_seconds']) if video['duration_seconds'] else seconds
         next_watched=max(p['watched_seconds'],cap)
@@ -87,6 +98,7 @@ async def watched_progress(req:Request,id:str):
            u['id'],id,state,(p['completed_at'] or datetime.now(timezone.utc)) if completed else None)
     dt=row['completed_at']
     return core.j({'state':row['state'],'watchedSeconds':row['watched_seconds'],
+                   'durationSeconds':video['duration_seconds'] or playback_duration,
                    'completedAt':dt.isoformat(timespec='milliseconds').replace('+00:00','Z') if dt else None})
 
 
