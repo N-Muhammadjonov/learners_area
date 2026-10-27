@@ -1,6 +1,7 @@
 // Source: src/app/app/(shell)/listening/academic/page.tsx :: AcademicCatalogueRegion
 // Native DOM presentation; server data via documented adapter, never bundled.
 import {h,fragment,Link,InstantLink} from '../../native.js';
+import {answerProgress} from '../../../modules/shared/progress.js';
 import {Card,StatCard,EmptyState,ProgressBar} from '../ui.js';
 import {BackLink,Button,RegionFailureNotice as FailureNotice} from '../../../modules/shared/presentation.js';
 import {microphoneTest} from '../../../modules/speaking/microphone.js';
@@ -29,10 +30,11 @@ export function render(scope) {
                             card.minutes,
                             " ",
                             t.minutes)))),
+                answerProgress({state:card.answerProgress?.state??'not_started',done:card.answerProgress?.answeredCount,total:card.answerProgress?.totalQuestions,label:card.answerProgress?.state==='completed'?t.complete:card.answerProgress?.state==='in_progress'?dict.readingHub.stateInProgress:t.noProgress,attrs:{'data-listening-answer-progress':''}}),
                 h("p", { className: "text-xs text-ink-500", "data-listening-academic-card-progress": true }, t.activitiesLabel.replace("{done}", String(card.completed)).replace("{total}", String(card.activityCount))),
                 card.exam ? (h("p", { className: "text-xs text-ink-500", "data-listening-academic-card-exam": true }, t.examResult
                     .replace("{score}", String(card.exam.score ?? "—"))
-                    .replace("{total}", String(card.exam.total ?? "—")))) : (h("p", { className: "text-xs text-ink-300" }, t.noProgress)),
+                    .replace("{total}", String(card.exam.total ?? "—")))) : null,
                 card.locked ? h("div", { className: "mt-auto space-y-2", "data-listening-test-locked": true },
                     h("button", { type: "button", className: "btn-secondary px-3 py-2 text-sm", disabled: true },
                         "\uD83D\uDD12 ",

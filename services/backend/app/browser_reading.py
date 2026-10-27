@@ -34,7 +34,8 @@ async def academic_catalogue(con,user):
     if not rows:return []
     ids=[r['id'] for r in rows]
     slots=await con.fetch('SELECT g.set_id,g.passage_no,p.title FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=ANY($1::uuid[]) ORDER BY g.passage_no',ids)
-    states=await con.fetch("""SELECT DISTINCT ON (a.set_id) a.set_id,r.id,r.status,
+    states=await con.fetch("""SELECT DISTINCT ON (a.set_id) a.set_id,r.id,r.status,r.total_questions,
+      (SELECT count(DISTINCT x.question_id)::int FROM reading_answers x WHERE x.attempt_id=r.id AND btrim(coalesce(x.user_answer,''))<>'') answered_count,
       EXISTS(SELECT 1 FROM reading_assessments done JOIN reading_attempts x ON x.id=done.attempt_id WHERE done.set_id=a.set_id AND x.user_id=$1 AND x.status='completed') completed
       FROM reading_assessments a JOIN reading_attempts r ON r.id=a.attempt_id
       WHERE r.user_id=$1 AND a.set_id=ANY($2::uuid[]) ORDER BY a.set_id,r.started_at DESC,r.id DESC""",user['id'],ids)
@@ -43,6 +44,7 @@ async def academic_catalogue(con,user):
         state=by_id.get(row['id'])
         result.append({'id':str(row['id']),'title':row['title'],'locked':not staff(user) and not previous,
           'assessmentStatus':state['status'] if state else 'not_started','attemptId':str(state['id']) if state else None,
+          'answeredCount':state['answered_count'] if state else 0,'totalQuestions':state['total_questions'] if state else 40,
           'passages':[camel({k:s[k] for k in ('passage_no','title')}) for s in slots if s['set_id']==row['id']]})
         previous=previous and bool(state and state['completed'])
     return result
@@ -138,6 +140,7 @@ async def library(con, uid, q):
     pages = 1; page = 1
     rows = await con.fetch('''SELECT p.id,p.title,p.test_no,g.passage_no,p.topic_code,p.suggested_minutes,g.set_id,
       (SELECT count(*)::int FROM reading_questions q WHERE q.passage_id=p.id) question_count,
+      (SELECT count(*)::int FROM reading_questions q WHERE q.passage_id=p.id AND btrim(coalesce(r.answers->>q.id::text,''))<>'') answered_count,
       CASE WHEN r.checked_at IS NOT NULL THEN 'completed' WHEN r.passage_id IS NOT NULL THEN 'in_progress' ELSE 'not_started' END status,
       CASE WHEN r.checked_at IS NOT NULL THEN r.score END last_score,NULL::uuid last_attempt_id'''+source+f' ORDER BY p.test_no NULLS LAST,p.external_id NULLS LAST,s.created_at,g.passage_no,p.id',*args)
     topics = await con.fetch(f'SELECT p.topic_code code,count(*)::int count FROM reading_passages p WHERE {live("p")} AND p.topic_code IS NOT NULL GROUP BY p.topic_code ORDER BY p.topic_code')

@@ -31,11 +31,11 @@ export function videoLibraryDTO(data){
  if(!obj(data)||!Array.isArray(data.standalone)||!Array.isArray(data.course))bad('invalid_video_library');
  const standalone=data.standalone.map(row=>{
   if(!obj(row)||!uuid(row.id)||!str(row.title)||!videoIdValid(row.provider,row.videoId)||!nnum(row.durationSeconds)||!nstr(row.progressState))bad('invalid_video_library');
-  return {id:row.id,title:row.title,provider:row.provider,videoId:row.videoId,durationSeconds:row.durationSeconds,state:standaloneState(row.progressState)};
+  return {id:row.id,title:row.title,provider:row.provider,videoId:row.videoId,durationSeconds:row.durationSeconds,watchedSeconds:num(row.watchedSeconds)?row.watchedSeconds:null,state:standaloneState(row.progressState)};
  });
  const course=data.course.map(row=>{
   if(!obj(row)||!uuid(row.id)||!str(row.title)||!videoIdValid(row.provider,row.videoId)||!nnum(row.durationSeconds)||!STATES.has(row.state)||!uuid(row.lessonId)||!str(row.courseSlug)||!str(row.courseTitle)||!str(row.unitTitle))bad('invalid_video_library');
-  return {id:row.id,title:row.title,provider:row.provider,videoId:row.videoId,durationSeconds:row.durationSeconds,state:row.state,lessonId:row.lessonId,courseSlug:row.courseSlug,courseTitle:row.courseTitle,unitTitle:row.unitTitle};
+  return {id:row.id,title:row.title,provider:row.provider,videoId:row.videoId,durationSeconds:row.durationSeconds,watchedSeconds:num(row.watchedSeconds)?row.watchedSeconds:null,state:row.state,progressState:row.progressState?standaloneState(row.progressState):null,lessonId:row.lessonId,courseSlug:row.courseSlug,courseTitle:row.courseTitle,unitTitle:row.unitTitle};
  });
  return {standalone,course};
 }

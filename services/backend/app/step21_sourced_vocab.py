@@ -48,12 +48,12 @@ async def video_vocabulary(req:Request,id:str):
   lesson=await con.fetchrow('''SELECT * FROM video_lessons WHERE id=$1 AND lesson_id IS NULL''',core.uuid_value(id))
   if not lesson or not live(lesson):return core.j({'error':'not_found'},404,PRIVATE)
   b=await core.payload(req)
-  if not isinstance(b,dict) or not core.uuid_value(b.get('occurrenceId')):return core.j({'error':'invalid_input'},400,PRIVATE)
+  if not isinstance(b,dict) or not core.uuid_value(b.get('occurrenceId')) or (b.get('folderId') is not None and not core.uuid_value(b.get('folderId'))):return core.j({'error':'invalid_input'},400,PRIVATE)
   try:
-   occurrences=await con.fetch('''SELECT DISTINCT ON (o.lexeme_id) o.id AS occurrence_id,o.segment_key,o.start_char,o.end_char,
+   occurrences=await con.fetch('''SELECT o.id AS occurrence_id,o.segment_key,o.start_char,o.end_char,
     o.surface_form,o.sentence_text,l.* FROM lexical_occurrences o JOIN lexemes l ON l.id=o.lexeme_id
-    WHERE o.video_lesson_id=$1 AND o.source_type='video' AND o.resolution_status='resolved'
-    ORDER BY o.lexeme_id,o.start_char''',lesson['id'])
+    WHERE o.video_lesson_id=$1 AND o.source_type='video' AND o.resolution_status='resolved' AND o.id=$2
+    ORDER BY o.lexeme_id,o.start_char''',lesson['id'],core.uuid_value(b['occurrenceId']))
   except Exception as exc:
    if getattr(exc,'sqlstate',None) in ('42P01','42703'):return core.j({'error':'service_unavailable','reason':'schema_missing'},503,PRIVATE)
    raise
@@ -66,7 +66,7 @@ async def video_vocabulary(req:Request,id:str):
        'exampleSentence':word['sentence_text'],'sourceSnapshot':{'sourceType':'video','videoLessonId':id,
        'occurrenceId':str(word['occurrence_id']),'lexemeId':str(word['id']),'sourceTitle':lesson['title'],
        'surfaceForm':word['surface_form'],'sentenceText':word['sentence_text'] or ''}}
-  async with con.transaction():r=await add_batch(con,u['id'],[item],source_type='video',source_id=lesson['id'])
+  async with con.transaction():r=await add_batch(con,u['id'],[item],source_type='video',source_id=lesson['id'],folder_id=core.uuid_value(b.get('folderId')))
   return core.j(r,200 if r['ok'] else 400,PRIVATE)
 
 def install():core.app.include_router(router)

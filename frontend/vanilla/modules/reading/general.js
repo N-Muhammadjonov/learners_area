@@ -1,3 +1,4 @@
+import {answerProgress} from '../shared/progress.js';
 import {el} from '../../js/dom.js';
 import {viewData} from '../../js/adapters/frontend.js';
 import {readingGeneralLibraryDTO} from '../../js/adapters/reading-v44.js';
@@ -95,7 +96,6 @@ function passageCard(context,passage,lang){
  const statusLabel=passage.status==='completed'?dict.readingHub.stateCompleted:passage.status==='in_progress'?dict.readingHub.stateInProgress:dict.readingHub.stateNotStarted;
  const action=passage.status==='completed'?dict.readingHub.actionRetry:dict.readingHub.actionStart;
  const topic=topicLabel(passage.topicCode,lang);
- const chipClass=passage.status==='completed'?'chip chip-done':passage.status==='in_progress'?'chip chip-active':'chip';
  let actionNode;
  if(passage.setId)actionNode=el('a',{class:'btn-primary',href:`/app/reading/general/${passage.setId}?passage=${passage.passageNo}`},passage.status==='in_progress'?dict.readingHub.actionResume:action);
  else if(passage.status==='in_progress'&&passage.lastAttemptId)actionNode=el('a',{class:'btn-primary min-h-[var(--control-h)]',href:`/app/reading/attempts/${passage.lastAttemptId}`,'data-passage-action':'resume'},dict.readingHub.actionResume);
@@ -103,7 +103,7 @@ function passageCard(context,passage,lang){
  return el('article',{class:'panel flex h-full flex-col gap-3','data-passage':passage.id,'data-passage-status':passage.status},
   el('div',{class:'flex items-start justify-between gap-3'},
    el('span',{'aria-hidden':'true',class:'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-ink-100 bg-paper-sunken text-[20px] text-gold'},IconReading({})),
-   el('span',{class:chipClass,'data-passage-state':passage.status},statusLabel)),
+   answerProgress({state:passage.status,done:passage.answeredCount,total:passage.questionCount,label:statusLabel,attrs:{'data-passage-state':passage.status}})),
   el('h3',{class:'card-title leading-snug'},passage.title),
   el('dl',{class:'flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.8125rem] text-ink-500'},
    passage.passageNo?el('dd',{},`Passage ${passage.passageNo}`):null,

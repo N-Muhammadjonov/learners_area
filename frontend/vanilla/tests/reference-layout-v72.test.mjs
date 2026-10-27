@@ -44,7 +44,7 @@ test('persistent shell uses the requested green borders on cards/forms/buttons a
 
 test('Focus uses the flat themed section band and Writing retains the reference content width',()=>{
  const h=env('/app/writing?tab=exam');try{h.ctx.root.innerHTML='<div data-shell data-campus-shell><section data-native-module-header><h1 class="native-module-title">Real exam mode</h1></section><main data-writing-native class="mx-auto max-w-6xl"></main></div>';const writing=fs.readFileSync(new URL('../modules/writing/writing.css',import.meta.url),'utf8');
-  for(const theme of ['day','night']){document.documentElement.dataset.theme=theme;document.documentElement.dataset.focus='on';const cascade=colorCascade(document,[...styles,writing]),band=h.q('[data-native-module-header]'),title=h.q('h1');assert.deepEqual(cascade.get(band).background.slice(0,3),theme==='day'?[255,255,255]:[17,20,33]);assert(contrastRatio(cascade.get(title).color,cascade.get(title).background)>=4.5);assert.equal(cascade.resolve(h.q('[data-writing-native]'),'max-width'),'72rem');}
+  for(const theme of ['day','night']){document.documentElement.dataset.theme=theme;document.documentElement.dataset.focus='on';const cascade=colorCascade(document,[...styles,writing]),band=h.q('[data-native-module-header]'),title=h.q('h1');assert.deepEqual(cascade.get(band).background.slice(0,3),theme==='day'?[255,255,255]:[26,22,37]);assert(contrastRatio(cascade.get(title).color,cascade.get(title).background)>=4.5);assert.equal(cascade.resolve(h.q('[data-writing-native]'),'max-width'),'72rem');}
  }finally{h.dispose();}
 });
 test('focus route frames put Back in the topbar and move the existing media/draft nodes intact',()=>{

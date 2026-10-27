@@ -131,6 +131,16 @@ async def catalogue(con, user, product, q):
     access_cache = {}
     rows = await con.fetch(f'''SELECT t.*,p.payload,p.source_id,p.audio_object_key,p.image_object_key FROM listening_tests t
       LEFT JOIN listening_packages p ON p.test_id=t.id WHERE {where} ORDER BY t.source_ref,t.id''',product)
+    # One user-scoped batch supplies draft answer counts, without returning answers or keys.
+    progress_rows=await con.fetch("""WITH latest AS (
+      SELECT DISTINCT ON (test_id) id,test_id,status,total_questions FROM listening_attempts
+      WHERE user_id=$1 AND test_id=ANY($2::uuid[]) ORDER BY test_id,started_at DESC,id DESC)
+      SELECT a.test_id,a.status,a.total_questions,
+      CASE WHEN a.status='in_progress' AND d.attempt_id IS NOT NULL THEN
+        (SELECT count(*)::int FROM jsonb_each_text(CASE WHEN jsonb_typeof(d.answers)='object' THEN d.answers ELSE '{}'::jsonb END) x WHERE btrim(x.value)<>'')
+      ELSE (SELECT count(DISTINCT x.question_id)::int FROM listening_answers x WHERE x.attempt_id=a.id AND btrim(coalesce(x.user_answer,''))<>'') END answered_count
+      FROM latest a LEFT JOIN listening_drafts d ON d.attempt_id=a.id""",user['id'],[r['id'] for r in rows])
+    answer_progress={r['test_id']:r for r in progress_rows}
     cards = []
     for t in sorted(rows,key=material_order):
         p = payload(t); id = t['id']
@@ -144,6 +154,9 @@ async def catalogue(con, user, product, q):
                 section_no = int(raw) if raw and raw.isdigit() and 1<=int(raw)<=4 else None
             cards.append({'testId':str(id),'title':t['title'],'questionCount':count,'sectionNo':section_no,'durationSec':p.get('audio',{}).get('durationSec'),'started':started,'completed':bool(exam),'lastScore':exam['score'] if exam else None,'lastTotal':exam['total_questions'] if exam else None})
         else:
+            saved=answer_progress.get(id)
+            question_total=(saved['total_questions'] if saved else 0) or len(p.get('questions',[])) or len(await available_set(con,id))
+            answer_state={'state':saved['status'] if saved else 'not_started','answeredCount':min(question_total,saved['answered_count']) if saved else 0,'totalQuestions':question_total}
             activities, exam = await facts(con,user['id'],id,p)
             completed, count = sum(a['complete'] for a in activities),len(activities)
             if runtime_source(str(id),t['source_id']) and t['source_id'] in SPEC:
@@ -152,7 +165,7 @@ async def catalogue(con, user, product, q):
                 status = course_status(SPEC[t['source_id']],await current_work(con,user['id'],str(id),t['source_id'],values))
                 completed,count = status['completed'],status['total']
                 started = started or bool(values)
-            cards.append({'testId':str(id),'title':t['title'],'parts':len(p.get('sections',[])),'questions':len(p.get('questions',[])) or len(await available_set(con,id)),'minutes':math.floor(p['audio']['durationSec']/60+.5) if p.get('audio',{}).get('durationSec') else None,'completed':completed,'activityCount':count,'started':started,'locked':not await sequence(con,user,t,access_cache),'exam':{'score':exam['score'],'total':exam['total_questions']} if exam else None})
+            cards.append({'testId':str(id),'title':t['title'],'parts':len(p.get('sections',[])),'questions':len(p.get('questions',[])) or len(await available_set(con,id)),'minutes':math.floor(p['audio']['durationSec']/60+.5) if p.get('audio',{}).get('durationSec') else None,'completed':completed,'activityCount':count,'answerProgress':answer_state,'started':started,'locked':not await sequence(con,user,t,access_cache),'exam':{'score':exam['score'],'total':exam['total_questions']} if exam else None})
     return {'cards':cards,'total':total,'page':1,'pageSize':max(1,len(cards)),'hasMore':False}
 
 

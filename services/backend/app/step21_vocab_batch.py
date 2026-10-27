@@ -32,6 +32,11 @@ async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',sou
     if folder_id:
         if not await con.fetchval('SELECT id FROM vocab_folders WHERE id=$1 AND user_id=$2',folder_id,user_id):
             return {'ok':False,'error':'folder_not_found'}
+    if not folder_id and source_type=='video':
+        title=await con.fetchval('SELECT title FROM video_lessons WHERE id=$1',source_id)
+        if not title:return {'ok':False,'error':'source_not_found'}
+        folder_id=await con.fetchval('''INSERT INTO vocab_folders(user_id,name) VALUES($1,$2)
+           ON CONFLICT(user_id,name) DO UPDATE SET name=excluded.name RETURNING id''',user_id,'TED : '+title)
     if not folder_id and source_type in ('reading','listening','retention'):
         name=source_type.capitalize()
         folder_id=await con.fetchval('''INSERT INTO vocab_folders(user_id,name) VALUES($1,$2)
@@ -58,6 +63,9 @@ async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',sou
         existing_id=known_lexemes.get(str(lexeme['id'])) if lexeme else None
         existing_id=existing_id or known_senses.get(key)
         if existing_id:
+            if source_type=='video' and folder_id:
+                await con.execute('''UPDATE user_vocabulary SET folder_id=$3
+                  WHERE user_id=$1 AND id=$2 AND folder_id IS NULL''',user_id,existing_id,folder_id)
             ids.append(existing_id)
             continue
         if lexeme is None:

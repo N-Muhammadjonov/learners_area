@@ -1,13 +1,15 @@
 import {el} from '../../js/dom.js';
 import {api} from '../../js/api-client.js';
+import {dictionaryFolderDialog} from '../vocabulary/dictionary-learner-ui.js';
+import {privateScope} from '../../js/private-scope.js';
 import {failure} from '../../js/request-errors.js';
 
 /** Lesson vocabulary (original VideoVocabulary.tsx): each saved word posts only its occurrence id. The server validates
  * the occurrence against the stored lesson text. One save in flight at a time; a word saved once stays saved. */
-export function createVideoVocabulary({context,id,words,dict}){
+export function createVideoVocabulary({context,id,title,words,dict}){
  const t=dict.videoLesson,signal=context.signal;
  const saved=new Set();
- let pending=null,inFlight=false,errorText='';
+ let pending=null,inFlight=false,errorText='',picker=null;
  const alert=el('p',{role:'alert',class:'text-band-bad'});
  alert.hidden=true;
  const buttons=new Map();
@@ -40,17 +42,32 @@ export function createVideoVocabulary({context,id,words,dict}){
  async function save(word){
   if(inFlight||signal.aborted)return;
   inFlight=true;pending=word.id;errorText='';paint();
+  const finish=()=>{inFlight=false;pending=null;picker=null;if(!signal.aborted)paint();};
   try{
-   await api.request(`/api/video-lessons/${id}/vocabulary`,{method:'POST',body:{occurrenceId:word.occurrenceId},signal});
+   const result=await api.request('/api/vocabulary/folders',{signal});
    if(signal.aborted)return;
-   saved.add(word.id);
+   if(!Array.isArray(result?.folders))throw new Error('Invalid folders');
+   picker=dictionaryFolderDialog(context,{
+    entry:{display_lemma:word.term,part_of_speech:word.partOfSpeech},
+    sense:{translations:word.translationUz?[{text:word.translationUz}]:[]},
+    folders:result.folders,defaultFolderName:`TED : ${title}`,
+    onCreate:async name=>{
+     const result=await api.request('/api/vocabulary/folders',{method:'POST',body:{name},signal});
+     if(!result?.ok||!result.folder?.id)throw new Error('Folder was not created');
+     privateScope.invalidate('vocabulary:');return result.folder;
+    },
+    onSave:async folderId=>{
+     const result=await api.request(`/api/video-lessons/${id}/vocabulary`,{method:'POST',body:{occurrenceId:word.occurrenceId,folderId},signal});
+     if(!result?.ok)throw new Error('Word was not saved');
+     if(signal.aborted)return;
+     privateScope.invalidate('vocabulary:');saved.add(word.id);
+    },onClose:finish,
+   });
   }catch(error){
-   if(signal.aborted)return;
-   errorText=failure(error,dict);
-  }finally{
-   inFlight=false;pending=null;
-   if(!signal.aborted)paint();
+   if(!signal.aborted)errorText=failure(error,dict);
+   finish();
   }
  }
+ signal.addEventListener('abort',()=>picker?.stop(),{once:true});
  return root;
 }

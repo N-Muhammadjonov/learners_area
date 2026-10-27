@@ -1,5 +1,6 @@
 // Source: src/app/app/(shell)/listening/mcq/page.tsx :: ListeningMcqPage
 // Native DOM presentation; server data via documented adapter, never bundled.
+import {progressRatio} from '../../../modules/shared/progress.js';
 import {h,fragment,Link,InstantLink} from '../../native.js';
 import {Card,StatCard,EmptyState,ProgressBar} from '../ui.js';
 import {BackLink,Button,RegionFailureNotice as FailureNotice} from '../../../modules/shared/presentation.js';
@@ -22,10 +23,10 @@ export function render(scope) {
             h("span", { className: "text-xs text-ink-300", "data-listening-mcq-card-questions": true }, t.questions.replace("{n}", String(card.questionCount))),
             card.draft && (h("span", { className: "text-xs text-ink-300", "data-listening-mcq-card-draft": true }, t.draftNotice))),
         h("h2", { className: "font-display text-lg text-ink-900" }, card.title),
-        h("p", { className: "text-xs text-ink-500", "data-listening-mcq-card-status": card.status.state },
+        h("p", { className: "learning-progress", "data-listening-mcq-card-status": card.status.state },
             card.status.state === "completed" ? t.completed : card.status.state === "in_progress" ? t.inProgress : t.notStarted,
             card.status.state === "in_progress" &&
-                ` · ${t.dayProgress.replace("{done}", String(card.status.completed)).replace("{total}", String(card.status.total))}`),
+                ` · ${progressRatio(card.status.state,card.status.completed,card.status.total)}`),
         h("div", { className: "mt-auto" }, card.locked ? h("div", { "data-listening-mcq-locked": true },
             h("button", { type: "button", className: "btn-secondary", disabled: true },
                 "\uD83D\uDD12 ",

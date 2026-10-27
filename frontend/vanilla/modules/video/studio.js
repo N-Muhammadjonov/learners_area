@@ -2,6 +2,7 @@ import {el} from '../../js/dom.js';
 import {embedUrlFor,safeEmbedOrigin,formatClock} from './provider.js';
 import {createVideoVocabulary} from './vocabulary.js';
 import packs from './study-pack-data.js';
+import {videoProgressText} from '../shared/progress.js';
 
 /** Shared TED / PODCAST player and learning materials. Description opens first.
  * Course lessons retain their existing existing lesson-notes panel; standalone
@@ -31,23 +32,24 @@ export function createVideoStudio(context,{mode,video}){
  const vocabWords=video.vocabulary.items;
  const normalize=value=>value.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
  const glossary=mode==='standalone'&&vocabWords.length===0?packs.find(pack=>normalize(pack.title)===normalize(lesson.title))?.glossary:null;
- const tabs=['description','notes','vocabulary',...(mode==='standalone'?['ownNotes']:[])];
+ const tabs=['description','notes','vocabulary',...(mode==='standalone'?['ownNotes']:[]),...(hasTranscript?['transcript']:[])];
  const tabIdBase=`video-studio-${++studioSeq}`;
 
  // ---- Mutable state (plain variables: high-frequency player data never re-renders the tabs) ----
  let state=progress?.state??'not_started';
  let tab='description';
- let tracking=false, liveTime=null, blocked=false, ended=false, generation=0, finalizedGeneration=-1;
+ let tracking=false, liveTime=null, blocked=false, playbackStarted=false, generation=0, finalizedGeneration=-1;
  let restartAt=progress&&progress.state!=='completed'&&Number.isFinite(progress.watchedSeconds)&&progress.watchedSeconds>=5?Math.floor(progress.watchedSeconds):0;
  let reported=progress?.watchedSeconds??0;
  let ownNotes=progress?.summaryText??'';
  let saving=false, requestError=false, savedResponse=null;
  let progressRequest=null, mutation=null;
- let frame=null, frameTeardown=null, directHandle=null, transcriptDialog=null, transcriptLoading=false;
+ let frame=null, frameTeardown=null, directHandle=null, transcriptHandle=null, transcriptLoading=false, recorder=null;
+ const panels=new Map();
  let panelRefs={saveButton:null,responseStatus:null};
 
  // ---- DOM skeleton (built once; only the visible panel and small status nodes change later) ----
- const section=el('section',{class:'flex flex-col gap-4','data-video-lesson':lesson.id,'data-video-state':state});
+ const section=el('section',{class:'video-studio','data-video-lesson':lesson.id,'data-video-state':state});
  const stage=el('div',{class:'overflow-hidden rounded-lg border border-ink-200 bg-ink-950'});
  const blockedNote=el('p',{class:'rounded-md border border-warn-500/40 bg-warn-50 px-3 py-2 text-sm text-warn-800','data-video-blocked':''},t.blocked);
  blockedNote.hidden=true;
@@ -59,35 +61,32 @@ export function createVideoStudio(context,{mode,video}){
  requestErr.hidden=true;
  const panel=el('div',{class:'motion-tab-panel rounded-lg border border-ink-200 bg-paper-50 p-4',role:'tabpanel',id:`${tabIdBase}-panel`,tabindex:'0','data-video-tabpanel':''});
  const tabButtons=new Map();
- const transcriptButton=el('button',{type:'button',class:'btn-secondary','data-video-transcript-button':'',disabled:!hasTranscript,'aria-haspopup':'dialog'},t.tabs.transcript);
- if(!hasTranscript)transcriptButton.title=t.transcriptUnavailable;
- transcriptButton.addEventListener('click',showTranscript,{signal:life});
- section.append(stage,blockedNote,meta,el('div',{class:'flex flex-wrap items-center justify-between gap-2'},tablist,transcriptButton),requestErr,panel);
+ const transcriptRegion=el('aside',{class:'video-transcript-region','data-video-transcript-region':'','aria-label':t.tabs.transcript});
+ transcriptRegion.hidden=true;
+ const mainColumn=el('div',{class:'video-player-column'},stage,blockedNote,meta,tablist,requestErr,panel);
+ section.append(mainColumn,transcriptRegion);
 
  async function showTranscript(){
-  if(!hasTranscript||transcriptLoading||transcriptDialog)return;
-  transcriptLoading=true;transcriptButton.disabled=true;
+  if(!hasTranscript||transcriptLoading||transcriptHandle)return;
+  transcriptLoading=true;
   try{
-   const {openTranscriptDialog}=await import('./transcript-dialog.js');
+   const {createTranscriptPanel}=await import('./transcript-dialog.js');
    if(destroyed)return;
    const text=timed.length?timed.map(line=>`${formatClock(line.startSeconds)} ${line.text}`).join('\n'):plain;
-   transcriptDialog=openTranscriptDialog({context:{...context,signal:life},id:lesson.id,text,dict,attribution:lesson.transcriptAttribution,onClose:()=>{transcriptDialog=null;if(!destroyed)transcriptButton.focus();}});
+   transcriptHandle=createTranscriptPanel({context:{...context,signal:life},id:lesson.id,text,dict,attribution:lesson.transcriptAttribution});
+   transcriptRegion.replaceChildren(transcriptHandle.node);
   }catch{if(!destroyed){requestError=true;paint();}}
-  finally{transcriptLoading=false;if(!destroyed)transcriptButton.disabled=false;}
+  finally{transcriptLoading=false;}
  }
 
- // ---- Player ----
+ // The provider keeps its native playback/replay controls. No app overlay covers the video.
  const frameBox=el('div',{class:'relative aspect-video w-full'});
- const endedOverlay=el('div',{class:'absolute inset-0 flex flex-col items-center justify-center gap-4 text-white','data-video-ended':''},el('p',{},t.ended),el('button',{type:'button',class:'btn-primary'},`▶ ${t.replay}`));
- endedOverlay.hidden=true;
- endedOverlay.querySelector('button').addEventListener('click',()=>replay(),{signal:life});
- frameBox.append(endedOverlay);
 
  function setState(next){
   if(typeof next!=='string')return;
   state=next;
   section.setAttribute('data-video-state',next);
-  stateLabel.textContent=next==='completed'?t.stateCompleted:next==='in_progress'?t.stateInProgress:t.stateNotStarted;
+  stateLabel.textContent=videoProgressText(next,reported,lesson.durationSeconds,next==='completed'?t.stateCompleted:next==='in_progress'?t.stateInProgress:t.stateNotStarted);
   if(panelRefs.responseStatus)panelRefs.responseStatus.setAttribute('data-video-response-verdict',next);
  }
 
@@ -126,29 +125,16 @@ export function createVideoStudio(context,{mode,video}){
    const info=data.info;
    if(info&&typeof info.currentTime==='number'&&Number.isFinite(info.currentTime)&&info.currentTime>=0)onPosition(info.currentTime);
    const reachedEnd=(data.event==='onStateChange'&&data.info===0)||(data.event==='infoDelivery'&&info?.playerState===0);
-   if(reachedEnd){flushFinalProgress();showEnded();}
+   const playerState=data.event==='onStateChange'?data.info:info?.playerState;
+   if(playerState===1){if(finalizedGeneration===generation)generation++;playbackStarted=true;}
+   if(reachedEnd&&playbackStarted){flushFinalProgress();playbackStarted=false;}
   },{signal:ctl.signal});
   frameTeardown=()=>{ctl.abort();clearInterval(interval);clearTimeout(loadTimer);node.removeAttribute('src');node.remove();};
-  frameBox.insertBefore(node,endedOverlay);
+  frameBox.append(node);
  }
  function unmountFrame(){
   if(frameTeardown)frameTeardown();
   frameTeardown=null;frame=null;
- }
- function showEnded(){
-  unmountFrame();
-  ended=true;
-  endedOverlay.hidden=false;
- }
- function startFrame(){
-  ended=false;
-  endedOverlay.hidden=true;
-  mountFrame();
- }
- function replay(){
-  restartAt=0;
-  generation++;
-  startFrame();
  }
  // ---- Progress (monotonic, server-decided) ----
  function applyServer(body){
@@ -238,17 +224,22 @@ export function createVideoStudio(context,{mode,video}){
   save.addEventListener('click',()=>writeLesson('response',{summaryText:ownNotes}),{signal:life});
   const status=el('span',{role:'status','data-video-response-state':'idle','data-video-response-verdict':state});
   panelRefs.saveButton=save;panelRefs.responseStatus=status;
+  const reflectionSlot=el('div',{'data-video-reflection-slot':''});
+  import('./reflection-recorder.js').then(({createReflectionRecorder})=>{
+   if(destroyed)return;
+   recorder=createReflectionRecorder({dict,signal:life});
+   reflectionSlot.append(recorder.node);recorder.setActive(tab==='ownNotes');
+  }).catch(()=>{if(!destroyed)reflectionSlot.append(el('p',{role:'status'},t.voiceSummary.unavailable));});
   return el('div',{class:'flex flex-col gap-3','data-video-own-notes':''},
    el('label',{for:input.id,class:'text-sm font-medium text-ink-700'},t.tabs.ownNotes),
    el('p',{class:'text-xs text-ink-500'},t.ownNotesHelp),input,
-   el('div',{class:'flex items-center gap-3'},save,status));
+   el('div',{class:'flex items-center gap-3'},save,status),reflectionSlot);
  }
  function buildPanel(name){
-  panelRefs={saveButton:null,responseStatus:null};
-  if(name==='description')return el('p',{class:'whitespace-pre-line text-sm text-ink-700','data-video-description':''},lesson.beforeYouWatch?.trim()||t.descriptionEmpty);
+  if(name==='description'||name==='transcript')return el('p',{class:'whitespace-pre-line text-sm text-ink-700','data-video-description':''},lesson.beforeYouWatch?.trim()||t.descriptionEmpty);
   if(name==='notes')return el('p',{class:'whitespace-pre-line text-sm text-ink-700','data-video-notes':'shown'},notes||t.notesEmpty);
   if(name==='ownNotes')return ownNotesPanel();
-  const vocabulary=createVideoVocabulary({context:{...context,signal:life},id:lesson.id,words:vocabWords,dict});
+  const vocabulary=createVideoVocabulary({context:{...context,signal:life},id:lesson.id,title:lesson.title,words:vocabWords,dict});
   if(glossary)vocabulary.append(el('p',{class:'whitespace-pre-line text-sm leading-6','data-video-glossary':''},glossary));
   if(!video.vocabulary.ready)vocabulary.prepend(el('p',{role:'status',class:'text-sm text-ink-500'},t.vocabularyUnavailable));
   return vocabulary;
@@ -263,19 +254,25 @@ export function createVideoStudio(context,{mode,video}){
   }
  }
  function mountPanel(){
-  if(tabs.length)panel.replaceChildren(buildPanel(tab));
+  if(!panels.has(tab))panels.set(tab,buildPanel(tab));
+  panel.replaceChildren(panels.get(tab));
+  recorder?.setActive(tab==='ownNotes');
+  const transcriptOpen=tab==='transcript';
+  transcriptRegion.hidden=!transcriptOpen;
+  section.setAttribute('data-transcript-open',String(transcriptOpen));
+  if(transcriptOpen)void showTranscript();
   panel.setAttribute('aria-labelledby',`${tabIdBase}-tab-${tab}`);
   panel.setAttribute('data-video-tab-active',tab);
   paint();
  }
  function selectTab(name){
-  if(!tabs.includes(name))return;
+  if(!tabs.includes(name)||tab===name)return;
   tab=name;
   paintTabs();
   mountPanel();
  }
  for(const [index,name] of tabs.entries()){
-  const button=el('button',{type:'button',role:'tab',id:`${tabIdBase}-tab-${name}`,'aria-controls':`${tabIdBase}-panel`,'data-video-tab':name},t.tabs[name]);
+  const button=el('button',{...(name==='transcript'?{'data-video-transcript-button':''}:{}),type:'button',role:'tab',id:`${tabIdBase}-tab-${name}`,'aria-controls':`${tabIdBase}-panel`,'data-video-tab':name},t.tabs[name]);
   button.addEventListener('click',()=>selectTab(name),{signal:life});
   button.addEventListener('keydown',event=>{
    const last=tabs.length-1;
@@ -306,7 +303,7 @@ export function createVideoStudio(context,{mode,video}){
   }
  }else if(lesson.provider==='youtube'){
   stage.append(frameBox);
-  startFrame();
+  mountFrame();
  }else{
   stage.append(el('p',{class:'p-4 text-sm text-white','data-video-blocked':''},t.blocked));
  }
@@ -319,7 +316,8 @@ export function createVideoStudio(context,{mode,video}){
   unmountFrame();
   progressRequest?.abort();progressRequest=null;
   const pending=mutation;mutation=null;pending?.abort();
-  transcriptDialog?.close();transcriptDialog=null;
+  transcriptHandle?.destroy();transcriptHandle=null;
+  recorder?.destroy();recorder=null;
   directHandle?.destroy();directHandle=null;
   own.abort();
   section.remove();

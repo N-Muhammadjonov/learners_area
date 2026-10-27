@@ -46,14 +46,15 @@ async def read(req,user,path,q):
     db=await core.pool()
     async with db.acquire() as con:
         if path=='/app/video-lessons':
-            standalone=await con.fetch(f'''SELECT v.id,v.title,v.provider,v.video_id,v.duration_seconds,p.state AS "progressState"
+            standalone=await con.fetch(f'''SELECT v.id,v.title,v.provider,v.video_id,v.duration_seconds,p.state AS "progressState",p.watched_seconds
                 FROM video_lessons v LEFT JOIN video_lesson_progress p ON p.video_lesson_id=v.id AND p.user_id=$1
                 WHERE v.lesson_id IS NULL AND {live('v')} ORDER BY v.created_at,v.id''',user['id'])
             course=await con.fetch(f'''SELECT v.id,v.title,v.provider,v.video_id,v.duration_seconds,l.id AS "lessonId",
-                c.slug AS "courseSlug",c.title AS "courseTitle",u.title AS "unitTitle",coalesce(p.state,l.default_state) AS state
+                c.slug AS "courseSlug",c.title AS "courseTitle",u.title AS "unitTitle",coalesce(p.state,l.default_state) AS state,vp.state AS "progressState",vp.watched_seconds
                 FROM video_lessons v JOIN lessons l ON l.id=v.lesson_id JOIN units u ON u.id=l.unit_id
                 JOIN course_modules m ON m.id=u.module_id JOIN courses c ON c.id=m.course_id
                 LEFT JOIN lesson_progress p ON p.lesson_id=l.id AND p.user_id=$1
+                LEFT JOIN video_lesson_progress vp ON vp.video_lesson_id=v.id AND vp.user_id=$1
                 WHERE {live('v')} AND {live('l')} AND coalesce(p.state,l.default_state) IN ('available','assigned','in_progress')
                 ORDER BY v.created_at,v.id''',user['id'])
             return {'standalone':[camel(r) for r in standalone],'course':[camel(r) for r in course]}

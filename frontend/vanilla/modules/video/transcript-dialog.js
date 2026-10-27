@@ -38,3 +38,13 @@ export function openTranscriptDialog({context,id,text,dict,attribution,onClose})
  close.focus();
  return {close:finish};
 }
+
+
+/** Lookup-enabled transcript in document flow; it never covers or remounts the player. */
+export function createTranscriptPanel({context,id,text,dict,attribution}){
+ const body=clickableText(context,{text,sourceType:'video',sourceId:id,className:'text-base leading-8',catalogueLookup:true,phraseAware:true});
+ const node=el('section',{class:'video-inline-transcript','data-video-inline-transcript':''},
+  el('h2',{class:'text-lg font-semibold'},dict.videoLesson.tabs.transcript),body.node,
+  attribution?el('p',{class:'mt-3 text-xs text-ink-500'},`${dict.videoLesson.transcriptProvenance}: ${attribution}`):null);
+ return {node,destroy(){body.stop?.();node.remove();}};
+}

@@ -64,7 +64,7 @@ for(const locale of ['en','uz'])test(`${locale}: custom and built-in TED lessons
  const h=setup({locale}),oldAbort=globalThis.AbortController;globalThis.AbortController=window.AbortController;let studio;
  try{for(const title of ['Custom lesson',...packs.map(p=>p.title)]){
   studio=createVideoStudio(h.ctx,{mode:'standalone',video:video(title)});h.ctx.root.append(studio.node);
-  assert.deepEqual([...studio.node.querySelectorAll('[data-video-tab]')].map(b=>b.dataset.videoTab),['description','notes','vocabulary','ownNotes']);
+  assert.deepEqual([...studio.node.querySelectorAll('[data-video-tab]')].map(b=>b.dataset.videoTab),['description','notes','vocabulary','ownNotes','transcript']);
   assert.equal(studio.node.querySelector('[data-video-tab-active]').dataset.videoTabActive,'description');
   assert.equal(studio.node.querySelector('[data-video-description]').textContent,'Predict');
   assert.equal(studio.node.querySelector('[data-video-transcript-button]').disabled,false);
@@ -112,16 +112,16 @@ test('course materials preserve the existing external student-notes panel, and e
   studio=createVideoStudio(h.ctx,{mode:'course',video:data});h.ctx.root.append(studio.node);
   assert.deepEqual([...studio.node.querySelectorAll('[data-video-tab]')].map(b=>b.dataset.videoTab),['description','notes','vocabulary']);
   assert.equal(studio.node.querySelector('[data-video-description]').textContent,h.ctx.dict.videoLesson.descriptionEmpty);
-  assert.equal(studio.node.querySelector('[data-video-transcript-button]').disabled,true);
+  assert.equal(studio.node.querySelector('[data-video-transcript-button]'),null);
   h.click(studio.node.querySelector('[data-video-tab=notes]'));assert.equal(studio.node.querySelector('[data-video-notes]').textContent,h.ctx.dict.videoLesson.notesEmpty);
  }finally{studio?.destroy();globalThis.AbortController=oldAbort;h.dispose();}
 });
-test('Transcript button opens a single modal without replacing Description and teardown closes it',async()=>{
+test('Transcript button opens one inline panel with Description and teardown removes it',async()=>{
  const h=setup(),oldAbort=globalThis.AbortController;globalThis.AbortController=window.AbortController;let studio;
  try{studio=createVideoStudio(h.ctx,{mode:'standalone',video:video()});h.ctx.root.append(studio.node);
   const button=studio.node.querySelector('[data-video-transcript-button]');h.click(button);h.click(button);await tick(12);
-  assert.equal(document.querySelectorAll('dialog').length,1);assert(document.querySelector('dialog').textContent.includes('Transcript'));assert.equal(studio.node.querySelector('[data-video-tab-active]').dataset.videoTabActive,'description');
-  studio.destroy();studio=null;assert.equal(document.querySelector('dialog'),null);
+  assert.equal(document.querySelectorAll('dialog').length,0);assert(studio.node.querySelector('[data-video-inline-transcript]').textContent.includes('Transcript'));assert.equal(studio.node.querySelector('[data-video-tab-active]').dataset.videoTabActive,'transcript');assert(studio.node.querySelector('[data-video-description]'));
+  studio.destroy();studio=null;assert.equal(document.querySelector('[data-video-inline-transcript]'),null);
  }finally{studio?.destroy();globalThis.AbortController=oldAbort;h.dispose();}
 });
 test('library keeps Main introduction and visible grouping headings, without invented local tabs',async()=>{

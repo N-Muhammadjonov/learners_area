@@ -24,7 +24,7 @@ export function mount(context){
  }
  function page(detail){
   const lesson=detail.videoLesson,minutes=minutesFrom(lesson.durationSeconds);
-  return el('div',{class:'mx-auto flex w-full max-w-5xl flex-col gap-4','data-route-usable':'video-lesson','data-video-standalone':lesson.id},
+  return el('div',{class:'mx-auto flex w-full max-w-7xl flex-col gap-4','data-route-usable':'video-lesson','data-video-standalone':lesson.id},
    BackLink({fallbackHref:'/app/video-lessons',label:t.title,'data-video-back':''}),
    el('header',{class:'flex flex-col gap-1','data-video-detail-header':''},
     el('h1',{class:'font-display text-2xl text-ink-900'},lesson.title),
