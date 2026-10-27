@@ -101,7 +101,9 @@ export function createVideoStudio(context,{mode,video}){
 
  function mountFrame(){
   unmountFrame();
-  const src=embedUrlFor('youtube',lesson.videoId,{origin:safeEmbedOrigin(video.embedOrigin),start:restartAt});
+  // The iframe API must target the actual HTTPS parent, even behind a proxy
+  // whose server-side base URL reports HTTP.
+  const src=embedUrlFor('youtube',lesson.videoId,{origin:safeEmbedOrigin(window.location.origin)??safeEmbedOrigin(video.embedOrigin),start:restartAt});
   const node=el('iframe',{
    src,title:lesson.title,loading:'lazy',class:'absolute inset-0 h-full w-full',
    // No popups or top navigation: provider links cannot take the learner out of this site.

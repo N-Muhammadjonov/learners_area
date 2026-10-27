@@ -7,7 +7,7 @@ import {progressRatio,videoProgressText} from '../modules/shared/progress.js';
 import {videoLibraryDTO} from '../js/adapters/video-v47.js';
 import {render as listeningCatalogue} from '../js/generated/views/listening-academic.js';
 
-const fixture=()=>({videoLesson:{id:ID(2),provider:'youtube',videoId:'abcdefghijk',title:'A TED talk',beforeYouWatch:'Description',durationSeconds:600,transcript:[],transcriptText:'A useful word.',notes:'Teacher notes'},questions:[],progress:{state:'in_progress',watchedSeconds:120,summaryText:'Saved summary'},vocabulary:{ready:true,items:[]},embedOrigin:null});
+const fixture=()=>({videoLesson:{id:ID(2),provider:'youtube',videoId:'abcdefghijk',title:'A TED talk',beforeYouWatch:'Description',durationSeconds:600,transcript:[],transcriptText:'A useful word.',notes:'Teacher notes'},questions:[],progress:{state:'in_progress',watchedSeconds:120,summaryText:'Saved summary'},vocabulary:{ready:true,items:[]},embedOrigin:'http://fixture.invalid'});
 
 test('video progress never changes course availability or hides a completed video in an open lesson',()=>{
  const row={id:ID(2),title:'Talk',provider:'youtube',videoId:'abcdefghijk',durationSeconds:600,state:'available',progressState:'completed',watchedSeconds:600,lessonId:ID(3),courseSlug:'ielts',courseTitle:'IELTS',unitTitle:'Unit'};
@@ -41,6 +41,7 @@ test('transcript is inline and exclusive, player and draft survive tab switches,
  try{
   studio=createVideoStudio(h.ctx,{mode:'standalone',video:fixture()});h.ctx.root.append(studio.node);
   const frame=h.q('iframe');assert(frame);assert.equal(h.q('[data-video-ended]'),null);
+  assert.equal(new URL(frame.src).searchParams.get('origin'),window.location.origin);
   h.click(h.q('[data-video-tab=ownNotes]'));await tick(15);
   const input=h.q('textarea');h.input(input,'Keep this draft');
   assert(h.q('[data-local-reflection]'));assert.equal(h.q('[data-local-reflection]').hidden,false);
