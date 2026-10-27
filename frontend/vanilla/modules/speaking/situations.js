@@ -8,13 +8,13 @@ export const situationTopics=[{id:'shopping',title:'SHOPPING',count:16,load:()=>
 export const situationLabels=locale=>locale==='uz'?{
  pictures:'Rasmli hikoyalar',intro:'Rasmdagi vaziyatni tushuntiring va javobingizni yozib oling.',
  count:n=>`${n} ta rasmli hikoya`,choose:'Hikoyani tanlang',story:n=>`Hikoya ${n}`,
- hold:'Vocabulary va Sample answer uchun 3 soniya ushlab turing',holding:'Ushlab turing…',
+ hold:'Bu bo‘limni ochish uchun 3 soniya ushlab turing',holding:'Ushlab turing…',
  frames:'1 dan 4 gacha rasmlar bo‘yicha hikoya qiling.',missing:'Bu mavzu topilmadi.',
  imageError:'Rasm yuklanmadi. Qayta yuklab ko‘ring.',retry:'Rasmni qayta yuklash'
 }:{
  pictures:'Picture stories',intro:'Explain the situation in the pictures and record your answer.',
  count:n=>`${n} picture stories`,choose:'Choose a story',story:n=>`Story ${n}`,
- hold:'Hold for 3 seconds to see Vocabulary and Sample answer',holding:'Keep holding…',
+ hold:'Hold for 3 seconds to open this section',holding:'Keep holding…',
  frames:'Follow the story from picture 1 to 4.',missing:'This topic was not found.',
  imageError:'The picture could not load. Please try again.',retry:'Reload picture'
 };
@@ -28,7 +28,7 @@ export function createSituationSupport({story,dict,locale,signal}){
  const panel=el('section',{class:'card relative min-h-96 space-y-5 p-5','data-study-support':'','data-situation-support':story.id});
  const tabs=el('div',{role:'tablist','aria-label':study.supportLabel,class:'flex flex-wrap gap-2'});
  const content=el('div',{role:'tabpanel',class:'space-y-4',id:`${story.id}-support-content`});
- let tab='vocabulary',revealed=false,renderController=null,timer=null;
+ let tab='vocabulary',renderController=null,timer=null;const revealed=new Set();
  const clearHold=()=>{clearTimeout(timer);timer=null;};
  const destroy=()=>{clearHold();renderController?.abort();};
  signal.addEventListener('abort',destroy,{once:true});
@@ -42,7 +42,7 @@ export function createSituationSupport({story,dict,locale,signal}){
    b.tabIndex=tab===name?0:-1;tabs.append(b);
   }
   content.setAttribute('aria-labelledby',`${story.id}-support-${tab}`);content.replaceChildren();
-  if(revealed){
+  if(revealed.has(tab)){
    if(tab==='vocabulary'){
     const list=el('dl',{class:'space-y-3','data-situation-vocabulary':''});
     for(const word of story.vocabulary)list.append(el('div',{class:'space-y-1'},el('dt',{class:'font-semibold'},word.term),el('dd',{class:'text-ink-500'},word.translationUz)));
@@ -54,7 +54,7 @@ export function createSituationSupport({story,dict,locale,signal}){
   const trigger=button('',()=>{},{class:'situation-reveal rounded-3xl border-2 border-accent-500 bg-paper p-8 text-center text-xl font-semibold select-none','data-situation-reveal':''});
   trigger.append(el('span',{class:'block text-sm uppercase tracking-widest'},study.answerFirst),hint);
   const clear=()=>{clearHold();hint.textContent=t.hold;};
-  const hold=()=>{if(timer||revealed||signal.aborted)return;hint.textContent=t.holding;timer=setTimeout(()=>{timer=null;if(signal.aborted||events.aborted)return;revealed=true;show();},3000);};
+  const hold=()=>{if(timer||revealed.has(tab)||signal.aborted)return;hint.textContent=t.holding;timer=setTimeout(()=>{timer=null;if(signal.aborted||events.aborted)return;revealed.add(tab);show();},3000);};
   listen(trigger,'pointerdown',e=>{if(e.button!==0)return;try{trigger.setPointerCapture(e.pointerId);}catch{}hold();},events);
   for(const event of ['pointerup','pointercancel','lostpointercapture','blur'])listen(trigger,event,clear,events);
   listen(trigger,'contextmenu',e=>e.preventDefault(),events);
@@ -123,3 +123,4 @@ export async function mountSituations(context){
  }
  await load();
 }
+

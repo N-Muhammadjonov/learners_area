@@ -18,7 +18,7 @@ export async function passwordForm(context,auth,telegram){
  const state=context.state??{},draft=state.authDraft??={email:'',password:'',name:'',gender:'',done:false,devUrl:null};
  const known={invalid_credentials:dict.auth.errorInvalidCredentials,email_taken:dict.auth.errorEmailTaken,invalid_input:dict.errors.unknown,invalid_token:dict.errors.unknown,invalid_or_expired_token:dict.errors.unknown,reset_unavailable:dict.auth.resetUnavailable};
  let genderError=draft.genderError??false,error='',pending=false,errorNode;
- if(!reset){const key={google_unavailable:'googleUnavailable',google_state:'googleFailed',google_failed:'googleFailed',google_unverified:'googleUnverified',google_link_required:'googleLinkRequired'}[url.searchParams.get('error')];if(key)error=dict.auth[key];}
+ if(!reset){const key={telegram_not_subscribed:'telegramNotSubscribed',telegram_phone_required:'telegramPhoneRequired',telegram_membership_unavailable:'telegramMembershipUnavailable',google_unavailable:'googleUnavailable',google_state:'googleFailed',google_failed:'googleFailed',google_unverified:'googleUnverified',google_link_required:'googleLinkRequired'}[url.searchParams.get('error')];if(key)error=dict.auth[key];}
  if(reset&&!confirm&&draft.done){host.append(view.done({dict,devUrl:draft.devUrl}));return host;}
  if(draft.failure)error=failure(draft.failure,dict,known);
  const setGenderError=next=>{genderError=next;draft.genderError=next;const group=host.querySelector('[role=radiogroup]');group?.setAttribute('aria-invalid',String(next));host.querySelectorAll('input[name=gender]').forEach(n=>next?n.setAttribute('aria-describedby','gender-error'):n.removeAttribute('aria-describedby'));if(next){group?.setAttribute('aria-describedby','gender-error');if(!host.querySelector('#gender-error'))group?.after(el('p',{id:'gender-error',role:'alert',class:'mt-1 text-xs text-band-bad'},dict.auth.errorGenderRequired));}else{group?.removeAttribute('aria-describedby');host.querySelector('#gender-error')?.remove();}};
@@ -43,3 +43,4 @@ export async function passwordForm(context,auth,telegram){
  signal.addEventListener('abort',()=>{const focused=document.activeElement;if(signal.reason==='route-refresh'&&host.contains(focused)&&focused.matches('input'))draft.focus={id:focused.id,...fieldSelection(focused)};else delete draft.focus;if(signal.reason!=='route-refresh'||state.authDraft!==draft){for(const input of host.querySelectorAll('input'))input.value='';draft.email='';draft.password='';draft.name='';draft.gender='';}}, {once:true});
  paint();if(draft.focus){const saved=draft.focus;delete draft.focus;restoreWhenAttached([...host.querySelectorAll('input')].find(n=>n.id===saved.id),signal,saved);}return host;
 }
+

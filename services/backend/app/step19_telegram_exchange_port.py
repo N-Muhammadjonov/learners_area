@@ -37,7 +37,7 @@ async def intent_exchange(req:Request):
         async with db.acquire() as con:
             preflight=await con.fetchrow('''SELECT telegram_user_id,purpose FROM telegram_login_intents
                  WHERE id=$1 AND browser_nonce_hash=$2 AND status='confirmed' ''',iid,nonce_hash)
-            if preflight and preflight['purpose']=='register' and preflight['telegram_user_id']:
+            if preflight and preflight['telegram_user_id']:
                 gated=await gates(con,preflight['telegram_user_id'])
                 if gated:return fail(gated['error'])
             async with con.transaction():
@@ -119,3 +119,4 @@ async def intent_exchange(req:Request):
         return core.j({'error':'internal_error'},500)
 
 def install():core.app.include_router(router)
+

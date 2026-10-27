@@ -49,12 +49,10 @@ def _channel_keyboard(lang: str, channels: list | None = None) -> InlineKeyboard
 
 
 async def _complete_pending_intent(message: Message, state: FSMContext | None,
-                                   telegram_user_id: str, display_name: str, lang: str) -> bool:
+                                   telegram_user_id: str, display_name: str, lang: str, *, retry: bool = False) -> bool:
     data = await state.get_data() if state else {}
     token = data.get("pending_token") if isinstance(data, dict) else None
-    if not isinstance(token, str) or not token:
-        await message.answer(t(lang, "confirm_failed"))
-        return False
+    token = token if isinstance(token, str) else ""
     try:
         status, result = await api_client.preflight_intent(token, telegram_user_id)
     except Exception:
@@ -62,7 +60,7 @@ async def _complete_pending_intent(message: Message, state: FSMContext | None,
     result = result if isinstance(result, dict) else {}
     error = result.get("error")
     if status == 403 and error == "not_subscribed":
-        await message.answer(t(lang, "channels_required"),
+        await message.answer(t(lang, "channels_still_required" if retry else "channels_required"),
                              reply_markup=_channel_keyboard(lang, result.get("requiredChannels")))
         return False
     if status == 503 and error == "membership_unavailable":
@@ -80,6 +78,10 @@ async def _complete_pending_intent(message: Message, state: FSMContext | None,
     if status != 200 or result.get("ok") is not True:
         await message.answer(t(lang, "temporary_error"), reply_markup=_channel_keyboard(lang))
         return False
+    if not token:
+        if state:
+            await state.clear()
+        return True
     try:
         confirmed = await api_client.confirm_intent(
             token=token, telegram_user_id=telegram_user_id,
@@ -149,14 +151,9 @@ async def receive_own_contact(
     if not saved:
         await message.answer(t(lang, "channels_error"), reply_markup=phone_keyboard(lang))
         return
-    data = await state.get_data() if state else {}
-    token = data.get("pending_token") if isinstance(data, dict) else None
     await message.answer(t(lang, "phone_saved"), reply_markup=ReplyKeyboardRemove())
-    if token:
-        if not await _complete_pending_intent(message, state, str(sender.id), sender.full_name, lang):
-            return
-    elif state:
-        await state.clear()
+    if not await _complete_pending_intent(message, state, str(sender.id), sender.full_name, lang):
+        return
     await show_home(message, lang, bot_access, db_user)
 
 
@@ -171,13 +168,9 @@ async def retry_required_channels(callback: CallbackQuery, state: FSMContext,
         or not hasattr(callback.message, "answer")):
         await callback.answer(t(lang, "temporary_error"), show_alert=True)
         return
-    data = await state.get_data()
-    if not isinstance(data, dict) or not data.get("pending_token"):
-        await callback.answer(t(lang, "confirm_failed"), show_alert=True)
-        return
     await callback.answer()
     success = await _complete_pending_intent(
-        callback.message, state, str(callback.from_user.id), callback.from_user.full_name, lang
+        callback.message, state, str(callback.from_user.id), callback.from_user.full_name, lang, retry=True
     )
     if success:
         await show_home(callback.message, lang, bot_access, db_user)
@@ -209,3 +202,4 @@ async def cmd_help(message: Message, db_user: dict | None = None, bot_access: di
     lang = lang_of(message, db_user)
     await message.answer(t(lang, "help"))
     await show_home(message, lang, bot_access, db_user, backend_error=backend_error)
+

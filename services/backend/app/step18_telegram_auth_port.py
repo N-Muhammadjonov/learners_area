@@ -35,6 +35,9 @@ async def telegram_callback(req:Request):
     if not telegram_verified(params):return redirect('/login?error=telegram')
     db=await core.pool()
     async with db.acquire() as con:
+        from .step18_telegram_admission_port import gates
+        gated=await gates(con,str(int(params['id'])))
+        if gated:return redirect('/login?error=telegram_'+gated['error'])
         row=await con.fetchrow('''SELECT id,auth_version,role,name,locale,onboarding_completed_at
           FROM users WHERE telegram_id=$1 LIMIT 1''',str(int(params['id'])))
     if not row:return redirect('/register?error=telegram_no_account')
@@ -65,6 +68,9 @@ async def telegram_auth_confirm(req:Request):
             pending=await con.fetchrow('''SELECT id,user_id FROM telegram_login_intents
               WHERE token_hash=$1 AND status='pending' AND expires_at>NOW() LIMIT 1''',hashed)
             if not pending:return core.j({'error':'intent_invalid'},404)
+            from .step18_telegram_admission_port import gates
+            gated=await gates(con,tg)
+            if gated:return core.j(gated,403 if gated['error'] in ('phone_required','not_subscribed') else 503)
             if pending['user_id']:
                 target=await con.fetchrow('SELECT id,telegram_id FROM users WHERE id=$1',pending['user_id'])
                 taken=await con.fetchrow('SELECT id FROM users WHERE telegram_id=$1',tg)
@@ -81,7 +87,7 @@ async def telegram_auth_confirm(req:Request):
 
 @router.post('/api/internal/telegram/auth/preflight')
 async def telegram_auth_preflight(req:Request):
-    """Bot-only purpose-aware channel gate; browser exchange rechecks."""
+    """Bot-only phone/channel gate for every auth purpose and direct bot starts."""
     err=verify_bot(req)
     if err is not None:return err
     b=await core.payload(req)
@@ -90,23 +96,24 @@ async def telegram_auth_preflight(req:Request):
     tg=b.get('telegramUserId') if isinstance(b.get('telegramUserId'),str) else ''
     from .telegram_preferences_port import valid_actor
     from .rate_limit import RULES,counter,too_many
-    if not token or len(token)>200 or not valid_actor(tg):
+    if len(token)>200 or not valid_actor(tg):
         return core.j({'error':'invalid_input'},400)
     RULES.setdefault('telegram_auth_preflight',(20,900))
     delay=counter('telegram_auth_preflight','tg:'+tg,consume=True)
     if delay:return too_many(delay)
-    hashed=hashlib.sha256(token.encode()).hexdigest()
     db=await core.pool()
     async with db.acquire() as con:
-        pending=await con.fetchrow('''SELECT purpose FROM telegram_login_intents
-          WHERE token_hash=$1 AND status='pending' AND expires_at>NOW() LIMIT 1''',hashed)
-        if not pending:return core.j({'error':'intent_invalid'},404)
-        if pending['purpose']=='register':
-            from .step18_telegram_admission_port import gates
-            gated=await gates(con,tg)
-            if gated:
-                code=gated['error']
-                return core.j(gated,403 if code in ('phone_required','not_subscribed') else 503)
+        if token:
+            hashed=hashlib.sha256(token.encode()).hexdigest()
+            pending=await con.fetchrow('''SELECT purpose FROM telegram_login_intents
+              WHERE token_hash=$1 AND status='pending' AND expires_at>NOW() LIMIT 1''',hashed)
+            if not pending:return core.j({'error':'intent_invalid'},404)
+        from .step18_telegram_admission_port import gates
+        gated=await gates(con,tg)
+        if gated:
+            code=gated['error']
+            return core.j(gated,403 if code in ('phone_required','not_subscribed') else 503)
     return core.j({'ok':True})
 
 def install():core.app.include_router(router)
+

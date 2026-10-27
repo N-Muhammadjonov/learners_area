@@ -71,7 +71,7 @@ export function questionRecorder(context,{prompt,index,onBusyChange=()=>{},onSub
   if(phase==='starting')ctl.append(el('span',{role:'status'},dict.common.loading));
   if(phase==='prepping'){ctl.append(el('span',{'data-speak-preparing':'',role:'status'},`${t.preparing} ${duration(prepEnd-Date.now())}`));b(dict.common.cancel,discard,'btn-ghost');}
   if(phase==='recording'){ctl.append(el('span',{'data-speak-recording':'',role:'status',class:'text-band-bad'},`${t.recording} ${duration(Date.now()-started)} / ${duration(limit*1000)}`));b(t.stop,()=>void finish(),'btn-secondary',{'data-speak-stop':''});b(dict.common.cancel,discard,'btn-ghost');}
-  if(phase==='reviewing'&&blob){if(url){preview??=createRecordingPreview({blob:blob.blob,url,dict,label:dict.speakingStudy.playback});ctl.append(preview.node);}ctl.append(el('div',{'data-speak-review':'','data-speak-size':blob.size,'data-speak-duration-ms':blob.durationMs},`${Math.ceil(blob.size/1024)} KB · ${duration(blob.durationMs)}`));b(t.submit,()=>void submit(),'btn-primary',{'data-speak-submit':''});b(t.recordAgain,discard,'btn-ghost');}
+  if(phase==='reviewing'&&blob){if(url){preview??=createRecordingPreview({blob:blob.blob,url,dict,label:dict.speakingStudy.playback});ctl.append(preview.node);}ctl.append(el('div',{'data-speak-review':'','data-speak-size':blob.size,'data-speak-duration-ms':blob.durationMs},`${Math.ceil(blob.size/1024)} KB · ${duration(blob.durationMs)}`));b(t.submit,()=>void submit(),'btn-primary',{'data-speak-submit':''});b(t.recordAgain,discard,'btn-ghost');b(dict.speakingStudy.deleteRecording,discard,'btn-secondary',{'data-speak-delete-recording':''});}
   if(phase==='uploading')ctl.append(el('span',{role:'status'},t.uploading));
   if(phase==='submitting')ctl.append(el('span',{role:'status'},t.submitting));
   if(phase==='done')ctl.append(el('section',{class:'card flex flex-col gap-2 p-4','data-speak-done':''},el('p',{class:'text-band-good'},t.saved),el('p',{},t.savedBody),b(t.viewHistory,()=>void context.navigate('/app/speaking/history'),'btn-ghost')));
@@ -102,3 +102,4 @@ export function questionRecorder(context,{prompt,index,onBusyChange=()=>{},onSub
  if(!isSupported()){host.append(el('p',{},t.unsupportedTitle),el('p',{},t.unsupportedBody));}else render();
  return {node:host,stop(){stopped=true;cleanup();},isBusy:busy};
 }
+

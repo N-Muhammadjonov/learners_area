@@ -20,3 +20,14 @@
 @media (prefers-reduced-motion:reduce) {
  [data-route-usable^="speaking"] *,[data-route-usable="live-partner"] * { scroll-behavior:auto; }
 }
+
+
+/* Questions are plain text within one panel, without nested green cards. */
+html[data-theme] #root [data-practice-question-entry],
+html[data-theme] #root [data-practice-question] {
+ border:0!important;box-shadow:none!important;background:transparent!important;border-radius:0;
+}
+[data-practice-related-part3-host] { display:flex;justify-content:flex-end; }
+@media (min-width:1024px) {
+ [data-practice-related-part3-host] { position:fixed;right:5.5rem;bottom:1rem;z-index:35; }
+}

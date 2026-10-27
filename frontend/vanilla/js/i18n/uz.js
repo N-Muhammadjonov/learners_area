@@ -526,6 +526,9 @@ export default {
         "googleUnverified": "Google email manzilingiz tasdiqlanmagan.",
         "googleLinkRequired": "Bu email bilan hisob allaqachon mavjud. Parolingiz bilan kiring; hisoblar avtomatik birlashtirilmaydi.",
         "continueWithTelegram": "Telegram orqali davom etish",
+        "telegramNotSubscribed": "Siz majburiy Telegram kanalga obuna bo‘lmagansiz. Iltimos, Telegramga qaytib obuna bo‘ling va qayta urinib ko‘ring.",
+        "telegramPhoneRequired": "Iltimos, Telegram botga qaytib o‘z telefon raqamingizni yuboring va qayta urinib ko‘ring.",
+        "telegramMembershipUnavailable": "Telegram obunangizni hozir tekshirib bo‘lmadi. Botga qaytib obunani tekshiring va qayta urinib ko‘ring.",
         "telegramUnavailable": "Bu muhitda Telegram orqali kirish hali sozlanmagan.",
         "resetTitle": "Parolni tiklash",
         "resetSubtitle": "Hisobingiz emailini kiriting. Onlayn tiklash mavjud bo'lmasa, parolni tiklashda markaz yordam beradi.",
@@ -3857,3 +3860,4 @@ export default {
         "library": "Passage kutubxonasi"
     }
 };
+

@@ -45,7 +45,7 @@ for(const locale of ['en','uz'])test(`${locale}: SHOPPING keeps every story sele
   h.click(h.q('[data-situation-back=topics]'));assert.equal(h.nav.at(-1).path,'/app/speaking/practice?part=situations');
  }finally{h.dispose();}
 });
-test('continuous three-second pointer hold unlocks matching vocabulary and sample; cancellation and tab change reset it',t=>{
+test('each section needs its own continuous three-second hold; cancellation and tab change reset it',t=>{
  const h=setup(),s=shopping.stories[0];
  t.mock.timers.enable({apis:['setTimeout']});
  const event=(node,type,attrs={})=>node.dispatchEvent(new window.MouseEvent(type,{bubbles:true,button:0,...attrs}));
@@ -57,6 +57,8 @@ test('continuous three-second pointer hold unlocks matching vocabulary and sampl
   trigger=h.q('[data-situation-reveal]');event(trigger,'pointerdown');t.mock.timers.tick(2999);assert.equal(h.q('[data-situation-sample]'),null);t.mock.timers.tick(1);
   assert.deepEqual(h.qa('[data-situation-sample]').map(p=>p.textContent),s.sampleAnswer);
   h.click(h.q('[data-situation-tab=vocabulary]'));
+  assert(h.q('[data-situation-reveal]'),'revealing sample does not reveal vocabulary');
+  event(h.q('[data-situation-reveal]'),'pointerdown');t.mock.timers.tick(3000);
   assert.deepEqual(h.qa('dt').map(n=>n.textContent),s.vocabulary.map(w=>w.term));
   assert.deepEqual(h.qa('dd').map(n=>n.textContent),s.vocabulary.map(w=>w.translationUz));
  }finally{h.dispose();t.mock.timers.reset();}

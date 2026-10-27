@@ -526,6 +526,9 @@ export default {
         "googleUnverified": "Your Google email address is not verified.",
         "googleLinkRequired": "An account with this email already exists. Sign in with your password; accounts are never merged automatically.",
         "continueWithTelegram": "Continue with Telegram",
+        "telegramNotSubscribed": "You have not subscribed to the required Telegram channel. Please return to Telegram, subscribe and try again.",
+        "telegramPhoneRequired": "Please return to the Telegram bot, share your own phone number and try again.",
+        "telegramMembershipUnavailable": "Your Telegram membership could not be checked. Return to the bot, check your subscription and try again.",
         "telegramUnavailable": "Telegram login isn't configured in this environment yet.",
         "resetTitle": "Reset your password",
         "resetSubtitle": "Enter your account email. If online reset is not available, the centre will help you reset your password.",
@@ -3857,3 +3860,4 @@ export default {
         "library": "Passage library"
     }
 };
+

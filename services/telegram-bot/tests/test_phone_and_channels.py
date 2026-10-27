@@ -43,7 +43,9 @@ async def test_only_own_native_contact_persists():
     state.get_data.return_value = {}
     with patch("handlers.auth.api_client") as api, patch("handlers.auth.show_home", new_callable=AsyncMock) as home:
         api.save_verified_phone = AsyncMock(return_value=True)
+        api.preflight_intent = AsyncMock(return_value=(200, {"ok": True}))
         await receive_own_contact(message, state=state)
+        api.preflight_intent.assert_awaited_once_with("", "100")
         api.save_verified_phone.assert_awaited_once_with("100", "100", "998901234567")
         home.assert_awaited_once()
 
@@ -144,3 +146,40 @@ def test_only_telegram_channel_join_links_allowed():
     ])
     assert len(markup.inline_keyboard) == 2
     assert markup.inline_keyboard[0][0].url == "https://t.me/joinchat/test_code"
+
+
+
+@pytest.mark.asyncio
+async def test_direct_bot_start_also_blocks_home_until_membership_passes():
+    message = message_with_contact()
+    state = AsyncMock()
+    state.get_data.return_value = {"pending_token": ""}
+    with patch("handlers.auth.api_client") as api, patch("handlers.auth.show_home", new_callable=AsyncMock) as home:
+        api.save_verified_phone = AsyncMock(return_value=True)
+        api.preflight_intent = AsyncMock(return_value=(403, {"error": "not_subscribed", "requiredChannels": [{"title": "Club", "url": "https://t.me/learners_area"}]}))
+        await receive_own_contact(message, state=state)
+        home.assert_not_awaited()
+        api.confirm_intent.assert_not_called()
+        state.clear.assert_not_awaited()
+        assert message.answer.await_args.kwargs["reply_markup"].inline_keyboard[0][0].url == "https://t.me/learners_area"
+
+
+@pytest.mark.asyncio
+async def test_retry_without_join_keeps_join_and_check_buttons_and_does_not_confirm():
+    from handlers.auth import retry_required_channels
+    callback = MagicMock()
+    callback.from_user = User(id=12345, is_bot=False, first_name="Test", language_code="uz")
+    callback.message = message_with_contact()
+    callback.answer = AsyncMock()
+    state = AsyncMock()
+    state.get_data.return_value = {"pending_token": "token-private"}
+    with patch("handlers.auth.api_client") as api, patch("handlers.auth.show_home", new_callable=AsyncMock) as home:
+        api.preflight_intent = AsyncMock(return_value=(403, {"error": "not_subscribed", "requiredChannels": [{"title": "Club", "url": "https://t.me/learners_area"}]}))
+        await retry_required_channels(callback, state)
+        assert "Hali obuna" in callback.message.answer.await_args.args[0]
+        rows = callback.message.answer.await_args.kwargs["reply_markup"].inline_keyboard
+        assert rows[0][0].url == "https://t.me/learners_area"
+        assert rows[-1][0].callback_data == "auth:retry_channels"
+        api.confirm_intent.assert_not_called()
+        state.clear.assert_not_awaited()
+        home.assert_not_awaited()

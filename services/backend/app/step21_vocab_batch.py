@@ -64,7 +64,7 @@ async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',sou
         existing_id=known_lexemes.get(str(lexeme['id'])) if lexeme else None
         existing_id=existing_id or known_senses.get(key)
         if existing_id:
-            if source_type=='video' and folder_id:
+            if source_type in ('video','speaking') and folder_id:
                 await con.execute('''UPDATE user_vocabulary SET folder_id=$3
                   WHERE user_id=$1 AND id=$2 AND folder_id IS NULL''',user_id,existing_id,folder_id)
             ids.append(existing_id)
@@ -99,3 +99,4 @@ async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',sou
     await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'VOCABULARY_ADDED',$2::jsonb)''',
        user_id,json.dumps({'added':count,'duplicates':len(items)-len(collapsed),'sourceType':source_type,'topicPack':topic_pack}))
     return {'ok':True,'added':count,'duplicates':len(items)-count,'ids':ids,'points':0}
+

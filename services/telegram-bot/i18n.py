@@ -9,7 +9,8 @@ STRINGS = {
         "phone_invalid": "❌ Faqat o'zingizning Telegram kontaktingizni yuboring. Tugmani bosing.",
         "phone_saved": "✅ Telefon raqamingiz tasdiqlandi.",
         "phone_required": "📱 Ariza yuborishdan oldin /start orqali telefon raqamingizni tasdiqlang.",
-        "channels_required": "📢 Ariza yuborish uchun barcha majburiy kanallarga obuna bo'ling.",
+        "channels_required": "📢 Davom etish uchun barcha majburiy Telegram kanallariga obuna bo‘ling, so‘ng obunani tekshiring.",
+        "channels_still_required": "Hali obuna bo‘lmadingiz. Iltimos, barcha majburiy kanallarga obuna bo‘lgach qayta urinib ko‘ring.",
         "channels_error": "⏳ Kanal obunalarini hozir tekshirib bo'lmadi. Birozdan so'ng urinib ko'ring.",
         "channels_title": "📢 Majburiy kanallar",
         "channels_add": "➕ Kanal qo'shish",
@@ -129,7 +130,8 @@ STRINGS = {
         "phone_invalid": "❌ Only your own Telegram account contact is accepted. Use the button.",
         "phone_saved": "✅ Your phone number has been verified.",
         "phone_required": "📱 Verify your phone number via /start before requesting access.",
-        "channels_required": "📢 Join every mandatory channel before requesting access.",
+        "channels_required": "📢 Join every required Telegram channel, then check your membership to continue.",
+        "channels_still_required": "You have not joined all required channels yet. Please subscribe, then try again.",
         "channels_error": "⏳ We cannot check subscriptions right now. Please try again later.",
         "channels_title": "📢 Required channels",
         "channels_add": "➕ Add channel",
@@ -248,3 +250,4 @@ def t(lang: str | None, key: str, **kwargs: object) -> str:
     table = STRINGS.get(lang or "uz", STRINGS["uz"])
     template = table.get(key) or STRINGS["uz"].get(key) or key
     return template.format(**kwargs)
+

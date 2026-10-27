@@ -17,7 +17,7 @@ export function telegram(context,auth,purpose){
  const label=['link','replace'].includes(purpose)?t.telegramLink:purpose==='register'?t.continueWithTelegramRegister:t.continueWithTelegram;
  const holder=el('div',{class:'flex flex-col gap-2'}),button=el('button',{type:'button',class:buttonClass},label),errorNode=el('p',{role:'alert',class:'text-xs text-band-bad'});
  let controller,pending,revision=0,waiting=false,link=null,error='';const now=context.now??Date.now,sleep=context.sleep??delay;
- const known={telegram_already_linked:t.telegramConflict,no_linked_account:t.telegramNoAccount,already_signed_in:t.telegramAlreadySignedIn,already_consumed:t.telegramExpired,expired:t.telegramExpired,intent_not_confirmed:t.telegramExpired};
+ const known={not_subscribed:t.telegramNotSubscribed,phone_required:t.telegramPhoneRequired,membership_unavailable:t.telegramMembershipUnavailable,telegram_already_linked:t.telegramConflict,no_linked_account:t.telegramNoAccount,already_signed_in:t.telegramAlreadySignedIn,already_consumed:t.telegramExpired,expired:t.telegramExpired,intent_not_confirmed:t.telegramExpired};
  function paint(){if(signal.aborted)return;button.disabled=waiting;button.textContent=waiting?(purpose==='register'?t.telegramRegisterWaiting:t.telegramWaiting):label;holder.replaceChildren(button);
   if(waiting){const cancel=el('button',{type:'button',class:'text-xs text-ink-400 hover:underline'},t.telegramCancel);listen(cancel,'click',cancelIntent,signal);holder.append(cancel);}
   if(error){errorNode.textContent=error;holder.append(errorNode);}
@@ -44,3 +44,4 @@ export function telegram(context,auth,purpose){
  },signal);
  signal.addEventListener('abort',()=>{revision++;controller?.abort();pending=null;link=null;holder.replaceChildren();},{once:true});paint();return holder;
 }
+

@@ -21,10 +21,15 @@ async def prompt_vocabulary(req:Request):
  if not isinstance(b,dict) or not core.uuid_value(b.get('promptId')) or not isinstance(indices,list) or not 1<=len(indices)<=100 or any(type(i)!=int or not 0<=i<=99 for i in indices):return core.j({'error':'invalid_input'},400)
  db=await core.pool()
  async with db.acquire() as con:
-  row=await con.fetchrow('SELECT * FROM speaking_prompts WHERE id=$1',core.uuid_value(b['promptId']))
+  row=await con.fetchrow('''SELECT * FROM speaking_prompts p WHERE id=$1
+    AND NOT EXISTS (SELECT 1 FROM activity_events d
+      WHERE d.id=md5('deleted-content:' || p.id::text)::uuid AND d.type='CONTENT_DELETED')''',core.uuid_value(b['promptId']))
   if not row or not live(row) or not any(x in (row['available_in'] or []) for x in ('practice_alone','live_partner')):
    return core.j({'error':'source_not_found'},404)
   support=row['study_support']
+  if isinstance(support,str):
+   try:support=json.loads(support)
+   except (ValueError,TypeError):return core.j({'error':'invalid_source'},409)
   if not isinstance(support,dict) or not isinstance(support.get('vocabulary',[]),list) or len(support['vocabulary'])>100:return core.j({'error':'invalid_source'},409)
   items=support.get('vocabulary',[])
   unique=list(dict.fromkeys(indices))
@@ -32,11 +37,12 @@ async def prompt_vocabulary(req:Request):
   words=[items[i] for i in unique]
   if any(not isinstance(x,dict) or not 1<=len(x.get('term','').strip())<=120 or not 1<=len(x.get('definitionEn','').strip())<=500 for x in words):return core.j({'error':'invalid_source'},409)
   async with con.transaction():
+   await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',u['id'])
    folder=await con.fetchrow('''INSERT INTO vocab_folders(user_id,name) VALUES($1,$2)
-          ON CONFLICT(user_id,name) DO UPDATE SET name=excluded.name RETURNING id,name''',u['id'],row['prompt_text'])
+          ON CONFLICT(user_id,name) DO UPDATE SET name=excluded.name RETURNING id,name''',u['id'],row['prompt_text'][:200])
    r=await add_batch(con,u['id'],[dict(x,authored=True) for x in words],folder_id=folder['id'],source_type='speaking',source_id=row['id'])
   folder_result={'id':str(folder['id']),'userId':str(u['id']),'name':folder['name']}
-  return core.j({**r,'folder':folder_result},200 if r['ok'] else 404)
+  return core.j({**r,'folder':folder_result},200 if r['ok'] else 404,PRIVATE)
 
 @router.post('/api/video-lessons/{id}/vocabulary')
 async def video_vocabulary(req:Request,id:str):
@@ -70,3 +76,4 @@ async def video_vocabulary(req:Request,id:str):
   return core.j(r,200 if r['ok'] else 400,PRIVATE)
 
 def install():core.app.include_router(router)
+
