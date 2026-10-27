@@ -64,6 +64,8 @@ def meaning_hash(entry, sense):
 
 
 def present(entry):
+    from .dictionary_reader_metadata import details
+    reader=details(entry)
     stored = shard(entry['lexeme_id'][:2]).get(entry['lexeme_id'], {})
     senses = entry['senses']
     result = {}
@@ -80,6 +82,15 @@ def present(entry):
             synonyms[(item.get('lexemeId'), item.get('senseId'), item['text'])] = item
         collocations = row['collocations'] if row else [{'text': c['text']} for c in entry['collocations'] if c.get('sense_id') == sid or (not c.get('sense_id') and len(senses) == 1)]
         examples = [ex for ex in sense['examples'] if example_uses_entry(entry, ex['text_en'])]
-        result[sid] = {'synonyms': list(synonyms.values()), 'collocations': collocations,
+        antonyms={}
+        for item in [*reader['antonyms'].get(sid,[]), *links([r for r in entry['relations'] if r['relation_type']=='antonym' and (r.get('source_sense_id')==sid or (not r.get('source_sense_id') and len(senses)==1))])]:
+            antonyms[(item.get('lexemeId'),item.get('senseId'),item['text'])]=item
+        result[sid] = {'antonyms':list(antonyms.values()),'synonyms': list(synonyms.values()), 'collocations': collocations,
                        'examples': [*(row.get('addedExamples', []) if row else []), *examples]}
-    return {'senses': result}
+    phrases={}
+    for item in [*({'text':c['text']} for c in entry['collocations']), *(c for view in result.values() for c in view['collocations'])]:
+        key=(usage_norm(item['text']),item.get('lexemeId'),item.get('senseId'))
+        phrases[key]=item
+    return {'senses':result,'collocations':list(phrases.values()),
+            'senseOrder':reader['senseOrder'],'primarySenseId':reader['primarySenseId'],
+            'primaryTranslation':reader['primaryTranslation']}

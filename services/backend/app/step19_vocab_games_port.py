@@ -143,10 +143,10 @@ async def answer_game(req:Request):
         if not entry:return core.j({'error':'not_found'},404)
         if not await in_set(con,entry,b['set'],b.get('folderId'),b.get('topicPack'),user['id'],now):return core.j({'error':'not_in_set'},404)
         if 'batchIndex' in b:
-            from .vocabulary_flashcard_batches import load_groups,BATCH_SIZE
+            from .vocabulary_flashcard_batches import load_groups,group_ids
             ids,marks,groups,due=await load_groups(con,user['id'],b['set'],b.get('folderId'),b.get('topicPack'))
             batch=b['batchIndex']
-            if batch>=len(groups) or str(entry['id']) not in {str(i) for i in ids[batch*BATCH_SIZE:(batch+1)*BATCH_SIZE]}:
+            if batch>=len(groups) or str(entry['id']) not in {str(i) for i in group_ids(ids,groups,batch)}:
                 return core.j({'error':'batch_changed'},409,PRIVATE)
             if not groups[batch]['unlocked']:return core.j({'error':'batch_locked'},403,PRIVATE)
         lexeme=await con.fetchrow('SELECT * FROM lexemes WHERE id=$1',entry['lexeme_id'])

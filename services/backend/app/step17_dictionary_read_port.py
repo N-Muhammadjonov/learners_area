@@ -140,10 +140,12 @@ async def get_recent(req:Request):
                 if r['direction']=='UZ':
                     matched=next((s for s in senses if any(normalize_search(t['text'])==r['query_norm'] for t in s['translations'])),None)
                     if matched is None:matched=next((s for s in senses if any(normalize_search(t['text']).startswith(r['query_norm']) for t in s['translations'])),None)
-                s=matched or senses[0]
+                from .dictionary_reader_metadata import details
+                view=details(e)
+                s=matched or next(s for s in senses if s['sense_id']==view['primarySenseId'])
                 recent.append({'query_display':r['query_display'],'direction':r['direction'],'lexeme_id':str(r['lexeme_id']),
                     'display_lemma':e['display_lemma'],'part_of_speech':e['part_of_speech'],
-                    'translation_uz':', '.join(t['text'] for t in s['translations']) if s else '', 'cefr':s.get('cefr') if s else None})
+                    'translation_uz':', '.join(t['text'] for t in s['translations']) if matched else view['primaryTranslation'], 'cefr':s.get('cefr') if s else None})
         return core.j({'recent':recent},headers=PRIVATE)
     except Exception as exc:return error_response(exc)
 
@@ -193,6 +195,8 @@ async def dictionary_search(req:Request):
                        CASE score WHEN 0 THEN 'exact_lemma' WHEN 1 THEN 'canonical_normalized'
                         WHEN 2 THEN 'form' ELSE 'prefix' END match_type FROM picked''',release,direction,norm,prefix)
                     results=[row_to_dict(r) for r in rows]
+                from .dictionary_reader_metadata import enrich_search
+                results=await enrich_search(con,release,results,direction)
         return core.j({'release_id':release,'results':results},headers=PRIVATE)
     except Exception as exc:return error_response(exc)
 

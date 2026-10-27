@@ -118,7 +118,7 @@ def test_locked_group_cannot_read_its_words_or_examples():
     con=CardConnection()
     r=asyncio.run(cards.read_batch(con,USER,'all',None,None,1))
     assert r.status_code==403 and json.loads(r.body)['error']=='batch_locked'
-    assert not any('l.definition_en' in sql for sql,_ in con.calls)
+    assert not any('AS "definitionEn"' in sql for sql,_ in con.calls)
 
 def test_folder_batches_are_scoped_to_user_and_folder_in_every_membership_read():
     con=CardConnection()

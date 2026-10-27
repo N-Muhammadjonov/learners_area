@@ -35,6 +35,11 @@ class Connection:
         return [{'id':LEXEME,'term':'contextual term','part_of_speech':None,
             'definition_en':'The authored meaning','translation_uz':'tarjima',
             'example_sentence':'The authored example.','collocations':None}]
+    async def execute(self,sql,*args):
+        self.calls.append((sql,args))
+        assert args==(self.actor,'food',self.folder)
+        assert 'folder_id IS NULL' in sql and 'user_id=$1' in sql
+        return 'UPDATE 0'
     async def fetchval(self,sql,*args):
         self.calls.append((sql,args))
         assert 'INSERT INTO vocab_folders' in sql

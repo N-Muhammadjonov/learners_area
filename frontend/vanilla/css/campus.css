@@ -406,51 +406,54 @@ html[data-theme] body .vocabulary-action-dialog [hidden]{display:none!important}
 
 /* copymain reader geometry: one search pill, full-width history/results and
    independent + / sense disclosure controls. The production API is unchanged. */
-html[data-theme] #root [data-vocabulary-workspace] .vocabulary-dictionary{width:100%;max-width:1120px;margin-inline:auto;padding:clamp(12px,2.5vw,28px);border:1px solid rgba(58,172,232,.4)!important;border-radius:24px;background:#082044!important;color:#f3eee5!important;color-scheme:dark}
+html[data-theme] :is(.vocabulary-dictionary,.dictionary-folder-dialog){--dictionary-surface:#fff;--dictionary-ink:#15264a;--dictionary-muted:#435c7a;--dictionary-accent:#075c9b;--dictionary-hover:#eaf5ff;--dictionary-line:#9ac8e8;--dictionary-badge:#e1f1ff}
+html[data-theme=night] :is(.vocabulary-dictionary,.dictionary-folder-dialog){--dictionary-surface:#1a1625;--dictionary-ink:#fff;--dictionary-muted:#d8d2e4;--dictionary-accent:#8ddaff;--dictionary-hover:#312b43;--dictionary-line:#5b506c;--dictionary-badge:#243c56}
+html[data-theme] #root .vocabulary-dictionary *{background:transparent!important;color:inherit!important;border-color:var(--dictionary-line)!important}
+html[data-theme] #root [data-vocabulary-workspace] .vocabulary-dictionary{width:100%;max-width:1120px;margin-inline:auto;padding:clamp(12px,2.5vw,28px);border:1px solid var(--dictionary-line)!important;border-radius:24px;background:var(--dictionary-surface)!important;color:var(--dictionary-ink)!important;color-scheme:inherit}
 html[data-theme] #root .vocabulary-dictionary :is(h2,h3,h4,p,span,strong,em,button,input,summary,blockquote,li){color:inherit!important;text-shadow:none!important}
 html[data-theme] #root .vocabulary-dictionary button{font:inherit;cursor:pointer;box-shadow:none!important}
 html[data-theme] #root .vocabulary-dictionary button:disabled{cursor:default;opacity:.65}
 html[data-theme] #root .vocabulary-dictionary :is(button,summary):focus-visible{outline:2px solid #38bdf8;outline-offset:3px}
-html[data-theme] #root .vocabulary-dictionary .dictionary-search{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;min-width:0;padding:6px 8px;border:2px solid rgba(58,172,232,.4)!important;border-radius:999px;background:#082044!important}
+html[data-theme] #root .vocabulary-dictionary .dictionary-search{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;min-width:0;padding:6px 8px;border:2px solid var(--dictionary-line)!important;border-radius:999px;background:var(--dictionary-surface)!important}
 html[data-theme] #root .vocabulary-dictionary .dictionary-search:focus-within{border-color:#38bdf8!important}
-html[data-theme] #root .vocabulary-dictionary [data-dictionary-search]{width:0;min-width:0;min-height:44px;flex:1 1 0;border:0!important;border-radius:0!important;padding:0;background:transparent!important;outline:0!important;box-shadow:none!important;font-size:clamp(17px,2.2vw,22px);color:#f3eee5!important}
-html[data-theme] #root .vocabulary-dictionary [data-dictionary-search]::placeholder{color:#cbddec!important}
-html[data-theme] #root .vocabulary-dictionary :is(.dictionary-search-submit,.dictionary-clear){display:grid;place-items:center;flex-shrink:0;min-width:40px;min-height:44px;padding:0;border:0!important;border-radius:50%;background:transparent!important;color:#8ddaff!important;font-size:28px}
+html[data-theme] #root .vocabulary-dictionary [data-dictionary-search]{width:0;min-width:0;min-height:44px;flex:1 1 0;border:0!important;border-radius:0!important;padding:0;background:transparent!important;outline:0!important;box-shadow:none!important;font-size:clamp(17px,2.2vw,22px);color:var(--dictionary-ink)!important}
+html[data-theme] #root .vocabulary-dictionary [data-dictionary-search]::placeholder{color:var(--dictionary-muted)!important}
+html[data-theme] #root .vocabulary-dictionary :is(.dictionary-search-submit,.dictionary-clear){display:grid;place-items:center;flex-shrink:0;min-width:40px;min-height:44px;padding:0;border:0!important;border-radius:50%;background:transparent!important;color:var(--dictionary-accent)!important;font-size:28px}
 html[data-theme] #root .vocabulary-dictionary .dictionary-clear[hidden]{display:none!important}
-html[data-theme] #root .vocabulary-dictionary .dictionary-directions{display:flex;flex-shrink:0;gap:2px;padding:3px;background:#0c3362;border-radius:999px}
-html[data-theme] #root .vocabulary-dictionary .dictionary-directions button{min-width:44px;min-height:42px;padding:0 10px;border:0!important;border-radius:999px;background:transparent!important;color:#cbddec!important;font-weight:700}
+html[data-theme] #root .vocabulary-dictionary .dictionary-directions{display:flex;flex-shrink:0;gap:2px;padding:3px;background:var(--dictionary-hover);border-radius:999px}
+html[data-theme] #root .vocabulary-dictionary .dictionary-directions button{min-width:44px;min-height:42px;padding:0 10px;border:0!important;border-radius:999px;background:transparent!important;color:var(--dictionary-muted)!important;font-weight:700}
 html[data-theme] #root .vocabulary-dictionary .dictionary-directions button[aria-pressed=true]{background:#0ea5e9!important;color:#fff!important}
 .vocabulary-dictionary .dictionary-results-area{margin-top:24px}
 html[data-theme] #root .vocabulary-dictionary :is(.dictionary-list-title,[data-dictionary-recent] h2){margin-bottom:16px;font-size:clamp(21px,2.6vw,28px);font-weight:700}
 .vocabulary-dictionary .dictionary-result-list{display:grid;gap:12px;list-style:none;padding:0}
-html[data-theme] #root .vocabulary-dictionary :is(.dictionary-result-row,[data-dictionary-recent-row]){display:block;width:100%;min-width:0;margin:0;padding:17px 22px;border:1px solid rgba(58,172,232,.4)!important;border-radius:22px;background:#082044!important;text-align:left}
-html[data-theme] #root .vocabulary-dictionary :is(.dictionary-result-row:hover,.dictionary-result-row[data-active=true],[data-dictionary-recent-row]:hover){border-color:#38bdf8!important;background:#0c3362!important}
+html[data-theme] #root .vocabulary-dictionary :is(.dictionary-result-row,[data-dictionary-recent-row]){display:block;width:100%;min-width:0;margin:0;padding:17px 22px;border:1px solid var(--dictionary-line)!important;border-radius:22px;background:var(--dictionary-surface)!important;text-align:left}
+html[data-theme] #root .vocabulary-dictionary :is(.dictionary-result-row:hover,.dictionary-result-row[data-active=true],[data-dictionary-recent-row]:hover){border-color:#38bdf8!important;background:var(--dictionary-hover)!important}
 .vocabulary-dictionary .dictionary-result-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 16px;font-size:21px}
 .vocabulary-dictionary .dictionary-result-heading strong{overflow-wrap:anywhere;font-weight:600}
-html[data-theme] #root .vocabulary-dictionary .dictionary-pos{color:#8ddaff!important;font-size:.85em;font-weight:600}
-html[data-theme] #root .vocabulary-dictionary .dictionary-preview{display:block;overflow:hidden;margin-top:4px;color:#cbddec!important;font-size:18px;text-overflow:ellipsis;white-space:nowrap}
+html[data-theme] #root .vocabulary-dictionary .dictionary-pos{color:var(--dictionary-accent)!important;font-size:.85em;font-weight:600}
+html[data-theme] #root .vocabulary-dictionary .dictionary-preview{display:block;overflow:hidden;margin-top:4px;color:var(--dictionary-muted)!important;font-size:18px;text-overflow:ellipsis;white-space:nowrap}
 html[data-theme] #root .vocabulary-dictionary [data-dictionary-recent]{padding:0;background:transparent!important}
 .vocabulary-dictionary [data-dictionary-recent]>div:first-child{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
 .vocabulary-dictionary [data-dictionary-recent]>button{margin-top:12px!important}
-html[data-theme] #root .vocabulary-dictionary [data-dictionary-recent] .dictionary-recent-clear{padding:4px;border:0!important;background:transparent!important;color:#8ddaff!important;font-size:18px}
-html[data-theme] #root .vocabulary-dictionary .dictionary-level{padding:3px 9px;border-radius:10px;background:rgba(14,165,233,.2)!important;color:#8ddaff!important;font-size:15px;font-weight:700}
+html[data-theme] #root .vocabulary-dictionary [data-dictionary-recent] .dictionary-recent-clear{padding:4px;border:0!important;background:transparent!important;color:var(--dictionary-accent)!important;font-size:18px}
+html[data-theme] #root .vocabulary-dictionary .dictionary-level{padding:3px 9px;border-radius:10px;background:var(--dictionary-badge)!important;color:var(--dictionary-accent)!important;font-size:15px;font-weight:700}
 .vocabulary-dictionary .dictionary-entry{margin-top:14px}
-html[data-theme] #root .vocabulary-dictionary :is(.dictionary-entry-nav button,.dictionary-expand-all){min-height:40px;padding:8px 0;border:0!important;background:transparent!important;color:#9bddff!important;font-size:14px}
+html[data-theme] #root .vocabulary-dictionary :is(.dictionary-entry-nav button,.dictionary-expand-all){min-height:40px;padding:8px 0;border:0!important;background:transparent!important;color:var(--dictionary-accent)!important;font-size:14px}
 .vocabulary-dictionary .dictionary-entry-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:12px 0 20px}
 .vocabulary-dictionary .dictionary-entry-heading h2{font-size:clamp(28px,4vw,38px);font-weight:700;overflow-wrap:anywhere}
 .vocabulary-dictionary .dictionary-word-heading,.vocabulary-dictionary .dictionary-pronunciation{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
-html[data-theme] #root .vocabulary-dictionary .dictionary-pronounce{display:grid;place-items:center;flex-shrink:0;width:44px;min-height:44px;padding:10px;border:1px solid rgba(58,172,232,.5)!important;border-radius:50%;background:rgba(14,165,233,.2)!important;color:#8ddaff!important}
+html[data-theme] #root .vocabulary-dictionary .dictionary-pronounce{display:grid;place-items:center;flex-shrink:0;width:44px;min-height:44px;padding:10px;border:1px solid var(--dictionary-line)!important;border-radius:50%;background:var(--dictionary-badge)!important;color:var(--dictionary-accent)!important}
 .vocabulary-dictionary .dictionary-pronounce svg{width:24px;height:24px}
 .vocabulary-dictionary .dictionary-pronunciation [role=status]{font-size:13px}
 .vocabulary-dictionary .dictionary-entry-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:5px;font-size:17px}
 .vocabulary-dictionary .dictionary-meanings{display:grid;gap:14px}
-html[data-theme] #root .vocabulary-dictionary .dictionary-meaning{overflow:hidden;border:1px solid rgba(58,172,232,.4)!important;border-radius:20px;background:rgba(8,32,68,.68)!important}
+html[data-theme] #root .vocabulary-dictionary .dictionary-meaning{overflow:hidden;border:1px solid var(--dictionary-line)!important;border-radius:20px;background:var(--dictionary-surface)!important}
 .vocabulary-dictionary .dictionary-meaning-header{display:flex;align-items:flex-start;gap:15px;padding:20px}
 .vocabulary-dictionary .dictionary-meaning-header h3{flex:1;min-width:0}
-html[data-theme] #root .vocabulary-dictionary .dictionary-add-meaning{display:grid;flex:0 0 44px;place-items:center;width:44px;min-height:44px;padding:0;border:1px solid #38bdf8!important;border-radius:50%;background:rgba(14,165,233,.2)!important;color:#8ddaff!important;font-size:27px;font-weight:700}
+html[data-theme] #root .vocabulary-dictionary .dictionary-add-meaning{display:grid;flex:0 0 44px;place-items:center;width:44px;min-height:44px;padding:0;border:1px solid #38bdf8!important;border-radius:50%;background:var(--dictionary-badge)!important;color:var(--dictionary-accent)!important;font-size:27px;font-weight:700}
 html[data-theme] #root .vocabulary-dictionary .dictionary-meaning-toggle{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px 12px;width:100%;min-height:44px;padding:5px 0;border:0!important;border-radius:0;background:transparent!important;text-align:left}
 .vocabulary-dictionary .dictionary-meaning-toggle strong{flex:1 1 160px;min-width:0;overflow-wrap:anywhere;font-size:20px;line-height:1.5;font-weight:600}
-.vocabulary-dictionary .dictionary-meaning-toggle .dictionary-pos{padding:2px 9px;border-radius:8px;background:rgba(63,134,215,.3)!important}
+.vocabulary-dictionary .dictionary-meaning-toggle .dictionary-pos{padding:2px 9px;border-radius:8px;background:var(--dictionary-badge)!important}
 .vocabulary-dictionary .dictionary-chevron{margin-left:auto;font-size:25px}
 .vocabulary-dictionary .dictionary-meaning-body{display:grid;gap:22px;padding:5px 25px 28px}
 .vocabulary-dictionary .dictionary-definition,.vocabulary-dictionary .dictionary-examples{font-size:18px;line-height:1.65}
@@ -458,20 +461,20 @@ html[data-theme] #root .vocabulary-dictionary .dictionary-meaning-toggle{display
 .vocabulary-dictionary .dictionary-examples{display:grid;gap:18px}
 .vocabulary-dictionary .dictionary-examples blockquote{margin:0}
 .vocabulary-dictionary .dictionary-examples [lang=uz]{margin-top:4px;font-style:italic}
-html[data-theme] #root .vocabulary-dictionary .dictionary-translation-divider{margin-block:10px;border:0!important;border-top:1px solid rgba(141,218,255,.6)!important}
+html[data-theme] #root .vocabulary-dictionary .dictionary-translation-divider{margin-block:10px;border:0!important;border-top:1px solid var(--dictionary-line)!important}
 .vocabulary-dictionary .dictionary-disclosure summary{min-height:52px;padding:14px 0;cursor:pointer;font-size:20px;font-weight:700}
 .vocabulary-dictionary .dictionary-disclosure summary::marker{color:#0ea5e9}
 .vocabulary-dictionary :is(.dictionary-related-items,.dictionary-collocations){display:flex;flex-wrap:wrap;gap:10px;padding:4px 0 18px;font-size:17px;line-height:1.6}
 .vocabulary-dictionary .dictionary-collocations{flex-direction:column}
-html[data-theme] #root .vocabulary-dictionary :is(.dictionary-related-items,.dictionary-collocations) button{padding:5px 10px;border:1px solid rgba(58,172,232,.4)!important;border-radius:9px;background:#082044!important;color:#9bddff!important;text-align:left}
+html[data-theme] #root .vocabulary-dictionary :is(.dictionary-related-items,.dictionary-collocations) button{padding:5px 10px;border:1px solid var(--dictionary-line)!important;border-radius:9px;background:var(--dictionary-surface)!important;color:var(--dictionary-accent)!important;text-align:left}
 .vocabulary-dictionary .dictionary-error{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:14px;padding:15px;border:1px solid #f0b4a8!important;border-radius:14px;background:#702114}
 .vocabulary-dictionary .dictionary-empty{padding:32px 12px;text-align:center;line-height:1.6}
 .vocabulary-dictionary .dictionary-empty h2{margin-bottom:8px;font-size:21px;font-weight:600}
-.vocabulary-dictionary .dictionary-loading{height:80px;margin-top:12px;border-radius:20px;background:#0c3362;animation:pulse 2s infinite}
-html[data-theme] body .dictionary-folder-dialog{border-color:#3aace8!important;background:#082044!important;color:#f3eee5!important;color-scheme:dark}
-html[data-theme] body .dictionary-folder-dialog :is(h2,p,span,strong,label,legend,input,button){color:#f3eee5!important;border-color:#3aace8!important}
+.vocabulary-dictionary .dictionary-loading{height:80px;margin-top:12px;border-radius:20px;background:var(--dictionary-hover);animation:pulse 2s infinite}
+html[data-theme] body .dictionary-folder-dialog{border-color:#3aace8!important;background:var(--dictionary-surface)!important;color:var(--dictionary-ink)!important;color-scheme:inherit}
+html[data-theme] body .dictionary-folder-dialog :is(h2,p,span,strong,label,legend,input,button){color:var(--dictionary-ink)!important;border-color:#3aace8!important}
 html[data-theme] body .dictionary-folder-dialog .btn-primary{background:#0ea5e9!important;color:#fff!important}
-html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){background:#0c3362!important;color:#fff!important}
+html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){background:var(--dictionary-hover)!important;color:#fff!important}
 
 /* Stable source groups sit to the left of the remaining-card queue on desktop. */
 #root .vocabulary-cards-page{max-width:1440px}
@@ -488,3 +491,10 @@ html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){backgrou
 @media(max-width:1099px){#root [data-dedicated-game=cards] .flashcard-layout,#root [data-dedicated-game=cards] .flashcard-completion-layout{grid-template-columns:minmax(0,1fr)}.flashcard-batches{max-height:none}.flashcard-batch-list{display:flex;overflow-x:auto;padding-bottom:4px}.flashcard-batch-list>li{min-width:115px}.flashcard-study-stage{order:1}.flashcard-queue{order:2}}
 @media(max-width:600px){html[data-theme] #root .vocabulary-dictionary .dictionary-search{gap:3px;padding:5px}html[data-theme] #root .vocabulary-dictionary .dictionary-search-submit{min-width:32px}html[data-theme] #root .vocabulary-dictionary :is(.dictionary-result-row,[data-dictionary-recent-row]){padding:14px 16px;border-radius:18px}.vocabulary-dictionary .dictionary-meaning-header{gap:10px;padding:16px 13px}.vocabulary-dictionary .dictionary-meaning-toggle strong{font-size:18px}.vocabulary-dictionary .dictionary-meaning-body{padding:0 16px 22px}.vocabulary-dictionary :is(.dictionary-definition,.dictionary-examples){font-size:16px}}
 
+
+html[data-theme] #root .vocabulary-dictionary [data-dictionary-recent-row] :is(strong,span){color:var(--dictionary-ink)!important}
+html[data-theme] #root .vocabulary-dictionary [data-dictionary-recent-row]>span:last-child{color:var(--dictionary-muted)!important}
+html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){color:var(--dictionary-ink)!important}
+html[data-theme] body .dictionary-folder-dialog :is(.btn-primary,.btn-secondary,.btn-ghost){color:#fff!important}
+.vocabulary-dictionary .dictionary-entry-collocations{margin-top:28px}
+.vocabulary-dictionary .dictionary-collocation-text{display:block;padding-block:8px;font-size:20px;line-height:1.5;overflow-wrap:anywhere}

@@ -30,12 +30,16 @@ async def list_vocabulary_packs(req: Request):
               WHERE w.pack_id=vocabulary_topic_packs.id) AS "wordCount"
             FROM vocabulary_topic_packs WHERE publication_state='published'
             ORDER BY position ASC, label_en ASC''')
+        owned = await conn.fetch('''SELECT topic_pack,count(*)::int AS count
+            FROM user_vocabulary WHERE user_id=$1 AND topic_pack IS NOT NULL AND folder_id IS NOT NULL
+            GROUP BY topic_pack''',user['id'])
+    added={r['topic_pack']:int(r['count']) for r in owned}
     packs = ([{'id': r['slug'], 'slug': r['slug'], 'label': r['labelEn'],
                'labelUz': r['labelUz'], 'wordCount': int(r['wordCount'])} for r in rows]
              if rows else built_in_summaries())
     return core.j({'ok': True, 'packs': [
         {'id': p['id'], 'label': {'en': p['label'], 'uz': p['labelUz'] or p['label']},
-         'wordCount': p['wordCount']} for p in packs]})
+         'wordCount': p['wordCount'], 'added':added.get(p['id'],0)>0} for p in packs]}, headers={'Cache-Control':'private, no-store'})
 
 
 def install():

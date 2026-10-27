@@ -41,7 +41,32 @@ async def add_pack(req:Request):
             folder_id=await con.fetchval('''INSERT INTO vocab_folders(user_id,name) VALUES($1,$2)
                 ON CONFLICT(user_id,name) DO UPDATE SET name=vocab_folders.name RETURNING id''',u['id'],folder_name)
             r=await add_batch(con,u['id'],pack_words,topic_pack=pack_id,source_type='topic_pack',folder_id=folder_id)
+            if r['ok']:
+                # Re-adding an unfiled pack restores its folder, never moves words
+                # from another chosen folder and never resets learning progress.
+                await con.execute('''UPDATE user_vocabulary SET folder_id=$3
+                    WHERE user_id=$1 AND topic_pack=$2 AND folder_id IS NULL''',u['id'],pack_id,folder_id)
     if not r['ok']:return core.j({'error':r['error']},400)
-    return core.j({'ok':True,'added':r['added'],'duplicates':r['duplicates'],'points':r['points']})
+    return core.j({'ok':True,'added':r['added'],'duplicates':r['duplicates'],'points':r['points']},headers={'Cache-Control':'private, no-store'})
+
+@router.delete('/api/vocabulary/packs/{pack_id}')
+async def remove_pack(req:Request,pack_id:str):
+    """Remove the imported folder arrangement, keeping words and all progress."""
+    u=await core.current_user(req,active=True)
+    if not u:return core.auth_error()
+    if not pack_id or len(pack_id)>60:return core.j({'error':'unknown_pack'},400)
+    pool=await core.pool()
+    async with pool.acquire() as con:
+        async with con.transaction():
+            await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',u['id'])
+            folders=await con.fetch('''SELECT DISTINCT folder_id FROM user_vocabulary
+                WHERE user_id=$1 AND topic_pack=$2 AND folder_id IS NOT NULL''',u['id'],pack_id)
+            await con.execute('''UPDATE user_vocabulary SET folder_id=NULL
+                WHERE user_id=$1 AND topic_pack=$2''',u['id'],pack_id)
+            # Only empty owned folders are removed; unrelated words keep their folder.
+            for row in folders:
+                await con.execute('''DELETE FROM vocab_folders f WHERE f.id=$1 AND f.user_id=$2
+                    AND NOT EXISTS(SELECT 1 FROM user_vocabulary v WHERE v.folder_id=f.id)''',row['folder_id'],u['id'])
+    return core.j({'ok':True,'wordsPreserved':True},headers={'Cache-Control':'private, no-store'})
 
 def install():core.app.include_router(router)

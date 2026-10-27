@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "sourceRelease": "rel-v1-e7fa84dde5eec2f502957489",
+  "wordnetSha256": "8832b8fa26a14c0ba8c99bb1ef8db6f9e122a6d9193b65ca9e0ef572580fee7e",
+  "stats": {
+    "entries": 64616,
+    "sourceOrdered": 104684,
+    "scopedAntonyms": 3329
+  },
+  "shards": {
+    "0": {
+      "sha256": "3e72c5e54a3bf6177b5daa557f192f7a141aae45be26506daf1de85b644a3d32",
+      "bytes": 320349
+    },
+    "1": {
+      "sha256": "40906b82144c2b46a8f687a1fa6e73296811973ebb4e425957485fbc02bd2d70",
+      "bytes": 314142
+    },
+    "2": {
+      "sha256": "d95cc4efdba4fb35628fa18d72b821603215165dfcb3c61fda0f4725caa03aa8",
+      "bytes": 322848
+    },
+    "3": {
+      "sha256": "413cf51a47a281b0ef01b8de50af1b0371be063279c34b48d0aea60ab3d03d0b",
+      "bytes": 310430
+    },
+    "4": {
+      "sha256": "21f52cdba6e0473eefd9990571fc17add9d009d693050c0d0177cadc6e0f8534",
+      "bytes": 309949
+    },
+    "5": {
+      "sha256": "4d788dfd3bc7266f6e461af9937283efc53f6dc7bd25e2fda7b7b6e317b9df60",
+      "bytes": 312476
+    },
+    "6": {
+      "sha256": "39e4fcdb24fb51bc3f9c57fd7448e133d21eacb1c157c76b8b1b14695ad14273",
+      "bytes": 309621
+    },
+    "7": {
+      "sha256": "dbf8bf7862e7062e683aa7009857ce4c218e84d2e49fe0eeb9bfe11029831b4e",
+      "bytes": 309207
+    },
+    "8": {
+      "sha256": "5aab7c1a02e3a0505de3f2e40ee7c2eecb725de7dea5983dd81f01680f2c2af9",
+      "bytes": 307161
+    },
+    "9": {
+      "sha256": "f9e62c912e21ce03a049d6934b2e89dc8e0105e88f3d64807afc6392b432ea0f",
+      "bytes": 303093
+    },
+    "a": {
+      "sha256": "49c95c3573ac2c57b6e044762e74dbd066ba04a7cf6e1b761ce1c79054c59af0",
+      "bytes": 314112
+    },
+    "b": {
+      "sha256": "43cc0df14ab8234e1eafa680ce9d1506172658e96c17d27164a5d4892a0ff8f4",
+      "bytes": 314015
+    },
+    "c": {
+      "sha256": "cfd4b6eccdcd4434bab3ae46d715058631eaa09d4f0886562f854ce7a5d88560",
+      "bytes": 307677
+    },
+    "d": {
+      "sha256": "ebb41323fd513541d3e1d261e7619560d55009e6e67506cef662bb7e8e0301fb",
+      "bytes": 302591
+    },
+    "e": {
+      "sha256": "07d99ebb4245fe6db70533f15370690aabee47f1c4b1b36676a9207f6b28d5ca",
+      "bytes": 314693
+    },
+    "f": {
+      "sha256": "7641b80099abade9268966d51053e7d5338f75e3510a0c625a47aca3503b4bc7",
+      "bytes": 317179
+    }
+  }
+}
