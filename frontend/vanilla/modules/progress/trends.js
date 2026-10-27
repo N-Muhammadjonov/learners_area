@@ -7,23 +7,23 @@ export function heatLevel(count) {
 }
 const HEAT_ALPHA = [0.08, 0.3, 0.5, 0.75, 1];
 
-function weekChart(t, title, points, max, unit, id) {
+function weekChart(t, title, points, max, unit, id, min=0) {
   if (points === null) {
     return h('div', {'data-trend': id, 'data-trend-unavailable': ''},
       h('h3', {class: 'text-sm font-medium text-ink-900'}, title),
       h('p', {class: 'meta-text'}, t.unavailable));
   }
   const any = points.some(p => p.value !== null);
-  return h('div', {class: 'flex flex-col gap-2', 'data-trend': id},
-    h('h3', {class: 'text-sm font-medium text-ink-900'}, title),
+  return h('div', {class: 'flex flex-col gap-2', 'data-trend': id, ...(min===4?{'data-band-scale':'4.0-9.0'}:{})},
+    h('h3', {class: 'text-sm font-medium text-ink-900'},title+(min===4?' · 4.0–9.0':'')),
     !any ? h('p', {class: 'meta-text', 'data-trend-empty': ''}, t.noData)
       : h('div', {class: 'flex h-24 items-end gap-1', 'aria-hidden': 'true'}, points.map(p => h('div', {
         key: p.weekStart, class: 'flex flex-1 flex-col items-center justify-end gap-1',
       },
-        h('span', {class: 'technical-text text-[10px] text-ink-500'}, p.value ?? ''),
+        h('span', {class: 'technical-text text-[10px] text-ink-500'}, p.value===null?'':(min===4&&p.value<4?'↓ ':'')+p.value),
         h('span', {
           class: 'w-full rounded-t bg-gold/70',
-          style: {height: p.value === null ? '0px' : `${Math.max(4, (p.value / max) * 64)}px`},
+          style: {height: p.value === null ? '0px' : `${Math.max(4, Math.max(0,Math.min(1,(p.value-min)/(max-min))) * 64)}px`},
         })))),
     h('details', {},
       h('summary', {class: 'meta-text cursor-pointer'}, t.asTable),
@@ -101,8 +101,9 @@ export function trendCards(trends, dict) {
       h('div', {class: 'grid gap-4 sm:grid-cols-2'},
         weekChart(t, t.readingAccuracy, trends.reading, 100, '%', 'reading'),
         weekChart(t, t.listeningAccuracy, trends.listening, 100, '%', 'listening'),
-        weekChart(t, t.writingBand, trends.writing, 9, '', 'writing'),
-        weekChart(t, t.speakingBand, trends.speaking, 9, '', 'speaking'))),
+        weekChart(t, t.writingBand, trends.writing, 9, '', 'writing',4),
+        weekChart(t, t.speakingBand, trends.speaking, 9, '', 'speaking',4))),
     heatmapCard(t, trends.heatmap),
     retentionCard(t, trends.retention));
 }
+

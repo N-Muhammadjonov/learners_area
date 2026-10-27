@@ -40,3 +40,24 @@
 [data-study-color="orange"]::before{background:#fed7aa}
 @media(min-width:1024px){[data-stealing-model-study][data-notes-open="true"] .stealing-study-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(16rem,.65fr);align-items:start}.stealing-notes{order:0;position:sticky;top:1rem}}
 #root [data-stealing-model-study] [hidden]{display:none!important}
+
+/* Essay tools are private, route-scoped portals below the profile. */
+.stealing-study-tools{position:fixed;z-index:55;display:flex;align-items:flex-end;flex-direction:column;color:#102740}
+.stealing-study-tools button{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #22c55e;border-radius:50%;background:#3d50fa;color:#fff;font-size:24px}
+.stealing-study-tools .stealing-notes{position:absolute;top:52px;right:0;order:0;box-sizing:border-box;width:min(340px,calc(100vw - 32px));padding:16px;overflow:auto;border:1px solid #22c55e;border-radius:16px;background:#fff;box-shadow:0 8px 32px #0003}
+.stealing-study-tools .stealing-notes label{display:block;font-size:16px;padding-right:24px}
+.stealing-study-tools .stealing-notes textarea{box-sizing:border-box;width:100%;margin-top:12px;min-height:220px;padding:10px;background:#fff;color:#102740;border:1px solid #22c55e;border-radius:10px;font:inherit}
+.stealing-study-tools .stealing-note-close{position:absolute;right:10px;top:8px;width:32px;height:32px;font-size:22px}
+.stealing-study-tools :is(label,p){color:inherit}
+html[data-theme="night"] .stealing-study-tools{color:#f3eef5}
+html[data-theme="night"] .stealing-study-tools .stealing-notes,html[data-theme="night"] .stealing-study-tools .stealing-notes textarea{background:#1a1625;color:#f3eef5}
+body .stealing-study-tools [hidden],body .stealing-color-palette[hidden]{display:none!important}
+.stealing-color-palette{position:fixed;z-index:65;display:flex;gap:12px;align-items:center;width:max-content;box-sizing:border-box;padding:10px;border-radius:999px;background:#fff;box-shadow:0 3px 20px #0004}
+html[data-theme="night"] .stealing-color-palette{background:#1a1625}
+body .stealing-color-palette button[data-study-color]{display:block;flex:none;width:28px;height:28px;min-width:28px;min-height:28px;padding:0;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 1px #64748b}
+body .stealing-color-palette button[data-study-color]::before{display:none}
+body .stealing-color-palette [data-study-color="yellow"]{background:#fef08a!important}
+body .stealing-color-palette [data-study-color="blue"]{background:#bae6fd!important}
+body .stealing-color-palette [data-study-color="orange"]{background:#fed7aa!important}
+body .stealing-color-palette button:focus-visible{outline:3px solid #3d50fa;outline-offset:3px}
+

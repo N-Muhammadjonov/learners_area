@@ -116,11 +116,27 @@ async def create_vocabulary(req:Request):
             pkg=await con.fetchrow('SELECT payload FROM listening_packages WHERE test_id=$1',core.uuid_value(sid))
             content=pkg['payload'] if pkg else {};content=json.loads(content) if isinstance(content,str) else content
             vocab=content.get('vocabulary',[]) if isinstance(content,dict) else []
-            exact=next((x for x in vocab if isinstance(x,dict) and x.get('senseId')==sense),None)
-            if exact is None:return core.j({'error':'source_not_found'},404)
-            lex=await con.fetchrow('SELECT * FROM lexemes WHERE id=$1',core.uuid_value(sense))
-            if not lex:return core.j({'error':'source_not_found'},404)
-            items=[{**dict(lex),'term':lex['term'],'definitionEn':lex['definition_en'],'canonicalLexemeId':lex['id']}]
+            # Published packages store curated word/pos/def rows. Resolve the
+            # same source-bound session as GET /authored?vocabulary=1; a bare
+            # canonical UUID is never proof of membership in this test.
+            from .step21_listening_authored_reads import vocabulary_session
+            curated=[x for x in vocab if isinstance(x,dict) and
+                     all(isinstance(x.get(k),str) for k in ('word','pos','def','uz'))]
+            resolved=await vocabulary_session(con,sid,curated)
+            exact=next((x for x in resolved if x.get('senseId')==sense),None)
+            if exact:
+                items=[{'term':exact['term'],'definitionEn':exact['definitionEn'],
+                    'translationUz':exact.get('translationUz'),'partOfSpeech':exact.get('partOfSpeech'),
+                    'exampleSentence':exact.get('example'),'canonicalLexemeId':core.uuid_value(sense)}]
+            else:
+                # Retain the existing explicit-sense package contract.
+                legacy=next((x for x in vocab if isinstance(x,dict) and x.get('senseId')==sense),None)
+                if legacy is None:return core.j({'error':'source_not_found'},404,PRIVATE)
+                lex=await con.fetchrow('SELECT * FROM lexemes WHERE id=$1',core.uuid_value(sense))
+                if not lex:return core.j({'error':'source_not_found'},404,PRIVATE)
+                items=[{'term':lex['term'],'definitionEn':lex['definition_en'],
+                    'translationUz':lex.get('translation_uz'),'partOfSpeech':lex.get('part_of_speech'),
+                    'exampleSentence':lex.get('example_sentence'),'canonicalLexemeId':lex['id']}]
         if occurrence:
             resolved=await resolve_occurrence(con,user,source,sid,occurrence)
             if resolved['status']=='missing':return core.j({'error':'source_not_found'},404)
@@ -148,3 +164,4 @@ async def create_vocabulary(req:Request):
     return core.j({**result,'needsDefinition':unresolved},200)
 
 def install():core.app.include_router(router)
+

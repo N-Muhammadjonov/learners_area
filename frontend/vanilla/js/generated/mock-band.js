@@ -38,11 +38,11 @@ export function MockBandPanel({ summary, uz, compact = false, }) {
                 summary.total,
                 h("progress", { className: "mock-progress-track", value: summary.completed, max: Math.max(1, summary.total) })),
             h("label", { className: "block" },
-                uz ? "So'nggi band / 9.0" : "Latest band / 9.0",
+                uz ? "Band shkalasi 4.0–9.0" : "Band scale 4.0–9.0",
                 " \u00B7",
                 " ",
                 show(summary.latest),
-                h("progress", { className: "mock-progress-track", value: summary.latest ?? 0, max: 9 })))),
+                h("progress", { className: "mock-progress-track", value: Math.max(0,(summary.latest ?? 4)-4), max: 5, "aria-valuetext": show(summary.latest), "data-band-scale": "4.0-9.0" })))),
         h("svg", { viewBox: "0 0 660 265", className: "w-full", role: "img", "aria-label": uz
                 ? "Haqiqiy tugallangan full mock bandlari"
                 : "Completed full mock band estimates" },
@@ -77,3 +77,4 @@ export function MockBandPanel({ summary, uz, compact = false, }) {
                         h("td", null, a.finishedAt.toISOString().slice(0, 10)),
                         h("td", null, show(a.estimatedBand))))))))))));
 }
+

@@ -42,8 +42,8 @@ function bandPanel(summary, uz) {
     `${summary.completed} / ${summary.total}`,
     h('progress', {class: 'mock-progress-track', value: summary.completed, max: Math.max(1, summary.total)})),
   h('label', {class: 'block'},
-    uz ? "So'nggi band / 9.0" : 'Latest band / 9.0', ' · ', show(summary.latest),
-    h('progress', {class: 'mock-progress-track', value: summary.latest ?? 0, max: 9})),
+    uz ? "Band shkalasi 4.0–9.0" : 'Band scale 4.0–9.0', ' · ', show(summary.latest),
+    h('progress', {class: 'mock-progress-track', value: Math.max(0,(summary.latest ?? 4)-4), max: 5, 'aria-valuetext': show(summary.latest), 'data-band-scale':'4.0-9.0'})),
   h('svg', {
     viewBox: '0 0 660 265', class: 'w-full', role: 'img',
     'aria-label': uz ? 'Haqiqiy tugallangan full mock bandlari' : 'Completed full mock band estimates',
@@ -76,3 +76,4 @@ function bandPanel(summary, uz) {
           h('td', {}, a.finishedAt.toISOString().slice(0, 10)),
           h('td', {}, show(a.estimatedBand)))))))) : null);
 }
+
