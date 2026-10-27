@@ -149,7 +149,7 @@ def test_existing_folder_http_endpoint_routes_new_action_with_active_auth(monkey
     con=FolderConnection()
     monkeypatch.setattr(core,'pool',AsyncMock(return_value=Pool(con)))
     monkeypatch.setattr(core,'current_user',AsyncMock(return_value={'id':USER}))
-    r=TestClient(core.app).post('/api/vocabulary/folders',json={'action':'rename','folderId':str(FOLDER),'name':'Meals'})
+    r=TestClient(core.app).post('/api/vocabulary/folders',json={'action':'rename','folderId':str(FOLDER),'newName':'Meals'})
     assert r.status_code==200 and r.json()['folder']['name']=='Meals'
     assert r.headers['cache-control']=='private, no-store'
 
@@ -162,3 +162,13 @@ def test_folder_management_denies_anonymous_before_any_database_access(monkeypat
     r=TestClient(core.app).post('/api/vocabulary/folders',json={'action':'delete','folderId':str(FOLDER)})
     assert r.status_code==401
     pool.assert_not_awaited()
+
+
+def test_new_rename_payload_cannot_fall_through_to_legacy_create(monkeypatch):
+    body={'action':'rename','folderId':str(FOLDER),'newName':'Meals'}
+    assert body.get('name') is None
+    r,c=run_folder(monkeypatch,body)
+    assert r.status_code==200 and json.loads(r.body)['folder']['name']=='Meals'
+    assert not any('INSERT' in sql for sql,_ in c.calls)
+    r,_=run_folder(monkeypatch,{**body,'name':'Conflicting name'})
+    assert r.status_code==400

@@ -5,9 +5,11 @@ PRIVATE={'Cache-Control':'private, no-store'}
 
 async def manage_folder(user,body):
     action=body.get('action')
-    allowed={'action','folderId','name'} if action=='rename' else {'action','folderId'}
+    allowed={'action','folderId','name','newName'} if action=='rename' else {'action','folderId'}
     folder=core.uuid_value(body.get('folderId'))
-    name=body.get('name')
+    name=body.get('newName',body.get('name'))
+    if 'newName' in body and 'name' in body and body['newName']!=body['name']:
+        return core.j({'error':'invalid_input'},400,PRIVATE)
     if action not in ('rename','delete') or set(body)-allowed or not folder:
         return core.j({'error':'invalid_input'},400,PRIVATE)
     if action=='rename' and (not isinstance(name,str) or not 1<=len(name.strip())<=80):
