@@ -12,9 +12,9 @@
     "authenticated_api_parity": false,
     "comparable_performance": false,
     "actual_cold_start": false,
-    "worker_error_rate": false,
+    "worker_error_rate": true,
     "private_backup_restore": false,
-    "worker_version_config_snapshot": false,
+    "worker_version_config_snapshot": true,
     "legacy_reader_decommission": false,
     "maintenance_rehearsal": false,
     "explicit_cleanup_approval": false
@@ -24,13 +24,16 @@
     "authenticated_api_parity",
     "comparable_performance",
     "actual_cold_start",
-    "worker_error_rate",
     "private_backup_restore",
-    "worker_version_config_snapshot",
     "legacy_reader_decommission",
     "maintenance_rehearsal",
     "explicit_cleanup_approval"
   ],
   "productionMutationPerformed": false,
-  "note": "This tool never executes SQL. Receipts must be independently reviewed before any cleanup."
+  "note": "Cloudflare configuration and invocation-error telemetry verified through authenticated Safari on 2026-10-27. Invocation errors are not an HTTP 5xx status breakdown. No cleanup SQL executed. All remaining false gates stay blocked; guarded legacy fallback remains. Historical passed R2 object verification was not repeated. productionMutationPerformed refers to the guarded optimization/cleanup operation; the separate continuation receipt records one personal vocabulary addition and temporary notes restored to their original state.",
+  "evidenceReferences": [
+    "production-cloudflare-20261027.json",
+    "production-continuation-20261027.json"
+  ],
+  "personalApplicationQaWritesPerformed": true
 }

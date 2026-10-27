@@ -1,0 +1,54 @@
+{
+  "capturedAt": "2026-10-27T09:35:29.849630+00:00",
+  "method": "Existing authenticated Safari production dashboard",
+  "worker": "learnersarea-dictionary",
+  "accountId": "d953f7ff0eedad092d7059969125244d",
+  "versionPrefix": "01a001d5",
+  "activeTrafficPercent": 100,
+  "deploymentStatus": "Ready",
+  "source": "Wrangler",
+  "productionURL": "https://learnersarea-dictionary.owneruchunla.workers.dev",
+  "productionURLenabled": true,
+  "previewURLsEnabled": true,
+  "customDomainsAndRoutes": 0,
+  "bindings": {
+    "DICTIONARY_BUCKET": "learners-area"
+  },
+  "encryptedSecretPresent": "DICTIONARY_SIGNING_SECRET",
+  "secretValueRead": false,
+  "compatibilityDate": "2026-10-19",
+  "compatibilityFlags": [
+    "nodejs_compat"
+  ],
+  "placement": "Default",
+  "dashboardCacheSetting": "Disabled",
+  "logsEnabled": true,
+  "invocationLogsEnabled": false,
+  "persistLogs": true,
+  "samplingPercent": 100,
+  "metricsWindow": "Last24hours",
+  "invocations": 531,
+  "invocationErrors": 0,
+  "activeVersionInvocationErrorRatePercent": 0,
+  "clientDisconnects": 0,
+  "cpuMs": {
+    "p50": 13.69,
+    "p90": 34.59,
+    "p99": 41.45,
+    "p999": 42.87
+  },
+  "requestDurationMs": {
+    "p50": 118,
+    "p90": 499,
+    "p99": 612,
+    "p999": 645
+  },
+  "http5xxRate": "Not exposed by the inspected invocation error chart",
+  "p95": "Not exposed in default dashboard percentiles",
+  "changesMade": false,
+  "R2objectsReverified": false,
+  "previousVersionPrefixes": [
+    "ca3e734e",
+    "afc3d7e4"
+  ]
+}
