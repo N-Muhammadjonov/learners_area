@@ -19,8 +19,8 @@
 @media (min-width:1024px){ [data-writing-native] .writing-two-column {grid-template-columns:repeat(2,minmax(0,1fr))} [data-writing-native] .writing-sticky {position:sticky;top:1rem} }
 @media(prefers-reduced-motion:reduce){[data-writing-native] *,[data-writing-native] *::before,[data-writing-native] *::after{transition-duration:0s!important;animation-duration:0s!important}}
 
-.writing-image-link{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;max-width:100%;color:inherit}
-.writing-original-image{display:block;width:auto;height:auto;max-width:100%;max-height:none!important;background:#fff;object-fit:contain;filter:none!important;opacity:1!important}
+.writing-image-frame{max-width:100%;overflow:auto;overscroll-behavior:contain;border-radius:.25rem}
+.writing-original-image{display:block;width:auto;height:auto;max-width:none;max-height:none!important;background:#fff;object-fit:contain;filter:none!important;opacity:1!important}
 [data-stealing-model-study]{position:relative;min-width:0}
 .stealing-study-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
 .stealing-essay-text{white-space:pre-wrap;font-size:clamp(1.05rem,1rem + .2vw,1.25rem);line-height:1.9;overflow-wrap:anywhere}

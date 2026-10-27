@@ -49,7 +49,7 @@ function bandPanel(summary, uz) {
     'aria-label': uz ? 'Haqiqiy tugallangan full mock bandlari' : 'Completed full mock band estimates',
   },
   axis.ticks.map(n => h('g', {'data-band-tick':n.toFixed(1)},
-    h('line', {x1: 45, x2: 610, y1: y(n), y2: y(n), stroke: 'currentColor', opacity: '.15'}),
+    h('line', {x1: 45, x2: 610, y1: y(n), y2: y(n), stroke: 'currentColor', strokeWidth: 1.25, opacity: '.45', 'data-band-gridline': n.toFixed(1)}),
     h('text', {x: 10, y: y(n) + 4, fill: 'currentColor', fontSize: 12}, n.toFixed(1)))),
   points.length > 1 ? h('polyline', {
     points: points.map((a, i) => `${x(i)},${y(a.estimatedBand)}`).join(' '),
@@ -57,7 +57,7 @@ function bandPanel(summary, uz) {
   }) : null,
   points.map((a, i) => h('g', {'data-mock-point': a.id},
     h('circle', {cx: x(i), cy: y(a.estimatedBand), r: 5, fill: 'rgb(var(--gold))', stroke: 'currentColor', strokeWidth: 2}),
-    h('text', {x: x(i), y: y(a.estimatedBand) - 12, textAnchor: 'middle', fill: 'currentColor', fontSize: 13}, show(a.estimatedBand)),
+    h('text', {x: x(i), y: y(a.estimatedBand) - 12, textAnchor: 'middle', fill: 'currentColor', fontSize: 13}, (axis.below(a.estimatedBand)?'↓ ':'')+show(a.estimatedBand)),
     h('text', {x: x(i), y: 245, textAnchor: 'middle', fill: 'currentColor', fontSize: 10},
       a.finishedAt.toLocaleDateString(uz ? 'uz-UZ' : 'en-GB', {day: 'numeric', month: 'short', timeZone: 'UTC'})))),
   ),

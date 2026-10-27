@@ -382,3 +382,7 @@ html[data-theme]:has([data-campus-shell]) [data-global-dictionary] :is(.btn-prim
 html[data-theme]:has([data-campus-shell]) [data-global-dictionary] [aria-pressed="true"]{background:#3d50fa!important}
 
 @media(min-width:1280px){.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="1"]{grid-column:1}.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="2"]{grid-column:2}.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="3"]{grid-column:3}}
+
+/* Compact save control and the Typing result obey their actual state. */
+#root .dictionary-save-icon{width:44px;min-width:44px;height:44px;padding:0;font-size:24px}
+#root .typing-result[hidden]{display:none!important}

@@ -1,0 +1,179 @@
+{
+  "continuationOf": "PRODUCTION_VERIFICATION_20261026.md",
+  "baseCommit": "6da7dcb7b1800ddf3bd089d4704ad06437f2e149",
+  "target": {
+    "branch": "main",
+    "project": "tuoeabrrnsiuxpjmslxp",
+    "website": "https://learnersarea.uz"
+  },
+  "remainingTasks": [
+    {
+      "task": "Authenticated Listening/Speaking/Writing/Vocabulary dictionary QA and two-account isolation",
+      "status": "BLOCKED",
+      "evidence": "Existing passed cases retained; no new authenticated probes performed after computer connection loss.",
+      "blocker": "Computer/browser unavailable; two authorized application sessions unavailable."
+    },
+    {
+      "task": "Cold-cache/mobile/performance comparison",
+      "status": "BLOCKED",
+      "evidence": "Recorded sequential authenticated baseline p50/p95/p99 99/230/409ms,112 requests,zero cohort errors. No search-runtime optimization performed; no fabricated after sample.",
+      "blocker": "Authenticated benchmark runtime, measurable cold-cache/mobile conditions and comparable cohort unavailable."
+    },
+    {
+      "task": "Production Cloudflare Worker configuration and telemetry",
+      "status": "BLOCKED",
+      "evidence": "Requested Safari connection ended with transport closure. No prior R2 object verification repeated.",
+      "blocker": "Restore the connected computer and authenticated production Cloudflare Safari session."
+    },
+    {
+      "task": "Private backup full isolated restore",
+      "status": "BLOCKED",
+      "evidence": "Existing archive/role checksum receipt reviewed; no full restoration claimed. Supabase branch listing exposes only default main.",
+      "blocker": "Private backup lives on unavailable computer; compatible authorized isolated recovery target unavailable."
+    },
+    {
+      "task": "Guarded legacy cleanup rehearsal and approval",
+      "status": "BLOCKED",
+      "evidence": "256986 entry rows and1201156 legacy terms unchanged; active/previous R2 releases and immutable triggers intact;0 running publishers; historical SQL application search calls remain7;3 readers still retain guarded validated-legacy fallback.",
+      "blocker": "Full restore, missing functional/telemetry/performance gates and isolated rehearsal unpassed; explicit production destructive approval absent."
+    }
+  ],
+  "storage": {
+    "before": {
+      "captured_at": "2026-10-27T09:03:29.178026+00:00",
+      "database_bytes": 467717267,
+      "dictionary_entries": 256986,
+      "legacy_index_bytes": 160636928,
+      "legacy_table_bytes": 282279936,
+      "legacy_search_terms": 1201156,
+      "guard_headroom_bytes": 32282733,
+      "running_publish_jobs": 0
+    },
+    "after": {
+      "captured_at": "2026-10-27 09:11:46.111522+00",
+      "database_bytes": 467717267,
+      "dictionary_entries": 256986,
+      "legacy_search_terms": 1201156,
+      "legacy_table_bytes": 282279936,
+      "legacy_index_bytes": 160636928,
+      "guard_headroom_bytes": 32282733
+    },
+    "reclaimedBytes": 0,
+    "cleanupExecuted": false
+  },
+  "existingBackup": {
+    "capturedAt": "2026-10-26T19:23:14Z",
+    "databaseDumpSha256": "3c18ee44845dfc23d55727c37dfd2ab988b38b3276426681ed07fd7c7028f17d",
+    "rolesSha256": "14dfcfc5a4c4575ae29cfafd5505a059fc4934bfcb9189f216175e7bcdcb2b60",
+    "fullRestoreVerified": false
+  },
+  "uiVerification": {
+    "syntax": "PASS",
+    "axis": [
+      {
+        "values": [],
+        "range": [
+          4,
+          9
+        ],
+        "grid": [
+          {
+            "band": 6,
+            "y": 141
+          },
+          {
+            "band": 7,
+            "y": 104
+          }
+        ]
+      },
+      {
+        "values": [
+          0
+        ],
+        "range": [
+          4,
+          9
+        ],
+        "grid": [
+          {
+            "band": 6,
+            "y": 141
+          },
+          {
+            "band": 7,
+            "y": 104
+          }
+        ]
+      },
+      {
+        "values": [
+          3.5,
+          6,
+          9
+        ],
+        "range": [
+          4,
+          9
+        ],
+        "grid": [
+          {
+            "band": 6,
+            "y": 141
+          },
+          {
+            "band": 7,
+            "y": 104
+          }
+        ]
+      },
+      {
+        "values": [
+          4,
+          4.5,
+          8
+        ],
+        "range": [
+          4,
+          9
+        ],
+        "grid": [
+          {
+            "band": 6,
+            "y": 141
+          },
+          {
+            "band": 7,
+            "y": 104
+          }
+        ]
+      }
+    ],
+    "renderCases": 16,
+    "renderStatus": "PASS",
+    "imageRenderContract": "PASS",
+    "browserVisual": "BLOCKED: computer environment and Safari unavailable",
+    "nodeSuite": "NOT_RUN: execution environment unavailable"
+  },
+  "pendingUi": [
+    "Language Stealing contextual colour-circle palette above selected text",
+    "Listening-style note icon under profile, mounted only on relevant essay routes",
+    "Browser verification of image text clarity and remaining sitewide IELTS plots"
+  ],
+  "completedUiCode": [
+    "Dictionary sense save uses a visible plus/check icon; aria labels remain accessible",
+    "Pattern folder dialog uses a compact vertical-chevron control",
+    "Writing original file remains inline, with a scrollable natural-pixel viewport and no external open-original link",
+    "Empty hidden Typing result panel cannot show a green rectangle",
+    "Dashboard and Progress mock axes stay4.0–9.0; every integer line is explicit and stronger; lower actual scores retain labels with down marker"
+  ],
+  "safety": {
+    "databaseWrites": false,
+    "workerChanges": false,
+    "r2ObjectChanges": false,
+    "secretsReadOrWritten": false,
+    "existingQaDataTouched": false,
+    "cleanupSqlUnchanged": true,
+    "protectedReleasesPreserved": true
+  }
+}
