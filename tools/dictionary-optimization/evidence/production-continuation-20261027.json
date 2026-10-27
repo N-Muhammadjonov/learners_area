@@ -28,8 +28,8 @@
     {
       "task": "Private backup full isolated restore",
       "status": "BLOCKED",
-      "evidence": "Existing archive/role checksum receipt reviewed; no full restoration claimed. Supabase branch listing exposes only default main.",
-      "blocker": "Private backup lives on unavailable computer; compatible authorized isolated recovery target unavailable."
+      "evidence": "Existing checksum/decompression receipt reviewed. The private backup package was located in Library by exact filename (57617248 bytes, matching the historical receipt package size). A current byte checksum and full restoration were not performed. Supabase lists only default main.",
+      "blocker": "No compatible authorized isolated recovery runtime/target. The connected computer and archive materialization/pg_restore runtime are unavailable."
     },
     {
       "task": "Guarded legacy cleanup rehearsal and approval",
@@ -65,7 +65,13 @@
     "capturedAt": "2026-10-26T19:23:14Z",
     "databaseDumpSha256": "3c18ee44845dfc23d55727c37dfd2ab988b38b3276426681ed07fd7c7028f17d",
     "rolesSha256": "14dfcfc5a4c4575ae29cfafd5505a059fc4934bfcb9189f216175e7bcdcb2b60",
-    "fullRestoreVerified": false
+    "fullRestoreVerified": false,
+    "locatedPrivateLibraryCopy": {
+      "name": "Learners_Area_Production_Backup_20261026.tar.gz",
+      "bytes": 57617248,
+      "metadataMatchOnly": true,
+      "currentBytesReverified": false
+    }
   },
   "uiVerification": {
     "syntax": "PASS",
