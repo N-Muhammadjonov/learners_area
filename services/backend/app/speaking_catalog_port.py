@@ -283,12 +283,22 @@ async def speaking_prompt_support(req: Request, id: str):
     args.append(id)
     db = await core.pool()
     async with db.acquire() as conn:
-        row = await conn.fetchrow(f'''SELECT p.id, p.study_support AS "studySupport"
+        row = await conn.fetchrow(f'''SELECT p.id, p.part, p.study_support AS "studySupport"
             FROM speaking_prompts p WHERE {where} AND p.id=${len(args)}::uuid LIMIT 1''', *args)
-    if not row: return core.j({'error': 'not_found'}, 404)
-    support = _study_support(row['studySupport'])
-    if support is None: return core.j({'error': 'invalid_study_support'}, 502)
-    return core.j({'promptId': str(row['id']), 'support': support}, headers={'Cache-Control': 'no-store'})
+        if not row: return core.j({'error': 'not_found'}, 404)
+        support = _study_support(row['studySupport'])
+        if support is None: return core.j({'error': 'invalid_study_support'}, 502)
+        related = None
+        target_id = core.uuid_value(row['studySupport'].get('relatedPart3Id')) if row.get('part') == 'part2' else None
+        if target_id:
+            target_where, target_args = _scope(channel, part='part3')
+            target_args.append(target_id)
+            target = await conn.fetchrow(f'''SELECT p.id, {_TOPIC_KEY} AS "topicKey"
+                FROM speaking_prompts p WHERE {target_where} AND p.id=${len(target_args)}::uuid LIMIT 1''', *target_args)
+            if target:
+                related = {'promptId': str(target['id']), 'topicKey': target['topicKey']}
+    return core.j({'promptId': str(row['id']), 'support': support,
+                   **({'relatedPart3': related} if related else {})}, headers={'Cache-Control': 'no-store'})
 
 
 def install():

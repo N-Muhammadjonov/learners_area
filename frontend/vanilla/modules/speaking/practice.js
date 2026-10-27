@@ -71,14 +71,14 @@ export function mount(context){
   if(!more){state.prompts=[];body.replaceChildren(el('p',{'data-practice-loading':'questions',class:'text-sm text-ink-500'},dict.common.loading));}
   try{const d=await api.request('/api/speaking/practice/questions?'+q,{signal});if(signal.aborted||token!==state.token)return;
    const seen=new Set(state.prompts.map(r=>r.id));state.prompts.push(...(d.prompts??[]).filter(r=>!seen.has(r.id)));state.promptCursor=d.nextCursor??null;state.promptCount=d.matching??state.prompts.length;
-   if(!state.selected)state.selected=state.prompts[0]?.id??null;drawQuestions();
+   if(!state.selected)state.selected=state.prompts.find(p=>p.id===url.searchParams.get('promptId'))?.id??state.prompts[0]?.id??null;drawQuestions();
   }catch{if(!signal.aborted&&token===state.token)reportError(body,dict,()=>void promptsLoad(more),'questions');}
   finally{state.promptBusy=false;}
  }
  async function supportLoad(id){
   const token=++state.token;state.support=null;state.supportId=null;const target=body.querySelector('[data-practice-support-column]');if(target)target.replaceChildren(el('p',{'data-practice-support':'loading'},dict.common.loading));
   try{const d=await api.request(`/api/speaking/prompts/${encodeURIComponent(id)}/support?channel=practice_alone`,{signal});if(signal.aborted||token!==state.token||id!==state.selected)return;
-   if(d.promptId!==id||!d.support)throw Error('invalid_support');state.support=d.support;state.supportId=id;drawSupport();
+   if(d.promptId!==id||!d.support)throw Error('invalid_support');state.support=d.support;state.supportId=id;drawSupport();const related=body.querySelector('[data-practice-related-part3-host]');if(related&&part==='part2'&&d.relatedPart3?.promptId&&d.relatedPart3?.topicKey){const target=d.relatedPart3;related.replaceChildren(button('Part 3 →',()=>{if(!state.blocked&&!signal.aborted)void navigate('/app/speaking/practice?'+new URLSearchParams({part:'part3',topic:target.topicKey,promptId:target.promptId}));},{class:'btn-primary min-h-11','data-practice-related-part3':''}));}
   }catch{if(signal.aborted||token!==state.token)return;const panel=body.querySelector('[data-practice-support-column]');if(panel)reportError(panel,dict,()=>void supportLoad(id),'support');}
  }
  function drawQuestions(){
@@ -90,7 +90,7 @@ export function mount(context){
   for(const [i,p] of state.prompts.entries()){
    const selected=p.id===state.selected;
    const entry=el('li',{class:'rounded-2xl border p-4 '+(selected?'border-accent-500 bg-paper-sunken':'border-ink-100')},button(`${i+1}. ${p.promptText}`,()=>{if(state.blocked||p.id===state.selected)return;state.selected=p.id;drawQuestions();}, {class:'w-full text-left text-lg font-semibold','data-practice-question':p.id,...(state.blocked&&!selected?{disabled:''}:{})}));
-   if(selected){if(p.cueCard)entry.append(el('p',{class:'mt-3 whitespace-pre-wrap text-ink-500'},p.cueCard));if(part==='part2')entry.append(el('p',{class:'mt-3 text-sm'},`${study.prepare} 1:00 · ${study.talk} 2:00`));state.recorder=localAnswerRecorder(context,{id:p.id,part:p.part,lock:(id,action)=>{if(action==='isLocked')return state.blocked&&state.selected!==id;state.blocked=action;}});entry.append(state.recorder.node);}
+   if(selected){if(p.cueCard)entry.append(el('p',{class:'mt-3 whitespace-pre-wrap text-ink-500'},p.cueCard));if(part==='part2')entry.append(el('p',{class:'mt-3 text-sm'},`${study.prepare} 1:00 · ${study.talk} 2:00`));state.recorder=localAnswerRecorder(context,{id:p.id,part:p.part,lock:(id,action)=>{if(action==='isLocked')return state.blocked&&state.selected!==id;state.blocked=action;}});entry.append(state.recorder.node,...(part==='part2'?[el('div',{'data-practice-related-part3-host':''})]:[]));}
    list.append(entry);
   }
   left.append(list);
@@ -128,7 +128,7 @@ export function mount(context){
     const result=el('p',{role:'status'});
     const save=async indices=>{try{const d=await api.request('/api/speaking/prompts/vocabulary',{method:'POST',body:{promptId:state.selected,indices},signal});if(signal.aborted)return;result.textContent=t.savedWords.replace('{added}',String(d.added)).replace('{duplicates}',String(d.duplicates)).replace('{folder}',d.folder?.name??'');}catch{result.textContent=t.saveFailed;}};
     content.append(button(t.saveAll,()=>void save(support.vocabulary.map((_,i)=>i)),{class:'btn-primary'}));
-    for(const [i,w] of support.vocabulary.entries())content.append(el('article',{class:'rounded-xl border border-ink-100 p-3'},el('strong',{},w.term),el('p',{},w.definitionEn),el('p',{},w.translationUz??''),el('p',{class:'text-ink-500'},w.exampleSentence??''),button(t.addWord,()=>void save([i]),{class:'btn-secondary mt-2'})));
+    for(const [i,w] of support.vocabulary.entries())content.append(el('article',{class:'rounded-xl border border-ink-100 p-3'},el('strong',{},w.term),w.definitionEn!==w.term?el('p',{},w.definitionEn):null,el('p',{},w.translationUz??''),el('p',{class:'text-ink-500'},w.exampleSentence??''),button(t.addWord,()=>void save([i]),{class:'btn-secondary mt-2'})));
     content.append(result);
    }
   }
