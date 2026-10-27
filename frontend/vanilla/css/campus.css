@@ -360,3 +360,25 @@ html[data-theme]:has([data-campus-shell]) [data-retention-answer]{min-height:cla
 /* Auth markup and layout stay fixed; only the requested brand/footer text changes. */
 html[data-theme] #root [data-auth-shell] [data-auth-brand] :is(.brand-name,.brand-tagline),
 html[data-theme] #root [data-auth-shell]:has([data-public-auth]) > .w-full > .text-center{color:#fff!important}
+
+/* Dictionary portals have an explicit palette even while a route is changing. */
+html[data-theme="day"] :is([data-word-popover],.dictionary-context-panel){--lookup-bg:#fff;--lookup-fg:#102740;--lookup-muted:#475569;color-scheme:light}
+html[data-theme="night"] :is([data-word-popover],.dictionary-context-panel){--lookup-bg:#1a1625;--lookup-fg:#f3eef5;--lookup-muted:#c7bfd2;color-scheme:dark}
+html[data-theme] body :is([data-word-popover],.dictionary-context-panel){background:var(--lookup-bg)!important;color:var(--lookup-fg)!important}
+html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(p,span,strong,label,summary,li,h2,h3,h4,select,option,input){color:var(--lookup-fg)!important}
+html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(select,option,input){background:var(--lookup-bg)!important}
+html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(.btn-primary,.btn-secondary,.btn-ghost){background:#3d50fa!important;color:#fff!important}
+html[data-theme] body :is([data-word-popover],.dictionary-context-panel) :is(.btn-primary,.btn-secondary,.btn-ghost) :is(span,strong){color:#fff!important}
+html[data-theme="day"] [data-retention-result-permalink]{color:#263ac9!important}
+html[data-theme="night"] [data-retention-result-permalink]{color:#a4e1ff!important}
+[data-retention-result-permalink]{font-weight:650;text-decoration:underline;text-underline-offset:3px}
+#root [data-writing-back]{display:inline-flex!important;align-self:flex-start}
+html[data-theme] #root [data-stealing-filters] a[aria-current="true"],
+html[data-theme] #root [data-translation-setup] :is([aria-pressed="true"],[aria-checked="true"],[data-translation-selected="true"]){background:#3d50fa!important;color:#fff!important;border-color:#3d50fa!important}
+html[data-theme] #root [data-translation-setup] :is([aria-pressed="true"],[aria-checked="true"],[data-translation-selected="true"]) :is(span,strong){color:#fff!important}
+
+html[data-theme]:has([data-campus-shell]) [data-global-dictionary] :is(h2,h3,h4,p,strong,span,summary,blockquote,label,li){color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) [data-global-dictionary] :is(.btn-primary,.btn-secondary,.btn-ghost,[aria-pressed="true"]) :is(span,strong),html[data-theme]:has([data-campus-shell]) [data-global-dictionary] [aria-pressed="true"]{color:#fff!important}
+html[data-theme]:has([data-campus-shell]) [data-global-dictionary] [aria-pressed="true"]{background:#3d50fa!important}
+
+@media(min-width:1280px){.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="1"]{grid-column:1}.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="2"]{grid-column:2}.general-passage-grid[data-passage-columns="true"]>[data-passage-slot="3"]{grid-column:3}}

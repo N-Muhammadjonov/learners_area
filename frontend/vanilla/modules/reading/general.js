@@ -83,7 +83,7 @@ function cards(context,data,lang){
  const buildPageHref=page=>{const search=new URLSearchParams();for(const [key,value] of Object.entries({...filter,page})){if(value&&key!=='page')search.set(key==='query'?'q':key,String(value));}if(page>1)search.set('page',String(page));return search.toString()?`/app/reading/general?${search}`:'/app/reading/general';};
  const out=[el('p',{class:'meta-text','data-reading-count':true},dict.readingHub.resultsCount.replace('{n}',String(lib.total)))];
  if(lib.items.length===0)out.push(el('div',{class:'flex flex-col items-center gap-2 py-10 text-center'},el('p',{class:'font-display text-ink-900'},dict.readingHub.noResults),el('p',{class:'body-text'},dict.readingHub.noResultsHint),el('a',{class:'btn-secondary',href:'/app/reading/general','data-reading-empty-reset':true},dict.readingHub.filterReset)));
- else out.push(el('div',{class:'grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3'},lib.items.map(passage=>passageCard(context,passage,lang))));
+ else out.push(el('div',{class:'general-passage-grid grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3','data-passage-columns':String(!filter.status&&!filter.query&&!filter.topic&&!filter.type)},lib.items.map(passage=>passageCard(context,passage,lang))));
  if(lib.pageCount>1)out.push(el('nav',{class:'flex flex-wrap items-center justify-between gap-3','aria-label':dict.readingHub.page},
   el('span',{class:'meta-text','data-reading-page':true},`${dict.readingHub.page} ${lib.page} / ${lib.pageCount}`),
   el('div',{class:'flex items-center gap-2'},lib.page>1?el('a',{class:'btn-secondary',href:buildPageHref(lib.page-1),'data-reading-page-prev':true},dict.readingHub.prevPage):null,lib.page<lib.pageCount?el('a',{class:'btn-secondary',href:buildPageHref(lib.page+1),'data-reading-page-next':true},dict.readingHub.nextPage):null)));
@@ -100,7 +100,7 @@ function passageCard(context,passage,lang){
  if(passage.setId)actionNode=el('a',{class:'btn-primary',href:`/app/reading/general/${passage.setId}?passage=${passage.passageNo}`},passage.status==='in_progress'?dict.readingHub.actionResume:action);
  else if(passage.status==='in_progress'&&passage.lastAttemptId)actionNode=el('a',{class:'btn-primary min-h-[var(--control-h)]',href:`/app/reading/attempts/${passage.lastAttemptId}`,'data-passage-action':'resume'},dict.readingHub.actionResume);
  else actionNode=startPassageButton(context,{passageId:passage.id,label:action});
- return el('article',{class:'panel flex h-full flex-col gap-3','data-passage':passage.id,'data-passage-status':passage.status},
+ return el('article',{class:'panel flex h-full flex-col gap-3','data-passage':passage.id,'data-passage-status':passage.status,'data-passage-slot':passage.passageNo},
   el('div',{class:'flex items-start justify-between gap-3'},
    el('span',{'aria-hidden':'true',class:'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-ink-100 bg-paper-sunken text-[20px] text-gold'},IconReading({})),
    answerProgress({state:passage.status,done:passage.answeredCount,total:passage.questionCount,label:statusLabel,attrs:{'data-passage-state':passage.status}})),

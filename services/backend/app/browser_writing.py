@@ -10,6 +10,7 @@ from .browser_common import camel, existing, identifier, live
 from .step31_coach import decoded
 from .writing_source_materials import catalogue,live_inventory,metadata_for_prompt
 from .writing_stealing_collection import metadata_for_model,collection_info
+from .writing_study_data import personal_patterns,usage_uz
 
 
 async def evaluation(con, uid, source, id, external=False):
@@ -78,18 +79,31 @@ async def patterns(con, uid, q, library=False):
         start = len(args)+1
         args.extend(cursor[2:])
         where += f' AND (p.function,p.pattern,p.id)>(${start},${start+1},${start+2}::uuid)'
-    rows = [camel(r) for r in await con.fetch(f'''SELECT p.id,p.pattern,p.function AS fn,p.task_type,p.topic,p.target_band,p.example,p.usage_note,
+    rows = [camel(r) for r in await con.fetch(f'''SELECT p.id,p.pattern,p.function AS fn,p.task_type,p.topic,p.target_band,p.example,p.usage_note,m.id AS source_id,m.title AS source_title,
       EXISTS(SELECT 1 FROM writing_pattern_bank b WHERE b.pattern_id=p.id AND b.user_id=$1) saved
-      FROM writing_language_patterns p WHERE {where} ORDER BY p.function,p.pattern,p.id''' + (' LIMIT 301' if library else ''), *args)]
+      FROM writing_language_patterns p LEFT JOIN writing_model_texts m ON m.id::text=p.source_ref AND {live('m')} WHERE {where} ORDER BY p.function,p.pattern,p.id''' + (' LIMIT 301' if library else ''), *args)]
+    for row in rows:row['usageNoteUz']=usage_uz(row.get('usageNote'))
     if not library:
         return rows
+    own=await personal_patterns(con,uid)
+    own_matching=0
+    for item in own:
+        if q.get('task') and item['taskType']!=q['task']:continue
+        if q.get('fn') and item['fn']!=q['fn']:continue
+        if q.get('topic') and (item['topic'] or '').lower()!=q['topic'].lower():continue
+        if q.get('band'):continue
+        own_matching+=1
+        if 'cursor' in q and (item['fn'],item['pattern'],item['id'])<=tuple(cursor[2:]):continue
+        rows.append(item)
+    total+=own_matching
+    rows.sort(key=lambda x:(x['fn'],x['pattern'],x['id']))
     has_more = len(rows)>300
     rows = rows[:300]
     last = rows[-1] if rows else None
     encoded = base64.urlsafe_b64encode(json.dumps([1,fingerprint,last['fn'],last['pattern'],last['id']],separators=(',',':'),ensure_ascii=False).encode()).decode().rstrip('=') if has_more and last else None
     topics = await con.fetch(f'SELECT DISTINCT topic FROM writing_language_patterns p WHERE {live("p")} AND topic IS NOT NULL ORDER BY topic')
     bands = await con.fetch(f'SELECT DISTINCT target_band FROM writing_language_patterns p WHERE {live("p")} AND target_band IS NOT NULL ORDER BY target_band')
-    return {'patterns':rows,'hasMore':has_more,'nextCursor':encoded,'matching':total,'pageSize':300,'topics':[r['topic'] for r in topics],'bands':[r['target_band'] for r in bands],'savedCount':await con.fetchval('SELECT count(*)::int FROM writing_pattern_bank WHERE user_id=$1',uid)}
+    return {'patterns':rows,'hasMore':has_more,'nextCursor':encoded,'matching':total,'pageSize':300,'topics':[r['topic'] for r in topics],'bands':[r['target_band'] for r in bands],'savedCount':len(own)+await con.fetchval('SELECT count(*)::int FROM writing_pattern_bank WHERE user_id=$1',uid)}
 
 
 async def prompt_materials(con, prompt_ids):
@@ -196,14 +210,14 @@ async def read(req, user, path, q, region):
             return {'topics':list(topics.values()),'words':words,'patterns':rows}
         if tab == 'language-stealing':
             source_rows = await con.fetch(f'''SELECT t.id,t.title,t.task_type,t.topic,t.target_band,t.source_ref,t.body,
-              (SELECT count(*)::int FROM writing_language_patterns p WHERE p.source_ref=t.id::text AND {live('p')}) pattern_count
-              FROM writing_model_texts t WHERE {live('t')} ORDER BY t.title''')
+              ((SELECT count(*)::int FROM writing_language_patterns p WHERE p.source_ref=t.id::text AND {live('p')})+(SELECT count(*)::int FROM activity_events e WHERE e.user_id=$1 AND e.type='WRITING_PERSONAL_PATTERN' AND e.payload->>'modelId'=t.id::text)) pattern_count
+              FROM writing_model_texts t WHERE {live('t')} ORDER BY t.title''',uid)
             sources = []
             for r in source_rows:
                 metadata=metadata_for_model(r)
                 sources.append({**camel({k:v for k,v in dict(r).items() if k not in ('body','source_ref')}),**({k:metadata[k] for k in ('estimatedBand','sourceNumber')} if metadata else {})})
             sources.sort(key=lambda s:(0,s['sourceNumber']) if s.get('estimatedBand') else (1,s['title']))
-            sessions = [camel(r) for r in await con.fetch('SELECT id,model_text_id,step,completed_at,rewrite_available_at FROM writing_stealing_sessions WHERE user_id=$1 ORDER BY updated_at DESC',uid)]
+            sessions = [camel(r) for r in await con.fetch('SELECT s.id,s.model_text_id,s.step,s.completed_at,s.rewrite_available_at,m.title source_title FROM writing_stealing_sessions s JOIN writing_model_texts m ON m.id=s.model_text_id WHERE s.user_id=$1 ORDER BY s.updated_at DESC',uid)]
             result = {'library':await patterns(con,uid,q,True),'sources':[r for r in sources if r['patternCount']>0],'sessions':sessions}
             if any(s.get('estimatedBand') and s['patternCount']>0 for s in sources):
                 result['sourceCollection']=collection_info()

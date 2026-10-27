@@ -1,8 +1,9 @@
 import {h,fragment} from '../native.js';
+import {bandAxis} from '../../modules/shared/band-axis.js';
 export function MockBandPanel({ summary, uz, compact = false, }) {
     const points = summary.points.slice(-12);
     const x = (i) => points.length < 2 ? 330 : 45 + (i * 565) / (points.length - 1);
-    const y = (band) => 215 - (band / 9) * 185;
+    const axis = bandAxis(points.map(p=>p.estimatedBand),{top:30,bottom:215}), y = axis.y;
     const show = (n) => (n === null ? "—" : n.toFixed(1));
     return (h("section", { className: "card min-w-0 p-5 space-y-5", "data-mock-band-panel": true, "data-latest-band": summary.latest === null ? "none" : summary.latest.toFixed(1), "data-completed-mocks": summary.completed, "data-total-mocks": summary.total },
         h("h2", { className: "font-display text-xl font-bold" },
@@ -45,7 +46,7 @@ export function MockBandPanel({ summary, uz, compact = false, }) {
         h("svg", { viewBox: "0 0 660 265", className: "w-full", role: "img", "aria-label": uz
                 ? "Haqiqiy tugallangan full mock bandlari"
                 : "Completed full mock band estimates" },
-            [0, 3, 6, 9].map((n) => (h("g", { key: n },
+            axis.ticks.map((n) => (h("g", { key: n, "data-band-tick": n.toFixed(1) },
                 h("line", { x1: "45", x2: "610", y1: y(n), y2: y(n), stroke: "currentColor", opacity: ".15" }),
                 h("text", { x: "10", y: y(n) + 4, fill: "currentColor", fontSize: "12" }, n.toFixed(1))))),
             points.length > 1 && (h("polyline", { points: points

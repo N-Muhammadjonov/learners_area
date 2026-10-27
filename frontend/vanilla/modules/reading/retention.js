@@ -15,13 +15,8 @@ const remaining=(iso,skew)=>iso?Math.ceil((Date.parse(iso)-(Date.now()+skew))/10
 export function mountRetention(context){
  const {root,url,signal,dict,locale}=context,t=dict.retentionMemory,host=el('div',{class:'mx-auto flex max-w-6xl flex-col gap-6','data-retention-page':true,'data-route-usable':'retention','data-native-view':'retention'});
  root.append(host);let busy=false;
- const rootElement=document.documentElement;let previousFocus,ownsFocus=false;
- const retentionActive=active=>{
-  if(active){if(!ownsFocus){previousFocus=rootElement.dataset.focus;ownsFocus=true;}rootElement.dataset.retentionFocus='on';rootElement.dataset.focus='on';}
-  else if(ownsFocus){delete rootElement.dataset.retentionFocus;if(previousFocus===undefined)delete rootElement.dataset.focus;else rootElement.dataset.focus=previousFocus;ownsFocus=false;}
- };
- context={...context,retentionActive};
- signal.addEventListener('abort',()=>retentionActive(false),{once:true});
+ document.documentElement.dataset.focus='off';delete document.documentElement.dataset.retentionFocus;
+ context={...context,retentionActive:()=>{}};
  // The summary and history nodes shown beside the session. A finished attempt re-reads only these two (the original router.refresh()),
  // so the learner keeps the result on screen and the overview is current.
  const overview={summary:null,history:null};

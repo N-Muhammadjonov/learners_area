@@ -1,0 +1,17 @@
+import {el,button,post,replaceChildren} from './shared.js';
+import {api} from '../../js/api-client.js';
+import {privateScope} from '../../js/private-scope.js';
+import {dictionaryFolderDialog} from '../vocabulary/dictionary-learner-ui.js';
+import {stealingCopy} from './stealing-copy.js';
+export function patternVocabulary(ctx,p){
+ const t=stealingCopy(ctx),host=el('span',{class:'flex flex-col gap-1'});let saved=false,busy=false,failed=false;
+ const draw=error=>{if(error!==undefined)failed=error;const b=button(saved?t.vocabSaved:t.addVocabulary,async()=>{if(busy||saved)return;busy=true;failed=false;draw();try{const r=await api.request('/api/vocabulary/folders',{signal:ctx.signal});if(!Array.isArray(r.folders))throw Error();dictionaryFolderDialog(ctx,{entry:{display_lemma:p.pattern,part_of_speech:'phrase'},sense:{translations:[{text:ctx.locale==='uz'?(p.usageNoteUz??''):p.usageNote??''}]},folders:r.folders,defaultFolderName:'Writing : '+(p.sourceTitle??t.unknownSource),onClose(){},async onCreate(name){const out=await post(ctx,'/api/vocabulary/folders',{name});if(!out.folder?.id)throw Error();return out.folder;},async onSave(folderId){const out=await post(ctx,`/api/writing/stealing/patterns/${p.id}/vocabulary`,{folderId});if(out.ok!==true)throw Error();saved=true;privateScope.invalidate('vocabulary:');draw();}});}catch{draw(true);}finally{busy=false;if(!ctx.signal.aborted)draw();}},{signal:ctx.signal,cls:'btn-secondary',attrs:{'data-pattern-vocabulary':p.id}});b.disabled=busy||saved;replaceChildren(host,b,failed?el('span',{role:'alert',class:'text-sm text-band-bad'},t.failed):null);};draw();return host;
+}
+export function personalPatternForm(ctx,sessionId,onCreate){
+ const t=stealingCopy(ctx),host=el('div',{'data-personal-pattern-create':''});let open=false,busy=false,created=null;
+ function draw(){if(!open){replaceChildren(host,button(t.addPattern,()=>{open=true;draw();},{signal:ctx.signal,attrs:{'data-personal-pattern-open':''}}),created?el('p',{'data-personal-pattern-added':''},t.saved,': ',created.pattern):null);return;}
+  const pattern=el('input',{class:'input',maxlength:200,required:true,'aria-label':t.pattern}),example=el('textarea',{class:'input',maxlength:800,rows:2,'aria-label':t.example}),usage=el('textarea',{class:'input',maxlength:2000,rows:2,'aria-label':t.usage}),error=el('p',{role:'alert',class:'writing-error'});
+  const save=el('button',{type:'submit',class:'btn-primary','data-personal-pattern-save':''},t.create),form=el('form',{class:'card flex flex-col gap-3 p-4'},el('label',{},t.pattern,pattern),el('label',{},t.example,example),el('label',{},t.usage,usage),error,el('div',{class:'flex gap-2'},save,button(t.cancel,()=>{open=false;draw();},{signal:ctx.signal})));
+  form.addEventListener('submit',async e=>{e.preventDefault();if(busy||pattern.value.trim().length<2)return;busy=true;save.disabled=true;error.textContent='';try{const data=await post(ctx,`/api/writing/stealing/sessions/${sessionId}/patterns`,{pattern:pattern.value,example:example.value,usageNote:usage.value});if(!data.pattern?.id)throw Error();privateScope.invalidate('view:');open=false;created=data.pattern;onCreate(data.pattern);draw();}catch(e){error.textContent=e.code==='pattern_limit'?t.patternLimit:t.failed;}finally{busy=false;save.disabled=false;}});replaceChildren(host,form);
+ }draw();return host;
+}

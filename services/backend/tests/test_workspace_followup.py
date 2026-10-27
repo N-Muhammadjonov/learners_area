@@ -6,7 +6,7 @@ from starlette.requests import Request
 from app import browser_reading, browser_listening, step20_media_port as media
 
 
-def test_general_reading_shuffle_keeps_triples_slots_and_final_row():
+def test_general_reading_shuffle_mixes_passages_independently_and_prioritizes_progress():
     rows = [dict(id=f'{n}-{slot}', test_no=n, passage_no=slot, external_id=f't{n:02}-p{slot}', title=f'Title {n}/{slot}')
             for n in range(1,34) for slot in (1,2,3)]
     tail = [dict(id=str(n), test_no=None, passage_no=slot, external_id=f'learnersarea-reading-{n}-title')
@@ -18,11 +18,15 @@ def test_general_reading_shuffle_keeps_triples_slots_and_final_row():
     assert [r['test_no'] for r in ordered[:99:3]] != list(range(1,34))
     for i in range(0,102,3):
         assert [r['passage_no'] for r in ordered[i:i+3]] == [1,2,3]
-    for i in range(0,99,3):
-        assert len({r['test_no'] for r in ordered[i:i+3]}) == 1
-    assert ordered[-3:] == original[-3:]
+    assert any(len({r['test_no'] for r in ordered[i:i+3]})>1 for i in range(0,99,3))
+    for n in (1,2,3):
+        unfinished=next(r for r in original if r['passage_no']==n and r['test_no']==33)
+        unfinished['status']='in_progress'
+    priority=browser_reading.general_library_order(original)
+    assert [r['status'] for r in priority[:3]]==['in_progress']*3
+    assert [r['passage_no'] for r in priority[:3]]==[1,2,3]
     subset = [r for r in original if r['passage_no'] == 2]
-    assert browser_reading.general_library_order(subset) == [r for r in ordered if r['passage_no'] == 2]
+    assert browser_reading.general_library_order(subset) == [r for r in priority if r['passage_no'] == 2]
 
 
 def test_writing_resource_tombstone_parameter_is_text_and_guards_still_apply():

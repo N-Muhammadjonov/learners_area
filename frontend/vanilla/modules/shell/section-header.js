@@ -2,7 +2,7 @@ import {el} from '../../js/dom.js';
 import {navigationLinks} from '../../js/generated/module-navigation.js';
 import {render as sectionNav} from '../../js/generated/module-section-nav.js';
 
-const WRITING=['lessons','exam','translation','typing','topic-vocabulary','grade','activation','language-stealing'];
+const WRITING=['lessons','exam','translation','typing','grade','activation','language-stealing'];
 /** The same section identity as Main, resolved directly into native DOM. */
 export function sectionIdentity(url,dict){
  const path=url.pathname,module=path.split('/')[2],tab=url.searchParams.get('tab');

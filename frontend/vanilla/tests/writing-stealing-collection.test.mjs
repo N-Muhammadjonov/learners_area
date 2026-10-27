@@ -23,7 +23,8 @@ for(const locale of ['en','uz']){
    assert.equal(h.qa('[data-step-state]').length,7);assert.equal(h.q('[data-step-state=current]').textContent.startsWith(String(step)),true);
    if(step===4){assert(h.q('[data-stealing-model-feedback]').textContent.includes(m.feedback));for(const p of patterns(m.id))assert(h.ctx.root.textContent.includes(p.pattern));}
    else assert.equal(h.q('[data-stealing-model-feedback]'),null);
-   assert(h.qa('a').some(a=>a.getAttribute('href')===m.promptSourceUrl));
+   assert(!h.qa('a').some(a=>a.getAttribute('href')===m.promptSourceUrl));
+   assert(h.q('[data-writing-back]'));
   }finally{h.dispose();}}
  });
 }
@@ -40,9 +41,9 @@ test('A learner can select 50 or 70 chunks; the next selection is blocked',async
   const many=Array.from({length:71},(_,i)=>({id:ID(i+100),pattern:'Reusable chunk '+i,fn:'collocation',example:'Example '+i}));
   h.stub({'/api/frontend/view':{version:1,route:h.ctx.url.pathname,data:{view:{id:ID(1),step:4,source:m,modelBody:m.body,patterns:many,selectedPatternIds:[]}}}});mount(h.ctx);await tick();
   const boxes=h.qa('input[type=checkbox]');for(const box of boxes.slice(0,50))h.click(box);
-  assert.equal(h.q('[data-stealing-selection-count]').textContent,'50 / 70');
-  for(const box of boxes.slice(50,70))h.click(box);assert.equal(h.q('[data-stealing-selection-count]').textContent,'70 / 70');
-  h.click(boxes[70]);assert.equal(boxes[70].checked,false);assert.equal(h.q('[data-stealing-selection-count]').textContent,'70 / 70');
+  assert.equal(h.q('[data-stealing-selection-count]').textContent,'Selected: 50');
+  for(const box of boxes.slice(50,70))h.click(box);assert.equal(h.q('[data-stealing-selection-count]').textContent,'Selected: 70');
+  h.click(boxes[70]);assert.equal(boxes[70].checked,false);assert.equal(h.q('[data-stealing-selection-count]').textContent,'Selected: 70');
   assert(!h.q('[data-stealing-step="4"] button').disabled);
  }finally{h.dispose();}
 });

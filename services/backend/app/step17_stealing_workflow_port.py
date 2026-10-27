@@ -8,6 +8,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from .db import row_to_dict
 from .writing_stealing_collection import metadata_for_model
+from .writing_study_data import personal_patterns,usage_uz
 router=APIRouter()
 LIVE="(publication_state='published' OR (publication_state='scheduled' AND publish_at<=now()))"
 STEPS={'read':1,'brainstorm':2,'draft':3,'analyse':4,'compare':5,'recall':6,'rewrite':7}
@@ -63,11 +64,13 @@ async def session_view(con,s,now):
         patterns=await con.fetch('''SELECT id,pattern,function,example,usage_note FROM writing_language_patterns
           WHERE source_ref=$1 AND (publication_state='published' OR (publication_state='scheduled' AND publish_at<=now()))
           ORDER BY function ASC''',str(s['model_text_id']))
+    own=await personal_patterns(con,s['user_id'],s['model_text_id']) if s['step']>=4 else []
+    patterns=[*patterns,*[{'id':p['id'],'pattern':p['pattern'],'function':p['fn'],'example':p['example'],'usage_note':p['usageNote'],'personal':True} for p in own]]
     chosen=s['selected_pattern_ids'] or []
     memorised=s['memorised_pattern_ids'] or []
     selected=[]
     for p in patterns:
-        data={'id':str(p['id']),'pattern':p['pattern'],'fn':p['function'],'example':p['example'],'usageNote':p['usage_note']}
+        data={'id':str(p['id']),'pattern':p['pattern'],'fn':p['function'],'example':p['example'],'usageNote':p['usage_note'],'usageNoteUz':p['usage_note'] if p.get('personal') else usage_uz(p['usage_note']),'personal':p.get('personal',False)}
         if s['step'] in (6,7) and not s['completed_at']:
             if str(p['id']) not in chosen:continue
             if s['step']==6 and str(p['id']) not in memorised:
@@ -88,6 +91,7 @@ async def session_view(con,s,now):
     if metadata:
         view['source'].update({k:v for k,v in metadata.items() if k!='feedback'})
         view['modelFeedback']=metadata['feedback'] if show and (s['step']>=4 or s['completed_at']) else None
+        view['modelFeedbackUz']=metadata['feedbackUz'] if view['modelFeedback'] else None
     return view
 
 
@@ -125,6 +129,7 @@ async def advance_session(req:Request,id:str):
                 if action=='rewrite':
                     if not s['rewrite_available_at'] or s['rewrite_available_at']>datetime.now(timezone.utc):return core.j({'error':{'code':'locked','message':'Step not completed.'}},400)
                     pats=await con.fetch('SELECT id,pattern FROM writing_language_patterns WHERE id=ANY($1::uuid[])',s['selected_pattern_ids'])
+                    pats=[*pats,*[p for p in await personal_patterns(con,u['id'],s['model_text_id']) if p['id'] in s['selected_pattern_ids']]]
                     updated['rewrite_pattern_ids']=[str(x['id']) for x in pats if uses(b['text'],x['pattern'])]
                     updated['completed_at']=datetime.now(timezone.utc)
                 updated[{'brainstorm':'brainstorm','draft':'draft','compare':'comparison','rewrite':'rewrite'}[action]]=b['text'].strip()
@@ -132,13 +137,14 @@ async def advance_session(req:Request,id:str):
             elif action=='analyse':
                 ps=await con.fetch('''SELECT id FROM writing_language_patterns WHERE source_ref=$1
                   AND (publication_state='published' OR (publication_state='scheduled' AND publish_at<=now()))''',str(s['model_text_id']))
-                allowed={str(p['id']) for p in ps}
+                allowed={str(p['id']) for p in ps}|{p['id'] for p in await personal_patterns(con,u['id'],s['model_text_id'])}
                 selected=list(dict.fromkeys(p for p in b['patternIds'] if p in allowed))
                 if not selected:return core.j({'error':{'code':'invalid','message':'Step not completed.'}},400)
                 updated.update(selected_pattern_ids=selected,step=5)
             elif action=='recall':
                 if b['patternId'] not in (s['selected_pattern_ids'] or []):return core.j({'error':{'code':'invalid','message':'Step not completed.'}},400)
                 p=await con.fetchrow('SELECT pattern FROM writing_language_patterns WHERE id=$1',b['patternId'])
+                if not p:p=next((x for x in await personal_patterns(con,u['id'],s['model_text_id']) if x['id']==b['patternId']),None)
                 recalled=bool(p) and match_key(b['attempt'])==match_key(p['pattern'])
                 if recalled:
                     mem=list(dict.fromkeys([*(s['memorised_pattern_ids'] or []),b['patternId']]))

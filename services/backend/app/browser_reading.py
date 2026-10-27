@@ -119,26 +119,19 @@ def canonical_sql():
 
 
 def general_library_order(rows):
-    """Shuffle the 33 imported triples, keeping their authored 1/2/3 slots.
+    """Shuffle each passage column independently; own unfinished work comes first.
 
-    A fixed key keeps links and filtered views stable between requests. The
-    supplemental 34th row is 1/2/3 too; the final row keeps its existing order.
-    Content, set membership and learner progress are never rewritten.
+    IDs, passage numbers, assessment membership and saved answers remain intact.
+    The 1/2/3 columns are interleaved; any surplus legacy slots follow at the end.
     """
-    tail_order = {102: 100, 100: 101, 101: 102}
-    def order(index_row):
-        index, row = index_row
-        test_no = row.get('test_no')
-        if type(test_no) is int and 1 <= test_no <= 33:
-            rank = hashlib.sha256(f'general-reading-order-v1:{test_no}'.encode()).hexdigest()
-            return (0, rank, row['passage_no'], str(row['id']))
-        external = row.get('external_id') or ''
-        match = re.match(r'^learnersarea-reading-(10[0-5])-', external)
-        if match:
-            ordinal = int(match[1])
-            return (1, tail_order.get(ordinal, ordinal), 0, '')
-        return (2, index, 0, '')
-    return [row for _, row in sorted(enumerate(rows), key=order)]
+    columns={n:[] for n in (1,2,3)};other=[]
+    for row in rows:
+        (columns[row['passage_no']] if row['passage_no'] in columns else other).append(row)
+    for column in columns.values():
+        column.sort(key=lambda row:(0 if row.get('status')=='in_progress' else 1,
+            hashlib.sha256(f"general-passage-order-v2:{row['id']}".encode()).hexdigest()))
+    return [columns[n][i] for i in range(max((len(c) for c in columns.values()),default=0))
+            for n in (1,2,3) if i<len(columns[n])] + other
 
 
 async def library(con, uid, q):

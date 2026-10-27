@@ -1,7 +1,7 @@
 {
-  "total_route_files": 218,
-  "total_methods": 265,
-  "ported_methods": 265,
+  "total_route_files": 221,
+  "total_methods": 269,
+  "ported_methods": 269,
   "unported_methods": 0,
   "endpoints": [
     {
@@ -1593,6 +1593,30 @@
       "path": "/api/writing/typing/start",
       "source": "src/app/api/writing/typing/start/route.ts",
       "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "GET",
+      "path": "/api/writing/stealing/sessions/{id}/study",
+      "source": "app/writing_study_port.py",
+      "status": "ported_native_extension_unit_tested"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/writing/stealing/sessions/{id}/study",
+      "source": "app/writing_study_port.py",
+      "status": "ported_native_extension_unit_tested"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/sessions/{id}/patterns",
+      "source": "app/writing_study_port.py",
+      "status": "ported_native_extension_unit_tested"
+    },
+    {
+      "method": "POST",
+      "path": "/api/writing/stealing/patterns/{id}/vocabulary",
+      "source": "app/writing_study_port.py",
+      "status": "ported_native_extension_unit_tested"
     }
   ]
 }

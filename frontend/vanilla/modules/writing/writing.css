@@ -18,3 +18,25 @@
 [data-writing-native] .writing-groups > * { min-width:0; }
 @media (min-width:1024px){ [data-writing-native] .writing-two-column {grid-template-columns:repeat(2,minmax(0,1fr))} [data-writing-native] .writing-sticky {position:sticky;top:1rem} }
 @media(prefers-reduced-motion:reduce){[data-writing-native] *,[data-writing-native] *::before,[data-writing-native] *::after{transition-duration:0s!important;animation-duration:0s!important}}
+
+.writing-image-link{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;max-width:100%;color:inherit}
+.writing-original-image{display:block;width:auto;height:auto;max-width:100%;max-height:none!important;background:#fff;object-fit:contain;filter:none!important;opacity:1!important}
+[data-stealing-model-study]{position:relative;min-width:0}
+.stealing-study-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.stealing-essay-text{white-space:pre-wrap;font-size:clamp(1.05rem,1rem + .2vw,1.25rem);line-height:1.9;overflow-wrap:anywhere}
+.stealing-essay-text mark{color:#102740!important;padding:.08em 0;cursor:pointer}
+.stealing-essay-text mark[data-color="yellow"]{background:#fef08a!important}
+.stealing-essay-text mark[data-color="blue"]{background:#bae6fd!important}
+.stealing-essay-text mark[data-color="orange"]{background:#fed7aa!important}
+.stealing-notes{margin-top:1rem;display:flex;flex-direction:column;gap:.5rem}
+.stealing-notes[hidden]{display:none!important}
+.stealing-notes textarea{width:100%;min-height:14rem}
+
+.stealing-study-layout{display:flex;flex-direction:column;gap:1rem}
+.stealing-notes{order:-1;margin-top:0}
+[data-study-color]::before{content:'';width:.85rem;height:.85rem;border-radius:50%;display:inline-block;flex:none}
+[data-study-color="yellow"]::before{background:#fef08a}
+[data-study-color="blue"]::before{background:#bae6fd}
+[data-study-color="orange"]::before{background:#fed7aa}
+@media(min-width:1024px){[data-stealing-model-study][data-notes-open="true"] .stealing-study-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(16rem,.65fr);align-items:start}.stealing-notes{order:0;position:sticky;top:1rem}}
+#root [data-stealing-model-study] [hidden]{display:none!important}

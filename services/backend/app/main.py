@@ -804,3 +804,6 @@ from .step39_dictionary_publish import install as _install_step39_dictionary_pub
 _install_step39_dictionary_publish()
 from .step40_content_drafts import install as _install_step40_content_drafts
 _install_step40_content_drafts()
+
+from .writing_study_port import install as _install_writing_study
+_install_writing_study()

@@ -21,6 +21,6 @@ export {WRITING_TABS};
 /** Public module bytes only; opening a tab still owns its API operations. */
 export async function preload(url){
  if(url.pathname!=='/app/writing')return;
- const tab=url.searchParams.get('tab')||'lessons',modules={lessons:'./lessons.js',exam:'./exam.js',translation:'./translation.js',typing:'./typing.js','topic-vocabulary':'./topic.js',grade:'./grade.js',activation:'./activation.js','language-stealing':'./stealing.js'};
+ const tab=url.searchParams.get('tab')||'lessons',modules={lessons:'./lessons.js',exam:'./exam.js',translation:'./translation.js',typing:'./typing.js',grade:'./grade.js',activation:'./activation.js','language-stealing':'./stealing.js'};
  await import('./home.js');if(modules[tab])await import(modules[tab]);
 }

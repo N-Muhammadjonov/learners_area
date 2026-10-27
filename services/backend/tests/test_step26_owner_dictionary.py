@@ -25,10 +25,10 @@ def test_inventory_actual_strict_250():
     report=json.loads(Path('PORT_STATUS.json').read_text())
     actual=[(m,r.path) for r in core.app.routes if r.path.startswith('/api/') for m in r.methods]
     expected={(e['method'],e['path']) for e in report['endpoints'] if e['status'].startswith('ported_')}
-    assert len(actual)==len(set(actual))==265
+    assert len(actual)==len(set(actual))==269
     assert set(actual)==expected and NEW<=expected
-    assert report['ported_methods']==265 and report['unported_methods']==0
-    assert report['total_methods']==265 and len(report['endpoints'])==265
+    assert report['ported_methods']==269 and report['unported_methods']==0
+    assert report['total_methods']==269 and len(report['endpoints'])==269
 
 @pytest.mark.parametrize('method,uri',[
  ('POST','/api/internal/telegram/owner/handover'),

@@ -8,6 +8,7 @@ from pathlib import Path
 
 DATA=json.loads(Path(__file__).with_suffix('.json').read_text())
 MODELS={m['id']:m for m in DATA['models']}
+UZ=json.loads(Path(__file__).with_name('writing_stealing_uz.json').read_text())
 
 def metadata_for_model(row):
     if not row:return None
@@ -18,7 +19,7 @@ def metadata_for_model(row):
         return None
     if 'body' in r and r['body']!=m['body']:return None
     return {'estimatedBand':True,'sourceNumber':m['number'],'prompt':m['prompt'],'promptSource':m['promptSource'],
-      'promptSourceUrl':m['promptSourceUrl'],'feedback':m['feedback']}
+      'promptSourceUrl':m['promptSourceUrl'],'feedback':m['feedback'],'feedbackUz':UZ['feedback'][m['number']-1]}
 
 def collection_info():
-    return {'method':DATA['method'],'notice':DATA['notice']}
+    return {'method':DATA['method'],'methodUz':UZ['method'],'notice':DATA['notice']}
