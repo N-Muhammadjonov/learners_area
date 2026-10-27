@@ -369,6 +369,9 @@ async def vocabulary_folders_post(req: Request):
     if not user: return core.j({'error':'unauthenticated'}, 401, PRIVATE)
     body = await core.payload(req)
     if not isinstance(body,dict):return core.j({'error':'invalid_input'},400)
+    if 'action' in body:
+        from .vocabulary_folders import manage_folder
+        return await manage_folder(user,body)
     ids = body.get('entryIds')
     if isinstance(ids,list) and 1 <= len(ids) <= 200 and all(_uuid(x) for x in ids) and ('folderId' in body) and (body['folderId'] is None or _uuid(body['folderId'])):
         folder_id = _uuid(body['folderId']) if body['folderId'] is not None else None
@@ -640,3 +643,4 @@ async def admin_reading_passages(req: Request):
         row=await conn.fetchrow('''INSERT INTO reading_passages(title,body_text,difficulty_level,suggested_minutes,publication_state)
           VALUES($1,$2,$3,$4,'draft') RETURNING id''',body['title'],body['bodyText'],body['difficultyLevel'],int(minutes))
     return core.j({'ok':True,'id':str(row['id'])})
+

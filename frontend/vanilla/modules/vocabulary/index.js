@@ -20,9 +20,10 @@ export function mount(ctx){const {root,url,dict,navigate,signal}=ctx;const path=
   child?.abort('vocabulary-tab-left');child=new window.AbortController();const own={...ctx,url:next,signal:child.signal};
   tab=['use','board','revision','dictionary'].includes(next.searchParams.get('tab'))?next.searchParams.get('tab'):'words';ctx.url=next;
   main.dataset.vocabularyPanel=tab;main.setAttribute('aria-label',t.tab[tab]);main.replaceChildren();
-  top.replaceChildren(h('div',{},h('h1',{class:'font-display text-2xl text-ink-900','data-vocabulary-title':''},t.title),h('p',{class:'mt-1 text-sm text-ink-500'},tab==='dictionary'?dict.globalDictionary.description:t.search.hint)));
-  if(tab!=='dictionary')top.append(searchBox(own,hit=>{if(tab==='words'){const node=[...workspace.querySelectorAll('[data-vocab-entry]')].find(n=>n.dataset.vocabEntry===hit.id),button=node?.querySelector('button');if(button?.getAttribute('aria-expanded')!=='true')button?.click();node?.scrollIntoView?.({behavior:'smooth',block:'nearest'});}else void navigate('/app/vocabulary');}));
+  top.replaceChildren(h('div',{},h('h1',{class:'font-display text-2xl text-ink-900','data-vocabulary-title':''},t.title),h('p',{class:'mt-1 text-sm text-ink-500'},tab==='dictionary'?dict.globalDictionary.description:tab==='board'?t.board.hint:t.search.hint)));
+  if(tab!=='dictionary'&&tab!=='board')top.append(searchBox(own,hit=>{if(tab==='words'){const node=[...workspace.querySelectorAll('[data-vocab-entry]')].find(n=>n.dataset.vocabEntry===hit.id),button=node?.querySelector('button');if(button?.getAttribute('aria-expanded')!=='true')button?.click();node?.scrollIntoView?.({behavior:'smooth',block:'nearest'});}else void navigate('/app/vocabulary');}));
   if(tab==='dictionary')mountDictionary(own,main);
+  else if(tab==='board')mountBoard(own,main,{compact:true});
   else{
    const area=h('div',{class:'grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]'}),body=h('div',{class:'flex min-w-0 flex-col gap-4'}),aside=h('aside',{class:'flex flex-col gap-4 lg:sticky lg:top-4 lg:self-start'});
    area.append(body,aside);main.append(area);
@@ -34,3 +35,4 @@ export function mount(ctx){const {root,url,dict,navigate,signal}=ctx;const path=
  ctx.onNavigate?.(switchTab);ctx.onHistory?.(switchTab);
  signal.addEventListener('abort',()=>{child?.abort('vocabulary-left');workspace.remove();},{once:true});select(url);
 }
+

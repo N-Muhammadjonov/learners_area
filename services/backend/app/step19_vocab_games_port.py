@@ -58,6 +58,12 @@ async def get_games(req:Request):
     args=[user['id']];where=conditions(key,folder,topic,args)
     db=await core.pool()
     async with db.acquire() as con:
+        if game=='cards' and req.query_params.get('batches')=='1':
+            raw=req.query_params.get('batch')
+            if raw is not None and (not raw.isdecimal() or len(raw)>7):return core.j({'error':'invalid_batch'},400,PRIVATE)
+            if folder and not core.uuid_value(folder):return core.j({'error':'invalid_input'},400,PRIVATE)
+            from .vocabulary_flashcard_batches import read_batch
+            return await read_batch(con,user['id'],key,folder,topic,int(raw) if raw is not None else None)
         rows=await con.fetch(f'''SELECT uv.id,l.term,l.accepted_translations AS "acceptedTranslations",
             l.part_of_speech AS "partOfSpeech",l.definition_en AS "definitionEn",
             l.translation_uz AS "translationUz",l.example_sentence AS "exampleSentence",
@@ -100,10 +106,11 @@ async def get_games(req:Request):
         return core.j(payload)
 
 def input_valid(b):
-    if not isinstance(b,dict) or set(b)-{'entryId','set','gameId','folderId','topicPack','submission'}:return False
+    if not isinstance(b,dict) or set(b)-{'entryId','set','gameId','folderId','topicPack','submission','batchIndex'}:return False
     if not core.uuid_value(b.get('entryId')) or b.get('set') not in SETS or b.get('gameId') not in GAMES:return False
     if b.get('folderId') is not None and not core.uuid_value(b['folderId']):return False
     if b.get('topicPack') is not None and (not isinstance(b['topicPack'],str) or len(b['topicPack'])>100):return False
+    if 'batchIndex' in b and (b.get('gameId')!='cards' or type(b['batchIndex'])!=int or not 0<=b['batchIndex']<=1000000):return False
     sub=b.get('submission')
     if not isinstance(sub,dict) or sub.get('kind') not in ('spelling','sentence','pair','self'):return False
     kind=sub['kind']
@@ -135,6 +142,13 @@ async def answer_game(req:Request):
         entry=await con.fetchrow('SELECT * FROM user_vocabulary WHERE id=$1 AND user_id=$2',b['entryId'],user['id'])
         if not entry:return core.j({'error':'not_found'},404)
         if not await in_set(con,entry,b['set'],b.get('folderId'),b.get('topicPack'),user['id'],now):return core.j({'error':'not_in_set'},404)
+        if 'batchIndex' in b:
+            from .vocabulary_flashcard_batches import load_groups,BATCH_SIZE
+            ids,marks,groups,due=await load_groups(con,user['id'],b['set'],b.get('folderId'),b.get('topicPack'))
+            batch=b['batchIndex']
+            if batch>=len(groups) or str(entry['id']) not in {str(i) for i in ids[batch*BATCH_SIZE:(batch+1)*BATCH_SIZE]}:
+                return core.j({'error':'batch_changed'},409,PRIVATE)
+            if not groups[batch]['unlocked']:return core.j({'error':'batch_locked'},403,PRIVATE)
         lexeme=await con.fetchrow('SELECT * FROM lexemes WHERE id=$1',entry['lexeme_id'])
         if not lexeme:return core.j({'error':'not_found'},404)
         sub=b['submission'];kind=sub['kind']
@@ -167,3 +181,4 @@ async def answer_game(req:Request):
         return core.j({'ok':True,'correct':bool(correct),'verified':verified,'awarded':1 if awarded else 0,'srsUntouched':True})
 
 def install():core.app.include_router(router)
+
