@@ -7,6 +7,7 @@ OWNER_ID_RE = re.compile(r"^[0-9]{1,20}$")
 
 SENSITIVE_CALLBACK_PREFIXES = (
     "decide_",
+    "auth:retry_channels",
     "ust:",
     "dmok",
     "bcok",

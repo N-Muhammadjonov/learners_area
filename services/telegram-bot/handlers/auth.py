@@ -1,8 +1,10 @@
+from urllib.parse import urlsplit
+
 from aiogram import F, Router
 from aiogram.filters import Command, CommandObject, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import ChatMemberUpdated, Message, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
+from aiogram.types import ChatMemberUpdated, Message, ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 
 from handlers.menu import show_home
 from i18n import t
@@ -25,6 +27,73 @@ def phone_keyboard(lang: str) -> ReplyKeyboardMarkup:
 def lang_of(message: Message, db_user: dict | None = None) -> str:
     code = (message.from_user.language_code or "uz") if message.from_user else "uz"
     return "en" if code.startswith("en") else "uz"
+
+
+
+def _channel_keyboard(lang: str, channels: list | None = None) -> InlineKeyboardMarkup:
+    rows = []
+    for channel in (channels or [])[:4]:
+        if not isinstance(channel, dict):
+            continue
+        url = channel.get("url")
+        if not isinstance(url, str):
+            continue
+        parsed = urlsplit(url)
+        if (parsed.scheme != "https" or parsed.hostname != "t.me"
+            or parsed.username or parsed.password or not parsed.path.strip("/")):
+            continue
+        title = str(channel.get("title") or "Telegram")[:55]
+        rows.append([InlineKeyboardButton(text=f"📢 {title}", url=url)])
+    rows.append([InlineKeyboardButton(text=t(lang, "channels_retry"), callback_data="auth:retry_channels")])
+    return InlineKeyboardMarkup(inline_keyboard=rows)
+
+
+async def _complete_pending_intent(message: Message, state: FSMContext | None,
+                                   telegram_user_id: str, display_name: str, lang: str) -> bool:
+    data = await state.get_data() if state else {}
+    token = data.get("pending_token") if isinstance(data, dict) else None
+    if not isinstance(token, str) or not token:
+        await message.answer(t(lang, "confirm_failed"))
+        return False
+    try:
+        status, result = await api_client.preflight_intent(token, telegram_user_id)
+    except Exception:
+        status, result = 503, {}
+    result = result if isinstance(result, dict) else {}
+    error = result.get("error")
+    if status == 403 and error == "not_subscribed":
+        await message.answer(t(lang, "channels_required"),
+                             reply_markup=_channel_keyboard(lang, result.get("requiredChannels")))
+        return False
+    if status == 503 and error == "membership_unavailable":
+        await message.answer(t(lang, "channels_error"),
+                             reply_markup=_channel_keyboard(lang, result.get("requiredChannels")))
+        return False
+    if status == 403 and error == "phone_required":
+        await message.answer(t(lang, "phone_required"), reply_markup=phone_keyboard(lang))
+        return False
+    if status == 404 and error == "intent_invalid":
+        if state:
+            await state.clear()
+        await message.answer(t(lang, "confirm_failed"))
+        return False
+    if status != 200 or result.get("ok") is not True:
+        await message.answer(t(lang, "temporary_error"), reply_markup=_channel_keyboard(lang))
+        return False
+    try:
+        confirmed = await api_client.confirm_intent(
+            token=token, telegram_user_id=telegram_user_id,
+            displayName=display_name, languageCode=lang,
+        )
+    except Exception:
+        confirmed = False
+    if not confirmed:
+        await message.answer(t(lang, "confirm_failed"))
+        return False
+    if state:
+        await state.clear()
+    await message.answer(t(lang, "confirmed"))
+    return True
 
 
 @auth_router.message(CommandStart())
@@ -82,21 +151,36 @@ async def receive_own_contact(
         return
     data = await state.get_data() if state else {}
     token = data.get("pending_token") if isinstance(data, dict) else None
-    if state:
-        await state.clear()
     await message.answer(t(lang, "phone_saved"), reply_markup=ReplyKeyboardRemove())
     if token:
-        try:
-            confirmed = await api_client.confirm_intent(
-                token=token,
-                telegram_user_id=str(sender.id),
-                displayName=sender.full_name,
-                languageCode=lang,
-            )
-        except Exception:
-            confirmed = False
-        await message.answer(t(lang, "confirmed" if confirmed else "confirm_failed"))
+        if not await _complete_pending_intent(message, state, str(sender.id), sender.full_name, lang):
+            return
+    elif state:
+        await state.clear()
     await show_home(message, lang, bot_access, db_user)
+
+
+
+@auth_router.callback_query(F.data == "auth:retry_channels")
+async def retry_required_channels(callback: CallbackQuery, state: FSMContext,
+                                  db_user: dict | None = None, bot_access: dict | None = None,
+                                  backend_error: bool = False):
+    lang = "en" if (callback.from_user and (callback.from_user.language_code or "").startswith("en")) else "uz"
+    if (backend_error or callback.from_user is None or not callback.message
+        or not callback.message.chat or callback.message.chat.type != "private"
+        or not hasattr(callback.message, "answer")):
+        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+        return
+    data = await state.get_data()
+    if not isinstance(data, dict) or not data.get("pending_token"):
+        await callback.answer(t(lang, "confirm_failed"), show_alert=True)
+        return
+    await callback.answer()
+    success = await _complete_pending_intent(
+        callback.message, state, str(callback.from_user.id), callback.from_user.full_name, lang
+    )
+    if success:
+        await show_home(callback.message, lang, bot_access, db_user)
 
 
 @auth_router.my_chat_member()
