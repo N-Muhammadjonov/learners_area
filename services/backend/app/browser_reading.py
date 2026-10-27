@@ -1,5 +1,7 @@
 """Reading catalogue, owned attempts and explicit learning-check hydration."""
+import hashlib
 import math
+import re
 from fastapi import HTTPException
 from . import main as core
 from .browser_common import camel, existing, identifier, live, number
@@ -116,6 +118,29 @@ def canonical_sql():
     return 'CASE lower(COALESCE(q.type_code,q.type::text)) ' + ' '.join("WHEN '"+key.replace("'","''")+"' THEN '"+value+"'" for key,value in TYPE_IDS.items()) + ' ELSE NULL END'
 
 
+def general_library_order(rows):
+    """Shuffle the 33 imported triples, keeping their authored 1/2/3 slots.
+
+    A fixed key keeps links and filtered views stable between requests. The
+    supplemental 34th row is 1/2/3 too; the final row keeps its existing order.
+    Content, set membership and learner progress are never rewritten.
+    """
+    tail_order = {102: 100, 100: 101, 101: 102}
+    def order(index_row):
+        index, row = index_row
+        test_no = row.get('test_no')
+        if type(test_no) is int and 1 <= test_no <= 33:
+            rank = hashlib.sha256(f'general-reading-order-v1:{test_no}'.encode()).hexdigest()
+            return (0, rank, row['passage_no'], str(row['id']))
+        external = row.get('external_id') or ''
+        match = re.match(r'^learnersarea-reading-(10[0-5])-', external)
+        if match:
+            ordinal = int(match[1])
+            return (1, tail_order.get(ordinal, ordinal), 0, '')
+        return (2, index, 0, '')
+    return [row for _, row in sorted(enumerate(rows), key=order)]
+
+
 async def library(con, uid, q):
     args = [uid]
     conds = [live('p'),live('s')]
@@ -138,14 +163,15 @@ async def library(con, uid, q):
     source = ' FROM general_reading_passages g JOIN general_reading_sets s ON s.id=g.set_id JOIN reading_passages p ON p.id=g.passage_id LEFT JOIN general_reading_progress r ON r.passage_id=p.id AND r.user_id=$1 WHERE '+' AND '.join(conds)
     total = await con.fetchval('SELECT count(*)::int'+source,*args)
     pages = 1; page = 1
-    rows = await con.fetch('''SELECT p.id,p.title,p.test_no,g.passage_no,p.topic_code,p.suggested_minutes,g.set_id,
+    rows = await con.fetch('''SELECT p.id,p.title,p.test_no,p.external_id,g.passage_no,p.topic_code,p.suggested_minutes,g.set_id,
       (SELECT count(*)::int FROM reading_questions q WHERE q.passage_id=p.id) question_count,
       (SELECT count(*)::int FROM reading_questions q WHERE q.passage_id=p.id AND btrim(coalesce(r.answers->>q.id::text,''))<>'') answered_count,
       CASE WHEN r.checked_at IS NOT NULL THEN 'completed' WHEN r.passage_id IS NOT NULL THEN 'in_progress' ELSE 'not_started' END status,
       CASE WHEN r.checked_at IS NOT NULL THEN r.score END last_score,NULL::uuid last_attempt_id'''+source+f' ORDER BY p.test_no NULLS LAST,p.external_id NULLS LAST,s.created_at,g.passage_no,p.id',*args)
+    rows = general_library_order(rows)
     topics = await con.fetch(f'SELECT p.topic_code code,count(*)::int count FROM reading_passages p WHERE {live("p")} AND p.topic_code IS NOT NULL GROUP BY p.topic_code ORDER BY p.topic_code')
     types = await con.fetch(f'SELECT {canonical_sql()} code,count(DISTINCT p.id)::int count FROM reading_passages p JOIN reading_questions q ON q.passage_id=p.id WHERE {live("p")} GROUP BY code')
-    return {'filter':{'query':q.get('q',''),'topic':q.get('topic',''),'type':q.get('type',''),'status':status},'facets':{'topics':[dict(r) for r in topics],'types':[dict(r) for r in types if r['code']]},'library':{'items':[camel(r) for r in rows],'total':total,'page':page,'pageCount':pages},'facetsUnavailable':False,'libraryUnavailable':False}
+    return {'filter':{'query':q.get('q',''),'topic':q.get('topic',''),'type':q.get('type',''),'status':status},'facets':{'topics':[dict(r) for r in topics],'types':[dict(r) for r in types if r['code']]},'library':{'items':[camel({k:v for k,v in r.items() if k!='external_id'}) for r in rows],'total':total,'page':page,'pageCount':pages},'facetsUnavailable':False,'libraryUnavailable':False}
 
 
 def re_escape_like(s):

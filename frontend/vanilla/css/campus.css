@@ -279,7 +279,7 @@ html[data-theme="night"]:has([data-campus-shell]){
  color-scheme:dark;
 }
 html[data-theme]:has([data-campus-shell]),
-html[data-theme]:has([data-campus-shell]) :is(.card,.panel,.lp-panel,.typing-stage-wrap,.typing-result,.typing-error-panel,.input,textarea,select,dialog,[role="dialog"],.dictionary-context-panel,.flashcard-face,.flashcard-queue,.revision-flip-face,[class~="bg-paper"],[class~="bg-paper-raised"],[class~="bg-paper-sunken"],[class~="bg-paper-50"],[class~="bg-signal-50"],[data-global-dictionary],[data-global-dictionary] *,.dictionary-folder-dialog *){
+html[data-theme]:has([data-campus-shell]) :is(.card,.panel,.lp-panel,.typing-stage-wrap,.typing-result,.typing-error-panel,.input,textarea,select,dialog,[role="dialog"],.dictionary-context-panel,.flashcard-face,.flashcard-queue,.revision-flip-face,[class~="bg-paper"],[class~="bg-paper-raised"],[class~="bg-paper-sunken"],[class~="bg-paper-50"],[class~="bg-signal-50"],[data-global-dictionary],[data-global-dictionary] *,.dictionary-folder-dialog *,.dictionary-context-panel *,[data-workspace-header],[data-native-module-header]){
  --paper:var(--workspace-paper)!important;--paper-raised:var(--workspace-raised)!important;--paper-sunken:var(--workspace-sunken)!important;
  --ink-950:var(--workspace-ink)!important;--ink-900:var(--workspace-ink)!important;--ink-800:var(--workspace-ink)!important;
  --ink-700:var(--workspace-ink)!important;--ink-500:var(--workspace-muted)!important;--ink-300:var(--workspace-muted)!important;
@@ -340,3 +340,23 @@ body :is(dialog,[role="dialog"],.dictionary-context-panel,.dictionary-folder-dia
 }
 
 
+
+/* Restore contrast where legacy module and portal palettes had their own pale text. */
+html[data-theme]:has([data-campus-shell]) :is([data-module-sections],[data-writing-tablist]) :is(a,button,[role="tab"]){color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) :is([data-module-sections],[data-writing-tablist]) :is([aria-current="page"],[aria-selected="true"]){color:#fff!important;background:#3d50fa!important;border-radius:.6rem}
+html[data-theme]:has([data-campus-shell]) .dictionary-folder-dialog :is(h2,p,label,legend,span,strong){color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) .dictionary-folder-dialog button :is(span,strong){color:inherit!important}
+html[data-theme]:has([data-campus-shell]) .dictionary-context-panel{background:rgb(var(--workspace-raised))!important;color:rgb(var(--workspace-ink))!important;color-scheme:inherit}
+html[data-theme]:has([data-campus-shell]) .dictionary-context-panel :is(input,select,option){background:rgb(var(--workspace-raised))!important;color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) :is([data-global-dictionary],.dictionary-folder-dialog,.dictionary-context-panel) [class*="bg-sky-50"]{background:rgb(var(--workspace-sunken))!important;color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) .retention-level-option{background:rgb(var(--workspace-sunken))!important;color:rgb(var(--workspace-ink))!important}
+html[data-theme]:has([data-campus-shell]) .retention-level-option[aria-pressed="true"]{background:#3d50fa!important;color:#fff!important;box-shadow:inset 0 0 0 2px #3d50fa}
+html[data-theme]:has([data-campus-shell]) .retention-level-option[aria-pressed="true"] :is(strong,span){color:#fff!important}
+html[data-theme]:has([data-campus-shell]) [data-retention-page]{max-width:90rem;width:100%}
+html[data-theme]:has([data-campus-shell]) :is([data-retention-source],[data-retention-answer]){font-size:clamp(1.125rem,1rem + .5vw,1.5rem)!important;line-height:1.85!important;padding:clamp(1rem,2.5vw,2.5rem);border-radius:1rem}
+html[data-theme]:has([data-campus-shell]) [data-retention-source]{background:#eff6ff!important;color:#102740!important}
+html[data-theme="night"]:has([data-campus-shell]) [data-retention-source]{background:#172b48!important;color:#f3eef5!important}
+html[data-theme]:has([data-campus-shell]) [data-retention-answer]{min-height:clamp(20rem,55dvh,40rem);resize:vertical}
+/* Auth markup and layout stay fixed; only the requested brand/footer text changes. */
+html[data-theme] #root [data-auth-shell] [data-auth-brand] :is(.brand-name,.brand-tagline),
+html[data-theme] #root [data-auth-shell]:has([data-public-auth]) > .w-full > .text-center{color:#fff!important}

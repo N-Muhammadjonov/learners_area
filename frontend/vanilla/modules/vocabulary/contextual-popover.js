@@ -20,6 +20,10 @@ export function contextualWordPopover(context,props){
  let observer=null;
  function place(){
   if(!popup||stopped)return;
+  if(sourceType==='retention'){
+   // Retention keeps the dictionary in the same predictable corner at every word.
+   position={left:null,top:null};popup.style.removeProperty('left');popup.style.removeProperty('top');popup.style.visibility='visible';return;
+  }
   const rect=anchor.getBoundingClientRect(),width=document.documentElement.clientWidth,height=innerHeight,box=popup.getBoundingClientRect(),bounds=anchor.closest('[data-clickable-text]')?.getBoundingClientRect();
   // Keep the panel inside its text column when it fits there, so it does not cover the answer controls beside it.
   const edge=bounds&&bounds.width>=box.width?Math.min(width-8,bounds.right):width-8;
@@ -109,7 +113,7 @@ export function contextualWordPopover(context,props){
  }
  function view(){
   const study=!loading?contextual?.study:null;
-  return el('div',{tabIndex:-1,role:'dialog','aria-label':word,'data-word-popover':true,class:'dictionary-context-panel fixed overflow-y-auto whitespace-normal rounded-md border border-ink-100 bg-paper-raised p-3 shadow-raised',style:{left:(position?.left??0)+'px',top:(position?.top??0)+'px',visibility:position?'visible':'hidden'}},
+  return el('div',{tabIndex:-1,role:'dialog','aria-label':word,'data-word-popover':true,'data-word-source':sourceType,class:'dictionary-context-panel fixed overflow-y-auto whitespace-normal rounded-md border border-ink-100 bg-paper-raised p-3 shadow-raised',style:{...(sourceType==='retention'?{}:{left:(position?.left??0)+'px',top:(position?.top??0)+'px'}),visibility:position?'visible':'hidden'}},
    el('div',{class:'flex items-start justify-between gap-2'},
     el('span',{class:'font-display text-lg text-ink-900'},word),
     button('btn-ghost px-2 py-1 text-xs',{'aria-label':t.games.pronounce},'🔊',()=>speak(word)),

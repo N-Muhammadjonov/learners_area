@@ -99,7 +99,8 @@ async def owner_access(con,user,typ,id):
     if not row:return None
     rd=dict(row)
     if typ in ('reading','listening','writing','speaking'):
-        deleted=await con.fetchval("SELECT EXISTS(SELECT 1 FROM activity_events WHERE id=md5('deleted-content:' || $1::text)::uuid AND type='CONTENT_DELETED')",id)
+        # This parameter is PostgreSQL text, while resource owner IDs are decoded UUIDs.
+        deleted=await con.fetchval("SELECT EXISTS(SELECT 1 FROM activity_events WHERE id=md5('deleted-content:' || $1::text)::uuid AND type='CONTENT_DELETED')",str(id))
         if deleted:return None
     can= True if typ in ('lesson','grammar','assignment','live_class') else bool(published(rd))
     if typ=='speaking':can=can and bool(rd.get('is_active'))

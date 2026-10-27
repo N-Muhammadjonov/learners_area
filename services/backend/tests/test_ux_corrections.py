@@ -33,7 +33,7 @@ class AcademicConnection:
             self.catalogue_sql=sql
             return [{'id':ident(i+10),'title':f'Test {i+1}','created_at':None} for i in range(30)]
         if 'DISTINCT ON (a.set_id)' in sql:
-            return [{'set_id':ident(10),'id':ident(101),'status':'completed','completed':True}]
+            return [{'set_id':ident(10),'id':ident(101),'status':'completed','completed':True,'answered_count':40,'total_questions':40}]
         return [{'set_id':ident(i+10),'passage_no':n,'title':f'Part {n}'} for i in range(30) for n in (1,2,3)]
 
 class UXTests(unittest.IsolatedAsyncioTestCase):

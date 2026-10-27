@@ -165,6 +165,10 @@ async def catalogue(con, user, product, q):
                 status = course_status(SPEC[t['source_id']],await current_work(con,user['id'],str(id),t['source_id'],values))
                 completed,count = status['completed'],status['total']
                 started = started or bool(values)
+            # An exited/graded exam is not completion of the whole Listening course.
+            # Visiting or saving a draft can only enter the in-progress state.
+            answer_state['state'] = ('completed' if count > 0 and completed == count else
+                'in_progress' if started or completed or saved else 'not_started')
             cards.append({'testId':str(id),'title':t['title'],'parts':len(p.get('sections',[])),'questions':len(p.get('questions',[])) or len(await available_set(con,id)),'minutes':math.floor(p['audio']['durationSec']/60+.5) if p.get('audio',{}).get('durationSec') else None,'completed':completed,'activityCount':count,'answerProgress':answer_state,'started':started,'locked':not await sequence(con,user,t,access_cache),'exam':{'score':exam['score'],'total':exam['total_questions']} if exam else None})
     return {'cards':cards,'total':total,'page':1,'pageSize':max(1,len(cards)),'hasMore':False}
 

@@ -11,7 +11,12 @@ import * as publicAuth from '../modules/auth/public.js';
 const styles=['../css/global.css','../css/campus.css'].map(p=>fs.readFileSync(new URL(p,import.meta.url),'utf8'));
 const words=['run','walk','fly'].map((term,i)=>({id:String(i),term,definitionEn:'Move '+term,translationUz:'Harakat',exampleSentence:'We '+term+' every day.',partOfSpeech:'verb',acceptedTranslations:[],sourceType:'reading'}));
 function check(h,label){const cascade=colorCascade(document,styles),failures=[];let checked=0;
- for(const node of h.ctx.root.querySelectorAll('*')){const text=(node.matches('input,textarea')?node.value||node.placeholder:[...node.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join(' ')).trim();if(!/[\p{L}\p{N}]/u.test(text)||node.closest('[disabled],[aria-disabled=true],[data-sidebar-brand]')||node.matches(':disabled'))continue;const s=cascade.get(node);if(!s.visible)continue;const ratio=contrastRatio(s.color,s.background);checked++;if(ratio<4.5)failures.push(`${text.slice(0,70)}: ${ratio.toFixed(2)} (${node.className}; ${s.color} / ${s.background}; ${s.foregroundRule})`);}
+ for(const node of h.ctx.root.querySelectorAll('*')){const text=(node.matches('input,textarea')?node.value||node.placeholder:[...node.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join(' ')).trim();if(!/[\p{L}\p{N}]/u.test(text)||node.closest('[disabled],[aria-disabled=true],[data-sidebar-brand]')||node.matches(':disabled'))continue;const s=cascade.get(node);if(!s.visible)continue;
+  // The public footer sits over an absolute dark artwork layer, not the shell's
+  // unused Day background. This probe has no layout/paint engine; read that layer.
+  const backdrop=node.matches('[data-auth-shell] > .w-full > .text-center')?node.closest('[data-auth-shell]').querySelector('.la-public-background'):null;
+  const background=backdrop?cascade.get(backdrop).background:s.background;
+  const ratio=contrastRatio(s.color,background);checked++;if(ratio<4.5)failures.push(`${text.slice(0,70)}: ${ratio.toFixed(2)} (${node.className}; ${s.color} / ${background}; ${s.foregroundRule})`);}
  assert(checked>0,label);assert.deepEqual([...cascade.unknown],[],label);assert.deepEqual(failures,[],label);
 }
 for(const theme of ['day','night'])for(const focus of ['off','on']){
