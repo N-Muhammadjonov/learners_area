@@ -91,6 +91,10 @@ class ApiClient:
         )
         return status == 200
 
+    async def preflight_intent(self, token: str, telegram_user_id: str) -> tuple[int, Any]:
+        return await self._request("POST", "/auth/preflight",
+            json={"token": token, "telegramUserId": telegram_user_id})
+
     async def create_access_request(self, telegram_user_id: str, name: str, message: str | None = None, **extra: Any) -> Any:
         payload = {"telegramUserId": telegram_user_id, "name": name, "message": message, **extra}
         status, data = await self._request("POST", "/admission/request", json=payload)
