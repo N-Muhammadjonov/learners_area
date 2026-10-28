@@ -130,8 +130,14 @@ async def allow_resource(con,user,key):
         return (await owner_access(con,user,block['owner_type'],block['owner_id'])) or 'not_found'
     attempt=await con.fetchrow('SELECT user_id FROM speaking_attempts WHERE recording_object_key=$1 LIMIT 1',key)
     if not attempt:return 'not_found'
-    if attempt['user_id']!=user['id'] and user['role'] not in STAFF:return 'forbidden'
-    return 'allowed'
+    if user['role']=='owner':return 'allowed'
+    if user['role']=='student':return 'allowed' if attempt['user_id']==user['id'] else 'forbidden'
+    if user['role']=='teacher':
+        allowed=await con.fetchval('''SELECT EXISTS(SELECT 1 FROM teacher_student_links l JOIN users s
+          ON s.id=l.student_user_id AND s.role='student' WHERE l.teacher_user_id=$1 AND l.student_user_id=$2)''',
+          user['id'],attempt['user_id'])
+        return 'allowed' if allowed else 'forbidden'
+    return 'forbidden'
 
 async def stored_mime(con,key):
     rows=(('material_blocks','mime_type','object_key'),('speaking_materials','primary_mime_type','primary_object_key'),

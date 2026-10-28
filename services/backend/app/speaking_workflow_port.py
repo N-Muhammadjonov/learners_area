@@ -11,7 +11,6 @@ from .db import row_to_dict
 
 router=APIRouter()
 PARTS={'part1','part2','part3','general'}
-STAFF={'teacher','admin','owner'}
 PROMPT_COLUMNS='''id,part,category,prompt_text AS "promptText",cue_card AS "cueCard",
 prep_seconds AS "prepSeconds",answer_seconds AS "answerSeconds",
 follow_ups AS "followUps",study_support AS "studySupport",external_id AS "externalId",
@@ -70,10 +69,18 @@ async def examiner_script(req:Request):
 async def attempts(req:Request):
     u=await actor(req)
     if not u:return core.auth_error()
+    if u['role']=='admin' or u['role'] not in ('student','teacher','owner'):
+        return core.j({'error':'forbidden'},403)
     db=await core.pool()
     async with db.acquire() as con:
-        if u['role'] in STAFF:
-            rows=await con.fetch(f'SELECT {ATTEMPT_COLUMNS} FROM speaking_attempts ORDER BY started_at DESC LIMIT 100')
+        if u['role']=='owner':
+            rows=await con.fetch(f'''SELECT {ATTEMPT_COLUMNS} FROM speaking_attempts
+              WHERE user_id IN (SELECT id FROM users WHERE role='student') ORDER BY started_at DESC LIMIT 100''')
+        elif u['role']=='teacher':
+            rows=await con.fetch(f'''SELECT {ATTEMPT_COLUMNS} FROM speaking_attempts
+              WHERE user_id IN (SELECT l.student_user_id FROM teacher_student_links l
+                JOIN users s ON s.id=l.student_user_id AND s.role='student' WHERE l.teacher_user_id=$1)
+              ORDER BY started_at DESC LIMIT 100''',u['id'])
         else:
             rows=await con.fetch(f'SELECT {ATTEMPT_COLUMNS} FROM speaking_attempts WHERE user_id=$1 ORDER BY started_at DESC LIMIT 100',u['id'])
         ids=[r['promptId'] for r in rows if r['promptId']]
@@ -84,6 +91,7 @@ async def attempts(req:Request):
     result=[]
     for r in rows:
         x=row_to_dict(r);x['prompt']=prompts.get(str(r['promptId'])) if r['promptId'] else None
+        if u['role']!='student':x['recordingObjectKey']=None
         result.append(x)
     return core.j({'ok':True,'attempts':result,'limit':100,'returned':len(result)})
 
@@ -92,12 +100,23 @@ async def attempt_detail(req:Request,id:str):
     if not core.uuid_value(id):return core.j({'error':'not_found'},404)
     u=await actor(req)
     if not u:return core.auth_error()
+    if u['role']=='admin' or u['role'] not in ('student','teacher','owner'):
+        return core.j({'error':'forbidden'},403)
     db=await core.pool()
     async with db.acquire() as con:
         r=await con.fetchrow(f'SELECT {ATTEMPT_COLUMNS} FROM speaking_attempts WHERE id=$1',id)
-    if not r:return core.j({'error':'not_found'},404)
-    if u['role'] not in STAFF and str(r['userId'])!=str(u['id']):return core.j({'error':'forbidden'},403)
-    return core.j({'ok':True,'attempt':row_to_dict(r)})
+        if not r:return core.j({'error':'not_found'},404)
+        if u['role']=='student' and str(r['userId'])!=str(u['id']):return core.j({'error':'forbidden'},403)
+        if u['role']=='teacher':
+            allowed=await con.fetchval('''SELECT EXISTS(SELECT 1 FROM teacher_student_links l JOIN users s
+              ON s.id=l.student_user_id AND s.role='student' WHERE l.teacher_user_id=$1 AND l.student_user_id=$2)''',u['id'],r['userId'])
+            if not allowed:return core.j({'error':'not_found'},404)
+        elif u['role']=='owner':
+            target_role=await con.fetchval('SELECT role FROM users WHERE id=$1',r['userId'])
+            if target_role!='student':return core.j({'error':'not_found'},404)
+    value=row_to_dict(r)
+    if u['role']!='student':value['recordingObjectKey']=None
+    return core.j({'ok':True,'attempt':value})
 
 @router.post('/api/speaking/attempts')
 async def start_attempt(req:Request):

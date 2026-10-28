@@ -26,7 +26,8 @@ const selected=new Set(['/app/dashboard','/app/progress','/app/mocks','/app/coac
 for(const game of ['cards','choice','match','gap','race','translation','builder'])selected.add('/app/vocabulary/games/'+game+'?set=all');
 selected.add('/app/grammar?tab=writing');
 for(const raw of samples.values())if(raw.route){const p=new URL(raw.route,'http://preview.test');
- if(p.pathname==='/app/writing'||/^\/app\/writing\/(exam|translation|grade|language-stealing|lessons)\//.test(p.pathname))selected.add(raw.route);
+ if(p.pathname==='/app/writing'&&p.searchParams.get('tab')!=='topic-vocabulary')selected.add(raw.route);
+ if(/^\/app\/writing\/(exam|translation|grade|language-stealing|lessons)\//.test(p.pathname))selected.add(raw.route);
  if(/^\/app\/(reading|listening|grammar)\/lessons\//.test(p.pathname))selected.add(raw.route);
 }
 // Staff read envelopes and their production routes.

@@ -61,4 +61,3 @@ test('vocabulary ranking hides the B2 level badge',async()=>{
 for(const locale of ['uz','en'])test(`${locale} membership error uses a translated instruction instead of generic unavailable`,()=>{
  const h=setup({locale});try{assert.equal(failure({status:403,code:'not_subscribed'},h.ctx.dict,{not_subscribed:h.ctx.dict.auth.telegramNotSubscribed}),h.ctx.dict.auth.telegramNotSubscribed);assert(h.ctx.dict.auth.telegramNotSubscribed.includes('Telegram'));}finally{h.dispose();}
 });
-

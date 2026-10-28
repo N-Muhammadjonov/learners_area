@@ -33,6 +33,7 @@ export function validateStudentResults(d){
  return {student:{id:s.id,name:str(s.name,{max:300}),email:str(s.email,{nullable:true,max:320})},unavailable:d.unavailable===undefined?false:bool(d.unavailable),
   testIds:arr(d.testIds??[],5000).map(x=>str(x,{max:100})),
   attempts:arr(d.attempts??[],5000).map(a=>{if(!isObj(a))throw bad();return {id:str(a.id,{max:100}),mockTestId:a.mockTestId==null?null:str(a.mockTestId,{max:100}),title:str(a.title,{nullable:true,max:300}),skill:a.skill==null?null:oneOf(a.skill,SKILLS),finishedAt:date(a.finishedAt,{nullable:true}),estimatedBand:band(a.estimatedBand??null),rawScore:raw(a.rawScore)};}),
+  attemptsTruncated:d.attemptsTruncated===undefined?false:bool(d.attemptsTruncated),
   practice:Object.fromEntries(SKILLS.map(k=>[k,d.practice?.[k]==null?null:int(d.practice[k])]))};
 }
 export const studentResults=(id,signal)=>{if(!UUID.test(id))return Promise.reject(Object.assign(new Error('not_found'),{status:404}));return staffData('student-results',{id},signal).then(validateStudentResults);};

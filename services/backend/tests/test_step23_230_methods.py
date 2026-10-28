@@ -21,8 +21,8 @@ NEW={('GET','/api/vocabulary/lookup'),('GET','/api/admin/content/versions/{id}/p
 def test_inventory_exact():
     state=json.loads(Path('PORT_STATUS.json').read_text())
     found={(m,r.path) for r in core.app.routes for m in r.methods if r.path.startswith('/api/')}
-    assert len(found)==265 and len(set(found))==265
-    assert state['ported_methods']==265 and state['unported_methods']==0
+    assert len(found)==271 and len(set(found))==271
+    assert state['ported_methods']==271 and state['unported_methods']==0
     ported={(r['method'],r['path']) for r in state['endpoints'] if r['status'].startswith('ported_')}
     assert ported==found and NEW<=ported
 

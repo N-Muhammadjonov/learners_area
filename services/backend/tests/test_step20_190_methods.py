@@ -72,7 +72,7 @@ def test_inventory_reconciled_and_no_undeclared_route():
     declared={(v['method'],v['path']) for v in d['endpoints'] if v['status'].startswith('ported_')}
     assert len(registered)==len(set(registered))>=210
     assert declared==set(registered)
-    assert len(d['endpoints'])==265 and d['ported_methods']==len(registered) and d['unported_methods']==265-len(registered)
+    assert len(d['endpoints'])==271 and d['ported_methods']==len(registered) and d['unported_methods']==271-len(registered)
 
 @pytest.mark.parametrize('method,path',[
   ('GET','/api/admin/content/lessons/'+str(RID)+'/edit'),

@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {joinState,opensAt,parseLiveClasses,safeExternalUrl,safeObjectKey} from '../modules/live-classes/contract.js';
-import {parseNotifications,internalHref} from '../modules/notifications/page.js';
+import {parseNotifications,internalHref,localizedNotification} from '../modules/notifications/page.js';
 const ID='11111111-1111-4111-8111-111111111111';
 const lesson={id:ID,title:'IELTS',topic:null,teacherUserId:null,scheduledAt:'2026-10-25T10:00:00Z',durationMinutes:60,status:'upcoming',meetingUrl:null,recordingUrl:null};
 test('V61: source join window is precisely -15min/+30min',()=>{
@@ -43,4 +43,12 @@ test('V62: read-only GET row shape validation',()=>{
 test('V62: notification links cannot navigate off site',()=>{
  assert.equal(internalHref('/app/coach?filter=weak'),'/app/coach?filter=weak');
  for(const x of ['javascript:bad()','https://elsewhere.test','//evil.test','/\\evil.test'])assert.equal(internalHref(x),null);
+});
+test('V62: staff monitoring event notifications are bilingual without trusting HTML',()=>{
+ const t={assignmentAssignedTitle:'Yangi topshiriq',assignmentAssignedBody:'Tayyor: {title}',assignmentDeadlineTitle:'Muddat yaqin',assignmentDeadlineBody:'24 soat ichida: {title}',assignmentOverdueTitle:'Muddati o‘tgan',assignmentOverdueBody:'Muddati o‘tgan: {title}',writingReviewTitle:'Tekshiruv kerak',writingReviewBody:'{student} yubordi',teacherFeedbackTitle:'Fikr tayyor',teacherFeedbackBody:'Writing javobingizga fikr bor'};
+ assert.deepEqual(localizedNotification({type:'ASSIGNMENT_ASSIGNED',title:'stored',body:'stored',payload:{assignmentTitle:'<script>'}},t),{title:'Yangi topshiriq',body:'Tayyor: <script>'});
+ assert.deepEqual(localizedNotification({type:'ASSIGNMENT_DEADLINE_APPROACHING',title:'stored',body:'stored',payload:{assignmentTitle:'Reading'}},t),{title:'Muddat yaqin',body:'24 soat ichida: Reading'});
+ assert.deepEqual(localizedNotification({type:'ASSIGNMENT_OVERDUE',title:'stored',body:'stored',payload:{assignmentTitle:'Listening'}},t),{title:'Muddati o‘tgan',body:'Muddati o‘tgan: Listening'});
+ assert.deepEqual(localizedNotification({type:'WRITING_REVIEW_REQUIRED',title:'stored',body:'stored',payload:{studentName:'Nodira'}},t),{title:'Tekshiruv kerak',body:'Nodira yubordi'});
+ assert.deepEqual(localizedNotification({type:'TEACHER_FEEDBACK_RECEIVED',title:'stored',body:'stored'},t),{title:'Fikr tayyor',body:'Writing javobingizga fikr bor'});
 });

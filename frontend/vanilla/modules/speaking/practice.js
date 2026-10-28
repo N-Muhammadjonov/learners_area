@@ -142,5 +142,3 @@ export function mount(context){
  if(!topicKey){studio.dataset.practiceStep='topic';body.replaceChildren(el('p',{'data-practice-loading':'topics'},dict.common.loading));void topicsLoad();return;}
  studio.dataset.practiceStep='questions';void promptsLoad();
 }
-
-

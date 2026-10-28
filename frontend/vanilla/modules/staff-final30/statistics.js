@@ -17,7 +17,7 @@ export function moduleCards(t,summary,selected,baseHref){
  });
  return el('section',{class:'space-y-4','data-learning-summary':''},el('h2',{class:'font-display text-2xl'},t.results),el('p',{class:'text-sm'},t.scope),el('div',{class:'grid gap-3 sm:grid-cols-2 xl:grid-cols-3'},cards));
 }
-export const mount=mountStaff({name:'management-statistics',roles:['admin','owner'],
+export const mount=mountStaff({name:'management-statistics',roles:['owner'],
  load:ctx=>centreStatistics(RESULT_MODULES.includes(ctx.url.searchParams.get('module'))?ctx.url.searchParams.get('module'):null,ctx.signal),
  render(ctx,d){const t=statText(ctx),max=Math.max(1,...d.daily.map(r=>r.count));
   const filter=el('nav',{class:'flex flex-wrap gap-2'},el('a',{href:path(null),class:'chip'},t.all),RESULT_MODULES.map(m=>el('a',{href:path(m),class:d.selected===m?'chip chip-active':'chip'},t.modules[m])));

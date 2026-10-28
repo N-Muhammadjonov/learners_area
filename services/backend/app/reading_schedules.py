@@ -21,4 +21,3 @@ async def activate_reading_schedules(con):
                               {'role': 'system'}, system_schedule=True)
         if len(candidates) < 100:
             return
-

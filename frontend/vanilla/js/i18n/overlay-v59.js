@@ -8,6 +8,7 @@
  */
 export default {
   en: {
+    reporter: { scopeOperations: 'Centre operations only' },
     assignments: {
       instructions: 'Instructions',
       responseHint: 'At least 20 characters. Submitting sends this response for evaluation.',
@@ -27,6 +28,7 @@ export default {
     },
   },
   uz: {
+    reporter: { scopeOperations: 'Faqat markaz operatsiyalari' },
     assignments: {
       instructions: "Ko'rsatmalar",
       responseHint: "Kamida 20 belgi. Yuborish javobingizni baholashga jo'natadi.",

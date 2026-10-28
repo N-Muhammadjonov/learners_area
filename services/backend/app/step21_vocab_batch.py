@@ -101,5 +101,3 @@ async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',sou
     await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'VOCABULARY_ADDED',$2::jsonb)''',
        user_id,json.dumps({'added':count,'duplicates':len(items)-len(collapsed),'sourceType':source_type,'topicPack':topic_pack}))
     return {'ok':True,'added':count,'duplicates':len(items)-count,'ids':ids,'points':0,**({'moved':moved} if move_existing else {})}
-
-

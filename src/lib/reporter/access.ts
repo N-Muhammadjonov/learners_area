@@ -2,7 +2,7 @@
 // branch; no role inherits another role's reach by falling through.
 //
 //   OWNER    owner (centre) | teacher (all-students cohort) | student (any student)
-//   ADMIN    exactly what ADMIN_REPORT_POLICY declares (below) — never the owner scope
+//   ADMIN    operations aggregates only — never academic cohort/student reports
 //   TEACHER  teacher (own roster only) | student (only if on own roster)
 //            Roster = teacher_student_links (migration 0035), assigned explicitly by
 //            owner/admin. Nothing is inferred from assignments or class history.
@@ -14,7 +14,7 @@
 import type { Role } from "@/lib/auth/roles";
 import type { ReportScope } from "./snapshot";
 
-export const SCOPE_KINDS = ["owner", "teacher", "student"] as const;
+export const SCOPE_KINDS = ["owner", "teacher", "student", "operations"] as const;
 export type ScopeKind = (typeof SCOPE_KINDS)[number];
 
 export type Actor = { id: string; role: Role; name: string };
@@ -24,25 +24,20 @@ export type RosterCheck = (teacherId: string, studentId: string) => Promise<bool
 
 export type AccessResult = { ok: true; scope: ReportScope } | { ok: false; status: 403 | 404 };
 
-/**
- * The admin Reporter policy, stated explicitly so it is reviewable and testable
- * rather than inherited. Admins run centre operations (account approval, content
- * management), so they may see the all-students cohort and any single student, but
- * never the owner-only centre report (staff counts, provider provenance, support).
- * Changing admin reach means changing THIS object, and the tests pin it.
- */
+/** Admin reports are deliberately limited to non-personal centre-operation aggregates. */
 export const ADMIN_REPORT_POLICY = Object.freeze({
   ownerScope: false,
-  cohort: "all_students" as const,
-  student: "any_student" as const,
+  cohort: "none" as const,
+  student: "none" as const,
+  operationsScope: true,
 });
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export function allowedScopes(role: Role): ScopeKind[] {
   switch (role) {
-    case "owner": return ["owner", "teacher", "student"];
-    case "admin": return ADMIN_REPORT_POLICY.ownerScope ? ["owner", "teacher", "student"] : ["teacher", "student"];
+    case "owner": return ["owner", "teacher", "student", "operations"];
+    case "admin": return ADMIN_REPORT_POLICY.operationsScope ? ["operations"] : [];
     case "teacher": return ["teacher", "student"];
     default: return ["student"];
   }
@@ -66,16 +61,13 @@ export async function authorizeReport(
   switch (actor.role) {
     case "owner": {
       if (requested.scope === "owner") return { ok: true, scope: { kind: "owner" } };
+      if (requested.scope === "operations") return { ok: true, scope: { kind: "operations" } };
       if (requested.scope === "teacher") return { ok: true, scope: { kind: "teacher", teacherId: null } };
       const subject = await visibleStudent(requested.subjectId, lookup);
       return subject ? { ok: true, scope: { kind: "student", subjectId: subject.id, subjectName: subject.name } } : { ok: false, status: 404 };
     }
-    case "admin": {
-      if (requested.scope === "owner") return { ok: true, scope: { kind: "owner" } }; // reachable only if policy grants it
-      if (requested.scope === "teacher") return { ok: true, scope: { kind: "teacher", teacherId: null } };
-      const subject = await visibleStudent(requested.subjectId, lookup);
-      return subject ? { ok: true, scope: { kind: "student", subjectId: subject.id, subjectName: subject.name } } : { ok: false, status: 404 };
-    }
+    case "admin":
+      return requested.scope === "operations" ? { ok: true, scope: { kind: "operations" } } : { ok: false, status: 403 };
     case "teacher": {
       if (requested.scope === "teacher") return { ok: true, scope: { kind: "teacher", teacherId: actor.id } };
       const subject = await visibleStudent(requested.subjectId, lookup);

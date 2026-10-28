@@ -2,10 +2,11 @@ import {el,mountStaff,BackLink,dateOnly,put} from './kit.js';
 import {studentResults} from '../../js/adapters/staff-final30/people.js';
 import {UUID} from '../../js/adapters/staff-final30/core.js';
 import {studentLearningPanel} from './learning-results.js';
+import {ACADEMIC_EN,ACADEMIC_UZ} from './monitoring-strings.js';
 import {bandAxis} from '../shared/band-axis.js';
 export {summarize} from './mock-summary.js';
 import {summarize} from './mock-summary.js';
-/** Source: admin/people/[id]/page.tsx + components/admin/StudentResults.tsx. Roles: admin, owner. */
+/** Source: admin/people/[id]/page.tsx + components/admin/StudentResults.tsx. Owner-only private academic detail. */
 const SKILLS=['reading','listening','speaking','writing'];
 const fmt=v=>v===null||v===undefined?'—':v.toFixed(1);
 /** Pure computation copied from the source component (no re-grading: bands are server values). */
@@ -25,6 +26,7 @@ export function renderResults(dict,data){
  const t=dict.studentResults,s=summarize(data.attempts,data.testIds);
  const sec=el('section',{class:'space-y-5','data-student-results':'','data-completed-mocks':String(s.complete),'data-total-mocks':String(s.total),'data-latest-band':s.latest===null?'none':s.latest.toFixed(1)},el('h2',{class:'font-display text-2xl'},t.title));
  if(data.unavailable){put(sec,el('p',{role:'alert'},dict.errors.unknown));return sec;}
+ if(data.attemptsTruncated)put(sec,el('p',{class:'text-xs text-ink-500','data-mock-attempts-truncated':''},t.attemptsTruncated));
  const imp=s.improvement===null?'—':`${s.improvement>0?'+':''}${fmt(s.improvement)}`;
  put(sec,el('dl',{class:'grid gap-3 sm:grid-cols-2 xl:grid-cols-5'},[[t.taken,String(s.finished.length)],[t.latest,fmt(s.latest)],[t.best,fmt(s.best)],[t.average,fmt(s.average)],[t.improvement,imp]].map(([l,v])=>el('div',{class:'card p-4'},el('dt',{class:'text-xs uppercase tracking-wide text-ink-500'},l),el('dd',{class:'mt-2 font-display text-2xl text-signal-600'},v)))));
  if(s.total>0)put(sec,el('div',{class:'space-y-2'},el('p',{},`${t.completed}: ${s.complete} / ${s.total}`),el('progress',{class:'h-3 w-full accent-signal-600',max:s.total,value:s.complete})));
@@ -35,7 +37,7 @@ export function renderResults(dict,data){
    rows.length===0?el('p',{class:'text-sm text-ink-500'},t.noResults):null,el('p',{class:'text-sm text-ink-500'},`${t.practice}: ${data.practice[k]??'—'}`));})));
  return sec;
 }
-export const mount=mountStaff({name:'management-student-results',roles:['admin','owner'],notFoundBack:null,
+export const mount=mountStaff({name:'management-student-results',roles:['owner'],notFoundBack:null,
  load:ctx=>{const id=ctx.url.pathname.split('/').filter(Boolean).at(-1);if(!UUID.test(id))return Promise.reject(Object.assign(new Error('not_found'),{status:404}));return studentResults(id,ctx.signal);},
- render(ctx,data){const {dict}=ctx;return el('div',{class:'mx-auto max-w-6xl space-y-6'},BackLink({fallbackHref:'/app/admin/people',label:dict.nav.people}),el('div',{},el('h1',{class:'font-display text-3xl'},data.student.name),el('p',{class:'text-ink-500'},data.student.email??'Telegram')),renderResults(dict,data),studentLearningPanel(ctx,data.student.id,`/app/admin/people/${data.student.id}`));}});
+ render(ctx,data){const {dict,locale}=ctx,t=locale==='uz'?ACADEMIC_UZ:ACADEMIC_EN;return el('div',{class:'mx-auto max-w-6xl space-y-6'},BackLink({fallbackHref:'/app/admin/people',label:dict.nav.people}),el('div',{},el('h1',{class:'font-display text-3xl'},data.student.name),el('p',{class:'text-ink-500'},data.student.email??'Telegram'),el('a',{href:`/app/teacher/students/${data.student.id}`,class:'mt-2 inline-block underline','data-open-full-academic-review':''},t.openStudent)),renderResults(dict,data),studentLearningPanel(ctx,data.student.id,`/app/admin/people/${data.student.id}`));}});
 

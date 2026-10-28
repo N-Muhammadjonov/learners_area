@@ -14,10 +14,10 @@ CONTENT_TYPES={'json':'application/json; charset=utf-8','csv':'text/csv; charset
  'docx':'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
  'pdf':'application/pdf','zip':'application/zip'}
 T={
-'en':{'title':'RIWI report','scope':'Scope','period':'Period','timezone':'Timezone','generated':'Generated','reportId':'Report ID','owner':'Whole centre (owner)','teacher':'All students (teacher)','student':'Student','summary':'Summary','metrics':'Metrics','sources':'Sources',
+'en':{'title':'RIWI report','scope':'Scope','period':'Period','timezone':'Timezone','generated':'Generated','reportId':'Report ID','owner':'Whole centre (owner)','teacher':'All students (teacher)','student':'Student','operations':'Centre operations','summary':'Summary','metrics':'Metrics','sources':'Sources',
  'cols':['Section','Metric','Value','Unit','Basis','Window from','Window to (exclusive)','Scope','Query ID','Generated at'],'sourceCols':['Query ID','SQL','Parameters'],'noData':'— = no data in this window','integrity':'Snapshot SHA-256',
  'sections':{'learning':'Learning','results':'Results','people':'People','operations':'Operations'},'basis':{'window':'in window','as_of_end':'as of window end'}},
-'uz':{'title':'RIWI hisoboti','scope':'Qamrov','period':'Davr','timezone':'Vaqt mintaqasi','generated':'Yaratilgan','reportId':'Hisobot ID','owner':'Butun markaz (ega)','teacher':"Barcha talabalar (o'qituvchi)",'student':'Talaba','summary':'Xulosa','metrics':"Ko'rsatkichlar",'sources':'Manbalar',
+'uz':{'title':'RIWI hisoboti','scope':'Qamrov','period':'Davr','timezone':'Vaqt mintaqasi','generated':'Yaratilgan','reportId':'Hisobot ID','owner':'Butun markaz (ega)','teacher':"Barcha talabalar (o'qituvchi)",'student':'Talaba','operations':'Markaz operatsiyalari','summary':'Xulosa','metrics':"Ko'rsatkichlar",'sources':'Manbalar',
  'cols':["Bo'lim","Ko'rsatkich","Qiymat","Birlik","Asos","Oyna boshi","Oyna oxiri (kirmaydi)","Qamrov","So'rov ID","Yaratilgan vaqt"], 'sourceCols':["So'rov ID","SQL","Parametrlar"], 'noData':"— = bu oynada ma'lumot yo'q",'integrity':'Snapshot SHA-256',
  'sections':{'learning':"O'qish faolligi",'results':'Natijalar','people':'Odamlar','operations':'Operatsiyalar'},'basis':{'window':'oyna ichida','as_of_end':'oyna oxiriga ko\'ra'}}}
 

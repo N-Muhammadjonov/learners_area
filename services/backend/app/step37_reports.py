@@ -21,7 +21,7 @@ LEARNERS={'student':'user_id = :subject','teacher':'user_id in (select l.student
 def stamp(d):return d.astimezone(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z')
 def input_ok(p):
     required=('scope','period','format')
-    if any(p.get(k) is None or p[k] not in {'scope':('owner','teacher','student'),'period':('on_demand','weekly','monthly','yearly','custom'),'format':tuple(CONTENT_TYPES)}.get(k,()) for k in required):return False
+    if any(p.get(k) is None or p[k] not in {'scope':('owner','teacher','student','operations'),'period':('on_demand','weekly','monthly','yearly','custom'),'format':tuple(CONTENT_TYPES)}.get(k,()) for k in required):return False
     if p.get('lang','uz') not in ('en','uz'):return False
     for k,n in (('subject',64),('from',10),('to',10)):
         if k in p and len(p[k].strip())>n:return False
@@ -49,12 +49,15 @@ def period_window(kind,now,frm=None,to=None):
 async def authorize(con,user,p):
     role=user['role'];kind=p['scope'];sid=p.get('subject')
     if kind=='owner':return {'kind':'owner'} if role=='owner' else 403
+    if kind=='operations':return {'kind':'operations'} if role in ('admin','owner') else 403
     if kind=='teacher':
-        if role in ('owner','admin'):return {'kind':'teacher','teacherId':None}
+        if role=='owner':return {'kind':'teacher','teacherId':None}
         if role=='teacher':return {'kind':'teacher','teacherId':str(user['id'])}
         return 403
-    if role not in ('owner','admin','teacher'):
-        return {'kind':'student','subjectId':str(user['id']),'subjectName':user['name']} if not sid or sid==str(user['id']) else 404
+    if role=='student':
+        if sid and sid!=str(user['id']):return 404
+        return {'kind':'student','subjectId':str(user['id']),'subjectName':user['name']}
+    if role not in ('owner','teacher'):return 403
     if not sid or not UUID.fullmatch(sid):return 404
     row=await con.fetchrow('SELECT id,role,name FROM users WHERE id=$1',uuid.UUID(sid))
     if not row or row['role']!='student':return 404
@@ -64,16 +67,19 @@ async def authorize(con,user,p):
         if not visible:return 404
     return {'kind':'student','subjectId':str(row['id']),'subjectName':row['name']}
 def specs_for(scope):
-    kind=scope['kind'];roster=kind=='teacher' and scope['teacherId'] is not None
+    kind=scope['kind']
+    if kind=='operations':return [{**s,'compiledText':s['sql']} for s in SPECS['operations']]
+    roster=kind=='teacher' and scope['teacherId'] is not None
     learner=LEARNERS['student' if kind=='student' else 'teacher' if roster else 'all']
     base=[{**s,'compiledText':s['sql'].replace('{{LEARNERS}}',learner)} for s in SPECS['learner']]
     if kind=='student':return base
     if roster:return [{**s,'compiledText':s['sql']} for s in SPECS['roster']]+base
-    other=SPECS['cohort']+(SPECS['owner'] if kind=='owner' else [])
+    other=SPECS['cohort']+(SPECS['owner']+SPECS['operations'] if kind=='owner' else [])
     return [{**s,'compiledText':s['sql']} for s in other]+base
 def scope_label(s):
     if s['kind']=='student':return 'student:'+s['subjectId']
     if s['kind']=='teacher':return ('teacher:'+s['teacherId']+':assigned') if s['teacherId'] else 'teacher:all-students'
+    if s['kind']=='operations':return 'operations:centre'
     return 'owner:centre'
 def compile_sql(sql,period,scope):
     # :from :to are bound as timestamptz; :subject :teacher are bound as uuid.
@@ -113,7 +119,10 @@ async def snapshot(con,scope,period,actor,now):
         m=by_key.get(key)
         if m and m['value'] is not None:
             v=metric_value(m);result['narrative']['en'].append(en.format(v=v));result['narrative']['uz'].append(uz.format(v=v))
-    if not result['narrative']['en']:
+    if scope['kind']=='operations':
+        result['narrative']['en'].append('This report contains centre-operation metrics only; it does not include learner-level academic records.')
+        result['narrative']['uz'].append("Bu hisobotda faqat markaz operatsiyalari ko'rsatkichlari bor; talaba darajasidagi o'quv yozuvlari kiritilmagan.")
+    elif not result['narrative']['en']:
         result['narrative']['en'].append('No recorded activity in this period.')
         result['narrative']['uz'].append("Bu davrda qayd etilgan faollik yo'q.")
     return result

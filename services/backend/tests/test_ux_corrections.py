@@ -37,13 +37,20 @@ class AcademicConnection:
         return [{'set_id':ident(i+10),'passage_no':n,'title':f'Part {n}'} for i in range(30) for n in (1,2,3)]
 
 class UXTests(unittest.IsolatedAsyncioTestCase):
-    async def test_full_mcq_catalogue_and_locks_after_24(self):
+    async def test_mcq_catalogue_paginates_while_sequence_locks_are_global(self):
         con=ProgrammeConnection();user={'id':uid,'role':'student'}
-        result=await days(con,user,{'page':'99'})
-        self.assertEqual(len(result['days']),75)
+        result=await days(con,user,{'page':'1'})
+        self.assertEqual(len(result['days']),24)
+        self.assertEqual([r['day'] for r in result['days']],[*range(1,25)])
         self.assertEqual([r['locked'] for r in result['days'][:4]],[False,False,True,True])
-        self.assertFalse(result['hasNextPage']);self.assertEqual(result['page'],1)
+        self.assertTrue(result['hasNextPage']);self.assertEqual((result['page'],result['pageSize'],result['visibleDays']),(1,24,75))
+        self.assertEqual(result['progress']['questionsPublished'],375)
         self.assertEqual(con.asserted_user,uid);self.assertEqual(len(con.calls),2)
+        last=await days(con,user,{'page':'4'})
+        self.assertEqual([r['day'] for r in last['days']],[73,74,75]);self.assertFalse(last['hasNextPage'])
+        self.assertTrue(all(r['locked'] for r in last['days']))
+        empty=await days(con,user,{'page':'99'})
+        self.assertEqual(empty['days'],[]);self.assertEqual(empty['page'],99);self.assertFalse(empty['hasNextPage'])
         for index,expected in ((0,True),(1,True),(2,False),(74,False)):
             self.assertEqual(await sequence(con,user,{'id':ident(index+10),'program_ref':'listening-mcq-program'}),expected)
         other=await days(ProgrammeConnection(0),{'id':ident(2),'role':'student'},{})

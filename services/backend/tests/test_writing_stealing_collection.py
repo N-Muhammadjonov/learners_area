@@ -46,7 +46,12 @@ def test_collection_all_original_chunks_fit_schema_and_have_source_examples():
 def test_original_model_and_feedback_obey_existing_seven_stage_reveal(m,step):
     class Conn:
         async def fetchrow(self,sql,*args):assert args==(UUID(m['id']),);return model_row(m)
-        async def fetch(self,sql,*args):assert args==(m['id'],);return pattern_rows(m['id'])
+        async def fetch(self,sql,*args):
+            if 'FROM activity_events e' in sql:
+                assert args==(UID,m['id']) and 'e.user_id=$1' in sql
+                return []
+            assert args==(m['id'],)
+            return pattern_rows(m['id'])
     view=asyncio.run(session_view(Conn(),session(m,step),NOW))
     assert view['source']['prompt']==m['prompt'] and view['source']['estimatedBand'] is True
     assert view['source']['targetBand']==m['targetBand'] and view['source']['promptSourceUrl']==m['promptSourceUrl']
@@ -70,6 +75,9 @@ def test_browser_catalogue_orders_all_fifteen_sources_and_keeps_chunks_in_langua
             if 'FROM writing_model_texts t' in sql:
                 return [{**model_row(m),'pattern_count':10} for m in sorted(collection.DATA['models'],key=lambda m:m['title'])]
             if 'FROM writing_stealing_sessions' in sql:assert args==(UID,);return []
+            if 'FROM activity_events e' in sql:
+                assert args==(UID,None) and 'e.user_id=$1' in sql
+                return []
             if 'SELECT DISTINCT topic' in sql:return [{'topic':t} for t in sorted({m['topic'] for m in collection.DATA['models']})]
             if 'SELECT DISTINCT target_band' in sql:return []
             if 'FROM writing_language_patterns p' in sql:

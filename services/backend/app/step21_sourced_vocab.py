@@ -83,5 +83,3 @@ async def video_vocabulary(req:Request,id:str):
   return core.j(r,200 if r['ok'] else 400,PRIVATE)
 
 def install():core.app.include_router(router)
-
-

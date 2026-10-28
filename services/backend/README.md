@@ -41,13 +41,14 @@ SHA-256: `ead8bf6a8e523a3562194460bdc7b1f9a2252a97d8ca14e0dbc0bfe5ae164ef6`.
 | --- | --- | --- | --- |
 | Source commit | `184e33d103861922125655e23bb56e6b978fa1a5` | `cb6b3cdfdab8909c8d172df4714dba2bfe1a7b2e` | Compared all 171 current API files; 132 shared files identical, 39 different |
 | Explicit API methods | 207 | 265 | All 207 paths/methods covered; additional Python methods reachable through the relay |
-| SQL migrations | 53 | 66 | First 53 byte-identical; added 0053–0065 and synced the journal/typed schema |
+| SQL migrations | 53 | 67 | First 53 byte-identical; added 0053–0065, then the idempotent notification event index in 0066 |
 | UI | Existing campus and module pages | Later backend contracts | Current React pages and campus assets preserved |
 
 The latest comparison uses all 218 API files and all 466 shared backend library
 and schema files from the pinned main commit. All 265 public methods are covered
-by the Python inventory. The 66 migrations match main; this parity update adds
-no schema migration. `contracts/main-reference.json` pins the original files by
+by the Python inventory. The first 66 migrations match main; this branch adds
+one additive partial unique index (0066) for idempotent in-app notifications.
+`contracts/main-reference.json` pins the original files by
 Git blob SHA, and the differential runner refuses a modified reference checkout.
 
 Corrections include canonical sequence checks, Telegram account rules,
@@ -145,9 +146,9 @@ Python is internal to the Compose network. It persists local uploads in the
 repository's `.data/uploads` directory. Docker images were not built or launched
 in the restricted verification environment.
 
-The code does not apply migrations on startup. Review and apply 0053–0065 to the
-intended preview database with the existing migration process before serving the
-new backend. No live database changes or service deployment were performed as
+The code does not apply migrations on startup. Review and apply 0053–0066 to the
+intended database with the existing migration process before serving this
+revision. No live database changes or service deployment were performed as
 part of this code migration. A Next-only Vercel deployment cannot run the managed
 Python subprocess; configure an external Python service there.
 
@@ -170,8 +171,10 @@ Checks performed for this migration:
   across independent runs; each content hash is also checked against main.
 - 8 Node transport/read-adapter tests; includes all 207 original API exports.
 - 337 UI tests, including updated server-contract assertions targeting Python.
-- All 66 migrations applied to embedded PostgreSQL (PGlite); all columns of the
-  126 typed Drizzle tables found. Nine actual ASGI HTTP checks cover bcrypt login,
+- Baseline verification applied the 66-migration chain to embedded PostgreSQL
+  (PGlite); migration 0066 was added afterward and still requires focused
+  fresh-database QA. All columns of the 126 typed Drizzle tables were found.
+  Nine actual ASGI HTTP checks cover bcrypt login,
   fresh identity, typed reads, database-enforced read-only behavior, inline
   Listening data/CSP, history-preserving deletion and logout revocation.
 - TypeScript, ESLint, backend import/native-dependency check and production build.

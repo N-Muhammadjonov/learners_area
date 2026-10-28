@@ -361,6 +361,9 @@ async def get_notifications(req: Request):
     if not user: return auth_error()
     conn_pool = await pool()
     async with conn_pool.acquire() as conn:
+        if user.get('role')=='student' and user.get('account_status')=='active':
+            from .notification_events import notify_assignment_deadlines
+            await notify_assignment_deadlines(conn,student_id=user['id'])
         unread = await conn.fetchval('SELECT COUNT(*)::int FROM notifications WHERE user_id=$1 AND read_at IS NULL', user['id'])
         if req.query_params.get('count') == '1':
             rows = []

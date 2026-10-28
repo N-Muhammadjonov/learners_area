@@ -45,9 +45,13 @@ async def completed(assignment_id,subject):
     db=await core.pool()
     async with db.acquire() as con:
         async with con.transaction():
-            await con.execute("UPDATE assignments SET status='completed' WHERE id=$1",assignment_id)
             await con.execute("""UPDATE assignment_targets SET status='completed',completed_at=now(),updated_at=now()
                     WHERE assignment_id=$1 AND student_user_id=$2""",assignment_id,subject)
+            # The legacy parent status describes the whole assignment, not one
+            # target. Do not mark a multi-student assignment complete until every
+            # authoritative target row is complete.
+            await con.execute("""UPDATE assignments a SET status='completed',updated_at=now() WHERE a.id=$1
+              AND NOT EXISTS(SELECT 1 FROM assignment_targets t WHERE t.assignment_id=a.id AND t.status<>'completed')""",assignment_id)
 
 @router.post('/api/assignments/{id}/evaluate')
 async def assignment_evaluate(req:Request,id:str):
@@ -60,10 +64,14 @@ async def assignment_evaluate(req:Request,id:str):
         assignment=await con.fetchrow('SELECT * FROM assignments WHERE id=$1',aid)
         if not assignment:return core.j({'error':'not_found'},404)
         targets=await con.fetch('SELECT student_user_id FROM assignment_targets WHERE assignment_id=$1',aid)
-    is_target=user['id']==assignment['target_user_id'] or any(x['student_user_id']==user['id'] for x in targets)
-    is_manager=user['role'] in ('admin','owner') or (user['role']=='teacher' and user['id']==assignment['created_by_user_id'])
+        is_target=user['role']=='student' and (user['id']==assignment['target_user_id'] or any(x['student_user_id']==user['id'] for x in targets))
+        subject=user['id'] if is_target else assignment['target_user_id']
+        is_manager=user['role']=='owner' or (user['role']=='teacher' and user['id']==assignment['created_by_user_id'])
+        if is_manager and user['role']=='teacher':
+            visible=await con.fetchval("""SELECT EXISTS(SELECT 1 FROM users u JOIN teacher_student_links l
+              ON l.student_user_id=u.id WHERE u.id=$1 AND u.role='student' AND l.teacher_user_id=$2)""",subject,user['id'])
+            is_manager=bool(visible)
     if not is_target and not is_manager:return core.j({'error':'forbidden'},403)
-    subject=user['id'] if is_target else assignment['target_user_id']
     body=await core.payload(req)
     if body is None:body={}
     if not isinstance(body,dict) or set(body)-{'response'} or ('response' in body and (not isinstance(body['response'],str) or not 20<=len(body['response'])<=20000)):

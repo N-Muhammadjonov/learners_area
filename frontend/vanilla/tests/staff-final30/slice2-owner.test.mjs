@@ -3,17 +3,27 @@ import {test,afterEach} from 'node:test';import assert from 'node:assert/strict'
 import {setup,tick,ID,envelope,dicts} from './harness.mjs';
 import {ApiError} from '../../js/api-client.js';
 import * as overview from '../../modules/staff-final30/owner-overview.js';
+import {ACADEMIC_EN} from '../../modules/staff-final30/monitoring-strings.js';
 import * as transfer from '../../modules/staff-final30/owner-transfer.js';
 import * as retention from '../../modules/staff-final30/owner-retention.js';
 import * as integ from '../../modules/staff-final30/owner-integrations.js';
 import * as odict from '../../modules/staff-final30/owner-dictionary.js';
 import {transferOwnership,saveAi,validateAiStatus} from '../../js/adapters/staff-final30/owner.js';
 let h;afterEach(()=>{h?.dispose();delete globalThis.fetch;});
-const ov=(o={})=>envelope('owner-overview',{counts:[{role:'student',status:'active',count:7},{role:'teacher',status:'active',count:2},{role:'student',status:'pending',count:1}],pendingCount:1,integrations:[{key:'database',state:'connected'},{key:'telegram',state:'unverified'},{key:'email',state:'not_configured'}],brand:{siteName:'Learners Area',favicon:'/brand/fav.png',assets:[{key:'logoMasterDark',path:'/brand/m.png'},{key:'logoMarkDark',path:'/brand/d.png'},{key:'logoMarkLight',path:'/brand/l.png'},{key:'logoHorizontalDark',path:'/brand/hd.png'},{key:'logoHorizontalLight',path:'/brand/hl.png'},{key:'favicon',path:'/brand/fav.png'}]},...o});
+const academic={filters:{from:null,to:null,student:'',teacher:'',module:null},activeStudents:7,onlineStudents:1,activity:{students:3,records:8},homework:{assigned:10,completed:7,inProgress:1,overdue:1,notStarted:1},completionPercent:70,pendingReviews:1,writingSubmissions:2,daily:Array.from({length:7},(_,i)=>({day:`2026-04-${String(i+24).padStart(2,'0')}`,count:i})),moduleSummary:['reading','listening','writing','speaking','retention','vocabulary','grammar','video','lessons','mocks'].map(module=>({module,started:0,completed:0,learners:0,accuracy:null,band:null,latest:null})),attention:[]};
+const ov=(o={})=>envelope('owner-overview',{academic,counts:[{role:'student',status:'active',count:7},{role:'teacher',status:'active',count:2},{role:'student',status:'pending',count:1}],pendingCount:1,integrations:[{key:'database',state:'connected'},{key:'telegram',state:'unverified'},{key:'email',state:'not_configured'}],brand:{siteName:'Learners Area',favicon:'/brand/fav.png',assets:[{key:'logoMasterDark',path:'/brand/m.png'},{key:'logoMarkDark',path:'/brand/d.png'},{key:'logoMarkLight',path:'/brand/l.png'},{key:'logoHorizontalDark',path:'/brand/hd.png'},{key:'logoHorizontalLight',path:'/brand/hl.png'},{key:'favicon',path:'/brand/fav.png'}]},...o});
 test('owner overview: stats computed from counts, links, brand preview; admin/teacher redirected',async()=>{
  h=setup({role:'owner',path:'/app/owner'});h.stub({'/api/frontend/staff/owner-overview':ov()});await h.mount(overview);
- const t=h.ctx.root.textContent;assert(t.includes('10')&&t.includes('9 active'));assert.equal(h.qa('a[href^="/app/"]').length,7);assert.equal(h.qa('[data-brand-asset]').length,6);assert.equal(h.qa('[data-brand-logo] img').length,6);h.dispose();
+ const t=h.ctx.root.textContent;assert(t.includes('10')&&t.includes('9 active'));assert.equal(h.qa('a[href^="/app/"]').length,10);assert.equal(h.qa('[data-brand-asset]').length,6);assert.equal(h.qa('[data-brand-logo] img').length,6);h.dispose();
  for(const role of ['admin','teacher','student']){h=setup({role,path:'/app/owner'});h.stub({});await h.mount(overview);assert.equal(h.nav[0].path,'/app');assert.equal(h.calls.length,0);h.dispose();}
+});
+test('owner academic filters persist in URL, cover date/student/teacher/module, and reject invalid ranges',async()=>{
+ h=setup({role:'owner',path:'/app/owner'});h.stub({'/api/frontend/staff/owner-overview':ov()});await h.mount(overview);
+ const form=h.q('[data-owner-academic-filters]');assert(form);assert.equal(h.qa('[name=group]').length,0);
+ h.input(form.elements.namedItem('from'),'2026-04-20');h.input(form.elements.namedItem('to'),'2026-04-28');h.input(form.elements.namedItem('student'),'Browser learner');h.input(form.elements.namedItem('teacher'),"O'qituvchi");h.change(form.elements.namedItem('module'),'reading');
+ h.submit(form);assert.equal(h.nav.at(-1).path,'/app/owner?from=2026-04-20&to=2026-04-28&student=Browser+learner&teacher=O%27qituvchi&module=reading');
+ h.input(form.elements.namedItem('from'),'2026-04-30');h.input(form.elements.namedItem('to'),'2026-04-20');h.submit(form);assert.equal(h.nav.length,1);assert.equal(form.querySelector('[role=alert]').textContent,ACADEMIC_EN.rangeInvalid);
+ h.dispose();
 });
 test('owner overview: path traversal / foreign brand paths rejected (fail closed)',async()=>{
  for(const bad of ['https://evil.invalid/x.png','/brand/../../etc/passwd','javascript:alert(1)']){h=setup({role:'owner',path:'/app/owner'});h.stub({'/api/frontend/staff/owner-overview':ov({brand:{siteName:'x',favicon:bad,assets:[]}})});await h.mount(overview);assert(h.q('[data-region-failure]'),bad);h.dispose();}

@@ -5,7 +5,8 @@ from datetime import datetime
 from fastapi import APIRouter,Request
 from . import main as core
 from .db import row_to_dict
-from .step17_mcq_port import live,staff
+from .step17_mcq_port import live
+from .notification_events import notify_assignment_assigned
 router=APIRouter()
 KNOWN={'listening':('full_test','section','question_type_practice'),
     'reading':('general_set','full_test','passage','passage_set','question_type_practice'),
@@ -16,14 +17,14 @@ KNOWN={'listening':('full_test','section','question_type_practice'),
 
 def issue(reason):
     return {'code':'assign_forbidden_'+reason,'message':{'outside_roster':'A teacher may only set work for students on their roster.',
-      'not_a_student':'Work can only be assigned to a student.','not_staff':'Only staff can assign work.'}.get(reason,'Only staff can assign work.'), 'field':'studentIds'}
+      'not_a_student':'Work can only be assigned to a student.','not_staff':'Only teachers and the owner can assign work.'}.get(reason,'Only staff can assign work.'), 'field':'studentIds'}
 
 def bad(issues,status=422):return core.j({'ok':False,'issues':issues},status)
 
 async def roster(con,actor,student):
     row=await con.fetchrow('SELECT role FROM users WHERE id=$1',student)
     if not row or row['role']!='student':return 'not_a_student'
-    if actor['role'] in ('admin','owner'):return None
+    if actor['role']=='owner':return None
     allowed=await con.fetchval('''SELECT EXISTS(SELECT 1 FROM teacher_student_links
       WHERE teacher_user_id=$1 AND student_user_id=$2)''',actor['id'],student)
     return None if allowed else 'outside_roster'
@@ -32,7 +33,7 @@ async def roster(con,actor,student):
 async def assignments_create(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return core.auth_error()
-    if not staff(user):return core.j({'error':'forbidden'},403)
+    if user['role'] not in ('teacher','owner'):return core.j({'error':'forbidden'},403)
     b=await core.payload(req)
     if not isinstance(b,dict):return core.j({'error':'invalid_input'},400)
     title=b.get('title'); description=b.get('description');instructions=b.get('instructions')
@@ -96,6 +97,8 @@ async def assignments_create(req:Request):
             if ref:payload['contentVersionId']=str(version['id'])
             await con.execute("INSERT INTO activity_events(user_id,type,payload) VALUES($1,'ASSIGNMENT_CREATED',$2::jsonb)",
                core.uuid_value(target),json.dumps(payload))
+            await notify_assignment_assigned(con, assignment_id=created['id'],
+                student_id=core.uuid_value(target), title=title.strip(), module=b.get('module'))
     if ref:return core.j({'ok':True,'assignment':{'id':str(created['id'])},'contentVersionId':str(version['id'])},201)
     return core.j({'ok':True,'assignment':row_to_dict(created)})
 

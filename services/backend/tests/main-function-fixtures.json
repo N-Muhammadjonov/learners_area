@@ -32304,9 +32304,16 @@
                 "text_en": "She took her shoes off.",
                 "text_uz": "U oyoq kiyimini yechdi."
               }
-            ]
+            ],
+            "antonyms": []
           }
-        }
+        },
+        "collocations": [],
+        "senseOrder": [
+          "aa000000-0000-4000-8000-000000000002"
+        ],
+        "primarySenseId": "aa000000-0000-4000-8000-000000000002",
+        "primaryTranslation": "Yechmoq"
       }
     },
     {
@@ -32426,7 +32433,8 @@
                 "text_en": "She took her shoes off.",
                 "text_uz": "U oyoq kiyimini yechdi."
               }
-            ]
+            ],
+            "antonyms": []
           },
           "aa000000-0000-4000-8000-000000000006": {
             "synonyms": [],
@@ -32437,9 +32445,17 @@
                 "text_en": "She took her shoes off.",
                 "text_uz": "U oyoq kiyimini yechdi."
               }
-            ]
+            ],
+            "antonyms": []
           }
-        }
+        },
+        "collocations": [],
+        "senseOrder": [
+          "aa000000-0000-4000-8000-000000000002",
+          "aa000000-0000-4000-8000-000000000006"
+        ],
+        "primarySenseId": "aa000000-0000-4000-8000-000000000002",
+        "primaryTranslation": "Yechmoq"
       }
     },
     {

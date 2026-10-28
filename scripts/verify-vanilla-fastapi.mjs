@@ -57,6 +57,21 @@ try {
   });
   const code = await new Promise((resolve, reject) => { child.once('error', reject); child.once('close', resolve); });
   if (code !== 0 || !report) throw new Error(errors || 'Python PostgreSQL probe failed');
+  // Replaying the monitoring upgrade must preserve populated academic records.
+  const preservedTables=['notifications','assignments','assignment_targets','assignment_responses',
+    'writing_language_patterns','writing_submissions','writing_feedback','video_lesson_progress'];
+  const snapshot=async()=>Promise.all(preservedTables.map(async table=>
+    (await db.query(`SELECT md5(COALESCE(jsonb_agg(to_jsonb(t) ORDER BY to_jsonb(t)::text)::text,'[]')) AS digest FROM ${table} t`)).rows[0].digest));
+  const beforeReplay=await snapshot();
+  await db.exec('BEGIN');
+  try {
+    for(const file of readdirSync(join(root,'services/backend/migrations')).filter(x=>/^006[6-9]_.*\.sql$/.test(x)).sort())
+      await db.exec(readFileSync(join(root,'services/backend/migrations',file),'utf8'));
+    await db.exec('COMMIT');
+  } catch(error) { await db.exec('ROLLBACK'); throw error; }
+  const afterReplay=await snapshot();
+  if(JSON.stringify(beforeReplay)!==JSON.stringify(afterReplay))throw Error('Monitoring migration replay changed academic data');
+  const migrationReplayChecks=preservedTables.length;
   const nativeDecoderChecks=validateBrowserWire(report.wire);
   const temporary=mkdtempSync(join(tmpdir(),'learners-native-qa-'));
   let nativeDomChecks;
@@ -67,7 +82,7 @@ try {
     if(ui.status!==0||result.failures.length)throw Error(JSON.stringify(result));
     nativeDomChecks=result.checks;
   }finally{rmSync(temporary,{recursive:true,force:true});}
-  console.log(JSON.stringify({ migrations: applied, typedTables, httpChecks: report.checks, nativeDecoderChecks,nativeDomChecks, database: 'embedded PostgreSQL', result: report.failures?.length ? 'failed' : 'passed',failures:report.failures }));
+  console.log(JSON.stringify({ migrations: applied, typedTables, httpChecks: report.checks, nativeDecoderChecks,nativeDomChecks,migrationReplayChecks, database: 'embedded PostgreSQL', result: report.failures?.length ? 'failed' : 'passed',failures:report.failures }));
   if (report.failures?.length) process.exitCode=1;
   if (process.env.FASTAPI_WIRE_FIXTURE) {
     const { writeFileSync } = await import('node:fs');

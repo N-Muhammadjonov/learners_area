@@ -5,13 +5,14 @@ import {RESULT_MODULES,learningHistory} from '../../js/adapters/staff-final30/st
 import {moduleCards,statText} from './statistics.js';
 function historyHref(base,module,page){const q=new URLSearchParams();if(module)q.set('module',module);q.set('page',String(page));return `${base}?${q}#result-history`;}
 export function renderHistory(ctx,history,base){
- const t=statText(ctx),dict=ctx.dict;
+ const t=statText(ctx),dict=ctx.dict,studentId=base.split('/').filter(Boolean).at(-1);
+ const detailHref=r=>['reading','listening','speaking','mocks'].includes(r.module)?`/app/teacher/assessments/${studentId}/${r.module}/${r.id}`:r.module==='writing'?`/app/teacher/students/${studentId}?submission=${r.id}#submission-${r.id}`:null;
  const nav=el('nav',{class:'flex flex-wrap gap-2'},el('a',{href:historyHref(base,null,1),class:'chip'},t.all),RESULT_MODULES.map(m=>el('a',{href:historyHref(base,m,1),class:history.module===m?'chip chip-active':'chip'},t.modules[m])));
  const table=el('table',{class:'w-full text-left text-sm'},
   el('thead',{},el('tr',{},[t.date,t.source,t.result,t.state].map(s=>el('th',{scope:'col'},s)))),
   el('tbody',{},history.rows.map(r=>el('tr',{class:'border-b border-ink-100'},
    el('td',{class:'py-3 pr-3 whitespace-nowrap'},r.at?centreDateTime(new Date(r.at),ctx.locale):'—'),
-   el('td',{class:'pr-3'},`${t.modules[r.module]} · ${t.activities[r.activity]??t.source}`,r.title?el('span',{class:'block text-xs text-ink-500'},r.title):null),
+   el('td',{class:'pr-3'},detailHref(r)?el('a',{href:detailHref(r),class:'underline'},`${t.modules[r.module]} · ${t.activities[r.activity]??t.source}`):`${t.modules[r.module]} · ${t.activities[r.activity]??t.source}`,r.title?el('span',{class:'block text-xs text-ink-500'},r.title):null),
    el('td',{class:'pr-3 whitespace-nowrap'},r.completed&&r.score!=null&&r.maximum?`${r.score.toFixed(1)} / ${r.maximum}${r.unit==='band'?' band':` · ${(r.score/r.maximum*100).toFixed(1)}%`}`:t.notGraded),
    el('td',{},r.completed?t.completed:t.ongoing)))));
  const pages=history.pages>1?el('nav',{class:'flex items-center justify-between gap-3'},el('span',{},`${history.page} / ${history.pages}`),el('div',{class:'flex gap-2'},

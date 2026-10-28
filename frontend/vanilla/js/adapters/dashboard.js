@@ -19,9 +19,9 @@ export function dashboardDTO(d){
 export function openLessonsDTO(d){if(!object(d)||typeof d.ok!=='boolean')bad();if(d.ok&&(!Array.isArray(d.lessons)||d.lessons.some(l=>!object(l)||!text(l.id)||!(/^[A-Za-z0-9_-]+$/).test(l.id)||!text(l.title)||!text(l.moduleTitle)||!text(l.unitTitle)||!['available','assigned','in_progress'].includes(l.state))))bad();return d;}
 /** Presentation-only mocks; scores remain server supplied, never recomputed here. */
 export function mockDTO(d){
- if(!object(d)||!Array.isArray(d.tests)||!Array.isArray(d.attempts)||['catalogueUnavailable','attemptsUnavailable','attemptTitlesUnavailable'].some(k=>typeof d[k]!=='boolean')||!count(d.finishedCount))bad();
+ if(!object(d)||!Array.isArray(d.tests)||!Array.isArray(d.attempts)||d.tests.length>5000||d.attempts.length>5000||['catalogueUnavailable','attemptsUnavailable','attemptTitlesUnavailable'].some(k=>typeof d[k]!=='boolean')||d.catalogueTruncated!==undefined&&typeof d.catalogueTruncated!=='boolean'||d.attemptsTruncated!==undefined&&typeof d.attemptsTruncated!=='boolean'||!count(d.finishedCount))bad();
  if(d.tests.some(t=>!object(t)||!text(t.id)||!text(t.title)||!['full',...skills].includes(t.skill)))bad();
  if(new Set(d.tests.map(t=>t.id)).size!==d.tests.length||new Set(d.attempts.map(a=>a.id)).size!==d.attempts.length||d.attempts.some(a=>a&&['snapshot','mockSnapshot','questions','answers'].some(k=>k in a)))bad();
  const attempts=d.attempts.map(a=>{if(!object(a)||!text(a.id)||a.mockTestId!=null&&!text(a.mockTestId)||a.title!=null&&!text(a.title)||a.skill!=null&&!['full',...skills].includes(a.skill)||!date(a.startedAt)||!date(a.finishedAt)||a.estimatedBand!=null&&(!number(a.estimatedBand)||a.estimatedBand<0||a.estimatedBand>9)||a.rawScore!=null&&!number(a.rawScore))bad();return {...a,mockTestId:a.mockTestId??null,startedAt:a.startedAt?new Date(a.startedAt):null,finishedAt:a.finishedAt?new Date(a.finishedAt):null};});
- return {...d,attempts};
+ return {...d,catalogueTruncated:d.catalogueTruncated??false,attemptsTruncated:d.attemptsTruncated??false,attempts};
 }

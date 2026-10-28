@@ -9,5 +9,5 @@ export function render(scope) {
             h(Input, { id: "password", type: "password", required: true, minLength: 8, value: password, onChange: (e) => setPassword(e.target.value) })),
         h(FieldError, null, error),
         h(Button, { type: "submit", disabled: pending || !token }, pending ? dict.common.loading : dict.auth.resetConfirmCta),
-        h(Link, { href: "/login", className: "text-center text-sm font-medium text-signal-700 underline underline-offset-2" }, dict.auth.loginCta)));
+        h(Link, { href: "/login", className: "text-center text-sm font-medium text-white underline underline-offset-2" }, dict.auth.loginCta)));
 }

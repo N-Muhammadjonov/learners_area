@@ -5,6 +5,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from . import step31_coach as coach
 from .step31_learning_production import _language
+from .notification_events import notify_writing_review_required
 router=APIRouter()
 
 @router.post('/api/writing/submissions/{id}/submit')
@@ -28,9 +29,12 @@ async def writing_submit(req:Request,id:str):
     ev=result['evaluation']
     async with db.acquire() as con:
         async with con.transaction():
-            await con.execute('''UPDATE writing_submissions SET status='evaluated',submitted_at=NOW(),updated_at=NOW() WHERE id=$1''',sid)
-            await con.execute('''INSERT INTO activity_events(user_id,type,payload)
-                             VALUES($1,'WRITING_SUBMITTED',$2::jsonb)''',user['id'],json.dumps({'submissionId':str(sid),'overallBand':ev['overallEstimate'],'evaluatedBy':ev['providerId']}))
+            transitioned=await con.fetchrow('''UPDATE writing_submissions SET status='evaluated',submitted_at=NOW(),updated_at=NOW()
+                WHERE id=$1 AND user_id=$2 AND status='draft' RETURNING id''',sid,user['id'])
+            if transitioned:
+                await con.execute('''INSERT INTO activity_events(user_id,type,payload)
+                                 VALUES($1,'WRITING_SUBMITTED',$2::jsonb)''',user['id'],json.dumps({'submissionId':str(sid),'overallBand':ev['overallEstimate'],'evaluatedBy':ev['providerId']}))
+                await notify_writing_review_required(con, submission_id=sid, student_id=user['id'])
     return core.j({'ok':True,'evaluationId':ev['id'],'checkedBy':'RIWI','fallbackUsed':ev['fallbackUsed']})
 
 def install():core.app.include_router(router)

@@ -22,6 +22,7 @@ class ExamConn:
                        'content':'Some draft', 'wordCount':2, 'revision':4, 'savedAt':NOW}]
     async def __aenter__(self):return self
     async def __aexit__(self,*exc):return False
+    def transaction(self):return self
     async def fetchrow(self, query, *args):
         self.calls.append(('fetchrow',query,args))
         if 'UPDATE writing_exam_papers' in query: return self.expired
@@ -31,6 +32,10 @@ class ExamConn:
         self.calls.append(('execute',query,args))
     async def fetch(self,query,*args):
         self.calls.append(('fetch',query,args))
+        if 'UPDATE writing_submissions' in query:
+            return [{'id':UUID(PAPER),'user_id':UID}]
+        if 'FROM teacher_student_links' in query:
+            return []
         return self.entries
 
 
@@ -77,6 +82,6 @@ def test_exam_expiry_closes_draft_submissions_and_remaining_zero(monkeypatch):
     r=client.get('/api/writing/exam/'+PAPER)
     assert r.status_code==200 and r.json()['paper']['remainingSeconds']==0
     assert r.json()['paper']['finalizedAt']=='2026-10-22T12:00:00.000Z'
-    queries=[q for op,q,args in conn.calls if op=='execute']
-    assert len(queries)==1 and 'writing_submissions' in queries[0] and "status='draft'" in queries[0]
+    queries=[q for op,q,args in conn.calls if op=='fetch' and 'UPDATE writing_submissions' in q]
+    assert len(queries)==1 and "status='draft'" in queries[0] and 'RETURNING id,user_id' in queries[0]
     assert 'secs=>15' in conn.calls[0][1]

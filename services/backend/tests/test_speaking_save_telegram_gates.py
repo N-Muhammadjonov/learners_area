@@ -85,4 +85,3 @@ def test_legacy_signed_callback_also_refuses_membership_bypass(monkeypatch):
     assert response.status_code==307
     assert response.headers['location'].endswith('/login?error=telegram_not_subscribed')
     issue.assert_not_called()
-

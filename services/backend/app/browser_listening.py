@@ -95,7 +95,10 @@ async def days(con, user, q, ordinal=None):
         if not draft:previous_complete=previous_complete and status['state']=='completed'
     progress={'daysPublished':sum(not c['draft'] for c in cards),'daysCompleted':sum(not c['draft'] and c['status']['state']=='completed' for c in cards),
       'questionsPublished':sum(c['questionCount'] for c in cards if not c['draft']),'questionsCompleted':sum(c['status']['completed'] for c in cards if not c['draft'])}
-    return {'days':cards,'progress':progress,'page':1,'pageSize':max(1,len(cards)),'hasNextPage':False,'visibleDays':len(cards)}
+    page=number(q.get('page'),maximum=10000);page_size=24;visible_days=len(cards)
+    start=(page-1)*page_size
+    return {'days':cards[start:start+page_size],'progress':progress,'page':page,'pageSize':page_size,
+            'hasNextPage':start+page_size<visible_days,'visibleDays':visible_days}
 
 
 async def facts(con, uid, id, p):

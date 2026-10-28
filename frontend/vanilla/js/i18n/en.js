@@ -359,7 +359,8 @@ export default {
         "trend": "Mock band trend",
         "bandNote": "Bands are recorded for individual mock tests and skills.",
         "noResults": "No completed mock results yet.",
-        "practice": "Practice submissions"
+        "practice": "Practice submissions",
+        "attemptsTruncated": "Showing the 5,000 most recent mock attempts."
     },
     "common": {
         "edit": "Edit",
@@ -398,6 +399,16 @@ export default {
         "empty": "Nothing new yet.",
         "markRead": "Mark all as read",
         "admissions": "Access requests",
+        "assignmentAssignedTitle": "New homework assignment",
+        "assignmentAssignedBody": "A new assignment is ready: {title}",
+        "assignmentDeadlineTitle": "Assignment deadline approaching",
+        "assignmentDeadlineBody": "Due within 24 hours: {title}",
+        "assignmentOverdueTitle": "Assignment overdue",
+        "assignmentOverdueBody": "This assignment is overdue: {title}",
+        "writingReviewTitle": "Writing submission needs review",
+        "writingReviewBody": "{student} submitted a Writing response for review.",
+        "teacherFeedbackTitle": "Teacher feedback is available",
+        "teacherFeedbackBody": "Your Writing submission has teacher feedback.",
         "all": "All notifications"
     },
     "support": {
@@ -742,6 +753,7 @@ export default {
         "runnerNote": "The timed full-test runner is not enabled yet. Until it is, practice runs inside each module — Reading, Listening and Writing all score the same way, and nothing on this page will show a band that was not actually calculated.",
         "catalogue": "Configured mock tests",
         "noTests": "The centre has not published a mock test yet.",
+        "catalogueTruncated": "Showing the first 5,000 configured mock tests.",
         "myAttempts": "My attempts",
         "finished": "finished",
         "noAttempts": "You have not started a mock test yet.",
@@ -749,7 +761,8 @@ export default {
         "band": "Band",
         "raw": "raw",
         "unfinished": "not finished",
-        "unfinishedNote": "An attempt that was never finished is shown as unfinished — it is not a zero and it does not count as a result."
+        "unfinishedNote": "An attempt that was never finished is shown as unfinished — it is not a zero and it does not count as a result.",
+        "attemptsTruncated": "Showing the 5,000 most recent attempts."
     },
     "progress": {
         "trends": {

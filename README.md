@@ -42,8 +42,9 @@ services/backend/.venv/bin/python scripts/serve.py --check
 services/backend/.venv/bin/python scripts/serve.py --reload
 ```
 
-Use the existing 66-migration database. Migration and seed commands remain
-available for explicitly chosen development databases; startup never runs them.
+Use a database with all 67 repository migrations applied. Migration and seed
+commands remain available for explicitly chosen development databases; startup
+never runs them.
 `npm start` launches Python on port 8000. After the asset build, you can run
 `services/backend/.venv/bin/python scripts/serve.py` directly without Node.
 `compose.preview.yml` exposes the same Python application on port 3000.

@@ -359,7 +359,8 @@ export default {
         "trend": "Mock band o'zgarishi",
         "bandNote": "Bandlar alohida mock testlar va ko'nikmalar bo'yicha qayd etilgan.",
         "noResults": "Hozircha tugallangan mock natijalari yo'q.",
-        "practice": "Mashq topshirishlari"
+        "practice": "Mashq topshirishlari",
+        "attemptsTruncated": "Eng so‘nggi 5 000 ta mock urinishi ko‘rsatilmoqda."
     },
     "common": {
         "edit": "Tahrirlash",
@@ -398,6 +399,16 @@ export default {
         "empty": "Hozircha yangi xabar yo'q.",
         "markRead": "Hammasini o'qilgan deb belgilash",
         "admissions": "Kirish so'rovlari",
+        "assignmentAssignedTitle": "Yangi uy vazifasi",
+        "assignmentAssignedBody": "Yangi topshiriq tayyor: {title}",
+        "assignmentDeadlineTitle": "Topshiriq muddati yaqin",
+        "assignmentDeadlineBody": "24 soat ichida muddati tugaydi: {title}",
+        "assignmentOverdueTitle": "Topshiriq muddati o‘tgan",
+        "assignmentOverdueBody": "Bu topshiriqning muddati o‘tgan: {title}",
+        "writingReviewTitle": "Writing topshirig'ini tekshirish kerak",
+        "writingReviewBody": "{student} Writing javobini yubordi.",
+        "teacherFeedbackTitle": "O'qituvchi fikri tayyor",
+        "teacherFeedbackBody": "Writing javobingizga o'qituvchi fikr bildirdi.",
         "all": "Barcha bildirishnomalar"
     },
     "support": {
@@ -449,7 +460,7 @@ export default {
         "reading": "Reading",
         "writing": "Writing",
         "speaking": "Speaking",
-        "grammar": "Grammatika",
+        "grammar": "Grammar",
         "vocabulary": "Lug'at",
         "mocks": "Mock testlar",
         "progress": "Mening natijam",
@@ -742,6 +753,7 @@ export default {
         "runnerNote": "Vaqt bilan boshqariladigan to'liq mock hali yoqilmagan. Ungacha har bir modul ichida mashq qilinadi — Reading, Listening va Writing bir xil baholanadi va bu sahifada hisoblanmagan baho ko'rinmaydi.",
         "catalogue": "Sozlangan mock testlar",
         "noTests": "Markaz hali mock test e'lon qilmagan.",
+        "catalogueTruncated": "Dastlabki 5 000 ta sozlangan mock test ko‘rsatilmoqda.",
         "myAttempts": "Mening urinishlarim",
         "finished": "tugatilgan",
         "noAttempts": "Siz hali mock testni boshlamadingiz.",
@@ -749,7 +761,8 @@ export default {
         "band": "Baho",
         "raw": "xom ball",
         "unfinished": "tugatilmagan",
-        "unfinishedNote": "Tugatilmagan urinish “tugatilmagan” deb ko'rsatiladi — bu nol emas va natija sifatida hisoblanmaydi."
+        "unfinishedNote": "Tugatilmagan urinish “tugatilmagan” deb ko'rsatiladi — bu nol emas va natija sifatida hisoblanmaydi.",
+        "attemptsTruncated": "Eng so‘nggi 5 000 ta urinish ko‘rsatilmoqda."
     },
     "progress": {
         "trends": {
@@ -1981,7 +1994,7 @@ export default {
         "emptyHint": "Markaz hali mavzu qo'shmagan. Hozircha boshqa modulda mashq qilishingiz mumkin.",
         "manageContent": "Grammatika kontentini boshqarish",
         "noExercises": "Bu mavzuda siz uchun hozircha mashq mavjud emas.",
-        "title": "Grammatika",
+        "title": "Grammar",
         "subtitle": "Xato tuzatish mashqlari — ba'zilari sizning Writing urinishlaringizdan olingan.",
         "mastery": "O'zlashtirish",
         "fromYourEssay": "O'z insholaringizdan",
@@ -3818,7 +3831,7 @@ export default {
             "speaking": "Speaking",
             "retention": "Retention",
             "vocabulary": "Lug'at",
-            "grammar": "Grammatika",
+            "grammar": "Grammar",
             "video": "TED / PODCAST",
             "lessons": "Darslar",
             "assignments": "Topshiriqlar",
@@ -3839,7 +3852,7 @@ export default {
             "patterns": "Til birikmalari",
             "speaking": "Speaking",
             "retention": "Retention",
-            "grammar": "Grammatika",
+            "grammar": "Grammar",
             "video": "TED / PODCAST",
             "words": "Saqlangan so'z",
             "practice": "Vocabulary mashqi",
