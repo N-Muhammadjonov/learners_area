@@ -2,6 +2,7 @@
 const params=new URL(location.href).searchParams,baseline=params.has('baseline'),base=params.has('built')?'/assets/'+params.get('built'):params.get('base')??new URL('..',location.href).pathname.replace(/\/$/,'');
 if(params.has('built')){for(const link of document.querySelectorAll('link[rel=stylesheet]'))link.href=base+'/css/'+link.getAttribute('href').split('/').at(-1);const meta=document.createElement('meta');meta.name='la-build';meta.content=params.get('built');document.head.append(meta);}
 
+const selectedScenario=params.get('scenario'),iterations=Math.min(200,Math.max(25,Math.floor(Number(params.get('iterations'))||25)));
 const actualNow=Date.now;let offset=0,reads=0;Date.now=()=>actualNow()+offset;
 const originalFetch=window.fetch.bind(window),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const mock={tests:[],attempts:[],finishedCount:0,attemptsUnavailable:false,attemptTitlesUnavailable:false,catalogueUnavailable:false};
@@ -23,10 +24,10 @@ const quantile=(xs,q)=>[...xs].sort((a,b)=>a-b)[Math.min(xs.length-1,Math.ceil(x
 async function settled(route){const started=performance.now();while(performance.now()-started<8000){const n=transition.content;const failures=[...n.querySelectorAll('[role=alert]')].filter(n=>n.textContent.trim());if(failures.length)throw Error('Rendered failure: '+failures[0].textContent);let ok=!n.querySelector('[aria-busy=true],[data-async-loading],.animate-pulse,[data-speaking-materials-skeleton]')&&n.textContent.trim().length>0;if(route==='/app/dashboard')ok=ok&&!!n.querySelector('[data-dashboard-content]');if(ok){await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));return;}await wait(5);}throw Error('Data did not settle: '+route+' '+transition.content.textContent.slice(0,100));}
 document.querySelector('#run').onclick=async()=>{document.querySelector('#run').disabled=true;const result={kind:baseline?'baseline':'optimized',apiLatencyMs:150,browser:navigator.userAgent,samples:[],errors};try{
  for(const [route] of definitions){await router.navigate(route);await settled(route);}
- for(const scenario of ['warm','after-presence','after-45-seconds','back-revisit']){
+ for(const scenario of ['warm','after-presence','after-45-seconds','back-revisit'].filter(s=>!selectedScenario||s===selectedScenario)){
   if(scenario==='after-45-seconds')offset+=45000;
   const samples=[],calls=reads;
-  for(let i=0;i<25;i++){if(scenario==='after-presence')await api.request('/api/presence',{method:'POST'});const route=definitions[i%(scenario==='back-revisit'?2:definitions.length)][0],t=performance.now();const flight=router.navigate(route);const response=performance.now()-t;await flight;const committed=performance.now()-t;await settled(route);samples.push({response,committed,ready:performance.now()-t});}
+  for(let i=0;i<iterations;i++){if(scenario==='after-presence')await api.request('/api/presence',{method:'POST'});const route=definitions[i%(scenario==='back-revisit'?2:definitions.length)][0],t=performance.now();const flight=router.navigate(route);const response=performance.now()-t;await flight;const committed=performance.now()-t;await settled(route);samples.push({response,committed,ready:performance.now()-t});}
   result.samples.push({scenario,count:samples.length,reads:reads-calls,p50:Object.fromEntries(['response','committed','ready'].map(k=>[k,quantile(samples.map(x=>x[k]),.5)])),p95:Object.fromEntries(['response','committed','ready'].map(k=>[k,quantile(samples.map(x=>x[k]),.95)]))});
  }
  result.ok=true;
