@@ -424,7 +424,7 @@ async def presence(req: Request):
                 CASE WHEN NOW()-activity_events.created_at>interval '90 seconds' THEN 0
                   ELSE LEAST(45,GREATEST(0,FLOOR(EXTRACT(epoch FROM NOW()-activity_events.created_at))::int)) END)
           WHERE activity_events.user_id=$1::uuid AND activity_events.type='SITE_PRESENCE'
-            AND activity_events.created_at<=NOW()-interval '15 seconds' ''', user['id'])
+            AND activity_events.created_at<=NOW()-interval '15 seconds' ''', str(user['id']))
     return Response(status_code=204, headers=PRIVATE)
 
 @app.get('/api/profile/photo/{id}')

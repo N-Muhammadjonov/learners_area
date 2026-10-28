@@ -51,6 +51,7 @@ def test_resaving_existing_speaking_word_files_only_unassigned_owned_words():
 @pytest.mark.parametrize('purpose',['login','register','link','replace',None])
 def test_preflight_checks_membership_for_every_purpose_and_direct_start(monkeypatch,purpose):
     con=DB();con.rows['SELECT purpose']={'purpose':purpose}
+    con.fetchval=AsyncMock(return_value=PROMPT)
     monkeypatch.setenv('BOT_SERVICE_SECRET','demo_bot_token')
     monkeypatch.setattr(core,'pool',AsyncMock(return_value=FakePool(con)))
     gate=AsyncMock(return_value={'error':'not_subscribed','requiredChannels':[{'url':'https://t.me/learners_area'}]})

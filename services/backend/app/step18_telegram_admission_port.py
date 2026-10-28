@@ -17,7 +17,7 @@ router=APIRouter()
 def clip(v,n):return v.strip()[:n] if isinstance(v,str) and v.strip() else None
 
 async def gates(conn,tg):
-    if not re.fullmatch(r'(?i)(?:1|true)',os.getenv('TELEGRAM_ACCESS_GATES_ENABLED','').strip()):return None
+    if not re.fullmatch(r'(?i)(?:1|true)',os.getenv('TELEGRAM_ACCESS_GATES_ENABLED','true').strip()):return None
     contact=await conn.fetchrow('SELECT phone_number,phone_verified_at FROM telegram_contacts WHERE telegram_user_id=$1',tg)
     if not contact or not contact['phone_number'] or not contact['phone_verified_at']:
         return {'error':'phone_required'}
