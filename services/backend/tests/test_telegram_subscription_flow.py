@@ -112,8 +112,8 @@ def test_presence_passes_text_uuid_to_text_parameter(monkeypatch):
     assert r.status_code==204
     assert con.calls[-1][2]==(str(ID),)
 
-@pytest.mark.parametrize('purpose',['login','register'])
-def test_subscribed_user_can_complete_login_or_register_and_cannot_replay(monkeypatch,purpose):
+@pytest.mark.parametrize('purpose,gender',[('login',None),('register','male'),('register','female')])
+def test_subscribed_user_can_complete_login_or_register_and_cannot_replay(monkeypatch,purpose,gender):
     user={'id':ID,'name':'Test User','role':'student','locale':'uz','auth_version':0,
           'account_status':'active' if purpose=='login' else 'pending','onboarding_completed_at':None}
     intent={'id':ID,'status':'confirmed','telegram_user_id':'12345','purpose':purpose,
@@ -124,7 +124,7 @@ def test_subscribed_user_can_complete_login_or_register_and_cannot_replay(monkey
             if 'FROM telegram_login_intents' in q:return intent
             if 'FROM users WHERE telegram_id' in q:return user if purpose=='login' else None
             if 'INSERT INTO users' in q:
-                assert args[:2]==('12345','Test User')
+                assert args[:3]==('12345','Test User',gender)
                 return user
         async def fetchval(self,q,*args):
             self.calls.append(('fetchval',q,args))
@@ -138,7 +138,7 @@ def test_subscribed_user_can_complete_login_or_register_and_cannot_replay(monkey
     monkeypatch.setattr(core,'current_authority',AsyncMock(return_value=None))
     monkeypatch.setattr(exchange,'gates',AsyncMock(return_value=None))
     client=TestClient(core.app)
-    body={'intentId':str(ID),'browserNonce':'browser-secret','name':'Test User'}
+    body={'intentId':str(ID),'browserNonce':'browser-secret','name':'Test User',**({'gender':gender} if gender else {})}
     response=client.post('/api/auth/telegram/intent/exchange',json=body)
     assert response.status_code==200 and response.json()['success'] is True
     assert 'la_session=' in response.headers['set-cookie']
@@ -148,3 +148,19 @@ def test_subscribed_user_can_complete_login_or_register_and_cannot_replay(monkey
     replay=client.post('/api/auth/telegram/intent/exchange',json=body)
     assert replay.status_code==409 and replay.json()['error']=='already_consumed'
     assert 'set-cookie' not in replay.headers
+
+@pytest.mark.parametrize('gender',[None,'','other',0,True,{},[]])
+def test_new_registration_without_valid_gender_cannot_create_account(monkeypatch,gender):
+    con=DB()
+    con.rows['SELECT * FROM telegram_login_intents']={'id':ID,'status':'confirmed','telegram_user_id':'12345',
+        'purpose':'register','user_id':None,'expires_at':datetime.now(timezone.utc)+timedelta(minutes=5)}
+    monkeypatch.setattr(core,'pool',AsyncMock(return_value=FakePool(con)))
+    monkeypatch.setattr(core,'current_authority',AsyncMock(return_value=None))
+    monkeypatch.setattr(exchange,'gates',AsyncMock(return_value=None))
+    issue=Mock();monkeypatch.setattr(core,'issue_token',issue)
+    body={'intentId':str(ID),'browserNonce':'browser-secret','name':'Test User','gender':gender}
+    r=TestClient(core.app).post('/api/auth/telegram/intent/exchange',json=body)
+    assert r.status_code==400
+    assert r.json()['error']==('gender_required' if gender is None else 'invalid_input')
+    assert 'set-cookie' not in r.headers;issue.assert_not_called()
+    assert not any(q.lstrip().startswith(('INSERT','UPDATE','DELETE')) for _,q,_ in con.calls)
