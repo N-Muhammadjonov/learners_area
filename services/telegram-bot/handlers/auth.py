@@ -43,7 +43,10 @@ def _channel_keyboard(lang: str, channels: list | None = None) -> InlineKeyboard
             or parsed.username or parsed.password or not parsed.path.strip("/")):
             continue
         title = str(channel.get("title") or "Telegram")[:55]
-        rows.append([InlineKeyboardButton(text=f"📢 {title}", url=url)])
+        label = t(lang, "channels_join")
+        if len(channels or []) > 1:
+            label += f" · {title}"
+        rows.append([InlineKeyboardButton(text=label, url=url)])
     rows.append([InlineKeyboardButton(text=t(lang, "channels_retry"), callback_data="auth:retry_channels")])
     return InlineKeyboardMarkup(inline_keyboard=rows)
 

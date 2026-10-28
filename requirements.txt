@@ -1,4 +1,4 @@
-# Vercel deployment manifest. Keep these pins in sync with services/backend/requirements.txt.
+# Python deployment dependencies. Keep these pins in sync with services/backend/requirements.txt.
 # List dependencies directly so framework detection does not need to resolve an included file.
 fastapi==0.121.3
 starlette==0.50.0

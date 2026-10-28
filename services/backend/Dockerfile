@@ -2,7 +2,7 @@ FROM python:3.14-slim AS assets
 WORKDIR /build
 COPY frontend/vanilla/ ./frontend/vanilla/
 COPY scripts/build_native_assets.py ./scripts/build_native_assets.py
-RUN python scripts/build_native_assets.py
+RUN pip install --no-cache-dir rjsmin==1.2.5 rcssmin==1.2.2 && python scripts/build_native_assets.py
 
 FROM python:3.14-slim
 RUN apt-get update && apt-get install -y --no-install-recommends libicu-dev && rm -rf /var/lib/apt/lists/*

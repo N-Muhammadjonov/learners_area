@@ -8,11 +8,11 @@ import {failure} from '../js/request-errors.js';
 const id=ID(401);
 const flush=async()=>{for(let i=0;i<8;i++)await Promise.resolve();};
 
-test('each support tab requires its own hold; saving confirms source word and folder',async t=>{
- const h=setup({path:'/app/speaking/practice?part=part2&topic=test',role:'student'}),parser=globalThis.DOMParser;
+for(const part of ['part1','part2','part3'])test(`${part}: each support tab requires its own hold; saving confirms source word and folder`,async t=>{
+ const h=setup({path:'/app/speaking/practice?part='+part+'&topic=test',role:'student'}),parser=globalThis.DOMParser;
  globalThis.DOMParser=window.DOMParser;
  try{
-  h.stub({'/api/speaking/practice/questions':{prompts:[{id,part:'part2',promptText:'Describe a place.'}]},
+  h.stub({'/api/speaking/practice/questions':{prompts:[{id,part,promptText:'Describe a place.'}]},
    ['/api/speaking/prompts/'+id+'/support']:{promptId:id,support:{vocabulary:[{term:'free time',definitionEn:'free time',translationUz:'bo‘sh vaqt'}],modelAnswerHtml:'<p>Source answer</p>',ideasHtml:'<p>Source ideas</p>'}},
    '/api/speaking/prompts/vocabulary':{ok:true,added:1,duplicates:0,ids:[ID(402)],folder:{id:ID(403),name:'Describe a place.'}}});
   mount(h.ctx);await tick(6);t.mock.timers.enable({apis:['setTimeout']});

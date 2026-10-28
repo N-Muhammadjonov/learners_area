@@ -456,12 +456,17 @@ async def telegram_intent_status(req: Request):
     try:
         db = await core.pool()
         async with db.acquire() as conn:
-            row = await conn.fetchrow('''SELECT status,expires_at,purpose FROM telegram_login_intents
+            row = await conn.fetchrow('''SELECT status,expires_at,purpose,telegram_user_id FROM telegram_login_intents
               WHERE id=$1 AND browser_nonce_hash=$2 LIMIT 1''',_uuid(intent_id),_telegram_hash(nonce))
-        if not row:return core.j({'error':'not_found'},404)
-        expired = row['expires_at'] <= datetime.now(timezone.utc)
-        status = 'expired' if expired and row['status'] not in ('consumed','cancelled') else row['status']
-        return core.j({'status':status,'expired':expired})
+            if not row:return core.j({'error':'not_found'},404)
+            expired = row['expires_at'] <= datetime.now(timezone.utc)
+            status = 'expired' if expired and row['status'] not in ('consumed','cancelled') else row['status']
+            result={'status':status,'expired':expired}
+            if status=='pending' and row.get('telegram_user_id'):
+                from .step18_telegram_admission_port import gates
+                gated=await gates(conn,row['telegram_user_id'])
+                if gated:result['gateError']=gated['error']
+        return core.j(result,headers=PRIVATE)
     except Exception:
         return core.j({'error':'internal_error'},500)
 
@@ -544,7 +549,7 @@ async def auth_reset_request(req: Request):
     if ip_limit:return too_many(ip_limit)
     email_limit=counter('password_reset','acct:'+email,consume=True)
     if email_limit:return too_many(email_limit)
-    if os.environ.get('NODE_ENV') != 'development' or os.environ.get('ALLOW_DEV_RESET_LINKS') != 'true':
+    if os.environ.get('APP_ENV') != 'development' or os.environ.get('ALLOW_DEV_RESET_LINKS') != 'true':
         return core.j({'error':'reset_unavailable'},503)
     db=await core.pool()
     async with db.acquire() as conn:

@@ -1,7 +1,6 @@
-import { backendAction } from "@/lib/backend/server";
 import "server-only";
 import { and, asc, eq, inArray, isNull, sql } from "drizzle-orm";
-import { db, FRONTEND_DATABASE } from "@/db/client";
+import { db } from "@/db/client";
 import { writingExamPaperEntries, writingExamPapers, writingGradeRequests, writingPrompts, writingSubmissions } from "@/db/schema";
 import { findEvaluationsForSources } from "@/lib/data/evaluations";
 import { liveWhere } from "@/lib/services/cms/publication";
@@ -58,7 +57,6 @@ async function pickPrompt(database: Database, task: WritingTask) {
 
 /** Close an open paper whose deadline (plus the final-flush grace) has passed. */
 async function expireIfDue(database: Database, paperId: string) {
-  if (FRONTEND_DATABASE && database === db) return backendAction<void>("writing.expire-paper", { id: paperId });
   const closed = await database
     .update(writingExamPapers)
     .set({ finalizedAt: sql`now()`, finalizeReason: "timeout" })

@@ -18,7 +18,10 @@ async def prompt_vocabulary(req:Request):
  if not u:return core.auth_error()
  b=await core.payload(req)
  indices=b.get('indices') if isinstance(b,dict) else None
- if not isinstance(b,dict) or not core.uuid_value(b.get('promptId')) or not isinstance(indices,list) or not 1<=len(indices)<=100 or any(type(i)!=int or not 0<=i<=99 for i in indices):return core.j({'error':'invalid_input'},400)
+ if not isinstance(b,dict) or set(b)-{'promptId','indices','folderId','folderName'} or not core.uuid_value(b.get('promptId')) or not isinstance(indices,list) or not 1<=len(indices)<=100 or any(type(i)!=int or not 0<=i<=99 for i in indices):return core.j({'error':'invalid_input'},400,PRIVATE)
+ folder_id=core.uuid_value(b.get('folderId')) if b.get('folderId') is not None else None
+ folder_name=b.get('folderName')
+ if (b.get('folderId') is not None and not folder_id) or (folder_name is not None and (not isinstance(folder_name,str) or not 1<=len(folder_name.strip())<=80)) or (folder_id and folder_name is not None):return core.j({'error':'invalid_input'},400,PRIVATE)
  db=await core.pool()
  async with db.acquire() as con:
   row=await con.fetchrow('''SELECT * FROM speaking_prompts p WHERE id=$1
@@ -30,17 +33,21 @@ async def prompt_vocabulary(req:Request):
   if isinstance(support,str):
    try:support=json.loads(support)
    except (ValueError,TypeError):return core.j({'error':'invalid_source'},409)
-  if not isinstance(support,dict) or not isinstance(support.get('vocabulary',[]),list) or len(support['vocabulary'])>100:return core.j({'error':'invalid_source'},409)
+  if not isinstance(support,dict) or not isinstance(support.get('vocabulary'),list) or len(support['vocabulary'])>100:return core.j({'error':'invalid_source'},409,PRIVATE)
   items=support.get('vocabulary',[])
   unique=list(dict.fromkeys(indices))
   if any(i>=len(items) for i in unique):return core.j({'error':'invalid_input'},400)
   words=[items[i] for i in unique]
-  if any(not isinstance(x,dict) or not 1<=len(x.get('term','').strip())<=120 or not 1<=len(x.get('definitionEn','').strip())<=500 for x in words):return core.j({'error':'invalid_source'},409)
+  if any(not isinstance(x,dict) or any(not isinstance(x.get(k,''),str) or len(x.get(k,'').strip())>limit or (required and not x.get(k,'').strip()) for k,limit,required in [('term',120,True),('definitionEn',500,True),('translationUz',500,False),('partOfSpeech',30,False),('exampleSentence',500,False)]) for x in words):return core.j({'error':'invalid_source'},409,PRIVATE)
   async with con.transaction():
    await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',u['id'])
-   folder=await con.fetchrow('''INSERT INTO vocab_folders(user_id,name) VALUES($1,$2)
-          ON CONFLICT(user_id,name) DO UPDATE SET name=excluded.name RETURNING id,name''',u['id'],row['prompt_text'][:200])
-   r=await add_batch(con,u['id'],[dict(x,authored=True) for x in words],folder_id=folder['id'],source_type='speaking',source_id=row['id'])
+   if folder_id:
+    folder=await con.fetchrow('SELECT id,name FROM vocab_folders WHERE id=$1 AND user_id=$2',folder_id,u['id'])
+    if not folder:return core.j({'error':'folder_not_found'},404,PRIVATE)
+   else:
+    folder=await con.fetchrow('''INSERT INTO vocab_folders(user_id,name) VALUES($1,$2)
+          ON CONFLICT(user_id,name) DO UPDATE SET name=excluded.name RETURNING id,name''',u['id'],folder_name.strip() if folder_name is not None else row['prompt_text'][:200])
+   r=await add_batch(con,u['id'],[dict(x,authored=True) for x in words],folder_id=folder['id'],source_type='speaking',source_id=row['id'],move_existing=True)
   folder_result={'id':str(folder['id']),'userId':str(u['id']),'name':folder['name']}
   return core.j({**r,'folder':folder_result},200 if r['ok'] else 404,PRIVATE)
 
@@ -76,4 +83,3 @@ async def video_vocabulary(req:Request,id:str):
   return core.j(r,200 if r['ok'] else 400,PRIVATE)
 
 def install():core.app.include_router(router)
-

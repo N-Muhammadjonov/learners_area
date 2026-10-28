@@ -1,5 +1,4 @@
 import { randomUUID } from "node:crypto";
-import { headers } from "next/headers";
 import { safeErrorLabel } from "./errors";
 
 export { safeErrorLabel };
@@ -32,13 +31,6 @@ function slowThreshold(): number {
 let fallbackId: string | null = null;
 
 async function correlationId(): Promise<string> {
-  try {
-    const requestHeaders = await headers();
-    const id = requestHeaders.get("x-vercel-id") ?? requestHeaders.get("x-request-id");
-    if (id) return id.slice(0, 64);
-  } catch {
-    // Not inside a request (CLI, unit test) — fall through to a random id.
-  }
   fallbackId ??= randomUUID().slice(0, 8);
   return fallbackId;
 }

@@ -3,7 +3,7 @@ import {el,listen} from '../../js/dom.js';
 import {api} from '../../js/api-client.js';
 import {localAnswerRecorder} from './recorder.js';
 import {studyRich} from './study-rich.js';
-import {notifyLedger} from '../vocabulary/shared.js';
+import {vocabularySaver} from './vocabulary-save.js';
 import {BackLink} from '../shared/presentation.js';
 import {mountSituations,situationTopics,situationLabels} from './situations.js';
 /** Source: SpeakingPracticePage + PracticeStudio. Uses bounded original GET endpoints,
@@ -133,13 +133,7 @@ export function mount(context){
    const html=tab==='vocabulary'?support.vocabularyHtml:tab==='modelAnswer'?support.modelAnswerHtml:support.ideasHtml;
    if(html)content.append(studyRich(html));
    if(tab==='vocabulary'&&Array.isArray(support.vocabulary)&&support.vocabulary.length){
-    const result=el('p',{role:'status'});
-    const promptId=state.selected;let saving=false;
-    const save=async indices=>{if(saving)return;saving=true;for(const b of content.querySelectorAll('[data-practice-save]'))b.disabled=true;result.textContent=dict.common.loading;
-     try{const d=await api.request('/api/speaking/prompts/vocabulary',{method:'POST',body:{promptId,indices},signal});if(signal.aborted)return;if(d.ok!==true||!Array.isArray(d.ids)||(!d.ids.length||d.ids.length>indices.length||d.added+d.duplicates!==indices.length)||!d.folder?.id)throw Error('save_not_confirmed');notifyLedger();result.textContent=t.savedWords.replace('{added}',String(d.added)).replace('{duplicates}',String(d.duplicates)).replace('{folder}',d.folder.name??'');}catch{if(!signal.aborted)result.textContent=t.saveFailed;}finally{saving=false;for(const b of content.querySelectorAll('[data-practice-save]'))b.disabled=false;}};
-    content.append(button(t.saveAll,()=>void save(support.vocabulary.map((_,i)=>i)),{class:'btn-primary','data-practice-save':'all'}));
-    for(const [i,w] of support.vocabulary.entries())content.append(el('article',{class:'rounded-xl border border-ink-100 p-3'},el('strong',{},w.term),w.definitionEn!==w.term?el('p',{},w.definitionEn):null,el('p',{},w.translationUz??''),el('p',{class:'text-ink-500'},w.exampleSentence??''),button(t.addWord,()=>void save([i]),{class:'btn-secondary mt-2','data-practice-save':i})));
-    content.append(result);
+    content.append(vocabularySaver({...context,signal:events},{promptId:state.selected,words:support.vocabulary,copy:t}));
    }
   }
   panel.append(tabs,content);target.replaceChildren(panel);show();
@@ -148,4 +142,3 @@ export function mount(context){
  if(!topicKey){studio.dataset.practiceStep='topic';body.replaceChildren(el('p',{'data-practice-loading':'topics'},dict.common.loading));void topicsLoad();return;}
  studio.dataset.practiceStep='questions';void promptsLoad();
 }
-

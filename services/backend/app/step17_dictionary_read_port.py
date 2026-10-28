@@ -63,7 +63,7 @@ async def worker(input):
     secret=os.environ.get('DICTIONARY_SIGNING_SECRET','')
     parsed=urlparse(target)
     if (not target or len(secret)<32 or parsed.username or parsed.password or parsed.query or parsed.fragment or
-        parsed.path not in ('','/') or not (parsed.scheme=='https' or (os.environ.get('NODE_ENV')!='production' and parsed.scheme=='http' and parsed.hostname=='127.0.0.1'))):
+        parsed.path not in ('','/') or not (parsed.scheme=='https' or (os.environ.get('APP_ENV')!='production' and parsed.scheme=='http' and parsed.hostname=='127.0.0.1'))):
         raise ValueError('dictionary_worker_unavailable')
     content=json.dumps(input,separators=(',',':'),ensure_ascii=False)
     now=int(time.time())

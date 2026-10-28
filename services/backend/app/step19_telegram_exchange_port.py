@@ -35,11 +35,6 @@ async def intent_exchange(req:Request):
     db=await core.pool()
     try:
         async with db.acquire() as con:
-            preflight=await con.fetchrow('''SELECT telegram_user_id,purpose FROM telegram_login_intents
-                 WHERE id=$1 AND browser_nonce_hash=$2 AND status='confirmed' ''',iid,nonce_hash)
-            if preflight and preflight['telegram_user_id']:
-                gated=await gates(con,preflight['telegram_user_id'])
-                if gated:return fail(gated['error'])
             async with con.transaction():
                 intent=await con.fetchrow('''SELECT * FROM telegram_login_intents
                   WHERE id=$1 AND browser_nonce_hash=$2 FOR UPDATE''',iid,nonce_hash)
@@ -48,6 +43,8 @@ async def intent_exchange(req:Request):
                 if intent['status']!='confirmed' or not valid_actor(intent['telegram_user_id']):return fail('intent_not_confirmed')
                 if intent['expires_at']<=datetime.now(timezone.utc):return fail('expired')
                 tg=intent['telegram_user_id'];purpose=intent['purpose'] if intent['purpose'] in ('register','link','replace') else 'login'
+                gated=await gates(con,tg)
+                if gated:return fail(gated['error'])
                 if purpose=='login':
                     user=await con.fetchrow('SELECT * FROM users WHERE telegram_id=$1',tg)
                     if not user:return fail('no_linked_account')
@@ -87,6 +84,7 @@ async def intent_exchange(req:Request):
                         outcome='existing'
                     else:
                         if not full_name(b.get('name')):return fail('full_name_required')
+                        if gender not in ('male','female'):return fail('gender_required')
                         user=await con.fetchrow('''INSERT INTO users(telegram_id,name,gender,role,account_status,locale)
                           VALUES($1,$2,$3,'student','pending',$4) RETURNING *''',tg,b['name'].strip(),gender,
                           'en' if intent['language_code']=='en' else 'uz')

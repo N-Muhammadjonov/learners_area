@@ -1,4 +1,3 @@
-import type { NextResponse } from "next/server";
 import { connectSrcOrigins, frameAncestorsFor, mediaSrcOrigins } from "@/lib/config/site";
 
 /**
@@ -70,7 +69,7 @@ export type SecurityHeaderOptions = CspOptions & {
 };
 
 /** Applies the headers to a response that already exists (including redirects). */
-export function applySecurityHeaders(res: NextResponse, options: SecurityHeaderOptions): NextResponse {
+export function applySecurityHeaders(res: Response, options: SecurityHeaderOptions): Response {
   const csp = buildCsp(options);
   res.headers.set("Content-Security-Policy", csp);
   res.headers.set("X-Content-Type-Options", "nosniff");

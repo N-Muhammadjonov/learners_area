@@ -1,8 +1,7 @@
-import { backendAction } from "@/lib/backend/server";
 import "server-only";
 import { countWords } from "@/lib/retention/word-count";
 import { and, desc, eq, inArray, isNotNull, sql } from "drizzle-orm";
-import { db, FRONTEND_DATABASE } from "@/db/client";
+import { db } from "@/db/client";
 import {
   retentionAttempts,
   retentionRotationCompletions,
@@ -268,11 +267,6 @@ export async function findAttemptForUser(
   input: { attemptId: string; userId: string; now?: Date },
   connection: RetentionBankDatabase = db
 ): Promise<RetentionAttemptRecord> {
-  if (FRONTEND_DATABASE && connection === db) {
-    const record = await backendAction<RetentionAttemptRecord | null>("retention.read", { id: input.attemptId });
-    if (!record) throw new RetentionError("retention_attempt_not_found", "attempt not found");
-    return record;
-  }
   const [row] = await connection
     .select(ATTEMPT_COLUMNS)
     .from(retentionAttempts)
@@ -332,7 +326,6 @@ export async function findAnyLiveAttempt(
   input: { userId: string; now?: Date },
   connection: RetentionBankDatabase = db
 ): Promise<RetentionAttemptRecord | null> {
-  if (FRONTEND_DATABASE && connection === db) return backendAction<RetentionAttemptRecord | null>("retention.live");
   const now = input.now ?? new Date();
   const [row] = await connection
     .select(ATTEMPT_COLUMNS)

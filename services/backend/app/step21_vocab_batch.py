@@ -26,7 +26,7 @@ def sense_key(item):
     parts=[normalize_term(item['term']),normalize_pos(item.get('partOfSpeech')),normalize_meaning(item.get('definitionEn'))]
     return 'v2:'+hashlib.sha256(json.dumps(parts,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
 
-async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',source_id=None,folder_id=None):
+async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',source_id=None,folder_id=None,move_existing=False):
     """Called inside a transaction. Returns original engine result shape."""
     await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',user_id)
     if folder_id:
@@ -49,7 +49,7 @@ async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',sou
     existing=await con.fetch('SELECT id,lexeme_id,sense_key FROM user_vocabulary WHERE user_id=$1',user_id)
     known_senses={r['sense_key']:str(r['id']) for r in existing if r['sense_key']}
     known_lexemes={str(r['lexeme_id']):str(r['id']) for r in existing}
-    count=0;ids=[]
+    count=0;moved=0;ids=[]
     for item in collapsed.values():
         key=sense_key(item)
         if item.get('canonicalLexemeId'):
@@ -65,8 +65,10 @@ async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',sou
         existing_id=existing_id or known_senses.get(key)
         if existing_id:
             if source_type in ('video','speaking') and folder_id:
-                await con.execute('''UPDATE user_vocabulary SET folder_id=$3
-                  WHERE user_id=$1 AND id=$2 AND folder_id IS NULL''',user_id,existing_id,folder_id)
+                predicate='folder_id IS DISTINCT FROM $3' if move_existing else 'folder_id IS NULL'
+                status=await con.execute(f'''UPDATE user_vocabulary SET folder_id=$3
+                  WHERE user_id=$1 AND id=$2 AND {predicate}''',user_id,existing_id,folder_id)
+                if status=='UPDATE 1':moved+=1
             ids.append(existing_id)
             continue
         if lexeme is None:
@@ -93,10 +95,9 @@ async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',sou
            source_snapshot,srs_stage,mastery,next_review_at)
            VALUES($1,$2,$3,$4,$5,$6,$7,$8,0,'new',NOW()) RETURNING id''',user_id,lexeme['id'],key,
            folder_id,topic_pack,source_type,source_id,json.dumps(item['sourceSnapshot']) if item.get('sourceSnapshot') else None)
-        ids.append(str(inserted['id']));count+=1;known_senses[key]=str(inserted['id'])
+        ids.append(str(inserted['id']));count+=1;known_senses[key]=str(inserted['id']);known_lexemes[str(lexeme['id'])]=str(inserted['id'])
     if count:
         await con.execute('UPDATE users SET last_meaningful_activity_at=GREATEST(last_meaningful_activity_at,NOW()) WHERE id=$1',user_id)
     await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'VOCABULARY_ADDED',$2::jsonb)''',
        user_id,json.dumps({'added':count,'duplicates':len(items)-len(collapsed),'sourceType':source_type,'topicPack':topic_pack}))
-    return {'ok':True,'added':count,'duplicates':len(items)-count,'ids':ids,'points':0}
-
+    return {'ok':True,'added':count,'duplicates':len(items)-count,'ids':ids,'points':0,**({'moved':moved} if move_existing else {})}

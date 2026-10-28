@@ -37,7 +37,7 @@ def test_source_save_preserves_meaning_and_uses_an_owned_topic_folder(monkeypatc
     response=asyncio.run(source.prompt_vocabulary(Request({'type':'http','method':'POST','path':'/','headers':[]})))
     assert response.status_code==200 and 'no-store' in response.headers['cache-control']
     assert save.call_args.args[2]==[dict(WORD,authored=True)]
-    assert save.call_args.kwargs=={'folder_id':FOLDER,'source_type':'speaking','source_id':PROMPT}
+    assert save.call_args.kwargs=={'folder_id':FOLDER,'source_type':'speaking','source_id':PROMPT,'move_existing':True}
     assert json.loads(response.body)['folder']['id']==str(FOLDER)
 
 def test_resaving_existing_speaking_word_files_only_unassigned_owned_words():
@@ -51,6 +51,7 @@ def test_resaving_existing_speaking_word_files_only_unassigned_owned_words():
 @pytest.mark.parametrize('purpose',['login','register','link','replace',None])
 def test_preflight_checks_membership_for_every_purpose_and_direct_start(monkeypatch,purpose):
     con=DB();con.rows['SELECT purpose']={'purpose':purpose}
+    con.fetchval=AsyncMock(return_value=PROMPT)
     monkeypatch.setenv('BOT_SERVICE_SECRET','demo_bot_token')
     monkeypatch.setattr(core,'pool',AsyncMock(return_value=FakePool(con)))
     gate=AsyncMock(return_value={'error':'not_subscribed','requiredChannels':[{'url':'https://t.me/learners_area'}]})

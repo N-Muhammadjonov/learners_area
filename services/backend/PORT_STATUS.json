@@ -1619,16 +1619,16 @@
       "status": "ported_native_extension_unit_tested"
     },
     {
+      "method": "DELETE",
+      "path": "/api/vocabulary/packs/{pack_id}",
+      "source": "services/backend/app/vocabulary_packs_port.py",
+      "status": "ported_native"
+    },
+    {
       "method": "POST",
       "path": "/api/internal/telegram/auth/preflight",
       "source": "services/backend/app/step18_telegram_auth_port.py",
-      "status": "ported_code_no_db_integration_test"
-    },
-    {
-      "method": "DELETE",
-      "path": "/api/vocabulary/packs/{pack_id}",
-      "source": "services/backend/app/step21_packs_port.py",
-      "status": "ported_code_no_db_integration_test"
+      "status": "ported_native"
     }
   ]
 }

@@ -105,6 +105,7 @@ async def test_registration_missing_channel_retains_intent_and_shows_join_retry(
         markup = message.answer.await_args.kwargs["reply_markup"]
         assert markup.inline_keyboard[0][0].url == "https://t.me/englishclub"
         assert markup.inline_keyboard[-1][0].callback_data == "auth:retry_channels"
+        assert [row[0].text for row in markup.inline_keyboard] == ["Obuna bo'lish", "Tekshirish"]
 
 
 @pytest.mark.asyncio

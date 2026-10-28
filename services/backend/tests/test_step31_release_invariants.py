@@ -30,7 +30,7 @@ def test_port_status_no_duplicates():
     methods={(m,r.path) for r in core.app.routes if r.path.startswith('/api/') for m in r.methods}
     ported={(e['method'],e['path']) for e in status['endpoints'] if e['status'].startswith('ported_')}
     missing={(e['method'],e['path']) for e in status['endpoints'] if e['status']=='not_ported'}
-    assert len(methods)==len(ported)==status['ported_methods']==271
+    assert len(methods)==len(ported)==status['ported_methods']==status['total_methods']
     assert len(missing)==status['unported_methods']==0
     assert ported==methods and not ported&missing
-    assert len(status['endpoints'])==271
+    assert len(status['endpoints'])==status['total_methods']
