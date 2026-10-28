@@ -34,7 +34,7 @@ export const mount=mountStaff({name:'management-people',roles:['admin','owner'],
    if(['suspended','rejected'].includes(p.accountStatus))return confirmAction({signal,trigger:t.reactivate,triggerClassName:'btn-secondary text-xs',triggerDisabled:S.busy===p.id,title:t.confirmStatusTitle,description:t.confirmStatusBody,confirmLabel:dict.common.confirm,cancelLabel:dict.common.cancel,pendingLabel:dict.loadingPage.label,failureMessage:t.failed,onConfirm:()=>run('status',p,'active')}).node;
    const ask=el('button',{type:'button',class:'btn-secondary text-xs',disabled:S.busy===p.id},t.suspend);listen(ask,'click',()=>{S.askId=p.id;view.rerender();},signal);return ask;
   };
-  const nameNode=p=>data.actorRole==='owner'&&p.role==='student'?el('a',{href:`/app/admin/people/${p.id}`,class:'font-medium text-ink-900','data-people-name':''},p.name):el('span',{'data-people-name':'',class:'font-medium text-ink-900'},p.name);
+  const nameNode=p=>['admin','owner'].includes(data.actorRole)&&p.role==='student'?el('a',{href:`/app/admin/people/${p.id}`,class:'font-medium text-ink-900','data-people-name':''},p.name):el('span',{'data-people-name':'',class:'font-medium text-ink-900'},p.name);
   const you=p=>p.id===data.actorId?el('span',{class:'ml-2 badge bg-signal-100 text-signal-700'},t.you):null;
   const contact=p=>el('span',{class:'block text-xs text-ink-500'},el('span',{class:'block'},p.username?'@'+p.username:p.email??(p.telegramLinked?'Telegram':'—')),p.phoneNumber?el('span',{class:'block'},p.phoneNumber):null);
   const presence=p=>{

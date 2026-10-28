@@ -1,3 +1,4 @@
+import {learningExtras} from '../shared/student-learning.js';
 import {el,mountStaff,BackLink,dateOnly,put} from './kit.js';
 import {studentResults} from '../../js/adapters/staff-final30/people.js';
 import {UUID} from '../../js/adapters/staff-final30/core.js';
@@ -37,7 +38,14 @@ export function renderResults(dict,data){
    rows.length===0?el('p',{class:'text-sm text-ink-500'},t.noResults):null,el('p',{class:'text-sm text-ink-500'},`${t.practice}: ${data.practice[k]??'—'}`));})));
  return sec;
 }
-export const mount=mountStaff({name:'management-student-results',roles:['owner'],notFoundBack:null,
+const ownerMount=mountStaff({name:'management-student-results',roles:['owner'],notFoundBack:null,
  load:ctx=>{const id=ctx.url.pathname.split('/').filter(Boolean).at(-1);if(!UUID.test(id))return Promise.reject(Object.assign(new Error('not_found'),{status:404}));return studentResults(id,ctx.signal);},
- render(ctx,data){const {dict,locale}=ctx,t=locale==='uz'?ACADEMIC_UZ:ACADEMIC_EN;return el('div',{class:'mx-auto max-w-6xl space-y-6'},BackLink({fallbackHref:'/app/admin/people',label:dict.nav.people}),el('div',{},el('h1',{class:'font-display text-3xl'},data.student.name),el('p',{class:'text-ink-500'},data.student.email??'Telegram'),el('a',{href:`/app/teacher/students/${data.student.id}`,class:'mt-2 inline-block underline','data-open-full-academic-review':''},t.openStudent)),renderResults(dict,data),studentLearningPanel(ctx,data.student.id,`/app/admin/people/${data.student.id}`));}});
+ render(ctx,data){const {dict,locale}=ctx,t=locale==='uz'?ACADEMIC_UZ:ACADEMIC_EN;return el('div',{class:'mx-auto max-w-6xl space-y-6'},BackLink({fallbackHref:'/app/admin/people',label:dict.nav.people}),el('div',{},el('h1',{class:'font-display text-3xl'},data.student.name),el('p',{class:'text-ink-500'},data.student.email??'Telegram'),el('a',{href:`/app/teacher/students/${data.student.id}`,class:'mt-2 inline-block underline','data-open-full-academic-review':''},t.openStudent)),learningExtras(ctx,{studentId:data.student.id,writing:true}),renderResults(dict,data),studentLearningPanel(ctx,data.student.id,`/app/admin/people/${data.student.id}`));}});
 
+
+export async function mount(ctx){
+ if(ctx.session?.user.role!=='admin')return ownerMount.mount?ownerMount.mount(ctx):ownerMount(ctx);
+ const id=ctx.url.pathname.split('/').filter(Boolean).at(-1);
+ if(!UUID.test(id))return;
+ ctx.root.append(el('div',{class:'mx-auto max-w-4xl space-y-4'},BackLink({fallbackHref:'/app/admin/people',label:ctx.dict.common.back}),el('h1',{class:'font-display text-2xl'},ctx.locale==='uz'?'Talabaning dars vaqti':'Student Study Time'),learningExtras(ctx,{studentId:id})));
+}

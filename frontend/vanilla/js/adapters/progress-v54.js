@@ -136,7 +136,7 @@ export function progressMocksDTO(d) {
     if (!object(a) || ['snapshot', 'mockSnapshot', 'questions', 'answers'].some(k => k in a)) bad();
     if (!text(a.id) || !nullable(a.mockTestId, text) || !nullable(a.title, text) || !nullable(a.skill, s => SKILLS.includes(s))
       || !instant(a.finishedAt) || !nullable(a.estimatedBand, band)) bad();
-    return {id: a.id, mockTestId: a.mockTestId ?? null, title: a.title ?? null, skill: a.skill ?? null, finishedAt: toDate(a.finishedAt), estimatedBand: a.estimatedBand ?? null};
+    return {...(typeof a.averageEligible==='boolean'?{averageEligible:a.averageEligible}:{}),id: a.id, mockTestId: a.mockTestId ?? null, title: a.title ?? null, skill: a.skill ?? null, finishedAt: toDate(a.finishedAt), estimatedBand: a.estimatedBand ?? null};
   });
   if (new Set(attempts.map(a => a.id)).size !== attempts.length) bad();
   return {

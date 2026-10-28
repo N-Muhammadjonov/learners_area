@@ -354,7 +354,8 @@ async def vocabulary_folders(req: Request):
         async with db.acquire() as conn:
             rows = await conn.fetch('''SELECT f.id,f.name,f.created_at,
               count(v.id)::int AS count FROM vocab_folders f
-              LEFT JOIN user_vocabulary v ON v.folder_id=f.id AND v.user_id=$1
+              LEFT JOIN vocab_folder_entries m ON m.folder_id=f.id AND m.user_id=$1
+              LEFT JOIN user_vocabulary v ON v.id=m.entry_id AND v.user_id=$1
               WHERE f.user_id=$1 GROUP BY f.id,f.name,f.created_at ORDER BY f.name ASC''',user['id'])
         folders = [{'id':row_to_dict(r)['id'],'name':r['name'],'createdAt':row_to_dict(r)['created_at'],
                     'count':r['count']} for r in rows]
@@ -429,7 +430,7 @@ async def vocabulary_sentences(req: Request):
             word_rows = await conn.fetch('''SELECT v.id,l.term,l.definition_en,l.translation_uz,
               v.mastery,v.folder_id FROM user_vocabulary v
               INNER JOIN lexemes l ON v.lexeme_id=l.id
-              WHERE v.user_id=$1 AND ($2::uuid IS NULL OR v.folder_id=$2::uuid)
+              WHERE v.user_id=$1 AND ($2::uuid IS NULL OR EXISTS(SELECT 1 FROM vocab_folder_entries m WHERE m.entry_id=v.id AND m.folder_id=$2::uuid AND m.user_id=$1))
               ORDER BY v.next_review_at ASC,l.term ASC LIMIT $3 OFFSET $4''',
               user['id'],_uuid(folder) if folder else None,word_limit+1,int(offset_f))
         words = [{'id':str(r['id']), 'term':r['term'], 'definitionEn':r['definition_en'],

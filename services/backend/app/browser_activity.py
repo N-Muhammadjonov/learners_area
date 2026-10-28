@@ -23,12 +23,16 @@ async def mocks(con, uid):
     ids=list({r['mock_test_id'] for r in rows if r['mock_test_id']})
     titles=await read.read('titles',lambda:con.fetch('SELECT id,title,skill FROM mock_tests WHERE id=ANY($1::uuid[])',ids)) if ids else []
     by={r['id']:r for r in titles or []}
+    from .fair_scores import CANDIDATES,eligible
+    candidates=await con.fetch('SELECT * FROM ('+CANDIDATES+") candidates WHERE module='mocks'",uid)
+    eligible_ids={str(r['id']) for r in eligible(candidates)}
     attempts=[]
     for r in rows:
         snapshot=r['mock_snapshot'] or {}
         title=by.get(r['mock_test_id'])
         a=camel({k:r[k] for k in ('id','mock_test_id','started_at','finished_at')})
         a.update(title=title['title'] if title else snapshot.get('title'),skill=title['skill'] if title else snapshot.get('kind') if not r['mock_test_id'] else None,rawScore=r['raw_score'] if r['finished_at'] else None,estimatedBand=r['estimated_band'] if r['finished_at'] else None)
+        a['averageEligible']=str(r['id']) in eligible_ids
         attempts.append(a)
     return {'tests':[camel(r) for r in tests],'attempts':attempts,'finishedCount':sum(bool(r['finishedAt']) for r in attempts),
       'catalogueUnavailable':'catalogue' in read.failed,'catalogueTruncated':catalogue_truncated,
@@ -159,6 +163,10 @@ async def read(req, user, path, q, region):
         if path == '/app/mocks':
             return {'mock': await mocks(con, uid)} if region == 'mock' else await mocks(con, uid)
         if path == '/app/progress':
+            if region == 'learningExtras':
+                from .study_time import weekly
+                from .fair_scores import averages
+                return {'studyTime':await weekly(con,user,q),'averages':await averages(con,uid)}
             if region == 'progressSummary':
                 return {region: await summary(con, uid)}
             if region == 'progressStreak':

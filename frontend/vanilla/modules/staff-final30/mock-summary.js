@@ -11,7 +11,7 @@ export function summarize(attempts, catalogueIds) {
  const complete = new Set(finished.filter(a => a.mockTestId != null && visible.has(a.mockTestId)).map(a=>a.mockTestId)).size;
  const skillFinished = attempts.filter(a => SKILLS.includes(a.skill) && a.finishedAt instanceof Date).sort((a,b) => a.finishedAt.getTime() - b.finishedAt.getTime() || a.id.localeCompare(b.id));
  return {finished,bands,latest,best:values.length?Math.max(...values):null,
-  average:values.length?values.reduce((s,n)=>s+n,0)/values.length:null,
+  average:points.some(a=>a.averageEligible!==false)?points.filter(a=>a.averageEligible!==false).reduce((s,a)=>s+a.estimatedBand,0)/points.filter(a=>a.averageEligible!==false).length:null,
   improvement:values.length>=2?latest-values[0]:null,total:catalogueIds.length,complete,
   chart:bands.slice(-12),skillFinished};
 }

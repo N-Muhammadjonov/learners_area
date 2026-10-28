@@ -28,11 +28,11 @@ export async function createRecorder({signal,permissionTimeoutMs=30000}={}){
  let mr;try{mr=new MediaRecorder(tracks,pair[0]?{mimeType:pair[0]}:undefined);}catch{tracks.getTracks().forEach(t=>t.stop());throw new RecorderError('unknown');}
  const pieces=[];let started=Date.now(),stopped=false,releaseSession=()=>{};
  mr.addEventListener('dataavailable',e=>{if(e.data?.size)pieces.push(e.data);});
- const release=()=>{tracks.getTracks().forEach(t=>t.stop());releaseSession();};
+ const release=()=>{window.dispatchEvent(new CustomEvent('la:study-recording',{detail:{recorder:mr,active:false}}));tracks.getTracks().forEach(t=>t.stop());releaseSession();};
  mr.addEventListener('error',release);
  const cancel=()=>{if(stopped)return;stopped=true;try{if(mr.state!=='inactive')mr.stop();}catch{}release();};
  return {
-  async start(){if(stopped)throw new RecorderError('unknown');releaseSession=captureAudioSession();try{mr.start(250);started=Date.now();}catch(e){release();throw e;}},
+  async start(){if(stopped)throw new RecorderError('unknown');releaseSession=captureAudioSession();try{mr.start(250);started=Date.now();window.dispatchEvent(new CustomEvent('la:study-recording',{detail:{recorder:mr,active:true}}));}catch(e){release();throw e;}},
   stop(){if(stopped)return Promise.resolve(null);stopped=true;return new Promise(resolve=>{
    const timer=setTimeout(()=>{release();resolve(null);},5000);
    mr.addEventListener('stop',()=>{clearTimeout(timer);release();if(!pieces.length){resolve(null);return;}

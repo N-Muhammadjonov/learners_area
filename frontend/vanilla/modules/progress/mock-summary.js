@@ -18,7 +18,7 @@ export function summarizeMocks(attempts, catalogueIds) {
     attempts: finished.length,
     latest,
     best: bands.length ? Math.max(...bands) : null,
-    average: bands.length ? bands.reduce((sum, n) => sum + n, 0) / bands.length : null,
+    average: points.some(a=>a.averageEligible!==false) ? points.filter(a=>a.averageEligible!==false).reduce((sum,a)=>sum+a.estimatedBand,0)/points.filter(a=>a.averageEligible!==false).length : null,
     change: bands.length >= 2 ? latest - bands[0] : null,
   };
 }

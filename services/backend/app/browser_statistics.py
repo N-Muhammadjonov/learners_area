@@ -35,6 +35,13 @@ async def summary(con, uid=None):
       100.0*sum(score) FILTER(WHERE completed AND unit<>'band')/NULLIF(sum(maximum) FILTER(WHERE completed AND unit<>'band'),0) accuracy,
       avg(score) FILTER(WHERE completed AND unit='band') band,max(at) latest FROM r {where} GROUP BY module''',*([uid] if uid else []))
     by = {r['module']:camel(r) for r in rows}
+    if uid:
+        from .fair_scores import averages
+        fair=await averages(con,uid)
+        for module,value in fair.items():
+            if module in by:
+                by[module]['band']=value['band']
+                if value['accuracy'] is not None:by[module]['accuracy']=value['accuracy']
     return [by.get(module,{'module':module,'started':0,'completed':0,'learners':0,'accuracy':None,'band':None,'latest':None}) for module in MODULES]
 
 

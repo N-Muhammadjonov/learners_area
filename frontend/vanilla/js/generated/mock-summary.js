@@ -9,6 +9,7 @@ export function summarizeMocks(attempts, catalogueIds) {
         .sort((a, b) => a.finishedAt.getTime() - b.finishedAt.getTime() ||
         a.id.localeCompare(b.id));
     const bands = points.map((a) => a.estimatedBand);
+    const eligibleBands = points.filter(a => a.averageEligible !== false).map(a => a.estimatedBand);
     const latest = bands.at(-1) ?? null;
     // Only attempts whose mock is still in the catalogue count towards catalogue
     // progress; a removed mock must not inflate or block it.
@@ -22,8 +23,8 @@ export function summarizeMocks(attempts, catalogueIds) {
         attempts: finished.length,
         latest,
         best: bands.length ? Math.max(...bands) : null,
-        average: bands.length
-            ? bands.reduce((sum, n) => sum + n, 0) / bands.length
+        average: eligibleBands.length
+            ? eligibleBands.reduce((sum, n) => sum + n, 0) / eligibleBands.length
             : null,
         change: bands.length >= 2 ? latest - bands[0] : null,
     };

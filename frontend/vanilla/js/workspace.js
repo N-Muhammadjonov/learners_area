@@ -9,6 +9,7 @@ import {privateScope} from './private-scope.js';
 import {api} from './api-client.js';
 import {watchAuthority} from './authority.js';
 import {watchPresence} from './presence.js';
+import {watchStudyTime} from './study-time.js';
 import {moduleLayout} from '../modules/shell/module-layout.js';
 import {createShell,focusFrame} from '../modules/shell/layout.js';
 /** Shell and authority are separate lifetimes: focus routes retain the access gate. */
@@ -30,11 +31,11 @@ export function createWorkspace(root){let pendingScroll,lastPresentation,announc
  }
  function ensureAuthority(context){const current=context.session;if(!current)return;const next=current.user.id+':'+current.user.role+':'+current.user.accountStatus+':'+current.expiresAt;
   if(authorityKey===next)return;closeAuthority();authorityController=new AbortController();authorityKey=next;const persistent={...context,signal:authorityController.signal,scope:privateScope,refresh:()=>{invalidate();return context.refresh();}};
-  release=privateScope.own(()=>{session=null;api.clear();scroll.clear();closeShell();closeAuthority();root.replaceChildren();});watchAuthority(current,persistent);watchPresence(persistent);
+  release=privateScope.own(()=>{session=null;api.clear();scroll.clear();closeShell();closeAuthority();root.replaceChildren();});watchAuthority(current,persistent);watchPresence(persistent);watchStudyTime(persistent);
  }
  function commit(staging,context){const {url}=context,protectedRoute=!!context.session;const ordinary=protectedRoute&&url.pathname.startsWith('/app')&&context.route?.layout!=='focus';
   if(!protectedRoute){closeShell();closeAuthority();session=null;privateScope.setScope(null);scroll.clear();root.replaceChildren(...staging.childNodes);return;}
-  ensureAuthority(context);if(context.session.diagnostics)void enableDiagnostics(context.signal);
+  ensureAuthority(context);window.dispatchEvent(new Event('la:study-route'));if(context.session.diagnostics)void enableDiagnostics(context.signal);
   if(!ordinary){closeShell();const frame=context.route?.layout==='focus'?focusFrame(context,staging):staging;root.replaceChildren(...(frame===staging?staging.childNodes:[frame]));return;}
   const nextKey=context.session.user.id+':'+context.session.user.role+':'+context.locale;
   const priorScroll=pendingScroll??shell?.main.scrollTop??0;pendingScroll=undefined;shell?.end(true);
@@ -42,6 +43,6 @@ export function createWorkspace(root){let pendingScroll,lastPresentation,announc
   if(!shell||nextKey!==key){const sidebarScroll=shell?.sidebar.scrollTop??0,focusIntent=shell?.preferenceFocus?.(),restoreLocaleFocus=!!shell?.host.contains(document.activeElement)&&document.activeElement.matches('[data-locale-switcher] button[lang]')||focusIntent?.locale===context.locale&&focusIntent?.path===url.pathname+url.search;closeShell();shellController=new AbortController();shell=createShell({...context,signal:shellController.signal,refresh:()=>{invalidate();return context.refresh();}});key=nextKey;root.replaceChildren(shell.host);shell.sidebar.scrollTop=sidebarScroll;if(restoreLocaleFocus)shell.host.querySelector('button[lang="'+context.locale+'"]')?.focus({preventScroll:true});}else shell.update(url,context.session.user,context.state);
   shell.outlet.replaceChildren(moduleLayout(context,[...staging.childNodes]));shell.attachModuleHeader?.(shell.outlet);locationKey=(context.historyKey??'')+url.pathname+url.search;const saved=context.preserveScroll?priorScroll:scroll.get(locationKey)??0;const target=shell.main;shell.main.scrollTop=saved;if(saved>0&&target.scrollTop<saved){const observer=new MutationObserver(()=>{if(!context.signal.aborted&&shell?.main===target&&target.scrollHeight-target.clientHeight>=saved){target.scrollTop=saved;observer.disconnect();clearTimeout(timer);}}),timer=setTimeout(()=>observer.disconnect(),5000);observer.observe(shell.outlet,{childList:true,subtree:true});context.signal.addEventListener('abort',()=>{observer.disconnect();clearTimeout(timer);},{once:true});}
  }
- function begin(url,signal,source){if(!shell)return;if(!url.pathname.startsWith('/app')){closeShell();closeAuthority();session=null;privateScope.setScope(null);api.clear();scroll.clear();root.replaceChildren();return;}pendingScroll??=shell.main.scrollTop;if(locationKey)scroll.set(locationKey,pendingScroll);shell.begin(url,signal,source);}
+ function begin(url,signal,source){window.dispatchEvent(new Event('la:study-pause'));if(!shell)return;if(!url.pathname.startsWith('/app')){closeShell();closeAuthority();session=null;privateScope.setScope(null);api.clear();scroll.clear();root.replaceChildren();return;}pendingScroll??=shell.main.scrollTop;if(locationKey)scroll.set(locationKey,pendingScroll);shell.begin(url,signal,source);}
  return {prepare,commit,begin,updateLocation(context){if(!shell)return;if(locationKey)scroll.set(locationKey,shell.main.scrollTop);shell.updateLocation(context.url);locationKey=(context.historyKey??'')+context.url.pathname+context.url.search;},destroy(){closeShell();closeAuthority();session=null;privateScope.setScope(null);api.clear();},invalidate};
 }

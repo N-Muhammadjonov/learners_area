@@ -1,3 +1,4 @@
+import {learningExtras} from '../shared/student-learning.js';
 import {el,listen,mountStaff,BackLink,errorText,centreDateTime,badge,pager,pageParam} from './kit.js';
 import {students,studentDetail,sendFeedback,assignable,createAssignment,support,resolveReport} from '../../js/adapters/staff-final30/teacher.js';
 import {renderResults} from './people-detail.js';
@@ -132,4 +133,4 @@ export const studentMount=mountStaff({name:'management-student',roles:STAFF,notF
    weaknessPanel(ctx,d.weaknesses),
    studentLearningPanel(ctx,d.student.id,`/app/teacher/students/${d.student.id}`),
    el('div',{class:'card flex flex-col gap-2 p-5','data-teacher-activation':''},el('h2',{class:'font-display text-lg text-ink-900'},a.mentorTitle),d.activation.lastSession?el('dl',{class:'grid grid-cols-2 gap-3 text-sm sm:grid-cols-4'},[[a.wordsActivated,d.activation.wordsActivated],[a.averageActivation,d.activation.averageActivation??'—'],[a.dayStreak,d.activation.dayStreak],[a.lastSession,`${d.activation.lastSession.accepted}/${d.activation.lastSession.attempts}`]].map(([l,v])=>el('div',{},el('dt',{class:'text-ink-500'},l),el('dd',{class:'font-semibold text-ink-900'},String(v))))):el('p',{class:'text-sm text-ink-500'},a.mentorEmpty)),
-   submissionsSection);}});
+   learningExtras(ctx,{studentId:d.student.id,writing:true}),submissionsSection);}});

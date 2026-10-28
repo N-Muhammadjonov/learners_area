@@ -32,6 +32,13 @@ async def vocabulary_library(req:Request):
     try:
         db=await core.pool()
         async with db.acquire() as con:
+            folder=req.query_params.get('folderId')
+            args=[user['id'],limit+1,offset];scope=''
+            if folder=='none':scope=' AND NOT EXISTS(SELECT 1 FROM vocab_folder_entries m WHERE m.entry_id=uv.id AND m.user_id=uv.user_id)'
+            elif folder:
+                fid=core.uuid_value(folder)
+                if not fid or not await con.fetchval('SELECT id FROM vocab_folders WHERE id=$1 AND user_id=$2',fid,user['id']):return core.j({'error':'not_found'},404,PRIVATE)
+                args.append(fid);scope=' AND EXISTS(SELECT 1 FROM vocab_folder_entries m WHERE m.entry_id=uv.id AND m.user_id=uv.user_id AND m.folder_id=$4)'
             rows=await con.fetch('''SELECT uv.id,l.term,l.accepted_translations AS "acceptedTranslations",
              l.part_of_speech AS "partOfSpeech",l.definition_en AS "definitionEn",
              l.translation_uz AS "translationUz", l.example_sentence AS "exampleSentence",
@@ -39,11 +46,12 @@ async def vocabulary_library(req:Request):
              uv.interval_days AS "intervalDays",uv.next_review_at AS "nextReviewAt",
              uv.correct_count AS "correctCount",uv.incorrect_count AS "incorrectCount",
              uv.active_use_count AS "activeUseCount",uv.folder_id AS "folderId",
+             COALESCE((SELECT array_agg(m.folder_id ORDER BY m.folder_id) FROM vocab_folder_entries m WHERE m.entry_id=uv.id AND m.user_id=uv.user_id),'{}'::uuid[]) AS "folderIds",
              uv.topic_pack AS "topicPack",uv.source_type AS "sourceType",
              uv.source_snapshot AS "sourceSnapshot",uv.created_at AS "createdAt"
              FROM user_vocabulary uv JOIN lexemes l ON l.id=uv.lexeme_id
-             WHERE uv.user_id=$1 ORDER BY uv.next_review_at ASC,l.term ASC
-             LIMIT $2 OFFSET $3''',user['id'],limit+1,offset)
+             WHERE uv.user_id=$1'''+scope+''' ORDER BY uv.next_review_at ASC,l.term ASC,uv.id ASC
+             LIMIT $2 OFFSET $3''',*args)
         has_more=len(rows)>limit
         words=[{**row_to_dict(r), 'acceptedTranslations':r['acceptedTranslations'] or []} for r in rows[:limit]]
         return core.j({'ok':True,'words':words,'hasMore':has_more,

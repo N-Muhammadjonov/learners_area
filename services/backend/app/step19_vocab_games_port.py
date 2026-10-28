@@ -25,7 +25,7 @@ def conditions(key,folder,topic,args):
     where=['uv.user_id=$1']
     if key=='folder':
         if not folder:return 'FALSE'
-        args.append(folder);where.append(f'uv.folder_id=${len(args)}')
+        args.append(folder);where.append(f'EXISTS(SELECT 1 FROM vocab_folder_entries m WHERE m.user_id=uv.user_id AND m.entry_id=uv.id AND m.folder_id=${len(args)})')
     if key=='topic':
         if topic:
             args.append(topic);where.append(f'uv.topic_pack=${len(args)}')
@@ -127,7 +127,7 @@ async def in_set(con,entry,key,folder,topic,user_id,now):
     if key in ('reading','listening','assigned'):return entry['source_type']==('assignment' if key=='assigned' else key)
     if key=='folder' and folder:
         folder_found=await con.fetchval('SELECT id FROM vocab_folders WHERE id=$1 AND user_id=$2',folder,user_id)
-        return bool(folder_found and entry['folder_id']==folder_found)
+        return bool(folder_found and await con.fetchval('SELECT 1 FROM vocab_folder_entries WHERE user_id=$1 AND folder_id=$2 AND entry_id=$3',user_id,folder_found,entry['id']))
     if key=='topic':return entry['topic_pack']==topic and topic in builtin_ids() if topic else entry['topic_pack'] in builtin_ids()
     return False
 

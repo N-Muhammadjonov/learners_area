@@ -129,7 +129,7 @@ export function createVideoStudio(context,{mode,video}){
    if(!(lesson.durationSeconds>0)&&typeof info?.duration==='number'&&Number.isFinite(info.duration)&&info.duration>=1&&info.duration<=43200){
     playbackDuration=Math.ceil(info.duration);setState(state);
    }
-   if(info&&typeof info.currentTime==='number'&&Number.isFinite(info.currentTime)&&info.currentTime>=0)onPosition(info.currentTime);
+   if(info&&typeof info.currentTime==='number'&&Number.isFinite(info.currentTime)&&info.currentTime>=0){onPosition(info.currentTime);if(info.playerState===1)window.dispatchEvent(new CustomEvent('la:study-playback',{detail:{source:node,position:info.currentTime}}));}
    const reachedEnd=(data.event==='onStateChange'&&data.info===0)||(data.event==='infoDelivery'&&info?.playerState===0);
    const playerState=data.event==='onStateChange'?data.info:info?.playerState;
    if(playerState===1){if(finalizedGeneration===generation)generation++;playbackStarted=true;}
@@ -262,7 +262,13 @@ export function createVideoStudio(context,{mode,video}){
  }
  function mountPanel(){
   if(!panels.has(tab))panels.set(tab,buildPanel(tab));
-  panel.replaceChildren(panels.get(tab));
+  // Keep the original questions in view while Summary is edited. The editor
+  // node is reused, so switching tabs never discards the draft or recorder.
+  if(tab==='ownNotes'){
+   if(!panels.has('description'))panels.set('description',buildPanel('description'));
+   const questions=panels.get('description');questions.style.maxHeight='18rem';questions.style.overflowY='auto';
+   panel.replaceChildren(questions,panels.get(tab));
+  }else panel.replaceChildren(panels.get(tab));
   recorder?.setActive(tab==='ownNotes');
   const transcriptOpen=tab==='transcript';
   transcriptRegion.hidden=!transcriptOpen;

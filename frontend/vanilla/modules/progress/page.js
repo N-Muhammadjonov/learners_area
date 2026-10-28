@@ -1,3 +1,4 @@
+import {learningExtras} from '../shared/student-learning.js';
 import {h} from '../../js/native.js';
 import {
   progressSummaryDTO, progressStreakDTO, progressTrendsDTO, progressMocksDTO,
@@ -35,6 +36,7 @@ export async function mount(context) {
     mocksHost,
     h('div', {class: 'flex flex-col gap-4', 'data-progress-content': '', 'data-async-content': 'progress'},
       modulesHost, trendsHost, statsHost, vocabHost, courseHost));
+  page.append(learningExtras(context));
   root.append(page);
 
   const state = {streak: {state: 'loading'}, summary: {state: 'loading'}};
