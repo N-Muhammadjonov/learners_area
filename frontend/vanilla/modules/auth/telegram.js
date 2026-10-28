@@ -18,19 +18,28 @@ export function telegram(context,auth,purpose){
  const holder=el('div',{class:'flex flex-col gap-2'}),button=el('button',{type:'button',class:buttonClass},label),errorNode=el('p',{role:'alert',class:'text-xs text-band-bad'});
  const nameInput=purpose==='register'&&!auth.passwordEnabled?el('input',{type:'text',name:'telegramFullName',autocomplete:'name',required:true,minlength:3,maxlength:200,pattern:'\\S+(?:\\s+\\S+)+',class:'input w-full','aria-label':t.name}):null;
  const nameField=nameInput?el('label',{class:'flex flex-col gap-1 text-sm'},t.name,nameInput):null;
+ const genderInputs=nameInput?['male','female'].map(value=>el('input',{type:'radio',name:'telegramGender',value,required:true,class:'sr-only'})):[];
+ const genderGroup=nameInput?el('div',{class:'gender-segments',role:'radiogroup','aria-label':t.chooseGender,'aria-required':'true'},...genderInputs.map(input=>el('label',{},input,el('span',{},input.value==='male'?t.genderMale:t.genderFemale)))):null;
+ const genderField=genderGroup?el('fieldset',{},el('legend',{class:'mb-1.5 text-sm font-medium text-ink-700'},t.chooseGender),genderGroup):null;
+ const genderErrorNode=el('p',{id:'telegram-gender-error',role:'alert',class:'mt-1 text-xs text-band-bad'},t.errorGenderRequired);
+ let genderInvalid=false;
+ for(const input of genderInputs)listen(input,'change',()=>{if(input.checked){genderInvalid=false;genderGroup.setAttribute('aria-invalid','false');genderGroup.removeAttribute('aria-describedby');genderErrorNode.remove();}},signal);
  let controller,pending,revision=0,waiting=false,link=null,error='';const now=context.now??Date.now,sleep=context.sleep??delay;
- const known={not_subscribed:t.telegramNotSubscribed,phone_required:t.telegramPhoneRequired,membership_unavailable:t.telegramMembershipUnavailable,full_name_required:t.telegramFullNameRequired,telegram_already_linked:t.telegramConflict,no_linked_account:t.telegramNoAccount,already_signed_in:t.telegramAlreadySignedIn,already_consumed:t.telegramExpired,expired:t.telegramExpired,intent_not_confirmed:t.telegramExpired};
+ const known={not_subscribed:t.telegramNotSubscribed,phone_required:t.telegramPhoneRequired,membership_unavailable:t.telegramMembershipUnavailable,full_name_required:t.telegramFullNameRequired,gender_required:t.errorGenderRequired,telegram_already_linked:t.telegramConflict,no_linked_account:t.telegramNoAccount,already_signed_in:t.telegramAlreadySignedIn,already_consumed:t.telegramExpired,expired:t.telegramExpired,intent_not_confirmed:t.telegramExpired};
  const callbackError=url.searchParams.get('error');if(callbackError?.startsWith('telegram_'))error=known[callbackError.slice(9)]??'';
- function paint(){if(signal.aborted)return;button.disabled=waiting;button.textContent=waiting?(purpose==='register'?t.telegramRegisterWaiting:t.telegramWaiting):label;holder.replaceChildren(...(nameField?[nameField]:[]),button);if(nameInput)nameInput.disabled=waiting;
+ function paint(){if(signal.aborted)return;button.disabled=waiting;button.textContent=waiting?(purpose==='register'?t.telegramRegisterWaiting:t.telegramWaiting):label;holder.replaceChildren(...(nameField?[nameField,genderField]:[]),button);if(nameInput)nameInput.disabled=waiting;
+  for(const input of genderInputs)input.disabled=waiting;
+  if(genderGroup){genderGroup.setAttribute('aria-invalid',String(genderInvalid));if(genderInvalid){genderGroup.setAttribute('aria-describedby','telegram-gender-error');genderField.append(genderErrorNode);}else{genderGroup.removeAttribute('aria-describedby');genderErrorNode.remove();}}
   if(waiting){const cancel=el('button',{type:'button',class:'text-xs text-ink-400 hover:underline'},t.telegramCancel);listen(cancel,'click',cancelIntent,signal);holder.append(cancel);}
   if(link&&(waiting||error))holder.append(el('a',{href:link,target:'_blank',rel:'noopener noreferrer',class:'btn-secondary'},t.telegramOpen));
   if(error){errorNode.textContent=error;holder.append(errorNode);}
  }
  async function cancelIntent(){const version=++revision,current=pending;controller?.abort();pending=null;waiting=false;link=null;error='';paint();if(current)try{await api.request('/api/auth/telegram/intent/cancel',{method:'POST',body:current,signal});}catch(e){if(!signal.aborted&&version===revision){error=failure(e,dict,known);paint();}}}
  listen(button,'click',async()=>{if(signal.aborted||waiting)return;
- const registration=purpose==='register'?{name:(nameInput?.value??context.state?.authDraft?.name??context.root?.querySelector('#name')?.value??'').trim()}:{};
+ const registration=purpose==='register'?{name:(nameInput?.value??context.state?.authDraft?.name??context.root?.querySelector('#name')?.value??'').trim(),gender:genderGroup?genderInputs.find(input=>input.checked)?.value:context.state?.authDraft?.gender??context.root?.querySelector('input[name=gender]:checked')?.value}:{};
  if(nameInput)nameInput.value=registration.name;
  if(purpose==='register'&&(registration.name.length<3||registration.name.length>200||!/^\S+(?:\s+\S+)+$/.test(registration.name))){error=t.telegramFullNameRequired;paint();nameInput?.reportValidity();return;}
+ if(purpose==='register'&&!['male','female'].includes(registration.gender)){genderInvalid=true;error=genderGroup?'':t.errorGenderRequired;paint();(genderInputs[0]??context.root?.querySelector('input[name=gender]'))?.focus();return;}
  ++revision;controller?.abort();controller=new AbortController();const flight=anySignal([signal,controller.signal]);waiting=true;error='';paint();
  try{
   const created=await api.request('/api/auth/telegram/intent',{method:'POST',body:{purpose},signal:flight});if(flight.aborted)return;
@@ -52,6 +61,6 @@ export function telegram(context,auth,purpose){
   if(!flight.aborted)throw {code:'expired'};
  }catch(e){if(!flight.aborted){waiting=false;if(e?.code==='expired'||e?.code==='intent_not_confirmed')link=null;error=failure(e,dict,known);paint();}}
  },signal);
- signal.addEventListener('abort',()=>{revision++;controller?.abort();pending=null;link=null;if(nameInput)nameInput.value='';holder.replaceChildren();},{once:true});paint();return holder;
+ signal.addEventListener('abort',()=>{revision++;controller?.abort();pending=null;link=null;if(nameInput)nameInput.value='';for(const input of genderInputs)input.checked=false;holder.replaceChildren();},{once:true});paint();return holder;
 }
 

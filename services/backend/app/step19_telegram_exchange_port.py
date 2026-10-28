@@ -84,6 +84,7 @@ async def intent_exchange(req:Request):
                         outcome='existing'
                     else:
                         if not full_name(b.get('name')):return fail('full_name_required')
+                        if gender not in ('male','female'):return fail('gender_required')
                         user=await con.fetchrow('''INSERT INTO users(telegram_id,name,gender,role,account_status,locale)
                           VALUES($1,$2,$3,'student','pending',$4) RETURNING *''',tg,b['name'].strip(),gender,
                           'en' if intent['language_code']=='en' else 'uz')

@@ -27,7 +27,7 @@ for(const purpose of ['login','register'])test(`${purpose} stays blocked with bo
   return {success:true,onboarded:true,accountStatus:purpose==='register'?'pending':'active',outcome:purpose==='register'?'pending':'session'};
  };
  const view=telegram(context,auth,purpose);document.body.append(view);
- if(purpose==='register')view.querySelector('input').value='Test User';
+ if(purpose==='register'){view.querySelector('input[name=telegramFullName]').value='Test User';view.querySelector('input[value=male]').click();}
  view.querySelector('button').click();await tick();
  assert.equal(view.querySelector('a').href,'https://t.me/fixture_bot?start=token');
  wake.shift()();await tick();
@@ -37,7 +37,7 @@ for(const purpose of ['login','register'])test(`${purpose} stays blocked with bo
  subscribed=true;wake.shift()();await tick();wake.shift()();await tick();
  assert.equal(destination,purpose==='register'?'/pending':'/app');
  const exchange=calls.find(([p])=>p.endsWith('/exchange'))[1];
- assert.deepEqual(exchange,{intentId:'intent',browserNonce:'nonce',...(purpose==='register'?{name:'Test User'}:{})});
+ assert.deepEqual(exchange,{intentId:'intent',browserNonce:'nonce',...(purpose==='register'?{name:'Test User',gender:'male'}:{})});
 });
 
 test('registration requires first and last name before opening Telegram',async()=>{
@@ -45,7 +45,7 @@ test('registration requires first and last name before opening Telegram',async()
  const view=telegram(context,auth,'register');document.body.append(view);
  view.querySelector('input').value='Test';view.querySelector('button').click();await tick();
  assert.equal(calls,0);assert.equal(view.querySelector('[role=alert]').textContent,dict.auth.telegramFullNameRequired);
- view.querySelector('input').value=' Test User ';view.querySelector('button').click();await tick();
+ view.querySelector('input[name=telegramFullName]').value=' Test User ';view.querySelector('input[value=male]').click();view.querySelector('button').click();await tick();
  assert.equal(calls,1);assert.equal(view.querySelector('input').value,'Test User');
  controller.abort();assert.equal(view.childNodes.length,0);
 });
@@ -56,9 +56,40 @@ test('Telegram-only callback shows the channel instruction',()=>{
 });
 
 test('password mode reuses the existing name field without adding another required input',async()=>{
- const context=setup('register');context.state={authDraft:{name:'Test User'}};
+ const context=setup('register');context.state={authDraft:{name:'Test User',gender:'female'}};
  let calls=0;api.request=async()=>{calls++;return new Promise(()=>{});};
  const view=telegram(context,{...auth,passwordEnabled:true},'register');document.body.append(view);
  assert.equal(view.querySelector('input'),null);
  view.querySelector('button').click();await tick();assert.equal(calls,1);
+});
+
+test('registration requires a deliberate gender selection',async()=>{
+ const context=setup('register');let calls=0;
+ api.request=async()=>{calls++;return new Promise(()=>{});};
+ const view=telegram(context,auth,'register');document.body.append(view);
+ view.querySelector('input[name=telegramFullName]').value='Test User';
+ assert.equal(view.querySelector('input[name=telegramGender]:checked'),null);
+ assert.deepEqual([...view.querySelectorAll('.gender-segments span')].map(n=>n.textContent),['Erkak','Ayol']);
+ view.querySelector('button').click();await tick();
+ assert.equal(calls,0);assert.equal(view.querySelector('[role=alert]').textContent,dict.auth.errorGenderRequired);
+ assert.equal(view.querySelector('[role=radiogroup]').getAttribute('aria-invalid'),'true');
+ view.querySelector('input[value=female]').click();
+ assert.equal(view.querySelector('[role=alert]'),null);
+ view.querySelector('button').click();await tick();assert.equal(calls,1);
+ assert([...view.querySelectorAll('input[name=telegramGender]')].every(n=>n.disabled));
+});
+
+for(const gender of ['male','female'])test(`registration sends ${gender} with the confirmed intent`,async()=>{
+ const context=setup('register'),bodies=[];context.sleep=async()=>{};
+ api.request=async(path,options)=>{
+  bodies.push([path,options?.body]);
+  if(path==='/api/auth/telegram/intent')return {intentId:'intent',browserNonce:'nonce',token:'token',botUsername:'fixture_bot',purpose:'register'};
+  if(path.includes('/status?'))return {status:'confirmed',expired:false};
+  return {success:true,onboarded:false,accountStatus:'pending',outcome:'pending'};
+ };
+ const view=telegram(context,auth,'register');document.body.append(view);
+ view.querySelector('input[name=telegramFullName]').value='Test User';
+ view.querySelector(`input[value=${gender}]`).click();
+ view.querySelector('button').click();await tick();
+ assert.deepEqual(bodies.find(([path])=>path.endsWith('/exchange'))[1],{intentId:'intent',browserNonce:'nonce',name:'Test User',gender});
 });
