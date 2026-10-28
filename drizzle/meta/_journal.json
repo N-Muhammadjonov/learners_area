@@ -463,6 +463,34 @@
       "when": 1792460000000,
       "tag": "0065_dictionary_worker_index",
       "breakpoints": true
+    },
+    {
+      "idx": 66,
+      "version": "7",
+      "when": 1793164198221,
+      "tag": "0066_notification_event_idempotency",
+      "breakpoints": true
+    },
+    {
+      "idx": 67,
+      "version": "7",
+      "when": 1793164199221,
+      "tag": "0067_assignment_deadline_indexes",
+      "breakpoints": true
+    },
+    {
+      "idx": 68,
+      "version": "7",
+      "when": 1793164200221,
+      "tag": "0068_writing_model_pattern_capacity",
+      "breakpoints": true
+    },
+    {
+      "idx": 69,
+      "version": "7",
+      "when": 1793164201221,
+      "tag": "0069_video_progress_playback_duration",
+      "breakpoints": true
     }
   ]
 }

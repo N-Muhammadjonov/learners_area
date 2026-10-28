@@ -6,8 +6,8 @@ const source=fs.readFileSync(path.join(root,'src/app/app/(shell)/reports/page.ts
 const formats=ast.statements.find(n=>ts.isVariableStatement(n)&&n.declarationList.declarations[0].name.getText(ast)==='FORMAT_LABELS').getText(ast).replace(': Record<(typeof REPORT_FORMATS)[number], string>','');
 const code=`import {h,fragment} from '../native.js';import {Card} from './ui.js';import {PERIOD_KINDS} from './report-period.js';import {REPORT_FORMATS} from '../adapters/reports.js';import {TIMEZONE} from './time.js';
 ${formats}
-export function render({dict,locale,role,query,students,scopes,errorText}){const t=dict.reporter,staff=role!=='student',teacher=role==='teacher',STUDENT_LIST_CAP=1000;
-const periodLabel={on_demand:t.periodOnDemand,weekly:t.periodWeekly,monthly:t.periodMonthly,yearly:t.periodYearly,custom:t.periodCustom};const scopeLabel={owner:t.scopeOwner,teacher:teacher?t.scopeRoster:t.scopeTeacher,student:staff?t.scopeStudent:t.scopeSelf};return ${expr};}`;
+export function render({dict,locale,role,query,students,scopes,errorText}){const t=dict.reporter,staff=role!=='student',teacher=role==='teacher',canSelectStudents=teacher||role==='owner',STUDENT_LIST_CAP=1000;
+const periodLabel={on_demand:t.periodOnDemand,weekly:t.periodWeekly,monthly:t.periodMonthly,yearly:t.periodYearly,custom:t.periodCustom};const scopeLabel={owner:t.scopeOwner,teacher:teacher?t.scopeRoster:t.scopeTeacher,student:staff?t.scopeStudent:t.scopeSelf,operations:t.scopeOperations};return ${expr};}`;
 // defaultValue/defaultChecked are React-only props: explicit native equivalents.
 fs.writeFileSync(path.join(base,'js/generated/reports.js'),'// Reviewed source report form, no database or framework runtime.\n'+compile(code.replaceAll('defaultValue=','value=').replaceAll('defaultChecked=','checked=')));
 const period=fs.readFileSync(path.join(root,'src/lib/reporter/period.ts'),'utf8').replace('"@/lib/time"','"./time.js"');fs.writeFileSync(path.join(base,'js/generated/report-period.js'),compile(period));

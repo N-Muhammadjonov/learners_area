@@ -6,14 +6,21 @@ import * as T from '../../modules/staff-final30/teacher.js';
 import {createAssignment,sendFeedback} from '../../js/adapters/staff-final30/teacher.js';
 let h;afterEach(()=>{h?.dispose();delete globalThis.fetch;});
 const iso='2026-05-01T10:00:00.000Z';
+const queue={pendingReviews:0,overdueAssignments:0,recentWritingSubmissions:0,reviewItems:[],overdueItems:[],recentItems:[]};
+const studentRow=(id,name,email,onboarded)=>({id:ID(id),name,email,onboardingCompletedAt:onboarded?iso:null,online:false,lastSeenAt:null,currentVisitSeconds:null,totalWebsiteSeconds:null,homework:{assigned:0,completed:0,inProgress:0,notStarted:0,overdue:0,completionPercent:null}});
 const jres=(status,data)=>({status,ok:status<400,headers:{get:()=>'application/json'},json:async()=>data});
 test('students list: renders rows with onboarded flag, Telegram fallback, empty state; student role redirected; teacher allowed',async()=>{
- h=setup({role:'teacher',path:'/app/teacher/students'});h.stub({'/api/frontend/staff/teacher-students':envelope('teacher-students',{students:[{id:ID(2),name:'A',email:null,onboardingCompletedAt:iso},{id:ID(3),name:'B',email:'b@example.invalid',onboardingCompletedAt:null}]})});await h.mount({mount:T.studentsMount});
+ h=setup({role:'teacher',path:'/app/teacher/students'});h.stub({'/api/frontend/staff/teacher-students':envelope('teacher-students',{students:[studentRow(2,'A',null,true),studentRow(3,'B','b@example.invalid',false)],page:1,pageSize:25,total:2,totalPages:1,scope:'assigned',actionQueue:queue})});await h.mount({mount:T.studentsMount});
  assert.equal(h.qa('a[href^="/app/teacher/students/"]').length,2);assert(h.ctx.root.textContent.includes('Telegram account'));assert(h.ctx.root.textContent.includes('Onboarded')&&h.ctx.root.textContent.includes('New'));h.dispose();
- h=setup({role:'teacher',path:'/app/teacher/students'});h.stub({'/api/frontend/staff/teacher-students':envelope('teacher-students',{students:[]})});await h.mount({mount:T.studentsMount});assert(h.q('[data-empty-state]'));h.dispose();
+ h=setup({role:'teacher',path:'/app/teacher/students'});h.stub({'/api/frontend/staff/teacher-students':envelope('teacher-students',{students:[],page:1,pageSize:25,total:0,totalPages:1,scope:'assigned',actionQueue:queue})});await h.mount({mount:T.studentsMount});assert(h.q('[data-empty-state]'));h.dispose();
  h=setup({role:'student',path:'/app/teacher/students'});h.stub({});await h.mount({mount:T.studentsMount});assert.equal(h.nav[0].path,'/app');assert.equal(h.calls.length,0);
 });
-const detail=(o={})=>envelope('teacher-student',{student:{id:ID(2),name:'Stu',email:null},results:{unavailable:false,testIds:[],attempts:[],practice:{reading:null,listening:null,speaking:null,writing:1}},activation:{wordsActivated:3,averageActivation:0.5,dayStreak:2,lastSession:{accepted:4,attempts:5}},prompts:[{id:ID(30),label:'Task 1 · Charts'}],
+test('teacher roster presence clearly identifies website time and never calls it study time',async()=>{
+ const row={...studentRow(2,'Ali',null,true),online:true,lastSeenAt:iso,currentVisitSeconds:300,totalWebsiteSeconds:8100,homework:{assigned:2,completed:1,inProgress:1,notStarted:0,overdue:0,completionPercent:50}};
+ h=setup({role:'teacher',path:'/app/teacher/students'});h.stub({'/api/frontend/staff/teacher-students':envelope('teacher-students',{students:[row],page:1,pageSize:25,total:1,totalPages:1,scope:'assigned',actionQueue:queue})});await h.mount({mount:T.studentsMount});
+ assert(h.ctx.root.textContent.includes('Online now'));assert(h.ctx.root.textContent.includes('Last website visit'));assert(h.ctx.root.textContent.includes('Recorded website visit time'));assert(h.ctx.root.textContent.includes('not active study time'));assert(h.ctx.root.textContent.includes('2h 15m'));assert(h.ctx.root.textContent.includes('Current visit: 5m'));
+});
+const detail=(o={})=>envelope('teacher-student',{ student:{id:ID(2),name:'Stu',email:null},results:{unavailable:false,testIds:[],attempts:[],practice:{reading:null,listening:null,speaking:null,writing:1}},activation:{wordsActivated:3,averageActivation:0.5,dayStreak:2,lastSession:{accepted:4,attempts:5}},weaknesses:{questionTypes:{reading:[],listening:[]},grammar:[],vocabulary:{dueCount:0,masteredCount:0,trackedCount:0,repeated:[]}},submissionsPage:1,submissionsPages:1,submissionsTotal:2,prompts:[{id:ID(30),label:'Task 1 · Charts'}],
  submissions:[{id:ID(40),status:'submitted',category:'Charts',content:'<b>text</b>',evaluation:{overallEstimate:6.5,checkedByName:'RIWI',provenanceLabel:'internal',confidence:0.82,weaknesses:['w1','w2','w3']},feedback:[{id:'f1',source:'teacher',overallBand:7,comment:'good'}]},{id:ID(41),status:'draft',category:'Maps',content:'',evaluation:null,feedback:[]}],...o});
 test('student detail: sections render; draft submission has no feedback form; evaluation shows top-2 weaknesses; markup escaped',async()=>{
  h=setup({role:'teacher',path:'/app/teacher/students/'+ID(2)});h.stub({'/api/frontend/staff/teacher-student':detail()});await h.mount({mount:T.studentMount});
@@ -21,10 +28,10 @@ test('student detail: sections render; draft submission has no feedback form; ev
  const s1=h.q('[data-submission="'+ID(40)+'"]'),s2=h.q('[data-submission="'+ID(41)+'"]');assert(s1.textContent.includes('w2')&&!s1.textContent.includes('w3'));assert(s1.textContent.includes('82%'));assert(s1.textContent.includes('good'));
  assert(s1.textContent.includes(dicts.en.teacher.leaveFeedback));assert(!s2.textContent.includes(dicts.en.teacher.leaveFeedback));assert(s2.textContent.includes(dicts.en.coach.noEvaluation));
 });
-test('student detail: invalid id and 404 (not on roster) show not-found with no data leak; admin can open',async()=>{
+test('student detail: invalid id and 404 (not on roster) show not-found with no data leak; Admin is redirected',async()=>{
  h=setup({role:'teacher',path:'/app/teacher/students/xyz'});h.stub({});await h.mount({mount:T.studentMount});assert(h.q('[data-staff-not-found]'));assert.equal(h.calls.length,0);h.dispose();
  h=setup({role:'teacher',path:'/app/teacher/students/'+ID(9)});h.stub({'/api/frontend/staff/teacher-student':new ApiError(404,'not_found')});await h.mount({mount:T.studentMount});assert(h.q('[data-staff-not-found]'));assert(!h.ctx.root.textContent.includes('Stu'));h.dispose();
- h=setup({role:'admin',path:'/app/teacher/students/'+ID(2)});h.stub({'/api/frontend/staff/teacher-student':detail()});await h.mount({mount:T.studentMount});assert.equal(h.q('h1').textContent,'Stu');
+ h=setup({role:'admin',path:'/app/teacher/students/'+ID(2)});h.stub({});await h.mount({mount:T.studentMount});assert.equal(h.nav[0].path,'/app');assert.equal(h.calls.length,0);
 });
 test('feedback: required comment, optional band sent as number, success shows sent and refreshes; failure alert; double submit once',async()=>{
  h=setup({role:'teacher',path:'/app/teacher/students/'+ID(2)});let n=0,fail=false;h.stub({'/api/frontend/staff/teacher-student':()=>detail(),'/api/teacher/feedback':async(p,o)=>{n++;await tick(2);if(fail)return new ApiError(403,'forbidden');return {ok:true};}});await h.mount({mount:T.studentMount});

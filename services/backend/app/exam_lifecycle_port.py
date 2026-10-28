@@ -12,6 +12,7 @@ from .writing_exam_read_port import writing_exam_read
 from .lesson_writing_port import is_js_uuid, js_length
 from .db import row_to_dict
 from .writing_source_materials import FULL_TESTS,live_inventory,catalogue
+from .notification_events import notify_writing_review_required
 import random
 
 router = APIRouter()
@@ -23,14 +24,18 @@ def err(code, message, status, **extras):
     return core.j({'error':{'code':code,'message':message, **extras}},status)
 
 async def expire_due(conn, paper_id):
-    row=await conn.fetchrow('''UPDATE writing_exam_papers SET finalized_at=NOW(),finalize_reason='timeout'
-       WHERE id=$1 AND finalized_at IS NULL AND NOW()>expires_at+make_interval(secs=>15) RETURNING id''',paper_id)
-    if row:
-        await mark_submitted(conn,paper_id)
+    async with conn.transaction():
+        row=await conn.fetchrow('''UPDATE writing_exam_papers SET finalized_at=NOW(),finalize_reason='timeout'
+           WHERE id=$1 AND finalized_at IS NULL AND NOW()>expires_at+make_interval(secs=>15) RETURNING id''',paper_id)
+        if row:
+            await mark_submitted(conn,paper_id)
 
 async def mark_submitted(conn,paper_id):
-    await conn.execute('''UPDATE writing_submissions SET status='submitted',submitted_at=NOW(),updated_at=NOW()
-    WHERE status='draft' AND id IN (SELECT submission_id FROM writing_exam_paper_entries WHERE paper_id=$1)''',paper_id)
+    rows=await conn.fetch('''UPDATE writing_submissions SET status='submitted',submitted_at=NOW(),updated_at=NOW()
+      WHERE status='draft' AND id IN (SELECT submission_id FROM writing_exam_paper_entries WHERE paper_id=$1)
+      RETURNING id,user_id''',paper_id)
+    for row in rows:
+        await notify_writing_review_required(conn, submission_id=row['id'], student_id=row['user_id'])
 
 async def open_paper(conn, user_id):
     row=await conn.fetchrow('''SELECT id,mode FROM writing_exam_papers
@@ -152,10 +157,11 @@ async def exam_finalize(req:Request,id:str):
         return err('invalid_input','Could not finish this paper.',400)
     db=await core.pool()
     async with db.acquire() as conn:
-        await expire_due(conn,id)
-        closed=await conn.fetchrow('''UPDATE writing_exam_papers SET finalized_at=NOW(),finalize_reason=$3
-             WHERE id=$1 AND user_id=$2 AND finalized_at IS NULL RETURNING id''',id,user['id'],body['reason'])
-        if closed and body['reason']=='submitted':await mark_submitted(conn,id)
+        async with conn.transaction():
+            await expire_due(conn,id)
+            closed=await conn.fetchrow('''UPDATE writing_exam_papers SET finalized_at=NOW(),finalize_reason=$3
+                 WHERE id=$1 AND user_id=$2 AND finalized_at IS NULL RETURNING id''',id,user['id'],body['reason'])
+            if closed and body['reason']=='submitted':await mark_submitted(conn,id)
     # Reference's finalizeExamPaper calls getExamPaper() again, including timestamp expiry.
     from .writing_exam_read_port import writing_exam_read
     return await writing_exam_read(req,id)

@@ -9,6 +9,7 @@ from datetime import datetime,timezone,timedelta
 from fastapi import APIRouter,Request
 from . import main as core
 from .lesson_writing_port import js_length
+from .notification_events import notify_teacher_feedback
 
 router=APIRouter()
 
@@ -16,7 +17,7 @@ router=APIRouter()
 async def teacher_feedback(req:Request):
     u=await core.current_user(req,active=True)
     if not u:return core.auth_error()
-    if u['role'] not in ('teacher','admin','owner'):return core.j({'error':'forbidden'},403)
+    if u['role'] not in ('teacher','owner'):return core.j({'error':'forbidden'},403)
     b=await core.payload(req)
     if not isinstance(b,dict) or not core.uuid_value(b.get('submissionId')) or not isinstance(b.get('comment'),str) or not 1<=js_length(b['comment'])<=2000:
         return core.j({'error':'invalid_input'},400)
@@ -40,11 +41,22 @@ async def teacher_feedback(req:Request):
                 has=await con.fetchval('''SELECT EXISTS(SELECT 1 FROM teacher_student_links
                   WHERE teacher_user_id=$1 AND student_user_id=$2)''',u['id'],submission['user_id'])
                 if not has:return core.j({'error':'not_found'},404)
-            await con.execute('''INSERT INTO writing_feedback(submission_id,source,overall_band,comment,teacher_id)
-                 VALUES($1,'teacher',$2,$3,$4)''',submission['id'],overall,b['comment'],u['id'])
-            await con.execute('''INSERT INTO activity_events(user_id,type,payload)
-                 VALUES($1,'TEACHER_FEEDBACK_RECEIVED',$2::jsonb)''',submission['user_id'],
-                 json.dumps({'submissionId':str(submission['id']),'teacherId':str(u['id'])}))
+            # Keep a teacher's latest feedback editable without creating duplicate
+            # review rows on double-submit or a retried request.
+            await con.execute('SELECT pg_advisory_xact_lock(hashtext($1))',f'teacher-feedback:{submission["id"]}:{u["id"]}')
+            existing=await con.fetchval('''SELECT id FROM writing_feedback WHERE submission_id=$1
+              AND source='teacher' AND teacher_id=$2 ORDER BY created_at DESC,id DESC LIMIT 1 FOR UPDATE''',submission['id'],u['id'])
+            if existing:
+                await con.execute('''UPDATE writing_feedback SET overall_band=$2,comment=$3
+                  WHERE id=$1''',existing,overall,b['comment'])
+            else:
+                await con.execute('''INSERT INTO writing_feedback(submission_id,source,overall_band,comment,teacher_id)
+                     VALUES($1,'teacher',$2,$3,$4)''',submission['id'],overall,b['comment'],u['id'])
+                await con.execute('''INSERT INTO activity_events(user_id,type,payload)
+                     VALUES($1,'TEACHER_FEEDBACK_RECEIVED',$2::jsonb)''',submission['user_id'],
+                     json.dumps({'submissionId':str(submission['id']),'teacherId':str(u['id'])}))
+                await notify_teacher_feedback(con, submission_id=submission['id'],
+                    student_id=submission['user_id'], teacher_id=u['id'])
     return core.j({'ok':True})
 
 @router.post('/api/reading/attempts')

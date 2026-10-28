@@ -1,12 +1,27 @@
-import {bad,isObj,str,int,bool,oneOf,arr,date,staffData,call,ok,rawJson,brandPath,ROLES} from './core.js';
+import {bad,isObj,str,int,bool,oneOf,arr,date,staffData,call,ok,rawJson,brandPath,ROLES,UUID} from './core.js';
+import {validateSummary} from './statistics.js';
 /** Owner overview. Source: owner/page.tsx (countPeople, pending requests, integrationReport, brand config). PROPOSED read DTO. */
 const STATES=['connected','not_configured','error','unverified'];
+const count=v=>int(v,{min:0,max:1000000000});
+const percent=v=>v==null?null:(typeof v==='number'&&Number.isFinite(v)&&v>=0&&v<=100?v:(()=>{throw bad();})());
+export function validateAcademic(a){
+ if(!isObj(a)||!isObj(a.activity)||!isObj(a.homework)||!isObj(a.filters))throw bad();
+ const dateOnly=v=>{if(v===null)return null;if(typeof v!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(v)||Number.isNaN(Date.parse(v+'T00:00:00Z')))throw bad();return v;};
+ const filters={from:dateOnly(a.filters.from),to:dateOnly(a.filters.to),student:str(a.filters.student,{max:100}),teacher:str(a.filters.teacher,{max:100}),module:a.filters.module===null?null:oneOf(a.filters.module,['reading','listening','writing','speaking','retention','vocabulary','grammar','video','lessons','mocks'])};
+ const daily=arr(a.daily,90).map(r=>{if(!isObj(r)||typeof r.day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(r.day)||Number.isNaN(Date.parse(r.day+'T00:00:00Z')))throw bad();return {day:r.day,count:count(r.count)};});
+ if(new Set(daily.map(x=>x.day)).size!==daily.length)throw bad();
+ const homework={assigned:count(a.homework.assigned),completed:count(a.homework.completed),inProgress:count(a.homework.inProgress),overdue:count(a.homework.overdue),notStarted:count(a.homework.notStarted)};
+ if(homework.completed+homework.inProgress+homework.overdue+homework.notStarted!==homework.assigned)throw bad();
+ const attention=arr(a.attention,12).map(r=>{if(!isObj(r)||!UUID.test(r.id))throw bad();return {id:r.id,name:str(r.name,{max:300}),overdue:count(r.overdue),pendingReviews:count(r.pendingReviews),lastAcademicAt:r.lastAcademicAt==null?null:date(r.lastAcademicAt)};});
+ const activeStudents=count(a.activeStudents),onlineStudents=count(a.onlineStudents);if(onlineStudents>activeStudents)throw bad();
+ return {filters,activeStudents,onlineStudents,activity:{students:count(a.activity.students),records:count(a.activity.records)},homework,completionPercent:percent(a.completionPercent),pendingReviews:count(a.pendingReviews),writingSubmissions:count(a.writingSubmissions),daily,moduleSummary:validateSummary(a.moduleSummary),attention};
+}
 export function validateOverview(d){
- return {counts:arr(d.counts,100).map(r=>{if(!isObj(r))throw bad();return {role:oneOf(r.role,ROLES),status:oneOf(r.status,['pending','active','rejected','suspended']),count:int(r.count)};}),pendingCount:int(d.pendingCount),
+ return {counts:arr(d.counts,100).map(r=>{if(!isObj(r))throw bad();return {role:oneOf(r.role,ROLES),status:oneOf(r.status,['pending','active','rejected','suspended']),count:int(r.count)};}),pendingCount:int(d.pendingCount),academic:validateAcademic(d.academic),
   integrations:arr(d.integrations,20).map(r=>{if(!isObj(r))throw bad();return {key:str(r.key,{max:40}),state:oneOf(r.state,STATES)};}),
   brand:(()=>{const b=d.brand;if(!isObj(b))throw bad();return {siteName:str(b.siteName,{max:100}),favicon:brandPath(b.favicon),assets:arr(b.assets,12).map(a=>{if(!isObj(a))throw bad();return {key:oneOf(a.key,['logoMasterDark','logoMarkDark','logoMarkLight','logoHorizontalDark','logoHorizontalLight','favicon']),path:brandPath(a.path)};})};})()};
 }
-export const overview=signal=>staffData('owner-overview',{},signal).then(validateOverview);
+export const overview=(signal,filters={})=>staffData('owner-overview',filters,signal).then(validateOverview);
 /** Integration state report. Source: lib/services/integrations.ts. States + non-sensitive detail only. */
 export function validateIntegrations(d){return {report:arr(d.report,20).map(r=>{if(!isObj(r))throw bad();return {key:str(r.key,{max:40}),state:oneOf(r.state,STATES),detail:str(r.detail??null,{nullable:true,max:300}),checkedAt:str(r.checkedAt,{max:40})};})};}
 export const integrations=signal=>staffData('owner-integrations',{},signal).then(validateIntegrations);

@@ -84,4 +84,24 @@ def run(client, check, uid, password):
     assert teacher.get('/api/frontend/staff/student-learning?id='+id('other-student')).status_code==404;checks+=1
     assert teacher.get('/api/frontend/staff/owner-overview').status_code==403;checks+=1
     assert teacher.get('/api/frontend/staff/teacher-live-class?id='+id('live')).status_code==200;checks+=1
+    admin=TestClient(application,base_url='http://preview.test')
+    assert admin.post('/api/auth/login',json={'email':'admin@browser.example.test','password':password},headers={'origin':'http://preview.test'}).status_code==200
+    for kind,query in [('teacher-students',''),('teacher-student','?id='+uid),('teacher-homework',''),('teacher-actions',''),('student-results','?id='+uid),('student-learning','?id='+uid),('centre-statistics',''),('owner-overview','')]:
+        r=admin.get('/api/frontend/staff/'+kind+query);assert r.status_code==403,(kind,r.status_code,r.text[:300]);checks+=1
+    assert admin.get('/api/frontend/staff/teacher-live-classes').status_code==200;checks+=1
+    assert admin.get('/api/frontend/staff/teacher-live-class?id='+id('live')).status_code==200;checks+=1
+    people=admin.get('/api/frontend/staff/people?role=student');assert people.status_code==200
+    for row in people.json()['data']['people']:
+        assert row['online'] is None and row['seenAt'] is None and row['visitSeconds'] is None and row['totalSeconds'] is None
+    checks+=1
+    reporter=admin.get('/api/frontend/view?route=/app/reports');assert reporter.status_code==200
+    report_ui=reporter.json()['data']['reporter'];assert report_ui['scopes']==['operations'] and report_ui['students']==[];checks+=1
+    for scope in ('owner','teacher','student'):
+        r=admin.get('/api/reports',params={'scope':scope,'period':'on_demand','format':'json','lang':'en'});assert r.status_code==403,(scope,r.status_code,r.text[:300]);checks+=1
+    r=admin.get('/api/reports',params={'scope':'operations','period':'on_demand','format':'json','lang':'en'});assert r.status_code==200
+    snapshot=r.json();assert snapshot['scope']['kind']=='operations' and all(m['key'].startswith('operations.') for m in snapshot['metrics']);checks+=1
+    assert admin.get('/api/owner/student-export?format=json').status_code==403;checks+=1
+    assert admin.post('/api/assignments',json={}).status_code==403;checks+=1
+    assert admin.post('/api/teacher/feedback',json={}).status_code==403;checks+=1
+    assert admin.get('/api/frontend/view?route=/app/admin/people/'+uid).status_code==404;checks+=1
     return checks

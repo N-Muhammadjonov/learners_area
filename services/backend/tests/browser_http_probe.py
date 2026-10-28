@@ -107,6 +107,8 @@ workflow_checks=run(client,check,UID,PASSWORD)
 checks+=workflow_checks
 from browser_regressions import run as regressions
 checks+=regressions(con,client,check,UID,PASSWORD)
+from browser_staff_monitoring import run as staff_monitoring
+checks+=staff_monitoring(con,UID,PASSWORD)
 class WidgetFailure(Connection):
     async def fetch(self,sql,*args):
         if 'FROM READING_ATTEMPTS' in sql.upper():
@@ -144,11 +146,12 @@ for route in ('/app/management','/app/admin/content','/app/admin/materials','/ap
 for area in ('listening','grammar','reading'):
     check('/api/frontend/view?route=/app/'+area+'/lessons/author')
 for kind,params in (
-    ('admissions',{}),('people',{}),('roster',{}),('teacher-students',{}),('support-inbox',{}),('teacher-live-classes',{}),
+    ('admissions',{}),('people',{}),('roster',{}),('teacher-students',{}),('teacher-homework',{}),('teacher-actions',{}),('support-inbox',{}),('teacher-live-classes',{}),
     ('owner-overview',{}),('owner-integrations',{}),('owner-retention',{}),('owner-transfer',{}),
     ('grammar-topics',{}),('reading-passages',{}),('listening-library',{}),('listening-import',{}),('speaking-manage',{}),('video-admin',{}),
     ('writing-admin',{}),('writing-admin-new',{'kind':'pattern'}),('reading-retention',{'level':'A2'}),('retention-staged',{'level':'A2'}),('centre-statistics',{})):
     check('/api/frontend/staff/'+kind+('?' + urlencode(params) if params else ''))
+check('/api/frontend/staff/teacher-students?page=1')
 for kind in ('lesson','reading','listening','writing','speaking','grammar','assignment','live_class'):
     check('/api/frontend/staff/materials-kind?type='+kind)
 for kind,params in (('grammar-topic',{'id':id('topic')}),('reading-passage',{'id':id('passage1')}),('listening-test',{'id':id('listening-academic')}),('teacher-live-class',{'id':id('live')}),('student-results',{'id':id('other-student')}),('teacher-student',{'id':id('other-student')}),('student-learning',{'id':id('other-student')}),('writing-admin-item',{'kind':'lesson','id':id('writing-lesson')}),('materials-owner',{'type':'listening','id':id('listening-academic')})):

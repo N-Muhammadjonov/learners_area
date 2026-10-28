@@ -47,7 +47,7 @@ export function ResetRequestForm({ dict }: { dict: Dictionary }) {
             Open reset link (dev)
           </Link>
         )}
-        <Link href="/login" className="text-center text-sm font-medium text-signal-700 underline underline-offset-2">
+        <Link href="/login" className="text-center text-sm font-medium text-white underline underline-offset-2">
           {dict.auth.loginCta}
         </Link>
       </div>
@@ -64,7 +64,7 @@ export function ResetRequestForm({ dict }: { dict: Dictionary }) {
         {pending ? dict.common.loading : dict.auth.resetSend}
       </Button>
       {error && <p role="alert" className="text-sm text-band-bad">{error}</p>}
-      <Link href="/login" className="text-center text-sm font-medium text-signal-700 underline underline-offset-2">
+      <Link href="/login" className="text-center text-sm font-medium text-white underline underline-offset-2">
         {dict.auth.loginCta}
       </Link>
     </form>

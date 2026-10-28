@@ -9,6 +9,7 @@ from fastapi import APIRouter, Request
 from . import main as core
 from .db import row_to_dict
 from .lesson_writing_port import is_js_uuid
+from .notification_events import notify_writing_review_required
 
 router = APIRouter()
 
@@ -28,16 +29,21 @@ async def writing_exam_read(req: Request, id: str):
     db = await core.pool()
     async with db.acquire() as conn:
         # Service expireIfDue() is called first, including for a historical id.
-        expired = await conn.fetchrow('''UPDATE writing_exam_papers SET
-            finalized_at=now(),finalize_reason='timeout' WHERE id=$1
-            AND finalized_at IS NULL AND now()>expires_at+make_interval(secs=>15)
-            RETURNING id''', id)
-        if expired:
-            # markSubmitted() changes only draft submissions of this paper;
-            # an already submitted response is never downgraded.
-            await conn.execute('''UPDATE writing_submissions SET status='submitted',
-              submitted_at=now(),updated_at=now() WHERE status='draft'
-              AND id IN (SELECT submission_id FROM writing_exam_paper_entries WHERE paper_id=$1)''', id)
+        async with conn.transaction():
+            expired = await conn.fetchrow('''UPDATE writing_exam_papers SET
+                finalized_at=now(),finalize_reason='timeout' WHERE id=$1
+                AND finalized_at IS NULL AND now()>expires_at+make_interval(secs=>15)
+                RETURNING id''', id)
+            if expired:
+                # markSubmitted() changes only draft submissions of this paper;
+                # an already submitted response is never downgraded.
+                transitioned = await conn.fetch('''UPDATE writing_submissions SET status='submitted',
+                  submitted_at=now(),updated_at=now() WHERE status='draft'
+                  AND id IN (SELECT submission_id FROM writing_exam_paper_entries WHERE paper_id=$1)
+                  RETURNING id,user_id''', id)
+                for submission in transitioned:
+                    await notify_writing_review_required(conn, submission_id=submission['id'],
+                        student_id=submission['user_id'])
         paper = await conn.fetchrow('''SELECT id,mode,duration_seconds AS "durationSeconds",
           started_at AS "startedAt",expires_at AS "expiresAt",
           finalized_at AS "finalizedAt",finalize_reason AS "finalizeReason",

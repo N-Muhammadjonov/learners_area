@@ -54,7 +54,8 @@ export function mocksContent(data, dict, refresh) {
           class: 'flex items-center justify-between py-2', 'data-mock-test': test.id,
         },
         h('span', {class: 'text-sm text-ink-900'}, test.title),
-        h('span', {class: 'text-xs text-ink-300'}, test.skill)))));
+        h('span', {class: 'text-xs text-ink-300'}, test.skill)))),
+    data.catalogueTruncated ? h('p', {class: 'mt-2 text-xs text-ink-500', 'data-mock-catalogue-truncated': ''}, t.catalogueTruncated) : null);
   const attemptsCard = h(Card, {'data-mocks-attempts': ''},
     h('div', {class: 'flex items-center justify-between'},
       h('h2', {class: 'font-display text-lg text-ink-900'}, t.myAttempts),
@@ -71,7 +72,8 @@ export function mocksContent(data, dict, refresh) {
           class: 'shrink-0 text-xs text-ink-300',
           'data-mock-state': attempt.finishedAt ? 'finished' : 'unfinished',
         }, attemptState(dict, attempt))))),
-    h('p', {class: 'mt-3 text-xs text-ink-300'}, t.unfinishedNote));
+    h('p', {class: 'mt-3 text-xs text-ink-300'}, t.unfinishedNote),
+    data.attemptsTruncated ? h('p', {class: 'mt-2 text-xs text-ink-500', 'data-mock-attempts-truncated': ''}, t.attemptsTruncated) : null);
   return h('div', {class: 'flex flex-col gap-4', 'data-mocks-content': '', 'data-async-content': 'mocks'},
     data.catalogueUnavailable ? notice('mocks-catalogue', dict, refresh) : null,
     data.attemptsUnavailable ? notice('mocks-attempts', dict, refresh) : null,

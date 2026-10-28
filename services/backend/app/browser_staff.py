@@ -9,6 +9,7 @@ from .step21_safe_reads_port import OWNER, get_owner
 
 ADMIN = ('admin','owner')
 STAFF = ('teacher','admin','owner')
+TEACHER_OWNER = ('teacher','owner')
 BRAND = {'logoMasterDark':'learners-area-logo-master-dark.png','logoMarkDark':'Learners_Area_V11_Exact_Cutout_Logo.png','logoMarkLight':'owner-neon-day.png','logoHorizontalDark':'learners-area-logo-horizontal-dark.png','logoHorizontalLight':'learners-area-logo-horizontal-light.png','favicon':'learners-area-favicon.png'}
 
 
@@ -72,11 +73,25 @@ async def route_view(req, user, path, q):
 
 async def read_staff(req, user, kind):
     q = dict(req.query_params)
-    if kind.startswith('owner-'): require_role(user,('owner',))
-    elif kind in ('admissions','people','roster','student-results','grammar-topics','grammar-topic','reading-passages','reading-passage','listening-library','listening-test','listening-import','reading-retention','retention-staged','writing-admin','writing-admin-new','writing-admin-item','centre-statistics'): require_role(user,ADMIN)
-    else: require_role(user,STAFF)
-    if kind in ('admissions','people','roster','student-results','teacher-students','teacher-student','support-inbox','teacher-live-classes','teacher-live-class'):
+    if kind.startswith('owner-'):
+        require_role(user,('owner',))
+    elif kind in ('student-results','centre-statistics'):
+        require_role(user,('owner',))
+    elif kind in ('teacher-live-classes','teacher-live-class'):
+        # Centre-wide administrators may manage the timetable, but this is not
+        # authority to read personal academic results.
+        require_role(user,STAFF)
+    elif kind in ('teacher-students','teacher-student','teacher-homework','teacher-actions','teacher-assignment','teacher-assessment','student-learning'):
+        require_role(user,TEACHER_OWNER)
+    elif kind in ('admissions','people','roster','grammar-topics','grammar-topic','reading-passages','reading-passage','listening-library','listening-test','listening-import','reading-retention','retention-staged','writing-admin','writing-admin-new','writing-admin-item'):
+        require_role(user,ADMIN)
+    else:
+        require_role(user,STAFF)
+    if kind in ('admissions','people','roster','student-results','support-inbox','teacher-live-classes','teacher-live-class'):
         from .browser_staff_people import read
+        return await read(req,user,kind,q)
+    if kind in ('teacher-students','teacher-student','teacher-homework','teacher-actions','teacher-assignment','teacher-assessment'):
+        from .browser_staff_academic import read
         return await read(req,user,kind,q)
     if kind in ('grammar-topics','grammar-topic','reading-passages','reading-passage','listening-library','listening-test','listening-import','speaking-manage','video-admin','writing-admin','writing-admin-new','writing-admin-item','retention-staged'):
         from .browser_staff_content import read
@@ -101,7 +116,9 @@ async def read_staff(req, user, kind):
         if kind == 'owner-overview':
             counts = [dict(r) for r in await con.fetch('SELECT role,account_status status,count(*)::int count FROM users GROUP BY role,account_status')]
             pending = await con.fetchval("SELECT count(*)::int FROM users WHERE account_status='pending'")
-            return {'counts':counts,'pendingCount':pending,'integrations':await integrations(con),'brand':{'siteName':os.getenv('NEXT_PUBLIC_SITE_NAME','Learners Area'),'favicon':'/brand/'+BRAND['favicon'],'assets':[{'key':key,'path':'/brand/'+path} for key,path in BRAND.items()]}}
+            from .browser_statistics import owner_academic_overview
+            academic = await owner_academic_overview(con,q)
+            return {'counts':counts,'pendingCount':pending,'academic':academic,'integrations':await integrations(con),'brand':{'siteName':os.getenv('NEXT_PUBLIC_SITE_NAME','Learners Area'),'favicon':'/brand/'+BRAND['favicon'],'assets':[{'key':key,'path':'/brand/'+path} for key,path in BRAND.items()]}}
         if kind == 'owner-integrations': return {'report':await integrations(con)}
         if kind == 'owner-retention':
             from .step27_retention_policy import config

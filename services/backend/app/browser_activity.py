@@ -14,19 +14,26 @@ async def streak(con, uid):
 async def mocks(con, uid):
     from .browser_optional import OptionalReads
     read=OptionalReads()
-    tests=await read.read('catalogue',lambda:con.fetch("SELECT t.id,t.title,t.skill FROM mock_tests t JOIN courses c ON c.id=t.course_id WHERE c.slug='ielts' ORDER BY t.title,t.id"))
-    rows=await read.read('attempts',lambda:con.fetch('SELECT id,mock_test_id,started_at,finished_at,raw_score,estimated_band,mock_snapshot FROM mock_attempts WHERE user_id=$1 ORDER BY started_at DESC,id DESC',uid))
-    ids=list({r['mock_test_id'] for r in rows or [] if r['mock_test_id']})
+    tests=await read.read('catalogue',lambda:con.fetch("SELECT t.id,t.title,t.skill FROM mock_tests t JOIN courses c ON c.id=t.course_id WHERE c.slug='ielts' ORDER BY t.title,t.id LIMIT 5001"))
+    rows=await read.read('attempts',lambda:con.fetch('SELECT id,mock_test_id,started_at,finished_at,raw_score,estimated_band,mock_snapshot FROM mock_attempts WHERE user_id=$1 ORDER BY started_at DESC,id DESC LIMIT 5001',uid))
+    catalogue_truncated=len(tests or [])>5000
+    attempts_truncated=len(rows or [])>5000
+    tests=(tests or [])[:5000]
+    rows=(rows or [])[:5000]
+    ids=list({r['mock_test_id'] for r in rows if r['mock_test_id']})
     titles=await read.read('titles',lambda:con.fetch('SELECT id,title,skill FROM mock_tests WHERE id=ANY($1::uuid[])',ids)) if ids else []
     by={r['id']:r for r in titles or []}
     attempts=[]
-    for r in rows or []:
+    for r in rows:
         snapshot=r['mock_snapshot'] or {}
         title=by.get(r['mock_test_id'])
         a=camel({k:r[k] for k in ('id','mock_test_id','started_at','finished_at')})
         a.update(title=title['title'] if title else snapshot.get('title'),skill=title['skill'] if title else snapshot.get('kind') if not r['mock_test_id'] else None,rawScore=r['raw_score'] if r['finished_at'] else None,estimatedBand=r['estimated_band'] if r['finished_at'] else None)
         attempts.append(a)
-    return {'tests':[camel(r) for r in tests or []],'attempts':attempts,'finishedCount':sum(bool(r['finishedAt']) for r in attempts),'catalogueUnavailable':'catalogue' in read.failed,'attemptsUnavailable':'attempts' in read.failed,'attemptTitlesUnavailable':'titles' in read.failed}
+    return {'tests':[camel(r) for r in tests],'attempts':attempts,'finishedCount':sum(bool(r['finishedAt']) for r in attempts),
+      'catalogueUnavailable':'catalogue' in read.failed,'catalogueTruncated':catalogue_truncated,
+      'attemptsUnavailable':'attempts' in read.failed,'attemptsTruncated':attempts_truncated,
+      'attemptTitlesUnavailable':'titles' in read.failed}
 
 
 async def summary(con, uid):

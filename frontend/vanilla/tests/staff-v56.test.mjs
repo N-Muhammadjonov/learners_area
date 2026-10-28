@@ -20,8 +20,8 @@ assert(src.includes('const bad=()'),'Pure statistics test stub injection failed'
 const stats=await import('data:text/javascript;base64,'+Buffer.from(src).toString('base64'));
 const summary=()=>modules.map(m=>({module:m,started:2,completed:1,learners:1,accuracy:m==='writing'?null:80,band:m==='mocks'?7.5:null,latest:null}));
 const student='11111111-2222-4333-8444-555555555555';
-test('34 management routes, exactly once, protected on staff route metadata',()=>{assert.equal(matches.length,34);assert.equal(new Set(matches).size,34);assert(route.includes('protected:true'));});
-test('the current main adds Management and Statistics and retains the 32 older staff routes',()=>{assert(matches.includes('/app/management'));assert(matches.includes('/app/admin/statistics'));assert(matches.includes('/app/admin/reading/retention/staged'));assert(matches.includes('/app/teacher/speaking'));});
+test('37 management routes, exactly once, protected on staff route metadata',()=>{assert.equal(matches.length,37);assert.equal(new Set(matches).size,37);assert(route.includes('protected:true'));});
+test('the current main retains Management, Statistics and all assignment/assessment routes',()=>{assert(matches.includes('/app/management'));assert(matches.includes('/app/admin/statistics'));assert(matches.includes('/app/admin/reading/retention/staged'));assert(matches.includes('/app/teacher/speaking'));});
 test('protected preserved route indexes cannot be overwritten by a staff override',()=>{for(const path of ['/app/admin/content','/app/admin/materials','/app/owner/audit'])assert(!matches.includes(path));});
 test('source modules exact SQL inventory of 10 result kinds, no fabricated assignment rows',()=>assert.deepEqual([...stats.RESULT_MODULES],modules));
 test('summary retains null ungraded fields, preserves source order',()=>{const d=stats.validateSummary(summary().reverse());assert.deepEqual(d.map(x=>x.module),modules);assert.equal(d.find(x=>x.module==='writing').accuracy,null);});

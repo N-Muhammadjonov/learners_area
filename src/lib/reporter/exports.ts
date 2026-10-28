@@ -21,7 +21,7 @@ export const CONTENT_TYPES: Record<ReportFormat, string> = {
 const T = {
   en: {
     title: "RIWI report", scope: "Scope", period: "Period", timezone: "Timezone", generated: "Generated", reportId: "Report ID",
-    owner: "Whole centre (owner)", teacher: "All students (teacher)", student: "Student", summary: "Summary", metrics: "Metrics", sources: "Sources",
+    owner: "Whole centre (owner)", teacher: "All students (teacher)", student: "Student", operations: "Centre operations", summary: "Summary", metrics: "Metrics", sources: "Sources",
     cols: ["Section", "Metric", "Value", "Unit", "Basis", "Window from", "Window to (exclusive)", "Scope", "Query ID", "Generated at"],
     sourceCols: ["Query ID", "SQL", "Parameters"], noData: "— = no data in this window", integrity: "Snapshot SHA-256",
     sections: { learning: "Learning", results: "Results", people: "People", operations: "Operations" },
@@ -29,7 +29,7 @@ const T = {
   },
   uz: {
     title: "RIWI hisoboti", scope: "Qamrov", period: "Davr", timezone: "Vaqt mintaqasi", generated: "Yaratilgan", reportId: "Hisobot ID",
-    owner: "Butun markaz (ega)", teacher: "Barcha talabalar (o'qituvchi)", student: "Talaba", summary: "Xulosa", metrics: "Ko'rsatkichlar", sources: "Manbalar",
+    owner: "Butun markaz (ega)", teacher: "Barcha talabalar (o'qituvchi)", student: "Talaba", operations: "Markaz operatsiyalari", summary: "Xulosa", metrics: "Ko'rsatkichlar", sources: "Manbalar",
     cols: ["Bo'lim", "Ko'rsatkich", "Qiymat", "Birlik", "Asos", "Oyna boshi", "Oyna oxiri (kirmaydi)", "Qamrov", "So'rov ID", "Yaratilgan vaqt"],
     sourceCols: ["So'rov ID", "SQL", "Parametrlar"], noData: "— = bu oynada ma'lumot yo'q", integrity: "Snapshot SHA-256",
     sections: { learning: "O'qish faolligi", results: "Natijalar", people: "Odamlar", operations: "Operatsiyalar" },
@@ -39,7 +39,7 @@ const T = {
 
 function scopeText(s: ReportSnapshot, lang: ReportLang): string {
   const t = T[lang];
-  return s.scope.kind === "student" ? `${t.student}: ${s.scope.subjectName}` : s.scope.kind === "teacher" ? t.teacher : t.owner;
+  return s.scope.kind === "student" ? `${t.student}: ${s.scope.subjectName}` : s.scope.kind === "teacher" ? t.teacher : s.scope.kind === "operations" ? t.operations : t.owner;
 }
 
 function headerLines(s: ReportSnapshot, lang: ReportLang): Array<[string, string]> {

@@ -289,6 +289,9 @@ export const notifications = pgTable("notifications", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => ({
   userIdx: index("notifications_user_idx").on(table.userId, table.createdAt),
+  eventIdUniqueIdx: uniqueIndex("notifications_user_event_id_unique_idx")
+    .on(table.userId, sql`(${table.payload} ->> 'eventId')`)
+    .where(sql`${table.payload} ? 'eventId'`),
 }));
 
 export const auditLog = pgTable("audit_log", {
@@ -1633,6 +1636,7 @@ export const assignments = pgTable("assignments", {
 }, (table) => [
   index("assignments_content_idx").on(table.module, table.contentType, table.sourceRef),
   index("assignments_version_idx").on(table.contentVersionId),
+  index("assignments_target_due_idx").on(table.targetUserId, table.dueAt).where(sql`${table.targetUserId} is not null`),
 ]);
 
 /** One row per student an assignment is set for, with its own status. */
@@ -1655,6 +1659,7 @@ export const assignmentTargets = pgTable(
   (table) => [
     uniqueIndex("assignment_targets_pair_idx").on(table.assignmentId, table.studentUserId),
     index("assignment_targets_student_idx").on(table.studentUserId, table.status),
+    index("assignment_targets_student_due_idx").on(table.studentUserId, table.dueAt).where(sql`${table.status} <> 'completed'`),
   ],
 );
 
@@ -2154,6 +2159,8 @@ export const videoLessonProgress = pgTable(
      * duration so a client cannot claim more than the video has.
      */
     watchedSeconds: integer("watched_seconds").notNull().default(0),
+    /** Learner-reported provider duration for display only when authored duration is absent. */
+    playbackDurationSeconds: integer("playback_duration_seconds"),
     /** Graded authored answers: `{ [questionId]: { answer, correct } }`. */
     answers: jsonb("answers").$type<Record<string, { answer: string; correct: boolean }>>(),
     /** "Your opinion" — the student's own response, kept for teacher feedback. */

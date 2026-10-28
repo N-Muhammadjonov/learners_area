@@ -26,6 +26,8 @@ test('valid mock region passes through unchanged in shape', () => {
   assert.equal(dto.tests.length, 2);
   assert.equal(dto.attempts[0].estimatedBand, 5.5);
   assert.equal(dto.finishedCount, 1);
+  assert.equal(dto.attemptsTruncated, false);
+  assert.equal(dto.catalogueTruncated, false);
 });
 
 test('a null attempt title is allowed (page falls back to the untitled label)', () => {
@@ -51,6 +53,13 @@ test('missing flags, a missing finishedCount or a non-array field are rejected',
   assert.throws(() => mockDTO(base({finishedCount: undefined})));
   assert.throws(() => mockDTO(base({tests: null})));
   assert.throws(() => mockDTO(base({attempts: {}})));
+});
+
+test('bounded Mock projection accepts and preserves explicit truncation markers', () => {
+  const dto=mockDTO(base({attemptsTruncated:true,catalogueTruncated:true}));
+  assert.equal(dto.attemptsTruncated,true);assert.equal(dto.catalogueTruncated,true);
+  assert.throws(()=>mockDTO(base({attemptsTruncated:'yes'})));
+  assert.throws(()=>mockDTO(base({catalogueTruncated:1})));
 });
 
 test('unknown skills and duplicate ids are rejected', () => {

@@ -7,6 +7,8 @@ def id(name): return str(uuid5(NAMESPACE_URL,'learners-area-browser-probe:'+name
 async def seed(con, uid, password_hash):
     for role in ('teacher','other-teacher','other-student','pending'):
         await con.execute("INSERT INTO users(id,name,email,password_hash,role,account_status,locale) VALUES($1,$2,$3,$4,$5,$6,'en')",id(role),role,role+'@browser.example.test',password_hash,'teacher' if 'teacher' in role else 'student','pending' if role=='pending' else 'active')
+    await con.execute("INSERT INTO users(id,name,email,password_hash,role,account_status,locale) VALUES($1,'Browser administrator','admin@browser.example.test',$2,'admin','active','en')",id('admin'),password_hash)
+    await con.execute("INSERT INTO users(id,name,email,password_hash,role,account_status,locale) VALUES($1,'Browser owner','owner@browser.example.test',$2,'owner','active','en')",id('owner'),password_hash)
     await con.execute('INSERT INTO teacher_student_links(teacher_user_id,student_user_id,assigned_by_user_id) VALUES($1,$2,$1)',id('teacher'),uid)
     await con.execute("INSERT INTO courses(id,slug,title) VALUES($1,'ielts','Isolated IELTS course')",id('course'))
     await con.execute("INSERT INTO course_modules(id,course_id,slug,title,\"order\") VALUES($1,$2,'module','Isolated module',1)",id('module'),id('course'))

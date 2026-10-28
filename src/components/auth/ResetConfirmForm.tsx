@@ -48,7 +48,7 @@ export function ResetConfirmForm({ dict }: { dict: Dictionary }) {
       <Button type="submit" disabled={pending || !token}>
         {pending ? dict.common.loading : dict.auth.resetConfirmCta}
       </Button>
-      <Link href="/login" className="text-center text-sm font-medium text-signal-700 underline underline-offset-2">
+      <Link href="/login" className="text-center text-sm font-medium text-white underline underline-offset-2">
         {dict.auth.loginCta}
       </Link>
     </form>

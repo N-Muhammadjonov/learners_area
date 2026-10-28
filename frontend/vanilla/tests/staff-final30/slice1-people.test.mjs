@@ -44,17 +44,15 @@ test('admissions: students/teachers are redirected to /app; 401 goes to /login; 
  assert(h.q('[data-region-failure]'),'failure notice with retry');assert(!h.q('[data-access-request]'));
 });
 test('admissions: disconnected backend (503) never fabricates a queue',async()=>{h=setup({path:'/app/admin/admissions'});h.stub({});await h.mount(admissions);assert(h.q('[data-region-failure]'));assert.equal(h.qa('[data-access-request]').length,0);});
-test('people: sanitizes URL filters, locks self/owner rows, owner/admin options respect grantable roles',async()=>{
+test('people: sanitizes URL filters, locks self/owner rows, Admin does not open academic results',async()=>{
  h=setup({path:'/app/admin/people?q=%20ann%20&role=superuser&status=suspended&page=-3'});h.stub({'/api/frontend/staff/people':dir()});await h.mount(people);
  const url=h.calls[0].path;assert(url.includes('q=ann')&&url.includes('status=suspended')&&!url.includes('role=')&&url.includes('page=1'),url);
  const row=id=>h.q(`tr[data-person-id="${id}"]`);
  assert.equal(row(ID(1)).querySelector('select'),null,'own role locked');assert(row(ID(1)).textContent.includes(dicts.en.people.you));assert(row(ID(1)).textContent.includes(dicts.en.people.cannotChangeSelf));
  assert.equal(row(ID(4)).querySelector('select'),null,'owner locked');
  assert.deepEqual([...row(ID(2)).querySelectorAll('option')].map(o=>o.value),['student','teacher']);
- assert(row(ID(2)).querySelector('a[href="/app/admin/people/'+ID(2)+'"]'),'students link to results');assert(
-    row(ID(3)).querySelector('a[href="/app/admin/people/'+ID(3)+'"]'),
-    'current main links teacher records for administrators'
-  );
+ assert.equal(row(ID(2)).querySelector('a[href="/app/admin/people/'+ID(2)+'"]'),null,'Admin cannot open student results');
+ assert.equal(row(ID(3)).querySelector('a[href="/app/admin/people/'+ID(3)+'"]'),null,'Admin cannot open staff academic records');
  assert(row(ID(5)).textContent.includes('spam'));assert.equal(h.qa('[data-person-id]').length,10,'table + mobile cards');
 });
 test('people: owner may grant admin and owner options; select reverts until server acceptance',async()=>{
@@ -100,17 +98,18 @@ test('student results: summary math matches source, unavailable state, not found
 });
 const results=(over={})=>envelope('student-results',{student:{id:ID(2),name:'Stu',email:null},unavailable:false,testIds:['t1'],attempts:[{id:'0',mockTestId:'t1',title:'Full mock',skill:'full',finishedAt:iso,estimatedBand:6.5,rawScore:null},{id:'1',mockTestId:'t1',title:'Mock',skill:'reading',finishedAt:iso,estimatedBand:6.5,rawScore:null},{id:'2',mockTestId:'t1',title:'Raw',skill:'writing',finishedAt:iso,estimatedBand:null,rawScore:12}],practice:{reading:4,listening:null,speaking:0,writing:2},...over});
 test('student results: renders cards, svg trend, Telegram fallback, raw score fallback, practice counts',async()=>{
- h=setup({path:'/app/admin/people/'+ID(2)});h.stub({'/api/frontend/staff/student-results':results()});await h.mount(detail);
+ h=setup({role:'owner',path:'/app/admin/people/'+ID(2)});h.stub({'/api/frontend/staff/student-results':results()});await h.mount(detail);
  assert(h.q('h1').textContent==='Stu');assert(h.ctx.root.textContent.includes('Telegram'));assert(h.q('svg[role=img]'));assert.equal(h.q('[data-skill=writing]').textContent.includes('12'),true);
  assert(h.q('[data-skill=listening]').textContent.includes('—'));assert(h.q('[data-skill=reading] li').textContent.includes('6.5'));
 });
 test('student results: unavailable flag shows alert only; non-UUID id is not-found and issues no request; 404 shows not found',async()=>{
- h=setup({path:'/app/admin/people/'+ID(2)});h.stub({'/api/frontend/staff/student-results':results({unavailable:true})});await h.mount(detail);assert(h.q('[role=alert]'));assert(!h.q('dl'));h.dispose();
- h=setup({path:'/app/admin/people/not-a-uuid'});h.stub({});await h.mount(detail);assert(h.q('[data-staff-not-found]'));assert.equal(h.calls.length,0);h.dispose();
- h=setup({path:'/app/admin/people/'+ID(9)});h.stub({'/api/frontend/staff/student-results':new ApiError(404,'not_found')});await h.mount(detail);assert(h.q('[data-staff-not-found]'));
+ h=setup({role:'owner',path:'/app/admin/people/'+ID(2)});h.stub({'/api/frontend/staff/student-results':results({unavailable:true})});await h.mount(detail);assert(h.q('[role=alert]'));assert(!h.q('dl'));h.dispose();
+ h=setup({role:'owner',path:'/app/admin/people/not-a-uuid'});h.stub({});await h.mount(detail);assert(h.q('[data-staff-not-found]'));assert.equal(h.calls.length,0);h.dispose();
+ h=setup({role:'owner',path:'/app/admin/people/'+ID(9)});h.stub({'/api/frontend/staff/student-results':new ApiError(404,'not_found')});await h.mount(detail);assert(h.q('[data-staff-not-found]'));
 });
+test('private student results view redirects Admin before requesting academic data',async()=>{h=setup({role:'admin',path:'/app/admin/people/'+ID(2)});h.stub({});await h.mount(detail);assert.equal(h.nav[0].path,'/app');assert.equal(h.calls.length,0);});
 test('student results: out-of-range band rejected by adapter (no silent re-grading)',async()=>{
- h=setup({path:'/app/admin/people/'+ID(2)});h.stub({'/api/frontend/staff/student-results':results({attempts:[{id:'1',mockTestId:'t1',title:null,skill:'reading',finishedAt:iso,estimatedBand:11,rawScore:null}]})});await h.mount(detail);assert(h.q('[data-region-failure]'));
+ h=setup({role:'owner',path:'/app/admin/people/'+ID(2)});h.stub({'/api/frontend/staff/student-results':results({attempts:[{id:'1',mockTestId:'t1',title:null,skill:'reading',finishedAt:iso,estimatedBand:11,rawScore:null}]})});await h.mount(detail);assert(h.q('[data-region-failure]'));
 });
 const roster=(over={})=>envelope('roster',{teachers:[{id:ID(7),name:'Teach'}],selected:{id:ID(7),name:'Teach'},roster:[{id:ID(21),name:'In'}],candidates:[{id:ID(22),name:'Cand'}],listCap:1000,rosterCap:500,query:'',...over});
 test('roster: keeps native source form posts (hidden fields), status banner, chooser navigation',async()=>{

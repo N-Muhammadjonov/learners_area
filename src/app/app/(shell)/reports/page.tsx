@@ -30,19 +30,21 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
   const { error, q } = await searchParams;
   const query = (q ?? "").trim().slice(0, 60);
   const errorText = error && error in t.errors ? t.errors[error as keyof typeof t.errors] : null;
-  const scopes = allowedScopes(user.role);
-  const staff = user.role !== "student";
-  // Teachers choose only from their explicit roster; owner/admin from all students.
-  const teacher = user.role === "teacher";
+  const role = user.role;
+  const scopes = allowedScopes(role);
+  const staff = role !== "student";
+  // Teachers choose only from their explicit roster; only Owners may search the centre roster.
+  const teacher = role === "teacher";
+  const canSelectStudents = teacher || role === "owner";
   const students = teacher
     ? await listRoster(user.id)
-    : staff
+    : role === "owner"
       ? await db.select({ id: users.id, name: users.name }).from(users).where(query ? and(eq(users.role, "student"), ilike(users.name, `%${escapeLike(query)}%`)) : eq(users.role, "student")).orderBy(asc(users.name), asc(users.id)).limit(STUDENT_LIST_CAP)
       : [];
   const periodLabel: Record<(typeof PERIOD_KINDS)[number], string> = {
     on_demand: t.periodOnDemand, weekly: t.periodWeekly, monthly: t.periodMonthly, yearly: t.periodYearly, custom: t.periodCustom,
   };
-  const scopeLabel = { owner: t.scopeOwner, teacher: teacher ? t.scopeRoster : t.scopeTeacher, student: staff ? t.scopeStudent : t.scopeSelf };
+  const scopeLabel = { owner: t.scopeOwner, teacher: teacher ? t.scopeRoster : t.scopeTeacher, student: staff ? t.scopeStudent : t.scopeSelf, operations: t.scopeOperations };
 
   return (
     <div className="flex flex-col gap-4" data-reporter>
@@ -51,7 +53,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
         <p className="text-sm text-ink-500">{t.subtitle}</p>
       </div>
       {errorText && <p className="rounded-md border border-band-bad/40 bg-band-bad/10 p-3 text-sm text-band-bad" role="alert" data-reporter-error>{errorText}</p>}
-      {staff && !teacher && (
+      {role === "owner" && (
         <form method="get" action="/app/reports" className="flex flex-wrap items-end gap-3" data-reporter-student-search>
           <label className="flex flex-col gap-1 text-sm">
             <span className="font-semibold text-ink-700">{t.studentSearch}</span>
@@ -60,7 +62,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
           <button type="submit" className="btn-secondary min-h-11">{t.studentSearchButton}</button>
         </form>
       )}
-      {staff && !teacher && students.length >= STUDENT_LIST_CAP && <p className="text-xs text-ink-500" role="status" data-reporter-list-capped>{t.listCapped.replace("{n}", String(STUDENT_LIST_CAP))}</p>}
+      {role === "owner" && students.length >= STUDENT_LIST_CAP && <p className="text-xs text-ink-500" role="status" data-reporter-list-capped>{t.listCapped.replace("{n}", String(STUDENT_LIST_CAP))}</p>}
       <Card className="p-4">
         <form method="get" action="/api/reports" className="flex flex-col gap-4" data-reporter-form>
           <input type="hidden" name="ui" value="1" />
@@ -72,7 +74,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
               </label>
             ))}
           </fieldset>
-          {staff && (
+          {canSelectStudents && (
             <label className="flex flex-col gap-1 text-sm">
               <span className="font-semibold text-ink-700">{t.student}</span>
               {students.length === 0 ? <span className="text-ink-500">{teacher ? t.noRoster : t.noStudents}</span> : (

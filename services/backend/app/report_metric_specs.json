@@ -225,7 +225,9 @@
         "uz": "Tasdiq kutayotgan hisoblar (joriy holat)"
       },
       "sql": "select count(*)::int as v from users where account_status = 'pending' and created_at < :to"
-    },
+    }
+  ],
+  "operations": [
     {
       "key": "operations.problemReports",
       "section": "operations",

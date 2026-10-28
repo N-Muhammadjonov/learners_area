@@ -52,12 +52,24 @@ async def get_assignments(req:Request):
     if not user:return core.auth_error()
     db=await core.pool()
     async with db.acquire() as con:
-        if staff(user):
-            rows=await con.fetch('''SELECT a.id,a.title,a.module,a.content_type AS "contentType",
-              a.source_ref AS "sourceRef",a.content_version_id AS "contentVersionId",a.due_at AS "dueAt",
-              t.student_user_id AS "studentUserId",t.status,t.completed_at AS "completedAt"
-              FROM assignments a LEFT JOIN assignment_targets t ON t.assignment_id=a.id
-              WHERE a.created_by_user_id=$1 ORDER BY a.created_at DESC''',user['id'])
+        if user['role'] in ('teacher','owner'):
+            if user['role']=='teacher':
+                rows=await con.fetch('''SELECT a.id,a.title,a.module,a.content_type AS "contentType",
+                  a.source_ref AS "sourceRef",a.content_version_id AS "contentVersionId",a.due_at AS "dueAt",
+                  COALESCE(t.student_user_id,a.target_user_id) AS "studentUserId",COALESCE(t.status,a.status) AS status,
+                  CASE WHEN t.assignment_id IS NULL THEN CASE WHEN a.status='completed' THEN a.updated_at END WHEN t.status='completed' THEN COALESCE(t.completed_at,a.updated_at) END AS "completedAt"
+                  FROM assignments a LEFT JOIN assignment_targets t ON t.assignment_id=a.id
+                  WHERE a.created_by_user_id=$1 AND EXISTS(SELECT 1 FROM users u
+                    JOIN teacher_student_links l ON l.student_user_id=u.id
+                    WHERE u.role='student' AND u.id=COALESCE(t.student_user_id,a.target_user_id)
+                      AND l.teacher_user_id=$1)
+                  ORDER BY a.created_at DESC''',user['id'])
+            else:
+                rows=await con.fetch('''SELECT a.id,a.title,a.module,a.content_type AS "contentType",
+                  a.source_ref AS "sourceRef",a.content_version_id AS "contentVersionId",a.due_at AS "dueAt",
+                  COALESCE(t.student_user_id,a.target_user_id) AS "studentUserId",COALESCE(t.status,a.status) AS status,
+                  CASE WHEN t.assignment_id IS NULL THEN CASE WHEN a.status='completed' THEN a.updated_at END WHEN t.status='completed' THEN COALESCE(t.completed_at,a.updated_at) END AS "completedAt"
+                  FROM assignments a LEFT JOIN assignment_targets t ON t.assignment_id=a.id ORDER BY a.created_at DESC''')
             result={}
             for r in rows:
                 obj=result.setdefault(str(r['id']),{'id':str(r['id']),'title':r['title'],'module':r['module'],
@@ -67,12 +79,15 @@ async def get_assignments(req:Request):
                 if r['studentUserId']:obj['targets'].append({'studentUserId':str(r['studentUserId']),
                    'status':r['status'] or 'not_started','completedAt':row_to_dict({'completedAt':r['completedAt']})['completedAt']})
             return core.j({'ok':True,'assignments':list(result.values())},headers=PRIVATE)
-        rows=await con.fetch('''SELECT a.id,a.title,a.description,a.instructions,a.due_at AS "dueAt",
+        if user['role']!='student':return core.j({'error':'forbidden'},403)
+        rows=await con.fetch('''SELECT a.id,a.title,a.description,a.instructions,COALESCE(t.due_at,a.due_at) AS "dueAt",
            a.module,a.content_type AS "contentType",a.source_ref AS "sourceRef",a.content_version_id AS "contentVersionId",
-           t.status,v.version_no AS "versionNo",v.status AS "versionStatus"
-           FROM assignments a INNER JOIN assignment_targets t ON t.assignment_id=a.id
+           COALESCE(t.status,a.status)::text AS status,v.version_no AS "versionNo",v.status AS "versionStatus"
+           FROM assignments a LEFT JOIN assignment_targets t ON t.assignment_id=a.id AND t.student_user_id=$1
            LEFT JOIN content_versions v ON v.id=a.content_version_id
-           WHERE t.student_user_id=$1 ORDER BY a.created_at DESC''',user['id'])
+           WHERE t.assignment_id IS NOT NULL OR (a.target_user_id=$1 AND NOT EXISTS(
+             SELECT 1 FROM assignment_targets tx WHERE tx.assignment_id=a.id))
+           ORDER BY a.created_at DESC''',user['id'])
         result=[]
         for r in rows:
             d=row_to_dict(r)

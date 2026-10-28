@@ -2,11 +2,11 @@ import {test} from 'node:test';import assert from 'node:assert/strict';
 import routes from '../../modules/staff-final30/routes.js';
 import existing from '../../js/routes.js';
 import {compilePattern} from '../../js/router.js';
-test('every FINAL30 route loads a module exporting mount() and targets a pattern owned by the 35-route scope',async()=>{
- const scope=new Set((await import('node:fs')).readFileSync(new URL('../../docs/final30/FINAL30_SCOPE_ROUTES.txt',import.meta.url),'utf8').split('\n').filter(Boolean));assert.equal(scope.size,35);
+test('every FINAL30 route loads a module exporting mount() and targets a pattern owned by the 38-route scope',async()=>{
+ const scope=new Set((await import('node:fs')).readFileSync(new URL('../../docs/final30/FINAL30_SCOPE_ROUTES.txt',import.meta.url),'utf8').split('\n').filter(Boolean));assert.equal(scope.size,38);
  const added=routes.map(r=>r.pattern).filter(p=>!scope.has(p)).sort();
  assert.deepEqual(added,['/app/admin/statistics','/app/management']);
- assert.equal(routes.filter(r=>scope.has(r.pattern)).length,32);
+ assert.equal(routes.filter(r=>scope.has(r.pattern)).length,35);
  for(const r of routes){const m=await r.load();assert.equal(typeof m.mount,'function',r.pattern);}
 });
 test('patterns are unique, match their own example path, and exist in the V4 route table (so they replace, never add)',()=>{

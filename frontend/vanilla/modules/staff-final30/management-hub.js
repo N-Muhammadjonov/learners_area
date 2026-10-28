@@ -2,6 +2,7 @@
  * src/app/app/(shell)/management/page.tsx @ b62b78f. */
 import {el} from './kit.js';
 import {STATS_EN,STATS_UZ} from './statistics-strings.js';
+import {ACADEMIC_EN,ACADEMIC_UZ} from './monitoring-strings.js';
 import {
  IconAdmissions,IconAudit,IconChevronRight,IconContent,IconGrammar,
  IconListening,IconLive,IconPeople,IconPlay,IconReading,IconRetention,
@@ -14,12 +15,16 @@ export function managementAreas(dict,role){
  const stats=dict.managementStats??(dict.people.name==='Ism'?STATS_UZ:STATS_EN);
  const add=(href,title,body,icon)=>areas.push({href,title,body,icon});
  if(admin){
-  add('/app/admin/statistics',dict.nav.statistics??stats.title,stats.scope,IconAudit);
+  if(owner)add('/app/admin/statistics',dict.nav.statistics??stats.title,stats.scope,IconAudit);
   add('/app/admin/people',dict.nav.adminUsers,dict.management.peopleBody,IconPeople);
   add('/app/admin/admissions',dict.admission.title,dict.management.admissionsBody,IconAdmissions);
   add('/app/admin/roster',dict.reporter.roster.title,dict.reporter.roster.body,IconPeople);
  }
- if(role==='teacher')add('/app/teacher/students',dict.nav.people,dict.management.studentsBody,IconPeople);
+ if(role==='teacher'||owner){
+  const academic=dict.people.name==='Ism'?ACADEMIC_UZ:ACADEMIC_EN;
+  add('/app/teacher/students',dict.nav.people,dict.management.studentsBody,IconPeople);
+  add('/app/teacher/homework',academic.homework,academic.homeworkBody,IconWriting);
+ }
  if(staff){
   add('/app/teacher/support',dict.support.inbox,dict.management.supportBody,IconSupport);
   add('/app/teacher/live-classes',dict.liveClasses.manageTitle,dict.management.liveBody,IconLive);

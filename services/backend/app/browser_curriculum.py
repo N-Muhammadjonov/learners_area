@@ -82,8 +82,9 @@ async def lessons(req, user, path, q):
                   SELECT 1 FROM video_lessons v WHERE v.lesson_id=l.id AND length(trim(v.notes))>0)) AS "hasTeacherNotes",
                 EXISTS(SELECT 1 FROM lesson_blocks b WHERE b.lesson_id=l.id AND b.type IN ('audio','video','image','file')) AS "hasMedia"
                 FROM lessons l WHERE l.learning_area=$1 AND {live('l')}
-                ORDER BY l.updated_at DESC,l.id''', area)
-        return {'library': {'rows': [camel(r) for r in rows], 'hasMore': False}}
+                ORDER BY l.updated_at DESC,l.id LIMIT $2 OFFSET $3''', area, size+1, (page-1)*size)
+        has_more = len(rows) > size
+        return {'library': {'rows': [camel(r) for r in rows[:size]], 'hasMore': has_more}}
     if len(parts) != 4:
         raise HTTPException(404, 'not_found')
     lesson_id = identifier(parts[3])
