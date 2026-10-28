@@ -1,7 +1,7 @@
 {
   "total_route_files": 221,
-  "total_methods": 269,
-  "ported_methods": 269,
+  "total_methods": 271,
+  "ported_methods": 271,
   "unported_methods": 0,
   "endpoints": [
     {
@@ -1617,6 +1617,18 @@
       "path": "/api/writing/stealing/patterns/{id}/vocabulary",
       "source": "app/writing_study_port.py",
       "status": "ported_native_extension_unit_tested"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/auth/preflight",
+      "source": "services/backend/app/step18_telegram_auth_port.py",
+      "status": "ported_code_no_db_integration_test"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/vocabulary/packs/{pack_id}",
+      "source": "services/backend/app/step21_packs_port.py",
+      "status": "ported_code_no_db_integration_test"
     }
   ]
 }

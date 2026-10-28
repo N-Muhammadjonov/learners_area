@@ -339,4 +339,4 @@ def test_http_route_status_inventory():
     declared={(e['method'],e['path']) for e in status['endpoints'] if e['status'].startswith('ported_')}
     assert registered==declared, sorted(registered ^ declared)
     assert status['ported_methods']==len(registered)
-    assert status['ported_methods']+status['unported_methods']==265
+    assert status['ported_methods']+status['unported_methods']==271

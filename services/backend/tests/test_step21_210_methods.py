@@ -46,7 +46,7 @@ def test_route_manifest_strictly_matches_fastapi():
     routes=[(method,route.path) for route in core.app.routes for method in route.methods if route.path.startswith('/api/')]
     assert len(ported)==len(routes)==len(set(routes)) and len(ported)>=210
     assert ported==set(routes)
-    assert len(entries)==report['total_methods']==269 and report['unported_methods']==len(entries)-len(ported)
+    assert len(entries)==report['total_methods']==271 and report['unported_methods']==len(entries)-len(ported)
     assert len(NEW)==len(set(NEW))==20
     for method,path in NEW:
         template=path.replace(ID,'{id}')
@@ -109,7 +109,7 @@ def test_reading_question_selection_40_or_specific_41_only():
 
 def test_dictionary_presentation_never_assigns_unrelated_example():
     entry={'lexeme_id':'00000000-0000-4000-8000-000000000001','display_lemma':'run','part_of_speech':'verb','lexical_type':'word','forms':[],
-           'senses':[{'sense_id':'s1','definition_en':'To move quickly','examples':[{'text_en':'I run every morning.'},{'text_en':'A random sentence.'}]}],
+           'senses':[{'sense_id':'s1','definition_en':'To move quickly','translations':[],'examples':[{'text_en':'I run every morning.'},{'text_en':'A random sentence.'}]}],
            'relations':[],'collocations':[]}
     p=present(entry)
     assert p['senses']['s1']['examples']==[{'text_en':'I run every morning.'}]

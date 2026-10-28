@@ -101,3 +101,21 @@ test('Admin is routed away from teacher-only detailed assessment before any API 
  assert.equal(h.nav[0].path,'/app');
  assert.equal(h.calls.length,0);
 });
+
+for(const locale of ['en','uz'])test(`${locale}: homework module filters use translated labels for every supported module`,async()=>{
+ h=setup({role:'teacher',locale,path:'/app/teacher/homework'});
+ h.stub({'/api/frontend/staff/teacher-homework*':homework()});
+ await h.mount({mount:homeworkMount});
+ const select=h.q('[data-homework-filter="module"]');
+ const label=value=>select.querySelector(`option[value="${value}"]`).textContent;
+ assert.equal(label('grammar'),'Grammar');
+ assert.equal(label('reading'),'Reading');
+ assert.equal(label('listening'),'Listening');
+ assert.equal(label('writing'),'Writing');
+ assert.equal(label('speaking'),'Speaking');
+ assert.equal(label('video'),'TED / PODCAST');
+ assert.equal(label('ted'),'TED / PODCAST');
+ assert.equal(label('lessons'),locale==='uz'?'Darslar':'Lessons');
+ assert.equal(label('lesson'),locale==='uz'?'Darslar':'Lessons');
+ assert.equal(label('other'),locale==='uz'?'Boshqa':'Other');
+});

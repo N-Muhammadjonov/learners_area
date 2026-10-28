@@ -340,4 +340,17 @@ def run(con, learner_id, password):
     assert admin_people['onlineCount'] is None
     assert all(p.get('online') is None and p.get('seenAt') is None and p.get('visitSeconds') is None and p.get('totalSeconds') is None for p in admin_people['people'])
     checks += 5
+    # Existing sessions must lose access as soon as the explicit roster link is removed.
+    sql('DELETE FROM teacher_student_links WHERE teacher_user_id=$1 AND student_user_id=$2',teacher_id,learner_id)
+    assert teacher.get('/api/frontend/staff/teacher-student?id='+learner_id).status_code==404
+    assert teacher.get('/api/frontend/staff/teacher-assessment?student='+learner_id+'&module=reading&id='+attempt_id).status_code==404
+    assert teacher.get('/api/speaking/attempts/'+speaking_attempt_id).status_code==404
+    assert asyncio.run(allow_resource(con,{'id':teacher_id,'role':'teacher'},speaking_key))=='forbidden'
+    assert teacher.post('/api/teacher/feedback',json={'submissionId':submission_id,'comment':'Revoked roster'}).status_code==404
+    assert data(teacher,'teacher-students')['students']==[]
+    assert owner.get('/api/frontend/staff/teacher-student?id='+learner_id).status_code==200
+    sql('INSERT INTO teacher_student_links(teacher_user_id,student_user_id,assigned_by_user_id) VALUES($1,$2,$1)',teacher_id,learner_id)
+    assert teacher.get('/api/frontend/staff/teacher-student?id='+learner_id).status_code==200
+    assert asyncio.run(allow_resource(con,{'id':teacher_id,'role':'teacher'},speaking_key))=='allowed'
+    checks += 9
     return checks

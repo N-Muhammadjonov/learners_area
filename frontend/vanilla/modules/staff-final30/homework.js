@@ -1,6 +1,6 @@
 import {el,listen,mountStaff,heading,BackLink,centreDateTime,pager} from './kit.js';
 import {teacherHomework,teacherAssignment,teacherAssessment} from '../../js/adapters/staff-final30/teacher.js';
-import {ACADEMIC_EN,ACADEMIC_UZ} from './monitoring-strings.js';
+import {ACADEMIC_EN,ACADEMIC_UZ,academicModuleLabel} from './monitoring-strings.js';
 
 const text=ctx=>ctx.locale==='uz'?ACADEMIC_UZ:ACADEMIC_EN;
 const modules=['reading','listening','writing','speaking','retention','vocabulary','grammar','video','lessons','mocks','ted','lesson','other'];
@@ -19,7 +19,7 @@ export const homeworkMount=mountStaff({name:'teacher-homework',roles:['teacher',
   const t=text(ctx),{dict,signal,navigate}=ctx;
   const student=el('input',{type:'search',name:'student',maxlength:'100',class:'input w-full','data-homework-filter':'student'});student.value=data.filters.student;
   const assignment=el('input',{type:'search',name:'assignment',maxlength:'100',class:'input w-full','data-homework-filter':'assignment'});assignment.value=data.filters.assignment;
-  const module=el('select',{name:'module',class:'input w-full','data-homework-filter':'module'},el('option',{value:''},t.allModules),modules.map(m=>el('option',{value:m},m==='other'?t.module+': '+(ctx.locale==='uz'?'boshqa':'other'):(dict.nav[m]??m))));module.value=data.filters.module??'';
+  const module=el('select',{name:'module',class:'input w-full','data-homework-filter':'module'},el('option',{value:''},t.allModules),modules.map(m=>el('option',{value:m},dictModule(ctx,m))));module.value=data.filters.module??'';
   const status=el('select',{name:'status',class:'input w-full','data-homework-filter':'status'},el('option',{value:''},t.allStatuses),statuses.map(s=>el('option',{value:s},statusLabel(t,s))));status.value=data.filters.status??'';
   const dueFrom=el('input',{type:'date',name:'dueFrom',class:'input w-full','data-homework-filter':'dueFrom'});dueFrom.value=data.filters.dueFrom??'';
   const dueTo=el('input',{type:'date',name:'dueTo',class:'input w-full','data-homework-filter':'dueTo'});dueTo.value=data.filters.dueTo??'';
@@ -46,7 +46,7 @@ export const homeworkMount=mountStaff({name:'teacher-homework',roles:['teacher',
     el('td',{class:'py-3 pr-3 whitespace-nowrap'},asDate(r.dueAt,ctx.locale)),
     el('td',{class:'py-3 pr-3'},el('a',{href:`/app/teacher/students/${r.studentId}/assignments/${r.id}`,class:'font-medium text-ink-900 underline'},r.title)),
     el('td',{class:'py-3 pr-3'},el('a',{href:`/app/teacher/students/${r.studentId}`,class:'underline'},r.studentName)),
-    el('td',{class:'py-3 pr-3'},r.module?(dict.nav[r.module]??r.module):'—'),el('td',{class:'py-3 pr-3'},statusLabel(t,r.state))))));
+    el('td',{class:'py-3 pr-3'},r.module?dictModule(ctx,r.module):'—'),el('td',{class:'py-3 pr-3'},statusLabel(t,r.state))))));
   const assignmentSection=el('section',{class:'card space-y-3 p-4'},el('div',{class:'flex flex-wrap items-center justify-between gap-2'},el('h2',{class:'font-display text-xl text-ink-900'},`${t.assignmentList} · ${data.totalAssignments}`),el('span',{class:'text-xs text-ink-500'},`${data.assignmentPage} / ${data.assignmentPages}`)),
    data.assignments.length?el('div',{class:'overflow-x-auto'},tasks):el('p',{class:'py-5 text-sm text-ink-500'},t.noMatchingAssignments),
    pager({label:t.assignmentList,page:data.assignmentPage,totalPages:data.assignmentPages,href:n=>hrefFor(data.filters,data.studentPage,n),pageOf:t.pageOf,previous:t.previous,next:t.next,attr:'data-homework-assignments-pagination'}));
@@ -61,7 +61,7 @@ export const assignmentMount=mountStaff({name:'teacher-assignment-review',roles:
   const evaluation=a.evaluation;
   return el('div',{class:'mx-auto flex max-w-4xl flex-col gap-4','data-teacher-assignment-review':''},BackLink({fallbackHref:'/app/teacher/homework',label:t.backToHomework}),
    el('div',{class:'card space-y-2 p-5'},el('p',{class:'text-xs text-ink-500'},d.student.name),el('h1',{class:'font-display text-2xl text-ink-900'},a.title),
-    el('p',{class:'text-sm text-ink-500'},`${a.module?(dict.nav[a.module]??a.module):'—'}${a.contentType?` · ${a.contentType}`:''} · ${statusLabel(t,a.status)}`),
+    el('p',{class:'text-sm text-ink-500'},`${a.module?dictModule(ctx,a.module):'—'}${a.contentType?` · ${a.contentType}`:''} · ${statusLabel(t,a.status)}`),
     el('p',{class:'text-xs text-ink-500'},`${t.due}: ${asDate(a.dueAt,ctx.locale)} · ${t.created}: ${asDate(a.createdAt,ctx.locale)}`),
     a.description?el('div',{class:'pt-2'},el('h2',{class:'font-semibold'},t.description),el('p',{class:'whitespace-pre-wrap text-sm'},a.description)):null,
     a.instructions?el('div',{},el('h2',{class:'font-semibold'},t.detail),el('p',{class:'whitespace-pre-wrap text-sm'},a.instructions)):null),
@@ -103,5 +103,5 @@ export const assessmentMount=mountStaff({name:'teacher-assessment-review',roles:
     el('p',{class:'text-sm'},`${t.yourAnswer}: ${q.studentAnswer??t.noAnswer}${q.isCorrect===true?' · ✓':q.isCorrect===false?' · ✗':''}`),
     q.correctAnswer!==null?el('p',{class:'text-sm'},`${t.correctAnswer}: ${q.correctAnswer}`):null,q.explanation?el('p',{class:'text-xs text-ink-500'},`${t.explanation}: ${q.explanation}`):null)));
  }});
-function dictModule(ctx,module){return ctx.dict.nav[module]??module;}
+function dictModule(ctx,module){return academicModuleLabel(ctx.locale,module);}
 /** Source POST /api/teacher/feedback {submissionId,comment(1..2000),overallBand?:0..9 step input}. */
