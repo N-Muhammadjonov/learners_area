@@ -65,3 +65,27 @@ test('soft Writing navigation updates its header title while retaining the live 
 test('an unavailable Retention series does not crash all other Progress trends',()=>{
  const h=setup({role:'student'});try{const node=trendCards({reading:[],listening:[],writing:[],speaking:[],heatmap:[],retention:null},h.ctx.dict);assert(node.querySelector('[data-trend-unavailable]'));assert(node.querySelector('[data-trend="reading"]'));}finally{h.dispose();}
 });
+
+test('eight passive routes survive 59 seconds, evict the least recent view, and expire at 60 seconds',()=>{
+ const h=setup({role:'student'}),scope=createPrivateScope();scope.setScope('A');let time=0;
+ const pool=createRouteReuse({scope,clock:()=>time}),paths=['/app/dashboard','/app/progress','/app/reading/lessons','/app/reading/academic','/app/reading/general','/app/listening/lessons','/app/listening/academic','/app/grammar/lessons'];
+ const entry=path=>{const staging=document.createElement('div');staging.innerHTML='<section><button>Catalogue</button></section>';return {context:{url:new URL(path,'https://fixture.invalid'),session:{},route:{protected:true}},nodes:[...staging.children],staging,controller:new AbortController(),...pool.stamp()};};
+ try{
+  const views=paths.map(path=>entry(path));paths.forEach((path,i)=>assert(pool.put(path,views[i])));assert.equal(pool.size,8);
+  // 45 seconds previously expired the view. Retained DOM now survives this revisit.
+  time=59000;const reused=pool.take(paths[0]);assert.equal(reused,views[0]);assert.equal(reused.nodes[0].querySelector('button').textContent,'Catalogue');assert(pool.put(paths[0],reused));
+  assert(pool.put('/app/video-lessons',entry('/app/video-lessons')));assert.equal(pool.size,8);assert(views[1].controller.signal.aborted);assert(!views[0].controller.signal.aborted);
+  time=60000;assert.equal(pool.take(paths[0]),undefined);assert(views[0].controller.signal.aborted);
+  scope.setScope('B');assert.equal(pool.size,0);assert.equal(pool.nodeCount,0);
+ }finally{pool.destroy();h.dispose();}
+});
+
+test('the enlarged DOM budget accepts a 9001-node catalogue but still bounds total retained nodes',()=>{
+ const h=setup({role:'student'}),scope=createPrivateScope();scope.setScope('A');const pool=createRouteReuse({scope});
+ const entry=(path,count)=>{const staging=document.createElement('div');staging.innerHTML='<section>'+('<i></i>'.repeat(count))+'</section>';return {context:{url:new URL(path,'https://fixture.invalid'),session:{},route:{protected:true}},nodes:[...staging.children],staging,controller:new AbortController(),...pool.stamp()};};
+ try{
+  const large=entry('/app/reading/academic',9000);assert(pool.put('large',large));assert.equal(pool.nodeCount,9001);
+  assert(pool.put('next',entry('/app/listening/academic',8000)));assert(large.controller.signal.aborted);assert.equal(pool.size,1);assert.equal(pool.nodeCount,8001);
+  assert.equal(pool.put('oversize',entry('/app/grammar/lessons',16000)),false);assert.equal(pool.nodeCount,8001);
+ }finally{pool.destroy();h.dispose();}
+});

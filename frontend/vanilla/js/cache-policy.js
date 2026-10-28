@@ -3,12 +3,12 @@ const CATALOGUES=new Set(['/app/listening/lessons','/app/listening/academic','/a
 export function viewPolicy(route){
  let url;try{url=new URL(route,'https://local.invalid');}catch{return null;}
  if(!route.startsWith('/')||url.origin!=='https://local.invalid'||url.hash||route.length>2048)return null;
- if(url.pathname==='/app/dashboard'||url.pathname==='/app/progress')return {ttl:5000,staleTtl:25000,snapshot:true};
+ if(url.pathname==='/app/dashboard'||url.pathname==='/app/progress')return {ttl:10000,staleTtl:50000,snapshot:true};
  // Writing tabs can include active exercises; only the ordinary catalogue has a snapshot.
  if(url.pathname==='/app/writing'&&url.search&&url.searchParams.get('tab')!=='lessons')return null;
- return CATALOGUES.has(url.pathname)?{ttl:60000,staleTtl:0}:null;
+ return CATALOGUES.has(url.pathname)?{ttl:120000,staleTtl:0}:null;
 }
-export function cataloguePolicy(path){return path==='/api/vocabulary/summary'?{ttl:5000}:path==='/api/vocabulary/folders'||path==='/api/vocabulary/packs'?{ttl:60000}:{ttl:30000};}
+export function cataloguePolicy(path){return path==='/api/vocabulary/summary'?{ttl:10000}:path==='/api/vocabulary/folders'||path==='/api/vocabulary/packs'?{ttl:120000}:{ttl:30000};}
 export function presentationKey(kind,path){
  const version=typeof document==='undefined'?'source':document.querySelector('meta[name="la-build"]')?.content??'source';
  const locale=typeof document==='undefined'?'':document.documentElement.lang;
