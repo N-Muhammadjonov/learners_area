@@ -8,7 +8,7 @@ from stdio_postgres import Connection
 connection=Connection()
 async def pool():return connection
 core.pool=pool
-os.environ['NODE_ENV']='test'
+os.environ['APP_ENV']='test'
 if os.environ.get('PARITY_OFFLINE_LISTEN')=='true':
     import app.access_events as access
     async def offline_listener(*args,**kwargs):raise OSError('isolated test listener offline')

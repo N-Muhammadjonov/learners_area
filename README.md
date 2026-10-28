@@ -1,5 +1,8 @@
 # Learners Area
 
+Production uses Python FastAPI and the native HTML/CSS/Vanilla JavaScript frontend. The public homepage, robots.txt and sitemap.xml are served by FastAPI; account routes retain authentication and noindex. Railway builds with `python3 scripts/build_native_assets.py` and starts `python3 scripts/serve.py`. Cloudflare Worker protocols live in `workers/shared/`. Operator scripts, database migration SQL and learning content are retained. Retained TypeScript helpers serve operator CLIs only; FastAPI owns production routing, sessions, APIs and database access.
+
+
 A bilingual (Uzbek/English) education platform. IELTS is the first course
 inside a multi-course platform — see "Adding a new course" below.
 

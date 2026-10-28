@@ -1,15 +1,13 @@
 # dependencies
 node_modules/
 
-# next.js build output
-.next/
+# build output
 out/
 build/
 dist/
 
 # typescript incremental build metadata
 *.tsbuildinfo
-next-env.d.ts
 
 # env / secrets — NEVER commit these
 .env

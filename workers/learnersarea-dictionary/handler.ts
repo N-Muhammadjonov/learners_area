@@ -1,9 +1,9 @@
 import {Buffer} from 'node:buffer';
 import {z} from 'zod';
-import {verifyDictionaryProof} from '../../src/lib/dictionary/worker-protocol';
-import {normalizeSearch} from '../../src/lib/dictionary/model';
-import {indexDescriptorSchema,directorySchema,indexPageSchema,indexBundleSchema,branchPageSchema,indexKey,decodeIndex,routeSearch,searchPage,type IndexDescriptor} from '../../src/lib/dictionary/search-index';
-import {bytesHash,decodeShard,shardKey,releasePattern,shardDescriptorSchema,entryRangeSchema,decodeEntryRange,type EntryRange,type ShardDescriptor} from '../../src/lib/dictionary/shards';
+import {verifyDictionaryProof} from '../shared/dictionary/worker-protocol';
+import {normalizeSearch} from '../shared/dictionary/model';
+import {indexDescriptorSchema,directorySchema,indexPageSchema,indexBundleSchema,branchPageSchema,indexKey,decodeIndex,routeSearch,searchPage,type IndexDescriptor} from '../shared/dictionary/search-index';
+import {bytesHash,decodeShard,shardKey,releasePattern,shardDescriptorSchema,entryRangeSchema,decodeEntryRange,type EntryRange,type ShardDescriptor} from '../shared/dictionary/shards';
 
 type BucketObject={size:number;range?:{offset?:number;length?:number};body:ReadableStream<Uint8Array>};
 type EdgeCache={match(request:Request):Promise<Response|undefined>;put(request:Request,response:Response):Promise<void>};
@@ -40,7 +40,7 @@ class Runtime {
  }
 }
 const runtimes=new WeakMap<DictionaryEnvironment['DICTIONARY_BUCKET'],Runtime>();
-/** Only the authenticated Next.js gateway can call this Worker. It rechecks
+/** Only the authenticated FastAPI gateway can call this Worker. It rechecks
  * account/session authority per request and supplies the authoritative release;
  * there is no second cached active pointer and no additional authority hop. */
 export async function serveDictionary(request:Request,env:DictionaryEnvironment,edge?:EdgeCache):Promise<Response>{
@@ -56,7 +56,7 @@ export async function serveDictionary(request:Request,env:DictionaryEnvironment,
  try{
   let body:unknown;
   if(input.action==='search'){
-   const directory=await runtime.index(input.release,input.directory) as import('../../src/lib/dictionary/search-index').SearchDirectory;if(directory.release_id!==input.release)throw Error('dictionary_index_release_mismatch');
+   const directory=await runtime.index(input.release,input.directory) as import('../shared/dictionary/search-index').SearchDirectory;if(directory.release_id!==input.release)throw Error('dictionary_index_release_mismatch');
    const q=normalizeSearch(input.query),route=routeSearch(directory,q,input.direction);let results;
    if('results'in route)results=route.results;else if(route.kind==='branch'){const page=await runtime.index(input.release,route.descriptor) as z.infer<typeof branchPageSchema>;results=page.branches[input.direction+':'+q];if(!results)throw Error('dictionary_index_route_mismatch');}else{const bundle=await runtime.index(input.release,route.descriptor) as z.infer<typeof indexBundleSchema>,page=bundle.pages[input.direction+':'+route.prefix];if(!page)throw Error('dictionary_index_route_mismatch');if(page.release_id!==input.release||page.direction!==input.direction||page.prefix!==route.prefix)throw Error('dictionary_index_route_mismatch');results=searchPage(page,q);}
    body={release_id:input.release,results};

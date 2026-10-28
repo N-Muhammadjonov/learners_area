@@ -1,5 +1,4 @@
 import { safeDatabaseDiagnostic, safeErrorLabel } from "@/lib/observability/errors";
-import { NextResponse } from "next/server";
 import { isRetryable, normalizeUploadCode, type UploadErrorCodeAll } from "@/lib/uploads/errors";
 
 /**
@@ -27,7 +26,7 @@ export function uploadErrorBody(code: string, extra: { field?: string; correlati
 }
 
 export function uploadError(code: string, status: number, extra: { field?: string; correlationId?: string; message?: string } = {}) {
-  return NextResponse.json(uploadErrorBody(code, extra), { status });
+  return Response.json(uploadErrorBody(code, extra), { status });
 }
 
 type Dependency = "database" | "storage";
@@ -67,6 +66,6 @@ export async function withUploadErrorBoundary(route: string, run: () => Promise<
     const { code, status } = classifyThrown(err, dependency);
     // Drizzle's message can contain SQL and bound values. Log only safe classes/codes.
     console.error(`[uploads] ${route} failed`, { correlationId, code, error: safeErrorLabel(err), ...safeDatabaseDiagnostic(err) });
-    return NextResponse.json({ ...uploadErrorBody(code, { correlationId }), stage: route }, { status });
+    return Response.json({ ...uploadErrorBody(code, { correlationId }), stage: route }, { status });
   }
 }

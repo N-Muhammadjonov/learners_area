@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def load_environment():
     """Load literal dotenv values without executing a shell or expanding secrets."""
     original = set(os.environ)
-    mode = os.environ.get('APP_ENV',os.environ.get('NODE_ENV','development'))
+    mode = os.environ.get('APP_ENV','development')
     for name in ('.env',f'.env.{mode}','.env.local',f'.env.{mode}.local'):
         file = ROOT/name
         if not file.is_file(): continue

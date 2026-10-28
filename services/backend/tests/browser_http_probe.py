@@ -15,7 +15,7 @@ async def pool(): return con
 core.pool = pool
 os.environ['AUTH_SECRET'] = 'isolated-browser-test-signing-secret-only'
 os.environ['BACKEND_SERVICE_TOKEN'] = 'isolated-private-renderer-test-token-only'
-os.environ['NODE_ENV'] = 'development'
+os.environ['APP_ENV'] = 'development'
 os.environ['AI_EXTERNAL_ENABLED']='false'
 os.environ['STT_PRIMARY_PROVIDER']='none'
 UID = '11111111-1111-4111-8111-111111111111'

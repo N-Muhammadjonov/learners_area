@@ -11,7 +11,7 @@ router=APIRouter()
 def b64url(b):return base64.urlsafe_b64encode(b).decode().rstrip('=')
 def google_config():
     cid=os.getenv('GOOGLE_CLIENT_ID','').strip(); secret=os.getenv('GOOGLE_CLIENT_SECRET','').strip()
-    origin=(os.getenv('PUBLIC_BASE_URL','').strip() or os.getenv('NEXT_PUBLIC_APP_URL','').strip()).rstrip('/')
+    origin=os.getenv('PUBLIC_BASE_URL','').strip().rstrip('/')
     redir=os.getenv('GOOGLE_REDIRECT_URI','').strip() or (origin+'/api/auth/google/callback' if origin else '')
     parsed=urlparse(redir)
     if (not cid.endswith('.apps.googleusercontent.com') or len(secret)<10 or

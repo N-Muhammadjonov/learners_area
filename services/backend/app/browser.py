@@ -1,7 +1,7 @@
 """Browser-facing presentation reads. Identity always comes from live session authority.
 
 This boundary accepts named views, never SQL, role claims or caller-supplied owners.
-The legacy token-protected renderer remains a separate, unchanged interface.
+All presentation reads use the authenticated native browser boundary.
 """
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ STAFF = frozenset(('teacher', 'admin', 'owner'))
 
 
 def diagnostics_enabled():
-    return os.getenv('APP_ENV') != 'production' and os.getenv('NODE_ENV') != 'production' and os.getenv('PERFORMANCE_DIAGNOSTICS') == 'true'
+    return os.getenv('APP_ENV') != 'production' and os.getenv('PERFORMANCE_DIAGNOSTICS') == 'true'
 
 
 def public_config():

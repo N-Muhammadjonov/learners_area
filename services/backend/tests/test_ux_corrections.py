@@ -72,7 +72,7 @@ class UXTests(unittest.IsolatedAsyncioTestCase):
             async def __aexit__(self,*args):pass
             async def post(self,url,**kwargs):captured.append((url,kwargs));return Response()
         key='synthetic-test-secret-12345678901234567890'
-        with patch('httpx.AsyncClient',Client),patch.dict(os.environ,{'NODE_ENV':'production','DICTIONARY_SIGNING_SECRET':key}):
+        with patch('httpx.AsyncClient',Client),patch.dict(os.environ,{'APP_ENV':'production','DICTIONARY_SIGNING_SECRET':key}):
             for target in ['https://dictionary.example','https://dictionary.example/']:
                 with patch.dict(os.environ,{'DICTIONARY_WORKER_URL':target}):await dictionary.worker({'action':'search','query':'book'})
             with patch.dict(os.environ,{'DICTIONARY_WORKER_URL':'https://dictionary.example/unexpected'}):

@@ -5,7 +5,7 @@ import re
 from fastapi import HTTPException
 from . import main as core
 from .browser_common import camel, existing, identifier, live, number
-from .frontend import activate_reading_schedules
+from .reading_schedules import activate_reading_schedules
 from .step21_reading_port import TYPE_IDS, correct
 from .step21_academic_start_port import OMISSIONS, eligible
 from .step17_mcq_port import staff

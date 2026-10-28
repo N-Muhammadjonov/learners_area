@@ -1,4 +1,3 @@
-import type { NextRequest } from "next/server";
 import { normalizeOrigin, publicBaseUrl, trustedOrigins } from "@/lib/config/site";
 
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
@@ -11,7 +10,7 @@ export function isSafeMethod(method: string): boolean {
  * must overwrite forwarded headers; a direct Node host ignores them by default.
  * Vercel's managed proxy supplies these headers. Other hosts opt in explicitly.
  */
-export function requestOrigin(req: NextRequest, env: Record<string, string | undefined> = process.env): string {
+export function requestOrigin(req: Request, env: Record<string, string | undefined> = process.env): string {
   const trustProxy = env.TRUST_PROXY_HEADERS === "true" ||
     (env.TRUST_PROXY_HEADERS !== "false" && env.VERCEL === "1");
   if (trustProxy) {
@@ -26,12 +25,12 @@ export function requestOrigin(req: NextRequest, env: Record<string, string | und
   // authority the browser addressed; unlike X-Forwarded-Host it is not optional
   // proxy metadata. Browsers cannot supply a different Host through fetch.
   const host = req.headers.get("host");
-  return (host ? normalizeOrigin(`${req.nextUrl.protocol}//${host}`) : null) ?? req.nextUrl.origin;
+  return (host ? normalizeOrigin(`${new URL(req.url).protocol}//${host}`) : null) ?? new URL(req.url).origin;
 }
 
 export type OriginCheck = { allowed: true } | { allowed: false; reason: string };
 
-export function checkRequestOrigin(req: NextRequest): OriginCheck {
+export function checkRequestOrigin(req: Request): OriginCheck {
   if (isSafeMethod(req.method)) return { allowed: true };
   const allowed = new Set([requestOrigin(req), ...trustedOrigins]);
   const origin = req.headers.get("origin");

@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 export const privateHeaders = { "Cache-Control": "private, no-store" };
 const allowed = new Set([
   "dictionary_unavailable",
@@ -22,7 +21,7 @@ const allowed = new Set([
 ]);
 export const apiError = (error: unknown) => {
   const message = error instanceof Error ? error.message : "";
-  return NextResponse.json(
+  return Response.json(
     { error: allowed.has(message) ? message : "temporarily_unavailable" },
     { status: allowed.has(message) ? 409 : 503, headers: privateHeaders },
   );

@@ -153,7 +153,7 @@ async def version():
     region = next((v.strip() for name in ('APP_REGION', 'VERCEL_REGION') if (v := os.getenv(name, '').strip())), None)
     environment = os.getenv('APP_ENV') or os.getenv('VERCEL_ENV')
     if environment not in ('production', 'preview', 'development'):
-        environment = 'production' if os.getenv('NODE_ENV') == 'production' else 'development'
+        environment = 'production' if os.getenv('APP_ENV') == 'production' else 'development'
     return j({'commit': commit, 'shortCommit': commit[:7] if commit else None,
               'region': region, 'environment': environment}, headers={'Cache-Control': 'no-store'})
 

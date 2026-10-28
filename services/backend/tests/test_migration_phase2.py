@@ -278,7 +278,7 @@ def test_password_reset_dev_only_not_account_leak(monkeypatch):
     from app.rate_limit import BUCKETS
     BUCKETS.clear()
     monkeypatch.setenv('PUBLIC_AUTH_MODE','password')
-    monkeypatch.setenv('NODE_ENV','production')
+    monkeypatch.setenv('APP_ENV','production')
     monkeypatch.setenv('ALLOW_DEV_RESET_LINKS','true')
     assert client.post('/api/auth/reset/request',json={'email':'me@test.io'}).json()=={'error':'reset_unavailable'}
     assert client.post('/api/auth/reset/request',json={'email':'invalid'}).status_code==400
@@ -339,4 +339,4 @@ def test_http_route_status_inventory():
     declared={(e['method'],e['path']) for e in status['endpoints'] if e['status'].startswith('ported_')}
     assert registered==declared, sorted(registered ^ declared)
     assert status['ported_methods']==len(registered)
-    assert status['ported_methods']+status['unported_methods']==265
+    assert status['ported_methods']+status['unported_methods']==status['total_methods']

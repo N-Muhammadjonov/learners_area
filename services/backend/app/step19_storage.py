@@ -10,7 +10,7 @@ def valid_key(key):
     return isinstance(key,str) and 0<len(key)<=400 and bool(SAFE.fullmatch(key)) and '..' not in key and all(segment and segment!='.' for segment in key.split('/'))
 
 def provider():
-    selected=(os.getenv('STORAGE_PROVIDER') or ('' if os.getenv('NODE_ENV')=='production' else 'local')).lower().strip()
+    selected=(os.getenv('STORAGE_PROVIDER') or ('' if os.getenv('APP_ENV')=='production' else 'local')).lower().strip()
     if selected not in ('local','r2','s3'):
         raise RuntimeError('STORAGE_PROVIDER must be local, r2 or s3')
     return selected

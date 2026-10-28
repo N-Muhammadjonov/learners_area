@@ -1,4 +1,4 @@
-import {createMediaAuthorizationProof,decodeMediaKey,parseMediaRange,verifyMediaCapability} from '../../src/lib/media/protocol';
+import {createMediaAuthorizationProof,decodeMediaKey,parseMediaRange,verifyMediaCapability} from '../shared/media/protocol';
 
 type ObjectInfo = {size:number;httpEtag:string;uploaded:Date;httpMetadata?:{contentType?:string};writeHttpMetadata(headers:Headers):void};
 type ObjectBody = ObjectInfo & {body:ReadableStream<Uint8Array>};

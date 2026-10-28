@@ -549,7 +549,7 @@ async def auth_reset_request(req: Request):
     if ip_limit:return too_many(ip_limit)
     email_limit=counter('password_reset','acct:'+email,consume=True)
     if email_limit:return too_many(email_limit)
-    if os.environ.get('NODE_ENV') != 'development' or os.environ.get('ALLOW_DEV_RESET_LINKS') != 'true':
+    if os.environ.get('APP_ENV') != 'development' or os.environ.get('ALLOW_DEV_RESET_LINKS') != 'true':
         return core.j({'error':'reset_unavailable'},503)
     db=await core.pool()
     async with db.acquire() as conn:

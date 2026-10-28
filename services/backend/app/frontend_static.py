@@ -13,6 +13,7 @@ from fastapi import Request
 from fastapi.responses import FileResponse, RedirectResponse, Response
 from . import main as core
 from .security import add_security_headers, build_csp
+from .seo import ROBOTS, SITEMAP, private_document
 
 ROOT = Path(__file__).resolve().parents[3]
 PUBLIC_PAGES = frozenset(('/', '/login', '/register', '/reset-password', '/reset-password/confirm', '/auth/recovery'))
@@ -44,6 +45,10 @@ class StaticFrontend:
         response = None
         if req.method not in ('GET', 'HEAD'):
             response = core.j({'error': 'method_not_allowed'}, 405, {'Allow': 'GET, HEAD'})
+        elif path == '/robots.txt':
+            response = Response(ROBOTS, media_type='text/plain', headers={'Cache-Control': 'public, max-age=300'})
+        elif path == '/sitemap.xml':
+            response = Response(SITEMAP, media_type='application/xml', headers={'Cache-Control': 'public, max-age=300'})
         elif path == '/healthz':
             response = core.j({'ok': True, 'service': 'learners-area-fastapi'}, headers=core.PRIVATE)
         elif path == '/readyz':
@@ -144,6 +149,8 @@ class StaticFrontend:
                         if response is None:
                             nonce = secrets.token_hex(16)
                             html = (root / 'index.html').read_text()
+                            if path != '/':
+                                html = private_document(html)
                             html = re.sub(r'<script\b', f'<script nonce="{nonce}"', html)
                             response = Response(html, media_type='text/html', headers={
                                 **core.PRIVATE, 'Content-Security-Policy': build_csp(req, nonce)})

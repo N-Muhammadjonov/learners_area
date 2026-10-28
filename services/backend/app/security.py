@@ -108,7 +108,7 @@ def normalize_origin(s: str | None) -> str | None:
 
 def request_origin(req: Request) -> str:
     env = os.environ
-    trust = env.get('TRUST_PROXY_HEADERS') == 'true' or (env.get('TRUST_PROXY_HEADERS') != 'false' and env.get('VERCEL') == '1')
+    trust = env.get('TRUST_PROXY_HEADERS') == 'true'
     if trust:
         host = (req.headers.get('x-forwarded-host') or req.headers.get('host') or '').split(',')[0].strip()
         proto = (req.headers.get('x-forwarded-proto') or '').split(',')[0].strip()
@@ -123,7 +123,7 @@ def check_origin(req: Request) -> tuple[bool, str | None]:
         return True, None
     trusted = {request_origin(req)}
     for value in (os.environ.get('TRUSTED_ORIGINS', '').split(',') +
-                  [os.environ.get('PUBLIC_BASE_URL', '') or os.environ.get('NEXT_PUBLIC_APP_URL', '')]):
+                  [os.environ.get('PUBLIC_BASE_URL', '')]):
         o = normalize_origin(value)
         if o: trusted.add(o)
     origin = req.headers.get('origin')
@@ -177,7 +177,7 @@ def write_cookie(response: Response, req: Request, name: str, value: str, ttl: i
 
 
 def build_csp(req: Request, nonce: str) -> str:
-    secure, dev = is_https(req), (os.environ.get('NODE_ENV') != 'production')
+    secure, dev = is_https(req), (os.environ.get('APP_ENV') != 'production')
     def origins(name): return [n for v in os.environ.get(name, '').split(',') if (n := normalize_origin(v))]
     storage = [n for s in (os.environ.get('R2_ENDPOINT'), os.environ.get('S3_ENDPOINT')) if (n := normalize_origin(s))]
     media = normalize_origin(os.environ.get('AUTHORIZED_MEDIA_ORIGIN'))
@@ -214,5 +214,5 @@ def add_security_headers(response: Response, req: Request) -> None:
     response.headers['referrer-policy'] = 'strict-origin-when-cross-origin'
     response.headers['permissions-policy'] = 'camera=(), geolocation=(), payment=(), usb=(), microphone=(self)'
     response.headers['x-dns-prefetch-control'] = 'off'
-    if is_https(req) and os.environ.get('NODE_ENV') == 'production':
+    if is_https(req) and os.environ.get('APP_ENV') == 'production':
         response.headers['strict-transport-security'] = 'max-age=15552000; includeSubDomains'
