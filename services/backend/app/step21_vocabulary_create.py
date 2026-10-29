@@ -163,5 +163,28 @@ async def create_vocabulary(req:Request):
     if sense or occurrence:return core.j(result,200)
     return core.j({**result,'needsDefinition':unresolved},200)
 
+@router.delete('/api/vocabulary')
+async def remove_saved_vocabulary(req:Request):
+    """Remove only the authenticated learner's selected vocabulary entries."""
+    user=await core.current_user(req,active=True)
+    if not user:return core.j({'error':'unauthenticated'},401,PRIVATE)
+    body=await core.payload(req)
+    if (not isinstance(body,dict) or set(body)!={'ids'} or not isinstance(body['ids'],list)
+        or not 1<=len(body['ids'])<=100
+        or any(not isinstance(value,str) or not core.uuid_value(value) for value in body['ids'])):
+        return core.j({'error':'invalid_input'},400,PRIVATE)
+    ids=[core.uuid_value(value) for value in body['ids']]
+    if len(set(ids))!=len(ids):return core.j({'error':'invalid_input'},400,PRIVATE)
+    db=await core.pool()
+    async with db.acquire() as con:
+        async with con.transaction():
+            await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',user['id'])
+            owned=await con.fetch('SELECT id FROM user_vocabulary WHERE user_id=$1 AND id=ANY($2::uuid[]) FOR UPDATE',user['id'],ids)
+            if len(owned)!=len(ids):return core.j({'error':'vocabulary_not_found'},404,PRIVATE)
+            removed=await con.fetch('DELETE FROM user_vocabulary WHERE user_id=$1 AND id=ANY($2::uuid[]) RETURNING id',user['id'],ids)
+            if len(removed)!=len(ids):raise RuntimeError('vocabulary_delete_incomplete')
+    return core.j({'ok':True,'deleted':len(removed),'deletedIds':[str(row['id']) for row in removed]},headers=PRIVATE)
+
+
 def install():core.app.include_router(router)
 
