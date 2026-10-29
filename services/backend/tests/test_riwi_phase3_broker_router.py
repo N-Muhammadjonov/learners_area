@@ -14,6 +14,7 @@ from app.riwi_provider_router import (
     RiwiProviderRouterError,
     dispatch_external_riwi_provider,
     get_riwi_owner_diagnostics,
+    provider_readiness_snapshot,
     validate_provider_endpoint,
     validate_riwi_provider_answer,
 )
@@ -134,6 +135,12 @@ class RiwiPhase3BrokerRouterTest(unittest.TestCase):
                 allowed_citations=set(),
             )
 
+        # Verify custom ANTHROPIC_MODEL env override works
+        snap = provider_readiness_snapshot({"ANTHROPIC_API_KEY": "sk-ant-test", "ANTHROPIC_MODEL": "claude-3-7-sonnet-20250219"})
+        anth = next(p for p in snap if p["id"] == "anthropic")
+        self.assertEqual(anth["model"], "claude-3-7-sonnet-20250219")
+        self.assertTrue(anth["secretsPresent"])
+
         owner = RiwiActor(id="44444444-4444-4444-8444-444444444444", role="owner", account_status="active")
         admin = RiwiActor(id="33333333-3333-4333-8333-333333333333", role="admin", account_status="active")
 
@@ -160,6 +167,106 @@ class RiwiPhase3BrokerRouterTest(unittest.TestCase):
             self.assertEqual(ctx.exception.code, "external_ai_disabled")
 
         asyncio.run(run_router_checks())
+
+    def test_provider_router_deduplicates_concurrent_paid_requests_and_bounds_concurrency(self) -> None:
+        owner = RiwiActor(id="44444444-4444-4444-8444-444444444444", role="owner", account_status="active")
+        env = {
+            "RIWI_ENABLED": "true",
+            "RIWI_EXTERNAL_AI_ENABLED": "true",
+            "AI_EXTERNAL_ENABLED": "true",
+            "OPENAI_API_KEY": "sk-test-valid-key",
+            "RIWI_MAX_CONCURRENT_EXTERNAL_REQUESTS": "2",
+        }
+
+        async def run_dedupe_and_concurrency():
+            transport_calls = 0
+
+            async def slow_transport(provider_id: str, model: str, payload: dict):
+                nonlocal transport_calls
+                transport_calls += 1
+                await asyncio.sleep(0.06)
+                return {
+                    "answer": {"answer": "Grounded answer [K1].", "uncertainty": None, "citations": ["K1"]},
+                    "usage": {"inputTokens": 40, "outputTokens": 20},
+                }
+
+            payload = {
+                "language": "en",
+                "message": "Explain present perfect",
+                "history": [],
+                "knowledge": [{"ref": "K1", "text": "Connects past and present.", "authority": 400, "version": 1}],
+            }
+            # Fire 3 identical concurrent paid requests -> only 1 upstream transport call is made
+            r1, r2, r3 = await asyncio.gather(
+                dispatch_external_riwi_provider(
+                    None,
+                    actor=owner,
+                    provider_id="openai",
+                    task_profile="riwi_chat",
+                    payload=payload,
+                    correlation_id="00000000-0000-4000-8000-000000000011",
+                    transport=slow_transport,
+                    env=env,
+                ),
+                dispatch_external_riwi_provider(
+                    None,
+                    actor=owner,
+                    provider_id="openai",
+                    task_profile="riwi_chat",
+                    payload=payload,
+                    correlation_id="00000000-0000-4000-8000-000000000012",
+                    transport=slow_transport,
+                    env=env,
+                ),
+                dispatch_external_riwi_provider(
+                    None,
+                    actor=owner,
+                    provider_id="openai",
+                    task_profile="riwi_chat",
+                    payload=payload,
+                    correlation_id="00000000-0000-4000-8000-000000000013",
+                    transport=slow_transport,
+                    env=env,
+                ),
+            )
+            self.assertEqual(transport_calls, 1)
+            self.assertEqual(r1["answer"], "Grounded answer [K1].")
+            self.assertEqual(r2["answer"], "Grounded answer [K1].")
+            self.assertEqual(r3["answer"], "Grounded answer [K1].")
+
+            # Verify bounded concurrency semaphore (max 2 concurrent) across 4 distinct payloads
+            active = 0
+            peak_active = 0
+
+            async def tracked_transport(provider_id: str, model: str, pl: dict):
+                nonlocal active, peak_active
+                active += 1
+                peak_active = max(peak_active, active)
+                await asyncio.sleep(0.05)
+                active -= 1
+                return {
+                    "answer": {"answer": f"Reply for {pl['message']}", "uncertainty": None, "citations": []},
+                    "usage": {"inputTokens": 10, "outputTokens": 10},
+                }
+
+            await asyncio.gather(
+                *[
+                    dispatch_external_riwi_provider(
+                        None,
+                        actor=owner,
+                        provider_id="openai",
+                        task_profile="riwi_chat",
+                        payload={"language": "en", "message": f"Distinct prompt {i}", "history": [], "knowledge": []},
+                        correlation_id=f"00000000-0000-4000-8000-00000000002{i}",
+                        transport=tracked_transport,
+                        env=env,
+                    )
+                    for i in range(4)
+                ]
+            )
+            self.assertLessEqual(peak_active, 2)
+
+        asyncio.run(run_dedupe_and_concurrency())
 
 
 if __name__ == "__main__":

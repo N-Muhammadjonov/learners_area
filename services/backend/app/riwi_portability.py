@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import base64
-from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
 import hmac
@@ -61,6 +60,22 @@ class RiwiPortabilityError(ValueError):
     def __init__(self, code: str) -> None:
         super().__init__(code)
         self.code = code
+
+
+def _resolve_signing_secret(signing_secret: str | None = None) -> bytes:
+    raw = (
+        signing_secret
+        if isinstance(signing_secret, str) and signing_secret.strip()
+        else (
+            os.environ.get("RIWI_PORTABLE_SIGNING_SECRET")
+            or os.environ.get("AUTH_SECRET")
+            or os.environ.get("JWT_SECRET")
+            or ""
+        )
+    ).strip()
+    if len(raw) < 16:
+        raise RiwiPortabilityError("signing_secret_required")
+    return hmac.digest(raw.encode("utf-8"), b"riwi:portable-manifest:v1", "sha256")
 
 
 def _decode_encryption_key(key_b64: str | None) -> bytes:
@@ -136,12 +151,13 @@ def create_portable_archive(
     mode: PortabilityMode,
     tables_data: dict[str, list[dict[str, Any]]],
     encryption_key_b64: str | None = None,
-    signing_secret: str = "riwi-portable-manifest-secret-v1",
+    signing_secret: str | None = None,
 ) -> dict[str, Any]:
     if mode not in PORTABILITY_MODES:
         raise RiwiPortabilityError("invalid_mode")
     if mode == "C" and not encryption_key_b64:
         raise RiwiPortabilityError("mode_c_requires_encryption_key")
+    signing_key = _resolve_signing_secret(signing_secret)
 
     exported_tables: dict[str, list[dict[str, Any]]] = {}
     table_digests: dict[str, str] = {}
@@ -170,7 +186,7 @@ def create_portable_archive(
         "payloadSha256": payload_sha256,
     }
     manifest_canonical = json.dumps(manifest, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    manifest["signature"] = hmac.new(signing_secret.encode("utf-8"), manifest_canonical, hashlib.sha256).hexdigest()
+    manifest["signature"] = hmac.new(signing_key, manifest_canonical, hashlib.sha256).hexdigest()
 
     if encryption_key_b64:
         envelope = encrypt_lap1_envelope(payload_bytes, encryption_key_b64)
@@ -189,18 +205,19 @@ def import_portable_archive(
     *,
     dry_run: bool = True,
     encryption_key_b64: str | None = None,
-    signing_secret: str = "riwi-portable-manifest-secret-v1",
+    signing_secret: str | None = None,
     target_store: dict[str, list[dict[str, Any]]] | None = None,
 ) -> dict[str, Any]:
     if not isinstance(archive, dict) or not isinstance(archive.get("manifest"), dict):
         raise RiwiPortabilityError("invalid_archive")
+    signing_key = _resolve_signing_secret(signing_secret)
     manifest = dict(archive["manifest"])
     sig = manifest.pop("signature", None)
     if not isinstance(sig, str):
         raise RiwiPortabilityError("missing_manifest_signature")
 
     manifest_canonical = json.dumps(manifest, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    expected_sig = hmac.new(signing_secret.encode("utf-8"), manifest_canonical, hashlib.sha256).hexdigest()
+    expected_sig = hmac.new(signing_key, manifest_canonical, hashlib.sha256).hexdigest()
     if not hmac.compare_digest(sig, expected_sig):
         raise RiwiPortabilityError("manifest_signature_mismatch")
 

@@ -22,10 +22,13 @@ class RiwiTargetScopeError(ValueError):
 def _target_cursor_secret() -> bytes:
     raw = (
         os.environ.get("RIWI_CURSOR_SECRET")
+        or os.environ.get("AUTH_SECRET")
         or os.environ.get("JWT_SECRET")
-        or "riwi-offline-deterministic-cursor-secret-v1"
-    )
-    return raw.encode("utf-8")
+        or ""
+    ).strip()
+    if len(raw) < 16:
+        raise RiwiTargetScopeError("cursor_secret_not_configured")
+    return hmac.digest(raw.encode("utf-8"), b"riwi:target-cursor:v1", "sha256")
 
 
 def encode_riwi_target_cursor(actor: RiwiActor, sort_name: str, user_id: str) -> str:

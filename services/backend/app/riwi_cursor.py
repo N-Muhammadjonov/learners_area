@@ -47,10 +47,13 @@ class RiwiOwnerHistoryPosition:
 def _cursor_secret() -> bytes:
     raw = (
         os.environ.get("RIWI_CURSOR_SECRET")
+        or os.environ.get("AUTH_SECRET")
         or os.environ.get("JWT_SECRET")
-        or "riwi-offline-deterministic-cursor-secret-v1"
-    )
-    return raw.encode("utf-8")
+        or ""
+    ).strip()
+    if len(raw) < 16:
+        raise RiwiOwnerHistoryCursorError("cursor_secret_not_configured")
+    return hmac.digest(raw.encode("utf-8"), b"riwi:owner-history-cursor:v1", "sha256")
 
 
 def owner_history_page_limit(raw_limit: Any, default: int = 20, maximum: int = 50) -> int:

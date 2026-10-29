@@ -2,12 +2,15 @@ from __future__ import annotations
 
 import asyncio
 from dataclasses import dataclass
+import hashlib
 import ipaddress
+import json
 import os
 import re
 import time
 from typing import Any, Awaitable, Callable, Final, Mapping
 from urllib.parse import urlparse
+import weakref
 
 from .riwi_audit import record_riwi_audit, record_riwi_usage_metric
 from .riwi_capabilities import RiwiActor, authorize_capability
@@ -16,6 +19,7 @@ from .riwi_rollout import read_riwi_rollout
 
 RIWI_EXTERNAL_TIMEOUT_MS: Final[int] = 18_000
 RIWI_CHAT_MAX_OUTPUT_TOKENS: Final[int] = 900
+RIWI_DEFAULT_MAX_CONCURRENT_EXTERNAL_REQUESTS: Final[int] = 4
 
 MODEL_ID_RE: Final[re.Pattern[str]] = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{1,119}$")
 CITATION_REF_RE: Final[re.Pattern[str]] = re.compile(r"^K[1-5]$")
@@ -75,7 +79,7 @@ REGISTERED_PROVIDERS: Final[tuple[RegisteredProviderSpec, ...]] = (
         display_name="Anthropic Claude",
         type="external",
         default_model="claude-sonnet-4-20250514",
-        model_env_var="ANTHROPIC_API_KEY",
+        model_env_var="ANTHROPIC_MODEL",
         required_secrets=("ANTHROPIC_API_KEY",),
         capabilities=("writing", "speaking", "grammar", "vocabulary", "assignment", "riwi-assistant"),
         allowed_hosts=PROVIDER_ALLOWED_HOSTS["anthropic"],
@@ -84,11 +88,76 @@ REGISTERED_PROVIDERS: Final[tuple[RegisteredProviderSpec, ...]] = (
 
 PROVIDER_MAP: Final[dict[str, RegisteredProviderSpec]] = {p.id: p for p in REGISTERED_PROVIDERS}
 
+# Per-event-loop bounded concurrency semaphore and in-flight paid request deduplication map
+_LOOP_SEMAPHORES: weakref.WeakKeyDictionary[asyncio.AbstractEventLoop, dict[int, asyncio.Semaphore]] = weakref.WeakKeyDictionary()
+_LOOP_INFLIGHT: weakref.WeakKeyDictionary[asyncio.AbstractEventLoop, dict[str, asyncio.Future[dict[str, Any]]]] = weakref.WeakKeyDictionary()
+
 
 class RiwiProviderRouterError(ValueError):
     def __init__(self, code: str) -> None:
         super().__init__(code)
         self.code = code
+
+
+def _resolve_provider_model(spec: RegisteredProviderSpec, source: Mapping[str, str]) -> str | None:
+    model_val = spec.default_model
+    if spec.model_env_var and (source.get(spec.model_env_var) or "").strip():
+        candidate = source[spec.model_env_var].strip()
+        if MODEL_ID_RE.match(candidate):
+            model_val = candidate
+    return model_val
+
+
+def _max_concurrent_external_requests(source: Mapping[str, str]) -> int:
+    raw = (source.get("RIWI_MAX_CONCURRENT_EXTERNAL_REQUESTS") or "").strip()
+    if raw:
+        try:
+            parsed = int(raw)
+            if 1 <= parsed <= 64:
+                return parsed
+        except ValueError:
+            pass
+    return RIWI_DEFAULT_MAX_CONCURRENT_EXTERNAL_REQUESTS
+
+
+def _get_concurrency_semaphore(limit: int) -> asyncio.Semaphore:
+    loop = asyncio.get_running_loop()
+    by_limit = _LOOP_SEMAPHORES.setdefault(loop, {})
+    sem = by_limit.get(limit)
+    if sem is None:
+        sem = asyncio.Semaphore(limit)
+        by_limit[limit] = sem
+    return sem
+
+
+def _get_inflight_map() -> dict[str, asyncio.Future[dict[str, Any]]]:
+    loop = asyncio.get_running_loop()
+    inflight = _LOOP_INFLIGHT.get(loop)
+    if inflight is None:
+        inflight = {}
+        _LOOP_INFLIGHT[loop] = inflight
+    return inflight
+
+
+def _paid_request_dedupe_key(
+    actor_id: str,
+    provider_id: str,
+    model: str | None,
+    task_profile: str,
+    guarded_payload: dict[str, Any],
+) -> str:
+    canonical = json.dumps(
+        {
+            "u": actor_id.lower(),
+            "p": provider_id,
+            "m": model or "",
+            "t": task_profile,
+            "b": guarded_payload,
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def validate_provider_endpoint(provider_id: str, url: str) -> str:
@@ -179,19 +248,7 @@ def provider_readiness_snapshot(env: Mapping[str, str] | None = None) -> list[di
     items: list[dict[str, Any]] = []
     for spec in REGISTERED_PROVIDERS:
         missing = [name for name in spec.required_secrets if not (source.get(name) or "").strip()]
-        model_val = spec.default_model
-        if spec.id == "openai" and (source.get("OPENAI_MODEL") or "").strip():
-            candidate = source["OPENAI_MODEL"].strip()
-            if MODEL_ID_RE.match(candidate):
-                model_val = candidate
-        elif spec.id == "gemini" and (source.get("GEMINI_MODEL") or "").strip():
-            candidate = source["GEMINI_MODEL"].strip()
-            if MODEL_ID_RE.match(candidate):
-                model_val = candidate
-        elif spec.id == "anthropic" and (source.get("ANTHROPIC_MODEL") or "").strip():
-            candidate = source["ANTHROPIC_MODEL"].strip()
-            if MODEL_ID_RE.match(candidate):
-                model_val = candidate
+        model_val = _resolve_provider_model(spec, source)
         items.append({
             "id": spec.id,
             "displayName": spec.display_name,
@@ -234,7 +291,7 @@ async def dispatch_external_riwi_provider(
     if not guard.ok or guard.payload is None:
         raise RiwiProviderRouterError(guard.reason or "outbound_guard_rejected")
 
-    model = spec.default_model
+    model = _resolve_provider_model(spec, source_env)
     try:
         await audit_writer(
             conn,
@@ -267,13 +324,26 @@ async def dispatch_external_riwi_provider(
         )
         raise RiwiProviderRouterError("externally_unverified")
 
+    dedupe_key = _paid_request_dedupe_key(actor.id, spec.id, model, task_profile, guard.payload)
+    inflight = _get_inflight_map()
+    existing_future = inflight.get(dedupe_key)
+    if existing_future is not None and not existing_future.done():
+        shared = await asyncio.shield(existing_future)
+        return dict(shared)
+
+    loop = asyncio.get_running_loop()
+    future: asyncio.Future[dict[str, Any]] = loop.create_future()
+    inflight[dedupe_key] = future
+    sem = _get_concurrency_semaphore(_max_concurrent_external_requests(source_env))
+
     started = time.monotonic()
     timeout_sec = max(0.05, min(25.0, timeout_ms / 1000.0))
     try:
-        raw_result = await asyncio.wait_for(
-            transport(spec.id, model or "", guard.payload),
-            timeout=timeout_sec,
-        )
+        async with sem:
+            raw_result = await asyncio.wait_for(
+                transport(spec.id, model or "", guard.payload),
+                timeout=timeout_sec,
+            )
     except asyncio.TimeoutError as exc:
         duration_ms = int((time.monotonic() - started) * 1000)
         await record_riwi_usage_metric(
@@ -302,7 +372,12 @@ async def dispatch_external_riwi_provider(
                 "durationMs": duration_ms,
             },
         )
-        raise RiwiProviderRouterError("timeout") from exc
+        err = RiwiProviderRouterError("timeout")
+        if not future.done():
+            future.set_exception(err)
+            future.exception()
+        inflight.pop(dedupe_key, None)
+        raise err from exc
     except Exception as exc:
         duration_ms = int((time.monotonic() - started) * 1000)
         await record_riwi_usage_metric(
@@ -331,7 +406,12 @@ async def dispatch_external_riwi_provider(
                 "durationMs": duration_ms,
             },
         )
-        raise RiwiProviderRouterError("provider_error") from exc
+        err = RiwiProviderRouterError("provider_error")
+        if not future.done():
+            future.set_exception(err)
+            future.exception()
+        inflight.pop(dedupe_key, None)
+        raise err from exc
 
     duration_ms = int((time.monotonic() - started) * 1000)
     allowed_refs = {str(k.get("ref")) for k in guard.payload.get("knowledge", []) if isinstance(k, dict) and k.get("ref")}
@@ -364,6 +444,10 @@ async def dispatch_external_riwi_provider(
                 "durationMs": duration_ms,
             },
         )
+        if not future.done():
+            future.set_exception(exc)
+            future.exception()
+        inflight.pop(dedupe_key, None)
         raise exc
 
     usage = raw_result.get("usage") if isinstance(raw_result.get("usage"), dict) else {}
@@ -399,7 +483,7 @@ async def dispatch_external_riwi_provider(
             "resultCount": len(validated["citations"]),
         },
     )
-    return {
+    response_payload = {
         "provider": {"id": spec.id, "model": model},
         "answer": validated["answer"],
         "uncertainty": validated["uncertainty"],
@@ -409,6 +493,10 @@ async def dispatch_external_riwi_provider(
         "inputTokens": in_tok,
         "outputTokens": out_tok,
     }
+    if not future.done():
+        future.set_result(response_payload)
+    inflight.pop(dedupe_key, None)
+    return response_payload
 
 
 async def get_riwi_owner_diagnostics(

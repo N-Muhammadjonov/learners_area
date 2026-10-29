@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import asyncio
 from datetime import datetime, timedelta, timezone
+import os
 import unittest
+from unittest.mock import patch
 
 from pathlib import Path
 import sys
@@ -179,6 +181,16 @@ class FakeRiwiConn:
 
 
 class RiwiPhase2AuthConversationsTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self._env_patch = patch.dict(
+            os.environ,
+            {"RIWI_CURSOR_SECRET": "test-riwi-cursor-secret-32bytes-minimum-key"},
+        )
+        self._env_patch.start()
+
+    def tearDown(self) -> None:
+        self._env_patch.stop()
+
     def test_default_deny_capabilities_and_role_boundaries(self) -> None:
         student = RiwiActor(id="11111111-1111-4111-8111-111111111111", role="student", account_status="active")
         teacher = RiwiActor(id="22222222-2222-4222-8222-222222222222", role="teacher", account_status="active")
@@ -261,7 +273,7 @@ class RiwiPhase2AuthConversationsTest(unittest.TestCase):
         )
         self.assertFalse(bad_secret.ok)
 
-    def test_hmac_bound_cursors_reject_cross_actor_and_cross_collection_replay(self) -> None:
+    def test_hmac_bound_cursors_reject_cross_actor_cross_collection_and_missing_secret(self) -> None:
         owner_a = RiwiActor(id="44444444-4444-4444-8444-444444444444", role="owner", account_status="active")
         owner_b = RiwiActor(id="55555555-5555-4555-8555-555555555555", role="owner", account_status="active")
         now = datetime(2026, 10, 28, 12, 0, tzinfo=timezone.utc)
@@ -293,6 +305,19 @@ class RiwiPhase2AuthConversationsTest(unittest.TestCase):
         self.assertEqual(decode_riwi_target_cursor(t_cur, teacher), ("ali valiyev", item_id))
         with self.assertRaises(RiwiTargetScopeError):
             decode_riwi_target_cursor(t_cur, owner_a)
+
+        # Missing or short signing secrets fail closed (no hardcoded default fallback)
+        with patch.dict(os.environ, {"RIWI_CURSOR_SECRET": "", "AUTH_SECRET": "", "JWT_SECRET": ""}, clear=False):
+            with self.assertRaises(RiwiOwnerHistoryCursorError) as ctx1:
+                encode_owner_history_cursor(
+                    actor=owner_a,
+                    collection="knowledge_sources",
+                    after={"sort_at": now, "id": item_id},
+                )
+            self.assertEqual(ctx1.exception.code, "cursor_secret_not_configured")
+            with self.assertRaises(RiwiTargetScopeError) as ctx2:
+                encode_riwi_target_cursor(teacher, "ali valiyev", item_id)
+            self.assertEqual(ctx2.exception.code, "cursor_secret_not_configured")
 
     def test_d01_retention_30_day_window_and_7_day_offline_deletion(self) -> None:
         self.assertEqual(RIWI_CONVERSATION_TTL_DAYS, 30)
