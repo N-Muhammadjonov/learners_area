@@ -1,4 +1,4 @@
-"""Generate an explicit, idempotent Writing content transaction, dry run by default.
+"""Generate an explicit, idempotent Writing translation content transaction, dry run by default.\n\nThe removed Real Exam Task 1/2 source pack is not part of this importer.
 
 This script never connects to a database and is never called at application startup.
 Apply only the reviewed SQL after deploying its private graph handler and assets.
@@ -25,7 +25,7 @@ def generate(actor,apply=False):
         snapshot={k:t[k] for k in ('title','topic','questionType','taskType','targetBand','promptText')}
         snapshot['sentences']=[{'uzbekSource':t['uzbekSource'],'modelEnglish':t['modelEnglish'],'acceptedAlternatives':[],'notes':[],'targetLexicalItems':[]}]
         versions.append({'id':uid('VERSION-'+t['code']),'contentType':'translation_set','sourceRef':t['sourceRef'],'title':t['title'],'targetType':'writing_translation_set','targetId':t['id'],'publicationState':'published','snapshot':snapshot,**version_hashes('writing','translation_set',snapshot)})
-    assert len(versions)==167 and len(data['prompts'])==110 and len(data['translations'])==57
+    assert len(versions)==57 and len(data['prompts'])==0 and len(data['translations'])==57
     data['versions']=versions
     data['actor']=str(uuid.UUID(actor));data['auditId']=uid('IMPORT-AUDIT')
     raw=json.dumps(data,ensure_ascii=False,separators=(',',':'));assert '$writing_source$' not in raw
@@ -117,9 +117,9 @@ END $$;
 
 INSERT INTO audit_log(id,actor_user_id,action,target_type,target_id,metadata)
 SELECT (data->>'auditId')::uuid,(data->>'actor')::uuid,'WRITING_SOURCE_IMPORTED','writing_source',data->'source'->>'sha256',
- jsonb_build_object('source',data->'source','prompts',110,'publishedTask1',49,'heldTask1',6,'task2',55,'translations',57,'graphs',49)
+ jsonb_build_object('source',data->'source','prompts',0,'publishedTask1',0,'heldTask1',0,'task2',0,'translations',57,'graphs',0)
 FROM writing_source_import ON CONFLICT (id) DO NOTHING;
-SELECT jsonb_build_object('sourcePrompts',110,'readyTask1',49,'heldTask1',6,'readyTask2',55,'sourceTranslationSets',57) AS writing_import;
+SELECT jsonb_build_object('sourcePrompts',0,'readyTask1',0,'heldTask1',0,'readyTask2',0,'sourceTranslationSets',57) AS writing_import;
 """
     return sql+('COMMIT;\n' if apply else 'ROLLBACK;\n')
 

@@ -200,6 +200,7 @@ async def edit_saved_vocabulary(req:Request,entry_id:str):
     return core.j({'ok':True,'id':str(entry)},headers=PRIVATE)
 
 
+@router.post('/api/vocabulary/remove')
 @router.delete('/api/vocabulary')
 async def remove_saved_vocabulary(req:Request):
     """Remove only the authenticated learner's selected vocabulary entries."""
