@@ -1,0 +1,95 @@
+{
+  "task": 12,
+  "name": "Failure recovery and backup readiness",
+  "source_status": "PASS",
+  "isolated_recovery": "PASS",
+  "production_backup_status": "NOT ACTIVE",
+  "status": "PENDING_ACTIVATION",
+  "baseline_commit": "3ab3808e45ba70188bc6feea384601a8a2a5c1ff",
+  "database_drill": {
+    "result": "passed",
+    "checks": 151,
+    "scope": "synthetic full application schema/data; native PostgreSQL dump+restore; no production copy",
+    "tables": 141,
+    "populated_tables": 31,
+    "rows": 167,
+    "constraints": 468,
+    "rls_and_function_acl_preserved": true,
+    "database_archive": {
+      "kind": "postgres-custom",
+      "sha256": "5a2478c826679a251037653ba6b3ded890453cba74a577d0c9333be30d562a08",
+      "encrypted_bytes": 429532,
+      "schemas": [
+        "public",
+        "drizzle"
+      ],
+      "source_host_sha256": "12ca17b49af2289436f303e0166030a21e525d266e209267433801a8fd4071a0"
+    },
+    "media_archive": {
+      "kind": "r2-encrypted-tar",
+      "objects": 2,
+      "source_bytes": 1921,
+      "applied": true,
+      "scope": "whole bucket",
+      "sha256": "233c1733729459f0b608fae6fd2ff61a8d9ed73a873a95164103f8b82a0bbc34",
+      "encrypted_bytes": 10283
+    },
+    "media_restored": {
+      "kind": "isolated-media-restore",
+      "result": "passed",
+      "objects": 2,
+      "bytes": 1921,
+      "mime_metadata_exported": true
+    },
+    "guards": [
+      "production restore rejected",
+      "nonempty target rejected",
+      "corruption rejected before plaintext use",
+      "media plan is read-only"
+    ],
+    "temporary_keys_archives_removed_on_exit": true
+  },
+  "targeted_tests": 9,
+  "runtime_tests_reused": 3100,
+  "production_backup_inventory": {
+    "backups": null,
+    "physical_backup_data": {},
+    "pitr_enabled": false,
+    "region": "ap-southeast-1",
+    "walg_enabled": true
+  },
+  "r2_drill": {
+    "result": "passed",
+    "bucket": "learners-area-preview",
+    "bytes": 81,
+    "etag": "ad38419975e4b88cf354f2ae5c8cc1a7",
+    "restored_bytes_identical": true,
+    "cleanup_verified": true,
+    "remaining_test_objects": 0,
+    "production_bucket_untouched": true,
+    "initial_expected_404_connector_error": "recovered from separate saved copy; final cleanup verified"
+  },
+  "production_bucket_lock_rules": 0,
+  "known_backup_buckets": 0,
+  "owner_confirmed_separate_full_backup_absent": true,
+  "production_configuration_changes": 0,
+  "production_migrations": 0,
+  "next_stage": {
+    "task": 13,
+    "started": false,
+    "reason": "requires accepted Tasks 1-12; production recovery set not yet created"
+  },
+  "activation_requires": [
+    "secure read-only production DB backup connection and CA",
+    "source R2 read-only credentials",
+    "owner-controlled encryption-key recovery storage",
+    "separate archive destination with approved storage/compute policy",
+    "first accepted consistent DB/media/dictionary set and monitoring"
+  ],
+  "created_at": "2026-10-29T14:47:11.138038+00:00",
+  "static_checks": {
+    "compile": "PASS",
+    "diff": "PASS",
+    "web_bot_frontend_runtime_source_unchanged": true
+  }
+}
