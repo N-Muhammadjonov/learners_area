@@ -501,14 +501,15 @@ html[data-theme] body .dictionary-folder-dialog :is(.btn-primary,.btn-secondary,
 .vocabulary-dictionary .dictionary-collocation-text{display:block;padding-block:8px;font-size:20px;line-height:1.5;overflow-wrap:anywhere}
 
 
-/* Main background and public-entry accent colours — requested 2026-10-29. */
-html[data-theme] body,
-html[data-theme] #root { background-color: #0A0F24; }
-html[data-theme] :is([data-root-entry], .la-public-background, .la-blue-backdrop) {
+/* Main background and public-entry accent colours — requested 2026-10-29.
+   The deep navy override is night-only; day keeps its original white palette. */
+html[data-theme="night"] body,
+html[data-theme="night"] #root { background-color: #0A0F24; }
+html[data-theme="night"] :is([data-root-entry], .la-public-background, .la-blue-backdrop) {
   background-color: #0A0F24 !important;
 }
-html[data-theme] #root [data-auth-shell] { background-color: #0A0F24 !important; }
-html[data-theme]:has([data-campus-shell]):not([data-focus="on"]) #root :is([data-shell], [data-shell-main]) {
+html[data-theme="night"] #root [data-auth-shell] { background-color: #0A0F24 !important; }
+html[data-theme="night"]:has([data-campus-shell]):not([data-focus="on"]) #root :is([data-shell], [data-shell-main]) {
   background-color: #0A0F24 !important;
 }
 #root [data-root-entry] .la-welcome-cta,
@@ -594,4 +595,12 @@ html[data-theme] #root [data-campus-shell]:has([data-route-usable="dashboard"]) 
   background: transparent !important;
   border-color: transparent !important;
   color: #000000 !important;
+}
+
+/* Remove only the unwanted inner search-input rectangle, not its outer search field. */
+html[data-theme] #root [data-campus-shell] [data-global-search-field] input,
+html[data-theme] #root [data-campus-shell] [data-global-search-field] input:focus-visible {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
 }
