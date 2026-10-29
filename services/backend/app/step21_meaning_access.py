@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime,timezone
 from fastapi import APIRouter,Request
 from . import main as core
+from .db import PooledReads
 from .rate_limit import async_counter as counter,RULES
 from .step17_mcq_port import live,staff
 from .step20_retention_transitions_port import phase
@@ -81,7 +82,7 @@ async def meaning(req:Request):
             try:start=int(req.query_params['startChar']);end=int(req.query_params['endChar'])
             except (KeyError,ValueError):return core.j({'error':'invalid_input'},400,PRIVATE)
             from .retention_meaning import lookup
-            async with db.acquire() as con:result=await lookup(con,user,core.uuid_value(id),term,start,end)
+            result=await lookup(PooledReads(db),user,core.uuid_value(id),term,start,end)
             async with db.acquire() as con:access=await text_access(con,user,source,core.uuid_value(id))
             if access!='allowed':return core.j({'error':'lexical_assistance_locked'},403,PRIVATE)
             if result is None:return core.j({'error':'source_not_found'},404,PRIVATE)

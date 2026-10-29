@@ -8,6 +8,7 @@ import hashlib,re
 from datetime import datetime,timezone
 from fastapi import APIRouter,Request
 from . import main as core
+from .db import PooledReads
 from .rate_limit import RULES,async_counter as counter,too_many,client_key
 from .telegram_preferences_port import valid_actor
 from .step18_telegram_admission_port import gates
@@ -19,6 +20,14 @@ def full_name(name):
 def fail(code):
     status=404 if code=='no_linked_account' else 403 if code in ('phone_required','not_subscribed') else 503 if code=='membership_unavailable' else 409 if code in ('conflict','already_consumed') else 400
     return core.j({'error':'telegram_already_linked' if code=='conflict' else code},status)
+
+
+def intent_problem(intent):
+    if not intent:return 'intent_not_confirmed'
+    if intent['status']=='consumed':return 'already_consumed'
+    if intent['status']!='confirmed' or not valid_actor(intent['telegram_user_id']):return 'intent_not_confirmed'
+    if intent['expires_at']<=datetime.now(timezone.utc):return 'expired'
+    return None
 
 @router.post('/api/auth/telegram/intent/exchange')
 async def intent_exchange(req:Request):
@@ -34,17 +43,21 @@ async def intent_exchange(req:Request):
     nonce_hash=hashlib.sha256(nonce.encode()).hexdigest()
     db=await core.pool()
     try:
+        reads=PooledReads(db)
+        preview=await reads.fetchrow('''SELECT * FROM telegram_login_intents
+          WHERE id=$1 AND browser_nonce_hash=$2''',iid,nonce_hash)
+        problem=intent_problem(preview)
+        if problem:return fail(problem)
+        gated=await gates(reads,preview['telegram_user_id'])
+        if gated:return fail(gated['error'])
         async with db.acquire() as con:
             async with con.transaction():
                 intent=await con.fetchrow('''SELECT * FROM telegram_login_intents
                   WHERE id=$1 AND browser_nonce_hash=$2 FOR UPDATE''',iid,nonce_hash)
-                if not intent:return fail('intent_not_confirmed')
-                if intent['status']=='consumed':return fail('already_consumed')
-                if intent['status']!='confirmed' or not valid_actor(intent['telegram_user_id']):return fail('intent_not_confirmed')
-                if intent['expires_at']<=datetime.now(timezone.utc):return fail('expired')
+                problem=intent_problem(intent)
+                if problem:return fail(problem)
+                if any(intent[k]!=preview[k] for k in ('telegram_user_id','purpose','user_id')):return fail('intent_not_confirmed')
                 tg=intent['telegram_user_id'];purpose=intent['purpose'] if intent['purpose'] in ('register','link','replace') else 'login'
-                gated=await gates(con,tg)
-                if gated:return fail(gated['error'])
                 if purpose=='login':
                     user=await con.fetchrow('SELECT * FROM users WHERE telegram_id=$1',tg)
                     if not user:return fail('no_linked_account')

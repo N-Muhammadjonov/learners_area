@@ -6,6 +6,7 @@ from __future__ import annotations
 import re,os,json
 from fastapi import APIRouter,Request
 from . import main as core
+from .db import PooledReads
 from .internal_bot_ready_port import verify_bot
 from .telegram_admins_port import actor_for,denied_response
 from .telegram_preferences_port import valid_actor
@@ -50,10 +51,10 @@ async def bot_admission_request(req:Request):
     if delay:return too_many(delay)
     if not valid_actor(tg):return core.j({'error':'invalid_actor'},400)
     db=await core.pool()
+    gated=await gates(PooledReads(db),tg)
+    if gated:
+        code=gated['error'];return core.j(gated,403 if code in ('phone_required','not_subscribed') else 503)
     async with db.acquire() as conn:
-        gated=await gates(conn,tg)
-        if gated:
-            code=gated['error'];return core.j(gated,403 if code in ('phone_required','not_subscribed') else 503)
         name=clip(b.get('name'),200)
         if not name or len(name)<3 or not re.fullmatch(r'\S+(?:\s+\S+)+',name):return core.j({'error':'invalid_input'},400)
         username=clip(b.get('username'),120)

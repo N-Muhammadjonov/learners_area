@@ -96,12 +96,13 @@ async def check_activation(req:Request):
             item_term=custom(b.get('customTerm'))
             if not item_term:return core.j(err('invalid_item','Could not check this sentence.',False),400)
             item={'entryId':None,'term':item_term,'definitionEn':None,'translationUz':None}
-        missing=not contains(answer,item['term']);r=None;verdict='needs_revision'
-        if not missing:
-            r,error=await ai.check(user.get('locale','en'),'activation',{'kind':'activation','item':item['term'],'meaningHint':item['definitionEn'],'mode':b['mode'],'targetLevel':b['targetLevel'],'uzbekPrompt':item['translationUz'] if b['uzbekPrompt'] else None,'upgradeFrom':(b.get('upgradeFrom') or '').strip() or None,'answer':answer},b['mode'])
-            if error:return core.j(err('unavailable' if error=='unavailable' else 'failed','Could not check this sentence.',error=='failed'),503)
-            verdict=r['verdict']
-        activation_score=score(r['bands'] if r else None);used=False
+    missing=not contains(answer,item['term']);r=None;verdict='needs_revision'
+    if not missing:
+        r,error=await ai.check(user.get('locale','en'),'activation',{'kind':'activation','item':item['term'],'meaningHint':item['definitionEn'],'mode':b['mode'],'targetLevel':b['targetLevel'],'uzbekPrompt':item['translationUz'] if b['uzbekPrompt'] else None,'upgradeFrom':(b.get('upgradeFrom') or '').strip() or None,'answer':answer},b['mode'])
+        if error:return core.j(err('unavailable' if error=='unavailable' else 'failed','Could not check this sentence.',error=='failed'),503)
+        verdict=r['verdict']
+    activation_score=score(r['bands'] if r else None);used=False
+    async with db.acquire() as con:
         async with con.transaction():
             if item['entryId'] and r and verdict!='needs_revision':
                 usage=await con.fetchrow('''INSERT INTO vocabulary_usages(user_id,user_vocabulary_id,sentence,origin,riwi_accepted,points_awarded)

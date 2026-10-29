@@ -7,6 +7,7 @@ from __future__ import annotations
 import copy,hashlib,json,os,uuid,math
 from fastapi import APIRouter,Request,BackgroundTasks
 from . import main as core
+from .dictionary_gate import dictionary_write_slot,DictionaryBusy,busy_response
 from .step17_dictionary_read_port import active_release,entry,error_response,normalize_search
 from .step27_dictionary_edit import draft_schema,apply_validation
 
@@ -352,9 +353,11 @@ async def dictionary_post(req:Request,action:str,background_tasks:BackgroundTask
     elif parts==['rollback']:operation='rollback'
     else:return core.j({'error':'not_found'},404)
     db=await core.pool()
+    started=False
     try:
-        async with db.acquire() as con:
+        async with dictionary_write_slot(), db.acquire() as con:
             async with con.transaction():
+                started=True
                 if operation=='draft':data={'draft':await create_draft(con,user['id'],body)}
                 elif operation=='start':data={'job':await start_publish(con,user['id'])}
                 elif operation=='advance':data={'job':await advance_publish(con,user['id'],core.uuid_value(parts[1]))}
@@ -364,13 +367,15 @@ async def dictionary_post(req:Request,action:str,background_tasks:BackgroundTask
             from .step40_dictionary_index import finish_worker_index
             background_tasks.add_task(finish_worker_index,user['id'],data['job']['id'])
         return core.j(data,headers=PRIVATE)
+    except DictionaryBusy:
+        return busy_response()
     except Exception as exc:
-        if operation=='advance':
+        if operation=='advance' and started:
             # An aborted DB transaction must be followed by durable failed-job
             # metadata, as in publish.ts; do not mask the original API error.
             try:
                 reason=(str(exc) or 'publish_failed')[:120]
-                async with db.acquire() as con:
+                async with dictionary_write_slot(), db.acquire() as con:
                     async with con.transaction():
                         await con.execute(LOCK)
                         await con.execute("UPDATE dictionary_publish_jobs SET phase='failed',error=$3,updated_at=NOW() WHERE id=$1 AND owner_user_id=$2 AND phase NOT IN ('complete','failed')",core.uuid_value(parts[1]),user['id'],reason)
