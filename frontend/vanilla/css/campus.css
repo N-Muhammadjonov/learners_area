@@ -1373,3 +1373,26 @@ html[data-theme] #root [data-campus-shell] [data-staff-view]:not([data-staff-vie
   mask-composite:exclude;
   pointer-events:none;
 }
+
+
+/* Writing Translation setup button colours only — 2026-10-29. */
+/* Path cards and the question-type/target-band pills only.
+   Keep all dimensions, layout, disabled state and click handlers unchanged. */
+html[data-theme] #root [data-campus-shell] [data-translation-setup]
+  :is(button[role="radio"][aria-checked="true"],button[aria-pressed="true"]:not(:disabled)) {
+  background:linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color:#000000 !important;
+  border-color:transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-translation-setup]
+  button[role="radio"][aria-checked="true"] :is(span,strong,small) {
+  color:#000000 !important;
+}
+html[data-theme] #root [data-campus-shell] [data-translation-setup]
+  :is(button[role="radio"][aria-checked="false"],button[aria-pressed="false"]:not(:disabled)) {
+  background:
+    linear-gradient(rgb(var(--workspace-raised)),rgb(var(--workspace-raised))) padding-box,
+    linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) border-box !important;
+  border-color:transparent !important;
+  color:rgb(var(--workspace-ink)) !important;
+}
