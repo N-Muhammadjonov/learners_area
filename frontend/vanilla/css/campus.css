@@ -875,3 +875,136 @@ html[data-theme] #root [data-campus-shell] [data-shell-topbar]
   color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
 }
+
+
+/* Section underlines and TED/Vocabulary palettes — 2026-10-29. */
+/* Only the Reading, Listening, Grammar and Vocabulary module-header sections.
+   Override the earlier outline pseudo-element; retain original box geometry
+   and show ONLY the two-pixel gradient underline on inactive sections. */
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"],[data-module-sections="listening"],
+      [data-module-sections="grammar"],[data-module-sections="vocabulary"])
+  a[data-module-section]:not([aria-current="page"]) {
+  background-image: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  background-position: left bottom !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 2px !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  :is([data-module-sections="reading"],[data-module-sections="listening"],
+      [data-module-sections="grammar"],[data-module-sections="vocabulary"])
+  a[data-module-section]:not([aria-current="page"])::before {
+  content: none !important;
+  display: none !important;
+}
+html[data-theme] #root [data-campus-shell] [data-native-module-header]
+  [data-module-sections="vocabulary"] a[data-module-section][aria-current="page"] {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+
+/* TED/Podcast studio section tabs. Inactive = underline, active = gradient. */
+html[data-theme] #root [data-campus-shell] [data-video-tablist] [data-video-tab][aria-selected="true"] {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] [data-video-tablist] [data-video-tab][aria-selected="false"] {
+  background-color: transparent !important;
+  background-image: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  background-repeat: no-repeat !important;
+  background-position: left bottom !important;
+  background-size: 100% 2px !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+
+/* Only TED/Podcast and Vocabulary actions; Dictionary is outside this scope.
+   Vocabulary panel explicitly excludes data-vocabulary-panel="dictionary". */
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-primary,.btn-gold-solid) {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-primary,.btn-gold-solid) :is(span,strong,small) {
+  color: inherit !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-secondary,.btn-ghost,.btn-gold) {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell] :is(
+  [data-route-usable="video-lessons"],
+  [data-route-usable="video-lesson"],
+  [data-route-usable="vocabulary-games"],
+  [data-route-usable="vocabulary-game"],
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+) :is(.btn-secondary,.btn-ghost,.btn-gold)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Vocabulary folder/filter/mode switches are styled by state; the rest of
+   their original behaviour, text, size and placement are not modified. */
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[aria-pressed="true"] {
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[aria-pressed="false"] {
+  position: relative;
+  background: rgb(var(--workspace-raised)) !important;
+  color: rgb(var(--workspace-ink)) !important;
+  border-color: transparent !important;
+}
+html[data-theme] #root [data-campus-shell]
+  #vocabulary-panel:not([data-vocabulary-panel="dictionary"])
+  button[aria-pressed="false"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#3EE6D0 0%,#3B6CFF 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
