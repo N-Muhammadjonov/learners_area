@@ -38,7 +38,7 @@ def allowed(role,module):
     # Listening/Reading currently use management roles; never infer permission from a supplied key.
     return role in ('owner','admin')
 
-async def claim(con,pkg,uploads,actor):
+async def claim(con,pkg,uploads,actor,*,verified_assets=None,check_only=False):
     declared=pkg['assets'];provided=[a for a in declared if uploads.get(a['key'])]
     missing=[a['key'] for a in declared if a['required'] and a not in provided]
     if missing:raise ImportFailure('asset_missing','Provide the uploaded file for: '+', '.join(missing)+'.',3,'assets',missing)
@@ -49,7 +49,7 @@ async def claim(con,pkg,uploads,actor):
     for x in ids:
         try:uuids.append(uuid.UUID(x))
         except ValueError:raise ImportFailure('asset_not_finalized','One or more uploaded files could not be found.',3)
-    records=await con.fetch('SELECT * FROM upload_intents WHERE id=ANY($1::uuid[]) ORDER BY id FOR UPDATE',uuids)
+    records=await con.fetch('SELECT * FROM upload_intents WHERE id=ANY($1::uuid[]) ORDER BY id'+('' if check_only else ' FOR UPDATE'),uuids)
     if len(records)!=len(ids):raise ImportFailure('asset_not_finalized','One or more uploaded files could not be found.',3)
     by_id={str(r['id']):r for r in records};resolved=[];warnings=[]
     for a in provided:
@@ -67,16 +67,37 @@ async def claim(con,pkg,uploads,actor):
             raise ImportFailure('asset_mime_invalid',f'Asset "{key}" is {mime}; declared types are {", ".join(a["mimeTypes"])}.',3)
         if row['size']>a['maxBytes']:
             raise ImportFailure('asset_mime_invalid',f'Asset "{key}" exceeds {a["maxBytes"]} bytes.',3)
-        if a.get('sha256'):
+        if a.get('sha256') and not check_only:
             if row['size']<=64*1024*1024:
-                raw=await read_object(row['object_key'])
-                if raw is None:warnings.append(f'Asset "{key}": sha256 could not be verified against storage.')
-                elif hashlib.sha256(raw).hexdigest()!=a['sha256']:
+                proof=(verified_assets or {}).get(key)
+                identity=(str(row['id']),row['object_key'],row['size'],row['mime_type'],row['original_name'],a['sha256'])
+                if not proof or proof['identity']!=identity:
+                    raise ImportFailure('asset_not_finalized',f'Asset "{key}" changed during verification; retry the import.',3)
+                if proof['digest'] is None:warnings.append(f'Asset "{key}": sha256 could not be verified against storage.')
+                elif proof['digest']!=a['sha256']:
                     raise ImportFailure('asset_hash_mismatch',f'Asset "{key}" does not match the declared sha256.',3)
             else:warnings.append(f'Asset "{key}": sha256 not verified (file above the verification ceiling).')
         resolved.append({'key':key,'role':role,'uploadId':str(row['id']),
           'objectKey':row['object_key'],'mimeType':mime,'size':row['size'],'originalName':row['original_name']})
     return sorted(resolved,key=lambda a:a['key']),warnings
+
+
+async def verify_assets(db,pkg,uploads,actor):
+    # Take a metadata snapshot without row locks, read storage without a pool
+    # slot, then claim() revalidates identity/ownership under the write locks.
+    if not pkg['assets']:return {}
+    async with db.acquire() as con:
+        items,_=await claim(con,pkg,uploads,actor,check_only=True)
+    declared={a['key']:a for a in pkg['assets']};proofs={}
+    for item in items:
+        expected=declared[item['key']].get('sha256')
+        if expected and item['size']<=64*1024*1024:
+            raw=await read_object(item['objectKey'])
+            digest=hashlib.sha256(raw).hexdigest() if raw is not None else None
+            if digest is not None and digest!=expected:
+                raise ImportFailure('asset_hash_mismatch',f'Asset "{item["key"]}" does not match the declared sha256.',3)
+            proofs[item['key']]={'identity':(item['uploadId'],item['objectKey'],item['size'],item['mimeType'],item['originalName'],expected),'digest':digest}
+    return proofs
 
 def counts(payload):return {'sections':len(payload['sections']),'questions':len(payload['questions']),
                               'vocabulary':len(payload['vocabulary']),'activities':len(payload.get('studyPack',{}).get('activities',[]))}
@@ -193,11 +214,11 @@ async def _resource(con,target,actor,item,position):
 class RollbackDryRun(Exception):
     def __init__(self,result):self.result=result
 
-async def run_import(con,actor,pkg,uploads,dry_run=False,publish=False,acknowledge=False,filename=None):
+async def run_import(con,actor,pkg,uploads,dry_run=False,publish=False,acknowledge=False,filename=None,verified_assets=None):
     # Validate asset intents and writes in the same transaction; dry-run must roll everything back.
     try:
         async with con.transaction():
-            resolved,warnings=await claim(con,pkg,uploads,actor['id'])
+            resolved,warnings=await claim(con,pkg,uploads,actor['id'],verified_assets=verified_assets)
             wants_publish=publish or pkg['publication']['state'] in ('published','scheduled')
             can_publish=actor['role'] in ('admin','owner')
             real_publish=can_publish and wants_publish
@@ -247,9 +268,11 @@ async def _route_import(req,user,body):
         if not ready:raise ImportFailure('schema_not_ready','qa_migration_0040_required')
         uploads={k[:61]:v for k,v in body.get('assetUploads',{}).items()
                  if isinstance(k,str) and isinstance(v,str) and len(v)<=64} if isinstance(body.get('assetUploads'),dict) else {}
+    proofs=await verify_assets(db,parsed,uploads,user['id'])
+    async with db.acquire() as con:
         return await run_import(con,user,parsed,uploads,body.get('dryRun') is True,
             body.get('publish') is True,body.get('acknowledgeGradeImpact') is True,
-            body.get('originalFilename','')[:255] if isinstance(body.get('originalFilename'),str) else None)
+            body.get('originalFilename','')[:255] if isinstance(body.get('originalFilename'),str) else None,verified_assets=proofs)
 
 @router.post('/api/admin/content/import')
 async def generic_import(req:Request):

@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 from pathlib import Path
 from fastapi import APIRouter,Request
 from . import main as core
-from .db import row_to_dict
+from .db import row_to_dict,PooledReads
 from .rate_limit import async_counter as counter,RULES
 router=APIRouter()
 PRIVATE={'Cache-Control':'private, no-store'}
@@ -125,27 +125,27 @@ async def get_recent(req:Request):
     if not u:return core.j({'error':'unauthenticated'},401)
     try:
         db=await core.pool()
-        async with db.acquire() as con:
-            rel=await active_release(con)
-            records=await con.fetch('''SELECT r.query_display,r.query_norm,r.direction,r.lexeme_id
-              FROM dictionary_recent_searches r JOIN dictionary_entries e
-              ON e.release_id=$2 AND e.lexeme_id=r.lexeme_id WHERE r.user_id=$1
-              ORDER BY r.searched_at DESC,r.lexeme_id LIMIT 5''',u['id'],rel['active_release_id'])
-            recent=[]
-            for r in records:
-                e=await entry(con,r['lexeme_id'],rel['active_release_id'])
-                if not e:continue
-                senses=e['senses']
-                matched=None
-                if r['direction']=='UZ':
-                    matched=next((s for s in senses if any(normalize_search(t['text'])==r['query_norm'] for t in s['translations'])),None)
-                    if matched is None:matched=next((s for s in senses if any(normalize_search(t['text']).startswith(r['query_norm']) for t in s['translations'])),None)
-                from .dictionary_reader_metadata import details
-                view=details(e)
-                s=matched or next(s for s in senses if s['sense_id']==view['primarySenseId'])
-                recent.append({'query_display':r['query_display'],'direction':r['direction'],'lexeme_id':str(r['lexeme_id']),
-                    'display_lemma':e['display_lemma'],'part_of_speech':e['part_of_speech'],
-                    'translation_uz':', '.join(t['text'] for t in s['translations']) if matched else view['primaryTranslation'], 'cefr':s.get('cefr') if s else None})
+        con=PooledReads(db)
+        rel=await active_release(con)
+        records=await con.fetch('''SELECT r.query_display,r.query_norm,r.direction,r.lexeme_id
+          FROM dictionary_recent_searches r JOIN dictionary_entries e
+          ON e.release_id=$2 AND e.lexeme_id=r.lexeme_id WHERE r.user_id=$1
+          ORDER BY r.searched_at DESC,r.lexeme_id LIMIT 5''',u['id'],rel['active_release_id'])
+        recent=[]
+        for r in records:
+            e=await entry(con,r['lexeme_id'],rel['active_release_id'])
+            if not e:continue
+            senses=e['senses']
+            matched=None
+            if r['direction']=='UZ':
+                matched=next((s for s in senses if any(normalize_search(t['text'])==r['query_norm'] for t in s['translations'])),None)
+                if matched is None:matched=next((s for s in senses if any(normalize_search(t['text']).startswith(r['query_norm']) for t in s['translations'])),None)
+            from .dictionary_reader_metadata import details
+            view=details(e)
+            s=matched or next(s for s in senses if s['sense_id']==view['primarySenseId'])
+            recent.append({'query_display':r['query_display'],'direction':r['direction'],'lexeme_id':str(r['lexeme_id']),
+                'display_lemma':e['display_lemma'],'part_of_speech':e['part_of_speech'],
+                'translation_uz':', '.join(t['text'] for t in s['translations']) if matched else view['primaryTranslation'], 'cefr':s.get('cefr') if s else None})
         return core.j({'recent':recent},headers=PRIVATE)
     except Exception as exc:return error_response(exc)
 
@@ -160,43 +160,43 @@ async def dictionary_search(req:Request):
     if len(q)>80 or direction not in ('EN','UZ'):return core.j({'error':'invalid_input'},400,PRIVATE)
     try:
         db=await core.pool()
-        async with db.acquire() as con:
-            release=await pinned(con,req.query_params.get('release_id'))
-            norm=normalize_search(q)
-            results=[]
-            if 0<len(norm)<=80:
-                initial=direction+':'+norm[0]
-                rec=await con.fetchrow('''SELECT coalesce(descriptor->'routes'->$2,descriptor->'routes'->$3,
-                   CASE WHEN descriptor->'routes' IS NULL THEN descriptor->'directory' END) AS directory
-                   FROM dictionary_search_indexes WHERE release_id=$1''',release,initial,direction+':*')
-                if rec:
-                    if rec['directory']:
-                        response=await worker({'action':'search','release':release,'directory':rec['directory'],'query':q,'direction':direction})
-                        if response.get('release_id')!=release:raise ValueError('dictionary_worker_unavailable')
-                        results=response['results']
-                else:
-                    registry=await con.fetchrow('SELECT state,delivery FROM dictionary_releases WHERE id=$1',release)
-                    if not registry or registry['state']!='validated' or registry['delivery']!='legacy':
-                        raise ValueError('dictionary_worker_unavailable')
-                    prefix=re.sub(r'([\\%_])',r'\\\1',norm)+'%'
-                    rows=await con.fetch('''WITH hits AS (
-                      SELECT lexeme_id,min(CASE WHEN term=$3 THEN rank ELSE 3 END) AS score
-                      FROM dictionary_search_terms WHERE release_id=$1 AND direction=$2 AND term LIKE $4 ESCAPE '\\'
-                      GROUP BY lexeme_id), picked AS (
-                      SELECT e.lexeme_id,e.payload,e.search_preview,e.part_of_speech,h.score FROM hits h
-                      JOIN dictionary_entries e ON e.release_id=$1 AND e.lexeme_id=h.lexeme_id
-                      ORDER BY h.score,e.lemma_norm,e.lexeme_id LIMIT 20)
-                      SELECT lexeme_id,coalesce(search_preview->>'display_lemma',payload->>'display_lemma') display_lemma,
-                      part_of_speech,coalesce(CASE WHEN $2='UZ' THEN (SELECT t->>'text'
-                       FROM jsonb_array_elements(search_preview->'uz_terms') t
-                       WHERE t->>'norm' LIKE $4 ESCAPE '\\' OR t->>'norm'=$3
-                       ORDER BY CASE WHEN t->>'norm'=$3 THEN 0 ELSE 1 END,t->>'norm' LIMIT 1) END,
-                       search_preview->>'translation_uz',payload#>>'{senses,0,translations,0,text}') translation_uz,
-                       CASE score WHEN 0 THEN 'exact_lemma' WHEN 1 THEN 'canonical_normalized'
-                        WHEN 2 THEN 'form' ELSE 'prefix' END match_type FROM picked''',release,direction,norm,prefix)
-                    results=[row_to_dict(r) for r in rows]
-                from .dictionary_reader_metadata import enrich_search
-                results=await enrich_search(con,release,results,direction)
+        con=PooledReads(db)
+        release=await pinned(con,req.query_params.get('release_id'))
+        norm=normalize_search(q)
+        results=[]
+        if 0<len(norm)<=80:
+            initial=direction+':'+norm[0]
+            rec=await con.fetchrow('''SELECT coalesce(descriptor->'routes'->$2,descriptor->'routes'->$3,
+               CASE WHEN descriptor->'routes' IS NULL THEN descriptor->'directory' END) AS directory
+               FROM dictionary_search_indexes WHERE release_id=$1''',release,initial,direction+':*')
+            if rec:
+                if rec['directory']:
+                    response=await worker({'action':'search','release':release,'directory':rec['directory'],'query':q,'direction':direction})
+                    if response.get('release_id')!=release:raise ValueError('dictionary_worker_unavailable')
+                    results=response['results']
+            else:
+                registry=await con.fetchrow('SELECT state,delivery FROM dictionary_releases WHERE id=$1',release)
+                if not registry or registry['state']!='validated' or registry['delivery']!='legacy':
+                    raise ValueError('dictionary_worker_unavailable')
+                prefix=re.sub(r'([\\%_])',r'\\\1',norm)+'%'
+                rows=await con.fetch('''WITH hits AS (
+                  SELECT lexeme_id,min(CASE WHEN term=$3 THEN rank ELSE 3 END) AS score
+                  FROM dictionary_search_terms WHERE release_id=$1 AND direction=$2 AND term LIKE $4 ESCAPE '\\'
+                  GROUP BY lexeme_id), picked AS (
+                  SELECT e.lexeme_id,e.payload,e.search_preview,e.part_of_speech,h.score FROM hits h
+                  JOIN dictionary_entries e ON e.release_id=$1 AND e.lexeme_id=h.lexeme_id
+                  ORDER BY h.score,e.lemma_norm,e.lexeme_id LIMIT 20)
+                  SELECT lexeme_id,coalesce(search_preview->>'display_lemma',payload->>'display_lemma') display_lemma,
+                  part_of_speech,coalesce(CASE WHEN $2='UZ' THEN (SELECT t->>'text'
+                   FROM jsonb_array_elements(search_preview->'uz_terms') t
+                   WHERE t->>'norm' LIKE $4 ESCAPE '\\' OR t->>'norm'=$3
+                   ORDER BY CASE WHEN t->>'norm'=$3 THEN 0 ELSE 1 END,t->>'norm' LIMIT 1) END,
+                   search_preview->>'translation_uz',payload#>>'{senses,0,translations,0,text}') translation_uz,
+                   CASE score WHEN 0 THEN 'exact_lemma' WHEN 1 THEN 'canonical_normalized'
+                    WHEN 2 THEN 'form' ELSE 'prefix' END match_type FROM picked''',release,direction,norm,prefix)
+                results=[row_to_dict(r) for r in rows]
+            from .dictionary_reader_metadata import enrich_search
+            results=await enrich_search(con,release,results,direction)
         return core.j({'release_id':release,'results':results},headers=PRIVATE)
     except Exception as exc:return error_response(exc)
 
@@ -210,9 +210,10 @@ async def remember(req:Request,lexemeId:str):
         return core.j({'error':'invalid_input'},400)
     try:
         db=await core.pool()
+        reads=PooledReads(db)
+        release=await pinned(reads,b['releaseId'])
+        if not await entry(reads,lexemeId,release):return core.j({'error':'entry_not_found'},404)
         async with db.acquire() as con:
-            release=await pinned(con,b['releaseId'])
-            if not await entry(con,lexemeId,release):return core.j({'error':'entry_not_found'},404)
             norm=normalize_search(b['query'])
             if norm and len(norm)<=80:
                 async with con.transaction():

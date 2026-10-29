@@ -10,6 +10,7 @@ from collections import defaultdict
 from .dictionary_collation import en_sorted_pairs
 from pathlib import Path
 from . import main as core
+from .dictionary_gate import dictionary_write_slot,DictionaryBusy
 from .step17_dictionary_read_port import normalize_search,active_release
 from .step40_dictionary_storage import stable,compress,checksum,put_immutable,index_key,read_shard,manifest_key,read_immutable
 
@@ -241,7 +242,7 @@ async def finish_worker_index(owner,id):
         descriptors=[json.loads(r['descriptor']) if isinstance(r['descriptor'],str) else r['descriptor'] for r in shards]
         manifest=await build_index(candidate,descriptors,order,heartbeat)
         await heartbeat()
-        async with db.acquire() as con:
+        async with dictionary_write_slot(), db.acquire() as con:
             async with con.transaction():
                 await con.execute(LOCK)
                 active=await active_release(con)
@@ -258,6 +259,10 @@ async def finish_worker_index(owner,id):
                 await con.execute('''UPDATE dictionary_publish_jobs SET phase='activate',cursor_id=NULL,
                  worker_lease_token=NULL,worker_lease_until=NULL,updated_at=NOW()
                  WHERE id=$1 AND phase='worker_index' ''',id)
+    except DictionaryBusy:
+        # The durable lease expires and a later advance can retry. Queue
+        # contention is not a failed index build or a published data change.
+        return
     except Exception as exc:
         logging.exception('dictionary index job failed: %s',str(id))
         reason=str(exc) if str(exc) in ('release_mismatch','dictionary_publish_authority_changed') else 'dictionary_index_build_failed'

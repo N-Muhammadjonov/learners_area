@@ -3,6 +3,7 @@ import os
 import logging
 import asyncio
 import json
+import math
 from uuid import UUID
 from contextlib import asynccontextmanager
 from fastapi import Request
@@ -16,6 +17,57 @@ except ImportError:
 
 _pool = None
 _pool_lock = None
+
+
+class BoundedPool:
+    """Keep every existing acquire call bounded, including context-manager use."""
+    def __init__(self, raw, acquire_timeout):
+        self._raw = raw
+        self.acquire_timeout = acquire_timeout
+
+    def acquire(self, *, timeout=None):
+        wait = self.acquire_timeout if timeout is None else min(timeout, self.acquire_timeout)
+        return self._raw.acquire(timeout=wait)
+
+    def __getattr__(self, name):
+        return getattr(self._raw, name)
+
+
+class PooledReads:
+    """Borrow only while a metadata query runs, not while its caller awaits R2."""
+    def __init__(self, pool):
+        self.pool = pool
+
+    async def fetch(self, query, *args):
+        async with self.pool.acquire() as con:
+            return await con.fetch(query, *args)
+
+    async def fetchrow(self, query, *args):
+        async with self.pool.acquire() as con:
+            return await con.fetchrow(query, *args)
+
+    async def fetchval(self, query, *args):
+        async with self.pool.acquire() as con:
+            return await con.fetchval(query, *args)
+
+
+def pool_settings():
+    try:
+        size = max(1, min(int(os.environ.get('DATABASE_POOL_MAX', '5')), 20))
+        wait = float(os.environ.get('DATABASE_POOL_ACQUIRE_TIMEOUT', '5'))
+    except ValueError:
+        raise OSError('Invalid database pool setting') from None
+    if not math.isfinite(wait) or not 0.05 <= wait <= 20:
+        raise OSError('Invalid database pool acquire timeout')
+    return size, wait
+
+
+def connection_mode(dsn):
+    from urllib.parse import urlsplit
+    parts=urlsplit(dsn);host=(parts.hostname or '').lower()
+    if host.endswith('.pooler.supabase.com'):
+        return 'supabase_transaction_pooler' if parts.port==6543 else 'supabase_session_pooler' if parts.port in (None,5432) else 'custom_pooler'
+    return 'supabase_direct' if host.endswith('.supabase.co') else 'custom'
 
 
 def encode_json(value):
@@ -52,9 +104,13 @@ async def _create_pool():
     if not dsn:
         raise OSError('DATABASE_URL is required')
     dsn,tls=connection_settings(dsn)
-    return await asyncpg.create_pool(dsn=dsn, min_size=1, max_size=max(1, min(int(os.environ.get('DATABASE_POOL_MAX', '5')), 20)),
+    size,wait=pool_settings()
+    raw = await asyncpg.create_pool(dsn=dsn, min_size=1, max_size=size,
                                       timeout=8, command_timeout=20, ssl=tls, init=initialize_connection,
                                       statement_cache_size=0)
+    logging.getLogger('uvicorn.error').info('Database pool ready: max=%s acquire_timeout=%ss transport=%s verified_tls=%s',
+                                          size,wait,connection_mode(dsn),bool(tls and tls.check_hostname))
+    return BoundedPool(raw,wait)
 
 
 def connection_settings(dsn):

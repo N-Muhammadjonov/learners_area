@@ -1,6 +1,6 @@
 """Focused regressions for source vocabulary saving and mandatory Telegram gates."""
 import asyncio,json
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock,ANY
 from uuid import UUID
 import pytest
 from starlette.requests import Request
@@ -61,7 +61,9 @@ def test_preflight_checks_membership_for_every_purpose_and_direct_start(monkeypa
                              json={'token':'valid-token' if purpose else '', 'telegramUserId':'12345'})
     assert response.status_code==403 and response.json()['error']=='not_subscribed'
     assert response.json()['requiredChannels'][0]['url']=='https://t.me/learners_area'
-    gate.assert_awaited_once_with(con,'12345')
+    gate.assert_awaited_once_with(ANY,'12345')
+    from app.db import PooledReads
+    assert isinstance(gate.await_args.args[0],PooledReads)
 
 def test_confirm_does_not_consume_intent_before_membership_passes(monkeypatch):
     con=DB();con.rows['SELECT id,user_id']={'id':PROMPT,'user_id':None}

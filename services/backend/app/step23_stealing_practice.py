@@ -57,13 +57,14 @@ async def post(req:Request):
         topics=(set(FALLBACK)|{s['topic'].strip().lower() for s in [*ptopics,*mtopics] if s['topic'] and s['topic'].strip()})-{(pattern['topic'] or '').strip().lower()}
         topic=b['newTopic'].strip().lower()
         if topic not in topics:return core.j(err('invalid_topic','Could not check this sentence.',False),400)
-        text=b['answer'].strip()
-        if not text:return core.j(err('empty','Could not check this sentence.',False),400)
-        copy=near_copy(text,pattern['example'],pattern['pattern']);r=None;verdict='needs_revision'
-        if not copy['nearCopy']:
-            r,e=await ai.check(user.get('locale','en'),'pattern',{'kind':'pattern','pattern':pattern['pattern'],'sourceExample':pattern['example'],'sourceTopic':pattern['topic'] or '', 'newTopic':topic,'answer':text})
-            if e:return core.j(err('unavailable' if e=='unavailable' else 'failed','Could not check this sentence.',e=='failed'),503)
-            verdict=r['verdict'] if (r['bands']['adaptation'] or 0)>=5 else 'needs_revision'
+    text=b['answer'].strip()
+    if not text:return core.j(err('empty','Could not check this sentence.',False),400)
+    copy=near_copy(text,pattern['example'],pattern['pattern']);r=None;verdict='needs_revision'
+    if not copy['nearCopy']:
+        r,e=await ai.check(user.get('locale','en'),'pattern',{'kind':'pattern','pattern':pattern['pattern'],'sourceExample':pattern['example'],'sourceTopic':pattern['topic'] or '', 'newTopic':topic,'answer':text})
+        if e:return core.j(err('unavailable' if e=='unavailable' else 'failed','Could not check this sentence.',e=='failed'),503)
+        verdict=r['verdict'] if (r['bands']['adaptation'] or 0)>=5 else 'needs_revision'
+    async with db.acquire() as con:
         saved=bool(await con.fetchval('SELECT 1 FROM writing_pattern_bank WHERE user_id=$1 AND pattern_id=$2',user['id'],pattern['id']))
         await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'WRITING_PATTERN_PRACTICE',$2::jsonb)''',user['id'],json.dumps({'patternId':str(pattern['id']),'newTopic':topic,'verdict':verdict,'nearCopy':copy['reason'],'bands':r['bands'] if r else None}))
         return core.j({'ok':True,'verdict':verdict,'copy':copy,'result':r,'canSave':verdict!='needs_revision','saved':saved})

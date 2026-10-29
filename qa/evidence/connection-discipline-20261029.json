@@ -1,0 +1,159 @@
+{
+  "stage": 5,
+  "name": "PostgreSQL connection discipline",
+  "status": "SOURCE_VERIFIED_ROLLOUT_APPROVAL_PENDING",
+  "verified_at_utc": "2026-10-29 05:26:00 UTC",
+  "repository": "N-Muhammadjonov/learners_area",
+  "branch": "arena/connection-discipline-20261029",
+  "base_commit": "91b4a00eed71cf17de44354f084b6b153ecc72ba",
+  "production_changed_by_task5": false,
+  "schema_changes": [],
+  "frontend_changes": false,
+  "live_preflight": {
+    "database_max_connections": 60,
+    "superuser_reserved_connections": 3,
+    "observed_client_backends": 11,
+    "observed_active_connections": 1,
+    "railway_replicas": 1,
+    "python_processes_per_replica": 1,
+    "configured_pool_max": 5,
+    "pool_override_present": false,
+    "bot_database_url_present": false,
+    "database_variable_values": "Withheld by Railway OAuth. No secret was recreated or exported.",
+    "measurement_scope": "Point-in-time production preflight and fixed service configuration, not a load-capacity measurement"
+  },
+  "connection_budget": {
+    "reserved_for_internal_services_admin_other_apps_including_superuser_slots": 20,
+    "application_budget": 40,
+    "steady_state_upper_bound": "1 replica * 1 worker * (5 pooled + 1 shared LISTEN) = 6",
+    "rolling_deploy_upper_bound": "2 overlapping workers * (5 pooled + 1 shared LISTEN) = 12",
+    "scaling_rule": "Current service remains fixed at one replica/worker. Recalculate this budget before increasing replicas/workers/pool size; the existing 20-per-process code cap is not a recommended setting."
+  },
+  "implementation": {
+    "pool": "Default remains five connections. A transparent BoundedPool applies a five-second acquisition deadline to existing acquire calls, including context managers. Connect timeout 8 seconds, command timeout 20 seconds and statement_cache_size=0 retained.",
+    "tls": "Existing Supabase CA/hostname verification preserved. Startup logs expose only transport class and verification flags, never the DSN or credentials.",
+    "listen": "One existing shared LISTEN socket per worker retained. A regional Supavisor transaction URL on port 6543 uses the same host/credentials via session port 5432 for LISTEN; explicit/direct URLs otherwise retained. Connect/command bounds and verified TLS apply.",
+    "ordinary_external_work": "Writing grading/activation/translation/pattern checks, Dictionary reads, Retention lookup, Telegram membership checks and upload storage verification release clients before waiting on external services.",
+    "telegram": "Nonce-bound intent is checked again under FOR UPDATE after membership I/O; a concurrently consumed intent cannot issue a session.",
+    "imports": "Storage SHA verification occurs before taking row locks. Locked claim revalidates upload ownership, state, key, MIME, size, original name and declared digest against the verified snapshot.",
+    "upload_safety": "A transient prefix-read failure leaves the pending upload intact; a detected bad signature deletes only after a conditional pending-to-aborted transition. Zero-byte mismatches are rejected.",
+    "retained_atomic_dictionary_path": "Owner publish/rollback/index finalization retains its existing atomic database/R2 transition for content consistency. Dictionary writers queue before borrowing a scarce client; the PostgreSQL advisory lock remains the cross-instance authority. At most one such writer per worker borrows a client, leaving the other four configured slots available. A queue timeout does not mark an unstarted durable job failed."
+  },
+  "validation": {
+    "backend_pytest": {
+      "passed": 3028,
+      "failed": 0,
+      "skipped": 0,
+      "new_tests": 22,
+      "warnings": "One upstream Starlette/AnyIO deprecation warning"
+    },
+    "frontend_npm": {
+      "passed": 1166,
+      "failed": 0,
+      "skipped": 11
+    },
+    "postgres_browser_integration": {
+      "migrations": 71,
+      "typed_tables": 127,
+      "http_checks": 426,
+      "native_decoder_checks": 151,
+      "native_dom_checks": 118,
+      "academic_migration_replay_checks": 8,
+      "result": "passed"
+    },
+    "default_postgres_probe": {
+      "checks": 9,
+      "result": "passed"
+    },
+    "shared_rate_store_probe": {
+      "checks": 33,
+      "result": "passed"
+    },
+    "native_build": {
+      "files": 497,
+      "routes": 122,
+      "revision": "86b8866df5f6d987ebb7",
+      "node_server_required": false,
+      "result": "passed"
+    },
+    "backend_check": "passed",
+    "python_compile": "passed",
+    "diff_check": "passed",
+    "controlled_cases": [
+      "Pool exhaustion times out and later requests recover",
+      "Cancelled waiters do not leak clients",
+      "A suspended external Writing evaluator allows another request to use a one-client pool",
+      "R2 HEAD/read and Dictionary Worker waits hold no ordinary client",
+      "Import metadata changes after storage verification fail closed",
+      "A consumed Telegram intent cannot issue a cookie after the unlocked membership check",
+      "One Dictionary writer plus queued writers leaves four ordinary slots available",
+      "Unstarted/queued publication does not mark its durable job failed",
+      "TLS and pooler-safe settings retained"
+    ],
+    "fixture_adjustments": "Seventeen intermediate failures were exact mock-object comparisons in two Telegram tests after a raw connection became PooledReads. Membership status, actor identity and no-session/no-account-write assertions were retained; final failures zero."
+  },
+  "local_api_comparison": {
+    "baseline_commit": "91b4a00eed71cf17de44354f084b6b153ecc72ba",
+    "environment": "Same standalone probe, disposable embedded PostgreSQL and actual ASGI; sequential local requests; thirty warmups and one hundred retained samples per scenario",
+    "before": {
+      "session": {
+        "p50_ms": 3.364,
+        "p95_ms": 6.574,
+        "queries_per_request": 3
+      },
+      "reading_catalogue": {
+        "p50_ms": 4.685,
+        "p95_ms": 8.933,
+        "queries_per_request": 3
+      },
+      "dictionary_search_empty": {
+        "p50_ms": 8.424,
+        "p95_ms": 30.856,
+        "queries_per_request": 6
+      }
+    },
+    "after": {
+      "session": {
+        "p50_ms": 2.494,
+        "p95_ms": 3.325,
+        "queries_per_request": 3
+      },
+      "reading_catalogue": {
+        "p50_ms": 4.76,
+        "p95_ms": 7.809,
+        "queries_per_request": 3
+      },
+      "dictionary_search_empty": {
+        "p50_ms": 5.169,
+        "p95_ms": 8.326,
+        "queries_per_request": 6
+      }
+    },
+    "gate": "No observed p95 regression above ten percent; SQL counts unchanged.",
+    "limits": "These samples include local scheduling/jitter and an empty Dictionary result. They do not establish a causal speedup, a production percentile or 200/500/1000-user readiness."
+  },
+  "pending_release": {
+    "requires_explicit_approval": [
+      "Main-targeting PR creation",
+      "Merge and Railway production deployment"
+    ],
+    "production_migrations_required": false,
+    "production_variable_changes_required": false,
+    "verify_after_release": [
+      "Exact remote/deployed SHA and readiness",
+      "Logged live pool size, acquisition bound, transport and verified TLS",
+      "Existing authenticated session, shared listener and normal module navigation",
+      "Anonymous/private-origin and bot readiness checks",
+      "Recent errors and database connection count"
+    ],
+    "rollback_commit": "91b4a00eed71cf17de44354f084b6b153ecc72ba"
+  },
+  "sources": [
+    "https://supabase.com/docs/guides/platform/ipv4-address",
+    "https://supabase.com/docs/guides/self-hosting/accessing-postgres",
+    "Installed asyncpg 0.32.0 public Pool.acquire signature/source inspected"
+  ],
+  "next_stage": 6,
+  "progress_completed_stages": 4,
+  "total_stages": 14
+}
