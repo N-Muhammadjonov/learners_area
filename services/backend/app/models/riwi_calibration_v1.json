@@ -1,0 +1,22 @@
+{
+  "model_version": "riwi-hybrid-local-onnx-v1.0",
+  "onnx_sha256": "59a86aa76fffc4a349b4b9edf1e2440be6a9d05c7252ccb3f2ed01d09a09a329",
+  "trained_on_split": "TRAINING",
+  "training_samples": 240,
+  "calibrated_on_split": "CALIBRATION",
+  "calibration_samples": 120,
+  "holdout_touched": false,
+  "slopes": [
+    1.018236,
+    1.023557,
+    1.023292,
+    1.01845
+  ],
+  "intercepts": [
+    -0.100281,
+    -0.150676,
+    -0.145599,
+    -0.111837
+  ],
+  "calibration_split_mae": 0.2851
+}
